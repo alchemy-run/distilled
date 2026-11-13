@@ -287,17 +287,29 @@ export interface AddonsConfig {
   /** Configuration for the Cloud Storage Fuse CSI driver. */
   gcsFuseCsiDriverConfig?: GcsFuseCsiDriverConfig | undefined;
 }
-export interface AddonsProjectsZonesClustersRequest {
+/** SetAddonsRequest sets the addons associated with the cluster. */
+export interface SetAddonsConfigRequest {
+  /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
+  zone?: string | undefined;
+  /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
+  projectId?: string | undefined;
+  /** The name (project, location, cluster) of the cluster to set addons. Specified in the format `projects/*\/locations/*\/clusters/*`. */
+  name?: string | undefined;
+  /** Deprecated. The name of the cluster to upgrade. This field has been deprecated and replaced by the name field. */
+  clusterId?: string | undefined;
+  /** Required. The desired configurations for the various addons available to run in the cluster. */
+  addonsConfig?: AddonsConfig | undefined;
+}
+export interface AddonsProjectsZonesClustersRequest extends Omit<
+  SetAddonsConfigRequest,
+  "zone" | "projectId" | "clusterId"
+> {
   /** Deprecated. The name of the cluster to upgrade. This field has been deprecated and replaced by the name field. */
   clusterId: string;
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
   zone: string;
   /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
   projectId: string;
-  /** The name (project, location, cluster) of the cluster to set addons. Specified in the format `projects/*\/locations/*\/clusters/*`. */
-  name?: string | undefined;
-  /** Required. The desired configurations for the various addons available to run in the cluster. */
-  addonsConfig?: AddonsConfig | undefined;
 }
 export type OperationProgressStatusEnum =
   | "STATUS_UNSPECIFIED"
@@ -458,7 +470,25 @@ export interface NodePoolAutoscaling {
   /** Minimum number of nodes in the node pool. Must be greater than or equal to 0 and less than or equal to total_max_node_count. The total_*_node_count fields are mutually exclusive with the *_node_count fields. */
   totalMinNodeCount?: number | undefined;
 }
-export interface AutoscalingProjectsZonesClustersNodePoolsRequest {
+/** SetNodePoolAutoscalingRequest sets the autoscaler settings of a node pool. */
+export interface SetNodePoolAutoscalingRequest {
+  /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
+  zone?: string | undefined;
+  /** Deprecated. The name of the cluster to upgrade. This field has been deprecated and replaced by the name field. */
+  clusterId?: string | undefined;
+  /** Required. Autoscaling configuration for the node pool. */
+  autoscaling?: NodePoolAutoscaling | undefined;
+  /** The name (project, location, cluster, node pool) of the node pool to set autoscaler settings. Specified in the format `projects/*\/locations/*\/clusters/*\/nodePools/*`. */
+  name?: string | undefined;
+  /** Deprecated. The name of the node pool to upgrade. This field has been deprecated and replaced by the name field. */
+  nodePoolId?: string | undefined;
+  /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
+  projectId?: string | undefined;
+}
+export interface AutoscalingProjectsZonesClustersNodePoolsRequest extends Omit<
+  SetNodePoolAutoscalingRequest,
+  "zone" | "clusterId" | "nodePoolId" | "projectId"
+> {
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
   zone: string;
   /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
@@ -467,32 +497,37 @@ export interface AutoscalingProjectsZonesClustersNodePoolsRequest {
   nodePoolId: string;
   /** Deprecated. The name of the cluster to upgrade. This field has been deprecated and replaced by the name field. */
   clusterId: string;
-  /** Required. Autoscaling configuration for the node pool. */
-  autoscaling?: NodePoolAutoscaling | undefined;
-  /** The name (project, location, cluster, node pool) of the node pool to set autoscaler settings. Specified in the format `projects/*\/locations/*\/clusters/*\/nodePools/*`. */
-  name?: string | undefined;
 }
-export interface CancelProjectsLocationsOperationsRequest {
-  /** The name (project, location, operation id) of the operation to cancel. Specified in the format `projects/*\/locations/*\/operations/*`. */
-  name: string;
+/** CancelOperationRequest cancels a single operation. */
+export interface CancelOperationRequest {
   /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
   projectId?: string | undefined;
   /** Deprecated. The server-assigned `name` of the operation. This field has been deprecated and replaced by the name field. */
   operationId?: string | undefined;
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the operation resides. This field has been deprecated and replaced by the name field. */
   zone?: string | undefined;
+  /** The name (project, location, operation id) of the operation to cancel. Specified in the format `projects/*\/locations/*\/operations/*`. */
+  name?: string | undefined;
+}
+export interface CancelProjectsLocationsOperationsRequest extends Omit<
+  CancelOperationRequest,
+  "name"
+> {
+  /** The name (project, location, operation id) of the operation to cancel. Specified in the format `projects/*\/locations/*\/operations/*`. */
+  name: string;
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
-export interface CancelProjectsZonesOperationsRequest {
+export interface CancelProjectsZonesOperationsRequest extends Omit<
+  CancelOperationRequest,
+  "projectId" | "operationId" | "zone"
+> {
   /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
   projectId: string;
   /** Deprecated. The server-assigned `name` of the operation. This field has been deprecated and replaced by the name field. */
   operationId: string;
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the operation resides. This field has been deprecated and replaced by the name field. */
   zone: string;
-  /** The name (project, location, operation id) of the operation to cancel. Specified in the format `projects/*\/locations/*\/operations/*`. */
-  name?: string | undefined;
 }
 export interface CheckAutopilotCompatibilityProjectsLocationsClustersRequest {
   /** The name (project, location, cluster) of the cluster to retrieve. Specified in the format `projects/*\/locations/*\/clusters/*`. */
@@ -527,37 +562,47 @@ export interface CheckAutopilotCompatibilityResponse {
   /** The summary of the autopilot compatibility response. */
   summary?: string | undefined;
 }
-export interface CompleteControlPlaneUpgradeProjectsLocationsClustersRequest {
-  /** The name (project, location, cluster) of the cluster to complete upgrade. Specified in the format `projects/*\/locations/*\/clusters/*`. */
-  name: string;
+/** CompleteControlPlaneUpgradeRequest sets the name of target cluster to complete upgrade. */
+export interface CompleteControlPlaneUpgradeRequest {
   /** API request version that initiates this operation. */
   version?: string | undefined;
 }
-export interface CompleteControlPlaneUpgradeProjectsZonesClustersRequest {
+export interface CompleteControlPlaneUpgradeProjectsLocationsClustersRequest extends CompleteControlPlaneUpgradeRequest {
   /** The name (project, location, cluster) of the cluster to complete upgrade. Specified in the format `projects/*\/locations/*\/clusters/*`. */
   name: string;
-  /** API request version that initiates this operation. */
-  version?: string | undefined;
 }
-export interface CompleteIpRotationProjectsLocationsClustersRequest {
-  /** The name (project, location, cluster name) of the cluster to complete IP rotation. Specified in the format `projects/*\/locations/*\/clusters/*`. */
+export interface CompleteControlPlaneUpgradeProjectsZonesClustersRequest extends CompleteControlPlaneUpgradeRequest {
+  /** The name (project, location, cluster) of the cluster to complete upgrade. Specified in the format `projects/*\/locations/*\/clusters/*`. */
   name: string;
+}
+/** CompleteIPRotationRequest moves the cluster master back into single-IP mode. */
+export interface CompleteIPRotationRequest {
   /** Deprecated. The name of the cluster. This field has been deprecated and replaced by the name field. */
   clusterId?: string | undefined;
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
   zone?: string | undefined;
+  /** The name (project, location, cluster name) of the cluster to complete IP rotation. Specified in the format `projects/*\/locations/*\/clusters/*`. */
+  name?: string | undefined;
   /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
   projectId?: string | undefined;
 }
-export interface CompleteIpRotationProjectsZonesClustersRequest {
+export interface CompleteIpRotationProjectsLocationsClustersRequest extends Omit<
+  CompleteIPRotationRequest,
+  "name"
+> {
+  /** The name (project, location, cluster name) of the cluster to complete IP rotation. Specified in the format `projects/*\/locations/*\/clusters/*`. */
+  name: string;
+}
+export interface CompleteIpRotationProjectsZonesClustersRequest extends Omit<
+  CompleteIPRotationRequest,
+  "clusterId" | "zone" | "projectId"
+> {
   /** Deprecated. The name of the cluster. This field has been deprecated and replaced by the name field. */
   clusterId: string;
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
   zone: string;
   /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
   projectId: string;
-  /** The name (project, location, cluster name) of the cluster to complete IP rotation. Specified in the format `projects/*\/locations/*\/clusters/*`. */
-  name?: string | undefined;
 }
 /** CompleteNodePoolUpgradeRequest sets the name of target node pool to complete upgrade. */
 export interface CompleteNodePoolUpgradeRequest {}
@@ -2939,9 +2984,10 @@ export interface Cluster {
   /** Output only. Deprecated. Use node_pools.instance_group_urls. */
   instanceGroupUrls?: StringList | undefined;
 }
-export interface CreateProjectsLocationsClustersRequest {
+/** CreateClusterRequest creates a cluster. */
+export interface CreateClusterRequest {
   /** The parent (project and location) where the cluster will be created. Specified in the format `projects/*\/locations/*`. */
-  parent: string;
+  parent?: string | undefined;
   /** Required. A [cluster resource](https://cloud.google.com/container-engine/reference/rest/v1beta1/projects.locations.clusters) */
   cluster?: Cluster | undefined;
   /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the parent field. */
@@ -2949,39 +2995,52 @@ export interface CreateProjectsLocationsClustersRequest {
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the parent field. */
   zone?: string | undefined;
 }
-export interface CreateProjectsLocationsClustersNodePoolsRequest {
-  /** The parent (project, location, cluster name) where the node pool will be created. Specified in the format `projects/*\/locations/*\/clusters/*`. */
+export interface CreateProjectsLocationsClustersRequest extends Omit<
+  CreateClusterRequest,
+  "parent"
+> {
+  /** The parent (project and location) where the cluster will be created. Specified in the format `projects/*\/locations/*`. */
   parent: string;
+}
+/** CreateNodePoolRequest creates a node pool for a cluster. */
+export interface CreateNodePoolRequest {
   /** Required. The node pool to create. */
   nodePool?: NodePool | undefined;
   /** Deprecated. The name of the cluster. This field has been deprecated and replaced by the parent field. */
   clusterId?: string | undefined;
   /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the parent field. */
   projectId?: string | undefined;
+  /** The parent (project, location, cluster name) where the node pool will be created. Specified in the format `projects/*\/locations/*\/clusters/*`. */
+  parent?: string | undefined;
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the parent field. */
   zone?: string | undefined;
 }
-export interface CreateProjectsZonesClustersRequest {
+export interface CreateProjectsLocationsClustersNodePoolsRequest extends Omit<
+  CreateNodePoolRequest,
+  "parent"
+> {
+  /** The parent (project, location, cluster name) where the node pool will be created. Specified in the format `projects/*\/locations/*\/clusters/*`. */
+  parent: string;
+}
+export interface CreateProjectsZonesClustersRequest extends Omit<
+  CreateClusterRequest,
+  "projectId" | "zone"
+> {
   /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the parent field. */
   projectId: string;
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the parent field. */
   zone: string;
-  /** The parent (project and location) where the cluster will be created. Specified in the format `projects/*\/locations/*`. */
-  parent?: string | undefined;
-  /** Required. A [cluster resource](https://cloud.google.com/container-engine/reference/rest/v1beta1/projects.locations.clusters) */
-  cluster?: Cluster | undefined;
 }
-export interface CreateProjectsZonesClustersNodePoolsRequest {
+export interface CreateProjectsZonesClustersNodePoolsRequest extends Omit<
+  CreateNodePoolRequest,
+  "clusterId" | "projectId" | "zone"
+> {
   /** Deprecated. The name of the cluster. This field has been deprecated and replaced by the parent field. */
   clusterId: string;
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the parent field. */
   zone: string;
   /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the parent field. */
   projectId: string;
-  /** Required. The node pool to create. */
-  nodePool?: NodePool | undefined;
-  /** The parent (project, location, cluster name) where the node pool will be created. Specified in the format `projects/*\/locations/*\/clusters/*`. */
-  parent?: string | undefined;
 }
 export interface DeleteProjectsLocationsClustersRequest {
   /** The name (project, location, cluster) of the cluster to delete. Specified in the format `projects/*\/locations/*\/clusters/*`. */
@@ -3370,17 +3429,29 @@ export interface GetServerconfigProjectsZonesRequest {
   /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
   projectId: string;
 }
-export interface LegacyAbacProjectsZonesClustersRequest {
+/** SetLegacyAbacRequest enables or disables the ABAC authorization mechanism for a cluster. */
+export interface SetLegacyAbacRequest {
+  /** The name (project, location, cluster name) of the cluster to set legacy abac. Specified in the format `projects/*\/locations/*\/clusters/*`. */
+  name?: string | undefined;
+  /** Required. Whether ABAC authorization will be enabled in the cluster. */
+  enabled?: boolean | undefined;
+  /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
+  projectId?: string | undefined;
+  /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
+  zone?: string | undefined;
+  /** Deprecated. The name of the cluster to update. This field has been deprecated and replaced by the name field. */
+  clusterId?: string | undefined;
+}
+export interface LegacyAbacProjectsZonesClustersRequest extends Omit<
+  SetLegacyAbacRequest,
+  "projectId" | "zone" | "clusterId"
+> {
   /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
   projectId: string;
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
   zone: string;
   /** Deprecated. The name of the cluster to update. This field has been deprecated and replaced by the name field. */
   clusterId: string;
-  /** The name (project, location, cluster name) of the cluster to set legacy abac. Specified in the format `projects/*\/locations/*\/clusters/*`. */
-  name?: string | undefined;
-  /** Required. Whether ABAC authorization will be enabled in the cluster. */
-  enabled?: boolean | undefined;
 }
 export interface ListProjectsAggregatedUsableSubnetworksRequest {
   /** Specifies a page token to use. Set this to the nextPageToken returned by previous list requests to get the next page of results. */
@@ -3524,73 +3595,134 @@ export interface ListProjectsZonesOperationsRequest {
   /** The parent (project and location) where the operations will be listed. Specified in the format `projects/*\/locations/*`. Location "-" matches all zones and all regions. */
   parent?: string | undefined;
 }
-export interface LocationsProjectsZonesClustersRequest {
+/** SetLocationsRequest sets the locations of the cluster. */
+export interface SetLocationsRequest {
   /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
-  projectId: string;
-  /** Deprecated. The name of the cluster to upgrade. This field has been deprecated and replaced by the name field. */
-  clusterId: string;
-  /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
-  zone: string;
+  projectId?: string | undefined;
   /** Required. The desired list of Google Compute Engine [zones](https://cloud.google.com/compute/docs/zones#available) in which the cluster's nodes should be located. Changing the locations a cluster is in will result in nodes being either created or removed from the cluster, depending on whether locations are being added or removed. This list must always include the cluster's primary zone. */
   locations?: StringList | undefined;
+  /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
+  zone?: string | undefined;
   /** The name (project, location, cluster) of the cluster to set locations. Specified in the format `projects/*\/locations/*\/clusters/*`. */
   name?: string | undefined;
-}
-export interface LoggingProjectsZonesClustersRequest {
   /** Deprecated. The name of the cluster to upgrade. This field has been deprecated and replaced by the name field. */
-  clusterId: string;
+  clusterId?: string | undefined;
+}
+export interface LocationsProjectsZonesClustersRequest extends Omit<
+  SetLocationsRequest,
+  "projectId" | "zone" | "clusterId"
+> {
   /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
   projectId: string;
+  /** Deprecated. The name of the cluster to upgrade. This field has been deprecated and replaced by the name field. */
+  clusterId: string;
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
   zone: string;
+}
+/** SetLoggingServiceRequest sets the logging service of a cluster. */
+export interface SetLoggingServiceRequest {
   /** Required. The logging service the cluster should use to write logs. Currently available options: * `logging.googleapis.com/kubernetes` - The Cloud Logging service with a Kubernetes-native resource model * `logging.googleapis.com` - The legacy Cloud Logging service (no longer available as of GKE 1.15). * `none` - no logs will be exported from the cluster. If left as an empty string,`logging.googleapis.com/kubernetes` will be used for GKE 1.14+ or `logging.googleapis.com` for earlier versions. */
   loggingService?: string | undefined;
+  /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
+  projectId?: string | undefined;
   /** The name (project, location, cluster) of the cluster to set logging. Specified in the format `projects/*\/locations/*\/clusters/*`. */
   name?: string | undefined;
+  /** Deprecated. The name of the cluster to upgrade. This field has been deprecated and replaced by the name field. */
+  clusterId?: string | undefined;
+  /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
+  zone?: string | undefined;
 }
-export interface MasterProjectsZonesClustersRequest {
+export interface LoggingProjectsZonesClustersRequest extends Omit<
+  SetLoggingServiceRequest,
+  "projectId" | "clusterId" | "zone"
+> {
+  /** Deprecated. The name of the cluster to upgrade. This field has been deprecated and replaced by the name field. */
+  clusterId: string;
   /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
   projectId: string;
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
   zone: string;
+}
+/** UpdateMasterRequest updates the master of the cluster. */
+export interface UpdateMasterRequest {
   /** Deprecated. The name of the cluster to upgrade. This field has been deprecated and replaced by the name field. */
-  clusterId: string;
+  clusterId?: string | undefined;
+  /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
+  zone?: string | undefined;
   /** Required. The Kubernetes version to change the master to. Users may specify either explicit versions offered by Kubernetes Engine or version aliases, which have the following behavior: - "latest": picks the highest valid Kubernetes version - "1.X": picks the highest valid patch+gke.N patch in the 1.X version - "1.X.Y": picks the highest valid gke.N patch in the 1.X.Y version - "1.X.Y-gke.N": picks an explicit Kubernetes version - "-": picks the default Kubernetes version */
   masterVersion?: string | undefined;
   /** The name (project, location, cluster) of the cluster to update. Specified in the format `projects/*\/locations/*\/clusters/*`. */
   name?: string | undefined;
+  /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
+  projectId?: string | undefined;
 }
-export interface MonitoringProjectsZonesClustersRequest {
+export interface MasterProjectsZonesClustersRequest extends Omit<
+  UpdateMasterRequest,
+  "clusterId" | "zone" | "projectId"
+> {
+  /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
+  projectId: string;
+  /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
+  zone: string;
+  /** Deprecated. The name of the cluster to upgrade. This field has been deprecated and replaced by the name field. */
+  clusterId: string;
+}
+/** SetMonitoringServiceRequest sets the monitoring service of a cluster. */
+export interface SetMonitoringServiceRequest {
+  /** Required. The monitoring service the cluster should use to write metrics. Currently available options: * `monitoring.googleapis.com/kubernetes` - The Cloud Monitoring service with a Kubernetes-native resource model * `monitoring.googleapis.com` - The legacy Cloud Monitoring service (no longer available as of GKE 1.15). * `none` - No metrics will be exported from the cluster. If left as an empty string,`monitoring.googleapis.com/kubernetes` will be used for GKE 1.14+ or `monitoring.googleapis.com` for earlier versions. */
+  monitoringService?: string | undefined;
+  /** Deprecated. The name of the cluster to upgrade. This field has been deprecated and replaced by the name field. */
+  clusterId?: string | undefined;
+  /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
+  zone?: string | undefined;
+  /** The name (project, location, cluster) of the cluster to set monitoring. Specified in the format `projects/*\/locations/*\/clusters/*`. */
+  name?: string | undefined;
+  /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
+  projectId?: string | undefined;
+}
+export interface MonitoringProjectsZonesClustersRequest extends Omit<
+  SetMonitoringServiceRequest,
+  "clusterId" | "zone" | "projectId"
+> {
   /** Deprecated. The name of the cluster to upgrade. This field has been deprecated and replaced by the name field. */
   clusterId: string;
   /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
   projectId: string;
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
   zone: string;
-  /** Required. The monitoring service the cluster should use to write metrics. Currently available options: * `monitoring.googleapis.com/kubernetes` - The Cloud Monitoring service with a Kubernetes-native resource model * `monitoring.googleapis.com` - The legacy Cloud Monitoring service (no longer available as of GKE 1.15). * `none` - No metrics will be exported from the cluster. If left as an empty string,`monitoring.googleapis.com/kubernetes` will be used for GKE 1.14+ or `monitoring.googleapis.com` for earlier versions. */
-  monitoringService?: string | undefined;
-  /** The name (project, location, cluster) of the cluster to set monitoring. Specified in the format `projects/*\/locations/*\/clusters/*`. */
-  name?: string | undefined;
 }
-export interface ResourceLabelsProjectsZonesClustersRequest {
+/** SetLabelsRequest sets the Google Cloud Platform labels on a Google Container Engine cluster, which will in turn set them for Google Compute Engine resources used by that cluster */
+export interface SetLabelsRequest {
+  /** The name (project, location, cluster name) of the cluster to set labels. Specified in the format `projects/*\/locations/*\/clusters/*`. */
+  name?: string | undefined;
+  /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
+  projectId?: string | undefined;
+  /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
+  zone?: string | undefined;
+  /** Deprecated. The name of the cluster. This field has been deprecated and replaced by the name field. */
+  clusterId?: string | undefined;
+  /** Required. The fingerprint of the previous set of labels for this resource, used to detect conflicts. The fingerprint is initially generated by Kubernetes Engine and changes after every request to modify or update labels. You must always provide an up-to-date fingerprint hash when updating or changing labels. Make a `get()` request to the resource to get the latest fingerprint. */
+  labelFingerprint?: string | undefined;
+  /** Required. The labels to set for that cluster. */
+  resourceLabels?: StringMap | undefined;
+}
+export interface ResourceLabelsProjectsZonesClustersRequest extends Omit<
+  SetLabelsRequest,
+  "projectId" | "zone" | "clusterId"
+> {
   /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
   projectId: string;
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
   zone: string;
   /** Deprecated. The name of the cluster. This field has been deprecated and replaced by the name field. */
   clusterId: string;
-  /** The name (project, location, cluster name) of the cluster to set labels. Specified in the format `projects/*\/locations/*\/clusters/*`. */
-  name?: string | undefined;
-  /** Required. The fingerprint of the previous set of labels for this resource, used to detect conflicts. The fingerprint is initially generated by Kubernetes Engine and changes after every request to modify or update labels. You must always provide an up-to-date fingerprint hash when updating or changing labels. Make a `get()` request to the resource to get the latest fingerprint. */
-  labelFingerprint?: string | undefined;
-  /** Required. The labels to set for that cluster. */
-  resourceLabels?: StringMap | undefined;
 }
-export interface RollbackProjectsLocationsClustersNodePoolsRequest {
-  /** The name (project, location, cluster, node pool id) of the node poll to rollback upgrade. Specified in the format `projects/*\/locations/*\/clusters/*\/nodePools/*`. */
-  name: string;
+/** RollbackNodePoolUpgradeRequest rollbacks the previously Aborted or Failed NodePool upgrade. This will be an no-op if the last upgrade successfully completed. */
+export interface RollbackNodePoolUpgradeRequest {
   /** Option for rollback to ignore the PodDisruptionBudget. Default value is false. */
   respectPdb?: boolean | undefined;
+  /** The name (project, location, cluster, node pool id) of the node poll to rollback upgrade. Specified in the format `projects/*\/locations/*\/clusters/*\/nodePools/*`. */
+  name?: string | undefined;
   /** Deprecated. The name of the cluster to rollback. This field has been deprecated and replaced by the name field. */
   clusterId?: string | undefined;
   /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
@@ -3600,7 +3732,17 @@ export interface RollbackProjectsLocationsClustersNodePoolsRequest {
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
   zone?: string | undefined;
 }
-export interface RollbackProjectsZonesClustersNodePoolsRequest {
+export interface RollbackProjectsLocationsClustersNodePoolsRequest extends Omit<
+  RollbackNodePoolUpgradeRequest,
+  "name"
+> {
+  /** The name (project, location, cluster, node pool id) of the node poll to rollback upgrade. Specified in the format `projects/*\/locations/*\/clusters/*\/nodePools/*`. */
+  name: string;
+}
+export interface RollbackProjectsZonesClustersNodePoolsRequest extends Omit<
+  RollbackNodePoolUpgradeRequest,
+  "clusterId" | "projectId" | "nodePoolId" | "zone"
+> {
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
   zone: string;
   /** Deprecated. The name of the cluster to rollback. This field has been deprecated and replaced by the name field. */
@@ -3609,112 +3751,99 @@ export interface RollbackProjectsZonesClustersNodePoolsRequest {
   nodePoolId: string;
   /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
   projectId: string;
-  /** Option for rollback to ignore the PodDisruptionBudget. Default value is false. */
-  respectPdb?: boolean | undefined;
-  /** The name (project, location, cluster, node pool id) of the node poll to rollback upgrade. Specified in the format `projects/*\/locations/*\/clusters/*\/nodePools/*`. */
-  name?: string | undefined;
 }
-export interface SetAddonsProjectsLocationsClustersRequest {
+export interface SetAddonsProjectsLocationsClustersRequest extends Omit<
+  SetAddonsConfigRequest,
+  "name"
+> {
   /** The name (project, location, cluster) of the cluster to set addons. Specified in the format `projects/*\/locations/*\/clusters/*`. */
   name: string;
-  /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
-  zone?: string | undefined;
-  /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
-  projectId?: string | undefined;
-  /** Deprecated. The name of the cluster to upgrade. This field has been deprecated and replaced by the name field. */
-  clusterId?: string | undefined;
-  /** Required. The desired configurations for the various addons available to run in the cluster. */
-  addonsConfig?: AddonsConfig | undefined;
 }
-export interface SetAutoscalingProjectsLocationsClustersNodePoolsRequest {
+export interface SetAutoscalingProjectsLocationsClustersNodePoolsRequest extends Omit<
+  SetNodePoolAutoscalingRequest,
+  "name"
+> {
   /** The name (project, location, cluster, node pool) of the node pool to set autoscaler settings. Specified in the format `projects/*\/locations/*\/clusters/*\/nodePools/*`. */
   name: string;
-  /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
-  zone?: string | undefined;
-  /** Deprecated. The name of the cluster to upgrade. This field has been deprecated and replaced by the name field. */
-  clusterId?: string | undefined;
-  /** Required. Autoscaling configuration for the node pool. */
-  autoscaling?: NodePoolAutoscaling | undefined;
-  /** Deprecated. The name of the node pool to upgrade. This field has been deprecated and replaced by the name field. */
-  nodePoolId?: string | undefined;
-  /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
-  projectId?: string | undefined;
 }
-export interface SetLegacyAbacProjectsLocationsClustersRequest {
+export interface SetLegacyAbacProjectsLocationsClustersRequest extends Omit<
+  SetLegacyAbacRequest,
+  "name"
+> {
   /** The name (project, location, cluster name) of the cluster to set legacy abac. Specified in the format `projects/*\/locations/*\/clusters/*`. */
   name: string;
-  /** Required. Whether ABAC authorization will be enabled in the cluster. */
-  enabled?: boolean | undefined;
-  /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
-  projectId?: string | undefined;
-  /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
-  zone?: string | undefined;
-  /** Deprecated. The name of the cluster to update. This field has been deprecated and replaced by the name field. */
-  clusterId?: string | undefined;
 }
-export interface SetLocationsProjectsLocationsClustersRequest {
+export interface SetLocationsProjectsLocationsClustersRequest extends Omit<
+  SetLocationsRequest,
+  "name"
+> {
   /** The name (project, location, cluster) of the cluster to set locations. Specified in the format `projects/*\/locations/*\/clusters/*`. */
   name: string;
-  /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
-  projectId?: string | undefined;
-  /** Required. The desired list of Google Compute Engine [zones](https://cloud.google.com/compute/docs/zones#available) in which the cluster's nodes should be located. Changing the locations a cluster is in will result in nodes being either created or removed from the cluster, depending on whether locations are being added or removed. This list must always include the cluster's primary zone. */
-  locations?: StringList | undefined;
-  /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
-  zone?: string | undefined;
-  /** Deprecated. The name of the cluster to upgrade. This field has been deprecated and replaced by the name field. */
-  clusterId?: string | undefined;
 }
-export interface SetLoggingProjectsLocationsClustersRequest {
+export interface SetLoggingProjectsLocationsClustersRequest extends Omit<
+  SetLoggingServiceRequest,
+  "name"
+> {
   /** The name (project, location, cluster) of the cluster to set logging. Specified in the format `projects/*\/locations/*\/clusters/*`. */
   name: string;
-  /** Required. The logging service the cluster should use to write logs. Currently available options: * `logging.googleapis.com/kubernetes` - The Cloud Logging service with a Kubernetes-native resource model * `logging.googleapis.com` - The legacy Cloud Logging service (no longer available as of GKE 1.15). * `none` - no logs will be exported from the cluster. If left as an empty string,`logging.googleapis.com/kubernetes` will be used for GKE 1.14+ or `logging.googleapis.com` for earlier versions. */
-  loggingService?: string | undefined;
-  /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
-  projectId?: string | undefined;
-  /** Deprecated. The name of the cluster to upgrade. This field has been deprecated and replaced by the name field. */
-  clusterId?: string | undefined;
-  /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
-  zone?: string | undefined;
 }
-export interface SetMaintenancePolicyProjectsLocationsClustersRequest {
-  /** The name (project, location, cluster name) of the cluster to set maintenance policy. Specified in the format `projects/*\/locations/*\/clusters/*`. */
-  name: string;
+/** SetMaintenancePolicyRequest sets the maintenance policy for a cluster. */
+export interface SetMaintenancePolicyRequest {
   /** Required. The maintenance policy to be set for the cluster. An empty field clears the existing maintenance policy. */
   maintenancePolicy?: MaintenancePolicy | undefined;
   /** Required. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). */
   projectId?: string | undefined;
+  /** The name (project, location, cluster name) of the cluster to set maintenance policy. Specified in the format `projects/*\/locations/*\/clusters/*`. */
+  name?: string | undefined;
   /** Required. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. */
   zone?: string | undefined;
   /** Required. The name of the cluster to update. */
   clusterId?: string | undefined;
 }
-export interface SetMaintenancePolicyProjectsZonesClustersRequest {
+export interface SetMaintenancePolicyProjectsLocationsClustersRequest extends Omit<
+  SetMaintenancePolicyRequest,
+  "name"
+> {
+  /** The name (project, location, cluster name) of the cluster to set maintenance policy. Specified in the format `projects/*\/locations/*\/clusters/*`. */
+  name: string;
+}
+export interface SetMaintenancePolicyProjectsZonesClustersRequest extends Omit<
+  SetMaintenancePolicyRequest,
+  "projectId" | "zone" | "clusterId"
+> {
   /** Required. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). */
   projectId: string;
   /** Required. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. */
   zone: string;
   /** Required. The name of the cluster to update. */
   clusterId: string;
-  /** Required. The maintenance policy to be set for the cluster. An empty field clears the existing maintenance policy. */
-  maintenancePolicy?: MaintenancePolicy | undefined;
-  /** The name (project, location, cluster name) of the cluster to set maintenance policy. Specified in the format `projects/*\/locations/*\/clusters/*`. */
-  name?: string | undefined;
 }
-export interface SetManagementProjectsLocationsClustersNodePoolsRequest {
-  /** The name (project, location, cluster, node pool id) of the node pool to set management properties. Specified in the format `projects/*\/locations/*\/clusters/*\/nodePools/*`. */
-  name: string;
+/** SetNodePoolManagementRequest sets the node management properties of a node pool. */
+export interface SetNodePoolManagementRequest {
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
   zone?: string | undefined;
   /** Deprecated. The name of the cluster to update. This field has been deprecated and replaced by the name field. */
   clusterId?: string | undefined;
   /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
   projectId?: string | undefined;
+  /** The name (project, location, cluster, node pool id) of the node pool to set management properties. Specified in the format `projects/*\/locations/*\/clusters/*\/nodePools/*`. */
+  name?: string | undefined;
   /** Deprecated. The name of the node pool to update. This field has been deprecated and replaced by the name field. */
   nodePoolId?: string | undefined;
   /** Required. NodeManagement configuration for the node pool. */
   management?: NodeManagement | undefined;
 }
-export interface SetManagementProjectsZonesClustersNodePoolsRequest {
+export interface SetManagementProjectsLocationsClustersNodePoolsRequest extends Omit<
+  SetNodePoolManagementRequest,
+  "name"
+> {
+  /** The name (project, location, cluster, node pool id) of the node pool to set management properties. Specified in the format `projects/*\/locations/*\/clusters/*\/nodePools/*`. */
+  name: string;
+}
+export interface SetManagementProjectsZonesClustersNodePoolsRequest extends Omit<
+  SetNodePoolManagementRequest,
+  "zone" | "clusterId" | "projectId" | "nodePoolId"
+> {
   /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
   projectId: string;
   /** Deprecated. The name of the node pool to update. This field has been deprecated and replaced by the name field. */
@@ -3723,19 +3852,16 @@ export interface SetManagementProjectsZonesClustersNodePoolsRequest {
   clusterId: string;
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
   zone: string;
-  /** The name (project, location, cluster, node pool id) of the node pool to set management properties. Specified in the format `projects/*\/locations/*\/clusters/*\/nodePools/*`. */
-  name?: string | undefined;
-  /** Required. NodeManagement configuration for the node pool. */
-  management?: NodeManagement | undefined;
 }
 export type SetMasterAuthRequestActionEnum =
   | "UNKNOWN"
   | "SET_PASSWORD"
   | "GENERATE_PASSWORD"
   | "SET_USERNAME";
-export interface SetMasterAuthProjectsLocationsClustersRequest {
+/** SetMasterAuthRequest updates the admin password of a cluster. */
+export interface SetMasterAuthRequest {
   /** The name (project, location, cluster) of the cluster to set auth. Specified in the format `projects/*\/locations/*\/clusters/*`. */
-  name: string;
+  name?: string | undefined;
   /** Deprecated. The name of the cluster to upgrade. This field has been deprecated and replaced by the name field. */
   clusterId?: string | undefined;
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
@@ -3747,35 +3873,33 @@ export interface SetMasterAuthProjectsLocationsClustersRequest {
   /** Required. A description of the update. */
   update?: MasterAuth | undefined;
 }
-export interface SetMasterAuthProjectsZonesClustersRequest {
+export interface SetMasterAuthProjectsLocationsClustersRequest extends Omit<
+  SetMasterAuthRequest,
+  "name"
+> {
+  /** The name (project, location, cluster) of the cluster to set auth. Specified in the format `projects/*\/locations/*\/clusters/*`. */
+  name: string;
+}
+export interface SetMasterAuthProjectsZonesClustersRequest extends Omit<
+  SetMasterAuthRequest,
+  "clusterId" | "zone" | "projectId"
+> {
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
   zone: string;
   /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
   projectId: string;
   /** Deprecated. The name of the cluster to upgrade. This field has been deprecated and replaced by the name field. */
   clusterId: string;
-  /** The name (project, location, cluster) of the cluster to set auth. Specified in the format `projects/*\/locations/*\/clusters/*`. */
-  name?: string | undefined;
-  /** Required. The exact form of action to be taken on the master auth. */
-  action?: SetMasterAuthRequestActionEnum | (string & {}) | undefined;
-  /** Required. A description of the update. */
-  update?: MasterAuth | undefined;
 }
-export interface SetMonitoringProjectsLocationsClustersRequest {
+export interface SetMonitoringProjectsLocationsClustersRequest extends Omit<
+  SetMonitoringServiceRequest,
+  "name"
+> {
   /** The name (project, location, cluster) of the cluster to set monitoring. Specified in the format `projects/*\/locations/*\/clusters/*`. */
   name: string;
-  /** Required. The monitoring service the cluster should use to write metrics. Currently available options: * `monitoring.googleapis.com/kubernetes` - The Cloud Monitoring service with a Kubernetes-native resource model * `monitoring.googleapis.com` - The legacy Cloud Monitoring service (no longer available as of GKE 1.15). * `none` - No metrics will be exported from the cluster. If left as an empty string,`monitoring.googleapis.com/kubernetes` will be used for GKE 1.14+ or `monitoring.googleapis.com` for earlier versions. */
-  monitoringService?: string | undefined;
-  /** Deprecated. The name of the cluster to upgrade. This field has been deprecated and replaced by the name field. */
-  clusterId?: string | undefined;
-  /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
-  zone?: string | undefined;
-  /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
-  projectId?: string | undefined;
 }
-export interface SetNetworkPolicyProjectsLocationsClustersRequest {
-  /** The name (project, location, cluster name) of the cluster to set networking policy. Specified in the format `projects/*\/locations/*\/clusters/*`. */
-  name: string;
+/** SetNetworkPolicyRequest enables/disables network policy for a cluster. */
+export interface SetNetworkPolicyRequest {
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
   zone?: string | undefined;
   /** Deprecated. The name of the cluster. This field has been deprecated and replaced by the name field. */
@@ -3784,40 +3908,42 @@ export interface SetNetworkPolicyProjectsLocationsClustersRequest {
   networkPolicy?: NetworkPolicy | undefined;
   /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
   projectId?: string | undefined;
+  /** The name (project, location, cluster name) of the cluster to set networking policy. Specified in the format `projects/*\/locations/*\/clusters/*`. */
+  name?: string | undefined;
 }
-export interface SetNetworkPolicyProjectsZonesClustersRequest {
+export interface SetNetworkPolicyProjectsLocationsClustersRequest extends Omit<
+  SetNetworkPolicyRequest,
+  "name"
+> {
+  /** The name (project, location, cluster name) of the cluster to set networking policy. Specified in the format `projects/*\/locations/*\/clusters/*`. */
+  name: string;
+}
+export interface SetNetworkPolicyProjectsZonesClustersRequest extends Omit<
+  SetNetworkPolicyRequest,
+  "zone" | "clusterId" | "projectId"
+> {
   /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
   projectId: string;
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
   zone: string;
   /** Deprecated. The name of the cluster. This field has been deprecated and replaced by the name field. */
   clusterId: string;
-  /** Required. Configuration options for the NetworkPolicy feature. */
-  networkPolicy?: NetworkPolicy | undefined;
-  /** The name (project, location, cluster name) of the cluster to set networking policy. Specified in the format `projects/*\/locations/*\/clusters/*`. */
-  name?: string | undefined;
 }
-export interface SetResourceLabelsProjectsLocationsClustersRequest {
+export interface SetResourceLabelsProjectsLocationsClustersRequest extends Omit<
+  SetLabelsRequest,
+  "name"
+> {
   /** The name (project, location, cluster name) of the cluster to set labels. Specified in the format `projects/*\/locations/*\/clusters/*`. */
   name: string;
-  /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
-  projectId?: string | undefined;
-  /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
-  zone?: string | undefined;
-  /** Deprecated. The name of the cluster. This field has been deprecated and replaced by the name field. */
-  clusterId?: string | undefined;
-  /** Required. The fingerprint of the previous set of labels for this resource, used to detect conflicts. The fingerprint is initially generated by Kubernetes Engine and changes after every request to modify or update labels. You must always provide an up-to-date fingerprint hash when updating or changing labels. Make a `get()` request to the resource to get the latest fingerprint. */
-  labelFingerprint?: string | undefined;
-  /** Required. The labels to set for that cluster. */
-  resourceLabels?: StringMap | undefined;
 }
-export interface SetSizeProjectsLocationsClustersNodePoolsRequest {
-  /** The name (project, location, cluster, node pool id) of the node pool to set size. Specified in the format `projects/*\/locations/*\/clusters/*\/nodePools/*`. */
-  name: string;
+/** SetNodePoolSizeRequest sets the size of a node pool. */
+export interface SetNodePoolSizeRequest {
   /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
   projectId?: string | undefined;
   /** Deprecated. The name of the node pool to update. This field has been deprecated and replaced by the name field. */
   nodePoolId?: string | undefined;
+  /** The name (project, location, cluster, node pool id) of the node pool to set size. Specified in the format `projects/*\/locations/*\/clusters/*\/nodePools/*`. */
+  name?: string | undefined;
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
   zone?: string | undefined;
   /** Deprecated. The name of the cluster to update. This field has been deprecated and replaced by the name field. */
@@ -3825,7 +3951,17 @@ export interface SetSizeProjectsLocationsClustersNodePoolsRequest {
   /** Required. The desired node count for the pool. */
   nodeCount?: number | undefined;
 }
-export interface SetSizeProjectsZonesClustersNodePoolsRequest {
+export interface SetSizeProjectsLocationsClustersNodePoolsRequest extends Omit<
+  SetNodePoolSizeRequest,
+  "name"
+> {
+  /** The name (project, location, cluster, node pool id) of the node pool to set size. Specified in the format `projects/*\/locations/*\/clusters/*\/nodePools/*`. */
+  name: string;
+}
+export interface SetSizeProjectsZonesClustersNodePoolsRequest extends Omit<
+  SetNodePoolSizeRequest,
+  "projectId" | "nodePoolId" | "zone" | "clusterId"
+> {
   /** Deprecated. The name of the cluster to update. This field has been deprecated and replaced by the name field. */
   clusterId: string;
   /** Deprecated. The name of the node pool to update. This field has been deprecated and replaced by the name field. */
@@ -3834,14 +3970,11 @@ export interface SetSizeProjectsZonesClustersNodePoolsRequest {
   zone: string;
   /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
   projectId: string;
-  /** The name (project, location, cluster, node pool id) of the node pool to set size. Specified in the format `projects/*\/locations/*\/clusters/*\/nodePools/*`. */
-  name?: string | undefined;
-  /** Required. The desired node count for the pool. */
-  nodeCount?: number | undefined;
 }
-export interface StartIpRotationProjectsLocationsClustersRequest {
+/** StartIPRotationRequest creates a new IP for the cluster and then performs a node upgrade on each node pool to point to the new IP. */
+export interface StartIPRotationRequest {
   /** The name (project, location, cluster name) of the cluster to start IP rotation. Specified in the format `projects/*\/locations/*\/clusters/*`. */
-  name: string;
+  name?: string | undefined;
   /** Deprecated. The name of the cluster. This field has been deprecated and replaced by the name field. */
   clusterId?: string | undefined;
   /** Whether to rotate credentials during IP rotation. */
@@ -3851,29 +3984,30 @@ export interface StartIpRotationProjectsLocationsClustersRequest {
   /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
   projectId?: string | undefined;
 }
-export interface StartIpRotationProjectsZonesClustersRequest {
+export interface StartIpRotationProjectsLocationsClustersRequest extends Omit<
+  StartIPRotationRequest,
+  "name"
+> {
+  /** The name (project, location, cluster name) of the cluster to start IP rotation. Specified in the format `projects/*\/locations/*\/clusters/*`. */
+  name: string;
+}
+export interface StartIpRotationProjectsZonesClustersRequest extends Omit<
+  StartIPRotationRequest,
+  "clusterId" | "zone" | "projectId"
+> {
   /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
   projectId: string;
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
   zone: string;
   /** Deprecated. The name of the cluster. This field has been deprecated and replaced by the name field. */
   clusterId: string;
-  /** The name (project, location, cluster name) of the cluster to start IP rotation. Specified in the format `projects/*\/locations/*\/clusters/*`. */
-  name?: string | undefined;
-  /** Whether to rotate credentials during IP rotation. */
-  rotateCredentials?: boolean | undefined;
 }
-export interface UpdateMasterProjectsLocationsClustersRequest {
+export interface UpdateMasterProjectsLocationsClustersRequest extends Omit<
+  UpdateMasterRequest,
+  "name"
+> {
   /** The name (project, location, cluster) of the cluster to update. Specified in the format `projects/*\/locations/*\/clusters/*`. */
   name: string;
-  /** Deprecated. The name of the cluster to upgrade. This field has been deprecated and replaced by the name field. */
-  clusterId?: string | undefined;
-  /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
-  zone?: string | undefined;
-  /** Required. The Kubernetes version to change the master to. Users may specify either explicit versions offered by Kubernetes Engine or version aliases, which have the following behavior: - "latest": picks the highest valid Kubernetes version - "1.X": picks the highest valid patch+gke.N patch in the 1.X version - "1.X.Y": picks the highest valid gke.N patch in the 1.X.Y version - "1.X.Y-gke.N": picks an explicit Kubernetes version - "-": picks the default Kubernetes version */
-  masterVersion?: string | undefined;
-  /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
-  projectId?: string | undefined;
 }
 export type DesiredEnterpriseConfigDesiredTierEnum =
   | "CLUSTER_TIER_UNSPECIFIED"
@@ -4118,17 +4252,22 @@ export interface ClusterUpdate {
   /** Optional. The desired scheduled upgrades configuration for the cluster. */
   desiredScheduleUpgradeConfig?: ScheduleUpgradeConfig | undefined;
 }
-export interface UpdateProjectsLocationsClustersRequest {
-  /** The name (project, location, cluster) of the cluster to update. Specified in the format `projects/*\/locations/*\/clusters/*`. */
-  name: string;
+/** UpdateClusterRequest updates the settings of a cluster. */
+export interface UpdateClusterRequest {
   /** Deprecated. The name of the cluster to upgrade. This field has been deprecated and replaced by the name field. */
   clusterId?: string | undefined;
+  /** The name (project, location, cluster) of the cluster to update. Specified in the format `projects/*\/locations/*\/clusters/*`. */
+  name?: string | undefined;
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
   zone?: string | undefined;
   /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
   projectId?: string | undefined;
   /** Required. A description of the update. */
   update?: ClusterUpdate | undefined;
+}
+export interface UpdateProjectsLocationsClustersRequest extends Omit<UpdateClusterRequest, "name"> {
+  /** The name (project, location, cluster) of the cluster to update. Specified in the format `projects/*\/locations/*\/clusters/*`. */
+  name: string;
 }
 export type UpdateNodePoolRequestNodeConfigUpdateModeEnum =
   | "NODE_CONFIG_UPDATE_MODE_UNSPECIFIED"
@@ -4145,9 +4284,8 @@ export interface NodeTaints {
 }
 /** Collection of node-level [Kubernetes labels](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels). */
 export type NodeLabels = ResourceLabels;
-export interface UpdateProjectsLocationsClustersNodePoolsRequest {
-  /** The name (project, location, cluster, node pool) of the node pool to update. Specified in the format `projects/*\/locations/*\/clusters/*\/nodePools/*`. */
-  name: string;
+/** SetNodePoolVersionRequest updates the version of a node pool. */
+export interface UpdateNodePoolRequest {
   /** The desired name of the image name to use for this node. This is used to create clusters using a custom image. */
   image?: string | undefined;
   /** Optional. The desired machine type for nodes in the node pool. Initiates an upgrade operation that migrates the nodes in the node pool to the specified machine type. */
@@ -4200,6 +4338,8 @@ export interface UpdateProjectsLocationsClustersNodePoolsRequest {
   workloadMetadataConfig?: WorkloadMetadataConfig | undefined;
   /** A list of hardware accelerators to be attached to each node. See https://cloud.google.com/compute/docs/gpus for more information about support for GPUs. */
   accelerators?: AcceleratorConfigList | undefined;
+  /** The name (project, location, cluster, node pool) of the node pool to update. Specified in the format `projects/*\/locations/*\/clusters/*\/nodePools/*`. */
+  name?: string | undefined;
   /** Optional. The desired disk type for nodes in the node pool. Initiates an upgrade operation that migrates the nodes in the node pool to the specified disk type. */
   diskType?: string | undefined;
   /** GCFS config. */
@@ -4233,19 +4373,28 @@ export interface UpdateProjectsLocationsClustersNodePoolsRequest {
   /** The desired node labels to be applied to all nodes in the node pool. If this field is not present, the labels will not be changed. Otherwise, the existing node labels will be *replaced* with the provided labels. */
   labels?: ResourceLabels | undefined;
 }
-export interface UpdateProjectsZonesClustersRequest {
+export interface UpdateProjectsLocationsClustersNodePoolsRequest extends Omit<
+  UpdateNodePoolRequest,
+  "name"
+> {
+  /** The name (project, location, cluster, node pool) of the node pool to update. Specified in the format `projects/*\/locations/*\/clusters/*\/nodePools/*`. */
+  name: string;
+}
+export interface UpdateProjectsZonesClustersRequest extends Omit<
+  UpdateClusterRequest,
+  "clusterId" | "zone" | "projectId"
+> {
   /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
   projectId: string;
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
   zone: string;
   /** Deprecated. The name of the cluster to upgrade. This field has been deprecated and replaced by the name field. */
   clusterId: string;
-  /** The name (project, location, cluster) of the cluster to update. Specified in the format `projects/*\/locations/*\/clusters/*`. */
-  name?: string | undefined;
-  /** Required. A description of the update. */
-  update?: ClusterUpdate | undefined;
 }
-export interface UpdateProjectsZonesClustersNodePoolsRequest {
+export interface UpdateProjectsZonesClustersNodePoolsRequest extends Omit<
+  UpdateNodePoolRequest,
+  "projectId" | "clusterId" | "zone" | "nodePoolId"
+> {
   /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
   projectId: string;
   /** Deprecated. The name of the node pool to upgrade. This field has been deprecated and replaced by the name field. */
@@ -4254,84 +4403,6 @@ export interface UpdateProjectsZonesClustersNodePoolsRequest {
   clusterId: string;
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
   zone: string;
-  /** The desired name of the image name to use for this node. This is used to create clusters using a custom image. */
-  image?: string | undefined;
-  /** Optional. The desired machine type for nodes in the node pool. Initiates an upgrade operation that migrates the nodes in the node pool to the specified machine type. */
-  machineType?: string | undefined;
-  /** Desired resource manager tag keys and values to be attached to the nodes for managing Compute Engine firewalls using Network Firewall Policies. Existing tags will be replaced with new values. */
-  resourceManagerTags?: ResourceManagerTags | undefined;
-  /** Optional. Specifies the maintenance policy for the node pool, including maintenance exclusion options. */
-  maintenancePolicy?: NodePoolMaintenancePolicy | undefined;
-  /** Logging configuration. */
-  loggingConfig?: NodePoolLoggingConfig | undefined;
-  /** The desired containerd config for nodes in the node pool. Initiates an upgrade operation that recreates the nodes with the new config. */
-  containerdConfig?: ContainerdConfig | undefined;
-  /** Optional. Option to specify the rollout strategy to apply node pool configuration updates. If unspecified, standard rolling update strategy with VM recreation is used as the default behavior. */
-  nodeConfigUpdateMode?: UpdateNodePoolRequestNodeConfigUpdateModeEnum | (string & {}) | undefined;
-  /** Confidential nodes config. All the nodes in the node pool will be Confidential VM once enabled. */
-  confidentialNodes?: ConfidentialNodes | undefined;
-  /** Parameters that can be configured on Windows nodes. */
-  windowsNodeConfig?: WindowsNodeConfig | undefined;
-  /** Enable or disable gvnic on the node pool. */
-  gvnic?: VirtualNIC | undefined;
-  /** The project containing the desired image to use for this node pool. This is used to create clusters using a custom image. */
-  imageProject?: string | undefined;
-  /** The resource labels for the node pool to use to annotate any related Google Compute Engine resources. */
-  resourceLabels?: ResourceLabels | undefined;
-  /** Required. The Kubernetes version to change the nodes to (typically an upgrade). Users may specify either explicit versions offered by Kubernetes Engine or version aliases, which have the following behavior: - "latest": picks the highest valid Kubernetes version - "1.X": picks the highest valid patch+gke.N patch in the 1.X version - "1.X.Y": picks the highest valid gke.N patch in the 1.X.Y version - "1.X.Y-gke.N": picks an explicit Kubernetes version - "-": picks the Kubernetes master version */
-  nodeVersion?: string | undefined;
-  /** Upgrade settings control disruption and speed of the upgrade. */
-  upgradeSettings?: UpgradeSettings | undefined;
-  /** Node network config. */
-  nodeNetworkConfig?: NodeNetworkConfig | undefined;
-  /** Required. The desired image type for the node pool. Please see https://cloud.google.com/kubernetes-engine/docs/concepts/node-images for available image types. */
-  imageType?: string | undefined;
-  /** Flex Start flag for enabling Flex Start VM. */
-  flexStart?: boolean | undefined;
-  /** Specifies the configuration of queued provisioning. */
-  queuedProvisioning?: QueuedProvisioning | undefined;
-  /** Node kubelet configs. */
-  kubeletConfig?: NodeKubeletConfig | undefined;
-  /** The desired node taints to be applied to all nodes in the node pool. If this field is not present, the taints will not be changed. Otherwise, the existing node taints will be *replaced* with the provided taints. */
-  taints?: NodeTaints | undefined;
-  /** Enable or disable NCCL fast socket for the node pool. */
-  fastSocket?: FastSocket | undefined;
-  /** The desired boot disk config for nodes in the node pool. Initiates an upgrade operation that migrates the nodes in the node pool to the specified boot disk config. */
-  bootDisk?: BootDisk | undefined;
-  /** Optional. The nodes to upgrade. The field can only be used together with the node_version field. */
-  nodes?: StringList | undefined;
-  /** The desired workload metadata config for the node pool. */
-  workloadMetadataConfig?: WorkloadMetadataConfig | undefined;
-  /** A list of hardware accelerators to be attached to each node. See https://cloud.google.com/compute/docs/gpus for more information about support for GPUs. */
-  accelerators?: AcceleratorConfigList | undefined;
-  /** The name (project, location, cluster, node pool) of the node pool to update. Specified in the format `projects/*\/locations/*\/clusters/*\/nodePools/*`. */
-  name?: string | undefined;
-  /** Optional. The desired disk type for nodes in the node pool. Initiates an upgrade operation that migrates the nodes in the node pool to the specified disk type. */
-  diskType?: string | undefined;
-  /** GCFS config. */
-  gcfsConfig?: GcfsConfig | undefined;
-  /** The desired node drain configuration for nodes in the node pool. */
-  nodeDrainConfig?: NodeDrainConfig | undefined;
-  /** List of Storage Pools where boot disks are provisioned. Existing Storage Pools will be replaced with storage-pools. */
-  storagePools?: StringList | undefined;
-  /** The desired network tags to be applied to all nodes in the node pool. If this field is not present, the tags will not be changed. Otherwise, the existing network tags will be *replaced* with the provided tags. */
-  tags?: NetworkTags | undefined;
-  /** Consolidation delay defines duration after which the Cluster Autoscaler can scale down underutilized nodes. If not set, nodes are scaled down by default behavior, i.e. according to the chosen autoscaling profile. */
-  consolidationDelay?: string | undefined;
-  /** The desired list of Google Compute Engine [zones](https://cloud.google.com/compute/docs/zones#available) in which the node pool's nodes should be located. Changing the locations for a node pool will result in nodes being either created or removed from the node pool, depending on whether locations are being added or removed. Warning: It is recommended to update node pool locations in a standalone API call. Do not combine a location update with changes to other fields (such as `tags`, `labels`, `taints`, etc.) in the same request. Otherwise, the API performs a structural modification where changes to other fields will only apply to newly created nodes and will not be applied to existing nodes in the node pool. To ensure all nodes are updated consistently, use a separate API call for location changes. */
-  locations?: StringList | undefined;
-  /** The maximum duration for the nodes to exist. If unspecified, the nodes can exist indefinitely. */
-  maxRunDuration?: string | undefined;
-  /** The current etag of the node pool. If an etag is provided and does not match the current etag of the node pool, update will be blocked and an ABORTED error will be returned. */
-  etag?: string | undefined;
-  /** The taint configuration for the node pool. */
-  taintConfig?: TaintConfig | undefined;
-  /** Optional. The desired disk size for nodes in the node pool. Initiates an upgrade operation that migrates the nodes in the node pool to the specified disk size. */
-  diskSizeGb?: string | undefined;
-  /** Parameters that can be configured on Linux nodes. */
-  linuxNodeConfig?: LinuxNodeConfig | undefined;
-  /** The desired node labels to be applied to all nodes in the node pool. If this field is not present, the labels will not be changed. Otherwise, the existing node labels will be *replaced* with the provided labels. */
-  labels?: ResourceLabels | undefined;
 }
 export type AddonsProjectsZonesClustersError =
   | NotFound
@@ -4346,8 +4417,8 @@ export const addonsProjectsZonesClusters: API.OperationMethod<
   AddonsProjectsZonesClustersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1728, __c54, 0) as any as S.Schema<AddonsProjectsZonesClustersRequest>,
-  output: __S(1863, __c58, 7) as any as S.Schema<Operation>,
+  input: __S(1856, __c58, 0) as any as S.Schema<AddonsProjectsZonesClustersRequest>,
+  output: __S(1991, __c62, 7) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4368,8 +4439,8 @@ export const autoscalingProjectsZonesClustersNodePools: API.OperationMethod<
   AutoscalingProjectsZonesClustersNodePoolsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2272, __c71, 0) as any as S.Schema<AutoscalingProjectsZonesClustersNodePoolsRequest>,
-  output: __S(1863, __c58, 7) as any as S.Schema<Operation>,
+  input: __S(2592, __c81, 0) as any as S.Schema<AutoscalingProjectsZonesClustersNodePoolsRequest>,
+  output: __S(1991, __c62, 7) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4390,8 +4461,8 @@ export const cancelProjectsLocationsOperations: API.OperationMethod<
   CancelProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2656, __c83, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
-  output: __S(2688, __c84, 0) as any as S.Schema<Empty>,
+  input: __S(3104, __c97, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
+  output: __S(3168, __c99, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4412,8 +4483,8 @@ export const cancelProjectsZonesOperations: API.OperationMethod<
   CancelProjectsZonesOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3040, __c95, 0) as any as S.Schema<CancelProjectsZonesOperationsRequest>,
-  output: __S(2688, __c84, 0) as any as S.Schema<Empty>,
+  input: __S(3648, __c114, 0) as any as S.Schema<CancelProjectsZonesOperationsRequest>,
+  output: __S(3168, __c99, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4433,11 +4504,11 @@ export const checkAutopilotCompatibilityProjectsLocationsClusters: API.Operation
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3328,
-    __c104,
+    3936,
+    __c123,
     0,
   ) as any as S.Schema<CheckAutopilotCompatibilityProjectsLocationsClustersRequest>,
-  output: __S(3331, __c104, 3) as any as S.Schema<CheckAutopilotCompatibilityResponse>,
+  output: __S(3939, __c123, 3) as any as S.Schema<CheckAutopilotCompatibilityResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4459,11 +4530,11 @@ export const completeControlPlaneUpgradeProjectsLocationsClusters: API.Operation
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3392,
-    __c106,
+    4000,
+    __c125,
     0,
   ) as any as S.Schema<CompleteControlPlaneUpgradeProjectsLocationsClustersRequest>,
-  output: __S(1863, __c58, 7) as any as S.Schema<Operation>,
+  output: __S(1991, __c62, 7) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4489,7 +4560,7 @@ export const completeControlPlaneUpgradeProjectsZonesClusters: API.OperationMeth
     __c0,
     0,
   ) as any as S.Schema<CompleteControlPlaneUpgradeProjectsZonesClustersRequest>,
-  output: __S(1863, __c58, 7) as any as S.Schema<Operation>,
+  output: __S(1991, __c62, 7) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4511,7 +4582,7 @@ export const completeIpRotationProjectsLocationsClusters: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c1, 0) as any as S.Schema<CompleteIpRotationProjectsLocationsClustersRequest>,
-  output: __S(1863, __c58, 7) as any as S.Schema<Operation>,
+  output: __S(1991, __c62, 7) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4532,8 +4603,8 @@ export const completeIpRotationProjectsZonesClusters: API.OperationMethod<
   CompleteIpRotationProjectsZonesClustersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c2, 0) as any as S.Schema<CompleteIpRotationProjectsZonesClustersRequest>,
-  output: __S(1863, __c58, 7) as any as S.Schema<Operation>,
+  input: __S(96, __c3, 0) as any as S.Schema<CompleteIpRotationProjectsZonesClustersRequest>,
+  output: __S(1991, __c62, 7) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4555,11 +4626,11 @@ export const completeUpgradeProjectsLocationsClustersNodePools: API.OperationMet
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    96,
-    __c3,
+    128,
+    __c4,
     0,
   ) as any as S.Schema<CompleteUpgradeProjectsLocationsClustersNodePoolsRequest>,
-  output: __S(2688, __c84, 0) as any as S.Schema<Empty>,
+  output: __S(3168, __c99, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4580,8 +4651,8 @@ export const createProjectsLocationsClusters: API.OperationMethod<
   CreateProjectsLocationsClustersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c4, 0) as any as S.Schema<CreateProjectsLocationsClustersRequest>,
-  output: __S(1863, __c58, 7) as any as S.Schema<Operation>,
+  input: __S(160, __c5, 0) as any as S.Schema<CreateProjectsLocationsClustersRequest>,
+  output: __S(1991, __c62, 7) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4602,8 +4673,8 @@ export const createProjectsLocationsClustersNodePools: API.OperationMethod<
   CreateProjectsLocationsClustersNodePoolsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c23, 0) as any as S.Schema<CreateProjectsLocationsClustersNodePoolsRequest>,
-  output: __S(1863, __c58, 7) as any as S.Schema<Operation>,
+  input: __S(800, __c25, 0) as any as S.Schema<CreateProjectsLocationsClustersNodePoolsRequest>,
+  output: __S(1991, __c62, 7) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4624,8 +4695,8 @@ export const createProjectsZonesClusters: API.OperationMethod<
   CreateProjectsZonesClustersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c24, 0) as any as S.Schema<CreateProjectsZonesClustersRequest>,
-  output: __S(1863, __c58, 7) as any as S.Schema<Operation>,
+  input: __S(864, __c27, 0) as any as S.Schema<CreateProjectsZonesClustersRequest>,
+  output: __S(1991, __c62, 7) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4646,8 +4717,8 @@ export const createProjectsZonesClustersNodePools: API.OperationMethod<
   CreateProjectsZonesClustersNodePoolsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c25, 0) as any as S.Schema<CreateProjectsZonesClustersNodePoolsRequest>,
-  output: __S(1863, __c58, 7) as any as S.Schema<Operation>,
+  input: __S(896, __c28, 0) as any as S.Schema<CreateProjectsZonesClustersNodePoolsRequest>,
+  output: __S(1991, __c62, 7) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4668,8 +4739,8 @@ export const deleteProjectsLocationsClusters: API.OperationMethod<
   DeleteProjectsLocationsClustersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c26, 0) as any as S.Schema<DeleteProjectsLocationsClustersRequest>,
-  output: __S(1863, __c58, 7) as any as S.Schema<Operation>,
+  input: __S(928, __c29, 0) as any as S.Schema<DeleteProjectsLocationsClustersRequest>,
+  output: __S(1991, __c62, 7) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4690,8 +4761,8 @@ export const deleteProjectsLocationsClustersNodePools: API.OperationMethod<
   DeleteProjectsLocationsClustersNodePoolsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c27, 0) as any as S.Schema<DeleteProjectsLocationsClustersNodePoolsRequest>,
-  output: __S(1863, __c58, 7) as any as S.Schema<Operation>,
+  input: __S(960, __c30, 0) as any as S.Schema<DeleteProjectsLocationsClustersNodePoolsRequest>,
+  output: __S(1991, __c62, 7) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4712,8 +4783,8 @@ export const deleteProjectsZonesClusters: API.OperationMethod<
   DeleteProjectsZonesClustersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c28, 0) as any as S.Schema<DeleteProjectsZonesClustersRequest>,
-  output: __S(1863, __c58, 7) as any as S.Schema<Operation>,
+  input: __S(992, __c31, 0) as any as S.Schema<DeleteProjectsZonesClustersRequest>,
+  output: __S(1991, __c62, 7) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4734,8 +4805,8 @@ export const deleteProjectsZonesClustersNodePools: API.OperationMethod<
   DeleteProjectsZonesClustersNodePoolsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c29, 0) as any as S.Schema<DeleteProjectsZonesClustersNodePoolsRequest>,
-  output: __S(1863, __c58, 7) as any as S.Schema<Operation>,
+  input: __S(1024, __c32, 0) as any as S.Schema<DeleteProjectsZonesClustersNodePoolsRequest>,
+  output: __S(1991, __c62, 7) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4755,11 +4826,11 @@ export const fetchClusterUpgradeInfoProjectsLocationsClusters: API.OperationMeth
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    960,
-    __c30,
+    1056,
+    __c33,
     0,
   ) as any as S.Schema<FetchClusterUpgradeInfoProjectsLocationsClustersRequest>,
-  output: __S(993, __c31, 1) as any as S.Schema<ClusterUpgradeInfo>,
+  output: __S(1089, __c34, 1) as any as S.Schema<ClusterUpgradeInfo>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4776,11 +4847,11 @@ export const fetchClusterUpgradeInfoProjectsZonesClusters: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1056,
-    __c33,
+    1152,
+    __c36,
     0,
   ) as any as S.Schema<FetchClusterUpgradeInfoProjectsZonesClustersRequest>,
-  output: __S(993, __c31, 1) as any as S.Schema<ClusterUpgradeInfo>,
+  output: __S(1089, __c34, 1) as any as S.Schema<ClusterUpgradeInfo>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4800,11 +4871,11 @@ export const fetchNodePoolUpgradeInfoProjectsLocationsClustersNodePools: API.Ope
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1088,
-    __c34,
+    1184,
+    __c37,
     0,
   ) as any as S.Schema<FetchNodePoolUpgradeInfoProjectsLocationsClustersNodePoolsRequest>,
-  output: __S(1121, __c35, 1) as any as S.Schema<NodePoolUpgradeInfo>,
+  output: __S(1217, __c38, 1) as any as S.Schema<NodePoolUpgradeInfo>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4824,11 +4895,11 @@ export const fetchNodePoolUpgradeInfoProjectsZonesClustersNodePools: API.Operati
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1152,
-    __c36,
+    1248,
+    __c39,
     0,
   ) as any as S.Schema<FetchNodePoolUpgradeInfoProjectsZonesClustersNodePoolsRequest>,
-  output: __S(1121, __c35, 1) as any as S.Schema<NodePoolUpgradeInfo>,
+  output: __S(1217, __c38, 1) as any as S.Schema<NodePoolUpgradeInfo>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4844,8 +4915,8 @@ export const getJwksProjectsLocationsClusters: API.OperationMethod<
   GetJwksProjectsLocationsClustersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1184, __c37, 0) as any as S.Schema<GetJwksProjectsLocationsClustersRequest>,
-  output: __S(1187, __c37, 3) as any as S.Schema<GetJSONWebKeysResponse>,
+  input: __S(1280, __c40, 0) as any as S.Schema<GetJwksProjectsLocationsClustersRequest>,
+  output: __S(1283, __c40, 3) as any as S.Schema<GetJSONWebKeysResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4865,11 +4936,11 @@ export const getOpenid_configurationProjectsLocationsClustersWell_known: API.Ope
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1248,
-    __c39,
+    1344,
+    __c42,
     0,
   ) as any as S.Schema<GetOpenid_configurationProjectsLocationsClustersWell_knownRequest>,
-  output: __S(1249, __c39, 1) as any as S.Schema<GetOpenIDConfigResponse>,
+  output: __S(1345, __c42, 1) as any as S.Schema<GetOpenIDConfigResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4885,8 +4956,8 @@ export const getProjectsLocationsClusters: API.OperationMethod<
   GetProjectsLocationsClustersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1280, __c40, 0) as any as S.Schema<GetProjectsLocationsClustersRequest>,
-  output: __S(489, __c15, 9) as any as S.Schema<Cluster>,
+  input: __S(1376, __c43, 0) as any as S.Schema<GetProjectsLocationsClustersRequest>,
+  output: __S(553, __c17, 9) as any as S.Schema<Cluster>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4902,8 +4973,8 @@ export const getProjectsLocationsClustersNodePools: API.OperationMethod<
   GetProjectsLocationsClustersNodePoolsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1312, __c41, 0) as any as S.Schema<GetProjectsLocationsClustersNodePoolsRequest>,
-  output: __S(210, __c6, 18) as any as S.Schema<NodePool>,
+  input: __S(1408, __c44, 0) as any as S.Schema<GetProjectsLocationsClustersNodePoolsRequest>,
+  output: __S(242, __c7, 18) as any as S.Schema<NodePool>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4919,8 +4990,8 @@ export const getProjectsLocationsOperations: API.OperationMethod<
   GetProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1344, __c42, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
-  output: __S(1863, __c58, 7) as any as S.Schema<Operation>,
+  input: __S(1440, __c45, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
+  output: __S(1991, __c62, 7) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4936,8 +5007,8 @@ export const getProjectsZonesClusters: API.OperationMethod<
   GetProjectsZonesClustersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c43, 0) as any as S.Schema<GetProjectsZonesClustersRequest>,
-  output: __S(489, __c15, 9) as any as S.Schema<Cluster>,
+  input: __S(1472, __c46, 0) as any as S.Schema<GetProjectsZonesClustersRequest>,
+  output: __S(553, __c17, 9) as any as S.Schema<Cluster>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4953,8 +5024,8 @@ export const getProjectsZonesClustersNodePools: API.OperationMethod<
   GetProjectsZonesClustersNodePoolsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c44, 0) as any as S.Schema<GetProjectsZonesClustersNodePoolsRequest>,
-  output: __S(210, __c6, 18) as any as S.Schema<NodePool>,
+  input: __S(1504, __c47, 0) as any as S.Schema<GetProjectsZonesClustersNodePoolsRequest>,
+  output: __S(242, __c7, 18) as any as S.Schema<NodePool>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4970,8 +5041,8 @@ export const getProjectsZonesOperations: API.OperationMethod<
   GetProjectsZonesOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1440, __c45, 0) as any as S.Schema<GetProjectsZonesOperationsRequest>,
-  output: __S(1863, __c58, 7) as any as S.Schema<Operation>,
+  input: __S(1536, __c48, 0) as any as S.Schema<GetProjectsZonesOperationsRequest>,
+  output: __S(1991, __c62, 7) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4987,8 +5058,8 @@ export const getServerConfigProjectsLocations: API.OperationMethod<
   GetServerConfigProjectsLocationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c46, 0) as any as S.Schema<GetServerConfigProjectsLocationsRequest>,
-  output: __S(1512, __c47, 8) as any as S.Schema<ServerConfig>,
+  input: __S(1568, __c49, 0) as any as S.Schema<GetServerConfigProjectsLocationsRequest>,
+  output: __S(1608, __c50, 8) as any as S.Schema<ServerConfig>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5004,8 +5075,8 @@ export const getServerconfigProjectsZones: API.OperationMethod<
   GetServerconfigProjectsZonesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1536, __c48, 0) as any as S.Schema<GetServerconfigProjectsZonesRequest>,
-  output: __S(1512, __c47, 8) as any as S.Schema<ServerConfig>,
+  input: __S(1632, __c51, 0) as any as S.Schema<GetServerconfigProjectsZonesRequest>,
+  output: __S(1608, __c50, 8) as any as S.Schema<ServerConfig>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5026,8 +5097,8 @@ export const legacyAbacProjectsZonesClusters: API.OperationMethod<
   LegacyAbacProjectsZonesClustersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1568, __c49, 0) as any as S.Schema<LegacyAbacProjectsZonesClustersRequest>,
-  output: __S(1863, __c58, 7) as any as S.Schema<Operation>,
+  input: __S(1664, __c52, 0) as any as S.Schema<LegacyAbacProjectsZonesClustersRequest>,
+  output: __S(1991, __c62, 7) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5044,8 +5115,8 @@ export const listProjectsAggregatedUsableSubnetworks: API.PaginatedOperationMeth
   GcpOpContext,
   ListUsableSubnetworksResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1600, __c50, 0) as any as S.Schema<ListProjectsAggregatedUsableSubnetworksRequest>,
-  output: __S(1605, __c50, 5) as any as S.Schema<ListUsableSubnetworksResponse>,
+  input: __S(1728, __c54, 0) as any as S.Schema<ListProjectsAggregatedUsableSubnetworksRequest>,
+  output: __S(1733, __c54, 5) as any as S.Schema<ListUsableSubnetworksResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5062,8 +5133,8 @@ export const listProjectsLocations: API.OperationMethod<
   ListProjectsLocationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1632, __c51, 0) as any as S.Schema<ListProjectsLocationsRequest>,
-  output: __S(1635, __c51, 3) as any as S.Schema<ListLocationsResponse>,
+  input: __S(1760, __c55, 0) as any as S.Schema<ListProjectsLocationsRequest>,
+  output: __S(1763, __c55, 3) as any as S.Schema<ListLocationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5079,8 +5150,8 @@ export const listProjectsLocationsClusters: API.OperationMethod<
   ListProjectsLocationsClustersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c52, 0) as any as S.Schema<ListProjectsLocationsClustersRequest>,
-  output: __S(1697, __c53, 1) as any as S.Schema<ListClustersResponse>,
+  input: __S(1792, __c56, 0) as any as S.Schema<ListProjectsLocationsClustersRequest>,
+  output: __S(1825, __c57, 1) as any as S.Schema<ListClustersResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5096,8 +5167,8 @@ export const listProjectsLocationsClustersNodePools: API.OperationMethod<
   ListProjectsLocationsClustersNodePoolsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1888, __c59, 0) as any as S.Schema<ListProjectsLocationsClustersNodePoolsRequest>,
-  output: __S(1920, __c60, 0) as any as S.Schema<ListNodePoolsResponse>,
+  input: __S(2048, __c64, 0) as any as S.Schema<ListProjectsLocationsClustersNodePoolsRequest>,
+  output: __S(2080, __c65, 0) as any as S.Schema<ListNodePoolsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5113,8 +5184,8 @@ export const listProjectsLocationsOperations: API.OperationMethod<
   ListProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1952, __c61, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
-  output: __S(1985, __c62, 1) as any as S.Schema<ListOperationsResponse>,
+  input: __S(2112, __c66, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
+  output: __S(2145, __c67, 1) as any as S.Schema<ListOperationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5130,8 +5201,8 @@ export const listProjectsZonesClusters: API.OperationMethod<
   ListProjectsZonesClustersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2016, __c63, 0) as any as S.Schema<ListProjectsZonesClustersRequest>,
-  output: __S(1697, __c53, 1) as any as S.Schema<ListClustersResponse>,
+  input: __S(2176, __c68, 0) as any as S.Schema<ListProjectsZonesClustersRequest>,
+  output: __S(1825, __c57, 1) as any as S.Schema<ListClustersResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5147,8 +5218,8 @@ export const listProjectsZonesClustersNodePools: API.OperationMethod<
   ListProjectsZonesClustersNodePoolsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2048, __c64, 0) as any as S.Schema<ListProjectsZonesClustersNodePoolsRequest>,
-  output: __S(1920, __c60, 0) as any as S.Schema<ListNodePoolsResponse>,
+  input: __S(2208, __c69, 0) as any as S.Schema<ListProjectsZonesClustersNodePoolsRequest>,
+  output: __S(2080, __c65, 0) as any as S.Schema<ListNodePoolsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5164,8 +5235,8 @@ export const listProjectsZonesOperations: API.OperationMethod<
   ListProjectsZonesOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2080, __c65, 0) as any as S.Schema<ListProjectsZonesOperationsRequest>,
-  output: __S(1985, __c62, 1) as any as S.Schema<ListOperationsResponse>,
+  input: __S(2240, __c70, 0) as any as S.Schema<ListProjectsZonesOperationsRequest>,
+  output: __S(2145, __c67, 1) as any as S.Schema<ListOperationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5186,8 +5257,8 @@ export const locationsProjectsZonesClusters: API.OperationMethod<
   LocationsProjectsZonesClustersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2112, __c66, 0) as any as S.Schema<LocationsProjectsZonesClustersRequest>,
-  output: __S(1863, __c58, 7) as any as S.Schema<Operation>,
+  input: __S(2272, __c71, 0) as any as S.Schema<LocationsProjectsZonesClustersRequest>,
+  output: __S(1991, __c62, 7) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5208,8 +5279,8 @@ export const loggingProjectsZonesClusters: API.OperationMethod<
   LoggingProjectsZonesClustersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2144, __c67, 0) as any as S.Schema<LoggingProjectsZonesClustersRequest>,
-  output: __S(1863, __c58, 7) as any as S.Schema<Operation>,
+  input: __S(2336, __c73, 0) as any as S.Schema<LoggingProjectsZonesClustersRequest>,
+  output: __S(1991, __c62, 7) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5230,8 +5301,8 @@ export const masterProjectsZonesClusters: API.OperationMethod<
   MasterProjectsZonesClustersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2176, __c68, 0) as any as S.Schema<MasterProjectsZonesClustersRequest>,
-  output: __S(1863, __c58, 7) as any as S.Schema<Operation>,
+  input: __S(2400, __c75, 0) as any as S.Schema<MasterProjectsZonesClustersRequest>,
+  output: __S(1991, __c62, 7) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5252,8 +5323,8 @@ export const monitoringProjectsZonesClusters: API.OperationMethod<
   MonitoringProjectsZonesClustersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2208, __c69, 0) as any as S.Schema<MonitoringProjectsZonesClustersRequest>,
-  output: __S(1863, __c58, 7) as any as S.Schema<Operation>,
+  input: __S(2464, __c77, 0) as any as S.Schema<MonitoringProjectsZonesClustersRequest>,
+  output: __S(1991, __c62, 7) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5274,8 +5345,8 @@ export const resourceLabelsProjectsZonesClusters: API.OperationMethod<
   ResourceLabelsProjectsZonesClustersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2240, __c70, 0) as any as S.Schema<ResourceLabelsProjectsZonesClustersRequest>,
-  output: __S(1863, __c58, 7) as any as S.Schema<Operation>,
+  input: __S(2528, __c79, 0) as any as S.Schema<ResourceLabelsProjectsZonesClustersRequest>,
+  output: __S(1991, __c62, 7) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5296,8 +5367,8 @@ export const rollbackProjectsLocationsClustersNodePools: API.OperationMethod<
   RollbackProjectsLocationsClustersNodePoolsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2336, __c73, 0) as any as S.Schema<RollbackProjectsLocationsClustersNodePoolsRequest>,
-  output: __S(1863, __c58, 7) as any as S.Schema<Operation>,
+  input: __S(2688, __c84, 0) as any as S.Schema<RollbackProjectsLocationsClustersNodePoolsRequest>,
+  output: __S(1991, __c62, 7) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5318,8 +5389,8 @@ export const rollbackProjectsZonesClustersNodePools: API.OperationMethod<
   RollbackProjectsZonesClustersNodePoolsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2368, __c74, 0) as any as S.Schema<RollbackProjectsZonesClustersNodePoolsRequest>,
-  output: __S(1863, __c58, 7) as any as S.Schema<Operation>,
+  input: __S(2752, __c86, 0) as any as S.Schema<RollbackProjectsZonesClustersNodePoolsRequest>,
+  output: __S(1991, __c62, 7) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5340,8 +5411,8 @@ export const setAddonsProjectsLocationsClusters: API.OperationMethod<
   SetAddonsProjectsLocationsClustersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2400, __c75, 0) as any as S.Schema<SetAddonsProjectsLocationsClustersRequest>,
-  output: __S(1863, __c58, 7) as any as S.Schema<Operation>,
+  input: __S(2784, __c87, 0) as any as S.Schema<SetAddonsProjectsLocationsClustersRequest>,
+  output: __S(1991, __c62, 7) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5363,11 +5434,11 @@ export const setAutoscalingProjectsLocationsClustersNodePools: API.OperationMeth
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2432,
-    __c76,
+    2816,
+    __c88,
     0,
   ) as any as S.Schema<SetAutoscalingProjectsLocationsClustersNodePoolsRequest>,
-  output: __S(1863, __c58, 7) as any as S.Schema<Operation>,
+  output: __S(1991, __c62, 7) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5388,8 +5459,8 @@ export const setLegacyAbacProjectsLocationsClusters: API.OperationMethod<
   SetLegacyAbacProjectsLocationsClustersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2464, __c77, 0) as any as S.Schema<SetLegacyAbacProjectsLocationsClustersRequest>,
-  output: __S(1863, __c58, 7) as any as S.Schema<Operation>,
+  input: __S(2848, __c89, 0) as any as S.Schema<SetLegacyAbacProjectsLocationsClustersRequest>,
+  output: __S(1991, __c62, 7) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5410,8 +5481,8 @@ export const setLocationsProjectsLocationsClusters: API.OperationMethod<
   SetLocationsProjectsLocationsClustersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2496, __c78, 0) as any as S.Schema<SetLocationsProjectsLocationsClustersRequest>,
-  output: __S(1863, __c58, 7) as any as S.Schema<Operation>,
+  input: __S(2880, __c90, 0) as any as S.Schema<SetLocationsProjectsLocationsClustersRequest>,
+  output: __S(1991, __c62, 7) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5432,8 +5503,8 @@ export const setLoggingProjectsLocationsClusters: API.OperationMethod<
   SetLoggingProjectsLocationsClustersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2528, __c79, 0) as any as S.Schema<SetLoggingProjectsLocationsClustersRequest>,
-  output: __S(1863, __c58, 7) as any as S.Schema<Operation>,
+  input: __S(2912, __c91, 0) as any as S.Schema<SetLoggingProjectsLocationsClustersRequest>,
+  output: __S(1991, __c62, 7) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5455,11 +5526,11 @@ export const setMaintenancePolicyProjectsLocationsClusters: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2560,
-    __c80,
+    2944,
+    __c92,
     0,
   ) as any as S.Schema<SetMaintenancePolicyProjectsLocationsClustersRequest>,
-  output: __S(1863, __c58, 7) as any as S.Schema<Operation>,
+  output: __S(1991, __c62, 7) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5480,8 +5551,8 @@ export const setMaintenancePolicyProjectsZonesClusters: API.OperationMethod<
   SetMaintenancePolicyProjectsZonesClustersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2592, __c81, 0) as any as S.Schema<SetMaintenancePolicyProjectsZonesClustersRequest>,
-  output: __S(1863, __c58, 7) as any as S.Schema<Operation>,
+  input: __S(3008, __c94, 0) as any as S.Schema<SetMaintenancePolicyProjectsZonesClustersRequest>,
+  output: __S(1991, __c62, 7) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5503,11 +5574,11 @@ export const setManagementProjectsLocationsClustersNodePools: API.OperationMetho
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2624,
-    __c82,
+    3040,
+    __c95,
     0,
   ) as any as S.Schema<SetManagementProjectsLocationsClustersNodePoolsRequest>,
-  output: __S(1863, __c58, 7) as any as S.Schema<Operation>,
+  output: __S(1991, __c62, 7) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5528,8 +5599,12 @@ export const setManagementProjectsZonesClustersNodePools: API.OperationMethod<
   SetManagementProjectsZonesClustersNodePoolsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2720, __c85, 0) as any as S.Schema<SetManagementProjectsZonesClustersNodePoolsRequest>,
-  output: __S(1863, __c58, 7) as any as S.Schema<Operation>,
+  input: __S(
+    3200,
+    __c100,
+    0,
+  ) as any as S.Schema<SetManagementProjectsZonesClustersNodePoolsRequest>,
+  output: __S(1991, __c62, 7) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5550,8 +5625,8 @@ export const setMasterAuthProjectsLocationsClusters: API.OperationMethod<
   SetMasterAuthProjectsLocationsClustersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2752, __c86, 0) as any as S.Schema<SetMasterAuthProjectsLocationsClustersRequest>,
-  output: __S(1863, __c58, 7) as any as S.Schema<Operation>,
+  input: __S(3232, __c101, 0) as any as S.Schema<SetMasterAuthProjectsLocationsClustersRequest>,
+  output: __S(1991, __c62, 7) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5572,8 +5647,8 @@ export const setMasterAuthProjectsZonesClusters: API.OperationMethod<
   SetMasterAuthProjectsZonesClustersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2784, __c87, 0) as any as S.Schema<SetMasterAuthProjectsZonesClustersRequest>,
-  output: __S(1863, __c58, 7) as any as S.Schema<Operation>,
+  input: __S(3296, __c103, 0) as any as S.Schema<SetMasterAuthProjectsZonesClustersRequest>,
+  output: __S(1991, __c62, 7) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5594,8 +5669,8 @@ export const setMonitoringProjectsLocationsClusters: API.OperationMethod<
   SetMonitoringProjectsLocationsClustersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2816, __c88, 0) as any as S.Schema<SetMonitoringProjectsLocationsClustersRequest>,
-  output: __S(1863, __c58, 7) as any as S.Schema<Operation>,
+  input: __S(3328, __c104, 0) as any as S.Schema<SetMonitoringProjectsLocationsClustersRequest>,
+  output: __S(1991, __c62, 7) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5616,8 +5691,8 @@ export const setNetworkPolicyProjectsLocationsClusters: API.OperationMethod<
   SetNetworkPolicyProjectsLocationsClustersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2848, __c89, 0) as any as S.Schema<SetNetworkPolicyProjectsLocationsClustersRequest>,
-  output: __S(1863, __c58, 7) as any as S.Schema<Operation>,
+  input: __S(3360, __c105, 0) as any as S.Schema<SetNetworkPolicyProjectsLocationsClustersRequest>,
+  output: __S(1991, __c62, 7) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5638,8 +5713,8 @@ export const setNetworkPolicyProjectsZonesClusters: API.OperationMethod<
   SetNetworkPolicyProjectsZonesClustersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2880, __c90, 0) as any as S.Schema<SetNetworkPolicyProjectsZonesClustersRequest>,
-  output: __S(1863, __c58, 7) as any as S.Schema<Operation>,
+  input: __S(3424, __c107, 0) as any as S.Schema<SetNetworkPolicyProjectsZonesClustersRequest>,
+  output: __S(1991, __c62, 7) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5660,8 +5735,8 @@ export const setResourceLabelsProjectsLocationsClusters: API.OperationMethod<
   SetResourceLabelsProjectsLocationsClustersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2912, __c91, 0) as any as S.Schema<SetResourceLabelsProjectsLocationsClustersRequest>,
-  output: __S(1863, __c58, 7) as any as S.Schema<Operation>,
+  input: __S(3456, __c108, 0) as any as S.Schema<SetResourceLabelsProjectsLocationsClustersRequest>,
+  output: __S(1991, __c62, 7) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5682,8 +5757,8 @@ export const setSizeProjectsLocationsClustersNodePools: API.OperationMethod<
   SetSizeProjectsLocationsClustersNodePoolsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2944, __c92, 0) as any as S.Schema<SetSizeProjectsLocationsClustersNodePoolsRequest>,
-  output: __S(1863, __c58, 7) as any as S.Schema<Operation>,
+  input: __S(3488, __c109, 0) as any as S.Schema<SetSizeProjectsLocationsClustersNodePoolsRequest>,
+  output: __S(1991, __c62, 7) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5704,8 +5779,8 @@ export const setSizeProjectsZonesClustersNodePools: API.OperationMethod<
   SetSizeProjectsZonesClustersNodePoolsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2976, __c93, 0) as any as S.Schema<SetSizeProjectsZonesClustersNodePoolsRequest>,
-  output: __S(1863, __c58, 7) as any as S.Schema<Operation>,
+  input: __S(3552, __c111, 0) as any as S.Schema<SetSizeProjectsZonesClustersNodePoolsRequest>,
+  output: __S(1991, __c62, 7) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5726,8 +5801,8 @@ export const startIpRotationProjectsLocationsClusters: API.OperationMethod<
   StartIpRotationProjectsLocationsClustersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3008, __c94, 0) as any as S.Schema<StartIpRotationProjectsLocationsClustersRequest>,
-  output: __S(1863, __c58, 7) as any as S.Schema<Operation>,
+  input: __S(3584, __c112, 0) as any as S.Schema<StartIpRotationProjectsLocationsClustersRequest>,
+  output: __S(1991, __c62, 7) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5748,8 +5823,8 @@ export const startIpRotationProjectsZonesClusters: API.OperationMethod<
   StartIpRotationProjectsZonesClustersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3072, __c96, 0) as any as S.Schema<StartIpRotationProjectsZonesClustersRequest>,
-  output: __S(1863, __c58, 7) as any as S.Schema<Operation>,
+  input: __S(3680, __c115, 0) as any as S.Schema<StartIpRotationProjectsZonesClustersRequest>,
+  output: __S(1991, __c62, 7) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5770,8 +5845,8 @@ export const updateMasterProjectsLocationsClusters: API.OperationMethod<
   UpdateMasterProjectsLocationsClustersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3104, __c97, 0) as any as S.Schema<UpdateMasterProjectsLocationsClustersRequest>,
-  output: __S(1863, __c58, 7) as any as S.Schema<Operation>,
+  input: __S(3712, __c116, 0) as any as S.Schema<UpdateMasterProjectsLocationsClustersRequest>,
+  output: __S(1991, __c62, 7) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5792,8 +5867,8 @@ export const updateProjectsLocationsClusters: API.OperationMethod<
   UpdateProjectsLocationsClustersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3136, __c98, 0) as any as S.Schema<UpdateProjectsLocationsClustersRequest>,
-  output: __S(1863, __c58, 7) as any as S.Schema<Operation>,
+  input: __S(3744, __c117, 0) as any as S.Schema<UpdateProjectsLocationsClustersRequest>,
+  output: __S(1991, __c62, 7) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5814,8 +5889,8 @@ export const updateProjectsLocationsClustersNodePools: API.OperationMethod<
   UpdateProjectsLocationsClustersNodePoolsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3200, __c100, 0) as any as S.Schema<UpdateProjectsLocationsClustersNodePoolsRequest>,
-  output: __S(1863, __c58, 7) as any as S.Schema<Operation>,
+  input: __S(3808, __c119, 0) as any as S.Schema<UpdateProjectsLocationsClustersNodePoolsRequest>,
+  output: __S(1991, __c62, 7) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5836,8 +5911,8 @@ export const updateProjectsZonesClusters: API.OperationMethod<
   UpdateProjectsZonesClustersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3264, __c102, 0) as any as S.Schema<UpdateProjectsZonesClustersRequest>,
-  output: __S(1863, __c58, 7) as any as S.Schema<Operation>,
+  input: __S(3872, __c121, 0) as any as S.Schema<UpdateProjectsZonesClustersRequest>,
+  output: __S(1991, __c62, 7) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5858,8 +5933,8 @@ export const updateProjectsZonesClustersNodePools: API.OperationMethod<
   UpdateProjectsZonesClustersNodePoolsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3296, __c103, 0) as any as S.Schema<UpdateProjectsZonesClustersNodePoolsRequest>,
-  output: __S(1863, __c58, 7) as any as S.Schema<Operation>,
+  input: __S(3904, __c122, 0) as any as S.Schema<UpdateProjectsZonesClustersNodePoolsRequest>,
+  output: __S(1991, __c62, 7) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5872,10 +5947,12 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          version: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(4032, __c126, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:completeControlPlaneUpgrade",
@@ -5889,12 +5966,12 @@ function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          clusterId: S.optional(S.String),
-          zone: S.optional(S.String),
-          projectId: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(64, __c2, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:completeIpRotation",
@@ -5909,11 +5986,26 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          clusterId: S.String.pipe(T.Label()),
-          zone: S.String.pipe(T.Label()),
-          projectId: S.String.pipe(T.Label()),
+          clusterId: S.optional(S.String),
+          zone: S.optional(S.String),
           name: S.optional(S.String),
-        }).pipe(
+          projectId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CompleteIPRotationRequest" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(64, __c2, 0),
+          S.Struct({
+            clusterId: S.String.pipe(T.Label()),
+            zone: S.String.pipe(T.Label()),
+            projectId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/projects/{projectId}/zones/{zone}/clusters/{clusterId}:completeIpRotation",
@@ -5923,13 +6015,13 @@ function __c2(j: number): any {
       ).annotate({ identifier: "CompleteIpRotationProjectsZonesClustersRequest" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2688, __c84, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(3168, __c99, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5940,16 +6032,16 @@ function __c3(j: number): any {
       ).annotate({ identifier: "CompleteUpgradeProjectsLocationsClustersNodePoolsRequest" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          cluster: S.optional(__S(489, __c15, 9)),
-          projectId: S.optional(S.String),
-          zone: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(448, __c14, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/clusters",
@@ -5959,13 +6051,13 @@ function __c4(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsClustersRequest" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6011,7 +6103,7 @@ function __c6(j: number): any {
         }),
       ).annotate({ identifier: "SecondaryBootDisk" });
     case 6:
-      return S.Array(__S(197, __c6, 5));
+      return S.Array(__S(229, __c7, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -6022,18 +6114,18 @@ function __c6(j: number): any {
     case 8:
       return S.suspend(() =>
         S.Struct({
-          values: S.optional(__S(3360, __c105, 0)),
+          values: S.optional(__S(3968, __c124, 0)),
           operator: S.optional(S.String),
           key: S.optional(S.String),
         }),
       ).annotate({ identifier: "NodeAffinity" });
     case 9:
-      return S.Array(__S(200, __c6, 8));
+      return S.Array(__S(232, __c7, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
           minNodeCpus: S.optional(S.Number),
-          nodeAffinities: S.optional(__S(201, __c6, 9)),
+          nodeAffinities: S.optional(__S(233, __c7, 9)),
         }),
       ).annotate({ identifier: "SoleTenantConfig" });
     case 11:
@@ -6048,7 +6140,7 @@ function __c6(j: number): any {
       return S.suspend(() =>
         S.Struct({
           consumeReservationType: S.optional(S.String),
-          values: S.optional(__S(3360, __c105, 0)),
+          values: S.optional(__S(3968, __c124, 0)),
           key: S.optional(S.String),
         }),
       ).annotate({ identifier: "ReservationAffinity" });
@@ -6068,64 +6160,64 @@ function __c6(j: number): any {
     case 15:
       return S.suspend(() =>
         S.Struct({
-          metadata: S.optional(__S(224, __c7, 0)),
-          ephemeralStorageLocalSsdConfig: S.optional(__S(195, __c6, 3)),
-          localNvmeSsdBlockConfig: S.optional(__S(196, __c6, 4)),
-          confidentialNodes: S.optional(__S(385, __c12, 1)),
-          windowsNodeConfig: S.optional(__S(386, __c12, 2)),
+          metadata: S.optional(__S(256, __c8, 0)),
+          ephemeralStorageLocalSsdConfig: S.optional(__S(227, __c7, 3)),
+          localNvmeSsdBlockConfig: S.optional(__S(228, __c7, 4)),
+          confidentialNodes: S.optional(__S(417, __c13, 1)),
+          windowsNodeConfig: S.optional(__S(418, __c13, 2)),
           flexStart: S.optional(S.Boolean),
           diskType: S.optional(S.String),
-          loggingConfig: S.optional(__S(305, __c9, 17)),
-          labels: S.optional(__S(224, __c7, 0)),
-          bootDisk: S.optional(__S(387, __c12, 3)),
+          loggingConfig: S.optional(__S(337, __c10, 17)),
+          labels: S.optional(__S(256, __c8, 0)),
+          bootDisk: S.optional(__S(419, __c13, 3)),
           machineType: S.optional(S.String),
           enableConfidentialStorage: S.optional(S.Boolean),
-          workloadMetadataConfig: S.optional(__S(388, __c12, 4)),
+          workloadMetadataConfig: S.optional(__S(420, __c13, 4)),
           spot: S.optional(S.Boolean),
-          ephemeralStorageConfig: S.optional(__S(196, __c6, 4)),
-          resourceManagerTags: S.optional(__S(318, __c9, 30)),
+          ephemeralStorageConfig: S.optional(__S(228, __c7, 4)),
+          resourceManagerTags: S.optional(__S(350, __c10, 30)),
           localSsdEncryptionMode: S.optional(S.String),
           effectiveCgroupMode: S.optional(S.String),
-          gcfsConfig: S.optional(__S(1760, __c55, 0)),
-          storagePools: S.optional(__S(3360, __c105, 0)),
-          secondaryBootDisks: S.optional(__S(198, __c6, 6)),
-          fastSocket: S.optional(__S(1760, __c55, 0)),
-          oauthScopes: S.optional(__S(3360, __c105, 0)),
+          gcfsConfig: S.optional(__S(1888, __c59, 0)),
+          storagePools: S.optional(__S(3968, __c124, 0)),
+          secondaryBootDisks: S.optional(__S(230, __c7, 6)),
+          fastSocket: S.optional(__S(1888, __c59, 0)),
+          oauthScopes: S.optional(__S(3968, __c124, 0)),
           imageType: S.optional(S.String),
           localSsdCount: S.optional(S.Number),
-          tags: S.optional(__S(3360, __c105, 0)),
-          containerdConfig: S.optional(__S(303, __c9, 15)),
-          secondaryBootDiskUpdateStrategy: S.optional(__S(2688, __c84, 0)),
-          hostMaintenancePolicy: S.optional(__S(353, __c11, 1)),
-          resourceLabels: S.optional(__S(224, __c7, 0)),
+          tags: S.optional(__S(3968, __c124, 0)),
+          containerdConfig: S.optional(__S(335, __c10, 15)),
+          secondaryBootDiskUpdateStrategy: S.optional(__S(3168, __c99, 0)),
+          hostMaintenancePolicy: S.optional(__S(385, __c12, 1)),
+          resourceLabels: S.optional(__S(256, __c8, 0)),
           minCpuPlatform: S.optional(S.String),
           serviceAccount: S.optional(S.String),
-          gvnic: S.optional(__S(1760, __c55, 0)),
-          kubeletConfig: S.optional(__S(313, __c9, 25)),
-          sandboxConfig: S.optional(__S(199, __c6, 7)),
-          soleTenantConfig: S.optional(__S(202, __c6, 10)),
+          gvnic: S.optional(__S(1888, __c59, 0)),
+          kubeletConfig: S.optional(__S(345, __c10, 25)),
+          sandboxConfig: S.optional(__S(231, __c7, 7)),
+          soleTenantConfig: S.optional(__S(234, __c7, 10)),
           consolidationDelay: S.optional(S.String),
-          taints: S.optional(__S(390, __c12, 6)),
+          taints: S.optional(__S(422, __c13, 6)),
           preemptible: S.optional(S.Boolean),
-          accelerators: S.optional(__S(394, __c12, 10)),
+          accelerators: S.optional(__S(426, __c13, 10)),
           diskSizeGb: S.optional(S.Number),
-          linuxNodeConfig: S.optional(__S(335, __c10, 15)),
-          shieldedInstanceConfig: S.optional(__S(354, __c11, 2)),
+          linuxNodeConfig: S.optional(__S(367, __c11, 15)),
+          shieldedInstanceConfig: S.optional(__S(386, __c12, 2)),
           bootDiskKmsKey: S.optional(S.String),
           maxRunDuration: S.optional(S.String),
-          advancedMachineFeatures: S.optional(__S(203, __c6, 11)),
-          taintConfig: S.optional(__S(395, __c12, 11)),
-          reservationAffinity: S.optional(__S(204, __c6, 12)),
+          advancedMachineFeatures: S.optional(__S(235, __c7, 11)),
+          taintConfig: S.optional(__S(427, __c13, 11)),
+          reservationAffinity: S.optional(__S(236, __c7, 12)),
           nodeGroup: S.optional(S.String),
-          nodeImageConfig: S.optional(__S(205, __c6, 13)),
-          gpuDirectConfig: S.optional(__S(206, __c6, 14)),
+          nodeImageConfig: S.optional(__S(237, __c7, 13)),
+          gpuDirectConfig: S.optional(__S(238, __c7, 14)),
         }),
       ).annotate({ identifier: "NodeConfig" });
     case 16:
       return S.suspend(() =>
         S.Struct({
-          greenInstanceGroupUrls: S.optional(__S(3360, __c105, 0)),
-          blueInstanceGroupUrls: S.optional(__S(3360, __c105, 0)),
+          greenInstanceGroupUrls: S.optional(__S(3968, __c124, 0)),
+          blueInstanceGroupUrls: S.optional(__S(3968, __c124, 0)),
           phase: S.optional(S.String),
           bluePoolDeletionStartTime: S.optional(S.String),
           greenPoolVersion: S.optional(S.String),
@@ -6134,48 +6226,48 @@ function __c6(j: number): any {
     case 17:
       return S.suspend(() =>
         S.Struct({
-          blueGreenInfo: S.optional(__S(208, __c6, 16)),
+          blueGreenInfo: S.optional(__S(240, __c7, 16)),
         }),
       ).annotate({ identifier: "UpdateInfo" });
     case 18:
       return S.suspend(() =>
         S.Struct({
-          placementPolicy: S.optional(__S(192, __c6, 0)),
-          autoscaling: S.optional(__S(2304, __c72, 0)),
+          placementPolicy: S.optional(__S(224, __c7, 0)),
+          autoscaling: S.optional(__S(2624, __c82, 0)),
           status: S.optional(S.String),
           version: S.optional(S.String),
-          management: S.optional(__S(257, __c8, 1)),
-          kubeletCertInfo: S.optional(__S(193, __c6, 1)),
-          conditions: S.optional(__S(1825, __c57, 1)),
+          management: S.optional(__S(289, __c9, 1)),
+          kubeletCertInfo: S.optional(__S(225, __c7, 1)),
+          conditions: S.optional(__S(1953, __c61, 1)),
           name: S.optional(S.String),
-          upgradeSettings: S.optional(__S(317, __c9, 29)),
-          bestEffortProvisioning: S.optional(__S(194, __c6, 2)),
-          config: S.optional(__S(207, __c6, 15)),
+          upgradeSettings: S.optional(__S(349, __c10, 29)),
+          bestEffortProvisioning: S.optional(__S(226, __c7, 2)),
+          config: S.optional(__S(239, __c7, 15)),
           etag: S.optional(S.String),
-          autopilotConfig: S.optional(__S(1760, __c55, 0)),
+          autopilotConfig: S.optional(__S(1888, __c59, 0)),
           statusMessage: S.optional(S.String),
           selfLink: S.optional(S.String),
           podIpv4CidrSize: S.optional(S.Number),
-          instanceGroupUrls: S.optional(__S(3360, __c105, 0)),
-          locations: S.optional(__S(3360, __c105, 0)),
-          queuedProvisioning: S.optional(__S(1760, __c55, 0)),
-          maxPodsConstraint: S.optional(__S(396, __c12, 12)),
-          nodeDrainConfig: S.optional(__S(397, __c12, 13)),
-          networkConfig: S.optional(__S(403, __c12, 19)),
-          updateInfo: S.optional(__S(209, __c6, 17)),
-          maintenancePolicy: S.optional(__S(405, __c12, 21)),
+          instanceGroupUrls: S.optional(__S(3968, __c124, 0)),
+          locations: S.optional(__S(3968, __c124, 0)),
+          queuedProvisioning: S.optional(__S(1888, __c59, 0)),
+          maxPodsConstraint: S.optional(__S(428, __c13, 12)),
+          nodeDrainConfig: S.optional(__S(429, __c13, 13)),
+          networkConfig: S.optional(__S(435, __c13, 19)),
+          updateInfo: S.optional(__S(241, __c7, 17)),
+          maintenancePolicy: S.optional(__S(437, __c13, 21)),
           initialNodeCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "NodePool" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6188,13 +6280,13 @@ function __c8(j: number): any {
       return S.suspend(() =>
         S.Struct({
           autoRepair: S.optional(S.Boolean),
-          upgradeOptions: S.optional(__S(256, __c8, 0)),
+          upgradeOptions: S.optional(__S(288, __c9, 0)),
           autoUpgrade: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "NodeManagement" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6205,12 +6297,12 @@ function __c9(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(3360, __c105, 0)),
+          value: S.optional(__S(3968, __c124, 0)),
           key: S.optional(S.String),
         }),
       ).annotate({ identifier: "RegistryHeader" });
     case 2:
-      return S.Array(__S(289, __c9, 1));
+      return S.Array(__S(321, __c10, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -6220,37 +6312,37 @@ function __c9(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          cert: S.optional(__S(291, __c9, 3)),
-          key: S.optional(__S(291, __c9, 3)),
+          cert: S.optional(__S(323, __c10, 3)),
+          key: S.optional(__S(323, __c10, 3)),
         }),
       ).annotate({ identifier: "CertificateConfigPair" });
     case 5:
-      return S.Array(__S(292, __c9, 4));
+      return S.Array(__S(324, __c10, 4));
     case 6:
-      return S.Array(__S(291, __c9, 3));
+      return S.Array(__S(323, __c10, 3));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          header: S.optional(__S(290, __c9, 2)),
+          header: S.optional(__S(322, __c10, 2)),
           dialTimeout: S.optional(S.String),
-          capabilities: S.optional(__S(160, __c5, 0)),
-          client: S.optional(__S(293, __c9, 5)),
-          ca: S.optional(__S(294, __c9, 6)),
+          capabilities: S.optional(__S(192, __c6, 0)),
+          client: S.optional(__S(325, __c10, 5)),
+          ca: S.optional(__S(326, __c10, 6)),
           overridePath: S.optional(S.Boolean),
           host: S.optional(S.String),
         }),
       ).annotate({ identifier: "HostConfig" });
     case 8:
-      return S.Array(__S(295, __c9, 7));
+      return S.Array(__S(327, __c10, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
           server: S.optional(S.String),
-          hosts: S.optional(__S(296, __c9, 8)),
+          hosts: S.optional(__S(328, __c10, 8)),
         }),
       ).annotate({ identifier: "RegistryHostConfig" });
     case 10:
-      return S.Array(__S(297, __c9, 9));
+      return S.Array(__S(329, __c10, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
@@ -6260,25 +6352,25 @@ function __c9(j: number): any {
     case 12:
       return S.suspend(() =>
         S.Struct({
-          fqdns: S.optional(__S(3360, __c105, 0)),
-          gcpSecretManagerCertificateConfig: S.optional(__S(299, __c9, 11)),
+          fqdns: S.optional(__S(3968, __c124, 0)),
+          gcpSecretManagerCertificateConfig: S.optional(__S(331, __c10, 11)),
         }),
       ).annotate({ identifier: "CertificateAuthorityDomainConfig" });
     case 13:
-      return S.Array(__S(300, __c9, 12));
+      return S.Array(__S(332, __c10, 12));
     case 14:
       return S.suspend(() =>
         S.Struct({
-          certificateAuthorityDomainConfig: S.optional(__S(301, __c9, 13)),
+          certificateAuthorityDomainConfig: S.optional(__S(333, __c10, 13)),
           enabled: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "PrivateRegistryAccessConfig" });
     case 15:
       return S.suspend(() =>
         S.Struct({
-          registryHosts: S.optional(__S(298, __c9, 10)),
-          writableCgroups: S.optional(__S(1760, __c55, 0)),
-          privateRegistryAccessConfig: S.optional(__S(302, __c9, 14)),
+          registryHosts: S.optional(__S(330, __c10, 10)),
+          writableCgroups: S.optional(__S(1888, __c59, 0)),
+          privateRegistryAccessConfig: S.optional(__S(334, __c10, 14)),
         }),
       ).annotate({ identifier: "ContainerdConfig" });
     case 16:
@@ -6290,7 +6382,7 @@ function __c9(j: number): any {
     case 17:
       return S.suspend(() =>
         S.Struct({
-          variantConfig: S.optional(__S(304, __c9, 16)),
+          variantConfig: S.optional(__S(336, __c10, 16)),
         }),
       ).annotate({ identifier: "NodePoolLoggingConfig" });
     case 18:
@@ -6358,31 +6450,31 @@ function __c9(j: number): any {
       return S.suspend(() =>
         S.Struct({
           cpuCfsQuotaPeriod: S.optional(S.String),
-          topologyManager: S.optional(__S(306, __c9, 18)),
+          topologyManager: S.optional(__S(338, __c10, 18)),
           cpuCfsQuota: S.optional(S.Boolean),
           shutdownGracePeriodSeconds: S.optional(S.Number),
           cpuManagerPolicy: S.optional(S.String),
           containerLogMaxSize: S.optional(S.String),
           maxParallelImagePulls: S.optional(S.Number),
-          evictionSoftGracePeriod: S.optional(__S(307, __c9, 19)),
+          evictionSoftGracePeriod: S.optional(__S(339, __c10, 19)),
           insecureKubeletReadonlyPortEnabled: S.optional(S.Boolean),
           containerLogMaxWorkers: S.optional(S.Number),
           shutdownGracePeriodCriticalPodsSeconds: S.optional(S.Number),
-          evictionMinimumReclaim: S.optional(__S(308, __c9, 20)),
+          evictionMinimumReclaim: S.optional(__S(340, __c10, 20)),
           evictionMaxPodGracePeriodSeconds: S.optional(S.Number),
-          crashLoopBackOff: S.optional(__S(309, __c9, 21)),
-          evictionSoft: S.optional(__S(310, __c9, 22)),
+          crashLoopBackOff: S.optional(__S(341, __c10, 21)),
+          evictionSoft: S.optional(__S(342, __c10, 22)),
           imageGcHighThresholdPercent: S.optional(S.Number),
           containerLogMonitorInterval: S.optional(S.String),
           podPidsLimit: S.optional(S.String),
           imageGcLowThresholdPercent: S.optional(S.Number),
           imageMinimumGcAge: S.optional(S.String),
-          allowedUnsafeSysctls: S.optional(__S(3360, __c105, 0)),
-          reservedResourcesConfig: S.optional(__S(311, __c9, 23)),
+          allowedUnsafeSysctls: S.optional(__S(3968, __c124, 0)),
+          reservedResourcesConfig: S.optional(__S(343, __c10, 23)),
           singleProcessOomKill: S.optional(S.Boolean),
           reservedSystemCpus: S.optional(S.String),
           imageMaximumGcAge: S.optional(S.String),
-          memoryManager: S.optional(__S(312, __c9, 24)),
+          memoryManager: S.optional(__S(344, __c10, 24)),
           containerLogMaxFiles: S.optional(S.Number),
         }),
       ).annotate({ identifier: "NodeKubeletConfig" });
@@ -6403,9 +6495,9 @@ function __c9(j: number): any {
     case 28:
       return S.suspend(() =>
         S.Struct({
-          standardRolloutPolicy: S.optional(__S(314, __c9, 26)),
+          standardRolloutPolicy: S.optional(__S(346, __c10, 26)),
           nodePoolSoakDuration: S.optional(S.String),
-          autoscaledRolloutPolicy: S.optional(__S(315, __c9, 27)),
+          autoscaledRolloutPolicy: S.optional(__S(347, __c10, 27)),
         }),
       ).annotate({ identifier: "BlueGreenSettings" });
     case 29:
@@ -6414,13 +6506,13 @@ function __c9(j: number): any {
           maxSurge: S.optional(S.Number),
           maxUnavailable: S.optional(S.Number),
           strategy: S.optional(S.String),
-          blueGreenSettings: S.optional(__S(316, __c9, 28)),
+          blueGreenSettings: S.optional(__S(348, __c10, 28)),
         }),
       ).annotate({ identifier: "UpgradeSettings" });
     case 30:
       return S.suspend(() =>
         S.Struct({
-          tags: S.optional(__S(224, __c7, 0)),
+          tags: S.optional(__S(256, __c8, 0)),
         }),
       ).annotate({ identifier: "ResourceManagerTags" });
     case 31:
@@ -6432,23 +6524,23 @@ function __c9(j: number): any {
       ).annotate({ identifier: "EtcHostsEntry" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(319, __c9, 31));
+      return S.Array(__S(351, __c10, 31));
     case 1:
       return S.suspend(() =>
         S.Struct({
           gcsGeneration: S.optional(S.String),
           gcsUri: S.optional(S.String),
-          args: S.optional(__S(3360, __c105, 0)),
+          args: S.optional(__S(3968, __c124, 0)),
           gcpSecretManagerSecretUri: S.optional(S.String),
         }),
       ).annotate({ identifier: "InitScript" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          initScript: S.optional(__S(321, __c10, 1)),
+          initScript: S.optional(__S(353, __c11, 1)),
         }),
       ).annotate({ identifier: "CustomNodeInit" });
     case 3:
@@ -6482,10 +6574,10 @@ function __c10(j: number): any {
       return S.suspend(() =>
         S.Struct({
           enabled: S.optional(S.Boolean),
-          ephemeralLocalSsdProfile: S.optional(__S(324, __c10, 4)),
-          bootDiskProfile: S.optional(__S(325, __c10, 5)),
-          dedicatedLocalSsdProfile: S.optional(__S(326, __c10, 6)),
-          encryptionConfig: S.optional(__S(1761, __c55, 1)),
+          ephemeralLocalSsdProfile: S.optional(__S(356, __c11, 4)),
+          bootDiskProfile: S.optional(__S(357, __c11, 5)),
+          dedicatedLocalSsdProfile: S.optional(__S(358, __c11, 6)),
+          encryptionConfig: S.optional(__S(1889, __c59, 1)),
         }),
       ).annotate({ identifier: "SwapConfig" });
     case 8:
@@ -6524,8 +6616,8 @@ function __c10(j: number): any {
     case 13:
       return S.suspend(() =>
         S.Struct({
-          kernelCommandlineOverrides: S.optional(__S(331, __c10, 11)),
-          lruGen: S.optional(__S(332, __c10, 12)),
+          kernelCommandlineOverrides: S.optional(__S(363, __c11, 11)),
+          lruGen: S.optional(__S(364, __c11, 12)),
         }),
       ).annotate({ identifier: "KernelOverrides" });
     case 14:
@@ -6537,27 +6629,27 @@ function __c10(j: number): any {
     case 15:
       return S.suspend(() =>
         S.Struct({
-          additionalEtcHosts: S.optional(__S(320, __c10, 0)),
-          customNodeInit: S.optional(__S(322, __c10, 2)),
-          sysctls: S.optional(__S(224, __c7, 0)),
+          additionalEtcHosts: S.optional(__S(352, __c11, 0)),
+          customNodeInit: S.optional(__S(354, __c11, 2)),
+          sysctls: S.optional(__S(256, __c8, 0)),
           transparentHugepageDefrag: S.optional(S.String),
-          diskIoScheduler: S.optional(__S(323, __c10, 3)),
+          diskIoScheduler: S.optional(__S(355, __c11, 3)),
           timeZone: S.optional(S.String),
-          swapConfig: S.optional(__S(327, __c10, 7)),
-          additionalEtcSystemdResolvedConf: S.optional(__S(290, __c9, 2)),
-          nodeKernelModuleLoading: S.optional(__S(328, __c10, 8)),
+          swapConfig: S.optional(__S(359, __c11, 7)),
+          additionalEtcSystemdResolvedConf: S.optional(__S(322, __c10, 2)),
+          nodeKernelModuleLoading: S.optional(__S(360, __c11, 8)),
           cgroupMode: S.optional(S.String),
-          hugepages: S.optional(__S(329, __c10, 9)),
-          additionalEtcResolvConf: S.optional(__S(290, __c9, 2)),
-          accurateTimeConfig: S.optional(__S(330, __c10, 10)),
-          kernelOverrides: S.optional(__S(333, __c10, 13)),
-          nodeVfioConfig: S.optional(__S(334, __c10, 14)),
+          hugepages: S.optional(__S(361, __c11, 9)),
+          additionalEtcResolvConf: S.optional(__S(322, __c10, 2)),
+          accurateTimeConfig: S.optional(__S(362, __c11, 10)),
+          kernelOverrides: S.optional(__S(365, __c11, 13)),
+          nodeVfioConfig: S.optional(__S(366, __c11, 14)),
           transparentHugepageEnabled: S.optional(S.String),
         }),
       ).annotate({ identifier: "LinuxNodeConfig" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6570,7 +6662,7 @@ function __c11(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          opportunisticMaintenanceStrategy: S.optional(__S(352, __c11, 0)),
+          opportunisticMaintenanceStrategy: S.optional(__S(384, __c12, 0)),
           maintenanceInterval: S.optional(S.String),
         }),
       ).annotate({ identifier: "HostMaintenancePolicy" });
@@ -6583,7 +6675,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "ShieldedInstanceConfig" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6629,7 +6721,7 @@ function __c12(j: number): any {
         }),
       ).annotate({ identifier: "NodeTaint" });
     case 6:
-      return S.Array(__S(389, __c12, 5));
+      return S.Array(__S(421, __c13, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -6649,14 +6741,14 @@ function __c12(j: number): any {
         S.Struct({
           acceleratorCount: S.optional(S.String),
           acceleratorType: S.optional(S.String),
-          gpuSharingConfig: S.optional(__S(391, __c12, 7)),
+          gpuSharingConfig: S.optional(__S(423, __c13, 7)),
           maxTimeSharedClientsPerGpu: S.optional(S.String),
-          gpuDriverInstallationConfig: S.optional(__S(392, __c12, 8)),
+          gpuDriverInstallationConfig: S.optional(__S(424, __c13, 8)),
           gpuPartitionSize: S.optional(S.String),
         }),
       ).annotate({ identifier: "AcceleratorConfig" });
     case 10:
-      return S.Array(__S(393, __c12, 9));
+      return S.Array(__S(425, __c13, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
@@ -6683,11 +6775,11 @@ function __c12(j: number): any {
           secondaryPodRange: S.optional(S.String),
           networkAttachment: S.optional(S.String),
           subnetwork: S.optional(S.String),
-          maxPodsPerNode: S.optional(__S(396, __c12, 12)),
+          maxPodsPerNode: S.optional(__S(428, __c13, 12)),
         }),
       ).annotate({ identifier: "AdditionalPodNetworkConfig" });
     case 15:
-      return S.Array(__S(398, __c12, 14));
+      return S.Array(__S(430, __c13, 14));
     case 16:
       return S.suspend(() =>
         S.Struct({
@@ -6704,7 +6796,7 @@ function __c12(j: number): any {
         }),
       ).annotate({ identifier: "AdditionalNodeNetworkConfig" });
     case 18:
-      return S.Array(__S(401, __c12, 17));
+      return S.Array(__S(433, __c13, 17));
     case 19:
       return S.suspend(() =>
         S.Struct({
@@ -6712,13 +6804,13 @@ function __c12(j: number): any {
           podIpv4RangeUtilization: S.optional(S.Number),
           network: S.optional(S.String),
           subnetwork: S.optional(S.String),
-          additionalPodNetworkConfigs: S.optional(__S(399, __c12, 15)),
-          networkPerformanceConfig: S.optional(__S(400, __c12, 16)),
+          additionalPodNetworkConfigs: S.optional(__S(431, __c13, 15)),
+          networkPerformanceConfig: S.optional(__S(432, __c13, 16)),
           podIpv4CidrBlock: S.optional(S.String),
           enablePrivateNodes: S.optional(S.Boolean),
-          networkTierConfig: S.optional(__S(288, __c9, 0)),
-          podCidrOverprovisionConfig: S.optional(__S(384, __c12, 0)),
-          additionalNodeNetworkConfigs: S.optional(__S(402, __c12, 18)),
+          networkTierConfig: S.optional(__S(320, __c10, 0)),
+          podCidrOverprovisionConfig: S.optional(__S(416, __c13, 0)),
+          additionalNodeNetworkConfigs: S.optional(__S(434, __c13, 18)),
           acceleratorNetworkProfile: S.optional(S.String),
           createPodRange: S.optional(S.Boolean),
           podRange: S.optional(S.String),
@@ -6735,12 +6827,25 @@ function __c12(j: number): any {
     case 21:
       return S.suspend(() =>
         S.Struct({
-          exclusionUntilEndOfSupport: S.optional(__S(404, __c12, 20)),
+          exclusionUntilEndOfSupport: S.optional(__S(436, __c13, 20)),
         }),
       ).annotate({ identifier: "NodePoolMaintenancePolicy" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          parent: S.optional(S.String),
+          cluster: S.optional(__S(553, __c17, 9)),
+          projectId: S.optional(S.String),
+          zone: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CreateClusterRequest" });
+  }
+}
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6752,13 +6857,13 @@ function __c13(j: number): any {
       ).annotate({ identifier: "Container_Date" });
   }
 }
-function __c14(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(210, __c6, 18));
+      return S.Array(__S(242, __c7, 18));
   }
 }
-function __c15(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6767,12 +6872,12 @@ function __c15(j: number): any {
           clusterIpv4Cidr: S.optional(S.String),
           createSubnetwork: S.optional(S.Boolean),
           ipv6AccessType: S.optional(S.String),
-          autoIpamConfig: S.optional(__S(1760, __c55, 0)),
+          autoIpamConfig: S.optional(__S(1888, __c59, 0)),
           useRoutes: S.optional(S.Boolean),
-          networkTierConfig: S.optional(__S(288, __c9, 0)),
+          networkTierConfig: S.optional(__S(320, __c10, 0)),
           subnetworkName: S.optional(S.String),
           clusterSecondaryRangeName: S.optional(S.String),
-          additionalPodRangesConfig: S.optional(__S(649, __c20, 9)),
+          additionalPodRangesConfig: S.optional(__S(713, __c22, 9)),
           allowRouteOverlap: S.optional(S.Boolean),
           servicesIpv4CidrBlock: S.optional(S.String),
           clusterIpv4CidrBlock: S.optional(S.String),
@@ -6781,12 +6886,12 @@ function __c15(j: number): any {
           tpuIpv4CidrBlock: S.optional(S.String),
           nodeIpv4Cidr: S.optional(S.String),
           nodeIpv4CidrBlock: S.optional(S.String),
-          additionalIpRangesConfigs: S.optional(__S(651, __c20, 11)),
+          additionalIpRangesConfigs: S.optional(__S(715, __c22, 11)),
           defaultPodIpv4RangeUtilization: S.optional(S.Number),
           useIpAliases: S.optional(S.Boolean),
           servicesIpv6CidrBlock: S.optional(S.String),
           stackType: S.optional(S.String),
-          podCidrOverprovisionConfig: S.optional(__S(384, __c12, 0)),
+          podCidrOverprovisionConfig: S.optional(__S(416, __c13, 0)),
         }),
       ).annotate({ identifier: "IPAllocationPolicy" });
     case 1:
@@ -6799,17 +6904,17 @@ function __c15(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          gcfsConfig: S.optional(__S(1760, __c55, 0)),
-          containerdConfig: S.optional(__S(303, __c9, 15)),
-          loggingConfig: S.optional(__S(305, __c9, 17)),
-          nodeKubeletConfig: S.optional(__S(313, __c9, 25)),
-          hostMaintenancePolicy: S.optional(__S(353, __c11, 1)),
+          gcfsConfig: S.optional(__S(1888, __c59, 0)),
+          containerdConfig: S.optional(__S(335, __c10, 15)),
+          loggingConfig: S.optional(__S(337, __c10, 17)),
+          nodeKubeletConfig: S.optional(__S(345, __c10, 25)),
+          hostMaintenancePolicy: S.optional(__S(385, __c12, 1)),
         }),
       ).annotate({ identifier: "NodeConfigDefaults" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          nodeConfigDefaults: S.optional(__S(482, __c15, 2)),
+          nodeConfigDefaults: S.optional(__S(546, __c17, 2)),
         }),
       ).annotate({ identifier: "NodePoolDefaults" });
     case 4:
@@ -6821,10 +6926,10 @@ function __c15(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          workloadPolicyConfig: S.optional(__S(695, __c21, 23)),
-          conversionStatus: S.optional(__S(484, __c15, 4)),
-          clusterPolicyConfig: S.optional(__S(696, __c21, 24)),
-          privilegedAdmissionConfig: S.optional(__S(697, __c21, 25)),
+          workloadPolicyConfig: S.optional(__S(759, __c23, 23)),
+          conversionStatus: S.optional(__S(548, __c17, 4)),
+          clusterPolicyConfig: S.optional(__S(760, __c23, 24)),
+          privilegedAdmissionConfig: S.optional(__S(761, __c23, 25)),
           enabled: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "Autopilot" });
@@ -6838,22 +6943,22 @@ function __c15(j: number): any {
       return S.suspend(() =>
         S.Struct({
           privateIpv6GoogleAccess: S.optional(S.String),
-          ambientNetworkingConfig: S.optional(__S(1760, __c55, 0)),
-          serviceExternalIpsConfig: S.optional(__S(1760, __c55, 0)),
+          ambientNetworkingConfig: S.optional(__S(1888, __c59, 0)),
+          serviceExternalIpsConfig: S.optional(__S(1888, __c59, 0)),
           disableL4LbFirewallReconciliation: S.optional(S.Boolean),
           inTransitEncryptionConfig: S.optional(S.String),
           enableL4ilbSubsetting: S.optional(S.Boolean),
           enableIntraNodeVisibility: S.optional(S.Boolean),
           datapathProvider: S.optional(S.String),
           network: S.optional(S.String),
-          networkPerformanceConfig: S.optional(__S(698, __c21, 26)),
+          networkPerformanceConfig: S.optional(__S(762, __c23, 26)),
           defaultEnablePrivateNodes: S.optional(S.Boolean),
-          dnsConfig: S.optional(__S(699, __c21, 27)),
+          dnsConfig: S.optional(__S(763, __c23, 27)),
           subnetwork: S.optional(S.String),
           enableMultiNetworking: S.optional(S.Boolean),
-          defaultSnatStatus: S.optional(__S(1761, __c55, 1)),
-          gatewayApiConfig: S.optional(__S(643, __c20, 3)),
-          dataplaneV2Config: S.optional(__S(486, __c15, 6)),
+          defaultSnatStatus: S.optional(__S(1889, __c59, 1)),
+          gatewayApiConfig: S.optional(__S(707, __c22, 3)),
+          dataplaneV2Config: S.optional(__S(550, __c17, 6)),
           enableFqdnNetworkPolicy: S.optional(S.Boolean),
           enableCiliumClusterwideNetworkPolicy: S.optional(S.Boolean),
         }),
@@ -6861,118 +6966,118 @@ function __c15(j: number): any {
     case 8:
       return S.suspend(() =>
         S.Struct({
-          networkTags: S.optional(__S(608, __c19, 0)),
-          resourceManagerTags: S.optional(__S(318, __c9, 30)),
-          nodeKubeletConfig: S.optional(__S(313, __c9, 25)),
-          linuxNodeConfig: S.optional(__S(335, __c10, 15)),
+          networkTags: S.optional(__S(672, __c21, 0)),
+          resourceManagerTags: S.optional(__S(350, __c10, 30)),
+          nodeKubeletConfig: S.optional(__S(345, __c10, 25)),
+          linuxNodeConfig: S.optional(__S(367, __c11, 15)),
         }),
       ).annotate({ identifier: "NodePoolAutoConfig" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          podAutoscaling: S.optional(__S(640, __c20, 0)),
-          nodePoolUpgradeConcurrencyConfig: S.optional(__S(641, __c20, 1)),
+          podAutoscaling: S.optional(__S(704, __c22, 0)),
+          nodePoolUpgradeConcurrencyConfig: S.optional(__S(705, __c22, 1)),
           enableKubernetesAlpha: S.optional(S.Boolean),
-          fleet: S.optional(__S(642, __c20, 2)),
+          fleet: S.optional(__S(706, __c22, 2)),
           loggingService: S.optional(S.String),
-          scheduleUpgradeConfig: S.optional(__S(1760, __c55, 0)),
+          scheduleUpgradeConfig: S.optional(__S(1888, __c59, 0)),
           description: S.optional(S.String),
           id: S.optional(S.String),
-          releaseChannel: S.optional(__S(643, __c20, 3)),
-          compliancePostureConfig: S.optional(__S(646, __c20, 6)),
-          ipAllocationPolicy: S.optional(__S(480, __c15, 0)),
-          enterpriseConfig: S.optional(__S(481, __c15, 1)),
-          workloadIdentityConfig: S.optional(__S(652, __c20, 12)),
-          controlPlaneEndpointsConfig: S.optional(__S(658, __c20, 18)),
-          nodePoolDefaults: S.optional(__S(483, __c15, 3)),
-          controlPlaneEgress: S.optional(__S(659, __c20, 19)),
-          verticalPodAutoscaling: S.optional(__S(1760, __c55, 0)),
-          masterAuth: S.optional(__S(545, __c17, 1)),
+          releaseChannel: S.optional(__S(707, __c22, 3)),
+          compliancePostureConfig: S.optional(__S(710, __c22, 6)),
+          ipAllocationPolicy: S.optional(__S(544, __c17, 0)),
+          enterpriseConfig: S.optional(__S(545, __c17, 1)),
+          workloadIdentityConfig: S.optional(__S(716, __c22, 12)),
+          controlPlaneEndpointsConfig: S.optional(__S(722, __c22, 18)),
+          nodePoolDefaults: S.optional(__S(547, __c17, 3)),
+          controlPlaneEgress: S.optional(__S(723, __c22, 19)),
+          verticalPodAutoscaling: S.optional(__S(1888, __c59, 0)),
+          masterAuth: S.optional(__S(609, __c19, 1)),
           tpuIpv4CidrBlock: S.optional(S.String),
           endpoint: S.optional(S.String),
           currentEmulatedVersion: S.optional(S.String),
-          authenticatorGroupsConfig: S.optional(__S(660, __c20, 20)),
+          authenticatorGroupsConfig: S.optional(__S(724, __c22, 20)),
           network: S.optional(S.String),
-          resourceLabels: S.optional(__S(224, __c7, 0)),
-          costManagementConfig: S.optional(__S(1760, __c55, 0)),
-          nodeCreationConfig: S.optional(__S(661, __c20, 21)),
-          secretSyncConfig: S.optional(__S(663, __c20, 23)),
-          alphaClusterFeatureGates: S.optional(__S(3360, __c105, 0)),
-          nodePools: S.optional(__S(448, __c14, 0)),
+          resourceLabels: S.optional(__S(256, __c8, 0)),
+          costManagementConfig: S.optional(__S(1888, __c59, 0)),
+          nodeCreationConfig: S.optional(__S(725, __c22, 21)),
+          secretSyncConfig: S.optional(__S(727, __c22, 23)),
+          alphaClusterFeatureGates: S.optional(__S(3968, __c124, 0)),
+          nodePools: S.optional(__S(512, __c16, 0)),
           subnetwork: S.optional(S.String),
-          resourceUsageExportConfig: S.optional(__S(665, __c20, 25)),
-          identityServiceConfig: S.optional(__S(1760, __c55, 0)),
-          binaryAuthorization: S.optional(__S(668, __c20, 28)),
-          conditions: S.optional(__S(1825, __c57, 1)),
-          monitoringConfig: S.optional(__S(673, __c21, 1)),
-          workloadCertificates: S.optional(__S(674, __c21, 2)),
-          legacyAbac: S.optional(__S(1760, __c55, 0)),
+          resourceUsageExportConfig: S.optional(__S(729, __c22, 25)),
+          identityServiceConfig: S.optional(__S(1888, __c59, 0)),
+          binaryAuthorization: S.optional(__S(732, __c22, 28)),
+          conditions: S.optional(__S(1953, __c61, 1)),
+          monitoringConfig: S.optional(__S(737, __c23, 1)),
+          workloadCertificates: S.optional(__S(738, __c23, 2)),
+          legacyAbac: S.optional(__S(1888, __c59, 0)),
           privateCluster: S.optional(S.Boolean),
           selfLink: S.optional(S.String),
           labelFingerprint: S.optional(S.String),
-          securityPostureConfig: S.optional(__S(675, __c21, 3)),
-          nodeConfig: S.optional(__S(207, __c6, 15)),
-          autoscaling: S.optional(__S(680, __c21, 8)),
-          gkeAutoUpgradeConfig: S.optional(__S(681, __c21, 9)),
+          securityPostureConfig: S.optional(__S(739, __c23, 3)),
+          nodeConfig: S.optional(__S(239, __c7, 15)),
+          autoscaling: S.optional(__S(744, __c23, 8)),
+          gkeAutoUpgradeConfig: S.optional(__S(745, __c23, 9)),
           initialNodeCount: S.optional(S.Number),
-          workloadAltsConfig: S.optional(__S(682, __c21, 10)),
-          databaseEncryption: S.optional(__S(685, __c21, 13)),
-          clusterTelemetry: S.optional(__S(686, __c21, 14)),
-          meshCertificates: S.optional(__S(674, __c21, 2)),
+          workloadAltsConfig: S.optional(__S(746, __c23, 10)),
+          databaseEncryption: S.optional(__S(749, __c23, 13)),
+          clusterTelemetry: S.optional(__S(750, __c23, 14)),
+          meshCertificates: S.optional(__S(738, __c23, 2)),
           expireTime: S.optional(S.String),
           location: S.optional(S.String),
-          protectConfig: S.optional(__S(688, __c21, 16)),
+          protectConfig: S.optional(__S(752, __c23, 16)),
           initialClusterVersion: S.optional(S.String),
           masterIpv4CidrBlock: S.optional(S.String),
-          parentProductConfig: S.optional(__S(689, __c21, 17)),
+          parentProductConfig: S.optional(__S(753, __c23, 17)),
           enableTpu: S.optional(S.Boolean),
-          maintenancePolicy: S.optional(__S(521, __c16, 9)),
-          networkPolicy: S.optional(__S(576, __c18, 0)),
+          maintenancePolicy: S.optional(__S(585, __c18, 9)),
+          networkPolicy: S.optional(__S(640, __c20, 0)),
           zone: S.optional(S.String),
           satisfiesPzi: S.optional(S.Boolean),
           nodeIpv4CidrSize: S.optional(S.Number),
-          master: S.optional(__S(691, __c21, 19)),
-          notificationConfig: S.optional(__S(694, __c21, 22)),
-          autopilot: S.optional(__S(485, __c15, 5)),
+          master: S.optional(__S(755, __c23, 19)),
+          notificationConfig: S.optional(__S(758, __c23, 22)),
+          autopilot: S.optional(__S(549, __c17, 5)),
           targetNodeVersion: S.optional(S.String),
-          networkConfig: S.optional(__S(487, __c15, 7)),
-          shieldedNodes: S.optional(__S(1760, __c55, 0)),
-          addonsConfig: S.optional(__S(1797, __c56, 5)),
-          managedOpentelemetryConfig: S.optional(__S(671, __c20, 31)),
-          defaultMaxPodsConstraint: S.optional(__S(396, __c12, 12)),
+          networkConfig: S.optional(__S(551, __c17, 7)),
+          shieldedNodes: S.optional(__S(1888, __c59, 0)),
+          addonsConfig: S.optional(__S(1925, __c60, 5)),
+          managedOpentelemetryConfig: S.optional(__S(735, __c22, 31)),
+          defaultMaxPodsConstraint: S.optional(__S(428, __c13, 12)),
           monitoringService: S.optional(S.String),
-          managedMachineLearningDiagnosticsConfig: S.optional(__S(1760, __c55, 0)),
-          anonymousAuthenticationConfig: S.optional(__S(659, __c20, 19)),
-          podSecurityPolicyConfig: S.optional(__S(1760, __c55, 0)),
+          managedMachineLearningDiagnosticsConfig: S.optional(__S(1888, __c59, 0)),
+          anonymousAuthenticationConfig: S.optional(__S(723, __c22, 19)),
+          podSecurityPolicyConfig: S.optional(__S(1888, __c59, 0)),
           currentMasterVersion: S.optional(S.String),
           status: S.optional(S.String),
           statusMessage: S.optional(S.String),
-          loggingConfig: S.optional(__S(700, __c21, 28)),
-          nodePoolAutoConfig: S.optional(__S(488, __c15, 8)),
+          loggingConfig: S.optional(__S(764, __c23, 28)),
+          nodePoolAutoConfig: S.optional(__S(552, __c17, 8)),
           createTime: S.optional(S.String),
-          rollbackSafeUpgrade: S.optional(__S(701, __c21, 29)),
-          privateClusterConfig: S.optional(__S(702, __c21, 30)),
-          enableK8sBetaApis: S.optional(__S(703, __c21, 31)),
-          rbacBindingConfig: S.optional(__S(704, __c22, 0)),
+          rollbackSafeUpgrade: S.optional(__S(765, __c23, 29)),
+          privateClusterConfig: S.optional(__S(766, __c23, 30)),
+          enableK8sBetaApis: S.optional(__S(767, __c23, 31)),
+          rbacBindingConfig: S.optional(__S(768, __c24, 0)),
           etag: S.optional(S.String),
-          tpuConfig: S.optional(__S(705, __c22, 1)),
-          confidentialNodes: S.optional(__S(385, __c12, 1)),
+          tpuConfig: S.optional(__S(769, __c24, 1)),
+          confidentialNodes: S.optional(__S(417, __c13, 1)),
           currentNodeVersion: S.optional(S.String),
           clusterIpv4Cidr: S.optional(S.String),
-          locations: S.optional(__S(3360, __c105, 0)),
+          locations: S.optional(__S(3968, __c124, 0)),
           servicesIpv4Cidr: S.optional(S.String),
           satisfiesPzs: S.optional(S.Boolean),
           currentNodeCount: S.optional(S.Number),
-          masterAuthorizedNetworksConfig: S.optional(__S(656, __c20, 16)),
+          masterAuthorizedNetworksConfig: S.optional(__S(720, __c22, 16)),
           name: S.optional(S.String),
-          secretManagerConfig: S.optional(__S(707, __c22, 3)),
-          userManagedKeysConfig: S.optional(__S(708, __c22, 4)),
-          instanceGroupUrls: S.optional(__S(3360, __c105, 0)),
+          secretManagerConfig: S.optional(__S(771, __c24, 3)),
+          userManagedKeysConfig: S.optional(__S(772, __c24, 4)),
+          instanceGroupUrls: S.optional(__S(3968, __c124, 0)),
         }),
       ).annotate({ identifier: "Cluster" });
   }
 }
-function __c16(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6996,8 +7101,8 @@ function __c16(j: number): any {
       return S.suspend(() =>
         S.Struct({
           windowDuration: S.optional(S.String),
-          windowStartTime: S.optional(__S(513, __c16, 1)),
-          delayUntil: S.optional(__S(416, __c13, 0)),
+          windowStartTime: S.optional(__S(577, __c18, 1)),
+          delayUntil: S.optional(__S(480, __c15, 0)),
           recurrence: S.optional(S.String),
         }),
       ).annotate({ identifier: "RecurringMaintenanceWindow" });
@@ -7013,11 +7118,11 @@ function __c16(j: number): any {
         S.Struct({
           startTime: S.optional(S.String),
           endTime: S.optional(S.String),
-          maintenanceExclusionOptions: S.optional(__S(515, __c16, 3)),
+          maintenanceExclusionOptions: S.optional(__S(579, __c18, 3)),
         }),
       ).annotate({ identifier: "TimeWindow" });
     case 5:
-      return S.Record(S.String, __S(516, __c16, 4));
+      return S.Record(S.String, __S(580, __c18, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -7028,30 +7133,30 @@ function __c16(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          window: S.optional(__S(516, __c16, 4)),
+          window: S.optional(__S(580, __c18, 4)),
           recurrence: S.optional(S.String),
         }),
       ).annotate({ identifier: "RecurringTimeWindow" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          recurringMaintenanceWindow: S.optional(__S(514, __c16, 2)),
-          maintenanceExclusions: S.optional(__S(517, __c16, 5)),
-          dailyMaintenanceWindow: S.optional(__S(518, __c16, 6)),
-          recurringWindow: S.optional(__S(519, __c16, 7)),
+          recurringMaintenanceWindow: S.optional(__S(578, __c18, 2)),
+          maintenanceExclusions: S.optional(__S(581, __c18, 5)),
+          dailyMaintenanceWindow: S.optional(__S(582, __c18, 6)),
+          recurringWindow: S.optional(__S(583, __c18, 7)),
         }),
       ).annotate({ identifier: "MaintenanceWindow" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          disruptionBudget: S.optional(__S(512, __c16, 0)),
+          disruptionBudget: S.optional(__S(576, __c18, 0)),
           resourceVersion: S.optional(S.String),
-          window: S.optional(__S(520, __c16, 8)),
+          window: S.optional(__S(584, __c18, 8)),
         }),
       ).annotate({ identifier: "MaintenancePolicy" });
   }
 }
-function __c17(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7066,13 +7171,13 @@ function __c17(j: number): any {
           clusterCaCertificate: S.optional(S.String),
           clientCertificate: S.optional(S.String),
           password: S.optional(S.String),
-          clientCertificateConfig: S.optional(__S(544, __c17, 0)),
+          clientCertificateConfig: S.optional(__S(608, __c19, 0)),
           username: S.optional(S.String),
         }),
       ).annotate({ identifier: "MasterAuth" });
   }
 }
-function __c18(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7083,17 +7188,17 @@ function __c18(j: number): any {
       ).annotate({ identifier: "NetworkPolicy" });
   }
 }
-function __c19(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          tags: S.optional(__S(3360, __c105, 0)),
+          tags: S.optional(__S(3968, __c124, 0)),
         }),
       ).annotate({ identifier: "NetworkTags" });
   }
 }
-function __c20(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7129,11 +7234,11 @@ function __c20(j: number): any {
         }),
       ).annotate({ identifier: "ComplianceStandard" });
     case 5:
-      return S.Array(__S(644, __c20, 4));
+      return S.Array(__S(708, __c22, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          complianceStandards: S.optional(__S(645, __c20, 5)),
+          complianceStandards: S.optional(__S(709, __c22, 5)),
           mode: S.optional(S.String),
         }),
       ).annotate({ identifier: "CompliancePostureConfig" });
@@ -7145,24 +7250,24 @@ function __c20(j: number): any {
         }),
       ).annotate({ identifier: "RangeInfo" });
     case 8:
-      return S.Array(__S(647, __c20, 7));
+      return S.Array(__S(711, __c22, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
-          podRangeNames: S.optional(__S(3360, __c105, 0)),
-          podRangeInfo: S.optional(__S(648, __c20, 8)),
+          podRangeNames: S.optional(__S(3968, __c124, 0)),
+          podRangeInfo: S.optional(__S(712, __c22, 8)),
         }),
       ).annotate({ identifier: "AdditionalPodRangesConfig" });
     case 10:
       return S.suspend(() =>
         S.Struct({
-          podIpv4RangeNames: S.optional(__S(3360, __c105, 0)),
+          podIpv4RangeNames: S.optional(__S(3968, __c124, 0)),
           status: S.optional(S.String),
           subnetwork: S.optional(S.String),
         }),
       ).annotate({ identifier: "AdditionalIPRangesConfig" });
     case 11:
-      return S.Array(__S(650, __c20, 10));
+      return S.Array(__S(714, __c22, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
@@ -7188,13 +7293,13 @@ function __c20(j: number): any {
         }),
       ).annotate({ identifier: "CidrBlock" });
     case 15:
-      return S.Array(__S(654, __c20, 14));
+      return S.Array(__S(718, __c22, 14));
     case 16:
       return S.suspend(() =>
         S.Struct({
           gcpPublicCidrsAccessEnabled: S.optional(S.Boolean),
           privateEndpointEnforcementEnabled: S.optional(S.Boolean),
-          cidrBlocks: S.optional(__S(655, __c20, 15)),
+          cidrBlocks: S.optional(__S(719, __c22, 15)),
           enabled: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "MasterAuthorizedNetworksConfig" });
@@ -7206,15 +7311,15 @@ function __c20(j: number): any {
           enabled: S.optional(S.Boolean),
           publicEndpoint: S.optional(S.String),
           globalAccess: S.optional(S.Boolean),
-          authorizedNetworksConfig: S.optional(__S(656, __c20, 16)),
+          authorizedNetworksConfig: S.optional(__S(720, __c22, 16)),
           enablePublicEndpoint: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "IPEndpointsConfig" });
     case 18:
       return S.suspend(() =>
         S.Struct({
-          dnsEndpointConfig: S.optional(__S(653, __c20, 13)),
-          ipEndpointsConfig: S.optional(__S(657, __c20, 17)),
+          dnsEndpointConfig: S.optional(__S(717, __c22, 13)),
+          ipEndpointsConfig: S.optional(__S(721, __c22, 17)),
         }),
       ).annotate({ identifier: "ControlPlaneEndpointsConfig" });
     case 19:
@@ -7246,7 +7351,7 @@ function __c20(j: number): any {
     case 23:
       return S.suspend(() =>
         S.Struct({
-          rotationConfig: S.optional(__S(662, __c20, 22)),
+          rotationConfig: S.optional(__S(726, __c22, 22)),
           enabled: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "SecretSyncConfig" });
@@ -7259,8 +7364,8 @@ function __c20(j: number): any {
     case 25:
       return S.suspend(() =>
         S.Struct({
-          consumptionMeteringConfig: S.optional(__S(1760, __c55, 0)),
-          bigqueryDestination: S.optional(__S(664, __c20, 24)),
+          consumptionMeteringConfig: S.optional(__S(1888, __c59, 0)),
+          bigqueryDestination: S.optional(__S(728, __c22, 24)),
           enableNetworkEgressMetering: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "ResourceUsageExportConfig" });
@@ -7271,19 +7376,19 @@ function __c20(j: number): any {
         }),
       ).annotate({ identifier: "PolicyBinding" });
     case 27:
-      return S.Array(__S(666, __c20, 26));
+      return S.Array(__S(730, __c22, 26));
     case 28:
       return S.suspend(() =>
         S.Struct({
           evaluationMode: S.optional(S.String),
           enabled: S.optional(S.Boolean),
-          policyBindings: S.optional(__S(667, __c20, 27)),
+          policyBindings: S.optional(__S(731, __c22, 27)),
         }),
       ).annotate({ identifier: "BinaryAuthorization" });
     case 29:
       return S.suspend(() =>
         S.Struct({
-          enableComponents: S.optional(__S(160, __c5, 0)),
+          enableComponents: S.optional(__S(192, __c6, 0)),
         }),
       ).annotate({ identifier: "MonitoringComponentConfig" });
     case 30:
@@ -7302,21 +7407,21 @@ function __c20(j: number): any {
       ).annotate({ identifier: "AutoMonitoringConfig" });
   }
 }
-function __c21(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           enabled: S.optional(S.Boolean),
-          autoMonitoringConfig: S.optional(__S(671, __c20, 31)),
+          autoMonitoringConfig: S.optional(__S(735, __c22, 31)),
         }),
       ).annotate({ identifier: "ManagedPrometheusConfig" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          componentConfig: S.optional(__S(669, __c20, 29)),
-          advancedDatapathObservabilityConfig: S.optional(__S(670, __c20, 30)),
-          managedPrometheusConfig: S.optional(__S(672, __c21, 0)),
+          componentConfig: S.optional(__S(733, __c22, 29)),
+          advancedDatapathObservabilityConfig: S.optional(__S(734, __c22, 30)),
+          managedPrometheusConfig: S.optional(__S(736, __c23, 0)),
         }),
       ).annotate({ identifier: "MonitoringConfig" });
     case 2:
@@ -7336,22 +7441,22 @@ function __c21(j: number): any {
       return S.suspend(() =>
         S.Struct({
           bootDiskKmsKey: S.optional(S.String),
-          upgradeSettings: S.optional(__S(317, __c9, 29)),
+          upgradeSettings: S.optional(__S(349, __c10, 29)),
           insecureKubeletReadonlyPortEnabled: S.optional(S.Boolean),
-          management: S.optional(__S(257, __c8, 1)),
+          management: S.optional(__S(289, __c9, 1)),
           imageType: S.optional(S.String),
           serviceAccount: S.optional(S.String),
-          oauthScopes: S.optional(__S(3360, __c105, 0)),
+          oauthScopes: S.optional(__S(3968, __c124, 0)),
           minCpuPlatform: S.optional(S.String),
           diskSizeGb: S.optional(S.Number),
-          shieldedInstanceConfig: S.optional(__S(354, __c11, 2)),
+          shieldedInstanceConfig: S.optional(__S(386, __c12, 2)),
           diskType: S.optional(S.String),
         }),
       ).annotate({ identifier: "AutoprovisioningNodePoolDefaults" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          authorizedServiceAccounts: S.optional(__S(3360, __c105, 0)),
+          authorizedServiceAccounts: S.optional(__S(3968, __c124, 0)),
           serviceAccountPermissionCheck: S.optional(S.String),
         }),
       ).annotate({ identifier: "AutoprovisioningRestrictionConfig" });
@@ -7364,17 +7469,17 @@ function __c21(j: number): any {
         }),
       ).annotate({ identifier: "ResourceLimit" });
     case 7:
-      return S.Array(__S(678, __c21, 6));
+      return S.Array(__S(742, __c23, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
           autoscalingProfile: S.optional(S.String),
-          autoprovisioningLocations: S.optional(__S(3360, __c105, 0)),
-          autoprovisioningNodePoolDefaults: S.optional(__S(676, __c21, 4)),
-          defaultComputeClassConfig: S.optional(__S(1760, __c55, 0)),
+          autoprovisioningLocations: S.optional(__S(3968, __c124, 0)),
+          autoprovisioningNodePoolDefaults: S.optional(__S(740, __c23, 4)),
+          defaultComputeClassConfig: S.optional(__S(1888, __c59, 0)),
           enableNodeAutoprovisioning: S.optional(S.Boolean),
-          autoprovisioningRestrictionConfig: S.optional(__S(677, __c21, 5)),
-          resourceLimits: S.optional(__S(679, __c21, 7)),
+          autoprovisioningRestrictionConfig: S.optional(__S(741, __c23, 5)),
+          resourceLimits: S.optional(__S(743, __c23, 7)),
           autopilotGeneralProfile: S.optional(S.String),
         }),
       ).annotate({ identifier: "ClusterAutoscaling" });
@@ -7399,13 +7504,13 @@ function __c21(j: number): any {
         }),
       ).annotate({ identifier: "OperationError" });
     case 12:
-      return S.Array(__S(683, __c21, 11));
+      return S.Array(__S(747, __c23, 11));
     case 13:
       return S.suspend(() =>
         S.Struct({
           state: S.optional(S.String),
-          decryptionKeys: S.optional(__S(3360, __c105, 0)),
-          lastOperationErrors: S.optional(__S(684, __c21, 12)),
+          decryptionKeys: S.optional(__S(3968, __c124, 0)),
+          lastOperationErrors: S.optional(__S(748, __c23, 12)),
           keyName: S.optional(S.String),
           currentState: S.optional(S.String),
         }),
@@ -7425,14 +7530,14 @@ function __c21(j: number): any {
     case 16:
       return S.suspend(() =>
         S.Struct({
-          workloadConfig: S.optional(__S(687, __c21, 15)),
+          workloadConfig: S.optional(__S(751, __c23, 15)),
           workloadVulnerabilityMode: S.optional(S.String),
         }),
       ).annotate({ identifier: "ProtectConfig" });
     case 17:
       return S.suspend(() =>
         S.Struct({
-          labels: S.optional(__S(224, __c7, 0)),
+          labels: S.optional(__S(256, __c8, 0)),
           productName: S.optional(S.String),
         }),
       ).annotate({ identifier: "ParentProductConfig" });
@@ -7446,13 +7551,13 @@ function __c21(j: number): any {
     case 19:
       return S.suspend(() =>
         S.Struct({
-          compatibilityStatus: S.optional(__S(690, __c21, 18)),
+          compatibilityStatus: S.optional(__S(754, __c23, 18)),
         }),
       ).annotate({ identifier: "Master" });
     case 20:
       return S.suspend(() =>
         S.Struct({
-          eventType: S.optional(__S(160, __c5, 0)),
+          eventType: S.optional(__S(192, __c6, 0)),
         }),
       ).annotate({ identifier: "Filter" });
     case 21:
@@ -7460,13 +7565,13 @@ function __c21(j: number): any {
         S.Struct({
           enabled: S.optional(S.Boolean),
           topic: S.optional(S.String),
-          filter: S.optional(__S(692, __c21, 20)),
+          filter: S.optional(__S(756, __c23, 20)),
         }),
       ).annotate({ identifier: "PubSub" });
     case 22:
       return S.suspend(() =>
         S.Struct({
-          pubsub: S.optional(__S(693, __c21, 21)),
+          pubsub: S.optional(__S(757, __c23, 21)),
         }),
       ).annotate({ identifier: "NotificationConfig" });
     case 23:
@@ -7488,7 +7593,7 @@ function __c21(j: number): any {
     case 25:
       return S.suspend(() =>
         S.Struct({
-          allowlistPaths: S.optional(__S(3360, __c105, 0)),
+          allowlistPaths: S.optional(__S(3968, __c124, 0)),
         }),
       ).annotate({ identifier: "PrivilegedAdmissionConfig" });
     case 26:
@@ -7509,7 +7614,7 @@ function __c21(j: number): any {
     case 28:
       return S.suspend(() =>
         S.Struct({
-          componentConfig: S.optional(__S(669, __c20, 29)),
+          componentConfig: S.optional(__S(733, __c22, 29)),
         }),
       ).annotate({ identifier: "LoggingConfig" });
     case 29:
@@ -7523,7 +7628,7 @@ function __c21(j: number): any {
         S.Struct({
           masterIpv4CidrBlock: S.optional(S.String),
           enablePrivateEndpoint: S.optional(S.Boolean),
-          masterGlobalAccessConfig: S.optional(__S(1760, __c55, 0)),
+          masterGlobalAccessConfig: S.optional(__S(1888, __c59, 0)),
           enablePrivateNodes: S.optional(S.Boolean),
           peeringName: S.optional(S.String),
           privateEndpointSubnetwork: S.optional(S.String),
@@ -7534,12 +7639,12 @@ function __c21(j: number): any {
     case 31:
       return S.suspend(() =>
         S.Struct({
-          enabledApis: S.optional(__S(3360, __c105, 0)),
+          enabledApis: S.optional(__S(3968, __c124, 0)),
         }),
       ).annotate({ identifier: "K8sBetaAPIConfig" });
   }
 }
-function __c22(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7566,16 +7671,16 @@ function __c22(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          rotationConfig: S.optional(__S(706, __c22, 2)),
+          rotationConfig: S.optional(__S(770, __c24, 2)),
           enabled: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "SecretManagerConfig" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          serviceAccountSigningKeys: S.optional(__S(3360, __c105, 0)),
-          controlPlaneDiskEncryptionKeyVersions: S.optional(__S(3360, __c105, 0)),
-          serviceAccountVerificationKeys: S.optional(__S(3360, __c105, 0)),
+          serviceAccountSigningKeys: S.optional(__S(3968, __c124, 0)),
+          controlPlaneDiskEncryptionKeyVersions: S.optional(__S(3968, __c124, 0)),
+          serviceAccountVerificationKeys: S.optional(__S(3968, __c124, 0)),
           etcdApiCa: S.optional(S.String),
           clusterCa: S.optional(S.String),
           gkeopsEtcdBackupEncryptionKey: S.optional(S.String),
@@ -7586,17 +7691,16 @@ function __c22(j: number): any {
       ).annotate({ identifier: "UserManagedKeysConfig" });
   }
 }
-function __c23(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          nodePool: S.optional(__S(210, __c6, 18)),
-          clusterId: S.optional(S.String),
-          projectId: S.optional(S.String),
-          zone: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(832, __c26, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/nodePools",
@@ -7606,16 +7710,31 @@ function __c23(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsClustersNodePoolsRequest" });
   }
 }
-function __c24(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          zone: S.String.pipe(T.Label()),
+          nodePool: S.optional(__S(242, __c7, 18)),
+          clusterId: S.optional(S.String),
+          projectId: S.optional(S.String),
           parent: S.optional(S.String),
-          cluster: S.optional(__S(489, __c15, 9)),
-        }).pipe(
+          zone: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CreateNodePoolRequest" });
+  }
+}
+function __c27(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(448, __c14, 0),
+          S.Struct({
+            projectId: S.String.pipe(T.Label()),
+            zone: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/projects/{projectId}/zones/{zone}/clusters",
@@ -7625,17 +7744,18 @@ function __c24(j: number): any {
       ).annotate({ identifier: "CreateProjectsZonesClustersRequest" });
   }
 }
-function __c25(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          clusterId: S.String.pipe(T.Label()),
-          zone: S.String.pipe(T.Label()),
-          projectId: S.String.pipe(T.Label()),
-          nodePool: S.optional(__S(210, __c6, 18)),
-          parent: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(832, __c26, 0),
+          S.Struct({
+            clusterId: S.String.pipe(T.Label()),
+            zone: S.String.pipe(T.Label()),
+            projectId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/projects/{projectId}/zones/{zone}/clusters/{clusterId}/nodePools",
@@ -7645,7 +7765,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "CreateProjectsZonesClustersNodePoolsRequest" });
   }
 }
-function __c26(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7664,7 +7784,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsClustersRequest" });
   }
 }
-function __c27(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7684,7 +7804,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsClustersNodePoolsRequest" });
   }
 }
-function __c28(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7703,7 +7823,7 @@ function __c28(j: number): any {
       ).annotate({ identifier: "DeleteProjectsZonesClustersRequest" });
   }
 }
-function __c29(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7723,7 +7843,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "DeleteProjectsZonesClustersNodePoolsRequest" });
   }
 }
-function __c30(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7740,7 +7860,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "FetchClusterUpgradeInfoProjectsLocationsClustersRequest" });
   }
 }
-function __c31(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7753,19 +7873,19 @@ function __c31(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          autoUpgradeStatus: S.optional(__S(160, __c5, 0)),
-          upgradeDetails: S.optional(__S(1025, __c32, 1)),
+          autoUpgradeStatus: S.optional(__S(192, __c6, 0)),
+          upgradeDetails: S.optional(__S(1121, __c35, 1)),
           endOfExtendedSupportTimestamp: S.optional(S.String),
-          rollbackSafeUpgradeStatus: S.optional(__S(992, __c31, 0)),
+          rollbackSafeUpgradeStatus: S.optional(__S(1088, __c34, 0)),
           patchTargetVersion: S.optional(S.String),
           endOfStandardSupportTimestamp: S.optional(S.String),
           minorTargetVersion: S.optional(S.String),
-          pausedReason: S.optional(__S(160, __c5, 0)),
+          pausedReason: S.optional(__S(192, __c6, 0)),
         }),
       ).annotate({ identifier: "ClusterUpgradeInfo" });
   }
 }
-function __c32(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7781,10 +7901,10 @@ function __c32(j: number): any {
         }),
       ).annotate({ identifier: "UpgradeDetails" });
     case 1:
-      return S.Array(__S(1024, __c32, 0));
+      return S.Array(__S(1120, __c35, 0));
   }
 }
-function __c33(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7801,7 +7921,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "FetchClusterUpgradeInfoProjectsZonesClustersRequest" });
   }
 }
-function __c34(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7820,7 +7940,7 @@ function __c34(j: number): any {
       });
   }
 }
-function __c35(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7834,16 +7954,16 @@ function __c35(j: number): any {
           minorTargetVersion: S.optional(S.String),
           endOfStandardSupportTimestamp: S.optional(S.String),
           endOfExtendedSupportTimestamp: S.optional(S.String),
-          upgradeDetails: S.optional(__S(1025, __c32, 1)),
-          customImageInfo: S.optional(__S(1120, __c35, 0)),
+          upgradeDetails: S.optional(__S(1121, __c35, 1)),
+          customImageInfo: S.optional(__S(1216, __c38, 0)),
           patchTargetVersion: S.optional(S.String),
-          pausedReason: S.optional(__S(160, __c5, 0)),
-          autoUpgradeStatus: S.optional(__S(160, __c5, 0)),
+          pausedReason: S.optional(__S(192, __c6, 0)),
+          autoUpgradeStatus: S.optional(__S(192, __c6, 0)),
         }),
       ).annotate({ identifier: "NodePoolUpgradeInfo" });
   }
 }
-function __c36(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7860,7 +7980,7 @@ function __c36(j: number): any {
       ).annotate({ identifier: "FetchNodePoolUpgradeInfoProjectsZonesClustersNodePoolsRequest" });
   }
 }
-function __c37(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7889,17 +8009,17 @@ function __c37(j: number): any {
         }),
       ).annotate({ identifier: "Jwk" });
     case 2:
-      return S.Array(__S(1185, __c37, 1));
+      return S.Array(__S(1281, __c40, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          cacheHeader: S.optional(__S(1216, __c38, 0)),
-          keys: S.optional(__S(1186, __c37, 2)),
+          cacheHeader: S.optional(__S(1312, __c41, 0)),
+          keys: S.optional(__S(1282, __c40, 2)),
         }),
       ).annotate({ identifier: "GetJSONWebKeysResponse" });
   }
 }
-function __c38(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7911,7 +8031,7 @@ function __c38(j: number): any {
       ).annotate({ identifier: "HttpCacheControlResponseHeader" });
   }
 }
-function __c39(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7932,17 +8052,17 @@ function __c39(j: number): any {
         S.Struct({
           jwks_uri: S.optional(S.String),
           issuer: S.optional(S.String),
-          claims_supported: S.optional(__S(3360, __c105, 0)),
-          id_token_signing_alg_values_supported: S.optional(__S(3360, __c105, 0)),
-          subject_types_supported: S.optional(__S(3360, __c105, 0)),
-          cacheHeader: S.optional(__S(1216, __c38, 0)),
-          response_types_supported: S.optional(__S(3360, __c105, 0)),
-          grant_types: S.optional(__S(3360, __c105, 0)),
+          claims_supported: S.optional(__S(3968, __c124, 0)),
+          id_token_signing_alg_values_supported: S.optional(__S(3968, __c124, 0)),
+          subject_types_supported: S.optional(__S(3968, __c124, 0)),
+          cacheHeader: S.optional(__S(1312, __c41, 0)),
+          response_types_supported: S.optional(__S(3968, __c124, 0)),
+          grant_types: S.optional(__S(3968, __c124, 0)),
         }),
       ).annotate({ identifier: "GetOpenIDConfigResponse" });
   }
 }
-function __c40(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7961,7 +8081,7 @@ function __c40(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsClustersRequest" });
   }
 }
-function __c41(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7981,7 +8101,7 @@ function __c41(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsClustersNodePoolsRequest" });
   }
 }
-function __c42(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8000,7 +8120,7 @@ function __c42(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsOperationsRequest" });
   }
 }
-function __c43(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8019,7 +8139,7 @@ function __c43(j: number): any {
       ).annotate({ identifier: "GetProjectsZonesClustersRequest" });
   }
 }
-function __c44(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8039,7 +8159,7 @@ function __c44(j: number): any {
       ).annotate({ identifier: "GetProjectsZonesClustersNodePoolsRequest" });
   }
 }
-function __c45(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8058,7 +8178,7 @@ function __c45(j: number): any {
       ).annotate({ identifier: "GetProjectsZonesOperationsRequest" });
   }
 }
-function __c46(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8076,26 +8196,26 @@ function __c46(j: number): any {
       ).annotate({ identifier: "GetServerConfigProjectsLocationsRequest" });
   }
 }
-function __c47(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           imageType: S.optional(S.String),
           osVersion: S.optional(S.String),
-          supportEndDate: S.optional(__S(416, __c13, 0)),
+          supportEndDate: S.optional(__S(480, __c15, 0)),
         }),
       ).annotate({ identifier: "WindowsVersion" });
     case 1:
-      return S.Array(__S(1504, __c47, 0));
+      return S.Array(__S(1600, __c50, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          windowsVersions: S.optional(__S(1505, __c47, 1)),
+          windowsVersions: S.optional(__S(1601, __c50, 1)),
         }),
       ).annotate({ identifier: "WindowsVersions" });
     case 3:
-      return S.Record(S.String, __S(1506, __c47, 2));
+      return S.Record(S.String, __S(1602, __c50, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -8104,36 +8224,36 @@ function __c47(j: number): any {
         }),
       ).annotate({ identifier: "AvailableVersion" });
     case 5:
-      return S.Array(__S(1508, __c47, 4));
+      return S.Array(__S(1604, __c50, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           upgradeTargetVersion: S.optional(S.String),
           defaultVersion: S.optional(S.String),
-          customVersions: S.optional(__S(3360, __c105, 0)),
-          availableVersions: S.optional(__S(1509, __c47, 5)),
+          customVersions: S.optional(__S(3968, __c124, 0)),
+          availableVersions: S.optional(__S(1605, __c50, 5)),
           channel: S.optional(S.String),
-          validVersions: S.optional(__S(3360, __c105, 0)),
-          previewVersions: S.optional(__S(3360, __c105, 0)),
+          validVersions: S.optional(__S(3968, __c124, 0)),
+          previewVersions: S.optional(__S(3968, __c124, 0)),
         }),
       ).annotate({ identifier: "ReleaseChannelConfig" });
     case 7:
-      return S.Array(__S(1510, __c47, 6));
+      return S.Array(__S(1606, __c50, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          validMasterVersions: S.optional(__S(3360, __c105, 0)),
+          validMasterVersions: S.optional(__S(3968, __c124, 0)),
           defaultClusterVersion: S.optional(S.String),
           defaultImageType: S.optional(S.String),
-          windowsVersionMaps: S.optional(__S(1507, __c47, 3)),
-          validNodeVersions: S.optional(__S(3360, __c105, 0)),
-          channels: S.optional(__S(1511, __c47, 7)),
-          validImageTypes: S.optional(__S(3360, __c105, 0)),
+          windowsVersionMaps: S.optional(__S(1603, __c50, 3)),
+          validNodeVersions: S.optional(__S(3968, __c124, 0)),
+          channels: S.optional(__S(1607, __c50, 7)),
+          validImageTypes: S.optional(__S(3968, __c124, 0)),
         }),
       ).annotate({ identifier: "ServerConfig" });
   }
 }
-function __c48(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8151,17 +8271,18 @@ function __c48(j: number): any {
       ).annotate({ identifier: "GetServerconfigProjectsZonesRequest" });
   }
 }
-function __c49(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          zone: S.String.pipe(T.Label()),
-          clusterId: S.String.pipe(T.Label()),
-          name: S.optional(S.String),
-          enabled: S.optional(S.Boolean),
-        }).pipe(
+        S.Extend(
+          __S(1696, __c53, 0),
+          S.Struct({
+            projectId: S.String.pipe(T.Label()),
+            zone: S.String.pipe(T.Label()),
+            clusterId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/projects/{projectId}/zones/{zone}/clusters/{clusterId}/legacyAbac",
@@ -8171,7 +8292,21 @@ function __c49(j: number): any {
       ).annotate({ identifier: "LegacyAbacProjectsZonesClustersRequest" });
   }
 }
-function __c50(j: number): any {
+function __c53(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          enabled: S.optional(S.Boolean),
+          projectId: S.optional(S.String),
+          zone: S.optional(S.String),
+          clusterId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SetLegacyAbacRequest" });
+  }
+}
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8197,29 +8332,29 @@ function __c50(j: number): any {
         }),
       ).annotate({ identifier: "UsableSubnetworkSecondaryRange" });
     case 2:
-      return S.Array(__S(1601, __c50, 1));
+      return S.Array(__S(1729, __c54, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           statusMessage: S.optional(S.String),
           ipCidrRange: S.optional(S.String),
-          secondaryIpRanges: S.optional(__S(1602, __c50, 2)),
+          secondaryIpRanges: S.optional(__S(1730, __c54, 2)),
           subnetwork: S.optional(S.String),
           network: S.optional(S.String),
         }),
       ).annotate({ identifier: "UsableSubnetwork" });
     case 4:
-      return S.Array(__S(1603, __c50, 3));
+      return S.Array(__S(1731, __c54, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          subnetworks: S.optional(__S(1604, __c50, 4)),
+          subnetworks: S.optional(__S(1732, __c54, 4)),
         }),
       ).annotate({ identifier: "ListUsableSubnetworksResponse" });
   }
 }
-function __c51(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8242,17 +8377,17 @@ function __c51(j: number): any {
         }),
       ).annotate({ identifier: "Location" });
     case 2:
-      return S.Array(__S(1633, __c51, 1));
+      return S.Array(__S(1761, __c55, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          locations: S.optional(__S(1634, __c51, 2)),
+          locations: S.optional(__S(1762, __c55, 2)),
         }),
       ).annotate({ identifier: "ListLocationsResponse" });
   }
 }
-function __c52(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8270,30 +8405,31 @@ function __c52(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsClustersRequest" });
   }
 }
-function __c53(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(489, __c15, 9));
+      return S.Array(__S(553, __c17, 9));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          missingZones: S.optional(__S(3360, __c105, 0)),
-          clusters: S.optional(__S(1696, __c53, 0)),
+          missingZones: S.optional(__S(3968, __c124, 0)),
+          clusters: S.optional(__S(1824, __c57, 0)),
         }),
       ).annotate({ identifier: "ListClustersResponse" });
   }
 }
-function __c54(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          clusterId: S.String.pipe(T.Label()),
-          zone: S.String.pipe(T.Label()),
-          projectId: S.String.pipe(T.Label()),
-          name: S.optional(S.String),
-          addonsConfig: S.optional(__S(1797, __c56, 5)),
-        }).pipe(
+        S.Extend(
+          __S(2016, __c63, 0),
+          S.Struct({
+            clusterId: S.String.pipe(T.Label()),
+            zone: S.String.pipe(T.Label()),
+            projectId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/projects/{projectId}/zones/{zone}/clusters/{clusterId}/addons",
@@ -8303,7 +8439,7 @@ function __c54(j: number): any {
       ).annotate({ identifier: "AddonsProjectsZonesClustersRequest" });
   }
 }
-function __c55(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8319,13 +8455,13 @@ function __c55(j: number): any {
       ).annotate({ identifier: "HorizontalPodAutoscaling" });
   }
 }
-function __c56(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          rayClusterLoggingConfig: S.optional(__S(1760, __c55, 0)),
-          rayClusterMonitoringConfig: S.optional(__S(1760, __c55, 0)),
+          rayClusterLoggingConfig: S.optional(__S(1888, __c59, 0)),
+          rayClusterMonitoringConfig: S.optional(__S(1888, __c59, 0)),
           enabled: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "RayOperatorConfig" });
@@ -8363,35 +8499,35 @@ function __c56(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          configConnectorConfig: S.optional(__S(1760, __c55, 0)),
-          rayOperatorConfig: S.optional(__S(1792, __c56, 0)),
-          horizontalPodAutoscaling: S.optional(__S(1761, __c55, 1)),
-          httpLoadBalancing: S.optional(__S(1761, __c55, 1)),
-          networkPolicyConfig: S.optional(__S(1761, __c55, 1)),
-          highScaleCheckpointingConfig: S.optional(__S(1760, __c55, 0)),
-          sliceControllerConfig: S.optional(__S(1760, __c55, 0)),
-          statefulHaConfig: S.optional(__S(1760, __c55, 0)),
-          dnsCacheConfig: S.optional(__S(1760, __c55, 0)),
-          wizSensorConfig: S.optional(__S(1793, __c56, 1)),
-          istioConfig: S.optional(__S(1794, __c56, 2)),
-          gcePersistentDiskCsiDriverConfig: S.optional(__S(1760, __c55, 0)),
-          podSnapshotConfig: S.optional(__S(1760, __c55, 0)),
-          kubernetesDashboard: S.optional(__S(1761, __c55, 1)),
-          gcpFilestoreCsiDriverConfig: S.optional(__S(1760, __c55, 0)),
-          parallelstoreCsiDriverConfig: S.optional(__S(1760, __c55, 0)),
-          lustreCsiDriverConfig: S.optional(__S(1795, __c56, 3)),
-          nodeReadinessConfig: S.optional(__S(1760, __c55, 0)),
-          kalmConfig: S.optional(__S(1760, __c55, 0)),
-          cloudRunConfig: S.optional(__S(1796, __c56, 4)),
-          agentSandboxConfig: S.optional(__S(1760, __c55, 0)),
-          slurmOperatorConfig: S.optional(__S(1760, __c55, 0)),
-          gkeBackupAgentConfig: S.optional(__S(1760, __c55, 0)),
-          gcsFuseCsiDriverConfig: S.optional(__S(1760, __c55, 0)),
+          configConnectorConfig: S.optional(__S(1888, __c59, 0)),
+          rayOperatorConfig: S.optional(__S(1920, __c60, 0)),
+          horizontalPodAutoscaling: S.optional(__S(1889, __c59, 1)),
+          httpLoadBalancing: S.optional(__S(1889, __c59, 1)),
+          networkPolicyConfig: S.optional(__S(1889, __c59, 1)),
+          highScaleCheckpointingConfig: S.optional(__S(1888, __c59, 0)),
+          sliceControllerConfig: S.optional(__S(1888, __c59, 0)),
+          statefulHaConfig: S.optional(__S(1888, __c59, 0)),
+          dnsCacheConfig: S.optional(__S(1888, __c59, 0)),
+          wizSensorConfig: S.optional(__S(1921, __c60, 1)),
+          istioConfig: S.optional(__S(1922, __c60, 2)),
+          gcePersistentDiskCsiDriverConfig: S.optional(__S(1888, __c59, 0)),
+          podSnapshotConfig: S.optional(__S(1888, __c59, 0)),
+          kubernetesDashboard: S.optional(__S(1889, __c59, 1)),
+          gcpFilestoreCsiDriverConfig: S.optional(__S(1888, __c59, 0)),
+          parallelstoreCsiDriverConfig: S.optional(__S(1888, __c59, 0)),
+          lustreCsiDriverConfig: S.optional(__S(1923, __c60, 3)),
+          nodeReadinessConfig: S.optional(__S(1888, __c59, 0)),
+          kalmConfig: S.optional(__S(1888, __c59, 0)),
+          cloudRunConfig: S.optional(__S(1924, __c60, 4)),
+          agentSandboxConfig: S.optional(__S(1888, __c59, 0)),
+          slurmOperatorConfig: S.optional(__S(1888, __c59, 0)),
+          gkeBackupAgentConfig: S.optional(__S(1888, __c59, 0)),
+          gcsFuseCsiDriverConfig: S.optional(__S(1888, __c59, 0)),
         }),
       ).annotate({ identifier: "AddonsConfig" });
   }
 }
-function __c57(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8402,10 +8538,10 @@ function __c57(j: number): any {
         }),
       ).annotate({ identifier: "StatusCondition" });
     case 1:
-      return S.Array(__S(1824, __c57, 0));
+      return S.Array(__S(1952, __c61, 0));
   }
 }
-function __c58(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8417,27 +8553,27 @@ function __c58(j: number): any {
         }),
       ).annotate({ identifier: "Metric" });
     case 1:
-      return S.Array(__S(1856, __c58, 0));
+      return S.Array(__S(1984, __c62, 0));
     case 2:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(1859, __c58, 3)));
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(1987, __c62, 3)));
     case 3:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
           status: S.optional(S.String),
-          metrics: S.optional(__S(1857, __c58, 1)),
-          stages: S.optional(__S(1858, __c58, 2)),
+          metrics: S.optional(__S(1985, __c62, 1)),
+          stages: S.optional(__S(1986, __c62, 2)),
         }),
       ).annotate({ identifier: "OperationProgress" });
     case 4:
       return S.Record(S.String, S.Unknown);
     case 5:
-      return S.Array(__S(1860, __c58, 4));
+      return S.Array(__S(1988, __c62, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           message: S.optional(S.String),
-          details: S.optional(__S(1861, __c58, 5)),
+          details: S.optional(__S(1989, __c62, 5)),
           code: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Status" });
@@ -8445,7 +8581,7 @@ function __c58(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          progress: S.optional(__S(1859, __c58, 3)),
+          progress: S.optional(__S(1987, __c62, 3)),
           targetLink: S.optional(S.String),
           startTime: S.optional(S.String),
           operationType: S.optional(S.String),
@@ -8453,9 +8589,9 @@ function __c58(j: number): any {
           selfLink: S.optional(S.String),
           detail: S.optional(S.String),
           statusMessage: S.optional(S.String),
-          nodepoolConditions: S.optional(__S(1825, __c57, 1)),
-          clusterConditions: S.optional(__S(1825, __c57, 1)),
-          error: S.optional(__S(1862, __c58, 6)),
+          nodepoolConditions: S.optional(__S(1953, __c61, 1)),
+          clusterConditions: S.optional(__S(1953, __c61, 1)),
+          error: S.optional(__S(1990, __c62, 6)),
           location: S.optional(S.String),
           status: S.optional(S.String),
           zone: S.optional(S.String),
@@ -8463,7 +8599,21 @@ function __c58(j: number): any {
       ).annotate({ identifier: "Operation" });
   }
 }
-function __c59(j: number): any {
+function __c63(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          zone: S.optional(S.String),
+          projectId: S.optional(S.String),
+          name: S.optional(S.String),
+          clusterId: S.optional(S.String),
+          addonsConfig: S.optional(__S(1925, __c60, 5)),
+        }),
+      ).annotate({ identifier: "SetAddonsConfigRequest" });
+  }
+}
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8482,17 +8632,17 @@ function __c59(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsClustersNodePoolsRequest" });
   }
 }
-function __c60(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          nodePools: S.optional(__S(448, __c14, 0)),
+          nodePools: S.optional(__S(512, __c16, 0)),
         }),
       ).annotate({ identifier: "ListNodePoolsResponse" });
   }
 }
-function __c61(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8510,20 +8660,20 @@ function __c61(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsOperationsRequest" });
   }
 }
-function __c62(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1863, __c58, 7));
+      return S.Array(__S(1991, __c62, 7));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          missingZones: S.optional(__S(3360, __c105, 0)),
-          operations: S.optional(__S(1984, __c62, 0)),
+          missingZones: S.optional(__S(3968, __c124, 0)),
+          operations: S.optional(__S(2144, __c67, 0)),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
   }
 }
-function __c63(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8541,7 +8691,7 @@ function __c63(j: number): any {
       ).annotate({ identifier: "ListProjectsZonesClustersRequest" });
   }
 }
-function __c64(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8560,7 +8710,7 @@ function __c64(j: number): any {
       ).annotate({ identifier: "ListProjectsZonesClustersNodePoolsRequest" });
   }
 }
-function __c65(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8578,17 +8728,18 @@ function __c65(j: number): any {
       ).annotate({ identifier: "ListProjectsZonesOperationsRequest" });
   }
 }
-function __c66(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          clusterId: S.String.pipe(T.Label()),
-          zone: S.String.pipe(T.Label()),
-          locations: S.optional(__S(3360, __c105, 0)),
-          name: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(2304, __c72, 0),
+          S.Struct({
+            projectId: S.String.pipe(T.Label()),
+            clusterId: S.String.pipe(T.Label()),
+            zone: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/projects/{projectId}/zones/{zone}/clusters/{clusterId}/locations",
@@ -8598,17 +8749,32 @@ function __c66(j: number): any {
       ).annotate({ identifier: "LocationsProjectsZonesClustersRequest" });
   }
 }
-function __c67(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          clusterId: S.String.pipe(T.Label()),
-          projectId: S.String.pipe(T.Label()),
-          zone: S.String.pipe(T.Label()),
-          loggingService: S.optional(S.String),
+          projectId: S.optional(S.String),
+          locations: S.optional(__S(3968, __c124, 0)),
+          zone: S.optional(S.String),
           name: S.optional(S.String),
-        }).pipe(
+          clusterId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SetLocationsRequest" });
+  }
+}
+function __c73(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(2368, __c74, 0),
+          S.Struct({
+            clusterId: S.String.pipe(T.Label()),
+            projectId: S.String.pipe(T.Label()),
+            zone: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/projects/{projectId}/zones/{zone}/clusters/{clusterId}/logging",
@@ -8618,17 +8784,32 @@ function __c67(j: number): any {
       ).annotate({ identifier: "LoggingProjectsZonesClustersRequest" });
   }
 }
-function __c68(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          zone: S.String.pipe(T.Label()),
-          clusterId: S.String.pipe(T.Label()),
-          masterVersion: S.optional(S.String),
+          loggingService: S.optional(S.String),
+          projectId: S.optional(S.String),
           name: S.optional(S.String),
-        }).pipe(
+          clusterId: S.optional(S.String),
+          zone: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SetLoggingServiceRequest" });
+  }
+}
+function __c75(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(2432, __c76, 0),
+          S.Struct({
+            projectId: S.String.pipe(T.Label()),
+            zone: S.String.pipe(T.Label()),
+            clusterId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/projects/{projectId}/zones/{zone}/clusters/{clusterId}/master",
@@ -8638,17 +8819,32 @@ function __c68(j: number): any {
       ).annotate({ identifier: "MasterProjectsZonesClustersRequest" });
   }
 }
-function __c69(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          clusterId: S.String.pipe(T.Label()),
-          projectId: S.String.pipe(T.Label()),
-          zone: S.String.pipe(T.Label()),
-          monitoringService: S.optional(S.String),
+          clusterId: S.optional(S.String),
+          zone: S.optional(S.String),
+          masterVersion: S.optional(S.String),
           name: S.optional(S.String),
-        }).pipe(
+          projectId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "UpdateMasterRequest" });
+  }
+}
+function __c77(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(2496, __c78, 0),
+          S.Struct({
+            clusterId: S.String.pipe(T.Label()),
+            projectId: S.String.pipe(T.Label()),
+            zone: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/projects/{projectId}/zones/{zone}/clusters/{clusterId}/monitoring",
@@ -8658,18 +8854,32 @@ function __c69(j: number): any {
       ).annotate({ identifier: "MonitoringProjectsZonesClustersRequest" });
   }
 }
-function __c70(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          zone: S.String.pipe(T.Label()),
-          clusterId: S.String.pipe(T.Label()),
+          monitoringService: S.optional(S.String),
+          clusterId: S.optional(S.String),
+          zone: S.optional(S.String),
           name: S.optional(S.String),
-          labelFingerprint: S.optional(S.String),
-          resourceLabels: S.optional(__S(224, __c7, 0)),
-        }).pipe(
+          projectId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SetMonitoringServiceRequest" });
+  }
+}
+function __c79(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(2560, __c80, 0),
+          S.Struct({
+            projectId: S.String.pipe(T.Label()),
+            zone: S.String.pipe(T.Label()),
+            clusterId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/projects/{projectId}/zones/{zone}/clusters/{clusterId}/resourceLabels",
@@ -8679,18 +8889,34 @@ function __c70(j: number): any {
       ).annotate({ identifier: "ResourceLabelsProjectsZonesClustersRequest" });
   }
 }
-function __c71(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          zone: S.String.pipe(T.Label()),
-          projectId: S.String.pipe(T.Label()),
-          nodePoolId: S.String.pipe(T.Label()),
-          clusterId: S.String.pipe(T.Label()),
-          autoscaling: S.optional(__S(2304, __c72, 0)),
           name: S.optional(S.String),
-        }).pipe(
+          projectId: S.optional(S.String),
+          zone: S.optional(S.String),
+          clusterId: S.optional(S.String),
+          labelFingerprint: S.optional(S.String),
+          resourceLabels: S.optional(__S(256, __c8, 0)),
+        }),
+      ).annotate({ identifier: "SetLabelsRequest" });
+  }
+}
+function __c81(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(2656, __c83, 0),
+          S.Struct({
+            zone: S.String.pipe(T.Label()),
+            projectId: S.String.pipe(T.Label()),
+            nodePoolId: S.String.pipe(T.Label()),
+            clusterId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/projects/{projectId}/zones/{zone}/clusters/{clusterId}/nodePools/{nodePoolId}/autoscaling",
@@ -8700,7 +8926,7 @@ function __c71(j: number): any {
       ).annotate({ identifier: "AutoscalingProjectsZonesClustersNodePoolsRequest" });
   }
 }
-function __c72(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8716,18 +8942,31 @@ function __c72(j: number): any {
       ).annotate({ identifier: "NodePoolAutoscaling" });
   }
 }
-function __c73(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
-          respectPdb: S.optional(S.Boolean),
-          clusterId: S.optional(S.String),
-          projectId: S.optional(S.String),
-          nodePoolId: S.optional(S.String),
           zone: S.optional(S.String),
-        }).pipe(
+          clusterId: S.optional(S.String),
+          autoscaling: S.optional(__S(2624, __c82, 0)),
+          name: S.optional(S.String),
+          nodePoolId: S.optional(S.String),
+          projectId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SetNodePoolAutoscalingRequest" });
+  }
+}
+function __c84(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(2720, __c85, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:rollback",
@@ -8737,18 +8976,34 @@ function __c73(j: number): any {
       ).annotate({ identifier: "RollbackProjectsLocationsClustersNodePoolsRequest" });
   }
 }
-function __c74(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          zone: S.String.pipe(T.Label()),
-          clusterId: S.String.pipe(T.Label()),
-          nodePoolId: S.String.pipe(T.Label()),
-          projectId: S.String.pipe(T.Label()),
           respectPdb: S.optional(S.Boolean),
           name: S.optional(S.String),
-        }).pipe(
+          clusterId: S.optional(S.String),
+          projectId: S.optional(S.String),
+          nodePoolId: S.optional(S.String),
+          zone: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RollbackNodePoolUpgradeRequest" });
+  }
+}
+function __c86(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(2720, __c85, 0),
+          S.Struct({
+            zone: S.String.pipe(T.Label()),
+            clusterId: S.String.pipe(T.Label()),
+            nodePoolId: S.String.pipe(T.Label()),
+            projectId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/projects/{projectId}/zones/{zone}/clusters/{clusterId}/nodePools/{nodePoolId}:rollback",
@@ -8758,17 +9013,16 @@ function __c74(j: number): any {
       ).annotate({ identifier: "RollbackProjectsZonesClustersNodePoolsRequest" });
   }
 }
-function __c75(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          zone: S.optional(S.String),
-          projectId: S.optional(S.String),
-          clusterId: S.optional(S.String),
-          addonsConfig: S.optional(__S(1797, __c56, 5)),
-        }).pipe(
+        S.Extend(
+          __S(2016, __c63, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:setAddons",
@@ -8778,18 +9032,16 @@ function __c75(j: number): any {
       ).annotate({ identifier: "SetAddonsProjectsLocationsClustersRequest" });
   }
 }
-function __c76(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          zone: S.optional(S.String),
-          clusterId: S.optional(S.String),
-          autoscaling: S.optional(__S(2304, __c72, 0)),
-          nodePoolId: S.optional(S.String),
-          projectId: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(2656, __c83, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:setAutoscaling",
@@ -8799,17 +9051,16 @@ function __c76(j: number): any {
       ).annotate({ identifier: "SetAutoscalingProjectsLocationsClustersNodePoolsRequest" });
   }
 }
-function __c77(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          enabled: S.optional(S.Boolean),
-          projectId: S.optional(S.String),
-          zone: S.optional(S.String),
-          clusterId: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1696, __c53, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:setLegacyAbac",
@@ -8819,17 +9070,16 @@ function __c77(j: number): any {
       ).annotate({ identifier: "SetLegacyAbacProjectsLocationsClustersRequest" });
   }
 }
-function __c78(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          projectId: S.optional(S.String),
-          locations: S.optional(__S(3360, __c105, 0)),
-          zone: S.optional(S.String),
-          clusterId: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(2304, __c72, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:setLocations",
@@ -8839,17 +9089,16 @@ function __c78(j: number): any {
       ).annotate({ identifier: "SetLocationsProjectsLocationsClustersRequest" });
   }
 }
-function __c79(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          loggingService: S.optional(S.String),
-          projectId: S.optional(S.String),
-          clusterId: S.optional(S.String),
-          zone: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(2368, __c74, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:setLogging",
@@ -8859,17 +9108,16 @@ function __c79(j: number): any {
       ).annotate({ identifier: "SetLoggingProjectsLocationsClustersRequest" });
   }
 }
-function __c80(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          maintenancePolicy: S.optional(__S(521, __c16, 9)),
-          projectId: S.optional(S.String),
-          zone: S.optional(S.String),
-          clusterId: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(2976, __c93, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:setMaintenancePolicy",
@@ -8879,17 +9127,32 @@ function __c80(j: number): any {
       ).annotate({ identifier: "SetMaintenancePolicyProjectsLocationsClustersRequest" });
   }
 }
-function __c81(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          zone: S.String.pipe(T.Label()),
-          clusterId: S.String.pipe(T.Label()),
-          maintenancePolicy: S.optional(__S(521, __c16, 9)),
+          maintenancePolicy: S.optional(__S(585, __c18, 9)),
+          projectId: S.optional(S.String),
           name: S.optional(S.String),
-        }).pipe(
+          zone: S.optional(S.String),
+          clusterId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SetMaintenancePolicyRequest" });
+  }
+}
+function __c94(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(2976, __c93, 0),
+          S.Struct({
+            projectId: S.String.pipe(T.Label()),
+            zone: S.String.pipe(T.Label()),
+            clusterId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/projects/{projectId}/zones/{zone}/clusters/{clusterId}:setMaintenancePolicy",
@@ -8899,18 +9162,16 @@ function __c81(j: number): any {
       ).annotate({ identifier: "SetMaintenancePolicyProjectsZonesClustersRequest" });
   }
 }
-function __c82(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          zone: S.optional(S.String),
-          clusterId: S.optional(S.String),
-          projectId: S.optional(S.String),
-          nodePoolId: S.optional(S.String),
-          management: S.optional(__S(257, __c8, 1)),
-        }).pipe(
+        S.Extend(
+          __S(3072, __c96, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:setManagement",
@@ -8920,16 +9181,31 @@ function __c82(j: number): any {
       ).annotate({ identifier: "SetManagementProjectsLocationsClustersNodePoolsRequest" });
   }
 }
-function __c83(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
-          projectId: S.optional(S.String),
-          operationId: S.optional(S.String),
           zone: S.optional(S.String),
-        }).pipe(
+          clusterId: S.optional(S.String),
+          projectId: S.optional(S.String),
+          name: S.optional(S.String),
+          nodePoolId: S.optional(S.String),
+          management: S.optional(__S(289, __c9, 1)),
+        }),
+      ).annotate({ identifier: "SetNodePoolManagementRequest" });
+  }
+}
+function __c97(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(3136, __c98, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:cancel",
@@ -8939,24 +9215,38 @@ function __c83(j: number): any {
       ).annotate({ identifier: "CancelProjectsLocationsOperationsRequest" });
   }
 }
-function __c84(j: number): any {
+function __c98(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          projectId: S.optional(S.String),
+          operationId: S.optional(S.String),
+          zone: S.optional(S.String),
+          name: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CancelOperationRequest" });
+  }
+}
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "Empty" });
   }
 }
-function __c85(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          nodePoolId: S.String.pipe(T.Label()),
-          clusterId: S.String.pipe(T.Label()),
-          zone: S.String.pipe(T.Label()),
-          name: S.optional(S.String),
-          management: S.optional(__S(257, __c8, 1)),
-        }).pipe(
+        S.Extend(
+          __S(3072, __c96, 0),
+          S.Struct({
+            projectId: S.String.pipe(T.Label()),
+            nodePoolId: S.String.pipe(T.Label()),
+            clusterId: S.String.pipe(T.Label()),
+            zone: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/projects/{projectId}/zones/{zone}/clusters/{clusterId}/nodePools/{nodePoolId}/setManagement",
@@ -8966,18 +9256,16 @@ function __c85(j: number): any {
       ).annotate({ identifier: "SetManagementProjectsZonesClustersNodePoolsRequest" });
   }
 }
-function __c86(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          clusterId: S.optional(S.String),
-          zone: S.optional(S.String),
-          projectId: S.optional(S.String),
-          action: S.optional(S.String),
-          update: S.optional(__S(545, __c17, 1)),
-        }).pipe(
+        S.Extend(
+          __S(3264, __c102, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:setMasterAuth",
@@ -8987,18 +9275,33 @@ function __c86(j: number): any {
       ).annotate({ identifier: "SetMasterAuthProjectsLocationsClustersRequest" });
   }
 }
-function __c87(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          zone: S.String.pipe(T.Label()),
-          projectId: S.String.pipe(T.Label()),
-          clusterId: S.String.pipe(T.Label()),
           name: S.optional(S.String),
+          clusterId: S.optional(S.String),
+          zone: S.optional(S.String),
+          projectId: S.optional(S.String),
           action: S.optional(S.String),
-          update: S.optional(__S(545, __c17, 1)),
-        }).pipe(
+          update: S.optional(__S(609, __c19, 1)),
+        }),
+      ).annotate({ identifier: "SetMasterAuthRequest" });
+  }
+}
+function __c103(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(3264, __c102, 0),
+          S.Struct({
+            zone: S.String.pipe(T.Label()),
+            projectId: S.String.pipe(T.Label()),
+            clusterId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/projects/{projectId}/zones/{zone}/clusters/{clusterId}:setMasterAuth",
@@ -9008,17 +9311,16 @@ function __c87(j: number): any {
       ).annotate({ identifier: "SetMasterAuthProjectsZonesClustersRequest" });
   }
 }
-function __c88(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          monitoringService: S.optional(S.String),
-          clusterId: S.optional(S.String),
-          zone: S.optional(S.String),
-          projectId: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(2496, __c78, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:setMonitoring",
@@ -9028,17 +9330,16 @@ function __c88(j: number): any {
       ).annotate({ identifier: "SetMonitoringProjectsLocationsClustersRequest" });
   }
 }
-function __c89(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          zone: S.optional(S.String),
-          clusterId: S.optional(S.String),
-          networkPolicy: S.optional(__S(576, __c18, 0)),
-          projectId: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(3392, __c106, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:setNetworkPolicy",
@@ -9048,17 +9349,32 @@ function __c89(j: number): any {
       ).annotate({ identifier: "SetNetworkPolicyProjectsLocationsClustersRequest" });
   }
 }
-function __c90(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          zone: S.String.pipe(T.Label()),
-          clusterId: S.String.pipe(T.Label()),
-          networkPolicy: S.optional(__S(576, __c18, 0)),
+          zone: S.optional(S.String),
+          clusterId: S.optional(S.String),
+          networkPolicy: S.optional(__S(640, __c20, 0)),
+          projectId: S.optional(S.String),
           name: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "SetNetworkPolicyRequest" });
+  }
+}
+function __c107(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(3392, __c106, 0),
+          S.Struct({
+            projectId: S.String.pipe(T.Label()),
+            zone: S.String.pipe(T.Label()),
+            clusterId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/projects/{projectId}/zones/{zone}/clusters/{clusterId}:setNetworkPolicy",
@@ -9068,18 +9384,16 @@ function __c90(j: number): any {
       ).annotate({ identifier: "SetNetworkPolicyProjectsZonesClustersRequest" });
   }
 }
-function __c91(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          projectId: S.optional(S.String),
-          zone: S.optional(S.String),
-          clusterId: S.optional(S.String),
-          labelFingerprint: S.optional(S.String),
-          resourceLabels: S.optional(__S(224, __c7, 0)),
-        }).pipe(
+        S.Extend(
+          __S(2560, __c80, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:setResourceLabels",
@@ -9089,18 +9403,16 @@ function __c91(j: number): any {
       ).annotate({ identifier: "SetResourceLabelsProjectsLocationsClustersRequest" });
   }
 }
-function __c92(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          projectId: S.optional(S.String),
-          nodePoolId: S.optional(S.String),
-          zone: S.optional(S.String),
-          clusterId: S.optional(S.String),
-          nodeCount: S.optional(S.Number),
-        }).pipe(
+        S.Extend(
+          __S(3520, __c110, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:setSize",
@@ -9110,18 +9422,34 @@ function __c92(j: number): any {
       ).annotate({ identifier: "SetSizeProjectsLocationsClustersNodePoolsRequest" });
   }
 }
-function __c93(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          clusterId: S.String.pipe(T.Label()),
-          nodePoolId: S.String.pipe(T.Label()),
-          zone: S.String.pipe(T.Label()),
-          projectId: S.String.pipe(T.Label()),
+          projectId: S.optional(S.String),
+          nodePoolId: S.optional(S.String),
           name: S.optional(S.String),
+          zone: S.optional(S.String),
+          clusterId: S.optional(S.String),
           nodeCount: S.optional(S.Number),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "SetNodePoolSizeRequest" });
+  }
+}
+function __c111(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(3520, __c110, 0),
+          S.Struct({
+            clusterId: S.String.pipe(T.Label()),
+            nodePoolId: S.String.pipe(T.Label()),
+            zone: S.String.pipe(T.Label()),
+            projectId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/projects/{projectId}/zones/{zone}/clusters/{clusterId}/nodePools/{nodePoolId}/setSize",
@@ -9131,17 +9459,16 @@ function __c93(j: number): any {
       ).annotate({ identifier: "SetSizeProjectsZonesClustersNodePoolsRequest" });
   }
 }
-function __c94(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          clusterId: S.optional(S.String),
-          rotateCredentials: S.optional(S.Boolean),
-          zone: S.optional(S.String),
-          projectId: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(3616, __c113, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:startIpRotation",
@@ -9151,16 +9478,32 @@ function __c94(j: number): any {
       ).annotate({ identifier: "StartIpRotationProjectsLocationsClustersRequest" });
   }
 }
-function __c95(j: number): any {
+function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          operationId: S.String.pipe(T.Label()),
-          zone: S.String.pipe(T.Label()),
           name: S.optional(S.String),
-        }).pipe(
+          clusterId: S.optional(S.String),
+          rotateCredentials: S.optional(S.Boolean),
+          zone: S.optional(S.String),
+          projectId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "StartIPRotationRequest" });
+  }
+}
+function __c114(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(3136, __c98, 0),
+          S.Struct({
+            projectId: S.String.pipe(T.Label()),
+            operationId: S.String.pipe(T.Label()),
+            zone: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/projects/{projectId}/zones/{zone}/operations/{operationId}:cancel",
@@ -9170,17 +9513,18 @@ function __c95(j: number): any {
       ).annotate({ identifier: "CancelProjectsZonesOperationsRequest" });
   }
 }
-function __c96(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          zone: S.String.pipe(T.Label()),
-          clusterId: S.String.pipe(T.Label()),
-          name: S.optional(S.String),
-          rotateCredentials: S.optional(S.Boolean),
-        }).pipe(
+        S.Extend(
+          __S(3616, __c113, 0),
+          S.Struct({
+            projectId: S.String.pipe(T.Label()),
+            zone: S.String.pipe(T.Label()),
+            clusterId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/projects/{projectId}/zones/{zone}/clusters/{clusterId}:startIpRotation",
@@ -9190,17 +9534,16 @@ function __c96(j: number): any {
       ).annotate({ identifier: "StartIpRotationProjectsZonesClustersRequest" });
   }
 }
-function __c97(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          clusterId: S.optional(S.String),
-          zone: S.optional(S.String),
-          masterVersion: S.optional(S.String),
-          projectId: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(2432, __c76, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:updateMaster",
@@ -9210,17 +9553,16 @@ function __c97(j: number): any {
       ).annotate({ identifier: "UpdateMasterProjectsLocationsClustersRequest" });
   }
 }
-function __c98(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          clusterId: S.optional(S.String),
-          zone: S.optional(S.String),
-          projectId: S.optional(S.String),
-          update: S.optional(__S(3170, __c99, 2)),
-        }).pipe(
+        S.Extend(
+          __S(3779, __c118, 3),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "v1beta1/{+name}",
@@ -9230,7 +9572,7 @@ function __c98(j: number): any {
       ).annotate({ identifier: "UpdateProjectsLocationsClustersRequest" });
   }
 }
-function __c99(j: number): any {
+function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9241,161 +9583,132 @@ function __c99(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          additionalIpRangesConfigs: S.optional(__S(651, __c20, 11)),
+          additionalIpRangesConfigs: S.optional(__S(715, __c22, 11)),
         }),
       ).annotate({ identifier: "DesiredAdditionalIPRangesConfig" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          desiredProtectConfig: S.optional(__S(688, __c21, 16)),
-          desiredAnonymousAuthenticationConfig: S.optional(__S(659, __c20, 19)),
-          desiredCompliancePostureConfig: S.optional(__S(646, __c20, 6)),
-          desiredMasterAuthorizedNetworksConfig: S.optional(__S(656, __c20, 16)),
-          desiredEnterpriseConfig: S.optional(__S(3168, __c99, 0)),
-          privateClusterConfig: S.optional(__S(702, __c21, 30)),
+          desiredProtectConfig: S.optional(__S(752, __c23, 16)),
+          desiredAnonymousAuthenticationConfig: S.optional(__S(723, __c22, 19)),
+          desiredCompliancePostureConfig: S.optional(__S(710, __c22, 6)),
+          desiredMasterAuthorizedNetworksConfig: S.optional(__S(720, __c22, 16)),
+          desiredEnterpriseConfig: S.optional(__S(3776, __c118, 0)),
+          privateClusterConfig: S.optional(__S(766, __c23, 30)),
           desiredNodePoolId: S.optional(S.String),
-          desiredDatabaseEncryption: S.optional(__S(685, __c21, 13)),
-          removedAdditionalPodRangesConfig: S.optional(__S(649, __c20, 9)),
-          desiredGatewayApiConfig: S.optional(__S(643, __c20, 3)),
-          desiredMaster: S.optional(__S(691, __c21, 19)),
-          desiredRollbackSafeUpgrade: S.optional(__S(701, __c21, 29)),
-          desiredAuthenticatorGroupsConfig: S.optional(__S(660, __c20, 20)),
-          desiredUserManagedKeysConfig: S.optional(__S(708, __c22, 4)),
+          desiredDatabaseEncryption: S.optional(__S(749, __c23, 13)),
+          removedAdditionalPodRangesConfig: S.optional(__S(713, __c22, 9)),
+          desiredGatewayApiConfig: S.optional(__S(707, __c22, 3)),
+          desiredMaster: S.optional(__S(755, __c23, 19)),
+          desiredRollbackSafeUpgrade: S.optional(__S(765, __c23, 29)),
+          desiredAuthenticatorGroupsConfig: S.optional(__S(724, __c22, 20)),
+          desiredUserManagedKeysConfig: S.optional(__S(772, __c24, 4)),
           desiredImage: S.optional(S.String),
-          desiredAutoIpamConfig: S.optional(__S(1760, __c55, 0)),
-          desiredFleet: S.optional(__S(642, __c20, 2)),
-          desiredSecretSyncConfig: S.optional(__S(663, __c20, 23)),
-          desiredControlPlaneEgress: S.optional(__S(659, __c20, 19)),
-          desiredBinaryAuthorization: S.optional(__S(668, __c20, 28)),
-          desiredPodAutoscaling: S.optional(__S(640, __c20, 0)),
-          desiredResourceUsageExportConfig: S.optional(__S(665, __c20, 25)),
+          desiredAutoIpamConfig: S.optional(__S(1888, __c59, 0)),
+          desiredFleet: S.optional(__S(706, __c22, 2)),
+          desiredSecretSyncConfig: S.optional(__S(727, __c22, 23)),
+          desiredControlPlaneEgress: S.optional(__S(723, __c22, 19)),
+          desiredBinaryAuthorization: S.optional(__S(732, __c22, 28)),
+          desiredPodAutoscaling: S.optional(__S(704, __c22, 0)),
+          desiredResourceUsageExportConfig: S.optional(__S(729, __c22, 25)),
           desiredNodeVersion: S.optional(S.String),
           desiredImageType: S.optional(S.String),
           desiredMasterVersion: S.optional(S.String),
-          desiredSecurityPostureConfig: S.optional(__S(675, __c21, 3)),
-          desiredVerticalPodAutoscaling: S.optional(__S(1760, __c55, 0)),
-          desiredLoggingConfig: S.optional(__S(700, __c21, 28)),
-          desiredNodeKubeletConfig: S.optional(__S(313, __c9, 25)),
+          desiredSecurityPostureConfig: S.optional(__S(739, __c23, 3)),
+          desiredVerticalPodAutoscaling: S.optional(__S(1888, __c59, 0)),
+          desiredLoggingConfig: S.optional(__S(764, __c23, 28)),
+          desiredNodeKubeletConfig: S.optional(__S(345, __c10, 25)),
           desiredEmulatedVersion: S.optional(S.String),
-          desiredAutopilotWorkloadPolicyConfig: S.optional(__S(695, __c21, 23)),
+          desiredAutopilotWorkloadPolicyConfig: S.optional(__S(759, __c23, 23)),
           desiredDefaultEnablePrivateNodes: S.optional(S.Boolean),
-          desiredShieldedNodes: S.optional(__S(1760, __c55, 0)),
+          desiredShieldedNodes: S.optional(__S(1888, __c59, 0)),
           desiredImageProject: S.optional(S.String),
-          desiredNetworkTierConfig: S.optional(__S(288, __c9, 0)),
+          desiredNetworkTierConfig: S.optional(__S(320, __c10, 0)),
           etag: S.optional(S.String),
-          desiredNotificationConfig: S.optional(__S(694, __c21, 22)),
-          desiredNodePoolLoggingConfig: S.optional(__S(305, __c9, 17)),
-          desiredServiceExternalIpsConfig: S.optional(__S(1760, __c55, 0)),
-          desiredIdentityServiceConfig: S.optional(__S(1760, __c55, 0)),
-          desiredNodePoolAutoConfigKubeletConfig: S.optional(__S(313, __c9, 25)),
+          desiredNotificationConfig: S.optional(__S(758, __c23, 22)),
+          desiredNodePoolLoggingConfig: S.optional(__S(337, __c10, 17)),
+          desiredServiceExternalIpsConfig: S.optional(__S(1888, __c59, 0)),
+          desiredIdentityServiceConfig: S.optional(__S(1888, __c59, 0)),
+          desiredNodePoolAutoConfigKubeletConfig: S.optional(__S(345, __c10, 25)),
           desiredEnableCiliumClusterwideNetworkPolicy: S.optional(S.Boolean),
           desiredEnablePrivateEndpoint: S.optional(S.Boolean),
-          userManagedKeysConfig: S.optional(__S(708, __c22, 4)),
-          desiredNodePoolAutoConfigNetworkTags: S.optional(__S(608, __c19, 0)),
-          desiredDefaultSnatStatus: S.optional(__S(1761, __c55, 1)),
-          desiredPodSecurityPolicyConfig: S.optional(__S(1760, __c55, 0)),
+          userManagedKeysConfig: S.optional(__S(772, __c24, 4)),
+          desiredNodePoolAutoConfigNetworkTags: S.optional(__S(672, __c21, 0)),
+          desiredDefaultSnatStatus: S.optional(__S(1889, __c59, 1)),
+          desiredPodSecurityPolicyConfig: S.optional(__S(1888, __c59, 0)),
           desiredMonitoringService: S.optional(S.String),
-          desiredWorkloadIdentityConfig: S.optional(__S(652, __c20, 12)),
-          desiredManagedMachineLearningDiagnosticsConfig: S.optional(__S(1760, __c55, 0)),
-          desiredPrivateClusterConfig: S.optional(__S(702, __c21, 30)),
-          desiredNodePoolAutoConfigResourceManagerTags: S.optional(__S(318, __c9, 30)),
+          desiredWorkloadIdentityConfig: S.optional(__S(716, __c22, 12)),
+          desiredManagedMachineLearningDiagnosticsConfig: S.optional(__S(1888, __c59, 0)),
+          desiredPrivateClusterConfig: S.optional(__S(766, __c23, 30)),
+          desiredNodePoolAutoConfigResourceManagerTags: S.optional(__S(350, __c10, 30)),
           desiredInTransitEncryptionConfig: S.optional(S.String),
-          desiredL4ilbSubsettingConfig: S.optional(__S(1760, __c55, 0)),
+          desiredL4ilbSubsettingConfig: S.optional(__S(1888, __c59, 0)),
           desiredEnableMultiNetworking: S.optional(S.Boolean),
-          desiredRbacBindingConfig: S.optional(__S(704, __c22, 0)),
-          desiredClusterTelemetry: S.optional(__S(686, __c21, 14)),
-          desiredIntraNodeVisibilityConfig: S.optional(__S(1760, __c55, 0)),
+          desiredRbacBindingConfig: S.optional(__S(768, __c24, 0)),
+          desiredClusterTelemetry: S.optional(__S(750, __c23, 14)),
+          desiredIntraNodeVisibilityConfig: S.optional(__S(1888, __c59, 0)),
           desiredStackType: S.optional(S.String),
-          desiredGcfsConfig: S.optional(__S(1760, __c55, 0)),
-          desiredCostManagementConfig: S.optional(__S(1760, __c55, 0)),
-          desiredNodePoolAutoConfigLinuxNodeConfig: S.optional(__S(335, __c10, 15)),
-          desiredPrivilegedAdmissionConfig: S.optional(__S(697, __c21, 25)),
+          desiredGcfsConfig: S.optional(__S(1888, __c59, 0)),
+          desiredCostManagementConfig: S.optional(__S(1888, __c59, 0)),
+          desiredNodePoolAutoConfigLinuxNodeConfig: S.optional(__S(367, __c11, 15)),
+          desiredPrivilegedAdmissionConfig: S.optional(__S(761, __c23, 25)),
           desiredLoggingService: S.optional(S.String),
-          desiredNodePoolUpgradeConcurrencyConfig: S.optional(__S(641, __c20, 1)),
-          desiredNodeCreationConfig: S.optional(__S(661, __c20, 21)),
+          desiredNodePoolUpgradeConcurrencyConfig: S.optional(__S(705, __c22, 1)),
+          desiredNodeCreationConfig: S.optional(__S(725, __c22, 21)),
           desiredEnableFqdnNetworkPolicy: S.optional(S.Boolean),
-          enableK8sBetaApis: S.optional(__S(703, __c21, 31)),
-          gkeAutoUpgradeConfig: S.optional(__S(681, __c21, 9)),
-          desiredMeshCertificates: S.optional(__S(674, __c21, 2)),
-          desiredTpuConfig: S.optional(__S(705, __c22, 1)),
-          additionalPodRangesConfig: S.optional(__S(649, __c20, 9)),
-          desiredParentProductConfig: S.optional(__S(689, __c21, 17)),
-          desiredMonitoringConfig: S.optional(__S(673, __c21, 1)),
-          desiredManagedOpentelemetryConfig: S.optional(__S(671, __c20, 31)),
-          desiredLocations: S.optional(__S(3360, __c105, 0)),
+          enableK8sBetaApis: S.optional(__S(767, __c23, 31)),
+          gkeAutoUpgradeConfig: S.optional(__S(745, __c23, 9)),
+          desiredMeshCertificates: S.optional(__S(738, __c23, 2)),
+          desiredTpuConfig: S.optional(__S(769, __c24, 1)),
+          additionalPodRangesConfig: S.optional(__S(713, __c22, 9)),
+          desiredParentProductConfig: S.optional(__S(753, __c23, 17)),
+          desiredMonitoringConfig: S.optional(__S(737, __c23, 1)),
+          desiredManagedOpentelemetryConfig: S.optional(__S(735, __c22, 31)),
+          desiredLocations: S.optional(__S(3968, __c124, 0)),
           desiredDisableL4LbFirewallReconciliation: S.optional(S.Boolean),
-          desiredNodePoolAutoscaling: S.optional(__S(2304, __c72, 0)),
-          desiredReleaseChannel: S.optional(__S(643, __c20, 3)),
-          desiredAdditionalIpRangesConfig: S.optional(__S(3169, __c99, 1)),
-          desiredAddonsConfig: S.optional(__S(1797, __c56, 5)),
-          desiredControlPlaneEndpointsConfig: S.optional(__S(658, __c20, 18)),
-          desiredWorkloadCertificates: S.optional(__S(674, __c21, 2)),
-          desiredDnsConfig: S.optional(__S(699, __c21, 27)),
-          desiredSecretManagerConfig: S.optional(__S(707, __c22, 3)),
+          desiredNodePoolAutoscaling: S.optional(__S(2624, __c82, 0)),
+          desiredReleaseChannel: S.optional(__S(707, __c22, 3)),
+          desiredAdditionalIpRangesConfig: S.optional(__S(3777, __c118, 1)),
+          desiredAddonsConfig: S.optional(__S(1925, __c60, 5)),
+          desiredControlPlaneEndpointsConfig: S.optional(__S(722, __c22, 18)),
+          desiredWorkloadCertificates: S.optional(__S(738, __c23, 2)),
+          desiredDnsConfig: S.optional(__S(763, __c23, 27)),
+          desiredSecretManagerConfig: S.optional(__S(771, __c24, 3)),
           desiredDatapathProvider: S.optional(S.String),
-          desiredHostMaintenancePolicy: S.optional(__S(353, __c11, 1)),
-          desiredAmbientNetworkingConfig: S.optional(__S(1760, __c55, 0)),
-          desiredK8sBetaApis: S.optional(__S(703, __c21, 31)),
-          desiredContainerdConfig: S.optional(__S(303, __c9, 15)),
-          desiredNetworkPerformanceConfig: S.optional(__S(698, __c21, 26)),
+          desiredHostMaintenancePolicy: S.optional(__S(385, __c12, 1)),
+          desiredAmbientNetworkingConfig: S.optional(__S(1888, __c59, 0)),
+          desiredK8sBetaApis: S.optional(__S(767, __c23, 31)),
+          desiredContainerdConfig: S.optional(__S(335, __c10, 15)),
+          desiredNetworkPerformanceConfig: S.optional(__S(762, __c23, 26)),
           desiredPrivateIpv6GoogleAccess: S.optional(S.String),
-          desiredWorkloadAltsConfig: S.optional(__S(682, __c21, 10)),
-          desiredClusterAutoscaling: S.optional(__S(680, __c21, 8)),
-          desiredAutopilotClusterPolicyConfig: S.optional(__S(696, __c21, 24)),
-          desiredScheduleUpgradeConfig: S.optional(__S(1760, __c55, 0)),
+          desiredWorkloadAltsConfig: S.optional(__S(746, __c23, 10)),
+          desiredClusterAutoscaling: S.optional(__S(744, __c23, 8)),
+          desiredAutopilotClusterPolicyConfig: S.optional(__S(760, __c23, 24)),
+          desiredScheduleUpgradeConfig: S.optional(__S(1888, __c59, 0)),
         }),
       ).annotate({ identifier: "ClusterUpdate" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          clusterId: S.optional(S.String),
+          name: S.optional(S.String),
+          zone: S.optional(S.String),
+          projectId: S.optional(S.String),
+          update: S.optional(__S(3778, __c118, 2)),
+        }),
+      ).annotate({ identifier: "UpdateClusterRequest" });
   }
 }
-function __c100(j: number): any {
+function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          image: S.optional(S.String),
-          machineType: S.optional(S.String),
-          projectId: S.optional(S.String),
-          resourceManagerTags: S.optional(__S(318, __c9, 30)),
-          maintenancePolicy: S.optional(__S(405, __c12, 21)),
-          loggingConfig: S.optional(__S(305, __c9, 17)),
-          containerdConfig: S.optional(__S(303, __c9, 15)),
-          nodeConfigUpdateMode: S.optional(S.String),
-          confidentialNodes: S.optional(__S(385, __c12, 1)),
-          windowsNodeConfig: S.optional(__S(386, __c12, 2)),
-          gvnic: S.optional(__S(1760, __c55, 0)),
-          imageProject: S.optional(S.String),
-          resourceLabels: S.optional(__S(3232, __c101, 0)),
-          nodeVersion: S.optional(S.String),
-          upgradeSettings: S.optional(__S(317, __c9, 29)),
-          nodeNetworkConfig: S.optional(__S(403, __c12, 19)),
-          imageType: S.optional(S.String),
-          flexStart: S.optional(S.Boolean),
-          queuedProvisioning: S.optional(__S(1760, __c55, 0)),
-          kubeletConfig: S.optional(__S(313, __c9, 25)),
-          taints: S.optional(__S(3233, __c101, 1)),
-          fastSocket: S.optional(__S(1760, __c55, 0)),
-          bootDisk: S.optional(__S(387, __c12, 3)),
-          nodes: S.optional(__S(3360, __c105, 0)),
-          workloadMetadataConfig: S.optional(__S(388, __c12, 4)),
-          accelerators: S.optional(__S(394, __c12, 10)),
-          diskType: S.optional(S.String),
-          gcfsConfig: S.optional(__S(1760, __c55, 0)),
-          nodeDrainConfig: S.optional(__S(397, __c12, 13)),
-          storagePools: S.optional(__S(3360, __c105, 0)),
-          clusterId: S.optional(S.String),
-          tags: S.optional(__S(608, __c19, 0)),
-          consolidationDelay: S.optional(S.String),
-          locations: S.optional(__S(3360, __c105, 0)),
-          zone: S.optional(S.String),
-          maxRunDuration: S.optional(S.String),
-          nodePoolId: S.optional(S.String),
-          etag: S.optional(S.String),
-          taintConfig: S.optional(__S(395, __c12, 11)),
-          diskSizeGb: S.optional(S.String),
-          linuxNodeConfig: S.optional(__S(335, __c10, 15)),
-          labels: S.optional(__S(3232, __c101, 0)),
-        }).pipe(
+        S.Extend(
+          __S(3842, __c120, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "v1beta1/{+name}",
@@ -9405,33 +9718,82 @@ function __c100(j: number): any {
       ).annotate({ identifier: "UpdateProjectsLocationsClustersNodePoolsRequest" });
   }
 }
-function __c101(j: number): any {
+function __c120(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          labels: S.optional(__S(224, __c7, 0)),
+          labels: S.optional(__S(256, __c8, 0)),
         }),
       ).annotate({ identifier: "ResourceLabels" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          taints: S.optional(__S(390, __c12, 6)),
+          taints: S.optional(__S(422, __c13, 6)),
         }),
       ).annotate({ identifier: "NodeTaints" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          image: S.optional(S.String),
+          machineType: S.optional(S.String),
+          projectId: S.optional(S.String),
+          resourceManagerTags: S.optional(__S(350, __c10, 30)),
+          maintenancePolicy: S.optional(__S(437, __c13, 21)),
+          loggingConfig: S.optional(__S(337, __c10, 17)),
+          containerdConfig: S.optional(__S(335, __c10, 15)),
+          nodeConfigUpdateMode: S.optional(S.String),
+          confidentialNodes: S.optional(__S(417, __c13, 1)),
+          windowsNodeConfig: S.optional(__S(418, __c13, 2)),
+          gvnic: S.optional(__S(1888, __c59, 0)),
+          imageProject: S.optional(S.String),
+          resourceLabels: S.optional(__S(3840, __c120, 0)),
+          nodeVersion: S.optional(S.String),
+          upgradeSettings: S.optional(__S(349, __c10, 29)),
+          nodeNetworkConfig: S.optional(__S(435, __c13, 19)),
+          imageType: S.optional(S.String),
+          flexStart: S.optional(S.Boolean),
+          queuedProvisioning: S.optional(__S(1888, __c59, 0)),
+          kubeletConfig: S.optional(__S(345, __c10, 25)),
+          taints: S.optional(__S(3841, __c120, 1)),
+          fastSocket: S.optional(__S(1888, __c59, 0)),
+          bootDisk: S.optional(__S(419, __c13, 3)),
+          nodes: S.optional(__S(3968, __c124, 0)),
+          workloadMetadataConfig: S.optional(__S(420, __c13, 4)),
+          accelerators: S.optional(__S(426, __c13, 10)),
+          name: S.optional(S.String),
+          diskType: S.optional(S.String),
+          gcfsConfig: S.optional(__S(1888, __c59, 0)),
+          nodeDrainConfig: S.optional(__S(429, __c13, 13)),
+          storagePools: S.optional(__S(3968, __c124, 0)),
+          clusterId: S.optional(S.String),
+          tags: S.optional(__S(672, __c21, 0)),
+          consolidationDelay: S.optional(S.String),
+          locations: S.optional(__S(3968, __c124, 0)),
+          zone: S.optional(S.String),
+          maxRunDuration: S.optional(S.String),
+          nodePoolId: S.optional(S.String),
+          etag: S.optional(S.String),
+          taintConfig: S.optional(__S(427, __c13, 11)),
+          diskSizeGb: S.optional(S.String),
+          linuxNodeConfig: S.optional(__S(367, __c11, 15)),
+          labels: S.optional(__S(3840, __c120, 0)),
+        }),
+      ).annotate({ identifier: "UpdateNodePoolRequest" });
   }
 }
-function __c102(j: number): any {
+function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          zone: S.String.pipe(T.Label()),
-          clusterId: S.String.pipe(T.Label()),
-          name: S.optional(S.String),
-          update: S.optional(__S(3170, __c99, 2)),
-        }).pipe(
+        S.Extend(
+          __S(3779, __c118, 3),
+          S.Struct({
+            projectId: S.String.pipe(T.Label()),
+            zone: S.String.pipe(T.Label()),
+            clusterId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "v1beta1/projects/{projectId}/zones/{zone}/clusters/{clusterId}",
@@ -9441,55 +9803,19 @@ function __c102(j: number): any {
       ).annotate({ identifier: "UpdateProjectsZonesClustersRequest" });
   }
 }
-function __c103(j: number): any {
+function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          nodePoolId: S.String.pipe(T.Label()),
-          clusterId: S.String.pipe(T.Label()),
-          zone: S.String.pipe(T.Label()),
-          image: S.optional(S.String),
-          machineType: S.optional(S.String),
-          resourceManagerTags: S.optional(__S(318, __c9, 30)),
-          maintenancePolicy: S.optional(__S(405, __c12, 21)),
-          loggingConfig: S.optional(__S(305, __c9, 17)),
-          containerdConfig: S.optional(__S(303, __c9, 15)),
-          nodeConfigUpdateMode: S.optional(S.String),
-          confidentialNodes: S.optional(__S(385, __c12, 1)),
-          windowsNodeConfig: S.optional(__S(386, __c12, 2)),
-          gvnic: S.optional(__S(1760, __c55, 0)),
-          imageProject: S.optional(S.String),
-          resourceLabels: S.optional(__S(3232, __c101, 0)),
-          nodeVersion: S.optional(S.String),
-          upgradeSettings: S.optional(__S(317, __c9, 29)),
-          nodeNetworkConfig: S.optional(__S(403, __c12, 19)),
-          imageType: S.optional(S.String),
-          flexStart: S.optional(S.Boolean),
-          queuedProvisioning: S.optional(__S(1760, __c55, 0)),
-          kubeletConfig: S.optional(__S(313, __c9, 25)),
-          taints: S.optional(__S(3233, __c101, 1)),
-          fastSocket: S.optional(__S(1760, __c55, 0)),
-          bootDisk: S.optional(__S(387, __c12, 3)),
-          nodes: S.optional(__S(3360, __c105, 0)),
-          workloadMetadataConfig: S.optional(__S(388, __c12, 4)),
-          accelerators: S.optional(__S(394, __c12, 10)),
-          name: S.optional(S.String),
-          diskType: S.optional(S.String),
-          gcfsConfig: S.optional(__S(1760, __c55, 0)),
-          nodeDrainConfig: S.optional(__S(397, __c12, 13)),
-          storagePools: S.optional(__S(3360, __c105, 0)),
-          tags: S.optional(__S(608, __c19, 0)),
-          consolidationDelay: S.optional(S.String),
-          locations: S.optional(__S(3360, __c105, 0)),
-          maxRunDuration: S.optional(S.String),
-          etag: S.optional(S.String),
-          taintConfig: S.optional(__S(395, __c12, 11)),
-          diskSizeGb: S.optional(S.String),
-          linuxNodeConfig: S.optional(__S(335, __c10, 15)),
-          labels: S.optional(__S(3232, __c101, 0)),
-        }).pipe(
+        S.Extend(
+          __S(3842, __c120, 2),
+          S.Struct({
+            projectId: S.String.pipe(T.Label()),
+            nodePoolId: S.String.pipe(T.Label()),
+            clusterId: S.String.pipe(T.Label()),
+            zone: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/projects/{projectId}/zones/{zone}/clusters/{clusterId}/nodePools/{nodePoolId}/update",
@@ -9499,7 +9825,7 @@ function __c103(j: number): any {
       ).annotate({ identifier: "UpdateProjectsZonesClustersNodePoolsRequest" });
   }
 }
-function __c104(j: number): any {
+function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9519,36 +9845,38 @@ function __c104(j: number): any {
           documentationUrl: S.optional(S.String),
           description: S.optional(S.String),
           constraintType: S.optional(S.String),
-          subjects: S.optional(__S(3360, __c105, 0)),
+          subjects: S.optional(__S(3968, __c124, 0)),
           incompatibilityType: S.optional(S.String),
           lastObservation: S.optional(S.String),
         }),
       ).annotate({ identifier: "AutopilotCompatibilityIssue" });
     case 2:
-      return S.Array(__S(3329, __c104, 1));
+      return S.Array(__S(3937, __c123, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          issues: S.optional(__S(3330, __c104, 2)),
+          issues: S.optional(__S(3938, __c123, 2)),
           summary: S.optional(S.String),
         }),
       ).annotate({ identifier: "CheckAutopilotCompatibilityResponse" });
   }
 }
-function __c105(j: number): any {
+function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c106(j: number): any {
+function __c125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          version: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(4032, __c126, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:completeControlPlaneUpgrade",
@@ -9556,6 +9884,16 @@ function __c106(j: number): any {
           }),
         ),
       ).annotate({ identifier: "CompleteControlPlaneUpgradeProjectsLocationsClustersRequest" });
+  }
+}
+function __c126(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          version: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CompleteControlPlaneUpgradeRequest" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

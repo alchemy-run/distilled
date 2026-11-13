@@ -94,23 +94,29 @@ export interface AbandonProjectsLocationsDeliveryPipelinesReleasesRequest {
 /** The response object for `AbandonRelease`. */
 export interface AbandonReleaseResponse {}
 export type StringList = Array<string>;
-export interface AdvanceProjectsLocationsDeliveryPipelinesReleasesRolloutsRequest {
-  /** Required. Name of the Rollout. Format is `projects/{project}/locations/{location}/deliveryPipelines/{deliveryPipeline}/releases/{release}/rollouts/{rollout}`. */
-  name: string;
+/** The request object used by `AdvanceRollout`. */
+export interface AdvanceRolloutRequest {
   /** Optional. Deploy policies to override. Format is `projects/{project}/locations/{location}/deployPolicies/{deployPolicy}`. */
   overrideDeployPolicy?: StringList | undefined;
   /** Required. The phase ID to advance the `Rollout` to. */
   phaseId?: string | undefined;
 }
-/** The response object from `AdvanceRollout`. */
-export interface AdvanceRolloutResponse {}
-export interface ApproveProjectsLocationsDeliveryPipelinesReleasesRolloutsRequest {
+export interface AdvanceProjectsLocationsDeliveryPipelinesReleasesRolloutsRequest extends AdvanceRolloutRequest {
   /** Required. Name of the Rollout. Format is `projects/{project}/locations/{location}/deliveryPipelines/{deliveryPipeline}/releases/{release}/rollouts/{rollout}`. */
   name: string;
+}
+/** The response object from `AdvanceRollout`. */
+export interface AdvanceRolloutResponse {}
+/** The request object used by `ApproveRollout`. */
+export interface ApproveRolloutRequest {
   /** Required. True = approve; false = reject */
   approved?: boolean | undefined;
   /** Optional. Deploy policies to override. Format is `projects/{project}/locations/{location}/deployPolicies/{deployPolicy}`. */
   overrideDeployPolicy?: StringList | undefined;
+}
+export interface ApproveProjectsLocationsDeliveryPipelinesReleasesRolloutsRequest extends ApproveRolloutRequest {
+  /** Required. Name of the Rollout. Format is `projects/{project}/locations/{location}/deliveryPipelines/{deliveryPipeline}/releases/{release}/rollouts/{rollout}`. */
+  name: string;
 }
 /** The response object from `ApproveRollout`. */
 export interface ApproveRolloutResponse {}
@@ -124,11 +130,14 @@ export interface CancelProjectsLocationsDeliveryPipelinesAutomationRunsRequest {
 }
 /** The response object from `CancelAutomationRun`. */
 export interface CancelAutomationRunResponse {}
-export interface CancelProjectsLocationsDeliveryPipelinesReleasesRolloutsRequest {
-  /** Required. Name of the Rollout. Format is `projects/{project}/locations/{location}/deliveryPipelines/{deliveryPipeline}/releases/{release}/rollouts/{rollout}`. */
-  name: string;
+/** The request object used by `CancelRollout`. */
+export interface CancelRolloutRequest {
   /** Optional. Deploy policies to override. Format is `projects/{project}/locations/{location}/deployPolicies/{deployPolicy}`. */
   overrideDeployPolicy?: StringList | undefined;
+}
+export interface CancelProjectsLocationsDeliveryPipelinesReleasesRolloutsRequest extends CancelRolloutRequest {
+  /** Required. Name of the Rollout. Format is `projects/{project}/locations/{location}/deliveryPipelines/{deliveryPipeline}/releases/{release}/rollouts/{rollout}`. */
+  name: string;
 }
 /** The response object from `CancelRollout`. */
 export interface CancelRolloutResponse {}
@@ -212,15 +221,8 @@ export interface CustomTargetSkaffoldActions {
   /** Optional. The Skaffold custom action responsible for render operations. If not provided then Cloud Deploy will perform the render operations via `skaffold render`. */
   renderAction?: string | undefined;
 }
-export interface CreateProjectsLocationsCustomTargetTypesRequest {
-  /** Required. The parent collection in which the `CustomTargetType` must be created. The format is `projects/{project_id}/locations/{location_name}`. */
-  parent: string;
-  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Optional. If set to true, the request is validated and the user is provided with an expected result, but no actual change is made. */
-  validateOnly?: boolean | undefined;
-  /** Required. ID of the `CustomTargetType`. */
-  customTargetTypeId?: string | undefined;
+/** A `CustomTargetType` resource in the Cloud Deploy API. A `CustomTargetType` defines a type of custom target that can be referenced in a `Target` in order to facilitate deploying to other systems besides the supported runtimes. */
+export interface CustomTargetType {
   /** Optional. Configures render and deploy for the `CustomTargetType` using tasks. */
   tasks?: CustomTargetTasks | undefined;
   /** Optional. User annotations. These attributes can only be set and used by the user, and not by Cloud Deploy. See https://google.aip.dev/128#annotations for more details such as format and size limitations. */
@@ -239,8 +241,23 @@ export interface CreateProjectsLocationsCustomTargetTypesRequest {
   etag?: string | undefined;
   /** Optional. Labels are attributes that can be set and used by both the user and by Cloud Deploy. Labels must meet the following constraints: * Keys and values can contain only lowercase letters, numeric characters, underscores, and dashes. * All characters must use UTF-8 encoding, and international characters are allowed. * Keys must start with a lowercase letter or international character. * Each resource is limited to a maximum of 64 labels. Both keys and values are additionally constrained to be <= 128 bytes. */
   labels?: StringMap | undefined;
+  /** Output only. Resource id of the `CustomTargetType`. */
+  customTargetTypeId?: string | undefined;
   /** Optional. Description of the `CustomTargetType`. Max length is 255 characters. */
   description?: string | undefined;
+}
+export interface CreateProjectsLocationsCustomTargetTypesRequest extends Omit<
+  CustomTargetType,
+  "customTargetTypeId"
+> {
+  /** Required. The parent collection in which the `CustomTargetType` must be created. The format is `projects/{project_id}/locations/{location_name}`. */
+  parent: string;
+  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+  /** Optional. If set to true, the request is validated and the user is provided with an expected result, but no actual change is made. */
+  validateOnly?: boolean | undefined;
+  /** Required. ID of the `CustomTargetType`. */
+  customTargetTypeId?: string | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -507,15 +524,8 @@ export interface PipelineCondition {
   /** Details around targets enumerated in the pipeline. */
   targetsPresentCondition?: TargetsPresentCondition | undefined;
 }
-export interface CreateProjectsLocationsDeliveryPipelinesRequest {
-  /** Required. The parent collection in which the `DeliveryPipeline` must be created. The format is `projects/{project_id}/locations/{location_name}`. */
-  parent: string;
-  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Optional. If set to true, the request is validated and the user is provided with an expected result, but no actual change is made. */
-  validateOnly?: boolean | undefined;
-  /** Required. ID of the `DeliveryPipeline`. */
-  deliveryPipelineId?: string | undefined;
+/** A `DeliveryPipeline` resource in the Cloud Deploy API. A `DeliveryPipeline` defines a pipeline through which a Skaffold configuration can progress. */
+export interface DeliveryPipeline {
   /** Optional. Labels are attributes that can be set and used by both the user and by Cloud Deploy. Labels must meet the following constraints: * Keys and values can contain only lowercase letters, numeric characters, underscores, and dashes. * All characters must use UTF-8 encoding, and international characters are allowed. * Keys must start with a lowercase letter or international character. * Each resource is limited to a maximum of 64 labels. Both keys and values are additionally constrained to be <= 128 bytes. */
   labels?: StringMap | undefined;
   /** Output only. Time at which the pipeline was created. */
@@ -538,6 +548,16 @@ export interface CreateProjectsLocationsDeliveryPipelinesRequest {
   condition?: PipelineCondition | undefined;
   /** Output only. Unique identifier of the `DeliveryPipeline`. */
   uid?: string | undefined;
+}
+export interface CreateProjectsLocationsDeliveryPipelinesRequest extends DeliveryPipeline {
+  /** Required. The parent collection in which the `DeliveryPipeline` must be created. The format is `projects/{project_id}/locations/{location_name}`. */
+  parent: string;
+  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+  /** Optional. If set to true, the request is validated and the user is provided with an expected result, but no actual change is made. */
+  validateOnly?: boolean | undefined;
+  /** Required. ID of the `DeliveryPipeline`. */
+  deliveryPipelineId?: string | undefined;
 }
 /** The targets involved in a single timed promotion. */
 export interface Targets {
@@ -666,15 +686,8 @@ export interface AutomationResourceSelector {
   /** Optional. Contains attributes about a target. */
   targets?: TargetAttributeList | undefined;
 }
-export interface CreateProjectsLocationsDeliveryPipelinesAutomationsRequest {
-  /** Required. The parent collection in which the `Automation` must be created. The format is `projects/{project_id}/locations/{location_name}/deliveryPipelines/{pipeline_name}`. */
-  parent: string;
-  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Required. ID of the `Automation`. */
-  automationId?: string | undefined;
-  /** Optional. If set to true, the request is validated and the user is provided with an expected result, but no actual change is made. */
-  validateOnly?: boolean | undefined;
+/** An `Automation` resource in the Cloud Deploy API. An `Automation` enables the automation of manually driven actions for a Delivery Pipeline, which includes Release promotion among Targets, Rollout repair and Rollout deployment strategy advancement. The intention of Automation is to reduce manual intervention in the continuous delivery process. */
+export interface Automation {
   /** Optional. The weak etag of the `Automation` resource. This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
   etag?: string | undefined;
   /** Optional. User annotations. These attributes can only be set and used by the user, and not by Cloud Deploy. Annotations must meet the following constraints: * Annotations are key/value pairs. * Valid annotation keys have two segments: an optional prefix and name, separated by a slash (`/`). * The name segment is required and must be 63 characters or less, beginning and ending with an alphanumeric character (`[a-z0-9A-Z]`) with dashes (`-`), underscores (`_`), dots (`.`), and alphanumerics between. * The prefix is optional. If specified, the prefix must be a DNS subdomain: a series of DNS labels separated by dots(`.`), not longer than 253 characters in total, followed by a slash (`/`). See https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/#syntax-and-character-set for more details. */
@@ -699,6 +712,16 @@ export interface CreateProjectsLocationsDeliveryPipelinesAutomationsRequest {
   uid?: string | undefined;
   /** Optional. Description of the `Automation`. Max length is 255 characters. */
   description?: string | undefined;
+}
+export interface CreateProjectsLocationsDeliveryPipelinesAutomationsRequest extends Automation {
+  /** Required. The parent collection in which the `Automation` must be created. The format is `projects/{project_id}/locations/{location_name}/deliveryPipelines/{pipeline_name}`. */
+  parent: string;
+  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+  /** Required. ID of the `Automation`. */
+  automationId?: string | undefined;
+  /** Optional. If set to true, the request is validated and the user is provided with an expected result, but no actual change is made. */
+  validateOnly?: boolean | undefined;
 }
 /** Contains the paths to the artifacts, relative to the URI, for a phase. */
 export interface PhaseArtifact {
@@ -974,31 +997,6 @@ export interface TargetRender {
   renderingState?: TargetRenderRenderingStateEnum | (string & {}) | undefined;
 }
 export type TargetRenderMap = { [key: string]: TargetRender | undefined };
-/** A `CustomTargetType` resource in the Cloud Deploy API. A `CustomTargetType` defines a type of custom target that can be referenced in a `Target` in order to facilitate deploying to other systems besides the supported runtimes. */
-export interface CustomTargetType {
-  /** Optional. Configures render and deploy for the `CustomTargetType` using tasks. */
-  tasks?: CustomTargetTasks | undefined;
-  /** Optional. User annotations. These attributes can only be set and used by the user, and not by Cloud Deploy. See https://google.aip.dev/128#annotations for more details such as format and size limitations. */
-  annotations?: StringMap | undefined;
-  /** Output only. Time at which the `CustomTargetType` was created. */
-  createTime?: string | undefined;
-  /** Output only. Most recent time at which the `CustomTargetType` was updated. */
-  updateTime?: string | undefined;
-  /** Optional. Configures render and deploy for the `CustomTargetType` using Skaffold custom actions. */
-  customActions?: CustomTargetSkaffoldActions | undefined;
-  /** Output only. Unique identifier of the `CustomTargetType`. */
-  uid?: string | undefined;
-  /** Identifier. Name of the `CustomTargetType`. Format is `projects/{project}/locations/{location}/customTargetTypes/{customTargetType}`. The `customTargetType` component must match `[a-z]([a-z0-9-]{0,61}[a-z0-9])?` */
-  name?: string | undefined;
-  /** Optional. This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
-  etag?: string | undefined;
-  /** Optional. Labels are attributes that can be set and used by both the user and by Cloud Deploy. Labels must meet the following constraints: * Keys and values can contain only lowercase letters, numeric characters, underscores, and dashes. * All characters must use UTF-8 encoding, and international characters are allowed. * Keys must start with a lowercase letter or international character. * Each resource is limited to a maximum of 64 labels. Both keys and values are additionally constrained to be <= 128 bytes. */
-  labels?: StringMap | undefined;
-  /** Output only. Resource id of the `CustomTargetType`. */
-  customTargetTypeId?: string | undefined;
-  /** Optional. Description of the `CustomTargetType`. Max length is 255 characters. */
-  description?: string | undefined;
-}
 export type CustomTargetTypeList = Array<CustomTargetType>;
 export type ReleaseRenderStateEnum =
   | "RENDER_STATE_UNSPECIFIED"
@@ -1013,31 +1011,6 @@ export interface BuildArtifact {
   tag?: string | undefined;
 }
 export type BuildArtifactList = Array<BuildArtifact>;
-/** A `DeliveryPipeline` resource in the Cloud Deploy API. A `DeliveryPipeline` defines a pipeline through which a Skaffold configuration can progress. */
-export interface DeliveryPipeline {
-  /** Optional. Labels are attributes that can be set and used by both the user and by Cloud Deploy. Labels must meet the following constraints: * Keys and values can contain only lowercase letters, numeric characters, underscores, and dashes. * All characters must use UTF-8 encoding, and international characters are allowed. * Keys must start with a lowercase letter or international character. * Each resource is limited to a maximum of 64 labels. Both keys and values are additionally constrained to be <= 128 bytes. */
-  labels?: StringMap | undefined;
-  /** Output only. Time at which the pipeline was created. */
-  createTime?: string | undefined;
-  /** Output only. Most recent time at which the pipeline was updated. */
-  updateTime?: string | undefined;
-  /** Identifier. Name of the `DeliveryPipeline`. Format is `projects/{project}/locations/{location}/deliveryPipelines/{deliveryPipeline}`. The `deliveryPipeline` component must match `[a-z]([a-z0-9-]{0,61}[a-z0-9])?` */
-  name?: string | undefined;
-  /** Optional. When suspended, no new releases or rollouts can be created, but in-progress ones will complete. */
-  suspended?: boolean | undefined;
-  /** Optional. SerialPipeline defines a sequential set of stages for a `DeliveryPipeline`. */
-  serialPipeline?: SerialPipeline | undefined;
-  /** Optional. User annotations. These attributes can only be set and used by the user, and not by Cloud Deploy. */
-  annotations?: StringMap | undefined;
-  /** This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
-  etag?: string | undefined;
-  /** Optional. Description of the `DeliveryPipeline`. Max length is 255 characters. */
-  description?: string | undefined;
-  /** Output only. Information around the state of the Delivery Pipeline. */
-  condition?: PipelineCondition | undefined;
-  /** Output only. Unique identifier of the `DeliveryPipeline`. */
-  uid?: string | undefined;
-}
 /** Details of ToolVersions for the release. */
 export interface ToolVersions {
   /** Optional. The Skaffold version to use for Cloud Deploy operations. */
@@ -1053,17 +1026,8 @@ export interface ToolVersions {
   /** Optional. The Kustomize version to use for Cloud Deploy operations. */
   kustomize?: string | undefined;
 }
-export interface CreateProjectsLocationsDeliveryPipelinesReleasesRequest {
-  /** Required. The parent collection in which the `Release` is created. The format is `projects/{project_id}/locations/{location_name}/deliveryPipelines/{pipeline_name}`. */
-  parent: string;
-  /** Required. ID of the `Release`. */
-  releaseId?: string | undefined;
-  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Optional. Deploy policies to override. Format is `projects/{project}/locations/{location}/deployPolicies/{deployPolicy}`. */
-  overrideDeployPolicy?: StringList | undefined;
-  /** Optional. If set to true, the request is validated and the user is provided with an expected result, but no actual change is made. */
-  validateOnly?: boolean | undefined;
+/** A `Release` resource in the Cloud Deploy API. A `Release` defines a specific Skaffold configuration instance that can be deployed. */
+export interface Release {
   /** Output only. Time at which the render completed. */
   renderEndTime?: string | undefined;
   /** Optional. The deploy parameters to use for all targets in this release. */
@@ -1110,6 +1074,18 @@ export interface CreateProjectsLocationsDeliveryPipelinesReleasesRequest {
   toolVersions?: ToolVersions | undefined;
   /** Output only. Time at which the `Release` was created. */
   createTime?: string | undefined;
+}
+export interface CreateProjectsLocationsDeliveryPipelinesReleasesRequest extends Release {
+  /** Required. The parent collection in which the `Release` is created. The format is `projects/{project_id}/locations/{location_name}/deliveryPipelines/{pipeline_name}`. */
+  parent: string;
+  /** Required. ID of the `Release`. */
+  releaseId?: string | undefined;
+  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+  /** Optional. Deploy policies to override. Format is `projects/{project}/locations/{location}/deployPolicies/{deployPolicy}`. */
+  overrideDeployPolicy?: StringList | undefined;
+  /** Optional. If set to true, the request is validated and the user is provided with an expected result, but no actual change is made. */
+  validateOnly?: boolean | undefined;
 }
 export type RolloutStateEnum =
   | "STATE_UNSPECIFIED"
@@ -1284,19 +1260,8 @@ export interface Phase {
   deploymentJobs?: DeploymentJobs | undefined;
 }
 export type PhaseList = Array<Phase>;
-export interface CreateProjectsLocationsDeliveryPipelinesReleasesRolloutsRequest {
-  /** Optional. If set to true, the request is validated and the user is provided with an expected result, but no actual change is made. */
-  validateOnly?: boolean | undefined;
-  /** Required. The parent collection in which the `Rollout` must be created. The format is `projects/{project_id}/locations/{location_name}/deliveryPipelines/{pipeline_name}/releases/{release_name}`. */
-  parent: string;
-  /** Optional. The starting phase ID for the `Rollout`. If empty the `Rollout` will start at the first phase. */
-  startingPhaseId?: string | undefined;
-  /** Optional. Deploy policies to override. Format is `projects/{project}/locations/{location}/deployPolicies/{deployPolicy}`. */
-  overrideDeployPolicy?: StringList | undefined;
-  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Required. ID of the `Rollout`. */
-  rolloutId?: string | undefined;
+/** A `Rollout` resource in the Cloud Deploy API. A `Rollout` contains information around a specific deployment to a `Target`. */
+export interface Rollout {
   /** Output only. Time at which the `Rollout` was enqueued. */
   enqueueTime?: string | undefined;
   /** Output only. Time at which the `Rollout` was approved. */
@@ -1343,6 +1308,20 @@ export interface CreateProjectsLocationsDeliveryPipelinesReleasesRolloutsRequest
   controllerRollout?: string | undefined;
   /** Output only. Time at which the `Rollout` was created. */
   createTime?: string | undefined;
+}
+export interface CreateProjectsLocationsDeliveryPipelinesReleasesRolloutsRequest extends Rollout {
+  /** Optional. If set to true, the request is validated and the user is provided with an expected result, but no actual change is made. */
+  validateOnly?: boolean | undefined;
+  /** Required. The parent collection in which the `Rollout` must be created. The format is `projects/{project_id}/locations/{location_name}/deliveryPipelines/{pipeline_name}/releases/{release_name}`. */
+  parent: string;
+  /** Optional. The starting phase ID for the `Rollout`. If empty the `Rollout` will start at the first phase. */
+  startingPhaseId?: string | undefined;
+  /** Optional. Deploy policies to override. Format is `projects/{project}/locations/{location}/deployPolicies/{deployPolicy}`. */
+  overrideDeployPolicy?: StringList | undefined;
+  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+  /** Required. ID of the `Rollout`. */
+  rolloutId?: string | undefined;
 }
 export type RolloutRestrictionInvokersItemEnum =
   | "INVOKER_UNSPECIFIED"
@@ -1459,15 +1438,8 @@ export interface DeployPolicyResourceSelector {
   target?: TargetAttribute | undefined;
 }
 export type DeployPolicyResourceSelectorList = Array<DeployPolicyResourceSelector>;
-export interface CreateProjectsLocationsDeployPoliciesRequest {
-  /** Required. The parent collection in which the `DeployPolicy` must be created. The format is `projects/{project_id}/locations/{location_name}`. */
-  parent: string;
-  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Optional. If set to true, the request is validated and the user is provided with an expected result, but no actual change is made. */
-  validateOnly?: boolean | undefined;
-  /** Required. ID of the `DeployPolicy`. */
-  deployPolicyId?: string | undefined;
+/** A `DeployPolicy` resource in the Cloud Deploy API. A `DeployPolicy` inhibits manual or automation-driven actions within a Delivery Pipeline or Target. */
+export interface DeployPolicy {
   /** Required. Rules to apply. At least one rule must be present. */
   rules?: PolicyRuleList | undefined;
   /** Labels are attributes that can be set and used by both the user and by Cloud Deploy. Labels must meet the following constraints: * Keys and values can contain only lowercase letters, numeric characters, underscores, and dashes. * All characters must use UTF-8 encoding, and international characters are allowed. * Keys must start with a lowercase letter or international character. * Each resource is limited to a maximum of 64 labels. Both keys and values are additionally constrained to be <= 128 bytes. */
@@ -1491,7 +1463,17 @@ export interface CreateProjectsLocationsDeployPoliciesRequest {
   /** Output only. Unique identifier of the `DeployPolicy`. */
   uid?: string | undefined;
 }
-export interface CreateProjectsLocationsTargetsRequest {
+export interface CreateProjectsLocationsDeployPoliciesRequest extends DeployPolicy {
+  /** Required. The parent collection in which the `DeployPolicy` must be created. The format is `projects/{project_id}/locations/{location_name}`. */
+  parent: string;
+  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+  /** Optional. If set to true, the request is validated and the user is provided with an expected result, but no actual change is made. */
+  validateOnly?: boolean | undefined;
+  /** Required. ID of the `DeployPolicy`. */
+  deployPolicyId?: string | undefined;
+}
+export interface CreateProjectsLocationsTargetsRequest extends Omit<Target, "targetId"> {
   /** Required. ID of the `Target`. */
   targetId?: string | undefined;
   /** Required. The parent collection in which the `Target` must be created. The format is `projects/{project_id}/locations/{location_name}`. */
@@ -1500,40 +1482,6 @@ export interface CreateProjectsLocationsTargetsRequest {
   validateOnly?: boolean | undefined;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Identifier. Name of the `Target`. Format is `projects/{project}/locations/{location}/targets/{target}`. The `target` component must match `[a-z]([a-z0-9-]{0,61}[a-z0-9])?` */
-  name?: string | undefined;
-  /** Optional. User annotations. These attributes can only be set and used by the user, and not by Cloud Deploy. See https://google.aip.dev/128#annotations for more details such as format and size limitations. */
-  annotations?: StringMap | undefined;
-  /** Optional. Information specifying a GKE Cluster. */
-  gke?: GkeCluster | undefined;
-  /** Optional. Map of entity IDs to their associated entities. Associated entities allows specifying places other than the deployment target for specific features. For example, the Gateway API canary can be configured to deploy the HTTPRoute to a different cluster(s) than the deployment cluster using associated entities. An entity ID must consist of lower-case letters, numbers, and hyphens, start with a letter and end with a letter or a number, and have a max length of 63 characters. In other words, it must match the following regex: `^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$`. */
-  associatedEntities?: AssociatedEntitiesMap | undefined;
-  /** Optional. Configurations for all execution that relates to this `Target`. Each `ExecutionEnvironmentUsage` value may only be used in a single configuration; using the same value multiple times is an error. When one or more configurations are specified, they must include the `RENDER` and `DEPLOY` `ExecutionEnvironmentUsage` values. When no configurations are specified, execution will use the default specified in `DefaultPool`. */
-  executionConfigs?: ExecutionConfigList | undefined;
-  /** Optional. Information specifying a multiTarget. */
-  multiTarget?: MultiTarget | undefined;
-  /** Optional. Information specifying a Custom Target. */
-  customTarget?: CustomTarget | undefined;
-  /** Optional. The deploy parameters to use for this target. */
-  deployParameters?: StringMap | undefined;
-  /** Output only. Most recent time at which the `Target` was updated. */
-  updateTime?: string | undefined;
-  /** Optional. Information specifying an Anthos Cluster. */
-  anthosCluster?: AnthosCluster | undefined;
-  /** Optional. Labels are attributes that can be set and used by both the user and by Cloud Deploy. Labels must meet the following constraints: * Keys and values can contain only lowercase letters, numeric characters, underscores, and dashes. * All characters must use UTF-8 encoding, and international characters are allowed. * Keys must start with a lowercase letter or international character. * Each resource is limited to a maximum of 64 labels. Both keys and values are additionally constrained to be <= 128 bytes. */
-  labels?: StringMap | undefined;
-  /** Optional. Whether or not the `Target` requires approval. */
-  requireApproval?: boolean | undefined;
-  /** Optional. Information specifying a Cloud Run deployment target. */
-  run?: CloudRunLocation | undefined;
-  /** Optional. This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
-  etag?: string | undefined;
-  /** Optional. Description of the `Target`. Max length is 255 characters. */
-  description?: string | undefined;
-  /** Output only. Unique identifier of the `Target`. */
-  uid?: string | undefined;
-  /** Output only. Time at which the `Target` was created. */
-  createTime?: string | undefined;
 }
 export interface DeleteProjectsLocationsCustomTargetTypesRequest {
   /** Optional. This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
@@ -1734,33 +1682,6 @@ export interface GetProjectsLocationsDeliveryPipelinesAutomationRunsRequest {
   /** Required. Name of the `AutomationRun`. Format must be `projects/{project}/locations/{location}/deliveryPipelines/{delivery_pipeline}/automationRuns/{automation_run}`. */
   name: string;
 }
-/** An `Automation` resource in the Cloud Deploy API. An `Automation` enables the automation of manually driven actions for a Delivery Pipeline, which includes Release promotion among Targets, Rollout repair and Rollout deployment strategy advancement. The intention of Automation is to reduce manual intervention in the continuous delivery process. */
-export interface Automation {
-  /** Optional. The weak etag of the `Automation` resource. This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
-  etag?: string | undefined;
-  /** Optional. User annotations. These attributes can only be set and used by the user, and not by Cloud Deploy. Annotations must meet the following constraints: * Annotations are key/value pairs. * Valid annotation keys have two segments: an optional prefix and name, separated by a slash (`/`). * The name segment is required and must be 63 characters or less, beginning and ending with an alphanumeric character (`[a-z0-9A-Z]`) with dashes (`-`), underscores (`_`), dots (`.`), and alphanumerics between. * The prefix is optional. If specified, the prefix must be a DNS subdomain: a series of DNS labels separated by dots(`.`), not longer than 253 characters in total, followed by a slash (`/`). See https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/#syntax-and-character-set for more details. */
-  annotations?: StringMap | undefined;
-  /** Output only. Name of the `Automation`. Format is `projects/{project}/locations/{location}/deliveryPipelines/{delivery_pipeline}/automations/{automation}`. */
-  name?: string | undefined;
-  /** Required. List of Automation rules associated with the Automation resource. Must have at least one rule and limited to 250 rules per Delivery Pipeline. Note: the order of the rules here is not the same as the order of execution. */
-  rules?: AutomationRuleList | undefined;
-  /** Output only. Time at which the automation was created. */
-  createTime?: string | undefined;
-  /** Output only. Time at which the automation was updated. */
-  updateTime?: string | undefined;
-  /** Required. Selected resources to which the automation will be applied. */
-  selector?: AutomationResourceSelector | undefined;
-  /** Optional. Labels are attributes that can be set and used by both the user and by Cloud Deploy. Labels must meet the following constraints: * Keys and values can contain only lowercase letters, numeric characters, underscores, and dashes. * All characters must use UTF-8 encoding, and international characters are allowed. * Keys must start with a lowercase letter or international character. * Each resource is limited to a maximum of 64 labels. Both keys and values are additionally constrained to be <= 63 characters. */
-  labels?: StringMap | undefined;
-  /** Required. Email address of the user-managed IAM service account that creates Cloud Deploy release and rollout resources. */
-  serviceAccount?: string | undefined;
-  /** Optional. When Suspended, automation is deactivated from execution. */
-  suspended?: boolean | undefined;
-  /** Output only. Unique identifier of the `Automation`. */
-  uid?: string | undefined;
-  /** Optional. Description of the `Automation`. Max length is 255 characters. */
-  description?: string | undefined;
-}
 export type AutomationRunStateEnum =
   | "STATE_UNSPECIFIED"
   | "SUCCEEDED"
@@ -1939,107 +1860,9 @@ export interface GetProjectsLocationsDeliveryPipelinesReleasesRequest {
   /** Required. Name of the `Release`. Format must be `projects/{project_id}/locations/{location_name}/deliveryPipelines/{pipeline_name}/releases/{release_name}`. */
   name: string;
 }
-/** A `Release` resource in the Cloud Deploy API. A `Release` defines a specific Skaffold configuration instance that can be deployed. */
-export interface Release {
-  /** Output only. Time at which the render completed. */
-  renderEndTime?: string | undefined;
-  /** Optional. The deploy parameters to use for all targets in this release. */
-  deployParameters?: StringMap | undefined;
-  /** Optional. The Skaffold version to use when operating on this release, such as "1.20.0". Not all versions are valid; Cloud Deploy supports a specific set of versions. If unset, the most recent supported Skaffold version will be used. */
-  skaffoldVersion?: string | undefined;
-  /** Output only. Map from target ID to the target artifacts created during the render operation. */
-  targetArtifacts?: TargetArtifactMap | undefined;
-  /** Output only. Information around the state of the Release. */
-  condition?: ReleaseCondition | undefined;
-  /** Output only. Snapshot of the targets taken at release creation time. */
-  targetSnapshots?: TargetList | undefined;
-  /** Output only. Map from target ID to details of the render operation for that target. */
-  targetRenders?: TargetRenderMap | undefined;
-  /** Output only. Unique identifier of the `Release`. */
-  uid?: string | undefined;
-  /** Output only. Indicates whether this is an abandoned release. */
-  abandoned?: boolean | undefined;
-  /** This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
-  etag?: string | undefined;
-  /** Optional. Cloud Storage URI of tar.gz archive containing Skaffold configuration. */
-  skaffoldConfigUri?: string | undefined;
-  /** Output only. Snapshot of the custom target types referenced by the targets taken at release creation time. */
-  customTargetTypeSnapshots?: CustomTargetTypeList | undefined;
-  /** Output only. Current state of the render operation. */
-  renderState?: ReleaseRenderStateEnum | undefined;
-  /** Optional. List of artifacts to pass through to Skaffold command. */
-  buildArtifacts?: BuildArtifactList | undefined;
-  /** Optional. User annotations. These attributes can only be set and used by the user, and not by Cloud Deploy. See https://google.aip.dev/128#annotations for more details such as format and size limitations. */
-  annotations?: StringMap | undefined;
-  /** Optional. Description of the `Release`. Max length is 255 characters. */
-  description?: string | undefined;
-  /** Optional. Labels are attributes that can be set and used by both the user and by Cloud Deploy. Labels must meet the following constraints: * Keys and values can contain only lowercase letters, numeric characters, underscores, and dashes. * All characters must use UTF-8 encoding, and international characters are allowed. * Keys must start with a lowercase letter or international character. * Each resource is limited to a maximum of 64 labels. Both keys and values are additionally constrained to be <= 128 bytes. */
-  labels?: StringMap | undefined;
-  /** Optional. Filepath of the Skaffold config inside of the config URI. */
-  skaffoldConfigPath?: string | undefined;
-  /** Identifier. Name of the `Release`. Format is `projects/{project}/locations/{location}/deliveryPipelines/{deliveryPipeline}/releases/{release}`. The `release` component must match `[a-z]([a-z0-9-]{0,61}[a-z0-9])?` */
-  name?: string | undefined;
-  /** Output only. Time at which the render began. */
-  renderStartTime?: string | undefined;
-  /** Output only. Snapshot of the parent pipeline taken at release creation time. */
-  deliveryPipelineSnapshot?: DeliveryPipeline | undefined;
-  /** Optional. The tool versions to use for this release and all subsequent operations involving this release. If unset, tool versions are frozen when the release is created. */
-  toolVersions?: ToolVersions | undefined;
-  /** Output only. Time at which the `Release` was created. */
-  createTime?: string | undefined;
-}
 export interface GetProjectsLocationsDeliveryPipelinesReleasesRolloutsRequest {
   /** Required. Name of the `Rollout`. Format must be `projects/{project_id}/locations/{location_name}/deliveryPipelines/{pipeline_name}/releases/{release_name}/rollouts/{rollout_name}`. */
   name: string;
-}
-/** A `Rollout` resource in the Cloud Deploy API. A `Rollout` contains information around a specific deployment to a `Target`. */
-export interface Rollout {
-  /** Output only. Time at which the `Rollout` was enqueued. */
-  enqueueTime?: string | undefined;
-  /** Output only. Time at which the `Rollout` was approved. */
-  approveTime?: string | undefined;
-  /** Output only. The AutomationRun actively repairing the rollout. */
-  activeRepairAutomationRun?: string | undefined;
-  /** Identifier. Name of the `Rollout`. Format is `projects/{project}/locations/{location}/deliveryPipelines/{deliveryPipeline}/releases/{release}/rollouts/{rollout}`. The `rollout` component must match `[a-z]([a-z0-9-]{0,61}[a-z0-9])?` */
-  name?: string | undefined;
-  /** Output only. Unique identifier of the `Rollout`. */
-  uid?: string | undefined;
-  /** Output only. Current state of the `Rollout`. */
-  state?: RolloutStateEnum | (string & {}) | undefined;
-  /** Labels are attributes that can be set and used by both the user and by Cloud Deploy. Labels must meet the following constraints: * Keys and values can contain only lowercase letters, numeric characters, underscores, and dashes. * All characters must use UTF-8 encoding, and international characters are allowed. * Keys must start with a lowercase letter or international character. * Each resource is limited to a maximum of 64 labels. Both keys and values are additionally constrained to be <= 128 bytes. */
-  labels?: StringMap | undefined;
-  /** Output only. The reason this rollout failed. This will always be unspecified while the rollout is in progress. */
-  deployFailureCause?: RolloutDeployFailureCauseEnum | (string & {}) | undefined;
-  /** Output only. Approval state of the `Rollout`. */
-  approvalState?: RolloutApprovalStateEnum | (string & {}) | undefined;
-  /** Optional. User annotations. These attributes can only be set and used by the user, and not by Cloud Deploy. See https://google.aip.dev/128#annotations for more details such as format and size limitations. */
-  annotations?: StringMap | undefined;
-  /** Output only. Time at which the `Rollout` finished deploying. */
-  deployEndTime?: string | undefined;
-  /** Output only. Name of the `Rollout` that is rolled back by this `Rollout`. Empty if this `Rollout` wasn't created as a rollback. */
-  rollbackOfRollout?: string | undefined;
-  /** Optional. Description of the `Rollout` for user purposes. Max length is 255 characters. */
-  description?: string | undefined;
-  /** Output only. Additional information about the rollout failure, if available. */
-  failureReason?: string | undefined;
-  /** Required. The ID of Target to which this `Rollout` is deploying. */
-  targetId?: string | undefined;
-  /** Output only. Metadata contains information about the rollout. */
-  metadata?: Metadata | undefined;
-  /** This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
-  etag?: string | undefined;
-  /** Output only. The phases that represent the workflows of this `Rollout`. */
-  phases?: PhaseList | undefined;
-  /** Output only. Time at which the `Rollout` started deploying. */
-  deployStartTime?: string | undefined;
-  /** Output only. Names of `Rollouts` that rolled back this `Rollout`. */
-  rolledBackByRollouts?: StringList | undefined;
-  /** Output only. The resource name of the Cloud Build `Build` object that is used to deploy the Rollout. Format is `projects/{project}/locations/{location}/builds/{build}`. */
-  deployingBuild?: string | undefined;
-  /** Output only. Name of the `ControllerRollout`. Format is `projects/{project}/locations/{location}/deliveryPipelines/{deliveryPipeline}/releases/{release}/rollouts/{rollout}`. */
-  controllerRollout?: string | undefined;
-  /** Output only. Time at which the `Rollout` was created. */
-  createTime?: string | undefined;
 }
 export interface GetProjectsLocationsDeliveryPipelinesReleasesRolloutsJobRunsRequest {
   /** Required. Name of the `JobRun`. Format must be `projects/{project_id}/locations/{location_name}/deliveryPipelines/{pipeline_name}/releases/{release_name}/rollouts/{rollout_name}/jobRuns/{job_run_name}`. */
@@ -2273,31 +2096,6 @@ export interface GetProjectsLocationsDeployPoliciesRequest {
   /** Required. Name of the `DeployPolicy`. Format must be `projects/{project_id}/locations/{location_name}/deployPolicies/{deploy_policy_name}`. */
   name: string;
 }
-/** A `DeployPolicy` resource in the Cloud Deploy API. A `DeployPolicy` inhibits manual or automation-driven actions within a Delivery Pipeline or Target. */
-export interface DeployPolicy {
-  /** Required. Rules to apply. At least one rule must be present. */
-  rules?: PolicyRuleList | undefined;
-  /** Labels are attributes that can be set and used by both the user and by Cloud Deploy. Labels must meet the following constraints: * Keys and values can contain only lowercase letters, numeric characters, underscores, and dashes. * All characters must use UTF-8 encoding, and international characters are allowed. * Keys must start with a lowercase letter or international character. * Each resource is limited to a maximum of 64 labels. Both keys and values are additionally constrained to be <= 128 bytes. */
-  labels?: StringMap | undefined;
-  /** Optional. User annotations. These attributes can only be set and used by the user, and not by Cloud Deploy. Annotations must meet the following constraints: * Annotations are key/value pairs. * Valid annotation keys have two segments: an optional prefix and name, separated by a slash (`/`). * The name segment is required and must be 63 characters or less, beginning and ending with an alphanumeric character (`[a-z0-9A-Z]`) with dashes (`-`), underscores (`_`), dots (`.`), and alphanumerics between. * The prefix is optional. If specified, the prefix must be a DNS subdomain: a series of DNS labels separated by dots(`.`), not longer than 253 characters in total, followed by a slash (`/`). See https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/#syntax-and-character-set for more details. */
-  annotations?: StringMap | undefined;
-  /** Required. Selected resources to which the policy will be applied. At least one selector is required. If one selector matches the resource the policy applies. For example, if there are two selectors and the action being attempted matches one of them, the policy will apply to that action. */
-  selectors?: DeployPolicyResourceSelectorList | undefined;
-  /** Output only. Time at which the deploy policy was created. */
-  createTime?: string | undefined;
-  /** Output only. Most recent time at which the deploy policy was updated. */
-  updateTime?: string | undefined;
-  /** Optional. When suspended, the policy will not prevent actions from occurring, even if the action violates the policy. */
-  suspended?: boolean | undefined;
-  /** The weak etag of the `DeployPolicy` resource. This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
-  etag?: string | undefined;
-  /** Optional. Description of the `DeployPolicy`. Max length is 255 characters. */
-  description?: string | undefined;
-  /** Output only. Name of the `DeployPolicy`. Format is `projects/{project}/locations/{location}/deployPolicies/{deployPolicy}`. The `deployPolicy` component must match `[a-z]([a-z0-9-]{0,61}[a-z0-9])?` */
-  name?: string | undefined;
-  /** Output only. Unique identifier of the `DeployPolicy`. */
-  uid?: string | undefined;
-}
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -2306,15 +2104,18 @@ export interface GetProjectsLocationsTargetsRequest {
   /** Required. Name of the `Target`. Format must be `projects/{project_id}/locations/{location_name}/targets/{target_name}`. */
   name: string;
 }
-export interface IgnoreJobProjectsLocationsDeliveryPipelinesReleasesRolloutsRequest {
-  /** Required. Name of the Rollout. Format is `projects/{project}/locations/{location}/deliveryPipelines/{deliveryPipeline}/releases/{release}/rollouts/{rollout}`. */
-  rollout: string;
+/** The request object used by `IgnoreJob`. */
+export interface IgnoreJobRequest {
   /** Required. The phase ID the Job to ignore belongs to. */
   phaseId?: string | undefined;
   /** Required. The job ID for the Job to ignore. */
   jobId?: string | undefined;
   /** Optional. Deploy policies to override. Format is `projects/{project}/locations/{location}/deployPolicies/{deployPolicy}`. */
   overrideDeployPolicy?: StringList | undefined;
+}
+export interface IgnoreJobProjectsLocationsDeliveryPipelinesReleasesRolloutsRequest extends IgnoreJobRequest {
+  /** Required. Name of the Rollout. Format is `projects/{project}/locations/{location}/deliveryPipelines/{deliveryPipeline}/releases/{release}/rollouts/{rollout}`. */
+  rollout: string;
 }
 /** The response object from `IgnoreJob`. */
 export interface IgnoreJobResponse {}
@@ -2556,7 +2357,10 @@ export interface ListTargetsResponse {
   /** Locations that could not be reached. */
   unreachable?: StringList | undefined;
 }
-export interface PatchProjectsLocationsCustomTargetTypesRequest {
+export interface PatchProjectsLocationsCustomTargetTypesRequest extends Omit<
+  CustomTargetType,
+  "name"
+> {
   /** Optional. If set to true, the request is validated and the user is provided with an expected result, but no actual change is made. */
   validateOnly?: boolean | undefined;
   /** Required. Field mask is used to specify the fields to be overwritten by the update in the `CustomTargetType` resource. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it's in the mask. If the user doesn't provide a mask then all fields are overwritten. */
@@ -2567,28 +2371,11 @@ export interface PatchProjectsLocationsCustomTargetTypesRequest {
   requestId?: string | undefined;
   /** Optional. If set to true, updating a `CustomTargetType` that does not exist will result in the creation of a new `CustomTargetType`. */
   allowMissing?: boolean | undefined;
-  /** Optional. Configures render and deploy for the `CustomTargetType` using tasks. */
-  tasks?: CustomTargetTasks | undefined;
-  /** Optional. User annotations. These attributes can only be set and used by the user, and not by Cloud Deploy. See https://google.aip.dev/128#annotations for more details such as format and size limitations. */
-  annotations?: StringMap | undefined;
-  /** Output only. Time at which the `CustomTargetType` was created. */
-  createTime?: string | undefined;
-  /** Output only. Most recent time at which the `CustomTargetType` was updated. */
-  updateTime?: string | undefined;
-  /** Optional. Configures render and deploy for the `CustomTargetType` using Skaffold custom actions. */
-  customActions?: CustomTargetSkaffoldActions | undefined;
-  /** Output only. Unique identifier of the `CustomTargetType`. */
-  uid?: string | undefined;
-  /** Optional. This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
-  etag?: string | undefined;
-  /** Optional. Labels are attributes that can be set and used by both the user and by Cloud Deploy. Labels must meet the following constraints: * Keys and values can contain only lowercase letters, numeric characters, underscores, and dashes. * All characters must use UTF-8 encoding, and international characters are allowed. * Keys must start with a lowercase letter or international character. * Each resource is limited to a maximum of 64 labels. Both keys and values are additionally constrained to be <= 128 bytes. */
-  labels?: StringMap | undefined;
-  /** Output only. Resource id of the `CustomTargetType`. */
-  customTargetTypeId?: string | undefined;
-  /** Optional. Description of the `CustomTargetType`. Max length is 255 characters. */
-  description?: string | undefined;
 }
-export interface PatchProjectsLocationsDeliveryPipelinesRequest {
+export interface PatchProjectsLocationsDeliveryPipelinesRequest extends Omit<
+  DeliveryPipeline,
+  "name"
+> {
   /** Required. Field mask is used to specify the fields to be overwritten by the update in the `DeliveryPipeline` resource. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it's in the mask. If the user doesn't provide a mask then all fields are overwritten. */
   updateMask?: string | undefined;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -2599,28 +2386,11 @@ export interface PatchProjectsLocationsDeliveryPipelinesRequest {
   allowMissing?: boolean | undefined;
   /** Identifier. Name of the `DeliveryPipeline`. Format is `projects/{project}/locations/{location}/deliveryPipelines/{deliveryPipeline}`. The `deliveryPipeline` component must match `[a-z]([a-z0-9-]{0,61}[a-z0-9])?` */
   name: string;
-  /** Optional. Labels are attributes that can be set and used by both the user and by Cloud Deploy. Labels must meet the following constraints: * Keys and values can contain only lowercase letters, numeric characters, underscores, and dashes. * All characters must use UTF-8 encoding, and international characters are allowed. * Keys must start with a lowercase letter or international character. * Each resource is limited to a maximum of 64 labels. Both keys and values are additionally constrained to be <= 128 bytes. */
-  labels?: StringMap | undefined;
-  /** Output only. Time at which the pipeline was created. */
-  createTime?: string | undefined;
-  /** Output only. Most recent time at which the pipeline was updated. */
-  updateTime?: string | undefined;
-  /** Optional. When suspended, no new releases or rollouts can be created, but in-progress ones will complete. */
-  suspended?: boolean | undefined;
-  /** Optional. SerialPipeline defines a sequential set of stages for a `DeliveryPipeline`. */
-  serialPipeline?: SerialPipeline | undefined;
-  /** Optional. User annotations. These attributes can only be set and used by the user, and not by Cloud Deploy. */
-  annotations?: StringMap | undefined;
-  /** This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
-  etag?: string | undefined;
-  /** Optional. Description of the `DeliveryPipeline`. Max length is 255 characters. */
-  description?: string | undefined;
-  /** Output only. Information around the state of the Delivery Pipeline. */
-  condition?: PipelineCondition | undefined;
-  /** Output only. Unique identifier of the `DeliveryPipeline`. */
-  uid?: string | undefined;
 }
-export interface PatchProjectsLocationsDeliveryPipelinesAutomationsRequest {
+export interface PatchProjectsLocationsDeliveryPipelinesAutomationsRequest extends Omit<
+  Automation,
+  "name"
+> {
   /** Output only. Name of the `Automation`. Format is `projects/{project}/locations/{location}/deliveryPipelines/{delivery_pipeline}/automations/{automation}`. */
   name: string;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -2631,30 +2401,8 @@ export interface PatchProjectsLocationsDeliveryPipelinesAutomationsRequest {
   validateOnly?: boolean | undefined;
   /** Required. Field mask is used to specify the fields to be overwritten by the update in the `Automation` resource. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it's in the mask. If the user doesn't provide a mask then all fields are overwritten. */
   updateMask?: string | undefined;
-  /** Optional. The weak etag of the `Automation` resource. This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
-  etag?: string | undefined;
-  /** Optional. User annotations. These attributes can only be set and used by the user, and not by Cloud Deploy. Annotations must meet the following constraints: * Annotations are key/value pairs. * Valid annotation keys have two segments: an optional prefix and name, separated by a slash (`/`). * The name segment is required and must be 63 characters or less, beginning and ending with an alphanumeric character (`[a-z0-9A-Z]`) with dashes (`-`), underscores (`_`), dots (`.`), and alphanumerics between. * The prefix is optional. If specified, the prefix must be a DNS subdomain: a series of DNS labels separated by dots(`.`), not longer than 253 characters in total, followed by a slash (`/`). See https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/#syntax-and-character-set for more details. */
-  annotations?: StringMap | undefined;
-  /** Required. List of Automation rules associated with the Automation resource. Must have at least one rule and limited to 250 rules per Delivery Pipeline. Note: the order of the rules here is not the same as the order of execution. */
-  rules?: AutomationRuleList | undefined;
-  /** Output only. Time at which the automation was created. */
-  createTime?: string | undefined;
-  /** Output only. Time at which the automation was updated. */
-  updateTime?: string | undefined;
-  /** Required. Selected resources to which the automation will be applied. */
-  selector?: AutomationResourceSelector | undefined;
-  /** Optional. Labels are attributes that can be set and used by both the user and by Cloud Deploy. Labels must meet the following constraints: * Keys and values can contain only lowercase letters, numeric characters, underscores, and dashes. * All characters must use UTF-8 encoding, and international characters are allowed. * Keys must start with a lowercase letter or international character. * Each resource is limited to a maximum of 64 labels. Both keys and values are additionally constrained to be <= 63 characters. */
-  labels?: StringMap | undefined;
-  /** Required. Email address of the user-managed IAM service account that creates Cloud Deploy release and rollout resources. */
-  serviceAccount?: string | undefined;
-  /** Optional. When Suspended, automation is deactivated from execution. */
-  suspended?: boolean | undefined;
-  /** Output only. Unique identifier of the `Automation`. */
-  uid?: string | undefined;
-  /** Optional. Description of the `Automation`. Max length is 255 characters. */
-  description?: string | undefined;
 }
-export interface PatchProjectsLocationsDeployPoliciesRequest {
+export interface PatchProjectsLocationsDeployPoliciesRequest extends Omit<DeployPolicy, "name"> {
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Required. Field mask is used to specify the fields to be overwritten by the update in the `DeployPolicy` resource. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it's in the mask. If the user doesn't provide a mask then all fields are overwritten. */
@@ -2665,28 +2413,8 @@ export interface PatchProjectsLocationsDeployPoliciesRequest {
   name: string;
   /** Optional. If set to true, updating a `DeployPolicy` that does not exist will result in the creation of a new `DeployPolicy`. */
   allowMissing?: boolean | undefined;
-  /** Required. Rules to apply. At least one rule must be present. */
-  rules?: PolicyRuleList | undefined;
-  /** Labels are attributes that can be set and used by both the user and by Cloud Deploy. Labels must meet the following constraints: * Keys and values can contain only lowercase letters, numeric characters, underscores, and dashes. * All characters must use UTF-8 encoding, and international characters are allowed. * Keys must start with a lowercase letter or international character. * Each resource is limited to a maximum of 64 labels. Both keys and values are additionally constrained to be <= 128 bytes. */
-  labels?: StringMap | undefined;
-  /** Optional. User annotations. These attributes can only be set and used by the user, and not by Cloud Deploy. Annotations must meet the following constraints: * Annotations are key/value pairs. * Valid annotation keys have two segments: an optional prefix and name, separated by a slash (`/`). * The name segment is required and must be 63 characters or less, beginning and ending with an alphanumeric character (`[a-z0-9A-Z]`) with dashes (`-`), underscores (`_`), dots (`.`), and alphanumerics between. * The prefix is optional. If specified, the prefix must be a DNS subdomain: a series of DNS labels separated by dots(`.`), not longer than 253 characters in total, followed by a slash (`/`). See https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/#syntax-and-character-set for more details. */
-  annotations?: StringMap | undefined;
-  /** Required. Selected resources to which the policy will be applied. At least one selector is required. If one selector matches the resource the policy applies. For example, if there are two selectors and the action being attempted matches one of them, the policy will apply to that action. */
-  selectors?: DeployPolicyResourceSelectorList | undefined;
-  /** Output only. Time at which the deploy policy was created. */
-  createTime?: string | undefined;
-  /** Output only. Most recent time at which the deploy policy was updated. */
-  updateTime?: string | undefined;
-  /** Optional. When suspended, the policy will not prevent actions from occurring, even if the action violates the policy. */
-  suspended?: boolean | undefined;
-  /** The weak etag of the `DeployPolicy` resource. This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
-  etag?: string | undefined;
-  /** Optional. Description of the `DeployPolicy`. Max length is 255 characters. */
-  description?: string | undefined;
-  /** Output only. Unique identifier of the `DeployPolicy`. */
-  uid?: string | undefined;
 }
-export interface PatchProjectsLocationsTargetsRequest {
+export interface PatchProjectsLocationsTargetsRequest extends Omit<Target, "name"> {
   /** Required. Field mask is used to specify the fields to be overwritten by the update in the `Target` resource. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it's in the mask. If the user doesn't provide a mask then all fields are overwritten. */
   updateMask?: string | undefined;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -2697,50 +2425,19 @@ export interface PatchProjectsLocationsTargetsRequest {
   name: string;
   /** Optional. If set to true, the request is validated and the user is provided with an expected result, but no actual change is made. */
   validateOnly?: boolean | undefined;
-  /** Optional. User annotations. These attributes can only be set and used by the user, and not by Cloud Deploy. See https://google.aip.dev/128#annotations for more details such as format and size limitations. */
-  annotations?: StringMap | undefined;
-  /** Optional. Information specifying a GKE Cluster. */
-  gke?: GkeCluster | undefined;
-  /** Optional. Map of entity IDs to their associated entities. Associated entities allows specifying places other than the deployment target for specific features. For example, the Gateway API canary can be configured to deploy the HTTPRoute to a different cluster(s) than the deployment cluster using associated entities. An entity ID must consist of lower-case letters, numbers, and hyphens, start with a letter and end with a letter or a number, and have a max length of 63 characters. In other words, it must match the following regex: `^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$`. */
-  associatedEntities?: AssociatedEntitiesMap | undefined;
-  /** Optional. Configurations for all execution that relates to this `Target`. Each `ExecutionEnvironmentUsage` value may only be used in a single configuration; using the same value multiple times is an error. When one or more configurations are specified, they must include the `RENDER` and `DEPLOY` `ExecutionEnvironmentUsage` values. When no configurations are specified, execution will use the default specified in `DefaultPool`. */
-  executionConfigs?: ExecutionConfigList | undefined;
-  /** Optional. Information specifying a multiTarget. */
-  multiTarget?: MultiTarget | undefined;
-  /** Optional. Information specifying a Custom Target. */
-  customTarget?: CustomTarget | undefined;
-  /** Optional. The deploy parameters to use for this target. */
-  deployParameters?: StringMap | undefined;
-  /** Output only. Most recent time at which the `Target` was updated. */
-  updateTime?: string | undefined;
-  /** Optional. Information specifying an Anthos Cluster. */
-  anthosCluster?: AnthosCluster | undefined;
-  /** Optional. Labels are attributes that can be set and used by both the user and by Cloud Deploy. Labels must meet the following constraints: * Keys and values can contain only lowercase letters, numeric characters, underscores, and dashes. * All characters must use UTF-8 encoding, and international characters are allowed. * Keys must start with a lowercase letter or international character. * Each resource is limited to a maximum of 64 labels. Both keys and values are additionally constrained to be <= 128 bytes. */
-  labels?: StringMap | undefined;
-  /** Optional. Whether or not the `Target` requires approval. */
-  requireApproval?: boolean | undefined;
-  /** Optional. Information specifying a Cloud Run deployment target. */
-  run?: CloudRunLocation | undefined;
-  /** Optional. This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
-  etag?: string | undefined;
-  /** Output only. Resource id of the `Target`. */
-  targetId?: string | undefined;
-  /** Optional. Description of the `Target`. Max length is 255 characters. */
-  description?: string | undefined;
-  /** Output only. Unique identifier of the `Target`. */
-  uid?: string | undefined;
-  /** Output only. Time at which the `Target` was created. */
-  createTime?: string | undefined;
 }
-export interface RetryJobProjectsLocationsDeliveryPipelinesReleasesRolloutsRequest {
-  /** Required. Name of the Rollout. Format is `projects/{project}/locations/{location}/deliveryPipelines/{deliveryPipeline}/releases/{release}/rollouts/{rollout}`. */
-  rollout: string;
+/** RetryJobRequest is the request object used by `RetryJob`. */
+export interface RetryJobRequest {
   /** Optional. Deploy policies to override. Format is `projects/{project}/locations/{location}/deployPolicies/{deployPolicy}`. */
   overrideDeployPolicy?: StringList | undefined;
   /** Required. The job ID for the Job to retry. */
   jobId?: string | undefined;
   /** Required. The phase ID the Job to retry belongs to. */
   phaseId?: string | undefined;
+}
+export interface RetryJobProjectsLocationsDeliveryPipelinesReleasesRolloutsRequest extends RetryJobRequest {
+  /** Required. Name of the Rollout. Format is `projects/{project}/locations/{location}/deliveryPipelines/{deliveryPipeline}/releases/{release}/rollouts/{rollout}`. */
+  rollout: string;
 }
 /** The response object from 'RetryJob'. */
 export interface RetryJobResponse {}
@@ -2751,9 +2448,8 @@ export interface RollbackTargetConfig {
   /** Optional. The rollback `Rollout` to create. */
   rollout?: Rollout | undefined;
 }
-export interface RollbackTargetProjectsLocationsDeliveryPipelinesRequest {
-  /** Required. The `DeliveryPipeline` for which the rollback `Rollout` must be created. The format is `projects/{project_id}/locations/{location_name}/deliveryPipelines/{pipeline_name}`. */
-  name: string;
+/** The request object for `RollbackTarget`. */
+export interface RollbackTargetRequest {
   /** Optional. If provided, this must be the latest `Rollout` that is on the `Target`. */
   rolloutToRollBack?: string | undefined;
   /** Optional. Deploy policies to override. Format is `projects/{project}/locations/{location}/deployPolicies/{deploy_policy}`. */
@@ -2769,67 +2465,63 @@ export interface RollbackTargetProjectsLocationsDeliveryPipelinesRequest {
   /** Optional. ID of the `Release` to roll back to. If this isn't specified, the previous successful `Rollout` to the specified target will be used to determine the `Release`. */
   releaseId?: string | undefined;
 }
+export interface RollbackTargetProjectsLocationsDeliveryPipelinesRequest extends RollbackTargetRequest {
+  /** Required. The `DeliveryPipeline` for which the rollback `Rollout` must be created. The format is `projects/{project_id}/locations/{location_name}/deliveryPipelines/{pipeline_name}`. */
+  name: string;
+}
 /** The response object from `RollbackTarget`. */
 export interface RollbackTargetResponse {
   /** The config of the rollback `Rollout` created or will be created. */
   rollbackConfig?: RollbackTargetConfig | undefined;
 }
-export interface SetIamPolicyProjectsLocationsCustomTargetTypesRequest {
-  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
+/** Request message for `SetIamPolicy` method. */
+export interface SetIamPolicyRequest {
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
   policy?: Policy | undefined;
   /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
   updateMask?: string | undefined;
 }
-export interface SetIamPolicyProjectsLocationsDeliveryPipelinesRequest {
+export interface SetIamPolicyProjectsLocationsCustomTargetTypesRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
-  policy?: Policy | undefined;
-  /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
-  updateMask?: string | undefined;
 }
-export interface SetIamPolicyProjectsLocationsDeployPoliciesRequest {
+export interface SetIamPolicyProjectsLocationsDeliveryPipelinesRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
-  policy?: Policy | undefined;
-  /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
-  updateMask?: string | undefined;
 }
-export interface SetIamPolicyProjectsLocationsTargetsRequest {
+export interface SetIamPolicyProjectsLocationsDeployPoliciesRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
-  policy?: Policy | undefined;
-  /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
-  updateMask?: string | undefined;
 }
-export interface TerminateProjectsLocationsDeliveryPipelinesReleasesRolloutsJobRunsRequest {
+export interface SetIamPolicyProjectsLocationsTargetsRequest extends SetIamPolicyRequest {
+  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
+}
+/** The request object used by `TerminateJobRun`. */
+export type TerminateJobRunRequest = CancelRolloutRequest;
+export interface TerminateProjectsLocationsDeliveryPipelinesReleasesRolloutsJobRunsRequest extends CancelRolloutRequest {
   /** Required. Name of the `JobRun`. Format must be `projects/{project}/locations/{location}/deliveryPipelines/{deliveryPipeline}/releases/{release}/rollouts/{rollout}/jobRuns/{jobRun}`. */
   name: string;
-  /** Optional. Deploy policies to override. Format is `projects/{project}/locations/{location}/deployPolicies/{deployPolicy}`. */
-  overrideDeployPolicy?: StringList | undefined;
 }
 /** The response object from `TerminateJobRun`. */
 export interface TerminateJobRunResponse {}
-export interface TestIamPermissionsProjectsLocationsDeliveryPipelinesRequest {
-  /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
+/** Request message for `TestIamPermissions` method. */
+export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: StringList | undefined;
+}
+export interface TestIamPermissionsProjectsLocationsDeliveryPipelinesRequest extends TestIamPermissionsRequest {
+  /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsTargetsRequest {
+export interface TestIamPermissionsProjectsLocationsTargetsRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
-  permissions?: StringList | undefined;
 }
 export type AbandonProjectsLocationsDeliveryPipelinesReleasesError =
   | NotFound
@@ -2845,11 +2537,11 @@ export const abandonProjectsLocationsDeliveryPipelinesReleases: API.OperationMet
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1984,
-    __c62,
+    1760,
+    __c55,
     0,
   ) as any as S.Schema<AbandonProjectsLocationsDeliveryPipelinesReleasesRequest>,
-  output: __S(2016, __c63, 0) as any as S.Schema<AbandonReleaseResponse>,
+  output: __S(1792, __c56, 0) as any as S.Schema<AbandonReleaseResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2871,11 +2563,11 @@ export const advanceProjectsLocationsDeliveryPipelinesReleasesRollouts: API.Oper
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2368,
-    __c74,
-    0,
+    2145,
+    __c67,
+    1,
   ) as any as S.Schema<AdvanceProjectsLocationsDeliveryPipelinesReleasesRolloutsRequest>,
-  output: __S(2016, __c63, 0) as any as S.Schema<AdvanceRolloutResponse>,
+  output: __S(1792, __c56, 0) as any as S.Schema<AdvanceRolloutResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2897,11 +2589,11 @@ export const approveProjectsLocationsDeliveryPipelinesReleasesRollouts: API.Oper
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2752,
-    __c86,
-    0,
+    2561,
+    __c80,
+    1,
   ) as any as S.Schema<ApproveProjectsLocationsDeliveryPipelinesReleasesRolloutsRequest>,
-  output: __S(2016, __c63, 0) as any as S.Schema<ApproveRolloutResponse>,
+  output: __S(1792, __c56, 0) as any as S.Schema<ApproveRolloutResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2923,11 +2615,11 @@ export const cancelProjectsLocationsDeliveryPipelinesAutomationRuns: API.Operati
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2976,
-    __c93,
+    2784,
+    __c87,
     0,
   ) as any as S.Schema<CancelProjectsLocationsDeliveryPipelinesAutomationRunsRequest>,
-  output: __S(2016, __c63, 0) as any as S.Schema<CancelAutomationRunResponse>,
+  output: __S(1792, __c56, 0) as any as S.Schema<CancelAutomationRunResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2949,11 +2641,11 @@ export const cancelProjectsLocationsDeliveryPipelinesReleasesRollouts: API.Opera
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3008,
-    __c94,
+    2816,
+    __c88,
     0,
   ) as any as S.Schema<CancelProjectsLocationsDeliveryPipelinesReleasesRolloutsRequest>,
-  output: __S(2016, __c63, 0) as any as S.Schema<CancelRolloutResponse>,
+  output: __S(1792, __c56, 0) as any as S.Schema<CancelRolloutResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2974,8 +2666,8 @@ export const cancelProjectsLocationsOperations: API.OperationMethod<
   CancelProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3040, __c95, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
-  output: __S(2016, __c63, 0) as any as S.Schema<Empty>,
+  input: __S(2880, __c90, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
+  output: __S(1792, __c56, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3093,8 +2785,8 @@ export const createProjectsLocationsDeliveryPipelinesReleasesRollouts: API.Opera
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    768,
-    __c24,
+    672,
+    __c21,
     0,
   ) as any as S.Schema<CreateProjectsLocationsDeliveryPipelinesReleasesRolloutsRequest>,
   output: __S(66, __c2, 2) as any as S.Schema<Operation>,
@@ -3118,7 +2810,7 @@ export const createProjectsLocationsDeployPolicies: API.OperationMethod<
   CreateProjectsLocationsDeployPoliciesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c27, 0) as any as S.Schema<CreateProjectsLocationsDeployPoliciesRequest>,
+  input: __S(768, __c24, 0) as any as S.Schema<CreateProjectsLocationsDeployPoliciesRequest>,
   output: __S(66, __c2, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -3140,7 +2832,7 @@ export const createProjectsLocationsTargets: API.OperationMethod<
   CreateProjectsLocationsTargetsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c30, 0) as any as S.Schema<CreateProjectsLocationsTargetsRequest>,
+  input: __S(864, __c27, 0) as any as S.Schema<CreateProjectsLocationsTargetsRequest>,
   output: __S(66, __c2, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -3162,7 +2854,7 @@ export const deleteProjectsLocationsCustomTargetTypes: API.OperationMethod<
   DeleteProjectsLocationsCustomTargetTypesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c31, 0) as any as S.Schema<DeleteProjectsLocationsCustomTargetTypesRequest>,
+  input: __S(896, __c28, 0) as any as S.Schema<DeleteProjectsLocationsCustomTargetTypesRequest>,
   output: __S(66, __c2, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -3184,7 +2876,7 @@ export const deleteProjectsLocationsDeliveryPipelines: API.OperationMethod<
   DeleteProjectsLocationsDeliveryPipelinesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c32, 0) as any as S.Schema<DeleteProjectsLocationsDeliveryPipelinesRequest>,
+  input: __S(928, __c29, 0) as any as S.Schema<DeleteProjectsLocationsDeliveryPipelinesRequest>,
   output: __S(66, __c2, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -3207,8 +2899,8 @@ export const deleteProjectsLocationsDeliveryPipelinesAutomations: API.OperationM
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1056,
-    __c33,
+    960,
+    __c30,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsDeliveryPipelinesAutomationsRequest>,
   output: __S(66, __c2, 2) as any as S.Schema<Operation>,
@@ -3232,7 +2924,7 @@ export const deleteProjectsLocationsDeployPolicies: API.OperationMethod<
   DeleteProjectsLocationsDeployPoliciesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c34, 0) as any as S.Schema<DeleteProjectsLocationsDeployPoliciesRequest>,
+  input: __S(992, __c31, 0) as any as S.Schema<DeleteProjectsLocationsDeployPoliciesRequest>,
   output: __S(66, __c2, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -3254,8 +2946,8 @@ export const deleteProjectsLocationsOperations: API.OperationMethod<
   DeleteProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c35, 0) as any as S.Schema<DeleteProjectsLocationsOperationsRequest>,
-  output: __S(2016, __c63, 0) as any as S.Schema<Empty>,
+  input: __S(1024, __c32, 0) as any as S.Schema<DeleteProjectsLocationsOperationsRequest>,
+  output: __S(1792, __c56, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3276,7 +2968,7 @@ export const deleteProjectsLocationsTargets: API.OperationMethod<
   DeleteProjectsLocationsTargetsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c36, 0) as any as S.Schema<DeleteProjectsLocationsTargetsRequest>,
+  input: __S(1056, __c33, 0) as any as S.Schema<DeleteProjectsLocationsTargetsRequest>,
   output: __S(66, __c2, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -3293,8 +2985,8 @@ export const getConfigProjectsLocations: API.OperationMethod<
   GetConfigProjectsLocationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1184, __c37, 0) as any as S.Schema<GetConfigProjectsLocationsRequest>,
-  output: __S(1187, __c37, 3) as any as S.Schema<Config>,
+  input: __S(1088, __c34, 0) as any as S.Schema<GetConfigProjectsLocationsRequest>,
+  output: __S(1091, __c34, 3) as any as S.Schema<Config>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3311,11 +3003,11 @@ export const getIamPolicyProjectsLocationsCustomTargetTypes: API.OperationMethod
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1216,
-    __c38,
+    1120,
+    __c35,
     0,
   ) as any as S.Schema<GetIamPolicyProjectsLocationsCustomTargetTypesRequest>,
-  output: __S(1255, __c39, 7) as any as S.Schema<Policy>,
+  output: __S(1159, __c36, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3332,11 +3024,11 @@ export const getIamPolicyProjectsLocationsDeliveryPipelines: API.OperationMethod
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1280,
-    __c40,
+    1184,
+    __c37,
     0,
   ) as any as S.Schema<GetIamPolicyProjectsLocationsDeliveryPipelinesRequest>,
-  output: __S(1255, __c39, 7) as any as S.Schema<Policy>,
+  output: __S(1159, __c36, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3352,8 +3044,8 @@ export const getIamPolicyProjectsLocationsDeployPolicies: API.OperationMethod<
   GetIamPolicyProjectsLocationsDeployPoliciesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1312, __c41, 0) as any as S.Schema<GetIamPolicyProjectsLocationsDeployPoliciesRequest>,
-  output: __S(1255, __c39, 7) as any as S.Schema<Policy>,
+  input: __S(1216, __c38, 0) as any as S.Schema<GetIamPolicyProjectsLocationsDeployPoliciesRequest>,
+  output: __S(1159, __c36, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3369,8 +3061,8 @@ export const getIamPolicyProjectsLocationsTargets: API.OperationMethod<
   GetIamPolicyProjectsLocationsTargetsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1344, __c42, 0) as any as S.Schema<GetIamPolicyProjectsLocationsTargetsRequest>,
-  output: __S(1255, __c39, 7) as any as S.Schema<Policy>,
+  input: __S(1248, __c39, 0) as any as S.Schema<GetIamPolicyProjectsLocationsTargetsRequest>,
+  output: __S(1159, __c36, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3386,8 +3078,8 @@ export const getProjectsLocations: API.OperationMethod<
   GetProjectsLocationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c43, 0) as any as S.Schema<GetProjectsLocationsRequest>,
-  output: __S(1408, __c44, 0) as any as S.Schema<Location>,
+  input: __S(1280, __c40, 0) as any as S.Schema<GetProjectsLocationsRequest>,
+  output: __S(1312, __c41, 0) as any as S.Schema<Location>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3403,8 +3095,8 @@ export const getProjectsLocationsCustomTargetTypes: API.OperationMethod<
   GetProjectsLocationsCustomTargetTypesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1440, __c45, 0) as any as S.Schema<GetProjectsLocationsCustomTargetTypesRequest>,
-  output: __S(576, __c18, 0) as any as S.Schema<CustomTargetType>,
+  input: __S(1344, __c42, 0) as any as S.Schema<GetProjectsLocationsCustomTargetTypesRequest>,
+  output: __S(167, __c5, 7) as any as S.Schema<CustomTargetType>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3420,8 +3112,8 @@ export const getProjectsLocationsDeliveryPipelines: API.OperationMethod<
   GetProjectsLocationsDeliveryPipelinesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c46, 0) as any as S.Schema<GetProjectsLocationsDeliveryPipelinesRequest>,
-  output: __S(608, __c19, 0) as any as S.Schema<DeliveryPipeline>,
+  input: __S(1376, __c43, 0) as any as S.Schema<GetProjectsLocationsDeliveryPipelinesRequest>,
+  output: __S(312, __c9, 24) as any as S.Schema<DeliveryPipeline>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3441,11 +3133,11 @@ export const getProjectsLocationsDeliveryPipelinesAutomationRuns: API.OperationM
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1504,
-    __c47,
+    1408,
+    __c44,
     0,
   ) as any as S.Schema<GetProjectsLocationsDeliveryPipelinesAutomationRunsRequest>,
-  output: __S(1581, __c49, 13) as any as S.Schema<AutomationRun>,
+  output: __S(1453, __c45, 13) as any as S.Schema<AutomationRun>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3465,11 +3157,11 @@ export const getProjectsLocationsDeliveryPipelinesAutomations: API.OperationMeth
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1600,
-    __c50,
+    1472,
+    __c46,
     0,
   ) as any as S.Schema<GetProjectsLocationsDeliveryPipelinesAutomationsRequest>,
-  output: __S(1536, __c48, 0) as any as S.Schema<Automation>,
+  output: __S(400, __c12, 16) as any as S.Schema<Automation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3486,11 +3178,11 @@ export const getProjectsLocationsDeliveryPipelinesReleases: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1632,
-    __c51,
+    1504,
+    __c47,
     0,
   ) as any as S.Schema<GetProjectsLocationsDeliveryPipelinesReleasesRequest>,
-  output: __S(1664, __c52, 0) as any as S.Schema<Release>,
+  output: __S(623, __c19, 15) as any as S.Schema<Release>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3510,11 +3202,11 @@ export const getProjectsLocationsDeliveryPipelinesReleasesRollouts: API.Operatio
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1696,
-    __c53,
+    1536,
+    __c48,
     0,
   ) as any as S.Schema<GetProjectsLocationsDeliveryPipelinesReleasesRolloutsRequest>,
-  output: __S(1728, __c54, 0) as any as S.Schema<Rollout>,
+  output: __S(745, __c23, 9) as any as S.Schema<Rollout>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3534,11 +3226,11 @@ export const getProjectsLocationsDeliveryPipelinesReleasesRolloutsJobRuns: API.O
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1760,
-    __c55,
+    1568,
+    __c49,
     0,
   ) as any as S.Schema<GetProjectsLocationsDeliveryPipelinesReleasesRolloutsJobRunsRequest>,
-  output: __S(1809, __c56, 17) as any as S.Schema<JobRun>,
+  output: __S(1617, __c50, 17) as any as S.Schema<JobRun>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3554,8 +3246,8 @@ export const getProjectsLocationsDeployPolicies: API.OperationMethod<
   GetProjectsLocationsDeployPoliciesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1824, __c57, 0) as any as S.Schema<GetProjectsLocationsDeployPoliciesRequest>,
-  output: __S(1856, __c58, 0) as any as S.Schema<DeployPolicy>,
+  input: __S(1632, __c51, 0) as any as S.Schema<GetProjectsLocationsDeployPoliciesRequest>,
+  output: __S(844, __c26, 12) as any as S.Schema<DeployPolicy>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3571,7 +3263,7 @@ export const getProjectsLocationsOperations: API.OperationMethod<
   GetProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1888, __c59, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
+  input: __S(1664, __c52, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
   output: __S(66, __c2, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
@@ -3588,8 +3280,8 @@ export const getProjectsLocationsTargets: API.OperationMethod<
   GetProjectsLocationsTargetsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1920, __c60, 0) as any as S.Schema<GetProjectsLocationsTargetsRequest>,
-  output: __S(640, __c20, 0) as any as S.Schema<Target>,
+  input: __S(1696, __c53, 0) as any as S.Schema<GetProjectsLocationsTargetsRequest>,
+  output: __S(525, __c16, 13) as any as S.Schema<Target>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3611,11 +3303,11 @@ export const ignoreJobProjectsLocationsDeliveryPipelinesReleasesRollouts: API.Op
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1952,
-    __c61,
-    0,
+    1729,
+    __c54,
+    1,
   ) as any as S.Schema<IgnoreJobProjectsLocationsDeliveryPipelinesReleasesRolloutsRequest>,
-  output: __S(2016, __c63, 0) as any as S.Schema<IgnoreJobResponse>,
+  output: __S(1792, __c56, 0) as any as S.Schema<IgnoreJobResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3632,8 +3324,8 @@ export const listProjectsLocations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListLocationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2048, __c64, 0) as any as S.Schema<ListProjectsLocationsRequest>,
-  output: __S(2050, __c64, 2) as any as S.Schema<ListLocationsResponse>,
+  input: __S(1824, __c57, 0) as any as S.Schema<ListProjectsLocationsRequest>,
+  output: __S(1826, __c57, 2) as any as S.Schema<ListLocationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3651,8 +3343,8 @@ export const listProjectsLocationsCustomTargetTypes: API.PaginatedOperationMetho
   GcpOpContext,
   ListCustomTargetTypesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2080, __c65, 0) as any as S.Schema<ListProjectsLocationsCustomTargetTypesRequest>,
-  output: __S(2081, __c65, 1) as any as S.Schema<ListCustomTargetTypesResponse>,
+  input: __S(1856, __c58, 0) as any as S.Schema<ListProjectsLocationsCustomTargetTypesRequest>,
+  output: __S(1857, __c58, 1) as any as S.Schema<ListCustomTargetTypesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3670,8 +3362,8 @@ export const listProjectsLocationsDeliveryPipelines: API.PaginatedOperationMetho
   GcpOpContext,
   ListDeliveryPipelinesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2112, __c66, 0) as any as S.Schema<ListProjectsLocationsDeliveryPipelinesRequest>,
-  output: __S(2114, __c66, 2) as any as S.Schema<ListDeliveryPipelinesResponse>,
+  input: __S(1888, __c59, 0) as any as S.Schema<ListProjectsLocationsDeliveryPipelinesRequest>,
+  output: __S(1890, __c59, 2) as any as S.Schema<ListDeliveryPipelinesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3693,11 +3385,11 @@ export const listProjectsLocationsDeliveryPipelinesAutomationRuns: API.Paginated
   ListAutomationRunsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    2144,
-    __c67,
+    1920,
+    __c60,
     0,
   ) as any as S.Schema<ListProjectsLocationsDeliveryPipelinesAutomationRunsRequest>,
-  output: __S(2146, __c67, 2) as any as S.Schema<ListAutomationRunsResponse>,
+  output: __S(1922, __c60, 2) as any as S.Schema<ListAutomationRunsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3719,11 +3411,11 @@ export const listProjectsLocationsDeliveryPipelinesAutomations: API.PaginatedOpe
   ListAutomationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    2176,
-    __c68,
+    1952,
+    __c61,
     0,
   ) as any as S.Schema<ListProjectsLocationsDeliveryPipelinesAutomationsRequest>,
-  output: __S(2178, __c68, 2) as any as S.Schema<ListAutomationsResponse>,
+  output: __S(1954, __c61, 2) as any as S.Schema<ListAutomationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3742,11 +3434,11 @@ export const listProjectsLocationsDeliveryPipelinesReleases: API.PaginatedOperat
   ListReleasesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    2208,
-    __c69,
+    1984,
+    __c62,
     0,
   ) as any as S.Schema<ListProjectsLocationsDeliveryPipelinesReleasesRequest>,
-  output: __S(2210, __c69, 2) as any as S.Schema<ListReleasesResponse>,
+  output: __S(1986, __c62, 2) as any as S.Schema<ListReleasesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3768,11 +3460,11 @@ export const listProjectsLocationsDeliveryPipelinesReleasesRollouts: API.Paginat
   ListRolloutsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    2240,
-    __c70,
+    2016,
+    __c63,
     0,
   ) as any as S.Schema<ListProjectsLocationsDeliveryPipelinesReleasesRolloutsRequest>,
-  output: __S(2242, __c70, 2) as any as S.Schema<ListRolloutsResponse>,
+  output: __S(2018, __c63, 2) as any as S.Schema<ListRolloutsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3794,11 +3486,11 @@ export const listProjectsLocationsDeliveryPipelinesReleasesRolloutsJobRuns: API.
   ListJobRunsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    2272,
-    __c71,
+    2048,
+    __c64,
     0,
   ) as any as S.Schema<ListProjectsLocationsDeliveryPipelinesReleasesRolloutsJobRunsRequest>,
-  output: __S(2274, __c71, 2) as any as S.Schema<ListJobRunsResponse>,
+  output: __S(2050, __c64, 2) as any as S.Schema<ListJobRunsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3816,8 +3508,8 @@ export const listProjectsLocationsDeployPolicies: API.PaginatedOperationMethod<
   GcpOpContext,
   ListDeployPoliciesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2304, __c72, 0) as any as S.Schema<ListProjectsLocationsDeployPoliciesRequest>,
-  output: __S(2306, __c72, 2) as any as S.Schema<ListDeployPoliciesResponse>,
+  input: __S(2080, __c65, 0) as any as S.Schema<ListProjectsLocationsDeployPoliciesRequest>,
+  output: __S(2082, __c65, 2) as any as S.Schema<ListDeployPoliciesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3835,8 +3527,8 @@ export const listProjectsLocationsOperations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListOperationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2336, __c73, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
-  output: __S(2338, __c73, 2) as any as S.Schema<ListOperationsResponse>,
+  input: __S(2112, __c66, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
+  output: __S(2114, __c66, 2) as any as S.Schema<ListOperationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3854,8 +3546,8 @@ export const listProjectsLocationsTargets: API.PaginatedOperationMethod<
   GcpOpContext,
   ListTargetsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2432, __c76, 0) as any as S.Schema<ListProjectsLocationsTargetsRequest>,
-  output: __S(2433, __c76, 1) as any as S.Schema<ListTargetsResponse>,
+  input: __S(2208, __c69, 0) as any as S.Schema<ListProjectsLocationsTargetsRequest>,
+  output: __S(2209, __c69, 1) as any as S.Schema<ListTargetsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3877,7 +3569,7 @@ export const patchProjectsLocationsCustomTargetTypes: API.OperationMethod<
   PatchProjectsLocationsCustomTargetTypesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2464, __c77, 0) as any as S.Schema<PatchProjectsLocationsCustomTargetTypesRequest>,
+  input: __S(2240, __c70, 0) as any as S.Schema<PatchProjectsLocationsCustomTargetTypesRequest>,
   output: __S(66, __c2, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -3899,7 +3591,7 @@ export const patchProjectsLocationsDeliveryPipelines: API.OperationMethod<
   PatchProjectsLocationsDeliveryPipelinesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2496, __c78, 0) as any as S.Schema<PatchProjectsLocationsDeliveryPipelinesRequest>,
+  input: __S(2272, __c71, 0) as any as S.Schema<PatchProjectsLocationsDeliveryPipelinesRequest>,
   output: __S(66, __c2, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -3922,8 +3614,8 @@ export const patchProjectsLocationsDeliveryPipelinesAutomations: API.OperationMe
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2528,
-    __c79,
+    2304,
+    __c72,
     0,
   ) as any as S.Schema<PatchProjectsLocationsDeliveryPipelinesAutomationsRequest>,
   output: __S(66, __c2, 2) as any as S.Schema<Operation>,
@@ -3947,7 +3639,7 @@ export const patchProjectsLocationsDeployPolicies: API.OperationMethod<
   PatchProjectsLocationsDeployPoliciesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2560, __c80, 0) as any as S.Schema<PatchProjectsLocationsDeployPoliciesRequest>,
+  input: __S(2336, __c73, 0) as any as S.Schema<PatchProjectsLocationsDeployPoliciesRequest>,
   output: __S(66, __c2, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -3969,7 +3661,7 @@ export const patchProjectsLocationsTargets: API.OperationMethod<
   PatchProjectsLocationsTargetsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2592, __c81, 0) as any as S.Schema<PatchProjectsLocationsTargetsRequest>,
+  input: __S(2368, __c74, 0) as any as S.Schema<PatchProjectsLocationsTargetsRequest>,
   output: __S(66, __c2, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -3992,11 +3684,11 @@ export const retryJobProjectsLocationsDeliveryPipelinesReleasesRollouts: API.Ope
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2624,
-    __c82,
-    0,
+    2401,
+    __c75,
+    1,
   ) as any as S.Schema<RetryJobProjectsLocationsDeliveryPipelinesReleasesRolloutsRequest>,
-  output: __S(2016, __c63, 0) as any as S.Schema<RetryJobResponse>,
+  output: __S(1792, __c56, 0) as any as S.Schema<RetryJobResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4018,11 +3710,11 @@ export const rollbackTargetProjectsLocationsDeliveryPipelines: API.OperationMeth
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2657,
-    __c83,
-    1,
+    2434,
+    __c76,
+    2,
   ) as any as S.Schema<RollbackTargetProjectsLocationsDeliveryPipelinesRequest>,
-  output: __S(2658, __c83, 2) as any as S.Schema<RollbackTargetResponse>,
+  output: __S(2435, __c76, 3) as any as S.Schema<RollbackTargetResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4044,11 +3736,11 @@ export const setIamPolicyProjectsLocationsCustomTargetTypes: API.OperationMethod
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2688,
-    __c84,
+    2464,
+    __c77,
     0,
   ) as any as S.Schema<SetIamPolicyProjectsLocationsCustomTargetTypesRequest>,
-  output: __S(1255, __c39, 7) as any as S.Schema<Policy>,
+  output: __S(1159, __c36, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4070,11 +3762,11 @@ export const setIamPolicyProjectsLocationsDeliveryPipelines: API.OperationMethod
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2720,
-    __c85,
+    2528,
+    __c79,
     0,
   ) as any as S.Schema<SetIamPolicyProjectsLocationsDeliveryPipelinesRequest>,
-  output: __S(1255, __c39, 7) as any as S.Schema<Policy>,
+  output: __S(1159, __c36, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4095,8 +3787,8 @@ export const setIamPolicyProjectsLocationsDeployPolicies: API.OperationMethod<
   SetIamPolicyProjectsLocationsDeployPoliciesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2784, __c87, 0) as any as S.Schema<SetIamPolicyProjectsLocationsDeployPoliciesRequest>,
-  output: __S(1255, __c39, 7) as any as S.Schema<Policy>,
+  input: __S(2592, __c81, 0) as any as S.Schema<SetIamPolicyProjectsLocationsDeployPoliciesRequest>,
+  output: __S(1159, __c36, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4117,8 +3809,8 @@ export const setIamPolicyProjectsLocationsTargets: API.OperationMethod<
   SetIamPolicyProjectsLocationsTargetsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2816, __c88, 0) as any as S.Schema<SetIamPolicyProjectsLocationsTargetsRequest>,
-  output: __S(1255, __c39, 7) as any as S.Schema<Policy>,
+  input: __S(2624, __c82, 0) as any as S.Schema<SetIamPolicyProjectsLocationsTargetsRequest>,
+  output: __S(1159, __c36, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4140,11 +3832,11 @@ export const terminateProjectsLocationsDeliveryPipelinesReleasesRolloutsJobRuns:
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2848,
-    __c89,
+    2656,
+    __c83,
     0,
   ) as any as S.Schema<TerminateProjectsLocationsDeliveryPipelinesReleasesRolloutsJobRunsRequest>,
-  output: __S(2016, __c63, 0) as any as S.Schema<TerminateJobRunResponse>,
+  output: __S(1792, __c56, 0) as any as S.Schema<TerminateJobRunResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4166,11 +3858,11 @@ export const testIamPermissionsProjectsLocationsDeliveryPipelines: API.Operation
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2880,
-    __c90,
+    2688,
+    __c84,
     0,
   ) as any as S.Schema<TestIamPermissionsProjectsLocationsDeliveryPipelinesRequest>,
-  output: __S(2912, __c91, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  output: __S(2720, __c85, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4191,8 +3883,8 @@ export const testIamPermissionsProjectsLocationsTargets: API.OperationMethod<
   TestIamPermissionsProjectsLocationsTargetsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2944, __c92, 0) as any as S.Schema<TestIamPermissionsProjectsLocationsTargetsRequest>,
-  output: __S(2912, __c91, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  input: __S(2752, __c86, 0) as any as S.Schema<TestIamPermissionsProjectsLocationsTargetsRequest>,
+  output: __S(2720, __c85, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4205,22 +3897,15 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          customTargetTypeId: S.optional(S.String.pipe(T.Query())),
-          tasks: S.optional(__S(160, __c5, 0)),
-          annotations: S.optional(__S(96, __c3, 0)),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          customActions: S.optional(__S(166, __c5, 6)),
-          uid: S.optional(S.String),
-          name: S.optional(S.String),
-          etag: S.optional(S.String),
-          labels: S.optional(__S(96, __c3, 0)),
-          description: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(167, __c5, 7),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            customTargetTypeId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/customTargetTypes",
@@ -4272,8 +3957,8 @@ function __c4(j: number): any {
       return S.suspend(() =>
         S.Struct({
           env: S.optional(__S(96, __c3, 0)),
-          command: S.optional(__S(2400, __c75, 0)),
-          args: S.optional(__S(2400, __c75, 0)),
+          command: S.optional(__S(2176, __c68, 0)),
+          args: S.optional(__S(2176, __c68, 0)),
           image: S.optional(S.String),
         }),
       ).annotate({ identifier: "ContainerTask" });
@@ -4320,7 +4005,7 @@ function __c5(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          configs: S.optional(__S(2400, __c75, 0)),
+          configs: S.optional(__S(2176, __c68, 0)),
           googleCloudBuildRepo: S.optional(__S(161, __c5, 1)),
           git: S.optional(__S(162, __c5, 2)),
           googleCloudStorage: S.optional(__S(163, __c5, 3)),
@@ -4336,29 +4021,37 @@ function __c5(j: number): any {
           renderAction: S.optional(S.String),
         }),
       ).annotate({ identifier: "CustomTargetSkaffoldActions" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          tasks: S.optional(__S(160, __c5, 0)),
+          annotations: S.optional(__S(96, __c3, 0)),
+          createTime: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          customActions: S.optional(__S(166, __c5, 6)),
+          uid: S.optional(S.String),
+          name: S.optional(S.String),
+          etag: S.optional(S.String),
+          labels: S.optional(__S(96, __c3, 0)),
+          customTargetTypeId: S.optional(S.String),
+          description: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CustomTargetType" });
   }
 }
 function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          deliveryPipelineId: S.optional(S.String.pipe(T.Query())),
-          labels: S.optional(__S(96, __c3, 0)),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          name: S.optional(S.String),
-          suspended: S.optional(S.Boolean),
-          serialPipeline: S.optional(__S(308, __c9, 20)),
-          annotations: S.optional(__S(96, __c3, 0)),
-          etag: S.optional(S.String),
-          description: S.optional(S.String),
-          condition: S.optional(__S(311, __c9, 23)),
-          uid: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(312, __c9, 24),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            deliveryPipelineId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/deliveryPipelines",
@@ -4373,7 +4066,7 @@ function __c7(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          missingTargets: S.optional(__S(2400, __c75, 0)),
+          missingTargets: S.optional(__S(2176, __c68, 0)),
           updateTime: S.optional(S.String),
           status: S.optional(S.Boolean),
         }),
@@ -4393,7 +4086,7 @@ function __c8(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          actions: S.optional(__S(2400, __c75, 0)),
+          actions: S.optional(__S(2176, __c68, 0)),
           tasks: S.optional(__S(256, __c8, 0)),
         }),
       ).annotate({ identifier: "Postdeploy" });
@@ -4411,7 +4104,7 @@ function __c8(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
-          alertPolicies: S.optional(__S(2400, __c75, 0)),
+          alertPolicies: S.optional(__S(2176, __c68, 0)),
           labels: S.optional(__S(96, __c3, 0)),
         }),
       ).annotate({ identifier: "AlertPolicyCheck" });
@@ -4433,7 +4126,7 @@ function __c9(j: number): any {
       return S.suspend(() =>
         S.Struct({
           tasks: S.optional(__S(256, __c8, 0)),
-          actions: S.optional(__S(2400, __c75, 0)),
+          actions: S.optional(__S(2176, __c68, 0)),
         }),
       ).annotate({ identifier: "Predeploy" });
     case 2:
@@ -4465,7 +4158,7 @@ function __c9(j: number): any {
           predeploy: S.optional(__S(289, __c9, 1)),
           analysis: S.optional(__S(290, __c9, 2)),
           verify: S.optional(S.Boolean),
-          profiles: S.optional(__S(2400, __c75, 0)),
+          profiles: S.optional(__S(2176, __c68, 0)),
         }),
       ).annotate({ identifier: "PhaseConfig" });
     case 5:
@@ -4480,7 +4173,7 @@ function __c9(j: number): any {
       return S.suspend(() =>
         S.Struct({
           propagateService: S.optional(S.Boolean),
-          destinationIds: S.optional(__S(2400, __c75, 0)),
+          destinationIds: S.optional(__S(2176, __c68, 0)),
         }),
       ).annotate({ identifier: "RouteDestinations" });
     case 8:
@@ -4514,10 +4207,10 @@ function __c9(j: number): any {
     case 11:
       return S.suspend(() =>
         S.Struct({
-          stableRevisionTags: S.optional(__S(2400, __c75, 0)),
-          canaryRevisionTags: S.optional(__S(2400, __c75, 0)),
+          stableRevisionTags: S.optional(__S(2176, __c68, 0)),
+          canaryRevisionTags: S.optional(__S(2176, __c68, 0)),
           automaticTrafficControl: S.optional(S.Boolean),
-          priorRevisionTags: S.optional(__S(2400, __c75, 0)),
+          priorRevisionTags: S.optional(__S(2176, __c68, 0)),
         }),
       ).annotate({ identifier: "CloudRunConfig" });
     case 12:
@@ -4567,7 +4260,7 @@ function __c9(j: number): any {
           targetId: S.optional(S.String),
           strategy: S.optional(__S(303, __c9, 15)),
           deployParameters: S.optional(__S(305, __c9, 17)),
-          profiles: S.optional(__S(2400, __c75, 0)),
+          profiles: S.optional(__S(2176, __c68, 0)),
         }),
       ).annotate({ identifier: "Stage" });
     case 19:
@@ -4600,30 +4293,37 @@ function __c9(j: number): any {
           targetsPresentCondition: S.optional(__S(224, __c7, 0)),
         }),
       ).annotate({ identifier: "PipelineCondition" });
+    case 24:
+      return S.suspend(() =>
+        S.Struct({
+          labels: S.optional(__S(96, __c3, 0)),
+          createTime: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          name: S.optional(S.String),
+          suspended: S.optional(S.Boolean),
+          serialPipeline: S.optional(__S(308, __c9, 20)),
+          annotations: S.optional(__S(96, __c3, 0)),
+          etag: S.optional(S.String),
+          description: S.optional(S.String),
+          condition: S.optional(__S(311, __c9, 23)),
+          uid: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DeliveryPipeline" });
   }
 }
 function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          automationId: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          etag: S.optional(S.String),
-          annotations: S.optional(__S(96, __c3, 0)),
-          name: S.optional(S.String),
-          rules: S.optional(__S(397, __c12, 13)),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          selector: S.optional(__S(399, __c12, 15)),
-          labels: S.optional(__S(96, __c3, 0)),
-          serviceAccount: S.optional(S.String),
-          suspended: S.optional(S.Boolean),
-          uid: S.optional(S.String),
-          description: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(400, __c12, 16),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            automationId: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/automations",
@@ -4683,7 +4383,7 @@ function __c12(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
-          sourcePhases: S.optional(__S(2400, __c75, 0)),
+          sourcePhases: S.optional(__S(2176, __c68, 0)),
           condition: S.optional(__S(387, __c12, 3)),
           wait: S.optional(S.String),
         }),
@@ -4727,10 +4427,10 @@ function __c12(j: number): any {
       return S.suspend(() =>
         S.Struct({
           repairPhases: S.optional(__S(394, __c12, 10)),
-          jobs: S.optional(__S(2400, __c75, 0)),
+          jobs: S.optional(__S(2176, __c68, 0)),
           id: S.optional(S.String),
           condition: S.optional(__S(387, __c12, 3)),
-          phases: S.optional(__S(2400, __c75, 0)),
+          phases: S.optional(__S(2176, __c68, 0)),
         }),
       ).annotate({ identifier: "RepairRolloutRule" });
     case 12:
@@ -4752,42 +4452,39 @@ function __c12(j: number): any {
           targets: S.optional(__S(398, __c12, 14)),
         }),
       ).annotate({ identifier: "AutomationResourceSelector" });
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          etag: S.optional(S.String),
+          annotations: S.optional(__S(96, __c3, 0)),
+          name: S.optional(S.String),
+          rules: S.optional(__S(397, __c12, 13)),
+          createTime: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          selector: S.optional(__S(399, __c12, 15)),
+          labels: S.optional(__S(96, __c3, 0)),
+          serviceAccount: S.optional(S.String),
+          suspended: S.optional(S.Boolean),
+          uid: S.optional(S.String),
+          description: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Automation" });
   }
 }
 function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          releaseId: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          overrideDeployPolicy: S.optional(__S(2400, __c75, 0).pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          renderEndTime: S.optional(S.String),
-          deployParameters: S.optional(__S(96, __c3, 0)),
-          skaffoldVersion: S.optional(S.String),
-          targetArtifacts: S.optional(__S(707, __c22, 3)),
-          condition: S.optional(__S(711, __c22, 7)),
-          targetSnapshots: S.optional(__S(736, __c23, 0)),
-          targetRenders: S.optional(__S(716, __c22, 12)),
-          uid: S.optional(S.String),
-          abandoned: S.optional(S.Boolean),
-          etag: S.optional(S.String),
-          skaffoldConfigUri: S.optional(S.String),
-          customTargetTypeSnapshots: S.optional(__S(672, __c21, 0)),
-          renderState: S.optional(S.String),
-          buildArtifacts: S.optional(__S(718, __c22, 14)),
-          annotations: S.optional(__S(96, __c3, 0)),
-          description: S.optional(S.String),
-          labels: S.optional(__S(96, __c3, 0)),
-          skaffoldConfigPath: S.optional(S.String),
-          name: S.optional(S.String),
-          renderStartTime: S.optional(S.String),
-          deliveryPipelineSnapshot: S.optional(__S(608, __c19, 0)),
-          toolVersions: S.optional(__S(544, __c17, 0)),
-          createTime: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(623, __c19, 15),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            releaseId: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            overrideDeployPolicy: S.optional(__S(2176, __c68, 0).pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/releases",
@@ -4876,7 +4573,7 @@ function __c16(j: number): any {
     case 10:
       return S.suspend(() =>
         S.Struct({
-          targetIds: S.optional(__S(2400, __c75, 0)),
+          targetIds: S.optional(__S(2176, __c68, 0)),
         }),
       ).annotate({ identifier: "MultiTarget" });
     case 11:
@@ -4891,66 +4588,7 @@ function __c16(j: number): any {
           location: S.optional(S.String),
         }),
       ).annotate({ identifier: "CloudRunLocation" });
-  }
-}
-function __c17(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          skaffold: S.optional(S.String),
-          docker: S.optional(S.String),
-          kpt: S.optional(S.String),
-          helm: S.optional(S.String),
-          kubectl: S.optional(S.String),
-          kustomize: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ToolVersions" });
-  }
-}
-function __c18(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          tasks: S.optional(__S(160, __c5, 0)),
-          annotations: S.optional(__S(96, __c3, 0)),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          customActions: S.optional(__S(166, __c5, 6)),
-          uid: S.optional(S.String),
-          name: S.optional(S.String),
-          etag: S.optional(S.String),
-          labels: S.optional(__S(96, __c3, 0)),
-          customTargetTypeId: S.optional(S.String),
-          description: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CustomTargetType" });
-  }
-}
-function __c19(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          labels: S.optional(__S(96, __c3, 0)),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          name: S.optional(S.String),
-          suspended: S.optional(S.Boolean),
-          serialPipeline: S.optional(__S(308, __c9, 20)),
-          annotations: S.optional(__S(96, __c3, 0)),
-          etag: S.optional(S.String),
-          description: S.optional(S.String),
-          condition: S.optional(__S(311, __c9, 23)),
-          uid: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DeliveryPipeline" });
-  }
-}
-function __c20(j: number): any {
-  switch (j) {
-    case 0:
+    case 13:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
@@ -4975,13 +4613,28 @@ function __c20(j: number): any {
       ).annotate({ identifier: "Target" });
   }
 }
-function __c21(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(576, __c18, 0));
+      return S.suspend(() =>
+        S.Struct({
+          skaffold: S.optional(S.String),
+          docker: S.optional(S.String),
+          kpt: S.optional(S.String),
+          helm: S.optional(S.String),
+          kubectl: S.optional(S.String),
+          kustomize: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ToolVersions" });
   }
 }
-function __c22(j: number): any {
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(167, __c5, 7));
+  }
+}
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4992,18 +4645,18 @@ function __c22(j: number): any {
         }),
       ).annotate({ identifier: "PhaseArtifact" });
     case 1:
-      return S.Record(S.String, __S(704, __c22, 0));
+      return S.Record(S.String, __S(608, __c19, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           skaffoldConfigPath: S.optional(S.String),
-          phaseArtifacts: S.optional(__S(705, __c22, 1)),
+          phaseArtifacts: S.optional(__S(609, __c19, 1)),
           artifactUri: S.optional(S.String),
           manifestPath: S.optional(S.String),
         }),
       ).annotate({ identifier: "TargetArtifact" });
     case 3:
-      return S.Record(S.String, __S(706, __c22, 2));
+      return S.Record(S.String, __S(610, __c19, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -5031,14 +4684,14 @@ function __c22(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          releaseReadyCondition: S.optional(__S(708, __c22, 4)),
-          skaffoldVersionSupportedCondition: S.optional(__S(709, __c22, 5)),
-          helmVersionSupportedCondition: S.optional(__S(709, __c22, 5)),
-          dockerVersionSupportedCondition: S.optional(__S(709, __c22, 5)),
-          kptVersionSupportedCondition: S.optional(__S(709, __c22, 5)),
-          kubectlVersionSupportedCondition: S.optional(__S(709, __c22, 5)),
-          kustomizeVersionSupportedCondition: S.optional(__S(709, __c22, 5)),
-          skaffoldSupportedCondition: S.optional(__S(710, __c22, 6)),
+          releaseReadyCondition: S.optional(__S(612, __c19, 4)),
+          skaffoldVersionSupportedCondition: S.optional(__S(613, __c19, 5)),
+          helmVersionSupportedCondition: S.optional(__S(613, __c19, 5)),
+          dockerVersionSupportedCondition: S.optional(__S(613, __c19, 5)),
+          kptVersionSupportedCondition: S.optional(__S(613, __c19, 5)),
+          kubectlVersionSupportedCondition: S.optional(__S(613, __c19, 5)),
+          kustomizeVersionSupportedCondition: S.optional(__S(613, __c19, 5)),
+          skaffoldSupportedCondition: S.optional(__S(614, __c19, 6)),
         }),
       ).annotate({ identifier: "ReleaseCondition" });
     case 8:
@@ -5061,23 +4714,23 @@ function __c22(j: number): any {
     case 10:
       return S.suspend(() =>
         S.Struct({
-          kubernetes: S.optional(__S(712, __c22, 8)),
+          kubernetes: S.optional(__S(616, __c19, 8)),
           custom: S.optional(__S(448, __c14, 0)),
-          cloudRun: S.optional(__S(713, __c22, 9)),
+          cloudRun: S.optional(__S(617, __c19, 9)),
         }),
       ).annotate({ identifier: "RenderMetadata" });
     case 11:
       return S.suspend(() =>
         S.Struct({
           failureMessage: S.optional(S.String),
-          metadata: S.optional(__S(714, __c22, 10)),
+          metadata: S.optional(__S(618, __c19, 10)),
           renderingBuild: S.optional(S.String),
           failureCause: S.optional(S.String),
           renderingState: S.optional(S.String),
         }),
       ).annotate({ identifier: "TargetRender" });
     case 12:
-      return S.Record(S.String, __S(715, __c22, 11));
+      return S.Record(S.String, __S(619, __c19, 11));
     case 13:
       return S.suspend(() =>
         S.Struct({
@@ -5086,26 +4739,158 @@ function __c22(j: number): any {
         }),
       ).annotate({ identifier: "BuildArtifact" });
     case 14:
-      return S.Array(__S(717, __c22, 13));
+      return S.Array(__S(621, __c19, 13));
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          renderEndTime: S.optional(S.String),
+          deployParameters: S.optional(__S(96, __c3, 0)),
+          skaffoldVersion: S.optional(S.String),
+          targetArtifacts: S.optional(__S(611, __c19, 3)),
+          condition: S.optional(__S(615, __c19, 7)),
+          targetSnapshots: S.optional(__S(640, __c20, 0)),
+          targetRenders: S.optional(__S(620, __c19, 12)),
+          uid: S.optional(S.String),
+          abandoned: S.optional(S.Boolean),
+          etag: S.optional(S.String),
+          skaffoldConfigUri: S.optional(S.String),
+          customTargetTypeSnapshots: S.optional(__S(576, __c18, 0)),
+          renderState: S.optional(S.String),
+          buildArtifacts: S.optional(__S(622, __c19, 14)),
+          annotations: S.optional(__S(96, __c3, 0)),
+          description: S.optional(S.String),
+          labels: S.optional(__S(96, __c3, 0)),
+          skaffoldConfigPath: S.optional(S.String),
+          name: S.optional(S.String),
+          renderStartTime: S.optional(S.String),
+          deliveryPipelineSnapshot: S.optional(__S(312, __c9, 24)),
+          toolVersions: S.optional(__S(544, __c17, 0)),
+          createTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Release" });
+  }
+}
+function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(525, __c16, 13));
+  }
+}
+function __c21(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(745, __c23, 9),
+          S.Struct({
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            startingPhaseId: S.optional(S.String.pipe(T.Query())),
+            overrideDeployPolicy: S.optional(__S(2176, __c68, 0).pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            rolloutId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
+          T.Http({
+            method: "POST",
+            uri: "v1/{+parent}/rollouts",
+            baseUrl: "https://clouddeploy.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "CreateProjectsLocationsDeliveryPipelinesReleasesRolloutsRequest" });
+  }
+}
+function __c22(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          previousRevision: S.optional(S.String),
+          workerPool: S.optional(S.String),
+          revision: S.optional(S.String),
+          serviceUrls: S.optional(__S(2176, __c68, 0)),
+          job: S.optional(S.String),
+          service: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CloudRunMetadata" });
   }
 }
 function __c23(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(640, __c20, 0));
-  }
-}
-function __c24(j: number): any {
-  switch (j) {
-    case 0:
       return S.suspend(() =>
         S.Struct({
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          startingPhaseId: S.optional(S.String.pipe(T.Query())),
-          overrideDeployPolicy: S.optional(__S(2400, __c75, 0).pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          rolloutId: S.optional(S.String.pipe(T.Query())),
+          advanceAutomationRuns: S.optional(__S(2176, __c68, 0)),
+          promoteAutomationRun: S.optional(S.String),
+          repairAutomationRuns: S.optional(__S(2176, __c68, 0)),
+        }),
+      ).annotate({ identifier: "AutomationRolloutMetadata" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          automation: S.optional(__S(736, __c23, 0)),
+          custom: S.optional(__S(448, __c14, 0)),
+          cloudRun: S.optional(__S(704, __c22, 0)),
+        }),
+      ).annotate({ identifier: "Metadata" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          googleCloud: S.optional(__S(263, __c8, 7)),
+          customChecks: S.optional(__S(260, __c8, 4)),
+          duration: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AnalysisJob" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          advanceChildRolloutJob: S.optional(__S(1792, __c56, 0)),
+          analysisJob: S.optional(__S(738, __c23, 2)),
+          id: S.optional(S.String),
+          createChildRolloutJob: S.optional(__S(1792, __c56, 0)),
+          postdeployJob: S.optional(__S(258, __c8, 2)),
+          jobRun: S.optional(S.String),
+          verifyJob: S.optional(__S(257, __c8, 1)),
+          predeployJob: S.optional(__S(258, __c8, 2)),
+          state: S.optional(S.String),
+          skipMessage: S.optional(S.String),
+          deployJob: S.optional(__S(1792, __c56, 0)),
+        }),
+      ).annotate({ identifier: "Job" });
+    case 4:
+      return S.Array(__S(739, __c23, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          advanceRolloutJobs: S.optional(__S(740, __c23, 4)),
+          createRolloutJobs: S.optional(__S(740, __c23, 4)),
+        }),
+      ).annotate({ identifier: "ChildRolloutJobs" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          predeployJob: S.optional(__S(739, __c23, 3)),
+          deployJob: S.optional(__S(739, __c23, 3)),
+          postdeployJob: S.optional(__S(739, __c23, 3)),
+          verifyJob: S.optional(__S(739, __c23, 3)),
+          analysisJob: S.optional(__S(739, __c23, 3)),
+        }),
+      ).annotate({ identifier: "DeploymentJobs" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          childRolloutJobs: S.optional(__S(741, __c23, 5)),
+          skipMessage: S.optional(S.String),
+          state: S.optional(S.String),
+          id: S.optional(S.String),
+          deploymentJobs: S.optional(__S(742, __c23, 6)),
+        }),
+      ).annotate({ identifier: "Phase" });
+    case 8:
+      return S.Array(__S(743, __c23, 7));
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
           enqueueTime: S.optional(S.String),
           approveTime: S.optional(S.String),
           activeRepairAutomationRun: S.optional(S.String),
@@ -5121,135 +4906,31 @@ function __c24(j: number): any {
           description: S.optional(S.String),
           failureReason: S.optional(S.String),
           targetId: S.optional(S.String),
-          metadata: S.optional(__S(833, __c26, 1)),
+          metadata: S.optional(__S(737, __c23, 1)),
           etag: S.optional(S.String),
-          phases: S.optional(__S(840, __c26, 8)),
+          phases: S.optional(__S(744, __c23, 8)),
           deployStartTime: S.optional(S.String),
-          rolledBackByRollouts: S.optional(__S(2400, __c75, 0)),
+          rolledBackByRollouts: S.optional(__S(2176, __c68, 0)),
           deployingBuild: S.optional(S.String),
           controllerRollout: S.optional(S.String),
           createTime: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "v1/{+parent}/rollouts",
-            baseUrl: "https://clouddeploy.googleapis.com/",
+        }),
+      ).annotate({ identifier: "Rollout" });
+  }
+}
+function __c24(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(844, __c26, 12),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            deployPolicyId: S.optional(S.String.pipe(T.Query())),
           }),
-        ),
-      ).annotate({ identifier: "CreateProjectsLocationsDeliveryPipelinesReleasesRolloutsRequest" });
-  }
-}
-function __c25(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          previousRevision: S.optional(S.String),
-          workerPool: S.optional(S.String),
-          revision: S.optional(S.String),
-          serviceUrls: S.optional(__S(2400, __c75, 0)),
-          job: S.optional(S.String),
-          service: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CloudRunMetadata" });
-  }
-}
-function __c26(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          advanceAutomationRuns: S.optional(__S(2400, __c75, 0)),
-          promoteAutomationRun: S.optional(S.String),
-          repairAutomationRuns: S.optional(__S(2400, __c75, 0)),
-        }),
-      ).annotate({ identifier: "AutomationRolloutMetadata" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          automation: S.optional(__S(832, __c26, 0)),
-          custom: S.optional(__S(448, __c14, 0)),
-          cloudRun: S.optional(__S(800, __c25, 0)),
-        }),
-      ).annotate({ identifier: "Metadata" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          googleCloud: S.optional(__S(263, __c8, 7)),
-          customChecks: S.optional(__S(260, __c8, 4)),
-          duration: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AnalysisJob" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          advanceChildRolloutJob: S.optional(__S(2016, __c63, 0)),
-          analysisJob: S.optional(__S(834, __c26, 2)),
-          id: S.optional(S.String),
-          createChildRolloutJob: S.optional(__S(2016, __c63, 0)),
-          postdeployJob: S.optional(__S(258, __c8, 2)),
-          jobRun: S.optional(S.String),
-          verifyJob: S.optional(__S(257, __c8, 1)),
-          predeployJob: S.optional(__S(258, __c8, 2)),
-          state: S.optional(S.String),
-          skipMessage: S.optional(S.String),
-          deployJob: S.optional(__S(2016, __c63, 0)),
-        }),
-      ).annotate({ identifier: "Job" });
-    case 4:
-      return S.Array(__S(835, __c26, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          advanceRolloutJobs: S.optional(__S(836, __c26, 4)),
-          createRolloutJobs: S.optional(__S(836, __c26, 4)),
-        }),
-      ).annotate({ identifier: "ChildRolloutJobs" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          predeployJob: S.optional(__S(835, __c26, 3)),
-          deployJob: S.optional(__S(835, __c26, 3)),
-          postdeployJob: S.optional(__S(835, __c26, 3)),
-          verifyJob: S.optional(__S(835, __c26, 3)),
-          analysisJob: S.optional(__S(835, __c26, 3)),
-        }),
-      ).annotate({ identifier: "DeploymentJobs" });
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          childRolloutJobs: S.optional(__S(837, __c26, 5)),
-          skipMessage: S.optional(S.String),
-          state: S.optional(S.String),
-          id: S.optional(S.String),
-          deploymentJobs: S.optional(__S(838, __c26, 6)),
-        }),
-      ).annotate({ identifier: "Phase" });
-    case 8:
-      return S.Array(__S(839, __c26, 7));
-  }
-}
-function __c27(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          deployPolicyId: S.optional(S.String.pipe(T.Query())),
-          rules: S.optional(__S(936, __c29, 8)),
-          labels: S.optional(__S(96, __c3, 0)),
-          annotations: S.optional(__S(96, __c3, 0)),
-          selectors: S.optional(__S(939, __c29, 11)),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          suspended: S.optional(S.Boolean),
-          etag: S.optional(S.String),
-          description: S.optional(S.String),
-          name: S.optional(S.String),
-          uid: S.optional(S.String),
-        }).pipe(
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/deployPolicies",
@@ -5259,7 +4940,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsDeployPoliciesRequest" });
   }
 }
-function __c28(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5271,7 +4952,7 @@ function __c28(j: number): any {
       ).annotate({ identifier: "Clouddeploy_Date" });
   }
 }
-function __c29(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5285,30 +4966,30 @@ function __c29(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          startTime: S.optional(__S(928, __c29, 0)),
+          startTime: S.optional(__S(832, __c26, 0)),
           daysOfWeek: S.optional(__S(480, __c15, 0)),
-          endTime: S.optional(__S(928, __c29, 0)),
+          endTime: S.optional(__S(832, __c26, 0)),
         }),
       ).annotate({ identifier: "WeeklyWindow" });
     case 2:
-      return S.Array(__S(929, __c29, 1));
+      return S.Array(__S(833, __c26, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          endDate: S.optional(__S(896, __c28, 0)),
-          endTime: S.optional(__S(928, __c29, 0)),
-          startDate: S.optional(__S(896, __c28, 0)),
-          startTime: S.optional(__S(928, __c29, 0)),
+          endDate: S.optional(__S(800, __c25, 0)),
+          endTime: S.optional(__S(832, __c26, 0)),
+          startDate: S.optional(__S(800, __c25, 0)),
+          startTime: S.optional(__S(832, __c26, 0)),
         }),
       ).annotate({ identifier: "OneTimeWindow" });
     case 4:
-      return S.Array(__S(931, __c29, 3));
+      return S.Array(__S(835, __c26, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           timeZone: S.optional(S.String),
-          weeklyWindows: S.optional(__S(930, __c29, 2)),
-          oneTimeWindows: S.optional(__S(932, __c29, 4)),
+          weeklyWindows: S.optional(__S(834, __c26, 2)),
+          oneTimeWindows: S.optional(__S(836, __c26, 4)),
         }),
       ).annotate({ identifier: "TimeWindows" });
     case 6:
@@ -5317,17 +4998,17 @@ function __c29(j: number): any {
           invokers: S.optional(__S(480, __c15, 0)),
           actions: S.optional(__S(480, __c15, 0)),
           id: S.optional(S.String),
-          timeWindows: S.optional(__S(933, __c29, 5)),
+          timeWindows: S.optional(__S(837, __c26, 5)),
         }),
       ).annotate({ identifier: "RolloutRestriction" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          rolloutRestriction: S.optional(__S(934, __c29, 6)),
+          rolloutRestriction: S.optional(__S(838, __c26, 6)),
         }),
       ).annotate({ identifier: "PolicyRule" });
     case 8:
-      return S.Array(__S(935, __c29, 7));
+      return S.Array(__S(839, __c26, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
@@ -5338,41 +5019,43 @@ function __c29(j: number): any {
     case 10:
       return S.suspend(() =>
         S.Struct({
-          deliveryPipeline: S.optional(__S(937, __c29, 9)),
+          deliveryPipeline: S.optional(__S(841, __c26, 9)),
           target: S.optional(__S(352, __c11, 0)),
         }),
       ).annotate({ identifier: "DeployPolicyResourceSelector" });
     case 11:
-      return S.Array(__S(938, __c29, 10));
+      return S.Array(__S(842, __c26, 10));
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          rules: S.optional(__S(840, __c26, 8)),
+          labels: S.optional(__S(96, __c3, 0)),
+          annotations: S.optional(__S(96, __c3, 0)),
+          selectors: S.optional(__S(843, __c26, 11)),
+          createTime: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          suspended: S.optional(S.Boolean),
+          etag: S.optional(S.String),
+          description: S.optional(S.String),
+          name: S.optional(S.String),
+          uid: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DeployPolicy" });
   }
 }
-function __c30(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          targetId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          name: S.optional(S.String),
-          annotations: S.optional(__S(96, __c3, 0)),
-          gke: S.optional(__S(512, __c16, 0)),
-          associatedEntities: S.optional(__S(517, __c16, 5)),
-          executionConfigs: S.optional(__S(521, __c16, 9)),
-          multiTarget: S.optional(__S(522, __c16, 10)),
-          customTarget: S.optional(__S(523, __c16, 11)),
-          deployParameters: S.optional(__S(96, __c3, 0)),
-          updateTime: S.optional(S.String),
-          anthosCluster: S.optional(__S(513, __c16, 1)),
-          labels: S.optional(__S(96, __c3, 0)),
-          requireApproval: S.optional(S.Boolean),
-          run: S.optional(__S(524, __c16, 12)),
-          etag: S.optional(S.String),
-          description: S.optional(S.String),
-          uid: S.optional(S.String),
-          createTime: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(525, __c16, 13),
+          S.Struct({
+            targetId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/targets",
@@ -5382,7 +5065,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsTargetsRequest" });
   }
 }
-function __c31(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5402,7 +5085,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsCustomTargetTypesRequest" });
   }
 }
-function __c32(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5423,7 +5106,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsDeliveryPipelinesRequest" });
   }
 }
-function __c33(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5443,7 +5126,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsDeliveryPipelinesAutomationsRequest" });
   }
 }
-function __c34(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5463,7 +5146,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsDeployPoliciesRequest" });
   }
 }
-function __c35(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5479,7 +5162,7 @@ function __c35(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsOperationsRequest" });
   }
 }
-function __c36(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5499,7 +5182,7 @@ function __c36(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsTargetsRequest" });
   }
 }
-function __c37(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5518,24 +5201,24 @@ function __c37(j: number): any {
         S.Struct({
           version: S.optional(S.String),
           supportExpirationTime: S.optional(S.String),
-          supportEndDate: S.optional(__S(896, __c28, 0)),
+          supportEndDate: S.optional(__S(800, __c25, 0)),
           maintenanceModeTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "SkaffoldVersion" });
     case 2:
-      return S.Array(__S(1185, __c37, 1));
+      return S.Array(__S(1089, __c34, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           defaultSkaffoldVersion: S.optional(S.String),
           defaultToolVersions: S.optional(__S(544, __c17, 0)),
           name: S.optional(S.String),
-          supportedVersions: S.optional(__S(1186, __c37, 2)),
+          supportedVersions: S.optional(__S(1090, __c34, 2)),
         }),
       ).annotate({ identifier: "Config" });
   }
 }
-function __c38(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5552,7 +5235,7 @@ function __c38(j: number): any {
       ).annotate({ identifier: "GetIamPolicyProjectsLocationsCustomTargetTypesRequest" });
   }
 }
-function __c39(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5566,43 +5249,43 @@ function __c39(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          condition: S.optional(__S(1248, __c39, 0)),
+          condition: S.optional(__S(1152, __c36, 0)),
           role: S.optional(S.String),
-          members: S.optional(__S(2400, __c75, 0)),
+          members: S.optional(__S(2176, __c68, 0)),
         }),
       ).annotate({ identifier: "Binding" });
     case 2:
-      return S.Array(__S(1249, __c39, 1));
+      return S.Array(__S(1153, __c36, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           logType: S.optional(S.String),
-          exemptedMembers: S.optional(__S(2400, __c75, 0)),
+          exemptedMembers: S.optional(__S(2176, __c68, 0)),
         }),
       ).annotate({ identifier: "AuditLogConfig" });
     case 4:
-      return S.Array(__S(1251, __c39, 3));
+      return S.Array(__S(1155, __c36, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           service: S.optional(S.String),
-          auditLogConfigs: S.optional(__S(1252, __c39, 4)),
+          auditLogConfigs: S.optional(__S(1156, __c36, 4)),
         }),
       ).annotate({ identifier: "AuditConfig" });
     case 6:
-      return S.Array(__S(1253, __c39, 5));
+      return S.Array(__S(1157, __c36, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          bindings: S.optional(__S(1250, __c39, 2)),
+          bindings: S.optional(__S(1154, __c36, 2)),
           version: S.optional(S.Number),
           etag: S.optional(S.String),
-          auditConfigs: S.optional(__S(1254, __c39, 6)),
+          auditConfigs: S.optional(__S(1158, __c36, 6)),
         }),
       ).annotate({ identifier: "Policy" });
   }
 }
-function __c40(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5619,7 +5302,7 @@ function __c40(j: number): any {
       ).annotate({ identifier: "GetIamPolicyProjectsLocationsDeliveryPipelinesRequest" });
   }
 }
-function __c41(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5636,7 +5319,7 @@ function __c41(j: number): any {
       ).annotate({ identifier: "GetIamPolicyProjectsLocationsDeployPoliciesRequest" });
   }
 }
-function __c42(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5653,7 +5336,7 @@ function __c42(j: number): any {
       ).annotate({ identifier: "GetIamPolicyProjectsLocationsTargetsRequest" });
   }
 }
-function __c43(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5669,7 +5352,7 @@ function __c43(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsRequest" });
   }
 }
-function __c44(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5683,7 +5366,7 @@ function __c44(j: number): any {
       ).annotate({ identifier: "Location" });
   }
 }
-function __c45(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5699,7 +5382,7 @@ function __c45(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsCustomTargetTypesRequest" });
   }
 }
-function __c46(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5715,7 +5398,7 @@ function __c46(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsDeliveryPipelinesRequest" });
   }
 }
-function __c47(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5731,28 +5414,7 @@ function __c47(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsDeliveryPipelinesAutomationRunsRequest" });
   }
 }
-function __c48(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          etag: S.optional(S.String),
-          annotations: S.optional(__S(96, __c3, 0)),
-          name: S.optional(S.String),
-          rules: S.optional(__S(397, __c12, 13)),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          selector: S.optional(__S(399, __c12, 15)),
-          labels: S.optional(__S(96, __c3, 0)),
-          serviceAccount: S.optional(S.String),
-          suspended: S.optional(S.Boolean),
-          uid: S.optional(S.String),
-          description: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Automation" });
-  }
-}
-function __c49(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5782,13 +5444,13 @@ function __c49(j: number): any {
         }),
       ).annotate({ identifier: "RetryAttempt" });
     case 3:
-      return S.Array(__S(1570, __c49, 2));
+      return S.Array(__S(1442, __c45, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           totalAttempts: S.optional(S.String),
           backoffMode: S.optional(S.String),
-          attempts: S.optional(__S(1571, __c49, 3)),
+          attempts: S.optional(__S(1443, __c45, 3)),
         }),
       ).annotate({ identifier: "RetryPhase" });
     case 5:
@@ -5804,19 +5466,19 @@ function __c49(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          retry: S.optional(__S(1572, __c49, 4)),
-          rollback: S.optional(__S(1573, __c49, 5)),
+          retry: S.optional(__S(1444, __c45, 4)),
+          rollback: S.optional(__S(1445, __c45, 5)),
         }),
       ).annotate({ identifier: "RepairPhase" });
     case 7:
-      return S.Array(__S(1574, __c49, 6));
+      return S.Array(__S(1446, __c45, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
           phaseId: S.optional(S.String),
           jobId: S.optional(S.String),
           rollout: S.optional(S.String),
-          repairPhases: S.optional(__S(1575, __c49, 7)),
+          repairPhases: S.optional(__S(1447, __c45, 7)),
           currentRepairPhaseIndex: S.optional(S.String),
         }),
       ).annotate({ identifier: "RepairRolloutOperation" });
@@ -5829,11 +5491,11 @@ function __c49(j: number): any {
         }),
       ).annotate({ identifier: "PolicyViolationDetails" });
     case 10:
-      return S.Array(__S(1577, __c49, 9));
+      return S.Array(__S(1449, __c45, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
-          policyViolationDetails: S.optional(__S(1578, __c49, 10)),
+          policyViolationDetails: S.optional(__S(1450, __c45, 10)),
         }),
       ).annotate({ identifier: "PolicyViolation" });
     case 12:
@@ -5847,30 +5509,30 @@ function __c49(j: number): any {
     case 13:
       return S.suspend(() =>
         S.Struct({
-          automationSnapshot: S.optional(__S(1536, __c48, 0)),
+          automationSnapshot: S.optional(__S(400, __c12, 16)),
           state: S.optional(S.String),
-          advanceRolloutOperation: S.optional(__S(1568, __c49, 0)),
+          advanceRolloutOperation: S.optional(__S(1440, __c45, 0)),
           waitUntilTime: S.optional(S.String),
-          promoteReleaseOperation: S.optional(__S(1569, __c49, 1)),
+          promoteReleaseOperation: S.optional(__S(1441, __c45, 1)),
           createTime: S.optional(S.String),
-          repairRolloutOperation: S.optional(__S(1576, __c49, 8)),
+          repairRolloutOperation: S.optional(__S(1448, __c45, 8)),
           ruleId: S.optional(S.String),
           name: S.optional(S.String),
           automationId: S.optional(S.String),
           stateDescription: S.optional(S.String),
-          policyViolation: S.optional(__S(1579, __c49, 11)),
+          policyViolation: S.optional(__S(1451, __c45, 11)),
           targetId: S.optional(S.String),
           updateTime: S.optional(S.String),
           uid: S.optional(S.String),
           serviceAccount: S.optional(S.String),
-          timedPromoteReleaseOperation: S.optional(__S(1580, __c49, 12)),
+          timedPromoteReleaseOperation: S.optional(__S(1452, __c45, 12)),
           expireTime: S.optional(S.String),
           etag: S.optional(S.String),
         }),
       ).annotate({ identifier: "AutomationRun" });
   }
 }
-function __c50(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5886,7 +5548,7 @@ function __c50(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsDeliveryPipelinesAutomationsRequest" });
   }
 }
-function __c51(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5902,39 +5564,7 @@ function __c51(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsDeliveryPipelinesReleasesRequest" });
   }
 }
-function __c52(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          renderEndTime: S.optional(S.String),
-          deployParameters: S.optional(__S(96, __c3, 0)),
-          skaffoldVersion: S.optional(S.String),
-          targetArtifacts: S.optional(__S(707, __c22, 3)),
-          condition: S.optional(__S(711, __c22, 7)),
-          targetSnapshots: S.optional(__S(736, __c23, 0)),
-          targetRenders: S.optional(__S(716, __c22, 12)),
-          uid: S.optional(S.String),
-          abandoned: S.optional(S.Boolean),
-          etag: S.optional(S.String),
-          skaffoldConfigUri: S.optional(S.String),
-          customTargetTypeSnapshots: S.optional(__S(672, __c21, 0)),
-          renderState: S.optional(S.String),
-          buildArtifacts: S.optional(__S(718, __c22, 14)),
-          annotations: S.optional(__S(96, __c3, 0)),
-          description: S.optional(S.String),
-          labels: S.optional(__S(96, __c3, 0)),
-          skaffoldConfigPath: S.optional(S.String),
-          name: S.optional(S.String),
-          renderStartTime: S.optional(S.String),
-          deliveryPipelineSnapshot: S.optional(__S(608, __c19, 0)),
-          toolVersions: S.optional(__S(544, __c17, 0)),
-          createTime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Release" });
-  }
-}
-function __c53(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5950,39 +5580,7 @@ function __c53(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsDeliveryPipelinesReleasesRolloutsRequest" });
   }
 }
-function __c54(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          enqueueTime: S.optional(S.String),
-          approveTime: S.optional(S.String),
-          activeRepairAutomationRun: S.optional(S.String),
-          name: S.optional(S.String),
-          uid: S.optional(S.String),
-          state: S.optional(S.String),
-          labels: S.optional(__S(96, __c3, 0)),
-          deployFailureCause: S.optional(S.String),
-          approvalState: S.optional(S.String),
-          annotations: S.optional(__S(96, __c3, 0)),
-          deployEndTime: S.optional(S.String),
-          rollbackOfRollout: S.optional(S.String),
-          description: S.optional(S.String),
-          failureReason: S.optional(S.String),
-          targetId: S.optional(S.String),
-          metadata: S.optional(__S(833, __c26, 1)),
-          etag: S.optional(S.String),
-          phases: S.optional(__S(840, __c26, 8)),
-          deployStartTime: S.optional(S.String),
-          rolledBackByRollouts: S.optional(__S(2400, __c75, 0)),
-          deployingBuild: S.optional(S.String),
-          controllerRollout: S.optional(S.String),
-          createTime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Rollout" });
-  }
-}
-function __c55(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6000,7 +5598,7 @@ function __c55(j: number): any {
       });
   }
 }
-function __c56(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6013,7 +5611,7 @@ function __c56(j: number): any {
       return S.suspend(() =>
         S.Struct({
           artifactUri: S.optional(S.String),
-          manifestPaths: S.optional(__S(2400, __c75, 0)),
+          manifestPaths: S.optional(__S(2176, __c68, 0)),
         }),
       ).annotate({ identifier: "DeployArtifact" });
     case 2:
@@ -6025,19 +5623,19 @@ function __c56(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          customTarget: S.optional(__S(1794, __c56, 2)),
-          cloudRun: S.optional(__S(800, __c25, 0)),
+          customTarget: S.optional(__S(1602, __c50, 2)),
+          cloudRun: S.optional(__S(704, __c22, 0)),
           custom: S.optional(__S(448, __c14, 0)),
         }),
       ).annotate({ identifier: "DeployJobRunMetadata" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          artifact: S.optional(__S(1793, __c56, 1)),
+          artifact: S.optional(__S(1601, __c50, 1)),
           failureCause: S.optional(S.String),
           build: S.optional(S.String),
           failureMessage: S.optional(S.String),
-          metadata: S.optional(__S(1795, __c56, 3)),
+          metadata: S.optional(__S(1603, __c50, 3)),
         }),
       ).annotate({ identifier: "DeployJobRun" });
     case 5:
@@ -6049,7 +5647,7 @@ function __c56(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          metadata: S.optional(__S(1797, __c56, 5)),
+          metadata: S.optional(__S(1605, __c50, 5)),
           build: S.optional(S.String),
           artifactUri: S.optional(S.String),
           failureCause: S.optional(S.String),
@@ -6063,7 +5661,7 @@ function __c56(j: number): any {
           failureMessage: S.optional(S.String),
           build: S.optional(S.String),
           failureCause: S.optional(S.String),
-          metadata: S.optional(__S(1797, __c56, 5)),
+          metadata: S.optional(__S(1605, __c50, 5)),
         }),
       ).annotate({ identifier: "PostdeployJobRun" });
     case 8:
@@ -6072,30 +5670,30 @@ function __c56(j: number): any {
           failureCause: S.optional(S.String),
           build: S.optional(S.String),
           failureMessage: S.optional(S.String),
-          metadata: S.optional(__S(1797, __c56, 5)),
+          metadata: S.optional(__S(1605, __c50, 5)),
         }),
       ).annotate({ identifier: "PredeployJobRun" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          alerts: S.optional(__S(2400, __c75, 0)),
+          alerts: S.optional(__S(2176, __c68, 0)),
           alertPolicy: S.optional(S.String),
         }),
       ).annotate({ identifier: "FailedAlertPolicy" });
     case 10:
-      return S.Array(__S(1801, __c56, 9));
+      return S.Array(__S(1609, __c50, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
-          failedAlertPolicies: S.optional(__S(1802, __c56, 10)),
-          alertPolicies: S.optional(__S(2400, __c75, 0)),
+          failedAlertPolicies: S.optional(__S(1610, __c50, 10)),
+          alertPolicies: S.optional(__S(2176, __c68, 0)),
           failureMessage: S.optional(S.String),
           labels: S.optional(__S(96, __c3, 0)),
         }),
       ).annotate({ identifier: "AlertPolicyCheckStatus" });
     case 12:
-      return S.Array(__S(1803, __c56, 11));
+      return S.Array(__S(1611, __c50, 11));
     case 13:
       return S.suspend(() =>
         S.Struct({
@@ -6109,13 +5707,13 @@ function __c56(j: number): any {
         }),
       ).annotate({ identifier: "CustomCheckStatus" });
     case 14:
-      return S.Array(__S(1805, __c56, 13));
+      return S.Array(__S(1613, __c50, 13));
     case 15:
       return S.suspend(() =>
         S.Struct({
           failedCheckId: S.optional(S.String),
-          alertPolicyAnalyses: S.optional(__S(1804, __c56, 12)),
-          customCheckAnalyses: S.optional(__S(1806, __c56, 14)),
+          alertPolicyAnalyses: S.optional(__S(1612, __c50, 12)),
+          customCheckAnalyses: S.optional(__S(1614, __c50, 14)),
         }),
       ).annotate({ identifier: "AnalysisJobRun" });
     case 16:
@@ -6128,27 +5726,27 @@ function __c56(j: number): any {
     case 17:
       return S.suspend(() =>
         S.Struct({
-          advanceChildRolloutJobRun: S.optional(__S(1792, __c56, 0)),
+          advanceChildRolloutJobRun: S.optional(__S(1600, __c50, 0)),
           startTime: S.optional(S.String),
           uid: S.optional(S.String),
-          deployJobRun: S.optional(__S(1796, __c56, 4)),
+          deployJobRun: S.optional(__S(1604, __c50, 4)),
           phaseId: S.optional(S.String),
           etag: S.optional(S.String),
-          verifyJobRun: S.optional(__S(1798, __c56, 6)),
-          postdeployJobRun: S.optional(__S(1799, __c56, 7)),
-          predeployJobRun: S.optional(__S(1800, __c56, 8)),
+          verifyJobRun: S.optional(__S(1606, __c50, 6)),
+          postdeployJobRun: S.optional(__S(1607, __c50, 7)),
+          predeployJobRun: S.optional(__S(1608, __c50, 8)),
           state: S.optional(S.String),
           endTime: S.optional(S.String),
           name: S.optional(S.String),
           createTime: S.optional(S.String),
-          analysisJobRun: S.optional(__S(1807, __c56, 15)),
+          analysisJobRun: S.optional(__S(1615, __c50, 15)),
           jobId: S.optional(S.String),
-          createChildRolloutJobRun: S.optional(__S(1808, __c56, 16)),
+          createChildRolloutJobRun: S.optional(__S(1616, __c50, 16)),
         }),
       ).annotate({ identifier: "JobRun" });
   }
 }
-function __c57(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6164,27 +5762,7 @@ function __c57(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsDeployPoliciesRequest" });
   }
 }
-function __c58(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          rules: S.optional(__S(936, __c29, 8)),
-          labels: S.optional(__S(96, __c3, 0)),
-          annotations: S.optional(__S(96, __c3, 0)),
-          selectors: S.optional(__S(939, __c29, 11)),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          suspended: S.optional(S.Boolean),
-          etag: S.optional(S.String),
-          description: S.optional(S.String),
-          name: S.optional(S.String),
-          uid: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DeployPolicy" });
-  }
-}
-function __c59(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6200,7 +5778,7 @@ function __c59(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsOperationsRequest" });
   }
 }
-function __c60(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6216,16 +5794,24 @@ function __c60(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsTargetsRequest" });
   }
 }
-function __c61(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          rollout: S.String.pipe(T.Label()),
           phaseId: S.optional(S.String),
           jobId: S.optional(S.String),
-          overrideDeployPolicy: S.optional(__S(2400, __c75, 0)),
-        }).pipe(
+          overrideDeployPolicy: S.optional(__S(2176, __c68, 0)),
+        }),
+      ).annotate({ identifier: "IgnoreJobRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(1728, __c54, 0),
+          S.Struct({
+            rollout: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+rollout}:ignoreJob",
@@ -6237,13 +5823,13 @@ function __c61(j: number): any {
       });
   }
 }
-function __c62(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2016, __c63, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(1792, __c56, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6254,13 +5840,13 @@ function __c62(j: number): any {
       ).annotate({ identifier: "AbandonProjectsLocationsDeliveryPipelinesReleasesRequest" });
   }
 }
-function __c63(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "AbandonReleaseRequest" });
   }
 }
-function __c64(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6269,7 +5855,7 @@ function __c64(j: number): any {
           name: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
-          extraLocationTypes: S.optional(__S(2400, __c75, 0).pipe(T.Query())),
+          extraLocationTypes: S.optional(__S(2176, __c68, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -6279,17 +5865,17 @@ function __c64(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsRequest" });
     case 1:
-      return S.Array(__S(1408, __c44, 0));
+      return S.Array(__S(1312, __c41, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          locations: S.optional(__S(2049, __c64, 1)),
+          locations: S.optional(__S(1825, __c57, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListLocationsResponse" });
   }
 }
-function __c65(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6310,14 +5896,14 @@ function __c65(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(2400, __c75, 0)),
+          unreachable: S.optional(__S(2176, __c68, 0)),
           nextPageToken: S.optional(S.String),
-          customTargetTypes: S.optional(__S(672, __c21, 0)),
+          customTargetTypes: S.optional(__S(576, __c18, 0)),
         }),
       ).annotate({ identifier: "ListCustomTargetTypesResponse" });
   }
 }
-function __c66(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6336,18 +5922,18 @@ function __c66(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsDeliveryPipelinesRequest" });
     case 1:
-      return S.Array(__S(608, __c19, 0));
+      return S.Array(__S(312, __c9, 24));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          deliveryPipelines: S.optional(__S(2113, __c66, 1)),
-          unreachable: S.optional(__S(2400, __c75, 0)),
+          deliveryPipelines: S.optional(__S(1889, __c59, 1)),
+          unreachable: S.optional(__S(2176, __c68, 0)),
         }),
       ).annotate({ identifier: "ListDeliveryPipelinesResponse" });
   }
 }
-function __c67(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6366,18 +5952,18 @@ function __c67(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsDeliveryPipelinesAutomationRunsRequest" });
     case 1:
-      return S.Array(__S(1581, __c49, 13));
+      return S.Array(__S(1453, __c45, 13));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(2400, __c75, 0)),
+          unreachable: S.optional(__S(2176, __c68, 0)),
           nextPageToken: S.optional(S.String),
-          automationRuns: S.optional(__S(2145, __c67, 1)),
+          automationRuns: S.optional(__S(1921, __c60, 1)),
         }),
       ).annotate({ identifier: "ListAutomationRunsResponse" });
   }
 }
-function __c68(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6396,18 +5982,18 @@ function __c68(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsDeliveryPipelinesAutomationsRequest" });
     case 1:
-      return S.Array(__S(1536, __c48, 0));
+      return S.Array(__S(400, __c12, 16));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          automations: S.optional(__S(2177, __c68, 1)),
+          automations: S.optional(__S(1953, __c61, 1)),
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(2400, __c75, 0)),
+          unreachable: S.optional(__S(2176, __c68, 0)),
         }),
       ).annotate({ identifier: "ListAutomationsResponse" });
   }
 }
-function __c69(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6426,18 +6012,18 @@ function __c69(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsDeliveryPipelinesReleasesRequest" });
     case 1:
-      return S.Array(__S(1664, __c52, 0));
+      return S.Array(__S(623, __c19, 15));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          releases: S.optional(__S(2209, __c69, 1)),
-          unreachable: S.optional(__S(2400, __c75, 0)),
+          releases: S.optional(__S(1985, __c62, 1)),
+          unreachable: S.optional(__S(2176, __c68, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListReleasesResponse" });
   }
 }
-function __c70(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6456,18 +6042,18 @@ function __c70(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsDeliveryPipelinesReleasesRolloutsRequest" });
     case 1:
-      return S.Array(__S(1728, __c54, 0));
+      return S.Array(__S(745, __c23, 9));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          rollouts: S.optional(__S(2241, __c70, 1)),
-          unreachable: S.optional(__S(2400, __c75, 0)),
+          rollouts: S.optional(__S(2017, __c63, 1)),
+          unreachable: S.optional(__S(2176, __c68, 0)),
         }),
       ).annotate({ identifier: "ListRolloutsResponse" });
   }
 }
-function __c71(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6488,18 +6074,18 @@ function __c71(j: number): any {
         identifier: "ListProjectsLocationsDeliveryPipelinesReleasesRolloutsJobRunsRequest",
       });
     case 1:
-      return S.Array(__S(1809, __c56, 17));
+      return S.Array(__S(1617, __c50, 17));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          jobRuns: S.optional(__S(2273, __c71, 1)),
-          unreachable: S.optional(__S(2400, __c75, 0)),
+          jobRuns: S.optional(__S(2049, __c64, 1)),
+          unreachable: S.optional(__S(2176, __c68, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListJobRunsResponse" });
   }
 }
-function __c72(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6518,18 +6104,18 @@ function __c72(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsDeployPoliciesRequest" });
     case 1:
-      return S.Array(__S(1856, __c58, 0));
+      return S.Array(__S(844, __c26, 12));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(2400, __c75, 0)),
-          deployPolicies: S.optional(__S(2305, __c72, 1)),
+          unreachable: S.optional(__S(2176, __c68, 0)),
+          deployPolicies: S.optional(__S(2081, __c65, 1)),
         }),
       ).annotate({ identifier: "ListDeployPoliciesResponse" });
   }
 }
-function __c73(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6552,22 +6138,30 @@ function __c73(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(2400, __c75, 0)),
-          operations: S.optional(__S(2337, __c73, 1)),
+          unreachable: S.optional(__S(2176, __c68, 0)),
+          operations: S.optional(__S(2113, __c66, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
   }
 }
-function __c74(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
-          overrideDeployPolicy: S.optional(__S(2400, __c75, 0)),
+          overrideDeployPolicy: S.optional(__S(2176, __c68, 0)),
           phaseId: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "AdvanceRolloutRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(2144, __c67, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:advance",
@@ -6579,13 +6173,13 @@ function __c74(j: number): any {
       });
   }
 }
-function __c75(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c76(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6606,34 +6200,27 @@ function __c76(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          targets: S.optional(__S(736, __c23, 0)),
+          targets: S.optional(__S(640, __c20, 0)),
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(2400, __c75, 0)),
+          unreachable: S.optional(__S(2176, __c68, 0)),
         }),
       ).annotate({ identifier: "ListTargetsResponse" });
   }
 }
-function __c77(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-          tasks: S.optional(__S(160, __c5, 0)),
-          annotations: S.optional(__S(96, __c3, 0)),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          customActions: S.optional(__S(166, __c5, 6)),
-          uid: S.optional(S.String),
-          etag: S.optional(S.String),
-          labels: S.optional(__S(96, __c3, 0)),
-          customTargetTypeId: S.optional(S.String),
-          description: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(167, __c5, 7),
+          S.Struct({
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -6643,27 +6230,20 @@ function __c77(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsCustomTargetTypesRequest" });
   }
 }
-function __c78(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          labels: S.optional(__S(96, __c3, 0)),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          suspended: S.optional(S.Boolean),
-          serialPipeline: S.optional(__S(308, __c9, 20)),
-          annotations: S.optional(__S(96, __c3, 0)),
-          etag: S.optional(S.String),
-          description: S.optional(S.String),
-          condition: S.optional(__S(311, __c9, 23)),
-          uid: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(312, __c9, 24),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -6673,28 +6253,20 @@ function __c78(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsDeliveryPipelinesRequest" });
   }
 }
-function __c79(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          etag: S.optional(S.String),
-          annotations: S.optional(__S(96, __c3, 0)),
-          rules: S.optional(__S(397, __c12, 13)),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          selector: S.optional(__S(399, __c12, 15)),
-          labels: S.optional(__S(96, __c3, 0)),
-          serviceAccount: S.optional(S.String),
-          suspended: S.optional(S.Boolean),
-          uid: S.optional(S.String),
-          description: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(400, __c12, 16),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -6704,27 +6276,20 @@ function __c79(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsDeliveryPipelinesAutomationsRequest" });
   }
 }
-function __c80(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-          rules: S.optional(__S(936, __c29, 8)),
-          labels: S.optional(__S(96, __c3, 0)),
-          annotations: S.optional(__S(96, __c3, 0)),
-          selectors: S.optional(__S(939, __c29, 11)),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          suspended: S.optional(S.Boolean),
-          etag: S.optional(S.String),
-          description: S.optional(S.String),
-          uid: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(844, __c26, 12),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -6734,34 +6299,20 @@ function __c80(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsDeployPoliciesRequest" });
   }
 }
-function __c81(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          annotations: S.optional(__S(96, __c3, 0)),
-          gke: S.optional(__S(512, __c16, 0)),
-          associatedEntities: S.optional(__S(517, __c16, 5)),
-          executionConfigs: S.optional(__S(521, __c16, 9)),
-          multiTarget: S.optional(__S(522, __c16, 10)),
-          customTarget: S.optional(__S(523, __c16, 11)),
-          deployParameters: S.optional(__S(96, __c3, 0)),
-          updateTime: S.optional(S.String),
-          anthosCluster: S.optional(__S(513, __c16, 1)),
-          labels: S.optional(__S(96, __c3, 0)),
-          requireApproval: S.optional(S.Boolean),
-          run: S.optional(__S(524, __c16, 12)),
-          etag: S.optional(S.String),
-          targetId: S.optional(S.String),
-          description: S.optional(S.String),
-          uid: S.optional(S.String),
-          createTime: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(525, __c16, 13),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -6771,16 +6322,24 @@ function __c81(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsTargetsRequest" });
   }
 }
-function __c82(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          rollout: S.String.pipe(T.Label()),
-          overrideDeployPolicy: S.optional(__S(2400, __c75, 0)),
+          overrideDeployPolicy: S.optional(__S(2176, __c68, 0)),
           jobId: S.optional(S.String),
           phaseId: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "RetryJobRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(2400, __c75, 0),
+          S.Struct({
+            rollout: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+rollout}:retryJob",
@@ -6792,27 +6351,35 @@ function __c82(j: number): any {
       });
   }
 }
-function __c83(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           startingPhaseId: S.optional(S.String),
-          rollout: S.optional(__S(1728, __c54, 0)),
+          rollout: S.optional(__S(745, __c23, 9)),
         }),
       ).annotate({ identifier: "RollbackTargetConfig" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           rolloutToRollBack: S.optional(S.String),
-          overrideDeployPolicy: S.optional(__S(2400, __c75, 0)),
+          overrideDeployPolicy: S.optional(__S(2176, __c68, 0)),
           rolloutId: S.optional(S.String),
-          rollbackConfig: S.optional(__S(2656, __c83, 0)),
+          rollbackConfig: S.optional(__S(2432, __c76, 0)),
           targetId: S.optional(S.String),
           validateOnly: S.optional(S.Boolean),
           releaseId: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "RollbackTargetRequest" });
+    case 2:
+      return S.suspend(() =>
+        S.Extend(
+          __S(2433, __c76, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:rollbackTarget",
@@ -6820,23 +6387,24 @@ function __c83(j: number): any {
           }),
         ),
       ).annotate({ identifier: "RollbackTargetProjectsLocationsDeliveryPipelinesRequest" });
-    case 2:
+    case 3:
       return S.suspend(() =>
         S.Struct({
-          rollbackConfig: S.optional(__S(2656, __c83, 0)),
+          rollbackConfig: S.optional(__S(2432, __c76, 0)),
         }),
       ).annotate({ identifier: "RollbackTargetResponse" });
   }
 }
-function __c84(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          policy: S.optional(__S(1255, __c39, 7)),
-          updateMask: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(2496, __c78, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -6846,15 +6414,27 @@ function __c84(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsLocationsCustomTargetTypesRequest" });
   }
 }
-function __c85(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          resource: S.String.pipe(T.Label()),
-          policy: S.optional(__S(1255, __c39, 7)),
+          policy: S.optional(__S(1159, __c36, 7)),
           updateMask: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "SetIamPolicyRequest" });
+  }
+}
+function __c79(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(2496, __c78, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -6864,15 +6444,23 @@ function __c85(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsLocationsDeliveryPipelinesRequest" });
   }
 }
-function __c86(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           approved: S.optional(S.Boolean),
-          overrideDeployPolicy: S.optional(__S(2400, __c75, 0)),
-        }).pipe(
+          overrideDeployPolicy: S.optional(__S(2176, __c68, 0)),
+        }),
+      ).annotate({ identifier: "ApproveRolloutRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(2560, __c80, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:approve",
@@ -6884,15 +6472,16 @@ function __c86(j: number): any {
       });
   }
 }
-function __c87(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          policy: S.optional(__S(1255, __c39, 7)),
-          updateMask: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(2496, __c78, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -6902,15 +6491,16 @@ function __c87(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsLocationsDeployPoliciesRequest" });
   }
 }
-function __c88(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          policy: S.optional(__S(1255, __c39, 7)),
-          updateMask: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(2496, __c78, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -6920,14 +6510,16 @@ function __c88(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsLocationsTargetsRequest" });
   }
 }
-function __c89(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          overrideDeployPolicy: S.optional(__S(2400, __c75, 0)),
-        }).pipe(
+        S.Extend(
+          __S(2848, __c89, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:terminate",
@@ -6939,14 +6531,16 @@ function __c89(j: number): any {
       });
   }
 }
-function __c90(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          permissions: S.optional(__S(2400, __c75, 0)),
-        }).pipe(
+        S.Extend(
+          __S(2720, __c85, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -6956,24 +6550,26 @@ function __c90(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsLocationsDeliveryPipelinesRequest" });
   }
 }
-function __c91(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          permissions: S.optional(__S(2400, __c75, 0)),
+          permissions: S.optional(__S(2176, __c68, 0)),
         }),
-      ).annotate({ identifier: "TestIamPermissionsResponse" });
+      ).annotate({ identifier: "TestIamPermissionsRequest" });
   }
 }
-function __c92(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          permissions: S.optional(__S(2400, __c75, 0)),
-        }).pipe(
+        S.Extend(
+          __S(2720, __c85, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -6983,13 +6579,13 @@ function __c92(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsLocationsTargetsRequest" });
   }
 }
-function __c93(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2016, __c63, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(1792, __c56, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -7000,14 +6596,16 @@ function __c93(j: number): any {
       ).annotate({ identifier: "CancelProjectsLocationsDeliveryPipelinesAutomationRunsRequest" });
   }
 }
-function __c94(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          overrideDeployPolicy: S.optional(__S(2400, __c75, 0)),
-        }).pipe(
+        S.Extend(
+          __S(2848, __c89, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:cancel",
@@ -7017,13 +6615,23 @@ function __c94(j: number): any {
       ).annotate({ identifier: "CancelProjectsLocationsDeliveryPipelinesReleasesRolloutsRequest" });
   }
 }
-function __c95(j: number): any {
+function __c89(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          overrideDeployPolicy: S.optional(__S(2176, __c68, 0)),
+        }),
+      ).annotate({ identifier: "CancelRolloutRequest" });
+  }
+}
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2016, __c63, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(1792, __c56, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",

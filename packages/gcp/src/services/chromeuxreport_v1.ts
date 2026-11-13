@@ -84,7 +84,8 @@ export class NotFound
 
 export type QueryHistoryRequestFormFactorEnum = "ALL_FORM_FACTORS" | "PHONE" | "DESKTOP" | "TABLET";
 export type StringList = Array<string>;
-export interface QueryHistoryRecordRecordsRequest {
+/** Request payload sent by a physical web client. This request includes all necessary context to load a particular user experience history record. */
+export interface QueryHistoryRequest {
   /** The number of collection periods to return. If not specified, the default is 25. If present, must be in the range [1, 40]. */
   collectionPeriodCount?: number | undefined;
   /** The form factor is a query dimension that specifies the device class that the record's data should belong to. Note: If no form factor is specified, then a special record with aggregated data over all form factors will be returned. */
@@ -96,6 +97,7 @@ export interface QueryHistoryRecordRecordsRequest {
   /** The url pattern "url" refers to a url pattern that is any arbitrary url. Examples: "https://example.com/", "https://cloud.google.com/why-google-cloud/" */
   url?: string | undefined;
 }
+export interface QueryHistoryRecordRecordsRequest extends QueryHistoryRequest {}
 /** Object representing the normalization actions taken to normalize a url to achieve a higher chance of successful lookup. These are simple automated changes that are taken when looking up the provided `url_patten` would be known to fail. Complex actions like following redirects are not handled. */
 export interface UrlNormalization {
   /** The URL after any normalization actions. This is a valid user experience URL that could reasonably be looked up. */
@@ -180,7 +182,8 @@ export interface QueryHistoryResponse {
   record?: HistoryRecord | undefined;
 }
 export type QueryRequestFormFactorEnum = "ALL_FORM_FACTORS" | "PHONE" | "DESKTOP" | "TABLET";
-export interface QueryRecordRecordsRequest {
+/** Request payload sent by a physical web client. This request includes all necessary context to load a particular user experience record. */
+export interface QueryRequest {
   /** The effective connection type is a query dimension that specifies the effective network class that the record's data should belong to. This field uses the values ["offline", "slow-2G", "2G", "3G", "4G"] as specified in: https://wicg.github.io/netinfo/#effective-connection-types Note: If no effective connection type is specified, then a special record with aggregated data over all effective connection types will be returned. */
   effectiveConnectionType?: string | undefined;
   /** The form factor is a query dimension that specifies the device class that the record's data should belong to. Note: If no form factor is specified, then a special record with aggregated data over all form factors will be returned. */
@@ -192,6 +195,7 @@ export interface QueryRecordRecordsRequest {
   /** The url pattern "url" refers to a url pattern that is any arbitrary url. Examples: "https://example.com/", "https://cloud.google.com/why-google-cloud/" */
   url?: string | undefined;
 }
+export interface QueryRecordRecordsRequest extends QueryRequest {}
 /** A bin is a discrete portion of data spanning from start to end, or if no end is given, then from start to +inf. A bin's start and end values are given in the value type of the metric it represents. For example, "first contentful paint" is measured in milliseconds and exposed as ints, therefore its metric bins will use int32s for its start and end types. However, "cumulative layout shift" is measured in unitless decimals and is exposed as a decimal encoded as a string, therefore its metric bins will use strings for its value type. */
 export interface Bin {
   /** Start is the beginning of the data bin. */
@@ -259,8 +263,8 @@ export const queryHistoryRecordRecords: API.OperationMethod<
   QueryHistoryRecordRecordsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<QueryHistoryRecordRecordsRequest>,
-  output: __S(13, __c0, 13) as any as S.Schema<QueryHistoryResponse>,
+  input: __S(1, __c0, 1) as any as S.Schema<QueryHistoryRecordRecordsRequest>,
+  output: __S(14, __c0, 14) as any as S.Schema<QueryHistoryResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -276,8 +280,8 @@ export const queryRecordRecords: API.OperationMethod<
   QueryRecordRecordsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c2, 0) as any as S.Schema<QueryRecordRecordsRequest>,
-  output: __S(41, __c2, 9) as any as S.Schema<QueryResponse>,
+  input: __S(33, __c2, 1) as any as S.Schema<QueryRecordRecordsRequest>,
+  output: __S(42, __c2, 10) as any as S.Schema<QueryResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -296,7 +300,11 @@ function __c0(j: number): any {
           metrics: S.optional(__S(16, __c1, 0)),
           origin: S.optional(S.String),
           url: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "QueryHistoryRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(__S(0, __c0, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/records:queryHistoryRecord",
@@ -304,47 +312,47 @@ function __c0(j: number): any {
           }),
         ),
       ).annotate({ identifier: "QueryHistoryRecordRecordsRequest" });
-    case 1:
-      return S.Array(__S(19, __c1, 3));
     case 2:
-      return S.Array(S.Number);
+      return S.Array(__S(19, __c1, 3));
     case 3:
+      return S.Array(S.Number);
+    case 4:
       return S.suspend(() =>
         S.Struct({
-          fractions: S.optional(__S(2, __c0, 2)),
+          fractions: S.optional(__S(3, __c0, 3)),
         }),
       ).annotate({ identifier: "FractionTimeseries" });
-    case 4:
-      return S.Record(S.String, __S(3, __c0, 3));
     case 5:
+      return S.Record(S.String, __S(4, __c0, 4));
+    case 6:
       return S.suspend(() =>
         S.Struct({
           end: S.optional(S.Unknown),
-          densities: S.optional(__S(2, __c0, 2)),
+          densities: S.optional(__S(3, __c0, 3)),
           start: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "TimeseriesBin" });
-    case 6:
-      return S.Array(__S(5, __c0, 5));
     case 7:
-      return S.Array(S.Unknown);
+      return S.Array(__S(6, __c0, 6));
     case 8:
-      return S.suspend(() =>
-        S.Struct({
-          p75s: S.optional(__S(7, __c0, 7)),
-        }),
-      ).annotate({ identifier: "TimeseriesPercentiles" });
+      return S.Array(S.Unknown);
     case 9:
       return S.suspend(() =>
         S.Struct({
-          fractionTimeseries: S.optional(__S(4, __c0, 4)),
-          histogramTimeseries: S.optional(__S(6, __c0, 6)),
-          percentilesTimeseries: S.optional(__S(8, __c0, 8)),
+          p75s: S.optional(__S(8, __c0, 8)),
+        }),
+      ).annotate({ identifier: "TimeseriesPercentiles" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          fractionTimeseries: S.optional(__S(5, __c0, 5)),
+          histogramTimeseries: S.optional(__S(7, __c0, 7)),
+          percentilesTimeseries: S.optional(__S(9, __c0, 9)),
         }),
       ).annotate({ identifier: "MetricTimeseries" });
-    case 10:
-      return S.Record(S.String, __S(9, __c0, 9));
     case 11:
+      return S.Record(S.String, __S(10, __c0, 10));
+    case 12:
       return S.suspend(() =>
         S.Struct({
           formFactor: S.optional(S.String),
@@ -352,19 +360,19 @@ function __c0(j: number): any {
           origin: S.optional(S.String),
         }),
       ).annotate({ identifier: "HistoryKey" });
-    case 12:
-      return S.suspend(() =>
-        S.Struct({
-          collectionPeriods: S.optional(__S(1, __c0, 1)),
-          metrics: S.optional(__S(10, __c0, 10)),
-          key: S.optional(__S(11, __c0, 11)),
-        }),
-      ).annotate({ identifier: "HistoryRecord" });
     case 13:
       return S.suspend(() =>
         S.Struct({
+          collectionPeriods: S.optional(__S(2, __c0, 2)),
+          metrics: S.optional(__S(11, __c0, 11)),
+          key: S.optional(__S(12, __c0, 12)),
+        }),
+      ).annotate({ identifier: "HistoryRecord" });
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
           urlNormalizationDetails: S.optional(__S(17, __c1, 1)),
-          record: S.optional(__S(12, __c0, 12)),
+          record: S.optional(__S(13, __c0, 13)),
         }),
       ).annotate({ identifier: "QueryHistoryResponse" });
   }
@@ -407,7 +415,11 @@ function __c2(j: number): any {
           origin: S.optional(S.String),
           metrics: S.optional(__S(16, __c1, 0)),
           url: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "QueryRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(__S(32, __c2, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/records:queryRecord",
@@ -415,7 +427,7 @@ function __c2(j: number): any {
           }),
         ),
       ).annotate({ identifier: "QueryRecordRecordsRequest" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           start: S.optional(S.Unknown),
@@ -423,27 +435,27 @@ function __c2(j: number): any {
           density: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "Bin" });
-    case 2:
-      return S.Array(__S(33, __c2, 1));
     case 3:
-      return S.Record(S.String, S.Number);
+      return S.Array(__S(34, __c2, 2));
     case 4:
+      return S.Record(S.String, S.Number);
+    case 5:
       return S.suspend(() =>
         S.Struct({
           p75: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "Percentiles" });
-    case 5:
+    case 6:
       return S.suspend(() =>
         S.Struct({
-          histogram: S.optional(__S(34, __c2, 2)),
-          fractions: S.optional(__S(35, __c2, 3)),
-          percentiles: S.optional(__S(36, __c2, 4)),
+          histogram: S.optional(__S(35, __c2, 3)),
+          fractions: S.optional(__S(36, __c2, 4)),
+          percentiles: S.optional(__S(37, __c2, 5)),
         }),
       ).annotate({ identifier: "Metric" });
-    case 6:
-      return S.Record(S.String, __S(37, __c2, 5));
     case 7:
+      return S.Record(S.String, __S(38, __c2, 6));
+    case 8:
       return S.suspend(() =>
         S.Struct({
           formFactor: S.optional(S.String),
@@ -452,19 +464,19 @@ function __c2(j: number): any {
           effectiveConnectionType: S.optional(S.String),
         }),
       ).annotate({ identifier: "Key" });
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          collectionPeriod: S.optional(__S(19, __c1, 3)),
-          metrics: S.optional(__S(38, __c2, 6)),
-          key: S.optional(__S(39, __c2, 7)),
-        }),
-      ).annotate({ identifier: "Chromeuxreport_Record" });
     case 9:
       return S.suspend(() =>
         S.Struct({
+          collectionPeriod: S.optional(__S(19, __c1, 3)),
+          metrics: S.optional(__S(39, __c2, 7)),
+          key: S.optional(__S(40, __c2, 8)),
+        }),
+      ).annotate({ identifier: "Chromeuxreport_Record" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
           urlNormalizationDetails: S.optional(__S(17, __c1, 1)),
-          record: S.optional(__S(40, __c2, 8)),
+          record: S.optional(__S(41, __c2, 9)),
         }),
       ).annotate({ identifier: "QueryResponse" });
   }

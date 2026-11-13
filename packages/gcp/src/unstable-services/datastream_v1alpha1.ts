@@ -165,13 +165,7 @@ export interface OracleProfile {
 export interface PrivateConnectivity {
   privateConnectionName?: string | undefined;
 }
-export interface CreateProjectsLocationsConnectionProfilesRequest {
-  /** Required. The parent that owns the collection of ConnectionProfiles. */
-  parent: string;
-  /** Required. The connection profile identifier. */
-  connectionProfileId?: string | undefined;
-  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
+export interface ConnectionProfile {
   /** Labels. */
   labels?: StringMap | undefined;
   /** No connectivity option chosen. */
@@ -196,6 +190,14 @@ export interface CreateProjectsLocationsConnectionProfilesRequest {
   oracleProfile?: OracleProfile | undefined;
   /** Private connectivity. */
   privateConnectivity?: PrivateConnectivity | undefined;
+}
+export interface CreateProjectsLocationsConnectionProfilesRequest extends ConnectionProfile {
+  /** Required. The parent that owns the collection of ConnectionProfiles. */
+  parent: string;
+  /** Required. The connection profile identifier. */
+  connectionProfileId?: string | undefined;
+  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -248,13 +250,8 @@ export interface VpcPeeringConfig {
   /** Required. fully qualified name of the VPC Datastream will peer to. */
   vpcName?: string | undefined;
 }
-export interface CreateProjectsLocationsPrivateConnectionsRequest {
-  /** Required. The parent that owns the collection of PrivateConnections. */
-  parent: string;
-  /** Required. The private connectivity identifier. */
-  privateConnectionId?: string | undefined;
-  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
+/** The PrivateConnection resource is used to establish private connectivity between Datastream and a customer's network. */
+export interface PrivateConnection {
   /** Labels. */
   labels?: StringMap | undefined;
   /** Output only. The state of the Private Connection. */
@@ -272,13 +269,16 @@ export interface CreateProjectsLocationsPrivateConnectionsRequest {
   /** Output only. The update time of the resource. */
   updateTime?: string | undefined;
 }
-export interface CreateProjectsLocationsPrivateConnectionsRoutesRequest {
+export interface CreateProjectsLocationsPrivateConnectionsRequest extends PrivateConnection {
+  /** Required. The parent that owns the collection of PrivateConnections. */
+  parent: string;
+  /** Required. The private connectivity identifier. */
+  privateConnectionId?: string | undefined;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Required. The parent that owns the collection of Routes. */
-  parent: string;
-  /** Required. The Route identifier. */
-  routeId?: string | undefined;
+}
+/** The Route resource is the child of the PrivateConnection resource. It used to define a route for a PrivateConnection setup. */
+export interface Route {
   /** Required. Display name. */
   displayName?: string | undefined;
   /** Labels. */
@@ -293,6 +293,14 @@ export interface CreateProjectsLocationsPrivateConnectionsRoutesRequest {
   name?: string | undefined;
   /** Required. Destination address for connection */
   destinationAddress?: string | undefined;
+}
+export interface CreateProjectsLocationsPrivateConnectionsRoutesRequest extends Route {
+  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+  /** Required. The parent that owns the collection of Routes. */
+  parent: string;
+  /** Required. The Route identifier. */
+  routeId?: string | undefined;
 }
 /** Configuration to drop large object values. */
 export type DropLargeObjects = CancelOperationRequest;
@@ -463,17 +471,7 @@ export type StreamStateEnum =
   | "FAILED_PERMANENTLY"
   | "STARTING"
   | "DRAINING";
-export interface CreateProjectsLocationsStreamsRequest {
-  /** Optional. Only validate the stream, but do not create any resources. The default is false. */
-  validateOnly?: boolean | undefined;
-  /** Required. The stream identifier. */
-  streamId?: string | undefined;
-  /** Optional. Create the stream without validating it. */
-  force?: boolean | undefined;
-  /** Required. The parent that owns the collection of streams. */
-  parent: string;
-  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
+export interface Stream {
   /** Required. Source connection profile configuration. */
   sourceConfig?: SourceConfig | undefined;
   /** Required. Display name. */
@@ -498,6 +496,18 @@ export interface CreateProjectsLocationsStreamsRequest {
   labels?: StringMap | undefined;
   /** The state of the stream. */
   state?: StreamStateEnum | (string & {}) | undefined;
+}
+export interface CreateProjectsLocationsStreamsRequest extends Stream {
+  /** Optional. Only validate the stream, but do not create any resources. The default is false. */
+  validateOnly?: boolean | undefined;
+  /** Required. The stream identifier. */
+  streamId?: string | undefined;
+  /** Optional. Create the stream without validating it. */
+  force?: boolean | undefined;
+  /** Required. The parent that owns the collection of streams. */
+  parent: string;
+  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
 }
 export interface DeleteProjectsLocationsConnectionProfilesRequest {
   /** Required. The name of the connection profile resource to delete. */
@@ -529,35 +539,8 @@ export interface DeleteProjectsLocationsStreamsRequest {
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
 }
-export interface ConnectionProfile {
-  /** Labels. */
-  labels?: StringMap | undefined;
-  /** No connectivity option chosen. */
-  noConnectivity?: CancelOperationRequest | undefined;
-  /** Cloud Storage ConnectionProfile configuration. */
-  gcsProfile?: GcsProfile | undefined;
-  /** Output only. The update time of the resource. */
-  updateTime?: string | undefined;
-  /** Required. Display name. */
-  displayName?: string | undefined;
-  /** Output only. The resource's name. */
-  name?: string | undefined;
-  /** Static Service IP connectivity. */
-  staticServiceIpConnectivity?: CancelOperationRequest | undefined;
-  /** Forward SSH tunnel connectivity. */
-  forwardSshConnectivity?: ForwardSshTunnelConnectivity | undefined;
-  /** MySQL ConnectionProfile configuration. */
-  mysqlProfile?: MysqlProfile | undefined;
-  /** Output only. The create time of the resource. */
-  createTime?: string | undefined;
-  /** Oracle ConnectionProfile configuration. */
-  oracleProfile?: OracleProfile | undefined;
-  /** Private connectivity. */
-  privateConnectivity?: PrivateConnectivity | undefined;
-}
-export interface DiscoverProjectsLocationsConnectionProfilesRequest {
-  /** Required. The parent resource of the ConnectionProfile type. Must be in the format `projects/*\/locations/*`. */
-  parent: string;
+/** Request message for 'discover' ConnectionProfile request. */
+export interface DiscoverConnectionProfileRequest {
   /** MySQL RDBMS to enrich with child data objects and metadata. */
   mysqlRdbms?: MysqlRdbms | undefined;
   /** Oracle RDBMS to enrich with child data objects and metadata. */
@@ -570,6 +553,10 @@ export interface DiscoverProjectsLocationsConnectionProfilesRequest {
   recursive?: boolean | undefined;
   /** A reference to an existing ConnectionProfile. */
   connectionProfileName?: string | undefined;
+}
+export interface DiscoverProjectsLocationsConnectionProfilesRequest extends DiscoverConnectionProfileRequest {
+  /** Required. The parent resource of the ConnectionProfile type. Must be in the format `projects/*\/locations/*`. */
+  parent: string;
 }
 export interface DiscoverConnectionProfileResponse {
   /** Enriched MySQL RDBMS object. */
@@ -630,75 +617,13 @@ export interface GetProjectsLocationsPrivateConnectionsRequest {
   /** Required. The name of the private connectivity configuration to get. */
   name: string;
 }
-/** The PrivateConnection resource is used to establish private connectivity between Datastream and a customer's network. */
-export interface PrivateConnection {
-  /** Labels. */
-  labels?: StringMap | undefined;
-  /** Output only. The state of the Private Connection. */
-  state?: PrivateConnectionStateEnum | undefined;
-  /** Output only. The resource's name. */
-  name?: string | undefined;
-  /** Output only. In case of error, the details of the error in a user-friendly format. */
-  error?: Datastream_Error | undefined;
-  /** Required. Display name. */
-  displayName?: string | undefined;
-  /** VPC Peering Config */
-  vpcPeeringConfig?: VpcPeeringConfig | undefined;
-  /** Output only. The create time of the resource. */
-  createTime?: string | undefined;
-  /** Output only. The update time of the resource. */
-  updateTime?: string | undefined;
-}
 export interface GetProjectsLocationsPrivateConnectionsRoutesRequest {
   /** Required. The name of the Route resource to get. */
   name: string;
 }
-/** The Route resource is the child of the PrivateConnection resource. It used to define a route for a PrivateConnection setup. */
-export interface Route {
-  /** Required. Display name. */
-  displayName?: string | undefined;
-  /** Labels. */
-  labels?: StringMap | undefined;
-  /** Output only. The create time of the resource. */
-  createTime?: string | undefined;
-  /** Output only. The update time of the resource. */
-  updateTime?: string | undefined;
-  /** Destination port for connection */
-  destinationPort?: number | undefined;
-  /** Output only. The resource's name. */
-  name?: string | undefined;
-  /** Required. Destination address for connection */
-  destinationAddress?: string | undefined;
-}
 export interface GetProjectsLocationsStreamsRequest {
   /** Required. The name of the stream resource to get. */
   name: string;
-}
-export interface Stream {
-  /** Required. Source connection profile configuration. */
-  sourceConfig?: SourceConfig | undefined;
-  /** Required. Display name. */
-  displayName?: string | undefined;
-  /** Immutable. A reference to a KMS encryption key. If provided, it will be used to encrypt the data. If left blank, data will be encrypted using an internal Stream-specific encryption key provisioned through KMS. */
-  customerManagedEncryptionKey?: string | undefined;
-  /** Do not automatically backfill any objects. */
-  backfillNone?: CancelOperationRequest | undefined;
-  /** Output only. The creation time of the stream. */
-  createTime?: string | undefined;
-  /** Output only. Errors on the Stream. */
-  errors?: Datastream_ErrorList | undefined;
-  /** Output only. The stream's name. */
-  name?: string | undefined;
-  /** Required. Destination connection profile configuration. */
-  destinationConfig?: DestinationConfig | undefined;
-  /** Automatically backfill objects included in the stream source configuration. Specific objects can be excluded. */
-  backfillAll?: BackfillAllStrategy | undefined;
-  /** Output only. The last update time of the stream. */
-  updateTime?: string | undefined;
-  /** Labels. */
-  labels?: StringMap | undefined;
-  /** The state of the stream. */
-  state?: StreamStateEnum | undefined;
 }
 export interface GetProjectsLocationsStreamsObjectsRequest {
   /** Required. The name of the stream object resource to get. */
@@ -908,7 +833,10 @@ export interface ListStreamObjectsResponse {
   /** A token, which can be sent as `page_token` to retrieve the next page. */
   nextPageToken?: string | undefined;
 }
-export interface PatchProjectsLocationsConnectionProfilesRequest {
+export interface PatchProjectsLocationsConnectionProfilesRequest extends Omit<
+  ConnectionProfile,
+  "name"
+> {
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Optional. Field mask is used to specify the fields to be overwritten in the ConnectionProfile resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
@@ -917,30 +845,8 @@ export interface PatchProjectsLocationsConnectionProfilesRequest {
   name: string;
   /** Optional. Only validate the connection profile, but do not update any resources. The default is false. */
   validateOnly?: boolean | undefined;
-  /** Labels. */
-  labels?: StringMap | undefined;
-  /** No connectivity option chosen. */
-  noConnectivity?: CancelOperationRequest | undefined;
-  /** Cloud Storage ConnectionProfile configuration. */
-  gcsProfile?: GcsProfile | undefined;
-  /** Output only. The update time of the resource. */
-  updateTime?: string | undefined;
-  /** Required. Display name. */
-  displayName?: string | undefined;
-  /** Static Service IP connectivity. */
-  staticServiceIpConnectivity?: CancelOperationRequest | undefined;
-  /** Forward SSH tunnel connectivity. */
-  forwardSshConnectivity?: ForwardSshTunnelConnectivity | undefined;
-  /** MySQL ConnectionProfile configuration. */
-  mysqlProfile?: MysqlProfile | undefined;
-  /** Output only. The create time of the resource. */
-  createTime?: string | undefined;
-  /** Oracle ConnectionProfile configuration. */
-  oracleProfile?: OracleProfile | undefined;
-  /** Private connectivity. */
-  privateConnectivity?: PrivateConnectivity | undefined;
 }
-export interface PatchProjectsLocationsStreamsRequest {
+export interface PatchProjectsLocationsStreamsRequest extends Omit<Stream, "name"> {
   /** Optional. Field mask is used to specify the fields to be overwritten in the stream resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -951,28 +857,6 @@ export interface PatchProjectsLocationsStreamsRequest {
   name: string;
   /** Optional. Only validate the stream with the changes, without actually updating it. The default is false. */
   validateOnly?: boolean | undefined;
-  /** Required. Source connection profile configuration. */
-  sourceConfig?: SourceConfig | undefined;
-  /** Required. Display name. */
-  displayName?: string | undefined;
-  /** Immutable. A reference to a KMS encryption key. If provided, it will be used to encrypt the data. If left blank, data will be encrypted using an internal Stream-specific encryption key provisioned through KMS. */
-  customerManagedEncryptionKey?: string | undefined;
-  /** Do not automatically backfill any objects. */
-  backfillNone?: CancelOperationRequest | undefined;
-  /** Output only. The creation time of the stream. */
-  createTime?: string | undefined;
-  /** Output only. Errors on the Stream. */
-  errors?: Datastream_ErrorList | undefined;
-  /** Required. Destination connection profile configuration. */
-  destinationConfig?: DestinationConfig | undefined;
-  /** Automatically backfill objects included in the stream source configuration. Specific objects can be excluded. */
-  backfillAll?: BackfillAllStrategy | undefined;
-  /** Output only. The last update time of the stream. */
-  updateTime?: string | undefined;
-  /** Labels. */
-  labels?: StringMap | undefined;
-  /** The state of the stream. */
-  state?: StreamStateEnum | (string & {}) | undefined;
 }
 export interface StartBackfillJobProjectsLocationsStreamsObjectsRequest {
   /** Required. The name of the stream object resource to start a backfill job for. */
@@ -1005,8 +889,8 @@ export const cancelProjectsLocationsOperations: API.OperationMethod<
   CancelProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(528, __c33, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
-  output: __S(544, __c34, 0) as any as S.Schema<Empty>,
+  input: __S(464, __c29, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
+  output: __S(480, __c30, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1027,8 +911,8 @@ export const createProjectsLocationsConnectionProfiles: API.OperationMethod<
   CreateProjectsLocationsConnectionProfilesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(560, __c35, 0) as any as S.Schema<CreateProjectsLocationsConnectionProfilesRequest>,
-  output: __S(626, __c39, 2) as any as S.Schema<Operation>,
+  input: __S(496, __c31, 0) as any as S.Schema<CreateProjectsLocationsConnectionProfilesRequest>,
+  output: __S(562, __c35, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1049,8 +933,8 @@ export const createProjectsLocationsPrivateConnections: API.OperationMethod<
   CreateProjectsLocationsPrivateConnectionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c40, 0) as any as S.Schema<CreateProjectsLocationsPrivateConnectionsRequest>,
-  output: __S(626, __c39, 2) as any as S.Schema<Operation>,
+  input: __S(576, __c36, 0) as any as S.Schema<CreateProjectsLocationsPrivateConnectionsRequest>,
+  output: __S(562, __c35, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1072,11 +956,11 @@ export const createProjectsLocationsPrivateConnectionsRoutes: API.OperationMetho
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    688,
-    __c43,
+    624,
+    __c39,
     0,
   ) as any as S.Schema<CreateProjectsLocationsPrivateConnectionsRoutesRequest>,
-  output: __S(626, __c39, 2) as any as S.Schema<Operation>,
+  output: __S(562, __c35, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1097,8 +981,8 @@ export const createProjectsLocationsStreams: API.OperationMethod<
   CreateProjectsLocationsStreamsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c44, 0) as any as S.Schema<CreateProjectsLocationsStreamsRequest>,
-  output: __S(626, __c39, 2) as any as S.Schema<Operation>,
+  input: __S(656, __c41, 0) as any as S.Schema<CreateProjectsLocationsStreamsRequest>,
+  output: __S(562, __c35, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1119,8 +1003,8 @@ export const deleteProjectsLocationsConnectionProfiles: API.OperationMethod<
   DeleteProjectsLocationsConnectionProfilesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c48, 0) as any as S.Schema<DeleteProjectsLocationsConnectionProfilesRequest>,
-  output: __S(626, __c39, 2) as any as S.Schema<Operation>,
+  input: __S(720, __c45, 0) as any as S.Schema<DeleteProjectsLocationsConnectionProfilesRequest>,
+  output: __S(562, __c35, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1142,7 +1026,7 @@ export const deleteProjectsLocationsOperations: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<DeleteProjectsLocationsOperationsRequest>,
-  output: __S(544, __c34, 0) as any as S.Schema<Empty>,
+  output: __S(480, __c30, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1164,7 +1048,7 @@ export const deleteProjectsLocationsPrivateConnections: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c1, 0) as any as S.Schema<DeleteProjectsLocationsPrivateConnectionsRequest>,
-  output: __S(626, __c39, 2) as any as S.Schema<Operation>,
+  output: __S(562, __c35, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1190,7 +1074,7 @@ export const deleteProjectsLocationsPrivateConnectionsRoutes: API.OperationMetho
     __c2,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsPrivateConnectionsRoutesRequest>,
-  output: __S(626, __c39, 2) as any as S.Schema<Operation>,
+  output: __S(562, __c35, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1212,7 +1096,7 @@ export const deleteProjectsLocationsStreams: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c3, 0) as any as S.Schema<DeleteProjectsLocationsStreamsRequest>,
-  output: __S(626, __c39, 2) as any as S.Schema<Operation>,
+  output: __S(562, __c35, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1233,8 +1117,8 @@ export const discoverProjectsLocationsConnectionProfiles: API.OperationMethod<
   DiscoverProjectsLocationsConnectionProfilesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c4, 0) as any as S.Schema<DiscoverProjectsLocationsConnectionProfilesRequest>,
-  output: __S(65, __c4, 1) as any as S.Schema<DiscoverConnectionProfileResponse>,
+  input: __S(65, __c4, 1) as any as S.Schema<DiscoverProjectsLocationsConnectionProfilesRequest>,
+  output: __S(66, __c4, 2) as any as S.Schema<DiscoverConnectionProfileResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1255,8 +1139,8 @@ export const fetchErrorsProjectsLocationsStreams: API.OperationMethod<
   FetchErrorsProjectsLocationsStreamsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c6, 0) as any as S.Schema<FetchErrorsProjectsLocationsStreamsRequest>,
-  output: __S(626, __c39, 2) as any as S.Schema<Operation>,
+  input: __S(80, __c5, 0) as any as S.Schema<FetchErrorsProjectsLocationsStreamsRequest>,
+  output: __S(562, __c35, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1273,8 +1157,8 @@ export const fetchStaticIpsProjectsLocations: API.PaginatedOperationMethod<
   GcpOpContext,
   FetchStaticIpsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(112, __c7, 0) as any as S.Schema<FetchStaticIpsProjectsLocationsRequest>,
-  output: __S(113, __c7, 1) as any as S.Schema<FetchStaticIpsResponse>,
+  input: __S(96, __c6, 0) as any as S.Schema<FetchStaticIpsProjectsLocationsRequest>,
+  output: __S(97, __c6, 1) as any as S.Schema<FetchStaticIpsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1291,8 +1175,8 @@ export const getProjectsLocations: API.OperationMethod<
   GetProjectsLocationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c9, 0) as any as S.Schema<GetProjectsLocationsRequest>,
-  output: __S(160, __c10, 0) as any as S.Schema<Location>,
+  input: __S(128, __c8, 0) as any as S.Schema<GetProjectsLocationsRequest>,
+  output: __S(144, __c9, 0) as any as S.Schema<Location>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1308,8 +1192,8 @@ export const getProjectsLocationsConnectionProfiles: API.OperationMethod<
   GetProjectsLocationsConnectionProfilesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c11, 0) as any as S.Schema<GetProjectsLocationsConnectionProfilesRequest>,
-  output: __S(80, __c5, 0) as any as S.Schema<ConnectionProfile>,
+  input: __S(160, __c10, 0) as any as S.Schema<GetProjectsLocationsConnectionProfilesRequest>,
+  output: __S(518, __c32, 6) as any as S.Schema<ConnectionProfile>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1325,8 +1209,8 @@ export const getProjectsLocationsOperations: API.OperationMethod<
   GetProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c12, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
-  output: __S(626, __c39, 2) as any as S.Schema<Operation>,
+  input: __S(176, __c11, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
+  output: __S(562, __c35, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1342,8 +1226,8 @@ export const getProjectsLocationsPrivateConnections: API.OperationMethod<
   GetProjectsLocationsPrivateConnectionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c13, 0) as any as S.Schema<GetProjectsLocationsPrivateConnectionsRequest>,
-  output: __S(224, __c14, 0) as any as S.Schema<PrivateConnection>,
+  input: __S(192, __c12, 0) as any as S.Schema<GetProjectsLocationsPrivateConnectionsRequest>,
+  output: __S(593, __c37, 1) as any as S.Schema<PrivateConnection>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1359,8 +1243,8 @@ export const getProjectsLocationsPrivateConnectionsRoutes: API.OperationMethod<
   GetProjectsLocationsPrivateConnectionsRoutesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c15, 0) as any as S.Schema<GetProjectsLocationsPrivateConnectionsRoutesRequest>,
-  output: __S(256, __c16, 0) as any as S.Schema<Route>,
+  input: __S(208, __c13, 0) as any as S.Schema<GetProjectsLocationsPrivateConnectionsRoutesRequest>,
+  output: __S(640, __c40, 0) as any as S.Schema<Route>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1376,8 +1260,8 @@ export const getProjectsLocationsStreams: API.OperationMethod<
   GetProjectsLocationsStreamsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c17, 0) as any as S.Schema<GetProjectsLocationsStreamsRequest>,
-  output: __S(288, __c18, 0) as any as S.Schema<Stream>,
+  input: __S(224, __c14, 0) as any as S.Schema<GetProjectsLocationsStreamsRequest>,
+  output: __S(711, __c44, 7) as any as S.Schema<Stream>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1393,8 +1277,8 @@ export const getProjectsLocationsStreamsObjects: API.OperationMethod<
   GetProjectsLocationsStreamsObjectsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c19, 0) as any as S.Schema<GetProjectsLocationsStreamsObjectsRequest>,
-  output: __S(324, __c20, 4) as any as S.Schema<StreamObject>,
+  input: __S(240, __c15, 0) as any as S.Schema<GetProjectsLocationsStreamsObjectsRequest>,
+  output: __S(260, __c16, 4) as any as S.Schema<StreamObject>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1411,8 +1295,8 @@ export const listProjectsLocations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListLocationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(336, __c21, 0) as any as S.Schema<ListProjectsLocationsRequest>,
-  output: __S(338, __c21, 2) as any as S.Schema<ListLocationsResponse>,
+  input: __S(272, __c17, 0) as any as S.Schema<ListProjectsLocationsRequest>,
+  output: __S(274, __c17, 2) as any as S.Schema<ListLocationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1430,8 +1314,8 @@ export const listProjectsLocationsConnectionProfiles: API.PaginatedOperationMeth
   GcpOpContext,
   ListConnectionProfilesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(352, __c22, 0) as any as S.Schema<ListProjectsLocationsConnectionProfilesRequest>,
-  output: __S(354, __c22, 2) as any as S.Schema<ListConnectionProfilesResponse>,
+  input: __S(288, __c18, 0) as any as S.Schema<ListProjectsLocationsConnectionProfilesRequest>,
+  output: __S(290, __c18, 2) as any as S.Schema<ListConnectionProfilesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1449,8 +1333,8 @@ export const listProjectsLocationsOperations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListOperationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(368, __c23, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
-  output: __S(370, __c23, 2) as any as S.Schema<ListOperationsResponse>,
+  input: __S(304, __c19, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
+  output: __S(306, __c19, 2) as any as S.Schema<ListOperationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1468,8 +1352,8 @@ export const listProjectsLocationsPrivateConnections: API.PaginatedOperationMeth
   GcpOpContext,
   ListPrivateConnectionsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(384, __c24, 0) as any as S.Schema<ListProjectsLocationsPrivateConnectionsRequest>,
-  output: __S(386, __c24, 2) as any as S.Schema<ListPrivateConnectionsResponse>,
+  input: __S(320, __c20, 0) as any as S.Schema<ListProjectsLocationsPrivateConnectionsRequest>,
+  output: __S(322, __c20, 2) as any as S.Schema<ListPrivateConnectionsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1488,11 +1372,11 @@ export const listProjectsLocationsPrivateConnectionsRoutes: API.PaginatedOperati
   ListRoutesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    400,
-    __c25,
+    336,
+    __c21,
     0,
   ) as any as S.Schema<ListProjectsLocationsPrivateConnectionsRoutesRequest>,
-  output: __S(402, __c25, 2) as any as S.Schema<ListRoutesResponse>,
+  output: __S(338, __c21, 2) as any as S.Schema<ListRoutesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1510,8 +1394,8 @@ export const listProjectsLocationsStreams: API.PaginatedOperationMethod<
   GcpOpContext,
   ListStreamsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(416, __c26, 0) as any as S.Schema<ListProjectsLocationsStreamsRequest>,
-  output: __S(418, __c26, 2) as any as S.Schema<ListStreamsResponse>,
+  input: __S(352, __c22, 0) as any as S.Schema<ListProjectsLocationsStreamsRequest>,
+  output: __S(354, __c22, 2) as any as S.Schema<ListStreamsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1529,8 +1413,8 @@ export const listProjectsLocationsStreamsObjects: API.PaginatedOperationMethod<
   GcpOpContext,
   ListStreamObjectsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(432, __c27, 0) as any as S.Schema<ListProjectsLocationsStreamsObjectsRequest>,
-  output: __S(434, __c27, 2) as any as S.Schema<ListStreamObjectsResponse>,
+  input: __S(368, __c23, 0) as any as S.Schema<ListProjectsLocationsStreamsObjectsRequest>,
+  output: __S(370, __c23, 2) as any as S.Schema<ListStreamObjectsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1552,8 +1436,8 @@ export const patchProjectsLocationsConnectionProfiles: API.OperationMethod<
   PatchProjectsLocationsConnectionProfilesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c28, 0) as any as S.Schema<PatchProjectsLocationsConnectionProfilesRequest>,
-  output: __S(626, __c39, 2) as any as S.Schema<Operation>,
+  input: __S(384, __c24, 0) as any as S.Schema<PatchProjectsLocationsConnectionProfilesRequest>,
+  output: __S(562, __c35, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1574,8 +1458,8 @@ export const patchProjectsLocationsStreams: API.OperationMethod<
   PatchProjectsLocationsStreamsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(464, __c29, 0) as any as S.Schema<PatchProjectsLocationsStreamsRequest>,
-  output: __S(626, __c39, 2) as any as S.Schema<Operation>,
+  input: __S(400, __c25, 0) as any as S.Schema<PatchProjectsLocationsStreamsRequest>,
+  output: __S(562, __c35, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1597,11 +1481,11 @@ export const startBackfillJobProjectsLocationsStreamsObjects: API.OperationMetho
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    480,
-    __c30,
+    416,
+    __c26,
     0,
   ) as any as S.Schema<StartBackfillJobProjectsLocationsStreamsObjectsRequest>,
-  output: __S(496, __c31, 0) as any as S.Schema<StartBackfillJobResponse>,
+  output: __S(432, __c27, 0) as any as S.Schema<StartBackfillJobResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1623,11 +1507,11 @@ export const stopBackfillJobProjectsLocationsStreamsObjects: API.OperationMethod
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    512,
-    __c32,
+    448,
+    __c28,
     0,
   ) as any as S.Schema<StopBackfillJobProjectsLocationsStreamsObjectsRequest>,
-  output: __S(496, __c31, 0) as any as S.Schema<StopBackfillJobResponse>,
+  output: __S(432, __c27, 0) as any as S.Schema<StopBackfillJobResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1709,14 +1593,22 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
-          mysqlRdbms: S.optional(__S(733, __c45, 13)),
-          oracleRdbms: S.optional(__S(726, __c45, 6)),
-          connectionProfile: S.optional(__S(80, __c5, 0)),
+          mysqlRdbms: S.optional(__S(685, __c42, 13)),
+          oracleRdbms: S.optional(__S(678, __c42, 6)),
+          connectionProfile: S.optional(__S(518, __c32, 6)),
           recursionDepth: S.optional(S.Number),
           recursive: S.optional(S.Boolean),
           connectionProfileName: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "DiscoverConnectionProfileRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(64, __c4, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+parent}/connectionProfiles:discover",
@@ -1724,11 +1616,11 @@ function __c4(j: number): any {
           }),
         ),
       ).annotate({ identifier: "DiscoverProjectsLocationsConnectionProfilesRequest" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
-          mysqlRdbms: S.optional(__S(733, __c45, 13)),
-          oracleRdbms: S.optional(__S(726, __c45, 6)),
+          mysqlRdbms: S.optional(__S(685, __c42, 13)),
+          oracleRdbms: S.optional(__S(678, __c42, 6)),
         }),
       ).annotate({ identifier: "DiscoverConnectionProfileResponse" });
   }
@@ -1738,29 +1630,8 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          labels: S.optional(__S(592, __c37, 0)),
-          noConnectivity: S.optional(__S(544, __c34, 0)),
-          gcsProfile: S.optional(__S(576, __c36, 0)),
-          updateTime: S.optional(S.String),
-          displayName: S.optional(S.String),
-          name: S.optional(S.String),
-          staticServiceIpConnectivity: S.optional(__S(544, __c34, 0)),
-          forwardSshConnectivity: S.optional(__S(577, __c36, 1)),
-          mysqlProfile: S.optional(__S(579, __c36, 3)),
-          createTime: S.optional(S.String),
-          oracleProfile: S.optional(__S(580, __c36, 4)),
-          privateConnectivity: S.optional(__S(581, __c36, 5)),
-        }),
-      ).annotate({ identifier: "ConnectionProfile" });
-  }
-}
-function __c6(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
           stream: S.String.pipe(T.Label()),
-          body: S.optional(__S(544, __c34, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(480, __c30, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1771,7 +1642,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "FetchErrorsProjectsLocationsStreamsRequest" });
   }
 }
-function __c7(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1791,18 +1662,18 @@ function __c7(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          staticIps: S.optional(__S(128, __c8, 0)),
+          staticIps: S.optional(__S(112, __c7, 0)),
         }),
       ).annotate({ identifier: "FetchStaticIpsResponse" });
   }
 }
-function __c8(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c9(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1818,13 +1689,13 @@ function __c9(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsRequest" });
   }
 }
-function __c10(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          labels: S.optional(__S(592, __c37, 0)),
-          metadata: S.optional(__S(608, __c38, 0)),
+          labels: S.optional(__S(528, __c33, 0)),
+          metadata: S.optional(__S(544, __c34, 0)),
           name: S.optional(S.String),
           locationId: S.optional(S.String),
           displayName: S.optional(S.String),
@@ -1832,7 +1703,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "Location" });
   }
 }
-function __c11(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1848,7 +1719,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsConnectionProfilesRequest" });
   }
 }
-function __c12(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1864,7 +1735,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsOperationsRequest" });
   }
 }
-function __c13(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1880,24 +1751,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsPrivateConnectionsRequest" });
   }
 }
-function __c14(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          labels: S.optional(__S(592, __c37, 0)),
-          state: S.optional(S.String),
-          name: S.optional(S.String),
-          error: S.optional(__S(672, __c42, 0)),
-          displayName: S.optional(S.String),
-          vpcPeeringConfig: S.optional(__S(656, __c41, 0)),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "PrivateConnection" });
-  }
-}
-function __c15(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1913,23 +1767,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsPrivateConnectionsRoutesRequest" });
   }
 }
-function __c16(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          displayName: S.optional(S.String),
-          labels: S.optional(__S(592, __c37, 0)),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          destinationPort: S.optional(S.Number),
-          name: S.optional(S.String),
-          destinationAddress: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Route" });
-  }
-}
-function __c17(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1945,28 +1783,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsStreamsRequest" });
   }
 }
-function __c18(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          sourceConfig: S.optional(__S(754, __c47, 2)),
-          displayName: S.optional(S.String),
-          customerManagedEncryptionKey: S.optional(S.String),
-          backfillNone: S.optional(__S(544, __c34, 0)),
-          createTime: S.optional(S.String),
-          errors: S.optional(__S(736, __c46, 0)),
-          name: S.optional(S.String),
-          destinationConfig: S.optional(__S(757, __c47, 5)),
-          backfillAll: S.optional(__S(758, __c47, 6)),
-          updateTime: S.optional(S.String),
-          labels: S.optional(__S(592, __c37, 0)),
-          state: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Stream" });
-  }
-}
-function __c19(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1982,14 +1799,14 @@ function __c19(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsStreamsObjectsRequest" });
   }
 }
-function __c20(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           lastStartTime: S.optional(S.String),
           lastEndTime: S.optional(S.String),
-          errors: S.optional(__S(736, __c46, 0)),
+          errors: S.optional(__S(688, __c43, 0)),
           state: S.optional(S.String),
           trigger: S.optional(S.String),
         }),
@@ -2011,17 +1828,17 @@ function __c20(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          mysqlIdentifier: S.optional(__S(321, __c20, 1)),
-          oracleIdentifier: S.optional(__S(322, __c20, 2)),
+          mysqlIdentifier: S.optional(__S(257, __c16, 1)),
+          oracleIdentifier: S.optional(__S(258, __c16, 2)),
         }),
       ).annotate({ identifier: "SourceObjectIdentifier" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          backfillJob: S.optional(__S(320, __c20, 0)),
-          sourceObject: S.optional(__S(323, __c20, 3)),
+          backfillJob: S.optional(__S(256, __c16, 0)),
+          sourceObject: S.optional(__S(259, __c16, 3)),
           name: S.optional(S.String),
-          errors: S.optional(__S(736, __c46, 0)),
+          errors: S.optional(__S(688, __c43, 0)),
           createTime: S.optional(S.String),
           updateTime: S.optional(S.String),
           displayName: S.optional(S.String),
@@ -2029,13 +1846,13 @@ function __c20(j: number): any {
       ).annotate({ identifier: "StreamObject" });
   }
 }
-function __c21(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          extraLocationTypes: S.optional(__S(128, __c8, 0).pipe(T.Query())),
+          extraLocationTypes: S.optional(__S(112, __c7, 0).pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
@@ -2048,17 +1865,17 @@ function __c21(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsRequest" });
     case 1:
-      return S.Array(__S(160, __c10, 0));
+      return S.Array(__S(144, __c9, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          locations: S.optional(__S(337, __c21, 1)),
+          locations: S.optional(__S(273, __c17, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListLocationsResponse" });
   }
 }
-function __c22(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2077,18 +1894,18 @@ function __c22(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsConnectionProfilesRequest" });
     case 1:
-      return S.Array(__S(80, __c5, 0));
+      return S.Array(__S(518, __c32, 6));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(128, __c8, 0)),
-          connectionProfiles: S.optional(__S(353, __c22, 1)),
+          unreachable: S.optional(__S(112, __c7, 0)),
+          connectionProfiles: S.optional(__S(289, __c18, 1)),
         }),
       ).annotate({ identifier: "ListConnectionProfilesResponse" });
   }
 }
-function __c23(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2107,18 +1924,18 @@ function __c23(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsOperationsRequest" });
     case 1:
-      return S.Array(__S(626, __c39, 2));
+      return S.Array(__S(562, __c35, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          operations: S.optional(__S(369, __c23, 1)),
-          unreachable: S.optional(__S(128, __c8, 0)),
+          operations: S.optional(__S(305, __c19, 1)),
+          unreachable: S.optional(__S(112, __c7, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
   }
 }
-function __c24(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2137,18 +1954,18 @@ function __c24(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsPrivateConnectionsRequest" });
     case 1:
-      return S.Array(__S(224, __c14, 0));
+      return S.Array(__S(593, __c37, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(128, __c8, 0)),
-          privateConnections: S.optional(__S(385, __c24, 1)),
+          unreachable: S.optional(__S(112, __c7, 0)),
+          privateConnections: S.optional(__S(321, __c20, 1)),
         }),
       ).annotate({ identifier: "ListPrivateConnectionsResponse" });
   }
 }
-function __c25(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2167,18 +1984,18 @@ function __c25(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsPrivateConnectionsRoutesRequest" });
     case 1:
-      return S.Array(__S(256, __c16, 0));
+      return S.Array(__S(640, __c40, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          routes: S.optional(__S(401, __c25, 1)),
-          unreachable: S.optional(__S(128, __c8, 0)),
+          routes: S.optional(__S(337, __c21, 1)),
+          unreachable: S.optional(__S(112, __c7, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListRoutesResponse" });
   }
 }
-function __c26(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2197,18 +2014,18 @@ function __c26(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsStreamsRequest" });
     case 1:
-      return S.Array(__S(288, __c18, 0));
+      return S.Array(__S(711, __c44, 7));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          streams: S.optional(__S(417, __c26, 1)),
-          unreachable: S.optional(__S(128, __c8, 0)),
+          streams: S.optional(__S(353, __c22, 1)),
+          unreachable: S.optional(__S(112, __c7, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListStreamsResponse" });
   }
 }
-function __c27(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2225,37 +2042,29 @@ function __c27(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsStreamsObjectsRequest" });
     case 1:
-      return S.Array(__S(324, __c20, 4));
+      return S.Array(__S(260, __c16, 4));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          streamObjects: S.optional(__S(433, __c27, 1)),
+          streamObjects: S.optional(__S(369, __c23, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListStreamObjectsResponse" });
   }
 }
-function __c28(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          labels: S.optional(__S(592, __c37, 0)),
-          noConnectivity: S.optional(__S(544, __c34, 0)),
-          gcsProfile: S.optional(__S(576, __c36, 0)),
-          updateTime: S.optional(S.String),
-          displayName: S.optional(S.String),
-          staticServiceIpConnectivity: S.optional(__S(544, __c34, 0)),
-          forwardSshConnectivity: S.optional(__S(577, __c36, 1)),
-          mysqlProfile: S.optional(__S(579, __c36, 3)),
-          createTime: S.optional(S.String),
-          oracleProfile: S.optional(__S(580, __c36, 4)),
-          privateConnectivity: S.optional(__S(581, __c36, 5)),
-        }).pipe(
+        S.Extend(
+          __S(518, __c32, 6),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha1/{+name}",
@@ -2265,28 +2074,20 @@ function __c28(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsConnectionProfilesRequest" });
   }
 }
-function __c29(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          force: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          sourceConfig: S.optional(__S(754, __c47, 2)),
-          displayName: S.optional(S.String),
-          customerManagedEncryptionKey: S.optional(S.String),
-          backfillNone: S.optional(__S(544, __c34, 0)),
-          createTime: S.optional(S.String),
-          errors: S.optional(__S(736, __c46, 0)),
-          destinationConfig: S.optional(__S(757, __c47, 5)),
-          backfillAll: S.optional(__S(758, __c47, 6)),
-          updateTime: S.optional(S.String),
-          labels: S.optional(__S(592, __c37, 0)),
-          state: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(711, __c44, 7),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            force: S.optional(S.Boolean.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha1/{+name}",
@@ -2296,7 +2097,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsStreamsRequest" });
   }
 }
-function __c30(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2312,17 +2113,17 @@ function __c30(j: number): any {
       ).annotate({ identifier: "StartBackfillJobProjectsLocationsStreamsObjectsRequest" });
   }
 }
-function __c31(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          object: S.optional(__S(324, __c20, 4)),
+          object: S.optional(__S(260, __c16, 4)),
         }),
       ).annotate({ identifier: "StartBackfillJobResponse" });
   }
 }
-function __c32(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2338,13 +2139,13 @@ function __c32(j: number): any {
       ).annotate({ identifier: "StopBackfillJobProjectsLocationsStreamsObjectsRequest" });
   }
 }
-function __c33(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(544, __c34, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(480, __c30, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2355,33 +2156,24 @@ function __c33(j: number): any {
       ).annotate({ identifier: "CancelProjectsLocationsOperationsRequest" });
   }
 }
-function __c34(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "CancelOperationRequest" });
   }
 }
-function __c35(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          connectionProfileId: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          labels: S.optional(__S(592, __c37, 0)),
-          noConnectivity: S.optional(__S(544, __c34, 0)),
-          gcsProfile: S.optional(__S(576, __c36, 0)),
-          updateTime: S.optional(S.String),
-          displayName: S.optional(S.String),
-          name: S.optional(S.String),
-          staticServiceIpConnectivity: S.optional(__S(544, __c34, 0)),
-          forwardSshConnectivity: S.optional(__S(577, __c36, 1)),
-          mysqlProfile: S.optional(__S(579, __c36, 3)),
-          createTime: S.optional(S.String),
-          oracleProfile: S.optional(__S(580, __c36, 4)),
-          privateConnectivity: S.optional(__S(581, __c36, 5)),
-        }).pipe(
+        S.Extend(
+          __S(518, __c32, 6),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            connectionProfileId: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+parent}/connectionProfiles",
@@ -2391,7 +2183,7 @@ function __c35(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsConnectionProfilesRequest" });
   }
 }
-function __c36(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2425,7 +2217,7 @@ function __c36(j: number): any {
       return S.suspend(() =>
         S.Struct({
           hostname: S.optional(S.String),
-          sslConfig: S.optional(__S(578, __c36, 2)),
+          sslConfig: S.optional(__S(514, __c32, 2)),
           password: S.optional(S.String),
           username: S.optional(S.String),
           port: S.optional(S.Number),
@@ -2434,7 +2226,7 @@ function __c36(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          connectionAttributes: S.optional(__S(592, __c37, 0)),
+          connectionAttributes: S.optional(__S(528, __c33, 0)),
           hostname: S.optional(S.String),
           username: S.optional(S.String),
           port: S.optional(S.Number),
@@ -2448,61 +2240,73 @@ function __c36(j: number): any {
           privateConnectionName: S.optional(S.String),
         }),
       ).annotate({ identifier: "PrivateConnectivity" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          labels: S.optional(__S(528, __c33, 0)),
+          noConnectivity: S.optional(__S(480, __c30, 0)),
+          gcsProfile: S.optional(__S(512, __c32, 0)),
+          updateTime: S.optional(S.String),
+          displayName: S.optional(S.String),
+          name: S.optional(S.String),
+          staticServiceIpConnectivity: S.optional(__S(480, __c30, 0)),
+          forwardSshConnectivity: S.optional(__S(513, __c32, 1)),
+          mysqlProfile: S.optional(__S(515, __c32, 3)),
+          createTime: S.optional(S.String),
+          oracleProfile: S.optional(__S(516, __c32, 4)),
+          privateConnectivity: S.optional(__S(517, __c32, 5)),
+        }),
+      ).annotate({ identifier: "ConnectionProfile" });
   }
 }
-function __c37(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
   }
 }
-function __c38(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c39(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(608, __c38, 0));
+      return S.Array(__S(544, __c34, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
           code: S.optional(S.Number),
           message: S.optional(S.String),
-          details: S.optional(__S(624, __c39, 0)),
+          details: S.optional(__S(560, __c35, 0)),
         }),
       ).annotate({ identifier: "Status" });
     case 2:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          response: S.optional(__S(608, __c38, 0)),
+          response: S.optional(__S(544, __c34, 0)),
           done: S.optional(S.Boolean),
-          metadata: S.optional(__S(608, __c38, 0)),
-          error: S.optional(__S(625, __c39, 1)),
+          metadata: S.optional(__S(544, __c34, 0)),
+          error: S.optional(__S(561, __c35, 1)),
         }),
       ).annotate({ identifier: "Operation" });
   }
 }
-function __c40(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          privateConnectionId: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          labels: S.optional(__S(592, __c37, 0)),
-          state: S.optional(S.String),
-          name: S.optional(S.String),
-          error: S.optional(__S(672, __c42, 0)),
-          displayName: S.optional(S.String),
-          vpcPeeringConfig: S.optional(__S(656, __c41, 0)),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(593, __c37, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            privateConnectionId: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+parent}/privateConnections",
@@ -2512,7 +2316,7 @@ function __c40(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsPrivateConnectionsRequest" });
   }
 }
-function __c41(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2521,15 +2325,28 @@ function __c41(j: number): any {
           vpcName: S.optional(S.String),
         }),
       ).annotate({ identifier: "VpcPeeringConfig" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          labels: S.optional(__S(528, __c33, 0)),
+          state: S.optional(S.String),
+          name: S.optional(S.String),
+          error: S.optional(__S(608, __c38, 0)),
+          displayName: S.optional(S.String),
+          vpcPeeringConfig: S.optional(__S(592, __c37, 0)),
+          createTime: S.optional(S.String),
+          updateTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PrivateConnection" });
   }
 }
-function __c42(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           message: S.optional(S.String),
-          details: S.optional(__S(592, __c37, 0)),
+          details: S.optional(__S(528, __c33, 0)),
           errorTime: S.optional(S.String),
           reason: S.optional(S.String),
           errorUuid: S.optional(S.String),
@@ -2537,22 +2354,18 @@ function __c42(j: number): any {
       ).annotate({ identifier: "Datastream_Error" });
   }
 }
-function __c43(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          routeId: S.optional(S.String.pipe(T.Query())),
-          displayName: S.optional(S.String),
-          labels: S.optional(__S(592, __c37, 0)),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          destinationPort: S.optional(S.Number),
-          name: S.optional(S.String),
-          destinationAddress: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(640, __c40, 0),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            routeId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+parent}/routes",
@@ -2562,29 +2375,36 @@ function __c43(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsPrivateConnectionsRoutesRequest" });
   }
 }
-function __c44(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          streamId: S.optional(S.String.pipe(T.Query())),
-          force: S.optional(S.Boolean.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          sourceConfig: S.optional(__S(754, __c47, 2)),
           displayName: S.optional(S.String),
-          customerManagedEncryptionKey: S.optional(S.String),
-          backfillNone: S.optional(__S(544, __c34, 0)),
+          labels: S.optional(__S(528, __c33, 0)),
           createTime: S.optional(S.String),
-          errors: S.optional(__S(736, __c46, 0)),
-          name: S.optional(S.String),
-          destinationConfig: S.optional(__S(757, __c47, 5)),
-          backfillAll: S.optional(__S(758, __c47, 6)),
           updateTime: S.optional(S.String),
-          labels: S.optional(__S(592, __c37, 0)),
-          state: S.optional(S.String),
-        }).pipe(
+          destinationPort: S.optional(S.Number),
+          name: S.optional(S.String),
+          destinationAddress: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Route" });
+  }
+}
+function __c41(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(711, __c44, 7),
+          S.Struct({
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            streamId: S.optional(S.String.pipe(T.Query())),
+            force: S.optional(S.Boolean.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+parent}/streams",
@@ -2594,7 +2414,7 @@ function __c44(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsStreamsRequest" });
   }
 }
-function __c45(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2611,29 +2431,29 @@ function __c45(j: number): any {
         }),
       ).annotate({ identifier: "OracleColumn" });
     case 1:
-      return S.Array(__S(720, __c45, 0));
+      return S.Array(__S(672, __c42, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           tableName: S.optional(S.String),
-          oracleColumns: S.optional(__S(721, __c45, 1)),
+          oracleColumns: S.optional(__S(673, __c42, 1)),
         }),
       ).annotate({ identifier: "OracleTable" });
     case 3:
-      return S.Array(__S(722, __c45, 2));
+      return S.Array(__S(674, __c42, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           schemaName: S.optional(S.String),
-          oracleTables: S.optional(__S(723, __c45, 3)),
+          oracleTables: S.optional(__S(675, __c42, 3)),
         }),
       ).annotate({ identifier: "OracleSchema" });
     case 5:
-      return S.Array(__S(724, __c45, 4));
+      return S.Array(__S(676, __c42, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          oracleSchemas: S.optional(__S(725, __c45, 5)),
+          oracleSchemas: S.optional(__S(677, __c42, 5)),
         }),
       ).annotate({ identifier: "OracleRdbms" });
     case 7:
@@ -2649,62 +2469,62 @@ function __c45(j: number): any {
         }),
       ).annotate({ identifier: "MysqlColumn" });
     case 8:
-      return S.Array(__S(727, __c45, 7));
+      return S.Array(__S(679, __c42, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
-          mysqlColumns: S.optional(__S(728, __c45, 8)),
+          mysqlColumns: S.optional(__S(680, __c42, 8)),
           tableName: S.optional(S.String),
         }),
       ).annotate({ identifier: "MysqlTable" });
     case 10:
-      return S.Array(__S(729, __c45, 9));
+      return S.Array(__S(681, __c42, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
           databaseName: S.optional(S.String),
-          mysqlTables: S.optional(__S(730, __c45, 10)),
+          mysqlTables: S.optional(__S(682, __c42, 10)),
         }),
       ).annotate({ identifier: "MysqlDatabase" });
     case 12:
-      return S.Array(__S(731, __c45, 11));
+      return S.Array(__S(683, __c42, 11));
     case 13:
       return S.suspend(() =>
         S.Struct({
-          mysqlDatabases: S.optional(__S(732, __c45, 12)),
+          mysqlDatabases: S.optional(__S(684, __c42, 12)),
         }),
       ).annotate({ identifier: "MysqlRdbms" });
   }
 }
-function __c46(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(672, __c42, 0));
+      return S.Array(__S(608, __c38, 0));
   }
 }
-function __c47(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          dropLargeObjects: S.optional(__S(544, __c34, 0)),
-          rejectlist: S.optional(__S(726, __c45, 6)),
-          allowlist: S.optional(__S(726, __c45, 6)),
+          dropLargeObjects: S.optional(__S(480, __c30, 0)),
+          rejectlist: S.optional(__S(678, __c42, 6)),
+          allowlist: S.optional(__S(678, __c42, 6)),
         }),
       ).annotate({ identifier: "OracleSourceConfig" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          allowlist: S.optional(__S(733, __c45, 13)),
-          rejectlist: S.optional(__S(733, __c45, 13)),
+          allowlist: S.optional(__S(685, __c42, 13)),
+          rejectlist: S.optional(__S(685, __c42, 13)),
         }),
       ).annotate({ identifier: "MysqlSourceConfig" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          oracleSourceConfig: S.optional(__S(752, __c47, 0)),
+          oracleSourceConfig: S.optional(__S(704, __c44, 0)),
           sourceConnectionProfileName: S.optional(S.String),
-          mysqlSourceConfig: S.optional(__S(753, __c47, 1)),
+          mysqlSourceConfig: S.optional(__S(705, __c44, 1)),
         }),
       ).annotate({ identifier: "SourceConfig" });
     case 3:
@@ -2719,8 +2539,8 @@ function __c47(j: number): any {
         S.Struct({
           gcsFileFormat: S.optional(S.String),
           fileRotationMb: S.optional(S.Number),
-          jsonFileFormat: S.optional(__S(755, __c47, 3)),
-          avroFileFormat: S.optional(__S(544, __c34, 0)),
+          jsonFileFormat: S.optional(__S(707, __c44, 3)),
+          avroFileFormat: S.optional(__S(480, __c30, 0)),
           fileRotationInterval: S.optional(S.String),
           path: S.optional(S.String),
         }),
@@ -2729,19 +2549,36 @@ function __c47(j: number): any {
       return S.suspend(() =>
         S.Struct({
           destinationConnectionProfileName: S.optional(S.String),
-          gcsDestinationConfig: S.optional(__S(756, __c47, 4)),
+          gcsDestinationConfig: S.optional(__S(708, __c44, 4)),
         }),
       ).annotate({ identifier: "DestinationConfig" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          mysqlExcludedObjects: S.optional(__S(733, __c45, 13)),
-          oracleExcludedObjects: S.optional(__S(726, __c45, 6)),
+          mysqlExcludedObjects: S.optional(__S(685, __c42, 13)),
+          oracleExcludedObjects: S.optional(__S(678, __c42, 6)),
         }),
       ).annotate({ identifier: "BackfillAllStrategy" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          sourceConfig: S.optional(__S(706, __c44, 2)),
+          displayName: S.optional(S.String),
+          customerManagedEncryptionKey: S.optional(S.String),
+          backfillNone: S.optional(__S(480, __c30, 0)),
+          createTime: S.optional(S.String),
+          errors: S.optional(__S(688, __c43, 0)),
+          name: S.optional(S.String),
+          destinationConfig: S.optional(__S(709, __c44, 5)),
+          backfillAll: S.optional(__S(710, __c44, 6)),
+          updateTime: S.optional(S.String),
+          labels: S.optional(__S(528, __c33, 0)),
+          state: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Stream" });
   }
 }
-function __c48(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

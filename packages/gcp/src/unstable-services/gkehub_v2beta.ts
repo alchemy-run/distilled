@@ -1377,13 +1377,8 @@ export interface FeatureSpec {
   /** ServiceMesh Feature Spec. */
   servicemesh?: ServiceMeshSpec | undefined;
 }
-export interface CreateProjectsLocationsMembershipsFeaturesRequest {
-  /** Idempotent request UUID. */
-  requestId?: string | undefined;
-  /** Required. The ID of the membership_feature to create. */
-  featureId?: string | undefined;
-  /** Required. The name of parent where the MembershipFeature will be created. Specified in the format `projects/*\/locations/*\/memberships/*`. */
-  parent: string;
+/** MembershipFeature represents the settings and status of a Fleet Feature enabled on a single Fleet Membership. */
+export interface MembershipFeature {
   /** Output only. Lifecycle information of the resource itself. */
   lifecycleState?: LifecycleState | undefined;
   /** Output only. State of the this membershipFeature. */
@@ -1400,6 +1395,14 @@ export interface CreateProjectsLocationsMembershipsFeaturesRequest {
   deleteTime?: string | undefined;
   /** Output only. When the MembershipFeature resource was last updated. */
   updateTime?: string | undefined;
+}
+export interface CreateProjectsLocationsMembershipsFeaturesRequest extends MembershipFeature {
+  /** Idempotent request UUID. */
+  requestId?: string | undefined;
+  /** Required. The ID of the membership_feature to create. */
+  featureId?: string | undefined;
+  /** Required. The name of parent where the MembershipFeature will be created. Specified in the format `projects/*\/locations/*\/memberships/*`. */
+  parent: string;
 }
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
@@ -1450,25 +1453,6 @@ export interface Location {
 export interface GetProjectsLocationsMembershipsFeaturesRequest {
   /** Required. The MembershipFeature resource name in the format `projects/*\/locations/*\/memberships/*\/features/*`. */
   name: string;
-}
-/** MembershipFeature represents the settings and status of a Fleet Feature enabled on a single Fleet Membership. */
-export interface MembershipFeature {
-  /** Output only. Lifecycle information of the resource itself. */
-  lifecycleState?: LifecycleState | undefined;
-  /** Output only. State of the this membershipFeature. */
-  state?: FeatureState | undefined;
-  /** Output only. When the MembershipFeature resource was created. */
-  createTime?: string | undefined;
-  /** Output only. The resource name of the membershipFeature, in the format: `projects/{project}/locations/{location}/memberships/{membership}/features/{feature}`. Note that `membershipFeatures` is shortened to `features` in the resource name. (see http://go/aip/122#collection-identifiers) */
-  name?: string | undefined;
-  /** Optional. Spec of this membershipFeature. */
-  spec?: FeatureSpec | undefined;
-  /** Google Cloud labels for this MembershipFeature. */
-  labels?: StringMap | undefined;
-  /** Output only. When the MembershipFeature resource was deleted. */
-  deleteTime?: string | undefined;
-  /** Output only. When the MembershipFeature resource was last updated. */
-  updateTime?: string | undefined;
 }
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
@@ -1538,7 +1522,10 @@ export interface ListOperationsResponse {
   /** A list of operations that matches the specified filter in the request. */
   operations?: OperationList | undefined;
 }
-export interface PatchProjectsLocationsMembershipsFeaturesRequest {
+export interface PatchProjectsLocationsMembershipsFeaturesRequest extends Omit<
+  MembershipFeature,
+  "name"
+> {
   /** Required. Mask of fields to update. */
   updateMask?: string | undefined;
   /** Idempotent request UUID. */
@@ -1547,20 +1534,6 @@ export interface PatchProjectsLocationsMembershipsFeaturesRequest {
   allowMissing?: boolean | undefined;
   /** Output only. The resource name of the membershipFeature, in the format: `projects/{project}/locations/{location}/memberships/{membership}/features/{feature}`. Note that `membershipFeatures` is shortened to `features` in the resource name. (see http://go/aip/122#collection-identifiers) */
   name: string;
-  /** Output only. Lifecycle information of the resource itself. */
-  lifecycleState?: LifecycleState | undefined;
-  /** Output only. State of the this membershipFeature. */
-  state?: FeatureState | undefined;
-  /** Output only. When the MembershipFeature resource was created. */
-  createTime?: string | undefined;
-  /** Optional. Spec of this membershipFeature. */
-  spec?: FeatureSpec | undefined;
-  /** Google Cloud labels for this MembershipFeature. */
-  labels?: StringMap | undefined;
-  /** Output only. When the MembershipFeature resource was deleted. */
-  deleteTime?: string | undefined;
-  /** Output only. When the MembershipFeature resource was last updated. */
-  updateTime?: string | undefined;
 }
 export type CancelProjectsLocationsOperationsError =
   | NotFound
@@ -1654,7 +1627,7 @@ export const getProjectsLocationsMembershipsFeatures: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c18, 0) as any as S.Schema<GetProjectsLocationsMembershipsFeaturesRequest>,
-  output: __S(608, __c19, 0) as any as S.Schema<MembershipFeature>,
+  output: __S(453, __c14, 5) as any as S.Schema<MembershipFeature>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1670,7 +1643,7 @@ export const getProjectsLocationsOperations: API.OperationMethod<
   GetProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c20, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
+  input: __S(608, __c19, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
   output: __S(258, __c8, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
@@ -1807,7 +1780,7 @@ function __c1(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsMembershipsFeaturesRequest" });
     case 1:
-      return S.Array(__S(608, __c19, 0));
+      return S.Array(__S(453, __c14, 5));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -1852,19 +1825,15 @@ function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          lifecycleState: S.optional(__S(352, __c11, 0)),
-          state: S.optional(__S(435, __c13, 19)),
-          createTime: S.optional(S.String),
-          spec: S.optional(__S(452, __c14, 4)),
-          labels: S.optional(__S(288, __c9, 0)),
-          deleteTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(453, __c14, 5),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2beta/{+name}",
@@ -1901,19 +1870,14 @@ function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          featureId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          lifecycleState: S.optional(__S(352, __c11, 0)),
-          state: S.optional(__S(435, __c13, 19)),
-          createTime: S.optional(S.String),
-          name: S.optional(S.String),
-          spec: S.optional(__S(452, __c14, 4)),
-          labels: S.optional(__S(288, __c9, 0)),
-          deleteTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(453, __c14, 5),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            featureId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta/{+parent}/features",
@@ -2738,6 +2702,19 @@ function __c14(j: number): any {
           servicemesh: S.optional(__S(451, __c14, 3)),
         }),
       ).annotate({ identifier: "FeatureSpec" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          lifecycleState: S.optional(__S(352, __c11, 0)),
+          state: S.optional(__S(435, __c13, 19)),
+          createTime: S.optional(S.String),
+          name: S.optional(S.String),
+          spec: S.optional(__S(452, __c14, 4)),
+          labels: S.optional(__S(288, __c9, 0)),
+          deleteTime: S.optional(S.String),
+          updateTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "MembershipFeature" });
   }
 }
 function __c15(j: number): any {
@@ -2804,23 +2781,6 @@ function __c18(j: number): any {
   }
 }
 function __c19(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          lifecycleState: S.optional(__S(352, __c11, 0)),
-          state: S.optional(__S(435, __c13, 19)),
-          createTime: S.optional(S.String),
-          name: S.optional(S.String),
-          spec: S.optional(__S(452, __c14, 4)),
-          labels: S.optional(__S(288, __c9, 0)),
-          deleteTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "MembershipFeature" });
-  }
-}
-function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

@@ -83,11 +83,14 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
-export interface AcknowledgeProjectsLocationsQueuesTasksRequest {
-  /** Required. The task name. For example: `projects/PROJECT_ID/locations/LOCATION_ID/queues/QUEUE_ID/tasks/TASK_ID` */
-  name: string;
+/** Request message for acknowledging a task using AcknowledgeTask. */
+export interface AcknowledgeTaskRequest {
   /** Required. The task's current schedule time, available in the schedule_time returned by LeaseTasks response or RenewLease response. This restriction is to ensure that your worker currently holds the lease. */
   scheduleTime?: string | undefined;
+}
+export interface AcknowledgeProjectsLocationsQueuesTasksRequest extends AcknowledgeTaskRequest {
+  /** Required. The task name. For example: `projects/PROJECT_ID/locations/LOCATION_ID/queues/QUEUE_ID/tasks/TASK_ID` */
+  name: string;
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
@@ -251,13 +254,16 @@ export interface CreateTaskRequest {
   parent?: string | undefined;
 }
 export type CreateTaskRequestList = Array<CreateTaskRequest>;
-export interface BatchCreateProjectsLocationsQueuesTasksRequest {
-  /** Required. The queue name. For example: `projects/PROJECT_ID/locations/LOCATION_ID/queues/QUEUE_ID` The queue must already exist. */
-  parent: string;
+/** Request message for [BatchCreateTasks]. */
+export interface BatchCreateTasksRequest {
   /** Required. The list of requests to create tasks. The queue specified in parent field of each CreateTaskRequest will be the same. This validation happens on the client side as well as in the handler. BatchCreateTasksRequest.parent will also be the same value as the individual CreateTaskRequest.parent . The maximum number of requests is 100. */
   requests?: CreateTaskRequestList | undefined;
   /** Optional. This field will be used to identify the long running operation, avoiding duplication when user retries. If not provided, then a UUID will be generated at server side. */
   requestId?: string | undefined;
+}
+export interface BatchCreateProjectsLocationsQueuesTasksRequest extends BatchCreateTasksRequest {
+  /** Required. The queue name. For example: `projects/PROJECT_ID/locations/LOCATION_ID/queues/QUEUE_ID` The queue must already exist. */
+  parent: string;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
@@ -273,13 +279,16 @@ export interface Operation {
   done?: boolean | undefined;
 }
 export type StringList = Array<string>;
-export interface BatchDeleteProjectsLocationsQueuesTasksRequest {
-  /** Required. The queue name. For example: Format: `projects/PROJECT_ID/locations/LOCATION_ID/queues/QUEUE_ID` */
-  parent: string;
+/** Request message for deleting a batch of tasks using BatchDeleteTasks. */
+export interface BatchDeleteTasksRequest {
   /** Optional. This field will be used to identify the long running operation, avoiding duplication when user retries. If not provided, then a UUID will be generated at server side. */
   requestId?: string | undefined;
   /** Required. The names of the tasks to delete. A maximum of 1000 tasks can be deleted in a batch. For example: Format: `projects/PROJECT_ID/locations/LOCATION_ID/queues/QUEUE_ID/tasks/TASK_ID` */
   names?: StringList | undefined;
+}
+export interface BatchDeleteProjectsLocationsQueuesTasksRequest extends BatchDeleteTasksRequest {
+  /** Required. The queue name. For example: Format: `projects/PROJECT_ID/locations/LOCATION_ID/queues/QUEUE_ID` */
+  parent: string;
 }
 /** Message that represents an arbitrary HTTP body. It should only be used for payload formats that can't be represented as JSON, such as raw binary or an HTML page. This message can be used both in streaming and non-streaming API methods in the request as well as the response. It can be used as a top-level request field, which is convenient if one wants to extract parameters from either the URL or HTTP template into the request fields and also want access to the raw HTTP body. Example: message GetResourceRequest { // A unique request id. string request_id = 1; // The raw HTTP body is bound to this field. google.api.HttpBody http_body = 2; } service ResourceService { rpc GetResource(GetResourceRequest) returns (google.api.HttpBody); rpc UpdateResource(google.api.HttpBody) returns (google.protobuf.Empty); } Example with streaming methods: service CaldavService { rpc GetCalendar(stream google.api.HttpBody) returns (stream google.api.HttpBody); rpc UpdateCalendar(stream google.api.HttpBody) returns (stream google.api.HttpBody); } Use of this type only changes how the request and response bodies are handled, all other features will continue to work unchanged. */
 export interface HttpBody {
@@ -290,13 +299,16 @@ export interface HttpBody {
   /** Application specific response metadata. Must be set in the first response for streaming APIs. */
   extensions?: DocumentMapList | undefined;
 }
-export interface BufferProjectsLocationsQueuesTasksRequest {
+/** Request message for BufferTask. */
+export interface BufferTaskRequest {
+  /** Optional. Body of the HTTP request. The body can take any generic value. The value is written to the HttpRequest of the [Task]. */
+  body?: HttpBody | undefined;
+}
+export interface BufferProjectsLocationsQueuesTasksRequest extends BufferTaskRequest {
   /** Required. The parent queue name. For example: projects/PROJECT_ID/locations/LOCATION_ID/queues/QUEUE_ID` The queue must already exist. */
   queue: string;
   /** Optional. Task ID for the task being created. If not provided, a random task ID is assigned to the task. */
   taskId: string;
-  /** Optional. Body of the HTTP request. The body can take any generic value. The value is written to the HttpRequest of the [Task]. */
-  body?: HttpBody | undefined;
 }
 /** Response message for BufferTask. */
 export interface BufferTaskResponse {
@@ -304,13 +316,16 @@ export interface BufferTaskResponse {
   task?: Task | undefined;
 }
 export type CancelLeaseRequestResponseViewEnum = "VIEW_UNSPECIFIED" | "BASIC" | "FULL";
-export interface CancelLeaseProjectsLocationsQueuesTasksRequest {
-  /** Required. The task name. For example: `projects/PROJECT_ID/locations/LOCATION_ID/queues/QUEUE_ID/tasks/TASK_ID` */
-  name: string;
+/** Request message for canceling a lease using CancelLease. */
+export interface CancelLeaseRequest {
   /** The response_view specifies which subset of the Task will be returned. By default response_view is BASIC; not all information is retrieved by default because some data, such as payloads, might be desirable to return only when needed because of its large size or because of the sensitivity of data that it contains. Authorization for FULL requires `cloudtasks.tasks.fullView` [Google IAM](https://cloud.google.com/iam/) permission on the Task resource. */
   responseView?: CancelLeaseRequestResponseViewEnum | (string & {}) | undefined;
   /** Required. The task's current schedule time, available in the schedule_time returned by LeaseTasks response or RenewLease response. This restriction is to ensure that your worker currently holds the lease. */
   scheduleTime?: string | undefined;
+}
+export interface CancelLeaseProjectsLocationsQueuesTasksRequest extends CancelLeaseRequest {
+  /** Required. The task name. For example: `projects/PROJECT_ID/locations/LOCATION_ID/queues/QUEUE_ID/tasks/TASK_ID` */
+  name: string;
 }
 /** Rate limits. This message determines the maximum rate that tasks can be dispatched by a queue, regardless of whether the dispatch is a first task attempt or a retry. Note: The debugging command, RunTask, will run a task even if the queue has reached its RateLimits. */
 export interface RateLimits {
@@ -407,9 +422,8 @@ export interface HttpTarget {
   /** The HTTP method to use for the request. When specified, it overrides HttpRequest for the task. Note that if the value is set to HttpMethod the HttpRequest of the task will be ignored at execution time. */
   httpMethod?: HttpTargetHttpMethodEnum | (string & {}) | undefined;
 }
-export interface CreateProjectsLocationsQueuesRequest {
-  /** Required. The location name in which the queue will be created. For example: `projects/PROJECT_ID/locations/LOCATION_ID` The list of allowed locations can be obtained by calling Cloud Tasks' implementation of ListLocations. */
-  parent: string;
+/** A queue is a container of related tasks. Queues are configured to manage how those tasks are dispatched. Configurable properties include rate limits, retry options, target types, and others. */
+export interface Queue {
   /** Rate limits for task dispatches. rate_limits and retry_config are related because they both control task attempts however they control how tasks are attempted in different ways: * rate_limits controls the total rate of dispatches from a queue (i.e. all traffic dispatched from the queue, regardless of whether the dispatch is from a first attempt or a retry). * retry_config controls what happens to a particular task after its first attempt fails. That is, retry_config controls task retries (the second attempt, third attempt, etc). */
   rateLimits?: RateLimits | undefined;
   /** Settings that determine the retry behavior. * For tasks created using Cloud Tasks: the queue-level retry settings apply to all tasks in the queue that were created using Cloud Tasks. Optionally, retry settings can be set on individual tasks and override the queue-level retry settings for the task. * For tasks created using the App Engine SDK: the queue-level retry settings apply to all tasks in the queue which do not have retry settings explicitly set on the task and were created by the App Engine SDK. See [App Engine documentation](https://cloud.google.com/appengine/docs/standard/python/taskqueue/push/retrying-tasks). */
@@ -433,38 +447,16 @@ export interface CreateProjectsLocationsQueuesRequest {
   /** An http_target is used to override the target values for HTTP tasks. */
   httpTarget?: HttpTarget | undefined;
 }
-/** A queue is a container of related tasks. Queues are configured to manage how those tasks are dispatched. Configurable properties include rate limits, retry options, target types, and others. */
-export interface Queue {
-  /** Rate limits for task dispatches. rate_limits and retry_config are related because they both control task attempts however they control how tasks are attempted in different ways: * rate_limits controls the total rate of dispatches from a queue (i.e. all traffic dispatched from the queue, regardless of whether the dispatch is from a first attempt or a retry). * retry_config controls what happens to a particular task after its first attempt fails. That is, retry_config controls task retries (the second attempt, third attempt, etc). */
-  rateLimits?: RateLimits | undefined;
-  /** Settings that determine the retry behavior. * For tasks created using Cloud Tasks: the queue-level retry settings apply to all tasks in the queue that were created using Cloud Tasks. Optionally, retry settings can be set on individual tasks and override the queue-level retry settings for the task. * For tasks created using the App Engine SDK: the queue-level retry settings apply to all tasks in the queue which do not have retry settings explicitly set on the task and were created by the App Engine SDK. See [App Engine documentation](https://cloud.google.com/appengine/docs/standard/python/taskqueue/push/retrying-tasks). */
-  retryConfig?: RetryConfig | undefined;
-  /** Output only. The realtime, informational statistics for a queue. In order to receive the statistics the caller should include this field in the FieldMask. */
-  stats?: QueueStats | undefined;
-  /** Pull target. A pull queue is a queue that has a PullTarget. */
-  pullTarget?: PullTarget | undefined;
-  /** The task tombstone time to live (TTL). After a task is deleted or completed, the task's tombstone is retained for the length of time specified by `tombstone_ttl`. The tombstone is used by task de-duplication; another task with the same name can't be created until the tombstone has expired. For more information about task de-duplication, see the documentation for CreateTaskRequest. Queues created by Cloud Tasks have a default `tombstone_ttl` of 1 hour. */
-  tombstoneTtl?: string | undefined;
-  /** The maximum amount of time that a task will be retained in this queue. Queues created by Cloud Tasks have a default `task_ttl` of 31 days. After a task has lived for `task_ttl`, the task will be deleted regardless of whether it was dispatched or not. The `task_ttl` for queues created via queue.yaml/xml is equal to the maximum duration because there is a [storage quota](https://cloud.google.com/appengine/quotas#Task_Queue) for these queues. To view the maximum valid duration, see the documentation for Duration. */
-  taskTtl?: string | undefined;
-  /** Output only. The state of the queue. `state` can only be changed by called PauseQueue, ResumeQueue, or uploading [queue.yaml/xml](https://cloud.google.com/appengine/docs/python/config/queueref). UpdateQueue cannot be used to change `state`. */
-  state?: QueueStateEnum | undefined;
-  /** App Engine HTTP target. An App Engine queue is a queue that has an AppEngineHttpTarget. */
-  appEngineHttpTarget?: AppEngineHttpTarget | undefined;
-  /** Caller-specified and required in CreateQueue, after which it becomes output only. The queue name. The queue name must have the following format: `projects/PROJECT_ID/locations/LOCATION_ID/queues/QUEUE_ID` * `PROJECT_ID` can contain letters ([A-Za-z]), numbers ([0-9]), hyphens (-), colons (:), or periods (.). For more information, see [Identifying projects](https://cloud.google.com/resource-manager/docs/creating-managing-projects#identifying_projects) * `LOCATION_ID` is the canonical ID for the queue's location. The list of available locations can be obtained by calling ListLocations. For more information, see https://cloud.google.com/about/locations/. * `QUEUE_ID` can contain letters ([A-Za-z]), numbers ([0-9]), or hyphens (-). The maximum length is 100 characters. */
-  name?: string | undefined;
-  /** Output only. The last time this queue was purged. All tasks that were created before this time were purged. A queue can be purged using PurgeQueue, the [App Engine Task Queue SDK, or the Cloud Console](https://cloud.google.com/appengine/docs/standard/python/taskqueue/push/deleting-tasks-and-queues#purging_all_tasks_from_a_queue). Purge time will be truncated to the nearest microsecond. Purge time will be unset if the queue has never been purged. */
-  purgeTime?: string | undefined;
-  /** An http_target is used to override the target values for HTTP tasks. */
-  httpTarget?: HttpTarget | undefined;
+export interface CreateProjectsLocationsQueuesRequest extends Queue {
+  /** Required. The location name in which the queue will be created. For example: `projects/PROJECT_ID/locations/LOCATION_ID` The list of allowed locations can be obtained by calling Cloud Tasks' implementation of ListLocations. */
+  parent: string;
 }
-export interface CreateProjectsLocationsQueuesTasksRequest {
+export interface CreateProjectsLocationsQueuesTasksRequest extends Omit<
+  CreateTaskRequest,
+  "parent"
+> {
   /** Required. The queue name. For example: `projects/PROJECT_ID/locations/LOCATION_ID/queues/QUEUE_ID` The queue must already exist. */
   parent: string;
-  /** The response_view specifies which subset of the Task will be returned. By default response_view is BASIC; not all information is retrieved by default because some data, such as payloads, might be desirable to return only when needed because of its large size or because of the sensitivity of data that it contains. Authorization for FULL requires `cloudtasks.tasks.fullView` [Google IAM](https://cloud.google.com/iam/) permission on the Task resource. */
-  responseView?: CreateTaskRequestResponseViewEnum | (string & {}) | undefined;
-  /** Required. The task to add. Task names have the following format: `projects/PROJECT_ID/locations/LOCATION_ID/queues/QUEUE_ID/tasks/TASK_ID`. The user can optionally specify a task name. If a name is not specified then the system will generate a random unique task id, which will be set in the task returned in the response. If schedule_time is not set or is in the past then Cloud Tasks will set it to the current time. Task De-duplication: Explicitly specifying a task ID enables task de-duplication. If a task's ID is identical to that of an existing task or a task that was deleted or completed recently then the call will fail with ALREADY_EXISTS. The IDs of deleted tasks are not immediately available for reuse. It can take up to 24 hours (or 9 days if the task's queue was created using a queue.yaml or queue.xml) for the task ID to be released and made available again. Because there is an extra lookup cost to identify duplicate task names, these CreateTask calls have significantly increased latency. Using hashed strings for the task id or for the prefix of the task id is recommended. Choosing task ids that are sequential or have sequential prefixes, for example using a timestamp, causes an increase in latency and error rates in all task commands. The infrastructure relies on an approximately uniform distribution of task ids to store and serve tasks efficiently. */
-  task?: Task | undefined;
 }
 export interface DeleteProjectsLocationsQueuesRequest {
   /** Required. The queue name. For example: `projects/PROJECT_ID/locations/LOCATION_ID/queues/QUEUE_ID` */
@@ -490,11 +482,14 @@ export interface GetPolicyOptions {
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   requestedPolicyVersion?: number | undefined;
 }
-export interface GetIamPolicyProjectsLocationsQueuesRequest {
-  /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
+/** Request message for `GetIamPolicy` method. */
+export interface GetIamPolicyRequest {
   /** OPTIONAL: A `GetPolicyOptions` object for specifying options to `GetIamPolicy`. */
   options?: GetPolicyOptions | undefined;
+}
+export interface GetIamPolicyProjectsLocationsQueuesRequest extends GetIamPolicyRequest {
+  /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
 }
 /** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
 export interface Expr {
@@ -561,9 +556,8 @@ export interface GetProjectsLocationsQueuesTasksRequest {
   responseView?: GetProjectsLocationsQueuesTasksResponseViewEnum | (string & {}) | undefined;
 }
 export type LeaseTasksRequestResponseViewEnum = "VIEW_UNSPECIFIED" | "BASIC" | "FULL";
-export interface LeaseProjectsLocationsQueuesTasksRequest {
-  /** Required. The queue name. For example: `projects/PROJECT_ID/locations/LOCATION_ID/queues/QUEUE_ID` */
-  parent: string;
+/** Request message for leasing tasks using LeaseTasks. */
+export interface LeaseTasksRequest {
   /** `filter` can be used to specify a subset of tasks to lease. When `filter` is set to `tag=` then the response will contain only tasks whose tag is equal to ``. `` must be less than 500 characters. When `filter` is set to `tag_function=oldest_tag()`, only tasks which have the same tag as the task with the oldest schedule_time will be returned. Grammar Syntax: * `filter = "tag=" tag | "tag_function=" function` * `tag = string` * `function = "oldest_tag()"` The `oldest_tag()` function returns tasks which have the same tag as the oldest task (ordered by schedule time). SDK compatibility: Although the SDK allows tags to be either string or [bytes](https://cloud.google.com/appengine/docs/standard/java/javadoc/com/google/appengine/api/taskqueue/TaskOptions.html#tag-byte:A-), only UTF-8 encoded tags can be used in Cloud Tasks. Tag which aren't UTF-8 encoded can't be used in the filter and the task's tag will be displayed as empty in Cloud Tasks. */
   filter?: string | undefined;
   /** Required. The duration of the lease. Each task returned in the response will have its schedule_time set to the current time plus the `lease_duration`. The task is leased until its schedule_time; thus, the task will not be returned to another LeaseTasks call before its schedule_time. After the worker has successfully finished the work associated with the task, the worker must call via AcknowledgeTask before the schedule_time. Otherwise the task will be returned to a later LeaseTasks call so that another worker can retry it. The maximum lease duration is 1 week. `lease_duration` will be truncated to the nearest second. */
@@ -572,6 +566,10 @@ export interface LeaseProjectsLocationsQueuesTasksRequest {
   responseView?: LeaseTasksRequestResponseViewEnum | (string & {}) | undefined;
   /** The maximum number of tasks to lease. The system will make a best effort to return as close to as `max_tasks` as possible. The largest that `max_tasks` can be is 1000. The maximum total size of a lease tasks response is 32 MB. If the sum of all task sizes requested reaches this limit, fewer tasks than requested are returned. */
   maxTasks?: number | undefined;
+}
+export interface LeaseProjectsLocationsQueuesTasksRequest extends LeaseTasksRequest {
+  /** Required. The queue name. For example: `projects/PROJECT_ID/locations/LOCATION_ID/queues/QUEUE_ID` */
+  parent: string;
 }
 export type TaskList = Array<Task>;
 /** Response message for leasing tasks using LeaseTasks. */
@@ -640,31 +638,11 @@ export interface ListTasksResponse {
   /** A token to retrieve next page of results. To return the next page of results, call ListTasks with this value as the page_token. If the next_page_token is empty, there are no more results. */
   nextPageToken?: string | undefined;
 }
-export interface PatchProjectsLocationsQueuesRequest {
+export interface PatchProjectsLocationsQueuesRequest extends Omit<Queue, "name"> {
   /** A mask used to specify which fields of the queue are being updated. If empty, then all fields will be updated. */
   updateMask?: string | undefined;
   /** Caller-specified and required in CreateQueue, after which it becomes output only. The queue name. The queue name must have the following format: `projects/PROJECT_ID/locations/LOCATION_ID/queues/QUEUE_ID` * `PROJECT_ID` can contain letters ([A-Za-z]), numbers ([0-9]), hyphens (-), colons (:), or periods (.). For more information, see [Identifying projects](https://cloud.google.com/resource-manager/docs/creating-managing-projects#identifying_projects) * `LOCATION_ID` is the canonical ID for the queue's location. The list of available locations can be obtained by calling ListLocations. For more information, see https://cloud.google.com/about/locations/. * `QUEUE_ID` can contain letters ([A-Za-z]), numbers ([0-9]), or hyphens (-). The maximum length is 100 characters. */
   name: string;
-  /** Rate limits for task dispatches. rate_limits and retry_config are related because they both control task attempts however they control how tasks are attempted in different ways: * rate_limits controls the total rate of dispatches from a queue (i.e. all traffic dispatched from the queue, regardless of whether the dispatch is from a first attempt or a retry). * retry_config controls what happens to a particular task after its first attempt fails. That is, retry_config controls task retries (the second attempt, third attempt, etc). */
-  rateLimits?: RateLimits | undefined;
-  /** Settings that determine the retry behavior. * For tasks created using Cloud Tasks: the queue-level retry settings apply to all tasks in the queue that were created using Cloud Tasks. Optionally, retry settings can be set on individual tasks and override the queue-level retry settings for the task. * For tasks created using the App Engine SDK: the queue-level retry settings apply to all tasks in the queue which do not have retry settings explicitly set on the task and were created by the App Engine SDK. See [App Engine documentation](https://cloud.google.com/appengine/docs/standard/python/taskqueue/push/retrying-tasks). */
-  retryConfig?: RetryConfig | undefined;
-  /** Output only. The realtime, informational statistics for a queue. In order to receive the statistics the caller should include this field in the FieldMask. */
-  stats?: QueueStats | undefined;
-  /** Pull target. A pull queue is a queue that has a PullTarget. */
-  pullTarget?: PullTarget | undefined;
-  /** The task tombstone time to live (TTL). After a task is deleted or completed, the task's tombstone is retained for the length of time specified by `tombstone_ttl`. The tombstone is used by task de-duplication; another task with the same name can't be created until the tombstone has expired. For more information about task de-duplication, see the documentation for CreateTaskRequest. Queues created by Cloud Tasks have a default `tombstone_ttl` of 1 hour. */
-  tombstoneTtl?: string | undefined;
-  /** The maximum amount of time that a task will be retained in this queue. Queues created by Cloud Tasks have a default `task_ttl` of 31 days. After a task has lived for `task_ttl`, the task will be deleted regardless of whether it was dispatched or not. The `task_ttl` for queues created via queue.yaml/xml is equal to the maximum duration because there is a [storage quota](https://cloud.google.com/appengine/quotas#Task_Queue) for these queues. To view the maximum valid duration, see the documentation for Duration. */
-  taskTtl?: string | undefined;
-  /** Output only. The state of the queue. `state` can only be changed by called PauseQueue, ResumeQueue, or uploading [queue.yaml/xml](https://cloud.google.com/appengine/docs/python/config/queueref). UpdateQueue cannot be used to change `state`. */
-  state?: QueueStateEnum | (string & {}) | undefined;
-  /** App Engine HTTP target. An App Engine queue is a queue that has an AppEngineHttpTarget. */
-  appEngineHttpTarget?: AppEngineHttpTarget | undefined;
-  /** Output only. The last time this queue was purged. All tasks that were created before this time were purged. A queue can be purged using PurgeQueue, the [App Engine Task Queue SDK, or the Cloud Console](https://cloud.google.com/appengine/docs/standard/python/taskqueue/push/deleting-tasks-and-queues#purging_all_tasks_from_a_queue). Purge time will be truncated to the nearest microsecond. Purge time will be unset if the queue has never been purged. */
-  purgeTime?: string | undefined;
-  /** An http_target is used to override the target values for HTTP tasks. */
-  httpTarget?: HttpTarget | undefined;
 }
 /** Request message for PauseQueue. */
 export type PauseQueueRequest = PullTarget;
@@ -683,15 +661,18 @@ export interface PurgeProjectsLocationsQueuesRequest {
   body?: PullTarget | undefined;
 }
 export type RenewLeaseRequestResponseViewEnum = "VIEW_UNSPECIFIED" | "BASIC" | "FULL";
-export interface RenewLeaseProjectsLocationsQueuesTasksRequest {
-  /** Required. The task name. For example: `projects/PROJECT_ID/locations/LOCATION_ID/queues/QUEUE_ID/tasks/TASK_ID` */
-  name: string;
+/** Request message for renewing a lease using RenewLease. */
+export interface RenewLeaseRequest {
   /** Required. The task's current schedule time, available in the schedule_time returned by LeaseTasks response or RenewLease response. This restriction is to ensure that your worker currently holds the lease. */
   scheduleTime?: string | undefined;
   /** The response_view specifies which subset of the Task will be returned. By default response_view is BASIC; not all information is retrieved by default because some data, such as payloads, might be desirable to return only when needed because of its large size or because of the sensitivity of data that it contains. Authorization for FULL requires `cloudtasks.tasks.fullView` [Google IAM](https://cloud.google.com/iam/) permission on the Task resource. */
   responseView?: RenewLeaseRequestResponseViewEnum | (string & {}) | undefined;
   /** Required. The desired new lease duration, starting from now. The maximum lease duration is 1 week. `lease_duration` will be truncated to the nearest second. */
   leaseDuration?: string | undefined;
+}
+export interface RenewLeaseProjectsLocationsQueuesTasksRequest extends RenewLeaseRequest {
+  /** Required. The task name. For example: `projects/PROJECT_ID/locations/LOCATION_ID/queues/QUEUE_ID/tasks/TASK_ID` */
+  name: string;
 }
 /** Request message for ResumeQueue. */
 export type ResumeQueueRequest = PullTarget;
@@ -702,46 +683,47 @@ export interface ResumeProjectsLocationsQueuesRequest {
   body?: PullTarget | undefined;
 }
 export type RunTaskRequestResponseViewEnum = "VIEW_UNSPECIFIED" | "BASIC" | "FULL";
-export interface RunProjectsLocationsQueuesTasksRequest {
-  /** Required. The task name. For example: `projects/PROJECT_ID/locations/LOCATION_ID/queues/QUEUE_ID/tasks/TASK_ID` */
-  name: string;
+/** Request message for forcing a task to run now using RunTask. */
+export interface RunTaskRequest {
   /** The response_view specifies which subset of the Task will be returned. By default response_view is BASIC; not all information is retrieved by default because some data, such as payloads, might be desirable to return only when needed because of its large size or because of the sensitivity of data that it contains. Authorization for FULL requires `cloudtasks.tasks.fullView` [Google IAM](https://cloud.google.com/iam/) permission on the Task resource. */
   responseView?: RunTaskRequestResponseViewEnum | (string & {}) | undefined;
 }
-export interface SetIamPolicyProjectsLocationsQueuesRequest {
-  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
+export interface RunProjectsLocationsQueuesTasksRequest extends RunTaskRequest {
+  /** Required. The task name. For example: `projects/PROJECT_ID/locations/LOCATION_ID/queues/QUEUE_ID/tasks/TASK_ID` */
+  name: string;
+}
+/** Request message for `SetIamPolicy` method. */
+export interface SetIamPolicyRequest {
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
   policy?: Policy | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsQueuesRequest {
-  /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+export interface SetIamPolicyProjectsLocationsQueuesRequest extends SetIamPolicyRequest {
+  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
+}
+/** Request message for `TestIamPermissions` method. */
+export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: StringList | undefined;
+}
+export interface TestIamPermissionsProjectsLocationsQueuesRequest extends TestIamPermissionsRequest {
+  /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
   permissions?: StringList | undefined;
 }
-export interface UpdateApiQueueRequest {
+export interface UpdateApiQueueRequest extends HttpBody {
   /** Required. The App ID is supplied as an HTTP parameter. Unlike internal usage of App ID, it does not include a region prefix. Rather, the App ID represents the Project ID against which to make the request. */
   appId?: string | undefined;
-  /** The HTTP Content-Type header value specifying the content type of the body. */
-  contentType?: string | undefined;
-  /** The HTTP request/response body as raw binary. */
-  data?: string | undefined;
-  /** Application specific response metadata. Must be set in the first response for streaming APIs. */
-  extensions?: DocumentMapList | undefined;
 }
-export interface UpdateCmekConfigProjectsLocationsRequest {
+export interface UpdateCmekConfigProjectsLocationsRequest extends Omit<CmekConfig, "name"> {
   /** Output only. The config resource name which includes the project and location and must end in 'cmekConfig', in the format projects/PROJECT_ID/locations/LOCATION_ID/cmekConfig` */
   name: string;
   /** List of fields to be updated in this request. */
   updateMask?: string | undefined;
-  /** Resource name of the Cloud KMS key, of the form `projects/PROJECT_ID/locations/LOCATION_ID/keyRings/KEY_RING_ID/cryptoKeys/KEY_ID`, that will be used to encrypt the Queues & Tasks in the region. Setting this as blank will turn off CMEK encryption. */
-  kmsKey?: string | undefined;
 }
 export type AcknowledgeProjectsLocationsQueuesTasksError =
   | NotFound
@@ -756,7 +738,7 @@ export const acknowledgeProjectsLocationsQueuesTasks: API.OperationMethod<
   AcknowledgeProjectsLocationsQueuesTasksError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(432, __c27, 0) as any as S.Schema<AcknowledgeProjectsLocationsQueuesTasksRequest>,
+  input: __S(433, __c27, 1) as any as S.Schema<AcknowledgeProjectsLocationsQueuesTasksRequest>,
   output: __S(448, __c28, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -779,7 +761,7 @@ export const batchCreateProjectsLocationsQueuesTasks: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(466, __c29, 2) as any as S.Schema<BatchCreateProjectsLocationsQueuesTasksRequest>,
-  output: __S(480, __c30, 0) as any as S.Schema<Operation>,
+  output: __S(496, __c31, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -800,8 +782,8 @@ export const batchDeleteProjectsLocationsQueuesTasks: API.OperationMethod<
   BatchDeleteProjectsLocationsQueuesTasksError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(592, __c37, 0) as any as S.Schema<BatchDeleteProjectsLocationsQueuesTasksRequest>,
-  output: __S(480, __c30, 0) as any as S.Schema<Operation>,
+  input: __S(609, __c38, 1) as any as S.Schema<BatchDeleteProjectsLocationsQueuesTasksRequest>,
+  output: __S(496, __c31, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -822,8 +804,8 @@ export const bufferProjectsLocationsQueuesTasks: API.OperationMethod<
   BufferProjectsLocationsQueuesTasksError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(625, __c39, 1) as any as S.Schema<BufferProjectsLocationsQueuesTasksRequest>,
-  output: __S(626, __c39, 2) as any as S.Schema<BufferTaskResponse>,
+  input: __S(641, __c40, 1) as any as S.Schema<BufferProjectsLocationsQueuesTasksRequest>,
+  output: __S(642, __c40, 2) as any as S.Schema<BufferTaskResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -844,8 +826,8 @@ export const cancelLeaseProjectsLocationsQueuesTasks: API.OperationMethod<
   CancelLeaseProjectsLocationsQueuesTasksError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c40, 0) as any as S.Schema<CancelLeaseProjectsLocationsQueuesTasksRequest>,
-  output: __S(565, __c35, 5) as any as S.Schema<Task>,
+  input: __S(673, __c42, 1) as any as S.Schema<CancelLeaseProjectsLocationsQueuesTasksRequest>,
+  output: __S(581, __c36, 5) as any as S.Schema<Task>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -866,8 +848,8 @@ export const createProjectsLocationsQueues: API.OperationMethod<
   CreateProjectsLocationsQueuesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(656, __c41, 0) as any as S.Schema<CreateProjectsLocationsQueuesRequest>,
-  output: __S(682, __c42, 10) as any as S.Schema<Queue>,
+  input: __S(688, __c43, 0) as any as S.Schema<CreateProjectsLocationsQueuesRequest>,
+  output: __S(714, __c44, 10) as any as S.Schema<Queue>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -889,7 +871,7 @@ export const createProjectsLocationsQueuesTasks: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateProjectsLocationsQueuesTasksRequest>,
-  output: __S(565, __c35, 5) as any as S.Schema<Task>,
+  output: __S(581, __c36, 5) as any as S.Schema<Task>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -971,7 +953,7 @@ export const getIamPolicyProjectsLocationsQueues: API.OperationMethod<
   GetIamPolicyProjectsLocationsQueuesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(81, __c5, 1) as any as S.Schema<GetIamPolicyProjectsLocationsQueuesRequest>,
+  input: __S(82, __c5, 2) as any as S.Schema<GetIamPolicyProjectsLocationsQueuesRequest>,
   output: __S(99, __c6, 3) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -1006,7 +988,7 @@ export const getProjectsLocationsOperations: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(144, __c9, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
-  output: __S(480, __c30, 0) as any as S.Schema<Operation>,
+  output: __S(496, __c31, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1023,7 +1005,7 @@ export const getProjectsLocationsQueues: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c10, 0) as any as S.Schema<GetProjectsLocationsQueuesRequest>,
-  output: __S(682, __c42, 10) as any as S.Schema<Queue>,
+  output: __S(714, __c44, 10) as any as S.Schema<Queue>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1040,7 +1022,7 @@ export const getProjectsLocationsQueuesTasks: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(176, __c11, 0) as any as S.Schema<GetProjectsLocationsQueuesTasksRequest>,
-  output: __S(565, __c35, 5) as any as S.Schema<Task>,
+  output: __S(581, __c36, 5) as any as S.Schema<Task>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1061,8 +1043,8 @@ export const leaseProjectsLocationsQueuesTasks: API.OperationMethod<
   LeaseProjectsLocationsQueuesTasksError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c12, 0) as any as S.Schema<LeaseProjectsLocationsQueuesTasksRequest>,
-  output: __S(193, __c12, 1) as any as S.Schema<LeaseTasksResponse>,
+  input: __S(193, __c12, 1) as any as S.Schema<LeaseProjectsLocationsQueuesTasksRequest>,
+  output: __S(194, __c12, 2) as any as S.Schema<LeaseTasksResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1141,7 +1123,7 @@ export const patchProjectsLocationsQueues: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(272, __c17, 0) as any as S.Schema<PatchProjectsLocationsQueuesRequest>,
-  output: __S(682, __c42, 10) as any as S.Schema<Queue>,
+  output: __S(714, __c44, 10) as any as S.Schema<Queue>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1163,7 +1145,7 @@ export const pauseProjectsLocationsQueues: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c18, 0) as any as S.Schema<PauseProjectsLocationsQueuesRequest>,
-  output: __S(682, __c42, 10) as any as S.Schema<Queue>,
+  output: __S(714, __c44, 10) as any as S.Schema<Queue>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1185,7 +1167,7 @@ export const purgeProjectsLocationsQueues: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(304, __c19, 0) as any as S.Schema<PurgeProjectsLocationsQueuesRequest>,
-  output: __S(682, __c42, 10) as any as S.Schema<Queue>,
+  output: __S(714, __c44, 10) as any as S.Schema<Queue>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1206,8 +1188,8 @@ export const renewLeaseProjectsLocationsQueuesTasks: API.OperationMethod<
   RenewLeaseProjectsLocationsQueuesTasksError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c20, 0) as any as S.Schema<RenewLeaseProjectsLocationsQueuesTasksRequest>,
-  output: __S(565, __c35, 5) as any as S.Schema<Task>,
+  input: __S(321, __c20, 1) as any as S.Schema<RenewLeaseProjectsLocationsQueuesTasksRequest>,
+  output: __S(581, __c36, 5) as any as S.Schema<Task>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1229,7 +1211,7 @@ export const resumeProjectsLocationsQueues: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(336, __c21, 0) as any as S.Schema<ResumeProjectsLocationsQueuesRequest>,
-  output: __S(682, __c42, 10) as any as S.Schema<Queue>,
+  output: __S(714, __c44, 10) as any as S.Schema<Queue>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1250,8 +1232,8 @@ export const runProjectsLocationsQueuesTasks: API.OperationMethod<
   RunProjectsLocationsQueuesTasksError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c22, 0) as any as S.Schema<RunProjectsLocationsQueuesTasksRequest>,
-  output: __S(565, __c35, 5) as any as S.Schema<Task>,
+  input: __S(353, __c22, 1) as any as S.Schema<RunProjectsLocationsQueuesTasksRequest>,
+  output: __S(581, __c36, 5) as any as S.Schema<Task>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1272,7 +1254,7 @@ export const setIamPolicyProjectsLocationsQueues: API.OperationMethod<
   SetIamPolicyProjectsLocationsQueuesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(368, __c23, 0) as any as S.Schema<SetIamPolicyProjectsLocationsQueuesRequest>,
+  input: __S(369, __c23, 1) as any as S.Schema<SetIamPolicyProjectsLocationsQueuesRequest>,
   output: __S(99, __c6, 3) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -1294,8 +1276,8 @@ export const testIamPermissionsProjectsLocationsQueues: API.OperationMethod<
   TestIamPermissionsProjectsLocationsQueuesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c24, 0) as any as S.Schema<TestIamPermissionsProjectsLocationsQueuesRequest>,
-  output: __S(385, __c24, 1) as any as S.Schema<TestIamPermissionsResponse>,
+  input: __S(385, __c24, 1) as any as S.Schema<TestIamPermissionsProjectsLocationsQueuesRequest>,
+  output: __S(384, __c24, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1347,11 +1329,12 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          responseView: S.optional(S.String),
-          task: S.optional(__S(565, __c35, 5)),
-        }).pipe(
+        S.Extend(
+          __S(480, __c30, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta2/{+parent}/tasks",
@@ -1431,9 +1414,17 @@ function __c5(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          resource: S.String.pipe(T.Label()),
           options: S.optional(__S(80, __c5, 0)),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "GetIamPolicyRequest" });
+    case 2:
+      return S.suspend(() =>
+        S.Extend(
+          __S(81, __c5, 1),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta2/{+resource}:getIamPolicy",
@@ -1457,7 +1448,7 @@ function __c6(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          members: S.optional(__S(608, __c38, 0)),
+          members: S.optional(__S(624, __c39, 0)),
           condition: S.optional(__S(96, __c6, 0)),
           role: S.optional(S.String),
         }),
@@ -1495,10 +1486,10 @@ function __c8(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          metadata: S.optional(__S(496, __c31, 0)),
+          metadata: S.optional(__S(512, __c32, 0)),
           name: S.optional(S.String),
           locationId: S.optional(S.String),
-          labels: S.optional(__S(544, __c34, 0)),
+          labels: S.optional(__S(560, __c35, 0)),
           displayName: S.optional(S.String),
         }),
       ).annotate({ identifier: "Location" });
@@ -1559,12 +1550,20 @@ function __c12(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
           filter: S.optional(S.String),
           leaseDuration: S.optional(S.String),
           responseView: S.optional(S.String),
           maxTasks: S.optional(S.Number),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "LeaseTasksRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(192, __c12, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta2/{+parent}/tasks:lease",
@@ -1572,7 +1571,7 @@ function __c12(j: number): any {
           }),
         ),
       ).annotate({ identifier: "LeaseProjectsLocationsQueuesTasksRequest" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           tasks: S.optional(__S(208, __c13, 0)),
@@ -1583,7 +1582,7 @@ function __c12(j: number): any {
 function __c13(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(565, __c35, 5));
+      return S.Array(__S(581, __c36, 5));
   }
 }
 function __c14(j: number): any {
@@ -1593,7 +1592,7 @@ function __c14(j: number): any {
         S.Struct({
           name: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
-          extraLocationTypes: S.optional(__S(608, __c38, 0).pipe(T.Query())),
+          extraLocationTypes: S.optional(__S(624, __c39, 0).pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
@@ -1634,7 +1633,7 @@ function __c15(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsQueuesRequest" });
     case 1:
-      return S.Array(__S(682, __c42, 10));
+      return S.Array(__S(714, __c44, 10));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -1674,20 +1673,13 @@ function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          rateLimits: S.optional(__S(672, __c42, 0)),
-          retryConfig: S.optional(__S(578, __c36, 2)),
-          stats: S.optional(__S(673, __c42, 1)),
-          pullTarget: S.optional(__S(448, __c28, 0)),
-          tombstoneTtl: S.optional(S.String),
-          taskTtl: S.optional(S.String),
-          state: S.optional(S.String),
-          appEngineHttpTarget: S.optional(__S(674, __c42, 2)),
-          purgeTime: S.optional(S.String),
-          httpTarget: S.optional(__S(681, __c42, 9)),
-        }).pipe(
+        S.Extend(
+          __S(714, __c44, 10),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2beta2/{+name}",
@@ -1736,11 +1728,19 @@ function __c20(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           scheduleTime: S.optional(S.String),
           responseView: S.optional(S.String),
           leaseDuration: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "RenewLeaseRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(320, __c20, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta2/{+name}:renewLease",
@@ -1772,9 +1772,17 @@ function __c22(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           responseView: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "RunTaskRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(352, __c22, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta2/{+name}:run",
@@ -1789,9 +1797,17 @@ function __c23(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          resource: S.String.pipe(T.Label()),
           policy: S.optional(__S(99, __c6, 3)),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "SetIamPolicyRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(368, __c23, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta2/{+resource}:setIamPolicy",
@@ -1806,9 +1822,17 @@ function __c24(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          resource: S.String.pipe(T.Label()),
-          permissions: S.optional(__S(608, __c38, 0)),
-        }).pipe(
+          permissions: S.optional(__S(624, __c39, 0)),
+        }),
+      ).annotate({ identifier: "TestIamPermissionsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(384, __c24, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta2/{+resource}:testIamPermissions",
@@ -1816,24 +1840,18 @@ function __c24(j: number): any {
           }),
         ),
       ).annotate({ identifier: "TestIamPermissionsProjectsLocationsQueuesRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          permissions: S.optional(__S(608, __c38, 0)),
-        }),
-      ).annotate({ identifier: "TestIamPermissionsResponse" });
   }
 }
 function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          appId: S.optional(S.String.pipe(T.Query())),
-          contentType: S.optional(S.String),
-          data: S.optional(S.String),
-          extensions: S.optional(__S(528, __c33, 0)),
-        }).pipe(
+        S.Extend(
+          __S(656, __c41, 0),
+          S.Struct({
+            appId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "api/queue/update",
@@ -1847,11 +1865,13 @@ function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          kmsKey: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(64, __c4, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2beta2/{+name}",
@@ -1866,9 +1886,17 @@ function __c27(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           scheduleTime: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "AcknowledgeTaskRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(432, __c27, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta2/{+name}:acknowledge",
@@ -1887,22 +1915,22 @@ function __c28(j: number): any {
 function __c29(j: number): any {
   switch (j) {
     case 0:
+      return S.Array(__S(480, __c30, 0));
+    case 1:
       return S.suspend(() =>
         S.Struct({
-          responseView: S.optional(S.String),
-          task: S.optional(__S(565, __c35, 5)),
-          parent: S.optional(S.String),
+          requests: S.optional(__S(464, __c29, 0)),
+          requestId: S.optional(S.String),
         }),
-      ).annotate({ identifier: "CreateTaskRequest" });
-    case 1:
-      return S.Array(__S(464, __c29, 0));
+      ).annotate({ identifier: "BatchCreateTasksRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          requests: S.optional(__S(465, __c29, 1)),
-          requestId: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(465, __c29, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta2/{+parent}/tasks:batchCreate",
@@ -1917,63 +1945,75 @@ function __c30(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          error: S.optional(__S(512, __c32, 0)),
-          response: S.optional(__S(496, __c31, 0)),
-          name: S.optional(S.String),
-          metadata: S.optional(__S(496, __c31, 0)),
-          done: S.optional(S.Boolean),
+          responseView: S.optional(S.String),
+          task: S.optional(__S(581, __c36, 5)),
+          parent: S.optional(S.String),
         }),
-      ).annotate({ identifier: "Operation" });
+      ).annotate({ identifier: "CreateTaskRequest" });
   }
 }
 function __c31(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, S.Unknown);
+      return S.suspend(() =>
+        S.Struct({
+          error: S.optional(__S(528, __c33, 0)),
+          response: S.optional(__S(512, __c32, 0)),
+          name: S.optional(S.String),
+          metadata: S.optional(__S(512, __c32, 0)),
+          done: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "Operation" });
   }
 }
 function __c32(j: number): any {
   switch (j) {
     case 0:
+      return S.Record(S.String, S.Unknown);
+  }
+}
+function __c33(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
-          details: S.optional(__S(528, __c33, 0)),
+          details: S.optional(__S(544, __c34, 0)),
           code: S.optional(S.Number),
           message: S.optional(S.String),
         }),
       ).annotate({ identifier: "Status" });
   }
 }
-function __c33(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(496, __c31, 0));
+      return S.Array(__S(512, __c32, 0));
   }
 }
-function __c34(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
   }
 }
-function __c35(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           body: S.optional(S.String),
           httpMethod: S.optional(S.String),
-          oidcToken: S.optional(__S(576, __c36, 0)),
+          oidcToken: S.optional(__S(592, __c37, 0)),
           url: S.optional(S.String),
-          headers: S.optional(__S(544, __c34, 0)),
-          oauthToken: S.optional(__S(577, __c36, 1)),
+          headers: S.optional(__S(560, __c35, 0)),
+          oauthToken: S.optional(__S(593, __c37, 1)),
         }),
       ).annotate({ identifier: "HttpRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           dispatchTime: S.optional(S.String),
-          responseStatus: S.optional(__S(512, __c32, 0)),
+          responseStatus: S.optional(__S(528, __c33, 0)),
           scheduleTime: S.optional(S.String),
           responseTime: S.optional(S.String),
         }),
@@ -1982,9 +2022,9 @@ function __c35(j: number): any {
       return S.suspend(() =>
         S.Struct({
           attemptResponseCount: S.optional(S.Number),
-          lastAttemptStatus: S.optional(__S(561, __c35, 1)),
+          lastAttemptStatus: S.optional(__S(577, __c36, 1)),
           attemptDispatchCount: S.optional(S.Number),
-          firstAttemptStatus: S.optional(__S(561, __c35, 1)),
+          firstAttemptStatus: S.optional(__S(577, __c36, 1)),
         }),
       ).annotate({ identifier: "TaskStatus" });
     case 3:
@@ -1992,9 +2032,9 @@ function __c35(j: number): any {
         S.Struct({
           relativeUrl: S.optional(S.String),
           payload: S.optional(S.String),
-          headers: S.optional(__S(544, __c34, 0)),
+          headers: S.optional(__S(560, __c35, 0)),
           httpMethod: S.optional(S.String),
-          appEngineRouting: S.optional(__S(579, __c36, 3)),
+          appEngineRouting: S.optional(__S(595, __c37, 3)),
         }),
       ).annotate({ identifier: "AppEngineHttpRequest" });
     case 4:
@@ -2007,20 +2047,20 @@ function __c35(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          httpRequest: S.optional(__S(560, __c35, 0)),
-          retryConfig: S.optional(__S(578, __c36, 2)),
-          status: S.optional(__S(562, __c35, 2)),
-          appEngineHttpRequest: S.optional(__S(563, __c35, 3)),
+          httpRequest: S.optional(__S(576, __c36, 0)),
+          retryConfig: S.optional(__S(594, __c37, 2)),
+          status: S.optional(__S(578, __c36, 2)),
+          appEngineHttpRequest: S.optional(__S(579, __c36, 3)),
           createTime: S.optional(S.String),
           name: S.optional(S.String),
-          pullMessage: S.optional(__S(564, __c35, 4)),
+          pullMessage: S.optional(__S(580, __c36, 4)),
           view: S.optional(S.String),
           scheduleTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "Task" });
   }
 }
-function __c36(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2058,15 +2098,23 @@ function __c36(j: number): any {
       ).annotate({ identifier: "AppEngineRouting" });
   }
 }
-function __c37(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
           requestId: S.optional(S.String),
-          names: S.optional(__S(608, __c38, 0)),
-        }).pipe(
+          names: S.optional(__S(624, __c39, 0)),
+        }),
+      ).annotate({ identifier: "BatchDeleteTasksRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(608, __c38, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta2/{+parent}/tasks:batchDelete",
@@ -2076,29 +2124,29 @@ function __c37(j: number): any {
       ).annotate({ identifier: "BatchDeleteProjectsLocationsQueuesTasksRequest" });
   }
 }
-function __c38(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c39(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          contentType: S.optional(S.String),
-          data: S.optional(S.String),
-          extensions: S.optional(__S(528, __c33, 0)),
+          body: S.optional(__S(656, __c41, 0)),
         }),
-      ).annotate({ identifier: "HttpBody" });
+      ).annotate({ identifier: "BufferTaskRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          queue: S.String.pipe(T.Label()),
-          taskId: S.String.pipe(T.Label()),
-          body: S.optional(__S(624, __c39, 0)),
-        }).pipe(
+        S.Extend(
+          __S(640, __c40, 0),
+          S.Struct({
+            queue: S.String.pipe(T.Label()),
+            taskId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta2/{+queue}/tasks/{taskId}:buffer",
@@ -2109,20 +2157,40 @@ function __c39(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          task: S.optional(__S(565, __c35, 5)),
+          task: S.optional(__S(581, __c36, 5)),
         }),
       ).annotate({ identifier: "BufferTaskResponse" });
   }
 }
-function __c40(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
+          contentType: S.optional(S.String),
+          data: S.optional(S.String),
+          extensions: S.optional(__S(544, __c34, 0)),
+        }),
+      ).annotate({ identifier: "HttpBody" });
+  }
+}
+function __c42(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           responseView: S.optional(S.String),
           scheduleTime: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "CancelLeaseRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(672, __c42, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta2/{+name}:cancelLease",
@@ -2132,24 +2200,16 @@ function __c40(j: number): any {
       ).annotate({ identifier: "CancelLeaseProjectsLocationsQueuesTasksRequest" });
   }
 }
-function __c41(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          rateLimits: S.optional(__S(672, __c42, 0)),
-          retryConfig: S.optional(__S(578, __c36, 2)),
-          stats: S.optional(__S(673, __c42, 1)),
-          pullTarget: S.optional(__S(448, __c28, 0)),
-          tombstoneTtl: S.optional(S.String),
-          taskTtl: S.optional(S.String),
-          state: S.optional(S.String),
-          appEngineHttpTarget: S.optional(__S(674, __c42, 2)),
-          name: S.optional(S.String),
-          purgeTime: S.optional(S.String),
-          httpTarget: S.optional(__S(681, __c42, 9)),
-        }).pipe(
+        S.Extend(
+          __S(714, __c44, 10),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta2/{+parent}/queues",
@@ -2159,7 +2219,7 @@ function __c41(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsQueuesRequest" });
   }
 }
-function __c42(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2182,7 +2242,7 @@ function __c42(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          appEngineRoutingOverride: S.optional(__S(579, __c36, 3)),
+          appEngineRoutingOverride: S.optional(__S(595, __c37, 3)),
         }),
       ).annotate({ identifier: "AppEngineHttpTarget" });
     case 3:
@@ -2195,11 +2255,11 @@ function __c42(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          header: S.optional(__S(675, __c42, 3)),
+          header: S.optional(__S(707, __c44, 3)),
         }),
       ).annotate({ identifier: "HeaderOverride" });
     case 5:
-      return S.Array(__S(676, __c42, 4));
+      return S.Array(__S(708, __c44, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -2215,38 +2275,38 @@ function __c42(j: number): any {
     case 8:
       return S.suspend(() =>
         S.Struct({
-          pathOverride: S.optional(__S(678, __c42, 6)),
+          pathOverride: S.optional(__S(710, __c44, 6)),
           host: S.optional(S.String),
           scheme: S.optional(S.String),
           port: S.optional(S.String),
-          queryOverride: S.optional(__S(679, __c42, 7)),
+          queryOverride: S.optional(__S(711, __c44, 7)),
           uriOverrideEnforceMode: S.optional(S.String),
         }),
       ).annotate({ identifier: "UriOverride" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          oauthToken: S.optional(__S(577, __c36, 1)),
-          headerOverrides: S.optional(__S(677, __c42, 5)),
-          oidcToken: S.optional(__S(576, __c36, 0)),
-          uriOverride: S.optional(__S(680, __c42, 8)),
+          oauthToken: S.optional(__S(593, __c37, 1)),
+          headerOverrides: S.optional(__S(709, __c44, 5)),
+          oidcToken: S.optional(__S(592, __c37, 0)),
+          uriOverride: S.optional(__S(712, __c44, 8)),
           httpMethod: S.optional(S.String),
         }),
       ).annotate({ identifier: "HttpTarget" });
     case 10:
       return S.suspend(() =>
         S.Struct({
-          rateLimits: S.optional(__S(672, __c42, 0)),
-          retryConfig: S.optional(__S(578, __c36, 2)),
-          stats: S.optional(__S(673, __c42, 1)),
+          rateLimits: S.optional(__S(704, __c44, 0)),
+          retryConfig: S.optional(__S(594, __c37, 2)),
+          stats: S.optional(__S(705, __c44, 1)),
           pullTarget: S.optional(__S(448, __c28, 0)),
           tombstoneTtl: S.optional(S.String),
           taskTtl: S.optional(S.String),
           state: S.optional(S.String),
-          appEngineHttpTarget: S.optional(__S(674, __c42, 2)),
+          appEngineHttpTarget: S.optional(__S(706, __c44, 2)),
           name: S.optional(S.String),
           purgeTime: S.optional(S.String),
-          httpTarget: S.optional(__S(681, __c42, 9)),
+          httpTarget: S.optional(__S(713, __c44, 9)),
         }),
       ).annotate({ identifier: "Queue" });
   }

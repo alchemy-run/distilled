@@ -83,15 +83,18 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
-export interface SearchAccountsReportsRequest {
-  /** Required. Id of the account making the call. Must be a standalone account or a subaccount of an advanced account. Format: accounts/{account} */
-  parent: string;
+/** Request message for the `ReportService.Search` method. */
+export interface SearchRequest {
   /** Optional. Token of the page to retrieve. If not specified, the first page of results is returned. In order to request the next page of results, the value obtained from `next_page_token` in the previous response should be used. */
   pageToken?: string | undefined;
   /** Optional. Number of `ReportRows` to retrieve in a single page. Defaults to 1000. Values above 100,000 are coerced to 100,000. */
   pageSize?: number | undefined;
   /** Required. Query that defines a report to be retrieved. For details on how to construct your query, see the [Query Language guide](/merchant/api/guides/reports/query-language). For the full list of available tables and fields, see the Available fields. */
   query?: string | undefined;
+}
+export interface SearchAccountsReportsRequest extends SearchRequest {
+  /** Required. Id of the account making the call. Must be a standalone account or a subaccount of an advanced account. Format: accounts/{account} */
+  parent: string;
 }
 /** Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following: * A full date, with non-zero year, month, and day values. * A month and day, with a zero year (for example, an anniversary). * A year on its own, with a zero month and a zero day. * A year and month, with a zero day (for example, a credit card expiration date). Related types: * google.type.TimeOfDay * google.type.DateTime * google.protobuf.Timestamp */
 export interface Merchantapi_Date {
@@ -730,8 +733,8 @@ export const searchAccountsReports: API.OperationMethod<
   SearchAccountsReportsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<SearchAccountsReportsRequest>,
-  output: __S(24, __c0, 24) as any as S.Schema<SearchResponse>,
+  input: __S(1, __c0, 1) as any as S.Schema<SearchAccountsReportsRequest>,
+  output: __S(25, __c0, 25) as any as S.Schema<SearchResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -745,11 +748,19 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String),
           pageSize: S.optional(S.Number),
           query: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "SearchRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(0, __c0, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "reports/v1beta/{+parent}/reports:search",
@@ -757,7 +768,7 @@ function __c0(j: number): any {
           }),
         ),
       ).annotate({ identifier: "SearchAccountsReportsRequest" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           day: S.optional(S.Number),
@@ -765,20 +776,20 @@ function __c0(j: number): any {
           year: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Merchantapi_Date" });
-    case 2:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           amountMicros: S.optional(S.String),
           currencyCode: S.optional(S.String),
         }),
       ).annotate({ identifier: "Price" });
-    case 3:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           customLabel3: S.optional(S.String),
           customerCountryCode: S.optional(S.String),
           customLabel0: S.optional(S.String),
-          date: S.optional(__S(1, __c0, 1)),
+          date: S.optional(__S(2, __c0, 2)),
           offerId: S.optional(S.String),
           conversions: S.optional(S.Number),
           customLabel2: S.optional(S.String),
@@ -789,7 +800,7 @@ function __c0(j: number): any {
           categoryL2: S.optional(S.String),
           clickThroughRate: S.optional(S.Number),
           customLabel1: S.optional(S.String),
-          conversionValue: S.optional(__S(2, __c0, 2)),
+          conversionValue: S.optional(__S(3, __c0, 3)),
           productTypeL1: S.optional(S.String),
           categoryL4: S.optional(S.String),
           productTypeL5: S.optional(S.String),
@@ -798,7 +809,7 @@ function __c0(j: number): any {
           customLabel4: S.optional(S.String),
           brand: S.optional(S.String),
           productTypeL4: S.optional(S.String),
-          week: S.optional(__S(1, __c0, 1)),
+          week: S.optional(__S(2, __c0, 2)),
           categoryL5: S.optional(S.String),
           productTypeL3: S.optional(S.String),
           storeType: S.optional(S.String),
@@ -807,13 +818,13 @@ function __c0(j: number): any {
           categoryL3: S.optional(S.String),
         }),
       ).annotate({ identifier: "ProductPerformanceView" });
-    case 4:
+    case 5:
       return S.suspend(() =>
         S.Struct({
           productTypeL1: S.optional(S.String),
           productTypeL3: S.optional(S.String),
-          benchmarkPrice: S.optional(__S(2, __c0, 2)),
-          price: S.optional(__S(2, __c0, 2)),
+          benchmarkPrice: S.optional(__S(3, __c0, 3)),
+          price: S.optional(__S(3, __c0, 3)),
           offerId: S.optional(S.String),
           brand: S.optional(S.String),
           reportCountryCode: S.optional(S.String),
@@ -829,13 +840,13 @@ function __c0(j: number): any {
           productTypeL4: S.optional(S.String),
         }),
       ).annotate({ identifier: "PriceCompetitivenessProductView" });
-    case 5:
+    case 6:
       return S.suspend(() =>
         S.Struct({
           productTypeL1: S.optional(S.String),
           offerId: S.optional(S.String),
           predictedClicksChangeFraction: S.optional(S.Number),
-          price: S.optional(__S(2, __c0, 2)),
+          price: S.optional(__S(3, __c0, 3)),
           productTypeL3: S.optional(S.String),
           brand: S.optional(S.String),
           effectiveness: S.optional(S.String),
@@ -850,32 +861,32 @@ function __c0(j: number): any {
           categoryL1: S.optional(S.String),
           categoryL3: S.optional(S.String),
           productTypeL5: S.optional(S.String),
-          suggestedPrice: S.optional(__S(2, __c0, 2)),
+          suggestedPrice: S.optional(__S(3, __c0, 3)),
           predictedConversionsChangeFraction: S.optional(S.Number),
         }),
       ).annotate({ identifier: "PriceInsightsProductView" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          clicks: S.optional(S.String),
-          week: S.optional(__S(1, __c0, 1)),
-          impressions: S.optional(S.String),
-          clickThroughRate: S.optional(S.Number),
-          date: S.optional(__S(1, __c0, 1)),
-        }),
-      ).annotate({ identifier: "NonProductPerformanceView" });
     case 7:
       return S.suspend(() =>
         S.Struct({
+          clicks: S.optional(S.String),
+          week: S.optional(__S(2, __c0, 2)),
+          impressions: S.optional(S.String),
+          clickThroughRate: S.optional(S.Number),
+          date: S.optional(__S(2, __c0, 2)),
+        }),
+      ).annotate({ identifier: "NonProductPerformanceView" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
           reportCategoryId: S.optional(S.String),
-          date: S.optional(__S(1, __c0, 1)),
+          date: S.optional(__S(2, __c0, 2)),
           reportCountryCode: S.optional(S.String),
           trafficSource: S.optional(S.String),
           yourDomainVisibilityTrend: S.optional(S.Number),
           categoryBenchmarkVisibilityTrend: S.optional(S.Number),
         }),
       ).annotate({ identifier: "CompetitiveVisibilityBenchmarkView" });
-    case 8:
+    case 9:
       return S.suspend(() =>
         S.Struct({
           trafficSource: S.optional(S.String),
@@ -886,17 +897,17 @@ function __c0(j: number): any {
           domain: S.optional(S.String),
           relativeVisibility: S.optional(S.Number),
           rank: S.optional(S.String),
-          date: S.optional(__S(1, __c0, 1)),
+          date: S.optional(__S(2, __c0, 2)),
           adsOrganicRatio: S.optional(S.Number),
           reportCountryCode: S.optional(S.String),
         }),
       ).annotate({ identifier: "CompetitiveVisibilityCompetitorView" });
-    case 9:
+    case 10:
       return S.suspend(() =>
         S.Struct({
           adsOrganicRatio: S.optional(S.Number),
           trafficSource: S.optional(S.String),
-          date: S.optional(__S(1, __c0, 1)),
+          date: S.optional(__S(2, __c0, 2)),
           higherPositionRate: S.optional(S.Number),
           rank: S.optional(S.String),
           reportCategoryId: S.optional(S.String),
@@ -906,9 +917,9 @@ function __c0(j: number): any {
           reportCountryCode: S.optional(S.String),
         }),
       ).annotate({ identifier: "CompetitiveVisibilityTopMerchantView" });
-    case 10:
-      return S.Array(S.String);
     case 11:
+      return S.Array(S.String);
+    case 12:
       return S.suspend(() =>
         S.Struct({
           reportGranularity: S.optional(S.String),
@@ -917,7 +928,7 @@ function __c0(j: number): any {
           title: S.optional(S.String),
           inventoryStatus: S.optional(S.String),
           reportCountryCode: S.optional(S.String),
-          reportDate: S.optional(__S(1, __c0, 1)),
+          reportDate: S.optional(__S(2, __c0, 2)),
           relativeDemand: S.optional(S.String),
           categoryL5: S.optional(S.String),
           categoryL2: S.optional(S.String),
@@ -926,13 +937,13 @@ function __c0(j: number): any {
           previousRank: S.optional(S.String),
           reportCategoryId: S.optional(S.String),
           relativeDemandChange: S.optional(S.String),
-          variantGtins: S.optional(__S(10, __c0, 10)),
+          variantGtins: S.optional(__S(11, __c0, 11)),
           brand: S.optional(S.String),
           categoryL1: S.optional(S.String),
           categoryL3: S.optional(S.String),
         }),
       ).annotate({ identifier: "BestSellersProductClusterView" });
-    case 12:
+    case 13:
       return S.suspend(() =>
         S.Struct({
           reportCategoryId: S.optional(S.String),
@@ -940,65 +951,65 @@ function __c0(j: number): any {
           previousRank: S.optional(S.String),
           previousRelativeDemand: S.optional(S.String),
           reportGranularity: S.optional(S.String),
-          reportDate: S.optional(__S(1, __c0, 1)),
+          reportDate: S.optional(__S(2, __c0, 2)),
           rank: S.optional(S.String),
           relativeDemandChange: S.optional(S.String),
           reportCountryCode: S.optional(S.String),
           relativeDemand: S.optional(S.String),
         }),
       ).annotate({ identifier: "BestSellersBrandView" });
-    case 13:
+    case 14:
       return S.suspend(() =>
         S.Struct({
           code: S.optional(S.String),
           canonicalAttribute: S.optional(S.String),
         }),
       ).annotate({ identifier: "ItemIssueType" });
-    case 14:
+    case 15:
       return S.suspend(() =>
         S.Struct({
-          demotedCountries: S.optional(__S(10, __c0, 10)),
-          disapprovedCountries: S.optional(__S(10, __c0, 10)),
+          demotedCountries: S.optional(__S(11, __c0, 11)),
+          disapprovedCountries: S.optional(__S(11, __c0, 11)),
           reportingContext: S.optional(S.String),
         }),
       ).annotate({ identifier: "IssueSeverityPerReportingContext" });
-    case 15:
-      return S.Array(__S(14, __c0, 14));
     case 16:
-      return S.suspend(() =>
-        S.Struct({
-          severityPerReportingContext: S.optional(__S(15, __c0, 15)),
-          aggregatedSeverity: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ItemIssueSeverity" });
+      return S.Array(__S(15, __c0, 15));
     case 17:
       return S.suspend(() =>
         S.Struct({
-          type: S.optional(__S(13, __c0, 13)),
-          severity: S.optional(__S(16, __c0, 16)),
+          severityPerReportingContext: S.optional(__S(16, __c0, 16)),
+          aggregatedSeverity: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ItemIssueSeverity" });
+    case 18:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.optional(__S(14, __c0, 14)),
+          severity: S.optional(__S(17, __c0, 17)),
           resolution: S.optional(S.String),
         }),
       ).annotate({ identifier: "ItemIssue" });
-    case 18:
-      return S.Array(__S(17, __c0, 17));
     case 19:
+      return S.Array(__S(18, __c0, 18));
+    case 20:
       return S.suspend(() =>
         S.Struct({
-          approvedCountries: S.optional(__S(10, __c0, 10)),
-          disapprovedCountries: S.optional(__S(10, __c0, 10)),
+          approvedCountries: S.optional(__S(11, __c0, 11)),
+          disapprovedCountries: S.optional(__S(11, __c0, 11)),
           reportingContext: S.optional(S.String),
-          pendingCountries: S.optional(__S(10, __c0, 10)),
+          pendingCountries: S.optional(__S(11, __c0, 11)),
         }),
       ).annotate({ identifier: "StatusPerReportingContext" });
-    case 20:
-      return S.Array(__S(19, __c0, 19));
     case 21:
+      return S.Array(__S(20, __c0, 20));
+    case 22:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           productTypeL3: S.optional(S.String),
           reportingContext: S.optional(S.String),
-          gtin: S.optional(__S(10, __c0, 10)),
+          gtin: S.optional(__S(11, __c0, 11)),
           offerId: S.optional(S.String),
           shippingLabel: S.optional(S.String),
           categoryL4: S.optional(S.String),
@@ -1009,17 +1020,17 @@ function __c0(j: number): any {
           categoryL2: S.optional(S.String),
           feedLabel: S.optional(S.String),
           clickPotential: S.optional(S.String),
-          expirationDate: S.optional(__S(1, __c0, 1)),
+          expirationDate: S.optional(__S(2, __c0, 2)),
           title: S.optional(S.String),
           productTypeL1: S.optional(S.String),
           creationTime: S.optional(S.String),
-          itemIssues: S.optional(__S(18, __c0, 18)),
+          itemIssues: S.optional(__S(19, __c0, 19)),
           brand: S.optional(S.String),
           thumbnailLink: S.optional(S.String),
           categoryL1: S.optional(S.String),
           categoryL3: S.optional(S.String),
-          price: S.optional(__S(2, __c0, 2)),
-          statusPerReportingContext: S.optional(__S(20, __c0, 20)),
+          price: S.optional(__S(3, __c0, 3)),
+          statusPerReportingContext: S.optional(__S(21, __c0, 21)),
           languageCode: S.optional(S.String),
           condition: S.optional(S.String),
           categoryL5: S.optional(S.String),
@@ -1029,27 +1040,27 @@ function __c0(j: number): any {
           aggregatedReportingContextStatus: S.optional(S.String),
         }),
       ).annotate({ identifier: "ProductView" });
-    case 22:
+    case 23:
       return S.suspend(() =>
         S.Struct({
-          productPerformanceView: S.optional(__S(3, __c0, 3)),
-          priceCompetitivenessProductView: S.optional(__S(4, __c0, 4)),
-          priceInsightsProductView: S.optional(__S(5, __c0, 5)),
-          nonProductPerformanceView: S.optional(__S(6, __c0, 6)),
-          competitiveVisibilityBenchmarkView: S.optional(__S(7, __c0, 7)),
-          competitiveVisibilityCompetitorView: S.optional(__S(8, __c0, 8)),
-          competitiveVisibilityTopMerchantView: S.optional(__S(9, __c0, 9)),
-          bestSellersProductClusterView: S.optional(__S(11, __c0, 11)),
-          bestSellersBrandView: S.optional(__S(12, __c0, 12)),
-          productView: S.optional(__S(21, __c0, 21)),
+          productPerformanceView: S.optional(__S(4, __c0, 4)),
+          priceCompetitivenessProductView: S.optional(__S(5, __c0, 5)),
+          priceInsightsProductView: S.optional(__S(6, __c0, 6)),
+          nonProductPerformanceView: S.optional(__S(7, __c0, 7)),
+          competitiveVisibilityBenchmarkView: S.optional(__S(8, __c0, 8)),
+          competitiveVisibilityCompetitorView: S.optional(__S(9, __c0, 9)),
+          competitiveVisibilityTopMerchantView: S.optional(__S(10, __c0, 10)),
+          bestSellersProductClusterView: S.optional(__S(12, __c0, 12)),
+          bestSellersBrandView: S.optional(__S(13, __c0, 13)),
+          productView: S.optional(__S(22, __c0, 22)),
         }),
       ).annotate({ identifier: "ReportRow" });
-    case 23:
-      return S.Array(__S(22, __c0, 22));
     case 24:
+      return S.Array(__S(23, __c0, 23));
+    case 25:
       return S.suspend(() =>
         S.Struct({
-          results: S.optional(__S(23, __c0, 23)),
+          results: S.optional(__S(24, __c0, 24)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "SearchResponse" });

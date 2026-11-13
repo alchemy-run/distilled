@@ -107,15 +107,18 @@ export interface CancelProjectsLocationsOperationsRequest {
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
-export interface ConfigureExascaleProjectsLocationsCloudExadataInfrastructuresRequest {
-  /** Required. The name of the Cloud Exadata Infrastructure in the following format: projects/{project}/locations/{location}/cloudExadataInfrastructures/{cloud_exadata_infrastructure}. */
-  name: string;
+/** The request for `CloudExadataInfrastructure.ConfigureExascale`. */
+export interface ConfigureExascaleCloudExadataInfrastructureRequest {
   /** Required. The total storage to be allocated to Exascale in GBs. */
   totalStorageSizeGb?: number | undefined;
   /** Optional. An optional ID to identify the request. */
   requestId?: string | undefined;
   /** Optional. Storage size needed for VM storage on Exascale in GBs. */
   totalVmStorageSizeGb?: number | undefined;
+}
+export interface ConfigureExascaleProjectsLocationsCloudExadataInfrastructuresRequest extends ConfigureExascaleCloudExadataInfrastructureRequest {
+  /** Required. The name of the Cloud Exadata Infrastructure in the following format: projects/{project}/locations/{location}/cloudExadataInfrastructures/{cloud_exadata_infrastructure}. */
+  name: string;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -611,13 +614,8 @@ export interface AutonomousDatabaseProperties {
   /** Optional. Immutable. The ID of the Oracle Cloud Infrastructure vault. */
   vaultId?: string | undefined;
 }
-export interface CreateProjectsLocationsAutonomousDatabasesRequest {
-  /** Required. The name of the parent in the following format: projects/{project}/locations/{location}. */
-  parent: string;
-  /** Optional. An optional ID to identify the request. This value is used to identify duplicate requests. If you make a request with the same request ID and the original request is still in progress or completed, the server ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Required. The ID of the Autonomous Database to create. This value is restricted to (^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$) and must be a maximum of 63 characters in length. The value must start with a letter and end with a letter or a number. */
-  autonomousDatabaseId?: string | undefined;
+/** Details of the Autonomous Database resource. https://docs.oracle.com/en-us/iaas/api/#/en/database/20160918/AutonomousDatabase/ */
+export interface AutonomousDatabase {
   /** Optional. Input only. Immutable. The password for the default ADMIN user. Note: Only one of `admin_password_secret_version` or `admin_password` can be populated. */
   adminPassword?: string | undefined;
   /** Identifier. The name of the Autonomous Database resource in the following format: projects/{project}/locations/{region}/autonomousDatabases/{autonomous_database} */
@@ -650,6 +648,14 @@ export interface CreateProjectsLocationsAutonomousDatabasesRequest {
   peerAutonomousDatabases?: StringList | undefined;
   /** Optional. Immutable. The display name for the Autonomous Database. The name does not have to be unique within your project. */
   displayName?: string | undefined;
+}
+export interface CreateProjectsLocationsAutonomousDatabasesRequest extends AutonomousDatabase {
+  /** Required. The name of the parent in the following format: projects/{project}/locations/{location}. */
+  parent: string;
+  /** Optional. An optional ID to identify the request. This value is used to identify duplicate requests. If you make a request with the same request ID and the original request is still in progress or completed, the server ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+  /** Required. The ID of the Autonomous Database to create. This value is restricted to (^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$) and must be a maximum of 63 characters in length. The value must start with a letter and end with a letter or a number. */
+  autonomousDatabaseId?: string | undefined;
 }
 export type CloudExadataInfrastructurePropertiesComputeModelEnum =
   | "COMPUTE_MODEL_UNSPECIFIED"
@@ -799,13 +805,8 @@ export interface CloudExadataInfrastructureProperties {
   /** Output only. The monthly software version of the storage servers (cells) in the Exadata Infrastructure. Example: 20.1.15 */
   monthlyStorageServerVersion?: string | undefined;
 }
-export interface CreateProjectsLocationsCloudExadataInfrastructuresRequest {
-  /** Optional. An optional ID to identify the request. This value is used to identify duplicate requests. If you make a request with the same request ID and the original request is still in progress or completed, the server ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Required. The ID of the Exadata Infrastructure to create. This value is restricted to (^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$) and must be a maximum of 63 characters in length. The value must start with a letter and end with a letter or a number. */
-  cloudExadataInfrastructureId?: string | undefined;
-  /** Required. The parent value for CloudExadataInfrastructure in the following format: projects/{project}/locations/{location}. */
-  parent: string;
+/** Represents CloudExadataInfrastructure resource. https://docs.oracle.com/en-us/iaas/api/#/en/database/20160918/CloudExadataInfrastructure/ */
+export interface CloudExadataInfrastructure {
   /** Output only. The date and time that the Exadata Infrastructure was created. */
   createTime?: string | undefined;
   /** Identifier. The name of the Exadata Infrastructure resource with the format: projects/{project}/locations/{region}/cloudExadataInfrastructures/{cloud_exadata_infrastructure} */
@@ -820,6 +821,14 @@ export interface CreateProjectsLocationsCloudExadataInfrastructuresRequest {
   labels?: StringMap | undefined;
   /** Optional. Immutable. Various properties of the infra. */
   properties?: CloudExadataInfrastructureProperties | undefined;
+}
+export interface CreateProjectsLocationsCloudExadataInfrastructuresRequest extends CloudExadataInfrastructure {
+  /** Optional. An optional ID to identify the request. This value is used to identify duplicate requests. If you make a request with the same request ID and the original request is still in progress or completed, the server ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+  /** Required. The ID of the Exadata Infrastructure to create. This value is restricted to (^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$) and must be a maximum of 63 characters in length. The value must start with a letter and end with a letter or a number. */
+  cloudExadataInfrastructureId?: string | undefined;
+  /** Required. The parent value for CloudExadataInfrastructure in the following format: projects/{project}/locations/{location}. */
+  parent: string;
 }
 export type CloudVmClusterPropertiesVmFileSystemStorageTypeEnum =
   | "VM_FILE_SYSTEM_STORAGE_TYPE_UNSPECIFIED"
@@ -970,13 +979,8 @@ export interface IdentityConnector {
   /** Output only. The resource name of the Workload Identity Pool configured for identity federation with OCI. This exact pool name can be used to configure VPC Service Controls (VPC-SC) egress rules. Format: `projects/{project}/locations/global/workloadIdentityPools/{workload_identity_pool}` */
   workloadIdentityPool?: string | undefined;
 }
-export interface CreateProjectsLocationsCloudVmClustersRequest {
-  /** Optional. An optional ID to identify the request. This value is used to identify duplicate requests. If you make a request with the same request ID and the original request is still in progress or completed, the server ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Required. The ID of the VM Cluster to create. This value is restricted to (^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$) and must be a maximum of 63 characters in length. The value must start with a letter and end with a letter or a number. */
-  cloudVmClusterId?: string | undefined;
-  /** Required. The name of the parent in the following format: projects/{project}/locations/{location}. */
-  parent: string;
+/** Details of the Cloud VM Cluster resource. https://docs.oracle.com/en-us/iaas/api/#/en/database/20160918/CloudVmCluster/ */
+export interface CloudVmCluster {
   /** Optional. Immutable. The name of ExascaleDbStorageVault associated with the VM Cluster. Format: projects/{project}/locations/{location}/exascaleDbStorageVaults/{exascale_db_storage_vault} */
   exascaleDbStorageVault?: string | undefined;
   /** Optional. Immutable. User friendly name for this resource. */
@@ -1012,19 +1016,22 @@ export interface CreateProjectsLocationsCloudVmClustersRequest {
   /** Identifier. The name of the VM Cluster resource with the format: projects/{project}/locations/{region}/cloudVmClusters/{cloud_vm_cluster} */
   name?: string | undefined;
 }
+export interface CreateProjectsLocationsCloudVmClustersRequest extends CloudVmCluster {
+  /** Optional. An optional ID to identify the request. This value is used to identify duplicate requests. If you make a request with the same request ID and the original request is still in progress or completed, the server ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+  /** Required. The ID of the VM Cluster to create. This value is restricted to (^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$) and must be a maximum of 63 characters in length. The value must start with a letter and end with a letter or a number. */
+  cloudVmClusterId?: string | undefined;
+  /** Required. The name of the parent in the following format: projects/{project}/locations/{location}. */
+  parent: string;
+}
 export type DatabaseConnectionStateEnum =
   | "STATE_UNSPECIFIED"
   | "CREATING"
   | "ACTIVE"
   | "FAILED"
   | "DELETING";
-export interface CreateProjectsLocationsDatabaseConnectionsRequest {
-  /** Optional. An optional ID to identify the request. This value is used to identify duplicate requests. If you make a request with the same request ID and the original request is still in progress or completed, the server ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Required. The parent value for the DatabaseConnection in the following format: projects/{project}/locations/{location}. */
-  parent: string;
-  /** Required. The ID of the DatabaseConnection to create. This value is restricted to (^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$) and must be a maximum of 63 characters in length. The value must start with a letter and end with a letter or a number. */
-  databaseConnectionId?: string | undefined;
+/** Represents DatabaseConnection resource. */
+export interface DatabaseConnection {
   /** Output only. Additional information about the current state of the connection. */
   lifecycleDetails?: string | undefined;
   /** Optional. Optional: The resource name of the GCP Secret Manager secret version containing base64 encoded content of the Oracle Wallet ZIP file required for mTLS/TLS connections. Format: projects/{project}/secrets/{secret_id}/versions/{version_id} The service's Per-Product Per-Project Service Account (P4SA) must have the 'secretmanager.secretAccessor' permission on this secret. */
@@ -1049,6 +1056,14 @@ export interface CreateProjectsLocationsDatabaseConnectionsRequest {
   createTime?: string | undefined;
   /** Output only. The update time of the resource. */
   updateTime?: string | undefined;
+}
+export interface CreateProjectsLocationsDatabaseConnectionsRequest extends DatabaseConnection {
+  /** Optional. An optional ID to identify the request. This value is used to identify duplicate requests. If you make a request with the same request ID and the original request is still in progress or completed, the server ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+  /** Required. The parent value for the DatabaseConnection in the following format: projects/{project}/locations/{location}. */
+  parent: string;
+  /** Required. The ID of the DatabaseConnection to create. This value is restricted to (^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$) and must be a maximum of 63 characters in length. The value must start with a letter and end with a letter or a number. */
+  databaseConnectionId?: string | undefined;
 }
 export type DbSystemOptionsStorageManagementEnum = "STORAGE_MANAGEMENT_UNSPECIFIED" | "ASM" | "LVM";
 /** Details of the DbSystem Options. */
@@ -1306,13 +1321,8 @@ export interface DbSystemProperties {
   /** Required. The number of CPU cores to enable for the DbSystem. */
   computeCount?: number | undefined;
 }
-export interface CreateProjectsLocationsDbSystemsRequest {
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Required. The value for parent of the DbSystem in the following format: projects/{project}/locations/{location}. */
-  parent: string;
-  /** Required. The ID of the DbSystem to create. This value is restricted to (^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$) and must be a maximum of 63 characters in length. The value must start with a letter and end with a letter or a number. */
-  dbSystemId?: string | undefined;
+/** Details of the DbSystem (BaseDB) resource. https://docs.oracle.com/en-us/iaas/api/#/en/database/20160918/DbSystem/ */
+export interface DbSystem {
   /** Optional. Immutable. The properties of the DbSystem. */
   properties?: DbSystemProperties | undefined;
   /** Optional. Immutable. The name of the OdbNetwork associated with the DbSystem. Format: projects/{project}/locations/{location}/odbNetworks/{odb_network} It is optional but if specified, this should match the parent ODBNetwork of the OdbSubnet. */
@@ -1333,6 +1343,14 @@ export interface CreateProjectsLocationsDbSystemsRequest {
   createTime?: string | undefined;
   /** Optional. The labels or tags associated with the DbSystem. */
   labels?: StringMap | undefined;
+}
+export interface CreateProjectsLocationsDbSystemsRequest extends DbSystem {
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+  /** Required. The value for parent of the DbSystem in the following format: projects/{project}/locations/{location}. */
+  parent: string;
+  /** Required. The ID of the DbSystem to create. This value is restricted to (^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$) and must be a maximum of 63 characters in length. The value must start with a letter and end with a letter or a number. */
+  dbSystemId?: string | undefined;
 }
 /** Data collection options for diagnostics. https://docs.oracle.com/en-us/iaas/api/#/en/database/20160918/datatypes/DataCollectionOptions */
 export interface DataCollectionOptionsCommon {
@@ -1406,13 +1424,8 @@ export interface ExadbVmClusterProperties {
   /** Optional. Immutable. The number of additional ECPUs per node for an Exadata VM cluster on exascale infrastructure. */
   additionalEcpuCountPerNode?: number | undefined;
 }
-export interface CreateProjectsLocationsExadbVmClustersRequest {
-  /** Required. The value for parent of the ExadbVmCluster in the following format: projects/{project}/locations/{location}. */
-  parent: string;
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Required. The ID of the ExadbVmCluster to create. This value is restricted to (^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$) and must be a maximum of 63 characters in length. The value must start with a letter and end with a letter or a number. */
-  exadbVmClusterId?: string | undefined;
+/** ExadbVmCluster represents a cluster of VMs that are used to run Exadata workloads. https://docs.oracle.com/en-us/iaas/api/#/en/database/20160918/ExadbVmCluster/ */
+export interface ExadbVmCluster {
   /** Optional. Input only. Immutable. If set to true, disables the automatic provisioning of the Workload Identity Connector during creation. If set to false or omitted, the Workload Identity Connector will be automatically provisioned by default. Note: Provisioning the Workload Identity Connector is a prerequisite for enabling Google Cloud CMEK. */
   identityConnectorDisabled?: boolean | undefined;
   /** Optional. The labels or tags associated with the ExadbVmCluster. */
@@ -1437,6 +1450,14 @@ export interface CreateProjectsLocationsExadbVmClustersRequest {
   properties?: ExadbVmClusterProperties | undefined;
   /** Optional. Immutable. The name of the OdbNetwork associated with the ExadbVmCluster. Format: projects/{project}/locations/{location}/odbNetworks/{odb_network} It is optional but if specified, this should match the parent ODBNetwork of the OdbSubnet. */
   odbNetwork?: string | undefined;
+}
+export interface CreateProjectsLocationsExadbVmClustersRequest extends ExadbVmCluster {
+  /** Required. The value for parent of the ExadbVmCluster in the following format: projects/{project}/locations/{location}. */
+  parent: string;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+  /** Required. The ID of the ExadbVmCluster to create. This value is restricted to (^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$) and must be a maximum of 63 characters in length. The value must start with a letter and end with a letter or a number. */
+  exadbVmClusterId?: string | undefined;
 }
 /** The storage details of the ExascaleDbStorageVault. */
 export interface ExascaleDbStorageDetails {
@@ -1496,13 +1517,8 @@ export interface ExascaleDbStorageVaultProperties {
   /** Output only. The number of VM clusters associated with the ExascaleDbStorageVault. */
   vmClusterCount?: number | undefined;
 }
-export interface CreateProjectsLocationsExascaleDbStorageVaultsRequest {
-  /** Required. The ID of the ExascaleDbStorageVault to create. This value is restricted to (^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$) and must be a maximum of 63 characters in length. The value must start with a letter and end with a letter or a number. */
-  exascaleDbStorageVaultId?: string | undefined;
-  /** Required. The value for parent of the ExascaleDbStorageVault in the following format: projects/{project}/locations/{location}. */
-  parent: string;
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
+/** ExascaleDbStorageVault represents a storage vault exadb vm cluster resource. https://docs.oracle.com/en-us/iaas/api/#/en/database/20160918/ExascaleDbStorageVault/ */
+export interface ExascaleDbStorageVault {
   /** Identifier. The resource name of the ExascaleDbStorageVault. Format: projects/{project}/locations/{location}/exascaleDbStorageVaults/{exascale_db_storage_vault} */
   name?: string | undefined;
   /** Required. Immutable. The display name for the ExascaleDbStorageVault. The name does not have to be unique within your project. The name must be 1-255 characters long and can only contain alphanumeric characters. */
@@ -1519,6 +1535,14 @@ export interface CreateProjectsLocationsExascaleDbStorageVaultsRequest {
   gcpOracleZone?: string | undefined;
   /** Output only. The ID of the subscription entitlement associated with the ExascaleDbStorageVault. */
   entitlementId?: string | undefined;
+}
+export interface CreateProjectsLocationsExascaleDbStorageVaultsRequest extends ExascaleDbStorageVault {
+  /** Required. The ID of the ExascaleDbStorageVault to create. This value is restricted to (^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$) and must be a maximum of 63 characters in length. The value must start with a letter and end with a letter or a number. */
+  exascaleDbStorageVaultId?: string | undefined;
+  /** Required. The value for parent of the ExascaleDbStorageVault in the following format: projects/{project}/locations/{location}. */
+  parent: string;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
 }
 export type GoldengateConnectionAssignmentPropertiesStateEnum =
   | "STATE_UNSPECIFIED"
@@ -1540,13 +1564,8 @@ export interface GoldengateConnectionAssignmentProperties {
   /** Required. The GoldenGateDeployment to assign the connection to. Format: projects/{project}/locations/{location}/goldengateDeployments/{goldengate_deployment} */
   goldengateDeployment?: string | undefined;
 }
-export interface CreateProjectsLocationsGoldengateConnectionAssignmentsRequest {
-  /** Required. The parent resource where this GoldengateConnectionAssignment will be created. Format: projects/{project}/locations/{location} */
-  parent: string;
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Required. The ID of the GoldengateConnectionAssignment to create. */
-  goldengateConnectionAssignmentId?: string | undefined;
+/** Represents the metadata of a Goldengate Connection Assignment. */
+export interface GoldengateConnectionAssignment {
   /** Output only. The OCID of the entitlement linked to this resource. */
   entitlementId?: string | undefined;
   /** Output only. The time when the connection assignment was created. */
@@ -1559,6 +1578,14 @@ export interface CreateProjectsLocationsGoldengateConnectionAssignmentsRequest {
   properties?: GoldengateConnectionAssignmentProperties | undefined;
   /** Optional. Immutable. The display name for the GoldengateConnectionAssignment. */
   displayName?: string | undefined;
+}
+export interface CreateProjectsLocationsGoldengateConnectionAssignmentsRequest extends GoldengateConnectionAssignment {
+  /** Required. The parent resource where this GoldengateConnectionAssignment will be created. Format: projects/{project}/locations/{location} */
+  parent: string;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+  /** Required. The ID of the GoldengateConnectionAssignment to create. */
+  goldengateConnectionAssignmentId?: string | undefined;
 }
 export type GoldengateMysqlConnectionPropertiesSslModeEnum =
   | "SSL_MODE_UNSPECIFIED"
@@ -2542,13 +2569,8 @@ export interface GoldengateConnectionProperties {
   /** Properties for a Generic Connection. */
   genericConnectionProperties?: GoldengateGenericConnectionProperties | undefined;
 }
-export interface CreateProjectsLocationsGoldengateConnectionsRequest {
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Required. The ID of the GoldengateConnection to create. This value is restricted to (^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$) and must be a maximum of 63 characters in length. The value must start with a letter and end with a letter or a number. */
-  goldengateConnectionId?: string | undefined;
-  /** Required. The value for parent of the GoldengateConnection in the following format: projects/{project}/locations/{location}. */
-  parent: string;
+/** Details of the GoldengateConnection resource. */
+export interface GoldengateConnection {
   /** Identifier. The name of the GoldengateConnection resource in the following format: projects/{project}/locations/{region}/goldengateConnections/{goldengate_connection} */
   name?: string | undefined;
   /** Optional. The labels or tags associated with the GoldengateConnection. */
@@ -2567,6 +2589,14 @@ export interface CreateProjectsLocationsGoldengateConnectionsRequest {
   odbNetwork?: string | undefined;
   /** Output only. HTTPS link to OCI resources exposed to Customer via UI Interface. */
   ociUrl?: string | undefined;
+}
+export interface CreateProjectsLocationsGoldengateConnectionsRequest extends GoldengateConnection {
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+  /** Required. The ID of the GoldengateConnection to create. This value is restricted to (^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$) and must be a maximum of 63 characters in length. The value must start with a letter and end with a letter or a number. */
+  goldengateConnectionId?: string | undefined;
+  /** Required. The value for parent of the GoldengateConnection in the following format: projects/{project}/locations/{location}. */
+  parent: string;
 }
 export type GoldengateDeploymentPropertiesLicenseModelEnum =
   | "LICENSE_MODEL_UNSPECIFIED"
@@ -2840,13 +2870,8 @@ export interface GoldengateDeploymentProperties {
   /** Output only. The time next backup scheduled of the GoldengateDeployment. */
   nextBackupScheduleTime?: string | undefined;
 }
-export interface CreateProjectsLocationsGoldengateDeploymentsRequest {
-  /** Required. The ID of the GoldengateDeployment to create. This value is restricted to (^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$) and must be a maximum of 63 characters in length. The value must start with a letter and end with a letter or a number. */
-  goldengateDeploymentId?: string | undefined;
-  /** Required. The value for parent of the GoldengateDeployment in the following format: projects/{project}/locations/{location}. */
-  parent: string;
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
+/** GoldengateDeployment Goldengate Deployment resource model. */
+export interface GoldengateDeployment {
   /** Output only. The date and time that the GoldengateDeployment was created. */
   createTime?: string | undefined;
   /** Optional. The labels or tags associated with the GoldengateDeployment. */
@@ -2868,6 +2893,14 @@ export interface CreateProjectsLocationsGoldengateDeploymentsRequest {
   /** Identifier. The name of the GoldengateDeployment resource in the following format: projects/{project}/locations/{region}/goldengateDeployments/{goldengate_deployment} */
   name?: string | undefined;
 }
+export interface CreateProjectsLocationsGoldengateDeploymentsRequest extends GoldengateDeployment {
+  /** Required. The ID of the GoldengateDeployment to create. This value is restricted to (^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$) and must be a maximum of 63 characters in length. The value must start with a letter and end with a letter or a number. */
+  goldengateDeploymentId?: string | undefined;
+  /** Required. The value for parent of the GoldengateDeployment in the following format: projects/{project}/locations/{location}. */
+  parent: string;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+}
 /** Configuration for a Private Service Connect (PSC) interface used by Oracledatabase@Google Cloud to establish private connectivity to the database. */
 export interface PscInterfaceConfig {
   /** Optional. The resource name of the Network Attachment that Oracledatabase@Google Cloud will use to establish private connectivity to the database via a Private Service Connect Interface (PSC-I). Format: projects/{project}/regions/{region}/networkAttachments/{network_attachment} */
@@ -2884,13 +2917,8 @@ export type OdbNetworkStateEnum =
   | "AVAILABLE"
   | "TERMINATING"
   | "FAILED";
-export interface CreateProjectsLocationsOdbNetworksRequest {
-  /** Required. The parent value for the OdbNetwork in the following format: projects/{project}/locations/{location}. */
-  parent: string;
-  /** Required. The ID of the OdbNetwork to create. This value is restricted to (^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$) and must be a maximum of 63 characters in length. The value must start with a letter and end with a letter or a number. */
-  odbNetworkId?: string | undefined;
-  /** Optional. An optional ID to identify the request. This value is used to identify duplicate requests. If you make a request with the same request ID and the original request is still in progress or completed, the server ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
+/** Represents OdbNetwork resource. */
+export interface OdbNetwork {
   /** Required. Immutable. The name of the VPC network in the following format: projects/{project}/global/networks/{network} */
   network?: string | undefined;
   /** Optional. Labels or tags associated with the resource. */
@@ -2910,6 +2938,14 @@ export interface CreateProjectsLocationsOdbNetworksRequest {
   /** Output only. The date and time that the OdbNetwork was created. */
   createTime?: string | undefined;
 }
+export interface CreateProjectsLocationsOdbNetworksRequest extends OdbNetwork {
+  /** Required. The parent value for the OdbNetwork in the following format: projects/{project}/locations/{location}. */
+  parent: string;
+  /** Required. The ID of the OdbNetwork to create. This value is restricted to (^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$) and must be a maximum of 63 characters in length. The value must start with a letter and end with a letter or a number. */
+  odbNetworkId?: string | undefined;
+  /** Optional. An optional ID to identify the request. This value is used to identify duplicate requests. If you make a request with the same request ID and the original request is still in progress or completed, the server ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+}
 export type OdbDnsZoneStateEnum =
   | "STATE_UNSPECIFIED"
   | "PROVISIONING"
@@ -2917,13 +2953,8 @@ export type OdbDnsZoneStateEnum =
   | "INACTIVE"
   | "TERMINATING"
   | "FAILED";
-export interface CreateProjectsLocationsOdbNetworksOdbDnsZonesRequest {
-  /** Optional. An optional ID to identify the request. This value is used to identify duplicate requests. If you make a request with the same request ID and the original request is still in progress or completed, the server ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Required. The parent value for the OdbDnsZone in the following format: projects/{project}/locations/{location}/odbNetworks/{odb_network}. */
-  parent: string;
-  /** Required. The ID of the OdbDnsZone to create. This value is restricted to (^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$) and must be a maximum of 63 characters in length. The value must start with a letter and end with a letter or a number. */
-  odbDnsZoneId?: string | undefined;
+/** Represents OdbDnsZone resource. */
+export interface OdbDnsZone {
   /** Required. Immutable. The DNS suffix for the zone. Ex: abc.example.com. */
   domain?: string | undefined;
   /** Output only. The date and time that the OdbDnsZone was created. */
@@ -2935,6 +2966,14 @@ export interface CreateProjectsLocationsOdbNetworksOdbDnsZonesRequest {
   /** Identifier. The name of the OdbDnsZone resource in the following format: projects/{project}/locations/{location}/odbNetworks/{odb_network}/odbDnsZones/{odb_dns_zone} */
   name?: string | undefined;
 }
+export interface CreateProjectsLocationsOdbNetworksOdbDnsZonesRequest extends OdbDnsZone {
+  /** Optional. An optional ID to identify the request. This value is used to identify duplicate requests. If you make a request with the same request ID and the original request is still in progress or completed, the server ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+  /** Required. The parent value for the OdbDnsZone in the following format: projects/{project}/locations/{location}/odbNetworks/{odb_network}. */
+  parent: string;
+  /** Required. The ID of the OdbDnsZone to create. This value is restricted to (^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$) and must be a maximum of 63 characters in length. The value must start with a letter and end with a letter or a number. */
+  odbDnsZoneId?: string | undefined;
+}
 export type OdbSubnetStateEnum =
   | "STATE_UNSPECIFIED"
   | "PROVISIONING"
@@ -2942,13 +2981,8 @@ export type OdbSubnetStateEnum =
   | "TERMINATING"
   | "FAILED";
 export type OdbSubnetPurposeEnum = "PURPOSE_UNSPECIFIED" | "CLIENT_SUBNET" | "BACKUP_SUBNET";
-export interface CreateProjectsLocationsOdbNetworksOdbSubnetsRequest {
-  /** Required. The ID of the OdbSubnet to create. This value is restricted to (^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$) and must be a maximum of 63 characters in length. The value must start with a letter and end with a letter or a number. */
-  odbSubnetId?: string | undefined;
-  /** Required. The parent value for the OdbSubnet in the following format: projects/{project}/locations/{location}/odbNetworks/{odb_network}. */
-  parent: string;
-  /** Optional. An optional ID to identify the request. This value is used to identify duplicate requests. If you make a request with the same request ID and the original request is still in progress or completed, the server ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
+/** Represents OdbSubnet resource. */
+export interface OdbSubnet {
   /** Output only. State of the ODB Subnet. */
   state?: OdbSubnetStateEnum | (string & {}) | undefined;
   /** Output only. The date and time that the OdbNetwork was created. */
@@ -2961,6 +2995,14 @@ export interface CreateProjectsLocationsOdbNetworksOdbSubnetsRequest {
   name?: string | undefined;
   /** Required. Immutable. Purpose of the subnet. */
   purpose?: OdbSubnetPurposeEnum | (string & {}) | undefined;
+}
+export interface CreateProjectsLocationsOdbNetworksOdbSubnetsRequest extends OdbSubnet {
+  /** Required. The ID of the OdbSubnet to create. This value is restricted to (^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$) and must be a maximum of 63 characters in length. The value must start with a letter and end with a letter or a number. */
+  odbSubnetId?: string | undefined;
+  /** Required. The parent value for the OdbSubnet in the following format: projects/{project}/locations/{location}/odbNetworks/{odb_network}. */
+  parent: string;
+  /** Optional. An optional ID to identify the request. This value is used to identify duplicate requests. If you make a request with the same request ID and the original request is still in progress or completed, the server ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
 }
 export interface DeleteProjectsLocationsAutonomousDatabasesRequest {
   /** Optional. An optional ID to identify the request. This value is used to identify duplicate requests. If you make a request with the same request ID and the original request is still in progress or completed, the server ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -3090,13 +3132,16 @@ export interface SqlParameter {
   typeName?: string | undefined;
 }
 export type SqlParameterList = Array<SqlParameter>;
-export interface ExecuteSqlProjectsLocationsDatabaseConnectionsRequest {
-  /** Required. The name of the DatabaseConnection in the following format: projects/{project}/locations/{location}/databaseConnections/{database_connection}. */
-  name: string;
+/** The request for `DatabaseConnection.ExecuteSql`. */
+export interface ExecuteSqlRequest {
   /** Optional. Optional: Bind variables (parameters) to be used with the SQL statement. Supports named bind variables (e.g., :dept_id, :status in Oracle SQL) or positional parameters (:1, :2). */
   params?: SqlParameterList | undefined;
   /** Required. The SQL statement to execute. */
   sqlStatement?: string | undefined;
+}
+export interface ExecuteSqlProjectsLocationsDatabaseConnectionsRequest extends ExecuteSqlRequest {
+  /** Required. The name of the DatabaseConnection in the following format: projects/{project}/locations/{location}/databaseConnections/{database_connection}. */
+  name: string;
 }
 export type ExecuteSqlMetadataStatusEnum = "STATUS_UNSPECIFIED" | "OK" | "PARTIAL" | "ERROR";
 /** Any additional metadata information regarding the execution of the SQL */
@@ -3147,25 +3192,31 @@ export interface ExecuteSqlResponse {
   /** SqlResult represents the results for the execution of sql statements. */
   sqlResults?: SqlResultList | undefined;
 }
-export interface FailoverProjectsLocationsAutonomousDatabasesRequest {
-  /** Required. The name of the Autonomous Database in the following format: projects/{project}/locations/{location}/autonomousDatabases/{autonomous_database}. */
-  name: string;
+/** The request for `OracleDatabase.FailoverAutonomousDatabase`. */
+export interface FailoverAutonomousDatabaseRequest {
   /** Optional. The peer database name to fail over to. Required for cross-region standby, and must be omitted for in-region Data Guard. */
   peerAutonomousDatabase?: string | undefined;
+}
+export interface FailoverProjectsLocationsAutonomousDatabasesRequest extends FailoverAutonomousDatabaseRequest {
+  /** Required. The name of the Autonomous Database in the following format: projects/{project}/locations/{location}/autonomousDatabases/{autonomous_database}. */
+  name: string;
 }
 export type GenerateAutonomousDatabaseWalletRequestTypeEnum =
   | "GENERATE_TYPE_UNSPECIFIED"
   | "ALL"
   | "SINGLE";
-export interface GenerateWalletProjectsLocationsAutonomousDatabasesRequest {
-  /** Required. The name of the Autonomous Database in the following format: projects/{project}/locations/{location}/autonomousDatabases/{autonomous_database}. */
-  name: string;
+/** The request for `AutonomousDatabase.GenerateWallet`. */
+export interface GenerateAutonomousDatabaseWalletRequest {
   /** Optional. The type of wallet generation for the Autonomous Database. The default value is SINGLE. */
   type?: GenerateAutonomousDatabaseWalletRequestTypeEnum | (string & {}) | undefined;
   /** Required. The password used to encrypt the keys inside the wallet. The password must be a minimum of 8 characters. */
   password?: string | undefined;
   /** Optional. True when requesting regional connection strings in PDB connect info, applicable to cross-region Data Guard only. */
   isRegional?: boolean | undefined;
+}
+export interface GenerateWalletProjectsLocationsAutonomousDatabasesRequest extends GenerateAutonomousDatabaseWalletRequest {
+  /** Required. The name of the Autonomous Database in the following format: projects/{project}/locations/{location}/autonomousDatabases/{autonomous_database}. */
+  name: string;
 }
 /** The response for `AutonomousDatabase.GenerateWallet`. */
 export interface GenerateAutonomousDatabaseWalletResponse {
@@ -3193,133 +3244,17 @@ export interface GetProjectsLocationsAutonomousDatabasesRequest {
   /** Required. The name of the Autonomous Database in the following format: projects/{project}/locations/{location}/autonomousDatabases/{autonomous_database}. */
   name: string;
 }
-/** Details of the Autonomous Database resource. https://docs.oracle.com/en-us/iaas/api/#/en/database/20160918/AutonomousDatabase/ */
-export interface AutonomousDatabase {
-  /** Optional. Input only. Immutable. The password for the default ADMIN user. Note: Only one of `admin_password_secret_version` or `admin_password` can be populated. */
-  adminPassword?: string | undefined;
-  /** Identifier. The name of the Autonomous Database resource in the following format: projects/{project}/locations/{region}/autonomousDatabases/{autonomous_database} */
-  name?: string | undefined;
-  /** Optional. Immutable. The name of the VPC network used by the Autonomous Database in the following format: projects/{project}/global/networks/{network} */
-  network?: string | undefined;
-  /** Optional. Immutable. The name of the Autonomous Database. The database name must be unique in the project. The name must begin with a letter and can contain a maximum of 30 alphanumeric characters. */
-  database?: string | undefined;
-  /** Optional. The labels or tags associated with the Autonomous Database. */
-  labels?: StringMap | undefined;
-  /** Output only. List of supported GCP region to clone the Autonomous Database for disaster recovery. Format: `project/{project}/locations/{location}`. */
-  disasterRecoverySupportedLocations?: StringList | undefined;
-  /** Optional. Input only. Immutable. The resource name of a secret version in Secret Manager which contains the database admin user's password. Format: projects/{project}/secrets/{secret}/versions/{version}. Note: Only one of `admin_password_secret_version` or `admin_password` can be populated. */
-  adminPasswordSecretVersion?: string | undefined;
-  /** Optional. Immutable. The subnet CIDR range for the Autonomous Database. */
-  cidr?: string | undefined;
-  /** Output only. The ID of the subscription entitlement associated with the Autonomous Database. */
-  entitlementId?: string | undefined;
-  /** Output only. The date and time that the Autonomous Database was created. */
-  createTime?: string | undefined;
-  /** Optional. Immutable. The source Autonomous Database configuration for the standby Autonomous Database. The source Autonomous Database is configured while creating the Peer Autonomous Database and can't be updated after creation. */
-  sourceConfig?: SourceConfig | undefined;
-  /** Optional. The properties of the Autonomous Database. */
-  properties?: AutonomousDatabaseProperties | undefined;
-  /** Optional. Immutable. The name of the OdbNetwork associated with the Autonomous Database. Format: projects/{project}/locations/{location}/odbNetworks/{odb_network} It is optional but if specified, this should match the parent ODBNetwork of the OdbSubnet. */
-  odbNetwork?: string | undefined;
-  /** Optional. Immutable. The name of the OdbSubnet associated with the Autonomous Database. Format: projects/{project}/locations/{location}/odbNetworks/{odb_network}/odbSubnets/{odb_subnet} */
-  odbSubnet?: string | undefined;
-  /** Output only. The peer Autonomous Database names of the given Autonomous Database. */
-  peerAutonomousDatabases?: StringList | undefined;
-  /** Optional. Immutable. The display name for the Autonomous Database. The name does not have to be unique within your project. */
-  displayName?: string | undefined;
-}
 export interface GetProjectsLocationsCloudExadataInfrastructuresRequest {
   /** Required. The name of the Cloud Exadata Infrastructure in the following format: projects/{project}/locations/{location}/cloudExadataInfrastructures/{cloud_exadata_infrastructure}. */
   name: string;
-}
-/** Represents CloudExadataInfrastructure resource. https://docs.oracle.com/en-us/iaas/api/#/en/database/20160918/CloudExadataInfrastructure/ */
-export interface CloudExadataInfrastructure {
-  /** Output only. The date and time that the Exadata Infrastructure was created. */
-  createTime?: string | undefined;
-  /** Identifier. The name of the Exadata Infrastructure resource with the format: projects/{project}/locations/{region}/cloudExadataInfrastructures/{cloud_exadata_infrastructure} */
-  name?: string | undefined;
-  /** Optional. Immutable. User friendly name for this resource. */
-  displayName?: string | undefined;
-  /** Optional. Immutable. The GCP Oracle zone where Oracle Exadata Infrastructure is hosted. Example: us-east4-b-r2. If not specified, the system will pick a zone based on availability. */
-  gcpOracleZone?: string | undefined;
-  /** Output only. Entitlement ID of the private offer against which this infrastructure resource is provisioned. */
-  entitlementId?: string | undefined;
-  /** Optional. Labels or tags associated with the resource. */
-  labels?: StringMap | undefined;
-  /** Optional. Immutable. Various properties of the infra. */
-  properties?: CloudExadataInfrastructureProperties | undefined;
 }
 export interface GetProjectsLocationsCloudVmClustersRequest {
   /** Required. The name of the Cloud VM Cluster in the following format: projects/{project}/locations/{location}/cloudVmClusters/{cloud_vm_cluster}. */
   name: string;
 }
-/** Details of the Cloud VM Cluster resource. https://docs.oracle.com/en-us/iaas/api/#/en/database/20160918/CloudVmCluster/ */
-export interface CloudVmCluster {
-  /** Optional. Immutable. The name of ExascaleDbStorageVault associated with the VM Cluster. Format: projects/{project}/locations/{location}/exascaleDbStorageVaults/{exascale_db_storage_vault} */
-  exascaleDbStorageVault?: string | undefined;
-  /** Optional. Immutable. User friendly name for this resource. */
-  displayName?: string | undefined;
-  /** Optional. Immutable. Various properties of the VM Cluster. */
-  properties?: CloudVmClusterProperties | undefined;
-  /** Optional. Immutable. The name of the OdbNetwork associated with the VM Cluster. Format: projects/{project}/locations/{location}/odbNetworks/{odb_network} It is optional but if specified, this should match the parent ODBNetwork of the odb_subnet and backup_odb_subnet. */
-  odbNetwork?: string | undefined;
-  /** Optional. Labels or tags associated with the VM Cluster. */
-  labels?: StringMap | undefined;
-  /** Optional. Immutable. The name of the OdbSubnet associated with the VM Cluster for IP allocation. Format: projects/{project}/locations/{location}/odbNetworks/{odb_network}/odbSubnets/{odb_subnet} */
-  odbSubnet?: string | undefined;
-  /** Optional. Immutable. CIDR range of the backup subnet. */
-  backupSubnetCidr?: string | undefined;
-  /** Output only. The date and time that the VM cluster was created. */
-  createTime?: string | undefined;
-  /** Output only. The identity connector details which will allow OCI to securely access the resources in the customer project. */
-  identityConnector?: IdentityConnector | undefined;
-  /** Required. Immutable. The name of the Exadata Infrastructure resource on which VM cluster resource is created, in the following format: projects/{project}/locations/{region}/cloudExadataInfrastuctures/{cloud_extradata_infrastructure} */
-  exadataInfrastructure?: string | undefined;
-  /** Optional. Immutable. The name of the VPC network. Format: projects/{project}/global/networks/{network} */
-  network?: string | undefined;
-  /** Optional. Immutable. The name of the OdbDnsZone for using custom domain name for the VM Cluster. Format: projects/{project}/locations/{location}/odbNetworks/{odb_network}/odbDnsZones/{odb_dns_zone} */
-  odbDnsZone?: string | undefined;
-  /** Optional. Immutable. Network settings. CIDR to use for cluster IP allocation. */
-  cidr?: string | undefined;
-  /** Output only. The GCP Oracle zone where Oracle CloudVmCluster is hosted. This will be the same as the gcp_oracle_zone of the CloudExadataInfrastructure. Example: us-east4-b-r2. */
-  gcpOracleZone?: string | undefined;
-  /** Optional. Immutable. The name of the backup OdbSubnet associated with the VM Cluster. Format: projects/{project}/locations/{location}/odbNetworks/{odb_network}/odbSubnets/{odb_subnet} */
-  backupOdbSubnet?: string | undefined;
-  /** Optional. Input only. Immutable. If set to true, disables the automatic provisioning of the Workload Identity Connector during creation. If set to false or omitted, the Workload Identity Connector will be automatically provisioned by default. Note: Provisioning the Workload Identity Connector is a prerequisite for enabling Google Cloud CMEK. */
-  identityConnectorDisabled?: boolean | undefined;
-  /** Identifier. The name of the VM Cluster resource with the format: projects/{project}/locations/{region}/cloudVmClusters/{cloud_vm_cluster} */
-  name?: string | undefined;
-}
 export interface GetProjectsLocationsDatabaseConnectionsRequest {
   /** Required. The name of the DatabaseConnection in the following format: projects/{project}/locations/{location}/databaseConnections/{database_connection}. */
   name: string;
-}
-/** Represents DatabaseConnection resource. */
-export interface DatabaseConnection {
-  /** Output only. Additional information about the current state of the connection. */
-  lifecycleDetails?: string | undefined;
-  /** Optional. Optional: The resource name of the GCP Secret Manager secret version containing base64 encoded content of the Oracle Wallet ZIP file required for mTLS/TLS connections. Format: projects/{project}/secrets/{secret_id}/versions/{version_id} The service's Per-Product Per-Project Service Account (P4SA) must have the 'secretmanager.secretAccessor' permission on this secret. */
-  walletSecretVersion?: string | undefined;
-  /** Optional. Immutable. For Oracle Database@Google cloud resources. Format: projects/{project}/locations/{location}/odbNetworks/{odbNetwork} */
-  odbNetwork?: string | undefined;
-  /** Optional. Immutable. User-friendly display name for the connection. */
-  displayName?: string | undefined;
-  /** Identifier. The resource name of the DatabaseConnection. Format: projects/{project}/locations/{location}/databaseConnections/{database_connection} */
-  name?: string | undefined;
-  /** Optional. Immutable. The default database username to use for connections. */
-  username?: string | undefined;
-  /** Optional. The resource name of the GCP Secret Manager secret version containing the password for the specified username. Format: projects/{project}/secrets/{secret_id}/versions/{version_id} The service's Per-Product Per-Project Service Account (P4SA) must have the 'secretmanager.secretAccessor' permission on this secret. */
-  passwordSecretVersion?: string | undefined;
-  /** Required. Immutable. Oracle Easy Connect or TNS connection string. Example: "your-db-host.example.com:1521/YOUR_SERVICE_NAME" */
-  connectionString?: string | undefined;
-  /** Optional. Optional: Labels as key-value pairs to organize the resource. */
-  labels?: StringMap | undefined;
-  /** Output only. The current state of the connection. */
-  state?: DatabaseConnectionStateEnum | undefined;
-  /** Output only. The create time of the resource. */
-  createTime?: string | undefined;
-  /** Output only. The update time of the resource. */
-  updateTime?: string | undefined;
 }
 export interface GetProjectsLocationsDatabasesRequest {
   /** Required. The name of the Database resource in the following format: projects/{project}/locations/{region}/databases/{database} */
@@ -3329,214 +3264,37 @@ export interface GetProjectsLocationsDbSystemsRequest {
   /** Required. The name of the DbSystem in the following format: projects/{project}/locations/{location}/dbSystems/{db_system}. */
   name: string;
 }
-/** Details of the DbSystem (BaseDB) resource. https://docs.oracle.com/en-us/iaas/api/#/en/database/20160918/DbSystem/ */
-export interface DbSystem {
-  /** Optional. Immutable. The properties of the DbSystem. */
-  properties?: DbSystemProperties | undefined;
-  /** Optional. Immutable. The name of the OdbNetwork associated with the DbSystem. Format: projects/{project}/locations/{location}/odbNetworks/{odb_network} It is optional but if specified, this should match the parent ODBNetwork of the OdbSubnet. */
-  odbNetwork?: string | undefined;
-  /** Identifier. The name of the DbSystem resource in the following format: projects/{project}/locations/{region}/dbSystems/{db_system} */
-  name?: string | undefined;
-  /** Required. Immutable. The display name for the System db. The name does not have to be unique within your project. */
-  displayName?: string | undefined;
-  /** Output only. HTTPS link to OCI resources exposed to Customer via UI Interface. */
-  ociUrl?: string | undefined;
-  /** Required. Immutable. The name of the OdbSubnet associated with the DbSystem for IP allocation. Format: projects/{project}/locations/{location}/odbNetworks/{odb_network}/odbSubnets/{odb_subnet} */
-  odbSubnet?: string | undefined;
-  /** Optional. Immutable. The GCP Oracle zone where Oracle DbSystem is hosted. Example: us-east4-b-r2. If not specified, the system will pick a zone based on availability. */
-  gcpOracleZone?: string | undefined;
-  /** Output only. The ID of the subscription entitlement associated with the DbSystem */
-  entitlementId?: string | undefined;
-  /** Output only. The date and time that the DbSystem was created. */
-  createTime?: string | undefined;
-  /** Optional. The labels or tags associated with the DbSystem. */
-  labels?: StringMap | undefined;
-}
 export interface GetProjectsLocationsExadbVmClustersRequest {
   /** Required. The name of the ExadbVmCluster in the following format: projects/{project}/locations/{location}/exadbVmClusters/{exadb_vm_cluster}. */
   name: string;
-}
-/** ExadbVmCluster represents a cluster of VMs that are used to run Exadata workloads. https://docs.oracle.com/en-us/iaas/api/#/en/database/20160918/ExadbVmCluster/ */
-export interface ExadbVmCluster {
-  /** Optional. Input only. Immutable. If set to true, disables the automatic provisioning of the Workload Identity Connector during creation. If set to false or omitted, the Workload Identity Connector will be automatically provisioned by default. Note: Provisioning the Workload Identity Connector is a prerequisite for enabling Google Cloud CMEK. */
-  identityConnectorDisabled?: boolean | undefined;
-  /** Optional. The labels or tags associated with the ExadbVmCluster. */
-  labels?: StringMap | undefined;
-  /** Output only. The date and time that the ExadbVmCluster was created. */
-  createTime?: string | undefined;
-  /** Required. Immutable. The display name for the ExadbVmCluster. The name does not have to be unique within your project. The name must be 1-255 characters long and can only contain alphanumeric characters. */
-  displayName?: string | undefined;
-  /** Required. Immutable. The name of the OdbSubnet associated with the ExadbVmCluster for IP allocation. Format: projects/{project}/locations/{location}/odbNetworks/{odb_network}/odbSubnets/{odb_subnet} */
-  odbSubnet?: string | undefined;
-  /** Required. Immutable. The name of the backup OdbSubnet associated with the ExadbVmCluster. Format: projects/{project}/locations/{location}/odbNetworks/{odb_network}/odbSubnets/{odb_subnet} */
-  backupOdbSubnet?: string | undefined;
-  /** Output only. The identity connector details which will allow OCI to securely access the resources in the customer project. */
-  identityConnector?: IdentityConnector | undefined;
-  /** Output only. Immutable. The GCP Oracle zone where Oracle ExadbVmCluster is hosted. Example: us-east4-b-r2. During creation, the system will pick the zone assigned to the ExascaleDbStorageVault. */
-  gcpOracleZone?: string | undefined;
-  /** Output only. The ID of the subscription entitlement associated with the ExadbVmCluster. */
-  entitlementId?: string | undefined;
-  /** Identifier. The name of the ExadbVmCluster resource in the following format: projects/{project}/locations/{region}/exadbVmClusters/{exadb_vm_cluster} */
-  name?: string | undefined;
-  /** Required. The properties of the ExadbVmCluster. */
-  properties?: ExadbVmClusterProperties | undefined;
-  /** Optional. Immutable. The name of the OdbNetwork associated with the ExadbVmCluster. Format: projects/{project}/locations/{location}/odbNetworks/{odb_network} It is optional but if specified, this should match the parent ODBNetwork of the OdbSubnet. */
-  odbNetwork?: string | undefined;
 }
 export interface GetProjectsLocationsExascaleDbStorageVaultsRequest {
   /** Required. The name of the ExascaleDbStorageVault in the following format: projects/{project}/locations/{location}/exascaleDbStorageVaults/{exascale_db_storage_vault}. */
   name: string;
 }
-/** ExascaleDbStorageVault represents a storage vault exadb vm cluster resource. https://docs.oracle.com/en-us/iaas/api/#/en/database/20160918/ExascaleDbStorageVault/ */
-export interface ExascaleDbStorageVault {
-  /** Identifier. The resource name of the ExascaleDbStorageVault. Format: projects/{project}/locations/{location}/exascaleDbStorageVaults/{exascale_db_storage_vault} */
-  name?: string | undefined;
-  /** Required. Immutable. The display name for the ExascaleDbStorageVault. The name does not have to be unique within your project. The name must be 1-255 characters long and can only contain alphanumeric characters. */
-  displayName?: string | undefined;
-  /** Required. Immutable. The properties of the ExascaleDbStorageVault. */
-  properties?: ExascaleDbStorageVaultProperties | undefined;
-  /** Optional. Immutable. The Exadata Infrastructure resource on which ExascaleDbStorageVault resource is created, in the following format: projects/{project}/locations/{region}/cloudExadataInfrastuctures/{cloud_extradata_infrastructure} */
-  exadataInfrastructure?: string | undefined;
-  /** Output only. The date and time when the ExascaleDbStorageVault was created. */
-  createTime?: string | undefined;
-  /** Optional. The labels or tags associated with the ExascaleDbStorageVault. */
-  labels?: StringMap | undefined;
-  /** Optional. Immutable. The GCP Oracle zone where Oracle ExascaleDbStorageVault is hosted. Example: us-east4-b-r2. If not specified, the system will pick a zone based on availability. */
-  gcpOracleZone?: string | undefined;
-  /** Output only. The ID of the subscription entitlement associated with the ExascaleDbStorageVault. */
-  entitlementId?: string | undefined;
-}
 export interface GetProjectsLocationsGoldengateConnectionAssignmentsRequest {
   /** Required. The name of the GoldengateConnectionAssignment to retrieve. Format: projects/{project}/locations/{location}/goldengateConnectionAssignments/{goldengate_connection_assignment} */
   name: string;
-}
-/** Represents the metadata of a Goldengate Connection Assignment. */
-export interface GoldengateConnectionAssignment {
-  /** Output only. The OCID of the entitlement linked to this resource. */
-  entitlementId?: string | undefined;
-  /** Output only. The time when the connection assignment was created. */
-  createTime?: string | undefined;
-  /** Identifier. The name of the GoldengateConnectionAssignment resource in the following format: projects/{project}/locations/{region}/goldengateConnectionAssignments/{goldengate_connection_assignment} */
-  name?: string | undefined;
-  /** Optional. The labels or tags associated with the GoldengateConnectionAssignment. */
-  labels?: StringMap | undefined;
-  /** Required. Immutable. The properties of the GoldengateConnectionAssignment. */
-  properties?: GoldengateConnectionAssignmentProperties | undefined;
-  /** Optional. Immutable. The display name for the GoldengateConnectionAssignment. */
-  displayName?: string | undefined;
 }
 export interface GetProjectsLocationsGoldengateConnectionsRequest {
   /** Required. The name of the GoldengateConnection in the following format: projects/{project}/locations/{location}/goldengateConnections/{goldengate_connection}. */
   name: string;
 }
-/** Details of the GoldengateConnection resource. */
-export interface GoldengateConnection {
-  /** Identifier. The name of the GoldengateConnection resource in the following format: projects/{project}/locations/{region}/goldengateConnections/{goldengate_connection} */
-  name?: string | undefined;
-  /** Optional. The labels or tags associated with the GoldengateConnection. */
-  labels?: StringMap | undefined;
-  /** Output only. The date and time that the GoldengateConnection was created. */
-  createTime?: string | undefined;
-  /** Optional. Immutable. The GCP Oracle zone where Oracle GoldengateConnection is hosted. Example: us-east4-b-r2. If not specified, the system will pick a zone based on availability. */
-  gcpOracleZone?: string | undefined;
-  /** Output only. The ID of the subscription entitlement associated with the GoldengateConnection. */
-  entitlementId?: string | undefined;
-  /** Optional. Immutable. The name of the OdbSubnet associated with the GoldengateConnection for IP allocation. Format: projects/{project}/locations/{location}/odbNetworks/{odb_network}/odbSubnets/{odb_subnet} */
-  odbSubnet?: string | undefined;
-  /** Required. Immutable. The properties of the GoldengateConnection. */
-  properties?: GoldengateConnectionProperties | undefined;
-  /** Optional. Immutable. The name of the OdbNetwork associated with the GoldengateConnection. The format is projects/{project}/locations/{location}/odbNetworks/{odb_network}. It is optional but if specified, this should match the parent ODBNetwork of the OdbSubnet. */
-  odbNetwork?: string | undefined;
-  /** Output only. HTTPS link to OCI resources exposed to Customer via UI Interface. */
-  ociUrl?: string | undefined;
-}
 export interface GetProjectsLocationsGoldengateDeploymentsRequest {
   /** Required. The name of the GoldengateDeployment in the following format: projects/{project}/locations/{location}/goldengateDeployments/{goldengate_deployment}. */
   name: string;
-}
-/** GoldengateDeployment Goldengate Deployment resource model. */
-export interface GoldengateDeployment {
-  /** Output only. The date and time that the GoldengateDeployment was created. */
-  createTime?: string | undefined;
-  /** Optional. The labels or tags associated with the GoldengateDeployment. */
-  labels?: StringMap | undefined;
-  /** Required. Immutable. The name of the OdbSubnet associated with the GoldengateDeployment for IP allocation. */
-  odbSubnet?: string | undefined;
-  /** Optional. Immutable. The GCP Oracle zone where Oracle GoldengateDeployment is hosted. Example: us-east4-b-r2. If not specified, the system will pick a zone based on availability. */
-  gcpOracleZone?: string | undefined;
-  /** Output only. The ID of the subscription entitlement associated with the GoldengateDeployment */
-  entitlementId?: string | undefined;
-  /** Required. Immutable. The properties of the GoldengateDeployment. */
-  properties?: GoldengateDeploymentProperties | undefined;
-  /** Optional. Immutable. The name of the OdbNetwork associated with the GoldengateDeployment. */
-  odbNetwork?: string | undefined;
-  /** Output only. HTTPS link to OCI resources exposed to Customer via UI Interface. */
-  ociUrl?: string | undefined;
-  /** Required. Immutable. The display name for the GoldengateDeployment. */
-  displayName?: string | undefined;
-  /** Identifier. The name of the GoldengateDeployment resource in the following format: projects/{project}/locations/{region}/goldengateDeployments/{goldengate_deployment} */
-  name?: string | undefined;
 }
 export interface GetProjectsLocationsOdbNetworksRequest {
   /** Required. The name of the OdbNetwork in the following format: projects/{project}/locations/{location}/odbNetworks/{odb_network}. */
   name: string;
 }
-/** Represents OdbNetwork resource. */
-export interface OdbNetwork {
-  /** Required. Immutable. The name of the VPC network in the following format: projects/{project}/global/networks/{network} */
-  network?: string | undefined;
-  /** Optional. Labels or tags associated with the resource. */
-  labels?: StringMap | undefined;
-  /** Optional. Configuration to enable the service (Oracledatabase@Google Cloud) to establish connectivity to the database. This should be specified if you intend to associate this OdbNetwork with a DatabaseConnection resource to `ExecuteSQL` on the database, or to create a ServiceIntegration with the Database. Please don't specify it otherwise to avoid complicating the network setup. */
-  serviceConnectivityConfig?: ServiceConnectivityConfig | undefined;
-  /** Identifier. The name of the OdbNetwork resource in the following format: projects/{project}/locations/{region}/odbNetworks/{odb_network} */
-  name?: string | undefined;
-  /** Output only. The ID of the subscription entitlement associated with the OdbNetwork. */
-  entitlementId?: string | undefined;
-  /** Optional. Immutable. The GCP Oracle zone where OdbNetwork is hosted. Example: us-east4-b-r2. If not specified, the system will pick a zone based on availability. */
-  gcpOracleZone?: string | undefined;
-  /** Output only. Indicates whether the OdbNetwork is currently reconciling changes. */
-  reconciling?: boolean | undefined;
-  /** Output only. State of the ODB Network. */
-  state?: OdbNetworkStateEnum | undefined;
-  /** Output only. The date and time that the OdbNetwork was created. */
-  createTime?: string | undefined;
-}
 export interface GetProjectsLocationsOdbNetworksOdbDnsZonesRequest {
   /** Required. The name of the OdbDnsZone in the following format: projects/{project}/locations/{location}/odbNetworks/{odb_network}/odbDnsZones/{odb_dns_zone}. */
   name: string;
 }
-/** Represents OdbDnsZone resource. */
-export interface OdbDnsZone {
-  /** Required. Immutable. The DNS suffix for the zone. Ex: abc.example.com. */
-  domain?: string | undefined;
-  /** Output only. The date and time that the OdbDnsZone was created. */
-  createTime?: string | undefined;
-  /** Output only. State of the OdbDnsZone. */
-  state?: OdbDnsZoneStateEnum | undefined;
-  /** Optional. Labels or tags associated with the resource. */
-  labels?: StringMap | undefined;
-  /** Identifier. The name of the OdbDnsZone resource in the following format: projects/{project}/locations/{location}/odbNetworks/{odb_network}/odbDnsZones/{odb_dns_zone} */
-  name?: string | undefined;
-}
 export interface GetProjectsLocationsOdbNetworksOdbSubnetsRequest {
   /** Required. The name of the OdbSubnet in the following format: projects/{project}/locations/{location}/odbNetworks/{odb_network}/odbSubnets/{odb_subnet}. */
   name: string;
-}
-/** Represents OdbSubnet resource. */
-export interface OdbSubnet {
-  /** Output only. State of the ODB Subnet. */
-  state?: OdbSubnetStateEnum | undefined;
-  /** Output only. The date and time that the OdbNetwork was created. */
-  createTime?: string | undefined;
-  /** Optional. Labels or tags associated with the resource. */
-  labels?: StringMap | undefined;
-  /** Required. Immutable. The CIDR range of the subnet. */
-  cidrRange?: string | undefined;
-  /** Identifier. The name of the OdbSubnet resource in the following format: projects/{project}/locations/{location}/odbNetworks/{odb_network}/odbSubnets/{odb_subnet} */
-  name?: string | undefined;
-  /** Required. Immutable. Purpose of the subnet. */
-  purpose?: OdbSubnetPurposeEnum | undefined;
 }
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
@@ -4895,335 +4653,145 @@ export interface ListPluggableDatabasesResponse {
   /** The list of PluggableDatabases. */
   pluggableDatabases?: PluggableDatabaseList | undefined;
 }
-export interface PatchProjectsLocationsAutonomousDatabasesRequest {
+export interface PatchProjectsLocationsAutonomousDatabasesRequest extends Omit<
+  AutonomousDatabase,
+  "name"
+> {
   /** Optional. An optional ID to identify the request. This value is used to identify duplicate requests. If you make a request with the same request ID and the original request is still in progress or completed, the server ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Optional. Field mask is used to specify the fields to be overwritten in the Exadata resource by the update. The fields specified in the `update_mask` are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then the service treats this as an implied field mask equivalent to all fields that are populated (have a non-empty value). To clear or unset a field, the field must be explicitly specified in the `update_mask`. */
   updateMask?: string | undefined;
   /** Identifier. The name of the Autonomous Database resource in the following format: projects/{project}/locations/{region}/autonomousDatabases/{autonomous_database} */
   name: string;
-  /** Optional. Input only. Immutable. The password for the default ADMIN user. Note: Only one of `admin_password_secret_version` or `admin_password` can be populated. */
-  adminPassword?: string | undefined;
-  /** Optional. Immutable. The name of the VPC network used by the Autonomous Database in the following format: projects/{project}/global/networks/{network} */
-  network?: string | undefined;
-  /** Optional. Immutable. The name of the Autonomous Database. The database name must be unique in the project. The name must begin with a letter and can contain a maximum of 30 alphanumeric characters. */
-  database?: string | undefined;
-  /** Optional. The labels or tags associated with the Autonomous Database. */
-  labels?: StringMap | undefined;
-  /** Output only. List of supported GCP region to clone the Autonomous Database for disaster recovery. Format: `project/{project}/locations/{location}`. */
-  disasterRecoverySupportedLocations?: StringList | undefined;
-  /** Optional. Input only. Immutable. The resource name of a secret version in Secret Manager which contains the database admin user's password. Format: projects/{project}/secrets/{secret}/versions/{version}. Note: Only one of `admin_password_secret_version` or `admin_password` can be populated. */
-  adminPasswordSecretVersion?: string | undefined;
-  /** Optional. Immutable. The subnet CIDR range for the Autonomous Database. */
-  cidr?: string | undefined;
-  /** Output only. The ID of the subscription entitlement associated with the Autonomous Database. */
-  entitlementId?: string | undefined;
-  /** Output only. The date and time that the Autonomous Database was created. */
-  createTime?: string | undefined;
-  /** Optional. Immutable. The source Autonomous Database configuration for the standby Autonomous Database. The source Autonomous Database is configured while creating the Peer Autonomous Database and can't be updated after creation. */
-  sourceConfig?: SourceConfig | undefined;
-  /** Optional. The properties of the Autonomous Database. */
-  properties?: AutonomousDatabaseProperties | undefined;
-  /** Optional. Immutable. The name of the OdbNetwork associated with the Autonomous Database. Format: projects/{project}/locations/{location}/odbNetworks/{odb_network} It is optional but if specified, this should match the parent ODBNetwork of the OdbSubnet. */
-  odbNetwork?: string | undefined;
-  /** Optional. Immutable. The name of the OdbSubnet associated with the Autonomous Database. Format: projects/{project}/locations/{location}/odbNetworks/{odb_network}/odbSubnets/{odb_subnet} */
-  odbSubnet?: string | undefined;
-  /** Output only. The peer Autonomous Database names of the given Autonomous Database. */
-  peerAutonomousDatabases?: StringList | undefined;
-  /** Optional. Immutable. The display name for the Autonomous Database. The name does not have to be unique within your project. */
-  displayName?: string | undefined;
 }
-export interface PatchProjectsLocationsCloudExadataInfrastructuresRequest {
+export interface PatchProjectsLocationsCloudExadataInfrastructuresRequest extends Omit<
+  CloudExadataInfrastructure,
+  "name"
+> {
   /** Identifier. The name of the Exadata Infrastructure resource with the format: projects/{project}/locations/{region}/cloudExadataInfrastructures/{cloud_exadata_infrastructure} */
   name: string;
   /** Optional. An optional ID to identify the request. This value is used to identify duplicate requests. If you make a request with the same request ID and the original request is still in progress or completed, the server ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Optional. Field mask is used to specify the fields to be overwritten in the Exadata resource by the update. The fields specified in the `update_mask` are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then the service treats this as an implied field mask equivalent to all fields that are populated (have a non-empty value). To clear or unset a field, the field must be explicitly specified in the `update_mask`. */
   updateMask?: string | undefined;
-  /** Output only. The date and time that the Exadata Infrastructure was created. */
-  createTime?: string | undefined;
-  /** Optional. Immutable. User friendly name for this resource. */
-  displayName?: string | undefined;
-  /** Optional. Immutable. The GCP Oracle zone where Oracle Exadata Infrastructure is hosted. Example: us-east4-b-r2. If not specified, the system will pick a zone based on availability. */
-  gcpOracleZone?: string | undefined;
-  /** Output only. Entitlement ID of the private offer against which this infrastructure resource is provisioned. */
-  entitlementId?: string | undefined;
-  /** Optional. Labels or tags associated with the resource. */
-  labels?: StringMap | undefined;
-  /** Optional. Immutable. Various properties of the infra. */
-  properties?: CloudExadataInfrastructureProperties | undefined;
 }
-export interface PatchProjectsLocationsCloudVmClustersRequest {
+export interface PatchProjectsLocationsCloudVmClustersRequest extends Omit<CloudVmCluster, "name"> {
   /** Optional. An optional ID to identify the request. This value is used to identify duplicate requests. If you make a request with the same request ID and the original request is still in progress or completed, the server ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Identifier. The name of the VM Cluster resource with the format: projects/{project}/locations/{region}/cloudVmClusters/{cloud_vm_cluster} */
   name: string;
   /** Optional. A mask specifying which fields in the VM Cluster should be updated. A field specified in the mask is overwritten. If a mask isn't provided, the service treats this as an implied field mask equivalent to all fields that are populated (have a non-empty value). To clear or unset a field, the field must be explicitly specified in the `update_mask`. */
   updateMask?: string | undefined;
-  /** Optional. Immutable. The name of ExascaleDbStorageVault associated with the VM Cluster. Format: projects/{project}/locations/{location}/exascaleDbStorageVaults/{exascale_db_storage_vault} */
-  exascaleDbStorageVault?: string | undefined;
-  /** Optional. Immutable. User friendly name for this resource. */
-  displayName?: string | undefined;
-  /** Optional. Immutable. Various properties of the VM Cluster. */
-  properties?: CloudVmClusterProperties | undefined;
-  /** Optional. Immutable. The name of the OdbNetwork associated with the VM Cluster. Format: projects/{project}/locations/{location}/odbNetworks/{odb_network} It is optional but if specified, this should match the parent ODBNetwork of the odb_subnet and backup_odb_subnet. */
-  odbNetwork?: string | undefined;
-  /** Optional. Labels or tags associated with the VM Cluster. */
-  labels?: StringMap | undefined;
-  /** Optional. Immutable. The name of the OdbSubnet associated with the VM Cluster for IP allocation. Format: projects/{project}/locations/{location}/odbNetworks/{odb_network}/odbSubnets/{odb_subnet} */
-  odbSubnet?: string | undefined;
-  /** Optional. Immutable. CIDR range of the backup subnet. */
-  backupSubnetCidr?: string | undefined;
-  /** Output only. The date and time that the VM cluster was created. */
-  createTime?: string | undefined;
-  /** Output only. The identity connector details which will allow OCI to securely access the resources in the customer project. */
-  identityConnector?: IdentityConnector | undefined;
-  /** Required. Immutable. The name of the Exadata Infrastructure resource on which VM cluster resource is created, in the following format: projects/{project}/locations/{region}/cloudExadataInfrastuctures/{cloud_extradata_infrastructure} */
-  exadataInfrastructure?: string | undefined;
-  /** Optional. Immutable. The name of the VPC network. Format: projects/{project}/global/networks/{network} */
-  network?: string | undefined;
-  /** Optional. Immutable. The name of the OdbDnsZone for using custom domain name for the VM Cluster. Format: projects/{project}/locations/{location}/odbNetworks/{odb_network}/odbDnsZones/{odb_dns_zone} */
-  odbDnsZone?: string | undefined;
-  /** Optional. Immutable. Network settings. CIDR to use for cluster IP allocation. */
-  cidr?: string | undefined;
-  /** Output only. The GCP Oracle zone where Oracle CloudVmCluster is hosted. This will be the same as the gcp_oracle_zone of the CloudExadataInfrastructure. Example: us-east4-b-r2. */
-  gcpOracleZone?: string | undefined;
-  /** Optional. Immutable. The name of the backup OdbSubnet associated with the VM Cluster. Format: projects/{project}/locations/{location}/odbNetworks/{odb_network}/odbSubnets/{odb_subnet} */
-  backupOdbSubnet?: string | undefined;
-  /** Optional. Input only. Immutable. If set to true, disables the automatic provisioning of the Workload Identity Connector during creation. If set to false or omitted, the Workload Identity Connector will be automatically provisioned by default. Note: Provisioning the Workload Identity Connector is a prerequisite for enabling Google Cloud CMEK. */
-  identityConnectorDisabled?: boolean | undefined;
 }
-export interface PatchProjectsLocationsDatabaseConnectionsRequest {
+export interface PatchProjectsLocationsDatabaseConnectionsRequest extends Omit<
+  DatabaseConnection,
+  "name"
+> {
   /** Optional. A mask specifying which fields in the DatabaseConnection should be updated. A field specified in the mask is overwritten. If a mask isn't provided then all the fields in the DatabaseConnection are overwritten. */
   updateMask?: string | undefined;
   /** Optional. An optional ID to identify the request. This value is used to identify duplicate requests. If you make a request with the same request ID and the original request is still in progress or completed, the server ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Identifier. The resource name of the DatabaseConnection. Format: projects/{project}/locations/{location}/databaseConnections/{database_connection} */
   name: string;
-  /** Output only. Additional information about the current state of the connection. */
-  lifecycleDetails?: string | undefined;
-  /** Optional. Optional: The resource name of the GCP Secret Manager secret version containing base64 encoded content of the Oracle Wallet ZIP file required for mTLS/TLS connections. Format: projects/{project}/secrets/{secret_id}/versions/{version_id} The service's Per-Product Per-Project Service Account (P4SA) must have the 'secretmanager.secretAccessor' permission on this secret. */
-  walletSecretVersion?: string | undefined;
-  /** Optional. Immutable. For Oracle Database@Google cloud resources. Format: projects/{project}/locations/{location}/odbNetworks/{odbNetwork} */
-  odbNetwork?: string | undefined;
-  /** Optional. Immutable. User-friendly display name for the connection. */
-  displayName?: string | undefined;
-  /** Optional. Immutable. The default database username to use for connections. */
-  username?: string | undefined;
-  /** Optional. The resource name of the GCP Secret Manager secret version containing the password for the specified username. Format: projects/{project}/secrets/{secret_id}/versions/{version_id} The service's Per-Product Per-Project Service Account (P4SA) must have the 'secretmanager.secretAccessor' permission on this secret. */
-  passwordSecretVersion?: string | undefined;
-  /** Required. Immutable. Oracle Easy Connect or TNS connection string. Example: "your-db-host.example.com:1521/YOUR_SERVICE_NAME" */
-  connectionString?: string | undefined;
-  /** Optional. Optional: Labels as key-value pairs to organize the resource. */
-  labels?: StringMap | undefined;
-  /** Output only. The current state of the connection. */
-  state?: DatabaseConnectionStateEnum | (string & {}) | undefined;
-  /** Output only. The create time of the resource. */
-  createTime?: string | undefined;
-  /** Output only. The update time of the resource. */
-  updateTime?: string | undefined;
 }
-export interface PatchProjectsLocationsDbSystemsRequest {
+export interface PatchProjectsLocationsDbSystemsRequest extends Omit<DbSystem, "name"> {
   /** Optional. An optional ID to identify the request. This value is used to identify duplicate requests. If you make a request with the same request ID and the original request is still in progress or completed, the server ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Identifier. The name of the DbSystem resource in the following format: projects/{project}/locations/{region}/dbSystems/{db_system} */
   name: string;
   /** Optional. A mask specifying which fields in the DbSystem should be updated. A field specified in the mask is updated. If a mask isn't provided, the service treats this as an implied field mask equivalent to all fields that are populated (have a non-empty value). */
   updateMask?: string | undefined;
-  /** Optional. Immutable. The properties of the DbSystem. */
-  properties?: DbSystemProperties | undefined;
-  /** Optional. Immutable. The name of the OdbNetwork associated with the DbSystem. Format: projects/{project}/locations/{location}/odbNetworks/{odb_network} It is optional but if specified, this should match the parent ODBNetwork of the OdbSubnet. */
-  odbNetwork?: string | undefined;
-  /** Required. Immutable. The display name for the System db. The name does not have to be unique within your project. */
-  displayName?: string | undefined;
-  /** Output only. HTTPS link to OCI resources exposed to Customer via UI Interface. */
-  ociUrl?: string | undefined;
-  /** Required. Immutable. The name of the OdbSubnet associated with the DbSystem for IP allocation. Format: projects/{project}/locations/{location}/odbNetworks/{odb_network}/odbSubnets/{odb_subnet} */
-  odbSubnet?: string | undefined;
-  /** Optional. Immutable. The GCP Oracle zone where Oracle DbSystem is hosted. Example: us-east4-b-r2. If not specified, the system will pick a zone based on availability. */
-  gcpOracleZone?: string | undefined;
-  /** Output only. The ID of the subscription entitlement associated with the DbSystem */
-  entitlementId?: string | undefined;
-  /** Output only. The date and time that the DbSystem was created. */
-  createTime?: string | undefined;
-  /** Optional. The labels or tags associated with the DbSystem. */
-  labels?: StringMap | undefined;
 }
-export interface PatchProjectsLocationsExadbVmClustersRequest {
+export interface PatchProjectsLocationsExadbVmClustersRequest extends Omit<ExadbVmCluster, "name"> {
   /** Identifier. The name of the ExadbVmCluster resource in the following format: projects/{project}/locations/{region}/exadbVmClusters/{exadb_vm_cluster} */
   name: string;
   /** Optional. A mask specifying which fields in th VM Cluster should be updated. A field specified in the mask is overwritten. If a mask isn't provided then the service treats this as an implied field mask equivalent to all fields that are populated (have a non-empty value). To clear or unset a field, the field must be explicitly specified in the `update_mask`. */
   updateMask?: string | undefined;
   /** Optional. An optional ID to identify the request. This value is used to identify duplicate requests. If you make a request with the same request ID and the original request is still in progress or completed, the server ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Optional. Input only. Immutable. If set to true, disables the automatic provisioning of the Workload Identity Connector during creation. If set to false or omitted, the Workload Identity Connector will be automatically provisioned by default. Note: Provisioning the Workload Identity Connector is a prerequisite for enabling Google Cloud CMEK. */
-  identityConnectorDisabled?: boolean | undefined;
-  /** Optional. The labels or tags associated with the ExadbVmCluster. */
-  labels?: StringMap | undefined;
-  /** Output only. The date and time that the ExadbVmCluster was created. */
-  createTime?: string | undefined;
-  /** Required. Immutable. The display name for the ExadbVmCluster. The name does not have to be unique within your project. The name must be 1-255 characters long and can only contain alphanumeric characters. */
-  displayName?: string | undefined;
-  /** Required. Immutable. The name of the OdbSubnet associated with the ExadbVmCluster for IP allocation. Format: projects/{project}/locations/{location}/odbNetworks/{odb_network}/odbSubnets/{odb_subnet} */
-  odbSubnet?: string | undefined;
-  /** Required. Immutable. The name of the backup OdbSubnet associated with the ExadbVmCluster. Format: projects/{project}/locations/{location}/odbNetworks/{odb_network}/odbSubnets/{odb_subnet} */
-  backupOdbSubnet?: string | undefined;
-  /** Output only. The identity connector details which will allow OCI to securely access the resources in the customer project. */
-  identityConnector?: IdentityConnector | undefined;
-  /** Output only. Immutable. The GCP Oracle zone where Oracle ExadbVmCluster is hosted. Example: us-east4-b-r2. During creation, the system will pick the zone assigned to the ExascaleDbStorageVault. */
-  gcpOracleZone?: string | undefined;
-  /** Output only. The ID of the subscription entitlement associated with the ExadbVmCluster. */
-  entitlementId?: string | undefined;
-  /** Required. The properties of the ExadbVmCluster. */
-  properties?: ExadbVmClusterProperties | undefined;
-  /** Optional. Immutable. The name of the OdbNetwork associated with the ExadbVmCluster. Format: projects/{project}/locations/{location}/odbNetworks/{odb_network} It is optional but if specified, this should match the parent ODBNetwork of the OdbSubnet. */
-  odbNetwork?: string | undefined;
 }
-export interface PatchProjectsLocationsExascaleDbStorageVaultsRequest {
+export interface PatchProjectsLocationsExascaleDbStorageVaultsRequest extends Omit<
+  ExascaleDbStorageVault,
+  "name"
+> {
   /** Optional. A mask specifying which fields in the ExascaleDbStorageVault should be updated. A field specified in the mask is updated. If a mask isn't provided, the service treats this as an implied field mask equivalent to all fields that are populated (have a non-empty value). To clear or unset a field, the field must be explicitly specified in the `update_mask`. */
   updateMask?: string | undefined;
   /** Identifier. The resource name of the ExascaleDbStorageVault. Format: projects/{project}/locations/{location}/exascaleDbStorageVaults/{exascale_db_storage_vault} */
   name: string;
   /** Optional. An optional ID to identify the request. This value is used to identify duplicate requests. If you make a request with the same request ID and the original request is still in progress or completed, the server ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Required. Immutable. The display name for the ExascaleDbStorageVault. The name does not have to be unique within your project. The name must be 1-255 characters long and can only contain alphanumeric characters. */
-  displayName?: string | undefined;
-  /** Required. Immutable. The properties of the ExascaleDbStorageVault. */
-  properties?: ExascaleDbStorageVaultProperties | undefined;
-  /** Optional. Immutable. The Exadata Infrastructure resource on which ExascaleDbStorageVault resource is created, in the following format: projects/{project}/locations/{region}/cloudExadataInfrastuctures/{cloud_extradata_infrastructure} */
-  exadataInfrastructure?: string | undefined;
-  /** Output only. The date and time when the ExascaleDbStorageVault was created. */
-  createTime?: string | undefined;
-  /** Optional. The labels or tags associated with the ExascaleDbStorageVault. */
-  labels?: StringMap | undefined;
-  /** Optional. Immutable. The GCP Oracle zone where Oracle ExascaleDbStorageVault is hosted. Example: us-east4-b-r2. If not specified, the system will pick a zone based on availability. */
-  gcpOracleZone?: string | undefined;
-  /** Output only. The ID of the subscription entitlement associated with the ExascaleDbStorageVault. */
-  entitlementId?: string | undefined;
 }
-export interface PatchProjectsLocationsGoldengateConnectionAssignmentsRequest {
+export interface PatchProjectsLocationsGoldengateConnectionAssignmentsRequest extends Omit<
+  GoldengateConnectionAssignment,
+  "name"
+> {
   /** Optional. An optional ID to identify the request. This value is used to identify duplicate requests. If you make a request with the same request ID and the original request is still in progress or completed, the server ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Optional. A mask specifying which fields in the GoldengateConnectionAssignment should be updated. A field specified in the mask is updated. If a mask isn't provided, the service treats this as an implied field mask equivalent to all fields that are populated (have a non-empty value). To clear or unset a field, the field must be explicitly specified in the `update_mask`. */
   updateMask?: string | undefined;
   /** Identifier. The name of the GoldengateConnectionAssignment resource in the following format: projects/{project}/locations/{region}/goldengateConnectionAssignments/{goldengate_connection_assignment} */
   name: string;
-  /** Output only. The OCID of the entitlement linked to this resource. */
-  entitlementId?: string | undefined;
-  /** Output only. The time when the connection assignment was created. */
-  createTime?: string | undefined;
-  /** Optional. The labels or tags associated with the GoldengateConnectionAssignment. */
-  labels?: StringMap | undefined;
-  /** Required. Immutable. The properties of the GoldengateConnectionAssignment. */
-  properties?: GoldengateConnectionAssignmentProperties | undefined;
-  /** Optional. Immutable. The display name for the GoldengateConnectionAssignment. */
-  displayName?: string | undefined;
 }
-export interface PatchProjectsLocationsGoldengateConnectionsRequest {
+export interface PatchProjectsLocationsGoldengateConnectionsRequest extends Omit<
+  GoldengateConnection,
+  "name"
+> {
   /** Identifier. The name of the GoldengateConnection resource in the following format: projects/{project}/locations/{region}/goldengateConnections/{goldengate_connection} */
   name: string;
   /** Optional. A mask specifying which fields in the GoldengateConnection should be updated. A field specified in the mask is updated. If a mask isn't provided, the service treats this as an implied field mask equivalent to all fields that are populated (have a non-empty value). To clear or unset a field, the field must be explicitly specified in the `update_mask`. */
   updateMask?: string | undefined;
   /** Optional. An optional ID to identify the request. This value is used to identify duplicate requests. If you make a request with the same request ID and the original request is still in progress or completed, the server ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Optional. The labels or tags associated with the GoldengateConnection. */
-  labels?: StringMap | undefined;
-  /** Output only. The date and time that the GoldengateConnection was created. */
-  createTime?: string | undefined;
-  /** Optional. Immutable. The GCP Oracle zone where Oracle GoldengateConnection is hosted. Example: us-east4-b-r2. If not specified, the system will pick a zone based on availability. */
-  gcpOracleZone?: string | undefined;
-  /** Output only. The ID of the subscription entitlement associated with the GoldengateConnection. */
-  entitlementId?: string | undefined;
-  /** Optional. Immutable. The name of the OdbSubnet associated with the GoldengateConnection for IP allocation. Format: projects/{project}/locations/{location}/odbNetworks/{odb_network}/odbSubnets/{odb_subnet} */
-  odbSubnet?: string | undefined;
-  /** Required. Immutable. The properties of the GoldengateConnection. */
-  properties?: GoldengateConnectionProperties | undefined;
-  /** Optional. Immutable. The name of the OdbNetwork associated with the GoldengateConnection. The format is projects/{project}/locations/{location}/odbNetworks/{odb_network}. It is optional but if specified, this should match the parent ODBNetwork of the OdbSubnet. */
-  odbNetwork?: string | undefined;
-  /** Output only. HTTPS link to OCI resources exposed to Customer via UI Interface. */
-  ociUrl?: string | undefined;
 }
-export interface PatchProjectsLocationsGoldengateDeploymentsRequest {
+export interface PatchProjectsLocationsGoldengateDeploymentsRequest extends Omit<
+  GoldengateDeployment,
+  "name"
+> {
   /** Optional. An optional ID to identify the request. This value is used to identify duplicate requests. If you make a request with the same request ID and the original request is still in progress or completed, the server ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Identifier. The name of the GoldengateDeployment resource in the following format: projects/{project}/locations/{region}/goldengateDeployments/{goldengate_deployment} */
   name: string;
   /** Optional. A mask specifying which fields in the GoldengateDeployment should be updated. A field specified in the mask is updated. If a mask isn't provided, the service treats this as an implied field mask equivalent to all fields that are populated (have a non-empty value). To clear or unset a field, the field must be explicitly specified in the `update_mask`. */
   updateMask?: string | undefined;
-  /** Output only. The date and time that the GoldengateDeployment was created. */
-  createTime?: string | undefined;
-  /** Optional. The labels or tags associated with the GoldengateDeployment. */
-  labels?: StringMap | undefined;
-  /** Required. Immutable. The name of the OdbSubnet associated with the GoldengateDeployment for IP allocation. */
-  odbSubnet?: string | undefined;
-  /** Optional. Immutable. The GCP Oracle zone where Oracle GoldengateDeployment is hosted. Example: us-east4-b-r2. If not specified, the system will pick a zone based on availability. */
-  gcpOracleZone?: string | undefined;
-  /** Output only. The ID of the subscription entitlement associated with the GoldengateDeployment */
-  entitlementId?: string | undefined;
-  /** Required. Immutable. The properties of the GoldengateDeployment. */
-  properties?: GoldengateDeploymentProperties | undefined;
-  /** Optional. Immutable. The name of the OdbNetwork associated with the GoldengateDeployment. */
-  odbNetwork?: string | undefined;
-  /** Output only. HTTPS link to OCI resources exposed to Customer via UI Interface. */
-  ociUrl?: string | undefined;
-  /** Required. Immutable. The display name for the GoldengateDeployment. */
-  displayName?: string | undefined;
 }
-export interface PatchProjectsLocationsOdbNetworksRequest {
+export interface PatchProjectsLocationsOdbNetworksRequest extends Omit<OdbNetwork, "name"> {
   /** Identifier. The name of the OdbNetwork resource in the following format: projects/{project}/locations/{region}/odbNetworks/{odb_network} */
   name: string;
   /** Optional. An optional ID to identify the request. This value is used to identify duplicate requests. If you make a request with the same request ID and the original request is still in progress or completed, the server ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Optional. A mask specifying which fields in the OdbNetwork should be updated. A field specified in the mask is updated. If a mask isn't provided, the service treats this as an implied field mask equivalent to all fields that are populated (have a non-empty value). To clear or unset a field, the field must be explicitly specified in the `update_mask`. */
   updateMask?: string | undefined;
-  /** Required. Immutable. The name of the VPC network in the following format: projects/{project}/global/networks/{network} */
-  network?: string | undefined;
-  /** Optional. Labels or tags associated with the resource. */
-  labels?: StringMap | undefined;
-  /** Optional. Configuration to enable the service (Oracledatabase@Google Cloud) to establish connectivity to the database. This should be specified if you intend to associate this OdbNetwork with a DatabaseConnection resource to `ExecuteSQL` on the database, or to create a ServiceIntegration with the Database. Please don't specify it otherwise to avoid complicating the network setup. */
-  serviceConnectivityConfig?: ServiceConnectivityConfig | undefined;
-  /** Output only. The ID of the subscription entitlement associated with the OdbNetwork. */
-  entitlementId?: string | undefined;
-  /** Optional. Immutable. The GCP Oracle zone where OdbNetwork is hosted. Example: us-east4-b-r2. If not specified, the system will pick a zone based on availability. */
-  gcpOracleZone?: string | undefined;
-  /** Output only. Indicates whether the OdbNetwork is currently reconciling changes. */
-  reconciling?: boolean | undefined;
-  /** Output only. State of the ODB Network. */
-  state?: OdbNetworkStateEnum | (string & {}) | undefined;
-  /** Output only. The date and time that the OdbNetwork was created. */
-  createTime?: string | undefined;
 }
-export interface PatchProjectsLocationsOdbNetworksOdbSubnetsRequest {
+export interface PatchProjectsLocationsOdbNetworksOdbSubnetsRequest extends Omit<
+  OdbSubnet,
+  "name"
+> {
   /** Identifier. The name of the OdbSubnet resource in the following format: projects/{project}/locations/{location}/odbNetworks/{odb_network}/odbSubnets/{odb_subnet} */
   name: string;
   /** Optional. An optional ID to identify the request. This value is used to identify duplicate requests. If you make a request with the same request ID and the original request is still in progress or completed, the server ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Optional. A mask specifying which fields in the OdbSubnet should be updated. A field specified in the mask is updated. If a mask isn't provided, the service treats this as an implied field mask equivalent to all fields that are populated (have a non-empty value). To clear or unset a field, the field must be explicitly specified in the `update_mask`. */
   updateMask?: string | undefined;
-  /** Output only. State of the ODB Subnet. */
-  state?: OdbSubnetStateEnum | (string & {}) | undefined;
-  /** Output only. The date and time that the OdbNetwork was created. */
-  createTime?: string | undefined;
-  /** Optional. Labels or tags associated with the resource. */
-  labels?: StringMap | undefined;
-  /** Required. Immutable. The CIDR range of the subnet. */
-  cidrRange?: string | undefined;
-  /** Required. Immutable. Purpose of the subnet. */
-  purpose?: OdbSubnetPurposeEnum | (string & {}) | undefined;
 }
-export interface RefreshProjectsLocationsAutonomousDatabasesRequest {
-  /** Required. The name of the AutonomousDatabase resource. Format: projects/{project}/location/{location}/autonomousDatabases/{autonomous_database} */
-  name: string;
+/** Request message for RefreshAutonomousDatabase method. */
+export interface RefreshAutonomousDatabaseRequest {
   /** Required. The timestamp to which the Autonomous Database refreshable clone will be refreshed. Changes made in the primary database after this timestamp are not part of the data refresh. */
   refreshCutoffTime?: string | undefined;
 }
-export interface RemoveVirtualMachineProjectsLocationsExadbVmClustersRequest {
-  /** Required. The name of the ExadbVmCluster in the following format: projects/{project}/locations/{location}/exadbVmClusters/{exadb_vm_cluster}. */
+export interface RefreshProjectsLocationsAutonomousDatabasesRequest extends RefreshAutonomousDatabaseRequest {
+  /** Required. The name of the AutonomousDatabase resource. Format: projects/{project}/location/{location}/autonomousDatabases/{autonomous_database} */
   name: string;
+}
+/** The request for `ExadbVmCluster.RemoveVirtualMachine`. */
+export interface RemoveVirtualMachineExadbVmClusterRequest {
   /** Required. The list of host names of db nodes to be removed from the ExadbVmCluster. */
   hostnames?: StringList | undefined;
   /** Optional. An optional ID to identify the request. This value is used to identify duplicate requests. If you make a request with the same request ID and the original request is still in progress or completed, the server ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
+}
+export interface RemoveVirtualMachineProjectsLocationsExadbVmClustersRequest extends RemoveVirtualMachineExadbVmClusterRequest {
+  /** Required. The name of the ExadbVmCluster in the following format: projects/{project}/locations/{location}/exadbVmClusters/{exadb_vm_cluster}. */
+  name: string;
 }
 /** The request for `AutonomousDatabase.Restart`. */
 export type RestartAutonomousDatabaseRequest = CancelOperationRequest;
@@ -5233,11 +4801,14 @@ export interface RestartProjectsLocationsAutonomousDatabasesRequest {
   /** Request body */
   body?: CancelOperationRequest | undefined;
 }
-export interface RestoreProjectsLocationsAutonomousDatabasesRequest {
-  /** Required. The name of the Autonomous Database in the following format: projects/{project}/locations/{location}/autonomousDatabases/{autonomous_database}. */
-  name: string;
+/** The request for `AutonomousDatabase.Restore`. */
+export interface RestoreAutonomousDatabaseRequest {
   /** Required. The time and date to restore the database to. */
   restoreTime?: string | undefined;
+}
+export interface RestoreProjectsLocationsAutonomousDatabasesRequest extends RestoreAutonomousDatabaseRequest {
+  /** Required. The name of the Autonomous Database in the following format: projects/{project}/locations/{location}/autonomousDatabases/{autonomous_database}. */
+  name: string;
 }
 /** The request for `AutonomousDatabase.Start`. */
 export type StartAutonomousDatabaseRequest = CancelOperationRequest;
@@ -5271,11 +4842,14 @@ export interface StopProjectsLocationsGoldengateDeploymentsRequest {
   /** Request body */
   body?: CancelOperationRequest | undefined;
 }
-export interface SwitchoverProjectsLocationsAutonomousDatabasesRequest {
-  /** Required. The name of the Autonomous Database in the following format: projects/{project}/locations/{location}/autonomousDatabases/{autonomous_database}. */
-  name: string;
+/** The request for `OracleDatabase.SwitchoverAutonomousDatabase`. */
+export interface SwitchoverAutonomousDatabaseRequest {
   /** Optional. The peer database name to switch over to. Required for cross-region standby, and must be omitted for in-region Data Guard. */
   peerAutonomousDatabase?: string | undefined;
+}
+export interface SwitchoverProjectsLocationsAutonomousDatabasesRequest extends SwitchoverAutonomousDatabaseRequest {
+  /** Required. The name of the Autonomous Database in the following format: projects/{project}/locations/{location}/autonomousDatabases/{autonomous_database}. */
+  name: string;
 }
 /** Request message for `DatabaseConnection.TestDatabaseConnection`. */
 export type TestDatabaseConnectionRequest = CancelOperationRequest;
@@ -5293,11 +4867,14 @@ export interface TestDatabaseConnectionResponse {
   errorMessage?: string | undefined;
 }
 export type TestGoldengateConnectionAssignmentRequestTypeEnum = "TEST_TYPE_UNSPECIFIED" | "DEFAULT";
-export interface TestProjectsLocationsGoldengateConnectionAssignmentsRequest {
-  /** Required. Name of the connection assignment for which to test connection. projects/{project}/locations/{region}/goldengateConnectionAssignments/{goldengate_connection_assignment} */
-  name: string;
+/** Request message for TestGoldengateConnectionAssignment. */
+export interface TestGoldengateConnectionAssignmentRequest {
   /** Optional. The type of the test of the assigned connection. The only type actually supported is DEFAULT. */
   type?: TestGoldengateConnectionAssignmentRequestTypeEnum | (string & {}) | undefined;
+}
+export interface TestProjectsLocationsGoldengateConnectionAssignmentsRequest extends TestGoldengateConnectionAssignmentRequest {
+  /** Required. Name of the connection assignment for which to test connection. projects/{project}/locations/{region}/goldengateConnectionAssignments/{goldengate_connection_assignment} */
+  name: string;
 }
 export type TestGoldengateConnectionAssignmentResponseResultTypeEnum =
   | "RESULT_TYPE_UNSPECIFIED"
@@ -5339,8 +4916,8 @@ export const cancelProjectsLocationsOperations: API.OperationMethod<
   CancelProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2432, __c76, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
-  output: __S(2464, __c77, 0) as any as S.Schema<Empty>,
+  input: __S(2368, __c74, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
+  output: __S(2400, __c75, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5363,11 +4940,11 @@ export const configureExascaleProjectsLocationsCloudExadataInfrastructures: API.
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3040,
-    __c95,
-    0,
+    2785,
+    __c87,
+    1,
   ) as any as S.Schema<ConfigureExascaleProjectsLocationsCloudExadataInfrastructuresRequest>,
-  output: __S(3106, __c97, 2) as any as S.Schema<Operation>,
+  output: __S(2850, __c89, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5389,8 +4966,8 @@ export const createProjectsLocationsAutonomousDatabases: API.OperationMethod<
   CreateProjectsLocationsAutonomousDatabasesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3488, __c109, 0) as any as S.Schema<CreateProjectsLocationsAutonomousDatabasesRequest>,
-  output: __S(3106, __c97, 2) as any as S.Schema<Operation>,
+  input: __S(3232, __c101, 0) as any as S.Schema<CreateProjectsLocationsAutonomousDatabasesRequest>,
+  output: __S(2850, __c89, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5413,11 +4990,11 @@ export const createProjectsLocationsCloudExadataInfrastructures: API.OperationMe
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3968,
-    __c124,
+    3712,
+    __c116,
     0,
   ) as any as S.Schema<CreateProjectsLocationsCloudExadataInfrastructuresRequest>,
-  output: __S(3106, __c97, 2) as any as S.Schema<Operation>,
+  output: __S(2850, __c89, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5439,8 +5016,8 @@ export const createProjectsLocationsCloudVmClusters: API.OperationMethod<
   CreateProjectsLocationsCloudVmClustersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4384, __c137, 0) as any as S.Schema<CreateProjectsLocationsCloudVmClustersRequest>,
-  output: __S(3106, __c97, 2) as any as S.Schema<Operation>,
+  input: __S(4128, __c129, 0) as any as S.Schema<CreateProjectsLocationsCloudVmClustersRequest>,
+  output: __S(2850, __c89, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5462,7 +5039,7 @@ export const createProjectsLocationsDatabaseConnections: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateProjectsLocationsDatabaseConnectionsRequest>,
-  output: __S(3106, __c97, 2) as any as S.Schema<Operation>,
+  output: __S(2850, __c89, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5484,8 +5061,8 @@ export const createProjectsLocationsDbSystems: API.OperationMethod<
   CreateProjectsLocationsDbSystemsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c11, 0) as any as S.Schema<CreateProjectsLocationsDbSystemsRequest>,
-  output: __S(3106, __c97, 2) as any as S.Schema<Operation>,
+  input: __S(384, __c12, 0) as any as S.Schema<CreateProjectsLocationsDbSystemsRequest>,
+  output: __S(2850, __c89, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5507,8 +5084,8 @@ export const createProjectsLocationsExadbVmClusters: API.OperationMethod<
   CreateProjectsLocationsExadbVmClustersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c23, 0) as any as S.Schema<CreateProjectsLocationsExadbVmClustersRequest>,
-  output: __S(3106, __c97, 2) as any as S.Schema<Operation>,
+  input: __S(800, __c25, 0) as any as S.Schema<CreateProjectsLocationsExadbVmClustersRequest>,
+  output: __S(2850, __c89, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5531,11 +5108,11 @@ export const createProjectsLocationsExascaleDbStorageVaults: API.OperationMethod
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    800,
-    __c25,
+    864,
+    __c27,
     0,
   ) as any as S.Schema<CreateProjectsLocationsExascaleDbStorageVaultsRequest>,
-  output: __S(3106, __c97, 2) as any as S.Schema<Operation>,
+  output: __S(2850, __c89, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5558,11 +5135,11 @@ export const createProjectsLocationsGoldengateConnectionAssignments: API.Operati
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    864,
-    __c27,
+    928,
+    __c29,
     0,
   ) as any as S.Schema<CreateProjectsLocationsGoldengateConnectionAssignmentsRequest>,
-  output: __S(3106, __c97, 2) as any as S.Schema<Operation>,
+  output: __S(2850, __c89, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5584,8 +5161,8 @@ export const createProjectsLocationsGoldengateConnections: API.OperationMethod<
   CreateProjectsLocationsGoldengateConnectionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c29, 0) as any as S.Schema<CreateProjectsLocationsGoldengateConnectionsRequest>,
-  output: __S(3106, __c97, 2) as any as S.Schema<Operation>,
+  input: __S(992, __c31, 0) as any as S.Schema<CreateProjectsLocationsGoldengateConnectionsRequest>,
+  output: __S(2850, __c89, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5608,11 +5185,11 @@ export const createProjectsLocationsGoldengateDeployments: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1024,
-    __c32,
+    1088,
+    __c34,
     0,
   ) as any as S.Schema<CreateProjectsLocationsGoldengateDeploymentsRequest>,
-  output: __S(3106, __c97, 2) as any as S.Schema<Operation>,
+  output: __S(2850, __c89, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5634,8 +5211,8 @@ export const createProjectsLocationsOdbNetworks: API.OperationMethod<
   CreateProjectsLocationsOdbNetworksError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c34, 0) as any as S.Schema<CreateProjectsLocationsOdbNetworksRequest>,
-  output: __S(3106, __c97, 2) as any as S.Schema<Operation>,
+  input: __S(1152, __c36, 0) as any as S.Schema<CreateProjectsLocationsOdbNetworksRequest>,
+  output: __S(2850, __c89, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5657,11 +5234,11 @@ export const createProjectsLocationsOdbNetworksOdbDnsZones: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1152,
-    __c36,
+    1216,
+    __c38,
     0,
   ) as any as S.Schema<CreateProjectsLocationsOdbNetworksOdbDnsZonesRequest>,
-  output: __S(3106, __c97, 2) as any as S.Schema<Operation>,
+  output: __S(2850, __c89, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5684,11 +5261,11 @@ export const createProjectsLocationsOdbNetworksOdbSubnets: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1184,
-    __c37,
+    1280,
+    __c40,
     0,
   ) as any as S.Schema<CreateProjectsLocationsOdbNetworksOdbSubnetsRequest>,
-  output: __S(3106, __c97, 2) as any as S.Schema<Operation>,
+  output: __S(2850, __c89, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5710,8 +5287,8 @@ export const deleteProjectsLocationsAutonomousDatabases: API.OperationMethod<
   DeleteProjectsLocationsAutonomousDatabasesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1216, __c38, 0) as any as S.Schema<DeleteProjectsLocationsAutonomousDatabasesRequest>,
-  output: __S(3106, __c97, 2) as any as S.Schema<Operation>,
+  input: __S(1344, __c42, 0) as any as S.Schema<DeleteProjectsLocationsAutonomousDatabasesRequest>,
+  output: __S(2850, __c89, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5734,11 +5311,11 @@ export const deleteProjectsLocationsCloudExadataInfrastructures: API.OperationMe
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1248,
-    __c39,
+    1376,
+    __c43,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsCloudExadataInfrastructuresRequest>,
-  output: __S(3106, __c97, 2) as any as S.Schema<Operation>,
+  output: __S(2850, __c89, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5760,8 +5337,8 @@ export const deleteProjectsLocationsCloudVmClusters: API.OperationMethod<
   DeleteProjectsLocationsCloudVmClustersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1280, __c40, 0) as any as S.Schema<DeleteProjectsLocationsCloudVmClustersRequest>,
-  output: __S(3106, __c97, 2) as any as S.Schema<Operation>,
+  input: __S(1408, __c44, 0) as any as S.Schema<DeleteProjectsLocationsCloudVmClustersRequest>,
+  output: __S(2850, __c89, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5782,8 +5359,8 @@ export const deleteProjectsLocationsDatabaseConnections: API.OperationMethod<
   DeleteProjectsLocationsDatabaseConnectionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1312, __c41, 0) as any as S.Schema<DeleteProjectsLocationsDatabaseConnectionsRequest>,
-  output: __S(3106, __c97, 2) as any as S.Schema<Operation>,
+  input: __S(1440, __c45, 0) as any as S.Schema<DeleteProjectsLocationsDatabaseConnectionsRequest>,
+  output: __S(2850, __c89, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5805,8 +5382,8 @@ export const deleteProjectsLocationsDbSystems: API.OperationMethod<
   DeleteProjectsLocationsDbSystemsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1344, __c42, 0) as any as S.Schema<DeleteProjectsLocationsDbSystemsRequest>,
-  output: __S(3106, __c97, 2) as any as S.Schema<Operation>,
+  input: __S(1472, __c46, 0) as any as S.Schema<DeleteProjectsLocationsDbSystemsRequest>,
+  output: __S(2850, __c89, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5828,8 +5405,8 @@ export const deleteProjectsLocationsExadbVmClusters: API.OperationMethod<
   DeleteProjectsLocationsExadbVmClustersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c43, 0) as any as S.Schema<DeleteProjectsLocationsExadbVmClustersRequest>,
-  output: __S(3106, __c97, 2) as any as S.Schema<Operation>,
+  input: __S(1504, __c47, 0) as any as S.Schema<DeleteProjectsLocationsExadbVmClustersRequest>,
+  output: __S(2850, __c89, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5852,11 +5429,11 @@ export const deleteProjectsLocationsExascaleDbStorageVaults: API.OperationMethod
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1408,
-    __c44,
+    1536,
+    __c48,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsExascaleDbStorageVaultsRequest>,
-  output: __S(3106, __c97, 2) as any as S.Schema<Operation>,
+  output: __S(2850, __c89, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5879,11 +5456,11 @@ export const deleteProjectsLocationsGoldengateConnectionAssignments: API.Operati
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1440,
-    __c45,
+    1568,
+    __c49,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsGoldengateConnectionAssignmentsRequest>,
-  output: __S(3106, __c97, 2) as any as S.Schema<Operation>,
+  output: __S(2850, __c89, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5906,11 +5483,11 @@ export const deleteProjectsLocationsGoldengateConnections: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1472,
-    __c46,
+    1600,
+    __c50,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsGoldengateConnectionsRequest>,
-  output: __S(3106, __c97, 2) as any as S.Schema<Operation>,
+  output: __S(2850, __c89, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5933,11 +5510,11 @@ export const deleteProjectsLocationsGoldengateDeployments: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1504,
-    __c47,
+    1632,
+    __c51,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsGoldengateDeploymentsRequest>,
-  output: __S(3106, __c97, 2) as any as S.Schema<Operation>,
+  output: __S(2850, __c89, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5959,8 +5536,8 @@ export const deleteProjectsLocationsOdbNetworks: API.OperationMethod<
   DeleteProjectsLocationsOdbNetworksError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1536, __c48, 0) as any as S.Schema<DeleteProjectsLocationsOdbNetworksRequest>,
-  output: __S(3106, __c97, 2) as any as S.Schema<Operation>,
+  input: __S(1664, __c52, 0) as any as S.Schema<DeleteProjectsLocationsOdbNetworksRequest>,
+  output: __S(2850, __c89, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5982,11 +5559,11 @@ export const deleteProjectsLocationsOdbNetworksOdbDnsZones: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1568,
-    __c49,
+    1696,
+    __c53,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsOdbNetworksOdbDnsZonesRequest>,
-  output: __S(3106, __c97, 2) as any as S.Schema<Operation>,
+  output: __S(2850, __c89, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6009,11 +5586,11 @@ export const deleteProjectsLocationsOdbNetworksOdbSubnets: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1600,
-    __c50,
+    1728,
+    __c54,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsOdbNetworksOdbSubnetsRequest>,
-  output: __S(3106, __c97, 2) as any as S.Schema<Operation>,
+  output: __S(2850, __c89, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6035,8 +5612,8 @@ export const deleteProjectsLocationsOperations: API.OperationMethod<
   DeleteProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1632, __c51, 0) as any as S.Schema<DeleteProjectsLocationsOperationsRequest>,
-  output: __S(2464, __c77, 0) as any as S.Schema<Empty>,
+  input: __S(1760, __c55, 0) as any as S.Schema<DeleteProjectsLocationsOperationsRequest>,
+  output: __S(2400, __c75, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6058,11 +5635,11 @@ export const disableIdentityConnectorProjectsLocationsCloudVmClusters: API.Opera
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1664,
-    __c52,
+    1792,
+    __c56,
     0,
   ) as any as S.Schema<DisableIdentityConnectorProjectsLocationsCloudVmClustersRequest>,
-  output: __S(3106, __c97, 2) as any as S.Schema<Operation>,
+  output: __S(2850, __c89, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6084,11 +5661,11 @@ export const disableIdentityConnectorProjectsLocationsExadbVmClusters: API.Opera
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1696,
-    __c53,
+    1824,
+    __c57,
     0,
   ) as any as S.Schema<DisableIdentityConnectorProjectsLocationsExadbVmClustersRequest>,
-  output: __S(3106, __c97, 2) as any as S.Schema<Operation>,
+  output: __S(2850, __c89, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6110,11 +5687,11 @@ export const enableIdentityConnectorProjectsLocationsCloudVmClusters: API.Operat
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1728,
-    __c54,
+    1856,
+    __c58,
     0,
   ) as any as S.Schema<EnableIdentityConnectorProjectsLocationsCloudVmClustersRequest>,
-  output: __S(3106, __c97, 2) as any as S.Schema<Operation>,
+  output: __S(2850, __c89, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6136,11 +5713,11 @@ export const enableIdentityConnectorProjectsLocationsExadbVmClusters: API.Operat
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1760,
-    __c55,
+    1888,
+    __c59,
     0,
   ) as any as S.Schema<EnableIdentityConnectorProjectsLocationsExadbVmClustersRequest>,
-  output: __S(3106, __c97, 2) as any as S.Schema<Operation>,
+  output: __S(2850, __c89, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6162,11 +5739,11 @@ export const executeSqlProjectsLocationsDatabaseConnections: API.OperationMethod
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1794,
-    __c56,
-    2,
+    1923,
+    __c60,
+    3,
   ) as any as S.Schema<ExecuteSqlProjectsLocationsDatabaseConnectionsRequest>,
-  output: __S(1804, __c56, 12) as any as S.Schema<ExecuteSqlResponse>,
+  output: __S(1933, __c60, 13) as any as S.Schema<ExecuteSqlResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6189,11 +5766,11 @@ export const failoverProjectsLocationsAutonomousDatabases: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1824,
-    __c57,
+    1952,
+    __c61,
     0,
   ) as any as S.Schema<FailoverProjectsLocationsAutonomousDatabasesRequest>,
-  output: __S(3106, __c97, 2) as any as S.Schema<Operation>,
+  output: __S(2850, __c89, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6216,11 +5793,11 @@ export const generateWalletProjectsLocationsAutonomousDatabases: API.OperationMe
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1856,
-    __c58,
-    0,
+    2017,
+    __c63,
+    1,
   ) as any as S.Schema<GenerateWalletProjectsLocationsAutonomousDatabasesRequest>,
-  output: __S(1857, __c58, 1) as any as S.Schema<GenerateAutonomousDatabaseWalletResponse>,
+  output: __S(2018, __c63, 2) as any as S.Schema<GenerateAutonomousDatabaseWalletResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6236,8 +5813,8 @@ export const getProjectsLocations: API.OperationMethod<
   GetProjectsLocationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1888, __c59, 0) as any as S.Schema<GetProjectsLocationsRequest>,
-  output: __S(1920, __c60, 0) as any as S.Schema<Location>,
+  input: __S(2048, __c64, 0) as any as S.Schema<GetProjectsLocationsRequest>,
+  output: __S(2080, __c65, 0) as any as S.Schema<Location>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6257,8 +5834,8 @@ export const getProjectsLocationsAutonomousDatabases: API.OperationMethod<
   GetProjectsLocationsAutonomousDatabasesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1952, __c61, 0) as any as S.Schema<GetProjectsLocationsAutonomousDatabasesRequest>,
-  output: __S(1984, __c62, 0) as any as S.Schema<AutonomousDatabase>,
+  input: __S(2112, __c66, 0) as any as S.Schema<GetProjectsLocationsAutonomousDatabasesRequest>,
+  output: __S(3279, __c102, 15) as any as S.Schema<AutonomousDatabase>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6279,11 +5856,11 @@ export const getProjectsLocationsCloudExadataInfrastructures: API.OperationMetho
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2016,
-    __c63,
+    2144,
+    __c67,
     0,
   ) as any as S.Schema<GetProjectsLocationsCloudExadataInfrastructuresRequest>,
-  output: __S(2048, __c64, 0) as any as S.Schema<CloudExadataInfrastructure>,
+  output: __S(3780, __c118, 4) as any as S.Schema<CloudExadataInfrastructure>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6303,8 +5880,8 @@ export const getProjectsLocationsCloudVmClusters: API.OperationMethod<
   GetProjectsLocationsCloudVmClustersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2080, __c65, 0) as any as S.Schema<GetProjectsLocationsCloudVmClustersRequest>,
-  output: __S(2112, __c66, 0) as any as S.Schema<CloudVmCluster>,
+  input: __S(2176, __c68, 0) as any as S.Schema<GetProjectsLocationsCloudVmClustersRequest>,
+  output: __S(4226, __c132, 2) as any as S.Schema<CloudVmCluster>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6320,8 +5897,8 @@ export const getProjectsLocationsDatabaseConnections: API.OperationMethod<
   GetProjectsLocationsDatabaseConnectionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2144, __c67, 0) as any as S.Schema<GetProjectsLocationsDatabaseConnectionsRequest>,
-  output: __S(2176, __c68, 0) as any as S.Schema<DatabaseConnection>,
+  input: __S(2208, __c69, 0) as any as S.Schema<GetProjectsLocationsDatabaseConnectionsRequest>,
+  output: __S(32, __c1, 0) as any as S.Schema<DatabaseConnection>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6341,8 +5918,8 @@ export const getProjectsLocationsDatabases: API.OperationMethod<
   GetProjectsLocationsDatabasesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2208, __c69, 0) as any as S.Schema<GetProjectsLocationsDatabasesRequest>,
-  output: __S(420, __c13, 4) as any as S.Schema<Database>,
+  input: __S(2240, __c70, 0) as any as S.Schema<GetProjectsLocationsDatabasesRequest>,
+  output: __S(451, __c14, 3) as any as S.Schema<Database>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6362,8 +5939,8 @@ export const getProjectsLocationsDbSystems: API.OperationMethod<
   GetProjectsLocationsDbSystemsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2240, __c70, 0) as any as S.Schema<GetProjectsLocationsDbSystemsRequest>,
-  output: __S(2272, __c71, 0) as any as S.Schema<DbSystem>,
+  input: __S(2272, __c71, 0) as any as S.Schema<GetProjectsLocationsDbSystemsRequest>,
+  output: __S(516, __c16, 4) as any as S.Schema<DbSystem>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6384,7 +5961,7 @@ export const getProjectsLocationsExadbVmClusters: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2304, __c72, 0) as any as S.Schema<GetProjectsLocationsExadbVmClustersRequest>,
-  output: __S(2336, __c73, 0) as any as S.Schema<ExadbVmCluster>,
+  output: __S(835, __c26, 3) as any as S.Schema<ExadbVmCluster>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6404,8 +5981,8 @@ export const getProjectsLocationsExascaleDbStorageVaults: API.OperationMethod<
   GetProjectsLocationsExascaleDbStorageVaultsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2368, __c74, 0) as any as S.Schema<GetProjectsLocationsExascaleDbStorageVaultsRequest>,
-  output: __S(2400, __c75, 0) as any as S.Schema<ExascaleDbStorageVault>,
+  input: __S(2336, __c73, 0) as any as S.Schema<GetProjectsLocationsExascaleDbStorageVaultsRequest>,
+  output: __S(898, __c28, 2) as any as S.Schema<ExascaleDbStorageVault>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6426,11 +6003,11 @@ export const getProjectsLocationsGoldengateConnectionAssignments: API.OperationM
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2496,
-    __c78,
+    2432,
+    __c76,
     0,
   ) as any as S.Schema<GetProjectsLocationsGoldengateConnectionAssignmentsRequest>,
-  output: __S(2528, __c79, 0) as any as S.Schema<GoldengateConnectionAssignment>,
+  output: __S(961, __c30, 1) as any as S.Schema<GoldengateConnectionAssignment>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6450,8 +6027,8 @@ export const getProjectsLocationsGoldengateConnections: API.OperationMethod<
   GetProjectsLocationsGoldengateConnectionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2560, __c80, 0) as any as S.Schema<GetProjectsLocationsGoldengateConnectionsRequest>,
-  output: __S(2592, __c81, 0) as any as S.Schema<GoldengateConnection>,
+  input: __S(2464, __c77, 0) as any as S.Schema<GetProjectsLocationsGoldengateConnectionsRequest>,
+  output: __S(1066, __c33, 10) as any as S.Schema<GoldengateConnection>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6471,8 +6048,8 @@ export const getProjectsLocationsGoldengateDeployments: API.OperationMethod<
   GetProjectsLocationsGoldengateDeploymentsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2624, __c82, 0) as any as S.Schema<GetProjectsLocationsGoldengateDeploymentsRequest>,
-  output: __S(2656, __c83, 0) as any as S.Schema<GoldengateDeployment>,
+  input: __S(2496, __c78, 0) as any as S.Schema<GetProjectsLocationsGoldengateDeploymentsRequest>,
+  output: __S(1133, __c35, 13) as any as S.Schema<GoldengateDeployment>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6492,8 +6069,8 @@ export const getProjectsLocationsOdbNetworks: API.OperationMethod<
   GetProjectsLocationsOdbNetworksError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2688, __c84, 0) as any as S.Schema<GetProjectsLocationsOdbNetworksRequest>,
-  output: __S(2720, __c85, 0) as any as S.Schema<OdbNetwork>,
+  input: __S(2528, __c79, 0) as any as S.Schema<GetProjectsLocationsOdbNetworksRequest>,
+  output: __S(1186, __c37, 2) as any as S.Schema<OdbNetwork>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6509,8 +6086,8 @@ export const getProjectsLocationsOdbNetworksOdbDnsZones: API.OperationMethod<
   GetProjectsLocationsOdbNetworksOdbDnsZonesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2752, __c86, 0) as any as S.Schema<GetProjectsLocationsOdbNetworksOdbDnsZonesRequest>,
-  output: __S(2784, __c87, 0) as any as S.Schema<OdbDnsZone>,
+  input: __S(2560, __c80, 0) as any as S.Schema<GetProjectsLocationsOdbNetworksOdbDnsZonesRequest>,
+  output: __S(1248, __c39, 0) as any as S.Schema<OdbDnsZone>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6530,8 +6107,8 @@ export const getProjectsLocationsOdbNetworksOdbSubnets: API.OperationMethod<
   GetProjectsLocationsOdbNetworksOdbSubnetsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2816, __c88, 0) as any as S.Schema<GetProjectsLocationsOdbNetworksOdbSubnetsRequest>,
-  output: __S(2848, __c89, 0) as any as S.Schema<OdbSubnet>,
+  input: __S(2592, __c81, 0) as any as S.Schema<GetProjectsLocationsOdbNetworksOdbSubnetsRequest>,
+  output: __S(1312, __c41, 0) as any as S.Schema<OdbSubnet>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6551,8 +6128,8 @@ export const getProjectsLocationsOperations: API.OperationMethod<
   GetProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2880, __c90, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
-  output: __S(3106, __c97, 2) as any as S.Schema<Operation>,
+  input: __S(2624, __c82, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
+  output: __S(2850, __c89, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6572,8 +6149,8 @@ export const getProjectsLocationsPluggableDatabases: API.OperationMethod<
   GetProjectsLocationsPluggableDatabasesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2912, __c91, 0) as any as S.Schema<GetProjectsLocationsPluggableDatabasesRequest>,
-  output: __S(2950, __c92, 6) as any as S.Schema<PluggableDatabase>,
+  input: __S(2656, __c83, 0) as any as S.Schema<GetProjectsLocationsPluggableDatabasesRequest>,
+  output: __S(2694, __c84, 6) as any as S.Schema<PluggableDatabase>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6594,11 +6171,11 @@ export const getRefreshableClonesProjectsLocationsAutonomousDatabases: API.Opera
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2976,
-    __c93,
+    2720,
+    __c85,
     0,
   ) as any as S.Schema<GetRefreshableClonesProjectsLocationsAutonomousDatabasesRequest>,
-  output: __S(2979, __c93, 3) as any as S.Schema<AutonomousDatabaseRefreshableClones>,
+  output: __S(2723, __c85, 3) as any as S.Schema<AutonomousDatabaseRefreshableClones>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6615,8 +6192,8 @@ export const listProjectsLocations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListLocationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(3008, __c94, 0) as any as S.Schema<ListProjectsLocationsRequest>,
-  output: __S(3010, __c94, 2) as any as S.Schema<ListLocationsResponse>,
+  input: __S(2752, __c86, 0) as any as S.Schema<ListProjectsLocationsRequest>,
+  output: __S(2754, __c86, 2) as any as S.Schema<ListLocationsResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6639,11 +6216,11 @@ export const listProjectsLocationsAutonomousDatabaseBackups: API.PaginatedOperat
   ListAutonomousDatabaseBackupsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    3136,
-    __c98,
+    2880,
+    __c90,
     0,
   ) as any as S.Schema<ListProjectsLocationsAutonomousDatabaseBackupsRequest>,
-  output: __S(3140, __c98, 4) as any as S.Schema<ListAutonomousDatabaseBackupsResponse>,
+  output: __S(2884, __c90, 4) as any as S.Schema<ListAutonomousDatabaseBackupsResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6666,11 +6243,11 @@ export const listProjectsLocationsAutonomousDatabaseCharacterSets: API.Paginated
   ListAutonomousDatabaseCharacterSetsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    3168,
-    __c99,
+    2912,
+    __c91,
     0,
   ) as any as S.Schema<ListProjectsLocationsAutonomousDatabaseCharacterSetsRequest>,
-  output: __S(3171, __c99, 3) as any as S.Schema<ListAutonomousDatabaseCharacterSetsResponse>,
+  output: __S(2915, __c91, 3) as any as S.Schema<ListAutonomousDatabaseCharacterSetsResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6692,8 +6269,8 @@ export const listProjectsLocationsAutonomousDatabases: API.PaginatedOperationMet
   GcpOpContext,
   ListAutonomousDatabasesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(3200, __c100, 0) as any as S.Schema<ListProjectsLocationsAutonomousDatabasesRequest>,
-  output: __S(3202, __c100, 2) as any as S.Schema<ListAutonomousDatabasesResponse>,
+  input: __S(2944, __c92, 0) as any as S.Schema<ListProjectsLocationsAutonomousDatabasesRequest>,
+  output: __S(2946, __c92, 2) as any as S.Schema<ListAutonomousDatabasesResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6715,8 +6292,8 @@ export const listProjectsLocationsAutonomousDbVersions: API.PaginatedOperationMe
   GcpOpContext,
   ListAutonomousDbVersionsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(3232, __c101, 0) as any as S.Schema<ListProjectsLocationsAutonomousDbVersionsRequest>,
-  output: __S(3235, __c101, 3) as any as S.Schema<ListAutonomousDbVersionsResponse>,
+  input: __S(2976, __c93, 0) as any as S.Schema<ListProjectsLocationsAutonomousDbVersionsRequest>,
+  output: __S(2979, __c93, 3) as any as S.Schema<ListAutonomousDbVersionsResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6739,11 +6316,11 @@ export const listProjectsLocationsCloudExadataInfrastructures: API.PaginatedOper
   ListCloudExadataInfrastructuresResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    3264,
-    __c102,
+    3008,
+    __c94,
     0,
   ) as any as S.Schema<ListProjectsLocationsCloudExadataInfrastructuresRequest>,
-  output: __S(3266, __c102, 2) as any as S.Schema<ListCloudExadataInfrastructuresResponse>,
+  output: __S(3010, __c94, 2) as any as S.Schema<ListCloudExadataInfrastructuresResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6766,11 +6343,11 @@ export const listProjectsLocationsCloudExadataInfrastructuresDbServers: API.Pagi
   ListDbServersResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    3296,
-    __c103,
+    3040,
+    __c95,
     0,
   ) as any as S.Schema<ListProjectsLocationsCloudExadataInfrastructuresDbServersRequest>,
-  output: __S(3300, __c103, 4) as any as S.Schema<ListDbServersResponse>,
+  output: __S(3044, __c95, 4) as any as S.Schema<ListDbServersResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6792,8 +6369,8 @@ export const listProjectsLocationsCloudVmClusters: API.PaginatedOperationMethod<
   GcpOpContext,
   ListCloudVmClustersResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(3328, __c104, 0) as any as S.Schema<ListProjectsLocationsCloudVmClustersRequest>,
-  output: __S(3330, __c104, 2) as any as S.Schema<ListCloudVmClustersResponse>,
+  input: __S(3072, __c96, 0) as any as S.Schema<ListProjectsLocationsCloudVmClustersRequest>,
+  output: __S(3074, __c96, 2) as any as S.Schema<ListCloudVmClustersResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6815,12 +6392,8 @@ export const listProjectsLocationsCloudVmClustersDbNodes: API.PaginatedOperation
   GcpOpContext,
   ListDbNodesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(
-    3360,
-    __c105,
-    0,
-  ) as any as S.Schema<ListProjectsLocationsCloudVmClustersDbNodesRequest>,
-  output: __S(3395, __c106, 3) as any as S.Schema<ListDbNodesResponse>,
+  input: __S(3104, __c97, 0) as any as S.Schema<ListProjectsLocationsCloudVmClustersDbNodesRequest>,
+  output: __S(3139, __c98, 3) as any as S.Schema<ListDbNodesResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6842,8 +6415,8 @@ export const listProjectsLocationsDatabaseCharacterSets: API.PaginatedOperationM
   GcpOpContext,
   ListDatabaseCharacterSetsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(3424, __c107, 0) as any as S.Schema<ListProjectsLocationsDatabaseCharacterSetsRequest>,
-  output: __S(3427, __c107, 3) as any as S.Schema<ListDatabaseCharacterSetsResponse>,
+  input: __S(3168, __c99, 0) as any as S.Schema<ListProjectsLocationsDatabaseCharacterSetsRequest>,
+  output: __S(3171, __c99, 3) as any as S.Schema<ListDatabaseCharacterSetsResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6861,8 +6434,8 @@ export const listProjectsLocationsDatabaseConnections: API.PaginatedOperationMet
   GcpOpContext,
   ListDatabaseConnectionsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(3456, __c108, 0) as any as S.Schema<ListProjectsLocationsDatabaseConnectionsRequest>,
-  output: __S(3458, __c108, 2) as any as S.Schema<ListDatabaseConnectionsResponse>,
+  input: __S(3200, __c100, 0) as any as S.Schema<ListProjectsLocationsDatabaseConnectionsRequest>,
+  output: __S(3202, __c100, 2) as any as S.Schema<ListDatabaseConnectionsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6884,8 +6457,8 @@ export const listProjectsLocationsDatabases: API.PaginatedOperationMethod<
   GcpOpContext,
   ListDatabasesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(3648, __c114, 0) as any as S.Schema<ListProjectsLocationsDatabasesRequest>,
-  output: __S(3650, __c114, 2) as any as S.Schema<ListDatabasesResponse>,
+  input: __S(3392, __c106, 0) as any as S.Schema<ListProjectsLocationsDatabasesRequest>,
+  output: __S(3394, __c106, 2) as any as S.Schema<ListDatabasesResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6907,11 +6480,11 @@ export const listProjectsLocationsDbSystemComputePerformances: API.PaginatedOper
   ListDbSystemComputePerformancesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    3680,
-    __c115,
+    3424,
+    __c107,
     0,
   ) as any as S.Schema<ListProjectsLocationsDbSystemComputePerformancesRequest>,
-  output: __S(3685, __c115, 5) as any as S.Schema<ListDbSystemComputePerformancesResponse>,
+  output: __S(3429, __c107, 5) as any as S.Schema<ListDbSystemComputePerformancesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6934,11 +6507,11 @@ export const listProjectsLocationsDbSystemInitialStorageSizes: API.PaginatedOper
   ListDbSystemInitialStorageSizesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    3712,
-    __c116,
+    3456,
+    __c108,
     0,
   ) as any as S.Schema<ListProjectsLocationsDbSystemInitialStorageSizesRequest>,
-  output: __S(3718, __c116, 6) as any as S.Schema<ListDbSystemInitialStorageSizesResponse>,
+  output: __S(3462, __c108, 6) as any as S.Schema<ListDbSystemInitialStorageSizesResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6960,8 +6533,8 @@ export const listProjectsLocationsDbSystems: API.PaginatedOperationMethod<
   GcpOpContext,
   ListDbSystemsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(3744, __c117, 0) as any as S.Schema<ListProjectsLocationsDbSystemsRequest>,
-  output: __S(3746, __c117, 2) as any as S.Schema<ListDbSystemsResponse>,
+  input: __S(3488, __c109, 0) as any as S.Schema<ListProjectsLocationsDbSystemsRequest>,
+  output: __S(3490, __c109, 2) as any as S.Schema<ListDbSystemsResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6983,8 +6556,8 @@ export const listProjectsLocationsDbSystemShapes: API.PaginatedOperationMethod<
   GcpOpContext,
   ListDbSystemShapesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(3776, __c118, 0) as any as S.Schema<ListProjectsLocationsDbSystemShapesRequest>,
-  output: __S(3779, __c118, 3) as any as S.Schema<ListDbSystemShapesResponse>,
+  input: __S(3520, __c110, 0) as any as S.Schema<ListProjectsLocationsDbSystemShapesRequest>,
+  output: __S(3523, __c110, 3) as any as S.Schema<ListDbSystemShapesResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -7006,8 +6579,8 @@ export const listProjectsLocationsDbVersions: API.PaginatedOperationMethod<
   GcpOpContext,
   ListDbVersionsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(3808, __c119, 0) as any as S.Schema<ListProjectsLocationsDbVersionsRequest>,
-  output: __S(3812, __c119, 4) as any as S.Schema<ListDbVersionsResponse>,
+  input: __S(3552, __c111, 0) as any as S.Schema<ListProjectsLocationsDbVersionsRequest>,
+  output: __S(3556, __c111, 4) as any as S.Schema<ListDbVersionsResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -7029,8 +6602,8 @@ export const listProjectsLocationsEntitlements: API.PaginatedOperationMethod<
   GcpOpContext,
   ListEntitlementsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(3840, __c120, 0) as any as S.Schema<ListProjectsLocationsEntitlementsRequest>,
-  output: __S(3844, __c120, 4) as any as S.Schema<ListEntitlementsResponse>,
+  input: __S(3584, __c112, 0) as any as S.Schema<ListProjectsLocationsEntitlementsRequest>,
+  output: __S(3588, __c112, 4) as any as S.Schema<ListEntitlementsResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -7052,8 +6625,8 @@ export const listProjectsLocationsExadbVmClusters: API.PaginatedOperationMethod<
   GcpOpContext,
   ListExadbVmClustersResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(3872, __c121, 0) as any as S.Schema<ListProjectsLocationsExadbVmClustersRequest>,
-  output: __S(3874, __c121, 2) as any as S.Schema<ListExadbVmClustersResponse>,
+  input: __S(3616, __c113, 0) as any as S.Schema<ListProjectsLocationsExadbVmClustersRequest>,
+  output: __S(3618, __c113, 2) as any as S.Schema<ListExadbVmClustersResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -7076,11 +6649,11 @@ export const listProjectsLocationsExadbVmClustersDbNodes: API.PaginatedOperation
   ListDbNodesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    3904,
-    __c122,
+    3648,
+    __c114,
     0,
   ) as any as S.Schema<ListProjectsLocationsExadbVmClustersDbNodesRequest>,
-  output: __S(3395, __c106, 3) as any as S.Schema<ListDbNodesResponse>,
+  output: __S(3139, __c98, 3) as any as S.Schema<ListDbNodesResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -7103,11 +6676,11 @@ export const listProjectsLocationsExascaleDbStorageVaults: API.PaginatedOperatio
   ListExascaleDbStorageVaultsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    3936,
-    __c123,
+    3680,
+    __c115,
     0,
   ) as any as S.Schema<ListProjectsLocationsExascaleDbStorageVaultsRequest>,
-  output: __S(3938, __c123, 2) as any as S.Schema<ListExascaleDbStorageVaultsResponse>,
+  output: __S(3682, __c115, 2) as any as S.Schema<ListExascaleDbStorageVaultsResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -7125,8 +6698,8 @@ export const listProjectsLocationsFlexComponents: API.PaginatedOperationMethod<
   GcpOpContext,
   ListFlexComponentsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4064, __c127, 0) as any as S.Schema<ListProjectsLocationsFlexComponentsRequest>,
-  output: __S(4068, __c127, 4) as any as S.Schema<ListFlexComponentsResponse>,
+  input: __S(3808, __c119, 0) as any as S.Schema<ListProjectsLocationsFlexComponentsRequest>,
+  output: __S(3812, __c119, 4) as any as S.Schema<ListFlexComponentsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -7148,8 +6721,8 @@ export const listProjectsLocationsGiVersions: API.PaginatedOperationMethod<
   GcpOpContext,
   ListGiVersionsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4096, __c128, 0) as any as S.Schema<ListProjectsLocationsGiVersionsRequest>,
-  output: __S(4099, __c128, 3) as any as S.Schema<ListGiVersionsResponse>,
+  input: __S(3840, __c120, 0) as any as S.Schema<ListProjectsLocationsGiVersionsRequest>,
+  output: __S(3843, __c120, 3) as any as S.Schema<ListGiVersionsResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -7172,11 +6745,11 @@ export const listProjectsLocationsGiVersionsMinorVersions: API.PaginatedOperatio
   ListMinorVersionsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    4128,
-    __c129,
+    3872,
+    __c121,
     0,
   ) as any as S.Schema<ListProjectsLocationsGiVersionsMinorVersionsRequest>,
-  output: __S(4131, __c129, 3) as any as S.Schema<ListMinorVersionsResponse>,
+  output: __S(3875, __c121, 3) as any as S.Schema<ListMinorVersionsResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -7199,11 +6772,11 @@ export const listProjectsLocationsGoldengateConnectionAssignments: API.Paginated
   ListGoldengateConnectionAssignmentsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    4160,
-    __c130,
+    3904,
+    __c122,
     0,
   ) as any as S.Schema<ListProjectsLocationsGoldengateConnectionAssignmentsRequest>,
-  output: __S(4162, __c130, 2) as any as S.Schema<ListGoldengateConnectionAssignmentsResponse>,
+  output: __S(3906, __c122, 2) as any as S.Schema<ListGoldengateConnectionAssignmentsResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -7225,8 +6798,8 @@ export const listProjectsLocationsGoldengateConnections: API.PaginatedOperationM
   GcpOpContext,
   ListGoldengateConnectionsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4192, __c131, 0) as any as S.Schema<ListProjectsLocationsGoldengateConnectionsRequest>,
-  output: __S(4194, __c131, 2) as any as S.Schema<ListGoldengateConnectionsResponse>,
+  input: __S(3936, __c123, 0) as any as S.Schema<ListProjectsLocationsGoldengateConnectionsRequest>,
+  output: __S(3938, __c123, 2) as any as S.Schema<ListGoldengateConnectionsResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -7249,11 +6822,11 @@ export const listProjectsLocationsGoldengateConnectionTypes: API.PaginatedOperat
   ListGoldengateConnectionTypesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    4224,
-    __c132,
+    3968,
+    __c124,
     0,
   ) as any as S.Schema<ListProjectsLocationsGoldengateConnectionTypesRequest>,
-  output: __S(4227, __c132, 3) as any as S.Schema<ListGoldengateConnectionTypesResponse>,
+  output: __S(3971, __c124, 3) as any as S.Schema<ListGoldengateConnectionTypesResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -7276,11 +6849,11 @@ export const listProjectsLocationsGoldengateDeploymentEnvironments: API.Paginate
   ListGoldengateDeploymentEnvironmentsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    4256,
-    __c133,
+    4000,
+    __c125,
     0,
   ) as any as S.Schema<ListProjectsLocationsGoldengateDeploymentEnvironmentsRequest>,
-  output: __S(4259, __c133, 3) as any as S.Schema<ListGoldengateDeploymentEnvironmentsResponse>,
+  output: __S(4003, __c125, 3) as any as S.Schema<ListGoldengateDeploymentEnvironmentsResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -7302,8 +6875,8 @@ export const listProjectsLocationsGoldengateDeployments: API.PaginatedOperationM
   GcpOpContext,
   ListGoldengateDeploymentsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4288, __c134, 0) as any as S.Schema<ListProjectsLocationsGoldengateDeploymentsRequest>,
-  output: __S(4290, __c134, 2) as any as S.Schema<ListGoldengateDeploymentsResponse>,
+  input: __S(4032, __c126, 0) as any as S.Schema<ListProjectsLocationsGoldengateDeploymentsRequest>,
+  output: __S(4034, __c126, 2) as any as S.Schema<ListGoldengateDeploymentsResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -7326,11 +6899,11 @@ export const listProjectsLocationsGoldengateDeploymentTypes: API.PaginatedOperat
   ListGoldengateDeploymentTypesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    4320,
-    __c135,
+    4064,
+    __c127,
     0,
   ) as any as S.Schema<ListProjectsLocationsGoldengateDeploymentTypesRequest>,
-  output: __S(4323, __c135, 3) as any as S.Schema<ListGoldengateDeploymentTypesResponse>,
+  output: __S(4067, __c127, 3) as any as S.Schema<ListGoldengateDeploymentTypesResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -7353,11 +6926,11 @@ export const listProjectsLocationsGoldengateDeploymentVersions: API.PaginatedOpe
   ListGoldengateDeploymentVersionsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    4352,
-    __c136,
+    4096,
+    __c128,
     0,
   ) as any as S.Schema<ListProjectsLocationsGoldengateDeploymentVersionsRequest>,
-  output: __S(4356, __c136, 4) as any as S.Schema<ListGoldengateDeploymentVersionsResponse>,
+  output: __S(4100, __c128, 4) as any as S.Schema<ListGoldengateDeploymentVersionsResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -7379,8 +6952,8 @@ export const listProjectsLocationsOdbNetworks: API.PaginatedOperationMethod<
   GcpOpContext,
   ListOdbNetworksResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4512, __c141, 0) as any as S.Schema<ListProjectsLocationsOdbNetworksRequest>,
-  output: __S(4514, __c141, 2) as any as S.Schema<ListOdbNetworksResponse>,
+  input: __S(4256, __c133, 0) as any as S.Schema<ListProjectsLocationsOdbNetworksRequest>,
+  output: __S(4258, __c133, 2) as any as S.Schema<ListOdbNetworksResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -7399,11 +6972,11 @@ export const listProjectsLocationsOdbNetworksOdbDnsZones: API.PaginatedOperation
   ListOdbDnsZonesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    4544,
-    __c142,
+    4288,
+    __c134,
     0,
   ) as any as S.Schema<ListProjectsLocationsOdbNetworksOdbDnsZonesRequest>,
-  output: __S(4546, __c142, 2) as any as S.Schema<ListOdbDnsZonesResponse>,
+  output: __S(4290, __c134, 2) as any as S.Schema<ListOdbDnsZonesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -7425,8 +6998,8 @@ export const listProjectsLocationsOdbNetworksOdbSubnets: API.PaginatedOperationM
   GcpOpContext,
   ListOdbSubnetsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4576, __c143, 0) as any as S.Schema<ListProjectsLocationsOdbNetworksOdbSubnetsRequest>,
-  output: __S(4578, __c143, 2) as any as S.Schema<ListOdbSubnetsResponse>,
+  input: __S(4320, __c135, 0) as any as S.Schema<ListProjectsLocationsOdbNetworksOdbSubnetsRequest>,
+  output: __S(4322, __c135, 2) as any as S.Schema<ListOdbSubnetsResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -7448,8 +7021,8 @@ export const listProjectsLocationsOperations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListOperationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4608, __c144, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
-  output: __S(4610, __c144, 2) as any as S.Schema<ListOperationsResponse>,
+  input: __S(4352, __c136, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
+  output: __S(4354, __c136, 2) as any as S.Schema<ListOperationsResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -7471,8 +7044,8 @@ export const listProjectsLocationsPluggableDatabases: API.PaginatedOperationMeth
   GcpOpContext,
   ListPluggableDatabasesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4640, __c145, 0) as any as S.Schema<ListProjectsLocationsPluggableDatabasesRequest>,
-  output: __S(4642, __c145, 2) as any as S.Schema<ListPluggableDatabasesResponse>,
+  input: __S(4384, __c137, 0) as any as S.Schema<ListProjectsLocationsPluggableDatabasesRequest>,
+  output: __S(4386, __c137, 2) as any as S.Schema<ListPluggableDatabasesResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -7495,8 +7068,8 @@ export const patchProjectsLocationsAutonomousDatabases: API.OperationMethod<
   PatchProjectsLocationsAutonomousDatabasesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4672, __c146, 0) as any as S.Schema<PatchProjectsLocationsAutonomousDatabasesRequest>,
-  output: __S(3106, __c97, 2) as any as S.Schema<Operation>,
+  input: __S(4416, __c138, 0) as any as S.Schema<PatchProjectsLocationsAutonomousDatabasesRequest>,
+  output: __S(2850, __c89, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -7518,11 +7091,11 @@ export const patchProjectsLocationsCloudExadataInfrastructures: API.OperationMet
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4704,
-    __c147,
+    4448,
+    __c139,
     0,
   ) as any as S.Schema<PatchProjectsLocationsCloudExadataInfrastructuresRequest>,
-  output: __S(3106, __c97, 2) as any as S.Schema<Operation>,
+  output: __S(2850, __c89, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -7543,8 +7116,8 @@ export const patchProjectsLocationsCloudVmClusters: API.OperationMethod<
   PatchProjectsLocationsCloudVmClustersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4736, __c148, 0) as any as S.Schema<PatchProjectsLocationsCloudVmClustersRequest>,
-  output: __S(3106, __c97, 2) as any as S.Schema<Operation>,
+  input: __S(4480, __c140, 0) as any as S.Schema<PatchProjectsLocationsCloudVmClustersRequest>,
+  output: __S(2850, __c89, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -7565,8 +7138,8 @@ export const patchProjectsLocationsDatabaseConnections: API.OperationMethod<
   PatchProjectsLocationsDatabaseConnectionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4768, __c149, 0) as any as S.Schema<PatchProjectsLocationsDatabaseConnectionsRequest>,
-  output: __S(3106, __c97, 2) as any as S.Schema<Operation>,
+  input: __S(4512, __c141, 0) as any as S.Schema<PatchProjectsLocationsDatabaseConnectionsRequest>,
+  output: __S(2850, __c89, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -7587,8 +7160,8 @@ export const patchProjectsLocationsDbSystems: API.OperationMethod<
   PatchProjectsLocationsDbSystemsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4800, __c150, 0) as any as S.Schema<PatchProjectsLocationsDbSystemsRequest>,
-  output: __S(3106, __c97, 2) as any as S.Schema<Operation>,
+  input: __S(4544, __c142, 0) as any as S.Schema<PatchProjectsLocationsDbSystemsRequest>,
+  output: __S(2850, __c89, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -7610,8 +7183,8 @@ export const patchProjectsLocationsExadbVmClusters: API.OperationMethod<
   PatchProjectsLocationsExadbVmClustersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c1, 0) as any as S.Schema<PatchProjectsLocationsExadbVmClustersRequest>,
-  output: __S(3106, __c97, 2) as any as S.Schema<Operation>,
+  input: __S(64, __c2, 0) as any as S.Schema<PatchProjectsLocationsExadbVmClustersRequest>,
+  output: __S(2850, __c89, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -7632,8 +7205,8 @@ export const patchProjectsLocationsExascaleDbStorageVaults: API.OperationMethod<
   PatchProjectsLocationsExascaleDbStorageVaultsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c2, 0) as any as S.Schema<PatchProjectsLocationsExascaleDbStorageVaultsRequest>,
-  output: __S(3106, __c97, 2) as any as S.Schema<Operation>,
+  input: __S(96, __c3, 0) as any as S.Schema<PatchProjectsLocationsExascaleDbStorageVaultsRequest>,
+  output: __S(2850, __c89, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -7655,11 +7228,11 @@ export const patchProjectsLocationsGoldengateConnectionAssignments: API.Operatio
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    96,
-    __c3,
+    128,
+    __c4,
     0,
   ) as any as S.Schema<PatchProjectsLocationsGoldengateConnectionAssignmentsRequest>,
-  output: __S(3106, __c97, 2) as any as S.Schema<Operation>,
+  output: __S(2850, __c89, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -7680,8 +7253,8 @@ export const patchProjectsLocationsGoldengateConnections: API.OperationMethod<
   PatchProjectsLocationsGoldengateConnectionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c4, 0) as any as S.Schema<PatchProjectsLocationsGoldengateConnectionsRequest>,
-  output: __S(3106, __c97, 2) as any as S.Schema<Operation>,
+  input: __S(160, __c5, 0) as any as S.Schema<PatchProjectsLocationsGoldengateConnectionsRequest>,
+  output: __S(2850, __c89, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -7702,8 +7275,8 @@ export const patchProjectsLocationsGoldengateDeployments: API.OperationMethod<
   PatchProjectsLocationsGoldengateDeploymentsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c5, 0) as any as S.Schema<PatchProjectsLocationsGoldengateDeploymentsRequest>,
-  output: __S(3106, __c97, 2) as any as S.Schema<Operation>,
+  input: __S(192, __c6, 0) as any as S.Schema<PatchProjectsLocationsGoldengateDeploymentsRequest>,
+  output: __S(2850, __c89, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -7724,8 +7297,8 @@ export const patchProjectsLocationsOdbNetworks: API.OperationMethod<
   PatchProjectsLocationsOdbNetworksError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c6, 0) as any as S.Schema<PatchProjectsLocationsOdbNetworksRequest>,
-  output: __S(3106, __c97, 2) as any as S.Schema<Operation>,
+  input: __S(224, __c7, 0) as any as S.Schema<PatchProjectsLocationsOdbNetworksRequest>,
+  output: __S(2850, __c89, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -7746,8 +7319,8 @@ export const patchProjectsLocationsOdbNetworksOdbSubnets: API.OperationMethod<
   PatchProjectsLocationsOdbNetworksOdbSubnetsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c7, 0) as any as S.Schema<PatchProjectsLocationsOdbNetworksOdbSubnetsRequest>,
-  output: __S(3106, __c97, 2) as any as S.Schema<Operation>,
+  input: __S(256, __c8, 0) as any as S.Schema<PatchProjectsLocationsOdbNetworksOdbSubnetsRequest>,
+  output: __S(2850, __c89, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -7769,8 +7342,8 @@ export const refreshProjectsLocationsAutonomousDatabases: API.OperationMethod<
   RefreshProjectsLocationsAutonomousDatabasesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c8, 0) as any as S.Schema<RefreshProjectsLocationsAutonomousDatabasesRequest>,
-  output: __S(3106, __c97, 2) as any as S.Schema<Operation>,
+  input: __S(289, __c9, 1) as any as S.Schema<RefreshProjectsLocationsAutonomousDatabasesRequest>,
+  output: __S(2850, __c89, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -7793,11 +7366,11 @@ export const removeVirtualMachineProjectsLocationsExadbVmClusters: API.Operation
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    288,
-    __c9,
-    0,
+    321,
+    __c10,
+    1,
   ) as any as S.Schema<RemoveVirtualMachineProjectsLocationsExadbVmClustersRequest>,
-  output: __S(3106, __c97, 2) as any as S.Schema<Operation>,
+  output: __S(2850, __c89, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -7819,8 +7392,8 @@ export const restartProjectsLocationsAutonomousDatabases: API.OperationMethod<
   RestartProjectsLocationsAutonomousDatabasesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c10, 0) as any as S.Schema<RestartProjectsLocationsAutonomousDatabasesRequest>,
-  output: __S(3106, __c97, 2) as any as S.Schema<Operation>,
+  input: __S(352, __c11, 0) as any as S.Schema<RestartProjectsLocationsAutonomousDatabasesRequest>,
+  output: __S(2850, __c89, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -7842,8 +7415,8 @@ export const restoreProjectsLocationsAutonomousDatabases: API.OperationMethod<
   RestoreProjectsLocationsAutonomousDatabasesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c15, 0) as any as S.Schema<RestoreProjectsLocationsAutonomousDatabasesRequest>,
-  output: __S(3106, __c97, 2) as any as S.Schema<Operation>,
+  input: __S(545, __c17, 1) as any as S.Schema<RestoreProjectsLocationsAutonomousDatabasesRequest>,
+  output: __S(2850, __c89, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -7865,8 +7438,8 @@ export const startProjectsLocationsAutonomousDatabases: API.OperationMethod<
   StartProjectsLocationsAutonomousDatabasesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c16, 0) as any as S.Schema<StartProjectsLocationsAutonomousDatabasesRequest>,
-  output: __S(3106, __c97, 2) as any as S.Schema<Operation>,
+  input: __S(576, __c18, 0) as any as S.Schema<StartProjectsLocationsAutonomousDatabasesRequest>,
+  output: __S(2850, __c89, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -7888,8 +7461,8 @@ export const startProjectsLocationsGoldengateDeployments: API.OperationMethod<
   StartProjectsLocationsGoldengateDeploymentsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c17, 0) as any as S.Schema<StartProjectsLocationsGoldengateDeploymentsRequest>,
-  output: __S(3106, __c97, 2) as any as S.Schema<Operation>,
+  input: __S(608, __c19, 0) as any as S.Schema<StartProjectsLocationsGoldengateDeploymentsRequest>,
+  output: __S(2850, __c89, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -7911,8 +7484,8 @@ export const stopProjectsLocationsAutonomousDatabases: API.OperationMethod<
   StopProjectsLocationsAutonomousDatabasesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c18, 0) as any as S.Schema<StopProjectsLocationsAutonomousDatabasesRequest>,
-  output: __S(3106, __c97, 2) as any as S.Schema<Operation>,
+  input: __S(640, __c20, 0) as any as S.Schema<StopProjectsLocationsAutonomousDatabasesRequest>,
+  output: __S(2850, __c89, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -7934,8 +7507,8 @@ export const stopProjectsLocationsGoldengateDeployments: API.OperationMethod<
   StopProjectsLocationsGoldengateDeploymentsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c19, 0) as any as S.Schema<StopProjectsLocationsGoldengateDeploymentsRequest>,
-  output: __S(3106, __c97, 2) as any as S.Schema<Operation>,
+  input: __S(672, __c21, 0) as any as S.Schema<StopProjectsLocationsGoldengateDeploymentsRequest>,
+  output: __S(2850, __c89, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -7958,11 +7531,11 @@ export const switchoverProjectsLocationsAutonomousDatabases: API.OperationMethod
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    640,
-    __c20,
+    704,
+    __c22,
     0,
   ) as any as S.Schema<SwitchoverProjectsLocationsAutonomousDatabasesRequest>,
-  output: __S(3106, __c97, 2) as any as S.Schema<Operation>,
+  output: __S(2850, __c89, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -7983,8 +7556,8 @@ export const testProjectsLocationsDatabaseConnections: API.OperationMethod<
   TestProjectsLocationsDatabaseConnectionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c21, 0) as any as S.Schema<TestProjectsLocationsDatabaseConnectionsRequest>,
-  output: __S(673, __c21, 1) as any as S.Schema<TestDatabaseConnectionResponse>,
+  input: __S(736, __c23, 0) as any as S.Schema<TestProjectsLocationsDatabaseConnectionsRequest>,
+  output: __S(737, __c23, 1) as any as S.Schema<TestDatabaseConnectionResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -8007,11 +7580,11 @@ export const testProjectsLocationsGoldengateConnectionAssignments: API.Operation
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    704,
-    __c22,
+    768,
+    __c24,
     0,
   ) as any as S.Schema<TestProjectsLocationsGoldengateConnectionAssignmentsRequest>,
-  output: __S(707, __c22, 3) as any as S.Schema<TestGoldengateConnectionAssignmentResponse>,
+  output: __S(771, __c24, 3) as any as S.Schema<TestGoldengateConnectionAssignmentResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -8024,23 +7597,14 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          databaseConnectionId: S.optional(S.String.pipe(T.Query())),
-          lifecycleDetails: S.optional(S.String),
-          walletSecretVersion: S.optional(S.String),
-          odbNetwork: S.optional(S.String),
-          displayName: S.optional(S.String),
-          name: S.optional(S.String),
-          username: S.optional(S.String),
-          passwordSecretVersion: S.optional(S.String),
-          connectionString: S.optional(S.String),
-          labels: S.optional(__S(3584, __c112, 0)),
-          state: S.optional(S.String),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(32, __c1, 0),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            databaseConnectionId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/databaseConnections",
@@ -8055,21 +7619,34 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          identityConnectorDisabled: S.optional(S.Boolean),
-          labels: S.optional(__S(3584, __c112, 0)),
-          createTime: S.optional(S.String),
-          displayName: S.optional(S.String),
-          odbSubnet: S.optional(S.String),
-          backupOdbSubnet: S.optional(S.String),
-          identityConnector: S.optional(__S(4448, __c139, 0)),
-          gcpOracleZone: S.optional(S.String),
-          entitlementId: S.optional(S.String),
-          properties: S.optional(__S(770, __c24, 2)),
+          lifecycleDetails: S.optional(S.String),
+          walletSecretVersion: S.optional(S.String),
           odbNetwork: S.optional(S.String),
-        }).pipe(
+          displayName: S.optional(S.String),
+          name: S.optional(S.String),
+          username: S.optional(S.String),
+          passwordSecretVersion: S.optional(S.String),
+          connectionString: S.optional(S.String),
+          labels: S.optional(__S(3328, __c104, 0)),
+          state: S.optional(S.String),
+          createTime: S.optional(S.String),
+          updateTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DatabaseConnection" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(835, __c26, 3),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -8079,22 +7656,18 @@ function __c1(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsExadbVmClustersRequest" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          displayName: S.optional(S.String),
-          properties: S.optional(__S(833, __c26, 1)),
-          exadataInfrastructure: S.optional(S.String),
-          createTime: S.optional(S.String),
-          labels: S.optional(__S(3584, __c112, 0)),
-          gcpOracleZone: S.optional(S.String),
-          entitlementId: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(898, __c28, 2),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -8104,20 +7677,18 @@ function __c2(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsExascaleDbStorageVaultsRequest" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          entitlementId: S.optional(S.String),
-          createTime: S.optional(S.String),
-          labels: S.optional(__S(3584, __c112, 0)),
-          properties: S.optional(__S(896, __c28, 0)),
-          displayName: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(961, __c30, 1),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -8127,23 +7698,18 @@ function __c3(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsGoldengateConnectionAssignmentsRequest" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          labels: S.optional(__S(3584, __c112, 0)),
-          createTime: S.optional(S.String),
-          gcpOracleZone: S.optional(S.String),
-          entitlementId: S.optional(S.String),
-          odbSubnet: S.optional(S.String),
-          properties: S.optional(__S(1001, __c31, 9)),
-          odbNetwork: S.optional(S.String),
-          ociUrl: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1066, __c33, 10),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -8153,24 +7719,18 @@ function __c4(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsGoldengateConnectionsRequest" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          createTime: S.optional(S.String),
-          labels: S.optional(__S(3584, __c112, 0)),
-          odbSubnet: S.optional(S.String),
-          gcpOracleZone: S.optional(S.String),
-          entitlementId: S.optional(S.String),
-          properties: S.optional(__S(1068, __c33, 12)),
-          odbNetwork: S.optional(S.String),
-          ociUrl: S.optional(S.String),
-          displayName: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1133, __c35, 13),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -8180,23 +7740,18 @@ function __c5(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsGoldengateDeploymentsRequest" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          network: S.optional(S.String),
-          labels: S.optional(__S(3584, __c112, 0)),
-          serviceConnectivityConfig: S.optional(__S(1121, __c35, 1)),
-          entitlementId: S.optional(S.String),
-          gcpOracleZone: S.optional(S.String),
-          reconciling: S.optional(S.Boolean),
-          state: S.optional(S.String),
-          createTime: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1186, __c37, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -8206,20 +7761,18 @@ function __c6(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsOdbNetworksRequest" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          state: S.optional(S.String),
-          createTime: S.optional(S.String),
-          labels: S.optional(__S(3584, __c112, 0)),
-          cidrRange: S.optional(S.String),
-          purpose: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1312, __c41, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -8229,14 +7782,22 @@ function __c7(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsOdbNetworksOdbSubnetsRequest" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           refreshCutoffTime: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "RefreshAutonomousDatabaseRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(288, __c9, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:refresh",
@@ -8246,15 +7807,23 @@ function __c8(j: number): any {
       ).annotate({ identifier: "RefreshProjectsLocationsAutonomousDatabasesRequest" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
-          hostnames: S.optional(__S(3616, __c113, 0)),
+          hostnames: S.optional(__S(3360, __c105, 0)),
           requestId: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "RemoveVirtualMachineExadbVmClusterRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(320, __c10, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:removeVirtualMachine",
@@ -8264,13 +7833,13 @@ function __c9(j: number): any {
       ).annotate({ identifier: "RemoveVirtualMachineProjectsLocationsExadbVmClustersRequest" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2464, __c77, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(2400, __c75, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -8281,25 +7850,18 @@ function __c10(j: number): any {
       ).annotate({ identifier: "RestartProjectsLocationsAutonomousDatabasesRequest" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          dbSystemId: S.optional(S.String.pipe(T.Query())),
-          properties: S.optional(__S(451, __c14, 3)),
-          odbNetwork: S.optional(S.String),
-          name: S.optional(S.String),
-          displayName: S.optional(S.String),
-          ociUrl: S.optional(S.String),
-          odbSubnet: S.optional(S.String),
-          gcpOracleZone: S.optional(S.String),
-          entitlementId: S.optional(S.String),
-          createTime: S.optional(S.String),
-          labels: S.optional(__S(3584, __c112, 0)),
-        }).pipe(
+        S.Extend(
+          __S(516, __c16, 4),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            dbSystemId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/dbSystems",
@@ -8309,7 +7871,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsDbSystemsRequest" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8320,38 +7882,32 @@ function __c12(j: number): any {
       ).annotate({ identifier: "DatabaseManagementConfig" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          type: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "BackupDestinationDetails" });
+      return S.Array(__S(480, __c15, 0));
     case 1:
-      return S.Array(__S(416, __c13, 0));
-    case 2:
       return S.suspend(() =>
         S.Struct({
           autoFullBackupWindow: S.optional(S.String),
           backupDeletionPolicy: S.optional(S.String),
           autoBackupEnabled: S.optional(S.Boolean),
-          backupDestinationDetails: S.optional(__S(417, __c13, 1)),
+          backupDestinationDetails: S.optional(__S(448, __c14, 0)),
           retentionPeriodDays: S.optional(S.Number),
           autoFullBackupDay: S.optional(S.String),
           autoIncrementalBackupWindow: S.optional(S.String),
         }),
       ).annotate({ identifier: "DbBackupConfig" });
-    case 3:
+    case 2:
       return S.suspend(() =>
         S.Struct({
-          dbBackupConfig: S.optional(__S(418, __c13, 2)),
-          databaseManagementConfig: S.optional(__S(384, __c12, 0)),
+          dbBackupConfig: S.optional(__S(449, __c14, 1)),
+          databaseManagementConfig: S.optional(__S(416, __c13, 0)),
           dbVersion: S.optional(S.String),
           state: S.optional(S.String),
         }),
       ).annotate({ identifier: "DatabaseProperties" });
-    case 4:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           pluggableDatabaseName: S.optional(S.String),
@@ -8366,7 +7922,7 @@ function __c13(j: number): any {
           adminPassword: S.optional(S.String),
           pluggableDatabaseId: S.optional(S.String),
           dbHomeName: S.optional(S.String),
-          properties: S.optional(__S(419, __c13, 3)),
+          properties: S.optional(__S(450, __c14, 2)),
           tdeWalletPassword: S.optional(S.String),
           opsInsightsStatus: S.optional(S.String),
           adminPasswordSecretVersion: S.optional(S.String),
@@ -8376,7 +7932,17 @@ function __c13(j: number): any {
       ).annotate({ identifier: "Database" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "BackupDestinationDetails" });
+  }
+}
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8389,7 +7955,7 @@ function __c14(j: number): any {
         S.Struct({
           displayName: S.optional(S.String),
           isUnifiedAuditingEnabled: S.optional(S.Boolean),
-          database: S.optional(__S(420, __c13, 4)),
+          database: S.optional(__S(451, __c14, 3)),
           dbVersion: S.optional(S.String),
         }),
       ).annotate({ identifier: "DbHome" });
@@ -8403,14 +7969,14 @@ function __c14(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          dbSystemOptions: S.optional(__S(448, __c14, 0)),
+          dbSystemOptions: S.optional(__S(512, __c16, 0)),
           hostname: S.optional(S.String),
           ocid: S.optional(S.String),
           privateIp: S.optional(S.String),
-          dbHome: S.optional(__S(449, __c14, 1)),
+          dbHome: S.optional(__S(513, __c16, 1)),
           databaseEdition: S.optional(S.String),
           shape: S.optional(S.String),
-          sshPublicKeys: S.optional(__S(3616, __c113, 0)),
+          sshPublicKeys: S.optional(__S(3360, __c105, 0)),
           licenseModel: S.optional(S.String),
           hostnamePrefix: S.optional(S.String),
           lifecycleState: S.optional(S.String),
@@ -8421,21 +7987,44 @@ function __c14(j: number): any {
           nodeCount: S.optional(S.Number),
           domain: S.optional(S.String),
           recoStorageSizeGb: S.optional(S.Number),
-          timeZone: S.optional(__S(4416, __c138, 0)),
-          dataCollectionOptions: S.optional(__S(450, __c14, 2)),
+          timeZone: S.optional(__S(4160, __c130, 0)),
+          dataCollectionOptions: S.optional(__S(514, __c16, 2)),
           computeCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "DbSystemProperties" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          properties: S.optional(__S(515, __c16, 3)),
+          odbNetwork: S.optional(S.String),
+          name: S.optional(S.String),
+          displayName: S.optional(S.String),
+          ociUrl: S.optional(S.String),
+          odbSubnet: S.optional(S.String),
+          gcpOracleZone: S.optional(S.String),
+          entitlementId: S.optional(S.String),
+          createTime: S.optional(S.String),
+          labels: S.optional(__S(3328, __c104, 0)),
+        }),
+      ).annotate({ identifier: "DbSystem" });
   }
 }
-function __c15(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           restoreTime: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "RestoreAutonomousDatabaseRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(544, __c17, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:restore",
@@ -8445,13 +8034,13 @@ function __c15(j: number): any {
       ).annotate({ identifier: "RestoreProjectsLocationsAutonomousDatabasesRequest" });
   }
 }
-function __c16(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2464, __c77, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(2400, __c75, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -8462,13 +8051,13 @@ function __c16(j: number): any {
       ).annotate({ identifier: "StartProjectsLocationsAutonomousDatabasesRequest" });
   }
 }
-function __c17(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2464, __c77, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(2400, __c75, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -8479,13 +8068,13 @@ function __c17(j: number): any {
       ).annotate({ identifier: "StartProjectsLocationsGoldengateDeploymentsRequest" });
   }
 }
-function __c18(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2464, __c77, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(2400, __c75, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -8496,13 +8085,13 @@ function __c18(j: number): any {
       ).annotate({ identifier: "StopProjectsLocationsAutonomousDatabasesRequest" });
   }
 }
-function __c19(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2464, __c77, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(2400, __c75, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -8513,14 +8102,16 @@ function __c19(j: number): any {
       ).annotate({ identifier: "StopProjectsLocationsGoldengateDeploymentsRequest" });
   }
 }
-function __c20(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          peerAutonomousDatabase: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1984, __c62, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:switchover",
@@ -8530,13 +8121,13 @@ function __c20(j: number): any {
       ).annotate({ identifier: "SwitchoverProjectsLocationsAutonomousDatabasesRequest" });
   }
 }
-function __c21(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2464, __c77, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(2400, __c75, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -8554,14 +8145,16 @@ function __c21(j: number): any {
       ).annotate({ identifier: "TestDatabaseConnectionResponse" });
   }
 }
-function __c22(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          type: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(480, __c15, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:test",
@@ -8579,38 +8172,29 @@ function __c22(j: number): any {
         }),
       ).annotate({ identifier: "TestConnectionAssignmentError" });
     case 2:
-      return S.Array(__S(705, __c22, 1));
+      return S.Array(__S(769, __c24, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           resultType: S.optional(S.String),
-          errors: S.optional(__S(706, __c22, 2)),
-          error: S.optional(__S(705, __c22, 1)),
+          errors: S.optional(__S(770, __c24, 2)),
+          error: S.optional(__S(769, __c24, 1)),
         }),
       ).annotate({ identifier: "TestGoldengateConnectionAssignmentResponse" });
   }
 }
-function __c23(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          exadbVmClusterId: S.optional(S.String.pipe(T.Query())),
-          identityConnectorDisabled: S.optional(S.Boolean),
-          labels: S.optional(__S(3584, __c112, 0)),
-          createTime: S.optional(S.String),
-          displayName: S.optional(S.String),
-          odbSubnet: S.optional(S.String),
-          backupOdbSubnet: S.optional(S.String),
-          identityConnector: S.optional(__S(4448, __c139, 0)),
-          gcpOracleZone: S.optional(S.String),
-          entitlementId: S.optional(S.String),
-          name: S.optional(S.String),
-          properties: S.optional(__S(770, __c24, 2)),
-          odbNetwork: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(835, __c26, 3),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            exadbVmClusterId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/exadbVmClusters",
@@ -8620,7 +8204,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsExadbVmClustersRequest" });
   }
 }
-function __c24(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8639,18 +8223,18 @@ function __c24(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          dataCollectionOptions: S.optional(__S(768, __c24, 0)),
-          sshPublicKeys: S.optional(__S(3616, __c113, 0)),
+          dataCollectionOptions: S.optional(__S(832, __c26, 0)),
+          sshPublicKeys: S.optional(__S(3360, __c105, 0)),
           gridImageId: S.optional(S.String),
           memorySizeGb: S.optional(S.Number),
           shapeAttribute: S.optional(S.String),
           licenseModel: S.optional(S.String),
           exascaleDbStorageVault: S.optional(S.String),
-          timeZone: S.optional(__S(4416, __c138, 0)),
+          timeZone: S.optional(__S(4160, __c130, 0)),
           ociUri: S.optional(S.String),
           clusterName: S.optional(S.String),
           nodeCount: S.optional(S.Number),
-          vmFileSystemStorage: S.optional(__S(769, __c24, 1)),
+          vmFileSystemStorage: S.optional(__S(833, __c26, 1)),
           scanListenerPortTcp: S.optional(S.Number),
           giVersion: S.optional(S.String),
           hostnamePrefix: S.optional(S.String),
@@ -8660,25 +8244,37 @@ function __c24(j: number): any {
           additionalEcpuCountPerNode: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ExadbVmClusterProperties" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          identityConnectorDisabled: S.optional(S.Boolean),
+          labels: S.optional(__S(3328, __c104, 0)),
+          createTime: S.optional(S.String),
+          displayName: S.optional(S.String),
+          odbSubnet: S.optional(S.String),
+          backupOdbSubnet: S.optional(S.String),
+          identityConnector: S.optional(__S(4192, __c131, 0)),
+          gcpOracleZone: S.optional(S.String),
+          entitlementId: S.optional(S.String),
+          name: S.optional(S.String),
+          properties: S.optional(__S(834, __c26, 2)),
+          odbNetwork: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ExadbVmCluster" });
   }
 }
-function __c25(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          exascaleDbStorageVaultId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          name: S.optional(S.String),
-          displayName: S.optional(S.String),
-          properties: S.optional(__S(833, __c26, 1)),
-          exadataInfrastructure: S.optional(S.String),
-          createTime: S.optional(S.String),
-          labels: S.optional(__S(3584, __c112, 0)),
-          gcpOracleZone: S.optional(S.String),
-          entitlementId: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(898, __c28, 2),
+          S.Struct({
+            exascaleDbStorageVaultId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/exascaleDbStorageVaults",
@@ -8688,7 +8284,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsExascaleDbStorageVaultsRequest" });
   }
 }
-function __c26(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8700,36 +8296,46 @@ function __c26(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          exascaleDbStorageDetails: S.optional(__S(832, __c26, 0)),
-          attachedShapeAttributes: S.optional(__S(4000, __c125, 0)),
+          exascaleDbStorageDetails: S.optional(__S(896, __c28, 0)),
+          attachedShapeAttributes: S.optional(__S(3744, __c117, 0)),
           ocid: S.optional(S.String),
           state: S.optional(S.String),
-          vmClusterIds: S.optional(__S(3616, __c113, 0)),
+          vmClusterIds: S.optional(__S(3360, __c105, 0)),
           description: S.optional(S.String),
           additionalFlashCachePercent: S.optional(S.Number),
           ociUri: S.optional(S.String),
-          availableShapeAttributes: S.optional(__S(4000, __c125, 0)),
-          timeZone: S.optional(__S(4416, __c138, 0)),
+          availableShapeAttributes: S.optional(__S(3744, __c117, 0)),
+          timeZone: S.optional(__S(4160, __c130, 0)),
           vmClusterCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ExascaleDbStorageVaultProperties" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          displayName: S.optional(S.String),
+          properties: S.optional(__S(897, __c28, 1)),
+          exadataInfrastructure: S.optional(S.String),
+          createTime: S.optional(S.String),
+          labels: S.optional(__S(3328, __c104, 0)),
+          gcpOracleZone: S.optional(S.String),
+          entitlementId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ExascaleDbStorageVault" });
   }
 }
-function __c27(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          goldengateConnectionAssignmentId: S.optional(S.String.pipe(T.Query())),
-          entitlementId: S.optional(S.String),
-          createTime: S.optional(S.String),
-          name: S.optional(S.String),
-          labels: S.optional(__S(3584, __c112, 0)),
-          properties: S.optional(__S(896, __c28, 0)),
-          displayName: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(961, __c30, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            goldengateConnectionAssignmentId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/goldengateConnectionAssignments",
@@ -8739,7 +8345,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsGoldengateConnectionAssignmentsRequest" });
   }
 }
-function __c28(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8751,26 +8357,31 @@ function __c28(j: number): any {
           goldengateDeployment: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoldengateConnectionAssignmentProperties" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          entitlementId: S.optional(S.String),
+          createTime: S.optional(S.String),
+          name: S.optional(S.String),
+          labels: S.optional(__S(3328, __c104, 0)),
+          properties: S.optional(__S(960, __c30, 0)),
+          displayName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoldengateConnectionAssignment" });
   }
 }
-function __c29(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          goldengateConnectionId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          name: S.optional(S.String),
-          labels: S.optional(__S(3584, __c112, 0)),
-          createTime: S.optional(S.String),
-          gcpOracleZone: S.optional(S.String),
-          entitlementId: S.optional(S.String),
-          odbSubnet: S.optional(S.String),
-          properties: S.optional(__S(1001, __c31, 9)),
-          odbNetwork: S.optional(S.String),
-          ociUrl: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1066, __c33, 10),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            goldengateConnectionId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/goldengateConnections",
@@ -8780,7 +8391,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsGoldengateConnectionsRequest" });
   }
 }
-function __c30(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8790,7 +8401,7 @@ function __c30(j: number): any {
         }),
       ).annotate({ identifier: "NameValuePair" });
     case 1:
-      return S.Array(__S(960, __c30, 0));
+      return S.Array(__S(1024, __c32, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -8807,7 +8418,7 @@ function __c30(j: number): any {
           host: S.optional(S.String),
           sslCertFile: S.optional(S.String),
           port: S.optional(S.Number),
-          additionalAttributes: S.optional(__S(961, __c30, 1)),
+          additionalAttributes: S.optional(__S(1025, __c32, 1)),
           password: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoldengateMysqlConnectionProperties" });
@@ -8887,7 +8498,7 @@ function __c30(j: number): any {
           host: S.optional(S.String),
           database: S.optional(S.String),
           username: S.optional(S.String),
-          additionalAttributes: S.optional(__S(961, __c30, 1)),
+          additionalAttributes: S.optional(__S(1025, __c32, 1)),
           passwordSecretVersion: S.optional(S.String),
           password: S.optional(S.String),
           technologyType: S.optional(S.String),
@@ -8924,7 +8535,7 @@ function __c30(j: number): any {
         S.Struct({
           host: S.optional(S.String),
           sslClientKeystashFile: S.optional(S.String),
-          additionalAttributes: S.optional(__S(961, __c30, 1)),
+          additionalAttributes: S.optional(__S(1025, __c32, 1)),
           database: S.optional(S.String),
           username: S.optional(S.String),
           sslClientKeystoredbFile: S.optional(S.String),
@@ -9035,7 +8646,7 @@ function __c30(j: number): any {
           port: S.optional(S.Number),
           sslCrlFile: S.optional(S.String),
           database: S.optional(S.String),
-          additionalAttributes: S.optional(__S(961, __c30, 1)),
+          additionalAttributes: S.optional(__S(1025, __c32, 1)),
           sslKeyFile: S.optional(S.String),
           passwordSecretVersion: S.optional(S.String),
           sslCertFile: S.optional(S.String),
@@ -9132,11 +8743,11 @@ function __c30(j: number): any {
     case 28:
       return S.suspend(() =>
         S.Struct({
-          nessieIcebergCatalog: S.optional(__S(984, __c30, 24)),
+          nessieIcebergCatalog: S.optional(__S(1048, __c32, 24)),
           catalogType: S.optional(S.String),
-          glueIcebergCatalog: S.optional(__S(985, __c30, 25)),
-          restIcebergCatalog: S.optional(__S(986, __c30, 26)),
-          polarisIcebergCatalog: S.optional(__S(987, __c30, 27)),
+          glueIcebergCatalog: S.optional(__S(1049, __c32, 25)),
+          restIcebergCatalog: S.optional(__S(1050, __c32, 26)),
+          polarisIcebergCatalog: S.optional(__S(1051, __c32, 27)),
         }),
       ).annotate({ identifier: "IcebergCatalog" });
     case 29:
@@ -9169,23 +8780,23 @@ function __c30(j: number): any {
       ).annotate({ identifier: "GoogleCloudStorageIcebergStorage" });
   }
 }
-function __c31(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          azureDataLakeStorageIcebergStorage: S.optional(__S(989, __c30, 29)),
+          azureDataLakeStorageIcebergStorage: S.optional(__S(1053, __c32, 29)),
           storageType: S.optional(S.String),
-          amazonS3IcebergStorage: S.optional(__S(990, __c30, 30)),
-          googleCloudStorageIcebergStorage: S.optional(__S(991, __c30, 31)),
+          amazonS3IcebergStorage: S.optional(__S(1054, __c32, 30)),
+          googleCloudStorageIcebergStorage: S.optional(__S(1055, __c32, 31)),
         }),
       ).annotate({ identifier: "IcebergStorage" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           technologyType: S.optional(S.String),
-          catalog: S.optional(__S(988, __c30, 28)),
-          storage: S.optional(__S(992, __c31, 0)),
+          catalog: S.optional(__S(1052, __c32, 28)),
+          storage: S.optional(__S(1056, __c33, 0)),
         }),
       ).annotate({ identifier: "GoldengateIcebergConnectionProperties" });
     case 2:
@@ -9209,7 +8820,7 @@ function __c31(j: number): any {
         }),
       ).annotate({ identifier: "KafkaBootstrapServer" });
     case 4:
-      return S.Array(__S(995, __c31, 3));
+      return S.Array(__S(1059, __c33, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -9222,7 +8833,7 @@ function __c31(j: number): any {
           clusterId: S.optional(S.String),
           password: S.optional(S.String),
           trustStoreFile: S.optional(S.String),
-          bootstrapServers: S.optional(__S(996, __c31, 4)),
+          bootstrapServers: S.optional(__S(1060, __c33, 4)),
           keyStorePasswordSecretVersion: S.optional(S.String),
           sslKeyPassword: S.optional(S.String),
           consumerPropertiesFile: S.optional(S.String),
@@ -9269,67 +8880,74 @@ function __c31(j: number): any {
     case 9:
       return S.suspend(() =>
         S.Struct({
-          mysqlConnectionProperties: S.optional(__S(962, __c30, 2)),
-          amazonS3ConnectionProperties: S.optional(__S(963, __c30, 3)),
+          mysqlConnectionProperties: S.optional(__S(1026, __c32, 2)),
+          amazonS3ConnectionProperties: S.optional(__S(1027, __c32, 3)),
           lifecycleState: S.optional(S.String),
-          redisConnectionProperties: S.optional(__S(964, __c30, 4)),
-          oracleConnectionProperties: S.optional(__S(965, __c30, 5)),
-          hdfsConnectionProperties: S.optional(__S(966, __c30, 6)),
-          kafkaSchemaRegistryConnectionProperties: S.optional(__S(967, __c30, 7)),
-          microsoftSqlserverConnectionProperties: S.optional(__S(968, __c30, 8)),
+          redisConnectionProperties: S.optional(__S(1028, __c32, 4)),
+          oracleConnectionProperties: S.optional(__S(1029, __c32, 5)),
+          hdfsConnectionProperties: S.optional(__S(1030, __c32, 6)),
+          kafkaSchemaRegistryConnectionProperties: S.optional(__S(1031, __c32, 7)),
+          microsoftSqlserverConnectionProperties: S.optional(__S(1032, __c32, 8)),
           ocid: S.optional(S.String),
-          microsoftFabricConnectionProperties: S.optional(__S(969, __c30, 9)),
-          ociObjectStorageConnectionProperties: S.optional(__S(970, __c30, 10)),
-          db2ConnectionProperties: S.optional(__S(971, __c30, 11)),
-          elasticsearchConnectionProperties: S.optional(__S(972, __c30, 12)),
+          microsoftFabricConnectionProperties: S.optional(__S(1033, __c32, 9)),
+          ociObjectStorageConnectionProperties: S.optional(__S(1034, __c32, 10)),
+          db2ConnectionProperties: S.optional(__S(1035, __c32, 11)),
+          elasticsearchConnectionProperties: S.optional(__S(1036, __c32, 12)),
           routingMethod: S.optional(S.String),
           lifecycleDetails: S.optional(S.String),
           connectionType: S.optional(S.String),
-          mongodbConnectionProperties: S.optional(__S(973, __c30, 13)),
+          mongodbConnectionProperties: S.optional(__S(1037, __c32, 13)),
           description: S.optional(S.String),
-          amazonKinesisConnectionProperties: S.optional(__S(974, __c30, 14)),
-          databricksConnectionProperties: S.optional(__S(975, __c30, 15)),
-          googleBigQueryConnectionProperties: S.optional(__S(976, __c30, 16)),
-          googlePubsubConnectionProperties: S.optional(__S(977, __c30, 17)),
+          amazonKinesisConnectionProperties: S.optional(__S(1038, __c32, 14)),
+          databricksConnectionProperties: S.optional(__S(1039, __c32, 15)),
+          googleBigQueryConnectionProperties: S.optional(__S(1040, __c32, 16)),
+          googlePubsubConnectionProperties: S.optional(__S(1041, __c32, 17)),
           displayName: S.optional(S.String),
-          javaMessageServiceConnectionProperties: S.optional(__S(978, __c30, 18)),
-          postgresqlConnectionProperties: S.optional(__S(979, __c30, 19)),
-          oracleAiDataPlatformConnectionProperties: S.optional(__S(980, __c30, 20)),
-          googleCloudStorageConnectionProperties: S.optional(__S(976, __c30, 16)),
+          javaMessageServiceConnectionProperties: S.optional(__S(1042, __c32, 18)),
+          postgresqlConnectionProperties: S.optional(__S(1043, __c32, 19)),
+          oracleAiDataPlatformConnectionProperties: S.optional(__S(1044, __c32, 20)),
+          googleCloudStorageConnectionProperties: S.optional(__S(1040, __c32, 16)),
           updateTime: S.optional(S.String),
-          oracleNosqlConnectionProperties: S.optional(__S(981, __c30, 21)),
-          azureSynapseAnalyticsConnectionProperties: S.optional(__S(982, __c30, 22)),
-          snowflakeConnectionProperties: S.optional(__S(983, __c30, 23)),
-          icebergConnectionProperties: S.optional(__S(993, __c31, 1)),
-          goldengateConnectionProperties: S.optional(__S(994, __c31, 2)),
-          kafkaConnectionProperties: S.optional(__S(997, __c31, 5)),
-          amazonRedshiftConnectionProperties: S.optional(__S(998, __c31, 6)),
-          azureDataLakeStorageConnectionProperties: S.optional(__S(999, __c31, 7)),
-          ingressIpAddresses: S.optional(__S(3616, __c113, 0)),
-          genericConnectionProperties: S.optional(__S(1000, __c31, 8)),
+          oracleNosqlConnectionProperties: S.optional(__S(1045, __c32, 21)),
+          azureSynapseAnalyticsConnectionProperties: S.optional(__S(1046, __c32, 22)),
+          snowflakeConnectionProperties: S.optional(__S(1047, __c32, 23)),
+          icebergConnectionProperties: S.optional(__S(1057, __c33, 1)),
+          goldengateConnectionProperties: S.optional(__S(1058, __c33, 2)),
+          kafkaConnectionProperties: S.optional(__S(1061, __c33, 5)),
+          amazonRedshiftConnectionProperties: S.optional(__S(1062, __c33, 6)),
+          azureDataLakeStorageConnectionProperties: S.optional(__S(1063, __c33, 7)),
+          ingressIpAddresses: S.optional(__S(3360, __c105, 0)),
+          genericConnectionProperties: S.optional(__S(1064, __c33, 8)),
         }),
       ).annotate({ identifier: "GoldengateConnectionProperties" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          labels: S.optional(__S(3328, __c104, 0)),
+          createTime: S.optional(S.String),
+          gcpOracleZone: S.optional(S.String),
+          entitlementId: S.optional(S.String),
+          odbSubnet: S.optional(S.String),
+          properties: S.optional(__S(1065, __c33, 9)),
+          odbNetwork: S.optional(S.String),
+          ociUrl: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoldengateConnection" });
   }
 }
-function __c32(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          goldengateDeploymentId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          createTime: S.optional(S.String),
-          labels: S.optional(__S(3584, __c112, 0)),
-          odbSubnet: S.optional(S.String),
-          gcpOracleZone: S.optional(S.String),
-          entitlementId: S.optional(S.String),
-          properties: S.optional(__S(1068, __c33, 12)),
-          odbNetwork: S.optional(S.String),
-          ociUrl: S.optional(S.String),
-          displayName: S.optional(S.String),
-          name: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1133, __c35, 13),
+          S.Struct({
+            goldengateDeploymentId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/goldengateDeployments",
@@ -9339,7 +8957,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsGoldengateDeploymentsRequest" });
   }
 }
-function __c33(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9360,7 +8978,7 @@ function __c33(j: number): any {
         }),
       ).annotate({ identifier: "GoldengatePlacement" });
     case 2:
-      return S.Array(__S(1057, __c33, 1));
+      return S.Array(__S(1121, __c35, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -9368,7 +8986,7 @@ function __c33(j: number): any {
         }),
       ).annotate({ identifier: "IngressIp" });
     case 4:
-      return S.Array(__S(1059, __c33, 3));
+      return S.Array(__S(1123, __c35, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -9390,7 +9008,7 @@ function __c33(j: number): any {
         }),
       ).annotate({ identifier: "GoldengateDeploymentLock" });
     case 7:
-      return S.Array(__S(1062, __c33, 6));
+      return S.Array(__S(1126, __c35, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
@@ -9406,7 +9024,7 @@ function __c33(j: number): any {
           credentialStore: S.optional(S.String),
           adminPasswordSecretVersion: S.optional(S.String),
           oggVersion: S.optional(S.String),
-          groupRolesMapping: S.optional(__S(1064, __c33, 8)),
+          groupRolesMapping: S.optional(__S(1128, __c35, 8)),
           certificate: S.optional(S.String),
           adminUsername: S.optional(S.String),
           adminPassword: S.optional(S.String),
@@ -9439,7 +9057,7 @@ function __c33(j: number): any {
           privateIpAddress: S.optional(S.String),
           licenseModel: S.optional(S.String),
           lifecycleSubState: S.optional(S.String),
-          nsgIds: S.optional(__S(3616, __c113, 0)),
+          nsgIds: S.optional(__S(3360, __c105, 0)),
           deploymentType: S.optional(S.String),
           oggVersionSupportEndTime: S.optional(S.String),
           nextMaintenanceDescription: S.optional(S.String),
@@ -9453,53 +9071,62 @@ function __c33(j: number): any {
           environmentType: S.optional(S.String),
           description: S.optional(S.String),
           lifecycleDetails: S.optional(S.String),
-          deploymentDiagnosticData: S.optional(__S(1056, __c33, 0)),
+          deploymentDiagnosticData: S.optional(__S(1120, __c35, 0)),
           storageUtilizationBytes: S.optional(S.String),
           isAutoScalingEnabled: S.optional(S.Boolean),
-          placements: S.optional(__S(1058, __c33, 2)),
-          ingressIps: S.optional(__S(1060, __c33, 4)),
-          maintenanceConfig: S.optional(__S(1061, __c33, 5)),
+          placements: S.optional(__S(1122, __c35, 2)),
+          ingressIps: S.optional(__S(1124, __c35, 4)),
+          maintenanceConfig: S.optional(__S(1125, __c35, 5)),
           roleChangeTime: S.optional(S.String),
           nextMaintenanceTime: S.optional(S.String),
-          locks: S.optional(__S(1063, __c33, 7)),
+          locks: S.optional(__S(1127, __c35, 7)),
           isLatestVersion: S.optional(S.Boolean),
           loadBalancerId: S.optional(S.String),
-          oggData: S.optional(__S(1065, __c33, 9)),
+          oggData: S.optional(__S(1129, __c35, 9)),
           deploymentRole: S.optional(S.String),
           upgradeRequiredTime: S.optional(S.String),
           lastBackupScheduleTime: S.optional(S.String),
           category: S.optional(S.String),
           deploymentUrl: S.optional(S.String),
-          backupSchedule: S.optional(__S(1066, __c33, 10)),
+          backupSchedule: S.optional(__S(1130, __c35, 10)),
           deploymentBackupId: S.optional(S.String),
           healthy: S.optional(S.Boolean),
           publicIpAddress: S.optional(S.String),
-          maintenanceWindow: S.optional(__S(1067, __c33, 11)),
+          maintenanceWindow: S.optional(__S(1131, __c35, 11)),
           updateTime: S.optional(S.String),
           loadBalancerSubnetId: S.optional(S.String),
           nextBackupScheduleTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoldengateDeploymentProperties" });
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          createTime: S.optional(S.String),
+          labels: S.optional(__S(3328, __c104, 0)),
+          odbSubnet: S.optional(S.String),
+          gcpOracleZone: S.optional(S.String),
+          entitlementId: S.optional(S.String),
+          properties: S.optional(__S(1132, __c35, 12)),
+          odbNetwork: S.optional(S.String),
+          ociUrl: S.optional(S.String),
+          displayName: S.optional(S.String),
+          name: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoldengateDeployment" });
   }
 }
-function __c34(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          odbNetworkId: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          network: S.optional(S.String),
-          labels: S.optional(__S(3584, __c112, 0)),
-          serviceConnectivityConfig: S.optional(__S(1121, __c35, 1)),
-          name: S.optional(S.String),
-          entitlementId: S.optional(S.String),
-          gcpOracleZone: S.optional(S.String),
-          reconciling: S.optional(S.Boolean),
-          state: S.optional(S.String),
-          createTime: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1186, __c37, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            odbNetworkId: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/odbNetworks",
@@ -9509,7 +9136,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsOdbNetworksRequest" });
   }
 }
-function __c35(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9520,25 +9147,37 @@ function __c35(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          pscInterfaceConfig: S.optional(__S(1120, __c35, 0)),
+          pscInterfaceConfig: S.optional(__S(1184, __c37, 0)),
         }),
       ).annotate({ identifier: "ServiceConnectivityConfig" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          network: S.optional(S.String),
+          labels: S.optional(__S(3328, __c104, 0)),
+          serviceConnectivityConfig: S.optional(__S(1185, __c37, 1)),
+          name: S.optional(S.String),
+          entitlementId: S.optional(S.String),
+          gcpOracleZone: S.optional(S.String),
+          reconciling: S.optional(S.Boolean),
+          state: S.optional(S.String),
+          createTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "OdbNetwork" });
   }
 }
-function __c36(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          odbDnsZoneId: S.optional(S.String.pipe(T.Query())),
-          domain: S.optional(S.String),
-          createTime: S.optional(S.String),
-          state: S.optional(S.String),
-          labels: S.optional(__S(3584, __c112, 0)),
-          name: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1248, __c39, 0),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            odbDnsZoneId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/odbDnsZones",
@@ -9548,21 +9187,32 @@ function __c36(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsOdbNetworksOdbDnsZonesRequest" });
   }
 }
-function __c37(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          odbSubnetId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          state: S.optional(S.String),
+          domain: S.optional(S.String),
           createTime: S.optional(S.String),
-          labels: S.optional(__S(3584, __c112, 0)),
-          cidrRange: S.optional(S.String),
+          state: S.optional(S.String),
+          labels: S.optional(__S(3328, __c104, 0)),
           name: S.optional(S.String),
-          purpose: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "OdbDnsZone" });
+  }
+}
+function __c40(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(1312, __c41, 0),
+          S.Struct({
+            odbSubnetId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/odbSubnets",
@@ -9572,7 +9222,22 @@ function __c37(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsOdbNetworksOdbSubnetsRequest" });
   }
 }
-function __c38(j: number): any {
+function __c41(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          state: S.optional(S.String),
+          createTime: S.optional(S.String),
+          labels: S.optional(__S(3328, __c104, 0)),
+          cidrRange: S.optional(S.String),
+          name: S.optional(S.String),
+          purpose: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "OdbSubnet" });
+  }
+}
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9589,7 +9254,7 @@ function __c38(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsAutonomousDatabasesRequest" });
   }
 }
-function __c39(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9607,7 +9272,7 @@ function __c39(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsCloudExadataInfrastructuresRequest" });
   }
 }
-function __c40(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9625,7 +9290,7 @@ function __c40(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsCloudVmClustersRequest" });
   }
 }
-function __c41(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9642,7 +9307,7 @@ function __c41(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsDatabaseConnectionsRequest" });
   }
 }
-function __c42(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9659,7 +9324,7 @@ function __c42(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsDbSystemsRequest" });
   }
 }
-function __c43(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9676,7 +9341,7 @@ function __c43(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsExadbVmClustersRequest" });
   }
 }
-function __c44(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9693,7 +9358,7 @@ function __c44(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsExascaleDbStorageVaultsRequest" });
   }
 }
-function __c45(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9710,7 +9375,7 @@ function __c45(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsGoldengateConnectionAssignmentsRequest" });
   }
 }
-function __c46(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9727,7 +9392,7 @@ function __c46(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsGoldengateConnectionsRequest" });
   }
 }
-function __c47(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9744,7 +9409,7 @@ function __c47(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsGoldengateDeploymentsRequest" });
   }
 }
-function __c48(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9761,7 +9426,7 @@ function __c48(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsOdbNetworksRequest" });
   }
 }
-function __c49(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9778,7 +9443,7 @@ function __c49(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsOdbNetworksOdbDnsZonesRequest" });
   }
 }
-function __c50(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9795,7 +9460,7 @@ function __c50(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsOdbNetworksOdbSubnetsRequest" });
   }
 }
-function __c51(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9811,13 +9476,13 @@ function __c51(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsOperationsRequest" });
   }
 }
-function __c52(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2464, __c77, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(2400, __c75, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -9828,13 +9493,13 @@ function __c52(j: number): any {
       ).annotate({ identifier: "DisableIdentityConnectorProjectsLocationsCloudVmClustersRequest" });
   }
 }
-function __c53(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2464, __c77, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(2400, __c75, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -9845,13 +9510,13 @@ function __c53(j: number): any {
       ).annotate({ identifier: "DisableIdentityConnectorProjectsLocationsExadbVmClustersRequest" });
   }
 }
-function __c54(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2464, __c77, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(2400, __c75, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -9862,13 +9527,13 @@ function __c54(j: number): any {
       ).annotate({ identifier: "EnableIdentityConnectorProjectsLocationsCloudVmClustersRequest" });
   }
 }
-function __c55(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2464, __c77, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(2400, __c75, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -9879,7 +9544,7 @@ function __c55(j: number): any {
       ).annotate({ identifier: "EnableIdentityConnectorProjectsLocationsExadbVmClustersRequest" });
   }
 }
-function __c56(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9890,14 +9555,22 @@ function __c56(j: number): any {
         }),
       ).annotate({ identifier: "SqlParameter" });
     case 1:
-      return S.Array(__S(1792, __c56, 0));
+      return S.Array(__S(1920, __c60, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
-          params: S.optional(__S(1793, __c56, 1)),
+          params: S.optional(__S(1921, __c60, 1)),
           sqlStatement: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "ExecuteSqlRequest" });
+    case 3:
+      return S.suspend(() =>
+        S.Extend(
+          __S(1922, __c60, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:executeSql",
@@ -9905,7 +9578,7 @@ function __c56(j: number): any {
           }),
         ),
       ).annotate({ identifier: "ExecuteSqlProjectsLocationsDatabaseConnectionsRequest" });
-    case 3:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
@@ -9914,58 +9587,60 @@ function __c56(j: number): any {
           executionDuration: S.optional(S.String),
         }),
       ).annotate({ identifier: "ExecuteSqlMetadata" });
-    case 4:
+    case 5:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
           type: S.optional(S.String),
         }),
       ).annotate({ identifier: "Column" });
-    case 5:
-      return S.Array(__S(1796, __c56, 4));
     case 6:
+      return S.Array(__S(1925, __c60, 5));
+    case 7:
       return S.suspend(() =>
         S.Struct({
           nullValue: S.optional(S.Boolean),
           value: S.optional(S.String),
         }),
       ).annotate({ identifier: "Value" });
-    case 7:
-      return S.Array(__S(1798, __c56, 6));
     case 8:
+      return S.Array(__S(1927, __c60, 7));
+    case 9:
       return S.suspend(() =>
         S.Struct({
-          values: S.optional(__S(1799, __c56, 7)),
+          values: S.optional(__S(1928, __c60, 8)),
         }),
       ).annotate({ identifier: "Row" });
-    case 9:
-      return S.Array(__S(1800, __c56, 8));
     case 10:
+      return S.Array(__S(1929, __c60, 9));
+    case 11:
       return S.suspend(() =>
         S.Struct({
-          columns: S.optional(__S(1797, __c56, 5)),
-          rows: S.optional(__S(1801, __c56, 9)),
+          columns: S.optional(__S(1926, __c60, 6)),
+          rows: S.optional(__S(1930, __c60, 10)),
         }),
       ).annotate({ identifier: "SqlResult" });
-    case 11:
-      return S.Array(__S(1802, __c56, 10));
     case 12:
+      return S.Array(__S(1931, __c60, 11));
+    case 13:
       return S.suspend(() =>
         S.Struct({
-          metadata: S.optional(__S(1795, __c56, 3)),
-          sqlResults: S.optional(__S(1803, __c56, 11)),
+          metadata: S.optional(__S(1924, __c60, 4)),
+          sqlResults: S.optional(__S(1932, __c60, 12)),
         }),
       ).annotate({ identifier: "ExecuteSqlResponse" });
   }
 }
-function __c57(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          peerAutonomousDatabase: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1984, __c62, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:failover",
@@ -9975,16 +9650,34 @@ function __c57(j: number): any {
       ).annotate({ identifier: "FailoverProjectsLocationsAutonomousDatabasesRequest" });
   }
 }
-function __c58(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
+          peerAutonomousDatabase: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "FailoverAutonomousDatabaseRequest" });
+  }
+}
+function __c63(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           type: S.optional(S.String),
           password: S.optional(S.String),
           isRegional: S.optional(S.Boolean),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "GenerateAutonomousDatabaseWalletRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(2016, __c63, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:generateWallet",
@@ -9992,7 +9685,7 @@ function __c58(j: number): any {
           }),
         ),
       ).annotate({ identifier: "GenerateWalletProjectsLocationsAutonomousDatabasesRequest" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           archiveContent: S.optional(S.String),
@@ -10000,7 +9693,7 @@ function __c58(j: number): any {
       ).annotate({ identifier: "GenerateAutonomousDatabaseWalletResponse" });
   }
 }
-function __c59(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10016,13 +9709,13 @@ function __c59(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsRequest" });
   }
 }
-function __c60(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          labels: S.optional(__S(3584, __c112, 0)),
-          metadata: S.optional(__S(3072, __c96, 0)),
+          labels: S.optional(__S(3328, __c104, 0)),
+          metadata: S.optional(__S(2816, __c88, 0)),
           locationId: S.optional(S.String),
           displayName: S.optional(S.String),
           name: S.optional(S.String),
@@ -10030,7 +9723,7 @@ function __c60(j: number): any {
       ).annotate({ identifier: "Location" });
   }
 }
-function __c61(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10046,32 +9739,7 @@ function __c61(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsAutonomousDatabasesRequest" });
   }
 }
-function __c62(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          adminPassword: S.optional(S.String),
-          name: S.optional(S.String),
-          network: S.optional(S.String),
-          database: S.optional(S.String),
-          labels: S.optional(__S(3584, __c112, 0)),
-          disasterRecoverySupportedLocations: S.optional(__S(3616, __c113, 0)),
-          adminPasswordSecretVersion: S.optional(S.String),
-          cidr: S.optional(S.String),
-          entitlementId: S.optional(S.String),
-          createTime: S.optional(S.String),
-          sourceConfig: S.optional(__S(3520, __c110, 0)),
-          properties: S.optional(__S(3534, __c110, 14)),
-          odbNetwork: S.optional(S.String),
-          odbSubnet: S.optional(S.String),
-          peerAutonomousDatabases: S.optional(__S(3616, __c113, 0)),
-          displayName: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AutonomousDatabase" });
-  }
-}
-function __c63(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10087,23 +9755,7 @@ function __c63(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsCloudExadataInfrastructuresRequest" });
   }
 }
-function __c64(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          createTime: S.optional(S.String),
-          name: S.optional(S.String),
-          displayName: S.optional(S.String),
-          gcpOracleZone: S.optional(S.String),
-          entitlementId: S.optional(S.String),
-          labels: S.optional(__S(3584, __c112, 0)),
-          properties: S.optional(__S(4035, __c126, 3)),
-        }),
-      ).annotate({ identifier: "CloudExadataInfrastructure" });
-  }
-}
-function __c65(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10119,33 +9771,7 @@ function __c65(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsCloudVmClustersRequest" });
   }
 }
-function __c66(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          exascaleDbStorageVault: S.optional(S.String),
-          displayName: S.optional(S.String),
-          properties: S.optional(__S(4481, __c140, 1)),
-          odbNetwork: S.optional(S.String),
-          labels: S.optional(__S(3584, __c112, 0)),
-          odbSubnet: S.optional(S.String),
-          backupSubnetCidr: S.optional(S.String),
-          createTime: S.optional(S.String),
-          identityConnector: S.optional(__S(4448, __c139, 0)),
-          exadataInfrastructure: S.optional(S.String),
-          network: S.optional(S.String),
-          odbDnsZone: S.optional(S.String),
-          cidr: S.optional(S.String),
-          gcpOracleZone: S.optional(S.String),
-          backupOdbSubnet: S.optional(S.String),
-          identityConnectorDisabled: S.optional(S.Boolean),
-          name: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CloudVmCluster" });
-  }
-}
-function __c67(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10161,28 +9787,7 @@ function __c67(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsDatabaseConnectionsRequest" });
   }
 }
-function __c68(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          lifecycleDetails: S.optional(S.String),
-          walletSecretVersion: S.optional(S.String),
-          odbNetwork: S.optional(S.String),
-          displayName: S.optional(S.String),
-          name: S.optional(S.String),
-          username: S.optional(S.String),
-          passwordSecretVersion: S.optional(S.String),
-          connectionString: S.optional(S.String),
-          labels: S.optional(__S(3584, __c112, 0)),
-          state: S.optional(S.String),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DatabaseConnection" });
-  }
-}
-function __c69(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10198,7 +9803,7 @@ function __c69(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsDatabasesRequest" });
   }
 }
-function __c70(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10212,25 +9817,6 @@ function __c70(j: number): any {
           }),
         ),
       ).annotate({ identifier: "GetProjectsLocationsDbSystemsRequest" });
-  }
-}
-function __c71(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          properties: S.optional(__S(451, __c14, 3)),
-          odbNetwork: S.optional(S.String),
-          name: S.optional(S.String),
-          displayName: S.optional(S.String),
-          ociUrl: S.optional(S.String),
-          odbSubnet: S.optional(S.String),
-          gcpOracleZone: S.optional(S.String),
-          entitlementId: S.optional(S.String),
-          createTime: S.optional(S.String),
-          labels: S.optional(__S(3584, __c112, 0)),
-        }),
-      ).annotate({ identifier: "DbSystem" });
   }
 }
 function __c72(j: number): any {
@@ -10254,27 +9840,6 @@ function __c73(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          identityConnectorDisabled: S.optional(S.Boolean),
-          labels: S.optional(__S(3584, __c112, 0)),
-          createTime: S.optional(S.String),
-          displayName: S.optional(S.String),
-          odbSubnet: S.optional(S.String),
-          backupOdbSubnet: S.optional(S.String),
-          identityConnector: S.optional(__S(4448, __c139, 0)),
-          gcpOracleZone: S.optional(S.String),
-          entitlementId: S.optional(S.String),
-          name: S.optional(S.String),
-          properties: S.optional(__S(770, __c24, 2)),
-          odbNetwork: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ExadbVmCluster" });
-  }
-}
-function __c74(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
           name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -10286,30 +9851,13 @@ function __c74(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsExascaleDbStorageVaultsRequest" });
   }
 }
-function __c75(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          displayName: S.optional(S.String),
-          properties: S.optional(__S(833, __c26, 1)),
-          exadataInfrastructure: S.optional(S.String),
-          createTime: S.optional(S.String),
-          labels: S.optional(__S(3584, __c112, 0)),
-          gcpOracleZone: S.optional(S.String),
-          entitlementId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ExascaleDbStorageVault" });
-  }
-}
-function __c76(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2464, __c77, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(2400, __c75, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -10320,13 +9868,13 @@ function __c76(j: number): any {
       ).annotate({ identifier: "CancelProjectsLocationsOperationsRequest" });
   }
 }
-function __c77(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "CancelOperationRequest" });
   }
 }
-function __c78(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10342,22 +9890,7 @@ function __c78(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsGoldengateConnectionAssignmentsRequest" });
   }
 }
-function __c79(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          entitlementId: S.optional(S.String),
-          createTime: S.optional(S.String),
-          name: S.optional(S.String),
-          labels: S.optional(__S(3584, __c112, 0)),
-          properties: S.optional(__S(896, __c28, 0)),
-          displayName: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoldengateConnectionAssignment" });
-  }
-}
-function __c80(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10373,25 +9906,7 @@ function __c80(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsGoldengateConnectionsRequest" });
   }
 }
-function __c81(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          labels: S.optional(__S(3584, __c112, 0)),
-          createTime: S.optional(S.String),
-          gcpOracleZone: S.optional(S.String),
-          entitlementId: S.optional(S.String),
-          odbSubnet: S.optional(S.String),
-          properties: S.optional(__S(1001, __c31, 9)),
-          odbNetwork: S.optional(S.String),
-          ociUrl: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoldengateConnection" });
-  }
-}
-function __c82(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10407,26 +9922,7 @@ function __c82(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsGoldengateDeploymentsRequest" });
   }
 }
-function __c83(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          createTime: S.optional(S.String),
-          labels: S.optional(__S(3584, __c112, 0)),
-          odbSubnet: S.optional(S.String),
-          gcpOracleZone: S.optional(S.String),
-          entitlementId: S.optional(S.String),
-          properties: S.optional(__S(1068, __c33, 12)),
-          odbNetwork: S.optional(S.String),
-          ociUrl: S.optional(S.String),
-          displayName: S.optional(S.String),
-          name: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoldengateDeployment" });
-  }
-}
-function __c84(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10442,25 +9938,7 @@ function __c84(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsOdbNetworksRequest" });
   }
 }
-function __c85(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          network: S.optional(S.String),
-          labels: S.optional(__S(3584, __c112, 0)),
-          serviceConnectivityConfig: S.optional(__S(1121, __c35, 1)),
-          name: S.optional(S.String),
-          entitlementId: S.optional(S.String),
-          gcpOracleZone: S.optional(S.String),
-          reconciling: S.optional(S.Boolean),
-          state: S.optional(S.String),
-          createTime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "OdbNetwork" });
-  }
-}
-function __c86(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10476,21 +9954,7 @@ function __c86(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsOdbNetworksOdbDnsZonesRequest" });
   }
 }
-function __c87(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          domain: S.optional(S.String),
-          createTime: S.optional(S.String),
-          state: S.optional(S.String),
-          labels: S.optional(__S(3584, __c112, 0)),
-          name: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "OdbDnsZone" });
-  }
-}
-function __c88(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10506,22 +9970,7 @@ function __c88(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsOdbNetworksOdbSubnetsRequest" });
   }
 }
-function __c89(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          state: S.optional(S.String),
-          createTime: S.optional(S.String),
-          labels: S.optional(__S(3584, __c112, 0)),
-          cidrRange: S.optional(S.String),
-          name: S.optional(S.String),
-          purpose: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "OdbSubnet" });
-  }
-}
-function __c90(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10537,7 +9986,7 @@ function __c90(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsOperationsRequest" });
   }
 }
-function __c91(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10553,16 +10002,16 @@ function __c91(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsPluggableDatabasesRequest" });
   }
 }
-function __c92(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          tags: S.optional(__S(3584, __c112, 0)),
+          tags: S.optional(__S(3328, __c104, 0)),
         }),
       ).annotate({ identifier: "DefinedTagValue" });
     case 1:
-      return S.Record(S.String, __S(2944, __c92, 0));
+      return S.Record(S.String, __S(2688, __c84, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -10572,30 +10021,30 @@ function __c92(j: number): any {
         }),
       ).annotate({ identifier: "PluggableDatabaseNodeLevelDetails" });
     case 3:
-      return S.Array(__S(2946, __c92, 2));
+      return S.Array(__S(2690, __c84, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           pdbDefault: S.optional(S.String),
-          allConnectionStrings: S.optional(__S(3584, __c112, 0)),
+          allConnectionStrings: S.optional(__S(3328, __c104, 0)),
           pdbIpDefault: S.optional(S.String),
         }),
       ).annotate({ identifier: "PluggableDatabaseConnectionStrings" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          definedTags: S.optional(__S(2945, __c92, 1)),
-          pdbNodeLevelDetails: S.optional(__S(2947, __c92, 3)),
+          definedTags: S.optional(__S(2689, __c84, 1)),
+          pdbNodeLevelDetails: S.optional(__S(2691, __c84, 3)),
           lifecycleDetails: S.optional(S.String),
           lifecycleState: S.optional(S.String),
           isRestricted: S.optional(S.Boolean),
           pdbName: S.optional(S.String),
           operationsInsightsState: S.optional(S.String),
-          connectionStrings: S.optional(__S(2948, __c92, 4)),
+          connectionStrings: S.optional(__S(2692, __c84, 4)),
           compartmentId: S.optional(S.String),
-          databaseManagementConfig: S.optional(__S(384, __c12, 0)),
+          databaseManagementConfig: S.optional(__S(416, __c13, 0)),
           ocid: S.optional(S.String),
-          freeformTags: S.optional(__S(3584, __c112, 0)),
+          freeformTags: S.optional(__S(3328, __c104, 0)),
           containerDatabaseOcid: S.optional(S.String),
         }),
       ).annotate({ identifier: "PluggableDatabaseProperties" });
@@ -10605,12 +10054,12 @@ function __c92(j: number): any {
           name: S.optional(S.String),
           ociUrl: S.optional(S.String),
           createTime: S.optional(S.String),
-          properties: S.optional(__S(2949, __c92, 5)),
+          properties: S.optional(__S(2693, __c84, 5)),
         }),
       ).annotate({ identifier: "PluggableDatabase" });
   }
 }
-function __c93(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10632,21 +10081,21 @@ function __c93(j: number): any {
         }),
       ).annotate({ identifier: "AutonomousDatabaseRefreshableClone" });
     case 2:
-      return S.Array(__S(2977, __c93, 1));
+      return S.Array(__S(2721, __c85, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          autonomousDatabaseRefreshableClones: S.optional(__S(2978, __c93, 2)),
+          autonomousDatabaseRefreshableClones: S.optional(__S(2722, __c85, 2)),
         }),
       ).annotate({ identifier: "AutonomousDatabaseRefreshableClones" });
   }
 }
-function __c94(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          extraLocationTypes: S.optional(__S(3616, __c113, 0).pipe(T.Query())),
+          extraLocationTypes: S.optional(__S(3360, __c105, 0).pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
@@ -10660,26 +10109,34 @@ function __c94(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsRequest" });
     case 1:
-      return S.Array(__S(1920, __c60, 0));
+      return S.Array(__S(2080, __c65, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          locations: S.optional(__S(3009, __c94, 1)),
+          locations: S.optional(__S(2753, __c86, 1)),
         }),
       ).annotate({ identifier: "ListLocationsResponse" });
   }
 }
-function __c95(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           totalStorageSizeGb: S.optional(S.Number),
           requestId: S.optional(S.String),
           totalVmStorageSizeGb: S.optional(S.Number),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "ConfigureExascaleCloudExadataInfrastructureRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(2784, __c87, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:configureExascale",
@@ -10691,21 +10148,21 @@ function __c95(j: number): any {
       });
   }
 }
-function __c96(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c97(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(3072, __c96, 0));
+      return S.Array(__S(2816, __c88, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
           code: S.optional(S.Number),
-          details: S.optional(__S(3104, __c97, 0)),
+          details: S.optional(__S(2848, __c89, 0)),
           message: S.optional(S.String),
         }),
       ).annotate({ identifier: "Status" });
@@ -10713,15 +10170,15 @@ function __c97(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          error: S.optional(__S(3105, __c97, 1)),
+          error: S.optional(__S(2849, __c89, 1)),
           done: S.optional(S.Boolean),
-          metadata: S.optional(__S(3072, __c96, 0)),
-          response: S.optional(__S(3072, __c96, 0)),
+          metadata: S.optional(__S(2816, __c88, 0)),
+          response: S.optional(__S(2816, __c88, 0)),
         }),
       ).annotate({ identifier: "Operation" });
   }
 }
-function __c98(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10767,24 +10224,24 @@ function __c98(j: number): any {
       return S.suspend(() =>
         S.Struct({
           displayName: S.optional(S.String),
-          properties: S.optional(__S(3137, __c98, 1)),
-          labels: S.optional(__S(3584, __c112, 0)),
+          properties: S.optional(__S(2881, __c90, 1)),
+          labels: S.optional(__S(3328, __c104, 0)),
           autonomousDatabase: S.optional(S.String),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "AutonomousDatabaseBackup" });
     case 3:
-      return S.Array(__S(3138, __c98, 2));
+      return S.Array(__S(2882, __c90, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          autonomousDatabaseBackups: S.optional(__S(3139, __c98, 3)),
+          autonomousDatabaseBackups: S.optional(__S(2883, __c90, 3)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListAutonomousDatabaseBackupsResponse" });
   }
 }
-function __c99(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10810,17 +10267,17 @@ function __c99(j: number): any {
         }),
       ).annotate({ identifier: "AutonomousDatabaseCharacterSet" });
     case 2:
-      return S.Array(__S(3169, __c99, 1));
+      return S.Array(__S(2913, __c91, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          autonomousDatabaseCharacterSets: S.optional(__S(3170, __c99, 2)),
+          autonomousDatabaseCharacterSets: S.optional(__S(2914, __c91, 2)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListAutonomousDatabaseCharacterSetsResponse" });
   }
 }
-function __c100(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10839,18 +10296,18 @@ function __c100(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsAutonomousDatabasesRequest" });
     case 1:
-      return S.Array(__S(1984, __c62, 0));
+      return S.Array(__S(3279, __c102, 15));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          autonomousDatabases: S.optional(__S(3201, __c100, 1)),
+          autonomousDatabases: S.optional(__S(2945, __c92, 1)),
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(3616, __c113, 0)),
+          unreachable: S.optional(__S(3360, __c105, 0)),
         }),
       ).annotate({ identifier: "ListAutonomousDatabasesResponse" });
   }
 }
-function __c101(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10876,17 +10333,17 @@ function __c101(j: number): any {
         }),
       ).annotate({ identifier: "AutonomousDbVersion" });
     case 2:
-      return S.Array(__S(3233, __c101, 1));
+      return S.Array(__S(2977, __c93, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          autonomousDbVersions: S.optional(__S(3234, __c101, 2)),
+          autonomousDbVersions: S.optional(__S(2978, __c93, 2)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListAutonomousDbVersionsResponse" });
   }
 }
-function __c102(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10905,18 +10362,18 @@ function __c102(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsCloudExadataInfrastructuresRequest" });
     case 1:
-      return S.Array(__S(2048, __c64, 0));
+      return S.Array(__S(3780, __c118, 4));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(3616, __c113, 0)),
-          cloudExadataInfrastructures: S.optional(__S(3265, __c102, 1)),
+          unreachable: S.optional(__S(3360, __c105, 0)),
+          cloudExadataInfrastructures: S.optional(__S(3009, __c94, 1)),
         }),
       ).annotate({ identifier: "ListCloudExadataInfrastructuresResponse" });
   }
 }
-function __c103(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10940,7 +10397,7 @@ function __c103(j: number): any {
           maxOcpuCount: S.optional(S.Number),
           vmCount: S.optional(S.Number),
           dbNodeStorageSizeGb: S.optional(S.Number),
-          dbNodeIds: S.optional(__S(3616, __c113, 0)),
+          dbNodeIds: S.optional(__S(3360, __c105, 0)),
           maxMemorySizeGb: S.optional(S.Number),
           maxDbNodeStorageSizeGb: S.optional(S.Number),
           ocpuCount: S.optional(S.Number),
@@ -10954,21 +10411,21 @@ function __c103(j: number): any {
         S.Struct({
           name: S.optional(S.String),
           displayName: S.optional(S.String),
-          properties: S.optional(__S(3297, __c103, 1)),
+          properties: S.optional(__S(3041, __c95, 1)),
         }),
       ).annotate({ identifier: "DbServer" });
     case 3:
-      return S.Array(__S(3298, __c103, 2));
+      return S.Array(__S(3042, __c95, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          dbServers: S.optional(__S(3299, __c103, 3)),
+          dbServers: S.optional(__S(3043, __c95, 3)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListDbServersResponse" });
   }
 }
-function __c104(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10986,18 +10443,18 @@ function __c104(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsCloudVmClustersRequest" });
     case 1:
-      return S.Array(__S(2112, __c66, 0));
+      return S.Array(__S(4226, __c132, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          cloudVmClusters: S.optional(__S(3329, __c104, 1)),
+          cloudVmClusters: S.optional(__S(3073, __c96, 1)),
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(3616, __c113, 0)),
+          unreachable: S.optional(__S(3360, __c105, 0)),
         }),
       ).annotate({ identifier: "ListCloudVmClustersResponse" });
   }
 }
-function __c105(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11015,7 +10472,7 @@ function __c105(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsCloudVmClustersDbNodesRequest" });
   }
 }
-function __c106(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11034,22 +10491,22 @@ function __c106(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          properties: S.optional(__S(3392, __c106, 0)),
+          properties: S.optional(__S(3136, __c98, 0)),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "DbNode" });
     case 2:
-      return S.Array(__S(3393, __c106, 1));
+      return S.Array(__S(3137, __c98, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          dbNodes: S.optional(__S(3394, __c106, 2)),
+          dbNodes: S.optional(__S(3138, __c98, 2)),
         }),
       ).annotate({ identifier: "ListDbNodesResponse" });
   }
 }
-function __c107(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11075,17 +10532,17 @@ function __c107(j: number): any {
         }),
       ).annotate({ identifier: "DatabaseCharacterSet" });
     case 2:
-      return S.Array(__S(3425, __c107, 1));
+      return S.Array(__S(3169, __c99, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          databaseCharacterSets: S.optional(__S(3426, __c107, 2)),
+          databaseCharacterSets: S.optional(__S(3170, __c99, 2)),
         }),
       ).annotate({ identifier: "ListDatabaseCharacterSetsResponse" });
   }
 }
-function __c108(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11104,42 +10561,29 @@ function __c108(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsDatabaseConnectionsRequest" });
     case 1:
-      return S.Array(__S(2176, __c68, 0));
+      return S.Array(__S(32, __c1, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(3616, __c113, 0)),
-          databaseConnections: S.optional(__S(3457, __c108, 1)),
+          unreachable: S.optional(__S(3360, __c105, 0)),
+          databaseConnections: S.optional(__S(3201, __c100, 1)),
         }),
       ).annotate({ identifier: "ListDatabaseConnectionsResponse" });
   }
 }
-function __c109(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          autonomousDatabaseId: S.optional(S.String.pipe(T.Query())),
-          adminPassword: S.optional(S.String),
-          name: S.optional(S.String),
-          network: S.optional(S.String),
-          database: S.optional(S.String),
-          labels: S.optional(__S(3584, __c112, 0)),
-          disasterRecoverySupportedLocations: S.optional(__S(3616, __c113, 0)),
-          adminPasswordSecretVersion: S.optional(S.String),
-          cidr: S.optional(S.String),
-          entitlementId: S.optional(S.String),
-          createTime: S.optional(S.String),
-          sourceConfig: S.optional(__S(3520, __c110, 0)),
-          properties: S.optional(__S(3534, __c110, 14)),
-          odbNetwork: S.optional(S.String),
-          odbSubnet: S.optional(S.String),
-          peerAutonomousDatabases: S.optional(__S(3616, __c113, 0)),
-          displayName: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(3279, __c102, 15),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            autonomousDatabaseId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/autonomousDatabases",
@@ -11149,7 +10593,7 @@ function __c109(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsAutonomousDatabasesRequest" });
   }
 }
-function __c110(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11214,14 +10658,14 @@ function __c110(j: number): any {
         }),
       ).annotate({ identifier: "DatabaseConnectionStringProfile" });
     case 6:
-      return S.Array(__S(3525, __c110, 5));
+      return S.Array(__S(3269, __c102, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
           high: S.optional(S.String),
           medium: S.optional(S.String),
-          allConnectionStrings: S.optional(__S(3524, __c110, 4)),
-          profiles: S.optional(__S(3526, __c110, 6)),
+          allConnectionStrings: S.optional(__S(3268, __c102, 4)),
+          profiles: S.optional(__S(3270, __c102, 6)),
           low: S.optional(S.String),
           dedicated: S.optional(S.String),
         }),
@@ -11229,12 +10673,12 @@ function __c110(j: number): any {
     case 8:
       return S.suspend(() =>
         S.Struct({
-          encryptionKey: S.optional(__S(3523, __c110, 3)),
+          encryptionKey: S.optional(__S(3267, __c102, 3)),
           activationTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "EncryptionKeyHistoryEntry" });
     case 9:
-      return S.Array(__S(3528, __c110, 8));
+      return S.Array(__S(3272, __c102, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
@@ -11261,21 +10705,21 @@ function __c110(j: number): any {
       return S.suspend(() =>
         S.Struct({
           dayOfWeek: S.optional(S.String),
-          startTime: S.optional(__S(3531, __c110, 11)),
-          stopTime: S.optional(__S(3531, __c110, 11)),
+          startTime: S.optional(__S(3275, __c102, 11)),
+          stopTime: S.optional(__S(3275, __c102, 11)),
         }),
       ).annotate({ identifier: "ScheduledOperationDetails" });
     case 13:
-      return S.Array(__S(3532, __c110, 12));
+      return S.Array(__S(3276, __c102, 12));
     case 14:
       return S.suspend(() =>
         S.Struct({
           disasterRecoveryRoleChangedTime: S.optional(S.String),
           databaseManagementState: S.optional(S.String),
-          supportedCloneRegions: S.optional(__S(3616, __c113, 0)),
+          supportedCloneRegions: S.optional(__S(3360, __c105, 0)),
           memoryTableGbs: S.optional(S.Number),
           localAdgAutoFailoverMaxDataLossLimitDuration: S.optional(S.Number),
-          localStandbyDb: S.optional(__S(3521, __c110, 1)),
+          localStandbyDb: S.optional(__S(3265, __c102, 1)),
           isStorageAutoScalingEnabled: S.optional(S.Boolean),
           serviceAgentEmail: S.optional(S.String),
           refreshableClone: S.optional(S.Boolean),
@@ -11286,8 +10730,8 @@ function __c110(j: number): any {
           dataGuardRoleChangedTime: S.optional(S.String),
           dbEdition: S.optional(S.String),
           sqlWebDeveloperUrl: S.optional(S.String),
-          apexDetails: S.optional(__S(3522, __c110, 2)),
-          encryptionKey: S.optional(__S(3523, __c110, 3)),
+          apexDetails: S.optional(__S(3266, __c102, 2)),
+          encryptionKey: S.optional(__S(3267, __c102, 3)),
           permissionLevel: S.optional(S.String),
           allocatedStorageSizeTb: S.optional(S.Number),
           privateEndpointIp: S.optional(S.String),
@@ -11297,17 +10741,17 @@ function __c110(j: number): any {
           operationsInsightsState: S.optional(S.String),
           dataSafeState: S.optional(S.String),
           dbVersion: S.optional(S.String),
-          allowlistedIps: S.optional(__S(3616, __c113, 0)),
+          allowlistedIps: S.optional(__S(3360, __c105, 0)),
           localAdgAutoFailoverMaxDataLossLimit: S.optional(S.Number),
           localDataGuardEnabled: S.optional(S.Boolean),
           nextLongTermBackupTime: S.optional(S.String),
           dbWorkload: S.optional(S.String),
           maintenanceScheduleType: S.optional(S.String),
-          connectionStrings: S.optional(__S(3527, __c110, 7)),
+          connectionStrings: S.optional(__S(3271, __c102, 7)),
           role: S.optional(S.String),
           totalAutoBackupStorageSizeGbs: S.optional(S.Number),
-          encryptionKeyHistoryEntries: S.optional(__S(3529, __c110, 9)),
-          peerDbIds: S.optional(__S(3616, __c113, 0)),
+          encryptionKeyHistoryEntries: S.optional(__S(3273, __c102, 9)),
+          peerDbIds: S.optional(__S(3360, __c105, 0)),
           state: S.optional(S.String),
           openMode: S.optional(S.String),
           computeCount: S.optional(S.Number),
@@ -11316,7 +10760,7 @@ function __c110(j: number): any {
           ociUrl: S.optional(S.String),
           maintenanceEndTime: S.optional(S.String),
           localDisasterRecoveryType: S.optional(S.String),
-          availableUpgradeVersions: S.optional(__S(3616, __c113, 0)),
+          availableUpgradeVersions: S.optional(__S(3360, __c105, 0)),
           characterSet: S.optional(S.String),
           failedDataRecoveryDuration: S.optional(S.String),
           privateEndpointLabel: S.optional(S.String),
@@ -11328,19 +10772,40 @@ function __c110(j: number): any {
           mtlsConnectionRequired: S.optional(S.Boolean),
           autonomousContainerDatabaseId: S.optional(S.String),
           cpuCoreCount: S.optional(S.Number),
-          connectionUrls: S.optional(__S(3530, __c110, 10)),
-          scheduledOperationDetails: S.optional(__S(3533, __c110, 13)),
+          connectionUrls: S.optional(__S(3274, __c102, 10)),
+          scheduledOperationDetails: S.optional(__S(3277, __c102, 13)),
           privateEndpoint: S.optional(S.String),
           refreshableMode: S.optional(S.String),
           lifecycleDetails: S.optional(S.String),
-          customerContacts: S.optional(__S(3553, __c111, 1)),
+          customerContacts: S.optional(__S(3297, __c103, 1)),
           actualUsedDataStorageSizeTb: S.optional(S.Number),
           vaultId: S.optional(S.String),
         }),
       ).annotate({ identifier: "AutonomousDatabaseProperties" });
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          adminPassword: S.optional(S.String),
+          name: S.optional(S.String),
+          network: S.optional(S.String),
+          database: S.optional(S.String),
+          labels: S.optional(__S(3328, __c104, 0)),
+          disasterRecoverySupportedLocations: S.optional(__S(3360, __c105, 0)),
+          adminPasswordSecretVersion: S.optional(S.String),
+          cidr: S.optional(S.String),
+          entitlementId: S.optional(S.String),
+          createTime: S.optional(S.String),
+          sourceConfig: S.optional(__S(3264, __c102, 0)),
+          properties: S.optional(__S(3278, __c102, 14)),
+          odbNetwork: S.optional(S.String),
+          odbSubnet: S.optional(S.String),
+          peerAutonomousDatabases: S.optional(__S(3360, __c105, 0)),
+          displayName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AutonomousDatabase" });
   }
 }
-function __c111(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11349,22 +10814,22 @@ function __c111(j: number): any {
         }),
       ).annotate({ identifier: "CustomerContact" });
     case 1:
-      return S.Array(__S(3552, __c111, 0));
+      return S.Array(__S(3296, __c103, 0));
   }
 }
-function __c112(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
   }
 }
-function __c113(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c114(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11382,17 +10847,17 @@ function __c114(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsDatabasesRequest" });
     case 1:
-      return S.Array(__S(420, __c13, 4));
+      return S.Array(__S(451, __c14, 3));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          databases: S.optional(__S(3649, __c114, 1)),
+          databases: S.optional(__S(3393, __c106, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListDatabasesResponse" });
   }
 }
-function __c115(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11419,28 +10884,28 @@ function __c115(j: number): any {
         }),
       ).annotate({ identifier: "ComputePerformance" });
     case 2:
-      return S.Array(__S(3681, __c115, 1));
+      return S.Array(__S(3425, __c107, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           shape: S.optional(S.String),
-          computePerformances: S.optional(__S(3682, __c115, 2)),
+          computePerformances: S.optional(__S(3426, __c107, 2)),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "DbSystemComputePerformance" });
     case 4:
-      return S.Array(__S(3683, __c115, 3));
+      return S.Array(__S(3427, __c107, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          dbSystemComputePerformances: S.optional(__S(3684, __c115, 4)),
+          dbSystemComputePerformances: S.optional(__S(3428, __c107, 4)),
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(3616, __c113, 0)),
+          unreachable: S.optional(__S(3360, __c105, 0)),
         }),
       ).annotate({ identifier: "ListDbSystemComputePerformancesResponse" });
   }
 }
-function __c116(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11464,13 +10929,13 @@ function __c116(j: number): any {
         }),
       ).annotate({ identifier: "StorageSizeDetails" });
     case 2:
-      return S.Array(__S(3713, __c116, 1));
+      return S.Array(__S(3457, __c108, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           shapeType: S.optional(S.String),
-          launchFromBackupStorageSizeDetails: S.optional(__S(3714, __c116, 2)),
-          storageSizeDetails: S.optional(__S(3714, __c116, 2)),
+          launchFromBackupStorageSizeDetails: S.optional(__S(3458, __c108, 2)),
+          storageSizeDetails: S.optional(__S(3458, __c108, 2)),
           storageManagement: S.optional(S.String),
         }),
       ).annotate({ identifier: "DbSystemInitialStorageSizeProperties" });
@@ -11478,21 +10943,21 @@ function __c116(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          properties: S.optional(__S(3715, __c116, 3)),
+          properties: S.optional(__S(3459, __c108, 3)),
         }),
       ).annotate({ identifier: "DbSystemInitialStorageSize" });
     case 5:
-      return S.Array(__S(3716, __c116, 4));
+      return S.Array(__S(3460, __c108, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          dbSystemInitialStorageSizes: S.optional(__S(3717, __c116, 5)),
+          dbSystemInitialStorageSizes: S.optional(__S(3461, __c108, 5)),
         }),
       ).annotate({ identifier: "ListDbSystemInitialStorageSizesResponse" });
   }
 }
-function __c117(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11511,18 +10976,18 @@ function __c117(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsDbSystemsRequest" });
     case 1:
-      return S.Array(__S(2272, __c71, 0));
+      return S.Array(__S(516, __c16, 4));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(3616, __c113, 0)),
+          unreachable: S.optional(__S(3360, __c105, 0)),
           nextPageToken: S.optional(S.String),
-          dbSystems: S.optional(__S(3745, __c117, 1)),
+          dbSystems: S.optional(__S(3489, __c109, 1)),
         }),
       ).annotate({ identifier: "ListDbSystemsResponse" });
   }
 }
-function __c118(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11560,17 +11025,17 @@ function __c118(j: number): any {
         }),
       ).annotate({ identifier: "DbSystemShape" });
     case 2:
-      return S.Array(__S(3777, __c118, 1));
+      return S.Array(__S(3521, __c110, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          dbSystemShapes: S.optional(__S(3778, __c118, 2)),
+          dbSystemShapes: S.optional(__S(3522, __c110, 2)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListDbSystemShapesResponse" });
   }
 }
-function __c119(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11601,21 +11066,21 @@ function __c119(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          properties: S.optional(__S(3809, __c119, 1)),
+          properties: S.optional(__S(3553, __c111, 1)),
         }),
       ).annotate({ identifier: "DbVersion" });
     case 3:
-      return S.Array(__S(3810, __c119, 2));
+      return S.Array(__S(3554, __c111, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          dbVersions: S.optional(__S(3811, __c119, 3)),
+          dbVersions: S.optional(__S(3555, __c111, 3)),
         }),
       ).annotate({ identifier: "ListDbVersionsResponse" });
   }
 }
-function __c120(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11643,24 +11108,24 @@ function __c120(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          cloudAccountDetails: S.optional(__S(3841, __c120, 1)),
+          cloudAccountDetails: S.optional(__S(3585, __c112, 1)),
           entitlementId: S.optional(S.String),
           state: S.optional(S.String),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "Entitlement" });
     case 3:
-      return S.Array(__S(3842, __c120, 2));
+      return S.Array(__S(3586, __c112, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          entitlements: S.optional(__S(3843, __c120, 3)),
+          entitlements: S.optional(__S(3587, __c112, 3)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListEntitlementsResponse" });
   }
 }
-function __c121(j: number): any {
+function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11679,18 +11144,18 @@ function __c121(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsExadbVmClustersRequest" });
     case 1:
-      return S.Array(__S(2336, __c73, 0));
+      return S.Array(__S(835, __c26, 3));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(3616, __c113, 0)),
-          exadbVmClusters: S.optional(__S(3873, __c121, 1)),
+          unreachable: S.optional(__S(3360, __c105, 0)),
+          exadbVmClusters: S.optional(__S(3617, __c113, 1)),
         }),
       ).annotate({ identifier: "ListExadbVmClustersResponse" });
   }
 }
-function __c122(j: number): any {
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11708,7 +11173,7 @@ function __c122(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsExadbVmClustersDbNodesRequest" });
   }
 }
-function __c123(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11727,33 +11192,29 @@ function __c123(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsExascaleDbStorageVaultsRequest" });
     case 1:
-      return S.Array(__S(2400, __c75, 0));
+      return S.Array(__S(898, __c28, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          exascaleDbStorageVaults: S.optional(__S(3937, __c123, 1)),
-          unreachable: S.optional(__S(3616, __c113, 0)),
+          exascaleDbStorageVaults: S.optional(__S(3681, __c115, 1)),
+          unreachable: S.optional(__S(3360, __c105, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListExascaleDbStorageVaultsResponse" });
   }
 }
-function __c124(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          cloudExadataInfrastructureId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          createTime: S.optional(S.String),
-          name: S.optional(S.String),
-          displayName: S.optional(S.String),
-          gcpOracleZone: S.optional(S.String),
-          entitlementId: S.optional(S.String),
-          labels: S.optional(__S(3584, __c112, 0)),
-          properties: S.optional(__S(4035, __c126, 3)),
-        }).pipe(
+        S.Extend(
+          __S(3780, __c118, 4),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            cloudExadataInfrastructureId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/cloudExadataInfrastructures",
@@ -11763,28 +11224,28 @@ function __c124(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsCloudExadataInfrastructuresRequest" });
   }
 }
-function __c125(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c126(j: number): any {
+function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Number);
     case 1:
       return S.suspend(() =>
         S.Struct({
-          hoursOfDay: S.optional(__S(4032, __c126, 0)),
+          hoursOfDay: S.optional(__S(3776, __c118, 0)),
           leadTimeWeek: S.optional(S.Number),
           isCustomActionTimeoutEnabled: S.optional(S.Boolean),
-          months: S.optional(__S(4000, __c125, 0)),
+          months: S.optional(__S(3744, __c117, 0)),
           customActionTimeoutMins: S.optional(S.Number),
           preference: S.optional(S.String),
-          weeksOfMonth: S.optional(__S(4032, __c126, 0)),
+          weeksOfMonth: S.optional(__S(3776, __c118, 0)),
           patchingMode: S.optional(S.String),
-          daysOfWeek: S.optional(__S(4000, __c125, 0)),
+          daysOfWeek: S.optional(__S(3744, __c117, 0)),
         }),
       ).annotate({ identifier: "MaintenanceWindow" });
     case 2:
@@ -11806,7 +11267,7 @@ function __c126(j: number): any {
           nextMaintenanceRunTime: S.optional(S.String),
           computeModel: S.optional(S.String),
           storageServerVersion: S.optional(S.String),
-          maintenanceWindow: S.optional(__S(4033, __c126, 1)),
+          maintenanceWindow: S.optional(__S(3777, __c118, 1)),
           state: S.optional(S.String),
           ociUrl: S.optional(S.String),
           nextSecurityMaintenanceRunTime: S.optional(S.String),
@@ -11826,15 +11287,27 @@ function __c126(j: number): any {
           ocid: S.optional(S.String),
           memorySizeGb: S.optional(S.Number),
           nextMaintenanceRunId: S.optional(S.String),
-          exascaleConfig: S.optional(__S(4034, __c126, 2)),
+          exascaleConfig: S.optional(__S(3778, __c118, 2)),
           additionalStorageCount: S.optional(S.Number),
-          customerContacts: S.optional(__S(3553, __c111, 1)),
+          customerContacts: S.optional(__S(3297, __c103, 1)),
           monthlyStorageServerVersion: S.optional(S.String),
         }),
       ).annotate({ identifier: "CloudExadataInfrastructureProperties" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          createTime: S.optional(S.String),
+          name: S.optional(S.String),
+          displayName: S.optional(S.String),
+          gcpOracleZone: S.optional(S.String),
+          entitlementId: S.optional(S.String),
+          labels: S.optional(__S(3328, __c104, 0)),
+          properties: S.optional(__S(3779, __c118, 3)),
+        }),
+      ).annotate({ identifier: "CloudExadataInfrastructure" });
   }
 }
-function __c127(j: number): any {
+function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11870,23 +11343,23 @@ function __c127(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          properties: S.optional(__S(4065, __c127, 1)),
+          properties: S.optional(__S(3809, __c119, 1)),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "FlexComponent" });
     case 3:
-      return S.Array(__S(4066, __c127, 2));
+      return S.Array(__S(3810, __c119, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(3616, __c113, 0)),
+          unreachable: S.optional(__S(3360, __c105, 0)),
           nextPageToken: S.optional(S.String),
-          flexComponents: S.optional(__S(4067, __c127, 3)),
+          flexComponents: S.optional(__S(3811, __c119, 3)),
         }),
       ).annotate({ identifier: "ListFlexComponentsResponse" });
   }
 }
-function __c128(j: number): any {
+function __c120(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11911,17 +11384,17 @@ function __c128(j: number): any {
         }),
       ).annotate({ identifier: "GiVersion" });
     case 2:
-      return S.Array(__S(4097, __c128, 1));
+      return S.Array(__S(3841, __c120, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          giVersions: S.optional(__S(4098, __c128, 2)),
+          giVersions: S.optional(__S(3842, __c120, 2)),
         }),
       ).annotate({ identifier: "ListGiVersionsResponse" });
   }
 }
-function __c129(j: number): any {
+function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11947,17 +11420,17 @@ function __c129(j: number): any {
         }),
       ).annotate({ identifier: "MinorVersion" });
     case 2:
-      return S.Array(__S(4129, __c129, 1));
+      return S.Array(__S(3873, __c121, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          minorVersions: S.optional(__S(4130, __c129, 2)),
+          minorVersions: S.optional(__S(3874, __c121, 2)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListMinorVersionsResponse" });
   }
 }
-function __c130(j: number): any {
+function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11976,18 +11449,18 @@ function __c130(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsGoldengateConnectionAssignmentsRequest" });
     case 1:
-      return S.Array(__S(2528, __c79, 0));
+      return S.Array(__S(961, __c30, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(3616, __c113, 0)),
-          goldengateConnectionAssignments: S.optional(__S(4161, __c130, 1)),
+          unreachable: S.optional(__S(3360, __c105, 0)),
+          goldengateConnectionAssignments: S.optional(__S(3905, __c122, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListGoldengateConnectionAssignmentsResponse" });
   }
 }
-function __c131(j: number): any {
+function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12006,18 +11479,18 @@ function __c131(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsGoldengateConnectionsRequest" });
     case 1:
-      return S.Array(__S(2592, __c81, 0));
+      return S.Array(__S(1066, __c33, 10));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          goldengateConnections: S.optional(__S(4193, __c131, 1)),
-          unreachable: S.optional(__S(3616, __c113, 0)),
+          goldengateConnections: S.optional(__S(3937, __c123, 1)),
+          unreachable: S.optional(__S(3360, __c105, 0)),
         }),
       ).annotate({ identifier: "ListGoldengateConnectionsResponse" });
   }
 }
-function __c132(j: number): any {
+function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12037,24 +11510,24 @@ function __c132(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          technologyTypes: S.optional(__S(3616, __c113, 0)),
+          technologyTypes: S.optional(__S(3360, __c105, 0)),
           connectionType: S.optional(S.String),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoldengateConnectionType" });
     case 2:
-      return S.Array(__S(4225, __c132, 1));
+      return S.Array(__S(3969, __c124, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(3616, __c113, 0)),
-          goldengateConnectionTypes: S.optional(__S(4226, __c132, 2)),
+          unreachable: S.optional(__S(3360, __c105, 0)),
+          goldengateConnectionTypes: S.optional(__S(3970, __c124, 2)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListGoldengateConnectionTypesResponse" });
   }
 }
-function __c133(j: number): any {
+function __c125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12087,18 +11560,18 @@ function __c133(j: number): any {
         }),
       ).annotate({ identifier: "GoldengateDeploymentEnvironment" });
     case 2:
-      return S.Array(__S(4257, __c133, 1));
+      return S.Array(__S(4001, __c125, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          goldengateDeploymentEnvironments: S.optional(__S(4258, __c133, 2)),
-          unreachable: S.optional(__S(3616, __c113, 0)),
+          goldengateDeploymentEnvironments: S.optional(__S(4002, __c125, 2)),
+          unreachable: S.optional(__S(3360, __c105, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListGoldengateDeploymentEnvironmentsResponse" });
   }
 }
-function __c134(j: number): any {
+function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12117,18 +11590,18 @@ function __c134(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsGoldengateDeploymentsRequest" });
     case 1:
-      return S.Array(__S(2656, __c83, 0));
+      return S.Array(__S(1133, __c35, 13));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          goldengateDeployments: S.optional(__S(4289, __c134, 1)),
-          unreachable: S.optional(__S(3616, __c113, 0)),
+          goldengateDeployments: S.optional(__S(4033, __c126, 1)),
+          unreachable: S.optional(__S(3360, __c105, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListGoldengateDeploymentsResponse" });
   }
 }
-function __c135(j: number): any {
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12149,32 +11622,32 @@ function __c135(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          sourceTechnologies: S.optional(__S(3616, __c113, 0)),
+          sourceTechnologies: S.optional(__S(3360, __c105, 0)),
           name: S.optional(S.String),
-          supportedCapabilities: S.optional(__S(3616, __c113, 0)),
+          supportedCapabilities: S.optional(__S(3360, __c105, 0)),
           displayName: S.optional(S.String),
           deploymentType: S.optional(S.String),
           supportedTechnologiesUrl: S.optional(S.String),
           oggVersion: S.optional(S.String),
-          connectionTypes: S.optional(__S(3616, __c113, 0)),
-          targetTechnologies: S.optional(__S(3616, __c113, 0)),
+          connectionTypes: S.optional(__S(3360, __c105, 0)),
+          targetTechnologies: S.optional(__S(3360, __c105, 0)),
           defaultUsername: S.optional(S.String),
           category: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoldengateDeploymentType" });
     case 2:
-      return S.Array(__S(4321, __c135, 1));
+      return S.Array(__S(4065, __c127, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          goldengateDeploymentTypes: S.optional(__S(4322, __c135, 2)),
-          unreachable: S.optional(__S(3616, __c113, 0)),
+          goldengateDeploymentTypes: S.optional(__S(4066, __c127, 2)),
+          unreachable: S.optional(__S(3360, __c105, 0)),
         }),
       ).annotate({ identifier: "ListGoldengateDeploymentTypesResponse" });
   }
 }
-function __c136(j: number): any {
+function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12205,49 +11678,35 @@ function __c136(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          properties: S.optional(__S(4353, __c136, 1)),
+          properties: S.optional(__S(4097, __c128, 1)),
           ocid: S.optional(S.String),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoldengateDeploymentVersion" });
     case 3:
-      return S.Array(__S(4354, __c136, 2));
+      return S.Array(__S(4098, __c128, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          goldengateDeploymentVersions: S.optional(__S(4355, __c136, 3)),
+          goldengateDeploymentVersions: S.optional(__S(4099, __c128, 3)),
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(3616, __c113, 0)),
+          unreachable: S.optional(__S(3360, __c105, 0)),
         }),
       ).annotate({ identifier: "ListGoldengateDeploymentVersionsResponse" });
   }
 }
-function __c137(j: number): any {
+function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          cloudVmClusterId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          exascaleDbStorageVault: S.optional(S.String),
-          displayName: S.optional(S.String),
-          properties: S.optional(__S(4481, __c140, 1)),
-          odbNetwork: S.optional(S.String),
-          labels: S.optional(__S(3584, __c112, 0)),
-          odbSubnet: S.optional(S.String),
-          backupSubnetCidr: S.optional(S.String),
-          createTime: S.optional(S.String),
-          identityConnector: S.optional(__S(4448, __c139, 0)),
-          exadataInfrastructure: S.optional(S.String),
-          network: S.optional(S.String),
-          odbDnsZone: S.optional(S.String),
-          cidr: S.optional(S.String),
-          gcpOracleZone: S.optional(S.String),
-          backupOdbSubnet: S.optional(S.String),
-          identityConnectorDisabled: S.optional(S.Boolean),
-          name: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(4226, __c132, 2),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            cloudVmClusterId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/cloudVmClusters",
@@ -12257,7 +11716,7 @@ function __c137(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsCloudVmClustersRequest" });
   }
 }
-function __c138(j: number): any {
+function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12268,7 +11727,7 @@ function __c138(j: number): any {
       ).annotate({ identifier: "TimeZone" });
   }
 }
-function __c139(j: number): any {
+function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12282,7 +11741,7 @@ function __c139(j: number): any {
       ).annotate({ identifier: "IdentityConnector" });
   }
 }
-function __c140(j: number): any {
+function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12302,12 +11761,12 @@ function __c140(j: number): any {
           memorySizeGb: S.optional(S.Number),
           hostname: S.optional(S.String),
           vmBackupStorageType: S.optional(S.String),
-          dbServerOcids: S.optional(__S(3616, __c113, 0)),
-          timeZone: S.optional(__S(4416, __c138, 0)),
+          dbServerOcids: S.optional(__S(3360, __c105, 0)),
+          timeZone: S.optional(__S(4160, __c130, 0)),
           hostnamePrefix: S.optional(S.String),
           scanDns: S.optional(S.String),
           ocpuCount: S.optional(S.Number),
-          scanIpIds: S.optional(__S(3616, __c113, 0)),
+          scanIpIds: S.optional(__S(3360, __c105, 0)),
           giVersion: S.optional(S.String),
           systemVersion: S.optional(S.String),
           shape: S.optional(S.String),
@@ -12320,11 +11779,11 @@ function __c140(j: number): any {
           scanListenerPortTcpSsl: S.optional(S.Number),
           scanListenerPortTcp: S.optional(S.Number),
           scanDnsRecordId: S.optional(S.String),
-          sshPublicKeys: S.optional(__S(3616, __c113, 0)),
+          sshPublicKeys: S.optional(__S(3360, __c105, 0)),
           compartmentId: S.optional(S.String),
           diskRedundancy: S.optional(S.String),
           storageSizeGb: S.optional(S.Number),
-          diagnosticsDataCollectionOptions: S.optional(__S(4480, __c140, 0)),
+          diagnosticsDataCollectionOptions: S.optional(__S(4224, __c132, 0)),
           nodeCount: S.optional(S.Number),
           domain: S.optional(S.String),
           dnsListenerIp: S.optional(S.String),
@@ -12333,9 +11792,31 @@ function __c140(j: number): any {
           localBackupEnabled: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "CloudVmClusterProperties" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          exascaleDbStorageVault: S.optional(S.String),
+          displayName: S.optional(S.String),
+          properties: S.optional(__S(4225, __c132, 1)),
+          odbNetwork: S.optional(S.String),
+          labels: S.optional(__S(3328, __c104, 0)),
+          odbSubnet: S.optional(S.String),
+          backupSubnetCidr: S.optional(S.String),
+          createTime: S.optional(S.String),
+          identityConnector: S.optional(__S(4192, __c131, 0)),
+          exadataInfrastructure: S.optional(S.String),
+          network: S.optional(S.String),
+          odbDnsZone: S.optional(S.String),
+          cidr: S.optional(S.String),
+          gcpOracleZone: S.optional(S.String),
+          backupOdbSubnet: S.optional(S.String),
+          identityConnectorDisabled: S.optional(S.Boolean),
+          name: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CloudVmCluster" });
   }
 }
-function __c141(j: number): any {
+function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12354,18 +11835,18 @@ function __c141(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsOdbNetworksRequest" });
     case 1:
-      return S.Array(__S(2720, __c85, 0));
+      return S.Array(__S(1186, __c37, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(3616, __c113, 0)),
+          unreachable: S.optional(__S(3360, __c105, 0)),
           nextPageToken: S.optional(S.String),
-          odbNetworks: S.optional(__S(4513, __c141, 1)),
+          odbNetworks: S.optional(__S(4257, __c133, 1)),
         }),
       ).annotate({ identifier: "ListOdbNetworksResponse" });
   }
 }
-function __c142(j: number): any {
+function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12384,18 +11865,18 @@ function __c142(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsOdbNetworksOdbDnsZonesRequest" });
     case 1:
-      return S.Array(__S(2784, __c87, 0));
+      return S.Array(__S(1248, __c39, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          odbDnsZones: S.optional(__S(4545, __c142, 1)),
-          unreachable: S.optional(__S(3616, __c113, 0)),
+          odbDnsZones: S.optional(__S(4289, __c134, 1)),
+          unreachable: S.optional(__S(3360, __c105, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOdbDnsZonesResponse" });
   }
 }
-function __c143(j: number): any {
+function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12414,18 +11895,18 @@ function __c143(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsOdbNetworksOdbSubnetsRequest" });
     case 1:
-      return S.Array(__S(2848, __c89, 0));
+      return S.Array(__S(1312, __c41, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(3616, __c113, 0)),
+          unreachable: S.optional(__S(3360, __c105, 0)),
           nextPageToken: S.optional(S.String),
-          odbSubnets: S.optional(__S(4577, __c143, 1)),
+          odbSubnets: S.optional(__S(4321, __c135, 1)),
         }),
       ).annotate({ identifier: "ListOdbSubnetsResponse" });
   }
 }
-function __c144(j: number): any {
+function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12444,18 +11925,18 @@ function __c144(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsOperationsRequest" });
     case 1:
-      return S.Array(__S(3106, __c97, 2));
+      return S.Array(__S(2850, __c89, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(3616, __c113, 0)),
-          operations: S.optional(__S(4609, __c144, 1)),
+          unreachable: S.optional(__S(3360, __c105, 0)),
+          operations: S.optional(__S(4353, __c136, 1)),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
   }
 }
-function __c145(j: number): any {
+function __c137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12473,40 +11954,28 @@ function __c145(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsPluggableDatabasesRequest" });
     case 1:
-      return S.Array(__S(2950, __c92, 6));
+      return S.Array(__S(2694, __c84, 6));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          pluggableDatabases: S.optional(__S(4641, __c145, 1)),
+          pluggableDatabases: S.optional(__S(4385, __c137, 1)),
         }),
       ).annotate({ identifier: "ListPluggableDatabasesResponse" });
   }
 }
-function __c146(j: number): any {
+function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          adminPassword: S.optional(S.String),
-          network: S.optional(S.String),
-          database: S.optional(S.String),
-          labels: S.optional(__S(3584, __c112, 0)),
-          disasterRecoverySupportedLocations: S.optional(__S(3616, __c113, 0)),
-          adminPasswordSecretVersion: S.optional(S.String),
-          cidr: S.optional(S.String),
-          entitlementId: S.optional(S.String),
-          createTime: S.optional(S.String),
-          sourceConfig: S.optional(__S(3520, __c110, 0)),
-          properties: S.optional(__S(3534, __c110, 14)),
-          odbNetwork: S.optional(S.String),
-          odbSubnet: S.optional(S.String),
-          peerAutonomousDatabases: S.optional(__S(3616, __c113, 0)),
-          displayName: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(3279, __c102, 15),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -12516,21 +11985,18 @@ function __c146(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsAutonomousDatabasesRequest" });
   }
 }
-function __c147(j: number): any {
+function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          createTime: S.optional(S.String),
-          displayName: S.optional(S.String),
-          gcpOracleZone: S.optional(S.String),
-          entitlementId: S.optional(S.String),
-          labels: S.optional(__S(3584, __c112, 0)),
-          properties: S.optional(__S(4035, __c126, 3)),
-        }).pipe(
+        S.Extend(
+          __S(3780, __c118, 4),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -12540,31 +12006,18 @@ function __c147(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsCloudExadataInfrastructuresRequest" });
   }
 }
-function __c148(j: number): any {
+function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          exascaleDbStorageVault: S.optional(S.String),
-          displayName: S.optional(S.String),
-          properties: S.optional(__S(4481, __c140, 1)),
-          odbNetwork: S.optional(S.String),
-          labels: S.optional(__S(3584, __c112, 0)),
-          odbSubnet: S.optional(S.String),
-          backupSubnetCidr: S.optional(S.String),
-          createTime: S.optional(S.String),
-          identityConnector: S.optional(__S(4448, __c139, 0)),
-          exadataInfrastructure: S.optional(S.String),
-          network: S.optional(S.String),
-          odbDnsZone: S.optional(S.String),
-          cidr: S.optional(S.String),
-          gcpOracleZone: S.optional(S.String),
-          backupOdbSubnet: S.optional(S.String),
-          identityConnectorDisabled: S.optional(S.Boolean),
-        }).pipe(
+        S.Extend(
+          __S(4226, __c132, 2),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -12574,26 +12027,18 @@ function __c148(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsCloudVmClustersRequest" });
   }
 }
-function __c149(j: number): any {
+function __c141(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          lifecycleDetails: S.optional(S.String),
-          walletSecretVersion: S.optional(S.String),
-          odbNetwork: S.optional(S.String),
-          displayName: S.optional(S.String),
-          username: S.optional(S.String),
-          passwordSecretVersion: S.optional(S.String),
-          connectionString: S.optional(S.String),
-          labels: S.optional(__S(3584, __c112, 0)),
-          state: S.optional(S.String),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(32, __c1, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -12603,24 +12048,18 @@ function __c149(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsDatabaseConnectionsRequest" });
   }
 }
-function __c150(j: number): any {
+function __c142(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          properties: S.optional(__S(451, __c14, 3)),
-          odbNetwork: S.optional(S.String),
-          displayName: S.optional(S.String),
-          ociUrl: S.optional(S.String),
-          odbSubnet: S.optional(S.String),
-          gcpOracleZone: S.optional(S.String),
-          entitlementId: S.optional(S.String),
-          createTime: S.optional(S.String),
-          labels: S.optional(__S(3584, __c112, 0)),
-        }).pipe(
+        S.Extend(
+          __S(516, __c16, 4),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",

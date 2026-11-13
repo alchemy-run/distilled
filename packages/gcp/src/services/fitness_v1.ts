@@ -127,9 +127,8 @@ export type AggregateRequestFilteredDataQualityStandardItemEnum =
 export type AggregateRequestFilteredDataQualityStandardItemEnumList = Array<
   AggregateRequestFilteredDataQualityStandardItemEnum | (string & {})
 >;
-export interface AggregateUsersDatasetRequest {
-  /** Aggregate data for the person identified. Use me to indicate the authenticated user. Only me is supported at this time. */
-  userId: string;
+/** Next id: 10 */
+export interface AggregateRequest {
   /** Specifies that data be aggregated by a single time interval. Mutually exclusive of other bucketing specifications. */
   bucketByTime?: BucketByTime | undefined;
   /** The start of a window of time. Data that intersects with this time window will be aggregated. The time is in milliseconds since epoch, inclusive. */
@@ -146,6 +145,10 @@ export interface AggregateUsersDatasetRequest {
   filteredDataQualityStandard?: AggregateRequestFilteredDataQualityStandardItemEnumList | undefined;
   /** Specifies that data be aggregated by the type of activity being performed when the data was recorded. All data that was recorded during a certain activity type (.for the given time range) will be aggregated into the same bucket. Data that was recorded while the user was not active will not be included in the response. Mutually exclusive of other bucketing specifications. */
   bucketByActivityType?: BucketByActivity | undefined;
+}
+export interface AggregateUsersDatasetRequest extends AggregateRequest {
+  /** Aggregate data for the person identified. Use me to indicate the authenticated user. Only me is supported at this time. */
+  userId: string;
 }
 export type AggregateBucketTypeEnum =
   | "unknown"
@@ -319,9 +322,8 @@ export type DataSourceDataQualityStandardItemEnum =
 export type DataSourceDataQualityStandardItemEnumList = Array<
   DataSourceDataQualityStandardItemEnum | (string & {})
 >;
-export interface CreateUsersDataSourcesRequest {
-  /** Create the data source for the person identified. Use me to indicate the authenticated user. Only me is supported at this time. */
-  userId: string;
+/** Definition of a unique source of sensor data. Data sources can expose raw data coming from hardware sensors on local or companion devices. They can also expose derived data, created by transforming or merging other data sources. Multiple data sources can exist for the same data type. Every data point inserted into or read from this service has an associated data source. The data source contains enough information to uniquely identify its data, including the hardware device and the application that collected and/or transformed the data. It also holds useful metadata, such as the hardware and application versions, and the device type. Each data source produces a unique stream of data, with a unique identifier. Not all changes to data source affect the stream identifier, so that data collected by updated versions of the same application/device can still be considered to belong to the same data stream. */
+export interface DataSource {
   /** A constant describing the type of this data source. Indicates whether this data source produces raw or derived data. */
   type?: DataSourceTypeEnum | (string & {}) | undefined;
   /** Information about an application which feeds sensor data into the platform. */
@@ -339,24 +341,9 @@ export interface CreateUsersDataSourcesRequest {
   /** A unique identifier for the data stream produced by this data source. The identifier includes: - The physical device's manufacturer, model, and serial number (UID). - The application's package name or name. Package name is used when the data source was created by an Android application. The developer project number is used when the data source was created by a REST client. - The data source's type. - The data source's stream name. Note that not all attributes of the data source are used as part of the stream identifier. In particular, the version of the hardware/the application isn't used. This allows us to preserve the same stream through version updates. This also means that two DataSource objects may represent the same data stream even if they're not equal. The exact format of the data stream ID created by an Android application is: type:dataType.name:application.packageName:device.manufacturer:device.model:device.uid:dataStreamName The exact format of the data stream ID created by a REST client is: type:dataType.name:developer project number:device.manufacturer:device.model:device.uid:dataStreamName When any of the optional fields that make up the data stream ID are absent, they will be omitted from the data stream ID. The minimum viable data stream ID would be: type:dataType.name:developer project number Finally, the developer project number and device UID are obfuscated when read by any REST or Android client that did not create the data source. Only the data source creator will see the developer project number in clear and normal form. This means a client will see a different set of data_stream_ids than another client with different credentials. */
   dataStreamId?: string | undefined;
 }
-/** Definition of a unique source of sensor data. Data sources can expose raw data coming from hardware sensors on local or companion devices. They can also expose derived data, created by transforming or merging other data sources. Multiple data sources can exist for the same data type. Every data point inserted into or read from this service has an associated data source. The data source contains enough information to uniquely identify its data, including the hardware device and the application that collected and/or transformed the data. It also holds useful metadata, such as the hardware and application versions, and the device type. Each data source produces a unique stream of data, with a unique identifier. Not all changes to data source affect the stream identifier, so that data collected by updated versions of the same application/device can still be considered to belong to the same data stream. */
-export interface DataSource {
-  /** A constant describing the type of this data source. Indicates whether this data source produces raw or derived data. */
-  type?: DataSourceTypeEnum | undefined;
-  /** Information about an application which feeds sensor data into the platform. */
-  application?: Application | undefined;
-  /** An end-user visible name for this data source. */
-  name?: string | undefined;
-  /** The stream name uniquely identifies this particular data source among other data sources of the same type from the same underlying producer. Setting the stream name is optional, but should be done whenever an application exposes two streams for the same data type, or when a device has two equivalent sensors. */
-  dataStreamName?: string | undefined;
-  /** Representation of an integrated device (such as a phone or a wearable) that can hold sensors. */
-  device?: Device | undefined;
-  /** The data type defines the schema for a stream of data being collected by, inserted into, or queried from the Fitness API. */
-  dataType?: DataType | undefined;
-  /** DO NOT POPULATE THIS FIELD. It is never populated in responses from the platform, and is ignored in queries. It will be removed in a future version entirely. */
-  dataQualityStandard?: DataSourceDataQualityStandardItemEnumList | undefined;
-  /** A unique identifier for the data stream produced by this data source. The identifier includes: - The physical device's manufacturer, model, and serial number (UID). - The application's package name or name. Package name is used when the data source was created by an Android application. The developer project number is used when the data source was created by a REST client. - The data source's type. - The data source's stream name. Note that not all attributes of the data source are used as part of the stream identifier. In particular, the version of the hardware/the application isn't used. This allows us to preserve the same stream through version updates. This also means that two DataSource objects may represent the same data stream even if they're not equal. The exact format of the data stream ID created by an Android application is: type:dataType.name:application.packageName:device.manufacturer:device.model:device.uid:dataStreamName The exact format of the data stream ID created by a REST client is: type:dataType.name:developer project number:device.manufacturer:device.model:device.uid:dataStreamName When any of the optional fields that make up the data stream ID are absent, they will be omitted from the data stream ID. The minimum viable data stream ID would be: type:dataType.name:developer project number Finally, the developer project number and device UID are obfuscated when read by any REST or Android client that did not create the data source. Only the data source creator will see the developer project number in clear and normal form. This means a client will see a different set of data_stream_ids than another client with different credentials. */
-  dataStreamId?: string | undefined;
+export interface CreateUsersDataSourcesRequest extends DataSource {
+  /** Create the data source for the person identified. Use me to indicate the authenticated user. Only me is supported at this time. */
+  userId: string;
 }
 export interface DeleteUsersDataSourcesRequest {
   /** Retrieve a data source for the person identified. Use me to indicate the authenticated user. Only me is supported at this time. */
@@ -456,67 +443,25 @@ export interface ListSessionsResponse {
   /** Flag to indicate server has more data to transfer. DO NOT USE THIS FIELD. It is never populated in responses from the server. */
   hasMoreData?: boolean | undefined;
 }
-export interface PatchUsersDataSourcesDatasetsRequest {
+export interface PatchUsersDataSourcesDatasetsRequest extends Omit<Dataset, "dataSourceId"> {
   /** Patch a dataset for the person identified. Use me to indicate the authenticated user. Only me is supported at this time. */
   userId: string;
   /** This field is not used, and can be safely omitted. */
   datasetId: string;
   /** The data stream ID of the data source that created the dataset. */
   dataSourceId: string;
-  /** A partial list of data points contained in the dataset, ordered by endTimeNanos. This list is considered complete when retrieving a small dataset and partial when patching a dataset or retrieving a dataset that is too large to include in a single response. */
-  point?: DataPointList | undefined;
-  /** This token will be set when a dataset is received in response to a GET request and the dataset is too large to be included in a single response. Provide this value in a subsequent GET request to return the next page of data points within this dataset. */
-  nextPageToken?: string | undefined;
-  /** The smallest start time of all data points in this possibly partial representation of the dataset. Time is in nanoseconds from epoch. This should also match the first part of the dataset identifier. */
-  minStartTimeNs?: string | undefined;
-  /** The largest end time of all data points in this possibly partial representation of the dataset. Time is in nanoseconds from epoch. This should also match the second part of the dataset identifier. */
-  maxEndTimeNs?: string | undefined;
 }
-export interface UpdateUsersDataSourcesRequest {
+export interface UpdateUsersDataSourcesRequest extends DataSource {
   /** The data stream ID of the data source to update. */
   dataSourceId: string;
   /** Update the data source for the person identified. Use me to indicate the authenticated user. Only me is supported at this time. */
   userId: string;
-  /** A constant describing the type of this data source. Indicates whether this data source produces raw or derived data. */
-  type?: DataSourceTypeEnum | (string & {}) | undefined;
-  /** Information about an application which feeds sensor data into the platform. */
-  application?: Application | undefined;
-  /** An end-user visible name for this data source. */
-  name?: string | undefined;
-  /** The stream name uniquely identifies this particular data source among other data sources of the same type from the same underlying producer. Setting the stream name is optional, but should be done whenever an application exposes two streams for the same data type, or when a device has two equivalent sensors. */
-  dataStreamName?: string | undefined;
-  /** Representation of an integrated device (such as a phone or a wearable) that can hold sensors. */
-  device?: Device | undefined;
-  /** The data type defines the schema for a stream of data being collected by, inserted into, or queried from the Fitness API. */
-  dataType?: DataType | undefined;
-  /** DO NOT POPULATE THIS FIELD. It is never populated in responses from the platform, and is ignored in queries. It will be removed in a future version entirely. */
-  dataQualityStandard?: DataSourceDataQualityStandardItemEnumList | undefined;
-  /** A unique identifier for the data stream produced by this data source. The identifier includes: - The physical device's manufacturer, model, and serial number (UID). - The application's package name or name. Package name is used when the data source was created by an Android application. The developer project number is used when the data source was created by a REST client. - The data source's type. - The data source's stream name. Note that not all attributes of the data source are used as part of the stream identifier. In particular, the version of the hardware/the application isn't used. This allows us to preserve the same stream through version updates. This also means that two DataSource objects may represent the same data stream even if they're not equal. The exact format of the data stream ID created by an Android application is: type:dataType.name:application.packageName:device.manufacturer:device.model:device.uid:dataStreamName The exact format of the data stream ID created by a REST client is: type:dataType.name:developer project number:device.manufacturer:device.model:device.uid:dataStreamName When any of the optional fields that make up the data stream ID are absent, they will be omitted from the data stream ID. The minimum viable data stream ID would be: type:dataType.name:developer project number Finally, the developer project number and device UID are obfuscated when read by any REST or Android client that did not create the data source. Only the data source creator will see the developer project number in clear and normal form. This means a client will see a different set of data_stream_ids than another client with different credentials. */
-  dataStreamId?: string | undefined;
 }
-export interface UpdateUsersSessionsRequest {
+export interface UpdateUsersSessionsRequest extends Session {
   /** Create sessions for the person identified. Use me to indicate the authenticated user. Only me is supported at this time. */
   userId: string;
   /** The ID of the session to be created. */
   sessionId: string;
-  /** A human readable name of the session. */
-  name?: string | undefined;
-  /** A timestamp that indicates when the session was last modified. */
-  modifiedTimeMillis?: string | undefined;
-  /** A client-generated identifier that is unique across all sessions owned by this particular user. */
-  id?: string | undefined;
-  /** The application that created the session. */
-  application?: Application | undefined;
-  /** Session active time. While start_time_millis and end_time_millis define the full session time, the active time can be shorter and specified by active_time_millis. If the inactive time during the session is known, it should also be inserted via a com.google.activity.segment data point with a STILL activity value */
-  activeTimeMillis?: string | undefined;
-  /** A description for this session. */
-  description?: string | undefined;
-  /** A start time, in milliseconds since epoch, inclusive. */
-  startTimeMillis?: string | undefined;
-  /** The type of activity this session represents. */
-  activityType?: number | undefined;
-  /** An end time, in milliseconds since epoch, inclusive. */
-  endTimeMillis?: string | undefined;
 }
 export type AggregateUsersDatasetError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
 /** Aggregates data of a certain type or stream into buckets divided by a given type of boundary. Multiple data sets of multiple types and from multiple sources can be aggregated into exactly one bucket type per request. */
@@ -526,8 +471,8 @@ export const aggregateUsersDataset: API.OperationMethod<
   AggregateUsersDatasetError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(118, __c7, 6) as any as S.Schema<AggregateUsersDatasetRequest>,
-  output: __S(122, __c7, 10) as any as S.Schema<AggregateResponse>,
+  input: __S(119, __c7, 7) as any as S.Schema<AggregateUsersDatasetRequest>,
+  output: __S(123, __c7, 11) as any as S.Schema<AggregateResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -869,15 +814,14 @@ function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          userId: S.String.pipe(T.Label()),
-          datasetId: S.String.pipe(T.Label()),
-          dataSourceId: S.String.pipe(T.Label()),
-          point: S.optional(__S(134, __c8, 6)),
-          nextPageToken: S.optional(S.String),
-          minStartTimeNs: S.optional(S.String),
-          maxEndTimeNs: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(144, __c9, 0),
+          S.Struct({
+            userId: S.String.pipe(T.Label()),
+            datasetId: S.String.pipe(T.Label()),
+            dataSourceId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "{userId}/dataSources/{dataSourceId}/datasets/{datasetId}",
@@ -891,18 +835,13 @@ function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          dataSourceId: S.String.pipe(T.Label()),
-          userId: S.String.pipe(T.Label()),
-          type: S.optional(S.String),
-          application: S.optional(__S(176, __c11, 0)),
-          name: S.optional(S.String),
-          dataStreamName: S.optional(S.String),
-          device: S.optional(__S(224, __c14, 0)),
-          dataType: S.optional(__S(227, __c14, 3)),
-          dataQualityStandard: S.optional(__S(192, __c12, 0)),
-          dataStreamId: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(228, __c14, 4),
+          S.Struct({
+            dataSourceId: S.String.pipe(T.Label()),
+            userId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "{userId}/dataSources/{dataSourceId}",
@@ -916,19 +855,13 @@ function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          userId: S.String.pipe(T.Label()),
-          sessionId: S.String.pipe(T.Label()),
-          name: S.optional(S.String),
-          modifiedTimeMillis: S.optional(S.String),
-          id: S.optional(S.String),
-          application: S.optional(__S(176, __c11, 0)),
-          activeTimeMillis: S.optional(S.String),
-          description: S.optional(S.String),
-          startTimeMillis: S.optional(S.String),
-          activityType: S.optional(S.Number),
-          endTimeMillis: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(160, __c10, 0),
+          S.Struct({
+            userId: S.String.pipe(T.Label()),
+            sessionId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "{userId}/sessions/{sessionId}",
@@ -980,7 +913,6 @@ function __c7(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          userId: S.String.pipe(T.Label()),
           bucketByTime: S.optional(__S(113, __c7, 1)),
           startTimeMillis: S.optional(S.String),
           endTimeMillis: S.optional(S.String),
@@ -989,7 +921,16 @@ function __c7(j: number): any {
           bucketBySession: S.optional(__S(117, __c7, 5)),
           filteredDataQualityStandard: S.optional(__S(192, __c12, 0)),
           bucketByActivityType: S.optional(__S(114, __c7, 2)),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "AggregateRequest" });
+    case 7:
+      return S.suspend(() =>
+        S.Extend(
+          __S(118, __c7, 6),
+          S.Struct({
+            userId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "{userId}/dataset:aggregate",
@@ -997,25 +938,25 @@ function __c7(j: number): any {
           }),
         ),
       ).annotate({ identifier: "AggregateUsersDatasetRequest" });
-    case 7:
-      return S.Array(__S(144, __c9, 0));
     case 8:
+      return S.Array(__S(144, __c9, 0));
+    case 9:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
           startTimeMillis: S.optional(S.String),
-          dataset: S.optional(__S(119, __c7, 7)),
+          dataset: S.optional(__S(120, __c7, 8)),
           activity: S.optional(S.Number),
           endTimeMillis: S.optional(S.String),
           session: S.optional(__S(160, __c10, 0)),
         }),
       ).annotate({ identifier: "AggregateBucket" });
-    case 9:
-      return S.Array(__S(120, __c7, 8));
     case 10:
+      return S.Array(__S(121, __c7, 9));
+    case 11:
       return S.suspend(() =>
         S.Struct({
-          bucket: S.optional(__S(121, __c7, 9)),
+          bucket: S.optional(__S(122, __c7, 10)),
         }),
       ).annotate({ identifier: "AggregateResponse" });
   }
@@ -1120,17 +1061,12 @@ function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          userId: S.String.pipe(T.Label()),
-          type: S.optional(S.String),
-          application: S.optional(__S(176, __c11, 0)),
-          name: S.optional(S.String),
-          dataStreamName: S.optional(S.String),
-          device: S.optional(__S(224, __c14, 0)),
-          dataType: S.optional(__S(227, __c14, 3)),
-          dataQualityStandard: S.optional(__S(192, __c12, 0)),
-          dataStreamId: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(228, __c14, 4),
+          S.Struct({
+            userId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "{userId}/dataSources",

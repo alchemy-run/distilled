@@ -573,22 +573,6 @@ export interface DomainMappingSpec {
   /** The name of the Knative Route that this DomainMapping applies to. The route must exist. */
   routeName?: string | undefined;
 }
-export interface CreateNamespacesDomainmappingsRequest {
-  /** Required. The namespace in which the domain mapping should be created. For Cloud Run (fully managed), replace {namespace} with the project ID or number. It takes the form namespaces/{namespace}. For example: namespaces/PROJECT_ID */
-  parent: string;
-  /** Indicates that the server should validate the request and populate default values without persisting the request. Supported values: `all` */
-  dryRun?: string | undefined;
-  /** Metadata associated with this BuildTemplate. */
-  metadata?: ObjectMeta | undefined;
-  /** The kind of resource, in this case "DomainMapping". */
-  kind?: string | undefined;
-  /** The current status of the DomainMapping. */
-  status?: DomainMappingStatus | undefined;
-  /** The API version for this call such as "domains.cloudrun.com/v1". */
-  apiVersion?: string | undefined;
-  /** The spec for this DomainMapping. */
-  spec?: DomainMappingSpec | undefined;
-}
 /** Resource to hold the state and status of a user's domain mapping. NOTE: This resource is currently in Beta. */
 export interface DomainMapping {
   /** Metadata associated with this BuildTemplate. */
@@ -601,6 +585,12 @@ export interface DomainMapping {
   apiVersion?: string | undefined;
   /** The spec for this DomainMapping. */
   spec?: DomainMappingSpec | undefined;
+}
+export interface CreateNamespacesDomainmappingsRequest extends DomainMapping {
+  /** Required. The namespace in which the domain mapping should be created. For Cloud Run (fully managed), replace {namespace} with the project ID or number. It takes the form namespaces/{namespace}. For example: namespaces/PROJECT_ID */
+  parent: string;
+  /** Indicates that the server should validate the request and populate default values without persisting the request. Supported values: `all` */
+  dryRun?: string | undefined;
 }
 /** InstanceSpec describes how the Instance will look. */
 export interface InstanceSpec {
@@ -628,22 +618,6 @@ export interface InstanceStatus {
   /** Optional. URI where logs for this execution can be found in Cloud Console. */
   logUri?: string | undefined;
 }
-export interface CreateNamespacesInstancesRequest {
-  /** Optional. Indicates that the server should validate the request and populate default values without persisting the request. Supported values: `all` */
-  dryRun?: string | undefined;
-  /** Required. The resource's parent. In Cloud Run, it may be one of the following: * `{project_id_or_number}` * `namespaces/{project_id_or_number}` * `namespaces/{project_id_or_number}/instances` * `projects/{project_id_or_number}/locations/{region}` * `projects/{project_id_or_number}/regions/{region}` Parent resource namespace. */
-  parent: string;
-  /** Optional. Specification of the desired behavior of an Instance. */
-  spec?: InstanceSpec | undefined;
-  /** Optional. APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. */
-  apiVersion?: string | undefined;
-  /** Optional. Standard object's metadata. */
-  metadata?: ObjectMeta | undefined;
-  /** Output only. Current status of an Instance. */
-  status?: InstanceStatus | undefined;
-  /** Optional. Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. */
-  kind?: string | undefined;
-}
 /** An Instance represents the configuration of a single instance that references a container image and runs to completion. */
 export interface Instance {
   /** Optional. Specification of the desired behavior of an Instance. */
@@ -656,6 +630,12 @@ export interface Instance {
   status?: InstanceStatus | undefined;
   /** Optional. Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. */
   kind?: string | undefined;
+}
+export interface CreateNamespacesInstancesRequest extends Instance {
+  /** Optional. Indicates that the server should validate the request and populate default values without persisting the request. Supported values: `all` */
+  dryRun?: string | undefined;
+  /** Required. The resource's parent. In Cloud Run, it may be one of the following: * `{project_id_or_number}` * `namespaces/{project_id_or_number}` * `namespaces/{project_id_or_number}/instances` * `projects/{project_id_or_number}/locations/{region}` * `projects/{project_id_or_number}/regions/{region}` Parent resource namespace. */
+  parent: string;
 }
 export type ExecutionReferenceCompletionStatusEnum =
   | "COMPLETION_STATUS_UNSPECIFIED"
@@ -704,22 +684,6 @@ export interface JobSpec {
   /** Optional. Describes the execution that will be created when running a job. */
   template?: ExecutionTemplateSpec | undefined;
 }
-export interface CreateNamespacesJobsRequest {
-  /** Optional. Indicates that the server should validate the request and populate default values without persisting the request. Supported values: `all` */
-  dryRun?: string | undefined;
-  /** Required. The namespace in which the job should be created. Replace {namespace} with the project ID or number. It takes the form namespaces/{namespace}. For example: namespaces/PROJECT_ID */
-  parent: string;
-  /** Optional. Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. */
-  kind?: string | undefined;
-  /** Optional. APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. */
-  apiVersion?: string | undefined;
-  /** Output only. Current status of a job. */
-  status?: JobStatus | undefined;
-  /** Optional. Standard object's metadata. */
-  metadata?: ObjectMeta | undefined;
-  /** Optional. Specification of the desired behavior of a job. */
-  spec?: JobSpec | undefined;
-}
 /** Job represents the configuration of a single job, which references a container image which is run to completion. */
 export interface Job {
   /** Optional. Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. */
@@ -732,6 +696,12 @@ export interface Job {
   metadata?: ObjectMeta | undefined;
   /** Optional. Specification of the desired behavior of a job. */
   spec?: JobSpec | undefined;
+}
+export interface CreateNamespacesJobsRequest extends Job {
+  /** Optional. Indicates that the server should validate the request and populate default values without persisting the request. Supported values: `all` */
+  dryRun?: string | undefined;
+  /** Required. The namespace in which the job should be created. Replace {namespace} with the project ID or number. It takes the form namespaces/{namespace}. For example: namespaces/PROJECT_ID */
+  parent: string;
 }
 /** Information for connecting over HTTP(s). */
 export interface Addressable {
@@ -807,22 +777,6 @@ export interface ServiceSpec {
   /** Holds the latest specification for the Revision to be stamped out. */
   template?: RevisionTemplate | undefined;
 }
-export interface CreateNamespacesServicesRequest {
-  /** Required. The resource's parent. In Cloud Run, it may be one of the following: * `{project_id_or_number}` * `namespaces/{project_id_or_number}` * `namespaces/{project_id_or_number}/services` * `projects/{project_id_or_number}/locations/{region}` * `projects/{project_id_or_number}/regions/{region}` */
-  parent: string;
-  /** Indicates that the server should validate the request and populate default values without persisting the request. Supported values: `all` */
-  dryRun?: string | undefined;
-  /** Communicates the system-controlled state of the Service. */
-  status?: ServiceStatus | undefined;
-  /** Holds the desired state of the Service (from the client). */
-  spec?: ServiceSpec | undefined;
-  /** Metadata associated with this Service, including name, namespace, labels, and annotations. In Cloud Run, annotations with 'run.googleapis.com/' and 'autoscaling.knative.dev' are restricted, and the accepted annotations will be different depending on the resource type. The following Cloud Run-specific annotations are accepted in Service.metadata.annotations. * `run.googleapis.com/base-images` * `run.googleapis.com/binary-authorization-breakglass` * `run.googleapis.com/binary-authorization` * `run.googleapis.com/client-name` * `run.googleapis.com/custom-audiences` * `run.googleapis.com/default-url-disabled` * `run.googleapis.com/description` * `run.googleapis.com/gc-traffic-tags` * `run.googleapis.com/ingress` * `run.googleapis.com/ingress` sets the ingress settings for the Service. See [the ingress settings documentation](/run/docs/securing/ingress) for details on configuring ingress settings. * `run.googleapis.com/ingress-status` is output-only and contains the currently active ingress settings for the Service. `run.googleapis.com/ingress-status` may differ from `run.googleapis.com/ingress` while the system is processing a change to `run.googleapis.com/ingress` or if the system failed to process a change to `run.googleapis.com/ingress`. When the system has processed all changes successfully `run.googleapis.com/ingress-status` and `run.googleapis.com/ingress` are equal. */
-  metadata?: ObjectMeta | undefined;
-  /** The kind of resource. It must be "Service". */
-  kind?: string | undefined;
-  /** The API version for this call. It must be "serving.knative.dev/v1". */
-  apiVersion?: string | undefined;
-}
 /** Service acts as a top-level container that manages a set of Routes and Configurations which implement a network service. Service exists to provide a singular abstraction which can be access controlled, reasoned about, and which encapsulates software lifecycle decisions such as rollout policy and team resource ownership. Service acts only as an orchestrator of the underlying Routes and Configurations (much as a kubernetes Deployment orchestrates ReplicaSets). The Service's controller will track the statuses of its owned Configuration and Route, reflecting their statuses and conditions as its own. */
 export interface Service {
   /** Communicates the system-controlled state of the Service. */
@@ -835,6 +789,12 @@ export interface Service {
   kind?: string | undefined;
   /** The API version for this call. It must be "serving.knative.dev/v1". */
   apiVersion?: string | undefined;
+}
+export interface CreateNamespacesServicesRequest extends Service {
+  /** Required. The resource's parent. In Cloud Run, it may be one of the following: * `{project_id_or_number}` * `namespaces/{project_id_or_number}` * `namespaces/{project_id_or_number}/services` * `projects/{project_id_or_number}/locations/{region}` * `projects/{project_id_or_number}/regions/{region}` */
+  parent: string;
+  /** Indicates that the server should validate the request and populate default values without persisting the request. Supported values: `all` */
+  dryRun?: string | undefined;
 }
 /** Holds a single instance split entry for the Worker. Allocations can be done to a specific Revision name, or pointing to the latest Ready Revision. */
 export interface InstanceSplit {
@@ -866,22 +826,6 @@ export interface WorkerPoolStatus {
   /** Conditions communicate information about ongoing/complete reconciliation processes that bring the `spec` inline with the observed state of the world. * `Ready`: `True` when all underlying resources are ready. */
   conditions?: GoogleCloudRunV1ConditionList | undefined;
 }
-export interface CreateNamespacesWorkerpoolsRequest {
-  /** Indicates that the server should validate the request and populate default values without persisting the request. Supported values: `all` */
-  dryRun?: string | undefined;
-  /** Required. The resource's parent. In Cloud Run, it may be one of the following: * `{project_id_or_number}` * `namespaces/{project_id_or_number}` * `namespaces/{project_id_or_number}/workerpools` * `projects/{project_id_or_number}/locations/{region}` * `projects/{project_id_or_number}/regions/{region}` */
-  parent: string;
-  /** The kind of resource. It must be "WorkerPool". */
-  kind?: string | undefined;
-  /** Metadata associated with this WorkerPool, including name, namespace, labels, and annotations. In Cloud Run, annotations with 'run.googleapis.com/' and 'autoscaling.knative.dev' are restricted, and the accepted annotations will be different depending on the resource type. The following Cloud Run-specific annotations are accepted in WorkerPool.metadata.annotations. * `run.googleapis.com/binary-authorization-breakglass` * `run.googleapis.com/binary-authorization` * `run.googleapis.com/client-name` * `run.googleapis.com/description` */
-  metadata?: ObjectMeta | undefined;
-  /** The API version for this call. It must be "run.googleapis.com/v1". */
-  apiVersion?: string | undefined;
-  /** Holds the desired state of the WorkerPool (from the client). */
-  spec?: WorkerPoolSpec | undefined;
-  /** Communicates the system-controlled state of the WorkerPool. */
-  status?: WorkerPoolStatus | undefined;
-}
 /** WorkerPool acts as a top-level container that manages a set instance splits among a set of Revisions and a template for creating new Revisions. */
 export interface WorkerPool {
   /** The kind of resource. It must be "WorkerPool". */
@@ -895,37 +839,23 @@ export interface WorkerPool {
   /** Communicates the system-controlled state of the WorkerPool. */
   status?: WorkerPoolStatus | undefined;
 }
-export interface CreateProjectsLocationsDomainmappingsRequest {
+export interface CreateNamespacesWorkerpoolsRequest extends WorkerPool {
+  /** Indicates that the server should validate the request and populate default values without persisting the request. Supported values: `all` */
+  dryRun?: string | undefined;
+  /** Required. The resource's parent. In Cloud Run, it may be one of the following: * `{project_id_or_number}` * `namespaces/{project_id_or_number}` * `namespaces/{project_id_or_number}/workerpools` * `projects/{project_id_or_number}/locations/{region}` * `projects/{project_id_or_number}/regions/{region}` */
+  parent: string;
+}
+export interface CreateProjectsLocationsDomainmappingsRequest extends DomainMapping {
   /** Required. The namespace in which the domain mapping should be created. For Cloud Run (fully managed), replace {namespace} with the project ID or number. It takes the form namespaces/{namespace}. For example: namespaces/PROJECT_ID */
   parent: string;
   /** Indicates that the server should validate the request and populate default values without persisting the request. Supported values: `all` */
   dryRun?: string | undefined;
-  /** Metadata associated with this BuildTemplate. */
-  metadata?: ObjectMeta | undefined;
-  /** The kind of resource, in this case "DomainMapping". */
-  kind?: string | undefined;
-  /** The current status of the DomainMapping. */
-  status?: DomainMappingStatus | undefined;
-  /** The API version for this call such as "domains.cloudrun.com/v1". */
-  apiVersion?: string | undefined;
-  /** The spec for this DomainMapping. */
-  spec?: DomainMappingSpec | undefined;
 }
-export interface CreateProjectsLocationsServicesRequest {
+export interface CreateProjectsLocationsServicesRequest extends Service {
   /** Required. The resource's parent. In Cloud Run, it may be one of the following: * `{project_id_or_number}` * `namespaces/{project_id_or_number}` * `namespaces/{project_id_or_number}/services` * `projects/{project_id_or_number}/locations/{region}` * `projects/{project_id_or_number}/regions/{region}` */
   parent: string;
   /** Indicates that the server should validate the request and populate default values without persisting the request. Supported values: `all` */
   dryRun?: string | undefined;
-  /** Communicates the system-controlled state of the Service. */
-  status?: ServiceStatus | undefined;
-  /** Holds the desired state of the Service (from the client). */
-  spec?: ServiceSpec | undefined;
-  /** Metadata associated with this Service, including name, namespace, labels, and annotations. In Cloud Run, annotations with 'run.googleapis.com/' and 'autoscaling.knative.dev' are restricted, and the accepted annotations will be different depending on the resource type. The following Cloud Run-specific annotations are accepted in Service.metadata.annotations. * `run.googleapis.com/base-images` * `run.googleapis.com/binary-authorization-breakglass` * `run.googleapis.com/binary-authorization` * `run.googleapis.com/client-name` * `run.googleapis.com/custom-audiences` * `run.googleapis.com/default-url-disabled` * `run.googleapis.com/description` * `run.googleapis.com/gc-traffic-tags` * `run.googleapis.com/ingress` * `run.googleapis.com/ingress` sets the ingress settings for the Service. See [the ingress settings documentation](/run/docs/securing/ingress) for details on configuring ingress settings. * `run.googleapis.com/ingress-status` is output-only and contains the currently active ingress settings for the Service. `run.googleapis.com/ingress-status` may differ from `run.googleapis.com/ingress` while the system is processing a change to `run.googleapis.com/ingress` or if the system failed to process a change to `run.googleapis.com/ingress`. When the system has processed all changes successfully `run.googleapis.com/ingress-status` and `run.googleapis.com/ingress` are equal. */
-  metadata?: ObjectMeta | undefined;
-  /** The kind of resource. It must be "Service". */
-  kind?: string | undefined;
-  /** The API version for this call. It must be "serving.knative.dev/v1". */
-  apiVersion?: string | undefined;
 }
 export interface DeleteNamespacesDomainmappingsRequest {
   /** Cloud Run currently ignores this parameter. */
@@ -1905,85 +1835,35 @@ export interface ListProjectsLocationsServicesRequest {
   /** Encoded string to continue paging. */
   continue?: string | undefined;
 }
-export interface ReplaceInstanceNamespacesInstancesRequest {
+export interface ReplaceInstanceNamespacesInstancesRequest extends Instance {
   /** Required. The fully qualified name of the Instance being replaced. It can be any of the following forms: * `namespaces/{project_id_or_number}/instances/{instance_name}` (only when the `endpoint` is regional) * `projects/{project_id_or_number}/locations/{region}/instances/{instance_name}` * `projects/{project_id_or_number}/regions/{region}/instances/{instance_name}` Parent resource namespace. */
   name: string;
   /** Optional. Indicates that the server should validate the request and populate default values without persisting the request. Supported values: `all` */
   dryRun?: string | undefined;
-  /** Optional. Specification of the desired behavior of an Instance. */
-  spec?: InstanceSpec | undefined;
-  /** Optional. APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. */
-  apiVersion?: string | undefined;
-  /** Optional. Standard object's metadata. */
-  metadata?: ObjectMeta | undefined;
-  /** Output only. Current status of an Instance. */
-  status?: InstanceStatus | undefined;
-  /** Optional. Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. */
-  kind?: string | undefined;
 }
-export interface ReplaceJobNamespacesJobsRequest {
+export interface ReplaceJobNamespacesJobsRequest extends Job {
   /** Optional. Indicates that the server should validate the request and populate default values without persisting the request. Supported values: `all` */
   dryRun?: string | undefined;
   /** Required. The name of the job being replaced. Replace {namespace} with the project ID or number. It takes the form namespaces/{namespace}. For example: namespaces/PROJECT_ID */
   name: string;
-  /** Optional. Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. */
-  kind?: string | undefined;
-  /** Optional. APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. */
-  apiVersion?: string | undefined;
-  /** Output only. Current status of a job. */
-  status?: JobStatus | undefined;
-  /** Optional. Standard object's metadata. */
-  metadata?: ObjectMeta | undefined;
-  /** Optional. Specification of the desired behavior of a job. */
-  spec?: JobSpec | undefined;
 }
-export interface ReplaceServiceNamespacesServicesRequest {
+export interface ReplaceServiceNamespacesServicesRequest extends Service {
   /** Indicates that the server should validate the request and populate default values without persisting the request. Supported values: `all` */
   dryRun?: string | undefined;
   /** Required. The fully qualified name of the service to replace. It can be any of the following forms: * `namespaces/{project_id_or_number}/services/{service_name}` (only when the `endpoint` is regional) * `projects/{project_id_or_number}/locations/{region}/services/{service_name}` * `projects/{project_id_or_number}/regions/{region}/services/{service_name}` */
   name: string;
-  /** Communicates the system-controlled state of the Service. */
-  status?: ServiceStatus | undefined;
-  /** Holds the desired state of the Service (from the client). */
-  spec?: ServiceSpec | undefined;
-  /** Metadata associated with this Service, including name, namespace, labels, and annotations. In Cloud Run, annotations with 'run.googleapis.com/' and 'autoscaling.knative.dev' are restricted, and the accepted annotations will be different depending on the resource type. The following Cloud Run-specific annotations are accepted in Service.metadata.annotations. * `run.googleapis.com/base-images` * `run.googleapis.com/binary-authorization-breakglass` * `run.googleapis.com/binary-authorization` * `run.googleapis.com/client-name` * `run.googleapis.com/custom-audiences` * `run.googleapis.com/default-url-disabled` * `run.googleapis.com/description` * `run.googleapis.com/gc-traffic-tags` * `run.googleapis.com/ingress` * `run.googleapis.com/ingress` sets the ingress settings for the Service. See [the ingress settings documentation](/run/docs/securing/ingress) for details on configuring ingress settings. * `run.googleapis.com/ingress-status` is output-only and contains the currently active ingress settings for the Service. `run.googleapis.com/ingress-status` may differ from `run.googleapis.com/ingress` while the system is processing a change to `run.googleapis.com/ingress` or if the system failed to process a change to `run.googleapis.com/ingress`. When the system has processed all changes successfully `run.googleapis.com/ingress-status` and `run.googleapis.com/ingress` are equal. */
-  metadata?: ObjectMeta | undefined;
-  /** The kind of resource. It must be "Service". */
-  kind?: string | undefined;
-  /** The API version for this call. It must be "serving.knative.dev/v1". */
-  apiVersion?: string | undefined;
 }
-export interface ReplaceServiceProjectsLocationsServicesRequest {
+export interface ReplaceServiceProjectsLocationsServicesRequest extends Service {
   /** Required. The fully qualified name of the service to replace. It can be any of the following forms: * `namespaces/{project_id_or_number}/services/{service_name}` (only when the `endpoint` is regional) * `projects/{project_id_or_number}/locations/{region}/services/{service_name}` * `projects/{project_id_or_number}/regions/{region}/services/{service_name}` */
   name: string;
   /** Indicates that the server should validate the request and populate default values without persisting the request. Supported values: `all` */
   dryRun?: string | undefined;
-  /** Communicates the system-controlled state of the Service. */
-  status?: ServiceStatus | undefined;
-  /** Holds the desired state of the Service (from the client). */
-  spec?: ServiceSpec | undefined;
-  /** Metadata associated with this Service, including name, namespace, labels, and annotations. In Cloud Run, annotations with 'run.googleapis.com/' and 'autoscaling.knative.dev' are restricted, and the accepted annotations will be different depending on the resource type. The following Cloud Run-specific annotations are accepted in Service.metadata.annotations. * `run.googleapis.com/base-images` * `run.googleapis.com/binary-authorization-breakglass` * `run.googleapis.com/binary-authorization` * `run.googleapis.com/client-name` * `run.googleapis.com/custom-audiences` * `run.googleapis.com/default-url-disabled` * `run.googleapis.com/description` * `run.googleapis.com/gc-traffic-tags` * `run.googleapis.com/ingress` * `run.googleapis.com/ingress` sets the ingress settings for the Service. See [the ingress settings documentation](/run/docs/securing/ingress) for details on configuring ingress settings. * `run.googleapis.com/ingress-status` is output-only and contains the currently active ingress settings for the Service. `run.googleapis.com/ingress-status` may differ from `run.googleapis.com/ingress` while the system is processing a change to `run.googleapis.com/ingress` or if the system failed to process a change to `run.googleapis.com/ingress`. When the system has processed all changes successfully `run.googleapis.com/ingress-status` and `run.googleapis.com/ingress` are equal. */
-  metadata?: ObjectMeta | undefined;
-  /** The kind of resource. It must be "Service". */
-  kind?: string | undefined;
-  /** The API version for this call. It must be "serving.knative.dev/v1". */
-  apiVersion?: string | undefined;
 }
-export interface ReplaceWorkerPoolNamespacesWorkerpoolsRequest {
+export interface ReplaceWorkerPoolNamespacesWorkerpoolsRequest extends WorkerPool {
   /** Required. The fully qualified name of the worker pool to replace. It can be any of the following forms: * `namespaces/{project_id_or_number}/workerpools/{worker_pool_name}` (only when the `endpoint` is regional) * `projects/{project_id_or_number}/locations/{region}/workerpools/{worker_pool_name}` * `projects/{project_id_or_number}/regions/{region}/workerpools/{worker_pool_name}` */
   name: string;
   /** Indicates that the server should validate the request and populate default values without persisting the request. Supported values: `all` */
   dryRun?: string | undefined;
-  /** The kind of resource. It must be "WorkerPool". */
-  kind?: string | undefined;
-  /** Metadata associated with this WorkerPool, including name, namespace, labels, and annotations. In Cloud Run, annotations with 'run.googleapis.com/' and 'autoscaling.knative.dev' are restricted, and the accepted annotations will be different depending on the resource type. The following Cloud Run-specific annotations are accepted in WorkerPool.metadata.annotations. * `run.googleapis.com/binary-authorization-breakglass` * `run.googleapis.com/binary-authorization` * `run.googleapis.com/client-name` * `run.googleapis.com/description` */
-  metadata?: ObjectMeta | undefined;
-  /** The API version for this call. It must be "run.googleapis.com/v1". */
-  apiVersion?: string | undefined;
-  /** Holds the desired state of the WorkerPool (from the client). */
-  spec?: WorkerPoolSpec | undefined;
-  /** Communicates the system-controlled state of the WorkerPool. */
-  status?: WorkerPoolStatus | undefined;
 }
 /** Per container override specification. */
 export interface ContainerOverride {
@@ -2008,90 +1888,87 @@ export interface Overrides {
   /** Optional. If true, the system will start the execution within the next 12 hours depending on available capacity. */
   delayExecution?: boolean | undefined;
 }
-export interface RunNamespacesJobsRequest {
-  /** Required. The name of the job to run. Replace {namespace} with the project ID or number. It takes the form namespaces/{namespace}. For example: namespaces/PROJECT_ID */
-  name: string;
+/** Request message for creating a new execution of a job. */
+export interface RunJobRequest {
   /** Optional. Overrides existing job configuration for one specific new job execution only, using the specified values to update the job configuration for the new execution. */
   overrides?: Overrides | undefined;
 }
-export interface SetIamPolicyProjectsLocationsInstancesRequest {
-  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
-  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
-  policy?: Policy | undefined;
-  /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
-  updateMask?: string | undefined;
-}
-export interface SetIamPolicyProjectsLocationsJobsRequest {
-  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
-  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
-  policy?: Policy | undefined;
-  /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
-  updateMask?: string | undefined;
-}
-export interface SetIamPolicyProjectsLocationsServicesRequest {
-  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
-  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
-  policy?: Policy | undefined;
-  /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
-  updateMask?: string | undefined;
-}
-export interface SetIamPolicyProjectsLocationsWorkerpoolsRequest {
-  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
-  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
-  policy?: Policy | undefined;
-  /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
-  updateMask?: string | undefined;
-}
-export interface StartNamespacesInstancesRequest {
-  /** Required. The name of the Instance to run. Replace {namespace} with the project ID or number. It takes the form namespaces/{namespace}. For example: namespaces/PROJECT_ID */
+export interface RunNamespacesJobsRequest extends RunJobRequest {
+  /** Required. The name of the job to run. Replace {namespace} with the project ID or number. It takes the form namespaces/{namespace}. For example: namespaces/PROJECT_ID */
   name: string;
+}
+/** Request message for `SetIamPolicy` method. */
+export interface SetIamPolicyRequest {
+  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
+  policy?: Policy | undefined;
+  /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
+  updateMask?: string | undefined;
+}
+export interface SetIamPolicyProjectsLocationsInstancesRequest extends SetIamPolicyRequest {
+  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
+}
+export interface SetIamPolicyProjectsLocationsJobsRequest extends SetIamPolicyRequest {
+  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
+}
+export interface SetIamPolicyProjectsLocationsServicesRequest extends SetIamPolicyRequest {
+  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
+}
+export interface SetIamPolicyProjectsLocationsWorkerpoolsRequest extends SetIamPolicyRequest {
+  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
+}
+/** Request message for starting a stopped Instance. */
+export interface StartInstanceRequest {
   /** Optional. Indicates that the server should validate the request and populate default values without persisting the request. Supported values: `all` */
   dryRun?: string | undefined;
 }
-export interface StopNamespacesInstancesRequest {
+export interface StartNamespacesInstancesRequest extends StartInstanceRequest {
   /** Required. The name of the Instance to run. Replace {namespace} with the project ID or number. It takes the form namespaces/{namespace}. For example: namespaces/PROJECT_ID */
   name: string;
-  /** Optional. Indicates that the server should validate the request and populate default values without persisting the request. Supported values: `all` */
-  dryRun?: string | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsInstancesRequest {
-  /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
+/** Request message for stopping a running Instance. */
+export type StopInstanceRequest = StartInstanceRequest;
+export interface StopNamespacesInstancesRequest extends StartInstanceRequest {
+  /** Required. The name of the Instance to run. Replace {namespace} with the project ID or number. It takes the form namespaces/{namespace}. For example: namespaces/PROJECT_ID */
+  name: string;
+}
+/** Request message for `TestIamPermissions` method. */
+export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: StringList | undefined;
+}
+export interface TestIamPermissionsProjectsLocationsInstancesRequest extends TestIamPermissionsRequest {
+  /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsJobsRequest {
+export interface TestIamPermissionsProjectsLocationsJobsRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
-  permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsServicesRequest {
+export interface TestIamPermissionsProjectsLocationsServicesRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
-  permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsWorkerpoolsRequest {
+export interface TestIamPermissionsProjectsLocationsWorkerpoolsRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
-  permissions?: StringList | undefined;
 }
-export interface WaitProjectsLocationsOperationsRequest {
-  /** The name of the operation resource to wait on. */
-  name: string;
+/** The request message for Operations.WaitOperation. */
+export interface GoogleLongrunningWaitOperationRequest {
   /** The maximum duration to wait before timing out. If left blank, the wait will be at most the time permitted by the underlying HTTP/RPC protocol. If RPC context deadline is also specified, the shorter one will be used. */
   timeout?: string | undefined;
+}
+export interface WaitProjectsLocationsOperationsRequest extends GoogleLongrunningWaitOperationRequest {
+  /** The name of the operation resource to wait on. */
+  name: string;
 }
 export type CancelNamespacesExecutionsError =
   | NotFound
@@ -2167,8 +2044,8 @@ export const createNamespacesJobs: API.OperationMethod<
   CreateNamespacesJobsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2880, __c90, 0) as any as S.Schema<CreateNamespacesJobsRequest>,
-  output: __S(2916, __c91, 4) as any as S.Schema<Job>,
+  input: __S(2912, __c91, 0) as any as S.Schema<CreateNamespacesJobsRequest>,
+  output: __S(2948, __c92, 4) as any as S.Schema<Job>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2189,8 +2066,8 @@ export const createNamespacesServices: API.OperationMethod<
   CreateNamespacesServicesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3296, __c103, 0) as any as S.Schema<CreateNamespacesServicesRequest>,
-  output: __S(3362, __c105, 2) as any as S.Schema<Service>,
+  input: __S(3360, __c105, 0) as any as S.Schema<CreateNamespacesServicesRequest>,
+  output: __S(3426, __c107, 2) as any as S.Schema<Service>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2211,8 +2088,8 @@ export const createNamespacesWorkerpools: API.OperationMethod<
   CreateNamespacesWorkerpoolsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3456, __c108, 0) as any as S.Schema<CreateNamespacesWorkerpoolsRequest>,
-  output: __S(3492, __c109, 4) as any as S.Schema<WorkerPool>,
+  input: __S(3520, __c110, 0) as any as S.Schema<CreateNamespacesWorkerpoolsRequest>,
+  output: __S(3556, __c111, 4) as any as S.Schema<WorkerPool>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2256,7 +2133,7 @@ export const createProjectsLocationsServices: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c1, 0) as any as S.Schema<CreateProjectsLocationsServicesRequest>,
-  output: __S(3362, __c105, 2) as any as S.Schema<Service>,
+  output: __S(3426, __c107, 2) as any as S.Schema<Service>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2646,7 +2523,7 @@ export const getNamespacesJobs: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(800, __c25, 0) as any as S.Schema<GetNamespacesJobsRequest>,
-  output: __S(2916, __c91, 4) as any as S.Schema<Job>,
+  output: __S(2948, __c92, 4) as any as S.Schema<Job>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2697,7 +2574,7 @@ export const getNamespacesServices: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(960, __c30, 0) as any as S.Schema<GetNamespacesServicesRequest>,
-  output: __S(3362, __c105, 2) as any as S.Schema<Service>,
+  output: __S(3426, __c107, 2) as any as S.Schema<Service>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2731,7 +2608,7 @@ export const getNamespacesWorkerpools: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1120, __c35, 0) as any as S.Schema<GetNamespacesWorkerpoolsRequest>,
-  output: __S(3492, __c109, 4) as any as S.Schema<WorkerPool>,
+  output: __S(3556, __c111, 4) as any as S.Schema<WorkerPool>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2833,7 +2710,7 @@ export const getProjectsLocationsServices: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1664, __c52, 0) as any as S.Schema<GetProjectsLocationsServicesRequest>,
-  output: __S(3362, __c105, 2) as any as S.Schema<Service>,
+  output: __S(3426, __c107, 2) as any as S.Schema<Service>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3227,7 +3104,7 @@ export const replaceJobNamespacesJobs: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2688, __c84, 0) as any as S.Schema<ReplaceJobNamespacesJobsRequest>,
-  output: __S(2916, __c91, 4) as any as S.Schema<Job>,
+  output: __S(2948, __c92, 4) as any as S.Schema<Job>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3249,7 +3126,7 @@ export const replaceServiceNamespacesServices: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2720, __c85, 0) as any as S.Schema<ReplaceServiceNamespacesServicesRequest>,
-  output: __S(3362, __c105, 2) as any as S.Schema<Service>,
+  output: __S(3426, __c107, 2) as any as S.Schema<Service>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3271,7 +3148,7 @@ export const replaceServiceProjectsLocationsServices: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2752, __c86, 0) as any as S.Schema<ReplaceServiceProjectsLocationsServicesRequest>,
-  output: __S(3362, __c105, 2) as any as S.Schema<Service>,
+  output: __S(3426, __c107, 2) as any as S.Schema<Service>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3293,7 +3170,7 @@ export const replaceWorkerPoolNamespacesWorkerpools: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2784, __c87, 0) as any as S.Schema<ReplaceWorkerPoolNamespacesWorkerpoolsRequest>,
-  output: __S(3492, __c109, 4) as any as S.Schema<WorkerPool>,
+  output: __S(3556, __c111, 4) as any as S.Schema<WorkerPool>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3309,7 +3186,7 @@ export const runNamespacesJobs: API.OperationMethod<
   RunNamespacesJobsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2819, __c88, 3) as any as S.Schema<RunNamespacesJobsRequest>,
+  input: __S(2820, __c88, 4) as any as S.Schema<RunNamespacesJobsRequest>,
   output: __S(1345, __c42, 1) as any as S.Schema<Execution>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -3353,7 +3230,7 @@ export const setIamPolicyProjectsLocationsJobs: API.OperationMethod<
   SetIamPolicyProjectsLocationsJobsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2944, __c92, 0) as any as S.Schema<SetIamPolicyProjectsLocationsJobsRequest>,
+  input: __S(2976, __c93, 0) as any as S.Schema<SetIamPolicyProjectsLocationsJobsRequest>,
   output: __S(519, __c16, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -3375,7 +3252,7 @@ export const setIamPolicyProjectsLocationsServices: API.OperationMethod<
   SetIamPolicyProjectsLocationsServicesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2976, __c93, 0) as any as S.Schema<SetIamPolicyProjectsLocationsServicesRequest>,
+  input: __S(3008, __c94, 0) as any as S.Schema<SetIamPolicyProjectsLocationsServicesRequest>,
   output: __S(519, __c16, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -3397,7 +3274,7 @@ export const setIamPolicyProjectsLocationsWorkerpools: API.OperationMethod<
   SetIamPolicyProjectsLocationsWorkerpoolsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3008, __c94, 0) as any as S.Schema<SetIamPolicyProjectsLocationsWorkerpoolsRequest>,
+  input: __S(3040, __c95, 0) as any as S.Schema<SetIamPolicyProjectsLocationsWorkerpoolsRequest>,
   output: __S(519, __c16, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -3419,7 +3296,7 @@ export const startNamespacesInstances: API.OperationMethod<
   StartNamespacesInstancesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3040, __c95, 0) as any as S.Schema<StartNamespacesInstancesRequest>,
+  input: __S(3072, __c96, 0) as any as S.Schema<StartNamespacesInstancesRequest>,
   output: __S(2530, __c79, 2) as any as S.Schema<Instance>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -3441,7 +3318,7 @@ export const stopNamespacesInstances: API.OperationMethod<
   StopNamespacesInstancesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3072, __c96, 0) as any as S.Schema<StopNamespacesInstancesRequest>,
+  input: __S(3136, __c98, 0) as any as S.Schema<StopNamespacesInstancesRequest>,
   output: __S(2530, __c79, 2) as any as S.Schema<Instance>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -3464,11 +3341,11 @@ export const testIamPermissionsProjectsLocationsInstances: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3104,
-    __c97,
+    3168,
+    __c99,
     0,
   ) as any as S.Schema<TestIamPermissionsProjectsLocationsInstancesRequest>,
-  output: __S(3136, __c98, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  output: __S(3200, __c100, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3489,8 +3366,8 @@ export const testIamPermissionsProjectsLocationsJobs: API.OperationMethod<
   TestIamPermissionsProjectsLocationsJobsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3168, __c99, 0) as any as S.Schema<TestIamPermissionsProjectsLocationsJobsRequest>,
-  output: __S(3136, __c98, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  input: __S(3232, __c101, 0) as any as S.Schema<TestIamPermissionsProjectsLocationsJobsRequest>,
+  output: __S(3200, __c100, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3512,11 +3389,11 @@ export const testIamPermissionsProjectsLocationsServices: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3200,
-    __c100,
+    3264,
+    __c102,
     0,
   ) as any as S.Schema<TestIamPermissionsProjectsLocationsServicesRequest>,
-  output: __S(3136, __c98, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  output: __S(3200, __c100, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3538,11 +3415,11 @@ export const testIamPermissionsProjectsLocationsWorkerpools: API.OperationMethod
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3232,
-    __c101,
+    3296,
+    __c103,
     0,
   ) as any as S.Schema<TestIamPermissionsProjectsLocationsWorkerpoolsRequest>,
-  output: __S(3136, __c98, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  output: __S(3200, __c100, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3563,7 +3440,7 @@ export const waitProjectsLocationsOperations: API.OperationMethod<
   WaitProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3264, __c102, 0) as any as S.Schema<WaitProjectsLocationsOperationsRequest>,
+  input: __S(3329, __c104, 1) as any as S.Schema<WaitProjectsLocationsOperationsRequest>,
   output: __S(1248, __c39, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -3577,15 +3454,13 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          dryRun: S.optional(S.String.pipe(T.Query())),
-          metadata: S.optional(__S(1444, __c45, 4)),
-          kind: S.optional(S.String),
-          status: S.optional(__S(2082, __c65, 2)),
-          apiVersion: S.optional(S.String),
-          spec: S.optional(__S(2083, __c65, 3)),
-        }).pipe(
+        S.Extend(
+          __S(2084, __c65, 4),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            dryRun: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/domainmappings",
@@ -3599,15 +3474,13 @@ function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          dryRun: S.optional(S.String.pipe(T.Query())),
-          status: S.optional(__S(3360, __c105, 0)),
-          spec: S.optional(__S(3361, __c105, 1)),
-          metadata: S.optional(__S(1444, __c45, 4)),
-          kind: S.optional(S.String),
-          apiVersion: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(3426, __c107, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            dryRun: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/services",
@@ -4000,7 +3873,7 @@ function __c21(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          template: S.optional(__S(3424, __c107, 0)),
+          template: S.optional(__S(3488, __c109, 0)),
         }),
       ).annotate({ identifier: "ConfigurationSpec" });
     case 1:
@@ -4141,7 +4014,7 @@ function __c27(j: number): any {
         S.Struct({
           apiVersion: S.optional(S.String),
           metadata: S.optional(__S(1444, __c45, 4)),
-          spec: S.optional(__S(3393, __c106, 1)),
+          spec: S.optional(__S(3457, __c108, 1)),
           status: S.optional(__S(867, __c27, 3)),
           kind: S.optional(S.String),
         }),
@@ -4170,8 +4043,8 @@ function __c29(j: number): any {
       return S.suspend(() =>
         S.Struct({
           observedGeneration: S.optional(S.Number),
-          traffic: S.optional(__S(3330, __c104, 2)),
-          address: S.optional(__S(3328, __c104, 0)),
+          traffic: S.optional(__S(3394, __c106, 2)),
+          address: S.optional(__S(3392, __c106, 0)),
           url: S.optional(S.String),
           conditions: S.optional(__S(1441, __c45, 1)),
         }),
@@ -4179,7 +4052,7 @@ function __c29(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          traffic: S.optional(__S(3330, __c104, 2)),
+          traffic: S.optional(__S(3394, __c106, 2)),
         }),
       ).annotate({ identifier: "RouteSpec" });
     case 2:
@@ -5018,7 +4891,7 @@ function __c61(j: number): any {
         ),
       ).annotate({ identifier: "ListNamespacesJobsRequest" });
     case 1:
-      return S.Array(__S(2916, __c91, 4));
+      return S.Array(__S(2948, __c92, 4));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -5074,15 +4947,13 @@ function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          dryRun: S.optional(S.String.pipe(T.Query())),
-          metadata: S.optional(__S(1444, __c45, 4)),
-          kind: S.optional(S.String),
-          status: S.optional(__S(2082, __c65, 2)),
-          apiVersion: S.optional(S.String),
-          spec: S.optional(__S(2083, __c65, 3)),
-        }).pipe(
+        S.Extend(
+          __S(2084, __c65, 4),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            dryRun: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "apis/domains.cloudrun.com/v1/{+parent}/domainmappings",
@@ -5199,7 +5070,7 @@ function __c68(j: number): any {
 function __c69(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(3362, __c105, 2));
+      return S.Array(__S(3426, __c107, 2));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -5265,7 +5136,7 @@ function __c71(j: number): any {
         ),
       ).annotate({ identifier: "ListNamespacesWorkerpoolsRequest" });
     case 1:
-      return S.Array(__S(3492, __c109, 4));
+      return S.Array(__S(3556, __c111, 4));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -5433,15 +5304,13 @@ function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          dryRun: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          spec: S.optional(__S(2528, __c79, 0)),
-          apiVersion: S.optional(S.String),
-          metadata: S.optional(__S(1444, __c45, 4)),
-          status: S.optional(__S(2529, __c79, 1)),
-          kind: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(2530, __c79, 2),
+          S.Struct({
+            dryRun: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "apis/run.googleapis.com/v1/{+parent}/instances",
@@ -5558,15 +5427,13 @@ function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          dryRun: S.optional(S.String.pipe(T.Query())),
-          spec: S.optional(__S(2528, __c79, 0)),
-          apiVersion: S.optional(S.String),
-          metadata: S.optional(__S(1444, __c45, 4)),
-          status: S.optional(__S(2529, __c79, 1)),
-          kind: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(2530, __c79, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            dryRun: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "apis/run.googleapis.com/v1/{+name}",
@@ -5580,15 +5447,13 @@ function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          dryRun: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          kind: S.optional(S.String),
-          apiVersion: S.optional(S.String),
-          status: S.optional(__S(2913, __c91, 1)),
-          metadata: S.optional(__S(1444, __c45, 4)),
-          spec: S.optional(__S(2915, __c91, 3)),
-        }).pipe(
+        S.Extend(
+          __S(2948, __c92, 4),
+          S.Struct({
+            dryRun: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "apis/run.googleapis.com/v1/{+name}",
@@ -5602,15 +5467,13 @@ function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          dryRun: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          status: S.optional(__S(3360, __c105, 0)),
-          spec: S.optional(__S(3361, __c105, 1)),
-          metadata: S.optional(__S(1444, __c45, 4)),
-          kind: S.optional(S.String),
-          apiVersion: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(3426, __c107, 2),
+          S.Struct({
+            dryRun: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "apis/serving.knative.dev/v1/{+name}",
@@ -5624,15 +5487,13 @@ function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          dryRun: S.optional(S.String.pipe(T.Query())),
-          status: S.optional(__S(3360, __c105, 0)),
-          spec: S.optional(__S(3361, __c105, 1)),
-          metadata: S.optional(__S(1444, __c45, 4)),
-          kind: S.optional(S.String),
-          apiVersion: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(3426, __c107, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            dryRun: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({ method: "PUT", uri: "v1/{+name}", baseUrl: "https://run.googleapis.com/" }),
         ),
       ).annotate({ identifier: "ReplaceServiceProjectsLocationsServicesRequest" });
@@ -5642,15 +5503,13 @@ function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          dryRun: S.optional(S.String.pipe(T.Query())),
-          kind: S.optional(S.String),
-          metadata: S.optional(__S(1444, __c45, 4)),
-          apiVersion: S.optional(S.String),
-          spec: S.optional(__S(3490, __c109, 2)),
-          status: S.optional(__S(3491, __c109, 3)),
-        }).pipe(
+        S.Extend(
+          __S(3556, __c111, 4),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            dryRun: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "apis/run.googleapis.com/v1/{+name}",
@@ -5685,9 +5544,17 @@ function __c88(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           overrides: S.optional(__S(2818, __c88, 2)),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "RunJobRequest" });
+    case 4:
+      return S.suspend(() =>
+        S.Extend(
+          __S(2819, __c88, 3),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "apis/run.googleapis.com/v1/{+name}:run",
@@ -5701,11 +5568,12 @@ function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          policy: S.optional(__S(519, __c16, 7)),
-          updateMask: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(2880, __c90, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -5720,14 +5588,23 @@ function __c90(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          dryRun: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          kind: S.optional(S.String),
-          apiVersion: S.optional(S.String),
-          status: S.optional(__S(2913, __c91, 1)),
-          metadata: S.optional(__S(1444, __c45, 4)),
-          spec: S.optional(__S(2915, __c91, 3)),
-        }).pipe(
+          policy: S.optional(__S(519, __c16, 7)),
+          updateMask: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SetIamPolicyRequest" });
+  }
+}
+function __c91(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(2948, __c92, 4),
+          S.Struct({
+            dryRun: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "apis/run.googleapis.com/v1/{+parent}/jobs",
@@ -5737,7 +5614,7 @@ function __c90(j: number): any {
       ).annotate({ identifier: "CreateNamespacesJobsRequest" });
   }
 }
-function __c91(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5754,7 +5631,7 @@ function __c91(j: number): any {
         S.Struct({
           observedGeneration: S.optional(S.Number),
           conditions: S.optional(__S(1441, __c45, 1)),
-          latestCreatedExecution: S.optional(__S(2912, __c91, 0)),
+          latestCreatedExecution: S.optional(__S(2944, __c92, 0)),
           executionCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "JobStatus" });
@@ -5770,7 +5647,7 @@ function __c91(j: number): any {
         S.Struct({
           runExecutionToken: S.optional(S.String),
           startExecutionToken: S.optional(S.String),
-          template: S.optional(__S(2914, __c91, 2)),
+          template: S.optional(__S(2946, __c92, 2)),
         }),
       ).annotate({ identifier: "JobSpec" });
     case 4:
@@ -5778,22 +5655,23 @@ function __c91(j: number): any {
         S.Struct({
           kind: S.optional(S.String),
           apiVersion: S.optional(S.String),
-          status: S.optional(__S(2913, __c91, 1)),
+          status: S.optional(__S(2945, __c92, 1)),
           metadata: S.optional(__S(1444, __c45, 4)),
-          spec: S.optional(__S(2915, __c91, 3)),
+          spec: S.optional(__S(2947, __c92, 3)),
         }),
       ).annotate({ identifier: "Job" });
   }
 }
-function __c92(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          policy: S.optional(__S(519, __c16, 7)),
-          updateMask: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(2880, __c90, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -5803,15 +5681,16 @@ function __c92(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsLocationsJobsRequest" });
   }
 }
-function __c93(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          policy: S.optional(__S(519, __c16, 7)),
-          updateMask: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(2880, __c90, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -5821,15 +5700,16 @@ function __c93(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsLocationsServicesRequest" });
   }
 }
-function __c94(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          policy: S.optional(__S(519, __c16, 7)),
-          updateMask: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(2880, __c90, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -5839,14 +5719,16 @@ function __c94(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsLocationsWorkerpoolsRequest" });
   }
 }
-function __c95(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          dryRun: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(3104, __c97, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "apis/run.googleapis.com/v1/{+name}:start",
@@ -5856,14 +5738,26 @@ function __c95(j: number): any {
       ).annotate({ identifier: "StartNamespacesInstancesRequest" });
   }
 }
-function __c96(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           dryRun: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "StartInstanceRequest" });
+  }
+}
+function __c98(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(3104, __c97, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "apis/run.googleapis.com/v1/{+name}:stop",
@@ -5873,14 +5767,16 @@ function __c96(j: number): any {
       ).annotate({ identifier: "StopNamespacesInstancesRequest" });
   }
 }
-function __c97(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          permissions: S.optional(__S(1376, __c43, 0)),
-        }).pipe(
+        S.Extend(
+          __S(3200, __c100, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -5890,24 +5786,26 @@ function __c97(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsLocationsInstancesRequest" });
   }
 }
-function __c98(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           permissions: S.optional(__S(1376, __c43, 0)),
         }),
-      ).annotate({ identifier: "TestIamPermissionsResponse" });
+      ).annotate({ identifier: "TestIamPermissionsRequest" });
   }
 }
-function __c99(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          permissions: S.optional(__S(1376, __c43, 0)),
-        }).pipe(
+        S.Extend(
+          __S(3200, __c100, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -5917,14 +5815,16 @@ function __c99(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsLocationsJobsRequest" });
   }
 }
-function __c100(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          permissions: S.optional(__S(1376, __c43, 0)),
-        }).pipe(
+        S.Extend(
+          __S(3200, __c100, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -5934,14 +5834,16 @@ function __c100(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsLocationsServicesRequest" });
   }
 }
-function __c101(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          permissions: S.optional(__S(1376, __c43, 0)),
-        }).pipe(
+        S.Extend(
+          __S(3200, __c100, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -5951,14 +5853,22 @@ function __c101(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsLocationsWorkerpoolsRequest" });
   }
 }
-function __c102(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           timeout: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "GoogleLongrunningWaitOperationRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(3328, __c104, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:wait",
@@ -5968,19 +5878,17 @@ function __c102(j: number): any {
       ).annotate({ identifier: "WaitProjectsLocationsOperationsRequest" });
   }
 }
-function __c103(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          dryRun: S.optional(S.String.pipe(T.Query())),
-          status: S.optional(__S(3360, __c105, 0)),
-          spec: S.optional(__S(3361, __c105, 1)),
-          metadata: S.optional(__S(1444, __c45, 4)),
-          kind: S.optional(S.String),
-          apiVersion: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(3426, __c107, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            dryRun: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "apis/serving.knative.dev/v1/{+parent}/services",
@@ -5990,7 +5898,7 @@ function __c103(j: number): any {
       ).annotate({ identifier: "CreateNamespacesServicesRequest" });
   }
 }
-function __c104(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6010,35 +5918,35 @@ function __c104(j: number): any {
         }),
       ).annotate({ identifier: "TrafficTarget" });
     case 2:
-      return S.Array(__S(3329, __c104, 1));
+      return S.Array(__S(3393, __c106, 1));
   }
 }
-function __c105(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           latestCreatedRevisionName: S.optional(S.String),
-          address: S.optional(__S(3328, __c104, 0)),
+          address: S.optional(__S(3392, __c106, 0)),
           url: S.optional(S.String),
           latestReadyRevisionName: S.optional(S.String),
           observedGeneration: S.optional(S.Number),
           conditions: S.optional(__S(1441, __c45, 1)),
-          traffic: S.optional(__S(3330, __c104, 2)),
+          traffic: S.optional(__S(3394, __c106, 2)),
         }),
       ).annotate({ identifier: "ServiceStatus" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          traffic: S.optional(__S(3330, __c104, 2)),
-          template: S.optional(__S(3424, __c107, 0)),
+          traffic: S.optional(__S(3394, __c106, 2)),
+          template: S.optional(__S(3488, __c109, 0)),
         }),
       ).annotate({ identifier: "ServiceSpec" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          status: S.optional(__S(3360, __c105, 0)),
-          spec: S.optional(__S(3361, __c105, 1)),
+          status: S.optional(__S(3424, __c107, 0)),
+          spec: S.optional(__S(3425, __c107, 1)),
           metadata: S.optional(__S(1444, __c45, 4)),
           kind: S.optional(S.String),
           apiVersion: S.optional(S.String),
@@ -6046,7 +5954,7 @@ function __c105(j: number): any {
       ).annotate({ identifier: "Service" });
   }
 }
-function __c106(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(1484, __c46, 12));
@@ -6059,7 +5967,7 @@ function __c106(j: number): any {
           timeoutSeconds: S.optional(S.Number),
           volumes: S.optional(__S(1481, __c46, 9)),
           runtimeClassName: S.optional(S.String),
-          imagePullSecrets: S.optional(__S(3392, __c106, 0)),
+          imagePullSecrets: S.optional(__S(3456, __c108, 0)),
           nodeSelector: S.optional(__S(1408, __c44, 0)),
           containers: S.optional(__S(1509, __c47, 5)),
           containerConcurrency: S.optional(S.Number),
@@ -6067,30 +5975,28 @@ function __c106(j: number): any {
       ).annotate({ identifier: "RevisionSpec" });
   }
 }
-function __c107(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           metadata: S.optional(__S(1444, __c45, 4)),
-          spec: S.optional(__S(3393, __c106, 1)),
+          spec: S.optional(__S(3457, __c108, 1)),
         }),
       ).annotate({ identifier: "RevisionTemplate" });
   }
 }
-function __c108(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          dryRun: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          kind: S.optional(S.String),
-          metadata: S.optional(__S(1444, __c45, 4)),
-          apiVersion: S.optional(S.String),
-          spec: S.optional(__S(3490, __c109, 2)),
-          status: S.optional(__S(3491, __c109, 3)),
-        }).pipe(
+        S.Extend(
+          __S(3556, __c111, 4),
+          S.Struct({
+            dryRun: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "apis/run.googleapis.com/v1/{+parent}/workerpools",
@@ -6100,7 +6006,7 @@ function __c108(j: number): any {
       ).annotate({ identifier: "CreateNamespacesWorkerpoolsRequest" });
   }
 }
-function __c109(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6111,18 +6017,18 @@ function __c109(j: number): any {
         }),
       ).annotate({ identifier: "InstanceSplit" });
     case 1:
-      return S.Array(__S(3488, __c109, 0));
+      return S.Array(__S(3552, __c111, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          instanceSplits: S.optional(__S(3489, __c109, 1)),
-          template: S.optional(__S(3424, __c107, 0)),
+          instanceSplits: S.optional(__S(3553, __c111, 1)),
+          template: S.optional(__S(3488, __c109, 0)),
         }),
       ).annotate({ identifier: "WorkerPoolSpec" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          instanceSplits: S.optional(__S(3489, __c109, 1)),
+          instanceSplits: S.optional(__S(3553, __c111, 1)),
           latestCreatedRevisionName: S.optional(S.String),
           latestReadyRevisionName: S.optional(S.String),
           observedGeneration: S.optional(S.Number),
@@ -6135,8 +6041,8 @@ function __c109(j: number): any {
           kind: S.optional(S.String),
           metadata: S.optional(__S(1444, __c45, 4)),
           apiVersion: S.optional(S.String),
-          spec: S.optional(__S(3490, __c109, 2)),
-          status: S.optional(__S(3491, __c109, 3)),
+          spec: S.optional(__S(3554, __c111, 2)),
+          status: S.optional(__S(3555, __c111, 3)),
         }),
       ).annotate({ identifier: "WorkerPool" });
   }

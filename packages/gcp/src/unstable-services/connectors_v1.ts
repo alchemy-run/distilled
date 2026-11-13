@@ -512,11 +512,8 @@ export interface ConnectorVersionInfraConfig {
   hpaConfig?: HPAConfig | undefined;
 }
 export type DestinationConfigList = Array<DestinationConfig>;
-export interface CreateProjectsLocationsConnectionsRequest {
-  /** Required. Identifier to assign to the Connection. Must be unique within scope of the parent resource. */
-  connectionId?: string | undefined;
-  /** Required. Parent resource of the Connection, of the form: `projects/*\/locations/*` */
-  parent: string;
+/** Connection represents an instance of connector. */
+export interface Connection {
   /** Output only. Current status of the connection. */
   status?: ConnectionStatus | undefined;
   /** Optional. Traffic shaping configuration for the connection. */
@@ -592,6 +589,12 @@ export interface CreateProjectsLocationsConnectionsRequest {
   updateTime?: string | undefined;
   /** Optional. Async operations enabled for the connection. If Async Operations is enabled, Connection allows the customers to initiate async long running operations using the actions API. */
   asyncOperationsEnabled?: boolean | undefined;
+}
+export interface CreateProjectsLocationsConnectionsRequest extends Connection {
+  /** Required. Identifier to assign to the Connection. Must be unique within scope of the parent resource. */
+  connectionId?: string | undefined;
+  /** Required. Parent resource of the Connection, of the form: `projects/*\/locations/*` */
+  parent: string;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -800,11 +803,8 @@ export type EndUserAuthenticationRolesItemEnum =
 export type EndUserAuthenticationRolesItemEnumList = Array<
   EndUserAuthenticationRolesItemEnum | (string & {})
 >;
-export interface CreateProjectsLocationsConnectionsEndUserAuthenticationsRequest {
-  /** Required. Parent resource of the EndUserAuthentication, of the form: `projects/*\/locations/*\/connections/*` */
-  parent: string;
-  /** Required. Identifier to assign to the EndUserAuthentication. Must be unique within scope of the parent resource. */
-  endUserAuthenticationId?: string | undefined;
+/** AuthConfig defines details of a authentication type. */
+export interface EndUserAuthentication {
   /** Optional. Config variables for the EndUserAuthentication. */
   configVariables?: EndUserAuthenticationConfigVariableList | undefined;
   /** Optional. The destination to hit when we receive an event */
@@ -827,6 +827,12 @@ export interface CreateProjectsLocationsConnectionsEndUserAuthenticationsRequest
   roles?: EndUserAuthenticationRolesItemEnumList | undefined;
   /** Output only. Created time. */
   createTime?: string | undefined;
+}
+export interface CreateProjectsLocationsConnectionsEndUserAuthenticationsRequest extends EndUserAuthentication {
+  /** Required. Parent resource of the EndUserAuthentication, of the form: `projects/*\/locations/*\/connections/*` */
+  parent: string;
+  /** Required. Identifier to assign to the EndUserAuthentication. Must be unique within scope of the parent resource. */
+  endUserAuthenticationId?: string | undefined;
 }
 /** Header details for a given header to be added to Endpoint. */
 export interface Header {
@@ -892,11 +898,8 @@ export interface EventSubscriptionStatus {
   /** Output only. Description of the state. */
   description?: string | undefined;
 }
-export interface CreateProjectsLocationsConnectionsEventSubscriptionsRequest {
-  /** Required. Identifier to assign to the Event Subscription. Must be unique within scope of the parent resource. */
-  eventSubscriptionId?: string | undefined;
-  /** Required. Parent resource of the EventSubscription, of the form: `projects/*\/locations/*\/connections/*` */
-  parent: string;
+/** represents the Connector's EventSubscription resource */
+export interface EventSubscription {
   /** Output only. Created time. */
   createTime?: string | undefined;
   /** Optional. name of the Subscriber for the current EventSubscription. */
@@ -920,6 +923,12 @@ export interface CreateProjectsLocationsConnectionsEventSubscriptionsRequest {
   /** Optional. Status indicates the status of the event subscription resource */
   status?: EventSubscriptionStatus | undefined;
 }
+export interface CreateProjectsLocationsConnectionsEventSubscriptionsRequest extends EventSubscription {
+  /** Required. Identifier to assign to the Event Subscription. Must be unique within scope of the parent resource. */
+  eventSubscriptionId?: string | undefined;
+  /** Required. Parent resource of the EventSubscription, of the form: `projects/*\/locations/*\/connections/*` */
+  parent: string;
+}
 export type EndpointAttachmentStateEnum =
   | "STATE_UNSPECIFIED"
   | "PENDING"
@@ -929,11 +938,8 @@ export type EndpointAttachmentStateEnum =
   | "FROZEN"
   | "NEEDS_ATTENTION"
   | "ACCEPTED_NOT_PROGRAMMED";
-export interface CreateProjectsLocationsEndpointAttachmentsRequest {
-  /** Required. Parent resource of the EndpointAttachment, of the form: `projects/*\/locations/*` */
-  parent: string;
-  /** Required. Identifier to assign to the EndpointAttachment. Must be unique within scope of the parent resource. The regex is: `^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$`. */
-  endpointAttachmentId?: string | undefined;
+/** represents the Connector's Endpoint Attachment resource */
+export interface EndpointAttachment {
   /** Output only. Resource name of the Endpoint Attachment. Format: projects/{project}/locations/{location}/endpointAttachments/{endpoint_attachment} */
   name?: string | undefined;
   /** Output only. The Private Service Connect connection endpoint ip */
@@ -953,16 +959,19 @@ export interface CreateProjectsLocationsEndpointAttachmentsRequest {
   /** Optional. Description of the resource. */
   description?: string | undefined;
 }
+export interface CreateProjectsLocationsEndpointAttachmentsRequest extends EndpointAttachment {
+  /** Required. Parent resource of the EndpointAttachment, of the form: `projects/*\/locations/*` */
+  parent: string;
+  /** Required. Identifier to assign to the EndpointAttachment. Must be unique within scope of the parent resource. The regex is: `^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$`. */
+  endpointAttachmentId?: string | undefined;
+}
 export type CustomConnectorCustomConnectorTypeEnum =
   | "CUSTOM_CONNECTOR_TYPE_UNSPECIFIED"
   | "OPEN_API"
   | "PROTO"
   | "SDK";
-export interface CreateProjectsLocationsGlobalCustomConnectorsRequest {
-  /** Required. Parent resource of the CreateCustomConnector, of the form: `projects/{project}/locations/*` */
-  parent: string;
-  /** Required. Identifier to assign to the CreateCustomConnector. Must be unique within scope of the parent resource. */
-  customConnectorId?: string | undefined;
+/** CustomConnector represents the custom connector defined by the customer as part of byoc. */
+export interface CustomConnector {
   /** Output only. Published marketplace versions. */
   publishedMarketplaceVersions?: StringList | undefined;
   /** Optional. Display name. */
@@ -987,6 +996,12 @@ export interface CreateProjectsLocationsGlobalCustomConnectorsRequest {
   description?: string | undefined;
   /** Identifier. Resource name of the CustomConnector. Format: projects/{project}/locations/{location}/customConnectors/{connector} */
   name?: string | undefined;
+}
+export interface CreateProjectsLocationsGlobalCustomConnectorsRequest extends CustomConnector {
+  /** Required. Parent resource of the CreateCustomConnector, of the form: `projects/{project}/locations/*` */
+  parent: string;
+  /** Required. Identifier to assign to the CreateCustomConnector. Must be unique within scope of the parent resource. */
+  customConnectorId?: string | undefined;
 }
 export type PublishStatusPublishStateEnum =
   | "PUBLISH_STATE_UNSPECIFIED"
@@ -1214,11 +1229,8 @@ export interface PartnerMetadata {
   /** Output only. Local spec path. Required if has_dynamic_spec_uri is true. */
   localSpecPath?: string | undefined;
 }
-export interface CreateProjectsLocationsGlobalCustomConnectorsCustomConnectorVersionsRequest {
-  /** Required. Parent resource of the CreateCustomConnector, of the form: `projects/{project}/locations/{location}/customConnectors/{custom_connector}` */
-  parent: string;
-  /** Required. Identifier to assign to the CreateCustomConnectorVersion. Must be unique within scope of the parent resource. */
-  customConnectorVersionId?: string | undefined;
+/** CustomConnectorVersion indicates a specific version of a connector. */
+export interface CustomConnectorVersion {
   /** Output only. Publish status of a custom connector. */
   publishStatus?: PublishStatus | undefined;
   /** Optional. Service account used by runtime plane to access auth config secrets. */
@@ -1254,11 +1266,14 @@ export interface CreateProjectsLocationsGlobalCustomConnectorsCustomConnectorVer
   /** Optional. Resource labels to represent user-provided metadata. Refer to cloud documentation on labels for more details. https://cloud.google.com/compute/docs/labeling-resources */
   labels?: StringMap | undefined;
 }
-export interface CreateProjectsLocationsGlobalManagedZonesRequest {
-  /** Required. Parent resource of the ManagedZone, of the form: `projects/*\/locations/global` */
+export interface CreateProjectsLocationsGlobalCustomConnectorsCustomConnectorVersionsRequest extends CustomConnectorVersion {
+  /** Required. Parent resource of the CreateCustomConnector, of the form: `projects/{project}/locations/{location}/customConnectors/{custom_connector}` */
   parent: string;
-  /** Required. Identifier to assign to the ManagedZone. Must be unique within scope of the parent resource. */
-  managedZoneId?: string | undefined;
+  /** Required. Identifier to assign to the CreateCustomConnectorVersion. Must be unique within scope of the parent resource. */
+  customConnectorVersionId?: string | undefined;
+}
+/** represents the Connector's Managed Zone resource */
+export interface ManagedZone {
   /** Optional. Resource labels to represent user-provided metadata. Refer to cloud documentation on labels for more details. https://cloud.google.com/compute/docs/labeling-resources */
   labels?: StringMap | undefined;
   /** Optional. Description of the resource. */
@@ -1275,6 +1290,12 @@ export interface CreateProjectsLocationsGlobalManagedZonesRequest {
   updateTime?: string | undefined;
   /** Required. The name of the Target Project */
   targetProject?: string | undefined;
+}
+export interface CreateProjectsLocationsGlobalManagedZonesRequest extends ManagedZone {
+  /** Required. Parent resource of the ManagedZone, of the form: `projects/*\/locations/global` */
+  parent: string;
+  /** Required. Identifier to assign to the ManagedZone. Must be unique within scope of the parent resource. */
+  managedZoneId?: string | undefined;
 }
 export interface DeleteProjectsLocationsConnectionsRequest {
   /** Required. Resource name of the form: `projects/*\/locations/*\/connections/*` */
@@ -1426,11 +1447,14 @@ export interface ToolName {
   entityType?: string | undefined;
 }
 export type ToolNameList = Array<ToolName>;
-export interface FetchToolspecOverrideProjectsLocationsConnectionsRequest {
-  /** Required. Resource name format: projects/{project}/locations/{location}/connections/{connection} */
-  name: string;
+/** Request message for FetchConnectionToolspecOverride API. */
+export interface FetchConnectionToolspecOverrideRequest {
   /** Required. List of tools for which the tool spec override is to be generated. */
   toolNames?: ToolNameList | undefined;
+}
+export interface FetchToolspecOverrideProjectsLocationsConnectionsRequest extends FetchConnectionToolspecOverrideRequest {
+  /** Required. Resource name format: projects/{project}/locations/{location}/connections/{connection} */
+  name: string;
 }
 /** Toolspec overrides for a connection only holds the information that is to be displayed in the UI for admins. */
 export interface ToolspecOverride {
@@ -1448,11 +1472,11 @@ export interface FetchConnectionToolspecOverrideResponse {
   /** Toolspec overrides for the connection. */
   toolspecOverride?: ToolspecOverride | undefined;
 }
-export interface GenerateToolspecOverrideProjectsLocationsConnectionsRequest {
+/** Request message for GenerateConnectionToolspecOverride API. */
+export type GenerateConnectionToolspecOverrideRequest = FetchConnectionToolspecOverrideRequest;
+export interface GenerateToolspecOverrideProjectsLocationsConnectionsRequest extends FetchConnectionToolspecOverrideRequest {
   /** Required. Resource name format: projects/{project}/locations/{location}/connections/{connection} */
   name: string;
-  /** Required. List of tools for which the tool spec override is to be generated. */
-  toolNames?: ToolNameList | undefined;
 }
 /** Response message for GenerateConnectionToolspecOverride API. */
 export interface GenerateConnectionToolspecOverrideResponse {
@@ -1593,81 +1617,6 @@ export interface GetProjectsLocationsConnectionsRequest {
   /** Specifies which fields of the Connection are returned in the response. Defaults to `BASIC` view. */
   view?: GetProjectsLocationsConnectionsViewEnum | (string & {}) | undefined;
 }
-/** Connection represents an instance of connector. */
-export interface Connection {
-  /** Output only. Current status of the connection. */
-  status?: ConnectionStatus | undefined;
-  /** Optional. Traffic shaping configuration for the connection. */
-  trafficShapingConfigs?: TrafficShapingConfigList | undefined;
-  /** Optional. Service account needed for runtime plane to access Google Cloud resources. */
-  serviceAccount?: string | undefined;
-  /** Output only. Eventing Runtime Data. */
-  eventingRuntimeData?: EventingRuntimeData | undefined;
-  /** Output only. GCR location where the envoy image is stored. formatted like: gcr.io/{bucketName}/{imageName} */
-  envoyImageLocation?: string | undefined;
-  /** Output only. Billing config for the connection. */
-  billingConfig?: BillingConfig | undefined;
-  /** Output only. This subscription type enum states the subscription type of the project. */
-  subscriptionType?: ConnectionSubscriptionTypeEnum | undefined;
-  /** Output only. Flag to mark the version indicating the launch stage. */
-  connectorVersionLaunchStage?: ConnectionConnectorVersionLaunchStageEnum | undefined;
-  /** Optional. Ssl config of a connection */
-  sslConfig?: SslConfig | undefined;
-  /** Optional. Description of the resource. */
-  description?: string | undefined;
-  /** Optional. Configuration for establishing the connection's authentication with an external system. */
-  authConfig?: AuthConfig | undefined;
-  /** Optional. Resource labels to represent user-provided metadata. Refer to cloud documentation on labels for more details. https://cloud.google.com/compute/docs/labeling-resources */
-  labels?: StringMap | undefined;
-  /** Output only. The name of the Service Directory service name. Used for Private Harpoon to resolve the ILB address. e.g. "projects/cloud-connectors-e2e-testing/locations/us-central1/namespaces/istio-system/services/istio-ingressgateway-connectors" */
-  serviceDirectory?: string | undefined;
-  /** Required. Connector version on which the connection is created. The format is: projects/*\/locations/*\/providers/*\/connectors/*\/versions/* Only global location is supported for ConnectorVersion resource. */
-  connectorVersion?: string | undefined;
-  /** Optional. Node configuration for the connection. */
-  nodeConfig?: NodeConfig | undefined;
-  /** Optional. Fallback on admin credentials for the connection. If this both auth_override_enabled and fallback_on_admin_credentials are set to true, the connection will use the admin credentials if the dynamic auth header is not present during auth override. */
-  fallbackOnAdminCredentials?: boolean | undefined;
-  /** Optional. Additional Oauth2.0 Auth config for EUA. If the connection is configured using non-OAuth authentication but OAuth needs to be used for EUA, this field can be populated with the OAuth config. This should be a OAuth2AuthCodeFlow Auth type only. */
-  euaOauthAuthConfig?: AuthConfig | undefined;
-  /** Optional. Eventing enablement type. Will be nil if eventing is not enabled. */
-  eventingEnablementType?: ConnectionEventingEnablementTypeEnum | undefined;
-  /** Optional. Configuration for configuring the connection with an external system. */
-  configVariables?: ConfigVariableList | undefined;
-  /** Output only. Created time. */
-  createTime?: string | undefined;
-  /** Output only. The name of the Service Directory service with TLS. */
-  tlsServiceDirectory?: string | undefined;
-  /** Optional. Eventing config of a connection */
-  eventingConfig?: EventingConfig | undefined;
-  /** Optional. Admin filters for the connection. These are used by Gemini Enterprise. */
-  adminFilters?: AdminFiltersList | undefined;
-  /** Optional. Configuration that indicates whether or not the Connection can be edited. */
-  lockConfig?: LockConfig | undefined;
-  /** Optional. Suspended indicates if a user has suspended a connection or not. */
-  suspended?: boolean | undefined;
-  /** Output only. The name of the Hostname of the Service Directory service with TLS. */
-  host?: string | undefined;
-  /** Output only. Is trusted tester program enabled for the project. */
-  isTrustedTester?: boolean | undefined;
-  /** Optional. Auth override enabled for the connection. If Auth Override is enabled, Connection allows the backend service auth to be overridden in the entities/actions API. */
-  authOverrideEnabled?: boolean | undefined;
-  /** Optional. Log configuration for the connection. */
-  logConfig?: ConnectorsLogConfig | undefined;
-  /** Output only. Infra configs supported by Connector Version. */
-  connectorVersionInfraConfig?: ConnectorVersionInfraConfig | undefined;
-  /** Output only. Resource name of the Connection. Format: projects/{project}/locations/{location}/connections/{connection} */
-  name?: string | undefined;
-  /** Output only. Connection revision. This field is only updated when the connection is created or updated by User. */
-  connectionRevision?: string | undefined;
-  /** Output only. GCR location where the runtime image is stored. formatted like: gcr.io/{bucketName}/{imageName} */
-  imageLocation?: string | undefined;
-  /** Optional. Configuration of the Connector's destination. Only accepted for Connectors that accepts user defined destination(s). */
-  destinationConfigs?: DestinationConfigList | undefined;
-  /** Output only. Updated time. */
-  updateTime?: string | undefined;
-  /** Optional. Async operations enabled for the connection. If Async Operations is enabled, Connection allows the customers to initiate async long running operations using the actions API. */
-  asyncOperationsEnabled?: boolean | undefined;
-}
 export type GetProjectsLocationsConnectionsEndUserAuthenticationsViewEnum =
   | "END_USER_AUTHENTICATION_VIEW_UNSPECIFIED"
   | "BASIC_VIEW"
@@ -1678,59 +1627,9 @@ export interface GetProjectsLocationsConnectionsEndUserAuthenticationsRequest {
   /** Optional. View of the EndUserAuthentication to return. */
   view?: GetProjectsLocationsConnectionsEndUserAuthenticationsViewEnum | (string & {}) | undefined;
 }
-/** AuthConfig defines details of a authentication type. */
-export interface EndUserAuthentication {
-  /** Optional. Config variables for the EndUserAuthentication. */
-  configVariables?: EndUserAuthenticationConfigVariableList | undefined;
-  /** Optional. The destination to hit when we receive an event */
-  notifyEndpointDestination?: EndUserAuthenticationNotifyEndpointDestination | undefined;
-  /** Optional. Destination configs for the EndUserAuthentication. */
-  destinationConfigs?: DestinationConfigList | undefined;
-  /** Required. Identifier. Resource name of the EndUserAuthentication. Format: projects/{project}/locations/{location}/connections/{connection}/endUserAuthentications/{end_user_authentication} */
-  name?: string | undefined;
-  /** Optional. Status of the EndUserAuthentication. */
-  status?: EndUserAuthenticationEndUserAuthenticationStatus | undefined;
-  /** Optional. Labels for the EndUserAuthentication. */
-  labels?: StringList | undefined;
-  /** Output only. Updated time. */
-  updateTime?: string | undefined;
-  /** Optional. The EndUserAuthenticationConfig for the EndUserAuthentication. */
-  endUserAuthenticationConfig?: EndUserAuthenticationConfig | undefined;
-  /** Optional. The user id of the user. */
-  userId?: string | undefined;
-  /** Optional. Roles for the EndUserAuthentication. */
-  roles?: EndUserAuthenticationRolesItemEnumList | undefined;
-  /** Output only. Created time. */
-  createTime?: string | undefined;
-}
 export interface GetProjectsLocationsConnectionsEventSubscriptionsRequest {
   /** Required. Resource name of the form: `projects/*\/locations/*\/connections/*\/eventSubscriptions/*` */
   name: string;
-}
-/** represents the Connector's EventSubscription resource */
-export interface EventSubscription {
-  /** Output only. Created time. */
-  createTime?: string | undefined;
-  /** Optional. name of the Subscriber for the current EventSubscription. */
-  subscriber?: string | undefined;
-  /** Required. Identifier. Resource name of the EventSubscription. Format: projects/{project}/locations/{location}/connections/{connection}/eventSubscriptions/{event_subscription} */
-  name?: string | undefined;
-  /** Output only. Updated time. */
-  updateTime?: string | undefined;
-  /** Optional. The destination to hit when we receive an event */
-  destinations?: EventSubscriptionDestination | undefined;
-  /** Optional. Filter for the event subscription. Incoming events are filtered based on the filter expression. */
-  filter?: string | undefined;
-  /** Optional. Event type id of the event of current EventSubscription. */
-  eventTypeId?: string | undefined;
-  /** Optional. Link for Subscriber of the current EventSubscription. */
-  subscriberLink?: string | undefined;
-  /** Optional. JMS is the source for the event listener. */
-  jms?: JMS | undefined;
-  /** Optional. Configuration for configuring the trigger */
-  triggerConfigVariables?: ConfigVariableList | undefined;
-  /** Optional. Status indicates the status of the event subscription resource */
-  status?: EventSubscriptionStatus | undefined;
 }
 export type GetProjectsLocationsEndpointAttachmentsViewEnum =
   | "ENDPOINT_ATTACHMENT_VIEW_UNSPECIFIED"
@@ -1742,121 +1641,17 @@ export interface GetProjectsLocationsEndpointAttachmentsRequest {
   /** Optional. Specifies which fields of the EndpointAttachment are returned in the response. Defaults to `ENDPOINT_ATTACHMENT_VIEW_BASIC` view. */
   view?: GetProjectsLocationsEndpointAttachmentsViewEnum | (string & {}) | undefined;
 }
-/** represents the Connector's Endpoint Attachment resource */
-export interface EndpointAttachment {
-  /** Output only. Resource name of the Endpoint Attachment. Format: projects/{project}/locations/{location}/endpointAttachments/{endpoint_attachment} */
-  name?: string | undefined;
-  /** Output only. The Private Service Connect connection endpoint ip */
-  endpointIp?: string | undefined;
-  /** Output only. The Private Service Connect Connection Endpoint State. This value is only available in the Full view. */
-  state?: EndpointAttachmentStateEnum | undefined;
-  /** Required. The path of the service attachment */
-  serviceAttachment?: string | undefined;
-  /** Optional. The Private Service Connect Connection Endpoint Global Access. https://cloud.google.com/vpc/docs/about-accessing-vpc-hosted-services-endpoints#global-access */
-  endpointGlobalAccess?: boolean | undefined;
-  /** Output only. Created time. */
-  createTime?: string | undefined;
-  /** Output only. Updated time. */
-  updateTime?: string | undefined;
-  /** Optional. Resource labels to represent user-provided metadata. Refer to cloud documentation on labels for more details. https://cloud.google.com/compute/docs/labeling-resources */
-  labels?: StringMap | undefined;
-  /** Optional. Description of the resource. */
-  description?: string | undefined;
-}
 export interface GetProjectsLocationsGlobalCustomConnectorsRequest {
   /** Required. Resource name of the form: `projects/*\/locations/*\/customConnectors/*` */
   name: string;
-}
-/** CustomConnector represents the custom connector defined by the customer as part of byoc. */
-export interface CustomConnector {
-  /** Output only. Published marketplace versions. */
-  publishedMarketplaceVersions?: StringList | undefined;
-  /** Optional. Display name. */
-  displayName?: string | undefined;
-  /** Optional. Resource labels to represent user-provided metadata. Refer to cloud documentation on labels for more details. https://cloud.google.com/compute/docs/labeling-resources */
-  labels?: StringMap | undefined;
-  /** Optional. Logo of the resource. */
-  logo?: string | undefined;
-  /** Output only. Updated time. */
-  updateTime?: string | undefined;
-  /** Output only. All marketplace versions. */
-  allMarketplaceVersions?: StringList | undefined;
-  /** Output only. Created time. */
-  createTime?: string | undefined;
-  /** Output only. Active connector versions. */
-  activeConnectorVersions?: StringList | undefined;
-  /** Required. Type of the custom connector. */
-  customConnectorType?: CustomConnectorCustomConnectorTypeEnum | undefined;
-  /** Output only. All connector versions. */
-  allConnectorVersions?: StringList | undefined;
-  /** Optional. Description of the resource. */
-  description?: string | undefined;
-  /** Identifier. Resource name of the CustomConnector. Format: projects/{project}/locations/{location}/customConnectors/{connector} */
-  name?: string | undefined;
 }
 export interface GetProjectsLocationsGlobalCustomConnectorsCustomConnectorVersionsRequest {
   /** Required. Resource name of the form: `projects/*\/locations/{location}/customConnectors/*\/customConnectorVersions/*` */
   name: string;
 }
-/** CustomConnectorVersion indicates a specific version of a connector. */
-export interface CustomConnectorVersion {
-  /** Output only. Publish status of a custom connector. */
-  publishStatus?: PublishStatus | undefined;
-  /** Optional. Service account used by runtime plane to access auth config secrets. */
-  serviceAccount?: string | undefined;
-  /** Output only. Server URLs parsed from the Open API spec. This is only used for Open API based custom connectors. */
-  specServerUrls?: StringList | undefined;
-  /** Optional. Indicates if Async Operations/Connector Job is supported. This is only available for SDK based custom connectors. */
-  asyncOperationsSupport?: boolean | undefined;
-  /** Optional. Indicates if an intermediatory connectorservice is used as backend. When this is enabled, the connector destination and connector auth config are required. For SDK based connectors, this is always enabled. */
-  enableBackendDestinationConfig?: boolean | undefined;
-  /** Output only. State of the custom connector version. */
-  state?: CustomConnectorVersionStateEnum | undefined;
-  /** Optional. Location of the custom connector spec. This is only used for Open API based custom connectors. The location can be either a public url like `https://public-url.com/spec` Or a Google Cloud Storage location like `gs:///`. */
-  specLocation?: string | undefined;
-  /** Optional. Authentication config for accessing connector service (facade). This is used only when enable_backend_destination_config is true. */
-  authConfig?: AuthConfig | undefined;
-  /** Optional. Backend variable templates is only used when connector backend is enabled. This is used to specify the variables required by the connector backend service to talk to the actual application backend. This translates to additional variable templates in the connection config. */
-  backendVariableTemplates?: ConfigVariableTemplateList | undefined;
-  /** Optional. Destination config(s) for accessing connector service (facade). This is used only when enable_backend_destination_config is true. */
-  destinationConfigs?: DestinationConfigList | undefined;
-  /** Output only. Created time. */
-  createTime?: string | undefined;
-  /** Output only. Identifier. Resource name of the Version. Format: projects/{project}/locations/{location}/customConnectors/{custom_connector}/customConnectorVersions/{custom_connector_version} */
-  name?: string | undefined;
-  /** Optional. Auth Config Templates is only used when connector backend is enabled. This is used to specify the auth configs supported by the connector backend service to talk to the actual application backend. */
-  authConfigTemplates?: AuthConfigTemplateList | undefined;
-  /** Output only. Updated time. */
-  updateTime?: string | undefined;
-  /** Optional. Auth override support. */
-  authOverrideSupport?: boolean | undefined;
-  /** Optional. Partner metadata details. This should be populated only when publishing the custom connector to partner connector. */
-  partnerMetadata?: PartnerMetadata | undefined;
-  /** Optional. Resource labels to represent user-provided metadata. Refer to cloud documentation on labels for more details. https://cloud.google.com/compute/docs/labeling-resources */
-  labels?: StringMap | undefined;
-}
 export interface GetProjectsLocationsGlobalManagedZonesRequest {
   /** Required. Resource name of the form: `projects/*\/locations/global/managedZones/*` */
   name: string;
-}
-/** represents the Connector's Managed Zone resource */
-export interface ManagedZone {
-  /** Optional. Resource labels to represent user-provided metadata. Refer to cloud documentation on labels for more details. https://cloud.google.com/compute/docs/labeling-resources */
-  labels?: StringMap | undefined;
-  /** Optional. Description of the resource. */
-  description?: string | undefined;
-  /** Required. The name of the Target Project VPC Network */
-  targetVpc?: string | undefined;
-  /** Output only. Created time. */
-  createTime?: string | undefined;
-  /** Required. DNS Name of the resource */
-  dns?: string | undefined;
-  /** Output only. Resource name of the Managed Zone. Format: projects/{project}/locations/global/managedZones/{managed_zone} */
-  name?: string | undefined;
-  /** Output only. Updated time. */
-  updateTime?: string | undefined;
-  /** Required. The name of the Target Project */
-  targetProject?: string | undefined;
 }
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
@@ -2722,11 +2517,14 @@ export interface ListActionsResponse {
   /** list of actions */
   actions?: RuntimeActionSchemaList | undefined;
 }
-export interface ListenEventProjectsLocationsConnectionsRequest {
-  /** Required. Resource path for request. */
-  resourcePath: string;
+/** Expected request for ListenEvent API. */
+export interface ListenEventRequest {
   /** Optional. Request payload. */
   payload?: DocumentMap | undefined;
+}
+export interface ListenEventProjectsLocationsConnectionsRequest extends ListenEventRequest {
+  /** Required. Resource path for request. */
+  resourcePath: string;
 }
 /** Expected response for ListenEvent API. */
 export interface ListenEventResponse {}
@@ -3161,223 +2959,76 @@ export interface ListEventTypesResponse {
   /** Next page token. */
   nextPageToken?: string | undefined;
 }
-export interface ModifyToolspecOverrideProjectsLocationsConnectionsRequest {
-  /** Required. Resource name format: projects/{project}/locations/{location}/connections/{connection} */
-  name: string;
+/** Request message for ModifyConnectionToolspecOverride API. */
+export interface ModifyConnectionToolspecOverrideRequest {
   /** Required. Toolspec overrides to be modified. */
   toolspecOverride?: ToolspecOverride | undefined;
+}
+export interface ModifyToolspecOverrideProjectsLocationsConnectionsRequest extends ModifyConnectionToolspecOverrideRequest {
+  /** Required. Resource name format: projects/{project}/locations/{location}/connections/{connection} */
+  name: string;
 }
 /** Response message for ModifyConnectionToolspecOverride API. */
 export interface ModifyConnectionToolspecOverrideResponse {
   /** Toolspec overrides for the connection. */
   toolspecOverrides?: ToolspecOverride | undefined;
 }
-export interface PatchProjectsLocationsConnectionsRequest {
+export interface PatchProjectsLocationsConnectionsRequest extends Omit<Connection, "name"> {
   /** Output only. Resource name of the Connection. Format: projects/{project}/locations/{location}/connections/{connection} */
   name: string;
   /** Required. The list of fields to update. Fields are specified relative to the connection. A field will be overwritten if it is in the mask. The field mask must not be empty, and it must not contain fields that are immutable or only set by the server. You can modify only the fields listed below. To lock/unlock a connection: * `lock_config` To suspend/resume a connection: * `suspended` To update the connection details: * `description` * `labels` * `connector_version` * `config_variables` * `auth_config` * `destination_configs` * `node_config` * `log_config` * `ssl_config` * `eventing_enablement_type` * `eventing_config` * `auth_override_enabled` * `async_operations_enabled` */
   updateMask?: string | undefined;
-  /** Output only. Current status of the connection. */
-  status?: ConnectionStatus | undefined;
-  /** Optional. Traffic shaping configuration for the connection. */
-  trafficShapingConfigs?: TrafficShapingConfigList | undefined;
-  /** Optional. Service account needed for runtime plane to access Google Cloud resources. */
-  serviceAccount?: string | undefined;
-  /** Output only. Eventing Runtime Data. */
-  eventingRuntimeData?: EventingRuntimeData | undefined;
-  /** Output only. GCR location where the envoy image is stored. formatted like: gcr.io/{bucketName}/{imageName} */
-  envoyImageLocation?: string | undefined;
-  /** Output only. Billing config for the connection. */
-  billingConfig?: BillingConfig | undefined;
-  /** Output only. This subscription type enum states the subscription type of the project. */
-  subscriptionType?: ConnectionSubscriptionTypeEnum | (string & {}) | undefined;
-  /** Output only. Flag to mark the version indicating the launch stage. */
-  connectorVersionLaunchStage?:
-    | ConnectionConnectorVersionLaunchStageEnum
-    | (string & {})
-    | undefined;
-  /** Optional. Ssl config of a connection */
-  sslConfig?: SslConfig | undefined;
-  /** Optional. Description of the resource. */
-  description?: string | undefined;
-  /** Optional. Configuration for establishing the connection's authentication with an external system. */
-  authConfig?: AuthConfig | undefined;
-  /** Optional. Resource labels to represent user-provided metadata. Refer to cloud documentation on labels for more details. https://cloud.google.com/compute/docs/labeling-resources */
-  labels?: StringMap | undefined;
-  /** Output only. The name of the Service Directory service name. Used for Private Harpoon to resolve the ILB address. e.g. "projects/cloud-connectors-e2e-testing/locations/us-central1/namespaces/istio-system/services/istio-ingressgateway-connectors" */
-  serviceDirectory?: string | undefined;
-  /** Required. Connector version on which the connection is created. The format is: projects/*\/locations/*\/providers/*\/connectors/*\/versions/* Only global location is supported for ConnectorVersion resource. */
-  connectorVersion?: string | undefined;
-  /** Optional. Node configuration for the connection. */
-  nodeConfig?: NodeConfig | undefined;
-  /** Optional. Fallback on admin credentials for the connection. If this both auth_override_enabled and fallback_on_admin_credentials are set to true, the connection will use the admin credentials if the dynamic auth header is not present during auth override. */
-  fallbackOnAdminCredentials?: boolean | undefined;
-  /** Optional. Additional Oauth2.0 Auth config for EUA. If the connection is configured using non-OAuth authentication but OAuth needs to be used for EUA, this field can be populated with the OAuth config. This should be a OAuth2AuthCodeFlow Auth type only. */
-  euaOauthAuthConfig?: AuthConfig | undefined;
-  /** Optional. Eventing enablement type. Will be nil if eventing is not enabled. */
-  eventingEnablementType?: ConnectionEventingEnablementTypeEnum | (string & {}) | undefined;
-  /** Optional. Configuration for configuring the connection with an external system. */
-  configVariables?: ConfigVariableList | undefined;
-  /** Output only. Created time. */
-  createTime?: string | undefined;
-  /** Output only. The name of the Service Directory service with TLS. */
-  tlsServiceDirectory?: string | undefined;
-  /** Optional. Eventing config of a connection */
-  eventingConfig?: EventingConfig | undefined;
-  /** Optional. Admin filters for the connection. These are used by Gemini Enterprise. */
-  adminFilters?: AdminFiltersList | undefined;
-  /** Optional. Configuration that indicates whether or not the Connection can be edited. */
-  lockConfig?: LockConfig | undefined;
-  /** Optional. Suspended indicates if a user has suspended a connection or not. */
-  suspended?: boolean | undefined;
-  /** Output only. The name of the Hostname of the Service Directory service with TLS. */
-  host?: string | undefined;
-  /** Output only. Is trusted tester program enabled for the project. */
-  isTrustedTester?: boolean | undefined;
-  /** Optional. Auth override enabled for the connection. If Auth Override is enabled, Connection allows the backend service auth to be overridden in the entities/actions API. */
-  authOverrideEnabled?: boolean | undefined;
-  /** Optional. Log configuration for the connection. */
-  logConfig?: ConnectorsLogConfig | undefined;
-  /** Output only. Infra configs supported by Connector Version. */
-  connectorVersionInfraConfig?: ConnectorVersionInfraConfig | undefined;
-  /** Output only. Connection revision. This field is only updated when the connection is created or updated by User. */
-  connectionRevision?: string | undefined;
-  /** Output only. GCR location where the runtime image is stored. formatted like: gcr.io/{bucketName}/{imageName} */
-  imageLocation?: string | undefined;
-  /** Optional. Configuration of the Connector's destination. Only accepted for Connectors that accepts user defined destination(s). */
-  destinationConfigs?: DestinationConfigList | undefined;
-  /** Output only. Updated time. */
-  updateTime?: string | undefined;
-  /** Optional. Async operations enabled for the connection. If Async Operations is enabled, Connection allows the customers to initiate async long running operations using the actions API. */
-  asyncOperationsEnabled?: boolean | undefined;
 }
-export interface PatchProjectsLocationsConnectionsEndUserAuthenticationsRequest {
+export interface PatchProjectsLocationsConnectionsEndUserAuthenticationsRequest extends Omit<
+  EndUserAuthentication,
+  "name"
+> {
   /** Required. Identifier. Resource name of the EndUserAuthentication. Format: projects/{project}/locations/{location}/connections/{connection}/endUserAuthentications/{end_user_authentication} */
   name: string;
   /** Required. The list of fields to update. A field will be overwritten if it is in the mask. You can modify only the fields listed below. To update the EndUserAuthentication details: * `notify_endpoint_destination` */
   updateMask?: string | undefined;
-  /** Optional. Config variables for the EndUserAuthentication. */
-  configVariables?: EndUserAuthenticationConfigVariableList | undefined;
-  /** Optional. The destination to hit when we receive an event */
-  notifyEndpointDestination?: EndUserAuthenticationNotifyEndpointDestination | undefined;
-  /** Optional. Destination configs for the EndUserAuthentication. */
-  destinationConfigs?: DestinationConfigList | undefined;
-  /** Optional. Status of the EndUserAuthentication. */
-  status?: EndUserAuthenticationEndUserAuthenticationStatus | undefined;
-  /** Optional. Labels for the EndUserAuthentication. */
-  labels?: StringList | undefined;
-  /** Output only. Updated time. */
-  updateTime?: string | undefined;
-  /** Optional. The EndUserAuthenticationConfig for the EndUserAuthentication. */
-  endUserAuthenticationConfig?: EndUserAuthenticationConfig | undefined;
-  /** Optional. The user id of the user. */
-  userId?: string | undefined;
-  /** Optional. Roles for the EndUserAuthentication. */
-  roles?: EndUserAuthenticationRolesItemEnumList | undefined;
-  /** Output only. Created time. */
-  createTime?: string | undefined;
 }
-export interface PatchProjectsLocationsConnectionsEventSubscriptionsRequest {
+export interface PatchProjectsLocationsConnectionsEventSubscriptionsRequest extends Omit<
+  EventSubscription,
+  "name"
+> {
   /** Required. The list of fields to update. Fields are specified relative to the Subscription. A field will be overwritten if it is in the mask. You can modify only the fields listed below. To update the EventSubscription details: * `serviceAccount` */
   updateMask?: string | undefined;
   /** Required. Identifier. Resource name of the EventSubscription. Format: projects/{project}/locations/{location}/connections/{connection}/eventSubscriptions/{event_subscription} */
   name: string;
-  /** Output only. Created time. */
-  createTime?: string | undefined;
-  /** Optional. name of the Subscriber for the current EventSubscription. */
-  subscriber?: string | undefined;
-  /** Output only. Updated time. */
-  updateTime?: string | undefined;
-  /** Optional. The destination to hit when we receive an event */
-  destinations?: EventSubscriptionDestination | undefined;
-  /** Optional. Filter for the event subscription. Incoming events are filtered based on the filter expression. */
-  filter?: string | undefined;
-  /** Optional. Event type id of the event of current EventSubscription. */
-  eventTypeId?: string | undefined;
-  /** Optional. Link for Subscriber of the current EventSubscription. */
-  subscriberLink?: string | undefined;
-  /** Optional. JMS is the source for the event listener. */
-  jms?: JMS | undefined;
-  /** Optional. Configuration for configuring the trigger */
-  triggerConfigVariables?: ConfigVariableList | undefined;
-  /** Optional. Status indicates the status of the event subscription resource */
-  status?: EventSubscriptionStatus | undefined;
 }
-export interface PatchProjectsLocationsEndpointAttachmentsRequest {
+export interface PatchProjectsLocationsEndpointAttachmentsRequest extends Omit<
+  EndpointAttachment,
+  "name"
+> {
   /** Output only. Resource name of the Endpoint Attachment. Format: projects/{project}/locations/{location}/endpointAttachments/{endpoint_attachment} */
   name: string;
   /** Required. The list of fields to update. Fields are specified relative to the endpointAttachment. A field will be overwritten if it is in the mask. You can modify only the fields listed below. To update the endpointAttachment details: * `description` * `labels` */
   updateMask?: string | undefined;
-  /** Output only. The Private Service Connect connection endpoint ip */
-  endpointIp?: string | undefined;
-  /** Output only. The Private Service Connect Connection Endpoint State. This value is only available in the Full view. */
-  state?: EndpointAttachmentStateEnum | (string & {}) | undefined;
-  /** Required. The path of the service attachment */
-  serviceAttachment?: string | undefined;
-  /** Optional. The Private Service Connect Connection Endpoint Global Access. https://cloud.google.com/vpc/docs/about-accessing-vpc-hosted-services-endpoints#global-access */
-  endpointGlobalAccess?: boolean | undefined;
-  /** Output only. Created time. */
-  createTime?: string | undefined;
-  /** Output only. Updated time. */
-  updateTime?: string | undefined;
-  /** Optional. Resource labels to represent user-provided metadata. Refer to cloud documentation on labels for more details. https://cloud.google.com/compute/docs/labeling-resources */
-  labels?: StringMap | undefined;
-  /** Optional. Description of the resource. */
-  description?: string | undefined;
 }
-export interface PatchProjectsLocationsGlobalCustomConnectorsRequest {
+export interface PatchProjectsLocationsGlobalCustomConnectorsRequest extends Omit<
+  CustomConnector,
+  "name"
+> {
   /** Required. Field mask is used to specify the fields to be overwritten in the Connector resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. Set the mask as "*" for full replacement, which means all fields will be overwritten. */
   updateMask?: string | undefined;
   /** Identifier. Resource name of the CustomConnector. Format: projects/{project}/locations/{location}/customConnectors/{connector} */
   name: string;
-  /** Output only. Published marketplace versions. */
-  publishedMarketplaceVersions?: StringList | undefined;
-  /** Optional. Display name. */
-  displayName?: string | undefined;
-  /** Optional. Resource labels to represent user-provided metadata. Refer to cloud documentation on labels for more details. https://cloud.google.com/compute/docs/labeling-resources */
-  labels?: StringMap | undefined;
-  /** Optional. Logo of the resource. */
-  logo?: string | undefined;
-  /** Output only. Updated time. */
-  updateTime?: string | undefined;
-  /** Output only. All marketplace versions. */
-  allMarketplaceVersions?: StringList | undefined;
-  /** Output only. Created time. */
-  createTime?: string | undefined;
-  /** Output only. Active connector versions. */
-  activeConnectorVersions?: StringList | undefined;
-  /** Required. Type of the custom connector. */
-  customConnectorType?: CustomConnectorCustomConnectorTypeEnum | (string & {}) | undefined;
-  /** Output only. All connector versions. */
-  allConnectorVersions?: StringList | undefined;
-  /** Optional. Description of the resource. */
-  description?: string | undefined;
 }
-export interface PatchProjectsLocationsGlobalManagedZonesRequest {
+export interface PatchProjectsLocationsGlobalManagedZonesRequest extends Omit<ManagedZone, "name"> {
   /** Required. The list of fields to update. Fields are specified relative to the managedZone. A field will be overwritten if it is in the mask. You can modify only the fields listed below. To update the managedZone details: * `description` * `labels` * `target_project` * `target_network` */
   updateMask?: string | undefined;
   /** Output only. Resource name of the Managed Zone. Format: projects/{project}/locations/global/managedZones/{managed_zone} */
   name: string;
-  /** Optional. Resource labels to represent user-provided metadata. Refer to cloud documentation on labels for more details. https://cloud.google.com/compute/docs/labeling-resources */
-  labels?: StringMap | undefined;
-  /** Optional. Description of the resource. */
-  description?: string | undefined;
-  /** Required. The name of the Target Project VPC Network */
-  targetVpc?: string | undefined;
-  /** Output only. Created time. */
-  createTime?: string | undefined;
-  /** Required. DNS Name of the resource */
-  dns?: string | undefined;
-  /** Output only. Updated time. */
-  updateTime?: string | undefined;
-  /** Required. The name of the Target Project */
-  targetProject?: string | undefined;
 }
-export interface PublishProjectsLocationsCustomConnectorsCustomConnectorVersionsRequest {
-  /** Required. Resource name of the form: `projects/{project}/locations/{location}/customConnectors/{custom_connector}/customConnectorVersions/{custom_connector_version}` */
-  name: string;
+/** Request message for ConnectorsService.PublishCustomConnectorVersion */
+export interface PublishCustomConnectorVersionRequest {
   /** Required. Partner metadata details for validating and publishing the custom connector as a partner connector version. */
   partnerMetadata?: PartnerMetadata | undefined;
+}
+export interface PublishProjectsLocationsCustomConnectorsCustomConnectorVersionsRequest extends PublishCustomConnectorVersionRequest {
+  /** Required. Resource name of the form: `projects/{project}/locations/{location}/customConnectors/{custom_connector}/customConnectorVersions/{custom_connector_version}` */
+  name: string;
 }
 /** Request message for ConnectorsService.RefreshConnectionSchemaMetadata. */
 export type RefreshConnectionSchemaMetadataRequest = CancelOperationRequest;
@@ -3440,79 +3091,71 @@ export interface SearchConnectionsResponse {
   /** Locations that could not be reached. */
   unreachable?: StringList | undefined;
 }
-export interface SetIamPolicyProjectsLocationsConnectionsRequest {
-  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
+/** Request message for `SetIamPolicy` method. */
+export interface SetIamPolicyRequest {
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
   policy?: Policy | undefined;
   /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
   updateMask?: string | undefined;
 }
-export interface SetIamPolicyProjectsLocationsProvidersRequest {
+export interface SetIamPolicyProjectsLocationsConnectionsRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
-  policy?: Policy | undefined;
-  /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
-  updateMask?: string | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsConnectionsRequest {
-  /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+export interface SetIamPolicyProjectsLocationsProvidersRequest extends SetIamPolicyRequest {
+  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
+}
+/** Request message for `TestIamPermissions` method. */
+export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: StringList | undefined;
+}
+export interface TestIamPermissionsProjectsLocationsConnectionsRequest extends TestIamPermissionsRequest {
+  /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsProvidersRequest {
+export interface TestIamPermissionsProjectsLocationsProvidersRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
-  permissions?: StringList | undefined;
 }
-export interface UpdateRegionalSettingsProjectsLocationsRequest {
+export interface UpdateRegionalSettingsProjectsLocationsRequest extends Omit<
+  RegionalSettings,
+  "name"
+> {
   /** Required. The list of fields to update. */
   updateMask?: string | undefined;
   /** Output only. Resource name of the Connection. Format: projects/{project}/locations/{location}/regionalSettings */
   name: string;
-  /** Optional. Client type for the regional settings. */
-  client?: string | undefined;
-  /** Output only. Specifies whether the region is provisioned. */
-  provisioned?: boolean | undefined;
-  /** Optional. Regional encryption config to hold CMEK details. */
-  encryptionConfig?: EncryptionConfig | undefined;
-  /** Optional. Regional network config. */
-  networkConfig?: NetworkConfig | undefined;
 }
-export interface UpdateSettingsProjectsLocationsGlobalRequest {
+export interface UpdateSettingsProjectsLocationsGlobalRequest extends Omit<Settings, "name"> {
   /** Output only. Resource name of the Connection. Format: projects/{project}/locations/global/settings} */
   name: string;
   /** Required. The list of fields to update. */
   updateMask?: string | undefined;
-  /** Output only. Flag indicates if user is in PayG model */
-  payg?: boolean | undefined;
-  /** Optional. Flag indicates whether vpc-sc is enabled. */
-  vpcsc?: boolean | undefined;
-  /** Output only. Tenant project id of the consumer project. */
-  tenantProjectId?: string | undefined;
 }
 export type ValidateCustomConnectorSpecRequestSpecTypeEnum =
   | "CUSTOM_CONNECTOR_TYPE_UNSPECIFIED"
   | "OPEN_API"
   | "PROTO"
   | "SDK";
-export interface ValidateCustomConnectorSpecProjectsLocationsCustomConnectorsRequest {
-  /** Required. Location at which the custom connector is being created. */
-  parent: string;
+/** Request message for ConnectorsService.ValidateCustomConnectorSpec */
+export interface ValidateCustomConnectorSpecRequest {
   /** Required. Location of the custom connector spec. The location can be either a public url like `https://public-url.com/spec` Or a Google Cloud Storage location like `gs:///` */
   specLocation?: string | undefined;
   /** Required. Service account to access the spec from Google Cloud Storage. */
   serviceAccount?: string | undefined;
   /** Required. Spec type of the custom connector spec. */
   specType?: ValidateCustomConnectorSpecRequestSpecTypeEnum | (string & {}) | undefined;
+}
+export interface ValidateCustomConnectorSpecProjectsLocationsCustomConnectorsRequest extends ValidateCustomConnectorSpecRequest {
+  /** Required. Location at which the custom connector is being created. */
+  parent: string;
 }
 /** Response message for ConnectorsService.ValidateCustomConnectorSpec */
 export interface ValidateCustomConnectorSpecResponse {
@@ -3540,8 +3183,8 @@ export const cancelProjectsLocationsOperations: API.OperationMethod<
   CancelProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c46, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
-  output: __S(1504, __c47, 0) as any as S.Schema<Empty>,
+  input: __S(1280, __c40, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
+  output: __S(1312, __c41, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3562,8 +3205,8 @@ export const createProjectsLocationsConnections: API.OperationMethod<
   CreateProjectsLocationsConnectionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2112, __c66, 0) as any as S.Schema<CreateProjectsLocationsConnectionsRequest>,
-  output: __S(2369, __c74, 1) as any as S.Schema<Operation>,
+  input: __S(1952, __c61, 0) as any as S.Schema<CreateProjectsLocationsConnectionsRequest>,
+  output: __S(2209, __c69, 1) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3585,11 +3228,11 @@ export const createProjectsLocationsConnectionsEndUserAuthentications: API.Opera
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2848,
-    __c89,
+    2688,
+    __c84,
     0,
   ) as any as S.Schema<CreateProjectsLocationsConnectionsEndUserAuthenticationsRequest>,
-  output: __S(2369, __c74, 1) as any as S.Schema<Operation>,
+  output: __S(2209, __c69, 1) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3611,11 +3254,11 @@ export const createProjectsLocationsConnectionsEventSubscriptions: API.Operation
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3264,
-    __c102,
+    3104,
+    __c97,
     0,
   ) as any as S.Schema<CreateProjectsLocationsConnectionsEventSubscriptionsRequest>,
-  output: __S(2369, __c74, 1) as any as S.Schema<Operation>,
+  output: __S(2209, __c69, 1) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3636,8 +3279,8 @@ export const createProjectsLocationsEndpointAttachments: API.OperationMethod<
   CreateProjectsLocationsEndpointAttachmentsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3680, __c115, 0) as any as S.Schema<CreateProjectsLocationsEndpointAttachmentsRequest>,
-  output: __S(2369, __c74, 1) as any as S.Schema<Operation>,
+  input: __S(3552, __c111, 0) as any as S.Schema<CreateProjectsLocationsEndpointAttachmentsRequest>,
+  output: __S(2209, __c69, 1) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3659,11 +3302,11 @@ export const createProjectsLocationsGlobalCustomConnectors: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3840,
-    __c120,
+    3744,
+    __c117,
     0,
   ) as any as S.Schema<CreateProjectsLocationsGlobalCustomConnectorsRequest>,
-  output: __S(2369, __c74, 1) as any as S.Schema<Operation>,
+  output: __S(2209, __c69, 1) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3689,7 +3332,7 @@ export const createProjectsLocationsGlobalCustomConnectorsCustomConnectorVersion
     __c0,
     0,
   ) as any as S.Schema<CreateProjectsLocationsGlobalCustomConnectorsCustomConnectorVersionsRequest>,
-  output: __S(2369, __c74, 1) as any as S.Schema<Operation>,
+  output: __S(2209, __c69, 1) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3711,7 +3354,7 @@ export const createProjectsLocationsGlobalManagedZones: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c4, 0) as any as S.Schema<CreateProjectsLocationsGlobalManagedZonesRequest>,
-  output: __S(2369, __c74, 1) as any as S.Schema<Operation>,
+  output: __S(2209, __c69, 1) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3732,8 +3375,8 @@ export const deleteProjectsLocationsConnections: API.OperationMethod<
   DeleteProjectsLocationsConnectionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c5, 0) as any as S.Schema<DeleteProjectsLocationsConnectionsRequest>,
-  output: __S(2369, __c74, 1) as any as S.Schema<Operation>,
+  input: __S(192, __c6, 0) as any as S.Schema<DeleteProjectsLocationsConnectionsRequest>,
+  output: __S(2209, __c69, 1) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3755,11 +3398,11 @@ export const deleteProjectsLocationsConnectionsEndUserAuthentications: API.Opera
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    192,
-    __c6,
+    224,
+    __c7,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsConnectionsEndUserAuthenticationsRequest>,
-  output: __S(2369, __c74, 1) as any as S.Schema<Operation>,
+  output: __S(2209, __c69, 1) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3781,11 +3424,11 @@ export const deleteProjectsLocationsConnectionsEventSubscriptions: API.Operation
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    224,
-    __c7,
+    256,
+    __c8,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsConnectionsEventSubscriptionsRequest>,
-  output: __S(2369, __c74, 1) as any as S.Schema<Operation>,
+  output: __S(2209, __c69, 1) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3807,11 +3450,11 @@ export const deleteProjectsLocationsCustomConnectorsCustomConnectorVersions: API
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    256,
-    __c8,
+    288,
+    __c9,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsCustomConnectorsCustomConnectorVersionsRequest>,
-  output: __S(2369, __c74, 1) as any as S.Schema<Operation>,
+  output: __S(2209, __c69, 1) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3832,8 +3475,8 @@ export const deleteProjectsLocationsEndpointAttachments: API.OperationMethod<
   DeleteProjectsLocationsEndpointAttachmentsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c9, 0) as any as S.Schema<DeleteProjectsLocationsEndpointAttachmentsRequest>,
-  output: __S(2369, __c74, 1) as any as S.Schema<Operation>,
+  input: __S(320, __c10, 0) as any as S.Schema<DeleteProjectsLocationsEndpointAttachmentsRequest>,
+  output: __S(2209, __c69, 1) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3855,11 +3498,11 @@ export const deleteProjectsLocationsGlobalCustomConnectors: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    320,
-    __c10,
+    352,
+    __c11,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsGlobalCustomConnectorsRequest>,
-  output: __S(2369, __c74, 1) as any as S.Schema<Operation>,
+  output: __S(2209, __c69, 1) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3880,8 +3523,8 @@ export const deleteProjectsLocationsGlobalManagedZones: API.OperationMethod<
   DeleteProjectsLocationsGlobalManagedZonesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c11, 0) as any as S.Schema<DeleteProjectsLocationsGlobalManagedZonesRequest>,
-  output: __S(2369, __c74, 1) as any as S.Schema<Operation>,
+  input: __S(384, __c12, 0) as any as S.Schema<DeleteProjectsLocationsGlobalManagedZonesRequest>,
+  output: __S(2209, __c69, 1) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3902,8 +3545,8 @@ export const deleteProjectsLocationsOperations: API.OperationMethod<
   DeleteProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c12, 0) as any as S.Schema<DeleteProjectsLocationsOperationsRequest>,
-  output: __S(1504, __c47, 0) as any as S.Schema<Empty>,
+  input: __S(416, __c13, 0) as any as S.Schema<DeleteProjectsLocationsOperationsRequest>,
+  output: __S(1312, __c41, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3925,11 +3568,11 @@ export const deprecateProjectsLocationsCustomConnectorsCustomConnectorVersions: 
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    416,
-    __c13,
+    448,
+    __c14,
     0,
   ) as any as S.Schema<DeprecateProjectsLocationsCustomConnectorsCustomConnectorVersionsRequest>,
-  output: __S(2369, __c74, 1) as any as S.Schema<Operation>,
+  output: __S(2209, __c69, 1) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3949,11 +3592,11 @@ export const fetchAuthSchemaProjectsLocationsProvidersConnectorsVersions: API.Op
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    448,
-    __c14,
+    480,
+    __c15,
     0,
   ) as any as S.Schema<FetchAuthSchemaProjectsLocationsProvidersConnectorsVersionsRequest>,
-  output: __S(458, __c14, 10) as any as S.Schema<FetchAuthSchemaResponse>,
+  output: __S(490, __c15, 10) as any as S.Schema<FetchAuthSchemaResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3975,11 +3618,11 @@ export const fetchToolspecOverrideProjectsLocationsConnections: API.OperationMet
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    480,
-    __c15,
+    512,
+    __c16,
     0,
   ) as any as S.Schema<FetchToolspecOverrideProjectsLocationsConnectionsRequest>,
-  output: __S(514, __c16, 2) as any as S.Schema<FetchConnectionToolspecOverrideResponse>,
+  output: __S(577, __c18, 1) as any as S.Schema<FetchConnectionToolspecOverrideResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4001,11 +3644,11 @@ export const generateToolspecOverrideProjectsLocationsConnections: API.Operation
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    576,
-    __c18,
+    608,
+    __c19,
     0,
   ) as any as S.Schema<GenerateToolspecOverrideProjectsLocationsConnectionsRequest>,
-  output: __S(514, __c16, 2) as any as S.Schema<GenerateConnectionToolspecOverrideResponse>,
+  output: __S(577, __c18, 1) as any as S.Schema<GenerateConnectionToolspecOverrideResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4025,11 +3668,11 @@ export const getActionProjectsLocationsConnectionsConnectionSchemaMetadata: API.
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    608,
-    __c19,
+    640,
+    __c20,
     0,
   ) as any as S.Schema<GetActionProjectsLocationsConnectionsConnectionSchemaMetadataRequest>,
-  output: __S(2369, __c74, 1) as any as S.Schema<Operation>,
+  output: __S(2209, __c69, 1) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4049,11 +3692,11 @@ export const getConnectionSchemaMetadataProjectsLocationsConnections: API.Operat
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    640,
-    __c20,
+    672,
+    __c21,
     0,
   ) as any as S.Schema<GetConnectionSchemaMetadataProjectsLocationsConnectionsRequest>,
-  output: __S(641, __c20, 1) as any as S.Schema<ConnectionSchemaMetadata>,
+  output: __S(673, __c21, 1) as any as S.Schema<ConnectionSchemaMetadata>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4073,11 +3716,11 @@ export const getEntityTypeProjectsLocationsConnectionsConnectionSchemaMetadata: 
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    672,
-    __c21,
+    704,
+    __c22,
     0,
   ) as any as S.Schema<GetEntityTypeProjectsLocationsConnectionsConnectionSchemaMetadataRequest>,
-  output: __S(2369, __c74, 1) as any as S.Schema<Operation>,
+  output: __S(2209, __c69, 1) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4093,8 +3736,8 @@ export const getIamPolicyProjectsLocationsConnections: API.OperationMethod<
   GetIamPolicyProjectsLocationsConnectionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c22, 0) as any as S.Schema<GetIamPolicyProjectsLocationsConnectionsRequest>,
-  output: __S(743, __c23, 7) as any as S.Schema<Policy>,
+  input: __S(736, __c23, 0) as any as S.Schema<GetIamPolicyProjectsLocationsConnectionsRequest>,
+  output: __S(775, __c24, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4110,8 +3753,8 @@ export const getIamPolicyProjectsLocationsProviders: API.OperationMethod<
   GetIamPolicyProjectsLocationsProvidersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c24, 0) as any as S.Schema<GetIamPolicyProjectsLocationsProvidersRequest>,
-  output: __S(743, __c23, 7) as any as S.Schema<Policy>,
+  input: __S(800, __c25, 0) as any as S.Schema<GetIamPolicyProjectsLocationsProvidersRequest>,
+  output: __S(775, __c24, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4127,8 +3770,8 @@ export const getProjectsLocations: API.OperationMethod<
   GetProjectsLocationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c25, 0) as any as S.Schema<GetProjectsLocationsRequest>,
-  output: __S(832, __c26, 0) as any as S.Schema<Location>,
+  input: __S(832, __c26, 0) as any as S.Schema<GetProjectsLocationsRequest>,
+  output: __S(864, __c27, 0) as any as S.Schema<Location>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4144,8 +3787,8 @@ export const getProjectsLocationsConnections: API.OperationMethod<
   GetProjectsLocationsConnectionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c27, 0) as any as S.Schema<GetProjectsLocationsConnectionsRequest>,
-  output: __S(896, __c28, 0) as any as S.Schema<Connection>,
+  input: __S(896, __c28, 0) as any as S.Schema<GetProjectsLocationsConnectionsRequest>,
+  output: __S(2067, __c64, 19) as any as S.Schema<Connection>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4169,7 +3812,7 @@ export const getProjectsLocationsConnectionsEndUserAuthentications: API.Operatio
     __c29,
     0,
   ) as any as S.Schema<GetProjectsLocationsConnectionsEndUserAuthenticationsRequest>,
-  output: __S(960, __c30, 0) as any as S.Schema<EndUserAuthentication>,
+  output: __S(2768, __c86, 16) as any as S.Schema<EndUserAuthentication>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4189,11 +3832,11 @@ export const getProjectsLocationsConnectionsEventSubscriptions: API.OperationMet
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    992,
-    __c31,
+    960,
+    __c30,
     0,
   ) as any as S.Schema<GetProjectsLocationsConnectionsEventSubscriptionsRequest>,
-  output: __S(1024, __c32, 0) as any as S.Schema<EventSubscription>,
+  output: __S(3142, __c98, 6) as any as S.Schema<EventSubscription>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4209,8 +3852,8 @@ export const getProjectsLocationsEndpointAttachments: API.OperationMethod<
   GetProjectsLocationsEndpointAttachmentsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c33, 0) as any as S.Schema<GetProjectsLocationsEndpointAttachmentsRequest>,
-  output: __S(1088, __c34, 0) as any as S.Schema<EndpointAttachment>,
+  input: __S(992, __c31, 0) as any as S.Schema<GetProjectsLocationsEndpointAttachmentsRequest>,
+  output: __S(3584, __c112, 0) as any as S.Schema<EndpointAttachment>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4226,8 +3869,8 @@ export const getProjectsLocationsGlobalCustomConnectors: API.OperationMethod<
   GetProjectsLocationsGlobalCustomConnectorsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c35, 0) as any as S.Schema<GetProjectsLocationsGlobalCustomConnectorsRequest>,
-  output: __S(1152, __c36, 0) as any as S.Schema<CustomConnector>,
+  input: __S(1024, __c32, 0) as any as S.Schema<GetProjectsLocationsGlobalCustomConnectorsRequest>,
+  output: __S(3776, __c118, 0) as any as S.Schema<CustomConnector>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4247,11 +3890,11 @@ export const getProjectsLocationsGlobalCustomConnectorsCustomConnectorVersions: 
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1184,
-    __c37,
+    1056,
+    __c33,
     0,
   ) as any as S.Schema<GetProjectsLocationsGlobalCustomConnectorsCustomConnectorVersionsRequest>,
-  output: __S(1216, __c38, 0) as any as S.Schema<CustomConnectorVersion>,
+  output: __S(65, __c2, 1) as any as S.Schema<CustomConnectorVersion>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4267,8 +3910,8 @@ export const getProjectsLocationsGlobalManagedZones: API.OperationMethod<
   GetProjectsLocationsGlobalManagedZonesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c39, 0) as any as S.Schema<GetProjectsLocationsGlobalManagedZonesRequest>,
-  output: __S(1280, __c40, 0) as any as S.Schema<ManagedZone>,
+  input: __S(1088, __c34, 0) as any as S.Schema<GetProjectsLocationsGlobalManagedZonesRequest>,
+  output: __S(160, __c5, 0) as any as S.Schema<ManagedZone>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4284,8 +3927,8 @@ export const getProjectsLocationsOperations: API.OperationMethod<
   GetProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1312, __c41, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
-  output: __S(2369, __c74, 1) as any as S.Schema<Operation>,
+  input: __S(1120, __c35, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
+  output: __S(2209, __c69, 1) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4301,8 +3944,8 @@ export const getProjectsLocationsProviders: API.OperationMethod<
   GetProjectsLocationsProvidersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1344, __c42, 0) as any as S.Schema<GetProjectsLocationsProvidersRequest>,
-  output: __S(1376, __c43, 0) as any as S.Schema<Provider>,
+  input: __S(1152, __c36, 0) as any as S.Schema<GetProjectsLocationsProvidersRequest>,
+  output: __S(1184, __c37, 0) as any as S.Schema<Provider>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4318,8 +3961,8 @@ export const getProjectsLocationsProvidersConnectors: API.OperationMethod<
   GetProjectsLocationsProvidersConnectorsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c44, 0) as any as S.Schema<GetProjectsLocationsProvidersConnectorsRequest>,
-  output: __S(1442, __c45, 2) as any as S.Schema<Connector>,
+  input: __S(1216, __c38, 0) as any as S.Schema<GetProjectsLocationsProvidersConnectorsRequest>,
+  output: __S(1250, __c39, 2) as any as S.Schema<Connector>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4339,11 +3982,11 @@ export const getProjectsLocationsProvidersConnectorsVersions: API.OperationMetho
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1536,
-    __c48,
+    1344,
+    __c42,
     0,
   ) as any as S.Schema<GetProjectsLocationsProvidersConnectorsVersionsRequest>,
-  output: __S(1585, __c49, 17) as any as S.Schema<ConnectorVersion>,
+  output: __S(1393, __c43, 17) as any as S.Schema<ConnectorVersion>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4363,11 +4006,11 @@ export const getProjectsLocationsProvidersConnectorsVersionsEventtypes: API.Oper
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1600,
-    __c50,
+    1408,
+    __c44,
     0,
   ) as any as S.Schema<GetProjectsLocationsProvidersConnectorsVersionsEventtypesRequest>,
-  output: __S(1632, __c51, 0) as any as S.Schema<EventType>,
+  output: __S(1440, __c45, 0) as any as S.Schema<EventType>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4383,8 +4026,8 @@ export const getRegionalSettingsProjectsLocations: API.OperationMethod<
   GetRegionalSettingsProjectsLocationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c52, 0) as any as S.Schema<GetRegionalSettingsProjectsLocationsRequest>,
-  output: __S(1665, __c52, 1) as any as S.Schema<RegionalSettings>,
+  input: __S(1472, __c46, 0) as any as S.Schema<GetRegionalSettingsProjectsLocationsRequest>,
+  output: __S(1506, __c47, 2) as any as S.Schema<RegionalSettings>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4400,8 +4043,8 @@ export const getRuntimeConfigProjectsLocations: API.OperationMethod<
   GetRuntimeConfigProjectsLocationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1728, __c54, 0) as any as S.Schema<GetRuntimeConfigProjectsLocationsRequest>,
-  output: __S(1729, __c54, 1) as any as S.Schema<RuntimeConfig>,
+  input: __S(1536, __c48, 0) as any as S.Schema<GetRuntimeConfigProjectsLocationsRequest>,
+  output: __S(1537, __c48, 1) as any as S.Schema<RuntimeConfig>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4417,8 +4060,8 @@ export const getSettingsProjectsLocationsGlobal: API.OperationMethod<
   GetSettingsProjectsLocationsGlobalError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1760, __c55, 0) as any as S.Schema<GetSettingsProjectsLocationsGlobalRequest>,
-  output: __S(1761, __c55, 1) as any as S.Schema<Settings>,
+  input: __S(1568, __c49, 0) as any as S.Schema<GetSettingsProjectsLocationsGlobalRequest>,
+  output: __S(1600, __c50, 0) as any as S.Schema<Settings>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4439,11 +4082,11 @@ export const listActionsProjectsLocationsConnectionsConnectionSchemaMetadata: AP
   ListActionsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    1792,
-    __c56,
+    1632,
+    __c51,
     0,
   ) as any as S.Schema<ListActionsProjectsLocationsConnectionsConnectionSchemaMetadataRequest>,
-  output: __S(1793, __c56, 1) as any as S.Schema<ListActionsResponse>,
+  output: __S(1633, __c51, 1) as any as S.Schema<ListActionsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4465,8 +4108,8 @@ export const listenEventProjectsLocationsConnections: API.OperationMethod<
   ListenEventProjectsLocationsConnectionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1920, __c60, 0) as any as S.Schema<ListenEventProjectsLocationsConnectionsRequest>,
-  output: __S(1504, __c47, 0) as any as S.Schema<ListenEventResponse>,
+  input: __S(1761, __c55, 1) as any as S.Schema<ListenEventProjectsLocationsConnectionsRequest>,
+  output: __S(1312, __c41, 0) as any as S.Schema<ListenEventResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4487,11 +4130,11 @@ export const listEntityTypesProjectsLocationsConnectionsConnectionSchemaMetadata
   ListEntityTypesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    1952,
-    __c61,
+    1792,
+    __c56,
     0,
   ) as any as S.Schema<ListEntityTypesProjectsLocationsConnectionsConnectionSchemaMetadataRequest>,
-  output: __S(1953, __c61, 1) as any as S.Schema<ListEntityTypesResponse>,
+  output: __S(1793, __c56, 1) as any as S.Schema<ListEntityTypesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4509,8 +4152,8 @@ export const listProjectsLocations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListLocationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2048, __c64, 0) as any as S.Schema<ListProjectsLocationsRequest>,
-  output: __S(2050, __c64, 2) as any as S.Schema<ListLocationsResponse>,
+  input: __S(1888, __c59, 0) as any as S.Schema<ListProjectsLocationsRequest>,
+  output: __S(1890, __c59, 2) as any as S.Schema<ListLocationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4528,8 +4171,8 @@ export const listProjectsLocationsConnections: API.PaginatedOperationMethod<
   GcpOpContext,
   ListConnectionsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2080, __c65, 0) as any as S.Schema<ListProjectsLocationsConnectionsRequest>,
-  output: __S(2082, __c65, 2) as any as S.Schema<ListConnectionsResponse>,
+  input: __S(1920, __c60, 0) as any as S.Schema<ListProjectsLocationsConnectionsRequest>,
+  output: __S(1922, __c60, 2) as any as S.Schema<ListConnectionsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4551,11 +4194,11 @@ export const listProjectsLocationsConnectionsEndUserAuthentications: API.Paginat
   ListEndUserAuthenticationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    2528,
-    __c79,
+    2368,
+    __c74,
     0,
   ) as any as S.Schema<ListProjectsLocationsConnectionsEndUserAuthenticationsRequest>,
-  output: __S(2530, __c79, 2) as any as S.Schema<ListEndUserAuthenticationsResponse>,
+  output: __S(2370, __c74, 2) as any as S.Schema<ListEndUserAuthenticationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4577,11 +4220,11 @@ export const listProjectsLocationsConnectionsEventSubscriptions: API.PaginatedOp
   ListEventSubscriptionsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    2560,
-    __c80,
+    2400,
+    __c75,
     0,
   ) as any as S.Schema<ListProjectsLocationsConnectionsEventSubscriptionsRequest>,
-  output: __S(2562, __c80, 2) as any as S.Schema<ListEventSubscriptionsResponse>,
+  output: __S(2402, __c75, 2) as any as S.Schema<ListEventSubscriptionsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4603,11 +4246,11 @@ export const listProjectsLocationsConnectionsRuntimeActionSchemas: API.Paginated
   ListRuntimeActionSchemasResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    2592,
-    __c81,
+    2432,
+    __c76,
     0,
   ) as any as S.Schema<ListProjectsLocationsConnectionsRuntimeActionSchemasRequest>,
-  output: __S(2593, __c81, 1) as any as S.Schema<ListRuntimeActionSchemasResponse>,
+  output: __S(2433, __c76, 1) as any as S.Schema<ListRuntimeActionSchemasResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4629,11 +4272,11 @@ export const listProjectsLocationsConnectionsRuntimeEntitySchemas: API.Paginated
   ListRuntimeEntitySchemasResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    2624,
-    __c82,
+    2464,
+    __c77,
     0,
   ) as any as S.Schema<ListProjectsLocationsConnectionsRuntimeEntitySchemasRequest>,
-  output: __S(2625, __c82, 1) as any as S.Schema<ListRuntimeEntitySchemasResponse>,
+  output: __S(2465, __c77, 1) as any as S.Schema<ListRuntimeEntitySchemasResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4651,8 +4294,8 @@ export const listProjectsLocationsEndpointAttachments: API.PaginatedOperationMet
   GcpOpContext,
   ListEndpointAttachmentsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2656, __c83, 0) as any as S.Schema<ListProjectsLocationsEndpointAttachmentsRequest>,
-  output: __S(2658, __c83, 2) as any as S.Schema<ListEndpointAttachmentsResponse>,
+  input: __S(2496, __c78, 0) as any as S.Schema<ListProjectsLocationsEndpointAttachmentsRequest>,
+  output: __S(2498, __c78, 2) as any as S.Schema<ListEndpointAttachmentsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4670,8 +4313,8 @@ export const listProjectsLocationsGlobalCustomConnectors: API.PaginatedOperation
   GcpOpContext,
   ListCustomConnectorsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2688, __c84, 0) as any as S.Schema<ListProjectsLocationsGlobalCustomConnectorsRequest>,
-  output: __S(2690, __c84, 2) as any as S.Schema<ListCustomConnectorsResponse>,
+  input: __S(2528, __c79, 0) as any as S.Schema<ListProjectsLocationsGlobalCustomConnectorsRequest>,
+  output: __S(2530, __c79, 2) as any as S.Schema<ListCustomConnectorsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4693,11 +4336,11 @@ export const listProjectsLocationsGlobalCustomConnectorsCustomConnectorVersions:
   ListCustomConnectorVersionsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    2720,
-    __c85,
+    2560,
+    __c80,
     0,
   ) as any as S.Schema<ListProjectsLocationsGlobalCustomConnectorsCustomConnectorVersionsRequest>,
-  output: __S(2722, __c85, 2) as any as S.Schema<ListCustomConnectorVersionsResponse>,
+  output: __S(2562, __c80, 2) as any as S.Schema<ListCustomConnectorVersionsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4715,8 +4358,8 @@ export const listProjectsLocationsGlobalManagedZones: API.PaginatedOperationMeth
   GcpOpContext,
   ListManagedZonesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2752, __c86, 0) as any as S.Schema<ListProjectsLocationsGlobalManagedZonesRequest>,
-  output: __S(2754, __c86, 2) as any as S.Schema<ListManagedZonesResponse>,
+  input: __S(2592, __c81, 0) as any as S.Schema<ListProjectsLocationsGlobalManagedZonesRequest>,
+  output: __S(2594, __c81, 2) as any as S.Schema<ListManagedZonesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4734,8 +4377,8 @@ export const listProjectsLocationsOperations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListOperationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2784, __c87, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
-  output: __S(2786, __c87, 2) as any as S.Schema<ListOperationsResponse>,
+  input: __S(2624, __c82, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
+  output: __S(2626, __c82, 2) as any as S.Schema<ListOperationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4753,8 +4396,8 @@ export const listProjectsLocationsProviders: API.PaginatedOperationMethod<
   GcpOpContext,
   ListProvidersResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2816, __c88, 0) as any as S.Schema<ListProjectsLocationsProvidersRequest>,
-  output: __S(2818, __c88, 2) as any as S.Schema<ListProvidersResponse>,
+  input: __S(2656, __c83, 0) as any as S.Schema<ListProjectsLocationsProvidersRequest>,
+  output: __S(2658, __c83, 2) as any as S.Schema<ListProvidersResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4772,8 +4415,8 @@ export const listProjectsLocationsProvidersConnectors: API.PaginatedOperationMet
   GcpOpContext,
   ListConnectorsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2944, __c92, 0) as any as S.Schema<ListProjectsLocationsProvidersConnectorsRequest>,
-  output: __S(2946, __c92, 2) as any as S.Schema<ListConnectorsResponse>,
+  input: __S(2784, __c87, 0) as any as S.Schema<ListProjectsLocationsProvidersConnectorsRequest>,
+  output: __S(2786, __c87, 2) as any as S.Schema<ListConnectorsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4795,11 +4438,11 @@ export const listProjectsLocationsProvidersConnectorsVersions: API.PaginatedOper
   ListConnectorVersionsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    2976,
-    __c93,
+    2816,
+    __c88,
     0,
   ) as any as S.Schema<ListProjectsLocationsProvidersConnectorsVersionsRequest>,
-  output: __S(2978, __c93, 2) as any as S.Schema<ListConnectorVersionsResponse>,
+  output: __S(2818, __c88, 2) as any as S.Schema<ListConnectorVersionsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4821,11 +4464,11 @@ export const listProjectsLocationsProvidersConnectorsVersionsEventtypes: API.Pag
   ListEventTypesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    3008,
-    __c94,
+    2848,
+    __c89,
     0,
   ) as any as S.Schema<ListProjectsLocationsProvidersConnectorsVersionsEventtypesRequest>,
-  output: __S(3010, __c94, 2) as any as S.Schema<ListEventTypesResponse>,
+  output: __S(2850, __c89, 2) as any as S.Schema<ListEventTypesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4848,11 +4491,11 @@ export const modifyToolspecOverrideProjectsLocationsConnections: API.OperationMe
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3040,
-    __c95,
+    2880,
+    __c90,
     0,
   ) as any as S.Schema<ModifyToolspecOverrideProjectsLocationsConnectionsRequest>,
-  output: __S(3041, __c95, 1) as any as S.Schema<ModifyConnectionToolspecOverrideResponse>,
+  output: __S(2881, __c90, 1) as any as S.Schema<ModifyConnectionToolspecOverrideResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4873,8 +4516,8 @@ export const patchProjectsLocationsConnections: API.OperationMethod<
   PatchProjectsLocationsConnectionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3072, __c96, 0) as any as S.Schema<PatchProjectsLocationsConnectionsRequest>,
-  output: __S(2369, __c74, 1) as any as S.Schema<Operation>,
+  input: __S(2912, __c91, 0) as any as S.Schema<PatchProjectsLocationsConnectionsRequest>,
+  output: __S(2209, __c69, 1) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4896,11 +4539,11 @@ export const patchProjectsLocationsConnectionsEndUserAuthentications: API.Operat
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3104,
-    __c97,
+    2944,
+    __c92,
     0,
   ) as any as S.Schema<PatchProjectsLocationsConnectionsEndUserAuthenticationsRequest>,
-  output: __S(2369, __c74, 1) as any as S.Schema<Operation>,
+  output: __S(2209, __c69, 1) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4922,11 +4565,11 @@ export const patchProjectsLocationsConnectionsEventSubscriptions: API.OperationM
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3136,
-    __c98,
+    2976,
+    __c93,
     0,
   ) as any as S.Schema<PatchProjectsLocationsConnectionsEventSubscriptionsRequest>,
-  output: __S(2369, __c74, 1) as any as S.Schema<Operation>,
+  output: __S(2209, __c69, 1) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4947,8 +4590,8 @@ export const patchProjectsLocationsEndpointAttachments: API.OperationMethod<
   PatchProjectsLocationsEndpointAttachmentsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3168, __c99, 0) as any as S.Schema<PatchProjectsLocationsEndpointAttachmentsRequest>,
-  output: __S(2369, __c74, 1) as any as S.Schema<Operation>,
+  input: __S(3008, __c94, 0) as any as S.Schema<PatchProjectsLocationsEndpointAttachmentsRequest>,
+  output: __S(2209, __c69, 1) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4970,11 +4613,11 @@ export const patchProjectsLocationsGlobalCustomConnectors: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3200,
-    __c100,
+    3040,
+    __c95,
     0,
   ) as any as S.Schema<PatchProjectsLocationsGlobalCustomConnectorsRequest>,
-  output: __S(2369, __c74, 1) as any as S.Schema<Operation>,
+  output: __S(2209, __c69, 1) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4995,8 +4638,8 @@ export const patchProjectsLocationsGlobalManagedZones: API.OperationMethod<
   PatchProjectsLocationsGlobalManagedZonesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3232, __c101, 0) as any as S.Schema<PatchProjectsLocationsGlobalManagedZonesRequest>,
-  output: __S(2369, __c74, 1) as any as S.Schema<Operation>,
+  input: __S(3072, __c96, 0) as any as S.Schema<PatchProjectsLocationsGlobalManagedZonesRequest>,
+  output: __S(2209, __c69, 1) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5018,11 +4661,11 @@ export const publishProjectsLocationsCustomConnectorsCustomConnectorVersions: AP
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3328,
-    __c104,
-    0,
+    3169,
+    __c99,
+    1,
   ) as any as S.Schema<PublishProjectsLocationsCustomConnectorsCustomConnectorVersionsRequest>,
-  output: __S(2369, __c74, 1) as any as S.Schema<Operation>,
+  output: __S(2209, __c69, 1) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5044,11 +4687,11 @@ export const refreshProjectsLocationsConnectionsConnectionSchemaMetadata: API.Op
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3360,
-    __c105,
+    3200,
+    __c100,
     0,
   ) as any as S.Schema<RefreshProjectsLocationsConnectionsConnectionSchemaMetadataRequest>,
-  output: __S(2369, __c74, 1) as any as S.Schema<Operation>,
+  output: __S(2209, __c69, 1) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5070,11 +4713,11 @@ export const removeToolspecOverrideProjectsLocationsConnections: API.OperationMe
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3392,
-    __c106,
+    3232,
+    __c101,
     0,
   ) as any as S.Schema<RemoveToolspecOverrideProjectsLocationsConnectionsRequest>,
-  output: __S(1504, __c47, 0) as any as S.Schema<Empty>,
+  output: __S(1312, __c41, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5095,8 +4738,8 @@ export const repairEventingProjectsLocationsConnections: API.OperationMethod<
   RepairEventingProjectsLocationsConnectionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3424, __c107, 0) as any as S.Schema<RepairEventingProjectsLocationsConnectionsRequest>,
-  output: __S(2369, __c74, 1) as any as S.Schema<Operation>,
+  input: __S(3264, __c102, 0) as any as S.Schema<RepairEventingProjectsLocationsConnectionsRequest>,
+  output: __S(2209, __c69, 1) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5118,11 +4761,11 @@ export const retryProjectsLocationsConnectionsEventSubscriptions: API.OperationM
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3456,
-    __c108,
+    3296,
+    __c103,
     0,
   ) as any as S.Schema<RetryProjectsLocationsConnectionsEventSubscriptionsRequest>,
-  output: __S(2369, __c74, 1) as any as S.Schema<Operation>,
+  output: __S(2209, __c69, 1) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5139,8 +4782,8 @@ export const searchProjectsLocationsConnections: API.PaginatedOperationMethod<
   GcpOpContext,
   SearchConnectionsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(3488, __c109, 0) as any as S.Schema<SearchProjectsLocationsConnectionsRequest>,
-  output: __S(3491, __c109, 3) as any as S.Schema<SearchConnectionsResponse>,
+  input: __S(3328, __c104, 0) as any as S.Schema<SearchProjectsLocationsConnectionsRequest>,
+  output: __S(3331, __c104, 3) as any as S.Schema<SearchConnectionsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5162,8 +4805,8 @@ export const setIamPolicyProjectsLocationsConnections: API.OperationMethod<
   SetIamPolicyProjectsLocationsConnectionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3520, __c110, 0) as any as S.Schema<SetIamPolicyProjectsLocationsConnectionsRequest>,
-  output: __S(743, __c23, 7) as any as S.Schema<Policy>,
+  input: __S(3360, __c105, 0) as any as S.Schema<SetIamPolicyProjectsLocationsConnectionsRequest>,
+  output: __S(775, __c24, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5184,8 +4827,8 @@ export const setIamPolicyProjectsLocationsProviders: API.OperationMethod<
   SetIamPolicyProjectsLocationsProvidersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3552, __c111, 0) as any as S.Schema<SetIamPolicyProjectsLocationsProvidersRequest>,
-  output: __S(743, __c23, 7) as any as S.Schema<Policy>,
+  input: __S(3424, __c107, 0) as any as S.Schema<SetIamPolicyProjectsLocationsProvidersRequest>,
+  output: __S(775, __c24, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5207,11 +4850,11 @@ export const testIamPermissionsProjectsLocationsConnections: API.OperationMethod
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3584,
-    __c112,
+    3456,
+    __c108,
     0,
   ) as any as S.Schema<TestIamPermissionsProjectsLocationsConnectionsRequest>,
-  output: __S(3616, __c113, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  output: __S(3488, __c109, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5233,11 +4876,11 @@ export const testIamPermissionsProjectsLocationsProviders: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3648,
-    __c114,
+    3520,
+    __c110,
     0,
   ) as any as S.Schema<TestIamPermissionsProjectsLocationsProvidersRequest>,
-  output: __S(3616, __c113, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  output: __S(3488, __c109, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5258,8 +4901,8 @@ export const updateRegionalSettingsProjectsLocations: API.OperationMethod<
   UpdateRegionalSettingsProjectsLocationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3712, __c116, 0) as any as S.Schema<UpdateRegionalSettingsProjectsLocationsRequest>,
-  output: __S(2369, __c74, 1) as any as S.Schema<Operation>,
+  input: __S(3616, __c113, 0) as any as S.Schema<UpdateRegionalSettingsProjectsLocationsRequest>,
+  output: __S(2209, __c69, 1) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5280,8 +4923,8 @@ export const updateSettingsProjectsLocationsGlobal: API.OperationMethod<
   UpdateSettingsProjectsLocationsGlobalError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3744, __c117, 0) as any as S.Schema<UpdateSettingsProjectsLocationsGlobalRequest>,
-  output: __S(2369, __c74, 1) as any as S.Schema<Operation>,
+  input: __S(3648, __c114, 0) as any as S.Schema<UpdateSettingsProjectsLocationsGlobalRequest>,
+  output: __S(2209, __c69, 1) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5303,11 +4946,11 @@ export const validateCustomConnectorSpecProjectsLocationsCustomConnectors: API.O
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3776,
-    __c118,
-    0,
+    3681,
+    __c115,
+    1,
   ) as any as S.Schema<ValidateCustomConnectorSpecProjectsLocationsCustomConnectorsRequest>,
-  output: __S(3777, __c118, 1) as any as S.Schema<ValidateCustomConnectorSpecResponse>,
+  output: __S(3682, __c115, 2) as any as S.Schema<ValidateCustomConnectorSpecResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5329,11 +4972,11 @@ export const withdrawProjectsLocationsCustomConnectorsCustomConnectorVersions: A
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3808,
-    __c119,
+    3712,
+    __c116,
     0,
   ) as any as S.Schema<WithdrawProjectsLocationsCustomConnectorsCustomConnectorVersionsRequest>,
-  output: __S(2369, __c74, 1) as any as S.Schema<Operation>,
+  output: __S(2209, __c69, 1) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5346,27 +4989,13 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          customConnectorVersionId: S.optional(S.String.pipe(T.Query())),
-          publishStatus: S.optional(__S(64, __c2, 0)),
-          serviceAccount: S.optional(S.String),
-          specServerUrls: S.optional(__S(2400, __c75, 0)),
-          asyncOperationsSupport: S.optional(S.Boolean),
-          enableBackendDestinationConfig: S.optional(S.Boolean),
-          state: S.optional(S.String),
-          specLocation: S.optional(S.String),
-          authConfig: S.optional(__S(2151, __c67, 7)),
-          backendVariableTemplates: S.optional(__S(45, __c1, 13)),
-          destinationConfigs: S.optional(__S(2243, __c70, 3)),
-          createTime: S.optional(S.String),
-          name: S.optional(S.String),
-          authConfigTemplates: S.optional(__S(47, __c1, 15)),
-          updateTime: S.optional(S.String),
-          authOverrideSupport: S.optional(S.Boolean),
-          partnerMetadata: S.optional(__S(96, __c3, 0)),
-          labels: S.optional(__S(2496, __c78, 0)),
-        }).pipe(
+        S.Extend(
+          __S(65, __c2, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            customConnectorVersionId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/customConnectorVersions",
@@ -5394,10 +5023,10 @@ function __c1(j: number): any {
         S.Struct({
           omitQueryParams: S.optional(S.Boolean),
           clientId: S.optional(S.String),
-          scopes: S.optional(__S(2400, __c75, 0)),
+          scopes: S.optional(__S(2240, __c70, 0)),
           enablePkce: S.optional(S.Boolean),
           uri: S.optional(S.String),
-          clientSecret: S.optional(__S(2432, __c76, 0)),
+          clientSecret: S.optional(__S(2272, __c71, 0)),
         }),
       ).annotate({ identifier: "AuthorizationCodeLink" });
     case 3:
@@ -5429,7 +5058,7 @@ function __c1(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          roles: S.optional(__S(2400, __c75, 0)),
+          roles: S.optional(__S(2240, __c70, 0)),
           principal: S.optional(S.String),
           helperTextTemplate: S.optional(S.String),
           resource: S.optional(__S(38, __c1, 6)),
@@ -5505,6 +5134,28 @@ function __c2(j: number): any {
           publishTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "PublishStatus" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          publishStatus: S.optional(__S(64, __c2, 0)),
+          serviceAccount: S.optional(S.String),
+          specServerUrls: S.optional(__S(2240, __c70, 0)),
+          asyncOperationsSupport: S.optional(S.Boolean),
+          enableBackendDestinationConfig: S.optional(S.Boolean),
+          state: S.optional(S.String),
+          specLocation: S.optional(S.String),
+          authConfig: S.optional(__S(1991, __c62, 7)),
+          backendVariableTemplates: S.optional(__S(45, __c1, 13)),
+          destinationConfigs: S.optional(__S(2083, __c65, 3)),
+          createTime: S.optional(S.String),
+          name: S.optional(S.String),
+          authConfigTemplates: S.optional(__S(47, __c1, 15)),
+          updateTime: S.optional(S.String),
+          authOverrideSupport: S.optional(S.Boolean),
+          partnerMetadata: S.optional(__S(96, __c3, 0)),
+          labels: S.optional(__S(2336, __c73, 0)),
+        }),
+      ).annotate({ identifier: "CustomConnectorVersion" });
   }
 }
 function __c3(j: number): any {
@@ -5537,18 +5188,13 @@ function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          managedZoneId: S.optional(S.String.pipe(T.Query())),
-          labels: S.optional(__S(2496, __c78, 0)),
-          description: S.optional(S.String),
-          targetVpc: S.optional(S.String),
-          createTime: S.optional(S.String),
-          dns: S.optional(S.String),
-          name: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          targetProject: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(160, __c5, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            managedZoneId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/managedZones",
@@ -5559,6 +5205,23 @@ function __c4(j: number): any {
   }
 }
 function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          labels: S.optional(__S(2336, __c73, 0)),
+          description: S.optional(S.String),
+          targetVpc: S.optional(S.String),
+          createTime: S.optional(S.String),
+          dns: S.optional(S.String),
+          name: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          targetProject: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ManagedZone" });
+  }
+}
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5575,7 +5238,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsConnectionsRequest" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5591,7 +5254,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsConnectionsEndUserAuthenticationsRequest" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5607,7 +5270,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsConnectionsEventSubscriptionsRequest" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5625,7 +5288,7 @@ function __c8(j: number): any {
       });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5641,7 +5304,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsEndpointAttachmentsRequest" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5658,7 +5321,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsGlobalCustomConnectorsRequest" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5674,7 +5337,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsGlobalManagedZonesRequest" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5690,13 +5353,13 @@ function __c12(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsOperationsRequest" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1504, __c47, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(1312, __c41, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5709,7 +5372,7 @@ function __c13(j: number): any {
       });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5735,12 +5398,12 @@ function __c14(j: number): any {
         }),
       ).annotate({ identifier: "AuthField" });
     case 2:
-      return S.Array(__S(449, __c14, 1));
+      return S.Array(__S(481, __c15, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
-          authFields: S.optional(__S(450, __c14, 2)),
+          authFields: S.optional(__S(482, __c15, 2)),
           authType: S.optional(S.String),
           authKey: S.optional(S.String),
           isDefault: S.optional(S.Boolean),
@@ -5748,7 +5411,7 @@ function __c14(j: number): any {
         }),
       ).annotate({ identifier: "AuthSchema" });
     case 4:
-      return S.Array(__S(451, __c14, 3));
+      return S.Array(__S(483, __c15, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -5757,11 +5420,11 @@ function __c14(j: number): any {
         }),
       ).annotate({ identifier: "AuthProperty" });
     case 6:
-      return S.Record(S.String, __S(453, __c14, 5));
+      return S.Record(S.String, __S(485, __c15, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          properties: S.optional(__S(454, __c14, 6)),
+          properties: S.optional(__S(486, __c15, 6)),
           additionalProperties: S.optional(S.Boolean),
           authKey: S.optional(S.String),
           type: S.optional(S.String),
@@ -5771,31 +5434,33 @@ function __c14(j: number): any {
         }),
       ).annotate({ identifier: "AuthObject" });
     case 8:
-      return S.Array(__S(455, __c14, 7));
+      return S.Array(__S(487, __c15, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
           $schema: S.optional(S.String),
-          oneOf: S.optional(__S(456, __c14, 8)),
+          oneOf: S.optional(__S(488, __c15, 8)),
         }),
       ).annotate({ identifier: "JsonAuthSchema" });
     case 10:
       return S.suspend(() =>
         S.Struct({
-          authSchemas: S.optional(__S(452, __c14, 4)),
-          jsonSchema: S.optional(__S(457, __c14, 9)),
+          authSchemas: S.optional(__S(484, __c15, 4)),
+          jsonSchema: S.optional(__S(489, __c15, 9)),
         }),
       ).annotate({ identifier: "FetchAuthSchemaResponse" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          toolNames: S.optional(__S(513, __c16, 1)),
-        }).pipe(
+        S.Extend(
+          __S(546, __c17, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:fetchToolspecOverride",
@@ -5805,7 +5470,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "FetchToolspecOverrideProjectsLocationsConnectionsRequest" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5816,26 +5481,13 @@ function __c16(j: number): any {
         }),
       ).annotate({ identifier: "ToolName" });
     case 1:
-      return S.Array(__S(512, __c16, 0));
+      return S.Array(__S(544, __c17, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          toolspecOverride: S.optional(__S(544, __c17, 0)),
+          toolNames: S.optional(__S(545, __c17, 1)),
         }),
-      ).annotate({ identifier: "FetchConnectionToolspecOverrideResponse" });
-  }
-}
-function __c17(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          tools: S.optional(__S(2336, __c73, 0)),
-          updateTime: S.optional(S.String),
-          createTime: S.optional(S.String),
-          baseVersion: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ToolspecOverride" });
+      ).annotate({ identifier: "FetchConnectionToolspecOverrideRequest" });
   }
 }
 function __c18(j: number): any {
@@ -5843,9 +5495,30 @@ function __c18(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
-          toolNames: S.optional(__S(513, __c16, 1)),
-        }).pipe(
+          tools: S.optional(__S(2176, __c68, 0)),
+          updateTime: S.optional(S.String),
+          createTime: S.optional(S.String),
+          baseVersion: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ToolspecOverride" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          toolspecOverride: S.optional(__S(576, __c18, 0)),
+        }),
+      ).annotate({ identifier: "FetchConnectionToolspecOverrideResponse" });
+  }
+}
+function __c19(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(546, __c17, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:generateToolspecOverride",
@@ -5855,7 +5528,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "GenerateToolspecOverrideProjectsLocationsConnectionsRequest" });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5874,7 +5547,7 @@ function __c19(j: number): any {
       });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5895,14 +5568,14 @@ function __c20(j: number): any {
           state: S.optional(S.String),
           name: S.optional(S.String),
           refreshTime: S.optional(S.String),
-          entities: S.optional(__S(2400, __c75, 0)),
-          actions: S.optional(__S(2400, __c75, 0)),
+          entities: S.optional(__S(2240, __c70, 0)),
+          actions: S.optional(__S(2240, __c70, 0)),
           updateTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "ConnectionSchemaMetadata" });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5921,7 +5594,7 @@ function __c21(j: number): any {
       });
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5938,26 +5611,26 @@ function __c22(j: number): any {
       ).annotate({ identifier: "GetIamPolicyProjectsLocationsConnectionsRequest" });
   }
 }
-function __c23(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          exemptedMembers: S.optional(__S(2400, __c75, 0)),
+          exemptedMembers: S.optional(__S(2240, __c70, 0)),
           logType: S.optional(S.String),
         }),
       ).annotate({ identifier: "AuditLogConfig" });
     case 1:
-      return S.Array(__S(736, __c23, 0));
+      return S.Array(__S(768, __c24, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          auditLogConfigs: S.optional(__S(737, __c23, 1)),
+          auditLogConfigs: S.optional(__S(769, __c24, 1)),
           service: S.optional(S.String),
         }),
       ).annotate({ identifier: "AuditConfig" });
     case 3:
-      return S.Array(__S(738, __c23, 2));
+      return S.Array(__S(770, __c24, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -5971,24 +5644,24 @@ function __c23(j: number): any {
       return S.suspend(() =>
         S.Struct({
           role: S.optional(S.String),
-          members: S.optional(__S(2400, __c75, 0)),
-          condition: S.optional(__S(740, __c23, 4)),
+          members: S.optional(__S(2240, __c70, 0)),
+          condition: S.optional(__S(772, __c24, 4)),
         }),
       ).annotate({ identifier: "Binding" });
     case 6:
-      return S.Array(__S(741, __c23, 5));
+      return S.Array(__S(773, __c24, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
           etag: S.optional(S.String),
-          auditConfigs: S.optional(__S(739, __c23, 3)),
-          bindings: S.optional(__S(742, __c23, 6)),
+          auditConfigs: S.optional(__S(771, __c24, 3)),
+          bindings: S.optional(__S(774, __c24, 6)),
           version: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Policy" });
   }
 }
-function __c24(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6005,7 +5678,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "GetIamPolicyProjectsLocationsProvidersRequest" });
   }
 }
-function __c25(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6021,21 +5694,21 @@ function __c25(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsRequest" });
   }
 }
-function __c26(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           locationId: S.optional(S.String),
-          labels: S.optional(__S(2496, __c78, 0)),
+          labels: S.optional(__S(2336, __c73, 0)),
           displayName: S.optional(S.String),
-          metadata: S.optional(__S(2304, __c72, 0)),
+          metadata: S.optional(__S(2144, __c67, 0)),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "Location" });
   }
 }
-function __c27(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6050,51 +5723,6 @@ function __c27(j: number): any {
           }),
         ),
       ).annotate({ identifier: "GetProjectsLocationsConnectionsRequest" });
-  }
-}
-function __c28(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          status: S.optional(__S(2208, __c69, 0)),
-          trafficShapingConfigs: S.optional(__S(2210, __c69, 2)),
-          serviceAccount: S.optional(S.String),
-          eventingRuntimeData: S.optional(__S(2214, __c69, 6)),
-          envoyImageLocation: S.optional(S.String),
-          billingConfig: S.optional(__S(2215, __c69, 7)),
-          subscriptionType: S.optional(S.String),
-          connectorVersionLaunchStage: S.optional(S.String),
-          sslConfig: S.optional(__S(2216, __c69, 8)),
-          description: S.optional(S.String),
-          authConfig: S.optional(__S(2151, __c67, 7)),
-          labels: S.optional(__S(2496, __c78, 0)),
-          serviceDirectory: S.optional(S.String),
-          connectorVersion: S.optional(S.String),
-          nodeConfig: S.optional(__S(2217, __c69, 9)),
-          fallbackOnAdminCredentials: S.optional(S.Boolean),
-          euaOauthAuthConfig: S.optional(__S(2151, __c67, 7)),
-          eventingEnablementType: S.optional(S.String),
-          configVariables: S.optional(__S(2466, __c77, 2)),
-          createTime: S.optional(S.String),
-          tlsServiceDirectory: S.optional(S.String),
-          eventingConfig: S.optional(__S(2220, __c69, 12)),
-          adminFilters: S.optional(__S(2223, __c69, 15)),
-          lockConfig: S.optional(__S(2224, __c69, 16)),
-          suspended: S.optional(S.Boolean),
-          host: S.optional(S.String),
-          isTrustedTester: S.optional(S.Boolean),
-          authOverrideEnabled: S.optional(S.Boolean),
-          logConfig: S.optional(__S(2225, __c69, 17)),
-          connectorVersionInfraConfig: S.optional(__S(2226, __c69, 18)),
-          name: S.optional(S.String),
-          connectionRevision: S.optional(S.String),
-          imageLocation: S.optional(S.String),
-          destinationConfigs: S.optional(__S(2243, __c70, 3)),
-          updateTime: S.optional(S.String),
-          asyncOperationsEnabled: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "Connection" });
   }
 }
 function __c29(j: number): any {
@@ -6119,26 +5747,6 @@ function __c30(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          configVariables: S.optional(__S(2914, __c91, 2)),
-          notifyEndpointDestination: S.optional(__S(2918, __c91, 6)),
-          destinationConfigs: S.optional(__S(2243, __c70, 3)),
-          name: S.optional(S.String),
-          status: S.optional(__S(2272, __c71, 0)),
-          labels: S.optional(__S(2400, __c75, 0)),
-          updateTime: S.optional(S.String),
-          endUserAuthenticationConfig: S.optional(__S(2927, __c91, 15)),
-          userId: S.optional(S.String),
-          roles: S.optional(__S(2880, __c90, 0)),
-          createTime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "EndUserAuthentication" });
-  }
-}
-function __c31(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
           name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -6150,27 +5758,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsConnectionsEventSubscriptionsRequest" });
   }
 }
-function __c32(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          createTime: S.optional(S.String),
-          subscriber: S.optional(S.String),
-          name: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          destinations: S.optional(__S(3300, __c103, 4)),
-          filter: S.optional(S.String),
-          eventTypeId: S.optional(S.String),
-          subscriberLink: S.optional(S.String),
-          jms: S.optional(__S(3301, __c103, 5)),
-          triggerConfigVariables: S.optional(__S(2466, __c77, 2)),
-          status: S.optional(__S(2272, __c71, 0)),
-        }),
-      ).annotate({ identifier: "EventSubscription" });
-  }
-}
-function __c33(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6187,25 +5775,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsEndpointAttachmentsRequest" });
   }
 }
-function __c34(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          endpointIp: S.optional(S.String),
-          state: S.optional(S.String),
-          serviceAttachment: S.optional(S.String),
-          endpointGlobalAccess: S.optional(S.Boolean),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          labels: S.optional(__S(2496, __c78, 0)),
-          description: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "EndpointAttachment" });
-  }
-}
-function __c35(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6221,28 +5791,7 @@ function __c35(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsGlobalCustomConnectorsRequest" });
   }
 }
-function __c36(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          publishedMarketplaceVersions: S.optional(__S(2400, __c75, 0)),
-          displayName: S.optional(S.String),
-          labels: S.optional(__S(2496, __c78, 0)),
-          logo: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          allMarketplaceVersions: S.optional(__S(2400, __c75, 0)),
-          createTime: S.optional(S.String),
-          activeConnectorVersions: S.optional(__S(2400, __c75, 0)),
-          customConnectorType: S.optional(S.String),
-          allConnectorVersions: S.optional(__S(2400, __c75, 0)),
-          description: S.optional(S.String),
-          name: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CustomConnector" });
-  }
-}
-function __c37(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6260,33 +5809,7 @@ function __c37(j: number): any {
       });
   }
 }
-function __c38(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          publishStatus: S.optional(__S(64, __c2, 0)),
-          serviceAccount: S.optional(S.String),
-          specServerUrls: S.optional(__S(2400, __c75, 0)),
-          asyncOperationsSupport: S.optional(S.Boolean),
-          enableBackendDestinationConfig: S.optional(S.Boolean),
-          state: S.optional(S.String),
-          specLocation: S.optional(S.String),
-          authConfig: S.optional(__S(2151, __c67, 7)),
-          backendVariableTemplates: S.optional(__S(45, __c1, 13)),
-          destinationConfigs: S.optional(__S(2243, __c70, 3)),
-          createTime: S.optional(S.String),
-          name: S.optional(S.String),
-          authConfigTemplates: S.optional(__S(47, __c1, 15)),
-          updateTime: S.optional(S.String),
-          authOverrideSupport: S.optional(S.Boolean),
-          partnerMetadata: S.optional(__S(96, __c3, 0)),
-          labels: S.optional(__S(2496, __c78, 0)),
-        }),
-      ).annotate({ identifier: "CustomConnectorVersion" });
-  }
-}
-function __c39(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6302,24 +5825,7 @@ function __c39(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsGlobalManagedZonesRequest" });
   }
 }
-function __c40(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          labels: S.optional(__S(2496, __c78, 0)),
-          description: S.optional(S.String),
-          targetVpc: S.optional(S.String),
-          createTime: S.optional(S.String),
-          dns: S.optional(S.String),
-          name: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          targetProject: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ManagedZone" });
-  }
-}
-function __c41(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6335,7 +5841,7 @@ function __c41(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsOperationsRequest" });
   }
 }
-function __c42(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6351,7 +5857,7 @@ function __c42(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsProvidersRequest" });
   }
 }
-function __c43(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6362,7 +5868,7 @@ function __c43(j: number): any {
           name: S.optional(S.String),
           documentationUri: S.optional(S.String),
           launchStage: S.optional(S.String),
-          labels: S.optional(__S(2496, __c78, 0)),
+          labels: S.optional(__S(2336, __c73, 0)),
           externalUri: S.optional(S.String),
           description: S.optional(S.String),
           webAssetsLocation: S.optional(S.String),
@@ -6370,7 +5876,7 @@ function __c43(j: number): any {
       ).annotate({ identifier: "Provider" });
   }
 }
-function __c44(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6386,7 +5892,7 @@ function __c44(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsProvidersConnectorsRequest" });
   }
 }
-function __c45(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6401,7 +5907,7 @@ function __c45(j: number): any {
       return S.suspend(() =>
         S.Struct({
           customEventTypes: S.optional(S.Boolean),
-          searchTags: S.optional(__S(2400, __c75, 0)),
+          searchTags: S.optional(__S(2240, __c70, 0)),
           name: S.optional(S.String),
           iconLocation: S.optional(S.String),
           documentationLink: S.optional(S.String),
@@ -6416,30 +5922,30 @@ function __c45(j: number): any {
         S.Struct({
           externalUri: S.optional(S.String),
           createTime: S.optional(S.String),
-          tags: S.optional(__S(2400, __c75, 0)),
+          tags: S.optional(__S(2240, __c70, 0)),
           updateTime: S.optional(S.String),
           webAssetsLocation: S.optional(S.String),
           description: S.optional(S.String),
           displayName: S.optional(S.String),
-          marketplaceConnectorDetails: S.optional(__S(1440, __c45, 0)),
+          marketplaceConnectorDetails: S.optional(__S(1248, __c39, 0)),
           launchStage: S.optional(S.String),
           connectorType: S.optional(S.String),
           category: S.optional(S.String),
           documentationUri: S.optional(S.String),
-          labels: S.optional(__S(2496, __c78, 0)),
-          eventingDetails: S.optional(__S(1441, __c45, 1)),
+          labels: S.optional(__S(2336, __c73, 0)),
+          eventingDetails: S.optional(__S(1249, __c39, 1)),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "Connector" });
   }
 }
-function __c46(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1504, __c47, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(1312, __c41, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6450,13 +5956,13 @@ function __c46(j: number): any {
       ).annotate({ identifier: "CancelProjectsLocationsOperationsRequest" });
   }
 }
-function __c47(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "CancelOperationRequest" });
   }
 }
-function __c48(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6473,7 +5979,7 @@ function __c48(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsProvidersConnectorsVersionsRequest" });
   }
 }
-function __c49(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6487,11 +5993,11 @@ function __c49(j: number): any {
           isAdvanced: S.optional(S.Boolean),
           regexPattern: S.optional(S.String),
           displayName: S.optional(S.String),
-          autocompleteSuggestions: S.optional(__S(2400, __c75, 0)),
+          autocompleteSuggestions: S.optional(__S(2240, __c70, 0)),
         }),
       ).annotate({ identifier: "DestinationConfigTemplate" });
     case 1:
-      return S.Array(__S(1568, __c49, 0));
+      return S.Array(__S(1376, __c43, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -6499,11 +6005,11 @@ function __c49(j: number): any {
         }),
       ).annotate({ identifier: "StandardAction" });
     case 3:
-      return S.Array(__S(1570, __c49, 2));
+      return S.Array(__S(1378, __c43, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          defaultAllowlistedHost: S.optional(__S(2400, __c75, 0)),
+          defaultAllowlistedHost: S.optional(__S(2240, __c70, 0)),
           disableFirewallVpcscFlow: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "VpcscConfig" });
@@ -6532,19 +6038,19 @@ function __c49(j: number): any {
           internalclientRatelimitThreshold: S.optional(S.String),
           provisionCloudSpanner: S.optional(S.Boolean),
           alwaysAllocateCpu: S.optional(S.Boolean),
-          resourceRequests: S.optional(__S(2176, __c68, 0)),
+          resourceRequests: S.optional(__S(2016, __c63, 0)),
           maxInstanceRequestConcurrency: S.optional(S.Number),
           provisionMemstore: S.optional(S.Boolean),
           migrateDeploymentModel: S.optional(S.Boolean),
           connectionServiceAccountEnabled: S.optional(S.Boolean),
-          resourceLimits: S.optional(__S(2176, __c68, 0)),
+          resourceLimits: S.optional(__S(2016, __c63, 0)),
           ratelimitThreshold: S.optional(S.String),
           sharedDeployment: S.optional(S.String),
           deploymentModel: S.optional(S.String),
           publicNetworkIngressEnabled: S.optional(S.Boolean),
-          hpaConfig: S.optional(__S(2177, __c68, 1)),
+          hpaConfig: S.optional(__S(2017, __c63, 1)),
           connectionRatelimitWindowSeconds: S.optional(S.String),
-          networkEgressModeOverride: S.optional(__S(1574, __c49, 6)),
+          networkEgressModeOverride: S.optional(__S(1382, __c43, 6)),
         }),
       ).annotate({ identifier: "ConnectorInfraConfig" });
     case 8:
@@ -6557,11 +6063,11 @@ function __c49(j: number): any {
     case 9:
       return S.suspend(() =>
         S.Struct({
-          serverCertType: S.optional(__S(2880, __c90, 0)),
+          serverCertType: S.optional(__S(2720, __c85, 0)),
           sslType: S.optional(S.String),
           isTlsMandatory: S.optional(S.Boolean),
           additionalVariables: S.optional(__S(45, __c1, 13)),
-          clientCertType: S.optional(__S(2880, __c90, 0)),
+          clientCertType: S.optional(__S(2720, __c85, 0)),
         }),
       ).annotate({ identifier: "SslConfigTemplate" });
     case 10:
@@ -6574,28 +6080,28 @@ function __c49(j: number): any {
     case 11:
       return S.suspend(() =>
         S.Struct({
-          source: S.optional(__S(1578, __c49, 10)),
+          source: S.optional(__S(1386, __c43, 10)),
           extractionRegex: S.optional(S.String),
           formatString: S.optional(S.String),
         }),
       ).annotate({ identifier: "ExtractionRule" });
     case 12:
-      return S.Array(__S(1579, __c49, 11));
+      return S.Array(__S(1387, __c43, 11));
     case 13:
       return S.suspend(() =>
         S.Struct({
-          extractionRule: S.optional(__S(1580, __c49, 12)),
+          extractionRule: S.optional(__S(1388, __c43, 12)),
         }),
       ).annotate({ identifier: "ExtractionRules" });
     case 14:
       return S.suspend(() =>
         S.Struct({
-          allowlistedProjectNumbers: S.optional(__S(2400, __c75, 0)),
+          allowlistedProjectNumbers: S.optional(__S(2240, __c70, 0)),
           launchEnvironment: S.optional(S.String),
-          additionalExtractionRules: S.optional(__S(1581, __c49, 13)),
+          additionalExtractionRules: S.optional(__S(1389, __c43, 13)),
           accessMode: S.optional(S.String),
           backends: S.optional(S.String),
-          extractionRules: S.optional(__S(1581, __c49, 13)),
+          extractionRules: S.optional(__S(1389, __c43, 13)),
         }),
       ).annotate({ identifier: "EgressControlConfig" });
     case 15:
@@ -6607,13 +6113,13 @@ function __c49(j: number): any {
           additionalVariables: S.optional(__S(45, __c1, 13)),
           eventListenerType: S.optional(S.String),
           encryptionKeyTemplate: S.optional(__S(44, __c1, 12)),
-          sslConfigTemplate: S.optional(__S(1577, __c49, 9)),
+          sslConfigTemplate: S.optional(__S(1385, __c43, 9)),
           enrichmentSupported: S.optional(S.Boolean),
-          proxyDestinationConfig: S.optional(__S(1568, __c49, 0)),
+          proxyDestinationConfig: S.optional(__S(1376, __c43, 0)),
           autoRegistrationSupported: S.optional(S.Boolean),
           listenerAuthConfigTemplates: S.optional(__S(47, __c1, 15)),
           autoRefresh: S.optional(S.Boolean),
-          registrationDestinationConfig: S.optional(__S(1568, __c49, 0)),
+          registrationDestinationConfig: S.optional(__S(1376, __c43, 0)),
         }),
       ).annotate({ identifier: "EventingConfigTemplate" });
     case 16:
@@ -6623,34 +6129,34 @@ function __c49(j: number): any {
         S.Struct({
           updateTime: S.optional(S.String),
           name: S.optional(S.String),
-          destinationConfigTemplates: S.optional(__S(1569, __c49, 1)),
-          supportedStandardActions: S.optional(__S(1571, __c49, 3)),
+          destinationConfigTemplates: S.optional(__S(1377, __c43, 1)),
+          supportedStandardActions: S.optional(__S(1379, __c43, 3)),
           authConfigTemplates: S.optional(__S(47, __c1, 15)),
-          vpcscConfig: S.optional(__S(1572, __c49, 4)),
+          vpcscConfig: S.optional(__S(1380, __c43, 4)),
           launchStage: S.optional(S.String),
-          supportedRuntimeFeatures: S.optional(__S(1573, __c49, 5)),
+          supportedRuntimeFeatures: S.optional(__S(1381, __c43, 5)),
           roleGrant: S.optional(__S(39, __c1, 7)),
-          labels: S.optional(__S(2496, __c78, 0)),
-          connectorInfraConfig: S.optional(__S(1575, __c49, 7)),
-          supportedStandardEntities: S.optional(__S(1571, __c49, 3)),
-          unsupportedConnectionTypes: S.optional(__S(2880, __c90, 0)),
+          labels: S.optional(__S(2336, __c73, 0)),
+          connectorInfraConfig: S.optional(__S(1383, __c43, 7)),
+          supportedStandardEntities: S.optional(__S(1379, __c43, 3)),
+          unsupportedConnectionTypes: S.optional(__S(2720, __c85, 0)),
           createTime: S.optional(S.String),
           displayName: S.optional(S.String),
-          schemaRefreshConfig: S.optional(__S(1576, __c49, 8)),
+          schemaRefreshConfig: S.optional(__S(1384, __c43, 8)),
           authOverrideEnabled: S.optional(S.Boolean),
           releaseVersion: S.optional(S.String),
-          sslConfigTemplate: S.optional(__S(1577, __c49, 9)),
+          sslConfigTemplate: S.optional(__S(1385, __c43, 9)),
           isCustomActionsSupported: S.optional(S.Boolean),
           isCustomEntitiesSupported: S.optional(S.Boolean),
-          egressControlConfig: S.optional(__S(1582, __c49, 14)),
+          egressControlConfig: S.optional(__S(1390, __c43, 14)),
           configVariableTemplates: S.optional(__S(45, __c1, 13)),
-          eventingConfigTemplate: S.optional(__S(1583, __c49, 15)),
-          roleGrants: S.optional(__S(1584, __c49, 16)),
+          eventingConfigTemplate: S.optional(__S(1391, __c43, 15)),
+          roleGrants: S.optional(__S(1392, __c43, 16)),
         }),
       ).annotate({ identifier: "ConnectorVersion" });
   }
 }
-function __c50(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6668,7 +6174,7 @@ function __c50(j: number): any {
       });
   }
 }
-function __c51(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6685,7 +6191,7 @@ function __c51(j: number): any {
       ).annotate({ identifier: "EventType" });
   }
 }
-function __c52(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6699,19 +6205,9 @@ function __c52(j: number): any {
           }),
         ),
       ).annotate({ identifier: "GetRegionalSettingsProjectsLocationsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          client: S.optional(S.String),
-          provisioned: S.optional(S.Boolean),
-          name: S.optional(S.String),
-          encryptionConfig: S.optional(__S(1696, __c53, 0)),
-          networkConfig: S.optional(__S(1697, __c53, 1)),
-        }),
-      ).annotate({ identifier: "RegionalSettings" });
   }
 }
-function __c53(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6724,12 +6220,22 @@ function __c53(j: number): any {
       return S.suspend(() =>
         S.Struct({
           egressMode: S.optional(S.String),
-          egressIps: S.optional(__S(2400, __c75, 0)),
+          egressIps: S.optional(__S(2240, __c70, 0)),
         }),
       ).annotate({ identifier: "NetworkConfig" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          client: S.optional(S.String),
+          provisioned: S.optional(S.Boolean),
+          name: S.optional(S.String),
+          encryptionConfig: S.optional(__S(1504, __c47, 0)),
+          networkConfig: S.optional(__S(1505, __c47, 1)),
+        }),
+      ).annotate({ identifier: "RegionalSettings" });
   }
 }
-function __c54(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6760,7 +6266,7 @@ function __c54(j: number): any {
       ).annotate({ identifier: "RuntimeConfig" });
   }
 }
-function __c55(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6774,7 +6280,11 @@ function __c55(j: number): any {
           }),
         ),
       ).annotate({ identifier: "GetSettingsProjectsLocationsGlobalRequest" });
-    case 1:
+  }
+}
+function __c50(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           payg: S.optional(S.Boolean),
@@ -6785,7 +6295,7 @@ function __c55(j: number): any {
       ).annotate({ identifier: "Settings" });
   }
 }
-function __c56(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6809,85 +6319,85 @@ function __c56(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          actions: S.optional(__S(1856, __c58, 0)),
+          actions: S.optional(__S(1696, __c53, 0)),
         }),
       ).annotate({ identifier: "ListActionsResponse" });
   }
 }
-function __c57(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.Record(
         S.String,
-        /*@__PURE__*/ S.suspend(() => __S(1827, __c57, 3)),
+        /*@__PURE__*/ S.suspend(() => __S(1667, __c52, 3)),
       );
     case 1:
       return S.Array(S.Unknown);
     case 2:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(1827, __c57, 3)));
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(1667, __c52, 3)));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          contains: S.optional(__S(1827, __c57, 3)),
-          else: S.optional(__S(1827, __c57, 3)),
-          required: S.optional(__S(2400, __c75, 0)),
+          contains: S.optional(__S(1667, __c52, 3)),
+          else: S.optional(__S(1667, __c52, 3)),
+          required: S.optional(__S(2240, __c70, 0)),
           maxLength: S.optional(S.Number),
           format: S.optional(S.String),
-          additionalProperties: S.optional(__S(1827, __c57, 3)),
+          additionalProperties: S.optional(__S(1667, __c52, 3)),
           uniqueItems: S.optional(S.Boolean),
-          additionalDetails: S.optional(__S(2304, __c72, 0)),
+          additionalDetails: S.optional(__S(2144, __c67, 0)),
           $ref: S.optional(S.String),
-          if: S.optional(__S(1827, __c57, 3)),
+          if: S.optional(__S(1667, __c52, 3)),
           maxItems: S.optional(S.Number),
           readOnly: S.optional(S.Boolean),
-          dependencies: S.optional(__S(2304, __c72, 0)),
+          dependencies: S.optional(__S(2144, __c67, 0)),
           const: S.optional(S.Unknown),
           minItems: S.optional(S.Number),
           minLength: S.optional(S.Number),
           $schema: S.optional(S.String),
-          patternProperties: S.optional(__S(1824, __c57, 0)),
+          patternProperties: S.optional(__S(1664, __c52, 0)),
           $comment: S.optional(S.String),
           exclusiveMinimum: S.optional(S.Unknown),
           contentMediaType: S.optional(S.String),
           description: S.optional(S.String),
-          then: S.optional(__S(1827, __c57, 3)),
+          then: S.optional(__S(1667, __c52, 3)),
           exclusiveMaximum: S.optional(S.Unknown),
           multipleOf: S.optional(S.Number),
-          enum: S.optional(__S(1825, __c57, 1)),
-          additionalItems: S.optional(__S(1827, __c57, 3)),
+          enum: S.optional(__S(1665, __c52, 1)),
+          additionalItems: S.optional(__S(1667, __c52, 3)),
           $id: S.optional(S.String),
-          oneOf: S.optional(__S(1826, __c57, 2)),
+          oneOf: S.optional(__S(1666, __c52, 2)),
           maxProperties: S.optional(S.Number),
-          definitions: S.optional(__S(1824, __c57, 0)),
+          definitions: S.optional(__S(1664, __c52, 0)),
           jdbcType: S.optional(S.String),
           writeOnly: S.optional(S.Boolean),
           minimum: S.optional(S.Unknown),
           pattern: S.optional(S.String),
           minProperties: S.optional(S.Number),
           default: S.optional(S.Unknown),
-          allOf: S.optional(__S(1826, __c57, 2)),
-          items: S.optional(__S(1827, __c57, 3)),
+          allOf: S.optional(__S(1666, __c52, 2)),
+          items: S.optional(__S(1667, __c52, 3)),
           title: S.optional(S.String),
-          properties: S.optional(__S(1824, __c57, 0)),
-          anyOf: S.optional(__S(1826, __c57, 2)),
-          propertyNames: S.optional(__S(1827, __c57, 3)),
-          $defs: S.optional(__S(1824, __c57, 0)),
-          examples: S.optional(__S(1825, __c57, 1)),
+          properties: S.optional(__S(1664, __c52, 0)),
+          anyOf: S.optional(__S(1666, __c52, 2)),
+          propertyNames: S.optional(__S(1667, __c52, 3)),
+          $defs: S.optional(__S(1664, __c52, 0)),
+          examples: S.optional(__S(1665, __c52, 1)),
           maximum: S.optional(S.Unknown),
-          type: S.optional(__S(2400, __c75, 0)),
+          type: S.optional(__S(2240, __c70, 0)),
           contentEncoding: S.optional(S.String),
-          not: S.optional(__S(1827, __c57, 3)),
+          not: S.optional(__S(1667, __c52, 3)),
         }),
       ).annotate({ identifier: "JsonSchema" });
   }
 }
-function __c58(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1892, __c59, 4));
+      return S.Array(__S(1732, __c54, 4));
   }
 }
-function __c59(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6895,13 +6405,13 @@ function __c59(j: number): any {
           defaultValue: S.optional(S.Unknown),
           parameter: S.optional(S.String),
           dataType: S.optional(S.String),
-          jsonSchema: S.optional(__S(1827, __c57, 3)),
+          jsonSchema: S.optional(__S(1667, __c52, 3)),
           description: S.optional(S.String),
           nullable: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "InputParameter" });
     case 1:
-      return S.Array(__S(1888, __c59, 0));
+      return S.Array(__S(1728, __c54, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -6909,36 +6419,44 @@ function __c59(j: number): any {
           description: S.optional(S.String),
           field: S.optional(S.String),
           dataType: S.optional(S.String),
-          jsonSchema: S.optional(__S(1827, __c57, 3)),
+          jsonSchema: S.optional(__S(1667, __c52, 3)),
           defaultValue: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "ResultMetadata" });
     case 3:
-      return S.Array(__S(1890, __c59, 2));
+      return S.Array(__S(1730, __c54, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
-          resultJsonSchema: S.optional(__S(1827, __c57, 3)),
+          resultJsonSchema: S.optional(__S(1667, __c52, 3)),
           inputSchemaAsString: S.optional(S.String),
           resultSchemaAsString: S.optional(S.String),
-          inputParameters: S.optional(__S(1889, __c59, 1)),
-          inputJsonSchema: S.optional(__S(1827, __c57, 3)),
-          resultMetadata: S.optional(__S(1891, __c59, 3)),
+          inputParameters: S.optional(__S(1729, __c54, 1)),
+          inputJsonSchema: S.optional(__S(1667, __c52, 3)),
+          resultMetadata: S.optional(__S(1731, __c54, 3)),
           action: S.optional(S.String),
           displayName: S.optional(S.String),
         }),
       ).annotate({ identifier: "RuntimeActionSchema" });
   }
 }
-function __c60(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          resourcePath: S.String.pipe(T.Label()),
-          payload: S.optional(__S(2304, __c72, 0)),
-        }).pipe(
+          payload: S.optional(__S(2144, __c67, 0)),
+        }),
+      ).annotate({ identifier: "ListenEventRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(1760, __c55, 0),
+          S.Struct({
+            resourcePath: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resourcePath}:listenEvent",
@@ -6948,7 +6466,7 @@ function __c60(j: number): any {
       ).annotate({ identifier: "ListenEventProjectsLocationsConnectionsRequest" });
   }
 }
-function __c61(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6971,48 +6489,48 @@ function __c61(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          entityTypes: S.optional(__S(1984, __c62, 0)),
+          entityTypes: S.optional(__S(1824, __c57, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListEntityTypesResponse" });
   }
 }
-function __c62(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2018, __c63, 2));
+      return S.Array(__S(1858, __c58, 2));
   }
 }
-function __c63(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
-          jsonSchema: S.optional(__S(1827, __c57, 3)),
+          jsonSchema: S.optional(__S(1667, __c52, 3)),
           dataType: S.optional(S.String),
           readonly: S.optional(S.Boolean),
           defaultValue: S.optional(S.Unknown),
           key: S.optional(S.Boolean),
-          additionalDetails: S.optional(__S(2304, __c72, 0)),
+          additionalDetails: S.optional(__S(2144, __c67, 0)),
           nullable: S.optional(S.Boolean),
           field: S.optional(S.String),
         }),
       ).annotate({ identifier: "Field" });
     case 1:
-      return S.Array(__S(2016, __c63, 0));
+      return S.Array(__S(1856, __c58, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           entity: S.optional(S.String),
-          operations: S.optional(__S(2880, __c90, 0)),
-          fields: S.optional(__S(2017, __c63, 1)),
-          jsonSchema: S.optional(__S(1827, __c57, 3)),
+          operations: S.optional(__S(2720, __c85, 0)),
+          fields: S.optional(__S(1857, __c58, 1)),
+          jsonSchema: S.optional(__S(1667, __c52, 3)),
         }),
       ).annotate({ identifier: "RuntimeEntitySchema" });
   }
 }
-function __c64(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7021,7 +6539,7 @@ function __c64(j: number): any {
           filter: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          extraLocationTypes: S.optional(__S(2400, __c75, 0).pipe(T.Query())),
+          extraLocationTypes: S.optional(__S(2240, __c70, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -7031,17 +6549,17 @@ function __c64(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsRequest" });
     case 1:
-      return S.Array(__S(832, __c26, 0));
+      return S.Array(__S(864, __c27, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          locations: S.optional(__S(2049, __c64, 1)),
+          locations: S.optional(__S(1889, __c59, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListLocationsResponse" });
   }
 }
-function __c65(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7061,61 +6579,28 @@ function __c65(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsConnectionsRequest" });
     case 1:
-      return S.Array(__S(896, __c28, 0));
+      return S.Array(__S(2067, __c64, 19));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          connections: S.optional(__S(2081, __c65, 1)),
-          unreachable: S.optional(__S(2400, __c75, 0)),
+          connections: S.optional(__S(1921, __c60, 1)),
+          unreachable: S.optional(__S(2240, __c70, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListConnectionsResponse" });
   }
 }
-function __c66(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          connectionId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          status: S.optional(__S(2208, __c69, 0)),
-          trafficShapingConfigs: S.optional(__S(2210, __c69, 2)),
-          serviceAccount: S.optional(S.String),
-          eventingRuntimeData: S.optional(__S(2214, __c69, 6)),
-          envoyImageLocation: S.optional(S.String),
-          billingConfig: S.optional(__S(2215, __c69, 7)),
-          subscriptionType: S.optional(S.String),
-          connectorVersionLaunchStage: S.optional(S.String),
-          sslConfig: S.optional(__S(2216, __c69, 8)),
-          description: S.optional(S.String),
-          authConfig: S.optional(__S(2151, __c67, 7)),
-          labels: S.optional(__S(2496, __c78, 0)),
-          serviceDirectory: S.optional(S.String),
-          connectorVersion: S.optional(S.String),
-          nodeConfig: S.optional(__S(2217, __c69, 9)),
-          fallbackOnAdminCredentials: S.optional(S.Boolean),
-          euaOauthAuthConfig: S.optional(__S(2151, __c67, 7)),
-          eventingEnablementType: S.optional(S.String),
-          configVariables: S.optional(__S(2466, __c77, 2)),
-          createTime: S.optional(S.String),
-          tlsServiceDirectory: S.optional(S.String),
-          eventingConfig: S.optional(__S(2220, __c69, 12)),
-          adminFilters: S.optional(__S(2223, __c69, 15)),
-          lockConfig: S.optional(__S(2224, __c69, 16)),
-          suspended: S.optional(S.Boolean),
-          host: S.optional(S.String),
-          isTrustedTester: S.optional(S.Boolean),
-          authOverrideEnabled: S.optional(S.Boolean),
-          logConfig: S.optional(__S(2225, __c69, 17)),
-          connectorVersionInfraConfig: S.optional(__S(2226, __c69, 18)),
-          name: S.optional(S.String),
-          connectionRevision: S.optional(S.String),
-          imageLocation: S.optional(S.String),
-          destinationConfigs: S.optional(__S(2243, __c70, 3)),
-          updateTime: S.optional(S.String),
-          asyncOperationsEnabled: S.optional(S.Boolean),
-        }).pipe(
+        S.Extend(
+          __S(2067, __c64, 19),
+          S.Struct({
+            connectionId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/connections",
@@ -7125,34 +6610,34 @@ function __c66(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsConnectionsRequest" });
   }
 }
-function __c67(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           authCode: S.optional(S.String),
           enablePkce: S.optional(S.Boolean),
-          scopes: S.optional(__S(2400, __c75, 0)),
+          scopes: S.optional(__S(2240, __c70, 0)),
           authUri: S.optional(S.String),
           redirectUri: S.optional(S.String),
           pkceVerifier: S.optional(S.String),
-          clientSecret: S.optional(__S(2432, __c76, 0)),
+          clientSecret: S.optional(__S(2272, __c71, 0)),
           clientId: S.optional(S.String),
         }),
       ).annotate({ identifier: "Oauth2AuthCodeFlow" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          sshClientCert: S.optional(__S(2432, __c76, 0)),
+          sshClientCert: S.optional(__S(2272, __c71, 0)),
           certType: S.optional(S.String),
-          sshClientCertPass: S.optional(__S(2432, __c76, 0)),
+          sshClientCertPass: S.optional(__S(2272, __c71, 0)),
           username: S.optional(S.String),
         }),
       ).annotate({ identifier: "SshPublicKey" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          clientSecret: S.optional(__S(2432, __c76, 0)),
+          clientSecret: S.optional(__S(2272, __c71, 0)),
           clientId: S.optional(S.String),
         }),
       ).annotate({ identifier: "Oauth2ClientCredentials" });
@@ -7161,13 +6646,13 @@ function __c67(j: number): any {
         S.Struct({
           authCode: S.optional(S.String),
           redirectUri: S.optional(S.String),
-          scopes: S.optional(__S(2400, __c75, 0)),
+          scopes: S.optional(__S(2240, __c70, 0)),
         }),
       ).annotate({ identifier: "Oauth2AuthCodeFlowGoogleManaged" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          password: S.optional(__S(2432, __c76, 0)),
+          password: S.optional(__S(2272, __c71, 0)),
           username: S.optional(S.String),
         }),
       ).annotate({ identifier: "UserPassword" });
@@ -7182,27 +6667,27 @@ function __c67(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          clientKey: S.optional(__S(2432, __c76, 0)),
-          jwtClaims: S.optional(__S(2149, __c67, 5)),
+          clientKey: S.optional(__S(2272, __c71, 0)),
+          jwtClaims: S.optional(__S(1989, __c62, 5)),
         }),
       ).annotate({ identifier: "Oauth2JwtBearer" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          oauth2AuthCodeFlow: S.optional(__S(2144, __c67, 0)),
-          sshPublicKey: S.optional(__S(2145, __c67, 1)),
-          additionalVariables: S.optional(__S(2466, __c77, 2)),
+          oauth2AuthCodeFlow: S.optional(__S(1984, __c62, 0)),
+          sshPublicKey: S.optional(__S(1985, __c62, 1)),
+          additionalVariables: S.optional(__S(2306, __c72, 2)),
           authKey: S.optional(S.String),
-          oauth2ClientCredentials: S.optional(__S(2146, __c67, 2)),
+          oauth2ClientCredentials: S.optional(__S(1986, __c62, 2)),
           authType: S.optional(S.String),
-          oauth2AuthCodeFlowGoogleManaged: S.optional(__S(2147, __c67, 3)),
-          userPassword: S.optional(__S(2148, __c67, 4)),
-          oauth2JwtBearer: S.optional(__S(2150, __c67, 6)),
+          oauth2AuthCodeFlowGoogleManaged: S.optional(__S(1987, __c62, 3)),
+          userPassword: S.optional(__S(1988, __c62, 4)),
+          oauth2JwtBearer: S.optional(__S(1990, __c62, 6)),
         }),
       ).annotate({ identifier: "AuthConfig" });
   }
 }
-function __c68(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7220,7 +6705,7 @@ function __c68(j: number): any {
       ).annotate({ identifier: "HPAConfig" });
   }
 }
-function __c69(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7238,34 +6723,34 @@ function __c69(j: number): any {
         }),
       ).annotate({ identifier: "TrafficShapingConfig" });
     case 2:
-      return S.Array(__S(2209, __c69, 1));
+      return S.Array(__S(2049, __c64, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          eventSubscriptions: S.optional(__S(2400, __c75, 0)),
+          eventSubscriptions: S.optional(__S(2240, __c70, 0)),
           updateTime: S.optional(S.String),
-          eventTypes: S.optional(__S(2400, __c75, 0)),
+          eventTypes: S.optional(__S(2240, __c70, 0)),
           id: S.optional(S.String),
-          additionalVariables: S.optional(__S(2466, __c77, 2)),
+          additionalVariables: S.optional(__S(2306, __c72, 2)),
           createTime: S.optional(S.String),
           nextRefreshTime: S.optional(S.String),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "WebhookData" });
     case 4:
-      return S.Array(__S(2211, __c69, 3));
+      return S.Array(__S(2051, __c64, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          webhookData: S.optional(__S(2212, __c69, 4)),
+          webhookData: S.optional(__S(2052, __c64, 4)),
         }),
       ).annotate({ identifier: "WebhookSubscriptions" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          status: S.optional(__S(2272, __c71, 0)),
-          webhookSubscriptions: S.optional(__S(2213, __c69, 5)),
-          webhookData: S.optional(__S(2211, __c69, 3)),
+          status: S.optional(__S(2112, __c66, 0)),
+          webhookSubscriptions: S.optional(__S(2053, __c64, 5)),
+          webhookData: S.optional(__S(2051, __c64, 3)),
           eventsListenerPscSa: S.optional(S.String),
           eventsListenerEndpoint: S.optional(S.String),
         }),
@@ -7280,15 +6765,15 @@ function __c69(j: number): any {
       return S.suspend(() =>
         S.Struct({
           useSsl: S.optional(S.Boolean),
-          additionalVariables: S.optional(__S(2466, __c77, 2)),
+          additionalVariables: S.optional(__S(2306, __c72, 2)),
           type: S.optional(S.String),
-          privateServerCertificate: S.optional(__S(2432, __c76, 0)),
+          privateServerCertificate: S.optional(__S(2272, __c71, 0)),
           serverCertType: S.optional(S.String),
-          clientPrivateKey: S.optional(__S(2432, __c76, 0)),
-          clientPrivateKeyPass: S.optional(__S(2432, __c76, 0)),
+          clientPrivateKey: S.optional(__S(2272, __c71, 0)),
+          clientPrivateKeyPass: S.optional(__S(2272, __c71, 0)),
           clientCertType: S.optional(S.String),
           trustModel: S.optional(S.String),
-          clientCertificate: S.optional(__S(2432, __c76, 0)),
+          clientCertificate: S.optional(__S(2272, __c71, 0)),
         }),
       ).annotate({ identifier: "SslConfig" });
     case 9:
@@ -7314,26 +6799,26 @@ function __c69(j: number): any {
     case 12:
       return S.suspend(() =>
         S.Struct({
-          authConfig: S.optional(__S(2151, __c67, 7)),
+          authConfig: S.optional(__S(1991, __c62, 7)),
           eventsListenerIngressEndpoint: S.optional(S.String),
-          proxyDestinationConfig: S.optional(__S(2242, __c70, 2)),
+          proxyDestinationConfig: S.optional(__S(2082, __c65, 2)),
           globalEventFilter: S.optional(S.String),
           privateConnectivityEnabled: S.optional(S.Boolean),
-          additionalVariables: S.optional(__S(2466, __c77, 2)),
-          allowedEventTypes: S.optional(__S(2400, __c75, 0)),
-          registrationDestinationConfig: S.optional(__S(2242, __c70, 2)),
-          deadLetterConfig: S.optional(__S(2218, __c69, 10)),
-          sslConfig: S.optional(__S(2216, __c69, 8)),
-          enrichmentConfig: S.optional(__S(2219, __c69, 11)),
-          listenerAuthConfig: S.optional(__S(2151, __c67, 7)),
-          privateConnectivityAllowlistedProjects: S.optional(__S(2400, __c75, 0)),
+          additionalVariables: S.optional(__S(2306, __c72, 2)),
+          allowedEventTypes: S.optional(__S(2240, __c70, 0)),
+          registrationDestinationConfig: S.optional(__S(2082, __c65, 2)),
+          deadLetterConfig: S.optional(__S(2058, __c64, 10)),
+          sslConfig: S.optional(__S(2056, __c64, 8)),
+          enrichmentConfig: S.optional(__S(2059, __c64, 11)),
+          listenerAuthConfig: S.optional(__S(1991, __c62, 7)),
+          privateConnectivityAllowlistedProjects: S.optional(__S(2240, __c70, 0)),
           enrichmentEnabled: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "EventingConfig" });
     case 13:
       return S.suspend(() =>
         S.Struct({
-          listValues: S.optional(__S(2400, __c75, 0)),
+          listValues: S.optional(__S(2240, __c70, 0)),
         }),
       ).annotate({ identifier: "StringListValues" });
     case 14:
@@ -7342,12 +6827,12 @@ function __c69(j: number): any {
           filterKey: S.optional(S.String),
           filterType: S.optional(S.String),
           intValue: S.optional(S.String),
-          stringListValues: S.optional(__S(2221, __c69, 13)),
+          stringListValues: S.optional(__S(2061, __c64, 13)),
           stringValue: S.optional(S.String),
         }),
       ).annotate({ identifier: "AdminFilters" });
     case 15:
-      return S.Array(__S(2222, __c69, 14));
+      return S.Array(__S(2062, __c64, 14));
     case 16:
       return S.suspend(() =>
         S.Struct({
@@ -7367,20 +6852,61 @@ function __c69(j: number): any {
         S.Struct({
           connectionRatelimitWindowSeconds: S.optional(S.String),
           ratelimitThreshold: S.optional(S.String),
-          resourceLimits: S.optional(__S(2176, __c68, 0)),
+          resourceLimits: S.optional(__S(2016, __c63, 0)),
           deploymentModel: S.optional(S.String),
           internalclientRatelimitThreshold: S.optional(S.String),
           deploymentModelMigrationState: S.optional(S.String),
           sharedDeployment: S.optional(S.String),
           maxInstanceRequestConcurrency: S.optional(S.Number),
-          resourceRequests: S.optional(__S(2176, __c68, 0)),
+          resourceRequests: S.optional(__S(2016, __c63, 0)),
           tlsMigrationState: S.optional(S.String),
-          hpaConfig: S.optional(__S(2177, __c68, 1)),
+          hpaConfig: S.optional(__S(2017, __c63, 1)),
         }),
       ).annotate({ identifier: "ConnectorVersionInfraConfig" });
+    case 19:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.optional(__S(2048, __c64, 0)),
+          trafficShapingConfigs: S.optional(__S(2050, __c64, 2)),
+          serviceAccount: S.optional(S.String),
+          eventingRuntimeData: S.optional(__S(2054, __c64, 6)),
+          envoyImageLocation: S.optional(S.String),
+          billingConfig: S.optional(__S(2055, __c64, 7)),
+          subscriptionType: S.optional(S.String),
+          connectorVersionLaunchStage: S.optional(S.String),
+          sslConfig: S.optional(__S(2056, __c64, 8)),
+          description: S.optional(S.String),
+          authConfig: S.optional(__S(1991, __c62, 7)),
+          labels: S.optional(__S(2336, __c73, 0)),
+          serviceDirectory: S.optional(S.String),
+          connectorVersion: S.optional(S.String),
+          nodeConfig: S.optional(__S(2057, __c64, 9)),
+          fallbackOnAdminCredentials: S.optional(S.Boolean),
+          euaOauthAuthConfig: S.optional(__S(1991, __c62, 7)),
+          eventingEnablementType: S.optional(S.String),
+          configVariables: S.optional(__S(2306, __c72, 2)),
+          createTime: S.optional(S.String),
+          tlsServiceDirectory: S.optional(S.String),
+          eventingConfig: S.optional(__S(2060, __c64, 12)),
+          adminFilters: S.optional(__S(2063, __c64, 15)),
+          lockConfig: S.optional(__S(2064, __c64, 16)),
+          suspended: S.optional(S.Boolean),
+          host: S.optional(S.String),
+          isTrustedTester: S.optional(S.Boolean),
+          authOverrideEnabled: S.optional(S.Boolean),
+          logConfig: S.optional(__S(2065, __c64, 17)),
+          connectorVersionInfraConfig: S.optional(__S(2066, __c64, 18)),
+          name: S.optional(S.String),
+          connectionRevision: S.optional(S.String),
+          imageLocation: S.optional(S.String),
+          destinationConfigs: S.optional(__S(2083, __c65, 3)),
+          updateTime: S.optional(S.String),
+          asyncOperationsEnabled: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "Connection" });
   }
 }
-function __c70(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7391,19 +6917,19 @@ function __c70(j: number): any {
         }),
       ).annotate({ identifier: "Destination" });
     case 1:
-      return S.Array(__S(2240, __c70, 0));
+      return S.Array(__S(2080, __c65, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           key: S.optional(S.String),
-          destinations: S.optional(__S(2241, __c70, 1)),
+          destinations: S.optional(__S(2081, __c65, 1)),
         }),
       ).annotate({ identifier: "DestinationConfig" });
     case 3:
-      return S.Array(__S(2242, __c70, 2));
+      return S.Array(__S(2082, __c65, 2));
   }
 }
-function __c71(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7414,26 +6940,26 @@ function __c71(j: number): any {
       ).annotate({ identifier: "EventingStatus" });
   }
 }
-function __c72(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c73(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2304, __c72, 0));
+      return S.Array(__S(2144, __c67, 0));
   }
 }
-function __c74(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           message: S.optional(S.String),
           code: S.optional(S.Number),
-          details: S.optional(__S(2336, __c73, 0)),
+          details: S.optional(__S(2176, __c68, 0)),
         }),
       ).annotate({ identifier: "Status" });
     case 1:
@@ -7441,20 +6967,20 @@ function __c74(j: number): any {
         S.Struct({
           done: S.optional(S.Boolean),
           name: S.optional(S.String),
-          error: S.optional(__S(2368, __c74, 0)),
-          response: S.optional(__S(2304, __c72, 0)),
-          metadata: S.optional(__S(2304, __c72, 0)),
+          error: S.optional(__S(2208, __c69, 0)),
+          response: S.optional(__S(2144, __c67, 0)),
+          metadata: S.optional(__S(2144, __c67, 0)),
         }),
       ).annotate({ identifier: "Operation" });
   }
 }
-function __c75(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c76(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7464,7 +6990,7 @@ function __c76(j: number): any {
       ).annotate({ identifier: "Secret" });
   }
 }
-function __c77(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7479,22 +7005,22 @@ function __c77(j: number): any {
           key: S.optional(S.String),
           boolValue: S.optional(S.Boolean),
           stringValue: S.optional(S.String),
-          encryptionKeyValue: S.optional(__S(2464, __c77, 0)),
-          secretValue: S.optional(__S(2432, __c76, 0)),
+          encryptionKeyValue: S.optional(__S(2304, __c72, 0)),
+          secretValue: S.optional(__S(2272, __c71, 0)),
           intValue: S.optional(S.String),
         }),
       ).annotate({ identifier: "ConfigVariable" });
     case 2:
-      return S.Array(__S(2465, __c77, 1));
+      return S.Array(__S(2305, __c72, 1));
   }
 }
-function __c78(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
   }
 }
-function __c79(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7513,18 +7039,18 @@ function __c79(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsConnectionsEndUserAuthenticationsRequest" });
     case 1:
-      return S.Array(__S(960, __c30, 0));
+      return S.Array(__S(2768, __c86, 16));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(2400, __c75, 0)),
-          endUserAuthentications: S.optional(__S(2529, __c79, 1)),
+          unreachable: S.optional(__S(2240, __c70, 0)),
+          endUserAuthentications: S.optional(__S(2369, __c74, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListEndUserAuthenticationsResponse" });
   }
 }
-function __c80(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7543,18 +7069,18 @@ function __c80(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsConnectionsEventSubscriptionsRequest" });
     case 1:
-      return S.Array(__S(1024, __c32, 0));
+      return S.Array(__S(3142, __c98, 6));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(2400, __c75, 0)),
+          unreachable: S.optional(__S(2240, __c70, 0)),
           nextPageToken: S.optional(S.String),
-          eventSubscriptions: S.optional(__S(2561, __c80, 1)),
+          eventSubscriptions: S.optional(__S(2401, __c75, 1)),
         }),
       ).annotate({ identifier: "ListEventSubscriptionsResponse" });
   }
 }
-function __c81(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7576,12 +7102,12 @@ function __c81(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          runtimeActionSchemas: S.optional(__S(1856, __c58, 0)),
+          runtimeActionSchemas: S.optional(__S(1696, __c53, 0)),
         }),
       ).annotate({ identifier: "ListRuntimeActionSchemasResponse" });
   }
 }
-function __c82(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7601,13 +7127,13 @@ function __c82(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          runtimeEntitySchemas: S.optional(__S(1984, __c62, 0)),
+          runtimeEntitySchemas: S.optional(__S(1824, __c57, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListRuntimeEntitySchemasResponse" });
   }
 }
-function __c83(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7627,18 +7153,18 @@ function __c83(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsEndpointAttachmentsRequest" });
     case 1:
-      return S.Array(__S(1088, __c34, 0));
+      return S.Array(__S(3584, __c112, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          endpointAttachments: S.optional(__S(2657, __c83, 1)),
-          unreachable: S.optional(__S(2400, __c75, 0)),
+          endpointAttachments: S.optional(__S(2497, __c78, 1)),
+          unreachable: S.optional(__S(2240, __c70, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListEndpointAttachmentsResponse" });
   }
 }
-function __c84(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7656,18 +7182,18 @@ function __c84(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsGlobalCustomConnectorsRequest" });
     case 1:
-      return S.Array(__S(1152, __c36, 0));
+      return S.Array(__S(3776, __c118, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(2400, __c75, 0)),
+          unreachable: S.optional(__S(2240, __c70, 0)),
           nextPageToken: S.optional(S.String),
-          customConnectors: S.optional(__S(2689, __c84, 1)),
+          customConnectors: S.optional(__S(2529, __c79, 1)),
         }),
       ).annotate({ identifier: "ListCustomConnectorsResponse" });
   }
 }
-function __c85(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7686,18 +7212,18 @@ function __c85(j: number): any {
         identifier: "ListProjectsLocationsGlobalCustomConnectorsCustomConnectorVersionsRequest",
       });
     case 1:
-      return S.Array(__S(1216, __c38, 0));
+      return S.Array(__S(65, __c2, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          customConnectorVersions: S.optional(__S(2721, __c85, 1)),
-          unreachable: S.optional(__S(2400, __c75, 0)),
+          customConnectorVersions: S.optional(__S(2561, __c80, 1)),
+          unreachable: S.optional(__S(2240, __c70, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListCustomConnectorVersionsResponse" });
   }
 }
-function __c86(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7717,18 +7243,18 @@ function __c86(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsGlobalManagedZonesRequest" });
     case 1:
-      return S.Array(__S(1280, __c40, 0));
+      return S.Array(__S(160, __c5, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          managedZones: S.optional(__S(2753, __c86, 1)),
-          unreachable: S.optional(__S(2400, __c75, 0)),
+          managedZones: S.optional(__S(2593, __c81, 1)),
+          unreachable: S.optional(__S(2240, __c70, 0)),
         }),
       ).annotate({ identifier: "ListManagedZonesResponse" });
   }
 }
-function __c87(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7747,18 +7273,18 @@ function __c87(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsOperationsRequest" });
     case 1:
-      return S.Array(__S(2369, __c74, 1));
+      return S.Array(__S(2209, __c69, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(2400, __c75, 0)),
+          unreachable: S.optional(__S(2240, __c70, 0)),
           nextPageToken: S.optional(S.String),
-          operations: S.optional(__S(2785, __c87, 1)),
+          operations: S.optional(__S(2625, __c82, 1)),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
   }
 }
-function __c88(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7775,36 +7301,28 @@ function __c88(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsProvidersRequest" });
     case 1:
-      return S.Array(__S(1376, __c43, 0));
+      return S.Array(__S(1184, __c37, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          providers: S.optional(__S(2817, __c88, 1)),
-          unreachable: S.optional(__S(2400, __c75, 0)),
+          providers: S.optional(__S(2657, __c83, 1)),
+          unreachable: S.optional(__S(2240, __c70, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListProvidersResponse" });
   }
 }
-function __c89(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          endUserAuthenticationId: S.optional(S.String.pipe(T.Query())),
-          configVariables: S.optional(__S(2914, __c91, 2)),
-          notifyEndpointDestination: S.optional(__S(2918, __c91, 6)),
-          destinationConfigs: S.optional(__S(2243, __c70, 3)),
-          name: S.optional(S.String),
-          status: S.optional(__S(2272, __c71, 0)),
-          labels: S.optional(__S(2400, __c75, 0)),
-          updateTime: S.optional(S.String),
-          endUserAuthenticationConfig: S.optional(__S(2927, __c91, 15)),
-          userId: S.optional(S.String),
-          roles: S.optional(__S(2880, __c90, 0)),
-          createTime: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(2768, __c86, 16),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            endUserAuthenticationId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/endUserAuthentications",
@@ -7814,13 +7332,13 @@ function __c89(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsConnectionsEndUserAuthenticationsRequest" });
   }
 }
-function __c90(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c91(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7835,12 +7353,12 @@ function __c91(j: number): any {
           stringValue: S.optional(S.String),
           boolValue: S.optional(S.Boolean),
           key: S.optional(S.String),
-          secretValue: S.optional(__S(2912, __c91, 0)),
+          secretValue: S.optional(__S(2752, __c86, 0)),
           intValue: S.optional(S.String),
         }),
       ).annotate({ identifier: "EndUserAuthenticationConfigVariable" });
     case 2:
-      return S.Array(__S(2913, __c91, 1));
+      return S.Array(__S(2753, __c86, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -7849,19 +7367,19 @@ function __c91(j: number): any {
         }),
       ).annotate({ identifier: "EndUserAuthenticationNotifyEndpointDestinationEndPointHeader" });
     case 4:
-      return S.Array(__S(2915, __c91, 3));
+      return S.Array(__S(2755, __c86, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           endpointUri: S.optional(S.String),
-          headers: S.optional(__S(2916, __c91, 4)),
+          headers: S.optional(__S(2756, __c86, 4)),
         }),
       ).annotate({ identifier: "EndUserAuthenticationNotifyEndpointDestinationEndPoint" });
     case 6:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          endpoint: S.optional(__S(2917, __c91, 5)),
+          endpoint: S.optional(__S(2757, __c86, 5)),
           serviceAccount: S.optional(S.String),
         }),
       ).annotate({ identifier: "EndUserAuthenticationNotifyEndpointDestination" });
@@ -7869,8 +7387,8 @@ function __c91(j: number): any {
       return S.suspend(() =>
         S.Struct({
           username: S.optional(S.String),
-          sshClientCertPass: S.optional(__S(2912, __c91, 0)),
-          sshClientCert: S.optional(__S(2912, __c91, 0)),
+          sshClientCertPass: S.optional(__S(2752, __c86, 0)),
+          sshClientCert: S.optional(__S(2752, __c86, 0)),
           certType: S.optional(S.String),
         }),
       ).annotate({ identifier: "EndUserAuthenticationConfigSshPublicKey" });
@@ -7878,24 +7396,24 @@ function __c91(j: number): any {
       return S.suspend(() =>
         S.Struct({
           expiry: S.optional(S.String),
-          refreshToken: S.optional(__S(2912, __c91, 0)),
-          accessToken: S.optional(__S(2912, __c91, 0)),
+          refreshToken: S.optional(__S(2752, __c86, 0)),
+          accessToken: S.optional(__S(2752, __c86, 0)),
           createTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "OAuthTokenData" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          scopes: S.optional(__S(2400, __c75, 0)),
+          scopes: S.optional(__S(2240, __c70, 0)),
           authCode: S.optional(S.String),
-          oauthTokenData: S.optional(__S(2920, __c91, 8)),
+          oauthTokenData: S.optional(__S(2760, __c86, 8)),
           redirectUri: S.optional(S.String),
         }),
       ).annotate({ identifier: "EndUserAuthenticationConfigOauth2AuthCodeFlowGoogleManaged" });
     case 10:
       return S.suspend(() =>
         S.Struct({
-          clientSecret: S.optional(__S(2912, __c91, 0)),
+          clientSecret: S.optional(__S(2752, __c86, 0)),
           clientId: S.optional(S.String),
         }),
       ).annotate({ identifier: "EndUserAuthenticationConfigOauth2ClientCredentials" });
@@ -7903,10 +7421,10 @@ function __c91(j: number): any {
       return S.suspend(() =>
         S.Struct({
           clientId: S.optional(S.String),
-          scopes: S.optional(__S(2400, __c75, 0)),
-          clientSecret: S.optional(__S(2912, __c91, 0)),
+          scopes: S.optional(__S(2240, __c70, 0)),
+          clientSecret: S.optional(__S(2752, __c86, 0)),
           pkceVerifier: S.optional(S.String),
-          oauthTokenData: S.optional(__S(2920, __c91, 8)),
+          oauthTokenData: S.optional(__S(2760, __c86, 8)),
           authUri: S.optional(S.String),
           enablePkce: S.optional(S.Boolean),
           authCode: S.optional(S.String),
@@ -7917,7 +7435,7 @@ function __c91(j: number): any {
       return S.suspend(() =>
         S.Struct({
           username: S.optional(S.String),
-          password: S.optional(__S(2912, __c91, 0)),
+          password: S.optional(__S(2752, __c86, 0)),
         }),
       ).annotate({ identifier: "EndUserAuthenticationConfigUserPassword" });
     case 13:
@@ -7931,27 +7449,43 @@ function __c91(j: number): any {
     case 14:
       return S.suspend(() =>
         S.Struct({
-          clientKey: S.optional(__S(2912, __c91, 0)),
-          jwtClaims: S.optional(__S(2925, __c91, 13)),
+          clientKey: S.optional(__S(2752, __c86, 0)),
+          jwtClaims: S.optional(__S(2765, __c86, 13)),
         }),
       ).annotate({ identifier: "EndUserAuthenticationConfigOauth2JwtBearer" });
     case 15:
       return S.suspend(() =>
         S.Struct({
           authKey: S.optional(S.String),
-          additionalVariables: S.optional(__S(2914, __c91, 2)),
-          sshPublicKey: S.optional(__S(2919, __c91, 7)),
-          oauth2AuthCodeFlowGoogleManaged: S.optional(__S(2921, __c91, 9)),
-          oauth2ClientCredentials: S.optional(__S(2922, __c91, 10)),
-          oauth2AuthCodeFlow: S.optional(__S(2923, __c91, 11)),
+          additionalVariables: S.optional(__S(2754, __c86, 2)),
+          sshPublicKey: S.optional(__S(2759, __c86, 7)),
+          oauth2AuthCodeFlowGoogleManaged: S.optional(__S(2761, __c86, 9)),
+          oauth2ClientCredentials: S.optional(__S(2762, __c86, 10)),
+          oauth2AuthCodeFlow: S.optional(__S(2763, __c86, 11)),
           authType: S.optional(S.String),
-          userPassword: S.optional(__S(2924, __c91, 12)),
-          oauth2JwtBearer: S.optional(__S(2926, __c91, 14)),
+          userPassword: S.optional(__S(2764, __c86, 12)),
+          oauth2JwtBearer: S.optional(__S(2766, __c86, 14)),
         }),
       ).annotate({ identifier: "EndUserAuthenticationConfig" });
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          configVariables: S.optional(__S(2754, __c86, 2)),
+          notifyEndpointDestination: S.optional(__S(2758, __c86, 6)),
+          destinationConfigs: S.optional(__S(2083, __c65, 3)),
+          name: S.optional(S.String),
+          status: S.optional(__S(2112, __c66, 0)),
+          labels: S.optional(__S(2240, __c70, 0)),
+          updateTime: S.optional(S.String),
+          endUserAuthenticationConfig: S.optional(__S(2767, __c86, 15)),
+          userId: S.optional(S.String),
+          roles: S.optional(__S(2720, __c85, 0)),
+          createTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "EndUserAuthentication" });
   }
 }
-function __c92(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7969,18 +7503,18 @@ function __c92(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsProvidersConnectorsRequest" });
     case 1:
-      return S.Array(__S(1442, __c45, 2));
+      return S.Array(__S(1250, __c39, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(2400, __c75, 0)),
-          connectors: S.optional(__S(2945, __c92, 1)),
+          unreachable: S.optional(__S(2240, __c70, 0)),
+          connectors: S.optional(__S(2785, __c87, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListConnectorsResponse" });
   }
 }
-function __c93(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7998,18 +7532,18 @@ function __c93(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsProvidersConnectorsVersionsRequest" });
     case 1:
-      return S.Array(__S(1585, __c49, 17));
+      return S.Array(__S(1393, __c43, 17));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(2400, __c75, 0)),
-          connectorVersions: S.optional(__S(2977, __c93, 1)),
+          unreachable: S.optional(__S(2240, __c70, 0)),
+          connectorVersions: S.optional(__S(2817, __c88, 1)),
         }),
       ).annotate({ identifier: "ListConnectorVersionsResponse" });
   }
 }
-function __c94(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8028,24 +7562,26 @@ function __c94(j: number): any {
         identifier: "ListProjectsLocationsProvidersConnectorsVersionsEventtypesRequest",
       });
     case 1:
-      return S.Array(__S(1632, __c51, 0));
+      return S.Array(__S(1440, __c45, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          eventTypes: S.optional(__S(3009, __c94, 1)),
+          eventTypes: S.optional(__S(2849, __c89, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListEventTypesResponse" });
   }
 }
-function __c95(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          toolspecOverride: S.optional(__S(544, __c17, 0)),
-        }).pipe(
+        S.Extend(
+          __S(577, __c18, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:modifyToolspecOverride",
@@ -8056,54 +7592,22 @@ function __c95(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          toolspecOverrides: S.optional(__S(544, __c17, 0)),
+          toolspecOverrides: S.optional(__S(576, __c18, 0)),
         }),
       ).annotate({ identifier: "ModifyConnectionToolspecOverrideResponse" });
   }
 }
-function __c96(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          status: S.optional(__S(2208, __c69, 0)),
-          trafficShapingConfigs: S.optional(__S(2210, __c69, 2)),
-          serviceAccount: S.optional(S.String),
-          eventingRuntimeData: S.optional(__S(2214, __c69, 6)),
-          envoyImageLocation: S.optional(S.String),
-          billingConfig: S.optional(__S(2215, __c69, 7)),
-          subscriptionType: S.optional(S.String),
-          connectorVersionLaunchStage: S.optional(S.String),
-          sslConfig: S.optional(__S(2216, __c69, 8)),
-          description: S.optional(S.String),
-          authConfig: S.optional(__S(2151, __c67, 7)),
-          labels: S.optional(__S(2496, __c78, 0)),
-          serviceDirectory: S.optional(S.String),
-          connectorVersion: S.optional(S.String),
-          nodeConfig: S.optional(__S(2217, __c69, 9)),
-          fallbackOnAdminCredentials: S.optional(S.Boolean),
-          euaOauthAuthConfig: S.optional(__S(2151, __c67, 7)),
-          eventingEnablementType: S.optional(S.String),
-          configVariables: S.optional(__S(2466, __c77, 2)),
-          createTime: S.optional(S.String),
-          tlsServiceDirectory: S.optional(S.String),
-          eventingConfig: S.optional(__S(2220, __c69, 12)),
-          adminFilters: S.optional(__S(2223, __c69, 15)),
-          lockConfig: S.optional(__S(2224, __c69, 16)),
-          suspended: S.optional(S.Boolean),
-          host: S.optional(S.String),
-          isTrustedTester: S.optional(S.Boolean),
-          authOverrideEnabled: S.optional(S.Boolean),
-          logConfig: S.optional(__S(2225, __c69, 17)),
-          connectorVersionInfraConfig: S.optional(__S(2226, __c69, 18)),
-          connectionRevision: S.optional(S.String),
-          imageLocation: S.optional(S.String),
-          destinationConfigs: S.optional(__S(2243, __c70, 3)),
-          updateTime: S.optional(S.String),
-          asyncOperationsEnabled: S.optional(S.Boolean),
-        }).pipe(
+        S.Extend(
+          __S(2067, __c64, 19),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -8113,24 +7617,17 @@ function __c96(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsConnectionsRequest" });
   }
 }
-function __c97(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          configVariables: S.optional(__S(2914, __c91, 2)),
-          notifyEndpointDestination: S.optional(__S(2918, __c91, 6)),
-          destinationConfigs: S.optional(__S(2243, __c70, 3)),
-          status: S.optional(__S(2272, __c71, 0)),
-          labels: S.optional(__S(2400, __c75, 0)),
-          updateTime: S.optional(S.String),
-          endUserAuthenticationConfig: S.optional(__S(2927, __c91, 15)),
-          userId: S.optional(S.String),
-          roles: S.optional(__S(2880, __c90, 0)),
-          createTime: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(2768, __c86, 16),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -8140,24 +7637,17 @@ function __c97(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsConnectionsEndUserAuthenticationsRequest" });
   }
 }
-function __c98(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          createTime: S.optional(S.String),
-          subscriber: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          destinations: S.optional(__S(3300, __c103, 4)),
-          filter: S.optional(S.String),
-          eventTypeId: S.optional(S.String),
-          subscriberLink: S.optional(S.String),
-          jms: S.optional(__S(3301, __c103, 5)),
-          triggerConfigVariables: S.optional(__S(2466, __c77, 2)),
-          status: S.optional(__S(2272, __c71, 0)),
-        }).pipe(
+        S.Extend(
+          __S(3142, __c98, 6),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -8167,22 +7657,17 @@ function __c98(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsConnectionsEventSubscriptionsRequest" });
   }
 }
-function __c99(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          endpointIp: S.optional(S.String),
-          state: S.optional(S.String),
-          serviceAttachment: S.optional(S.String),
-          endpointGlobalAccess: S.optional(S.Boolean),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          labels: S.optional(__S(2496, __c78, 0)),
-          description: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(3584, __c112, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -8192,25 +7677,17 @@ function __c99(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsEndpointAttachmentsRequest" });
   }
 }
-function __c100(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          publishedMarketplaceVersions: S.optional(__S(2400, __c75, 0)),
-          displayName: S.optional(S.String),
-          labels: S.optional(__S(2496, __c78, 0)),
-          logo: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          allMarketplaceVersions: S.optional(__S(2400, __c75, 0)),
-          createTime: S.optional(S.String),
-          activeConnectorVersions: S.optional(__S(2400, __c75, 0)),
-          customConnectorType: S.optional(S.String),
-          allConnectorVersions: S.optional(__S(2400, __c75, 0)),
-          description: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(3776, __c118, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -8220,21 +7697,17 @@ function __c100(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsGlobalCustomConnectorsRequest" });
   }
 }
-function __c101(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          labels: S.optional(__S(2496, __c78, 0)),
-          description: S.optional(S.String),
-          targetVpc: S.optional(S.String),
-          createTime: S.optional(S.String),
-          dns: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          targetProject: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(160, __c5, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -8244,25 +7717,17 @@ function __c101(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsGlobalManagedZonesRequest" });
   }
 }
-function __c102(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          eventSubscriptionId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          createTime: S.optional(S.String),
-          subscriber: S.optional(S.String),
-          name: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          destinations: S.optional(__S(3300, __c103, 4)),
-          filter: S.optional(S.String),
-          eventTypeId: S.optional(S.String),
-          subscriberLink: S.optional(S.String),
-          jms: S.optional(__S(3301, __c103, 5)),
-          triggerConfigVariables: S.optional(__S(2466, __c77, 2)),
-          status: S.optional(__S(2272, __c71, 0)),
-        }).pipe(
+        S.Extend(
+          __S(3142, __c98, 6),
+          S.Struct({
+            eventSubscriptionId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/eventSubscriptions",
@@ -8272,7 +7737,7 @@ function __c102(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsConnectionsEventSubscriptionsRequest" });
   }
 }
-function __c103(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8282,29 +7747,29 @@ function __c103(j: number): any {
         }),
       ).annotate({ identifier: "Header" });
     case 1:
-      return S.Array(__S(3296, __c103, 0));
+      return S.Array(__S(3136, __c98, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           endpointUri: S.optional(S.String),
-          headers: S.optional(__S(3297, __c103, 1)),
+          headers: S.optional(__S(3137, __c98, 1)),
         }),
       ).annotate({ identifier: "EndPoint" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          attributes: S.optional(__S(2496, __c78, 0)),
+          attributes: S.optional(__S(2336, __c73, 0)),
           projectId: S.optional(S.String),
-          configVariables: S.optional(__S(2466, __c77, 2)),
+          configVariables: S.optional(__S(2306, __c72, 2)),
           topicId: S.optional(S.String),
         }),
       ).annotate({ identifier: "PubSub" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          endpoint: S.optional(__S(3298, __c103, 2)),
+          endpoint: S.optional(__S(3138, __c98, 2)),
           type: S.optional(S.String),
-          pubsub: S.optional(__S(3299, __c103, 3)),
+          pubsub: S.optional(__S(3139, __c98, 3)),
           serviceAccount: S.optional(S.String),
         }),
       ).annotate({ identifier: "EventSubscriptionDestination" });
@@ -8315,16 +7780,40 @@ function __c103(j: number): any {
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "JMS" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          createTime: S.optional(S.String),
+          subscriber: S.optional(S.String),
+          name: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          destinations: S.optional(__S(3140, __c98, 4)),
+          filter: S.optional(S.String),
+          eventTypeId: S.optional(S.String),
+          subscriberLink: S.optional(S.String),
+          jms: S.optional(__S(3141, __c98, 5)),
+          triggerConfigVariables: S.optional(__S(2306, __c72, 2)),
+          status: S.optional(__S(2112, __c66, 0)),
+        }),
+      ).annotate({ identifier: "EventSubscription" });
   }
 }
-function __c104(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           partnerMetadata: S.optional(__S(96, __c3, 0)),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "PublishCustomConnectorVersionRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(3168, __c99, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:publish",
@@ -8336,13 +7825,13 @@ function __c104(j: number): any {
       });
   }
 }
-function __c105(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1504, __c47, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(1312, __c41, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -8355,13 +7844,13 @@ function __c105(j: number): any {
       });
   }
 }
-function __c106(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1504, __c47, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(1312, __c41, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -8372,13 +7861,13 @@ function __c106(j: number): any {
       ).annotate({ identifier: "RemoveToolspecOverrideProjectsLocationsConnectionsRequest" });
   }
 }
-function __c107(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1504, __c47, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(1312, __c41, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -8389,13 +7878,13 @@ function __c107(j: number): any {
       ).annotate({ identifier: "RepairEventingProjectsLocationsConnectionsRequest" });
   }
 }
-function __c108(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1504, __c47, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(1312, __c41, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -8406,7 +7895,7 @@ function __c108(j: number): any {
       ).annotate({ identifier: "RetryProjectsLocationsConnectionsEventSubscriptionsRequest" });
   }
 }
-function __c109(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8426,32 +7915,33 @@ function __c109(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          entitySchema: S.optional(__S(2018, __c63, 2)),
-          actionSchema: S.optional(__S(1892, __c59, 4)),
-          connection: S.optional(__S(896, __c28, 0)),
+          entitySchema: S.optional(__S(1858, __c58, 2)),
+          actionSchema: S.optional(__S(1732, __c54, 4)),
+          connection: S.optional(__S(2067, __c64, 19)),
         }),
       ).annotate({ identifier: "SearchConnectionInstance" });
     case 2:
-      return S.Array(__S(3489, __c109, 1));
+      return S.Array(__S(3329, __c104, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          connections: S.optional(__S(3490, __c109, 2)),
-          unreachable: S.optional(__S(2400, __c75, 0)),
+          connections: S.optional(__S(3330, __c104, 2)),
+          unreachable: S.optional(__S(2240, __c70, 0)),
         }),
       ).annotate({ identifier: "SearchConnectionsResponse" });
   }
 }
-function __c110(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          policy: S.optional(__S(743, __c23, 7)),
-          updateMask: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(3392, __c106, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -8461,15 +7951,27 @@ function __c110(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsLocationsConnectionsRequest" });
   }
 }
-function __c111(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          resource: S.String.pipe(T.Label()),
-          policy: S.optional(__S(743, __c23, 7)),
+          policy: S.optional(__S(775, __c24, 7)),
           updateMask: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "SetIamPolicyRequest" });
+  }
+}
+function __c107(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(3392, __c106, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -8479,14 +7981,16 @@ function __c111(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsLocationsProvidersRequest" });
   }
 }
-function __c112(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          permissions: S.optional(__S(2400, __c75, 0)),
-        }).pipe(
+        S.Extend(
+          __S(3488, __c109, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -8496,24 +8000,26 @@ function __c112(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsLocationsConnectionsRequest" });
   }
 }
-function __c113(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          permissions: S.optional(__S(2400, __c75, 0)),
+          permissions: S.optional(__S(2240, __c70, 0)),
         }),
-      ).annotate({ identifier: "TestIamPermissionsResponse" });
+      ).annotate({ identifier: "TestIamPermissionsRequest" });
   }
 }
-function __c114(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          permissions: S.optional(__S(2400, __c75, 0)),
-        }).pipe(
+        S.Extend(
+          __S(3488, __c109, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -8523,23 +8029,17 @@ function __c114(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsLocationsProvidersRequest" });
   }
 }
-function __c115(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          endpointAttachmentId: S.optional(S.String.pipe(T.Query())),
-          name: S.optional(S.String),
-          endpointIp: S.optional(S.String),
-          state: S.optional(S.String),
-          serviceAttachment: S.optional(S.String),
-          endpointGlobalAccess: S.optional(S.Boolean),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          labels: S.optional(__S(2496, __c78, 0)),
-          description: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(3584, __c112, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            endpointAttachmentId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/endpointAttachments",
@@ -8549,18 +8049,35 @@ function __c115(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsEndpointAttachmentsRequest" });
   }
 }
-function __c116(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          client: S.optional(S.String),
-          provisioned: S.optional(S.Boolean),
-          encryptionConfig: S.optional(__S(1696, __c53, 0)),
-          networkConfig: S.optional(__S(1697, __c53, 1)),
-        }).pipe(
+          name: S.optional(S.String),
+          endpointIp: S.optional(S.String),
+          state: S.optional(S.String),
+          serviceAttachment: S.optional(S.String),
+          endpointGlobalAccess: S.optional(S.Boolean),
+          createTime: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          labels: S.optional(__S(2336, __c73, 0)),
+          description: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "EndpointAttachment" });
+  }
+}
+function __c113(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(1506, __c47, 2),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -8570,17 +8087,17 @@ function __c116(j: number): any {
       ).annotate({ identifier: "UpdateRegionalSettingsProjectsLocationsRequest" });
   }
 }
-function __c117(j: number): any {
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          payg: S.optional(S.Boolean),
-          vpcsc: S.optional(S.Boolean),
-          tenantProjectId: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1600, __c50, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -8590,16 +8107,24 @@ function __c117(j: number): any {
       ).annotate({ identifier: "UpdateSettingsProjectsLocationsGlobalRequest" });
   }
 }
-function __c118(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
           specLocation: S.optional(S.String),
           serviceAccount: S.optional(S.String),
           specType: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "ValidateCustomConnectorSpecRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(3680, __c115, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/customConnectors:validateCustomConnectorSpec",
@@ -8609,7 +8134,7 @@ function __c118(j: number): any {
       ).annotate({
         identifier: "ValidateCustomConnectorSpecProjectsLocationsCustomConnectorsRequest",
       });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           errorMessage: S.optional(S.String),
@@ -8617,13 +8142,13 @@ function __c118(j: number): any {
       ).annotate({ identifier: "ValidateCustomConnectorSpecResponse" });
   }
 }
-function __c119(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1504, __c47, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(1312, __c41, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -8636,26 +8161,17 @@ function __c119(j: number): any {
       });
   }
 }
-function __c120(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          customConnectorId: S.optional(S.String.pipe(T.Query())),
-          publishedMarketplaceVersions: S.optional(__S(2400, __c75, 0)),
-          displayName: S.optional(S.String),
-          labels: S.optional(__S(2496, __c78, 0)),
-          logo: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          allMarketplaceVersions: S.optional(__S(2400, __c75, 0)),
-          createTime: S.optional(S.String),
-          activeConnectorVersions: S.optional(__S(2400, __c75, 0)),
-          customConnectorType: S.optional(S.String),
-          allConnectorVersions: S.optional(__S(2400, __c75, 0)),
-          description: S.optional(S.String),
-          name: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(3776, __c118, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            customConnectorId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/customConnectors",
@@ -8663,6 +8179,27 @@ function __c120(j: number): any {
           }),
         ),
       ).annotate({ identifier: "CreateProjectsLocationsGlobalCustomConnectorsRequest" });
+  }
+}
+function __c118(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          publishedMarketplaceVersions: S.optional(__S(2240, __c70, 0)),
+          displayName: S.optional(S.String),
+          labels: S.optional(__S(2336, __c73, 0)),
+          logo: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          allMarketplaceVersions: S.optional(__S(2240, __c70, 0)),
+          createTime: S.optional(S.String),
+          activeConnectorVersions: S.optional(__S(2240, __c70, 0)),
+          customConnectorType: S.optional(S.String),
+          allConnectorVersions: S.optional(__S(2240, __c70, 0)),
+          description: S.optional(S.String),
+          name: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CustomConnector" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

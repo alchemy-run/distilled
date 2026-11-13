@@ -434,17 +434,8 @@ export interface WorkdayProfile {
   /** Required. Host for the Workday connection. Must be a valid hostname (e.g., `wd3-impl-services1.workday.com`). */
   host?: string | undefined;
 }
-export interface CreateProjectsLocationsConnectionProfilesRequest {
-  /** Optional. Only validate the connection profile, but don't create any resources. The default is false. */
-  validateOnly?: boolean | undefined;
-  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Required. The connection profile identifier. */
-  connectionProfileId?: string | undefined;
-  /** Required. The parent that owns the collection of ConnectionProfiles. */
-  parent: string;
-  /** Optional. Create the connection profile without validating it. */
-  force?: boolean | undefined;
+/** A set of reusable connection configurations to be used as a source or destination for a stream. */
+export interface ConnectionProfile {
   /** Profile for connecting to an Oracle source. */
   oracleProfile?: OracleProfile | undefined;
   /** Output only. The update time of the resource. */
@@ -491,6 +482,18 @@ export interface CreateProjectsLocationsConnectionProfilesRequest {
   satisfiesPzi?: boolean | undefined;
   /** Output only. Identifier. The resource's name. */
   name?: string | undefined;
+}
+export interface CreateProjectsLocationsConnectionProfilesRequest extends ConnectionProfile {
+  /** Optional. Only validate the connection profile, but don't create any resources. The default is false. */
+  validateOnly?: boolean | undefined;
+  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+  /** Required. The connection profile identifier. */
+  connectionProfileId?: string | undefined;
+  /** Required. The parent that owns the collection of ConnectionProfiles. */
+  parent: string;
+  /** Optional. Create the connection profile without validating it. */
+  force?: boolean | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -548,17 +551,8 @@ export type PrivateConnectionStateEnum =
   | "FAILED"
   | "DELETING"
   | "FAILED_TO_DELETE";
-export interface CreateProjectsLocationsPrivateConnectionsRequest {
-  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Required. The parent that owns the collection of PrivateConnections. */
-  parent: string;
-  /** Optional. If set to true, will skip validations. */
-  force?: boolean | undefined;
-  /** Required. The private connectivity identifier. */
-  privateConnectionId?: string | undefined;
-  /** Optional. When supplied with PSC Interface config, will get/create the tenant project required for the customer to allow list and won't actually create the private connection. */
-  validateOnly?: boolean | undefined;
+/** The PrivateConnection resource is used to establish private connectivity between Datastream and a customer's network. */
+export interface PrivateConnection {
   /** Labels. */
   labels?: StringMap | undefined;
   /** Output only. In case of error, the details of the error in a user-friendly format. */
@@ -582,13 +576,20 @@ export interface CreateProjectsLocationsPrivateConnectionsRequest {
   /** Output only. The state of the Private Connection. */
   state?: PrivateConnectionStateEnum | (string & {}) | undefined;
 }
-export interface CreateProjectsLocationsPrivateConnectionsRoutesRequest {
+export interface CreateProjectsLocationsPrivateConnectionsRequest extends PrivateConnection {
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Required. The Route identifier. */
-  routeId?: string | undefined;
-  /** Required. The parent that owns the collection of Routes. */
+  /** Required. The parent that owns the collection of PrivateConnections. */
   parent: string;
+  /** Optional. If set to true, will skip validations. */
+  force?: boolean | undefined;
+  /** Required. The private connectivity identifier. */
+  privateConnectionId?: string | undefined;
+  /** Optional. When supplied with PSC Interface config, will get/create the tenant project required for the customer to allow list and won't actually create the private connection. */
+  validateOnly?: boolean | undefined;
+}
+/** The route resource is the child of the private connection resource, used for defining a route for a private connection. */
+export interface Route {
   /** Output only. The update time of the resource. */
   updateTime?: string | undefined;
   /** Output only. Identifier. The resource's name. */
@@ -603,6 +604,14 @@ export interface CreateProjectsLocationsPrivateConnectionsRoutesRequest {
   displayName?: string | undefined;
   /** Destination port for connection */
   destinationPort?: number | undefined;
+}
+export interface CreateProjectsLocationsPrivateConnectionsRoutesRequest extends Route {
+  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+  /** Required. The Route identifier. */
+  routeId?: string | undefined;
+  /** Required. The parent that owns the collection of Routes. */
+  parent: string;
 }
 /** Source property. */
 export interface SourceProperty {
@@ -1350,17 +1359,8 @@ export type StreamStateEnum =
   | "FAILED_PERMANENTLY"
   | "STARTING"
   | "DRAINING";
-export interface CreateProjectsLocationsStreamsRequest {
-  /** Optional. Create the stream without validating it. */
-  force?: boolean | undefined;
-  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Optional. Only validate the stream, but don't create any resources. The default is false. */
-  validateOnly?: boolean | undefined;
-  /** Required. The parent that owns the collection of streams. */
-  parent: string;
-  /** Required. The stream identifier. */
-  streamId?: string | undefined;
+/** A resource representing streaming data from a source to a destination. */
+export interface Stream {
   /** Labels. */
   labels?: StringMap | undefined;
   /** Output only. The last update time of the stream. */
@@ -1394,6 +1394,18 @@ export interface CreateProjectsLocationsStreamsRequest {
   /** The state of the stream. */
   state?: StreamStateEnum | (string & {}) | undefined;
 }
+export interface CreateProjectsLocationsStreamsRequest extends Stream {
+  /** Optional. Create the stream without validating it. */
+  force?: boolean | undefined;
+  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+  /** Optional. Only validate the stream, but don't create any resources. The default is false. */
+  validateOnly?: boolean | undefined;
+  /** Required. The parent that owns the collection of streams. */
+  parent: string;
+  /** Required. The stream identifier. */
+  streamId?: string | undefined;
+}
 export interface DeleteProjectsLocationsConnectionProfilesRequest {
   /** Required. The name of the connection profile resource to delete. */
   name: string;
@@ -1424,58 +1436,8 @@ export interface DeleteProjectsLocationsStreamsRequest {
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
 }
-/** A set of reusable connection configurations to be used as a source or destination for a stream. */
-export interface ConnectionProfile {
-  /** Profile for connecting to an Oracle source. */
-  oracleProfile?: OracleProfile | undefined;
-  /** Output only. The update time of the resource. */
-  updateTime?: string | undefined;
-  /** Profile for connecting to a Dataverse source. */
-  dataverseProfile?: DataverseProfile | undefined;
-  /** Profile for connecting to a MySQL source. */
-  mysqlProfile?: MysqlProfile | undefined;
-  /** Static Service IP connectivity. */
-  staticServiceIpConnectivity?: CancelOperationRequest | undefined;
-  /** Profile for connecting to a Cloud Storage destination. */
-  gcsProfile?: GcsProfile | undefined;
-  /** Profile for connecting to a PostgreSQL source. */
-  postgresqlProfile?: PostgresqlProfile | undefined;
-  /** Profile for connecting to a ServiceNow source. */
-  serviceNowProfile?: ServiceNowProfile | undefined;
-  /** Required. Display name. */
-  displayName?: string | undefined;
-  /** Output only. The create time of the resource. */
-  createTime?: string | undefined;
-  /** Profile for connecting to a Salesforce Marketing Cloud source. */
-  salesforceMarketingCloudProfile?: SalesforceMarketingCloudProfile | undefined;
-  /** Profile for connecting to a Spanner source. */
-  spannerProfile?: SpannerProfile | undefined;
-  /** Private connectivity. */
-  privateConnectivity?: PrivateConnectivity | undefined;
-  /** Profile for connecting to a SQLServer source. */
-  sqlServerProfile?: SqlServerProfile | undefined;
-  /** Output only. Reserved for future use. */
-  satisfiesPzs?: boolean | undefined;
-  /** Labels. */
-  labels?: StringMap | undefined;
-  /** Profile for connecting to a BigQuery destination. */
-  bigqueryProfile?: CancelOperationRequest | undefined;
-  /** Forward SSH tunnel connectivity. */
-  forwardSshConnectivity?: ForwardSshTunnelConnectivity | undefined;
-  /** Profile for connecting to a Salesforce source. */
-  salesforceProfile?: SalesforceProfile | undefined;
-  /** Profile for connecting to a MongoDB source. */
-  mongodbProfile?: MongodbProfile | undefined;
-  /** Optional. Profile for connecting to a Workday source. */
-  workdayProfile?: WorkdayProfile | undefined;
-  /** Output only. Reserved for future use. */
-  satisfiesPzi?: boolean | undefined;
-  /** Output only. Identifier. The resource's name. */
-  name?: string | undefined;
-}
-export interface DiscoverProjectsLocationsConnectionProfilesRequest {
-  /** Required. The parent resource of the connection profile type. Must be in the format `projects/*\/locations/*`. */
-  parent: string;
+/** Request message for 'discover' ConnectionProfile request. */
+export interface DiscoverConnectionProfileRequest {
   /** Optional. SQLServer RDBMS to enrich with child data objects and metadata. */
   sqlServerRdbms?: SqlServerRdbms | undefined;
   /** Optional. An ad-hoc connection profile configuration. */
@@ -1500,6 +1462,10 @@ export interface DiscoverProjectsLocationsConnectionProfilesRequest {
   mongodbCluster?: MongodbCluster | undefined;
   /** Optional. The number of hierarchy levels below the current level to be retrieved. */
   hierarchyDepth?: number | undefined;
+}
+export interface DiscoverProjectsLocationsConnectionProfilesRequest extends DiscoverConnectionProfileRequest {
+  /** Required. The parent resource of the connection profile type. Must be in the format `projects/*\/locations/*`. */
+  parent: string;
 }
 /** Response from a discover request. */
 export interface DiscoverConnectionProfileResponse {
@@ -1564,90 +1530,13 @@ export interface GetProjectsLocationsPrivateConnectionsRequest {
   /** Required. The name of the private connectivity configuration to get. */
   name: string;
 }
-/** The PrivateConnection resource is used to establish private connectivity between Datastream and a customer's network. */
-export interface PrivateConnection {
-  /** Labels. */
-  labels?: StringMap | undefined;
-  /** Output only. In case of error, the details of the error in a user-friendly format. */
-  error?: Datastream_Error | undefined;
-  /** Output only. The create time of the resource. */
-  createTime?: string | undefined;
-  /** Required. Display name. */
-  displayName?: string | undefined;
-  /** Output only. Reserved for future use. */
-  satisfiesPzs?: boolean | undefined;
-  /** VPC Peering Config. */
-  vpcPeeringConfig?: VpcPeeringConfig | undefined;
-  /** PSC Interface Config. */
-  pscInterfaceConfig?: PscInterfaceConfig | undefined;
-  /** Output only. Reserved for future use. */
-  satisfiesPzi?: boolean | undefined;
-  /** Output only. The update time of the resource. */
-  updateTime?: string | undefined;
-  /** Output only. Identifier. The resource's name. */
-  name?: string | undefined;
-  /** Output only. The state of the Private Connection. */
-  state?: PrivateConnectionStateEnum | undefined;
-}
 export interface GetProjectsLocationsPrivateConnectionsRoutesRequest {
   /** Required. The name of the Route resource to get. */
   name: string;
 }
-/** The route resource is the child of the private connection resource, used for defining a route for a private connection. */
-export interface Route {
-  /** Output only. The update time of the resource. */
-  updateTime?: string | undefined;
-  /** Output only. Identifier. The resource's name. */
-  name?: string | undefined;
-  /** Output only. The create time of the resource. */
-  createTime?: string | undefined;
-  /** Required. Destination address for connection */
-  destinationAddress?: string | undefined;
-  /** Labels. */
-  labels?: StringMap | undefined;
-  /** Required. Display name. */
-  displayName?: string | undefined;
-  /** Destination port for connection */
-  destinationPort?: number | undefined;
-}
 export interface GetProjectsLocationsStreamsRequest {
   /** Required. The name of the stream resource to get. */
   name: string;
-}
-/** A resource representing streaming data from a source to a destination. */
-export interface Stream {
-  /** Labels. */
-  labels?: StringMap | undefined;
-  /** Output only. The last update time of the stream. */
-  updateTime?: string | undefined;
-  /** Output only. The creation time of the stream. */
-  createTime?: string | undefined;
-  /** Output only. If the stream was recovered, the time of the last recovery. Note: This field is currently experimental. */
-  lastRecoveryTime?: string | undefined;
-  /** Immutable. A reference to a KMS encryption key. If provided, it will be used to encrypt the data. If left blank, data will be encrypted using an internal Stream-specific encryption key provisioned through KMS. */
-  customerManagedEncryptionKey?: string | undefined;
-  /** Automatically backfill objects included in the stream source configuration. Specific objects can be excluded. */
-  backfillAll?: BackfillAllStrategy | undefined;
-  /** Optional. Rule sets to apply to the stream. */
-  ruleSets?: RuleSetList | undefined;
-  /** Required. Source connection profile configuration. */
-  sourceConfig?: SourceConfig | undefined;
-  /** Required. Destination connection profile configuration. */
-  destinationConfig?: DestinationConfig | undefined;
-  /** Do not automatically backfill any objects. */
-  backfillNone?: CancelOperationRequest | undefined;
-  /** Output only. Reserved for future use. */
-  satisfiesPzi?: boolean | undefined;
-  /** Required. Display name. */
-  displayName?: string | undefined;
-  /** Output only. Errors on the Stream. */
-  errors?: Datastream_ErrorList | undefined;
-  /** Output only. Identifier. The stream's name. */
-  name?: string | undefined;
-  /** Output only. Reserved for future use. */
-  satisfiesPzs?: boolean | undefined;
-  /** The state of the stream. */
-  state?: StreamStateEnum | undefined;
 }
 export interface GetProjectsLocationsStreamsObjectsRequest {
   /** Required. The name of the stream object resource to get. */
@@ -1848,13 +1737,19 @@ export interface ListStreamObjectsResponse {
   /** A token, which can be sent as `page_token` to retrieve the next page. */
   nextPageToken?: string | undefined;
 }
-export interface LookupProjectsLocationsStreamsObjectsRequest {
-  /** Required. The parent stream that owns the collection of objects. */
-  parent: string;
+/** Request for looking up a specific stream object by its source object identifier. */
+export interface LookupStreamObjectRequest {
   /** Required. The source object identifier which maps to the stream object. */
   sourceObjectIdentifier?: SourceObjectIdentifier | undefined;
 }
-export interface PatchProjectsLocationsConnectionProfilesRequest {
+export interface LookupProjectsLocationsStreamsObjectsRequest extends LookupStreamObjectRequest {
+  /** Required. The parent stream that owns the collection of objects. */
+  parent: string;
+}
+export interface PatchProjectsLocationsConnectionProfilesRequest extends Omit<
+  ConnectionProfile,
+  "name"
+> {
   /** Optional. Update the connection profile without validating it. */
   force?: boolean | undefined;
   /** Optional. Field mask is used to specify the fields to be overwritten in the ConnectionProfile resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
@@ -1865,52 +1760,8 @@ export interface PatchProjectsLocationsConnectionProfilesRequest {
   requestId?: string | undefined;
   /** Optional. Only validate the connection profile, but don't update any resources. The default is false. */
   validateOnly?: boolean | undefined;
-  /** Profile for connecting to an Oracle source. */
-  oracleProfile?: OracleProfile | undefined;
-  /** Output only. The update time of the resource. */
-  updateTime?: string | undefined;
-  /** Profile for connecting to a Dataverse source. */
-  dataverseProfile?: DataverseProfile | undefined;
-  /** Profile for connecting to a MySQL source. */
-  mysqlProfile?: MysqlProfile | undefined;
-  /** Static Service IP connectivity. */
-  staticServiceIpConnectivity?: CancelOperationRequest | undefined;
-  /** Profile for connecting to a Cloud Storage destination. */
-  gcsProfile?: GcsProfile | undefined;
-  /** Profile for connecting to a PostgreSQL source. */
-  postgresqlProfile?: PostgresqlProfile | undefined;
-  /** Profile for connecting to a ServiceNow source. */
-  serviceNowProfile?: ServiceNowProfile | undefined;
-  /** Required. Display name. */
-  displayName?: string | undefined;
-  /** Output only. The create time of the resource. */
-  createTime?: string | undefined;
-  /** Profile for connecting to a Salesforce Marketing Cloud source. */
-  salesforceMarketingCloudProfile?: SalesforceMarketingCloudProfile | undefined;
-  /** Profile for connecting to a Spanner source. */
-  spannerProfile?: SpannerProfile | undefined;
-  /** Private connectivity. */
-  privateConnectivity?: PrivateConnectivity | undefined;
-  /** Profile for connecting to a SQLServer source. */
-  sqlServerProfile?: SqlServerProfile | undefined;
-  /** Output only. Reserved for future use. */
-  satisfiesPzs?: boolean | undefined;
-  /** Labels. */
-  labels?: StringMap | undefined;
-  /** Profile for connecting to a BigQuery destination. */
-  bigqueryProfile?: CancelOperationRequest | undefined;
-  /** Forward SSH tunnel connectivity. */
-  forwardSshConnectivity?: ForwardSshTunnelConnectivity | undefined;
-  /** Profile for connecting to a Salesforce source. */
-  salesforceProfile?: SalesforceProfile | undefined;
-  /** Profile for connecting to a MongoDB source. */
-  mongodbProfile?: MongodbProfile | undefined;
-  /** Optional. Profile for connecting to a Workday source. */
-  workdayProfile?: WorkdayProfile | undefined;
-  /** Output only. Reserved for future use. */
-  satisfiesPzi?: boolean | undefined;
 }
-export interface PatchProjectsLocationsStreamsRequest {
+export interface PatchProjectsLocationsStreamsRequest extends Omit<Stream, "name"> {
   /** Optional. Field mask is used to specify the fields to be overwritten in the stream resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
   /** Optional. Update the stream without validating it. */
@@ -1921,36 +1772,6 @@ export interface PatchProjectsLocationsStreamsRequest {
   requestId?: string | undefined;
   /** Output only. Identifier. The stream's name. */
   name: string;
-  /** Labels. */
-  labels?: StringMap | undefined;
-  /** Output only. The last update time of the stream. */
-  updateTime?: string | undefined;
-  /** Output only. The creation time of the stream. */
-  createTime?: string | undefined;
-  /** Output only. If the stream was recovered, the time of the last recovery. Note: This field is currently experimental. */
-  lastRecoveryTime?: string | undefined;
-  /** Immutable. A reference to a KMS encryption key. If provided, it will be used to encrypt the data. If left blank, data will be encrypted using an internal Stream-specific encryption key provisioned through KMS. */
-  customerManagedEncryptionKey?: string | undefined;
-  /** Automatically backfill objects included in the stream source configuration. Specific objects can be excluded. */
-  backfillAll?: BackfillAllStrategy | undefined;
-  /** Optional. Rule sets to apply to the stream. */
-  ruleSets?: RuleSetList | undefined;
-  /** Required. Source connection profile configuration. */
-  sourceConfig?: SourceConfig | undefined;
-  /** Required. Destination connection profile configuration. */
-  destinationConfig?: DestinationConfig | undefined;
-  /** Do not automatically backfill any objects. */
-  backfillNone?: CancelOperationRequest | undefined;
-  /** Output only. Reserved for future use. */
-  satisfiesPzi?: boolean | undefined;
-  /** Required. Display name. */
-  displayName?: string | undefined;
-  /** Output only. Errors on the Stream. */
-  errors?: Datastream_ErrorList | undefined;
-  /** Output only. Reserved for future use. */
-  satisfiesPzs?: boolean | undefined;
-  /** The state of the stream. */
-  state?: StreamStateEnum | (string & {}) | undefined;
 }
 /** MongoDB change stream position */
 export interface MongodbChangeStreamPosition {
@@ -2012,19 +1833,25 @@ export interface CdcStrategy {
   /** Optional. Start replicating from the most recent position in the source. */
   mostRecentStartPosition?: CancelOperationRequest | undefined;
 }
-export interface RunProjectsLocationsStreamsRequest {
-  /** Required. Name of the stream resource to start, in the format: projects/{project_id}/locations/{location}/streams/{stream_name} */
-  name: string;
+/** Request message for running a stream. */
+export interface RunStreamRequest {
   /** Optional. The CDC strategy of the stream. If not set, the system's default value will be used. */
   cdcStrategy?: CdcStrategy | undefined;
   /** Optional. Update the stream without validating it. */
   force?: boolean | undefined;
 }
-export interface StartBackfillJobProjectsLocationsStreamsObjectsRequest {
-  /** Required. The name of the stream object resource to start a backfill job for. */
-  object: string;
+export interface RunProjectsLocationsStreamsRequest extends RunStreamRequest {
+  /** Required. Name of the stream resource to start, in the format: projects/{project_id}/locations/{location}/streams/{stream_name} */
+  name: string;
+}
+/** Request for manually initiating a backfill job for a specific stream object. */
+export interface StartBackfillJobRequest {
   /** Optional. Optional event filter. If not set, or empty, the backfill will be performed on the entire object. This is currently used for partial backfill and only supported for SQL sources. */
   eventFilter?: EventFilter | undefined;
+}
+export interface StartBackfillJobProjectsLocationsStreamsObjectsRequest extends StartBackfillJobRequest {
+  /** Required. The name of the stream object resource to start a backfill job for. */
+  object: string;
 }
 /** Response for manually initiating a backfill job for a specific stream object. */
 export interface StartBackfillJobResponse {
@@ -2057,8 +1884,8 @@ export const cancelProjectsLocationsOperations: API.OperationMethod<
   CancelProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c33, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
-  output: __S(1088, __c34, 0) as any as S.Schema<Empty>,
+  input: __S(928, __c29, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
+  output: __S(960, __c30, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2079,8 +1906,8 @@ export const createProjectsLocationsConnectionProfiles: API.OperationMethod<
   CreateProjectsLocationsConnectionProfilesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c35, 0) as any as S.Schema<CreateProjectsLocationsConnectionProfilesRequest>,
-  output: __S(1250, __c39, 2) as any as S.Schema<Operation>,
+  input: __S(992, __c31, 0) as any as S.Schema<CreateProjectsLocationsConnectionProfilesRequest>,
+  output: __S(1122, __c35, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2101,8 +1928,8 @@ export const createProjectsLocationsPrivateConnections: API.OperationMethod<
   CreateProjectsLocationsPrivateConnectionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1280, __c40, 0) as any as S.Schema<CreateProjectsLocationsPrivateConnectionsRequest>,
-  output: __S(1250, __c39, 2) as any as S.Schema<Operation>,
+  input: __S(1152, __c36, 0) as any as S.Schema<CreateProjectsLocationsPrivateConnectionsRequest>,
+  output: __S(1122, __c35, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2124,11 +1951,11 @@ export const createProjectsLocationsPrivateConnectionsRoutes: API.OperationMetho
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1376,
-    __c43,
+    1248,
+    __c39,
     0,
   ) as any as S.Schema<CreateProjectsLocationsPrivateConnectionsRoutesRequest>,
-  output: __S(1250, __c39, 2) as any as S.Schema<Operation>,
+  output: __S(1122, __c35, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2149,8 +1976,8 @@ export const createProjectsLocationsStreams: API.OperationMethod<
   CreateProjectsLocationsStreamsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c44, 0) as any as S.Schema<CreateProjectsLocationsStreamsRequest>,
-  output: __S(1250, __c39, 2) as any as S.Schema<Operation>,
+  input: __S(1312, __c41, 0) as any as S.Schema<CreateProjectsLocationsStreamsRequest>,
+  output: __S(1122, __c35, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2171,8 +1998,8 @@ export const deleteProjectsLocationsConnectionProfiles: API.OperationMethod<
   DeleteProjectsLocationsConnectionProfilesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1600, __c50, 0) as any as S.Schema<DeleteProjectsLocationsConnectionProfilesRequest>,
-  output: __S(1250, __c39, 2) as any as S.Schema<Operation>,
+  input: __S(1536, __c48, 0) as any as S.Schema<DeleteProjectsLocationsConnectionProfilesRequest>,
+  output: __S(1122, __c35, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2194,7 +2021,7 @@ export const deleteProjectsLocationsOperations: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<DeleteProjectsLocationsOperationsRequest>,
-  output: __S(1088, __c34, 0) as any as S.Schema<Empty>,
+  output: __S(960, __c30, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2216,7 +2043,7 @@ export const deleteProjectsLocationsPrivateConnections: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c1, 0) as any as S.Schema<DeleteProjectsLocationsPrivateConnectionsRequest>,
-  output: __S(1250, __c39, 2) as any as S.Schema<Operation>,
+  output: __S(1122, __c35, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2242,7 +2069,7 @@ export const deleteProjectsLocationsPrivateConnectionsRoutes: API.OperationMetho
     __c2,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsPrivateConnectionsRoutesRequest>,
-  output: __S(1250, __c39, 2) as any as S.Schema<Operation>,
+  output: __S(1122, __c35, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2264,7 +2091,7 @@ export const deleteProjectsLocationsStreams: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c3, 0) as any as S.Schema<DeleteProjectsLocationsStreamsRequest>,
-  output: __S(1250, __c39, 2) as any as S.Schema<Operation>,
+  output: __S(1122, __c35, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2285,8 +2112,8 @@ export const discoverProjectsLocationsConnectionProfiles: API.OperationMethod<
   DiscoverProjectsLocationsConnectionProfilesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c4, 0) as any as S.Schema<DiscoverProjectsLocationsConnectionProfilesRequest>,
-  output: __S(129, __c4, 1) as any as S.Schema<DiscoverConnectionProfileResponse>,
+  input: __S(129, __c4, 1) as any as S.Schema<DiscoverProjectsLocationsConnectionProfilesRequest>,
+  output: __S(130, __c4, 2) as any as S.Schema<DiscoverConnectionProfileResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2303,8 +2130,8 @@ export const fetchStaticIpsProjectsLocations: API.PaginatedOperationMethod<
   GcpOpContext,
   FetchStaticIpsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(192, __c6, 0) as any as S.Schema<FetchStaticIpsProjectsLocationsRequest>,
-  output: __S(193, __c6, 1) as any as S.Schema<FetchStaticIpsResponse>,
+  input: __S(160, __c5, 0) as any as S.Schema<FetchStaticIpsProjectsLocationsRequest>,
+  output: __S(161, __c5, 1) as any as S.Schema<FetchStaticIpsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2321,8 +2148,8 @@ export const getProjectsLocations: API.OperationMethod<
   GetProjectsLocationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c7, 0) as any as S.Schema<GetProjectsLocationsRequest>,
-  output: __S(256, __c8, 0) as any as S.Schema<Location>,
+  input: __S(192, __c6, 0) as any as S.Schema<GetProjectsLocationsRequest>,
+  output: __S(224, __c7, 0) as any as S.Schema<Location>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2338,8 +2165,8 @@ export const getProjectsLocationsConnectionProfiles: API.OperationMethod<
   GetProjectsLocationsConnectionProfilesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c9, 0) as any as S.Schema<GetProjectsLocationsConnectionProfilesRequest>,
-  output: __S(160, __c5, 0) as any as S.Schema<ConnectionProfile>,
+  input: __S(256, __c8, 0) as any as S.Schema<GetProjectsLocationsConnectionProfilesRequest>,
+  output: __S(1055, __c32, 31) as any as S.Schema<ConnectionProfile>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2355,8 +2182,8 @@ export const getProjectsLocationsOperations: API.OperationMethod<
   GetProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c10, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
-  output: __S(1250, __c39, 2) as any as S.Schema<Operation>,
+  input: __S(288, __c9, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
+  output: __S(1122, __c35, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2372,8 +2199,8 @@ export const getProjectsLocationsPrivateConnections: API.OperationMethod<
   GetProjectsLocationsPrivateConnectionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c11, 0) as any as S.Schema<GetProjectsLocationsPrivateConnectionsRequest>,
-  output: __S(384, __c12, 0) as any as S.Schema<PrivateConnection>,
+  input: __S(320, __c10, 0) as any as S.Schema<GetProjectsLocationsPrivateConnectionsRequest>,
+  output: __S(1186, __c37, 2) as any as S.Schema<PrivateConnection>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2389,8 +2216,8 @@ export const getProjectsLocationsPrivateConnectionsRoutes: API.OperationMethod<
   GetProjectsLocationsPrivateConnectionsRoutesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c13, 0) as any as S.Schema<GetProjectsLocationsPrivateConnectionsRoutesRequest>,
-  output: __S(448, __c14, 0) as any as S.Schema<Route>,
+  input: __S(352, __c11, 0) as any as S.Schema<GetProjectsLocationsPrivateConnectionsRoutesRequest>,
+  output: __S(1280, __c40, 0) as any as S.Schema<Route>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2406,8 +2233,8 @@ export const getProjectsLocationsStreams: API.OperationMethod<
   GetProjectsLocationsStreamsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c15, 0) as any as S.Schema<GetProjectsLocationsStreamsRequest>,
-  output: __S(512, __c16, 0) as any as S.Schema<Stream>,
+  input: __S(384, __c12, 0) as any as S.Schema<GetProjectsLocationsStreamsRequest>,
+  output: __S(1530, __c47, 26) as any as S.Schema<Stream>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2423,8 +2250,8 @@ export const getProjectsLocationsStreamsObjects: API.OperationMethod<
   GetProjectsLocationsStreamsObjectsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c17, 0) as any as S.Schema<GetProjectsLocationsStreamsObjectsRequest>,
-  output: __S(578, __c18, 2) as any as S.Schema<StreamObject>,
+  input: __S(416, __c13, 0) as any as S.Schema<GetProjectsLocationsStreamsObjectsRequest>,
+  output: __S(450, __c14, 2) as any as S.Schema<StreamObject>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2441,8 +2268,8 @@ export const listProjectsLocations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListLocationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(608, __c19, 0) as any as S.Schema<ListProjectsLocationsRequest>,
-  output: __S(610, __c19, 2) as any as S.Schema<ListLocationsResponse>,
+  input: __S(480, __c15, 0) as any as S.Schema<ListProjectsLocationsRequest>,
+  output: __S(482, __c15, 2) as any as S.Schema<ListLocationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2460,8 +2287,8 @@ export const listProjectsLocationsConnectionProfiles: API.PaginatedOperationMeth
   GcpOpContext,
   ListConnectionProfilesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(640, __c20, 0) as any as S.Schema<ListProjectsLocationsConnectionProfilesRequest>,
-  output: __S(642, __c20, 2) as any as S.Schema<ListConnectionProfilesResponse>,
+  input: __S(512, __c16, 0) as any as S.Schema<ListProjectsLocationsConnectionProfilesRequest>,
+  output: __S(514, __c16, 2) as any as S.Schema<ListConnectionProfilesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2479,8 +2306,8 @@ export const listProjectsLocationsOperations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListOperationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(672, __c21, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
-  output: __S(674, __c21, 2) as any as S.Schema<ListOperationsResponse>,
+  input: __S(544, __c17, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
+  output: __S(546, __c17, 2) as any as S.Schema<ListOperationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2498,8 +2325,8 @@ export const listProjectsLocationsPrivateConnections: API.PaginatedOperationMeth
   GcpOpContext,
   ListPrivateConnectionsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(704, __c22, 0) as any as S.Schema<ListProjectsLocationsPrivateConnectionsRequest>,
-  output: __S(706, __c22, 2) as any as S.Schema<ListPrivateConnectionsResponse>,
+  input: __S(576, __c18, 0) as any as S.Schema<ListProjectsLocationsPrivateConnectionsRequest>,
+  output: __S(578, __c18, 2) as any as S.Schema<ListPrivateConnectionsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2518,11 +2345,11 @@ export const listProjectsLocationsPrivateConnectionsRoutes: API.PaginatedOperati
   ListRoutesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    736,
-    __c23,
+    608,
+    __c19,
     0,
   ) as any as S.Schema<ListProjectsLocationsPrivateConnectionsRoutesRequest>,
-  output: __S(738, __c23, 2) as any as S.Schema<ListRoutesResponse>,
+  output: __S(610, __c19, 2) as any as S.Schema<ListRoutesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2540,8 +2367,8 @@ export const listProjectsLocationsStreams: API.PaginatedOperationMethod<
   GcpOpContext,
   ListStreamsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(768, __c24, 0) as any as S.Schema<ListProjectsLocationsStreamsRequest>,
-  output: __S(770, __c24, 2) as any as S.Schema<ListStreamsResponse>,
+  input: __S(640, __c20, 0) as any as S.Schema<ListProjectsLocationsStreamsRequest>,
+  output: __S(642, __c20, 2) as any as S.Schema<ListStreamsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2559,8 +2386,8 @@ export const listProjectsLocationsStreamsObjects: API.PaginatedOperationMethod<
   GcpOpContext,
   ListStreamObjectsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(800, __c25, 0) as any as S.Schema<ListProjectsLocationsStreamsObjectsRequest>,
-  output: __S(802, __c25, 2) as any as S.Schema<ListStreamObjectsResponse>,
+  input: __S(672, __c21, 0) as any as S.Schema<ListProjectsLocationsStreamsObjectsRequest>,
+  output: __S(674, __c21, 2) as any as S.Schema<ListStreamObjectsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2582,8 +2409,8 @@ export const lookupProjectsLocationsStreamsObjects: API.OperationMethod<
   LookupProjectsLocationsStreamsObjectsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c26, 0) as any as S.Schema<LookupProjectsLocationsStreamsObjectsRequest>,
-  output: __S(578, __c18, 2) as any as S.Schema<StreamObject>,
+  input: __S(704, __c22, 0) as any as S.Schema<LookupProjectsLocationsStreamsObjectsRequest>,
+  output: __S(450, __c14, 2) as any as S.Schema<StreamObject>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2604,8 +2431,8 @@ export const patchProjectsLocationsConnectionProfiles: API.OperationMethod<
   PatchProjectsLocationsConnectionProfilesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c27, 0) as any as S.Schema<PatchProjectsLocationsConnectionProfilesRequest>,
-  output: __S(1250, __c39, 2) as any as S.Schema<Operation>,
+  input: __S(736, __c23, 0) as any as S.Schema<PatchProjectsLocationsConnectionProfilesRequest>,
+  output: __S(1122, __c35, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2626,8 +2453,8 @@ export const patchProjectsLocationsStreams: API.OperationMethod<
   PatchProjectsLocationsStreamsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c28, 0) as any as S.Schema<PatchProjectsLocationsStreamsRequest>,
-  output: __S(1250, __c39, 2) as any as S.Schema<Operation>,
+  input: __S(768, __c24, 0) as any as S.Schema<PatchProjectsLocationsStreamsRequest>,
+  output: __S(1122, __c35, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2648,8 +2475,8 @@ export const runProjectsLocationsStreams: API.OperationMethod<
   RunProjectsLocationsStreamsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(935, __c29, 7) as any as S.Schema<RunProjectsLocationsStreamsRequest>,
-  output: __S(1250, __c39, 2) as any as S.Schema<Operation>,
+  input: __S(808, __c25, 8) as any as S.Schema<RunProjectsLocationsStreamsRequest>,
+  output: __S(1122, __c35, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2671,11 +2498,11 @@ export const startBackfillJobProjectsLocationsStreamsObjects: API.OperationMetho
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    960,
-    __c30,
-    0,
+    833,
+    __c26,
+    1,
   ) as any as S.Schema<StartBackfillJobProjectsLocationsStreamsObjectsRequest>,
-  output: __S(992, __c31, 0) as any as S.Schema<StartBackfillJobResponse>,
+  output: __S(864, __c27, 0) as any as S.Schema<StartBackfillJobResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2697,11 +2524,11 @@ export const stopBackfillJobProjectsLocationsStreamsObjects: API.OperationMethod
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1024,
-    __c32,
+    896,
+    __c28,
     0,
   ) as any as S.Schema<StopBackfillJobProjectsLocationsStreamsObjectsRequest>,
-  output: __S(992, __c31, 0) as any as S.Schema<StopBackfillJobResponse>,
+  output: __S(864, __c27, 0) as any as S.Schema<StopBackfillJobResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2783,20 +2610,28 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
-          sqlServerRdbms: S.optional(__S(1472, __c46, 0)),
-          connectionProfile: S.optional(__S(160, __c5, 0)),
+          sqlServerRdbms: S.optional(__S(1376, __c43, 0)),
+          connectionProfile: S.optional(__S(1055, __c32, 31)),
           connectionProfileName: S.optional(S.String),
           fullHierarchy: S.optional(S.Boolean),
-          oracleRdbms: S.optional(__S(1465, __c45, 25)),
-          salesforceOrg: S.optional(__S(1477, __c46, 5)),
-          postgresqlRdbms: S.optional(__S(1491, __c46, 19)),
-          sourceCatalog: S.optional(__S(1444, __c45, 4)),
-          mysqlRdbms: S.optional(__S(1484, __c46, 12)),
-          spannerDatabase: S.optional(__S(1458, __c45, 18)),
-          mongodbCluster: S.optional(__S(1451, __c45, 11)),
+          oracleRdbms: S.optional(__S(1369, __c42, 25)),
+          salesforceOrg: S.optional(__S(1381, __c43, 5)),
+          postgresqlRdbms: S.optional(__S(1395, __c43, 19)),
+          sourceCatalog: S.optional(__S(1348, __c42, 4)),
+          mysqlRdbms: S.optional(__S(1388, __c43, 12)),
+          spannerDatabase: S.optional(__S(1362, __c42, 18)),
+          mongodbCluster: S.optional(__S(1355, __c42, 11)),
           hierarchyDepth: S.optional(S.Number),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "DiscoverConnectionProfileRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(128, __c4, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/connectionProfiles:discover",
@@ -2804,54 +2639,22 @@ function __c4(j: number): any {
           }),
         ),
       ).annotate({ identifier: "DiscoverProjectsLocationsConnectionProfilesRequest" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
-          salesforceOrg: S.optional(__S(1477, __c46, 5)),
-          mongodbCluster: S.optional(__S(1451, __c45, 11)),
-          sourceCatalog: S.optional(__S(1444, __c45, 4)),
-          oracleRdbms: S.optional(__S(1465, __c45, 25)),
-          mysqlRdbms: S.optional(__S(1484, __c46, 12)),
-          postgresqlRdbms: S.optional(__S(1491, __c46, 19)),
-          spannerDatabase: S.optional(__S(1458, __c45, 18)),
-          sqlServerRdbms: S.optional(__S(1472, __c46, 0)),
+          salesforceOrg: S.optional(__S(1381, __c43, 5)),
+          mongodbCluster: S.optional(__S(1355, __c42, 11)),
+          sourceCatalog: S.optional(__S(1348, __c42, 4)),
+          oracleRdbms: S.optional(__S(1369, __c42, 25)),
+          mysqlRdbms: S.optional(__S(1388, __c43, 12)),
+          postgresqlRdbms: S.optional(__S(1395, __c43, 19)),
+          spannerDatabase: S.optional(__S(1362, __c42, 18)),
+          sqlServerRdbms: S.optional(__S(1376, __c43, 0)),
         }),
       ).annotate({ identifier: "DiscoverConnectionProfileResponse" });
   }
 }
 function __c5(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          oracleProfile: S.optional(__S(1154, __c36, 2)),
-          updateTime: S.optional(S.String),
-          dataverseProfile: S.optional(__S(1157, __c36, 5)),
-          mysqlProfile: S.optional(__S(1159, __c36, 7)),
-          staticServiceIpConnectivity: S.optional(__S(1088, __c34, 0)),
-          gcsProfile: S.optional(__S(1160, __c36, 8)),
-          postgresqlProfile: S.optional(__S(1164, __c36, 12)),
-          serviceNowProfile: S.optional(__S(1166, __c36, 14)),
-          displayName: S.optional(S.String),
-          createTime: S.optional(S.String),
-          salesforceMarketingCloudProfile: S.optional(__S(1167, __c36, 15)),
-          spannerProfile: S.optional(__S(1168, __c36, 16)),
-          privateConnectivity: S.optional(__S(1169, __c36, 17)),
-          sqlServerProfile: S.optional(__S(1171, __c36, 19)),
-          satisfiesPzs: S.optional(S.Boolean),
-          labels: S.optional(__S(1184, __c37, 0)),
-          bigqueryProfile: S.optional(__S(1088, __c34, 0)),
-          forwardSshConnectivity: S.optional(__S(1172, __c36, 20)),
-          salesforceProfile: S.optional(__S(1175, __c36, 23)),
-          mongodbProfile: S.optional(__S(1180, __c36, 28)),
-          workdayProfile: S.optional(__S(1182, __c36, 30)),
-          satisfiesPzi: S.optional(S.Boolean),
-          name: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ConnectionProfile" });
-  }
-}
-function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2871,12 +2674,12 @@ function __c6(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          staticIps: S.optional(__S(1504, __c47, 0)),
+          staticIps: S.optional(__S(1408, __c44, 0)),
         }),
       ).annotate({ identifier: "FetchStaticIpsResponse" });
   }
 }
-function __c7(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2892,21 +2695,21 @@ function __c7(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsRequest" });
   }
 }
-function __c8(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          metadata: S.optional(__S(1216, __c38, 0)),
+          metadata: S.optional(__S(1088, __c34, 0)),
           displayName: S.optional(S.String),
           locationId: S.optional(S.String),
-          labels: S.optional(__S(1184, __c37, 0)),
+          labels: S.optional(__S(1056, __c33, 0)),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "Location" });
   }
 }
-function __c9(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2922,7 +2725,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsConnectionProfilesRequest" });
   }
 }
-function __c10(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2938,7 +2741,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsOperationsRequest" });
   }
 }
-function __c11(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2954,27 +2757,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsPrivateConnectionsRequest" });
   }
 }
-function __c12(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          labels: S.optional(__S(1184, __c37, 0)),
-          error: S.optional(__S(1344, __c42, 0)),
-          createTime: S.optional(S.String),
-          displayName: S.optional(S.String),
-          satisfiesPzs: S.optional(S.Boolean),
-          vpcPeeringConfig: S.optional(__S(1312, __c41, 0)),
-          pscInterfaceConfig: S.optional(__S(1313, __c41, 1)),
-          satisfiesPzi: S.optional(S.Boolean),
-          updateTime: S.optional(S.String),
-          name: S.optional(S.String),
-          state: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "PrivateConnection" });
-  }
-}
-function __c13(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2990,23 +2773,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsPrivateConnectionsRoutesRequest" });
   }
 }
-function __c14(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          updateTime: S.optional(S.String),
-          name: S.optional(S.String),
-          createTime: S.optional(S.String),
-          destinationAddress: S.optional(S.String),
-          labels: S.optional(__S(1184, __c37, 0)),
-          displayName: S.optional(S.String),
-          destinationPort: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "Route" });
-  }
-}
-function __c15(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3022,32 +2789,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsStreamsRequest" });
   }
 }
-function __c16(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          labels: S.optional(__S(1184, __c37, 0)),
-          updateTime: S.optional(S.String),
-          createTime: S.optional(S.String),
-          lastRecoveryTime: S.optional(S.String),
-          customerManagedEncryptionKey: S.optional(S.String),
-          backfillAll: S.optional(__S(1568, __c49, 0)),
-          ruleSets: S.optional(__S(1571, __c49, 3)),
-          sourceConfig: S.optional(__S(1586, __c49, 18)),
-          destinationConfig: S.optional(__S(1594, __c49, 26)),
-          backfillNone: S.optional(__S(1088, __c34, 0)),
-          satisfiesPzi: S.optional(S.Boolean),
-          displayName: S.optional(S.String),
-          errors: S.optional(__S(1549, __c48, 13)),
-          name: S.optional(S.String),
-          satisfiesPzs: S.optional(S.Boolean),
-          state: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Stream" });
-  }
-}
-function __c17(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3063,7 +2805,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsStreamsObjectsRequest" });
   }
 }
-function __c18(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3075,9 +2817,9 @@ function __c18(j: number): any {
       return S.suspend(() =>
         S.Struct({
           trigger: S.optional(S.String),
-          errors: S.optional(__S(1549, __c48, 13)),
+          errors: S.optional(__S(1453, __c45, 13)),
           state: S.optional(S.String),
-          eventFilter: S.optional(__S(576, __c18, 0)),
+          eventFilter: S.optional(__S(448, __c14, 0)),
           lastEndTime: S.optional(S.String),
           lastStartTime: S.optional(S.String),
         }),
@@ -3085,26 +2827,26 @@ function __c18(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          sourceObject: S.optional(__S(1541, __c48, 5)),
+          sourceObject: S.optional(__S(1445, __c45, 5)),
           name: S.optional(S.String),
-          backfillJob: S.optional(__S(577, __c18, 1)),
+          backfillJob: S.optional(__S(449, __c14, 1)),
           updateTime: S.optional(S.String),
-          errors: S.optional(__S(1549, __c48, 13)),
+          errors: S.optional(__S(1453, __c45, 13)),
           createTime: S.optional(S.String),
-          customizationRules: S.optional(__S(1548, __c48, 12)),
+          customizationRules: S.optional(__S(1452, __c45, 12)),
           displayName: S.optional(S.String),
         }),
       ).annotate({ identifier: "StreamObject" });
   }
 }
-function __c19(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          extraLocationTypes: S.optional(__S(1504, __c47, 0).pipe(T.Query())),
+          extraLocationTypes: S.optional(__S(1408, __c44, 0).pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
@@ -3116,17 +2858,17 @@ function __c19(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsRequest" });
     case 1:
-      return S.Array(__S(256, __c8, 0));
+      return S.Array(__S(224, __c7, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          locations: S.optional(__S(609, __c19, 1)),
+          locations: S.optional(__S(481, __c15, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListLocationsResponse" });
   }
 }
-function __c20(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3145,18 +2887,18 @@ function __c20(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsConnectionProfilesRequest" });
     case 1:
-      return S.Array(__S(160, __c5, 0));
+      return S.Array(__S(1055, __c32, 31));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(1504, __c47, 0)),
-          connectionProfiles: S.optional(__S(641, __c20, 1)),
+          unreachable: S.optional(__S(1408, __c44, 0)),
+          connectionProfiles: S.optional(__S(513, __c16, 1)),
         }),
       ).annotate({ identifier: "ListConnectionProfilesResponse" });
   }
 }
-function __c21(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3175,18 +2917,18 @@ function __c21(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsOperationsRequest" });
     case 1:
-      return S.Array(__S(1250, __c39, 2));
+      return S.Array(__S(1122, __c35, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(1504, __c47, 0)),
-          operations: S.optional(__S(673, __c21, 1)),
+          unreachable: S.optional(__S(1408, __c44, 0)),
+          operations: S.optional(__S(545, __c17, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
   }
 }
-function __c22(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3205,18 +2947,18 @@ function __c22(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsPrivateConnectionsRequest" });
     case 1:
-      return S.Array(__S(384, __c12, 0));
+      return S.Array(__S(1186, __c37, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          privateConnections: S.optional(__S(705, __c22, 1)),
-          unreachable: S.optional(__S(1504, __c47, 0)),
+          privateConnections: S.optional(__S(577, __c18, 1)),
+          unreachable: S.optional(__S(1408, __c44, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListPrivateConnectionsResponse" });
   }
 }
-function __c23(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3235,18 +2977,18 @@ function __c23(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsPrivateConnectionsRoutesRequest" });
     case 1:
-      return S.Array(__S(448, __c14, 0));
+      return S.Array(__S(1280, __c40, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          routes: S.optional(__S(737, __c23, 1)),
+          routes: S.optional(__S(609, __c19, 1)),
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(1504, __c47, 0)),
+          unreachable: S.optional(__S(1408, __c44, 0)),
         }),
       ).annotate({ identifier: "ListRoutesResponse" });
   }
 }
-function __c24(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3265,18 +3007,18 @@ function __c24(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsStreamsRequest" });
     case 1:
-      return S.Array(__S(512, __c16, 0));
+      return S.Array(__S(1530, __c47, 26));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(1504, __c47, 0)),
-          streams: S.optional(__S(769, __c24, 1)),
+          unreachable: S.optional(__S(1408, __c44, 0)),
+          streams: S.optional(__S(641, __c20, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListStreamsResponse" });
   }
 }
-function __c25(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3293,24 +3035,26 @@ function __c25(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsStreamsObjectsRequest" });
     case 1:
-      return S.Array(__S(578, __c18, 2));
+      return S.Array(__S(450, __c14, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          streamObjects: S.optional(__S(801, __c25, 1)),
+          streamObjects: S.optional(__S(673, __c21, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListStreamObjectsResponse" });
   }
 }
-function __c26(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          sourceObjectIdentifier: S.optional(__S(1541, __c48, 5)),
-        }).pipe(
+        S.Extend(
+          __S(1472, __c46, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/objects:lookup",
@@ -3320,39 +3064,20 @@ function __c26(j: number): any {
       ).annotate({ identifier: "LookupProjectsLocationsStreamsObjectsRequest" });
   }
 }
-function __c27(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          force: S.optional(S.Boolean.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          oracleProfile: S.optional(__S(1154, __c36, 2)),
-          updateTime: S.optional(S.String),
-          dataverseProfile: S.optional(__S(1157, __c36, 5)),
-          mysqlProfile: S.optional(__S(1159, __c36, 7)),
-          staticServiceIpConnectivity: S.optional(__S(1088, __c34, 0)),
-          gcsProfile: S.optional(__S(1160, __c36, 8)),
-          postgresqlProfile: S.optional(__S(1164, __c36, 12)),
-          serviceNowProfile: S.optional(__S(1166, __c36, 14)),
-          displayName: S.optional(S.String),
-          createTime: S.optional(S.String),
-          salesforceMarketingCloudProfile: S.optional(__S(1167, __c36, 15)),
-          spannerProfile: S.optional(__S(1168, __c36, 16)),
-          privateConnectivity: S.optional(__S(1169, __c36, 17)),
-          sqlServerProfile: S.optional(__S(1171, __c36, 19)),
-          satisfiesPzs: S.optional(S.Boolean),
-          labels: S.optional(__S(1184, __c37, 0)),
-          bigqueryProfile: S.optional(__S(1088, __c34, 0)),
-          forwardSshConnectivity: S.optional(__S(1172, __c36, 20)),
-          salesforceProfile: S.optional(__S(1175, __c36, 23)),
-          mongodbProfile: S.optional(__S(1180, __c36, 28)),
-          workdayProfile: S.optional(__S(1182, __c36, 30)),
-          satisfiesPzi: S.optional(S.Boolean),
-        }).pipe(
+        S.Extend(
+          __S(1055, __c32, 31),
+          S.Struct({
+            force: S.optional(S.Boolean.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -3362,32 +3087,20 @@ function __c27(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsConnectionProfilesRequest" });
   }
 }
-function __c28(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          force: S.optional(S.Boolean.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          labels: S.optional(__S(1184, __c37, 0)),
-          updateTime: S.optional(S.String),
-          createTime: S.optional(S.String),
-          lastRecoveryTime: S.optional(S.String),
-          customerManagedEncryptionKey: S.optional(S.String),
-          backfillAll: S.optional(__S(1568, __c49, 0)),
-          ruleSets: S.optional(__S(1571, __c49, 3)),
-          sourceConfig: S.optional(__S(1586, __c49, 18)),
-          destinationConfig: S.optional(__S(1594, __c49, 26)),
-          backfillNone: S.optional(__S(1088, __c34, 0)),
-          satisfiesPzi: S.optional(S.Boolean),
-          displayName: S.optional(S.String),
-          errors: S.optional(__S(1549, __c48, 13)),
-          satisfiesPzs: S.optional(S.Boolean),
-          state: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1530, __c47, 26),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            force: S.optional(S.Boolean.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -3397,7 +3110,7 @@ function __c28(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsStreamsRequest" });
   }
 }
-function __c29(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3433,29 +3146,37 @@ function __c29(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          mongodbChangeStreamPosition: S.optional(__S(928, __c29, 0)),
-          oracleScnPosition: S.optional(__S(929, __c29, 1)),
-          spannerChangeStreamPosition: S.optional(__S(928, __c29, 0)),
-          sqlServerLsnPosition: S.optional(__S(930, __c29, 2)),
-          mysqlLogPosition: S.optional(__S(931, __c29, 3)),
-          mysqlGtidPosition: S.optional(__S(932, __c29, 4)),
+          mongodbChangeStreamPosition: S.optional(__S(800, __c25, 0)),
+          oracleScnPosition: S.optional(__S(801, __c25, 1)),
+          spannerChangeStreamPosition: S.optional(__S(800, __c25, 0)),
+          sqlServerLsnPosition: S.optional(__S(802, __c25, 2)),
+          mysqlLogPosition: S.optional(__S(803, __c25, 3)),
+          mysqlGtidPosition: S.optional(__S(804, __c25, 4)),
         }),
       ).annotate({ identifier: "SpecificStartPosition" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          specificStartPosition: S.optional(__S(933, __c29, 5)),
-          nextAvailableStartPosition: S.optional(__S(1088, __c34, 0)),
-          mostRecentStartPosition: S.optional(__S(1088, __c34, 0)),
+          specificStartPosition: S.optional(__S(805, __c25, 5)),
+          nextAvailableStartPosition: S.optional(__S(960, __c30, 0)),
+          mostRecentStartPosition: S.optional(__S(960, __c30, 0)),
         }),
       ).annotate({ identifier: "CdcStrategy" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
-          cdcStrategy: S.optional(__S(934, __c29, 6)),
+          cdcStrategy: S.optional(__S(806, __c25, 6)),
           force: S.optional(S.Boolean),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "RunStreamRequest" });
+    case 8:
+      return S.suspend(() =>
+        S.Extend(
+          __S(807, __c25, 7),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:run",
@@ -3465,14 +3186,22 @@ function __c29(j: number): any {
       ).annotate({ identifier: "RunProjectsLocationsStreamsRequest" });
   }
 }
-function __c30(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          object: S.String.pipe(T.Label()),
-          eventFilter: S.optional(__S(576, __c18, 0)),
-        }).pipe(
+          eventFilter: S.optional(__S(448, __c14, 0)),
+        }),
+      ).annotate({ identifier: "StartBackfillJobRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(832, __c26, 0),
+          S.Struct({
+            object: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+object}:startBackfillJob",
@@ -3482,23 +3211,23 @@ function __c30(j: number): any {
       ).annotate({ identifier: "StartBackfillJobProjectsLocationsStreamsObjectsRequest" });
   }
 }
-function __c31(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          object: S.optional(__S(578, __c18, 2)),
+          object: S.optional(__S(450, __c14, 2)),
         }),
       ).annotate({ identifier: "StartBackfillJobResponse" });
   }
 }
-function __c32(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           object: S.String.pipe(T.Label()),
-          body: S.optional(__S(1088, __c34, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(960, __c30, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3509,13 +3238,13 @@ function __c32(j: number): any {
       ).annotate({ identifier: "StopBackfillJobProjectsLocationsStreamsObjectsRequest" });
   }
 }
-function __c33(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1088, __c34, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(960, __c30, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3526,46 +3255,26 @@ function __c33(j: number): any {
       ).annotate({ identifier: "CancelProjectsLocationsOperationsRequest" });
   }
 }
-function __c34(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "CancelOperationRequest" });
   }
 }
-function __c35(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          connectionProfileId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          force: S.optional(S.Boolean.pipe(T.Query())),
-          oracleProfile: S.optional(__S(1154, __c36, 2)),
-          updateTime: S.optional(S.String),
-          dataverseProfile: S.optional(__S(1157, __c36, 5)),
-          mysqlProfile: S.optional(__S(1159, __c36, 7)),
-          staticServiceIpConnectivity: S.optional(__S(1088, __c34, 0)),
-          gcsProfile: S.optional(__S(1160, __c36, 8)),
-          postgresqlProfile: S.optional(__S(1164, __c36, 12)),
-          serviceNowProfile: S.optional(__S(1166, __c36, 14)),
-          displayName: S.optional(S.String),
-          createTime: S.optional(S.String),
-          salesforceMarketingCloudProfile: S.optional(__S(1167, __c36, 15)),
-          spannerProfile: S.optional(__S(1168, __c36, 16)),
-          privateConnectivity: S.optional(__S(1169, __c36, 17)),
-          sqlServerProfile: S.optional(__S(1171, __c36, 19)),
-          satisfiesPzs: S.optional(S.Boolean),
-          labels: S.optional(__S(1184, __c37, 0)),
-          bigqueryProfile: S.optional(__S(1088, __c34, 0)),
-          forwardSshConnectivity: S.optional(__S(1172, __c36, 20)),
-          salesforceProfile: S.optional(__S(1175, __c36, 23)),
-          mongodbProfile: S.optional(__S(1180, __c36, 28)),
-          workdayProfile: S.optional(__S(1182, __c36, 30)),
-          satisfiesPzi: S.optional(S.Boolean),
-          name: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1055, __c32, 31),
+          S.Struct({
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            connectionProfileId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            force: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/connectionProfiles",
@@ -3575,7 +3284,7 @@ function __c35(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsConnectionProfilesRequest" });
   }
 }
-function __c36(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3591,8 +3300,8 @@ function __c36(j: number): any {
           hostname: S.optional(S.String),
           username: S.optional(S.String),
           secretManagerStoredPassword: S.optional(S.String),
-          connectionAttributes: S.optional(__S(1184, __c37, 0)),
-          oracleSslConfig: S.optional(__S(1152, __c36, 0)),
+          connectionAttributes: S.optional(__S(1056, __c33, 0)),
+          oracleSslConfig: S.optional(__S(1024, __c32, 0)),
           asmService: S.optional(S.String),
           password: S.optional(S.String),
           port: S.optional(S.Number),
@@ -3602,13 +3311,13 @@ function __c36(j: number): any {
       return S.suspend(() =>
         S.Struct({
           password: S.optional(S.String),
-          connectionAttributes: S.optional(__S(1184, __c37, 0)),
+          connectionAttributes: S.optional(__S(1056, __c33, 0)),
           port: S.optional(S.Number),
-          oracleSslConfig: S.optional(__S(1152, __c36, 0)),
+          oracleSslConfig: S.optional(__S(1024, __c32, 0)),
           secretManagerStoredPassword: S.optional(S.String),
           username: S.optional(S.String),
           databaseService: S.optional(S.String),
-          oracleAsmConfig: S.optional(__S(1153, __c36, 1)),
+          oracleAsmConfig: S.optional(__S(1025, __c32, 1)),
           hostname: S.optional(S.String),
         }),
       ).annotate({ identifier: "OracleProfile" });
@@ -3622,7 +3331,7 @@ function __c36(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          clientSecret: S.optional(__S(1155, __c36, 3)),
+          clientSecret: S.optional(__S(1027, __c32, 3)),
           clientId: S.optional(S.String),
         }),
       ).annotate({ identifier: "OauthClientCredentials" });
@@ -3631,7 +3340,7 @@ function __c36(j: number): any {
         S.Struct({
           tenantId: S.optional(S.String),
           environmentUrl: S.optional(S.String),
-          oauthClientCredentials: S.optional(__S(1156, __c36, 4)),
+          oauthClientCredentials: S.optional(__S(1028, __c32, 4)),
         }),
       ).annotate({ identifier: "DataverseProfile" });
     case 6:
@@ -3648,7 +3357,7 @@ function __c36(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          sslConfig: S.optional(__S(1158, __c36, 6)),
+          sslConfig: S.optional(__S(1030, __c32, 6)),
           hostname: S.optional(S.String),
           username: S.optional(S.String),
           port: S.optional(S.Number),
@@ -3682,8 +3391,8 @@ function __c36(j: number): any {
     case 11:
       return S.suspend(() =>
         S.Struct({
-          serverAndClientVerification: S.optional(__S(1161, __c36, 9)),
-          serverVerification: S.optional(__S(1162, __c36, 10)),
+          serverAndClientVerification: S.optional(__S(1033, __c32, 9)),
+          serverVerification: S.optional(__S(1034, __c32, 10)),
         }),
       ).annotate({ identifier: "PostgresqlSslConfig" });
     case 12:
@@ -3691,7 +3400,7 @@ function __c36(j: number): any {
         S.Struct({
           port: S.optional(S.Number),
           password: S.optional(S.String),
-          sslConfig: S.optional(__S(1163, __c36, 11)),
+          sslConfig: S.optional(__S(1035, __c32, 11)),
           secretManagerStoredPassword: S.optional(S.String),
           database: S.optional(S.String),
           hostname: S.optional(S.String),
@@ -3702,22 +3411,22 @@ function __c36(j: number): any {
       return S.suspend(() =>
         S.Struct({
           username: S.optional(S.String),
-          password: S.optional(__S(1155, __c36, 3)),
+          password: S.optional(__S(1027, __c32, 3)),
         }),
       ).annotate({ identifier: "UserPasswordCredentials" });
     case 14:
       return S.suspend(() =>
         S.Struct({
           instance: S.optional(S.String),
-          userPasswordCredentials: S.optional(__S(1165, __c36, 13)),
-          oauthClientCredentials: S.optional(__S(1156, __c36, 4)),
+          userPasswordCredentials: S.optional(__S(1037, __c32, 13)),
+          oauthClientCredentials: S.optional(__S(1028, __c32, 4)),
         }),
       ).annotate({ identifier: "ServiceNowProfile" });
     case 15:
       return S.suspend(() =>
         S.Struct({
           subdomain: S.optional(S.String),
-          oauthClientCredentials: S.optional(__S(1156, __c36, 4)),
+          oauthClientCredentials: S.optional(__S(1028, __c32, 4)),
         }),
       ).annotate({ identifier: "SalesforceMarketingCloudProfile" });
     case 16:
@@ -3736,16 +3445,16 @@ function __c36(j: number): any {
     case 18:
       return S.suspend(() =>
         S.Struct({
-          encryptionNotEnforced: S.optional(__S(1088, __c34, 0)),
-          basicEncryption: S.optional(__S(1088, __c34, 0)),
-          encryptionAndServerValidation: S.optional(__S(1162, __c36, 10)),
+          encryptionNotEnforced: S.optional(__S(960, __c30, 0)),
+          basicEncryption: S.optional(__S(960, __c30, 0)),
+          encryptionAndServerValidation: S.optional(__S(1034, __c32, 10)),
         }),
       ).annotate({ identifier: "SqlServerSslConfig" });
     case 19:
       return S.suspend(() =>
         S.Struct({
           port: S.optional(S.Number),
-          sslConfig: S.optional(__S(1170, __c36, 18)),
+          sslConfig: S.optional(__S(1042, __c32, 18)),
           password: S.optional(S.String),
           database: S.optional(S.String),
           secretManagerStoredPassword: S.optional(S.String),
@@ -3784,9 +3493,9 @@ function __c36(j: number): any {
     case 23:
       return S.suspend(() =>
         S.Struct({
-          userCredentials: S.optional(__S(1173, __c36, 21)),
+          userCredentials: S.optional(__S(1045, __c32, 21)),
           domain: S.optional(S.String),
-          oauth2ClientCredentials: S.optional(__S(1174, __c36, 22)),
+          oauth2ClientCredentials: S.optional(__S(1046, __c32, 22)),
         }),
       ).annotate({ identifier: "SalesforceProfile" });
     case 24:
@@ -3803,7 +3512,7 @@ function __c36(j: number): any {
         }),
       ).annotate({ identifier: "HostAddress" });
     case 26:
-      return S.Array(__S(1177, __c36, 25));
+      return S.Array(__S(1049, __c32, 25));
     case 27:
       return S.suspend(() =>
         S.Struct({
@@ -3819,12 +3528,12 @@ function __c36(j: number): any {
     case 28:
       return S.suspend(() =>
         S.Struct({
-          standardConnectionFormat: S.optional(__S(1176, __c36, 24)),
-          additionalOptions: S.optional(__S(1184, __c37, 0)),
-          hostAddresses: S.optional(__S(1178, __c36, 26)),
-          sslConfig: S.optional(__S(1179, __c36, 27)),
+          standardConnectionFormat: S.optional(__S(1048, __c32, 24)),
+          additionalOptions: S.optional(__S(1056, __c33, 0)),
+          hostAddresses: S.optional(__S(1050, __c32, 26)),
+          sslConfig: S.optional(__S(1051, __c32, 27)),
           password: S.optional(S.String),
-          srvConnectionFormat: S.optional(__S(1088, __c34, 0)),
+          srvConnectionFormat: S.optional(__S(960, __c30, 0)),
           replicaSet: S.optional(S.String),
           secretManagerStoredPassword: S.optional(S.String),
           username: S.optional(S.String),
@@ -3833,40 +3542,68 @@ function __c36(j: number): any {
     case 29:
       return S.suspend(() =>
         S.Struct({
-          refreshToken: S.optional(__S(1155, __c36, 3)),
-          oauthClientCredentials: S.optional(__S(1156, __c36, 4)),
+          refreshToken: S.optional(__S(1027, __c32, 3)),
+          oauthClientCredentials: S.optional(__S(1028, __c32, 4)),
         }),
       ).annotate({ identifier: "OauthRefreshTokenCredentials" });
     case 30:
       return S.suspend(() =>
         S.Struct({
-          oauthRefreshTokenCredentials: S.optional(__S(1181, __c36, 29)),
+          oauthRefreshTokenCredentials: S.optional(__S(1053, __c32, 29)),
           tenant: S.optional(S.String),
           host: S.optional(S.String),
         }),
       ).annotate({ identifier: "WorkdayProfile" });
+    case 31:
+      return S.suspend(() =>
+        S.Struct({
+          oracleProfile: S.optional(__S(1026, __c32, 2)),
+          updateTime: S.optional(S.String),
+          dataverseProfile: S.optional(__S(1029, __c32, 5)),
+          mysqlProfile: S.optional(__S(1031, __c32, 7)),
+          staticServiceIpConnectivity: S.optional(__S(960, __c30, 0)),
+          gcsProfile: S.optional(__S(1032, __c32, 8)),
+          postgresqlProfile: S.optional(__S(1036, __c32, 12)),
+          serviceNowProfile: S.optional(__S(1038, __c32, 14)),
+          displayName: S.optional(S.String),
+          createTime: S.optional(S.String),
+          salesforceMarketingCloudProfile: S.optional(__S(1039, __c32, 15)),
+          spannerProfile: S.optional(__S(1040, __c32, 16)),
+          privateConnectivity: S.optional(__S(1041, __c32, 17)),
+          sqlServerProfile: S.optional(__S(1043, __c32, 19)),
+          satisfiesPzs: S.optional(S.Boolean),
+          labels: S.optional(__S(1056, __c33, 0)),
+          bigqueryProfile: S.optional(__S(960, __c30, 0)),
+          forwardSshConnectivity: S.optional(__S(1044, __c32, 20)),
+          salesforceProfile: S.optional(__S(1047, __c32, 23)),
+          mongodbProfile: S.optional(__S(1052, __c32, 28)),
+          workdayProfile: S.optional(__S(1054, __c32, 30)),
+          satisfiesPzi: S.optional(S.Boolean),
+          name: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ConnectionProfile" });
   }
 }
-function __c37(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
   }
 }
-function __c38(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c39(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1216, __c38, 0));
+      return S.Array(__S(1088, __c34, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          details: S.optional(__S(1248, __c39, 0)),
+          details: S.optional(__S(1120, __c35, 0)),
           code: S.optional(S.Number),
           message: S.optional(S.String),
         }),
@@ -3874,37 +3611,29 @@ function __c39(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          error: S.optional(__S(1249, __c39, 1)),
+          error: S.optional(__S(1121, __c35, 1)),
           done: S.optional(S.Boolean),
-          response: S.optional(__S(1216, __c38, 0)),
-          metadata: S.optional(__S(1216, __c38, 0)),
+          response: S.optional(__S(1088, __c34, 0)),
+          metadata: S.optional(__S(1088, __c34, 0)),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "Operation" });
   }
 }
-function __c40(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          force: S.optional(S.Boolean.pipe(T.Query())),
-          privateConnectionId: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          labels: S.optional(__S(1184, __c37, 0)),
-          error: S.optional(__S(1344, __c42, 0)),
-          createTime: S.optional(S.String),
-          displayName: S.optional(S.String),
-          satisfiesPzs: S.optional(S.Boolean),
-          vpcPeeringConfig: S.optional(__S(1312, __c41, 0)),
-          pscInterfaceConfig: S.optional(__S(1313, __c41, 1)),
-          satisfiesPzi: S.optional(S.Boolean),
-          updateTime: S.optional(S.String),
-          name: S.optional(S.String),
-          state: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1186, __c37, 2),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            force: S.optional(S.Boolean.pipe(T.Query())),
+            privateConnectionId: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/privateConnections",
@@ -3914,7 +3643,7 @@ function __c40(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsPrivateConnectionsRequest" });
   }
 }
-function __c41(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3929,15 +3658,31 @@ function __c41(j: number): any {
           networkAttachment: S.optional(S.String),
         }),
       ).annotate({ identifier: "PscInterfaceConfig" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          labels: S.optional(__S(1056, __c33, 0)),
+          error: S.optional(__S(1216, __c38, 0)),
+          createTime: S.optional(S.String),
+          displayName: S.optional(S.String),
+          satisfiesPzs: S.optional(S.Boolean),
+          vpcPeeringConfig: S.optional(__S(1184, __c37, 0)),
+          pscInterfaceConfig: S.optional(__S(1185, __c37, 1)),
+          satisfiesPzi: S.optional(S.Boolean),
+          updateTime: S.optional(S.String),
+          name: S.optional(S.String),
+          state: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PrivateConnection" });
   }
 }
-function __c42(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           errorTime: S.optional(S.String),
-          details: S.optional(__S(1184, __c37, 0)),
+          details: S.optional(__S(1056, __c33, 0)),
           message: S.optional(S.String),
           reason: S.optional(S.String),
           errorUuid: S.optional(S.String),
@@ -3945,22 +3690,18 @@ function __c42(j: number): any {
       ).annotate({ identifier: "Datastream_Error" });
   }
 }
-function __c43(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          routeId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          updateTime: S.optional(S.String),
-          name: S.optional(S.String),
-          createTime: S.optional(S.String),
-          destinationAddress: S.optional(S.String),
-          labels: S.optional(__S(1184, __c37, 0)),
-          displayName: S.optional(S.String),
-          destinationPort: S.optional(S.Number),
-        }).pipe(
+        S.Extend(
+          __S(1280, __c40, 0),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            routeId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/routes",
@@ -3970,33 +3711,36 @@ function __c43(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsPrivateConnectionsRoutesRequest" });
   }
 }
-function __c44(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          force: S.optional(S.Boolean.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          streamId: S.optional(S.String.pipe(T.Query())),
-          labels: S.optional(__S(1184, __c37, 0)),
           updateTime: S.optional(S.String),
-          createTime: S.optional(S.String),
-          lastRecoveryTime: S.optional(S.String),
-          customerManagedEncryptionKey: S.optional(S.String),
-          backfillAll: S.optional(__S(1568, __c49, 0)),
-          ruleSets: S.optional(__S(1571, __c49, 3)),
-          sourceConfig: S.optional(__S(1586, __c49, 18)),
-          destinationConfig: S.optional(__S(1594, __c49, 26)),
-          backfillNone: S.optional(__S(1088, __c34, 0)),
-          satisfiesPzi: S.optional(S.Boolean),
-          displayName: S.optional(S.String),
-          errors: S.optional(__S(1549, __c48, 13)),
           name: S.optional(S.String),
-          satisfiesPzs: S.optional(S.Boolean),
-          state: S.optional(S.String),
-        }).pipe(
+          createTime: S.optional(S.String),
+          destinationAddress: S.optional(S.String),
+          labels: S.optional(__S(1056, __c33, 0)),
+          displayName: S.optional(S.String),
+          destinationPort: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "Route" });
+  }
+}
+function __c41(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(1530, __c47, 26),
+          S.Struct({
+            force: S.optional(S.Boolean.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            streamId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/streams",
@@ -4006,31 +3750,31 @@ function __c44(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsStreamsRequest" });
   }
 }
-function __c45(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          properties: S.optional(S.suspend(() => __S(1441, __c45, 1))),
+          properties: S.optional(S.suspend(() => __S(1345, __c42, 1))),
           primaryKey: S.optional(S.Boolean),
           propertyName: S.optional(S.String),
         }),
       ).annotate({ identifier: "SourceProperty" });
     case 1:
-      return S.Array(__S(1440, __c45, 0));
+      return S.Array(__S(1344, __c42, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          properties: S.optional(__S(1441, __c45, 1)),
+          properties: S.optional(__S(1345, __c42, 1)),
           objectName: S.optional(S.String),
         }),
       ).annotate({ identifier: "SourceObject" });
     case 3:
-      return S.Array(__S(1442, __c45, 2));
+      return S.Array(__S(1346, __c42, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          objects: S.optional(__S(1443, __c45, 3)),
+          objects: S.optional(__S(1347, __c42, 3)),
         }),
       ).annotate({ identifier: "SourceCatalog" });
     case 5:
@@ -4040,29 +3784,29 @@ function __c45(j: number): any {
         }),
       ).annotate({ identifier: "MongodbField" });
     case 6:
-      return S.Array(__S(1445, __c45, 5));
+      return S.Array(__S(1349, __c42, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
           collection: S.optional(S.String),
-          fields: S.optional(__S(1446, __c45, 6)),
+          fields: S.optional(__S(1350, __c42, 6)),
         }),
       ).annotate({ identifier: "MongodbCollection" });
     case 8:
-      return S.Array(__S(1447, __c45, 7));
+      return S.Array(__S(1351, __c42, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
-          collections: S.optional(__S(1448, __c45, 8)),
+          collections: S.optional(__S(1352, __c42, 8)),
           database: S.optional(S.String),
         }),
       ).annotate({ identifier: "MongodbDatabase" });
     case 10:
-      return S.Array(__S(1449, __c45, 9));
+      return S.Array(__S(1353, __c42, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
-          databases: S.optional(__S(1450, __c45, 10)),
+          databases: S.optional(__S(1354, __c42, 10)),
         }),
       ).annotate({ identifier: "MongodbCluster" });
     case 12:
@@ -4075,29 +3819,29 @@ function __c45(j: number): any {
         }),
       ).annotate({ identifier: "SpannerColumn" });
     case 13:
-      return S.Array(__S(1452, __c45, 12));
+      return S.Array(__S(1356, __c42, 12));
     case 14:
       return S.suspend(() =>
         S.Struct({
-          columns: S.optional(__S(1453, __c45, 13)),
+          columns: S.optional(__S(1357, __c42, 13)),
           table: S.optional(S.String),
         }),
       ).annotate({ identifier: "SpannerTable" });
     case 15:
-      return S.Array(__S(1454, __c45, 14));
+      return S.Array(__S(1358, __c42, 14));
     case 16:
       return S.suspend(() =>
         S.Struct({
-          tables: S.optional(__S(1455, __c45, 15)),
+          tables: S.optional(__S(1359, __c42, 15)),
           schema: S.optional(S.String),
         }),
       ).annotate({ identifier: "SpannerSchema" });
     case 17:
-      return S.Array(__S(1456, __c45, 16));
+      return S.Array(__S(1360, __c42, 16));
     case 18:
       return S.suspend(() =>
         S.Struct({
-          schemas: S.optional(__S(1457, __c45, 17)),
+          schemas: S.optional(__S(1361, __c42, 17)),
         }),
       ).annotate({ identifier: "SpannerDatabase" });
     case 19:
@@ -4115,29 +3859,29 @@ function __c45(j: number): any {
         }),
       ).annotate({ identifier: "OracleColumn" });
     case 20:
-      return S.Array(__S(1459, __c45, 19));
+      return S.Array(__S(1363, __c42, 19));
     case 21:
       return S.suspend(() =>
         S.Struct({
           table: S.optional(S.String),
-          oracleColumns: S.optional(__S(1460, __c45, 20)),
+          oracleColumns: S.optional(__S(1364, __c42, 20)),
         }),
       ).annotate({ identifier: "OracleTable" });
     case 22:
-      return S.Array(__S(1461, __c45, 21));
+      return S.Array(__S(1365, __c42, 21));
     case 23:
       return S.suspend(() =>
         S.Struct({
-          oracleTables: S.optional(__S(1462, __c45, 22)),
+          oracleTables: S.optional(__S(1366, __c42, 22)),
           schema: S.optional(S.String),
         }),
       ).annotate({ identifier: "OracleSchema" });
     case 24:
-      return S.Array(__S(1463, __c45, 23));
+      return S.Array(__S(1367, __c42, 23));
     case 25:
       return S.suspend(() =>
         S.Struct({
-          oracleSchemas: S.optional(__S(1464, __c45, 24)),
+          oracleSchemas: S.optional(__S(1368, __c42, 24)),
         }),
       ).annotate({ identifier: "OracleRdbms" });
     case 26:
@@ -4154,33 +3898,33 @@ function __c45(j: number): any {
         }),
       ).annotate({ identifier: "SqlServerColumn" });
     case 27:
-      return S.Array(__S(1466, __c45, 26));
+      return S.Array(__S(1370, __c42, 26));
     case 28:
       return S.suspend(() =>
         S.Struct({
-          columns: S.optional(__S(1467, __c45, 27)),
+          columns: S.optional(__S(1371, __c42, 27)),
           table: S.optional(S.String),
         }),
       ).annotate({ identifier: "SqlServerTable" });
     case 29:
-      return S.Array(__S(1468, __c45, 28));
+      return S.Array(__S(1372, __c42, 28));
     case 30:
       return S.suspend(() =>
         S.Struct({
           schema: S.optional(S.String),
-          tables: S.optional(__S(1469, __c45, 29)),
+          tables: S.optional(__S(1373, __c42, 29)),
         }),
       ).annotate({ identifier: "SqlServerSchema" });
     case 31:
-      return S.Array(__S(1470, __c45, 30));
+      return S.Array(__S(1374, __c42, 30));
   }
 }
-function __c46(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          schemas: S.optional(__S(1471, __c45, 31)),
+          schemas: S.optional(__S(1375, __c42, 31)),
         }),
       ).annotate({ identifier: "SqlServerRdbms" });
     case 1:
@@ -4192,20 +3936,20 @@ function __c46(j: number): any {
         }),
       ).annotate({ identifier: "SalesforceField" });
     case 2:
-      return S.Array(__S(1473, __c46, 1));
+      return S.Array(__S(1377, __c43, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          fields: S.optional(__S(1474, __c46, 2)),
+          fields: S.optional(__S(1378, __c43, 2)),
           objectName: S.optional(S.String),
         }),
       ).annotate({ identifier: "SalesforceObject" });
     case 4:
-      return S.Array(__S(1475, __c46, 3));
+      return S.Array(__S(1379, __c43, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          objects: S.optional(__S(1476, __c46, 4)),
+          objects: S.optional(__S(1380, __c43, 4)),
         }),
       ).annotate({ identifier: "SalesforceOrg" });
     case 6:
@@ -4223,29 +3967,29 @@ function __c46(j: number): any {
         }),
       ).annotate({ identifier: "MysqlColumn" });
     case 7:
-      return S.Array(__S(1478, __c46, 6));
+      return S.Array(__S(1382, __c43, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
           table: S.optional(S.String),
-          mysqlColumns: S.optional(__S(1479, __c46, 7)),
+          mysqlColumns: S.optional(__S(1383, __c43, 7)),
         }),
       ).annotate({ identifier: "MysqlTable" });
     case 9:
-      return S.Array(__S(1480, __c46, 8));
+      return S.Array(__S(1384, __c43, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
           database: S.optional(S.String),
-          mysqlTables: S.optional(__S(1481, __c46, 9)),
+          mysqlTables: S.optional(__S(1385, __c43, 9)),
         }),
       ).annotate({ identifier: "MysqlDatabase" });
     case 11:
-      return S.Array(__S(1482, __c46, 10));
+      return S.Array(__S(1386, __c43, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
-          mysqlDatabases: S.optional(__S(1483, __c46, 11)),
+          mysqlDatabases: S.optional(__S(1387, __c43, 11)),
         }),
       ).annotate({ identifier: "MysqlRdbms" });
     case 13:
@@ -4262,40 +4006,40 @@ function __c46(j: number): any {
         }),
       ).annotate({ identifier: "PostgresqlColumn" });
     case 14:
-      return S.Array(__S(1485, __c46, 13));
+      return S.Array(__S(1389, __c43, 13));
     case 15:
       return S.suspend(() =>
         S.Struct({
-          postgresqlColumns: S.optional(__S(1486, __c46, 14)),
+          postgresqlColumns: S.optional(__S(1390, __c43, 14)),
           table: S.optional(S.String),
         }),
       ).annotate({ identifier: "PostgresqlTable" });
     case 16:
-      return S.Array(__S(1487, __c46, 15));
+      return S.Array(__S(1391, __c43, 15));
     case 17:
       return S.suspend(() =>
         S.Struct({
-          postgresqlTables: S.optional(__S(1488, __c46, 16)),
+          postgresqlTables: S.optional(__S(1392, __c43, 16)),
           schema: S.optional(S.String),
         }),
       ).annotate({ identifier: "PostgresqlSchema" });
     case 18:
-      return S.Array(__S(1489, __c46, 17));
+      return S.Array(__S(1393, __c43, 17));
     case 19:
       return S.suspend(() =>
         S.Struct({
-          postgresqlSchemas: S.optional(__S(1490, __c46, 18)),
+          postgresqlSchemas: S.optional(__S(1394, __c43, 18)),
         }),
       ).annotate({ identifier: "PostgresqlRdbms" });
   }
 }
-function __c47(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c48(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4334,19 +4078,19 @@ function __c48(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          oracleIdentifier: S.optional(__S(1536, __c48, 0)),
-          mysqlIdentifier: S.optional(__S(1537, __c48, 1)),
-          mongodbIdentifier: S.optional(__S(1538, __c48, 2)),
-          postgresqlIdentifier: S.optional(__S(1539, __c48, 3)),
-          salesforceIdentifier: S.optional(__S(1540, __c48, 4)),
-          spannerIdentifier: S.optional(__S(1536, __c48, 0)),
-          sqlServerIdentifier: S.optional(__S(1539, __c48, 3)),
+          oracleIdentifier: S.optional(__S(1440, __c45, 0)),
+          mysqlIdentifier: S.optional(__S(1441, __c45, 1)),
+          mongodbIdentifier: S.optional(__S(1442, __c45, 2)),
+          postgresqlIdentifier: S.optional(__S(1443, __c45, 3)),
+          salesforceIdentifier: S.optional(__S(1444, __c45, 4)),
+          spannerIdentifier: S.optional(__S(1440, __c45, 0)),
+          sqlServerIdentifier: S.optional(__S(1443, __c45, 3)),
         }),
       ).annotate({ identifier: "SourceObjectIdentifier" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          columns: S.optional(__S(1504, __c47, 0)),
+          columns: S.optional(__S(1408, __c44, 0)),
         }),
       ).annotate({ identifier: "BigQueryClustering" });
     case 7:
@@ -4374,223 +4118,227 @@ function __c48(j: number): any {
     case 10:
       return S.suspend(() =>
         S.Struct({
-          ingestionTimePartition: S.optional(__S(1543, __c48, 7)),
-          integerRangePartition: S.optional(__S(1544, __c48, 8)),
+          ingestionTimePartition: S.optional(__S(1447, __c45, 7)),
+          integerRangePartition: S.optional(__S(1448, __c45, 8)),
           requirePartitionFilter: S.optional(S.Boolean),
-          timeUnitPartition: S.optional(__S(1545, __c48, 9)),
+          timeUnitPartition: S.optional(__S(1449, __c45, 9)),
         }),
       ).annotate({ identifier: "BigQueryPartitioning" });
     case 11:
       return S.suspend(() =>
         S.Struct({
-          bigqueryClustering: S.optional(__S(1542, __c48, 6)),
-          bigqueryPartitioning: S.optional(__S(1546, __c48, 10)),
+          bigqueryClustering: S.optional(__S(1446, __c45, 6)),
+          bigqueryPartitioning: S.optional(__S(1450, __c45, 10)),
         }),
       ).annotate({ identifier: "CustomizationRule" });
     case 12:
-      return S.Array(__S(1547, __c48, 11));
+      return S.Array(__S(1451, __c45, 11));
     case 13:
-      return S.Array(__S(1344, __c42, 0));
+      return S.Array(__S(1216, __c38, 0));
   }
 }
-function __c49(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          saasExcludedObjects: S.optional(__S(1444, __c45, 4)),
-          mongodbExcludedObjects: S.optional(__S(1451, __c45, 11)),
-          spannerExcludedObjects: S.optional(__S(1458, __c45, 18)),
-          oracleExcludedObjects: S.optional(__S(1465, __c45, 25)),
-          sqlServerExcludedObjects: S.optional(__S(1472, __c46, 0)),
-          salesforceExcludedObjects: S.optional(__S(1477, __c46, 5)),
-          mysqlExcludedObjects: S.optional(__S(1484, __c46, 12)),
-          postgresqlExcludedObjects: S.optional(__S(1491, __c46, 19)),
+          sourceObjectIdentifier: S.optional(__S(1445, __c45, 5)),
+        }),
+      ).annotate({ identifier: "ObjectFilter" });
+  }
+}
+function __c47(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          saasExcludedObjects: S.optional(__S(1348, __c42, 4)),
+          mongodbExcludedObjects: S.optional(__S(1355, __c42, 11)),
+          spannerExcludedObjects: S.optional(__S(1362, __c42, 18)),
+          oracleExcludedObjects: S.optional(__S(1369, __c42, 25)),
+          sqlServerExcludedObjects: S.optional(__S(1376, __c43, 0)),
+          salesforceExcludedObjects: S.optional(__S(1381, __c43, 5)),
+          mysqlExcludedObjects: S.optional(__S(1388, __c43, 12)),
+          postgresqlExcludedObjects: S.optional(__S(1395, __c43, 19)),
         }),
       ).annotate({ identifier: "BackfillAllStrategy" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          sourceObjectIdentifier: S.optional(__S(1541, __c48, 5)),
-        }),
-      ).annotate({ identifier: "ObjectFilter" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          objectFilter: S.optional(__S(1569, __c49, 1)),
-          customizationRules: S.optional(__S(1548, __c48, 12)),
+          objectFilter: S.optional(__S(1472, __c46, 0)),
+          customizationRules: S.optional(__S(1452, __c45, 12)),
         }),
       ).annotate({ identifier: "RuleSet" });
+    case 2:
+      return S.Array(__S(1505, __c47, 1));
     case 3:
-      return S.Array(__S(1570, __c49, 2));
-    case 4:
       return S.suspend(() =>
         S.Struct({
-          includeObjects: S.optional(__S(1444, __c45, 4)),
-          excludeObjects: S.optional(__S(1444, __c45, 4)),
+          includeObjects: S.optional(__S(1348, __c42, 4)),
+          excludeObjects: S.optional(__S(1348, __c42, 4)),
           pollingInterval: S.optional(S.String),
         }),
       ).annotate({ identifier: "ServiceNowSourceConfig" });
-    case 5:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           spannerRpcPriority: S.optional(S.String),
           maxConcurrentBackfillTasks: S.optional(S.Number),
           backfillDataBoostEnabled: S.optional(S.Boolean),
           changeStreamName: S.optional(S.String),
-          includeObjects: S.optional(__S(1458, __c45, 18)),
+          includeObjects: S.optional(__S(1362, __c42, 18)),
           maxConcurrentCdcTasks: S.optional(S.Number),
           fgacRole: S.optional(S.String),
-          excludeObjects: S.optional(__S(1458, __c45, 18)),
+          excludeObjects: S.optional(__S(1362, __c42, 18)),
         }),
       ).annotate({ identifier: "SpannerSourceConfig" });
-    case 6:
+    case 5:
       return S.suspend(() =>
         S.Struct({
           maxConcurrentBackfillTasks: S.optional(S.Number),
-          excludeObjects: S.optional(__S(1451, __c45, 11)),
+          excludeObjects: S.optional(__S(1355, __c42, 11)),
           jsonMode: S.optional(S.String),
-          includeObjects: S.optional(__S(1451, __c45, 11)),
+          includeObjects: S.optional(__S(1355, __c42, 11)),
         }),
       ).annotate({ identifier: "MongodbSourceConfig" });
-    case 7:
+    case 6:
       return S.suspend(() =>
         S.Struct({
           autoDeleteOldCaptureInstance: S.optional(S.Boolean),
           autoCreateNewCaptureInstanceOnDdl: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "SqlServerDdlConfig" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          ddlConfig: S.optional(__S(1510, __c47, 6)),
+        }),
+      ).annotate({ identifier: "SqlServerChangeTables" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          ddlConfig: S.optional(__S(1575, __c49, 7)),
-        }),
-      ).annotate({ identifier: "SqlServerChangeTables" });
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          changeTables: S.optional(__S(1576, __c49, 8)),
-          excludeObjects: S.optional(__S(1472, __c46, 0)),
+          changeTables: S.optional(__S(1511, __c47, 7)),
+          excludeObjects: S.optional(__S(1376, __c43, 0)),
           maxConcurrentCdcTasks: S.optional(S.Number),
-          transactionLogs: S.optional(__S(1088, __c34, 0)),
-          includeObjects: S.optional(__S(1472, __c46, 0)),
+          transactionLogs: S.optional(__S(960, __c30, 0)),
+          includeObjects: S.optional(__S(1376, __c43, 0)),
           maxConcurrentBackfillTasks: S.optional(S.Number),
         }),
       ).annotate({ identifier: "SqlServerSourceConfig" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          includeObjects: S.optional(__S(1348, __c42, 4)),
+          pollingInterval: S.optional(S.String),
+          excludeObjects: S.optional(__S(1348, __c42, 4)),
+        }),
+      ).annotate({ identifier: "WorkdaySourceConfig" });
     case 10:
       return S.suspend(() =>
         S.Struct({
-          includeObjects: S.optional(__S(1444, __c45, 4)),
+          excludeObjects: S.optional(__S(1381, __c43, 5)),
           pollingInterval: S.optional(S.String),
-          excludeObjects: S.optional(__S(1444, __c45, 4)),
-        }),
-      ).annotate({ identifier: "WorkdaySourceConfig" });
-    case 11:
-      return S.suspend(() =>
-        S.Struct({
-          excludeObjects: S.optional(__S(1477, __c46, 5)),
-          pollingInterval: S.optional(S.String),
-          includeObjects: S.optional(__S(1477, __c46, 5)),
+          includeObjects: S.optional(__S(1381, __c43, 5)),
         }),
       ).annotate({ identifier: "SalesforceSourceConfig" });
-    case 12:
+    case 11:
       return S.suspend(() =>
         S.Struct({
           publication: S.optional(S.String),
           maxConcurrentBackfillTasks: S.optional(S.Number),
-          includeObjects: S.optional(__S(1491, __c46, 19)),
+          includeObjects: S.optional(__S(1395, __c43, 19)),
           replicationSlot: S.optional(S.String),
-          excludeObjects: S.optional(__S(1491, __c46, 19)),
+          excludeObjects: S.optional(__S(1395, __c43, 19)),
         }),
       ).annotate({ identifier: "PostgresqlSourceConfig" });
-    case 13:
+    case 12:
       return S.suspend(() =>
         S.Struct({
-          gtid: S.optional(__S(1088, __c34, 0)),
+          gtid: S.optional(__S(960, __c30, 0)),
           maxConcurrentCdcTasks: S.optional(S.Number),
-          excludeObjects: S.optional(__S(1484, __c46, 12)),
-          includeObjects: S.optional(__S(1484, __c46, 12)),
-          binaryLogPosition: S.optional(__S(1088, __c34, 0)),
+          excludeObjects: S.optional(__S(1388, __c43, 12)),
+          includeObjects: S.optional(__S(1388, __c43, 12)),
+          binaryLogPosition: S.optional(__S(960, __c30, 0)),
           maxConcurrentBackfillTasks: S.optional(S.Number),
         }),
       ).annotate({ identifier: "MysqlSourceConfig" });
-    case 14:
+    case 13:
       return S.suspend(() =>
         S.Struct({
           archivedLogDirectory: S.optional(S.String),
           onlineLogDirectory: S.optional(S.String),
         }),
       ).annotate({ identifier: "LogFileDirectories" });
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          logFileDirectories: S.optional(__S(1517, __c47, 13)),
+          oracleAsmLogFileAccess: S.optional(__S(960, __c30, 0)),
+        }),
+      ).annotate({ identifier: "BinaryLogParser" });
     case 15:
       return S.suspend(() =>
         S.Struct({
-          logFileDirectories: S.optional(__S(1582, __c49, 14)),
-          oracleAsmLogFileAccess: S.optional(__S(1088, __c34, 0)),
-        }),
-      ).annotate({ identifier: "BinaryLogParser" });
-    case 16:
-      return S.suspend(() =>
-        S.Struct({
-          logMiner: S.optional(__S(1088, __c34, 0)),
-          dropLargeObjects: S.optional(__S(1088, __c34, 0)),
+          logMiner: S.optional(__S(960, __c30, 0)),
+          dropLargeObjects: S.optional(__S(960, __c30, 0)),
           maxConcurrentBackfillTasks: S.optional(S.Number),
-          binaryLogParser: S.optional(__S(1583, __c49, 15)),
-          streamLargeObjects: S.optional(__S(1088, __c34, 0)),
-          includeObjects: S.optional(__S(1465, __c45, 25)),
+          binaryLogParser: S.optional(__S(1518, __c47, 14)),
+          streamLargeObjects: S.optional(__S(960, __c30, 0)),
+          includeObjects: S.optional(__S(1369, __c42, 25)),
           maxConcurrentCdcTasks: S.optional(S.Number),
-          excludeObjects: S.optional(__S(1465, __c45, 25)),
+          excludeObjects: S.optional(__S(1369, __c42, 25)),
         }),
       ).annotate({ identifier: "OracleSourceConfig" });
-    case 17:
+    case 16:
       return S.suspend(() =>
         S.Struct({
           pollingInterval: S.optional(S.String),
           fullRefreshPollingInterval: S.optional(S.String),
-          includeObjects: S.optional(__S(1444, __c45, 4)),
-          excludeObjects: S.optional(__S(1444, __c45, 4)),
+          includeObjects: S.optional(__S(1348, __c42, 4)),
+          excludeObjects: S.optional(__S(1348, __c42, 4)),
         }),
       ).annotate({ identifier: "SalesforceMarketingCloudSourceConfig" });
-    case 18:
+    case 17:
       return S.suspend(() =>
         S.Struct({
-          serviceNowSourceConfig: S.optional(__S(1572, __c49, 4)),
-          spannerSourceConfig: S.optional(__S(1573, __c49, 5)),
-          mongodbSourceConfig: S.optional(__S(1574, __c49, 6)),
-          sqlServerSourceConfig: S.optional(__S(1577, __c49, 9)),
-          workdaySourceConfig: S.optional(__S(1578, __c49, 10)),
-          salesforceSourceConfig: S.optional(__S(1579, __c49, 11)),
-          postgresqlSourceConfig: S.optional(__S(1580, __c49, 12)),
-          mysqlSourceConfig: S.optional(__S(1581, __c49, 13)),
-          oracleSourceConfig: S.optional(__S(1584, __c49, 16)),
-          dataverseSourceConfig: S.optional(__S(1578, __c49, 10)),
-          salesforceMarketingCloudSourceConfig: S.optional(__S(1585, __c49, 17)),
+          serviceNowSourceConfig: S.optional(__S(1507, __c47, 3)),
+          spannerSourceConfig: S.optional(__S(1508, __c47, 4)),
+          mongodbSourceConfig: S.optional(__S(1509, __c47, 5)),
+          sqlServerSourceConfig: S.optional(__S(1512, __c47, 8)),
+          workdaySourceConfig: S.optional(__S(1513, __c47, 9)),
+          salesforceSourceConfig: S.optional(__S(1514, __c47, 10)),
+          postgresqlSourceConfig: S.optional(__S(1515, __c47, 11)),
+          mysqlSourceConfig: S.optional(__S(1516, __c47, 12)),
+          oracleSourceConfig: S.optional(__S(1519, __c47, 15)),
+          dataverseSourceConfig: S.optional(__S(1513, __c47, 9)),
+          salesforceMarketingCloudSourceConfig: S.optional(__S(1520, __c47, 16)),
           sourceConnectionProfile: S.optional(S.String),
         }),
       ).annotate({ identifier: "SourceConfig" });
-    case 19:
+    case 18:
       return S.suspend(() =>
         S.Struct({
           schemaFileFormat: S.optional(S.String),
           compression: S.optional(S.String),
         }),
       ).annotate({ identifier: "JsonFileFormat" });
-    case 20:
+    case 19:
       return S.suspend(() =>
         S.Struct({
-          jsonFileFormat: S.optional(__S(1587, __c49, 19)),
+          jsonFileFormat: S.optional(__S(1522, __c47, 18)),
           fileRotationMb: S.optional(S.Number),
           path: S.optional(S.String),
           fileRotationInterval: S.optional(S.String),
-          avroFileFormat: S.optional(__S(1088, __c34, 0)),
+          avroFileFormat: S.optional(__S(960, __c30, 0)),
         }),
       ).annotate({ identifier: "GcsDestinationConfig" });
-    case 21:
+    case 20:
       return S.suspend(() =>
         S.Struct({
           datasetId: S.optional(S.String),
         }),
       ).annotate({ identifier: "SingleTargetDataset" });
-    case 22:
+    case 21:
       return S.suspend(() =>
         S.Struct({
           location: S.optional(S.String),
@@ -4598,14 +4346,14 @@ function __c49(j: number): any {
           kmsKeyName: S.optional(S.String),
         }),
       ).annotate({ identifier: "DatasetTemplate" });
-    case 23:
+    case 22:
       return S.suspend(() =>
         S.Struct({
-          datasetTemplate: S.optional(__S(1590, __c49, 22)),
+          datasetTemplate: S.optional(__S(1525, __c47, 21)),
           projectId: S.optional(S.String),
         }),
       ).annotate({ identifier: "SourceHierarchyDatasets" });
-    case 24:
+    case 23:
       return S.suspend(() =>
         S.Struct({
           bucket: S.optional(S.String),
@@ -4615,28 +4363,49 @@ function __c49(j: number): any {
           connectionName: S.optional(S.String),
         }),
       ).annotate({ identifier: "BlmtConfig" });
-    case 25:
+    case 24:
       return S.suspend(() =>
         S.Struct({
-          appendOnly: S.optional(__S(1088, __c34, 0)),
-          singleTargetDataset: S.optional(__S(1589, __c49, 21)),
-          merge: S.optional(__S(1088, __c34, 0)),
-          sourceHierarchyDatasets: S.optional(__S(1591, __c49, 23)),
-          blmtConfig: S.optional(__S(1592, __c49, 24)),
+          appendOnly: S.optional(__S(960, __c30, 0)),
+          singleTargetDataset: S.optional(__S(1524, __c47, 20)),
+          merge: S.optional(__S(960, __c30, 0)),
+          sourceHierarchyDatasets: S.optional(__S(1526, __c47, 22)),
+          blmtConfig: S.optional(__S(1527, __c47, 23)),
           dataFreshness: S.optional(S.String),
         }),
       ).annotate({ identifier: "BigQueryDestinationConfig" });
-    case 26:
+    case 25:
       return S.suspend(() =>
         S.Struct({
-          gcsDestinationConfig: S.optional(__S(1588, __c49, 20)),
-          bigqueryDestinationConfig: S.optional(__S(1593, __c49, 25)),
+          gcsDestinationConfig: S.optional(__S(1523, __c47, 19)),
+          bigqueryDestinationConfig: S.optional(__S(1528, __c47, 24)),
           destinationConnectionProfile: S.optional(S.String),
         }),
       ).annotate({ identifier: "DestinationConfig" });
+    case 26:
+      return S.suspend(() =>
+        S.Struct({
+          labels: S.optional(__S(1056, __c33, 0)),
+          updateTime: S.optional(S.String),
+          createTime: S.optional(S.String),
+          lastRecoveryTime: S.optional(S.String),
+          customerManagedEncryptionKey: S.optional(S.String),
+          backfillAll: S.optional(__S(1504, __c47, 0)),
+          ruleSets: S.optional(__S(1506, __c47, 2)),
+          sourceConfig: S.optional(__S(1521, __c47, 17)),
+          destinationConfig: S.optional(__S(1529, __c47, 25)),
+          backfillNone: S.optional(__S(960, __c30, 0)),
+          satisfiesPzi: S.optional(S.Boolean),
+          displayName: S.optional(S.String),
+          errors: S.optional(__S(1453, __c45, 13)),
+          name: S.optional(S.String),
+          satisfiesPzs: S.optional(S.Boolean),
+          state: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Stream" });
   }
 }
-function __c50(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

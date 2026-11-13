@@ -261,94 +261,6 @@ export type NodeHealthEnum =
   | "TIMEOUT"
   | "UNHEALTHY_TENSORFLOW"
   | "UNHEALTHY_MAINTENANCE";
-export interface CreateProjectsLocationsNodesRequest {
-  /** Idempotent request UUID. */
-  requestId?: string | undefined;
-  /** Required. The parent resource name. */
-  parent: string;
-  /** The unqualified resource name. */
-  nodeId?: string | undefined;
-  /** Output only. If this field is populated, it contains a description of why the TPU Node is unhealthy. */
-  healthDescription?: string | undefined;
-  /** Resource labels to represent user-provided metadata. */
-  labels?: StringMap | undefined;
-  /** The AccleratorConfig for the TPU Node. */
-  acceleratorConfig?: AcceleratorConfig | undefined;
-  /** Output only. Upcoming maintenance on this TPU node. */
-  upcomingMaintenance?: UpcomingMaintenance | undefined;
-  /** Output only. The qualified name of the QueuedResource that requested this Node. */
-  queuedResource?: string | undefined;
-  /** Output only. Immutable. The name of the TPU. */
-  name?: string | undefined;
-  /** The Google Cloud Platform Service Account to be used by the TPU node VMs. If None is specified, the default compute service account will be used. */
-  serviceAccount?: ServiceAccount | undefined;
-  /** Optional. Repeated network configurations for the TPU node. This field is used to specify multiple networks configs for the TPU node. network_config and network_configs are mutually exclusive, you can only specify one of them. If both are specified, an error will be returned. */
-  networkConfigs?: NetworkConfigList | undefined;
-  /** The CIDR block that the TPU node will use when selecting an IP address. This CIDR block must be a /29 block; the Compute Engine networks API forbids a smaller block, and using a larger block would be wasteful (a node can only consume one IP address). Errors will occur if the CIDR block has already been used for a currently existing TPU node, the CIDR block conflicts with any subnetworks in the user's provided network, or the provided network is peered with another network that is using that CIDR block. */
-  cidrBlock?: string | undefined;
-  /** Network configurations for the TPU node. network_config and network_configs are mutually exclusive, you can only specify one of them. If both are specified, an error will be returned. */
-  networkConfig?: NetworkConfig | undefined;
-  /** Output only. The Symptoms that have occurred to the TPU Node. */
-  symptoms?: SymptomList | undefined;
-  /** Custom metadata to apply to the TPU Node. Can set startup-script and shutdown-script */
-  metadata?: StringMap | undefined;
-  /** Output only. The current state for the TPU Node. */
-  state?: NodeStateEnum | (string & {}) | undefined;
-  /** Output only. The time when the node was created. */
-  createTime?: string | undefined;
-  /** The scheduling options for this node. */
-  schedulingConfig?: SchedulingConfig | undefined;
-  /** The additional data disks for the Node. */
-  dataDisks?: AttachedDiskList | undefined;
-  /** Required. The runtime version running in the Node. */
-  runtimeVersion?: string | undefined;
-  /** The type of hardware accelerators associated with this node. */
-  acceleratorType?: string | undefined;
-  /** Shielded Instance options. */
-  shieldedInstanceConfig?: ShieldedInstanceConfig | undefined;
-  /** Output only. The API version that created this Node. */
-  apiVersion?: NodeApiVersionEnum | (string & {}) | undefined;
-  /** Optional. Boot disk configuration. */
-  bootDiskConfig?: BootDiskConfig | undefined;
-  /** Output only. The network endpoints where TPU workers can be accessed and sent work. It is recommended that runtime clients of the node reach out to the 0th entry in this map first. */
-  networkEndpoints?: NetworkEndpointList | undefined;
-  /** Tags to apply to the TPU Node. Tags are used to identify valid sources or targets for network firewalls. */
-  tags?: StringList | undefined;
-  /** Optional. Whether Autocheckpoint is enabled. */
-  autocheckpointEnabled?: boolean | undefined;
-  /** The user-supplied description of the TPU. Maximum of 512 characters. */
-  description?: string | undefined;
-  /** Output only. Whether the Node belongs to a Multislice group. */
-  multisliceNode?: boolean | undefined;
-  /** The health status of the TPU node. */
-  health?: NodeHealthEnum | (string & {}) | undefined;
-  /** Output only. The unique identifier for the TPU Node. */
-  id?: string | undefined;
-}
-export type DocumentMap = { [key: string]: unknown | undefined };
-export type DocumentMapList = Array<DocumentMap>;
-/** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
-export interface Status {
-  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string | undefined;
-  /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number | undefined;
-  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList | undefined;
-}
-/** This resource represents a long-running operation that is the result of a network API call. */
-export interface Operation {
-  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap | undefined;
-  /** The error result of the operation in case of failure or cancellation. */
-  error?: Status | undefined;
-  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string | undefined;
-  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap | undefined;
-  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean | undefined;
-}
 /** A TPU instance. */
 export interface Node {
   /** Output only. If this field is populated, it contains a description of why the TPU Node is unhealthy. */
@@ -407,6 +319,38 @@ export interface Node {
   health?: NodeHealthEnum | (string & {}) | undefined;
   /** Output only. The unique identifier for the TPU Node. */
   id?: string | undefined;
+}
+export interface CreateProjectsLocationsNodesRequest extends Node {
+  /** Idempotent request UUID. */
+  requestId?: string | undefined;
+  /** Required. The parent resource name. */
+  parent: string;
+  /** The unqualified resource name. */
+  nodeId?: string | undefined;
+}
+export type DocumentMap = { [key: string]: unknown | undefined };
+export type DocumentMapList = Array<DocumentMap>;
+/** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
+export interface Status {
+  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
+  message?: string | undefined;
+  /** The status code, which should be an enum value of google.rpc.Code. */
+  code?: number | undefined;
+  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
+  details?: DocumentMapList | undefined;
+}
+/** This resource represents a long-running operation that is the result of a network API call. */
+export interface Operation {
+  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
+  metadata?: DocumentMap | undefined;
+  /** The error result of the operation in case of failure or cancellation. */
+  error?: Status | undefined;
+  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
+  name?: string | undefined;
+  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
+  response?: DocumentMap | undefined;
+  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
+  done?: boolean | undefined;
 }
 export type MultiNodeParamsWorkloadTypeEnum =
   | "WORKLOAD_TYPE_UNSPECIFIED"
@@ -539,13 +483,8 @@ export interface QueuedResourceState {
   /** Further data for the failed state. */
   failedData?: FailedData | undefined;
 }
-export interface CreateProjectsLocationsQueuedResourcesRequest {
-  /** Required. The parent resource name. */
-  parent: string;
-  /** The unqualified resource name. Should follow the `^[A-Za-z0-9_.~+%-]+$` regex format. */
-  queuedResourceId?: string | undefined;
-  /** Idempotent request UUID. */
-  requestId?: string | undefined;
+/** A QueuedResource represents a request for resources that will be placed in a queue and fulfilled when the necessary resources are available. */
+export interface QueuedResource {
   /** Output only. The time when the QueuedResource was created. */
   createTime?: string | undefined;
   /** Name of the reservation in which the resource should be provisioned. Format: projects/{project}/locations/{zone}/reservations/{reservation} */
@@ -568,6 +507,14 @@ export interface CreateProjectsLocationsQueuedResourcesRequest {
   queueingPolicy?: QueueingPolicy | undefined;
   /** Output only. State of the QueuedResource request. */
   state?: QueuedResourceState | undefined;
+}
+export interface CreateProjectsLocationsQueuedResourcesRequest extends QueuedResource {
+  /** Required. The parent resource name. */
+  parent: string;
+  /** The unqualified resource name. Should follow the `^[A-Za-z0-9_.~+%-]+$` regex format. */
+  queuedResourceId?: string | undefined;
+  /** Idempotent request UUID. */
+  requestId?: string | undefined;
 }
 export interface DeleteProjectsLocationsNodesRequest {
   /** Idempotent request UUID. */
@@ -605,13 +552,16 @@ export interface GenerateServiceIdentityResponse {
   /** ServiceIdentity that was created or retrieved. */
   identity?: ServiceIdentity | undefined;
 }
-export interface GetGuestAttributesProjectsLocationsNodesRequest {
-  /** Required. The resource name. */
-  name: string;
+/** Request for GetGuestAttributes. */
+export interface GetGuestAttributesRequest {
   /** The 0-based worker ID. If it is empty, all workers' GuestAttributes will be returned. */
   workerIds?: StringList | undefined;
   /** The guest attributes path to be queried. */
   queryPath?: string | undefined;
+}
+export interface GetGuestAttributesProjectsLocationsNodesRequest extends GetGuestAttributesRequest {
+  /** Required. The resource name. */
+  name: string;
 }
 /** A guest attributes namespace/key/value entry. */
 export interface GuestAttributesEntry {
@@ -702,31 +652,6 @@ export interface GetProjectsLocationsOperationsRequest {
 export interface GetProjectsLocationsQueuedResourcesRequest {
   /** Required. The resource name. */
   name: string;
-}
-/** A QueuedResource represents a request for resources that will be placed in a queue and fulfilled when the necessary resources are available. */
-export interface QueuedResource {
-  /** Output only. The time when the QueuedResource was created. */
-  createTime?: string | undefined;
-  /** Name of the reservation in which the resource should be provisioned. Format: projects/{project}/locations/{zone}/reservations/{reservation} */
-  reservationName?: string | undefined;
-  /** Defines a TPU resource. */
-  tpu?: Tpu | undefined;
-  /** The BestEffort tier. */
-  bestEffort?: BestEffort | undefined;
-  /** The Guaranteed tier. */
-  guaranteed?: Guaranteed | undefined;
-  /** Optional. The Spot tier. */
-  spot?: BestEffort | undefined;
-  /** Output only. Immutable. The name of the QueuedResource. */
-  name?: string | undefined;
-  /** Optional. The duration of the requested resource. */
-  runDuration?: RunDuration | undefined;
-  /** Optional. The provisioning model for the resource. */
-  provisioningModel?: QueuedResourceProvisioningModelEnum | undefined;
-  /** The queueing policy of the QueuedRequest. */
-  queueingPolicy?: QueueingPolicy | undefined;
-  /** Output only. State of the QueuedResource request. */
-  state?: QueuedResourceState | undefined;
 }
 export interface GetProjectsLocationsRuntimeVersionsRequest {
   /** Required. The resource name. */
@@ -913,65 +838,11 @@ export interface ListRuntimeVersionsResponse {
   /** Locations that could not be reached. */
   unreachable?: StringList | undefined;
 }
-export interface PatchProjectsLocationsNodesRequest {
+export interface PatchProjectsLocationsNodesRequest extends Omit<Node, "name"> {
   /** Required. Mask of fields from Node to update. Supported fields: [description, tags, labels, metadata, network_config.enable_external_ips]. */
   updateMask?: string | undefined;
   /** Output only. Immutable. The name of the TPU. */
   name: string;
-  /** Output only. If this field is populated, it contains a description of why the TPU Node is unhealthy. */
-  healthDescription?: string | undefined;
-  /** Resource labels to represent user-provided metadata. */
-  labels?: StringMap | undefined;
-  /** The AccleratorConfig for the TPU Node. */
-  acceleratorConfig?: AcceleratorConfig | undefined;
-  /** Output only. Upcoming maintenance on this TPU node. */
-  upcomingMaintenance?: UpcomingMaintenance | undefined;
-  /** Output only. The qualified name of the QueuedResource that requested this Node. */
-  queuedResource?: string | undefined;
-  /** The Google Cloud Platform Service Account to be used by the TPU node VMs. If None is specified, the default compute service account will be used. */
-  serviceAccount?: ServiceAccount | undefined;
-  /** Optional. Repeated network configurations for the TPU node. This field is used to specify multiple networks configs for the TPU node. network_config and network_configs are mutually exclusive, you can only specify one of them. If both are specified, an error will be returned. */
-  networkConfigs?: NetworkConfigList | undefined;
-  /** The CIDR block that the TPU node will use when selecting an IP address. This CIDR block must be a /29 block; the Compute Engine networks API forbids a smaller block, and using a larger block would be wasteful (a node can only consume one IP address). Errors will occur if the CIDR block has already been used for a currently existing TPU node, the CIDR block conflicts with any subnetworks in the user's provided network, or the provided network is peered with another network that is using that CIDR block. */
-  cidrBlock?: string | undefined;
-  /** Network configurations for the TPU node. network_config and network_configs are mutually exclusive, you can only specify one of them. If both are specified, an error will be returned. */
-  networkConfig?: NetworkConfig | undefined;
-  /** Output only. The Symptoms that have occurred to the TPU Node. */
-  symptoms?: SymptomList | undefined;
-  /** Custom metadata to apply to the TPU Node. Can set startup-script and shutdown-script */
-  metadata?: StringMap | undefined;
-  /** Output only. The current state for the TPU Node. */
-  state?: NodeStateEnum | (string & {}) | undefined;
-  /** Output only. The time when the node was created. */
-  createTime?: string | undefined;
-  /** The scheduling options for this node. */
-  schedulingConfig?: SchedulingConfig | undefined;
-  /** The additional data disks for the Node. */
-  dataDisks?: AttachedDiskList | undefined;
-  /** Required. The runtime version running in the Node. */
-  runtimeVersion?: string | undefined;
-  /** The type of hardware accelerators associated with this node. */
-  acceleratorType?: string | undefined;
-  /** Shielded Instance options. */
-  shieldedInstanceConfig?: ShieldedInstanceConfig | undefined;
-  /** Output only. The API version that created this Node. */
-  apiVersion?: NodeApiVersionEnum | (string & {}) | undefined;
-  /** Optional. Boot disk configuration. */
-  bootDiskConfig?: BootDiskConfig | undefined;
-  /** Output only. The network endpoints where TPU workers can be accessed and sent work. It is recommended that runtime clients of the node reach out to the 0th entry in this map first. */
-  networkEndpoints?: NetworkEndpointList | undefined;
-  /** Tags to apply to the TPU Node. Tags are used to identify valid sources or targets for network firewalls. */
-  tags?: StringList | undefined;
-  /** Optional. Whether Autocheckpoint is enabled. */
-  autocheckpointEnabled?: boolean | undefined;
-  /** The user-supplied description of the TPU. Maximum of 512 characters. */
-  description?: string | undefined;
-  /** Output only. Whether the Node belongs to a Multislice group. */
-  multisliceNode?: boolean | undefined;
-  /** The health status of the TPU node. */
-  health?: NodeHealthEnum | (string & {}) | undefined;
-  /** Output only. The unique identifier for the TPU Node. */
-  id?: string | undefined;
 }
 /** Request for PerformMaintenance. */
 export type PerformMaintenanceRequest = BestEffort;
@@ -981,11 +852,14 @@ export interface PerformMaintenanceProjectsLocationsNodesRequest {
   /** Request body */
   body?: BestEffort | undefined;
 }
-export interface PerformMaintenanceQueuedResourceProjectsLocationsQueuedResourcesRequest {
-  /** Required. The name of the QueuedResource which holds the nodes to perform maintenance on. */
-  name: string;
+/** Request for PerformMaintenanceQueuedResource. */
+export interface PerformMaintenanceQueuedResourceRequest {
   /** The names of the nodes to perform maintenance on. */
   nodeNames?: StringList | undefined;
+}
+export interface PerformMaintenanceQueuedResourceProjectsLocationsQueuedResourcesRequest extends PerformMaintenanceQueuedResourceRequest {
+  /** Required. The name of the QueuedResource which holds the nodes to perform maintenance on. */
+  name: string;
 }
 /** Request for ResetQueuedResource. */
 export type ResetQueuedResourceRequest = BestEffort;
@@ -995,11 +869,14 @@ export interface ResetProjectsLocationsQueuedResourcesRequest {
   /** Request body */
   body?: BestEffort | undefined;
 }
-export interface SimulateMaintenanceEventProjectsLocationsNodesRequest {
-  /** Required. The resource name. */
-  name: string;
+/** Request for SimulateMaintenanceEvent. */
+export interface SimulateMaintenanceEventRequest {
   /** The 0-based worker ID. If it is empty, worker ID 0 will be selected for maintenance event simulation. A maintenance event will only be fired on the first specified worker ID. Future implementations may support firing on multiple workers. */
   workerIds?: StringList | undefined;
+}
+export interface SimulateMaintenanceEventProjectsLocationsNodesRequest extends SimulateMaintenanceEventRequest {
+  /** Required. The resource name. */
+  name: string;
 }
 /** Request for StartNode. */
 export type StartNodeRequest = BestEffort;
@@ -1030,8 +907,8 @@ export const cancelProjectsLocationsOperations: API.OperationMethod<
   CancelProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(432, __c27, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
-  output: __S(448, __c28, 0) as any as S.Schema<Empty>,
+  input: __S(416, __c26, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
+  output: __S(432, __c27, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1052,8 +929,8 @@ export const createProjectsLocationsNodes: API.OperationMethod<
   CreateProjectsLocationsNodesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(464, __c29, 0) as any as S.Schema<CreateProjectsLocationsNodesRequest>,
-  output: __S(592, __c37, 0) as any as S.Schema<Operation>,
+  input: __S(448, __c28, 0) as any as S.Schema<CreateProjectsLocationsNodesRequest>,
+  output: __S(576, __c36, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1074,8 +951,8 @@ export const createProjectsLocationsQueuedResources: API.OperationMethod<
   CreateProjectsLocationsQueuedResourcesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c38, 0) as any as S.Schema<CreateProjectsLocationsQueuedResourcesRequest>,
-  output: __S(592, __c37, 0) as any as S.Schema<Operation>,
+  input: __S(592, __c37, 0) as any as S.Schema<CreateProjectsLocationsQueuedResourcesRequest>,
+  output: __S(576, __c36, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1096,8 +973,8 @@ export const deleteProjectsLocationsNodes: API.OperationMethod<
   DeleteProjectsLocationsNodesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c42, 0) as any as S.Schema<DeleteProjectsLocationsNodesRequest>,
-  output: __S(592, __c37, 0) as any as S.Schema<Operation>,
+  input: __S(640, __c40, 0) as any as S.Schema<DeleteProjectsLocationsNodesRequest>,
+  output: __S(576, __c36, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1118,8 +995,8 @@ export const deleteProjectsLocationsOperations: API.OperationMethod<
   DeleteProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(688, __c43, 0) as any as S.Schema<DeleteProjectsLocationsOperationsRequest>,
-  output: __S(448, __c28, 0) as any as S.Schema<Empty>,
+  input: __S(656, __c41, 0) as any as S.Schema<DeleteProjectsLocationsOperationsRequest>,
+  output: __S(432, __c27, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1140,8 +1017,8 @@ export const deleteProjectsLocationsQueuedResources: API.OperationMethod<
   DeleteProjectsLocationsQueuedResourcesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c44, 0) as any as S.Schema<DeleteProjectsLocationsQueuedResourcesRequest>,
-  output: __S(592, __c37, 0) as any as S.Schema<Operation>,
+  input: __S(672, __c42, 0) as any as S.Schema<DeleteProjectsLocationsQueuedResourcesRequest>,
+  output: __S(576, __c36, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1184,8 +1061,8 @@ export const getGuestAttributesProjectsLocationsNodes: API.OperationMethod<
   GetGuestAttributesProjectsLocationsNodesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c1, 0) as any as S.Schema<GetGuestAttributesProjectsLocationsNodesRequest>,
-  output: __S(22, __c1, 6) as any as S.Schema<GetGuestAttributesResponse>,
+  input: __S(17, __c1, 1) as any as S.Schema<GetGuestAttributesProjectsLocationsNodesRequest>,
+  output: __S(23, __c1, 7) as any as S.Schema<GetGuestAttributesResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1260,7 +1137,7 @@ export const getProjectsLocationsNodes: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c7, 0) as any as S.Schema<GetProjectsLocationsNodesRequest>,
-  output: __S(624, __c39, 0) as any as S.Schema<Node>,
+  output: __S(542, __c33, 14) as any as S.Schema<Node>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1277,7 +1154,7 @@ export const getProjectsLocationsOperations: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c8, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
-  output: __S(592, __c37, 0) as any as S.Schema<Operation>,
+  output: __S(576, __c36, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1294,7 +1171,7 @@ export const getProjectsLocationsQueuedResources: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(144, __c9, 0) as any as S.Schema<GetProjectsLocationsQueuedResourcesRequest>,
-  output: __S(160, __c10, 0) as any as S.Schema<QueuedResource>,
+  output: __S(617, __c38, 9) as any as S.Schema<QueuedResource>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1310,8 +1187,8 @@ export const getProjectsLocationsRuntimeVersions: API.OperationMethod<
   GetProjectsLocationsRuntimeVersionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c11, 0) as any as S.Schema<GetProjectsLocationsRuntimeVersionsRequest>,
-  output: __S(192, __c12, 0) as any as S.Schema<RuntimeVersion>,
+  input: __S(160, __c10, 0) as any as S.Schema<GetProjectsLocationsRuntimeVersionsRequest>,
+  output: __S(176, __c11, 0) as any as S.Schema<RuntimeVersion>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1328,8 +1205,8 @@ export const listProjectsLocations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListLocationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(208, __c13, 0) as any as S.Schema<ListProjectsLocationsRequest>,
-  output: __S(210, __c13, 2) as any as S.Schema<ListLocationsResponse>,
+  input: __S(192, __c12, 0) as any as S.Schema<ListProjectsLocationsRequest>,
+  output: __S(194, __c12, 2) as any as S.Schema<ListLocationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1347,8 +1224,8 @@ export const listProjectsLocationsAcceleratorTypes: API.PaginatedOperationMethod
   GcpOpContext,
   ListAcceleratorTypesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(224, __c14, 0) as any as S.Schema<ListProjectsLocationsAcceleratorTypesRequest>,
-  output: __S(226, __c14, 2) as any as S.Schema<ListAcceleratorTypesResponse>,
+  input: __S(208, __c13, 0) as any as S.Schema<ListProjectsLocationsAcceleratorTypesRequest>,
+  output: __S(210, __c13, 2) as any as S.Schema<ListAcceleratorTypesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1366,8 +1243,8 @@ export const listProjectsLocationsNodes: API.PaginatedOperationMethod<
   GcpOpContext,
   ListNodesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(240, __c15, 0) as any as S.Schema<ListProjectsLocationsNodesRequest>,
-  output: __S(242, __c15, 2) as any as S.Schema<ListNodesResponse>,
+  input: __S(224, __c14, 0) as any as S.Schema<ListProjectsLocationsNodesRequest>,
+  output: __S(226, __c14, 2) as any as S.Schema<ListNodesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1385,8 +1262,8 @@ export const listProjectsLocationsOperations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListOperationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(256, __c16, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
-  output: __S(258, __c16, 2) as any as S.Schema<ListOperationsResponse>,
+  input: __S(240, __c15, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
+  output: __S(242, __c15, 2) as any as S.Schema<ListOperationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1404,8 +1281,8 @@ export const listProjectsLocationsQueuedResources: API.PaginatedOperationMethod<
   GcpOpContext,
   ListQueuedResourcesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(272, __c17, 0) as any as S.Schema<ListProjectsLocationsQueuedResourcesRequest>,
-  output: __S(274, __c17, 2) as any as S.Schema<ListQueuedResourcesResponse>,
+  input: __S(256, __c16, 0) as any as S.Schema<ListProjectsLocationsQueuedResourcesRequest>,
+  output: __S(258, __c16, 2) as any as S.Schema<ListQueuedResourcesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1423,8 +1300,8 @@ export const listProjectsLocationsReservations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListReservationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(288, __c18, 0) as any as S.Schema<ListProjectsLocationsReservationsRequest>,
-  output: __S(293, __c18, 5) as any as S.Schema<ListReservationsResponse>,
+  input: __S(272, __c17, 0) as any as S.Schema<ListProjectsLocationsReservationsRequest>,
+  output: __S(277, __c17, 5) as any as S.Schema<ListReservationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1442,8 +1319,8 @@ export const listProjectsLocationsRuntimeVersions: API.PaginatedOperationMethod<
   GcpOpContext,
   ListRuntimeVersionsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(304, __c19, 0) as any as S.Schema<ListProjectsLocationsRuntimeVersionsRequest>,
-  output: __S(306, __c19, 2) as any as S.Schema<ListRuntimeVersionsResponse>,
+  input: __S(288, __c18, 0) as any as S.Schema<ListProjectsLocationsRuntimeVersionsRequest>,
+  output: __S(290, __c18, 2) as any as S.Schema<ListRuntimeVersionsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1465,8 +1342,8 @@ export const patchProjectsLocationsNodes: API.OperationMethod<
   PatchProjectsLocationsNodesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c20, 0) as any as S.Schema<PatchProjectsLocationsNodesRequest>,
-  output: __S(592, __c37, 0) as any as S.Schema<Operation>,
+  input: __S(304, __c19, 0) as any as S.Schema<PatchProjectsLocationsNodesRequest>,
+  output: __S(576, __c36, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1487,8 +1364,8 @@ export const performMaintenanceProjectsLocationsNodes: API.OperationMethod<
   PerformMaintenanceProjectsLocationsNodesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c21, 0) as any as S.Schema<PerformMaintenanceProjectsLocationsNodesRequest>,
-  output: __S(592, __c37, 0) as any as S.Schema<Operation>,
+  input: __S(320, __c20, 0) as any as S.Schema<PerformMaintenanceProjectsLocationsNodesRequest>,
+  output: __S(576, __c36, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1510,11 +1387,11 @@ export const performMaintenanceQueuedResourceProjectsLocationsQueuedResources: A
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    352,
-    __c22,
-    0,
+    337,
+    __c21,
+    1,
   ) as any as S.Schema<PerformMaintenanceQueuedResourceProjectsLocationsQueuedResourcesRequest>,
-  output: __S(592, __c37, 0) as any as S.Schema<Operation>,
+  output: __S(576, __c36, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1535,8 +1412,8 @@ export const resetProjectsLocationsQueuedResources: API.OperationMethod<
   ResetProjectsLocationsQueuedResourcesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(368, __c23, 0) as any as S.Schema<ResetProjectsLocationsQueuedResourcesRequest>,
-  output: __S(592, __c37, 0) as any as S.Schema<Operation>,
+  input: __S(352, __c22, 0) as any as S.Schema<ResetProjectsLocationsQueuedResourcesRequest>,
+  output: __S(576, __c36, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1558,11 +1435,11 @@ export const simulateMaintenanceEventProjectsLocationsNodes: API.OperationMethod
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    384,
-    __c24,
-    0,
+    369,
+    __c23,
+    1,
   ) as any as S.Schema<SimulateMaintenanceEventProjectsLocationsNodesRequest>,
-  output: __S(592, __c37, 0) as any as S.Schema<Operation>,
+  output: __S(576, __c36, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1583,8 +1460,8 @@ export const startProjectsLocationsNodes: API.OperationMethod<
   StartProjectsLocationsNodesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(400, __c25, 0) as any as S.Schema<StartProjectsLocationsNodesRequest>,
-  output: __S(592, __c37, 0) as any as S.Schema<Operation>,
+  input: __S(384, __c24, 0) as any as S.Schema<StartProjectsLocationsNodesRequest>,
+  output: __S(576, __c36, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1605,8 +1482,8 @@ export const stopProjectsLocationsNodes: API.OperationMethod<
   StopProjectsLocationsNodesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c26, 0) as any as S.Schema<StopProjectsLocationsNodesRequest>,
-  output: __S(592, __c37, 0) as any as S.Schema<Operation>,
+  input: __S(400, __c25, 0) as any as S.Schema<StopProjectsLocationsNodesRequest>,
+  output: __S(576, __c36, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1621,7 +1498,7 @@ function __c0(j: number): any {
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(448, __c28, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(432, __c27, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1649,10 +1526,18 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
-          workerIds: S.optional(__S(480, __c30, 0)),
+          workerIds: S.optional(__S(464, __c29, 0)),
           queryPath: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "GetGuestAttributesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(16, __c1, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2alpha1/{+name}:getGuestAttributes",
@@ -1660,7 +1545,7 @@ function __c1(j: number): any {
           }),
         ),
       ).annotate({ identifier: "GetGuestAttributesProjectsLocationsNodesRequest" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           namespace: S.optional(S.String),
@@ -1668,27 +1553,27 @@ function __c1(j: number): any {
           value: S.optional(S.String),
         }),
       ).annotate({ identifier: "GuestAttributesEntry" });
-    case 2:
-      return S.Array(__S(17, __c1, 1));
     case 3:
-      return S.suspend(() =>
-        S.Struct({
-          items: S.optional(__S(18, __c1, 2)),
-        }),
-      ).annotate({ identifier: "GuestAttributesValue" });
+      return S.Array(__S(18, __c1, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          queryPath: S.optional(S.String),
-          queryValue: S.optional(__S(19, __c1, 3)),
+          items: S.optional(__S(19, __c1, 3)),
         }),
-      ).annotate({ identifier: "GuestAttributes" });
+      ).annotate({ identifier: "GuestAttributesValue" });
     case 5:
-      return S.Array(__S(20, __c1, 4));
-    case 6:
       return S.suspend(() =>
         S.Struct({
-          guestAttributes: S.optional(__S(21, __c1, 5)),
+          queryPath: S.optional(S.String),
+          queryValue: S.optional(__S(20, __c1, 4)),
+        }),
+      ).annotate({ identifier: "GuestAttributes" });
+    case 6:
+      return S.Array(__S(21, __c1, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          guestAttributes: S.optional(__S(22, __c1, 6)),
         }),
       ).annotate({ identifier: "GetGuestAttributesResponse" });
   }
@@ -1711,7 +1596,7 @@ function __c2(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nodeName: S.optional(S.String),
-          upcomingMaintenance: S.optional(__S(496, __c31, 0)),
+          upcomingMaintenance: S.optional(__S(480, __c30, 0)),
           nodeUid: S.optional(S.String),
         }),
       ).annotate({ identifier: "NodeUpcomingMaintenanceInfo" });
@@ -1747,10 +1632,10 @@ function __c4(j: number): any {
       return S.suspend(() =>
         S.Struct({
           locationId: S.optional(S.String),
-          labels: S.optional(__S(512, __c32, 0)),
+          labels: S.optional(__S(496, __c31, 0)),
           name: S.optional(S.String),
           displayName: S.optional(S.String),
-          metadata: S.optional(__S(560, __c35, 0)),
+          metadata: S.optional(__S(544, __c34, 0)),
         }),
       ).annotate({ identifier: "Location" });
   }
@@ -1774,7 +1659,7 @@ function __c5(j: number): any {
 function __c6(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(528, __c33, 0));
+      return S.Array(__S(512, __c32, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -1838,26 +1723,6 @@ function __c10(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          createTime: S.optional(S.String),
-          reservationName: S.optional(S.String),
-          tpu: S.optional(__S(643, __c40, 3)),
-          bestEffort: S.optional(__S(448, __c28, 0)),
-          guaranteed: S.optional(__S(644, __c40, 4)),
-          spot: S.optional(__S(448, __c28, 0)),
-          name: S.optional(S.String),
-          runDuration: S.optional(__S(645, __c40, 5)),
-          provisioningModel: S.optional(S.String),
-          queueingPolicy: S.optional(__S(646, __c40, 6)),
-          state: S.optional(__S(648, __c40, 8)),
-        }),
-      ).annotate({ identifier: "QueuedResource" });
-  }
-}
-function __c11(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
           name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -1869,7 +1734,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsRuntimeVersionsRequest" });
   }
 }
-function __c12(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1880,14 +1745,14 @@ function __c12(j: number): any {
       ).annotate({ identifier: "RuntimeVersion" });
   }
 }
-function __c13(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          extraLocationTypes: S.optional(__S(480, __c30, 0).pipe(T.Query())),
+          extraLocationTypes: S.optional(__S(464, __c29, 0).pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
@@ -1904,12 +1769,12 @@ function __c13(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          locations: S.optional(__S(209, __c13, 1)),
+          locations: S.optional(__S(193, __c12, 1)),
         }),
       ).annotate({ identifier: "ListLocationsResponse" });
   }
 }
-function __c14(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1932,14 +1797,14 @@ function __c14(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          acceleratorTypes: S.optional(__S(225, __c14, 1)),
+          acceleratorTypes: S.optional(__S(209, __c13, 1)),
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(480, __c30, 0)),
+          unreachable: S.optional(__S(464, __c29, 0)),
         }),
       ).annotate({ identifier: "ListAcceleratorTypesResponse" });
   }
 }
-function __c15(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1956,18 +1821,18 @@ function __c15(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsNodesRequest" });
     case 1:
-      return S.Array(__S(624, __c39, 0));
+      return S.Array(__S(542, __c33, 14));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          nodes: S.optional(__S(241, __c15, 1)),
+          nodes: S.optional(__S(225, __c14, 1)),
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(480, __c30, 0)),
+          unreachable: S.optional(__S(464, __c29, 0)),
         }),
       ).annotate({ identifier: "ListNodesResponse" });
   }
 }
-function __c16(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1986,18 +1851,18 @@ function __c16(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsOperationsRequest" });
     case 1:
-      return S.Array(__S(592, __c37, 0));
+      return S.Array(__S(576, __c36, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          operations: S.optional(__S(257, __c16, 1)),
+          operations: S.optional(__S(241, __c15, 1)),
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(480, __c30, 0)),
+          unreachable: S.optional(__S(464, __c29, 0)),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
   }
 }
-function __c17(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2014,18 +1879,18 @@ function __c17(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsQueuedResourcesRequest" });
     case 1:
-      return S.Array(__S(160, __c10, 0));
+      return S.Array(__S(617, __c38, 9));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(480, __c30, 0)),
-          queuedResources: S.optional(__S(273, __c17, 1)),
+          unreachable: S.optional(__S(464, __c29, 0)),
+          queuedResources: S.optional(__S(257, __c16, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListQueuedResourcesResponse" });
   }
 }
-function __c18(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2050,8 +1915,8 @@ function __c18(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          interval: S.optional(__S(656, __c41, 0)),
-          usage: S.optional(__S(289, __c18, 1)),
+          interval: S.optional(__S(624, __c39, 0)),
+          usage: S.optional(__S(273, __c17, 1)),
           resourceType: S.optional(S.String),
           capacityUnits: S.optional(S.String),
           size: S.optional(S.Number),
@@ -2062,21 +1927,21 @@ function __c18(j: number): any {
         S.Struct({
           state: S.optional(S.String),
           name: S.optional(S.String),
-          standard: S.optional(__S(290, __c18, 2)),
+          standard: S.optional(__S(274, __c17, 2)),
         }),
       ).annotate({ identifier: "Reservation" });
     case 4:
-      return S.Array(__S(291, __c18, 3));
+      return S.Array(__S(275, __c17, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          reservations: S.optional(__S(292, __c18, 4)),
+          reservations: S.optional(__S(276, __c17, 4)),
         }),
       ).annotate({ identifier: "ListReservationsResponse" });
   }
 }
-function __c19(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2095,52 +1960,28 @@ function __c19(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsRuntimeVersionsRequest" });
     case 1:
-      return S.Array(__S(192, __c12, 0));
+      return S.Array(__S(176, __c11, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          runtimeVersions: S.optional(__S(305, __c19, 1)),
+          runtimeVersions: S.optional(__S(289, __c18, 1)),
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(480, __c30, 0)),
+          unreachable: S.optional(__S(464, __c29, 0)),
         }),
       ).annotate({ identifier: "ListRuntimeVersionsResponse" });
   }
 }
-function __c20(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          healthDescription: S.optional(S.String),
-          labels: S.optional(__S(512, __c32, 0)),
-          acceleratorConfig: S.optional(__S(528, __c33, 0)),
-          upcomingMaintenance: S.optional(__S(496, __c31, 0)),
-          queuedResource: S.optional(S.String),
-          serviceAccount: S.optional(__S(544, __c34, 0)),
-          networkConfigs: S.optional(__S(546, __c34, 2)),
-          cidrBlock: S.optional(S.String),
-          networkConfig: S.optional(__S(545, __c34, 1)),
-          symptoms: S.optional(__S(548, __c34, 4)),
-          metadata: S.optional(__S(512, __c32, 0)),
-          state: S.optional(S.String),
-          createTime: S.optional(S.String),
-          schedulingConfig: S.optional(__S(549, __c34, 5)),
-          dataDisks: S.optional(__S(551, __c34, 7)),
-          runtimeVersion: S.optional(S.String),
-          acceleratorType: S.optional(S.String),
-          shieldedInstanceConfig: S.optional(__S(552, __c34, 8)),
-          apiVersion: S.optional(S.String),
-          bootDiskConfig: S.optional(__S(554, __c34, 10)),
-          networkEndpoints: S.optional(__S(557, __c34, 13)),
-          tags: S.optional(__S(480, __c30, 0)),
-          autocheckpointEnabled: S.optional(S.Boolean),
-          description: S.optional(S.String),
-          multisliceNode: S.optional(S.Boolean),
-          health: S.optional(S.String),
-          id: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(542, __c33, 14),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2alpha1/{+name}",
@@ -2150,13 +1991,13 @@ function __c20(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsNodesRequest" });
   }
 }
-function __c21(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(448, __c28, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(432, __c27, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2167,14 +2008,22 @@ function __c21(j: number): any {
       ).annotate({ identifier: "PerformMaintenanceProjectsLocationsNodesRequest" });
   }
 }
-function __c22(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
-          nodeNames: S.optional(__S(480, __c30, 0)),
-        }).pipe(
+          nodeNames: S.optional(__S(464, __c29, 0)),
+        }),
+      ).annotate({ identifier: "PerformMaintenanceQueuedResourceRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(336, __c21, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2alpha1/{+name}:performMaintenanceQueuedResource",
@@ -2186,13 +2035,13 @@ function __c22(j: number): any {
       });
   }
 }
-function __c23(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(448, __c28, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(432, __c27, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2203,14 +2052,22 @@ function __c23(j: number): any {
       ).annotate({ identifier: "ResetProjectsLocationsQueuedResourcesRequest" });
   }
 }
-function __c24(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
-          workerIds: S.optional(__S(480, __c30, 0)),
-        }).pipe(
+          workerIds: S.optional(__S(464, __c29, 0)),
+        }),
+      ).annotate({ identifier: "SimulateMaintenanceEventRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(368, __c23, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2alpha1/{+name}:simulateMaintenanceEvent",
@@ -2220,13 +2077,13 @@ function __c24(j: number): any {
       ).annotate({ identifier: "SimulateMaintenanceEventProjectsLocationsNodesRequest" });
   }
 }
-function __c25(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(448, __c28, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(432, __c27, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2237,13 +2094,13 @@ function __c25(j: number): any {
       ).annotate({ identifier: "StartProjectsLocationsNodesRequest" });
   }
 }
-function __c26(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(448, __c28, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(432, __c27, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2254,7 +2111,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "StopProjectsLocationsNodesRequest" });
   }
 }
-function __c27(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2270,49 +2127,24 @@ function __c27(j: number): any {
       ).annotate({ identifier: "CancelProjectsLocationsOperationsRequest" });
   }
 }
-function __c28(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "Empty" });
   }
 }
-function __c29(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          nodeId: S.optional(S.String.pipe(T.Query())),
-          healthDescription: S.optional(S.String),
-          labels: S.optional(__S(512, __c32, 0)),
-          acceleratorConfig: S.optional(__S(528, __c33, 0)),
-          upcomingMaintenance: S.optional(__S(496, __c31, 0)),
-          queuedResource: S.optional(S.String),
-          name: S.optional(S.String),
-          serviceAccount: S.optional(__S(544, __c34, 0)),
-          networkConfigs: S.optional(__S(546, __c34, 2)),
-          cidrBlock: S.optional(S.String),
-          networkConfig: S.optional(__S(545, __c34, 1)),
-          symptoms: S.optional(__S(548, __c34, 4)),
-          metadata: S.optional(__S(512, __c32, 0)),
-          state: S.optional(S.String),
-          createTime: S.optional(S.String),
-          schedulingConfig: S.optional(__S(549, __c34, 5)),
-          dataDisks: S.optional(__S(551, __c34, 7)),
-          runtimeVersion: S.optional(S.String),
-          acceleratorType: S.optional(S.String),
-          shieldedInstanceConfig: S.optional(__S(552, __c34, 8)),
-          apiVersion: S.optional(S.String),
-          bootDiskConfig: S.optional(__S(554, __c34, 10)),
-          networkEndpoints: S.optional(__S(557, __c34, 13)),
-          tags: S.optional(__S(480, __c30, 0)),
-          autocheckpointEnabled: S.optional(S.Boolean),
-          description: S.optional(S.String),
-          multisliceNode: S.optional(S.Boolean),
-          health: S.optional(S.String),
-          id: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(542, __c33, 14),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            nodeId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2alpha1/{+parent}/nodes",
@@ -2322,13 +2154,13 @@ function __c29(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsNodesRequest" });
   }
 }
-function __c30(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c31(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2343,13 +2175,13 @@ function __c31(j: number): any {
       ).annotate({ identifier: "UpcomingMaintenance" });
   }
 }
-function __c32(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
   }
 }
-function __c33(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2360,13 +2192,13 @@ function __c33(j: number): any {
       ).annotate({ identifier: "AcceleratorConfig" });
   }
 }
-function __c34(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           email: S.optional(S.String),
-          scope: S.optional(__S(480, __c30, 0)),
+          scope: S.optional(__S(464, __c29, 0)),
         }),
       ).annotate({ identifier: "ServiceAccount" });
     case 1:
@@ -2380,7 +2212,7 @@ function __c34(j: number): any {
         }),
       ).annotate({ identifier: "NetworkConfig" });
     case 2:
-      return S.Array(__S(545, __c34, 1));
+      return S.Array(__S(529, __c33, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -2391,7 +2223,7 @@ function __c34(j: number): any {
         }),
       ).annotate({ identifier: "Symptom" });
     case 4:
-      return S.Array(__S(547, __c34, 3));
+      return S.Array(__S(531, __c33, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -2406,13 +2238,13 @@ function __c34(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          workerIds: S.optional(__S(480, __c30, 0)),
+          workerIds: S.optional(__S(464, __c29, 0)),
           mode: S.optional(S.String),
           sourceDisk: S.optional(S.String),
         }),
       ).annotate({ identifier: "AttachedDisk" });
     case 7:
-      return S.Array(__S(550, __c34, 6));
+      return S.Array(__S(534, __c33, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
@@ -2430,7 +2262,7 @@ function __c34(j: number): any {
         S.Struct({
           provisionedThroughput: S.optional(S.String),
           provisionedIops: S.optional(S.String),
-          customerEncryptionKey: S.optional(__S(553, __c34, 9)),
+          customerEncryptionKey: S.optional(__S(537, __c33, 9)),
           enableConfidentialCompute: S.optional(S.Boolean),
           diskSizeGb: S.optional(S.String),
           sourceImage: S.optional(S.String),
@@ -2446,106 +2278,39 @@ function __c34(j: number): any {
     case 12:
       return S.suspend(() =>
         S.Struct({
-          accessConfig: S.optional(__S(555, __c34, 11)),
+          accessConfig: S.optional(__S(539, __c33, 11)),
           ipAddress: S.optional(S.String),
           port: S.optional(S.Number),
         }),
       ).annotate({ identifier: "NetworkEndpoint" });
     case 13:
-      return S.Array(__S(556, __c34, 12));
-  }
-}
-function __c35(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, S.Unknown);
-  }
-}
-function __c36(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(560, __c35, 0));
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          message: S.optional(S.String),
-          code: S.optional(S.Number),
-          details: S.optional(__S(576, __c36, 0)),
-        }),
-      ).annotate({ identifier: "Status" });
-  }
-}
-function __c37(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          metadata: S.optional(__S(560, __c35, 0)),
-          error: S.optional(__S(577, __c36, 1)),
-          name: S.optional(S.String),
-          response: S.optional(__S(560, __c35, 0)),
-          done: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "Operation" });
-  }
-}
-function __c38(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          queuedResourceId: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          createTime: S.optional(S.String),
-          reservationName: S.optional(S.String),
-          tpu: S.optional(__S(643, __c40, 3)),
-          bestEffort: S.optional(__S(448, __c28, 0)),
-          guaranteed: S.optional(__S(644, __c40, 4)),
-          spot: S.optional(__S(448, __c28, 0)),
-          name: S.optional(S.String),
-          runDuration: S.optional(__S(645, __c40, 5)),
-          provisioningModel: S.optional(S.String),
-          queueingPolicy: S.optional(__S(646, __c40, 6)),
-          state: S.optional(__S(648, __c40, 8)),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "v2alpha1/{+parent}/queuedResources",
-            baseUrl: "https://tpu.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "CreateProjectsLocationsQueuedResourcesRequest" });
-  }
-}
-function __c39(j: number): any {
-  switch (j) {
-    case 0:
+      return S.Array(__S(540, __c33, 12));
+    case 14:
       return S.suspend(() =>
         S.Struct({
           healthDescription: S.optional(S.String),
-          labels: S.optional(__S(512, __c32, 0)),
-          acceleratorConfig: S.optional(__S(528, __c33, 0)),
-          upcomingMaintenance: S.optional(__S(496, __c31, 0)),
+          labels: S.optional(__S(496, __c31, 0)),
+          acceleratorConfig: S.optional(__S(512, __c32, 0)),
+          upcomingMaintenance: S.optional(__S(480, __c30, 0)),
           queuedResource: S.optional(S.String),
           name: S.optional(S.String),
-          serviceAccount: S.optional(__S(544, __c34, 0)),
-          networkConfigs: S.optional(__S(546, __c34, 2)),
+          serviceAccount: S.optional(__S(528, __c33, 0)),
+          networkConfigs: S.optional(__S(530, __c33, 2)),
           cidrBlock: S.optional(S.String),
-          networkConfig: S.optional(__S(545, __c34, 1)),
-          symptoms: S.optional(__S(548, __c34, 4)),
-          metadata: S.optional(__S(512, __c32, 0)),
+          networkConfig: S.optional(__S(529, __c33, 1)),
+          symptoms: S.optional(__S(532, __c33, 4)),
+          metadata: S.optional(__S(496, __c31, 0)),
           state: S.optional(S.String),
           createTime: S.optional(S.String),
-          schedulingConfig: S.optional(__S(549, __c34, 5)),
-          dataDisks: S.optional(__S(551, __c34, 7)),
+          schedulingConfig: S.optional(__S(533, __c33, 5)),
+          dataDisks: S.optional(__S(535, __c33, 7)),
           runtimeVersion: S.optional(S.String),
           acceleratorType: S.optional(S.String),
-          shieldedInstanceConfig: S.optional(__S(552, __c34, 8)),
+          shieldedInstanceConfig: S.optional(__S(536, __c33, 8)),
           apiVersion: S.optional(S.String),
-          bootDiskConfig: S.optional(__S(554, __c34, 10)),
-          networkEndpoints: S.optional(__S(557, __c34, 13)),
-          tags: S.optional(__S(480, __c30, 0)),
+          bootDiskConfig: S.optional(__S(538, __c33, 10)),
+          networkEndpoints: S.optional(__S(541, __c33, 13)),
+          tags: S.optional(__S(464, __c29, 0)),
           autocheckpointEnabled: S.optional(S.Boolean),
           description: S.optional(S.String),
           multisliceNode: S.optional(S.Boolean),
@@ -2555,7 +2320,62 @@ function __c39(j: number): any {
       ).annotate({ identifier: "Node" });
   }
 }
-function __c40(j: number): any {
+function __c34(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, S.Unknown);
+  }
+}
+function __c35(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(544, __c34, 0));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          message: S.optional(S.String),
+          code: S.optional(S.Number),
+          details: S.optional(__S(560, __c35, 0)),
+        }),
+      ).annotate({ identifier: "Status" });
+  }
+}
+function __c36(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          metadata: S.optional(__S(544, __c34, 0)),
+          error: S.optional(__S(561, __c35, 1)),
+          name: S.optional(S.String),
+          response: S.optional(__S(544, __c34, 0)),
+          done: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "Operation" });
+  }
+}
+function __c37(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(617, __c38, 9),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            queuedResourceId: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
+          T.Http({
+            method: "POST",
+            uri: "v2alpha1/{+parent}/queuedResources",
+            baseUrl: "https://tpu.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "CreateProjectsLocationsQueuedResourcesRequest" });
+  }
+}
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2569,17 +2389,17 @@ function __c40(j: number): any {
       return S.suspend(() =>
         S.Struct({
           parent: S.optional(S.String),
-          node: S.optional(__S(624, __c39, 0)),
-          multiNodeParams: S.optional(__S(640, __c40, 0)),
+          node: S.optional(__S(542, __c33, 14)),
+          multiNodeParams: S.optional(__S(608, __c38, 0)),
           nodeId: S.optional(S.String),
         }),
       ).annotate({ identifier: "NodeSpec" });
     case 2:
-      return S.Array(__S(641, __c40, 1));
+      return S.Array(__S(609, __c38, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          nodeSpec: S.optional(__S(642, __c40, 2)),
+          nodeSpec: S.optional(__S(610, __c38, 2)),
         }),
       ).annotate({ identifier: "Tpu" });
     case 4:
@@ -2601,7 +2421,7 @@ function __c40(j: number): any {
         S.Struct({
           validAfterDuration: S.optional(S.String),
           validUntilDuration: S.optional(S.String),
-          validInterval: S.optional(__S(656, __c41, 0)),
+          validInterval: S.optional(__S(624, __c39, 0)),
           validAfterTime: S.optional(S.String),
           validUntilTime: S.optional(S.String),
         }),
@@ -2609,27 +2429,43 @@ function __c40(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          error: S.optional(__S(577, __c36, 1)),
+          error: S.optional(__S(561, __c35, 1)),
         }),
       ).annotate({ identifier: "FailedData" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          activeData: S.optional(__S(448, __c28, 0)),
-          acceptedData: S.optional(__S(448, __c28, 0)),
-          deletingData: S.optional(__S(448, __c28, 0)),
-          suspendedData: S.optional(__S(448, __c28, 0)),
-          suspendingData: S.optional(__S(448, __c28, 0)),
+          activeData: S.optional(__S(432, __c27, 0)),
+          acceptedData: S.optional(__S(432, __c27, 0)),
+          deletingData: S.optional(__S(432, __c27, 0)),
+          suspendedData: S.optional(__S(432, __c27, 0)),
+          suspendingData: S.optional(__S(432, __c27, 0)),
           stateInitiator: S.optional(S.String),
           state: S.optional(S.String),
-          creatingData: S.optional(__S(448, __c28, 0)),
-          provisioningData: S.optional(__S(448, __c28, 0)),
-          failedData: S.optional(__S(647, __c40, 7)),
+          creatingData: S.optional(__S(432, __c27, 0)),
+          provisioningData: S.optional(__S(432, __c27, 0)),
+          failedData: S.optional(__S(615, __c38, 7)),
         }),
       ).annotate({ identifier: "QueuedResourceState" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          createTime: S.optional(S.String),
+          reservationName: S.optional(S.String),
+          tpu: S.optional(__S(611, __c38, 3)),
+          bestEffort: S.optional(__S(432, __c27, 0)),
+          guaranteed: S.optional(__S(612, __c38, 4)),
+          spot: S.optional(__S(432, __c27, 0)),
+          name: S.optional(S.String),
+          runDuration: S.optional(__S(613, __c38, 5)),
+          provisioningModel: S.optional(S.String),
+          queueingPolicy: S.optional(__S(614, __c38, 6)),
+          state: S.optional(__S(616, __c38, 8)),
+        }),
+      ).annotate({ identifier: "QueuedResource" });
   }
 }
-function __c41(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2640,7 +2476,7 @@ function __c41(j: number): any {
       ).annotate({ identifier: "Interval" });
   }
 }
-function __c42(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2657,7 +2493,7 @@ function __c42(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsNodesRequest" });
   }
 }
-function __c43(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2673,7 +2509,7 @@ function __c43(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsOperationsRequest" });
   }
 }
-function __c44(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

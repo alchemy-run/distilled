@@ -235,9 +235,8 @@ export interface ResourceInfo {
   type?: string | undefined;
 }
 export type ResourceInfoList = Array<ResourceInfo>;
-export interface CheckServicesRequest {
-  /** The service name as specified in its service configuration. For example, `"pubsub.googleapis.com"`. See [google.api.Service](https://cloud.google.com/service-management/reference/rpc/google.api#google.api.Service) for the definition of a service name. */
-  serviceName: string;
+/** Request message for the Check method. */
+export interface CheckRequest {
   /** Describes attributes about the operation being executed by the service. */
   attributes?: AttributeContext | undefined;
   /** Describes the resources and the policies applied to each resource. */
@@ -246,6 +245,10 @@ export interface CheckServicesRequest {
   serviceConfigId?: string | undefined;
   /** Optional. Contains a comma-separated list of flags. */
   flags?: string | undefined;
+}
+export interface CheckServicesRequest extends CheckRequest {
+  /** The service name as specified in its service configuration. For example, `"pubsub.googleapis.com"`. See [google.api.Service](https://cloud.google.com/service-management/reference/rpc/google.api#google.api.Service) for the definition of a service name. */
+  serviceName: string;
 }
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
@@ -266,13 +269,16 @@ export interface CheckResponse {
   dynamicMetadata?: DocumentMap | undefined;
 }
 export type AttributeContextList = Array<AttributeContext>;
-export interface ReportServicesRequest {
-  /** The service name as specified in its service configuration. For example, `"pubsub.googleapis.com"`. See [google.api.Service](https://cloud.google.com/service-management/reference/rpc/google.api#google.api.Service) for the definition of a service name. */
-  serviceName: string;
+/** Request message for the Report method. */
+export interface ReportRequest {
   /** Specifies the version of the service configuration that should be used to process the request. Must not be empty. Set this field to 'latest' to specify using the latest configuration. */
   serviceConfigId?: string | undefined;
   /** Describes the list of operations to be reported. Each operation is represented as an AttributeContext, and contains all attributes around an API access. */
   operations?: AttributeContextList | undefined;
+}
+export interface ReportServicesRequest extends ReportRequest {
+  /** The service name as specified in its service configuration. For example, `"pubsub.googleapis.com"`. See [google.api.Service](https://cloud.google.com/service-management/reference/rpc/google.api#google.api.Service) for the definition of a service name. */
+  serviceName: string;
 }
 /** Response message for the Report method. */
 export interface ReportResponse {
@@ -287,8 +293,8 @@ export const checkServices: API.OperationMethod<
   CheckServicesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2, __c0, 2) as any as S.Schema<CheckServicesRequest>,
-  output: __S(4, __c0, 4) as any as S.Schema<CheckResponse>,
+  input: __S(3, __c0, 3) as any as S.Schema<CheckServicesRequest>,
+  output: __S(5, __c0, 5) as any as S.Schema<CheckResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -304,8 +310,8 @@ export const reportServices: API.OperationMethod<
   ReportServicesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(33, __c2, 1) as any as S.Schema<ReportServicesRequest>,
-  output: __S(34, __c2, 2) as any as S.Schema<ReportResponse>,
+  input: __S(34, __c2, 2) as any as S.Schema<ReportServicesRequest>,
+  output: __S(35, __c2, 3) as any as S.Schema<ReportResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -331,12 +337,20 @@ function __c0(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          serviceName: S.String.pipe(T.Label()),
           attributes: S.optional(__S(27, __c1, 11)),
           resources: S.optional(__S(1, __c0, 1)),
           serviceConfigId: S.optional(S.String),
           flags: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "CheckRequest" });
+    case 3:
+      return S.suspend(() =>
+        S.Extend(
+          __S(2, __c0, 2),
+          S.Struct({
+            serviceName: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/services/{serviceName}:check",
@@ -344,7 +358,7 @@ function __c0(j: number): any {
           }),
         ),
       ).annotate({ identifier: "CheckServicesRequest" });
-    case 3:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           message: S.optional(S.String),
@@ -352,11 +366,11 @@ function __c0(j: number): any {
           code: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Status" });
-    case 4:
+    case 5:
       return S.suspend(() =>
         S.Struct({
           headers: S.optional(__S(16, __c1, 0)),
-          status: S.optional(__S(3, __c0, 3)),
+          status: S.optional(__S(4, __c0, 4)),
           dynamicMetadata: S.optional(__S(21, __c1, 5)),
         }),
       ).annotate({ identifier: "CheckResponse" });
@@ -476,10 +490,18 @@ function __c2(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          serviceName: S.String.pipe(T.Label()),
           serviceConfigId: S.optional(S.String),
           operations: S.optional(__S(32, __c2, 0)),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "ReportRequest" });
+    case 2:
+      return S.suspend(() =>
+        S.Extend(
+          __S(33, __c2, 1),
+          S.Struct({
+            serviceName: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/services/{serviceName}:report",
@@ -487,7 +509,7 @@ function __c2(j: number): any {
           }),
         ),
       ).annotate({ identifier: "ReportServicesRequest" });
-    case 2:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           extensions: S.optional(__S(21, __c1, 5)),

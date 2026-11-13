@@ -147,11 +147,14 @@ export interface CreatePullRequestCommentRequest {
   pullRequestComment?: PullRequestComment | undefined;
 }
 export type CreatePullRequestCommentRequestList = Array<CreatePullRequestCommentRequest>;
-export interface BatchCreateProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest {
-  /** Required. The pull request in which to create the pull request comments. Format: `projects/{project_number}/locations/{location_id}/repositories/{repository_id}/pullRequests/{pull_request_id}` */
-  parent: string;
+/** The request to batch create pull request comments. */
+export interface BatchCreatePullRequestCommentsRequest {
   /** Required. The request message specifying the resources to create. There should be exactly one CreatePullRequestCommentRequest with CommentDetail being REVIEW in the list, and no more than 100 CreatePullRequestCommentRequests with CommentDetail being CODE in the list */
   requests?: CreatePullRequestCommentRequestList | undefined;
+}
+export interface BatchCreateProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest extends BatchCreatePullRequestCommentsRequest {
+  /** Required. The pull request in which to create the pull request comments. Format: `projects/{project_number}/locations/{location_id}/repositories/{repository_id}/pullRequests/{pull_request_id}` */
+  parent: string;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -187,11 +190,14 @@ export interface CancelProjectsLocationsOperationsRequest {
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
-export interface CloseProjectsLocationsRepositoriesIssuesRequest {
-  /** Required. Name of the issue to close. The format is `projects/{project_number}/locations/{location_id}/repositories/{repository_id}/issues/{issue_id}`. */
-  name: string;
+/** The request to close an issue. */
+export interface CloseIssueRequest {
   /** Optional. The current etag of the issue. If the etag is provided and does not match the current etag of the issue, closing will be blocked and an ABORTED error will be returned. */
   etag?: string | undefined;
+}
+export interface CloseProjectsLocationsRepositoriesIssuesRequest extends CloseIssueRequest {
+  /** Required. Name of the issue to close. The format is `projects/{project_number}/locations/{location_id}/repositories/{repository_id}/issues/{issue_id}`. */
+  name: string;
 }
 /** ClosePullRequestRequest is the request to close a pull request. */
 export type ClosePullRequestRequest = CancelOperationRequest;
@@ -256,13 +262,8 @@ export interface HostConfig {
   /** Output only. Git SSH hostname. */
   gitSsh?: string | undefined;
 }
-export interface CreateProjectsLocationsInstancesRequest {
-  /** Required. ID of the instance to be created. */
-  instanceId?: string | undefined;
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Required. Value for parent. */
-  parent: string;
+/** A resource that represents a Secure Source Manager instance. */
+export interface Instance {
   /** Output only. Create timestamp. */
   createTime?: string | undefined;
   /** Optional. Configuration for Workforce Identity Federation to support third party identity provider. If unset, defaults to the Google OIDC IdP. */
@@ -287,6 +288,14 @@ export interface CreateProjectsLocationsInstancesRequest {
   state?: InstanceStateEnum | (string & {}) | undefined;
   /** Output only. A list of hostnames for this instance. */
   hostConfig?: HostConfig | undefined;
+}
+export interface CreateProjectsLocationsInstancesRequest extends Instance {
+  /** Required. ID of the instance to be created. */
+  instanceId?: string | undefined;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+  /** Required. Value for parent. */
+  parent: string;
 }
 /** URIs for the repository. */
 export interface URIs {
@@ -327,11 +336,8 @@ export interface ScanConfig {
   /** Optional. Configuration for secret scanning. */
   secretScanConfig?: SecretScanConfig | undefined;
 }
-export interface CreateProjectsLocationsRepositoriesRequest {
-  /** Required. The project in which to create the repository. Values are of the form `projects/{project_number}/locations/{location_id}` */
-  parent: string;
-  /** Required. The ID to use for the repository, which will become the final component of the repository's resource name. This value should be 4-63 characters, and valid characters are /a-z-/. */
-  repositoryId?: string | undefined;
+/** Metadata of a Secure Source Manager repository. */
+export interface Repository {
   /** Output only. Unique identifier of the repository. */
   uid?: string | undefined;
   /** Output only. URIs for the repository. */
@@ -355,15 +361,20 @@ export interface CreateProjectsLocationsRepositoriesRequest {
   /** Optional. Provides configuration for scanning. */
   scanConfig?: ScanConfig | undefined;
 }
+export interface CreateProjectsLocationsRepositoriesRequest extends Repository {
+  /** Required. The project in which to create the repository. Values are of the form `projects/{project_number}/locations/{location_id}` */
+  parent: string;
+  /** Required. The ID to use for the repository, which will become the final component of the repository's resource name. This value should be 4-63 characters, and valid characters are /a-z-/. */
+  repositoryId?: string | undefined;
+}
 /** Check is a type for status check. */
 export interface Check {
   /** Required. The context of the check. */
   context?: string | undefined;
 }
 export type CheckList = Array<Check>;
-export interface CreateProjectsLocationsRepositoriesBranchRulesRequest {
-  parent: string;
-  branchRuleId?: string | undefined;
+/** Metadata of a BranchRule. BranchRule is the protection rule to enforce pre-defined rules on designated branches within a repository. */
+export interface BranchRule {
   /** Optional. The minimum number of reviews required for the branch rule to be matched. */
   minimumReviewsCount?: number | undefined;
   /** Optional. Determines if code owners must approve before merging to the branch. */
@@ -397,17 +408,18 @@ export interface CreateProjectsLocationsRepositoriesBranchRulesRequest {
   /** Optional. Determines if the branch rule requires a pull request or not. */
   requirePullRequest?: boolean | undefined;
 }
+export interface CreateProjectsLocationsRepositoriesBranchRulesRequest extends BranchRule {
+  parent: string;
+  branchRuleId?: string | undefined;
+}
 export type HookEventsItemEnum = "UNSPECIFIED" | "PUSH" | "PULL_REQUEST" | "PULL_REQUEST_COMMENT";
 export type HookEventsItemEnumList = Array<HookEventsItemEnum | (string & {})>;
 export interface PushOption {
   /** Optional. Trigger hook for matching branches only. Specified as glob pattern. If empty or *, events for all branches are reported. Examples: main, {main,release*}. See https://pkg.go.dev/github.com/gobwas/glob documentation. */
   branchFilter?: string | undefined;
 }
-export interface CreateProjectsLocationsRepositoriesHooksRequest {
-  /** Required. The repository in which to create the hook. Values are of the form `projects/{project_number}/locations/{location_id}/repositories/{repository_id}` */
-  parent: string;
-  /** Required. The ID to use for the hook, which will become the final component of the hook's resource name. This value restricts to lower-case letters, numbers, and hyphen, with the first character a letter, the last a letter or a number, and a 63 character maximum. */
-  hookId?: string | undefined;
+/** Metadata of a Secure Source Manager Hook. */
+export interface Hook {
   /** Optional. The sensitive query string to be appended to the target URI. */
   sensitiveQueryString?: string | undefined;
   /** Output only. Create timestamp. */
@@ -429,10 +441,15 @@ export interface CreateProjectsLocationsRepositoriesHooksRequest {
   /** Identifier. A unique identifier for a Hook. The name should be of the format: `projects/{project}/locations/{location_id}/repositories/{repository_id}/hooks/{hook_id}` */
   name?: string | undefined;
 }
-export type IssueStateEnum = "STATE_UNSPECIFIED" | "OPEN" | "CLOSED";
-export interface CreateProjectsLocationsRepositoriesIssuesRequest {
-  /** Required. The repository in which to create the issue. Format: `projects/{project_number}/locations/{location_id}/repositories/{repository_id}` */
+export interface CreateProjectsLocationsRepositoriesHooksRequest extends Hook {
+  /** Required. The repository in which to create the hook. Values are of the form `projects/{project_number}/locations/{location_id}/repositories/{repository_id}` */
   parent: string;
+  /** Required. The ID to use for the hook, which will become the final component of the hook's resource name. This value restricts to lower-case letters, numbers, and hyphen, with the first character a letter, the last a letter or a number, and a 63 character maximum. */
+  hookId?: string | undefined;
+}
+export type IssueStateEnum = "STATE_UNSPECIFIED" | "OPEN" | "CLOSED";
+/** Metadata of an Issue. */
+export interface Issue {
   /** Output only. State of the issue. */
   state?: IssueStateEnum | (string & {}) | undefined;
   /** Output only. Last updated timestamp. */
@@ -450,9 +467,12 @@ export interface CreateProjectsLocationsRepositoriesIssuesRequest {
   /** Required. Issue title. */
   title?: string | undefined;
 }
-export interface CreateProjectsLocationsRepositoriesIssuesIssueCommentsRequest {
-  /** Required. The issue in which to create the issue comment. Format: `projects/{project_number}/locations/{location_id}/repositories/{repository_id}/issues/{issue_id}` */
+export interface CreateProjectsLocationsRepositoriesIssuesRequest extends Issue {
+  /** Required. The repository in which to create the issue. Format: `projects/{project_number}/locations/{location_id}/repositories/{repository_id}` */
   parent: string;
+}
+/** IssueComment represents a comment on an issue. */
+export interface IssueComment {
   /** Output only. Last updated timestamp. */
   updateTime?: string | undefined;
   /** Output only. Creation timestamp. */
@@ -462,6 +482,10 @@ export interface CreateProjectsLocationsRepositoriesIssuesIssueCommentsRequest {
   /** Required. The comment body. */
   body?: string | undefined;
 }
+export interface CreateProjectsLocationsRepositoriesIssuesIssueCommentsRequest extends IssueComment {
+  /** Required. The issue in which to create the issue comment. Format: `projects/{project_number}/locations/{location_id}/repositories/{repository_id}/issues/{issue_id}` */
+  parent: string;
+}
 /** Branch represents a branch involved in a pull request. */
 export interface Branch {
   /** Required. Name of the branch. */
@@ -470,9 +494,8 @@ export interface Branch {
   sha?: string | undefined;
 }
 export type PullRequestStateEnum = "STATE_UNSPECIFIED" | "OPEN" | "CLOSED" | "MERGED";
-export interface CreateProjectsLocationsRepositoriesPullRequestsRequest {
-  /** Required. The repository that the pull request is created from. Format: `projects/{project_number}/locations/{location_id}/repositories/{repository_id}` */
-  parent: string;
+/** Metadata of a PullRequest. PullRequest is the request from a user to merge a branch (head) into another branch (base). */
+export interface PullRequest {
   /** Output only. Close timestamp (if closed or merged). Cleared when pull request is re-opened. */
   closeTime?: string | undefined;
   /** Output only. Last updated timestamp. */
@@ -492,21 +515,13 @@ export interface CreateProjectsLocationsRepositoriesPullRequestsRequest {
   /** Output only. State of the pull request (open, closed or merged). */
   state?: PullRequestStateEnum | (string & {}) | undefined;
 }
-export interface CreateProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest {
+export interface CreateProjectsLocationsRepositoriesPullRequestsRequest extends PullRequest {
+  /** Required. The repository that the pull request is created from. Format: `projects/{project_number}/locations/{location_id}/repositories/{repository_id}` */
+  parent: string;
+}
+export interface CreateProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest extends PullRequestComment {
   /** Required. The pull request in which to create the pull request comment. Format: `projects/{project_number}/locations/{location_id}/repositories/{repository_id}/pullRequests/{pull_request_id}` */
   parent: string;
-  /** Optional. The comment on a code line. */
-  code?: Code | undefined;
-  /** Output only. Last updated timestamp. */
-  updateTime?: string | undefined;
-  /** Optional. The general pull request comment. */
-  comment?: Comment | undefined;
-  /** Identifier. Unique identifier for the pull request comment. The comment id is generated by the server. Format: `projects/{project}/locations/{location}/repositories/{repository}/pullRequests/{pull_request}/pullRequestComments/{comment_id}` */
-  name?: string | undefined;
-  /** Output only. Creation timestamp. */
-  createTime?: string | undefined;
-  /** Optional. The review summary comment. */
-  review?: Review | undefined;
 }
 export interface DeleteProjectsLocationsInstancesRequest {
   /** Optional. If set to true, will force the deletion of the instance. */
@@ -714,33 +729,6 @@ export interface GetProjectsLocationsInstancesRequest {
   /** Required. Name of the resource. */
   name: string;
 }
-/** A resource that represents a Secure Source Manager instance. */
-export interface Instance {
-  /** Output only. Create timestamp. */
-  createTime?: string | undefined;
-  /** Optional. Configuration for Workforce Identity Federation to support third party identity provider. If unset, defaults to the Google OIDC IdP. */
-  workforceIdentityFederationConfig?: WorkforceIdentityFederationConfig | undefined;
-  /** Output only. Update timestamp. */
-  updateTime?: string | undefined;
-  /** Identifier. A unique identifier for an instance. The name should be of the format: `projects/{project_number}/locations/{location_id}/instances/{instance_id}` `project_number`: Maps to a unique int64 id assigned to each project. `location_id`: Refers to the region where the instance will be deployed. Since Secure Source Manager is a regional service, it must be one of the valid GCP regions. `instance_id`: User provided name for the instance, must be unique for a project_number and location_id combination. */
-  name?: string | undefined;
-  /** Optional. Private settings for private instance. */
-  privateConfig?: PrivateConfig | undefined;
-  /** Output only. Reserved for future use. */
-  satisfiesPzi?: boolean | undefined;
-  /** Optional. Labels as key value pairs. Keys and values can contain only lowercase letters, numeric characters, underscores, and dashes. For more information, see [Requirements for labels](https://cloud.google.com/resource-manager/docs/best-practices-labels#label_encoding). */
-  labels?: StringMap | undefined;
-  /** Optional. Immutable. Customer-managed encryption key name, in the format projects/*\/locations/*\/keyRings/*\/cryptoKeys/*. */
-  kmsKey?: string | undefined;
-  /** Output only. An optional field providing information about the current instance state. */
-  stateNote?: InstanceStateNoteEnum | undefined;
-  /** Output only. Reserved for future use. */
-  satisfiesPzs?: boolean | undefined;
-  /** Output only. Current state of the instance. */
-  state?: InstanceStateEnum | undefined;
-  /** Output only. A list of hostnames for this instance. */
-  hostConfig?: HostConfig | undefined;
-}
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -749,159 +737,25 @@ export interface GetProjectsLocationsRepositoriesRequest {
   /** Required. Name of the repository to retrieve. The format is `projects/{project_number}/locations/{location_id}/repositories/{repository_id}`. */
   name: string;
 }
-/** Metadata of a Secure Source Manager repository. */
-export interface Repository {
-  /** Output only. Unique identifier of the repository. */
-  uid?: string | undefined;
-  /** Output only. URIs for the repository. */
-  uris?: URIs | undefined;
-  /** Optional. This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
-  etag?: string | undefined;
-  /** Identifier. A unique identifier for a repository. The name should be of the format: `projects/{project}/locations/{location_id}/repositories/{repository_id}` */
-  name?: string | undefined;
-  /** Optional. Repository level service account (BYOSA). */
-  serviceAccount?: string | undefined;
-  /** Optional. The name of the instance in which the repository is hosted, formatted as `projects/{project_number}/locations/{location_id}/instances/{instance_id}` When creating repository via securesourcemanager.googleapis.com, this field is used as input. When creating repository via *.sourcemanager.dev, this field is output only. */
-  instance?: string | undefined;
-  /** Output only. Create timestamp. */
-  createTime?: string | undefined;
-  /** Input only. Initial configurations for the repository. */
-  initialConfig?: InitialConfig | undefined;
-  /** Optional. Description of the repository, which cannot exceed 500 characters. */
-  description?: string | undefined;
-  /** Output only. Update timestamp. */
-  updateTime?: string | undefined;
-  /** Optional. Provides configuration for scanning. */
-  scanConfig?: ScanConfig | undefined;
-}
 export interface GetProjectsLocationsRepositoriesBranchRulesRequest {
   /** Required. Name of the repository to retrieve. The format is `projects/{project}/locations/{location}/repositories/{repository}/branchRules/{branch_rule}`. */
   name: string;
-}
-/** Metadata of a BranchRule. BranchRule is the protection rule to enforce pre-defined rules on designated branches within a repository. */
-export interface BranchRule {
-  /** Optional. The minimum number of reviews required for the branch rule to be matched. */
-  minimumReviewsCount?: number | undefined;
-  /** Optional. Determines if code owners must approve before merging to the branch. */
-  requireCodeOwnerApproval?: boolean | undefined;
-  /** Output only. Unique identifier of the repository. */
-  uid?: string | undefined;
-  /** Optional. Determines if require comments resolved before merging to the branch. */
-  requireCommentsResolved?: boolean | undefined;
-  /** Optional. Determines if the branch rule is disabled or not. */
-  disabled?: boolean | undefined;
-  /** Optional. The minimum number of approvals required for the branch rule to be matched. */
-  minimumApprovalsCount?: number | undefined;
-  /** Optional. User annotations. These attributes can only be set and used by the user. See https://google.aip.dev/128#annotations for more details such as format and size limitations. */
-  annotations?: StringMap | undefined;
-  /** Output only. Create timestamp. */
-  createTime?: string | undefined;
-  /** Optional. Determines if allow stale reviews or approvals before merging to the branch. */
-  allowStaleReviews?: boolean | undefined;
-  /** Output only. Update timestamp. */
-  updateTime?: string | undefined;
-  /** Optional. The pattern of the branch that can match to this BranchRule. Specified as regex. .* for all branches. Examples: main, (main|release.*). Current MVP phase only support `.*` for wildcard. */
-  includePattern?: string | undefined;
-  /** Optional. Determines if require linear history before merging to the branch. */
-  requireLinearHistory?: boolean | undefined;
-  /** Identifier. A unique identifier for a BranchRule. The name should be of the format: `projects/{project}/locations/{location}/repositories/{repository}/branchRules/{branch_rule}` */
-  name?: string | undefined;
-  /** Optional. This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
-  etag?: string | undefined;
-  /** Optional. List of required status checks before merging to the branch. */
-  requiredStatusChecks?: CheckList | undefined;
-  /** Optional. Determines if the branch rule requires a pull request or not. */
-  requirePullRequest?: boolean | undefined;
 }
 export interface GetProjectsLocationsRepositoriesHooksRequest {
   /** Required. Name of the hook to retrieve. The format is `projects/{project_number}/locations/{location_id}/repositories/{repository_id}/hooks/{hook_id}`. */
   name: string;
 }
-/** Metadata of a Secure Source Manager Hook. */
-export interface Hook {
-  /** Optional. The sensitive query string to be appended to the target URI. */
-  sensitiveQueryString?: string | undefined;
-  /** Output only. Create timestamp. */
-  createTime?: string | undefined;
-  /** Optional. The events that trigger hook on. */
-  events?: HookEventsItemEnumList | undefined;
-  /** Output only. Update timestamp. */
-  updateTime?: string | undefined;
-  /** Optional. The trigger option for push events. */
-  pushOption?: PushOption | undefined;
-  /** Optional. Determines if the hook uses the Repository Service Account to generate an OIDC ID Token for webhook authentication. */
-  serviceAccountAuth?: boolean | undefined;
-  /** Output only. Unique identifier of the hook. */
-  uid?: string | undefined;
-  /** Required. The target URI to which the payloads will be delivered. */
-  targetUri?: string | undefined;
-  /** Optional. Determines if the hook disabled or not. Set to true to stop sending traffic. */
-  disabled?: boolean | undefined;
-  /** Identifier. A unique identifier for a Hook. The name should be of the format: `projects/{project}/locations/{location_id}/repositories/{repository_id}/hooks/{hook_id}` */
-  name?: string | undefined;
-}
 export interface GetProjectsLocationsRepositoriesIssuesRequest {
   /** Required. Name of the issue to retrieve. The format is `projects/{project}/locations/{location}/repositories/{repository}/issues/{issue_id}`. */
   name: string;
-}
-/** Metadata of an Issue. */
-export interface Issue {
-  /** Output only. State of the issue. */
-  state?: IssueStateEnum | undefined;
-  /** Output only. Last updated timestamp. */
-  updateTime?: string | undefined;
-  /** Optional. This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
-  etag?: string | undefined;
-  /** Output only. Close timestamp (if closed). Cleared when is re-opened. */
-  closeTime?: string | undefined;
-  /** Identifier. Unique identifier for an issue. The issue id is generated by the server. Format: `projects/{project}/locations/{location}/repositories/{repository}/issues/{issue_id}` */
-  name?: string | undefined;
-  /** Optional. Issue body. Provides a detailed description of the issue. */
-  body?: string | undefined;
-  /** Output only. Creation timestamp. */
-  createTime?: string | undefined;
-  /** Required. Issue title. */
-  title?: string | undefined;
 }
 export interface GetProjectsLocationsRepositoriesIssuesIssueCommentsRequest {
   /** Required. Name of the issue comment to retrieve. The format is `projects/{project}/locations/{location}/repositories/{repository}/issues/{issue_id}/issueComments/{comment_id}`. */
   name: string;
 }
-/** IssueComment represents a comment on an issue. */
-export interface IssueComment {
-  /** Output only. Last updated timestamp. */
-  updateTime?: string | undefined;
-  /** Output only. Creation timestamp. */
-  createTime?: string | undefined;
-  /** Identifier. Unique identifier for an issue comment. The comment id is generated by the server. Format: `projects/{project}/locations/{location}/repositories/{repository}/issues/{issue}/issueComments/{comment_id}` */
-  name?: string | undefined;
-  /** Required. The comment body. */
-  body?: string | undefined;
-}
 export interface GetProjectsLocationsRepositoriesPullRequestsRequest {
   /** Required. Name of the pull request to retrieve. The format is `projects/{project}/locations/{location}/repositories/{repository}/pullRequests/{pull_request}`. */
   name: string;
-}
-/** Metadata of a PullRequest. PullRequest is the request from a user to merge a branch (head) into another branch (base). */
-export interface PullRequest {
-  /** Output only. Close timestamp (if closed or merged). Cleared when pull request is re-opened. */
-  closeTime?: string | undefined;
-  /** Output only. Last updated timestamp. */
-  updateTime?: string | undefined;
-  /** Required. The branch to merge changes in. */
-  base?: Branch | undefined;
-  /** Optional. The pull request body. Provides a detailed description of the changes. */
-  body?: string | undefined;
-  /** Output only. Creation timestamp. */
-  createTime?: string | undefined;
-  /** Immutable. The branch containing the changes to be merged. */
-  head?: Branch | undefined;
-  /** Required. The pull request title. */
-  title?: string | undefined;
-  /** Output only. Identifier. A unique identifier for a PullRequest. The number appended at the end is generated by the server. Format: `projects/{project}/locations/{location}/repositories/{repository}/pullRequests/{pull_request_id}` */
-  name?: string | undefined;
-  /** Output only. State of the pull request (open, closed or merged). */
-  state?: PullRequestStateEnum | undefined;
 }
 export interface GetProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest {
   /** Required. Name of the pull request comment to retrieve. The format is `projects/{project_number}/locations/{location_id}/repositories/{repository_id}/pullRequests/{pull_request_id}/pullRequestComments/{comment_id}`. */
@@ -1122,11 +976,14 @@ export interface MergeProjectsLocationsRepositoriesPullRequestsRequest {
   /** Request body */
   body?: CancelOperationRequest | undefined;
 }
-export interface OpenProjectsLocationsRepositoriesIssuesRequest {
-  /** Required. Name of the issue to open. The format is `projects/{project_number}/locations/{location_id}/repositories/{repository_id}/issues/{issue_id}`. */
-  name: string;
+/** The request to open an issue. */
+export interface OpenIssueRequest {
   /** Optional. The current etag of the issue. If the etag is provided and does not match the current etag of the issue, opening will be blocked and an ABORTED error will be returned. */
   etag?: string | undefined;
+}
+export interface OpenProjectsLocationsRepositoriesIssuesRequest extends OpenIssueRequest {
+  /** Required. Name of the issue to open. The format is `projects/{project_number}/locations/{location_id}/repositories/{repository_id}/issues/{issue_id}`. */
+  name: string;
 }
 /** OpenPullRequestRequest is the request to open a pull request. */
 export type OpenPullRequestRequest = CancelOperationRequest;
@@ -1136,214 +993,118 @@ export interface OpenProjectsLocationsRepositoriesPullRequestsRequest {
   /** Request body */
   body?: CancelOperationRequest | undefined;
 }
-export interface PatchProjectsLocationsRepositoriesRequest {
+export interface PatchProjectsLocationsRepositoriesRequest extends Omit<Repository, "name"> {
   /** Optional. Field mask is used to specify the fields to be overwritten in the repository resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
   /** Optional. False by default. If set to true, the request is validated and the user is provided with an expected result, but no actual change is made. */
   validateOnly?: boolean | undefined;
   /** Identifier. A unique identifier for a repository. The name should be of the format: `projects/{project}/locations/{location_id}/repositories/{repository_id}` */
   name: string;
-  /** Output only. Unique identifier of the repository. */
-  uid?: string | undefined;
-  /** Output only. URIs for the repository. */
-  uris?: URIs | undefined;
-  /** Optional. This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
-  etag?: string | undefined;
-  /** Optional. Repository level service account (BYOSA). */
-  serviceAccount?: string | undefined;
-  /** Optional. The name of the instance in which the repository is hosted, formatted as `projects/{project_number}/locations/{location_id}/instances/{instance_id}` When creating repository via securesourcemanager.googleapis.com, this field is used as input. When creating repository via *.sourcemanager.dev, this field is output only. */
-  instance?: string | undefined;
-  /** Output only. Create timestamp. */
-  createTime?: string | undefined;
-  /** Input only. Initial configurations for the repository. */
-  initialConfig?: InitialConfig | undefined;
-  /** Optional. Description of the repository, which cannot exceed 500 characters. */
-  description?: string | undefined;
-  /** Output only. Update timestamp. */
-  updateTime?: string | undefined;
-  /** Optional. Provides configuration for scanning. */
-  scanConfig?: ScanConfig | undefined;
 }
-export interface PatchProjectsLocationsRepositoriesBranchRulesRequest {
+export interface PatchProjectsLocationsRepositoriesBranchRulesRequest extends Omit<
+  BranchRule,
+  "name"
+> {
   /** Optional. If set, validate the request and preview the review, but do not actually post it. (https://google.aip.dev/163, for declarative friendly) */
   validateOnly?: boolean | undefined;
   /** Identifier. A unique identifier for a BranchRule. The name should be of the format: `projects/{project}/locations/{location}/repositories/{repository}/branchRules/{branch_rule}` */
   name: string;
   /** Optional. Field mask is used to specify the fields to be overwritten in the branchRule resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. The special value "*" means full replacement. */
   updateMask?: string | undefined;
-  /** Optional. The minimum number of reviews required for the branch rule to be matched. */
-  minimumReviewsCount?: number | undefined;
-  /** Optional. Determines if code owners must approve before merging to the branch. */
-  requireCodeOwnerApproval?: boolean | undefined;
-  /** Output only. Unique identifier of the repository. */
-  uid?: string | undefined;
-  /** Optional. Determines if require comments resolved before merging to the branch. */
-  requireCommentsResolved?: boolean | undefined;
-  /** Optional. Determines if the branch rule is disabled or not. */
-  disabled?: boolean | undefined;
-  /** Optional. The minimum number of approvals required for the branch rule to be matched. */
-  minimumApprovalsCount?: number | undefined;
-  /** Optional. User annotations. These attributes can only be set and used by the user. See https://google.aip.dev/128#annotations for more details such as format and size limitations. */
-  annotations?: StringMap | undefined;
-  /** Output only. Create timestamp. */
-  createTime?: string | undefined;
-  /** Optional. Determines if allow stale reviews or approvals before merging to the branch. */
-  allowStaleReviews?: boolean | undefined;
-  /** Output only. Update timestamp. */
-  updateTime?: string | undefined;
-  /** Optional. The pattern of the branch that can match to this BranchRule. Specified as regex. .* for all branches. Examples: main, (main|release.*). Current MVP phase only support `.*` for wildcard. */
-  includePattern?: string | undefined;
-  /** Optional. Determines if require linear history before merging to the branch. */
-  requireLinearHistory?: boolean | undefined;
-  /** Optional. This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
-  etag?: string | undefined;
-  /** Optional. List of required status checks before merging to the branch. */
-  requiredStatusChecks?: CheckList | undefined;
-  /** Optional. Determines if the branch rule requires a pull request or not. */
-  requirePullRequest?: boolean | undefined;
 }
-export interface PatchProjectsLocationsRepositoriesHooksRequest {
+export interface PatchProjectsLocationsRepositoriesHooksRequest extends Omit<Hook, "name"> {
   /** Optional. Field mask is used to specify the fields to be overwritten in the hook resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. The special value "*" means full replacement. */
   updateMask?: string | undefined;
   /** Identifier. A unique identifier for a Hook. The name should be of the format: `projects/{project}/locations/{location_id}/repositories/{repository_id}/hooks/{hook_id}` */
   name: string;
-  /** Optional. The sensitive query string to be appended to the target URI. */
-  sensitiveQueryString?: string | undefined;
-  /** Output only. Create timestamp. */
-  createTime?: string | undefined;
-  /** Optional. The events that trigger hook on. */
-  events?: HookEventsItemEnumList | undefined;
-  /** Output only. Update timestamp. */
-  updateTime?: string | undefined;
-  /** Optional. The trigger option for push events. */
-  pushOption?: PushOption | undefined;
-  /** Optional. Determines if the hook uses the Repository Service Account to generate an OIDC ID Token for webhook authentication. */
-  serviceAccountAuth?: boolean | undefined;
-  /** Output only. Unique identifier of the hook. */
-  uid?: string | undefined;
-  /** Required. The target URI to which the payloads will be delivered. */
-  targetUri?: string | undefined;
-  /** Optional. Determines if the hook disabled or not. Set to true to stop sending traffic. */
-  disabled?: boolean | undefined;
 }
-export interface PatchProjectsLocationsRepositoriesIssuesRequest {
+export interface PatchProjectsLocationsRepositoriesIssuesRequest extends Omit<Issue, "name"> {
   /** Identifier. Unique identifier for an issue. The issue id is generated by the server. Format: `projects/{project}/locations/{location}/repositories/{repository}/issues/{issue_id}` */
   name: string;
   /** Optional. Field mask is used to specify the fields to be overwritten in the issue resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. The special value "*" means full replacement. */
   updateMask?: string | undefined;
-  /** Output only. State of the issue. */
-  state?: IssueStateEnum | (string & {}) | undefined;
-  /** Output only. Last updated timestamp. */
-  updateTime?: string | undefined;
-  /** Optional. This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
-  etag?: string | undefined;
-  /** Output only. Close timestamp (if closed). Cleared when is re-opened. */
-  closeTime?: string | undefined;
-  /** Optional. Issue body. Provides a detailed description of the issue. */
-  body?: string | undefined;
-  /** Output only. Creation timestamp. */
-  createTime?: string | undefined;
-  /** Required. Issue title. */
-  title?: string | undefined;
 }
-export interface PatchProjectsLocationsRepositoriesIssuesIssueCommentsRequest {
+export interface PatchProjectsLocationsRepositoriesIssuesIssueCommentsRequest extends Omit<
+  IssueComment,
+  "name"
+> {
   /** Identifier. Unique identifier for an issue comment. The comment id is generated by the server. Format: `projects/{project}/locations/{location}/repositories/{repository}/issues/{issue}/issueComments/{comment_id}` */
   name: string;
   /** Optional. Field mask is used to specify the fields to be overwritten in the issue comment resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. The special value "*" means full replacement. */
   updateMask?: string | undefined;
-  /** Output only. Last updated timestamp. */
-  updateTime?: string | undefined;
-  /** Output only. Creation timestamp. */
-  createTime?: string | undefined;
-  /** Required. The comment body. */
-  body?: string | undefined;
 }
-export interface PatchProjectsLocationsRepositoriesPullRequestsRequest {
+export interface PatchProjectsLocationsRepositoriesPullRequestsRequest extends Omit<
+  PullRequest,
+  "name"
+> {
   /** Optional. Field mask is used to specify the fields to be overwritten in the pull request resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. The special value "*" means full replacement. */
   updateMask?: string | undefined;
   /** Output only. Identifier. A unique identifier for a PullRequest. The number appended at the end is generated by the server. Format: `projects/{project}/locations/{location}/repositories/{repository}/pullRequests/{pull_request_id}` */
   name: string;
-  /** Output only. Close timestamp (if closed or merged). Cleared when pull request is re-opened. */
-  closeTime?: string | undefined;
-  /** Output only. Last updated timestamp. */
-  updateTime?: string | undefined;
-  /** Required. The branch to merge changes in. */
-  base?: Branch | undefined;
-  /** Optional. The pull request body. Provides a detailed description of the changes. */
-  body?: string | undefined;
-  /** Output only. Creation timestamp. */
-  createTime?: string | undefined;
-  /** Immutable. The branch containing the changes to be merged. */
-  head?: Branch | undefined;
-  /** Required. The pull request title. */
-  title?: string | undefined;
-  /** Output only. State of the pull request (open, closed or merged). */
-  state?: PullRequestStateEnum | (string & {}) | undefined;
 }
-export interface PatchProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest {
+export interface PatchProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest extends Omit<
+  PullRequestComment,
+  "name"
+> {
   /** Identifier. Unique identifier for the pull request comment. The comment id is generated by the server. Format: `projects/{project}/locations/{location}/repositories/{repository}/pullRequests/{pull_request}/pullRequestComments/{comment_id}` */
   name: string;
   /** Optional. Field mask is used to specify the fields to be overwritten in the pull request comment resource by the update. Updatable fields are `body`. */
   updateMask?: string | undefined;
-  /** Optional. The comment on a code line. */
-  code?: Code | undefined;
-  /** Output only. Last updated timestamp. */
-  updateTime?: string | undefined;
-  /** Optional. The general pull request comment. */
-  comment?: Comment | undefined;
-  /** Output only. Creation timestamp. */
-  createTime?: string | undefined;
-  /** Optional. The review summary comment. */
-  review?: Review | undefined;
 }
-export interface ResolveProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest {
-  /** Required. The pull request in which to resolve the pull request comments. Format: `projects/{project_number}/locations/{location_id}/repositories/{repository_id}/pullRequests/{pull_request_id}` */
-  parent: string;
+/** The request to resolve multiple pull request comments. */
+export interface ResolvePullRequestCommentsRequest {
   /** Required. The names of the pull request comments to resolve. Format: `projects/{project_number}/locations/{location_id}/repositories/{repository_id}/pullRequests/{pull_request_id}/pullRequestComments/{comment_id}` Only comments from the same threads are allowed in the same request. */
   names?: StringList | undefined;
   /** Optional. If set, at least one comment in a thread is required, rest of the comments in the same thread will be automatically updated to resolved. If unset, all comments in the same thread need be present. */
   autoFill?: boolean | undefined;
 }
-export interface SetIamPolicyProjectsLocationsInstancesRequest {
-  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
+export interface ResolveProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest extends ResolvePullRequestCommentsRequest {
+  /** Required. The pull request in which to resolve the pull request comments. Format: `projects/{project_number}/locations/{location_id}/repositories/{repository_id}/pullRequests/{pull_request_id}` */
+  parent: string;
+}
+/** Request message for `SetIamPolicy` method. */
+export interface SetIamPolicyRequest {
   /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
   updateMask?: string | undefined;
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
   policy?: Policy | undefined;
 }
-export interface SetIamPolicyProjectsLocationsRepositoriesRequest {
+export interface SetIamPolicyProjectsLocationsInstancesRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
-  updateMask?: string | undefined;
-  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
-  policy?: Policy | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsInstancesRequest {
-  /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+export interface SetIamPolicyProjectsLocationsRepositoriesRequest extends SetIamPolicyRequest {
+  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
+}
+/** Request message for `TestIamPermissions` method. */
+export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: StringList | undefined;
+}
+export interface TestIamPermissionsProjectsLocationsInstancesRequest extends TestIamPermissionsRequest {
+  /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsRepositoriesRequest {
+export interface TestIamPermissionsProjectsLocationsRepositoriesRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
-  permissions?: StringList | undefined;
 }
-export interface UnresolveProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest {
-  /** Required. The pull request in which to resolve the pull request comments. Format: `projects/{project_number}/locations/{location_id}/repositories/{repository_id}/pullRequests/{pull_request_id}` */
-  parent: string;
+/** The request to unresolve multiple pull request comments. */
+export interface UnresolvePullRequestCommentsRequest {
   /** Required. The names of the pull request comments to unresolve. Format: `projects/{project_number}/locations/{location_id}/repositories/{repository_id}/pullRequests/{pull_request_id}/pullRequestComments/{comment_id}` Only comments from the same threads are allowed in the same request. */
   names?: StringList | undefined;
   /** Optional. If set, at least one comment in a thread is required, rest of the comments in the same thread will be automatically updated to unresolved. If unset, all comments in the same thread need be present. */
   autoFill?: boolean | undefined;
+}
+export interface UnresolveProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest extends UnresolvePullRequestCommentsRequest {
+  /** Required. The pull request in which to resolve the pull request comments. Format: `projects/{project_number}/locations/{location_id}/repositories/{repository_id}/pullRequests/{pull_request_id}` */
+  parent: string;
 }
 export type BatchCreateProjectsLocationsRepositoriesPullRequestsPullRequestCommentsError =
   | NotFound
@@ -1359,11 +1120,11 @@ export const batchCreateProjectsLocationsRepositoriesPullRequestsPullRequestComm
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    338,
-    __c42,
-    2,
+    299,
+    __c37,
+    3,
   ) as any as S.Schema<BatchCreateProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest>,
-  output: __S(370, __c46, 2) as any as S.Schema<Operation>,
+  output: __S(322, __c40, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1384,8 +1145,8 @@ export const cancelProjectsLocationsOperations: API.OperationMethod<
   CancelProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(456, __c57, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
-  output: __S(464, __c58, 0) as any as S.Schema<Empty>,
+  input: __S(408, __c51, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
+  output: __S(416, __c52, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1406,8 +1167,8 @@ export const closeProjectsLocationsRepositoriesIssues: API.OperationMethod<
   CloseProjectsLocationsRepositoriesIssuesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(552, __c69, 0) as any as S.Schema<CloseProjectsLocationsRepositoriesIssuesRequest>,
-  output: __S(370, __c46, 2) as any as S.Schema<Operation>,
+  input: __S(504, __c63, 0) as any as S.Schema<CloseProjectsLocationsRepositoriesIssuesRequest>,
+  output: __S(322, __c40, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1429,11 +1190,11 @@ export const closeProjectsLocationsRepositoriesPullRequests: API.OperationMethod
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    616,
-    __c77,
+    592,
+    __c74,
     0,
   ) as any as S.Schema<CloseProjectsLocationsRepositoriesPullRequestsRequest>,
-  output: __S(370, __c46, 2) as any as S.Schema<Operation>,
+  output: __S(322, __c40, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1454,8 +1215,8 @@ export const createProjectsLocationsInstances: API.OperationMethod<
   CreateProjectsLocationsInstancesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(624, __c78, 0) as any as S.Schema<CreateProjectsLocationsInstancesRequest>,
-  output: __S(370, __c46, 2) as any as S.Schema<Operation>,
+  input: __S(600, __c75, 0) as any as S.Schema<CreateProjectsLocationsInstancesRequest>,
+  output: __S(322, __c40, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1476,8 +1237,8 @@ export const createProjectsLocationsRepositories: API.OperationMethod<
   CreateProjectsLocationsRepositoriesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(664, __c83, 0) as any as S.Schema<CreateProjectsLocationsRepositoriesRequest>,
-  output: __S(370, __c46, 2) as any as S.Schema<Operation>,
+  input: __S(640, __c80, 0) as any as S.Schema<CreateProjectsLocationsRepositoriesRequest>,
+  output: __S(322, __c40, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1499,7 +1260,7 @@ export const createProjectsLocationsRepositoriesBranchRules: API.OperationMethod
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateProjectsLocationsRepositoriesBranchRulesRequest>,
-  output: __S(370, __c46, 2) as any as S.Schema<Operation>,
+  output: __S(322, __c40, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1521,7 +1282,7 @@ export const createProjectsLocationsRepositoriesHooks: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c2, 0) as any as S.Schema<CreateProjectsLocationsRepositoriesHooksRequest>,
-  output: __S(370, __c46, 2) as any as S.Schema<Operation>,
+  output: __S(322, __c40, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1543,7 +1304,7 @@ export const createProjectsLocationsRepositoriesIssues: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c4, 0) as any as S.Schema<CreateProjectsLocationsRepositoriesIssuesRequest>,
-  output: __S(370, __c46, 2) as any as S.Schema<Operation>,
+  output: __S(322, __c40, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1565,11 +1326,11 @@ export const createProjectsLocationsRepositoriesIssuesIssueComments: API.Operati
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    40,
-    __c5,
+    48,
+    __c6,
     0,
   ) as any as S.Schema<CreateProjectsLocationsRepositoriesIssuesIssueCommentsRequest>,
-  output: __S(370, __c46, 2) as any as S.Schema<Operation>,
+  output: __S(322, __c40, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1591,11 +1352,11 @@ export const createProjectsLocationsRepositoriesPullRequests: API.OperationMetho
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    48,
-    __c6,
+    64,
+    __c8,
     0,
   ) as any as S.Schema<CreateProjectsLocationsRepositoriesPullRequestsRequest>,
-  output: __S(370, __c46, 2) as any as S.Schema<Operation>,
+  output: __S(322, __c40, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1617,11 +1378,11 @@ export const createProjectsLocationsRepositoriesPullRequestsPullRequestComments:
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    64,
-    __c8,
+    80,
+    __c10,
     0,
   ) as any as S.Schema<CreateProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest>,
-  output: __S(370, __c46, 2) as any as S.Schema<Operation>,
+  output: __S(322, __c40, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1642,8 +1403,8 @@ export const deleteProjectsLocationsInstances: API.OperationMethod<
   DeleteProjectsLocationsInstancesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c9, 0) as any as S.Schema<DeleteProjectsLocationsInstancesRequest>,
-  output: __S(370, __c46, 2) as any as S.Schema<Operation>,
+  input: __S(88, __c11, 0) as any as S.Schema<DeleteProjectsLocationsInstancesRequest>,
+  output: __S(322, __c40, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1664,8 +1425,8 @@ export const deleteProjectsLocationsOperations: API.OperationMethod<
   DeleteProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c10, 0) as any as S.Schema<DeleteProjectsLocationsOperationsRequest>,
-  output: __S(464, __c58, 0) as any as S.Schema<Empty>,
+  input: __S(96, __c12, 0) as any as S.Schema<DeleteProjectsLocationsOperationsRequest>,
+  output: __S(416, __c52, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1686,8 +1447,8 @@ export const deleteProjectsLocationsRepositories: API.OperationMethod<
   DeleteProjectsLocationsRepositoriesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c11, 0) as any as S.Schema<DeleteProjectsLocationsRepositoriesRequest>,
-  output: __S(370, __c46, 2) as any as S.Schema<Operation>,
+  input: __S(104, __c13, 0) as any as S.Schema<DeleteProjectsLocationsRepositoriesRequest>,
+  output: __S(322, __c40, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1709,11 +1470,11 @@ export const deleteProjectsLocationsRepositoriesBranchRules: API.OperationMethod
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    96,
-    __c12,
+    112,
+    __c14,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsRepositoriesBranchRulesRequest>,
-  output: __S(370, __c46, 2) as any as S.Schema<Operation>,
+  output: __S(322, __c40, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1734,8 +1495,8 @@ export const deleteProjectsLocationsRepositoriesHooks: API.OperationMethod<
   DeleteProjectsLocationsRepositoriesHooksError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(104, __c13, 0) as any as S.Schema<DeleteProjectsLocationsRepositoriesHooksRequest>,
-  output: __S(370, __c46, 2) as any as S.Schema<Operation>,
+  input: __S(120, __c15, 0) as any as S.Schema<DeleteProjectsLocationsRepositoriesHooksRequest>,
+  output: __S(322, __c40, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1756,8 +1517,8 @@ export const deleteProjectsLocationsRepositoriesIssues: API.OperationMethod<
   DeleteProjectsLocationsRepositoriesIssuesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c14, 0) as any as S.Schema<DeleteProjectsLocationsRepositoriesIssuesRequest>,
-  output: __S(370, __c46, 2) as any as S.Schema<Operation>,
+  input: __S(128, __c16, 0) as any as S.Schema<DeleteProjectsLocationsRepositoriesIssuesRequest>,
+  output: __S(322, __c40, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1779,11 +1540,11 @@ export const deleteProjectsLocationsRepositoriesIssuesIssueComments: API.Operati
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    120,
-    __c15,
+    136,
+    __c17,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsRepositoriesIssuesIssueCommentsRequest>,
-  output: __S(370, __c46, 2) as any as S.Schema<Operation>,
+  output: __S(322, __c40, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1805,11 +1566,11 @@ export const deleteProjectsLocationsRepositoriesPullRequestsPullRequestComments:
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    128,
-    __c16,
+    144,
+    __c18,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest>,
-  output: __S(370, __c46, 2) as any as S.Schema<Operation>,
+  output: __S(322, __c40, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1825,8 +1586,8 @@ export const fetchBlobProjectsLocationsRepositories: API.OperationMethod<
   FetchBlobProjectsLocationsRepositoriesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(136, __c17, 0) as any as S.Schema<FetchBlobProjectsLocationsRepositoriesRequest>,
-  output: __S(137, __c17, 1) as any as S.Schema<FetchBlobResponse>,
+  input: __S(152, __c19, 0) as any as S.Schema<FetchBlobProjectsLocationsRepositoriesRequest>,
+  output: __S(153, __c19, 1) as any as S.Schema<FetchBlobResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1843,8 +1604,8 @@ export const fetchRefsProjectsLocationsRepositories: API.PaginatedOperationMetho
   GcpOpContext,
   FetchRefsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(144, __c18, 0) as any as S.Schema<FetchRefsProjectsLocationsRepositoriesRequest>,
-  output: __S(147, __c18, 3) as any as S.Schema<FetchRefsResponse>,
+  input: __S(160, __c20, 0) as any as S.Schema<FetchRefsProjectsLocationsRepositoriesRequest>,
+  output: __S(163, __c20, 3) as any as S.Schema<FetchRefsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1862,8 +1623,8 @@ export const fetchTreeProjectsLocationsRepositories: API.PaginatedOperationMetho
   GcpOpContext,
   FetchTreeResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(152, __c19, 0) as any as S.Schema<FetchTreeProjectsLocationsRepositoriesRequest>,
-  output: __S(155, __c19, 3) as any as S.Schema<FetchTreeResponse>,
+  input: __S(168, __c21, 0) as any as S.Schema<FetchTreeProjectsLocationsRepositoriesRequest>,
+  output: __S(171, __c21, 3) as any as S.Schema<FetchTreeResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1880,8 +1641,8 @@ export const getIamPolicyProjectsLocationsInstances: API.OperationMethod<
   GetIamPolicyProjectsLocationsInstancesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c20, 0) as any as S.Schema<GetIamPolicyProjectsLocationsInstancesRequest>,
-  output: __S(175, __c21, 7) as any as S.Schema<Policy>,
+  input: __S(176, __c22, 0) as any as S.Schema<GetIamPolicyProjectsLocationsInstancesRequest>,
+  output: __S(191, __c23, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1897,8 +1658,8 @@ export const getIamPolicyProjectsLocationsRepositories: API.OperationMethod<
   GetIamPolicyProjectsLocationsRepositoriesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c22, 0) as any as S.Schema<GetIamPolicyProjectsLocationsRepositoriesRequest>,
-  output: __S(175, __c21, 7) as any as S.Schema<Policy>,
+  input: __S(192, __c24, 0) as any as S.Schema<GetIamPolicyProjectsLocationsRepositoriesRequest>,
+  output: __S(191, __c23, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1914,8 +1675,8 @@ export const getProjectsLocations: API.OperationMethod<
   GetProjectsLocationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(184, __c23, 0) as any as S.Schema<GetProjectsLocationsRequest>,
-  output: __S(192, __c24, 0) as any as S.Schema<Location>,
+  input: __S(200, __c25, 0) as any as S.Schema<GetProjectsLocationsRequest>,
+  output: __S(208, __c26, 0) as any as S.Schema<Location>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1931,8 +1692,8 @@ export const getProjectsLocationsInstances: API.OperationMethod<
   GetProjectsLocationsInstancesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(200, __c25, 0) as any as S.Schema<GetProjectsLocationsInstancesRequest>,
-  output: __S(208, __c26, 0) as any as S.Schema<Instance>,
+  input: __S(216, __c27, 0) as any as S.Schema<GetProjectsLocationsInstancesRequest>,
+  output: __S(619, __c77, 3) as any as S.Schema<Instance>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1948,8 +1709,8 @@ export const getProjectsLocationsOperations: API.OperationMethod<
   GetProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(216, __c27, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
-  output: __S(370, __c46, 2) as any as S.Schema<Operation>,
+  input: __S(224, __c28, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
+  output: __S(322, __c40, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1965,8 +1726,8 @@ export const getProjectsLocationsRepositories: API.OperationMethod<
   GetProjectsLocationsRepositoriesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c28, 0) as any as S.Schema<GetProjectsLocationsRepositoriesRequest>,
-  output: __S(232, __c29, 0) as any as S.Schema<Repository>,
+  input: __S(232, __c29, 0) as any as S.Schema<GetProjectsLocationsRepositoriesRequest>,
+  output: __S(652, __c81, 4) as any as S.Schema<Repository>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1983,7 +1744,7 @@ export const getProjectsLocationsRepositoriesBranchRules: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(240, __c30, 0) as any as S.Schema<GetProjectsLocationsRepositoriesBranchRulesRequest>,
-  output: __S(248, __c31, 0) as any as S.Schema<BranchRule>,
+  output: __S(10, __c1, 2) as any as S.Schema<BranchRule>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1999,8 +1760,8 @@ export const getProjectsLocationsRepositoriesHooks: API.OperationMethod<
   GetProjectsLocationsRepositoriesHooksError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c32, 0) as any as S.Schema<GetProjectsLocationsRepositoriesHooksRequest>,
-  output: __S(264, __c33, 0) as any as S.Schema<Hook>,
+  input: __S(248, __c31, 0) as any as S.Schema<GetProjectsLocationsRepositoriesHooksRequest>,
+  output: __S(26, __c3, 2) as any as S.Schema<Hook>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2016,8 +1777,8 @@ export const getProjectsLocationsRepositoriesIssues: API.OperationMethod<
   GetProjectsLocationsRepositoriesIssuesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c34, 0) as any as S.Schema<GetProjectsLocationsRepositoriesIssuesRequest>,
-  output: __S(280, __c35, 0) as any as S.Schema<Issue>,
+  input: __S(256, __c32, 0) as any as S.Schema<GetProjectsLocationsRepositoriesIssuesRequest>,
+  output: __S(40, __c5, 0) as any as S.Schema<Issue>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2037,11 +1798,11 @@ export const getProjectsLocationsRepositoriesIssuesIssueComments: API.OperationM
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    288,
-    __c36,
+    264,
+    __c33,
     0,
   ) as any as S.Schema<GetProjectsLocationsRepositoriesIssuesIssueCommentsRequest>,
-  output: __S(296, __c37, 0) as any as S.Schema<IssueComment>,
+  output: __S(56, __c7, 0) as any as S.Schema<IssueComment>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2057,8 +1818,8 @@ export const getProjectsLocationsRepositoriesPullRequests: API.OperationMethod<
   GetProjectsLocationsRepositoriesPullRequestsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c38, 0) as any as S.Schema<GetProjectsLocationsRepositoriesPullRequestsRequest>,
-  output: __S(312, __c39, 0) as any as S.Schema<PullRequest>,
+  input: __S(272, __c34, 0) as any as S.Schema<GetProjectsLocationsRepositoriesPullRequestsRequest>,
+  output: __S(73, __c9, 1) as any as S.Schema<PullRequest>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2078,11 +1839,11 @@ export const getProjectsLocationsRepositoriesPullRequestsPullRequestComments: AP
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    320,
-    __c40,
+    280,
+    __c35,
     0,
   ) as any as S.Schema<GetProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest>,
-  output: __S(352, __c44, 0) as any as S.Schema<PullRequestComment>,
+  output: __S(308, __c38, 4) as any as S.Schema<PullRequestComment>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2103,11 +1864,11 @@ export const listFileDiffsProjectsLocationsRepositoriesPullRequests: API.Paginat
   ListPullRequestFileDiffsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    328,
-    __c41,
+    288,
+    __c36,
     0,
   ) as any as S.Schema<ListFileDiffsProjectsLocationsRepositoriesPullRequestsRequest>,
-  output: __S(331, __c41, 3) as any as S.Schema<ListPullRequestFileDiffsResponse>,
+  output: __S(291, __c36, 3) as any as S.Schema<ListPullRequestFileDiffsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2125,8 +1886,8 @@ export const listProjectsLocations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListLocationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(376, __c47, 0) as any as S.Schema<ListProjectsLocationsRequest>,
-  output: __S(378, __c47, 2) as any as S.Schema<ListLocationsResponse>,
+  input: __S(328, __c41, 0) as any as S.Schema<ListProjectsLocationsRequest>,
+  output: __S(330, __c41, 2) as any as S.Schema<ListLocationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2144,8 +1905,8 @@ export const listProjectsLocationsInstances: API.PaginatedOperationMethod<
   GcpOpContext,
   ListInstancesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(384, __c48, 0) as any as S.Schema<ListProjectsLocationsInstancesRequest>,
-  output: __S(386, __c48, 2) as any as S.Schema<ListInstancesResponse>,
+  input: __S(336, __c42, 0) as any as S.Schema<ListProjectsLocationsInstancesRequest>,
+  output: __S(338, __c42, 2) as any as S.Schema<ListInstancesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2163,8 +1924,8 @@ export const listProjectsLocationsOperations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListOperationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(392, __c49, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
-  output: __S(394, __c49, 2) as any as S.Schema<ListOperationsResponse>,
+  input: __S(344, __c43, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
+  output: __S(346, __c43, 2) as any as S.Schema<ListOperationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2182,8 +1943,8 @@ export const listProjectsLocationsRepositories: API.PaginatedOperationMethod<
   GcpOpContext,
   ListRepositoriesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(400, __c50, 0) as any as S.Schema<ListProjectsLocationsRepositoriesRequest>,
-  output: __S(402, __c50, 2) as any as S.Schema<ListRepositoriesResponse>,
+  input: __S(352, __c44, 0) as any as S.Schema<ListProjectsLocationsRepositoriesRequest>,
+  output: __S(354, __c44, 2) as any as S.Schema<ListRepositoriesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2201,8 +1962,8 @@ export const listProjectsLocationsRepositoriesBranchRules: API.PaginatedOperatio
   GcpOpContext,
   ListBranchRulesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(408, __c51, 0) as any as S.Schema<ListProjectsLocationsRepositoriesBranchRulesRequest>,
-  output: __S(410, __c51, 2) as any as S.Schema<ListBranchRulesResponse>,
+  input: __S(360, __c45, 0) as any as S.Schema<ListProjectsLocationsRepositoriesBranchRulesRequest>,
+  output: __S(362, __c45, 2) as any as S.Schema<ListBranchRulesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2220,8 +1981,8 @@ export const listProjectsLocationsRepositoriesHooks: API.PaginatedOperationMetho
   GcpOpContext,
   ListHooksResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(416, __c52, 0) as any as S.Schema<ListProjectsLocationsRepositoriesHooksRequest>,
-  output: __S(418, __c52, 2) as any as S.Schema<ListHooksResponse>,
+  input: __S(368, __c46, 0) as any as S.Schema<ListProjectsLocationsRepositoriesHooksRequest>,
+  output: __S(370, __c46, 2) as any as S.Schema<ListHooksResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2239,8 +2000,8 @@ export const listProjectsLocationsRepositoriesIssues: API.PaginatedOperationMeth
   GcpOpContext,
   ListIssuesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(424, __c53, 0) as any as S.Schema<ListProjectsLocationsRepositoriesIssuesRequest>,
-  output: __S(426, __c53, 2) as any as S.Schema<ListIssuesResponse>,
+  input: __S(376, __c47, 0) as any as S.Schema<ListProjectsLocationsRepositoriesIssuesRequest>,
+  output: __S(378, __c47, 2) as any as S.Schema<ListIssuesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2262,11 +2023,11 @@ export const listProjectsLocationsRepositoriesIssuesIssueComments: API.Paginated
   ListIssueCommentsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    432,
-    __c54,
+    384,
+    __c48,
     0,
   ) as any as S.Schema<ListProjectsLocationsRepositoriesIssuesIssueCommentsRequest>,
-  output: __S(434, __c54, 2) as any as S.Schema<ListIssueCommentsResponse>,
+  output: __S(386, __c48, 2) as any as S.Schema<ListIssueCommentsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2285,11 +2046,11 @@ export const listProjectsLocationsRepositoriesPullRequests: API.PaginatedOperati
   ListPullRequestsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    440,
-    __c55,
+    392,
+    __c49,
     0,
   ) as any as S.Schema<ListProjectsLocationsRepositoriesPullRequestsRequest>,
-  output: __S(442, __c55, 2) as any as S.Schema<ListPullRequestsResponse>,
+  output: __S(394, __c49, 2) as any as S.Schema<ListPullRequestsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2311,11 +2072,11 @@ export const listProjectsLocationsRepositoriesPullRequestsPullRequestComments: A
   ListPullRequestCommentsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    448,
-    __c56,
+    400,
+    __c50,
     0,
   ) as any as S.Schema<ListProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest>,
-  output: __S(450, __c56, 2) as any as S.Schema<ListPullRequestCommentsResponse>,
+  output: __S(402, __c50, 2) as any as S.Schema<ListPullRequestCommentsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2338,11 +2099,11 @@ export const mergeProjectsLocationsRepositoriesPullRequests: API.OperationMethod
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    472,
-    __c59,
+    424,
+    __c53,
     0,
   ) as any as S.Schema<MergeProjectsLocationsRepositoriesPullRequestsRequest>,
-  output: __S(370, __c46, 2) as any as S.Schema<Operation>,
+  output: __S(322, __c40, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2363,8 +2124,8 @@ export const openProjectsLocationsRepositoriesIssues: API.OperationMethod<
   OpenProjectsLocationsRepositoriesIssuesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c60, 0) as any as S.Schema<OpenProjectsLocationsRepositoriesIssuesRequest>,
-  output: __S(370, __c46, 2) as any as S.Schema<Operation>,
+  input: __S(432, __c54, 0) as any as S.Schema<OpenProjectsLocationsRepositoriesIssuesRequest>,
+  output: __S(322, __c40, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2386,11 +2147,11 @@ export const openProjectsLocationsRepositoriesPullRequests: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    488,
-    __c61,
+    440,
+    __c55,
     0,
   ) as any as S.Schema<OpenProjectsLocationsRepositoriesPullRequestsRequest>,
-  output: __S(370, __c46, 2) as any as S.Schema<Operation>,
+  output: __S(322, __c40, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2411,8 +2172,8 @@ export const patchProjectsLocationsRepositories: API.OperationMethod<
   PatchProjectsLocationsRepositoriesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(496, __c62, 0) as any as S.Schema<PatchProjectsLocationsRepositoriesRequest>,
-  output: __S(370, __c46, 2) as any as S.Schema<Operation>,
+  input: __S(448, __c56, 0) as any as S.Schema<PatchProjectsLocationsRepositoriesRequest>,
+  output: __S(322, __c40, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2434,11 +2195,11 @@ export const patchProjectsLocationsRepositoriesBranchRules: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    504,
-    __c63,
+    456,
+    __c57,
     0,
   ) as any as S.Schema<PatchProjectsLocationsRepositoriesBranchRulesRequest>,
-  output: __S(370, __c46, 2) as any as S.Schema<Operation>,
+  output: __S(322, __c40, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2459,8 +2220,8 @@ export const patchProjectsLocationsRepositoriesHooks: API.OperationMethod<
   PatchProjectsLocationsRepositoriesHooksError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c64, 0) as any as S.Schema<PatchProjectsLocationsRepositoriesHooksRequest>,
-  output: __S(370, __c46, 2) as any as S.Schema<Operation>,
+  input: __S(464, __c58, 0) as any as S.Schema<PatchProjectsLocationsRepositoriesHooksRequest>,
+  output: __S(322, __c40, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2481,8 +2242,8 @@ export const patchProjectsLocationsRepositoriesIssues: API.OperationMethod<
   PatchProjectsLocationsRepositoriesIssuesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(520, __c65, 0) as any as S.Schema<PatchProjectsLocationsRepositoriesIssuesRequest>,
-  output: __S(370, __c46, 2) as any as S.Schema<Operation>,
+  input: __S(472, __c59, 0) as any as S.Schema<PatchProjectsLocationsRepositoriesIssuesRequest>,
+  output: __S(322, __c40, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2504,11 +2265,11 @@ export const patchProjectsLocationsRepositoriesIssuesIssueComments: API.Operatio
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    528,
-    __c66,
+    480,
+    __c60,
     0,
   ) as any as S.Schema<PatchProjectsLocationsRepositoriesIssuesIssueCommentsRequest>,
-  output: __S(370, __c46, 2) as any as S.Schema<Operation>,
+  output: __S(322, __c40, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2530,11 +2291,11 @@ export const patchProjectsLocationsRepositoriesPullRequests: API.OperationMethod
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    536,
-    __c67,
+    488,
+    __c61,
     0,
   ) as any as S.Schema<PatchProjectsLocationsRepositoriesPullRequestsRequest>,
-  output: __S(370, __c46, 2) as any as S.Schema<Operation>,
+  output: __S(322, __c40, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2556,11 +2317,11 @@ export const patchProjectsLocationsRepositoriesPullRequestsPullRequestComments: 
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    544,
-    __c68,
+    496,
+    __c62,
     0,
   ) as any as S.Schema<PatchProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest>,
-  output: __S(370, __c46, 2) as any as S.Schema<Operation>,
+  output: __S(322, __c40, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2582,11 +2343,11 @@ export const resolveProjectsLocationsRepositoriesPullRequestsPullRequestComments
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    560,
-    __c70,
+    520,
+    __c65,
     0,
   ) as any as S.Schema<ResolveProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest>,
-  output: __S(370, __c46, 2) as any as S.Schema<Operation>,
+  output: __S(322, __c40, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2607,8 +2368,8 @@ export const setIamPolicyProjectsLocationsInstances: API.OperationMethod<
   SetIamPolicyProjectsLocationsInstancesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(568, __c71, 0) as any as S.Schema<SetIamPolicyProjectsLocationsInstancesRequest>,
-  output: __S(175, __c21, 7) as any as S.Schema<Policy>,
+  input: __S(536, __c67, 0) as any as S.Schema<SetIamPolicyProjectsLocationsInstancesRequest>,
+  output: __S(191, __c23, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2629,8 +2390,8 @@ export const setIamPolicyProjectsLocationsRepositories: API.OperationMethod<
   SetIamPolicyProjectsLocationsRepositoriesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c72, 0) as any as S.Schema<SetIamPolicyProjectsLocationsRepositoriesRequest>,
-  output: __S(175, __c21, 7) as any as S.Schema<Policy>,
+  input: __S(552, __c69, 0) as any as S.Schema<SetIamPolicyProjectsLocationsRepositoriesRequest>,
+  output: __S(191, __c23, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2651,8 +2412,8 @@ export const testIamPermissionsProjectsLocationsInstances: API.OperationMethod<
   TestIamPermissionsProjectsLocationsInstancesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(584, __c73, 0) as any as S.Schema<TestIamPermissionsProjectsLocationsInstancesRequest>,
-  output: __S(592, __c74, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  input: __S(560, __c70, 0) as any as S.Schema<TestIamPermissionsProjectsLocationsInstancesRequest>,
+  output: __S(568, __c71, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2674,11 +2435,11 @@ export const testIamPermissionsProjectsLocationsRepositories: API.OperationMetho
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    600,
-    __c75,
+    576,
+    __c72,
     0,
   ) as any as S.Schema<TestIamPermissionsProjectsLocationsRepositoriesRequest>,
-  output: __S(592, __c74, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  output: __S(568, __c71, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2700,11 +2461,11 @@ export const unresolveProjectsLocationsRepositoriesPullRequestsPullRequestCommen
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    608,
-    __c76,
+    584,
+    __c73,
     0,
   ) as any as S.Schema<UnresolveProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest>,
-  output: __S(370, __c46, 2) as any as S.Schema<Operation>,
+  output: __S(322, __c40, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2717,26 +2478,13 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          branchRuleId: S.optional(S.String.pipe(T.Query())),
-          minimumReviewsCount: S.optional(S.Number),
-          requireCodeOwnerApproval: S.optional(S.Boolean),
-          uid: S.optional(S.String),
-          requireCommentsResolved: S.optional(S.Boolean),
-          disabled: S.optional(S.Boolean),
-          minimumApprovalsCount: S.optional(S.Number),
-          annotations: S.optional(__S(632, __c79, 0)),
-          createTime: S.optional(S.String),
-          allowStaleReviews: S.optional(S.Boolean),
-          updateTime: S.optional(S.String),
-          includePattern: S.optional(S.String),
-          requireLinearHistory: S.optional(S.Boolean),
-          name: S.optional(S.String),
-          etag: S.optional(S.String),
-          requiredStatusChecks: S.optional(__S(9, __c1, 1)),
-          requirePullRequest: S.optional(S.Boolean),
-        }).pipe(
+        S.Extend(
+          __S(10, __c1, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            branchRuleId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/branchRules",
@@ -2756,26 +2504,40 @@ function __c1(j: number): any {
       ).annotate({ identifier: "Check" });
     case 1:
       return S.Array(__S(8, __c1, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          minimumReviewsCount: S.optional(S.Number),
+          requireCodeOwnerApproval: S.optional(S.Boolean),
+          uid: S.optional(S.String),
+          requireCommentsResolved: S.optional(S.Boolean),
+          disabled: S.optional(S.Boolean),
+          minimumApprovalsCount: S.optional(S.Number),
+          annotations: S.optional(__S(608, __c76, 0)),
+          createTime: S.optional(S.String),
+          allowStaleReviews: S.optional(S.Boolean),
+          updateTime: S.optional(S.String),
+          includePattern: S.optional(S.String),
+          requireLinearHistory: S.optional(S.Boolean),
+          name: S.optional(S.String),
+          etag: S.optional(S.String),
+          requiredStatusChecks: S.optional(__S(9, __c1, 1)),
+          requirePullRequest: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "BranchRule" });
   }
 }
 function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          hookId: S.optional(S.String.pipe(T.Query())),
-          sensitiveQueryString: S.optional(S.String),
-          createTime: S.optional(S.String),
-          events: S.optional(__S(24, __c3, 0)),
-          updateTime: S.optional(S.String),
-          pushOption: S.optional(__S(25, __c3, 1)),
-          serviceAccountAuth: S.optional(S.Boolean),
-          uid: S.optional(S.String),
-          targetUri: S.optional(S.String),
-          disabled: S.optional(S.Boolean),
-          name: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(26, __c3, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            hookId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/hooks",
@@ -2795,23 +2557,33 @@ function __c3(j: number): any {
           branchFilter: S.optional(S.String),
         }),
       ).annotate({ identifier: "PushOption" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          sensitiveQueryString: S.optional(S.String),
+          createTime: S.optional(S.String),
+          events: S.optional(__S(24, __c3, 0)),
+          updateTime: S.optional(S.String),
+          pushOption: S.optional(__S(25, __c3, 1)),
+          serviceAccountAuth: S.optional(S.Boolean),
+          uid: S.optional(S.String),
+          targetUri: S.optional(S.String),
+          disabled: S.optional(S.Boolean),
+          name: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Hook" });
   }
 }
 function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          state: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          etag: S.optional(S.String),
-          closeTime: S.optional(S.String),
-          name: S.optional(S.String),
-          body: S.optional(S.String),
-          createTime: S.optional(S.String),
-          title: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(40, __c5, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/issues",
@@ -2826,12 +2598,28 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
+          state: S.optional(S.String),
           updateTime: S.optional(S.String),
-          createTime: S.optional(S.String),
+          etag: S.optional(S.String),
+          closeTime: S.optional(S.String),
           name: S.optional(S.String),
           body: S.optional(S.String),
-        }).pipe(
+          createTime: S.optional(S.String),
+          title: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Issue" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(56, __c7, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/issueComments",
@@ -2841,22 +2629,29 @@ function __c5(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsRepositoriesIssuesIssueCommentsRequest" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
-          closeTime: S.optional(S.String),
           updateTime: S.optional(S.String),
-          base: S.optional(__S(56, __c7, 0)),
-          body: S.optional(S.String),
           createTime: S.optional(S.String),
-          head: S.optional(__S(56, __c7, 0)),
-          title: S.optional(S.String),
           name: S.optional(S.String),
-          state: S.optional(S.String),
-        }).pipe(
+          body: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "IssueComment" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(73, __c9, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/pullRequests",
@@ -2866,7 +2661,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsRepositoriesPullRequestsRequest" });
   }
 }
-function __c7(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2875,21 +2670,32 @@ function __c7(j: number): any {
           sha: S.optional(S.String),
         }),
       ).annotate({ identifier: "Branch" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          closeTime: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          base: S.optional(__S(72, __c9, 0)),
+          body: S.optional(S.String),
+          createTime: S.optional(S.String),
+          head: S.optional(__S(72, __c9, 0)),
+          title: S.optional(S.String),
+          name: S.optional(S.String),
+          state: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PullRequest" });
   }
 }
-function __c8(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          code: S.optional(__S(345, __c43, 1)),
-          updateTime: S.optional(S.String),
-          comment: S.optional(__S(346, __c43, 2)),
-          name: S.optional(S.String),
-          createTime: S.optional(S.String),
-          review: S.optional(__S(347, __c43, 3)),
-        }).pipe(
+        S.Extend(
+          __S(308, __c38, 4),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/pullRequestComments",
@@ -2901,7 +2707,7 @@ function __c8(j: number): any {
       });
   }
 }
-function __c9(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2919,7 +2725,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsInstancesRequest" });
   }
 }
-function __c10(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2935,7 +2741,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsOperationsRequest" });
   }
 }
-function __c11(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2952,7 +2758,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsRepositoriesRequest" });
   }
 }
-function __c12(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2969,7 +2775,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsRepositoriesBranchRulesRequest" });
   }
 }
-function __c13(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2985,7 +2791,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsRepositoriesHooksRequest" });
   }
 }
-function __c14(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3002,7 +2808,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsRepositoriesIssuesRequest" });
   }
 }
-function __c15(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3018,7 +2824,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsRepositoriesIssuesIssueCommentsRequest" });
   }
 }
-function __c16(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3036,7 +2842,7 @@ function __c16(j: number): any {
       });
   }
 }
-function __c17(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3060,7 +2866,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "FetchBlobResponse" });
   }
 }
-function __c18(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3086,17 +2892,17 @@ function __c18(j: number): any {
         }),
       ).annotate({ identifier: "Ref" });
     case 2:
-      return S.Array(__S(145, __c18, 1));
+      return S.Array(__S(161, __c20, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          refs: S.optional(__S(146, __c18, 2)),
+          refs: S.optional(__S(162, __c20, 2)),
         }),
       ).annotate({ identifier: "FetchRefsResponse" });
   }
 }
-function __c19(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3125,17 +2931,17 @@ function __c19(j: number): any {
         }),
       ).annotate({ identifier: "TreeEntry" });
     case 2:
-      return S.Array(__S(153, __c19, 1));
+      return S.Array(__S(169, __c21, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          treeEntries: S.optional(__S(154, __c19, 2)),
+          treeEntries: S.optional(__S(170, __c21, 2)),
         }),
       ).annotate({ identifier: "FetchTreeResponse" });
   }
 }
-function __c20(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3152,7 +2958,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "GetIamPolicyProjectsLocationsInstancesRequest" });
   }
 }
-function __c21(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3166,43 +2972,43 @@ function __c21(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          condition: S.optional(__S(168, __c21, 0)),
+          condition: S.optional(__S(184, __c23, 0)),
           role: S.optional(S.String),
-          members: S.optional(__S(648, __c81, 0)),
+          members: S.optional(__S(624, __c78, 0)),
         }),
       ).annotate({ identifier: "Binding" });
     case 2:
-      return S.Array(__S(169, __c21, 1));
+      return S.Array(__S(185, __c23, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           logType: S.optional(S.String),
-          exemptedMembers: S.optional(__S(648, __c81, 0)),
+          exemptedMembers: S.optional(__S(624, __c78, 0)),
         }),
       ).annotate({ identifier: "AuditLogConfig" });
     case 4:
-      return S.Array(__S(171, __c21, 3));
+      return S.Array(__S(187, __c23, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          auditLogConfigs: S.optional(__S(172, __c21, 4)),
+          auditLogConfigs: S.optional(__S(188, __c23, 4)),
           service: S.optional(S.String),
         }),
       ).annotate({ identifier: "AuditConfig" });
     case 6:
-      return S.Array(__S(173, __c21, 5));
+      return S.Array(__S(189, __c23, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          bindings: S.optional(__S(170, __c21, 2)),
-          auditConfigs: S.optional(__S(174, __c21, 6)),
+          bindings: S.optional(__S(186, __c23, 2)),
+          auditConfigs: S.optional(__S(190, __c23, 6)),
           version: S.optional(S.Number),
           etag: S.optional(S.String),
         }),
       ).annotate({ identifier: "Policy" });
   }
 }
-function __c22(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3219,7 +3025,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "GetIamPolicyProjectsLocationsRepositoriesRequest" });
   }
 }
-function __c23(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3235,55 +3041,18 @@ function __c23(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsRequest" });
   }
 }
-function __c24(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          metadata: S.optional(__S(360, __c45, 0)),
-          locationId: S.optional(S.String),
-          labels: S.optional(__S(632, __c79, 0)),
-          name: S.optional(S.String),
-          displayName: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Location" });
-  }
-}
-function __c25(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v1/{+name}",
-            baseUrl: "https://securesourcemanager.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "GetProjectsLocationsInstancesRequest" });
-  }
-}
 function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          createTime: S.optional(S.String),
-          workforceIdentityFederationConfig: S.optional(__S(656, __c82, 0)),
-          updateTime: S.optional(S.String),
+          metadata: S.optional(__S(312, __c39, 0)),
+          locationId: S.optional(S.String),
+          labels: S.optional(__S(608, __c76, 0)),
           name: S.optional(S.String),
-          privateConfig: S.optional(__S(641, __c80, 1)),
-          satisfiesPzi: S.optional(S.Boolean),
-          labels: S.optional(__S(632, __c79, 0)),
-          kmsKey: S.optional(S.String),
-          stateNote: S.optional(S.String),
-          satisfiesPzs: S.optional(S.Boolean),
-          state: S.optional(S.String),
-          hostConfig: S.optional(__S(642, __c80, 2)),
+          displayName: S.optional(S.String),
         }),
-      ).annotate({ identifier: "Instance" });
+      ).annotate({ identifier: "Location" });
   }
 }
 function __c27(j: number): any {
@@ -3299,7 +3068,7 @@ function __c27(j: number): any {
             baseUrl: "https://securesourcemanager.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsOperationsRequest" });
+      ).annotate({ identifier: "GetProjectsLocationsInstancesRequest" });
   }
 }
 function __c28(j: number): any {
@@ -3315,7 +3084,7 @@ function __c28(j: number): any {
             baseUrl: "https://securesourcemanager.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsRepositoriesRequest" });
+      ).annotate({ identifier: "GetProjectsLocationsOperationsRequest" });
   }
 }
 function __c29(j: number): any {
@@ -3323,19 +3092,15 @@ function __c29(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          uid: S.optional(S.String),
-          uris: S.optional(__S(672, __c84, 0)),
-          etag: S.optional(S.String),
-          name: S.optional(S.String),
-          serviceAccount: S.optional(S.String),
-          instance: S.optional(S.String),
-          createTime: S.optional(S.String),
-          initialConfig: S.optional(__S(673, __c84, 1)),
-          description: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          scanConfig: S.optional(__S(675, __c84, 3)),
-        }),
-      ).annotate({ identifier: "Repository" });
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1/{+name}",
+            baseUrl: "https://securesourcemanager.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "GetProjectsLocationsRepositoriesRequest" });
   }
 }
 function __c30(j: number): any {
@@ -3359,24 +3124,15 @@ function __c31(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          minimumReviewsCount: S.optional(S.Number),
-          requireCodeOwnerApproval: S.optional(S.Boolean),
-          uid: S.optional(S.String),
-          requireCommentsResolved: S.optional(S.Boolean),
-          disabled: S.optional(S.Boolean),
-          minimumApprovalsCount: S.optional(S.Number),
-          annotations: S.optional(__S(632, __c79, 0)),
-          createTime: S.optional(S.String),
-          allowStaleReviews: S.optional(S.Boolean),
-          updateTime: S.optional(S.String),
-          includePattern: S.optional(S.String),
-          requireLinearHistory: S.optional(S.Boolean),
-          name: S.optional(S.String),
-          etag: S.optional(S.String),
-          requiredStatusChecks: S.optional(__S(9, __c1, 1)),
-          requirePullRequest: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "BranchRule" });
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1/{+name}",
+            baseUrl: "https://securesourcemanager.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "GetProjectsLocationsRepositoriesHooksRequest" });
   }
 }
 function __c32(j: number): any {
@@ -3392,62 +3148,10 @@ function __c32(j: number): any {
             baseUrl: "https://securesourcemanager.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsRepositoriesHooksRequest" });
-  }
-}
-function __c33(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          sensitiveQueryString: S.optional(S.String),
-          createTime: S.optional(S.String),
-          events: S.optional(__S(24, __c3, 0)),
-          updateTime: S.optional(S.String),
-          pushOption: S.optional(__S(25, __c3, 1)),
-          serviceAccountAuth: S.optional(S.Boolean),
-          uid: S.optional(S.String),
-          targetUri: S.optional(S.String),
-          disabled: S.optional(S.Boolean),
-          name: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Hook" });
-  }
-}
-function __c34(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v1/{+name}",
-            baseUrl: "https://securesourcemanager.googleapis.com/",
-          }),
-        ),
       ).annotate({ identifier: "GetProjectsLocationsRepositoriesIssuesRequest" });
   }
 }
-function __c35(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          state: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          etag: S.optional(S.String),
-          closeTime: S.optional(S.String),
-          name: S.optional(S.String),
-          body: S.optional(S.String),
-          createTime: S.optional(S.String),
-          title: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Issue" });
-  }
-}
-function __c36(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3463,20 +3167,7 @@ function __c36(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsRepositoriesIssuesIssueCommentsRequest" });
   }
 }
-function __c37(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          updateTime: S.optional(S.String),
-          createTime: S.optional(S.String),
-          name: S.optional(S.String),
-          body: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "IssueComment" });
-  }
-}
-function __c38(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3492,25 +3183,7 @@ function __c38(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsRepositoriesPullRequestsRequest" });
   }
 }
-function __c39(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          closeTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          base: S.optional(__S(56, __c7, 0)),
-          body: S.optional(S.String),
-          createTime: S.optional(S.String),
-          head: S.optional(__S(56, __c7, 0)),
-          title: S.optional(S.String),
-          name: S.optional(S.String),
-          state: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "PullRequest" });
-  }
-}
-function __c40(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3528,7 +3201,7 @@ function __c40(j: number): any {
       });
   }
 }
-function __c41(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3554,33 +3227,41 @@ function __c41(j: number): any {
         }),
       ).annotate({ identifier: "FileDiff" });
     case 2:
-      return S.Array(__S(329, __c41, 1));
+      return S.Array(__S(289, __c36, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          fileDiffs: S.optional(__S(330, __c41, 2)),
+          fileDiffs: S.optional(__S(290, __c36, 2)),
         }),
       ).annotate({ identifier: "ListPullRequestFileDiffsResponse" });
   }
 }
-function __c42(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.optional(S.String),
-          pullRequestComment: S.optional(__S(352, __c44, 0)),
+          pullRequestComment: S.optional(__S(308, __c38, 4)),
         }),
       ).annotate({ identifier: "CreatePullRequestCommentRequest" });
     case 1:
-      return S.Array(__S(336, __c42, 0));
+      return S.Array(__S(296, __c37, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
-          requests: S.optional(__S(337, __c42, 1)),
-        }).pipe(
+          requests: S.optional(__S(297, __c37, 1)),
+        }),
+      ).annotate({ identifier: "BatchCreatePullRequestCommentsRequest" });
+    case 3:
+      return S.suspend(() =>
+        S.Extend(
+          __S(298, __c37, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/pullRequestComments:batchCreate",
@@ -3593,7 +3274,7 @@ function __c42(j: number): any {
       });
   }
 }
-function __c43(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3608,7 +3289,7 @@ function __c43(j: number): any {
           resolved: S.optional(S.Boolean),
           body: S.optional(S.String),
           effectiveCommitSha: S.optional(S.String),
-          position: S.optional(__S(344, __c43, 0)),
+          position: S.optional(__S(304, __c38, 0)),
           reply: S.optional(S.String),
           effectiveRootComment: S.optional(S.String),
         }),
@@ -3627,54 +3308,50 @@ function __c43(j: number): any {
           body: S.optional(S.String),
         }),
       ).annotate({ identifier: "Review" });
-  }
-}
-function __c44(j: number): any {
-  switch (j) {
-    case 0:
+    case 4:
       return S.suspend(() =>
         S.Struct({
-          code: S.optional(__S(345, __c43, 1)),
+          code: S.optional(__S(305, __c38, 1)),
           updateTime: S.optional(S.String),
-          comment: S.optional(__S(346, __c43, 2)),
+          comment: S.optional(__S(306, __c38, 2)),
           name: S.optional(S.String),
           createTime: S.optional(S.String),
-          review: S.optional(__S(347, __c43, 3)),
+          review: S.optional(__S(307, __c38, 3)),
         }),
       ).annotate({ identifier: "PullRequestComment" });
   }
 }
-function __c45(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c46(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(360, __c45, 0));
+      return S.Array(__S(312, __c39, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
           code: S.optional(S.Number),
           message: S.optional(S.String),
-          details: S.optional(__S(368, __c46, 0)),
+          details: S.optional(__S(320, __c40, 0)),
         }),
       ).annotate({ identifier: "Status" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          metadata: S.optional(__S(360, __c45, 0)),
+          metadata: S.optional(__S(312, __c39, 0)),
           done: S.optional(S.Boolean),
-          response: S.optional(__S(360, __c45, 0)),
+          response: S.optional(__S(312, __c39, 0)),
           name: S.optional(S.String),
-          error: S.optional(__S(369, __c46, 1)),
+          error: S.optional(__S(321, __c40, 1)),
         }),
       ).annotate({ identifier: "Operation" });
   }
 }
-function __c47(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3682,7 +3359,7 @@ function __c47(j: number): any {
           name: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
-          extraLocationTypes: S.optional(__S(648, __c81, 0).pipe(T.Query())),
+          extraLocationTypes: S.optional(__S(624, __c78, 0).pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -3693,17 +3370,17 @@ function __c47(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsRequest" });
     case 1:
-      return S.Array(__S(192, __c24, 0));
+      return S.Array(__S(208, __c26, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          locations: S.optional(__S(377, __c47, 1)),
+          locations: S.optional(__S(329, __c41, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListLocationsResponse" });
   }
 }
-function __c48(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3722,18 +3399,18 @@ function __c48(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsInstancesRequest" });
     case 1:
-      return S.Array(__S(208, __c26, 0));
+      return S.Array(__S(619, __c77, 3));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          instances: S.optional(__S(385, __c48, 1)),
-          unreachable: S.optional(__S(648, __c81, 0)),
+          instances: S.optional(__S(337, __c42, 1)),
+          unreachable: S.optional(__S(624, __c78, 0)),
         }),
       ).annotate({ identifier: "ListInstancesResponse" });
   }
 }
-function __c49(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3752,18 +3429,18 @@ function __c49(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsOperationsRequest" });
     case 1:
-      return S.Array(__S(370, __c46, 2));
+      return S.Array(__S(322, __c40, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(648, __c81, 0)),
+          unreachable: S.optional(__S(624, __c78, 0)),
           nextPageToken: S.optional(S.String),
-          operations: S.optional(__S(393, __c49, 1)),
+          operations: S.optional(__S(345, __c43, 1)),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
   }
 }
-function __c50(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3782,17 +3459,17 @@ function __c50(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsRepositoriesRequest" });
     case 1:
-      return S.Array(__S(232, __c29, 0));
+      return S.Array(__S(652, __c81, 4));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          repositories: S.optional(__S(401, __c50, 1)),
+          repositories: S.optional(__S(353, __c44, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListRepositoriesResponse" });
   }
 }
-function __c51(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3809,17 +3486,17 @@ function __c51(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsRepositoriesBranchRulesRequest" });
     case 1:
-      return S.Array(__S(248, __c31, 0));
+      return S.Array(__S(10, __c1, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          branchRules: S.optional(__S(409, __c51, 1)),
+          branchRules: S.optional(__S(361, __c45, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListBranchRulesResponse" });
   }
 }
-function __c52(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3836,17 +3513,17 @@ function __c52(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsRepositoriesHooksRequest" });
     case 1:
-      return S.Array(__S(264, __c33, 0));
+      return S.Array(__S(26, __c3, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          hooks: S.optional(__S(417, __c52, 1)),
+          hooks: S.optional(__S(369, __c46, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListHooksResponse" });
   }
 }
-function __c53(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3864,17 +3541,17 @@ function __c53(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsRepositoriesIssuesRequest" });
     case 1:
-      return S.Array(__S(280, __c35, 0));
+      return S.Array(__S(40, __c5, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          issues: S.optional(__S(425, __c53, 1)),
+          issues: S.optional(__S(377, __c47, 1)),
         }),
       ).annotate({ identifier: "ListIssuesResponse" });
   }
 }
-function __c54(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3891,17 +3568,17 @@ function __c54(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsRepositoriesIssuesIssueCommentsRequest" });
     case 1:
-      return S.Array(__S(296, __c37, 0));
+      return S.Array(__S(56, __c7, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          issueComments: S.optional(__S(433, __c54, 1)),
+          issueComments: S.optional(__S(385, __c48, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListIssueCommentsResponse" });
   }
 }
-function __c55(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3918,17 +3595,17 @@ function __c55(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsRepositoriesPullRequestsRequest" });
     case 1:
-      return S.Array(__S(312, __c39, 0));
+      return S.Array(__S(73, __c9, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          pullRequests: S.optional(__S(441, __c55, 1)),
+          pullRequests: S.optional(__S(393, __c49, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListPullRequestsResponse" });
   }
 }
-function __c56(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3947,23 +3624,23 @@ function __c56(j: number): any {
         identifier: "ListProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest",
       });
     case 1:
-      return S.Array(__S(352, __c44, 0));
+      return S.Array(__S(308, __c38, 4));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          pullRequestComments: S.optional(__S(449, __c56, 1)),
+          pullRequestComments: S.optional(__S(401, __c50, 1)),
         }),
       ).annotate({ identifier: "ListPullRequestCommentsResponse" });
   }
 }
-function __c57(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(464, __c58, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(416, __c52, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3974,19 +3651,19 @@ function __c57(j: number): any {
       ).annotate({ identifier: "CancelProjectsLocationsOperationsRequest" });
   }
 }
-function __c58(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "CancelOperationRequest" });
   }
 }
-function __c59(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(464, __c58, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(416, __c52, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3997,14 +3674,16 @@ function __c59(j: number): any {
       ).annotate({ identifier: "MergeProjectsLocationsRepositoriesPullRequestsRequest" });
   }
 }
-function __c60(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          etag: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(512, __c64, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:open",
@@ -4014,13 +3693,13 @@ function __c60(j: number): any {
       ).annotate({ identifier: "OpenProjectsLocationsRepositoriesIssuesRequest" });
   }
 }
-function __c61(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(464, __c58, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(416, __c52, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4031,25 +3710,18 @@ function __c61(j: number): any {
       ).annotate({ identifier: "OpenProjectsLocationsRepositoriesPullRequestsRequest" });
   }
 }
-function __c62(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          uid: S.optional(S.String),
-          uris: S.optional(__S(672, __c84, 0)),
-          etag: S.optional(S.String),
-          serviceAccount: S.optional(S.String),
-          instance: S.optional(S.String),
-          createTime: S.optional(S.String),
-          initialConfig: S.optional(__S(673, __c84, 1)),
-          description: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          scanConfig: S.optional(__S(675, __c84, 3)),
-        }).pipe(
+        S.Extend(
+          __S(652, __c81, 4),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -4059,30 +3731,18 @@ function __c62(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsRepositoriesRequest" });
   }
 }
-function __c63(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          minimumReviewsCount: S.optional(S.Number),
-          requireCodeOwnerApproval: S.optional(S.Boolean),
-          uid: S.optional(S.String),
-          requireCommentsResolved: S.optional(S.Boolean),
-          disabled: S.optional(S.Boolean),
-          minimumApprovalsCount: S.optional(S.Number),
-          annotations: S.optional(__S(632, __c79, 0)),
-          createTime: S.optional(S.String),
-          allowStaleReviews: S.optional(S.Boolean),
-          updateTime: S.optional(S.String),
-          includePattern: S.optional(S.String),
-          requireLinearHistory: S.optional(S.Boolean),
-          etag: S.optional(S.String),
-          requiredStatusChecks: S.optional(__S(9, __c1, 1)),
-          requirePullRequest: S.optional(S.Boolean),
-        }).pipe(
+        S.Extend(
+          __S(10, __c1, 2),
+          S.Struct({
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -4092,23 +3752,17 @@ function __c63(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsRepositoriesBranchRulesRequest" });
   }
 }
-function __c64(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          sensitiveQueryString: S.optional(S.String),
-          createTime: S.optional(S.String),
-          events: S.optional(__S(24, __c3, 0)),
-          updateTime: S.optional(S.String),
-          pushOption: S.optional(__S(25, __c3, 1)),
-          serviceAccountAuth: S.optional(S.Boolean),
-          uid: S.optional(S.String),
-          targetUri: S.optional(S.String),
-          disabled: S.optional(S.Boolean),
-        }).pipe(
+        S.Extend(
+          __S(26, __c3, 2),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -4118,21 +3772,17 @@ function __c64(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsRepositoriesHooksRequest" });
   }
 }
-function __c65(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          state: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          etag: S.optional(S.String),
-          closeTime: S.optional(S.String),
-          body: S.optional(S.String),
-          createTime: S.optional(S.String),
-          title: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(40, __c5, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -4142,17 +3792,17 @@ function __c65(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsRepositoriesIssuesRequest" });
   }
 }
-function __c66(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          updateTime: S.optional(S.String),
-          createTime: S.optional(S.String),
-          body: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(56, __c7, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -4162,22 +3812,17 @@ function __c66(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsRepositoriesIssuesIssueCommentsRequest" });
   }
 }
-function __c67(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          closeTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          base: S.optional(__S(56, __c7, 0)),
-          body: S.optional(S.String),
-          createTime: S.optional(S.String),
-          head: S.optional(__S(56, __c7, 0)),
-          title: S.optional(S.String),
-          state: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(73, __c9, 1),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -4187,19 +3832,17 @@ function __c67(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsRepositoriesPullRequestsRequest" });
   }
 }
-function __c68(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          code: S.optional(__S(345, __c43, 1)),
-          updateTime: S.optional(S.String),
-          comment: S.optional(__S(346, __c43, 2)),
-          createTime: S.optional(S.String),
-          review: S.optional(__S(347, __c43, 3)),
-        }).pipe(
+        S.Extend(
+          __S(308, __c38, 4),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -4211,14 +3854,16 @@ function __c68(j: number): any {
       });
   }
 }
-function __c69(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          etag: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(512, __c64, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:close",
@@ -4228,15 +3873,26 @@ function __c69(j: number): any {
       ).annotate({ identifier: "CloseProjectsLocationsRepositoriesIssuesRequest" });
   }
 }
-function __c70(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
-          names: S.optional(__S(648, __c81, 0)),
-          autoFill: S.optional(S.Boolean),
-        }).pipe(
+          etag: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CloseIssueRequest" });
+  }
+}
+function __c65(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(528, __c66, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/pullRequestComments:resolve",
@@ -4248,15 +3904,27 @@ function __c70(j: number): any {
       });
   }
 }
-function __c71(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          resource: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String),
-          policy: S.optional(__S(175, __c21, 7)),
-        }).pipe(
+          names: S.optional(__S(624, __c78, 0)),
+          autoFill: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "ResolvePullRequestCommentsRequest" });
+  }
+}
+function __c67(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(544, __c68, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -4266,15 +3934,27 @@ function __c71(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsLocationsInstancesRequest" });
   }
 }
-function __c72(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          resource: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String),
-          policy: S.optional(__S(175, __c21, 7)),
-        }).pipe(
+          policy: S.optional(__S(191, __c23, 7)),
+        }),
+      ).annotate({ identifier: "SetIamPolicyRequest" });
+  }
+}
+function __c69(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(544, __c68, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -4284,14 +3964,16 @@ function __c72(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsLocationsRepositoriesRequest" });
   }
 }
-function __c73(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          permissions: S.optional(__S(648, __c81, 0)),
-        }).pipe(
+        S.Extend(
+          __S(568, __c71, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -4301,24 +3983,26 @@ function __c73(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsLocationsInstancesRequest" });
   }
 }
-function __c74(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          permissions: S.optional(__S(648, __c81, 0)),
+          permissions: S.optional(__S(624, __c78, 0)),
         }),
-      ).annotate({ identifier: "TestIamPermissionsResponse" });
+      ).annotate({ identifier: "TestIamPermissionsRequest" });
   }
 }
-function __c75(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          permissions: S.optional(__S(648, __c81, 0)),
-        }).pipe(
+        S.Extend(
+          __S(568, __c71, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -4328,15 +4012,16 @@ function __c75(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsLocationsRepositoriesRequest" });
   }
 }
-function __c76(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          names: S.optional(__S(648, __c81, 0)),
-          autoFill: S.optional(S.Boolean),
-        }).pipe(
+        S.Extend(
+          __S(528, __c66, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/pullRequestComments:unresolve",
@@ -4348,13 +4033,13 @@ function __c76(j: number): any {
       });
   }
 }
-function __c77(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(464, __c58, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(416, __c52, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4365,27 +4050,18 @@ function __c77(j: number): any {
       ).annotate({ identifier: "CloseProjectsLocationsRepositoriesPullRequestsRequest" });
   }
 }
-function __c78(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          instanceId: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          createTime: S.optional(S.String),
-          workforceIdentityFederationConfig: S.optional(__S(656, __c82, 0)),
-          updateTime: S.optional(S.String),
-          name: S.optional(S.String),
-          privateConfig: S.optional(__S(641, __c80, 1)),
-          satisfiesPzi: S.optional(S.Boolean),
-          labels: S.optional(__S(632, __c79, 0)),
-          kmsKey: S.optional(S.String),
-          stateNote: S.optional(S.String),
-          satisfiesPzs: S.optional(S.Boolean),
-          state: S.optional(S.String),
-          hostConfig: S.optional(__S(642, __c80, 2)),
-        }).pipe(
+        S.Extend(
+          __S(619, __c77, 3),
+          S.Struct({
+            instanceId: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/instances",
@@ -4395,13 +4071,13 @@ function __c78(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsInstancesRequest" });
   }
 }
-function __c79(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
   }
 }
-function __c80(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4415,11 +4091,11 @@ function __c80(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          customHostConfig: S.optional(__S(640, __c80, 0)),
+          customHostConfig: S.optional(__S(616, __c77, 0)),
           isPrivate: S.optional(S.Boolean),
           caPool: S.optional(S.String),
           sshServiceAttachment: S.optional(S.String),
-          pscAllowedProjects: S.optional(__S(648, __c81, 0)),
+          pscAllowedProjects: S.optional(__S(624, __c78, 0)),
           httpServiceAttachment: S.optional(S.String),
         }),
       ).annotate({ identifier: "PrivateConfig" });
@@ -4432,15 +4108,32 @@ function __c80(j: number): any {
           gitSsh: S.optional(S.String),
         }),
       ).annotate({ identifier: "HostConfig" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          createTime: S.optional(S.String),
+          workforceIdentityFederationConfig: S.optional(__S(632, __c79, 0)),
+          updateTime: S.optional(S.String),
+          name: S.optional(S.String),
+          privateConfig: S.optional(__S(617, __c77, 1)),
+          satisfiesPzi: S.optional(S.Boolean),
+          labels: S.optional(__S(608, __c76, 0)),
+          kmsKey: S.optional(S.String),
+          stateNote: S.optional(S.String),
+          satisfiesPzs: S.optional(S.Boolean),
+          state: S.optional(S.String),
+          hostConfig: S.optional(__S(618, __c77, 2)),
+        }),
+      ).annotate({ identifier: "Instance" });
   }
 }
-function __c81(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c82(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4450,25 +4143,17 @@ function __c82(j: number): any {
       ).annotate({ identifier: "WorkforceIdentityFederationConfig" });
   }
 }
-function __c83(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          repositoryId: S.optional(S.String.pipe(T.Query())),
-          uid: S.optional(S.String),
-          uris: S.optional(__S(672, __c84, 0)),
-          etag: S.optional(S.String),
-          name: S.optional(S.String),
-          serviceAccount: S.optional(S.String),
-          instance: S.optional(S.String),
-          createTime: S.optional(S.String),
-          initialConfig: S.optional(__S(673, __c84, 1)),
-          description: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          scanConfig: S.optional(__S(675, __c84, 3)),
-        }).pipe(
+        S.Extend(
+          __S(652, __c81, 4),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            repositoryId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/repositories",
@@ -4478,7 +4163,7 @@ function __c83(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsRepositoriesRequest" });
   }
 }
-function __c84(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4493,7 +4178,7 @@ function __c84(j: number): any {
         S.Struct({
           readme: S.optional(S.String),
           defaultBranch: S.optional(S.String),
-          gitignores: S.optional(__S(648, __c81, 0)),
+          gitignores: S.optional(__S(624, __c78, 0)),
           license: S.optional(S.String),
         }),
       ).annotate({ identifier: "InitialConfig" });
@@ -4507,10 +4192,26 @@ function __c84(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          vulnerabilityScanConfig: S.optional(__S(656, __c82, 0)),
-          secretScanConfig: S.optional(__S(674, __c84, 2)),
+          vulnerabilityScanConfig: S.optional(__S(632, __c79, 0)),
+          secretScanConfig: S.optional(__S(650, __c81, 2)),
         }),
       ).annotate({ identifier: "ScanConfig" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          uid: S.optional(S.String),
+          uris: S.optional(__S(648, __c81, 0)),
+          etag: S.optional(S.String),
+          name: S.optional(S.String),
+          serviceAccount: S.optional(S.String),
+          instance: S.optional(S.String),
+          createTime: S.optional(S.String),
+          initialConfig: S.optional(__S(649, __c81, 1)),
+          description: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          scanConfig: S.optional(__S(651, __c81, 3)),
+        }),
+      ).annotate({ identifier: "Repository" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

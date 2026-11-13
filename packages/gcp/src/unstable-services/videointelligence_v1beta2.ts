@@ -225,7 +225,8 @@ export type GoogleCloudVideointelligenceV1beta2_AnnotateVideoRequestFeaturesItem
 export type GoogleCloudVideointelligenceV1beta2_AnnotateVideoRequestFeaturesItemEnumList = Array<
   GoogleCloudVideointelligenceV1beta2_AnnotateVideoRequestFeaturesItemEnum | (string & {})
 >;
-export interface AnnotateVideosRequest {
+/** Video annotation request. */
+export interface GoogleCloudVideointelligenceV1beta2_AnnotateVideoRequest {
   /** Optional. Location where the output (in JSON format) should be stored. Currently, only [Cloud Storage](https://cloud.google.com/storage/) URIs are supported. These must be specified in the following format: `gs://bucket-id/object-id` (other URI formats return google.rpc.Code.INVALID_ARGUMENT). For more information, see [Request URIs](https://cloud.google.com/storage/docs/request-endpoints). */
   outputUri?: string | undefined;
   /** Input video location. Currently, only [Cloud Storage](https://cloud.google.com/storage/) URIs are supported. URIs must be specified in the following format: `gs://bucket-id/object-id` (other URI formats return google.rpc.Code.INVALID_ARGUMENT). For more information, see [Request URIs](https://cloud.google.com/storage/docs/request-endpoints). To identify multiple videos, a video URI may include wildcards in the `object-id`. Supported wildcards: '*' to match 0 or more characters; '?' to match 1 character. If unset, the input video should be embedded in the request as `input_content`. If set, `input_content` must be unset. */
@@ -241,6 +242,7 @@ export interface AnnotateVideosRequest {
   /** Optional. Cloud region where annotation should take place. Supported cloud regions are: `us-east1`, `us-west1`, `europe-west1`, `asia-east1`. If no region is specified, the region will be determined based on video file location. */
   locationId?: string | undefined;
 }
+export interface AnnotateVideosRequest extends GoogleCloudVideointelligenceV1beta2_AnnotateVideoRequest {}
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
@@ -273,8 +275,8 @@ export const annotateVideos: API.OperationMethod<
   AnnotateVideosError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14, __c0, 14) as any as S.Schema<AnnotateVideosRequest>,
-  output: __S(18, __c0, 18) as any as S.Schema<GoogleLongrunning_Operation>,
+  input: __S(15, __c0, 15) as any as S.Schema<AnnotateVideosRequest>,
+  output: __S(19, __c0, 19) as any as S.Schema<GoogleLongrunning_Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -385,7 +387,11 @@ function __c0(j: number): any {
           inputContent: S.optional(S.String),
           features: S.optional(__S(13, __c0, 13)),
           locationId: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "GoogleCloudVideointelligenceV1beta2_AnnotateVideoRequest" });
+    case 15:
+      return S.suspend(() =>
+        S.Extend(__S(14, __c0, 14), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta2/videos:annotate",
@@ -393,26 +399,26 @@ function __c0(j: number): any {
           }),
         ),
       ).annotate({ identifier: "AnnotateVideosRequest" });
-    case 15:
-      return S.Record(S.String, S.Unknown);
     case 16:
-      return S.Array(__S(15, __c0, 15));
+      return S.Record(S.String, S.Unknown);
     case 17:
+      return S.Array(__S(16, __c0, 16));
+    case 18:
       return S.suspend(() =>
         S.Struct({
           code: S.optional(S.Number),
-          details: S.optional(__S(16, __c0, 16)),
+          details: S.optional(__S(17, __c0, 17)),
           message: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleRpc_Status" });
-    case 18:
+    case 19:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
           done: S.optional(S.Boolean),
-          metadata: S.optional(__S(15, __c0, 15)),
-          error: S.optional(__S(17, __c0, 17)),
-          response: S.optional(__S(15, __c0, 15)),
+          metadata: S.optional(__S(16, __c0, 16)),
+          error: S.optional(__S(18, __c0, 18)),
+          response: S.optional(__S(16, __c0, 16)),
         }),
       ).annotate({ identifier: "GoogleLongrunning_Operation" });
   }

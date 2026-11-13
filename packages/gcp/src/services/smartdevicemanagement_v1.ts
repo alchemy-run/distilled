@@ -84,13 +84,16 @@ export class NotFound
   ) {}
 
 export type DocumentMap = { [key: string]: unknown | undefined };
-export interface ExecuteCommandEnterprisesDevicesRequest {
-  /** The name of the device requested. For example: "enterprises/XYZ/devices/123" */
-  name: string;
+/** Request message for SmartDeviceManagementService.ExecuteDeviceCommand */
+export interface GoogleHomeEnterpriseSdmV1ExecuteDeviceCommandRequest {
   /** The command message to execute, represented as a Struct. */
   params?: DocumentMap | undefined;
   /** The command name to execute, represented by the fully qualified protobuf message name. */
   command?: string | undefined;
+}
+export interface ExecuteCommandEnterprisesDevicesRequest extends GoogleHomeEnterpriseSdmV1ExecuteDeviceCommandRequest {
+  /** The name of the device requested. For example: "enterprises/XYZ/devices/123" */
+  name: string;
 }
 /** Response message for SmartDeviceManagementService.ExecuteDeviceCommand */
 export interface GoogleHomeEnterpriseSdmV1ExecuteDeviceCommandResponse {
@@ -190,8 +193,8 @@ export const executeCommandEnterprisesDevices: API.OperationMethod<
   ExecuteCommandEnterprisesDevicesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4, __c1, 0) as any as S.Schema<ExecuteCommandEnterprisesDevicesRequest>,
-  output: __S(5, __c1, 1) as any as S.Schema<GoogleHomeEnterpriseSdmV1ExecuteDeviceCommandResponse>,
+  input: __S(5, __c1, 1) as any as S.Schema<ExecuteCommandEnterprisesDevicesRequest>,
+  output: __S(6, __c1, 2) as any as S.Schema<GoogleHomeEnterpriseSdmV1ExecuteDeviceCommandResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -331,10 +334,18 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           params: S.optional(__S(8, __c2, 0)),
           command: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "GoogleHomeEnterpriseSdmV1ExecuteDeviceCommandRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(4, __c1, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:executeCommand",
@@ -342,7 +353,7 @@ function __c1(j: number): any {
           }),
         ),
       ).annotate({ identifier: "ExecuteCommandEnterprisesDevicesRequest" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           results: S.optional(__S(8, __c2, 0)),

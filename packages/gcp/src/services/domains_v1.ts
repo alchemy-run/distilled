@@ -142,9 +142,8 @@ export type ConfigureContactSettingsRequestContactNoticesItemEnum =
 export type ConfigureContactSettingsRequestContactNoticesItemEnumList = Array<
   ConfigureContactSettingsRequestContactNoticesItemEnum | (string & {})
 >;
-export interface ConfigureContactSettingsProjectsLocationsRegistrationsRequest {
-  /** Required. The name of the `Registration` whose contact settings are being updated, in the format `projects/*\/locations/*\/registrations/*`. */
-  registration: string;
+/** Request for the `ConfigureContactSettings` method. */
+export interface ConfigureContactSettingsRequest {
   /** Required. The field mask describing which fields to update as a comma-separated list. For example, if only the registrant contact is being updated, the `update_mask` is `"registrant_contact"`. */
   updateMask?: string | undefined;
   /** Fields of the `ContactSettings` to update. */
@@ -153,6 +152,10 @@ export interface ConfigureContactSettingsProjectsLocationsRegistrationsRequest {
   validateOnly?: boolean | undefined;
   /** The list of contact notices that the caller acknowledges. The notices needed here depend on the values specified in `contact_settings`. */
   contactNotices?: ConfigureContactSettingsRequestContactNoticesItemEnumList | undefined;
+}
+export interface ConfigureContactSettingsProjectsLocationsRegistrationsRequest extends ConfigureContactSettingsRequest {
+  /** Required. The name of the `Registration` whose contact settings are being updated, in the format `projects/*\/locations/*\/registrations/*`. */
+  registration: string;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -256,15 +259,18 @@ export interface DnsSettings {
   /** The list of glue records for this `Registration`. Commonly empty. */
   glueRecords?: GlueRecordList | undefined;
 }
-export interface ConfigureDnsSettingsProjectsLocationsRegistrationsRequest {
-  /** Required. The name of the `Registration` whose DNS settings are being updated, in the format `projects/*\/locations/*\/registrations/*`. */
-  registration: string;
+/** Request for the `ConfigureDnsSettings` method. */
+export interface ConfigureDnsSettingsRequest {
   /** Fields of the `DnsSettings` to update. */
   dnsSettings?: DnsSettings | undefined;
   /** Validate the request without actually updating the DNS settings. */
   validateOnly?: boolean | undefined;
   /** Required. The field mask describing which fields to update as a comma-separated list. For example, if only the name servers are being updated for an existing Custom DNS configuration, the `update_mask` is `"custom_dns.name_servers"`. When changing the DNS provider from one type to another, pass the new provider's field name as part of the field mask. For example, when changing from a Google Domains DNS configuration to a Custom DNS configuration, the `update_mask` is `"custom_dns"`. // */
   updateMask?: string | undefined;
+}
+export interface ConfigureDnsSettingsProjectsLocationsRegistrationsRequest extends ConfigureDnsSettingsRequest {
+  /** Required. The name of the `Registration` whose DNS settings are being updated, in the format `projects/*\/locations/*\/registrations/*`. */
+  registration: string;
 }
 export type ManagementSettingsEffectiveTransferLockStateEnum =
   | "TRANSFER_LOCK_STATE_UNSPECIFIED"
@@ -298,15 +304,18 @@ export interface ManagementSettings {
   /** Optional. The desired renewal method for this `Registration`. The actual `renewal_method` is automatically updated to reflect this choice. If unset or equal to `RENEWAL_METHOD_UNSPECIFIED`, the actual `renewalMethod` is treated as if it were set to `AUTOMATIC_RENEWAL`. You cannot use `RENEWAL_DISABLED` during resource creation, and you can update the renewal status only when the `Registration` resource has state `ACTIVE` or `SUSPENDED`. When `preferred_renewal_method` is set to `AUTOMATIC_RENEWAL`, the actual `renewal_method` can be set to `RENEWAL_DISABLED` in case of problems with the billing account or reported domain abuse. In such cases, check the `issues` field on the `Registration`. After the problem is resolved, the `renewal_method` is automatically updated to `preferred_renewal_method` in a few hours. */
   preferredRenewalMethod?: ManagementSettingsPreferredRenewalMethodEnum | (string & {}) | undefined;
 }
-export interface ConfigureManagementSettingsProjectsLocationsRegistrationsRequest {
-  /** Required. The name of the `Registration` whose management settings are being updated, in the format `projects/*\/locations/*\/registrations/*`. */
-  registration: string;
+/** Request for the `ConfigureManagementSettings` method. */
+export interface ConfigureManagementSettingsRequest {
   /** Fields of the `ManagementSettings` to update. */
   managementSettings?: ManagementSettings | undefined;
   /** Optional. If set, validates the request without actually updating the management settings. */
   validateOnly?: boolean | undefined;
   /** Required. The field mask describing which fields to update as a comma-separated list. For example, if only the transfer lock is being updated, the `update_mask` is `"transfer_lock_state"`. */
   updateMask?: string | undefined;
+}
+export interface ConfigureManagementSettingsProjectsLocationsRegistrationsRequest extends ConfigureManagementSettingsRequest {
+  /** Required. The name of the `Registration` whose management settings are being updated, in the format `projects/*\/locations/*\/registrations/*`. */
+  registration: string;
 }
 export interface DeleteProjectsLocationsRegistrationsRequest {
   /** Required. The name of the `Registration` to delete, in the format `projects/*\/locations/*\/registrations/*`. */
@@ -773,21 +782,27 @@ export interface RetrieveTransferParametersResponse {
   /** Parameters to use when calling the `TransferDomain` method. */
   transferParameters?: TransferParameters | undefined;
 }
-export interface ImportProjectsLocationsRegistrationsRequest {
-  /** Required. The parent resource of the Registration. Must be in the format `projects/*\/locations/*`. */
-  parent: string;
+/** Deprecated: For more information, see [Cloud Domains feature deprecation](https://cloud.google.com/domains/docs/deprecations/feature-deprecations). Request for the `ImportDomain` method. */
+export interface ImportDomainRequest {
   /** Required. The domain name. Unicode domain names must be expressed in Punycode format. */
   domainName?: string | undefined;
   /** Set of labels associated with the `Registration`. */
   labels?: StringMap | undefined;
 }
-export interface InitiatePushTransferProjectsLocationsRegistrationsRequest {
-  /** Required. The name of the `Registration` for which the push transfer is initiated, in the format `projects/*\/locations/*\/registrations/*`. */
-  registration: string;
+export interface ImportProjectsLocationsRegistrationsRequest extends ImportDomainRequest {
+  /** Required. The parent resource of the Registration. Must be in the format `projects/*\/locations/*`. */
+  parent: string;
+}
+/** Request for the `InitiatePushTransfer` method. */
+export interface InitiatePushTransferRequest {
   /** Required. The Tag of the new registrar. Can be found at [List of registrars](https://nominet.uk/registrar-list/). */
   tag?: string | undefined;
   /** Optional. If set, validates the request without actually initiating the transfer. */
   validateOnly?: boolean | undefined;
+}
+export interface InitiatePushTransferProjectsLocationsRegistrationsRequest extends InitiatePushTransferRequest {
+  /** Required. The name of the `Registration` for which the push transfer is initiated, in the format `projects/*\/locations/*\/registrations/*`. */
+  registration: string;
 }
 export interface ListProjectsLocationsRequest {
   /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
@@ -849,41 +864,13 @@ export interface ListRegistrationsResponse {
   /** When present, there are more results to retrieve. Set `page_token` to this value on a subsequent call to get the next page of results. */
   nextPageToken?: string | undefined;
 }
-export interface PatchProjectsLocationsRegistrationsRequest {
+export interface PatchProjectsLocationsRegistrationsRequest extends Omit<Registration, "name"> {
   /** Required. The field mask describing which fields to update as a comma-separated list. For example, if only the labels are being updated, the `update_mask` is `"labels"`. */
   updateMask?: string | undefined;
   /** Optional. If set, validates the request without actually updating the registration. */
   validateOnly?: boolean | undefined;
   /** Output only. Name of the `Registration` resource, in the format `projects/*\/locations/*\/registrations/`. */
   name: string;
-  /** Settings for management of the `Registration`, including renewal, billing, and transfer. You cannot update these with the `UpdateRegistration` method. To update these settings, use the `ConfigureManagementSettings` method. */
-  managementSettings?: ManagementSettings | undefined;
-  /** Required. Settings for contact information linked to the `Registration`. You cannot update these with the `UpdateRegistration` method. To update these settings, use the `ConfigureContactSettings` method. */
-  contactSettings?: ContactSettings | undefined;
-  /** Output only. Deprecated: For more information, see [Cloud Domains feature deprecation](https://cloud.google.com/domains/docs/deprecations/feature-deprecations). The reason the domain transfer failed. Only set for domains in TRANSFER_FAILED state. */
-  transferFailureReason?: RegistrationTransferFailureReasonEnum | (string & {}) | undefined;
-  /** Settings controlling the DNS configuration of the `Registration`. You cannot update these with the `UpdateRegistration` method. To update these settings, use the `ConfigureDnsSettings` method. */
-  dnsSettings?: DnsSettings | undefined;
-  /** Output only. The set of issues with the `Registration` that require attention. */
-  issues?: RegistrationIssuesItemEnumList | undefined;
-  /** Output only. The creation timestamp of the `Registration` resource. */
-  createTime?: string | undefined;
-  /** Output only. Special properties of the domain. */
-  domainProperties?: RegistrationDomainPropertiesItemEnumList | undefined;
-  /** Set of labels associated with the `Registration`. */
-  labels?: StringMap | undefined;
-  /** Output only. Set of options for the `contact_settings.privacy` field that this `Registration` supports. */
-  supportedPrivacy?: RegistrationSupportedPrivacyItemEnumList | undefined;
-  /** Output only. The reason the domain registration failed. Only set for domains in REGISTRATION_FAILED state. */
-  registerFailureReason?: RegistrationRegisterFailureReasonEnum | (string & {}) | undefined;
-  /** Output only. The state of the `Registration` */
-  state?: RegistrationStateEnum | (string & {}) | undefined;
-  /** Required. Immutable. The domain name. Unicode domain names must be expressed in Punycode format. */
-  domainName?: string | undefined;
-  /** Output only. Pending contact settings for the `Registration`. Updates to the `contact_settings` field that change its `registrant_contact` or `privacy` fields require email confirmation by the `registrant_contact` before taking effect. This field is set only if there are pending updates to the `contact_settings` that have not been confirmed. To confirm the changes, the `registrant_contact` must follow the instructions in the email they receive. */
-  pendingContactSettings?: ContactSettings | undefined;
-  /** Output only. The expiration timestamp of the `Registration`. */
-  expireTime?: string | undefined;
 }
 export type RegisterDomainRequestContactNoticesItemEnum =
   | "CONTACT_NOTICE_UNSPECIFIED"
@@ -897,9 +884,8 @@ export type RegisterDomainRequestDomainNoticesItemEnum =
 export type RegisterDomainRequestDomainNoticesItemEnumList = Array<
   RegisterDomainRequestDomainNoticesItemEnum | (string & {})
 >;
-export interface RegisterProjectsLocationsRegistrationsRequest {
-  /** Required. The parent resource of the `Registration`. Must be in the format `projects/*\/locations/*`. */
-  parent: string;
+/** Request for the `RegisterDomain` method. */
+export interface RegisterDomainRequest {
   /** The list of contact notices that the caller acknowledges. The notices needed here depend on the values specified in `registration.contact_settings`. */
   contactNotices?: RegisterDomainRequestContactNoticesItemEnumList | undefined;
   /** Required. Yearly price to register or renew the domain. The value that should be put here can be obtained from RetrieveRegisterParameters or SearchDomains calls. */
@@ -911,13 +897,20 @@ export interface RegisterProjectsLocationsRegistrationsRequest {
   /** Required. The complete `Registration` resource to be created. */
   registration?: Registration | undefined;
 }
-export interface RenewDomainProjectsLocationsRegistrationsRequest {
-  /** Required. The name of the `Registration` whish is being renewed, in the format `projects/*\/locations/*\/registrations/*`. */
-  registration: string;
+export interface RegisterProjectsLocationsRegistrationsRequest extends RegisterDomainRequest {
+  /** Required. The parent resource of the `Registration`. Must be in the format `projects/*\/locations/*`. */
+  parent: string;
+}
+/** Request for the `RenewDomain` method. */
+export interface RenewDomainRequest {
   /** Optional. When true, only validation is performed, without actually renewing the domain. For more information, see [Request validation](https://cloud.google.com/apis/design/design_patterns#request_validation) */
   validateOnly?: boolean | undefined;
   /** Required. Acknowledgement of the price to renew the domain for one year. To get the price, see [Cloud Domains pricing](https://cloud.google.com/domains/pricing). If not provided, the expected price is returned in the error message. */
   yearlyPrice?: Money | undefined;
+}
+export interface RenewDomainProjectsLocationsRegistrationsRequest extends RenewDomainRequest {
+  /** Required. The name of the `Registration` whish is being renewed, in the format `projects/*\/locations/*\/registrations/*`. */
+  registration: string;
 }
 /** Request for the `ResetAuthorizationCode` method. */
 export type ResetAuthorizationCodeRequest = ExportRegistrationRequest;
@@ -939,19 +932,25 @@ export interface SearchDomainsResponse {
   /** Results of the domain name search. */
   registerParameters?: RegisterParametersList | undefined;
 }
-export interface SetIamPolicyProjectsLocationsRegistrationsRequest {
-  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
+/** Request message for `SetIamPolicy` method. */
+export interface SetIamPolicyRequest {
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
   policy?: Policy | undefined;
   /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
   updateMask?: string | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsRegistrationsRequest {
-  /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+export interface SetIamPolicyProjectsLocationsRegistrationsRequest extends SetIamPolicyRequest {
+  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
+}
+/** Request message for `TestIamPermissions` method. */
+export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: StringList | undefined;
+}
+export interface TestIamPermissionsProjectsLocationsRegistrationsRequest extends TestIamPermissionsRequest {
+  /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
@@ -964,9 +963,8 @@ export type TransferDomainRequestContactNoticesItemEnum =
 export type TransferDomainRequestContactNoticesItemEnumList = Array<
   TransferDomainRequestContactNoticesItemEnum | (string & {})
 >;
-export interface TransferProjectsLocationsRegistrationsRequest {
-  /** Required. The parent resource of the `Registration`. Must be in the format `projects/*\/locations/*`. */
-  parent: string;
+/** Deprecated: For more information, see [Cloud Domains feature deprecation](https://cloud.google.com/domains/docs/deprecations/feature-deprecations). Request for the `TransferDomain` method. */
+export interface TransferDomainRequest {
   /** The list of contact notices that you acknowledge. The notices needed here depend on the values specified in `registration.contact_settings`. */
   contactNotices?: TransferDomainRequestContactNoticesItemEnumList | undefined;
   /** Required. Acknowledgement of the price to transfer or renew the domain for one year. Call `RetrieveTransferParameters` to obtain the price, which you must acknowledge. */
@@ -977,6 +975,10 @@ export interface TransferProjectsLocationsRegistrationsRequest {
   registration?: Registration | undefined;
   /** Validate the request without actually transferring the domain. */
   validateOnly?: boolean | undefined;
+}
+export interface TransferProjectsLocationsRegistrationsRequest extends TransferDomainRequest {
+  /** Required. The parent resource of the `Registration`. Must be in the format `projects/*\/locations/*`. */
+  parent: string;
 }
 export type ConfigureContactSettingsProjectsLocationsRegistrationsError =
   | NotFound
@@ -992,9 +994,9 @@ export const configureContactSettingsProjectsLocationsRegistrations: API.Operati
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    448,
+    449,
     __c28,
-    0,
+    1,
   ) as any as S.Schema<ConfigureContactSettingsProjectsLocationsRegistrationsRequest>,
   output: __S(530, __c33, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
@@ -1018,9 +1020,9 @@ export const configureDnsSettingsProjectsLocationsRegistrations: API.OperationMe
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    544,
+    545,
     __c34,
-    0,
+    1,
   ) as any as S.Schema<ConfigureDnsSettingsProjectsLocationsRegistrationsRequest>,
   output: __S(530, __c33, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
@@ -1044,9 +1046,9 @@ export const configureManagementSettingsProjectsLocationsRegistrations: API.Oper
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    576,
+    577,
     __c36,
-    0,
+    1,
   ) as any as S.Schema<ConfigureManagementSettingsProjectsLocationsRegistrationsRequest>,
   output: __S(530, __c33, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
@@ -1329,7 +1331,7 @@ export const importProjectsLocationsRegistrations: API.OperationMethod<
   ImportProjectsLocationsRegistrationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c15, 0) as any as S.Schema<ImportProjectsLocationsRegistrationsRequest>,
+  input: __S(241, __c15, 1) as any as S.Schema<ImportProjectsLocationsRegistrationsRequest>,
   output: __S(530, __c33, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -1352,9 +1354,9 @@ export const initiatePushTransferProjectsLocationsRegistrations: API.OperationMe
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    256,
+    257,
     __c16,
-    0,
+    1,
   ) as any as S.Schema<InitiatePushTransferProjectsLocationsRegistrationsRequest>,
   output: __S(530, __c33, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
@@ -1456,7 +1458,7 @@ export const registerProjectsLocationsRegistrations: API.OperationMethod<
   RegisterProjectsLocationsRegistrationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c21, 0) as any as S.Schema<RegisterProjectsLocationsRegistrationsRequest>,
+  input: __S(337, __c21, 1) as any as S.Schema<RegisterProjectsLocationsRegistrationsRequest>,
   output: __S(530, __c33, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -1478,7 +1480,7 @@ export const renewDomainProjectsLocationsRegistrations: API.OperationMethod<
   RenewDomainProjectsLocationsRegistrationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c22, 0) as any as S.Schema<RenewDomainProjectsLocationsRegistrationsRequest>,
+  input: __S(353, __c22, 1) as any as S.Schema<RenewDomainProjectsLocationsRegistrationsRequest>,
   output: __S(530, __c33, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -1543,7 +1545,7 @@ export const setIamPolicyProjectsLocationsRegistrations: API.OperationMethod<
   SetIamPolicyProjectsLocationsRegistrationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(400, __c25, 0) as any as S.Schema<SetIamPolicyProjectsLocationsRegistrationsRequest>,
+  input: __S(401, __c25, 1) as any as S.Schema<SetIamPolicyProjectsLocationsRegistrationsRequest>,
   output: __S(55, __c3, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -1566,11 +1568,11 @@ export const testIamPermissionsProjectsLocationsRegistrations: API.OperationMeth
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    416,
+    417,
     __c26,
-    0,
+    1,
   ) as any as S.Schema<TestIamPermissionsProjectsLocationsRegistrationsRequest>,
-  output: __S(417, __c26, 1) as any as S.Schema<TestIamPermissionsResponse>,
+  output: __S(416, __c26, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1591,7 +1593,7 @@ export const transferProjectsLocationsRegistrations: API.OperationMethod<
   TransferProjectsLocationsRegistrationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(432, __c27, 0) as any as S.Schema<TransferProjectsLocationsRegistrationsRequest>,
+  input: __S(433, __c27, 1) as any as S.Schema<TransferProjectsLocationsRegistrationsRequest>,
   output: __S(530, __c33, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -2032,10 +2034,18 @@ function __c15(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
           domainName: S.optional(S.String),
           labels: S.optional(__S(112, __c7, 0)),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "ImportDomainRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(240, __c15, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/registrations:import",
@@ -2050,10 +2060,18 @@ function __c16(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          registration: S.String.pipe(T.Label()),
           tag: S.optional(S.String),
           validateOnly: S.optional(S.Boolean),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "InitiatePushTransferRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(256, __c16, 0),
+          S.Struct({
+            registration: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+registration}:initiatePushTransfer",
@@ -2154,25 +2172,14 @@ function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          managementSettings: S.optional(__S(592, __c37, 0)),
-          contactSettings: S.optional(__S(482, __c30, 2)),
-          transferFailureReason: S.optional(S.String),
-          dnsSettings: S.optional(__S(566, __c35, 6)),
-          issues: S.optional(__S(464, __c29, 0)),
-          createTime: S.optional(S.String),
-          domainProperties: S.optional(__S(464, __c29, 0)),
-          labels: S.optional(__S(112, __c7, 0)),
-          supportedPrivacy: S.optional(__S(464, __c29, 0)),
-          registerFailureReason: S.optional(S.String),
-          state: S.optional(S.String),
-          domainName: S.optional(S.String),
-          pendingContactSettings: S.optional(__S(482, __c30, 2)),
-          expireTime: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(176, __c11, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -2187,13 +2194,21 @@ function __c21(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
           contactNotices: S.optional(__S(464, __c29, 0)),
           yearlyPrice: S.optional(__S(80, __c5, 0)),
           domainNotices: S.optional(__S(464, __c29, 0)),
           validateOnly: S.optional(S.Boolean),
           registration: S.optional(__S(176, __c11, 0)),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "RegisterDomainRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(336, __c21, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/registrations:register",
@@ -2208,10 +2223,18 @@ function __c22(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          registration: S.String.pipe(T.Label()),
           validateOnly: S.optional(S.Boolean),
           yearlyPrice: S.optional(__S(80, __c5, 0)),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "RenewDomainRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(352, __c22, 0),
+          S.Struct({
+            registration: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+registration}:renewDomain",
@@ -2268,10 +2291,18 @@ function __c25(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          resource: S.String.pipe(T.Label()),
           policy: S.optional(__S(55, __c3, 7)),
           updateMask: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "SetIamPolicyRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(400, __c25, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -2286,9 +2317,17 @@ function __c26(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          resource: S.String.pipe(T.Label()),
           permissions: S.optional(__S(496, __c31, 0)),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "TestIamPermissionsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(416, __c26, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -2296,12 +2335,6 @@ function __c26(j: number): any {
           }),
         ),
       ).annotate({ identifier: "TestIamPermissionsProjectsLocationsRegistrationsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          permissions: S.optional(__S(496, __c31, 0)),
-        }),
-      ).annotate({ identifier: "TestIamPermissionsResponse" });
   }
 }
 function __c27(j: number): any {
@@ -2309,13 +2342,21 @@ function __c27(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
           contactNotices: S.optional(__S(464, __c29, 0)),
           yearlyPrice: S.optional(__S(80, __c5, 0)),
           authorizationCode: S.optional(__S(672, __c42, 0)),
           registration: S.optional(__S(176, __c11, 0)),
           validateOnly: S.optional(S.Boolean),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "TransferDomainRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(432, __c27, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/registrations:transfer",
@@ -2330,12 +2371,20 @@ function __c28(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          registration: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String),
           contactSettings: S.optional(__S(482, __c30, 2)),
           validateOnly: S.optional(S.Boolean),
           contactNotices: S.optional(__S(464, __c29, 0)),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "ConfigureContactSettingsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(448, __c28, 0),
+          S.Struct({
+            registration: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+registration}:configureContactSettings",
@@ -2430,11 +2479,19 @@ function __c34(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          registration: S.String.pipe(T.Label()),
           dnsSettings: S.optional(__S(566, __c35, 6)),
           validateOnly: S.optional(S.Boolean),
           updateMask: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "ConfigureDnsSettingsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(544, __c34, 0),
+          S.Struct({
+            registration: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+registration}:configureDnsSettings",
@@ -2498,11 +2555,19 @@ function __c36(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          registration: S.String.pipe(T.Label()),
           managementSettings: S.optional(__S(592, __c37, 0)),
           validateOnly: S.optional(S.Boolean),
           updateMask: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "ConfigureManagementSettingsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(576, __c36, 0),
+          S.Struct({
+            registration: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+registration}:configureManagementSettings",

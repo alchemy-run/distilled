@@ -375,7 +375,7 @@ export interface CuratedPackage {
   /** Optional. A description of the curated package, provided by the curator. */
   description?: string | undefined;
   /** Output only. The state of the curated package. Can be used to filter the response of the curatedPackages.list method. */
-  state?: CuratedPackageStateEnum | undefined;
+  state?: CuratedPackageStateEnum | (string & {}) | undefined;
   /** Optional. The fee will be charged as a percentage of the impression cost, represented in millipercent. For example, 1% is represented as 1000. */
   millipercentOfMediaFee?: string | undefined;
   /** Required. Settings for controlling access to the curated package. Access to this curated package is limited to the allowlisted media planners and the creator. Buyers and bidders can not be allowlisted for or have direct access to this resource. */
@@ -385,7 +385,7 @@ export interface CuratedPackage {
   /** Output only. The timestamp when the curated package was last updated. Can be used to filter the response of the curatedPackages.list method. */
   updateTime?: string | undefined;
   /** Optional. Immutable. The visibility of the combined curation package fee and data segment fees (the total curation fee). */
-  curationFeeVisibility?: CuratedPackageCurationFeeVisibilityEnum | undefined;
+  curationFeeVisibility?: CuratedPackageCurationFeeVisibilityEnum | (string & {}) | undefined;
   /** Optional. The CPM fee charged by the curator to buyers using this curated package. Can be used to filter the response of the curatedPackages.list method. */
   feeCpm?: Money | undefined;
   /** Optional. The minimum CPM a buyer has to bid to participate in auctions for inventory in this curated package. Can be used to filter the response of the curatedPackages.list method. */
@@ -415,53 +415,15 @@ export interface DataSegment {
   /** Optional. A fixed fee charged per thousand impressions. Once set, the currency code cannot be changed. */
   cpmFee?: Money | undefined;
   /** Output only. The state of the data segment. */
-  state?: DataSegmentStateEnum | undefined;
+  state?: DataSegmentStateEnum | (string & {}) | undefined;
 }
-export interface CreateCuratorsCuratedPackagesRequest {
+export interface CreateCuratorsCuratedPackagesRequest extends CuratedPackage {
   /** Required. The parent curator account where this curated package will be created. Format: `curators/{accountId}` */
   parent: string;
-  /** Required. The display name assigned to the curated package by the curator. Can be used to filter the response of the curatedPackages.list method. */
-  displayName?: string | undefined;
-  /** Output only. The timestamp when the curated package was created. Can be used to filter the response of the curatedPackages.list method. */
-  createTime?: string | undefined;
-  /** Identifier. The unique resource name for the curated package. Format: `curators/{accountId}/curatedPackages/{curatedPackageId}` */
-  name?: string | undefined;
-  /** Optional. A description of the curated package, provided by the curator. */
-  description?: string | undefined;
-  /** Output only. The state of the curated package. Can be used to filter the response of the curatedPackages.list method. */
-  state?: CuratedPackageStateEnum | (string & {}) | undefined;
-  /** Optional. The fee will be charged as a percentage of the impression cost, represented in millipercent. For example, 1% is represented as 1000. */
-  millipercentOfMediaFee?: string | undefined;
-  /** Required. Settings for controlling access to the curated package. Access to this curated package is limited to the allowlisted media planners and the creator. Buyers and bidders can not be allowlisted for or have direct access to this resource. */
-  accessSettings?: AccessControlSettings | undefined;
-  /** Optional. Targeting criteria for the curated package. */
-  targeting?: PackageTargeting | undefined;
-  /** Output only. The timestamp when the curated package was last updated. Can be used to filter the response of the curatedPackages.list method. */
-  updateTime?: string | undefined;
-  /** Optional. Immutable. The visibility of the combined curation package fee and data segment fees (the total curation fee). */
-  curationFeeVisibility?: CuratedPackageCurationFeeVisibilityEnum | (string & {}) | undefined;
-  /** Optional. The CPM fee charged by the curator to buyers using this curated package. Can be used to filter the response of the curatedPackages.list method. */
-  feeCpm?: Money | undefined;
-  /** Optional. The minimum CPM a buyer has to bid to participate in auctions for inventory in this curated package. Can be used to filter the response of the curatedPackages.list method. */
-  floorPriceCpm?: Money | undefined;
 }
-export interface CreateCuratorsDataSegmentsRequest {
+export interface CreateCuratorsDataSegmentsRequest extends DataSegment {
   /** Required. The parent resource where this data segment will be created. Format: `curators/{accountId}` */
   parent: string;
-  /** Optional. The fee will be charged as a percentage of the impression cost, represented in millipercent. For example, 1% is represented as 1000. */
-  millipercentOfMediaFee?: string | undefined;
-  /** Immutable. Identifier. The unique identifier for the data segment. Account ID corresponds to the account ID that created the segment. Format: `curators/{curatorAccountId}/dataSegments/{curatorDataSegmentId}` */
-  name?: string | undefined;
-  /** Output only. Time the data segment was created. */
-  createTime?: string | undefined;
-  /** Output only. Time the data segment was last updated. */
-  updateTime?: string | undefined;
-  /** Optional. Immutable. The ID of the User List wrapped by this Data Segment. Curators with a linked Data Partner account can create a data segment that wraps a user list owned by the linked Data Partner account. User lists can be uploaded and managed using the [Data Manager API](https://developers.google.com/data-manager/api/data-partners/audiences). Linking a user list to a data segment lets you define a segment of inventory that is based on an audience you create. */
-  userListId?: string | undefined;
-  /** Optional. A fixed fee charged per thousand impressions. Once set, the currency code cannot be changed. */
-  cpmFee?: Money | undefined;
-  /** Output only. The state of the data segment. */
-  state?: DataSegmentStateEnum | (string & {}) | undefined;
 }
 export type ReportDefinitionTimeZoneSourceEnum =
   | "TIME_ZONE_SOURCE_UNSPECIFIED"
@@ -718,24 +680,6 @@ export interface ReportDefinition {
   /** Optional. Default sorts to apply to this report. */
   sorts?: SortList | undefined;
 }
-export interface CreateCuratorsReportsRequest {
-  /** Required. The parent resource where this `Report` will be created. Format: `curators/{account_id}` */
-  parent: string;
-  /** Output only. Report ID. */
-  reportId?: string | undefined;
-  /** Identifier. The resource name of the report. Report resource name have the form: `curators/{account_id}/reports/{report_id}` */
-  name?: string | undefined;
-  /** Output only. The instant this report was last modified. */
-  updateTime?: string | undefined;
-  /** Output only. The instant this report was created. */
-  createTime?: string | undefined;
-  /** Optional. Display name for the report. */
-  displayName?: string | undefined;
-  /** Required. The report definition of the report. */
-  reportDefinition?: ReportDefinition | undefined;
-  /** Output only. The locale of this report. Locale is set from the user's locale at the time of the request. Locale can't be modified. */
-  locale?: string | undefined;
-}
 /** The `Report` resource. */
 export interface Report {
   /** Output only. Report ID. */
@@ -752,6 +696,10 @@ export interface Report {
   reportDefinition?: ReportDefinition | undefined;
   /** Output only. The locale of this report. Locale is set from the user's locale at the time of the request. Locale can't be modified. */
   locale?: string | undefined;
+}
+export interface CreateCuratorsReportsRequest extends Report {
+  /** Required. The parent resource where this `Report` will be created. Format: `curators/{account_id}` */
+  parent: string;
 }
 /** Request message for DeactivateCuratedPackage. */
 export type DeactivateCuratedPackageRequest = ActivateCuratedPackageRequest;
@@ -936,69 +884,23 @@ export interface ListMediaPlannersResponse {
   /** A token which can be passed to a subsequent call to the ListMediaPlanners method to retrieve the next page of results in ListMediaPlannersRequest.page_token. */
   nextPageToken?: string | undefined;
 }
-export interface PatchCuratorsCuratedPackagesRequest {
+export interface PatchCuratorsCuratedPackagesRequest extends Omit<CuratedPackage, "name"> {
   /** Identifier. The unique resource name for the curated package. Format: `curators/{accountId}/curatedPackages/{curatedPackageId}` */
   name: string;
   /** Optional. List of fields to be updated. If empty or unspecified, the service will update all fields populated in the update request excluding the output only fields and primitive fields with default value. Note that explicit field mask is required in order to reset a primitive field back to its default value, for example, false for boolean fields, 0 for integer fields. A special field mask consisting of a single path "*" can be used to indicate full replacement (the equivalent of PUT method), updatable fields unset or unspecified in the input will be cleared or set to default value. Output only fields will be ignored regardless of the value of updateMask. */
   updateMask?: string | undefined;
-  /** Required. The display name assigned to the curated package by the curator. Can be used to filter the response of the curatedPackages.list method. */
-  displayName?: string | undefined;
-  /** Output only. The timestamp when the curated package was created. Can be used to filter the response of the curatedPackages.list method. */
-  createTime?: string | undefined;
-  /** Optional. A description of the curated package, provided by the curator. */
-  description?: string | undefined;
-  /** Output only. The state of the curated package. Can be used to filter the response of the curatedPackages.list method. */
-  state?: CuratedPackageStateEnum | (string & {}) | undefined;
-  /** Optional. The fee will be charged as a percentage of the impression cost, represented in millipercent. For example, 1% is represented as 1000. */
-  millipercentOfMediaFee?: string | undefined;
-  /** Required. Settings for controlling access to the curated package. Access to this curated package is limited to the allowlisted media planners and the creator. Buyers and bidders can not be allowlisted for or have direct access to this resource. */
-  accessSettings?: AccessControlSettings | undefined;
-  /** Optional. Targeting criteria for the curated package. */
-  targeting?: PackageTargeting | undefined;
-  /** Output only. The timestamp when the curated package was last updated. Can be used to filter the response of the curatedPackages.list method. */
-  updateTime?: string | undefined;
-  /** Optional. Immutable. The visibility of the combined curation package fee and data segment fees (the total curation fee). */
-  curationFeeVisibility?: CuratedPackageCurationFeeVisibilityEnum | (string & {}) | undefined;
-  /** Optional. The CPM fee charged by the curator to buyers using this curated package. Can be used to filter the response of the curatedPackages.list method. */
-  feeCpm?: Money | undefined;
-  /** Optional. The minimum CPM a buyer has to bid to participate in auctions for inventory in this curated package. Can be used to filter the response of the curatedPackages.list method. */
-  floorPriceCpm?: Money | undefined;
 }
-export interface PatchCuratorsDataSegmentsRequest {
+export interface PatchCuratorsDataSegmentsRequest extends Omit<DataSegment, "name"> {
   /** Immutable. Identifier. The unique identifier for the data segment. Account ID corresponds to the account ID that created the segment. Format: `curators/{curatorAccountId}/dataSegments/{curatorDataSegmentId}` */
   name: string;
   /** Optional. List of fields to be updated. If empty or unspecified, the service will update all fields populated in the update request excluding the output only fields and primitive fields with default value. Note that explicit field mask is required in order to reset a primitive field back to its default value, for example, false for boolean fields, 0 for integer fields. A special field mask consisting of a single path "*" can be used to indicate full replacement(the equivalent of PUT method), updatable fields unset or unspecified in the input will be cleared or set to default value. Output only fields will be ignored regardless of the value of updateMask. */
   updateMask?: string | undefined;
-  /** Optional. The fee will be charged as a percentage of the impression cost, represented in millipercent. For example, 1% is represented as 1000. */
-  millipercentOfMediaFee?: string | undefined;
-  /** Output only. Time the data segment was created. */
-  createTime?: string | undefined;
-  /** Output only. Time the data segment was last updated. */
-  updateTime?: string | undefined;
-  /** Optional. Immutable. The ID of the User List wrapped by this Data Segment. Curators with a linked Data Partner account can create a data segment that wraps a user list owned by the linked Data Partner account. User lists can be uploaded and managed using the [Data Manager API](https://developers.google.com/data-manager/api/data-partners/audiences). Linking a user list to a data segment lets you define a segment of inventory that is based on an audience you create. */
-  userListId?: string | undefined;
-  /** Optional. A fixed fee charged per thousand impressions. Once set, the currency code cannot be changed. */
-  cpmFee?: Money | undefined;
-  /** Output only. The state of the data segment. */
-  state?: DataSegmentStateEnum | (string & {}) | undefined;
 }
-export interface PatchCuratorsReportsRequest {
+export interface PatchCuratorsReportsRequest extends Omit<Report, "name"> {
   /** Identifier. The resource name of the report. Report resource name have the form: `curators/{account_id}/reports/{report_id}` */
   name: string;
   /** Optional. The list of fields to update. */
   updateMask?: string | undefined;
-  /** Output only. Report ID. */
-  reportId?: string | undefined;
-  /** Output only. The instant this report was last modified. */
-  updateTime?: string | undefined;
-  /** Output only. The instant this report was created. */
-  createTime?: string | undefined;
-  /** Optional. Display name for the report. */
-  displayName?: string | undefined;
-  /** Required. The report definition of the report. */
-  reportDefinition?: ReportDefinition | undefined;
-  /** Output only. The locale of this report. Locale is set from the user's locale at the time of the request. Locale can't be modified. */
-  locale?: string | undefined;
 }
 /** Request message for a running a report. */
 export type RunReportRequest = ActivateCuratedPackageRequest;
@@ -1750,21 +1652,13 @@ function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          displayName: S.optional(S.String),
-          createTime: S.optional(S.String),
-          description: S.optional(S.String),
-          state: S.optional(S.String),
-          millipercentOfMediaFee: S.optional(S.String),
-          accessSettings: S.optional(__S(368, __c23, 0)),
-          targeting: S.optional(__S(379, __c23, 11)),
-          updateTime: S.optional(S.String),
-          curationFeeVisibility: S.optional(S.String),
-          feeCpm: S.optional(__S(304, __c19, 0)),
-          floorPriceCpm: S.optional(__S(304, __c19, 0)),
-        }).pipe(
+        S.Extend(
+          __S(380, __c23, 12),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -1778,16 +1672,13 @@ function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          millipercentOfMediaFee: S.optional(S.String),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          userListId: S.optional(S.String),
-          cpmFee: S.optional(__S(304, __c19, 0)),
-          state: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(400, __c25, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -1801,16 +1692,13 @@ function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          reportId: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          createTime: S.optional(S.String),
-          displayName: S.optional(S.String),
-          reportDefinition: S.optional(__S(488, __c30, 8)),
-          locale: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(489, __c30, 9),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -2067,21 +1955,12 @@ function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          displayName: S.optional(S.String),
-          createTime: S.optional(S.String),
-          name: S.optional(S.String),
-          description: S.optional(S.String),
-          state: S.optional(S.String),
-          millipercentOfMediaFee: S.optional(S.String),
-          accessSettings: S.optional(__S(368, __c23, 0)),
-          targeting: S.optional(__S(379, __c23, 11)),
-          updateTime: S.optional(S.String),
-          curationFeeVisibility: S.optional(S.String),
-          feeCpm: S.optional(__S(304, __c19, 0)),
-          floorPriceCpm: S.optional(__S(304, __c19, 0)),
-        }).pipe(
+        S.Extend(
+          __S(380, __c23, 12),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/curatedPackages",
@@ -2095,16 +1974,12 @@ function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          millipercentOfMediaFee: S.optional(S.String),
-          name: S.optional(S.String),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          userListId: S.optional(S.String),
-          cpmFee: S.optional(__S(304, __c19, 0)),
-          state: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(400, __c25, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/dataSegments",
@@ -2118,16 +1993,12 @@ function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          reportId: S.optional(S.String),
-          name: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          createTime: S.optional(S.String),
-          displayName: S.optional(S.String),
-          reportDefinition: S.optional(__S(488, __c30, 8)),
-          locale: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(489, __c30, 9),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/reports",

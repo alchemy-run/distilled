@@ -257,52 +257,46 @@ export interface ListOperationsResponse {
   /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
   unreachable?: StringList | undefined;
 }
-export interface SetIamPolicyProjectsLocationsCertificateAuthoritiesRequest {
-  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
+/** Request message for `SetIamPolicy` method. */
+export interface SetIamPolicyRequest {
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
   policy?: Policy | undefined;
   /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
   updateMask?: string | undefined;
 }
-export interface SetIamPolicyProjectsLocationsCertificateAuthoritiesCertificateRevocationListsRequest {
+export interface SetIamPolicyProjectsLocationsCertificateAuthoritiesRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
-  policy?: Policy | undefined;
-  /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
-  updateMask?: string | undefined;
 }
-export interface SetIamPolicyProjectsLocationsReusableConfigsRequest {
+export interface SetIamPolicyProjectsLocationsCertificateAuthoritiesCertificateRevocationListsRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
-  policy?: Policy | undefined;
-  /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
-  updateMask?: string | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsCertificateAuthoritiesRequest {
-  /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+export interface SetIamPolicyProjectsLocationsReusableConfigsRequest extends SetIamPolicyRequest {
+  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
+}
+/** Request message for `TestIamPermissions` method. */
+export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: StringList | undefined;
+}
+export interface TestIamPermissionsProjectsLocationsCertificateAuthoritiesRequest extends TestIamPermissionsRequest {
+  /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsCertificateAuthoritiesCertificateRevocationListsRequest {
+export interface TestIamPermissionsProjectsLocationsCertificateAuthoritiesCertificateRevocationListsRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
-  permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsReusableConfigsRequest {
+export interface TestIamPermissionsProjectsLocationsReusableConfigsRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
-  permissions?: StringList | undefined;
 }
 export type CancelProjectsLocationsOperationsError =
   | NotFound
@@ -317,8 +311,8 @@ export const cancelProjectsLocationsOperations: API.OperationMethod<
   CancelProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c11, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
-  output: __S(96, __c12, 0) as any as S.Schema<Empty>,
+  input: __S(96, __c12, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
+  output: __S(104, __c13, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -339,8 +333,8 @@ export const deleteProjectsLocationsOperations: API.OperationMethod<
   DeleteProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(104, __c13, 0) as any as S.Schema<DeleteProjectsLocationsOperationsRequest>,
-  output: __S(96, __c12, 0) as any as S.Schema<Empty>,
+  input: __S(112, __c14, 0) as any as S.Schema<DeleteProjectsLocationsOperationsRequest>,
+  output: __S(104, __c13, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -360,11 +354,11 @@ export const getIamPolicyProjectsLocationsCertificateAuthorities: API.OperationM
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    112,
-    __c14,
+    120,
+    __c15,
     0,
   ) as any as S.Schema<GetIamPolicyProjectsLocationsCertificateAuthoritiesRequest>,
-  output: __S(135, __c16, 7) as any as S.Schema<Policy>,
+  output: __S(143, __c17, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -384,11 +378,11 @@ export const getIamPolicyProjectsLocationsCertificateAuthoritiesCertificateRevoc
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    136,
-    __c17,
+    144,
+    __c18,
     0,
   ) as any as S.Schema<GetIamPolicyProjectsLocationsCertificateAuthoritiesCertificateRevocationListsRequest>,
-  output: __S(135, __c16, 7) as any as S.Schema<Policy>,
+  output: __S(143, __c17, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -404,8 +398,8 @@ export const getIamPolicyProjectsLocationsReusableConfigs: API.OperationMethod<
   GetIamPolicyProjectsLocationsReusableConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c18, 0) as any as S.Schema<GetIamPolicyProjectsLocationsReusableConfigsRequest>,
-  output: __S(135, __c16, 7) as any as S.Schema<Policy>,
+  input: __S(152, __c19, 0) as any as S.Schema<GetIamPolicyProjectsLocationsReusableConfigsRequest>,
+  output: __S(143, __c17, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -421,8 +415,8 @@ export const getProjectsLocations: API.OperationMethod<
   GetProjectsLocationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(152, __c19, 0) as any as S.Schema<GetProjectsLocationsRequest>,
-  output: __S(169, __c21, 1) as any as S.Schema<Location>,
+  input: __S(160, __c20, 0) as any as S.Schema<GetProjectsLocationsRequest>,
+  output: __S(177, __c22, 1) as any as S.Schema<Location>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -503,7 +497,7 @@ export const setIamPolicyProjectsLocationsCertificateAuthorities: API.OperationM
     __c4,
     0,
   ) as any as S.Schema<SetIamPolicyProjectsLocationsCertificateAuthoritiesRequest>,
-  output: __S(135, __c16, 7) as any as S.Schema<Policy>,
+  output: __S(143, __c17, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -525,11 +519,11 @@ export const setIamPolicyProjectsLocationsCertificateAuthoritiesCertificateRevoc
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    40,
-    __c5,
+    48,
+    __c6,
     0,
   ) as any as S.Schema<SetIamPolicyProjectsLocationsCertificateAuthoritiesCertificateRevocationListsRequest>,
-  output: __S(135, __c16, 7) as any as S.Schema<Policy>,
+  output: __S(143, __c17, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -550,8 +544,8 @@ export const setIamPolicyProjectsLocationsReusableConfigs: API.OperationMethod<
   SetIamPolicyProjectsLocationsReusableConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c6, 0) as any as S.Schema<SetIamPolicyProjectsLocationsReusableConfigsRequest>,
-  output: __S(135, __c16, 7) as any as S.Schema<Policy>,
+  input: __S(56, __c7, 0) as any as S.Schema<SetIamPolicyProjectsLocationsReusableConfigsRequest>,
+  output: __S(143, __c17, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -573,11 +567,11 @@ export const testIamPermissionsProjectsLocationsCertificateAuthorities: API.Oper
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    56,
-    __c7,
+    64,
+    __c8,
     0,
   ) as any as S.Schema<TestIamPermissionsProjectsLocationsCertificateAuthoritiesRequest>,
-  output: __S(64, __c8, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  output: __S(72, __c9, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -599,11 +593,11 @@ export const testIamPermissionsProjectsLocationsCertificateAuthoritiesCertificat
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    72,
-    __c9,
+    80,
+    __c10,
     0,
   ) as any as S.Schema<TestIamPermissionsProjectsLocationsCertificateAuthoritiesCertificateRevocationListsRequest>,
-  output: __S(64, __c8, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  output: __S(72, __c9, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -625,11 +619,11 @@ export const testIamPermissionsProjectsLocationsReusableConfigs: API.OperationMe
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    80,
-    __c10,
+    88,
+    __c11,
     0,
   ) as any as S.Schema<TestIamPermissionsProjectsLocationsReusableConfigsRequest>,
-  output: __S(64, __c8, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  output: __S(72, __c9, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -657,7 +651,7 @@ function __c0(j: number): any {
 function __c1(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(160, __c20, 0));
+      return S.Array(__S(168, __c21, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -669,8 +663,8 @@ function __c1(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          response: S.optional(__S(160, __c20, 0)),
-          metadata: S.optional(__S(160, __c20, 0)),
+          response: S.optional(__S(168, __c21, 0)),
+          metadata: S.optional(__S(168, __c21, 0)),
           error: S.optional(__S(9, __c1, 1)),
           name: S.optional(S.String),
           done: S.optional(S.Boolean),
@@ -687,7 +681,7 @@ function __c2(j: number): any {
           name: S.String.pipe(T.Label()),
           filter: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          extraLocationTypes: S.optional(__S(120, __c15, 0).pipe(T.Query())),
+          extraLocationTypes: S.optional(__S(128, __c16, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -697,7 +691,7 @@ function __c2(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsRequest" });
     case 1:
-      return S.Array(__S(169, __c21, 1));
+      return S.Array(__S(177, __c22, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -732,7 +726,7 @@ function __c3(j: number): any {
         S.Struct({
           nextPageToken: S.optional(S.String),
           operations: S.optional(__S(25, __c3, 1)),
-          unreachable: S.optional(__S(120, __c15, 0)),
+          unreachable: S.optional(__S(128, __c16, 0)),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
   }
@@ -741,11 +735,12 @@ function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          policy: S.optional(__S(135, __c16, 7)),
-          updateMask: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(40, __c5, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+resource}:setIamPolicy",
@@ -760,10 +755,22 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          resource: S.String.pipe(T.Label()),
-          policy: S.optional(__S(135, __c16, 7)),
+          policy: S.optional(__S(143, __c17, 7)),
           updateMask: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "SetIamPolicyRequest" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(40, __c5, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+resource}:setIamPolicy",
@@ -776,15 +783,16 @@ function __c5(j: number): any {
       });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          policy: S.optional(__S(135, __c16, 7)),
-          updateMask: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(40, __c5, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+resource}:setIamPolicy",
@@ -794,14 +802,16 @@ function __c6(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsLocationsReusableConfigsRequest" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          permissions: S.optional(__S(120, __c15, 0)),
-        }).pipe(
+        S.Extend(
+          __S(72, __c9, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+resource}:testIamPermissions",
@@ -813,24 +823,26 @@ function __c7(j: number): any {
       });
   }
 }
-function __c8(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          permissions: S.optional(__S(120, __c15, 0)),
-        }),
-      ).annotate({ identifier: "TestIamPermissionsResponse" });
-  }
-}
 function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          resource: S.String.pipe(T.Label()),
-          permissions: S.optional(__S(120, __c15, 0)),
-        }).pipe(
+          permissions: S.optional(__S(128, __c16, 0)),
+        }),
+      ).annotate({ identifier: "TestIamPermissionsRequest" });
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(72, __c9, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+resource}:testIamPermissions",
@@ -843,14 +855,16 @@ function __c9(j: number): any {
       });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          permissions: S.optional(__S(120, __c15, 0)),
-        }).pipe(
+        S.Extend(
+          __S(72, __c9, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+resource}:testIamPermissions",
@@ -860,13 +874,13 @@ function __c10(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsLocationsReusableConfigsRequest" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(96, __c12, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(104, __c13, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -877,13 +891,13 @@ function __c11(j: number): any {
       ).annotate({ identifier: "CancelProjectsLocationsOperationsRequest" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "CancelOperationRequest" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -899,7 +913,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsOperationsRequest" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -916,13 +930,13 @@ function __c14(j: number): any {
       ).annotate({ identifier: "GetIamPolicyProjectsLocationsCertificateAuthoritiesRequest" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -936,43 +950,43 @@ function __c16(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          condition: S.optional(__S(128, __c16, 0)),
+          condition: S.optional(__S(136, __c17, 0)),
           role: S.optional(S.String),
-          members: S.optional(__S(120, __c15, 0)),
+          members: S.optional(__S(128, __c16, 0)),
         }),
       ).annotate({ identifier: "Binding" });
     case 2:
-      return S.Array(__S(129, __c16, 1));
+      return S.Array(__S(137, __c17, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           logType: S.optional(S.String),
-          exemptedMembers: S.optional(__S(120, __c15, 0)),
+          exemptedMembers: S.optional(__S(128, __c16, 0)),
         }),
       ).annotate({ identifier: "AuditLogConfig" });
     case 4:
-      return S.Array(__S(131, __c16, 3));
+      return S.Array(__S(139, __c17, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           service: S.optional(S.String),
-          auditLogConfigs: S.optional(__S(132, __c16, 4)),
+          auditLogConfigs: S.optional(__S(140, __c17, 4)),
         }),
       ).annotate({ identifier: "AuditConfig" });
     case 6:
-      return S.Array(__S(133, __c16, 5));
+      return S.Array(__S(141, __c17, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
           etag: S.optional(S.String),
-          bindings: S.optional(__S(130, __c16, 2)),
-          auditConfigs: S.optional(__S(134, __c16, 6)),
+          bindings: S.optional(__S(138, __c17, 2)),
+          auditConfigs: S.optional(__S(142, __c17, 6)),
           version: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Policy" });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -992,7 +1006,7 @@ function __c17(j: number): any {
       });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1009,7 +1023,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "GetIamPolicyProjectsLocationsReusableConfigsRequest" });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1025,24 +1039,24 @@ function __c19(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsRequest" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
     case 1:
       return S.suspend(() =>
         S.Struct({
-          metadata: S.optional(__S(160, __c20, 0)),
+          metadata: S.optional(__S(168, __c21, 0)),
           name: S.optional(S.String),
           locationId: S.optional(S.String),
           displayName: S.optional(S.String),
-          labels: S.optional(__S(168, __c21, 0)),
+          labels: S.optional(__S(176, __c22, 0)),
         }),
       ).annotate({ identifier: "Location" });
   }

@@ -82,10 +82,12 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
-export interface TroubleshootErrorIamRequest {
+/** Request to troubleshoot access denial with the IAM error identifier. */
+export interface GoogleCloudPolicytroubleshooterIamV3betaTroubleshootIamPolicyErrorRequest {
   /** This identifier is returned in the `ErrorInfo.metadata` with key 'error_info_id' when an access requests is denied by the IAM service. */
   errorInfoId?: string | undefined;
 }
+export interface TroubleshootErrorIamRequest extends GoogleCloudPolicytroubleshooterIamV3betaTroubleshootIamPolicyErrorRequest {}
 export type GoogleCloudPolicytroubleshooterIamV3betaDenyPolicyExplanationRelevanceEnum =
   | "HEURISTIC_RELEVANCE_UNSPECIFIED"
   | "HEURISTIC_RELEVANCE_NORMAL"
@@ -919,10 +921,12 @@ export interface GoogleCloudPolicytroubleshooterIamV3betaAccessTuple {
   /** Required. The full resource name that identifies the resource. For example, `//compute.googleapis.com/projects/my-project/zones/us-central1-a/instances/my-instance`. For examples of full resource names for Google Cloud services, see https://cloud.google.com/iam/help/troubleshooter/full-resource-names. */
   fullResourceName?: string | undefined;
 }
-export interface TroubleshootIamRequest {
+/** Request for TroubleshootIamPolicy. */
+export interface GoogleCloudPolicytroubleshooterIamV3betaTroubleshootIamPolicyRequest {
   /** The information to use for checking whether a principal has a permission for a resource. */
   accessTuple?: GoogleCloudPolicytroubleshooterIamV3betaAccessTuple | undefined;
 }
+export interface TroubleshootIamRequest extends GoogleCloudPolicytroubleshooterIamV3betaTroubleshootIamPolicyRequest {}
 export type GoogleCloudPolicytroubleshooterIamV3betaTroubleshootIamPolicyResponseOverallAccessStateEnum =
   | "OVERALL_ACCESS_STATE_UNSPECIFIED"
   | "CAN_ACCESS"
@@ -954,11 +958,11 @@ export const troubleshootErrorIam: API.OperationMethod<
   TroubleshootErrorIamError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<TroubleshootErrorIamRequest>,
+  input: __S(1, __c0, 1) as any as S.Schema<TroubleshootErrorIamRequest>,
   output: __S(
-    2,
+    3,
     __c0,
-    2,
+    3,
   ) as any as S.Schema<GoogleCloudPolicytroubleshooterIamV3betaTroubleshootIamPolicyErrorResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -975,11 +979,11 @@ export const troubleshootIam: API.OperationMethod<
   TroubleshootIamError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(103, __c3, 7) as any as S.Schema<TroubleshootIamRequest>,
+  input: __S(104, __c3, 8) as any as S.Schema<TroubleshootIamRequest>,
   output: __S(
-    104,
+    105,
     __c3,
-    8,
+    9,
   ) as any as S.Schema<GoogleCloudPolicytroubleshooterIamV3betaTroubleshootIamPolicyResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -995,7 +999,13 @@ function __c0(j: number): any {
       return S.suspend(() =>
         S.Struct({
           errorInfoId: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({
+        identifier: "GoogleCloudPolicytroubleshooterIamV3betaTroubleshootIamPolicyErrorRequest",
+      });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(__S(0, __c0, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v3beta/iam:troubleshootError",
@@ -1003,7 +1013,7 @@ function __c0(j: number): any {
           }),
         ),
       ).annotate({ identifier: "TroubleshootErrorIamRequest" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           principal: S.optional(S.String),
@@ -1012,12 +1022,12 @@ function __c0(j: number): any {
           parent: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudPolicytroubleshooterIamV3betaAccessContext" });
-    case 2:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           denyPolicyExplanation: S.optional(__S(56, __c1, 24)),
           overallAccessState: S.optional(S.String),
-          accessContext: S.optional(__S(1, __c0, 1)),
+          accessContext: S.optional(__S(2, __c0, 2)),
           allowPolicyExplanation: S.optional(__S(70, __c2, 6)),
           pabPolicyExplanation: S.optional(__S(87, __c2, 23)),
         }),
@@ -1476,7 +1486,13 @@ function __c3(j: number): any {
       return S.suspend(() =>
         S.Struct({
           accessTuple: S.optional(__S(102, __c3, 6)),
-        }).pipe(
+        }),
+      ).annotate({
+        identifier: "GoogleCloudPolicytroubleshooterIamV3betaTroubleshootIamPolicyRequest",
+      });
+    case 8:
+      return S.suspend(() =>
+        S.Extend(__S(103, __c3, 7), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v3beta/iam:troubleshoot",
@@ -1484,7 +1500,7 @@ function __c3(j: number): any {
           }),
         ),
       ).annotate({ identifier: "TroubleshootIamRequest" });
-    case 8:
+    case 9:
       return S.suspend(() =>
         S.Struct({
           denyPolicyExplanation: S.optional(__S(56, __c1, 24)),

@@ -640,7 +640,8 @@ export interface Activities {
   items: ActivityList;
 }
 export type StringMap = { [key: string]: string | undefined };
-export interface StopChannelsRequest {
+/** A notification channel used to watch for resource changes. */
+export interface Channel {
   /** A version-specific identifier for the watched resource. */
   resourceUri?: string | undefined;
   /** A Boolean value to indicate whether payload is wanted. A payload is data that is sent in the body of an HTTP POST, PUT, or PATCH message and contains important information about the request. Optional. */
@@ -662,6 +663,7 @@ export interface StopChannelsRequest {
   /** The address where notifications are delivered for this channel. */
   address?: string | undefined;
 }
+export interface StopChannelsRequest extends Channel {}
 export interface StopChannelsResponse {}
 export type WatchActivitiesApplicationNameEnum =
   | "access_transparency"
@@ -686,7 +688,7 @@ export type WatchActivitiesApplicationNameEnum =
   | "data_studio"
   | "keep"
   | "classroom";
-export interface WatchActivitiesRequest {
+export interface WatchActivitiesRequest extends Channel {
   /** The name of the event being queried by the API. Each `eventName` is related to a specific Google Workspace service or feature which the API organizes into types of events. An example is the Google Calendar events in the Admin console application's reports. The Calendar Settings `type` structure has all of the Calendar `eventName` activities reported by the API. When an administrator changes a Calendar setting, the API reports this activity in the Calendar Settings `type` and `eventName` parameters. For more information about `eventName` query strings and parameters, see the list of event names for various applications above in `applicationName`. */
   eventName?: string | undefined;
   /** `Deprecated`. This field is deprecated and is no longer supported. ID of the organizational unit to report on. Activity records will be shown only for users who belong to the specified organizational unit. Data before Dec 17, 2018 doesn't appear in the filtered results. */
@@ -711,49 +713,6 @@ export interface WatchActivitiesRequest {
   userKey: string;
   /** Application name for which the events are to be retrieved. */
   applicationName: WatchActivitiesApplicationNameEnum | (string & {});
-  /** A version-specific identifier for the watched resource. */
-  resourceUri?: string | undefined;
-  /** A Boolean value to indicate whether payload is wanted. A payload is data that is sent in the body of an HTTP POST, PUT, or PATCH message and contains important information about the request. Optional. */
-  payload?: boolean | undefined;
-  /** Date and time of notification channel expiration, expressed as a Unix timestamp, in milliseconds. Optional. */
-  expiration?: string | undefined;
-  /** An opaque ID that identifies the resource being watched on this channel. Stable across different API versions. */
-  resourceId?: string | undefined;
-  /** An arbitrary string delivered to the target address with each notification delivered over this channel. Optional. */
-  token?: string | undefined;
-  /** Additional parameters controlling delivery channel behavior. Optional. */
-  params?: StringMap | undefined;
-  /** The type of delivery mechanism used for this channel. The value should be set to `"web_hook"`. */
-  type?: string | undefined;
-  /** Identifies this as a notification channel used to watch for changes to a resource, which is "`api#channel`". */
-  kind?: string | undefined;
-  /** A UUID or similar unique string that identifies this channel. */
-  id?: string | undefined;
-  /** The address where notifications are delivered for this channel. */
-  address?: string | undefined;
-}
-/** A notification channel used to watch for resource changes. */
-export interface Channel {
-  /** A version-specific identifier for the watched resource. */
-  resourceUri?: string | undefined;
-  /** A Boolean value to indicate whether payload is wanted. A payload is data that is sent in the body of an HTTP POST, PUT, or PATCH message and contains important information about the request. Optional. */
-  payload?: boolean | undefined;
-  /** Date and time of notification channel expiration, expressed as a Unix timestamp, in milliseconds. Optional. */
-  expiration?: string | undefined;
-  /** An opaque ID that identifies the resource being watched on this channel. Stable across different API versions. */
-  resourceId?: string | undefined;
-  /** An arbitrary string delivered to the target address with each notification delivered over this channel. Optional. */
-  token?: string | undefined;
-  /** Additional parameters controlling delivery channel behavior. Optional. */
-  params?: StringMap | undefined;
-  /** The type of delivery mechanism used for this channel. The value should be set to `"web_hook"`. */
-  type?: string | undefined;
-  /** Identifies this as a notification channel used to watch for changes to a resource, which is "`api#channel`". */
-  kind?: string | undefined;
-  /** A UUID or similar unique string that identifies this channel. */
-  id?: string | undefined;
-  /** The address where notifications are delivered for this channel. */
-  address?: string | undefined;
 }
 export type GetCustomerUsageReportsError = NotFound | Forbidden | GoogleWorkspaceOpError;
 /** Retrieves a report which is a collection of properties and statistics for a specific customer's account. For more information, see the Customers Usage Report guide. For more information about the customer report's parameters, see the Customers Usage parameters reference guides. */
@@ -867,7 +826,7 @@ export const watchActivities: API.OperationMethod<
   GoogleWorkspaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c8, 0) as any as S.Schema<WatchActivitiesRequest>,
-  output: __S(257, __c8, 1) as any as S.Schema<Channel>,
+  output: __S(225, __c7, 1) as any as S.Schema<Channel>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
@@ -1356,18 +1315,7 @@ function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resourceUri: S.optional(S.String),
-          payload: S.optional(S.Boolean),
-          expiration: S.optional(S.String),
-          resourceId: S.optional(S.String),
-          token: S.optional(S.String),
-          params: S.optional(__S(224, __c7, 0)),
-          type: S.optional(S.String),
-          kind: S.optional(S.String),
-          id: S.optional(S.String),
-          address: S.optional(S.String),
-        }).pipe(
+        S.Extend(__S(225, __c7, 1), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "admin/reports_v1/channels/stop",
@@ -1383,43 +1331,6 @@ function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
-  }
-}
-function __c8(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          eventName: S.optional(S.String.pipe(T.Query())),
-          orgUnitID: S.optional(S.String.pipe(T.Query())),
-          maxResults: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          actorIpAddress: S.optional(S.String.pipe(T.Query())),
-          groupIdFilter: S.optional(S.String.pipe(T.Query())),
-          filters: S.optional(S.String.pipe(T.Query())),
-          endTime: S.optional(S.String.pipe(T.Query())),
-          startTime: S.optional(S.String.pipe(T.Query())),
-          customerId: S.optional(S.String.pipe(T.Query())),
-          userKey: S.String.pipe(T.Label()),
-          applicationName: S.String.pipe(T.Label()),
-          resourceUri: S.optional(S.String),
-          payload: S.optional(S.Boolean),
-          expiration: S.optional(S.String),
-          resourceId: S.optional(S.String),
-          token: S.optional(S.String),
-          params: S.optional(__S(224, __c7, 0)),
-          type: S.optional(S.String),
-          kind: S.optional(S.String),
-          id: S.optional(S.String),
-          address: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "admin/reports/v1/activity/users/{userKey}/applications/{applicationName}/watch",
-            baseUrl: "https://admin.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "WatchActivitiesRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -1435,6 +1346,36 @@ function __c8(j: number): any {
           address: S.optional(S.String),
         }),
       ).annotate({ identifier: "Channel" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(225, __c7, 1),
+          S.Struct({
+            eventName: S.optional(S.String.pipe(T.Query())),
+            orgUnitID: S.optional(S.String.pipe(T.Query())),
+            maxResults: S.optional(S.Number.pipe(T.Query())),
+            pageToken: S.optional(S.String.pipe(T.Query())),
+            actorIpAddress: S.optional(S.String.pipe(T.Query())),
+            groupIdFilter: S.optional(S.String.pipe(T.Query())),
+            filters: S.optional(S.String.pipe(T.Query())),
+            endTime: S.optional(S.String.pipe(T.Query())),
+            startTime: S.optional(S.String.pipe(T.Query())),
+            customerId: S.optional(S.String.pipe(T.Query())),
+            userKey: S.String.pipe(T.Label()),
+            applicationName: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
+          T.Http({
+            method: "POST",
+            uri: "admin/reports/v1/activity/users/{userKey}/applications/{applicationName}/watch",
+            baseUrl: "https://admin.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "WatchActivitiesRequest" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

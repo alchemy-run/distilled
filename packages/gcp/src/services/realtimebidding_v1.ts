@@ -192,7 +192,7 @@ export interface PretargetingConfig {
   /** Creative dimensions included by this config. Only bid requests eligible for at least one of the specified creative dimensions will be sent. An unset value allows all bid requests to be sent, regardless of creative dimension. */
   includedCreativeDimensions?: CreativeDimensionsList | undefined;
   /** Output only. The state of this pretargeting config. */
-  state?: PretargetingConfigStateEnum | undefined;
+  state?: PretargetingConfigStateEnum | (string & {}) | undefined;
   /** Deprecated: The value of this field no longer has any effect. Targeting modes included by this config. A bid request must allow all the specified targeting modes. An unset value allows all bid requests to be sent, regardless of which targeting modes they allow. */
   allowedUserTargetingModes?: PretargetingConfigAllowedUserTargetingModesItemEnumList | undefined;
   /** The maximum QPS threshold for this config. The bidder should receive no more than this number of bid requests matching this config per second across all their bidding endpoints among all trading locations. Further information available at https://developers.google.com/authorized-buyers/rtb/peer-guide */
@@ -204,7 +204,7 @@ export interface PretargetingConfig {
   /** Output only. Existing included or excluded geos that are invalid. Previously targeted geos may become invalid due to privacy restrictions. */
   invalidGeoIds?: StringList | undefined;
   /** The interstitial targeting specified for this config. The unset value will allow bid requests to be sent regardless of whether they are for interstitials or not. */
-  interstitialTargeting?: PretargetingConfigInterstitialTargetingEnum | undefined;
+  interstitialTargeting?: PretargetingConfigInterstitialTargetingEnum | (string & {}) | undefined;
   /** The remarketing lists included or excluded in this config as defined in UserList. */
   userListTargeting?: NumericTargetingDimension | undefined;
   /** The languages included in this config, represented by their language code. See https://developers.google.com/adwords/api/docs/appendix/languagecodes. */
@@ -234,11 +234,14 @@ export interface PretargetingConfig {
   /** The diplay name associated with this config. This name must be unique among all the pretargeting configs a bidder has. */
   displayName?: string | undefined;
 }
-export interface AddDealsBuyersCreativesRequest {
-  /** Required. Name of the creative to add the deals to. See creative.name. */
-  name: string;
+/** A request to add deals to a creative resource. */
+export interface AddDealsRequest {
   /** Required. The IDs of the deals to associate with the creative. This can include Programmatic Guaranteed, Private Auction, Preferred Deal, and Marketplace Package deal IDs. You can associate no more than 100 deal IDs per request. */
   dealIds?: StringList | undefined;
+}
+export interface AddDealsBuyersCreativesRequest extends AddDealsRequest {
+  /** Required. Name of the creative to add the deals to. See creative.name. */
+  name: string;
 }
 export type CreativeDeclaredRestrictedCategoriesItemEnum =
   | "RESTRICTED_CATEGORY_UNSPECIFIED"
@@ -697,7 +700,7 @@ export interface Creative {
   /** The name of the company being advertised in the creative. Can be used to filter the response of the creatives.list method. */
   advertiserName?: string | undefined;
   /** Output only. The format of this creative. Can be used to filter the response of the creatives.list method. */
-  creativeFormat?: CreativeCreativeFormatEnum | undefined;
+  creativeFormat?: CreativeCreativeFormatEnum | (string & {}) | undefined;
   /** Output only. The version of the creative. Version for a new creative is 1 and it increments during subsequent creative updates. */
   version?: number | undefined;
   /** All restricted categories for the ads that may be shown from this creative. */
@@ -707,43 +710,55 @@ export type AddTargetedAppsRequestTargetingModeEnum =
   | "TARGETING_MODE_UNSPECIFIED"
   | "INCLUSIVE"
   | "EXCLUSIVE";
-export interface AddTargetedAppsBiddersPretargetingConfigsRequest {
-  /** Required. The name of the pretargeting configuration. Format: bidders/{bidderAccountId}/pretargetingConfig/{configId} */
-  pretargetingConfig: string;
+/** A request to start targeting the provided app IDs in a specific pretargeting configuration. The pretargeting configuration itself specifies how these apps are targeted. in PretargetingConfig.appTargeting.mobileAppTargeting. */
+export interface AddTargetedAppsRequest {
   /** Required. The targeting mode that should be applied to the list of app IDs. If there are existing targeted app IDs, must be equal to the existing PretargetingConfig.appTargeting.mobileAppTargeting.targetingMode or a 400 bad request error will be returned. */
   targetingMode?: AddTargetedAppsRequestTargetingModeEnum | (string & {}) | undefined;
   /** A list of app IDs to target in the pretargeting configuration. These values will be added to the list of targeted app IDs in PretargetingConfig.appTargeting.mobileAppTargeting.values. */
   appIds?: StringList | undefined;
 }
+export interface AddTargetedAppsBiddersPretargetingConfigsRequest extends AddTargetedAppsRequest {
+  /** Required. The name of the pretargeting configuration. Format: bidders/{bidderAccountId}/pretargetingConfig/{configId} */
+  pretargetingConfig: string;
+}
 export type AddTargetedPublishersRequestTargetingModeEnum =
   | "TARGETING_MODE_UNSPECIFIED"
   | "INCLUSIVE"
   | "EXCLUSIVE";
-export interface AddTargetedPublishersBiddersPretargetingConfigsRequest {
-  /** Required. The name of the pretargeting configuration. Format: bidders/{bidderAccountId}/pretargetingConfig/{configId} */
-  pretargetingConfig: string;
+/** A request to start targeting the provided publishers in a specific pretargeting configuration. The pretargeting configuration itself specifies how these publishers are targeted in PretargetingConfig.publisherTargeting. */
+export interface AddTargetedPublishersRequest {
   /** Required. The targeting mode that should be applied to the list of publisher IDs. If are existing publisher IDs, must be equal to the existing PretargetingConfig.publisherTargeting.targetingMode or a 400 bad request error will be returned. */
   targetingMode?: AddTargetedPublishersRequestTargetingModeEnum | (string & {}) | undefined;
   /** A list of publisher IDs to target in the pretargeting configuration. These values will be added to the list of targeted publisher IDs in PretargetingConfig.publisherTargeting.values. Publishers are identified by their publisher ID from ads.txt / app-ads.txt. See https://iabtechlab.com/ads-txt/ and https://iabtechlab.com/app-ads-txt/ for more details. */
   publisherIds?: StringList | undefined;
 }
+export interface AddTargetedPublishersBiddersPretargetingConfigsRequest extends AddTargetedPublishersRequest {
+  /** Required. The name of the pretargeting configuration. Format: bidders/{bidderAccountId}/pretargetingConfig/{configId} */
+  pretargetingConfig: string;
+}
 export type AddTargetedSitesRequestTargetingModeEnum =
   | "TARGETING_MODE_UNSPECIFIED"
   | "INCLUSIVE"
   | "EXCLUSIVE";
-export interface AddTargetedSitesBiddersPretargetingConfigsRequest {
-  /** Required. The name of the pretargeting configuration. Format: bidders/{bidderAccountId}/pretargetingConfig/{configId} */
-  pretargetingConfig: string;
+/** A request to start targeting the provided sites in a specific pretargeting configuration. The pretargeting configuration itself specifies how these sites are targeted in PretargetingConfig.webTargeting. */
+export interface AddTargetedSitesRequest {
   /** A list of site URLs to target in the pretargeting configuration. These values will be added to the list of targeted URLs in PretargetingConfig.webTargeting.values. */
   sites?: StringList | undefined;
   /** Required. The targeting mode that should be applied to the list of site URLs. If there are existing targeted sites, must be equal to the existing PretargetingConfig.webTargeting.targetingMode or a 400 bad request error will be returned. */
   targetingMode?: AddTargetedSitesRequestTargetingModeEnum | (string & {}) | undefined;
 }
-export interface BatchApproveBiddersPublisherConnectionsRequest {
-  /** Required. The bidder for whom publisher connections will be approved. Format: `bidders/{bidder}` where `{bidder}` is the account ID of the bidder. */
-  parent: string;
+export interface AddTargetedSitesBiddersPretargetingConfigsRequest extends AddTargetedSitesRequest {
+  /** Required. The name of the pretargeting configuration. Format: bidders/{bidderAccountId}/pretargetingConfig/{configId} */
+  pretargetingConfig: string;
+}
+/** A request to approve a batch of publisher connections. */
+export interface BatchApprovePublisherConnectionsRequest {
   /** Required. The names of the publishers with which connections will be approved. In the pattern `bidders/{bidder}/publisherConnections/{publisher}` where `{bidder}` is the account ID of the bidder, and `{publisher}` is the ads.txt/app-ads.txt publisher ID. */
   names?: StringList | undefined;
+}
+export interface BatchApproveBiddersPublisherConnectionsRequest extends BatchApprovePublisherConnectionsRequest {
+  /** Required. The bidder for whom publisher connections will be approved. Format: `bidders/{bidder}` where `{bidder}` is the account ID of the bidder. */
+  parent: string;
 }
 export type PublisherConnectionPublisherPlatformEnum =
   | "PUBLISHER_PLATFORM_UNSPECIFIED"
@@ -773,11 +788,14 @@ export interface BatchApprovePublisherConnectionsResponse {
   /** The publisher connections that have been approved. */
   publisherConnections?: PublisherConnectionList | undefined;
 }
-export interface BatchRejectBiddersPublisherConnectionsRequest {
-  /** Required. The bidder for whom publisher connections will be rejected. Format: `bidders/{bidder}` where `{bidder}` is the account ID of the bidder. */
-  parent: string;
+/** A request to reject a batch of publisher connections. */
+export interface BatchRejectPublisherConnectionsRequest {
   /** Required. The names of the publishers with whom connection will be rejected. In the pattern `bidders/{bidder}/publisherConnections/{publisher}` where `{bidder}` is the account ID of the bidder, and `{publisher}` is the ads.txt/app-ads.txt publisher ID. */
   names?: StringList | undefined;
+}
+export interface BatchRejectBiddersPublisherConnectionsRequest extends BatchRejectPublisherConnectionsRequest {
+  /** Required. The bidder for whom publisher connections will be rejected. Format: `bidders/{bidder}` where `{bidder}` is the account ID of the bidder. */
+  parent: string;
 }
 /** A response for the request to reject a batch of publisher connections. */
 export interface BatchRejectPublisherConnectionsResponse {
@@ -836,119 +854,19 @@ export interface UserList {
   /** Output only. Name of the user list that must follow the pattern `buyers/{buyer}/userLists/{user_list}`, where `{buyer}` represents the account ID of the buyer who owns the user list. For a bidder accessing user lists on behalf of a child seat buyer, `{buyer}` represents the account ID of the child seat buyer. `{user_list}` is an int64 identifier assigned by Google to uniquely identify a user list. */
   name?: string | undefined;
   /** Output only. The status of the user list. A new user list starts out as open. */
-  status?: UserListStatusEnum | undefined;
+  status?: UserListStatusEnum | (string & {}) | undefined;
 }
-export interface CreateBiddersPretargetingConfigsRequest {
+export interface CreateBiddersPretargetingConfigsRequest extends PretargetingConfig {
   /** Required. Name of the bidder to create the pretargeting configuration for. Format: bidders/{bidderAccountId} */
   parent: string;
-  /** Targeting on a subset of publisher inventory. Publishers can either be targeted positively (bid requests will be sent only if the publisher is listed in the targeting dimension) or negatively (bid requests will be sent only if the publisher is not listed in the targeting dimension). A maximum of 10,000 publisher IDs can be targeted. Publisher IDs are found in [ads.txt](https://iabtechlab.com/ads-txt/) / [app-ads.txt](https://iabtechlab.com/app-ads-txt/) and in bid requests in the `BidRequest.publisher_id` field on the [Google RTB protocol](https://developers.google.com/authorized-buyers/rtb/downloads/realtime-bidding-proto) or the `BidRequest.site.publisher.id` / `BidRequest.app.publisher.id` field on the [OpenRTB protocol](https://developers.google.com/authorized-buyers/rtb/downloads/openrtb-adx-proto). Publisher IDs will be returned in the order that they were entered. */
-  publisherTargeting?: StringTargetingDimension | undefined;
-  /** Creative dimensions included by this config. Only bid requests eligible for at least one of the specified creative dimensions will be sent. An unset value allows all bid requests to be sent, regardless of creative dimension. */
-  includedCreativeDimensions?: CreativeDimensionsList | undefined;
-  /** Output only. The state of this pretargeting config. */
-  state?: PretargetingConfigStateEnum | (string & {}) | undefined;
-  /** Deprecated: The value of this field no longer has any effect. Targeting modes included by this config. A bid request must allow all the specified targeting modes. An unset value allows all bid requests to be sent, regardless of which targeting modes they allow. */
-  allowedUserTargetingModes?: PretargetingConfigAllowedUserTargetingModesItemEnumList | undefined;
-  /** The maximum QPS threshold for this config. The bidder should receive no more than this number of bid requests matching this config per second across all their bidding endpoints among all trading locations. Further information available at https://developers.google.com/authorized-buyers/rtb/peer-guide */
-  maximumQps?: string | undefined;
-  /** Environments that are being included. Bid requests will not be sent for a given environment if it is not included. Further restrictions can be applied to included environments to target only a subset of its inventory. An unset value includes all environments. */
-  includedEnvironments?: PretargetingConfigIncludedEnvironmentsItemEnumList | undefined;
-  /** User identifier types included in this config. At least one of the user identifier types specified in this list must be available for the bid request to be sent. */
-  includedUserIdTypes?: PretargetingConfigIncludedUserIdTypesItemEnumList | undefined;
-  /** Output only. Existing included or excluded geos that are invalid. Previously targeted geos may become invalid due to privacy restrictions. */
-  invalidGeoIds?: StringList | undefined;
-  /** The interstitial targeting specified for this config. The unset value will allow bid requests to be sent regardless of whether they are for interstitials or not. */
-  interstitialTargeting?: PretargetingConfigInterstitialTargetingEnum | (string & {}) | undefined;
-  /** The remarketing lists included or excluded in this config as defined in UserList. */
-  userListTargeting?: NumericTargetingDimension | undefined;
-  /** The languages included in this config, represented by their language code. See https://developers.google.com/adwords/api/docs/appendix/languagecodes. */
-  includedLanguages?: StringList | undefined;
-  /** Targeting on a subset of app inventory. If APP is listed in targeted_environments, the specified targeting is applied. A maximum of 30,000 app IDs can be targeted. An unset value for targeting allows all app-based bid requests to be sent. Apps can either be targeting positively (bid requests will be sent only if the destination app is listed in the targeting dimension) or negatively (bid requests will be sent only if the destination app is not listed in the targeting dimension). */
-  appTargeting?: AppTargeting | undefined;
-  /** The targeted minimum viewability decile, ranging in values [0, 10]. A value of 5 means that the config will only match adslots for which we predict at least 50% viewability. Values > 10 will be rounded down to 10. An unset value or a value of 0 indicates that bid requests will be sent regardless of viewability. */
-  minimumViewabilityDecile?: number | undefined;
-  /** Output only. Name of the pretargeting config that must follow the pattern `bidders/{bidder_account_id}/pretargetingConfigs/{config_id}` */
-  name?: string | undefined;
-  /** Creative formats included by this config. Only bid requests eligible for at least one of the specified creative formats will be sent. An unset value will allow all bid requests to be sent, regardless of format. */
-  includedFormats?: PretargetingConfigIncludedFormatsItemEnumList | undefined;
-  /** Output only. The identifier that corresponds to this pretargeting config that helps buyers track and attribute their spend across their own arbitrary divisions. If a bid request matches more than one config, the buyer chooses which billing_id to attribute each of their bids. */
-  billingId?: string | undefined;
-  /** The geos included or excluded in this config defined in https://storage.googleapis.com/adx-rtb-dictionaries/geo-table.csv */
-  geoTargeting?: NumericTargetingDimension | undefined;
-  /** The verticals included or excluded in this config as defined in https://developers.google.com/authorized-buyers/rtb/downloads/publisher-verticals */
-  verticalTargeting?: NumericTargetingDimension | undefined;
-  /** The platforms included by this config. Bid requests for devices with the specified platform types will be sent. An unset value allows all bid requests to be sent, regardless of platform. */
-  includedPlatforms?: PretargetingConfigIncludedPlatformsItemEnumList | undefined;
-  /** The mobile operating systems included in this config as defined in https://storage.googleapis.com/adx-rtb-dictionaries/mobile-os.csv */
-  includedMobileOperatingSystemIds?: StringList | undefined;
-  /** The sensitive content category label IDs excluded in this config. Bid requests for inventory with any of the specified content label IDs will not be sent. Refer to this file https://storage.googleapis.com/adx-rtb-dictionaries/content-labels.txt for category IDs. */
-  excludedContentLabelIds?: StringList | undefined;
-  /** Targeting on a subset of site inventory. If WEB is listed in included_environments, the specified targeting is applied. A maximum of 50,000 site URLs can be targeted. An unset value for targeting allows all web-based bid requests to be sent. Sites can either be targeting positively (bid requests will be sent only if the destination site is listed in the targeting dimension) or negatively (bid requests will be sent only if the destination site is not listed in the pretargeting config). */
-  webTargeting?: StringTargetingDimension | undefined;
-  /** The diplay name associated with this config. This name must be unique among all the pretargeting configs a bidder has. */
-  displayName?: string | undefined;
 }
-export interface CreateBuyersCreativesRequest {
+export interface CreateBuyersCreativesRequest extends Creative {
   /** Required. The name of the parent buyer that the new creative belongs to that must follow the pattern `buyers/{buyerAccountId}`, where `{buyerAccountId}` represents the account ID of the buyer who owns a creative. For a bidder accessing creatives on behalf of a child seat buyer, `{buyerAccountId}` should represent the account ID of the child seat buyer. */
   parent: string;
-  /** Output only. ID of the buyer account that this creative is owned by. Can be used to filter the response of the creatives.list method with equality and inequality check. */
-  accountId?: string | undefined;
-  /** The link to AdChoices destination page. This is only supported for native ads. */
-  adChoicesDestinationUrl?: string | undefined;
-  /** The set of URLs to be called to record an impression. */
-  impressionTrackingUrls?: StringList | undefined;
-  /** The set of declared destination URLs for the creative. Can be used to filter the response of the creatives.list method. */
-  declaredClickThroughUrls?: StringList | undefined;
-  /** All declared restricted categories for the ads that may be shown from this creative. Can be used to filter the response of the creatives.list method. */
-  declaredRestrictedCategories?: CreativeDeclaredRestrictedCategoriesItemEnumList | undefined;
-  /** The agency ID for this creative. */
-  agencyId?: string | undefined;
-  /** Output only. IDs of all of the deals with which this creative has been used in bidding. Can be used to filter the response of the creatives.list method. */
-  dealIds?: StringList | undefined;
-  /** Buyer-specific creative ID that references this creative in bid responses. This field is Ignored in update operations. Can be used to filter the response of the creatives.list method. The maximum length of the creative ID is 128 bytes. */
-  creativeId?: string | undefined;
-  /** A native creative. */
-  native?: NativeContent | undefined;
-  /** Deprecated: FLEDGE is no longer supported. See: https://privacysandbox.google.com/blog/update-on-plans-for-privacy-sandbox-technologies Experimental field that can be used during the [FLEDGE Origin Trial](/authorized-buyers/rtb/fledge-origin-trial). The URL to fetch an interest group ad used in [TURTLEDOVE on-device auction](https://github.com/WICG/turtledove/blob/main/FLEDGE.md#1-browsers-record-interest-groups"). This should be unique among all creatives for a given `accountId`. This URL should be the same as the URL returned by [generateBid()](https://github.com/WICG/turtledove/blob/main/FLEDGE.md#32-on-device-bidding). */
-  renderUrl?: string | undefined;
-  /** Output only. Name of the creative. Follows the pattern `buyers/{buyer}/creatives/{creative}`, where `{buyer}` represents the account ID of the buyer who owns the creative, and `{creative}` is the buyer-specific creative ID that references this creative in the bid response. */
-  name?: string | undefined;
-  /** All declared attributes for the ads that may be shown from this creative. Can be used to filter the response of the creatives.list method. If the `excluded_attribute` field of a [bid request](https://developers.google.com/authorized-buyers/rtb/downloads/realtime-bidding-proto") contains one of the attributes that were declared or detected for a given creative, and a bid is submitted with that creative, the bid will be filtered before the auction. */
-  declaredAttributes?: CreativeDeclaredAttributesItemEnumList | undefined;
-  /** Output only. Top level status and detected attributes of a creative (for example domain, language, advertiser, product category, etc.) that affect whether (status) and where (context) a creative will be allowed to serve. */
-  creativeServingDecision?: CreativeServingDecision | undefined;
-  /** An HTML creative. */
-  html?: HtmlContent | undefined;
-  /** Output only. The last update timestamp of the creative through the API. */
-  apiUpdateTime?: string | undefined;
-  /** A video creative. */
-  video?: VideoContent | undefined;
-  /** IDs for the declared ad technology vendors that may be used by this creative. See https://storage.googleapis.com/adx-rtb-dictionaries/vendors.txt for possible values. Can be used to filter the response of the creatives.list method. */
-  declaredVendorIds?: IntegerList | undefined;
-  /** The name of the company being advertised in the creative. Can be used to filter the response of the creatives.list method. */
-  advertiserName?: string | undefined;
-  /** Output only. The format of this creative. Can be used to filter the response of the creatives.list method. */
-  creativeFormat?: CreativeCreativeFormatEnum | (string & {}) | undefined;
-  /** Output only. The version of the creative. Version for a new creative is 1 and it increments during subsequent creative updates. */
-  version?: number | undefined;
-  /** All restricted categories for the ads that may be shown from this creative. */
-  restrictedCategories?: CreativeRestrictedCategoriesItemEnumList | undefined;
 }
-export interface CreateBuyersUserListsRequest {
+export interface CreateBuyersUserListsRequest extends UserList {
   /** Required. The name of the parent buyer of the user list to be retrieved, which must follow the pattern `buyers/{buyerAccountId}`, where `{buyerAccountId}` represents the account ID of the buyer who owns the user list. For a bidder accessing user lists on behalf of a child seat buyer, `{buyerAccountId}` should represent the account ID of the child seat buyer. */
   parent: string;
-  /** Required. Deprecated. This will be removed in October 2023. For more information, see the release notes: https://developers.google.com/authorized-buyers/apis/relnotes#real-time-bidding-api The URL restriction for the user list. */
-  urlRestriction?: UrlRestriction | undefined;
-  /** Required. The number of days a user's cookie stays on the user list. The field must be between 0 and 540 inclusive. */
-  membershipDurationDays?: string | undefined;
-  /** Required. Display name of the user list. This must be unique across all user lists for a given account. */
-  displayName?: string | undefined;
-  /** The description for the user list. */
-  description?: string | undefined;
-  /** Output only. Name of the user list that must follow the pattern `buyers/{buyer}/userLists/{user_list}`, where `{buyer}` represents the account ID of the buyer who owns the user list. For a bidder accessing user lists on behalf of a child seat buyer, `{buyer}` represents the account ID of the child seat buyer. `{user_list}` is an int64 identifier assigned by Google to uniquely identify a user list. */
-  name?: string | undefined;
-  /** Output only. The status of the user list. A new user list starts out as open. */
-  status?: UserListStatusEnum | (string & {}) | undefined;
 }
 export interface DeleteBiddersPretargetingConfigsRequest {
   /** Required. The name of the pretargeting configuration to delete. Format: bidders/{bidderAccountId}/pretargetingConfig/{configId} */
@@ -995,9 +913,9 @@ export interface Endpoint {
   /** The maximum number of queries per second allowed to be sent to this server. */
   maximumQps?: string | undefined;
   /** The protocol that the bidder endpoint is using. */
-  bidProtocol?: EndpointBidProtocolEnum | undefined;
+  bidProtocol?: EndpointBidProtocolEnum | (string & {}) | undefined;
   /** The trading location that bid requests should be sent from. See https://developers.google.com/authorized-buyers/rtb/peer-guide#trading-locations for further information. */
-  tradingLocation?: EndpointTradingLocationEnum | undefined;
+  tradingLocation?: EndpointTradingLocationEnum | (string & {}) | undefined;
   /** Output only. The URL that bid requests should be sent to. */
   url?: string | undefined;
 }
@@ -1198,133 +1116,50 @@ export interface OpenBuyersUserListsRequest {
   /** Request body */
   body?: ActivatePretargetingConfigRequest | undefined;
 }
-export interface PatchBiddersEndpointsRequest {
+export interface PatchBiddersEndpointsRequest extends Omit<Endpoint, "name"> {
   /** Field mask to use for partial in-place updates. */
   updateMask?: string | undefined;
   /** Output only. Name of the endpoint resource that must follow the pattern `bidders/{bidderAccountId}/endpoints/{endpointId}`, where {bidderAccountId} is the account ID of the bidder who operates this endpoint, and {endpointId} is a unique ID assigned by the server. */
   name: string;
-  /** The maximum number of queries per second allowed to be sent to this server. */
-  maximumQps?: string | undefined;
-  /** The protocol that the bidder endpoint is using. */
-  bidProtocol?: EndpointBidProtocolEnum | (string & {}) | undefined;
-  /** The trading location that bid requests should be sent from. See https://developers.google.com/authorized-buyers/rtb/peer-guide#trading-locations for further information. */
-  tradingLocation?: EndpointTradingLocationEnum | (string & {}) | undefined;
-  /** Output only. The URL that bid requests should be sent to. */
-  url?: string | undefined;
 }
-export interface PatchBiddersPretargetingConfigsRequest {
+export interface PatchBiddersPretargetingConfigsRequest extends Omit<PretargetingConfig, "name"> {
   /** Output only. Name of the pretargeting config that must follow the pattern `bidders/{bidder_account_id}/pretargetingConfigs/{config_id}` */
   name: string;
   /** Field mask to use for partial in-place updates. */
   updateMask?: string | undefined;
-  /** Targeting on a subset of publisher inventory. Publishers can either be targeted positively (bid requests will be sent only if the publisher is listed in the targeting dimension) or negatively (bid requests will be sent only if the publisher is not listed in the targeting dimension). A maximum of 10,000 publisher IDs can be targeted. Publisher IDs are found in [ads.txt](https://iabtechlab.com/ads-txt/) / [app-ads.txt](https://iabtechlab.com/app-ads-txt/) and in bid requests in the `BidRequest.publisher_id` field on the [Google RTB protocol](https://developers.google.com/authorized-buyers/rtb/downloads/realtime-bidding-proto) or the `BidRequest.site.publisher.id` / `BidRequest.app.publisher.id` field on the [OpenRTB protocol](https://developers.google.com/authorized-buyers/rtb/downloads/openrtb-adx-proto). Publisher IDs will be returned in the order that they were entered. */
-  publisherTargeting?: StringTargetingDimension | undefined;
-  /** Creative dimensions included by this config. Only bid requests eligible for at least one of the specified creative dimensions will be sent. An unset value allows all bid requests to be sent, regardless of creative dimension. */
-  includedCreativeDimensions?: CreativeDimensionsList | undefined;
-  /** Output only. The state of this pretargeting config. */
-  state?: PretargetingConfigStateEnum | (string & {}) | undefined;
-  /** Deprecated: The value of this field no longer has any effect. Targeting modes included by this config. A bid request must allow all the specified targeting modes. An unset value allows all bid requests to be sent, regardless of which targeting modes they allow. */
-  allowedUserTargetingModes?: PretargetingConfigAllowedUserTargetingModesItemEnumList | undefined;
-  /** The maximum QPS threshold for this config. The bidder should receive no more than this number of bid requests matching this config per second across all their bidding endpoints among all trading locations. Further information available at https://developers.google.com/authorized-buyers/rtb/peer-guide */
-  maximumQps?: string | undefined;
-  /** Environments that are being included. Bid requests will not be sent for a given environment if it is not included. Further restrictions can be applied to included environments to target only a subset of its inventory. An unset value includes all environments. */
-  includedEnvironments?: PretargetingConfigIncludedEnvironmentsItemEnumList | undefined;
-  /** User identifier types included in this config. At least one of the user identifier types specified in this list must be available for the bid request to be sent. */
-  includedUserIdTypes?: PretargetingConfigIncludedUserIdTypesItemEnumList | undefined;
-  /** Output only. Existing included or excluded geos that are invalid. Previously targeted geos may become invalid due to privacy restrictions. */
-  invalidGeoIds?: StringList | undefined;
-  /** The interstitial targeting specified for this config. The unset value will allow bid requests to be sent regardless of whether they are for interstitials or not. */
-  interstitialTargeting?: PretargetingConfigInterstitialTargetingEnum | (string & {}) | undefined;
-  /** The remarketing lists included or excluded in this config as defined in UserList. */
-  userListTargeting?: NumericTargetingDimension | undefined;
-  /** The languages included in this config, represented by their language code. See https://developers.google.com/adwords/api/docs/appendix/languagecodes. */
-  includedLanguages?: StringList | undefined;
-  /** Targeting on a subset of app inventory. If APP is listed in targeted_environments, the specified targeting is applied. A maximum of 30,000 app IDs can be targeted. An unset value for targeting allows all app-based bid requests to be sent. Apps can either be targeting positively (bid requests will be sent only if the destination app is listed in the targeting dimension) or negatively (bid requests will be sent only if the destination app is not listed in the targeting dimension). */
-  appTargeting?: AppTargeting | undefined;
-  /** The targeted minimum viewability decile, ranging in values [0, 10]. A value of 5 means that the config will only match adslots for which we predict at least 50% viewability. Values > 10 will be rounded down to 10. An unset value or a value of 0 indicates that bid requests will be sent regardless of viewability. */
-  minimumViewabilityDecile?: number | undefined;
-  /** Creative formats included by this config. Only bid requests eligible for at least one of the specified creative formats will be sent. An unset value will allow all bid requests to be sent, regardless of format. */
-  includedFormats?: PretargetingConfigIncludedFormatsItemEnumList | undefined;
-  /** Output only. The identifier that corresponds to this pretargeting config that helps buyers track and attribute their spend across their own arbitrary divisions. If a bid request matches more than one config, the buyer chooses which billing_id to attribute each of their bids. */
-  billingId?: string | undefined;
-  /** The geos included or excluded in this config defined in https://storage.googleapis.com/adx-rtb-dictionaries/geo-table.csv */
-  geoTargeting?: NumericTargetingDimension | undefined;
-  /** The verticals included or excluded in this config as defined in https://developers.google.com/authorized-buyers/rtb/downloads/publisher-verticals */
-  verticalTargeting?: NumericTargetingDimension | undefined;
-  /** The platforms included by this config. Bid requests for devices with the specified platform types will be sent. An unset value allows all bid requests to be sent, regardless of platform. */
-  includedPlatforms?: PretargetingConfigIncludedPlatformsItemEnumList | undefined;
-  /** The mobile operating systems included in this config as defined in https://storage.googleapis.com/adx-rtb-dictionaries/mobile-os.csv */
-  includedMobileOperatingSystemIds?: StringList | undefined;
-  /** The sensitive content category label IDs excluded in this config. Bid requests for inventory with any of the specified content label IDs will not be sent. Refer to this file https://storage.googleapis.com/adx-rtb-dictionaries/content-labels.txt for category IDs. */
-  excludedContentLabelIds?: StringList | undefined;
-  /** Targeting on a subset of site inventory. If WEB is listed in included_environments, the specified targeting is applied. A maximum of 50,000 site URLs can be targeted. An unset value for targeting allows all web-based bid requests to be sent. Sites can either be targeting positively (bid requests will be sent only if the destination site is listed in the targeting dimension) or negatively (bid requests will be sent only if the destination site is not listed in the pretargeting config). */
-  webTargeting?: StringTargetingDimension | undefined;
-  /** The diplay name associated with this config. This name must be unique among all the pretargeting configs a bidder has. */
-  displayName?: string | undefined;
 }
-export interface PatchBuyersCreativesRequest {
+export interface PatchBuyersCreativesRequest extends Omit<Creative, "name"> {
   /** Output only. Name of the creative. Follows the pattern `buyers/{buyer}/creatives/{creative}`, where `{buyer}` represents the account ID of the buyer who owns the creative, and `{creative}` is the buyer-specific creative ID that references this creative in the bid response. */
   name: string;
   /** Field mask to use for partial in-place updates. */
   updateMask?: string | undefined;
-  /** Output only. ID of the buyer account that this creative is owned by. Can be used to filter the response of the creatives.list method with equality and inequality check. */
-  accountId?: string | undefined;
-  /** The link to AdChoices destination page. This is only supported for native ads. */
-  adChoicesDestinationUrl?: string | undefined;
-  /** The set of URLs to be called to record an impression. */
-  impressionTrackingUrls?: StringList | undefined;
-  /** The set of declared destination URLs for the creative. Can be used to filter the response of the creatives.list method. */
-  declaredClickThroughUrls?: StringList | undefined;
-  /** All declared restricted categories for the ads that may be shown from this creative. Can be used to filter the response of the creatives.list method. */
-  declaredRestrictedCategories?: CreativeDeclaredRestrictedCategoriesItemEnumList | undefined;
-  /** The agency ID for this creative. */
-  agencyId?: string | undefined;
-  /** Output only. IDs of all of the deals with which this creative has been used in bidding. Can be used to filter the response of the creatives.list method. */
-  dealIds?: StringList | undefined;
-  /** Buyer-specific creative ID that references this creative in bid responses. This field is Ignored in update operations. Can be used to filter the response of the creatives.list method. The maximum length of the creative ID is 128 bytes. */
-  creativeId?: string | undefined;
-  /** A native creative. */
-  native?: NativeContent | undefined;
-  /** Deprecated: FLEDGE is no longer supported. See: https://privacysandbox.google.com/blog/update-on-plans-for-privacy-sandbox-technologies Experimental field that can be used during the [FLEDGE Origin Trial](/authorized-buyers/rtb/fledge-origin-trial). The URL to fetch an interest group ad used in [TURTLEDOVE on-device auction](https://github.com/WICG/turtledove/blob/main/FLEDGE.md#1-browsers-record-interest-groups"). This should be unique among all creatives for a given `accountId`. This URL should be the same as the URL returned by [generateBid()](https://github.com/WICG/turtledove/blob/main/FLEDGE.md#32-on-device-bidding). */
-  renderUrl?: string | undefined;
-  /** All declared attributes for the ads that may be shown from this creative. Can be used to filter the response of the creatives.list method. If the `excluded_attribute` field of a [bid request](https://developers.google.com/authorized-buyers/rtb/downloads/realtime-bidding-proto") contains one of the attributes that were declared or detected for a given creative, and a bid is submitted with that creative, the bid will be filtered before the auction. */
-  declaredAttributes?: CreativeDeclaredAttributesItemEnumList | undefined;
-  /** Output only. Top level status and detected attributes of a creative (for example domain, language, advertiser, product category, etc.) that affect whether (status) and where (context) a creative will be allowed to serve. */
-  creativeServingDecision?: CreativeServingDecision | undefined;
-  /** An HTML creative. */
-  html?: HtmlContent | undefined;
-  /** Output only. The last update timestamp of the creative through the API. */
-  apiUpdateTime?: string | undefined;
-  /** A video creative. */
-  video?: VideoContent | undefined;
-  /** IDs for the declared ad technology vendors that may be used by this creative. See https://storage.googleapis.com/adx-rtb-dictionaries/vendors.txt for possible values. Can be used to filter the response of the creatives.list method. */
-  declaredVendorIds?: IntegerList | undefined;
-  /** The name of the company being advertised in the creative. Can be used to filter the response of the creatives.list method. */
-  advertiserName?: string | undefined;
-  /** Output only. The format of this creative. Can be used to filter the response of the creatives.list method. */
-  creativeFormat?: CreativeCreativeFormatEnum | (string & {}) | undefined;
-  /** Output only. The version of the creative. Version for a new creative is 1 and it increments during subsequent creative updates. */
-  version?: number | undefined;
-  /** All restricted categories for the ads that may be shown from this creative. */
-  restrictedCategories?: CreativeRestrictedCategoriesItemEnumList | undefined;
 }
-export interface RemoveTargetedAppsBiddersPretargetingConfigsRequest {
-  /** Required. The name of the pretargeting configuration. Format: bidders/{bidderAccountId}/pretargetingConfig/{configId} */
-  pretargetingConfig: string;
+/** A request to stop targeting the provided apps in a specific pretargeting configuration. The pretargeting configuration itself specifies how these apps are targeted. in PretargetingConfig.appTargeting.mobileAppTargeting. */
+export interface RemoveTargetedAppsRequest {
   /** A list of app IDs to stop targeting in the pretargeting configuration. These values will be removed from the list of targeted app IDs in PretargetingConfig.appTargeting.mobileAppTargeting.values. */
   appIds?: StringList | undefined;
 }
-export interface RemoveTargetedPublishersBiddersPretargetingConfigsRequest {
+export interface RemoveTargetedAppsBiddersPretargetingConfigsRequest extends RemoveTargetedAppsRequest {
   /** Required. The name of the pretargeting configuration. Format: bidders/{bidderAccountId}/pretargetingConfig/{configId} */
   pretargetingConfig: string;
+}
+/** A request to stop targeting publishers in a specific configuration. The pretargeting configuration itself specifies how these publishers are targeted in PretargetingConfig.publisherTargeting. */
+export interface RemoveTargetedPublishersRequest {
   /** A list of publisher IDs to stop targeting in the pretargeting configuration. These values will be removed from the list of targeted publisher IDs in PretargetingConfig.publisherTargeting.values. Publishers are identified by their publisher ID from ads.txt / app-ads.txt. See https://iabtechlab.com/ads-txt/ and https://iabtechlab.com/app-ads-txt/ for more details. */
   publisherIds?: StringList | undefined;
 }
-export interface RemoveTargetedSitesBiddersPretargetingConfigsRequest {
+export interface RemoveTargetedPublishersBiddersPretargetingConfigsRequest extends RemoveTargetedPublishersRequest {
   /** Required. The name of the pretargeting configuration. Format: bidders/{bidderAccountId}/pretargetingConfig/{configId} */
   pretargetingConfig: string;
+}
+/** A request to stop targeting sites in a specific pretargeting configuration. The pretargeting configuration itself specifies how these sites are targeted in PretargetingConfig.webTargeting. */
+export interface RemoveTargetedSitesRequest {
   /** A list of site URLs to stop targeting in the pretargeting configuration. These values will be removed from the list of targeted URLs in PretargetingConfig.webTargeting.values. */
   sites?: StringList | undefined;
+}
+export interface RemoveTargetedSitesBiddersPretargetingConfigsRequest extends RemoveTargetedSitesRequest {
+  /** Required. The name of the pretargeting configuration. Format: bidders/{bidderAccountId}/pretargetingConfig/{configId} */
+  pretargetingConfig: string;
 }
 /** A request to suspend a pretargeting configuration. Sets the configuration's state to SUSPENDED. */
 export type SuspendPretargetingConfigRequest = ActivatePretargetingConfigRequest;
@@ -1334,19 +1169,9 @@ export interface SuspendBiddersPretargetingConfigsRequest {
   /** Request body */
   body?: ActivatePretargetingConfigRequest | undefined;
 }
-export interface UpdateBuyersUserListsRequest {
+export interface UpdateBuyersUserListsRequest extends Omit<UserList, "name"> {
   /** Output only. Name of the user list that must follow the pattern `buyers/{buyer}/userLists/{user_list}`, where `{buyer}` represents the account ID of the buyer who owns the user list. For a bidder accessing user lists on behalf of a child seat buyer, `{buyer}` represents the account ID of the child seat buyer. `{user_list}` is an int64 identifier assigned by Google to uniquely identify a user list. */
   name: string;
-  /** Required. Deprecated. This will be removed in October 2023. For more information, see the release notes: https://developers.google.com/authorized-buyers/apis/relnotes#real-time-bidding-api The URL restriction for the user list. */
-  urlRestriction?: UrlRestriction | undefined;
-  /** Required. The number of days a user's cookie stays on the user list. The field must be between 0 and 540 inclusive. */
-  membershipDurationDays?: string | undefined;
-  /** Required. Display name of the user list. This must be unique across all user lists for a given account. */
-  displayName?: string | undefined;
-  /** The description for the user list. */
-  description?: string | undefined;
-  /** Output only. The status of the user list. A new user list starts out as open. */
-  status?: UserListStatusEnum | (string & {}) | undefined;
 }
 /** A request to receive push notifications when any of the creatives belonging to the bidder changes status. */
 export type WatchCreativesRequest = ActivatePretargetingConfigRequest;
@@ -1399,7 +1224,7 @@ export const addDealsBuyersCreatives: API.OperationMethod<
   AddDealsBuyersCreativesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1536, __c48, 0) as any as S.Schema<AddDealsBuyersCreativesRequest>,
+  input: __S(1537, __c48, 1) as any as S.Schema<AddDealsBuyersCreativesRequest>,
   output: __S(1596, __c49, 28) as any as S.Schema<Creative>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -1422,7 +1247,7 @@ export const addTargetedAppsBiddersPretargetingConfigs: API.OperationMethod<
   AddTargetedAppsBiddersPretargetingConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1600, __c50, 0) as any as S.Schema<AddTargetedAppsBiddersPretargetingConfigsRequest>,
+  input: __S(1601, __c50, 1) as any as S.Schema<AddTargetedAppsBiddersPretargetingConfigsRequest>,
   output: __S(1509, __c47, 5) as any as S.Schema<PretargetingConfig>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
@@ -1446,9 +1271,9 @@ export const addTargetedPublishersBiddersPretargetingConfigs: API.OperationMetho
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1632,
+    1633,
     __c51,
-    0,
+    1,
   ) as any as S.Schema<AddTargetedPublishersBiddersPretargetingConfigsRequest>,
   output: __S(1509, __c47, 5) as any as S.Schema<PretargetingConfig>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
@@ -1472,7 +1297,7 @@ export const addTargetedSitesBiddersPretargetingConfigs: API.OperationMethod<
   AddTargetedSitesBiddersPretargetingConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c52, 0) as any as S.Schema<AddTargetedSitesBiddersPretargetingConfigsRequest>,
+  input: __S(1665, __c52, 1) as any as S.Schema<AddTargetedSitesBiddersPretargetingConfigsRequest>,
   output: __S(1509, __c47, 5) as any as S.Schema<PretargetingConfig>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
@@ -1496,7 +1321,7 @@ export const batchApproveBiddersPublisherConnections: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<BatchApproveBiddersPublisherConnectionsRequest>,
-  output: __S(32, __c1, 0) as any as S.Schema<BatchApprovePublisherConnectionsResponse>,
+  output: __S(33, __c1, 1) as any as S.Schema<BatchApprovePublisherConnectionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1519,7 +1344,7 @@ export const batchRejectBiddersPublisherConnections: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c4, 0) as any as S.Schema<BatchRejectBiddersPublisherConnectionsRequest>,
-  output: __S(32, __c1, 0) as any as S.Schema<BatchRejectPublisherConnectionsResponse>,
+  output: __S(33, __c1, 1) as any as S.Schema<BatchRejectPublisherConnectionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2070,9 +1895,9 @@ export const removeTargetedAppsBiddersPretargetingConfigs: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1184,
+    1185,
     __c37,
-    0,
+    1,
   ) as any as S.Schema<RemoveTargetedAppsBiddersPretargetingConfigsRequest>,
   output: __S(1509, __c47, 5) as any as S.Schema<PretargetingConfig>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
@@ -2097,9 +1922,9 @@ export const removeTargetedPublishersBiddersPretargetingConfigs: API.OperationMe
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1216,
+    1217,
     __c38,
-    0,
+    1,
   ) as any as S.Schema<RemoveTargetedPublishersBiddersPretargetingConfigsRequest>,
   output: __S(1509, __c47, 5) as any as S.Schema<PretargetingConfig>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
@@ -2124,9 +1949,9 @@ export const removeTargetedSitesBiddersPretargetingConfigs: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1248,
+    1249,
     __c39,
-    0,
+    1,
   ) as any as S.Schema<RemoveTargetedSitesBiddersPretargetingConfigsRequest>,
   output: __S(1509, __c47, 5) as any as S.Schema<PretargetingConfig>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
@@ -2210,10 +2035,12 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          names: S.optional(__S(1440, __c45, 0)),
-        }).pipe(
+        S.Extend(
+          __S(32, __c1, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/publisherConnections:batchApprove",
@@ -2226,6 +2053,12 @@ function __c0(j: number): any {
 function __c1(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({
+          names: S.optional(__S(1440, __c45, 0)),
+        }),
+      ).annotate({ identifier: "BatchApprovePublisherConnectionsRequest" });
+    case 1:
       return S.suspend(() =>
         S.Struct({
           publisherConnections: S.optional(__S(96, __c3, 0)),
@@ -2257,10 +2090,12 @@ function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          names: S.optional(__S(1440, __c45, 0)),
-        }).pipe(
+        S.Extend(
+          __S(32, __c1, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/publisherConnections:batchReject",
@@ -2323,32 +2158,12 @@ function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          publisherTargeting: S.optional(__S(1504, __c47, 0)),
-          includedCreativeDimensions: S.optional(__S(1506, __c47, 2)),
-          state: S.optional(S.String),
-          allowedUserTargetingModes: S.optional(__S(1472, __c46, 0)),
-          maximumQps: S.optional(S.String),
-          includedEnvironments: S.optional(__S(1472, __c46, 0)),
-          includedUserIdTypes: S.optional(__S(1472, __c46, 0)),
-          invalidGeoIds: S.optional(__S(1440, __c45, 0)),
-          interstitialTargeting: S.optional(S.String),
-          userListTargeting: S.optional(__S(1507, __c47, 3)),
-          includedLanguages: S.optional(__S(1440, __c45, 0)),
-          appTargeting: S.optional(__S(1508, __c47, 4)),
-          minimumViewabilityDecile: S.optional(S.Number),
-          name: S.optional(S.String),
-          includedFormats: S.optional(__S(1472, __c46, 0)),
-          billingId: S.optional(S.String),
-          geoTargeting: S.optional(__S(1507, __c47, 3)),
-          verticalTargeting: S.optional(__S(1507, __c47, 3)),
-          includedPlatforms: S.optional(__S(1472, __c46, 0)),
-          includedMobileOperatingSystemIds: S.optional(__S(1440, __c45, 0)),
-          excludedContentLabelIds: S.optional(__S(1440, __c45, 0)),
-          webTargeting: S.optional(__S(1504, __c47, 0)),
-          displayName: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1509, __c47, 5),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/pretargetingConfigs",
@@ -2362,30 +2177,12 @@ function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          accountId: S.optional(S.String),
-          adChoicesDestinationUrl: S.optional(S.String),
-          impressionTrackingUrls: S.optional(__S(1440, __c45, 0)),
-          declaredClickThroughUrls: S.optional(__S(1440, __c45, 0)),
-          declaredRestrictedCategories: S.optional(__S(1472, __c46, 0)),
-          agencyId: S.optional(S.String),
-          dealIds: S.optional(__S(1440, __c45, 0)),
-          creativeId: S.optional(S.String),
-          native: S.optional(__S(1569, __c49, 1)),
-          renderUrl: S.optional(S.String),
-          name: S.optional(S.String),
-          declaredAttributes: S.optional(__S(1472, __c46, 0)),
-          creativeServingDecision: S.optional(__S(1590, __c49, 22)),
-          html: S.optional(__S(1591, __c49, 23)),
-          apiUpdateTime: S.optional(S.String),
-          video: S.optional(__S(1595, __c49, 27)),
-          declaredVendorIds: S.optional(__S(1587, __c49, 19)),
-          advertiserName: S.optional(S.String),
-          creativeFormat: S.optional(S.String),
-          version: S.optional(S.Number),
-          restrictedCategories: S.optional(__S(1472, __c46, 0)),
-        }).pipe(
+        S.Extend(
+          __S(1596, __c49, 28),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/creatives",
@@ -2399,15 +2196,12 @@ function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          urlRestriction: S.optional(__S(193, __c6, 1)),
-          membershipDurationDays: S.optional(S.String),
-          displayName: S.optional(S.String),
-          description: S.optional(S.String),
-          name: S.optional(S.String),
-          status: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(194, __c6, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/userLists",
@@ -2865,14 +2659,13 @@ function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          maximumQps: S.optional(S.String),
-          bidProtocol: S.optional(S.String),
-          tradingLocation: S.optional(S.String),
-          url: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(448, __c14, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -2886,32 +2679,13 @@ function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          publisherTargeting: S.optional(__S(1504, __c47, 0)),
-          includedCreativeDimensions: S.optional(__S(1506, __c47, 2)),
-          state: S.optional(S.String),
-          allowedUserTargetingModes: S.optional(__S(1472, __c46, 0)),
-          maximumQps: S.optional(S.String),
-          includedEnvironments: S.optional(__S(1472, __c46, 0)),
-          includedUserIdTypes: S.optional(__S(1472, __c46, 0)),
-          invalidGeoIds: S.optional(__S(1440, __c45, 0)),
-          interstitialTargeting: S.optional(S.String),
-          userListTargeting: S.optional(__S(1507, __c47, 3)),
-          includedLanguages: S.optional(__S(1440, __c45, 0)),
-          appTargeting: S.optional(__S(1508, __c47, 4)),
-          minimumViewabilityDecile: S.optional(S.Number),
-          includedFormats: S.optional(__S(1472, __c46, 0)),
-          billingId: S.optional(S.String),
-          geoTargeting: S.optional(__S(1507, __c47, 3)),
-          verticalTargeting: S.optional(__S(1507, __c47, 3)),
-          includedPlatforms: S.optional(__S(1472, __c46, 0)),
-          includedMobileOperatingSystemIds: S.optional(__S(1440, __c45, 0)),
-          excludedContentLabelIds: S.optional(__S(1440, __c45, 0)),
-          webTargeting: S.optional(__S(1504, __c47, 0)),
-          displayName: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1509, __c47, 5),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -2925,30 +2699,13 @@ function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          accountId: S.optional(S.String),
-          adChoicesDestinationUrl: S.optional(S.String),
-          impressionTrackingUrls: S.optional(__S(1440, __c45, 0)),
-          declaredClickThroughUrls: S.optional(__S(1440, __c45, 0)),
-          declaredRestrictedCategories: S.optional(__S(1472, __c46, 0)),
-          agencyId: S.optional(S.String),
-          dealIds: S.optional(__S(1440, __c45, 0)),
-          creativeId: S.optional(S.String),
-          native: S.optional(__S(1569, __c49, 1)),
-          renderUrl: S.optional(S.String),
-          declaredAttributes: S.optional(__S(1472, __c46, 0)),
-          creativeServingDecision: S.optional(__S(1590, __c49, 22)),
-          html: S.optional(__S(1591, __c49, 23)),
-          apiUpdateTime: S.optional(S.String),
-          video: S.optional(__S(1595, __c49, 27)),
-          declaredVendorIds: S.optional(__S(1587, __c49, 19)),
-          advertiserName: S.optional(S.String),
-          creativeFormat: S.optional(S.String),
-          version: S.optional(S.Number),
-          restrictedCategories: S.optional(__S(1472, __c46, 0)),
-        }).pipe(
+        S.Extend(
+          __S(1596, __c49, 28),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -2963,9 +2720,17 @@ function __c37(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pretargetingConfig: S.String.pipe(T.Label()),
           appIds: S.optional(__S(1440, __c45, 0)),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "RemoveTargetedAppsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(1184, __c37, 0),
+          S.Struct({
+            pretargetingConfig: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+pretargetingConfig}:removeTargetedApps",
@@ -2980,9 +2745,17 @@ function __c38(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pretargetingConfig: S.String.pipe(T.Label()),
           publisherIds: S.optional(__S(1440, __c45, 0)),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "RemoveTargetedPublishersRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(1216, __c38, 0),
+          S.Struct({
+            pretargetingConfig: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+pretargetingConfig}:removeTargetedPublishers",
@@ -2997,9 +2770,17 @@ function __c39(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pretargetingConfig: S.String.pipe(T.Label()),
           sites: S.optional(__S(1440, __c45, 0)),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "RemoveTargetedSitesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(1248, __c39, 0),
+          S.Struct({
+            pretargetingConfig: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+pretargetingConfig}:removeTargetedSites",
@@ -3030,14 +2811,12 @@ function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          urlRestriction: S.optional(__S(193, __c6, 1)),
-          membershipDurationDays: S.optional(S.String),
-          displayName: S.optional(S.String),
-          description: S.optional(S.String),
-          status: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(194, __c6, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "v1/{+name}",
@@ -3175,9 +2954,17 @@ function __c48(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           dealIds: S.optional(__S(1440, __c45, 0)),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "AddDealsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(1536, __c48, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:addDeals",
@@ -3431,10 +3218,18 @@ function __c50(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pretargetingConfig: S.String.pipe(T.Label()),
           targetingMode: S.optional(S.String),
           appIds: S.optional(__S(1440, __c45, 0)),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "AddTargetedAppsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(1600, __c50, 0),
+          S.Struct({
+            pretargetingConfig: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+pretargetingConfig}:addTargetedApps",
@@ -3449,10 +3244,18 @@ function __c51(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pretargetingConfig: S.String.pipe(T.Label()),
           targetingMode: S.optional(S.String),
           publisherIds: S.optional(__S(1440, __c45, 0)),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "AddTargetedPublishersRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(1632, __c51, 0),
+          S.Struct({
+            pretargetingConfig: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+pretargetingConfig}:addTargetedPublishers",
@@ -3467,10 +3270,18 @@ function __c52(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pretargetingConfig: S.String.pipe(T.Label()),
           sites: S.optional(__S(1440, __c45, 0)),
           targetingMode: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "AddTargetedSitesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(1664, __c52, 0),
+          S.Struct({
+            pretargetingConfig: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+pretargetingConfig}:addTargetedSites",

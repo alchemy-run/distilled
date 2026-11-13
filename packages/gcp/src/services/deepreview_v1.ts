@@ -317,13 +317,8 @@ export interface DeepReviewRunConfig {
   /** Optional. The Gemini model identifier to use for the review. If omitted, the server uses its default model. Unsupported values return INVALID_ARGUMENT. */
   model?: string | undefined;
 }
-export interface CreateDocumentsReviewsRequest {
-  /** Required. The parent Document resource name where this review will be created. */
-  parent: string;
-  /** Optional. Idempotency identifier for network retry safety (AIP-155). Must be a valid UUID4 string. */
-  requestId?: string | undefined;
-  /** Optional. The ID to use for the review, which will become the final component of the review's resource name. If not provided, a unique server-generated UUID will be assigned. */
-  reviewId?: string | undefined;
+/** An evaluation run of a document. */
+export interface Review {
   /** Output only. Timestamp when this review attempt was initiated. */
   createTime?: string | undefined;
   /** Output only. Review output (markdown, errors, and future modalities). */
@@ -340,6 +335,14 @@ export interface CreateDocumentsReviewsRequest {
   name?: string | undefined;
   /** Optional. Run configuration parameters used for this review. */
   runConfig?: DeepReviewRunConfig | undefined;
+}
+export interface CreateDocumentsReviewsRequest extends Review {
+  /** Required. The parent Document resource name where this review will be created. */
+  parent: string;
+  /** Optional. Idempotency identifier for network retry safety (AIP-155). Must be a valid UUID4 string. */
+  requestId?: string | undefined;
+  /** Optional. The ID to use for the review, which will become the final component of the review's resource name. If not provided, a unique server-generated UUID will be assigned. */
+  reviewId?: string | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
@@ -370,30 +373,14 @@ export interface DownloadMediaRequest {
 }
 /** Response message for downloading a Document's raw content using media download. */
 export interface DownloadDocumentResponse {}
-/** An evaluation run of a document. */
-export interface Review {
-  /** Output only. Timestamp when this review attempt was initiated. */
-  createTime?: string | undefined;
-  /** Output only. Review output (markdown, errors, and future modalities). */
-  result?: Result | undefined;
-  /** Output only. Timestamp when the worker started evaluation. */
-  startTime?: string | undefined;
-  /** Output only. Current review lifecycle state. */
-  state?: ReviewStateEnum | (string & {}) | undefined;
-  /** Output only. Timestamp when the review reached a terminal state. */
-  endTime?: string | undefined;
-  /** Output only. Estimated completion progress percentage of the review in [0, 100]. */
-  progressPercent?: number | undefined;
-  /** Identifier. Resource name in format `documents/{document}/reviews/{review}`. */
-  name?: string | undefined;
-  /** Optional. Run configuration parameters used for this review. */
-  runConfig?: DeepReviewRunConfig | undefined;
-}
-export interface EstimateReviewCostDocumentsRequest {
-  /** Required. The document to review. */
-  document: string;
+/** Request message for estimating what a review would cost. */
+export interface EstimateReviewCostRequest {
   /** Required. The review to estimate, as it would be passed to `CreateReview`. Only its `run_config` is read, and `gemini_api_key` is ignored. */
   review?: Review | undefined;
+}
+export interface EstimateReviewCostDocumentsRequest extends EstimateReviewCostRequest {
+  /** Required. The document to review. */
+  document: string;
 }
 /** Represents an amount of money with its currency type. */
 export interface Money {
@@ -523,21 +510,11 @@ export interface ListReviewsResponse {
   /** The list of Review resources. */
   reviews?: ReviewList | undefined;
 }
-export interface UploadMediaRequest {
+export interface UploadMediaRequest extends Document {
   /** Optional. The ID to use for the document, which will become the final component of the document's resource name. If not provided, a unique server-generated UUID will be assigned. */
   documentId?: string | undefined;
   /** Optional. Idempotency identifier for network retry safety (AIP-155). Must be a valid UUID4 string. */
   requestId?: string | undefined;
-  /** Optional. User-provided display title or filename for the document. */
-  displayName?: string | undefined;
-  /** Output only. Summary of the most recent review run for this document, if any. Populated by `GetDocument` and `ListDocuments`; unset on the document returned by `CreateDocument`, which has no reviews yet. */
-  latestReviewSummary?: ReviewSummary | undefined;
-  /** Output only. Timestamp when the document was initially created. */
-  createTime?: string | undefined;
-  /** Identifier. Resource name in format `documents/{document}`. */
-  name?: string | undefined;
-  /** Optional. Reference to a Google Drive file to import. */
-  driveSource?: DriveSource | undefined;
 }
 export type CreateDocumentsReviewsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
 /** Creates and initiates an asynchronous multi-agent review for a document. Returns a google.longrunning.Operation. When the operation completes, the `response` field contains a `Review` and the `metadata` field contains `CreateReviewMetadata`. */
@@ -603,8 +580,8 @@ export const estimateReviewCostDocuments: API.OperationMethod<
   EstimateReviewCostDocumentsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c12, 0) as any as S.Schema<EstimateReviewCostDocumentsRequest>,
-  output: __S(386, __c12, 2) as any as S.Schema<EstimateReviewCostResponse>,
+  input: __S(385, __c12, 1) as any as S.Schema<EstimateReviewCostDocumentsRequest>,
+  output: __S(387, __c12, 3) as any as S.Schema<EstimateReviewCostResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -620,8 +597,8 @@ export const getDocuments: API.OperationMethod<
   GetDocumentsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c14, 0) as any as S.Schema<GetDocumentsRequest>,
-  output: __S(482, __c15, 2) as any as S.Schema<Document>,
+  input: __S(416, __c13, 0) as any as S.Schema<GetDocumentsRequest>,
+  output: __S(450, __c14, 2) as any as S.Schema<Document>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -637,8 +614,8 @@ export const getDocumentsReviews: API.OperationMethod<
   GetDocumentsReviewsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c16, 0) as any as S.Schema<GetDocumentsReviewsRequest>,
-  output: __S(416, __c13, 0) as any as S.Schema<Review>,
+  input: __S(480, __c15, 0) as any as S.Schema<GetDocumentsReviewsRequest>,
+  output: __S(276, __c8, 20) as any as S.Schema<Review>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -727,7 +704,7 @@ export const uploadMedia: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c4, 0) as any as S.Schema<UploadMediaRequest>,
-  output: __S(482, __c15, 2) as any as S.Schema<Document>,
+  output: __S(450, __c14, 2) as any as S.Schema<Document>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -797,7 +774,7 @@ function __c2(j: number): any {
         ),
       ).annotate({ identifier: "ListDocumentsRequest" });
     case 1:
-      return S.Array(__S(482, __c15, 2));
+      return S.Array(__S(450, __c14, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -826,7 +803,7 @@ function __c3(j: number): any {
         ),
       ).annotate({ identifier: "ListDocumentsReviewsRequest" });
     case 1:
-      return S.Array(__S(416, __c13, 0));
+      return S.Array(__S(276, __c8, 20));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -840,15 +817,13 @@ function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          documentId: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          displayName: S.optional(S.String),
-          latestReviewSummary: S.optional(__S(480, __c15, 0)),
-          createTime: S.optional(S.String),
-          name: S.optional(S.String),
-          driveSource: S.optional(__S(481, __c15, 1)),
-        }).pipe(
+        S.Extend(
+          __S(450, __c14, 2),
+          S.Struct({
+            documentId: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/documents",
@@ -862,19 +837,14 @@ function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          reviewId: S.optional(S.String.pipe(T.Query())),
-          createTime: S.optional(S.String),
-          result: S.optional(__S(274, __c8, 18)),
-          startTime: S.optional(S.String),
-          state: S.optional(S.String),
-          endTime: S.optional(S.String),
-          progressPercent: S.optional(S.Number),
-          name: S.optional(S.String),
-          runConfig: S.optional(__S(275, __c8, 19)),
-        }).pipe(
+        S.Extend(
+          __S(276, __c8, 20),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            reviewId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/reviews",
@@ -1065,6 +1035,19 @@ function __c8(j: number): any {
           model: S.optional(S.String),
         }),
       ).annotate({ identifier: "DeepReviewRunConfig" });
+    case 20:
+      return S.suspend(() =>
+        S.Struct({
+          createTime: S.optional(S.String),
+          result: S.optional(__S(274, __c8, 18)),
+          startTime: S.optional(S.String),
+          state: S.optional(S.String),
+          endTime: S.optional(S.String),
+          progressPercent: S.optional(S.Number),
+          name: S.optional(S.String),
+          runConfig: S.optional(__S(275, __c8, 19)),
+        }),
+      ).annotate({ identifier: "Review" });
   }
 }
 function __c9(j: number): any {
@@ -1112,9 +1095,17 @@ function __c12(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          document: S.String.pipe(T.Label()),
-          review: S.optional(__S(416, __c13, 0)),
-        }).pipe(
+          review: S.optional(__S(276, __c8, 20)),
+        }),
+      ).annotate({ identifier: "EstimateReviewCostRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(384, __c12, 0),
+          S.Struct({
+            document: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+document}:estimateReviewCost",
@@ -1122,7 +1113,7 @@ function __c12(j: number): any {
           }),
         ),
       ).annotate({ identifier: "EstimateReviewCostDocumentsRequest" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           units: S.optional(S.String),
@@ -1130,35 +1121,18 @@ function __c12(j: number): any {
           currencyCode: S.optional(S.String),
         }),
       ).annotate({ identifier: "Money" });
-    case 2:
+    case 3:
       return S.suspend(() =>
         S.Struct({
-          lowCost: S.optional(__S(385, __c12, 1)),
+          lowCost: S.optional(__S(386, __c12, 2)),
           pastReviewCount: S.optional(S.Number),
-          highCost: S.optional(__S(385, __c12, 1)),
-          medianCost: S.optional(__S(385, __c12, 1)),
+          highCost: S.optional(__S(386, __c12, 2)),
+          medianCost: S.optional(__S(386, __c12, 2)),
         }),
       ).annotate({ identifier: "EstimateReviewCostResponse" });
   }
 }
 function __c13(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          createTime: S.optional(S.String),
-          result: S.optional(__S(274, __c8, 18)),
-          startTime: S.optional(S.String),
-          state: S.optional(S.String),
-          endTime: S.optional(S.String),
-          progressPercent: S.optional(S.Number),
-          name: S.optional(S.String),
-          runConfig: S.optional(__S(275, __c8, 19)),
-        }),
-      ).annotate({ identifier: "Review" });
-  }
-}
-function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1174,7 +1148,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "GetDocumentsRequest" });
   }
 }
-function __c15(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1197,15 +1171,15 @@ function __c15(j: number): any {
       return S.suspend(() =>
         S.Struct({
           displayName: S.optional(S.String),
-          latestReviewSummary: S.optional(__S(480, __c15, 0)),
+          latestReviewSummary: S.optional(__S(448, __c14, 0)),
           createTime: S.optional(S.String),
           name: S.optional(S.String),
-          driveSource: S.optional(__S(481, __c15, 1)),
+          driveSource: S.optional(__S(449, __c14, 1)),
         }),
       ).annotate({ identifier: "Document" });
   }
 }
-function __c16(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

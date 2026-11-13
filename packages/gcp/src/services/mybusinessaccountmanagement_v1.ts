@@ -154,7 +154,8 @@ export interface OrganizationInfo {
   /** Output only. The contact number for the organization. */
   phoneNumber?: string | undefined;
 }
-export interface CreateAccountsRequest {
+/** An account is a container for your location. If you are the only user who manages locations for your business, you can use your personal Google Account. To share management of locations with multiple users, [create a business account] (https://support.google.com/business/answer/6085339?ref_topic=6085325). */
+export interface Account {
   /** Output only. Specifies the AccountRole of this account. */
   role?: AccountRoleEnum | (string & {}) | undefined;
   /** Required. Input only. The resource name of the account which will be the primary owner of the account being created. It should be of the form `accounts/{account_id}`. */
@@ -176,68 +177,18 @@ export interface CreateAccountsRequest {
   /** Immutable. The resource name, in the format `accounts/{account_id}`. */
   name?: string | undefined;
 }
-/** An account is a container for your location. If you are the only user who manages locations for your business, you can use your personal Google Account. To share management of locations with multiple users, [create a business account] (https://support.google.com/business/answer/6085339?ref_topic=6085325). */
-export interface Account {
-  /** Output only. Specifies the AccountRole of this account. */
-  role?: AccountRoleEnum | undefined;
-  /** Required. Input only. The resource name of the account which will be the primary owner of the account being created. It should be of the form `accounts/{account_id}`. */
-  primaryOwner?: string | undefined;
-  /** Output only. Account reference number if provisioned. */
-  accountNumber?: string | undefined;
-  /** Output only. If verified, future locations that are created are automatically connected to Google Maps, and have Google+ pages created, without requiring moderation. */
-  verificationState?: AccountVerificationStateEnum | undefined;
-  /** Required. The name of the account. For an account of type `PERSONAL`, this is the first and last name of the user account. */
-  accountName?: string | undefined;
-  /** Required. Contains the type of account. Accounts of type PERSONAL and ORGANIZATION cannot be created using this API. */
-  type?: AccountTypeEnum | undefined;
-  /** Output only. Indicates whether the account is vetted by Google. A vetted account is able to verify locations via the VETTED_PARTNER method. */
-  vettedState?: AccountVettedStateEnum | undefined;
-  /** Output only. Specifies the permission level the user has for this account. */
-  permissionLevel?: AccountPermissionLevelEnum | undefined;
-  /** Output only. Additional info for an organization. This is populated only for an organization account. */
-  organizationInfo?: OrganizationInfo | undefined;
-  /** Immutable. The resource name, in the format `accounts/{account_id}`. */
-  name?: string | undefined;
-}
+export interface CreateAccountsRequest extends Account {}
 export type AdminRoleEnum =
   | "ADMIN_ROLE_UNSPECIFIED"
   | "PRIMARY_OWNER"
   | "OWNER"
   | "MANAGER"
   | "SITE_MANAGER";
-export interface CreateAccountsAdminsRequest {
-  /** Required. The resource name of the account this admin is created for. `accounts/{account_id}`. */
-  parent: string;
-  /** Output only. Indicates whether this admin has a pending invitation for the specified resource. */
-  pendingInvitation?: boolean | undefined;
-  /** Required. Specifies the role that this admin uses with the specified Account or Location. */
-  role?: AdminRoleEnum | (string & {}) | undefined;
-  /** Optional. The name of the admin. When making the initial invitation, this is the invitee's email address. On `GET` calls, the user's email address is returned if the invitation is still pending. Otherwise, it contains the user's first and last names. This field is only needed to be set during admin creation. */
-  admin?: string | undefined;
-  /** Immutable. The resource name. For account admins, this is in the form: `accounts/{account_id}/admins/{admin_id}` For location admins, this is in the form: `locations/{location_id}/admins/{admin_id}` This field will be ignored if set during admin creation. */
-  name?: string | undefined;
-  /** Immutable. The name of the Account resource that this Admin refers to. Used when calling locations.admins.create to invite a LocationGroup as an admin. If both this field and `admin` are set on `CREATE` requests, this field takes precedence and the email address in `admin` will be ignored. Format: `accounts/{account}`. */
-  account?: string | undefined;
-}
 /** An administrator of an Account or a location. */
 export interface Admin {
   /** Output only. Indicates whether this admin has a pending invitation for the specified resource. */
   pendingInvitation?: boolean | undefined;
   /** Required. Specifies the role that this admin uses with the specified Account or Location. */
-  role?: AdminRoleEnum | undefined;
-  /** Optional. The name of the admin. When making the initial invitation, this is the invitee's email address. On `GET` calls, the user's email address is returned if the invitation is still pending. Otherwise, it contains the user's first and last names. This field is only needed to be set during admin creation. */
-  admin?: string | undefined;
-  /** Immutable. The resource name. For account admins, this is in the form: `accounts/{account_id}/admins/{admin_id}` For location admins, this is in the form: `locations/{location_id}/admins/{admin_id}` This field will be ignored if set during admin creation. */
-  name?: string | undefined;
-  /** Immutable. The name of the Account resource that this Admin refers to. Used when calling locations.admins.create to invite a LocationGroup as an admin. If both this field and `admin` are set on `CREATE` requests, this field takes precedence and the email address in `admin` will be ignored. Format: `accounts/{account}`. */
-  account?: string | undefined;
-}
-export interface CreateLocationsAdminsRequest {
-  /** Required. The resource name of the location this admin is created for. `locations/{location_id}/admins`. */
-  parent: string;
-  /** Output only. Indicates whether this admin has a pending invitation for the specified resource. */
-  pendingInvitation?: boolean | undefined;
-  /** Required. Specifies the role that this admin uses with the specified Account or Location. */
   role?: AdminRoleEnum | (string & {}) | undefined;
   /** Optional. The name of the admin. When making the initial invitation, this is the invitee's email address. On `GET` calls, the user's email address is returned if the invitation is still pending. Otherwise, it contains the user's first and last names. This field is only needed to be set during admin creation. */
   admin?: string | undefined;
@@ -245,6 +196,14 @@ export interface CreateLocationsAdminsRequest {
   name?: string | undefined;
   /** Immutable. The name of the Account resource that this Admin refers to. Used when calling locations.admins.create to invite a LocationGroup as an admin. If both this field and `admin` are set on `CREATE` requests, this field takes precedence and the email address in `admin` will be ignored. Format: `accounts/{account}`. */
   account?: string | undefined;
+}
+export interface CreateAccountsAdminsRequest extends Admin {
+  /** Required. The resource name of the account this admin is created for. `accounts/{account_id}`. */
+  parent: string;
+}
+export interface CreateLocationsAdminsRequest extends Admin {
+  /** Required. The resource name of the location this admin is created for. `locations/{location_id}/admins`. */
+  parent: string;
 }
 /** Request message for AccessControl.DeclineInvitation. */
 export type DeclineInvitationRequest = AcceptInvitationRequest;
@@ -347,65 +306,34 @@ export interface ListLocationAdminsResponse {
   /** A collection of Admins. */
   admins?: AdminList | undefined;
 }
-export interface PatchAccountsRequest {
+export interface PatchAccountsRequest extends Omit<Account, "name"> {
   /** Required. The specific fields that should be updated. The only editable field is `accountName`. */
   updateMask?: string | undefined;
   /** Optional. If true, the request is validated without actually updating the account. */
   validateOnly?: boolean | undefined;
   /** Immutable. The resource name, in the format `accounts/{account_id}`. */
   name: string;
-  /** Output only. Specifies the AccountRole of this account. */
-  role?: AccountRoleEnum | (string & {}) | undefined;
-  /** Required. Input only. The resource name of the account which will be the primary owner of the account being created. It should be of the form `accounts/{account_id}`. */
-  primaryOwner?: string | undefined;
-  /** Output only. Account reference number if provisioned. */
-  accountNumber?: string | undefined;
-  /** Output only. If verified, future locations that are created are automatically connected to Google Maps, and have Google+ pages created, without requiring moderation. */
-  verificationState?: AccountVerificationStateEnum | (string & {}) | undefined;
-  /** Required. The name of the account. For an account of type `PERSONAL`, this is the first and last name of the user account. */
-  accountName?: string | undefined;
-  /** Required. Contains the type of account. Accounts of type PERSONAL and ORGANIZATION cannot be created using this API. */
-  type?: AccountTypeEnum | (string & {}) | undefined;
-  /** Output only. Indicates whether the account is vetted by Google. A vetted account is able to verify locations via the VETTED_PARTNER method. */
-  vettedState?: AccountVettedStateEnum | (string & {}) | undefined;
-  /** Output only. Specifies the permission level the user has for this account. */
-  permissionLevel?: AccountPermissionLevelEnum | (string & {}) | undefined;
-  /** Output only. Additional info for an organization. This is populated only for an organization account. */
-  organizationInfo?: OrganizationInfo | undefined;
 }
-export interface PatchAccountsAdminsRequest {
+export interface PatchAccountsAdminsRequest extends Omit<Admin, "name"> {
   /** Required. The specific fields that should be updated. The only editable field is role. */
   updateMask?: string | undefined;
   /** Immutable. The resource name. For account admins, this is in the form: `accounts/{account_id}/admins/{admin_id}` For location admins, this is in the form: `locations/{location_id}/admins/{admin_id}` This field will be ignored if set during admin creation. */
   name: string;
-  /** Output only. Indicates whether this admin has a pending invitation for the specified resource. */
-  pendingInvitation?: boolean | undefined;
-  /** Required. Specifies the role that this admin uses with the specified Account or Location. */
-  role?: AdminRoleEnum | (string & {}) | undefined;
-  /** Optional. The name of the admin. When making the initial invitation, this is the invitee's email address. On `GET` calls, the user's email address is returned if the invitation is still pending. Otherwise, it contains the user's first and last names. This field is only needed to be set during admin creation. */
-  admin?: string | undefined;
-  /** Immutable. The name of the Account resource that this Admin refers to. Used when calling locations.admins.create to invite a LocationGroup as an admin. If both this field and `admin` are set on `CREATE` requests, this field takes precedence and the email address in `admin` will be ignored. Format: `accounts/{account}`. */
-  account?: string | undefined;
 }
-export interface PatchLocationsAdminsRequest {
+export interface PatchLocationsAdminsRequest extends Omit<Admin, "name"> {
   /** Required. The specific fields that should be updated. The only editable field is role. */
   updateMask?: string | undefined;
   /** Immutable. The resource name. For account admins, this is in the form: `accounts/{account_id}/admins/{admin_id}` For location admins, this is in the form: `locations/{location_id}/admins/{admin_id}` This field will be ignored if set during admin creation. */
   name: string;
-  /** Output only. Indicates whether this admin has a pending invitation for the specified resource. */
-  pendingInvitation?: boolean | undefined;
-  /** Required. Specifies the role that this admin uses with the specified Account or Location. */
-  role?: AdminRoleEnum | (string & {}) | undefined;
-  /** Optional. The name of the admin. When making the initial invitation, this is the invitee's email address. On `GET` calls, the user's email address is returned if the invitation is still pending. Otherwise, it contains the user's first and last names. This field is only needed to be set during admin creation. */
-  admin?: string | undefined;
-  /** Immutable. The name of the Account resource that this Admin refers to. Used when calling locations.admins.create to invite a LocationGroup as an admin. If both this field and `admin` are set on `CREATE` requests, this field takes precedence and the email address in `admin` will be ignored. Format: `accounts/{account}`. */
-  account?: string | undefined;
 }
-export interface TransferLocationsRequest {
-  /** Required. The name of the location to transfer. `locations/{location_id}`. */
-  name: string;
+/** Request message for AccessControl.TransferLocation. */
+export interface TransferLocationRequest {
   /** Required. Name of the account resource to transfer the location to (for example, "accounts/{account}"). */
   destinationAccount?: string | undefined;
+}
+export interface TransferLocationsRequest extends TransferLocationRequest {
+  /** Required. The name of the location to transfer. `locations/{location_id}`. */
+  name: string;
 }
 export type AcceptAccountsInvitationsError =
   | NotFound
@@ -682,7 +610,7 @@ export const transferLocations: API.OperationMethod<
   TransferLocationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c10, 0) as any as S.Schema<TransferLocationsRequest>,
+  input: __S(81, __c10, 1) as any as S.Schema<TransferLocationsRequest>,
   output: __S(96, __c12, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -849,20 +777,14 @@ function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          role: S.optional(S.String),
-          primaryOwner: S.optional(S.String),
-          accountNumber: S.optional(S.String),
-          verificationState: S.optional(S.String),
-          accountName: S.optional(S.String),
-          type: S.optional(S.String),
-          vettedState: S.optional(S.String),
-          permissionLevel: S.optional(S.String),
-          organizationInfo: S.optional(__S(114, __c14, 2)),
-        }).pipe(
+        S.Extend(
+          __S(115, __c14, 3),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -876,14 +798,13 @@ function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          pendingInvitation: S.optional(S.Boolean),
-          role: S.optional(S.String),
-          admin: S.optional(S.String),
-          account: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(128, __c16, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -897,14 +818,13 @@ function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          pendingInvitation: S.optional(S.Boolean),
-          role: S.optional(S.String),
-          admin: S.optional(S.String),
-          account: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(128, __c16, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -919,9 +839,17 @@ function __c10(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           destinationAccount: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "TransferLocationRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(80, __c10, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:transfer",
@@ -958,18 +886,7 @@ function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          role: S.optional(S.String),
-          primaryOwner: S.optional(S.String),
-          accountNumber: S.optional(S.String),
-          verificationState: S.optional(S.String),
-          accountName: S.optional(S.String),
-          type: S.optional(S.String),
-          vettedState: S.optional(S.String),
-          permissionLevel: S.optional(S.String),
-          organizationInfo: S.optional(__S(114, __c14, 2)),
-          name: S.optional(S.String),
-        }).pipe(
+        S.Extend(__S(115, __c14, 3), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/accounts",
@@ -1028,14 +945,12 @@ function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          pendingInvitation: S.optional(S.Boolean),
-          role: S.optional(S.String),
-          admin: S.optional(S.String),
-          name: S.optional(S.String),
-          account: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(128, __c16, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/admins",
@@ -1063,14 +978,12 @@ function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          pendingInvitation: S.optional(S.Boolean),
-          role: S.optional(S.String),
-          admin: S.optional(S.String),
-          name: S.optional(S.String),
-          account: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(128, __c16, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/admins",

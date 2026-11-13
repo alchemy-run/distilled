@@ -116,15 +116,8 @@ export interface ManagedResource {
   runService?: RunService | undefined;
 }
 export type ManagedResourceList = Array<ManagedResource>;
-export interface CreateProjectsLocationsBackendsRequest {
-  /** Required. Id of the backend. Also used as the service ID for Cloud Run, and as part of the default domain name. */
-  backendId?: string | undefined;
-  /** Required. A parent name of the form `projects/{project}/locations/{locationId}`. */
-  parent: string;
-  /** Optional. Indicates that the request should be validated and default values populated, without persisting the request or creating any resources. */
-  validateOnly?: boolean | undefined;
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and t he request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
+/** A backend is the primary resource of App Hosting. */
+export interface Backend {
   /** Optional. Human-readable name. 63 character limit. */
   displayName?: string | undefined;
   /** Output only. A field that, if true, indicates that the system is working to make adjustments to the backend during a LRO. */
@@ -163,6 +156,16 @@ export interface CreateProjectsLocationsBackendsRequest {
   createTime?: string | undefined;
   /** Output only. Time at which the backend was deleted. */
   deleteTime?: string | undefined;
+}
+export interface CreateProjectsLocationsBackendsRequest extends Backend {
+  /** Required. Id of the backend. Also used as the service ID for Cloud Run, and as part of the default domain name. */
+  backendId?: string | undefined;
+  /** Required. A parent name of the form `projects/{project}/locations/{locationId}`. */
+  parent: string;
+  /** Optional. Indicates that the request should be validated and default values populated, without persisting the request or creating any resources. */
+  validateOnly?: boolean | undefined;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and t he request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -328,15 +331,8 @@ export interface BuildSource {
   /** A codebase source. */
   codebase?: CodebaseSource | undefined;
 }
-export interface CreateProjectsLocationsBackendsBuildsRequest {
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Required. The parent backend in the format: `projects/{project}/locations/{locationId}/backends/{backendId}`. */
-  parent: string;
-  /** Optional. Indicates that the request should be validated and default values populated, without persisting the request or creating any resources. */
-  validateOnly?: boolean | undefined;
-  /** Required. Desired ID of the build being created. */
-  buildId?: string | undefined;
+/** A single build for a backend, at a specific point codebase reference tag and point in time. Encapsulates several resources, including an Artifact Registry container image, a Cloud Build invocation that built the image, and the Cloud Run revision that uses that image. */
+export interface Build {
   /** Output only. The state of the build. */
   state?: BuildStateEnum | (string & {}) | undefined;
   /** Output only. The environment name of the backend when this build was created. */
@@ -371,6 +367,16 @@ export interface CreateProjectsLocationsBackendsBuildsRequest {
   etag?: string | undefined;
   /** Output only. Time at which the build was last updated. */
   updateTime?: string | undefined;
+}
+export interface CreateProjectsLocationsBackendsBuildsRequest extends Build {
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+  /** Required. The parent backend in the format: `projects/{project}/locations/{locationId}/backends/{backendId}`. */
+  parent: string;
+  /** Optional. Indicates that the request should be validated and default values populated, without persisting the request or creating any resources. */
+  validateOnly?: boolean | undefined;
+  /** Required. Desired ID of the build being created. */
+  buildId?: string | undefined;
 }
 export type CustomDomainStatusCertStateEnum =
   | "CERT_STATE_UNSPECIFIED"
@@ -469,15 +475,8 @@ export interface ServingBehavior {
   redirect?: Redirect | undefined;
 }
 export type DomainTypeEnum = "TYPE_UNSPECIFIED" | "DEFAULT" | "CUSTOM";
-export interface CreateProjectsLocationsBackendsDomainsRequest {
-  /** Optional. Indicates that the request should be validated and default values populated, without persisting the request or creating any resources. */
-  validateOnly?: boolean | undefined;
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Required. The parent backend in the format: `projects/{project}/locations/{locationId}/backends/{backendId}`. */
-  parent: string;
-  /** Required. Id of the domain to create. Must be a valid domain name. */
-  domainId?: string | undefined;
+/** A domain name that is associated with a backend. */
+export interface Domain {
   /** Output only. System-assigned, unique identifier. */
   uid?: string | undefined;
   /** Output only. Time at which the domain was created. */
@@ -507,6 +506,16 @@ export interface CreateProjectsLocationsBackendsDomainsRequest {
   /** Output only. A field that, if true, indicates that the build has an ongoing LRO. */
   reconciling?: boolean | undefined;
 }
+export interface CreateProjectsLocationsBackendsDomainsRequest extends Domain {
+  /** Optional. Indicates that the request should be validated and default values populated, without persisting the request or creating any resources. */
+  validateOnly?: boolean | undefined;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+  /** Required. The parent backend in the format: `projects/{project}/locations/{locationId}/backends/{backendId}`. */
+  parent: string;
+  /** Required. Id of the domain to create. Must be a valid domain name. */
+  domainId?: string | undefined;
+}
 export type RolloutStateEnum =
   | "STATE_UNSPECIFIED"
   | "QUEUED"
@@ -517,15 +526,8 @@ export type RolloutStateEnum =
   | "FAILED"
   | "CANCELLED"
   | "SKIPPED";
-export interface CreateProjectsLocationsBackendsRolloutsRequest {
-  /** Optional. Indicates that the request should be validated and default values populated, without persisting the request or creating any resources. */
-  validateOnly?: boolean | undefined;
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Required. The parent backend in the format: `projects/{project}/locations/{locationId}/backends/{backendId}`. */
-  parent: string;
-  /** Optional. Desired ID of the rollout being created. */
-  rolloutId?: string | undefined;
+/** A single rollout of a build for a backend. */
+export interface Rollout {
   /** Output only. Time at which the rollout was last updated. */
   updateTime?: string | undefined;
   /** Output only. System-assigned, unique identifier. */
@@ -552,6 +554,16 @@ export interface CreateProjectsLocationsBackendsRolloutsRequest {
   state?: RolloutStateEnum | (string & {}) | undefined;
   /** Optional. Unstructured key value map that may be set by external tools to store and arbitrary metadata. They are not queryable and should be preserved when modifying objects. */
   annotations?: StringMap | undefined;
+}
+export interface CreateProjectsLocationsBackendsRolloutsRequest extends Rollout {
+  /** Optional. Indicates that the request should be validated and default values populated, without persisting the request or creating any resources. */
+  validateOnly?: boolean | undefined;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+  /** Required. The parent backend in the format: `projects/{project}/locations/{locationId}/backends/{backendId}`. */
+  parent: string;
+  /** Optional. Desired ID of the rollout being created. */
+  rolloutId?: string | undefined;
 }
 export interface DeleteProjectsLocationsBackendsRequest {
   /** Optional. If the client provided etag is out of date, delete will be returned FAILED_PRECONDITION error. */
@@ -610,155 +622,17 @@ export interface GetProjectsLocationsBackendsRequest {
   /** Required. Name of the resource in the format: `projects/{project}/locations/{locationId}/backends/{backendId}`. */
   name: string;
 }
-/** A backend is the primary resource of App Hosting. */
-export interface Backend {
-  /** Optional. Human-readable name. 63 character limit. */
-  displayName?: string | undefined;
-  /** Output only. A field that, if true, indicates that the system is working to make adjustments to the backend during a LRO. */
-  reconciling?: boolean | undefined;
-  /** Optional. Unstructured key value map that may be set by external tools to store and arbitrary metadata. They are not queryable and should be preserved when modifying objects. */
-  annotations?: StringMap | undefined;
-  /** Output only. System-assigned, unique identifier. */
-  uid?: string | undefined;
-  /** Optional. If specified, the connection to an external source repository to watch for event-driven updates to the backend. */
-  codebase?: Codebase | undefined;
-  /** Optional. Deprecated: Use `environment` instead. */
-  mode?: string | undefined;
-  /** Identifier. The resource name of the backend. Format: `projects/{project}/locations/{locationId}/backends/{backendId}`. */
-  name?: string | undefined;
-  /** Optional. A field that, if true, indicates that incoming request logs are disabled for this backend. Incoming request logs are enabled by default. */
-  requestLogsDisabled?: boolean | undefined;
-  /** Output only. The primary URI to communicate with the backend. */
-  uri?: string | undefined;
-  /** Optional. The environment name of the backend, used to load environment variables from environment specific configuration. */
-  environment?: string | undefined;
-  /** Output only. Time at which the backend was last updated. */
-  updateTime?: string | undefined;
-  /** Required. Immutable. Specifies how App Hosting will serve the content for this backend. It will either be contained to a single region (REGIONAL_STRICT) or allowed to use App Hosting's global-replicated serving infrastructure (GLOBAL_ACCESS). */
-  servingLocality?: BackendServingLocalityEnum | undefined;
-  /** Optional. The [ID of a Web App](https://firebase.google.com/docs/reference/firebase-management/rest/v1beta1/projects.webApps#WebApp.FIELDS.app_id) associated with the backend. */
-  appId?: string | undefined;
-  /** Output only. Server-computed checksum based on other values; may be sent on update or delete to ensure operation is done on expected resource. */
-  etag?: string | undefined;
-  /** Required. The name of the service account used for Cloud Build and Cloud Run. Should have the role roles/firebaseapphosting.computeRunner or equivalent permissions. */
-  serviceAccount?: string | undefined;
-  /** Optional. Unstructured key value map that can be used to organize and categorize objects. */
-  labels?: StringMap | undefined;
-  /** Output only. A list of the resources managed by this backend. */
-  managedResources?: ManagedResourceList | undefined;
-  /** Output only. Time at which the backend was created. */
-  createTime?: string | undefined;
-  /** Output only. Time at which the backend was deleted. */
-  deleteTime?: string | undefined;
-}
 export interface GetProjectsLocationsBackendsBuildsRequest {
   /** Required. Name of the resource in the format: `projects/{project}/locations/{locationId}/backends/{backendId}/builds/{buildId}`. */
   name: string;
-}
-/** A single build for a backend, at a specific point codebase reference tag and point in time. Encapsulates several resources, including an Artifact Registry container image, a Cloud Build invocation that built the image, and the Cloud Run revision that uses that image. */
-export interface Build {
-  /** Output only. The state of the build. */
-  state?: BuildStateEnum | undefined;
-  /** Output only. The environment name of the backend when this build was created. */
-  environment?: string | undefined;
-  /** Optional. Unstructured key value map that can be used to organize and categorize objects. */
-  labels?: StringMap | undefined;
-  /** Output only. A list of all errors that occurred during an App Hosting build. */
-  errors?: Firebaseapphosting_ErrorList | undefined;
-  /** Output only. System-assigned, unique identifier. */
-  uid?: string | undefined;
-  /** Output only. The Artifact Registry [container image](https://cloud.google.com/artifact-registry/docs/reference/rest/v1/projects.locations.repositories.dockerImages) URI, used by the Cloud Run [`revision`](https://cloud.google.com/run/docs/reference/rest/v2/projects.locations.services.revisions) for this build. */
-  image?: string | undefined;
-  /** Identifier. The resource name of the build. Format: `projects/{project}/locations/{locationId}/backends/{backendId}/builds/{buildId}`. */
-  name?: string | undefined;
-  /** Optional. Additional configuration of the service. */
-  config?: Config | undefined;
-  /** Required. Immutable. The source for the build. */
-  source?: BuildSource | undefined;
-  /** Optional. Human-readable name. 63 character limit. */
-  displayName?: string | undefined;
-  /** Output only. A field that, if true, indicates that the build has an ongoing LRO. */
-  reconciling?: boolean | undefined;
-  /** Output only. The location of the [Cloud Build logs](https://cloud.google.com/build/docs/view-build-results) for the build process. */
-  buildLogsUri?: string | undefined;
-  /** Output only. Time at which the build was created. */
-  createTime?: string | undefined;
-  /** Output only. Time at which the build was deleted. */
-  deleteTime?: string | undefined;
-  /** Optional. Unstructured key value map that may be set by external tools to store and arbitrary metadata. They are not queryable and should be preserved when modifying objects. */
-  annotations?: StringMap | undefined;
-  /** Output only. Server-computed checksum based on other values; may be sent on update or delete to ensure operation is done on expected resource. */
-  etag?: string | undefined;
-  /** Output only. Time at which the build was last updated. */
-  updateTime?: string | undefined;
 }
 export interface GetProjectsLocationsBackendsDomainsRequest {
   /** Required. Name of the resource in the format: `projects/{project}/locations/{locationId}/backends/{backendId}/domains/{domainId}`. */
   name: string;
 }
-/** A domain name that is associated with a backend. */
-export interface Domain {
-  /** Output only. System-assigned, unique identifier. */
-  uid?: string | undefined;
-  /** Output only. Time at which the domain was created. */
-  createTime?: string | undefined;
-  /** Output only. Time at which the domain was deleted. */
-  deleteTime?: string | undefined;
-  /** Output only. Represents the state and configuration of a `CUSTOM` type domain. It is only present on Domains of that type. */
-  customDomainStatus?: CustomDomainStatus | undefined;
-  /** Identifier. The resource name of the domain, e.g. `/projects/p/locations/l/backends/b/domains/foo.com` */
-  name?: string | undefined;
-  /** Output only. Time at which the domain was last updated. */
-  updateTime?: string | undefined;
-  /** Optional. Labels as key value pairs. */
-  labels?: StringMap | undefined;
-  /** Output only. Server-computed checksum based on other values; may be sent on update or delete to ensure operation is done on expected resource. */
-  etag?: string | undefined;
-  /** Optional. The serving behavior of the domain. If specified, the domain will serve content other than its backend's live content. */
-  serve?: ServingBehavior | undefined;
-  /** Optional. Whether the domain is disabled. Defaults to false. */
-  disabled?: boolean | undefined;
-  /** Optional. Annotations as key value pairs. */
-  annotations?: StringMap | undefined;
-  /** Output only. The type of the domain. */
-  type?: DomainTypeEnum | undefined;
-  /** Optional. Mutable human-readable name for the domain. 63 character limit. e.g. `prod domain`. */
-  displayName?: string | undefined;
-  /** Output only. A field that, if true, indicates that the build has an ongoing LRO. */
-  reconciling?: boolean | undefined;
-}
 export interface GetProjectsLocationsBackendsRolloutsRequest {
   /** Required. Name of the resource in the format: `projects/{project}/locations/{locationId}/backends/{backendId}/rollouts/{rolloutId}`. */
   name: string;
-}
-/** A single rollout of a build for a backend. */
-export interface Rollout {
-  /** Output only. Time at which the rollout was last updated. */
-  updateTime?: string | undefined;
-  /** Output only. System-assigned, unique identifier. */
-  uid?: string | undefined;
-  /** Optional. Unstructured key value map that can be used to organize and categorize objects. */
-  labels?: StringMap | undefined;
-  /** Output only. Server-computed checksum based on other values; may be sent on update or delete to ensure operation is done on expected resource. */
-  etag?: string | undefined;
-  /** Required. Immutable. The name of a build that already exists. It doesn't have to be built; a rollout will wait for a build to be ready before updating traffic. */
-  build?: string | undefined;
-  /** Output only. Time at which the rollout was created. */
-  createTime?: string | undefined;
-  /** Output only. Time at which the rollout was deleted. */
-  deleteTime?: string | undefined;
-  /** Output only. A status and (human readable) error message for the rollout, if in a `FAILED` state. */
-  error?: Status | undefined;
-  /** Identifier. The resource name of the rollout. Format: `projects/{project}/locations/{locationId}/backends/{backendId}/rollouts/{rolloutId}`. */
-  name?: string | undefined;
-  /** Optional. Human-readable name. 63 character limit. */
-  displayName?: string | undefined;
-  /** Output only. A field that, if true, indicates that the Rollout currently has an LRO. */
-  reconciling?: boolean | undefined;
-  /** Output only. The state of the rollout. */
-  state?: RolloutStateEnum | undefined;
-  /** Optional. Unstructured key value map that may be set by external tools to store and arbitrary metadata. They are not queryable and should be preserved when modifying objects. */
-  annotations?: StringMap | undefined;
 }
 export interface GetProjectsLocationsBackendsTrafficRequest {
   /** Required. Name of the resource in the format: `projects/{project}/locations/{locationId}/backends/{backendId}/traffic`. */
@@ -967,7 +841,7 @@ export interface ListOperationsResponse {
   /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
   unreachable?: StringList | undefined;
 }
-export interface PatchProjectsLocationsBackendsRequest {
+export interface PatchProjectsLocationsBackendsRequest extends Omit<Backend, "name"> {
   /** Optional. Field mask is used to specify the fields to be overwritten in the backend resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
   /** Optional. If set to true, and the backend is not found, a new backend will be created. */
@@ -978,44 +852,8 @@ export interface PatchProjectsLocationsBackendsRequest {
   requestId?: string | undefined;
   /** Identifier. The resource name of the backend. Format: `projects/{project}/locations/{locationId}/backends/{backendId}`. */
   name: string;
-  /** Optional. Human-readable name. 63 character limit. */
-  displayName?: string | undefined;
-  /** Output only. A field that, if true, indicates that the system is working to make adjustments to the backend during a LRO. */
-  reconciling?: boolean | undefined;
-  /** Optional. Unstructured key value map that may be set by external tools to store and arbitrary metadata. They are not queryable and should be preserved when modifying objects. */
-  annotations?: StringMap | undefined;
-  /** Output only. System-assigned, unique identifier. */
-  uid?: string | undefined;
-  /** Optional. If specified, the connection to an external source repository to watch for event-driven updates to the backend. */
-  codebase?: Codebase | undefined;
-  /** Optional. Deprecated: Use `environment` instead. */
-  mode?: string | undefined;
-  /** Optional. A field that, if true, indicates that incoming request logs are disabled for this backend. Incoming request logs are enabled by default. */
-  requestLogsDisabled?: boolean | undefined;
-  /** Output only. The primary URI to communicate with the backend. */
-  uri?: string | undefined;
-  /** Optional. The environment name of the backend, used to load environment variables from environment specific configuration. */
-  environment?: string | undefined;
-  /** Output only. Time at which the backend was last updated. */
-  updateTime?: string | undefined;
-  /** Required. Immutable. Specifies how App Hosting will serve the content for this backend. It will either be contained to a single region (REGIONAL_STRICT) or allowed to use App Hosting's global-replicated serving infrastructure (GLOBAL_ACCESS). */
-  servingLocality?: BackendServingLocalityEnum | (string & {}) | undefined;
-  /** Optional. The [ID of a Web App](https://firebase.google.com/docs/reference/firebase-management/rest/v1beta1/projects.webApps#WebApp.FIELDS.app_id) associated with the backend. */
-  appId?: string | undefined;
-  /** Output only. Server-computed checksum based on other values; may be sent on update or delete to ensure operation is done on expected resource. */
-  etag?: string | undefined;
-  /** Required. The name of the service account used for Cloud Build and Cloud Run. Should have the role roles/firebaseapphosting.computeRunner or equivalent permissions. */
-  serviceAccount?: string | undefined;
-  /** Optional. Unstructured key value map that can be used to organize and categorize objects. */
-  labels?: StringMap | undefined;
-  /** Output only. A list of the resources managed by this backend. */
-  managedResources?: ManagedResourceList | undefined;
-  /** Output only. Time at which the backend was created. */
-  createTime?: string | undefined;
-  /** Output only. Time at which the backend was deleted. */
-  deleteTime?: string | undefined;
 }
-export interface PatchProjectsLocationsBackendsDomainsRequest {
+export interface PatchProjectsLocationsBackendsDomainsRequest extends Omit<Domain, "name"> {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Optional. If set to true, and the domain is not found, a new domain will be created. */
@@ -1026,34 +864,8 @@ export interface PatchProjectsLocationsBackendsDomainsRequest {
   validateOnly?: boolean | undefined;
   /** Optional. Field mask is used to specify the fields to be overwritten in the Domain resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
-  /** Output only. System-assigned, unique identifier. */
-  uid?: string | undefined;
-  /** Output only. Time at which the domain was created. */
-  createTime?: string | undefined;
-  /** Output only. Time at which the domain was deleted. */
-  deleteTime?: string | undefined;
-  /** Output only. Represents the state and configuration of a `CUSTOM` type domain. It is only present on Domains of that type. */
-  customDomainStatus?: CustomDomainStatus | undefined;
-  /** Output only. Time at which the domain was last updated. */
-  updateTime?: string | undefined;
-  /** Optional. Labels as key value pairs. */
-  labels?: StringMap | undefined;
-  /** Output only. Server-computed checksum based on other values; may be sent on update or delete to ensure operation is done on expected resource. */
-  etag?: string | undefined;
-  /** Optional. The serving behavior of the domain. If specified, the domain will serve content other than its backend's live content. */
-  serve?: ServingBehavior | undefined;
-  /** Optional. Whether the domain is disabled. Defaults to false. */
-  disabled?: boolean | undefined;
-  /** Optional. Annotations as key value pairs. */
-  annotations?: StringMap | undefined;
-  /** Output only. The type of the domain. */
-  type?: DomainTypeEnum | (string & {}) | undefined;
-  /** Optional. Mutable human-readable name for the domain. 63 character limit. e.g. `prod domain`. */
-  displayName?: string | undefined;
-  /** Output only. A field that, if true, indicates that the build has an ongoing LRO. */
-  reconciling?: boolean | undefined;
 }
-export interface PatchProjectsLocationsBackendsTrafficRequest {
+export interface PatchProjectsLocationsBackendsTrafficRequest extends Omit<Traffic, "name"> {
   /** Optional. Indicates that the request should be validated, without persisting the request or updating any resources. */
   validateOnly?: boolean | undefined;
   /** Identifier. The resource name of the backend's traffic. Format: `projects/{project}/locations/{locationId}/backends/{backendId}/traffic`. */
@@ -1062,26 +874,6 @@ export interface PatchProjectsLocationsBackendsTrafficRequest {
   requestId?: string | undefined;
   /** Optional. Field mask is used to specify the fields to be overwritten in the traffic resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
-  /** Output only. Current state of traffic allocation for the backend. When setting `target`, this field may differ for some time until the desired state is reached. */
-  current?: TrafficSet | undefined;
-  /** Output only. Time at which the backend was last updated. */
-  updateTime?: string | undefined;
-  /** Output only. Server-computed checksum based on other values; may be sent on update or delete to ensure operation is done on expected resource. */
-  etag?: string | undefined;
-  /** Set to manually control the desired traffic for the backend. This will cause `current` to eventually match this value. The percentages must add up to 100%. */
-  target?: TrafficSet | undefined;
-  /** Optional. Unstructured key value map that can be used to organize and categorize objects. */
-  labels?: StringMap | undefined;
-  /** Optional. Unstructured key value map that may be set by external tools to store and arbitrary metadata. They are not queryable and should be preserved when modifying objects. */
-  annotations?: StringMap | undefined;
-  /** Output only. System-assigned, unique identifier. */
-  uid?: string | undefined;
-  /** A rollout policy specifies how new builds and automatic deployments are created. */
-  rolloutPolicy?: RolloutPolicy | undefined;
-  /** Output only. A field that, if true, indicates that the system is working to make the backend's `current` match the requested `target` list. */
-  reconciling?: boolean | undefined;
-  /** Output only. Time at which the backend was created. */
-  createTime?: string | undefined;
 }
 export type CancelProjectsLocationsOperationsError =
   | NotFound
@@ -1096,8 +888,8 @@ export const cancelProjectsLocationsOperations: API.OperationMethod<
   CancelProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c26, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
-  output: __S(432, __c27, 0) as any as S.Schema<Empty>,
+  input: __S(352, __c22, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
+  output: __S(368, __c23, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1118,8 +910,8 @@ export const createProjectsLocationsBackends: API.OperationMethod<
   CreateProjectsLocationsBackendsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c28, 0) as any as S.Schema<CreateProjectsLocationsBackendsRequest>,
-  output: __S(528, __c33, 0) as any as S.Schema<Operation>,
+  input: __S(384, __c24, 0) as any as S.Schema<CreateProjectsLocationsBackendsRequest>,
+  output: __S(464, __c29, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1140,8 +932,8 @@ export const createProjectsLocationsBackendsBuilds: API.OperationMethod<
   CreateProjectsLocationsBackendsBuildsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c34, 0) as any as S.Schema<CreateProjectsLocationsBackendsBuildsRequest>,
-  output: __S(528, __c33, 0) as any as S.Schema<Operation>,
+  input: __S(480, __c30, 0) as any as S.Schema<CreateProjectsLocationsBackendsBuildsRequest>,
+  output: __S(464, __c29, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1162,8 +954,8 @@ export const createProjectsLocationsBackendsDomains: API.OperationMethod<
   CreateProjectsLocationsBackendsDomainsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(592, __c37, 0) as any as S.Schema<CreateProjectsLocationsBackendsDomainsRequest>,
-  output: __S(528, __c33, 0) as any as S.Schema<Operation>,
+  input: __S(528, __c33, 0) as any as S.Schema<CreateProjectsLocationsBackendsDomainsRequest>,
+  output: __S(464, __c29, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1184,8 +976,8 @@ export const createProjectsLocationsBackendsRollouts: API.OperationMethod<
   CreateProjectsLocationsBackendsRolloutsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(624, __c39, 0) as any as S.Schema<CreateProjectsLocationsBackendsRolloutsRequest>,
-  output: __S(528, __c33, 0) as any as S.Schema<Operation>,
+  input: __S(560, __c35, 0) as any as S.Schema<CreateProjectsLocationsBackendsRolloutsRequest>,
+  output: __S(464, __c29, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1206,8 +998,8 @@ export const deleteProjectsLocationsBackends: API.OperationMethod<
   DeleteProjectsLocationsBackendsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c40, 0) as any as S.Schema<DeleteProjectsLocationsBackendsRequest>,
-  output: __S(528, __c33, 0) as any as S.Schema<Operation>,
+  input: __S(592, __c37, 0) as any as S.Schema<DeleteProjectsLocationsBackendsRequest>,
+  output: __S(464, __c29, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1229,7 +1021,7 @@ export const deleteProjectsLocationsBackendsBuilds: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<DeleteProjectsLocationsBackendsBuildsRequest>,
-  output: __S(528, __c33, 0) as any as S.Schema<Operation>,
+  output: __S(464, __c29, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1251,7 +1043,7 @@ export const deleteProjectsLocationsBackendsDomains: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c1, 0) as any as S.Schema<DeleteProjectsLocationsBackendsDomainsRequest>,
-  output: __S(528, __c33, 0) as any as S.Schema<Operation>,
+  output: __S(464, __c29, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1273,7 +1065,7 @@ export const deleteProjectsLocationsOperations: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c2, 0) as any as S.Schema<DeleteProjectsLocationsOperationsRequest>,
-  output: __S(432, __c27, 0) as any as S.Schema<Empty>,
+  output: __S(368, __c23, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1307,7 +1099,7 @@ export const getProjectsLocationsBackends: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c5, 0) as any as S.Schema<GetProjectsLocationsBackendsRequest>,
-  output: __S(96, __c6, 0) as any as S.Schema<Backend>,
+  output: __S(404, __c25, 4) as any as S.Schema<Backend>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1323,8 +1115,8 @@ export const getProjectsLocationsBackendsBuilds: API.OperationMethod<
   GetProjectsLocationsBackendsBuildsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c7, 0) as any as S.Schema<GetProjectsLocationsBackendsBuildsRequest>,
-  output: __S(128, __c8, 0) as any as S.Schema<Build>,
+  input: __S(96, __c6, 0) as any as S.Schema<GetProjectsLocationsBackendsBuildsRequest>,
+  output: __S(508, __c31, 12) as any as S.Schema<Build>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1340,8 +1132,8 @@ export const getProjectsLocationsBackendsDomains: API.OperationMethod<
   GetProjectsLocationsBackendsDomainsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c9, 0) as any as S.Schema<GetProjectsLocationsBackendsDomainsRequest>,
-  output: __S(160, __c10, 0) as any as S.Schema<Domain>,
+  input: __S(112, __c7, 0) as any as S.Schema<GetProjectsLocationsBackendsDomainsRequest>,
+  output: __S(554, __c34, 10) as any as S.Schema<Domain>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1357,8 +1149,8 @@ export const getProjectsLocationsBackendsRollouts: API.OperationMethod<
   GetProjectsLocationsBackendsRolloutsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c11, 0) as any as S.Schema<GetProjectsLocationsBackendsRolloutsRequest>,
-  output: __S(192, __c12, 0) as any as S.Schema<Rollout>,
+  input: __S(128, __c8, 0) as any as S.Schema<GetProjectsLocationsBackendsRolloutsRequest>,
+  output: __S(576, __c36, 0) as any as S.Schema<Rollout>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1374,8 +1166,8 @@ export const getProjectsLocationsBackendsTraffic: API.OperationMethod<
   GetProjectsLocationsBackendsTrafficError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c13, 0) as any as S.Schema<GetProjectsLocationsBackendsTrafficRequest>,
-  output: __S(209, __c13, 1) as any as S.Schema<Traffic>,
+  input: __S(144, __c9, 0) as any as S.Schema<GetProjectsLocationsBackendsTrafficRequest>,
+  output: __S(166, __c10, 6) as any as S.Schema<Traffic>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1391,8 +1183,8 @@ export const getProjectsLocationsOperations: API.OperationMethod<
   GetProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c15, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
-  output: __S(528, __c33, 0) as any as S.Schema<Operation>,
+  input: __S(176, __c11, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
+  output: __S(464, __c29, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1409,8 +1201,8 @@ export const listProjectsLocations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListLocationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(256, __c16, 0) as any as S.Schema<ListProjectsLocationsRequest>,
-  output: __S(258, __c16, 2) as any as S.Schema<ListLocationsResponse>,
+  input: __S(192, __c12, 0) as any as S.Schema<ListProjectsLocationsRequest>,
+  output: __S(194, __c12, 2) as any as S.Schema<ListLocationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1428,8 +1220,8 @@ export const listProjectsLocationsBackends: API.PaginatedOperationMethod<
   GcpOpContext,
   ListBackendsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(288, __c18, 0) as any as S.Schema<ListProjectsLocationsBackendsRequest>,
-  output: __S(290, __c18, 2) as any as S.Schema<ListBackendsResponse>,
+  input: __S(224, __c14, 0) as any as S.Schema<ListProjectsLocationsBackendsRequest>,
+  output: __S(226, __c14, 2) as any as S.Schema<ListBackendsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1447,8 +1239,8 @@ export const listProjectsLocationsBackendsBuilds: API.PaginatedOperationMethod<
   GcpOpContext,
   ListBuildsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(304, __c19, 0) as any as S.Schema<ListProjectsLocationsBackendsBuildsRequest>,
-  output: __S(306, __c19, 2) as any as S.Schema<ListBuildsResponse>,
+  input: __S(240, __c15, 0) as any as S.Schema<ListProjectsLocationsBackendsBuildsRequest>,
+  output: __S(242, __c15, 2) as any as S.Schema<ListBuildsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1466,8 +1258,8 @@ export const listProjectsLocationsBackendsDomains: API.PaginatedOperationMethod<
   GcpOpContext,
   ListDomainsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(320, __c20, 0) as any as S.Schema<ListProjectsLocationsBackendsDomainsRequest>,
-  output: __S(322, __c20, 2) as any as S.Schema<ListDomainsResponse>,
+  input: __S(256, __c16, 0) as any as S.Schema<ListProjectsLocationsBackendsDomainsRequest>,
+  output: __S(258, __c16, 2) as any as S.Schema<ListDomainsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1485,8 +1277,8 @@ export const listProjectsLocationsBackendsRollouts: API.PaginatedOperationMethod
   GcpOpContext,
   ListRolloutsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(336, __c21, 0) as any as S.Schema<ListProjectsLocationsBackendsRolloutsRequest>,
-  output: __S(338, __c21, 2) as any as S.Schema<ListRolloutsResponse>,
+  input: __S(272, __c17, 0) as any as S.Schema<ListProjectsLocationsBackendsRolloutsRequest>,
+  output: __S(274, __c17, 2) as any as S.Schema<ListRolloutsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1504,8 +1296,8 @@ export const listProjectsLocationsOperations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListOperationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(352, __c22, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
-  output: __S(354, __c22, 2) as any as S.Schema<ListOperationsResponse>,
+  input: __S(288, __c18, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
+  output: __S(290, __c18, 2) as any as S.Schema<ListOperationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1527,8 +1319,8 @@ export const patchProjectsLocationsBackends: API.OperationMethod<
   PatchProjectsLocationsBackendsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(368, __c23, 0) as any as S.Schema<PatchProjectsLocationsBackendsRequest>,
-  output: __S(528, __c33, 0) as any as S.Schema<Operation>,
+  input: __S(304, __c19, 0) as any as S.Schema<PatchProjectsLocationsBackendsRequest>,
+  output: __S(464, __c29, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1549,8 +1341,8 @@ export const patchProjectsLocationsBackendsDomains: API.OperationMethod<
   PatchProjectsLocationsBackendsDomainsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c24, 0) as any as S.Schema<PatchProjectsLocationsBackendsDomainsRequest>,
-  output: __S(528, __c33, 0) as any as S.Schema<Operation>,
+  input: __S(320, __c20, 0) as any as S.Schema<PatchProjectsLocationsBackendsDomainsRequest>,
+  output: __S(464, __c29, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1571,8 +1363,8 @@ export const patchProjectsLocationsBackendsTraffic: API.OperationMethod<
   PatchProjectsLocationsBackendsTrafficError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(400, __c25, 0) as any as S.Schema<PatchProjectsLocationsBackendsTrafficRequest>,
-  output: __S(528, __c33, 0) as any as S.Schema<Operation>,
+  input: __S(336, __c21, 0) as any as S.Schema<PatchProjectsLocationsBackendsTrafficRequest>,
+  output: __S(464, __c29, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1657,10 +1449,10 @@ function __c4(j: number): any {
       return S.suspend(() =>
         S.Struct({
           displayName: S.optional(S.String),
-          labels: S.optional(__S(480, __c30, 0)),
+          labels: S.optional(__S(416, __c26, 0)),
           name: S.optional(S.String),
           locationId: S.optional(S.String),
-          metadata: S.optional(__S(496, __c31, 0)),
+          metadata: S.optional(__S(432, __c27, 0)),
         }),
       ).annotate({ identifier: "Location" });
   }
@@ -1686,27 +1478,15 @@ function __c6(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          displayName: S.optional(S.String),
-          reconciling: S.optional(S.Boolean),
-          annotations: S.optional(__S(480, __c30, 0)),
-          uid: S.optional(S.String),
-          codebase: S.optional(__S(464, __c29, 0)),
-          mode: S.optional(S.String),
-          name: S.optional(S.String),
-          requestLogsDisabled: S.optional(S.Boolean),
-          uri: S.optional(S.String),
-          environment: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          servingLocality: S.optional(S.String),
-          appId: S.optional(S.String),
-          etag: S.optional(S.String),
-          serviceAccount: S.optional(S.String),
-          labels: S.optional(__S(480, __c30, 0)),
-          managedResources: S.optional(__S(467, __c29, 3)),
-          createTime: S.optional(S.String),
-          deleteTime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Backend" });
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1/{+name}",
+            baseUrl: "https://firebaseapphosting.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "GetProjectsLocationsBackendsBuildsRequest" });
   }
 }
 function __c7(j: number): any {
@@ -1722,75 +1502,10 @@ function __c7(j: number): any {
             baseUrl: "https://firebaseapphosting.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsBackendsBuildsRequest" });
-  }
-}
-function __c8(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          state: S.optional(S.String),
-          environment: S.optional(S.String),
-          labels: S.optional(__S(480, __c30, 0)),
-          errors: S.optional(__S(561, __c35, 1)),
-          uid: S.optional(S.String),
-          image: S.optional(S.String),
-          name: S.optional(S.String),
-          config: S.optional(__S(565, __c35, 5)),
-          source: S.optional(__S(571, __c35, 11)),
-          displayName: S.optional(S.String),
-          reconciling: S.optional(S.Boolean),
-          buildLogsUri: S.optional(S.String),
-          createTime: S.optional(S.String),
-          deleteTime: S.optional(S.String),
-          annotations: S.optional(__S(480, __c30, 0)),
-          etag: S.optional(S.String),
-          updateTime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Build" });
-  }
-}
-function __c9(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v1/{+name}",
-            baseUrl: "https://firebaseapphosting.googleapis.com/",
-          }),
-        ),
       ).annotate({ identifier: "GetProjectsLocationsBackendsDomainsRequest" });
   }
 }
-function __c10(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uid: S.optional(S.String),
-          createTime: S.optional(S.String),
-          deleteTime: S.optional(S.String),
-          customDomainStatus: S.optional(__S(615, __c38, 7)),
-          name: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          labels: S.optional(__S(480, __c30, 0)),
-          etag: S.optional(S.String),
-          serve: S.optional(__S(617, __c38, 9)),
-          disabled: S.optional(S.Boolean),
-          annotations: S.optional(__S(480, __c30, 0)),
-          type: S.optional(S.String),
-          displayName: S.optional(S.String),
-          reconciling: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "Domain" });
-  }
-}
-function __c11(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1806,29 +1521,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsBackendsRolloutsRequest" });
   }
 }
-function __c12(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          updateTime: S.optional(S.String),
-          uid: S.optional(S.String),
-          labels: S.optional(__S(480, __c30, 0)),
-          etag: S.optional(S.String),
-          build: S.optional(S.String),
-          createTime: S.optional(S.String),
-          deleteTime: S.optional(S.String),
-          error: S.optional(__S(513, __c32, 1)),
-          name: S.optional(S.String),
-          displayName: S.optional(S.String),
-          reconciling: S.optional(S.Boolean),
-          state: S.optional(S.String),
-          annotations: S.optional(__S(480, __c30, 0)),
-        }),
-      ).annotate({ identifier: "Rollout" });
-  }
-}
-function __c13(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1842,25 +1535,9 @@ function __c13(j: number): any {
           }),
         ),
       ).annotate({ identifier: "GetProjectsLocationsBackendsTrafficRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          current: S.optional(__S(226, __c14, 2)),
-          name: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          etag: S.optional(S.String),
-          target: S.optional(__S(226, __c14, 2)),
-          labels: S.optional(__S(480, __c30, 0)),
-          annotations: S.optional(__S(480, __c30, 0)),
-          uid: S.optional(S.String),
-          rolloutPolicy: S.optional(__S(229, __c14, 5)),
-          reconciling: S.optional(S.Boolean),
-          createTime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Traffic" });
   }
 }
-function __c14(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1870,11 +1547,11 @@ function __c14(j: number): any {
         }),
       ).annotate({ identifier: "TrafficSplit" });
     case 1:
-      return S.Array(__S(224, __c14, 0));
+      return S.Array(__S(160, __c10, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          splits: S.optional(__S(225, __c14, 1)),
+          splits: S.optional(__S(161, __c10, 1)),
         }),
       ).annotate({ identifier: "TrafficSet" });
     case 3:
@@ -1885,20 +1562,36 @@ function __c14(j: number): any {
         }),
       ).annotate({ identifier: "Path" });
     case 4:
-      return S.Array(__S(227, __c14, 3));
+      return S.Array(__S(163, __c10, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           disabled: S.optional(S.Boolean),
-          requiredPaths: S.optional(__S(228, __c14, 4)),
-          ignoredPaths: S.optional(__S(228, __c14, 4)),
+          requiredPaths: S.optional(__S(164, __c10, 4)),
+          ignoredPaths: S.optional(__S(164, __c10, 4)),
           codebaseBranch: S.optional(S.String),
           disabledTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "RolloutPolicy" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          current: S.optional(__S(162, __c10, 2)),
+          name: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          etag: S.optional(S.String),
+          target: S.optional(__S(162, __c10, 2)),
+          labels: S.optional(__S(416, __c26, 0)),
+          annotations: S.optional(__S(416, __c26, 0)),
+          uid: S.optional(S.String),
+          rolloutPolicy: S.optional(__S(165, __c10, 5)),
+          reconciling: S.optional(S.Boolean),
+          createTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Traffic" });
   }
 }
-function __c15(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1914,7 +1607,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsOperationsRequest" });
   }
 }
-function __c16(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1923,7 +1616,7 @@ function __c16(j: number): any {
           filter: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          extraLocationTypes: S.optional(__S(272, __c17, 0).pipe(T.Query())),
+          extraLocationTypes: S.optional(__S(208, __c13, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1937,19 +1630,19 @@ function __c16(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          locations: S.optional(__S(257, __c16, 1)),
+          locations: S.optional(__S(193, __c12, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListLocationsResponse" });
   }
 }
-function __c17(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c18(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1969,18 +1662,18 @@ function __c18(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsBackendsRequest" });
     case 1:
-      return S.Array(__S(96, __c6, 0));
+      return S.Array(__S(404, __c25, 4));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(272, __c17, 0)),
-          backends: S.optional(__S(289, __c18, 1)),
+          unreachable: S.optional(__S(208, __c13, 0)),
+          backends: S.optional(__S(225, __c14, 1)),
         }),
       ).annotate({ identifier: "ListBackendsResponse" });
   }
 }
-function __c19(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2000,18 +1693,18 @@ function __c19(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsBackendsBuildsRequest" });
     case 1:
-      return S.Array(__S(128, __c8, 0));
+      return S.Array(__S(508, __c31, 12));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          builds: S.optional(__S(305, __c19, 1)),
-          unreachable: S.optional(__S(272, __c17, 0)),
+          builds: S.optional(__S(241, __c15, 1)),
+          unreachable: S.optional(__S(208, __c13, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListBuildsResponse" });
   }
 }
-function __c20(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2031,18 +1724,18 @@ function __c20(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsBackendsDomainsRequest" });
     case 1:
-      return S.Array(__S(160, __c10, 0));
+      return S.Array(__S(554, __c34, 10));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          domains: S.optional(__S(321, __c20, 1)),
-          unreachable: S.optional(__S(272, __c17, 0)),
+          domains: S.optional(__S(257, __c16, 1)),
+          unreachable: S.optional(__S(208, __c13, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListDomainsResponse" });
   }
 }
-function __c21(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2062,18 +1755,18 @@ function __c21(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsBackendsRolloutsRequest" });
     case 1:
-      return S.Array(__S(192, __c12, 0));
+      return S.Array(__S(576, __c36, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          rollouts: S.optional(__S(337, __c21, 1)),
+          rollouts: S.optional(__S(273, __c17, 1)),
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(272, __c17, 0)),
+          unreachable: S.optional(__S(208, __c13, 0)),
         }),
       ).annotate({ identifier: "ListRolloutsResponse" });
   }
 }
-function __c22(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2092,46 +1785,31 @@ function __c22(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsOperationsRequest" });
     case 1:
-      return S.Array(__S(528, __c33, 0));
+      return S.Array(__S(464, __c29, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          operations: S.optional(__S(353, __c22, 1)),
-          unreachable: S.optional(__S(272, __c17, 0)),
+          operations: S.optional(__S(289, __c18, 1)),
+          unreachable: S.optional(__S(208, __c13, 0)),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
   }
 }
-function __c23(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          displayName: S.optional(S.String),
-          reconciling: S.optional(S.Boolean),
-          annotations: S.optional(__S(480, __c30, 0)),
-          uid: S.optional(S.String),
-          codebase: S.optional(__S(464, __c29, 0)),
-          mode: S.optional(S.String),
-          requestLogsDisabled: S.optional(S.Boolean),
-          uri: S.optional(S.String),
-          environment: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          servingLocality: S.optional(S.String),
-          appId: S.optional(S.String),
-          etag: S.optional(S.String),
-          serviceAccount: S.optional(S.String),
-          labels: S.optional(__S(480, __c30, 0)),
-          managedResources: S.optional(__S(467, __c29, 3)),
-          createTime: S.optional(S.String),
-          deleteTime: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(404, __c25, 4),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -2141,30 +1819,20 @@ function __c23(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsBackendsRequest" });
   }
 }
-function __c24(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          uid: S.optional(S.String),
-          createTime: S.optional(S.String),
-          deleteTime: S.optional(S.String),
-          customDomainStatus: S.optional(__S(615, __c38, 7)),
-          updateTime: S.optional(S.String),
-          labels: S.optional(__S(480, __c30, 0)),
-          etag: S.optional(S.String),
-          serve: S.optional(__S(617, __c38, 9)),
-          disabled: S.optional(S.Boolean),
-          annotations: S.optional(__S(480, __c30, 0)),
-          type: S.optional(S.String),
-          displayName: S.optional(S.String),
-          reconciling: S.optional(S.Boolean),
-        }).pipe(
+        S.Extend(
+          __S(554, __c34, 10),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -2174,26 +1842,19 @@ function __c24(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsBackendsDomainsRequest" });
   }
 }
-function __c25(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          current: S.optional(__S(226, __c14, 2)),
-          updateTime: S.optional(S.String),
-          etag: S.optional(S.String),
-          target: S.optional(__S(226, __c14, 2)),
-          labels: S.optional(__S(480, __c30, 0)),
-          annotations: S.optional(__S(480, __c30, 0)),
-          uid: S.optional(S.String),
-          rolloutPolicy: S.optional(__S(229, __c14, 5)),
-          reconciling: S.optional(S.Boolean),
-          createTime: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(166, __c10, 6),
+          S.Struct({
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -2203,13 +1864,13 @@ function __c25(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsBackendsTrafficRequest" });
   }
 }
-function __c26(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(432, __c27, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(368, __c23, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2220,41 +1881,25 @@ function __c26(j: number): any {
       ).annotate({ identifier: "CancelProjectsLocationsOperationsRequest" });
   }
 }
-function __c27(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "CancelOperationRequest" });
   }
 }
-function __c28(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          backendId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          displayName: S.optional(S.String),
-          reconciling: S.optional(S.Boolean),
-          annotations: S.optional(__S(480, __c30, 0)),
-          uid: S.optional(S.String),
-          codebase: S.optional(__S(464, __c29, 0)),
-          mode: S.optional(S.String),
-          name: S.optional(S.String),
-          requestLogsDisabled: S.optional(S.Boolean),
-          uri: S.optional(S.String),
-          environment: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          servingLocality: S.optional(S.String),
-          appId: S.optional(S.String),
-          etag: S.optional(S.String),
-          serviceAccount: S.optional(S.String),
-          labels: S.optional(__S(480, __c30, 0)),
-          managedResources: S.optional(__S(467, __c29, 3)),
-          createTime: S.optional(S.String),
-          deleteTime: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(404, __c25, 4),
+          S.Struct({
+            backendId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/backends",
@@ -2264,7 +1909,7 @@ function __c28(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsBackendsRequest" });
   }
 }
-function __c29(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2282,80 +1927,90 @@ function __c29(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          runService: S.optional(__S(465, __c29, 1)),
+          runService: S.optional(__S(401, __c25, 1)),
         }),
       ).annotate({ identifier: "ManagedResource" });
     case 3:
-      return S.Array(__S(466, __c29, 2));
+      return S.Array(__S(402, __c25, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          displayName: S.optional(S.String),
+          reconciling: S.optional(S.Boolean),
+          annotations: S.optional(__S(416, __c26, 0)),
+          uid: S.optional(S.String),
+          codebase: S.optional(__S(400, __c25, 0)),
+          mode: S.optional(S.String),
+          name: S.optional(S.String),
+          requestLogsDisabled: S.optional(S.Boolean),
+          uri: S.optional(S.String),
+          environment: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          servingLocality: S.optional(S.String),
+          appId: S.optional(S.String),
+          etag: S.optional(S.String),
+          serviceAccount: S.optional(S.String),
+          labels: S.optional(__S(416, __c26, 0)),
+          managedResources: S.optional(__S(403, __c25, 3)),
+          createTime: S.optional(S.String),
+          deleteTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Backend" });
   }
 }
-function __c30(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
   }
 }
-function __c31(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c32(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(496, __c31, 0));
+      return S.Array(__S(432, __c27, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          details: S.optional(__S(512, __c32, 0)),
+          details: S.optional(__S(448, __c28, 0)),
           message: S.optional(S.String),
           code: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Status" });
   }
 }
-function __c33(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          response: S.optional(__S(496, __c31, 0)),
-          error: S.optional(__S(513, __c32, 1)),
-          metadata: S.optional(__S(496, __c31, 0)),
+          response: S.optional(__S(432, __c27, 0)),
+          error: S.optional(__S(449, __c28, 1)),
+          metadata: S.optional(__S(432, __c27, 0)),
           done: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "Operation" });
   }
 }
-function __c34(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          buildId: S.optional(S.String.pipe(T.Query())),
-          state: S.optional(S.String),
-          environment: S.optional(S.String),
-          labels: S.optional(__S(480, __c30, 0)),
-          errors: S.optional(__S(561, __c35, 1)),
-          uid: S.optional(S.String),
-          image: S.optional(S.String),
-          name: S.optional(S.String),
-          config: S.optional(__S(565, __c35, 5)),
-          source: S.optional(__S(571, __c35, 11)),
-          displayName: S.optional(S.String),
-          reconciling: S.optional(S.Boolean),
-          buildLogsUri: S.optional(S.String),
-          createTime: S.optional(S.String),
-          deleteTime: S.optional(S.String),
-          annotations: S.optional(__S(480, __c30, 0)),
-          etag: S.optional(S.String),
-          updateTime: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(508, __c31, 12),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            buildId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/builds",
@@ -2365,18 +2020,18 @@ function __c34(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsBackendsBuildsRequest" });
   }
 }
-function __c35(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           errorSource: S.optional(S.String),
-          error: S.optional(__S(513, __c32, 1)),
+          error: S.optional(__S(449, __c28, 1)),
           cloudResource: S.optional(S.String),
         }),
       ).annotate({ identifier: "Firebaseapphosting_Error" });
     case 1:
-      return S.Array(__S(560, __c35, 0));
+      return S.Array(__S(496, __c31, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -2390,7 +2045,7 @@ function __c35(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          availability: S.optional(__S(576, __c36, 0)),
+          availability: S.optional(__S(512, __c32, 0)),
           origin: S.optional(S.String),
           variable: S.optional(S.String),
           secret: S.optional(S.String),
@@ -2399,13 +2054,13 @@ function __c35(j: number): any {
         }),
       ).annotate({ identifier: "EnvironmentVariable" });
     case 4:
-      return S.Array(__S(563, __c35, 3));
+      return S.Array(__S(499, __c31, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          runConfig: S.optional(__S(562, __c35, 2)),
-          env: S.optional(__S(564, __c35, 4)),
-          effectiveEnv: S.optional(__S(564, __c35, 4)),
+          runConfig: S.optional(__S(498, __c31, 2)),
+          env: S.optional(__S(500, __c31, 4)),
+          effectiveEnv: S.optional(__S(500, __c31, 4)),
         }),
       ).annotate({ identifier: "Config" });
     case 6:
@@ -2422,7 +2077,7 @@ function __c35(j: number): any {
           externalSignedUri: S.optional(S.String),
           userStorageUri: S.optional(S.String),
           rootDirectory: S.optional(S.String),
-          author: S.optional(__S(566, __c35, 6)),
+          author: S.optional(__S(502, __c31, 6)),
           description: S.optional(S.String),
         }),
       ).annotate({ identifier: "ArchiveSource" });
@@ -2448,7 +2103,7 @@ function __c35(j: number): any {
           uri: S.optional(S.String),
           branch: S.optional(S.String),
           commitMessage: S.optional(S.String),
-          author: S.optional(__S(569, __c35, 9)),
+          author: S.optional(__S(505, __c31, 9)),
           displayName: S.optional(S.String),
           hash: S.optional(S.String),
           commitTime: S.optional(S.String),
@@ -2457,43 +2112,54 @@ function __c35(j: number): any {
     case 11:
       return S.suspend(() =>
         S.Struct({
-          archive: S.optional(__S(567, __c35, 7)),
-          container: S.optional(__S(568, __c35, 8)),
-          codebase: S.optional(__S(570, __c35, 10)),
+          archive: S.optional(__S(503, __c31, 7)),
+          container: S.optional(__S(504, __c31, 8)),
+          codebase: S.optional(__S(506, __c31, 10)),
         }),
       ).annotate({ identifier: "BuildSource" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          state: S.optional(S.String),
+          environment: S.optional(S.String),
+          labels: S.optional(__S(416, __c26, 0)),
+          errors: S.optional(__S(497, __c31, 1)),
+          uid: S.optional(S.String),
+          image: S.optional(S.String),
+          name: S.optional(S.String),
+          config: S.optional(__S(501, __c31, 5)),
+          source: S.optional(__S(507, __c31, 11)),
+          displayName: S.optional(S.String),
+          reconciling: S.optional(S.Boolean),
+          buildLogsUri: S.optional(S.String),
+          createTime: S.optional(S.String),
+          deleteTime: S.optional(S.String),
+          annotations: S.optional(__S(416, __c26, 0)),
+          etag: S.optional(S.String),
+          updateTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Build" });
   }
 }
-function __c36(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c37(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          domainId: S.optional(S.String.pipe(T.Query())),
-          uid: S.optional(S.String),
-          createTime: S.optional(S.String),
-          deleteTime: S.optional(S.String),
-          customDomainStatus: S.optional(__S(615, __c38, 7)),
-          name: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          labels: S.optional(__S(480, __c30, 0)),
-          etag: S.optional(S.String),
-          serve: S.optional(__S(617, __c38, 9)),
-          disabled: S.optional(S.Boolean),
-          annotations: S.optional(__S(480, __c30, 0)),
-          type: S.optional(S.String),
-          displayName: S.optional(S.String),
-          reconciling: S.optional(S.Boolean),
-        }).pipe(
+        S.Extend(
+          __S(554, __c34, 10),
+          S.Struct({
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            domainId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/domains",
@@ -2503,7 +2169,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsBackendsDomainsRequest" });
   }
 }
-function __c38(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2511,42 +2177,42 @@ function __c38(j: number): any {
           type: S.optional(S.String),
           domainName: S.optional(S.String),
           rdata: S.optional(S.String),
-          relevantState: S.optional(__S(576, __c36, 0)),
+          relevantState: S.optional(__S(512, __c32, 0)),
           requiredAction: S.optional(S.String),
         }),
       ).annotate({ identifier: "DnsRecord" });
     case 1:
-      return S.Array(__S(608, __c38, 0));
+      return S.Array(__S(544, __c34, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          checkError: S.optional(__S(513, __c32, 1)),
-          records: S.optional(__S(609, __c38, 1)),
+          checkError: S.optional(__S(449, __c28, 1)),
+          records: S.optional(__S(545, __c34, 1)),
           domainName: S.optional(S.String),
         }),
       ).annotate({ identifier: "DnsRecordSet" });
     case 3:
-      return S.Array(__S(610, __c38, 2));
+      return S.Array(__S(546, __c34, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           domainName: S.optional(S.String),
-          discovered: S.optional(__S(611, __c38, 3)),
-          desired: S.optional(__S(611, __c38, 3)),
+          discovered: S.optional(__S(547, __c34, 3)),
+          desired: S.optional(__S(547, __c34, 3)),
           checkTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "DnsUpdates" });
     case 5:
-      return S.Array(__S(612, __c38, 4));
+      return S.Array(__S(548, __c34, 4));
     case 6:
-      return S.Array(__S(513, __c32, 1));
+      return S.Array(__S(449, __c28, 1));
     case 7:
       return S.suspend(() =>
         S.Struct({
           certState: S.optional(S.String),
           hostState: S.optional(S.String),
-          requiredDnsUpdates: S.optional(__S(613, __c38, 5)),
-          issues: S.optional(__S(614, __c38, 6)),
+          requiredDnsUpdates: S.optional(__S(549, __c34, 5)),
+          issues: S.optional(__S(550, __c34, 6)),
           ownershipState: S.optional(S.String),
         }),
       ).annotate({ identifier: "CustomDomainStatus" });
@@ -2560,34 +2226,43 @@ function __c38(j: number): any {
     case 9:
       return S.suspend(() =>
         S.Struct({
-          redirect: S.optional(__S(616, __c38, 8)),
+          redirect: S.optional(__S(552, __c34, 8)),
         }),
       ).annotate({ identifier: "ServingBehavior" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          uid: S.optional(S.String),
+          createTime: S.optional(S.String),
+          deleteTime: S.optional(S.String),
+          customDomainStatus: S.optional(__S(551, __c34, 7)),
+          name: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          labels: S.optional(__S(416, __c26, 0)),
+          etag: S.optional(S.String),
+          serve: S.optional(__S(553, __c34, 9)),
+          disabled: S.optional(S.Boolean),
+          annotations: S.optional(__S(416, __c26, 0)),
+          type: S.optional(S.String),
+          displayName: S.optional(S.String),
+          reconciling: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "Domain" });
   }
 }
-function __c39(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          rolloutId: S.optional(S.String.pipe(T.Query())),
-          updateTime: S.optional(S.String),
-          uid: S.optional(S.String),
-          labels: S.optional(__S(480, __c30, 0)),
-          etag: S.optional(S.String),
-          build: S.optional(S.String),
-          createTime: S.optional(S.String),
-          deleteTime: S.optional(S.String),
-          error: S.optional(__S(513, __c32, 1)),
-          name: S.optional(S.String),
-          displayName: S.optional(S.String),
-          reconciling: S.optional(S.Boolean),
-          state: S.optional(S.String),
-          annotations: S.optional(__S(480, __c30, 0)),
-        }).pipe(
+        S.Extend(
+          __S(576, __c36, 0),
+          S.Struct({
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            rolloutId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/rollouts",
@@ -2597,7 +2272,29 @@ function __c39(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsBackendsRolloutsRequest" });
   }
 }
-function __c40(j: number): any {
+function __c36(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          updateTime: S.optional(S.String),
+          uid: S.optional(S.String),
+          labels: S.optional(__S(416, __c26, 0)),
+          etag: S.optional(S.String),
+          build: S.optional(S.String),
+          createTime: S.optional(S.String),
+          deleteTime: S.optional(S.String),
+          error: S.optional(__S(449, __c28, 1)),
+          name: S.optional(S.String),
+          displayName: S.optional(S.String),
+          reconciling: S.optional(S.Boolean),
+          state: S.optional(S.String),
+          annotations: S.optional(__S(416, __c26, 0)),
+        }),
+      ).annotate({ identifier: "Rollout" });
+  }
+}
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

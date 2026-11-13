@@ -128,13 +128,8 @@ export interface DomainConfig {
   /** Immutable. Domain used by Workstations for HTTP ingress. */
   domain?: string | undefined;
 }
-export interface CreateProjectsLocationsWorkstationClustersRequest {
-  /** Optional. If set, validate the request and preview the result, but do not actually apply it. */
-  validateOnly?: boolean | undefined;
-  /** Required. ID to use for the workstation cluster. */
-  workstationClusterId?: string | undefined;
-  /** Required. Parent resource name. */
-  parent: string;
+/** A workstation cluster resource in the Cloud Workstations API. Defines a group of workstations in a particular region and the VPC network they're attached to. */
+export interface WorkstationCluster {
   /** Optional. Specifies the redirect URL for unauthorized requests received by workstation VMs in this cluster. Redirects to this endpoint will send a base64 encoded `state` query param containing the target workstation name and original request hostname. The endpoint is responsible for retrieving a token using `GenerateAccessToken` and redirecting back to the original hostname with the token. */
   workstationAuthorizationUrl?: string | undefined;
   /** Output only. Time when this workstation cluster was created. */
@@ -177,6 +172,14 @@ export interface CreateProjectsLocationsWorkstationClustersRequest {
   deleteTime?: string | undefined;
   /** Output only. Time when this workstation cluster was most recently updated. */
   updateTime?: string | undefined;
+}
+export interface CreateProjectsLocationsWorkstationClustersRequest extends WorkstationCluster {
+  /** Optional. If set, validate the request and preview the result, but do not actually apply it. */
+  validateOnly?: boolean | undefined;
+  /** Required. ID to use for the workstation cluster. */
+  workstationClusterId?: string | undefined;
+  /** Required. Parent resource name. */
+  parent: string;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
@@ -377,13 +380,8 @@ export interface Container {
   /** Optional. If set, overrides the USER specified in the image with the given uid. */
   runAsUser?: number | undefined;
 }
-export interface CreateProjectsLocationsWorkstationClustersWorkstationConfigsRequest {
-  /** Required. ID to use for the workstation configuration. */
-  workstationConfigId?: string | undefined;
-  /** Optional. If set, validate the request and preview the result, but do not actually apply it. */
-  validateOnly?: boolean | undefined;
-  /** Required. Parent resource name. */
-  parent: string;
+/** A workstation configuration resource in the Cloud Workstations API. Workstation configurations act as templates for workstations. The workstation configuration defines details such as the workstation virtual machine (VM) instance type, persistent storage, container image defining environment, which IDE or Code Editor to use, and more. Administrators and platform teams can also use [Identity and Access Management (IAM)](https://cloud.google.com/iam/docs/overview) rules to grant access to teams or to individual developers. */
+export interface WorkstationConfig {
   /** Output only. Time when this workstation configuration was most recently updated. */
   updateTime?: string | undefined;
   /** Optional. Human-readable name for this workstation configuration. */
@@ -439,6 +437,14 @@ export interface CreateProjectsLocationsWorkstationClustersWorkstationConfigsReq
   /** Optional. Disables support for plain TCP connections in the workstation. By default the service supports TCP connections through a websocket relay. Setting this option to true disables that relay, which prevents the usage of services that require plain TCP connections, such as SSH. When enabled, all communication must occur over HTTPS or WSS. */
   disableTcpConnections?: boolean | undefined;
 }
+export interface CreateProjectsLocationsWorkstationClustersWorkstationConfigsRequest extends WorkstationConfig {
+  /** Required. ID to use for the workstation configuration. */
+  workstationConfigId?: string | undefined;
+  /** Optional. If set, validate the request and preview the result, but do not actually apply it. */
+  validateOnly?: boolean | undefined;
+  /** Required. Parent resource name. */
+  parent: string;
+}
 /** The Compute Engine instance host. */
 export interface GceInstanceHost {
   /** Optional. Output only. The ID of the Compute Engine instance. */
@@ -469,13 +475,8 @@ export type WorkstationStateEnum =
   | "STATE_STOPPED"
   | "STATE_SUSPENDING"
   | "STATE_SUSPENDED";
-export interface CreateProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest {
-  /** Required. Parent resource name. */
-  parent: string;
-  /** Optional. If set, validate the request and preview the result, but do not actually apply it. */
-  validateOnly?: boolean | undefined;
-  /** Required. ID to use for the workstation. */
-  workstationId?: string | undefined;
+/** A single instance of a developer workstation with its own persistent storage. */
+export interface Workstation {
   /** Identifier. Full name of this workstation. */
   name?: string | undefined;
   /** Optional. Output only. Runtime host for the workstation when in STATE_RUNNING. */
@@ -513,6 +514,14 @@ export interface CreateProjectsLocationsWorkstationClustersWorkstationConfigsWor
   /** Output only. Time when this workstation was most recently updated. */
   updateTime?: string | undefined;
 }
+export interface CreateProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest extends Workstation {
+  /** Required. Parent resource name. */
+  parent: string;
+  /** Optional. If set, validate the request and preview the result, but do not actually apply it. */
+  validateOnly?: boolean | undefined;
+  /** Required. ID to use for the workstation. */
+  workstationId?: string | undefined;
+}
 export interface DeleteProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be deleted. */
   name: string;
@@ -545,15 +554,18 @@ export interface DeleteProjectsLocationsWorkstationClustersWorkstationConfigsWor
   /** Optional. If set, validate the request and preview the result, but do not actually apply it. */
   validateOnly?: boolean | undefined;
 }
-export interface GenerateAccessTokenProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest {
-  /** Required. Name of the workstation for which the access token should be generated. */
-  workstation: string;
+/** Request message for GenerateAccessToken. */
+export interface GenerateAccessTokenRequest {
   /** Desired lifetime duration of the access token. This value must be at most 24 hours. If a value is not specified, the token's lifetime will be set to a default value of 1 hour. */
   ttl?: string | undefined;
   /** Optional. Port for which the access token should be generated. If specified, the generated access token grants access only to the specified port of the workstation. If specified, values must be within the range [1 - 65535]. If not specified, the generated access token grants access to all ports of the workstation. */
   port?: number | undefined;
   /** Desired expiration time of the access token. This value must be at most 24 hours in the future. If a value is not specified, the token's expiration time will be set to a default value of 1 hour in the future. */
   expireTime?: string | undefined;
+}
+export interface GenerateAccessTokenProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest extends GenerateAccessTokenRequest {
+  /** Required. Name of the workstation for which the access token should be generated. */
+  workstation: string;
 }
 /** Response message for GenerateAccessToken. */
 export interface GenerateAccessTokenResponse {
@@ -652,154 +664,13 @@ export interface GetProjectsLocationsWorkstationClustersRequest {
   /** Required. Name of the requested resource. */
   name: string;
 }
-/** A workstation cluster resource in the Cloud Workstations API. Defines a group of workstations in a particular region and the VPC network they're attached to. */
-export interface WorkstationCluster {
-  /** Optional. Specifies the redirect URL for unauthorized requests received by workstation VMs in this cluster. Redirects to this endpoint will send a base64 encoded `state` query param containing the target workstation name and original request hostname. The endpoint is responsible for retrieving a token using `GenerateAccessToken` and redirecting back to the original hostname with the token. */
-  workstationAuthorizationUrl?: string | undefined;
-  /** Output only. Time when this workstation cluster was created. */
-  createTime?: string | undefined;
-  /** Immutable. Name of the Compute Engine subnetwork in which instances associated with this workstation cluster will be created. Must be part of the subnetwork specified for this workstation cluster. */
-  subnetwork?: string | undefined;
-  /** Optional. Input only. Immutable. Tag keys/values directly bound to this resource. For example: "123/environment": "production", "123/costCenter": "marketing" */
-  tags?: StringMap | undefined;
-  /** Optional. Configuration for private workstation cluster. */
-  privateClusterConfig?: PrivateClusterConfig | undefined;
-  /** Optional. Configuration options for Cluster HTTP Gateway. */
-  gatewayConfig?: GatewayConfig | undefined;
-  /** Identifier. Full name of this workstation cluster. */
-  name?: string | undefined;
-  /** Output only. Status conditions describing the workstation cluster's current state. */
-  conditions?: StatusList | undefined;
-  /** Optional. Configuration options for a custom domain. */
-  domainConfig?: DomainConfig | undefined;
-  /** Optional. Specifies the launch URL for workstations in this cluster. Requests sent to unstarted workstations will be redirected to this URL. Requests redirected to the launch endpoint will be sent with a `workstation` and `project` query parameter containing the full workstation resource name and project ID, respectively. The launch endpoint is responsible for starting the workstation, polling it until it reaches `STATE_RUNNING`, and then issuing a redirect to the workstation's host URL. */
-  workstationLaunchUrl?: string | undefined;
-  /** Output only. Whether this workstation cluster is in degraded mode, in which case it may require user action to restore full functionality. The conditions field contains detailed information about the status of the cluster. */
-  degraded?: boolean | undefined;
-  /** Output only. Indicates whether this workstation cluster is currently being updated to match its intended state. */
-  reconciling?: boolean | undefined;
-  /** Optional. Human-readable name for this workstation cluster. */
-  displayName?: string | undefined;
-  /** Optional. Client-specified annotations. */
-  annotations?: StringMap | undefined;
-  /** Immutable. Name of the Compute Engine network in which instances associated with this workstation cluster will be created. */
-  network?: string | undefined;
-  /** Output only. The private IP address of the control plane for this workstation cluster. Workstation VMs need access to this IP address to work with the service, so make sure that your firewall rules allow egress from the workstation VMs to this address. */
-  controlPlaneIp?: string | undefined;
-  /** Optional. Checksum computed by the server. May be sent on update and delete requests to make sure that the client has an up-to-date value before proceeding. */
-  etag?: string | undefined;
-  /** Optional. [Labels](https://cloud.google.com/workstations/docs/label-resources) that are applied to the workstation cluster and that are also propagated to the underlying Compute Engine resources. */
-  labels?: StringMap | undefined;
-  /** Output only. A system-assigned unique identifier for this workstation cluster. */
-  uid?: string | undefined;
-  /** Output only. Time when this workstation cluster was soft-deleted. */
-  deleteTime?: string | undefined;
-  /** Output only. Time when this workstation cluster was most recently updated. */
-  updateTime?: string | undefined;
-}
 export interface GetProjectsLocationsWorkstationClustersWorkstationConfigsRequest {
   /** Required. Name of the requested resource. */
   name: string;
 }
-/** A workstation configuration resource in the Cloud Workstations API. Workstation configurations act as templates for workstations. The workstation configuration defines details such as the workstation virtual machine (VM) instance type, persistent storage, container image defining environment, which IDE or Code Editor to use, and more. Administrators and platform teams can also use [Identity and Access Management (IAM)](https://cloud.google.com/iam/docs/overview) rules to grant access to teams or to individual developers. */
-export interface WorkstationConfig {
-  /** Output only. Time when this workstation configuration was most recently updated. */
-  updateTime?: string | undefined;
-  /** Optional. Human-readable name for this workstation configuration. */
-  displayName?: string | undefined;
-  /** Optional. Readiness checks to perform when starting a workstation using this workstation configuration. Mark a workstation as running only after all specified readiness checks return 200 status codes. */
-  readinessChecks?: ReadinessCheckList | undefined;
-  /** Optional. [Labels](https://cloud.google.com/workstations/docs/label-resources) that are applied to the workstation configuration and that are also propagated to the underlying Compute Engine resources. */
-  labels?: StringMap | undefined;
-  /** Optional. Immutable. Specifies the zones used to replicate the VM and disk resources within the region. If set, exactly two zones within the workstation cluster's region must be specified--for example, `['us-central1-a', 'us-central1-f']`. If this field is empty, two default zones within the region are used. Immutable after the workstation configuration is created. */
-  replicaZones?: StringList | undefined;
-  /** Optional. Maximum number of workstations under this configuration a user can have `workstations.workstation.use` permission on. Only enforced on CreateWorkstation API calls on the user issuing the API request. Can be overridden by: - granting a user workstations.workstationConfigs.exemptMaxUsableWorkstationLimit permission, or - having a user with that permission create a workstation and granting another user `workstations.workstation.use` permission on that workstation. If not specified, defaults to `0`, which indicates unlimited. */
-  maxUsableWorkstations?: number | undefined;
-  /** Optional. Grant creator of a workstation `roles/workstations.policyAdmin` role along with `roles/workstations.user` role on the workstation created by them. This allows workstation users to share access to either their entire workstation, or individual ports. Defaults to false. */
-  grantWorkstationAdminRoleOnCreate?: boolean | undefined;
-  /** Optional. A list of PortRanges specifying single ports or ranges of ports that are externally accessible in the workstation. Allowed ports must be one of 22, 80, or within range 1024-65535. If not specified defaults to ports 22, 80, and ports 1024-65535. */
-  allowedPorts?: PortRangeList | undefined;
-  /** Optional. Whether to enable Linux `auditd` logging on the workstation. When enabled, a service_account must also be specified that has `roles/logging.logWriter` and `roles/monitoring.metricWriter` on the project. Operating system audit logging is distinct from [Cloud Audit Logs](https://cloud.google.com/workstations/docs/audit-logging) and [Container output logging](https://cloud.google.com/workstations/docs/container-output-logging#overview). Operating system audit logs are available in the [Cloud Logging](https://cloud.google.com/logging/docs) console by querying: resource.type="gce_instance" log_name:"/logs/linux-auditd" */
-  enableAuditAgent?: boolean | undefined;
-  /** Output only. A system-assigned unique identifier for this workstation configuration. */
-  uid?: string | undefined;
-  /** Output only. Status conditions describing the workstation configuration's current state. */
-  conditions?: StatusList | undefined;
-  /** Optional. Number of seconds to wait before automatically stopping or suspending a workstation after it last received user traffic. See idle_action to configure whether to stop or suspend idle workstations. A value of `"0s"` indicates that Cloud Workstations VMs created with this configuration should never time out due to idleness. Provide [duration](https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration) terminated by `s` for seconds--for example, `"7200s"` (2 hours). The default is `"1200s"` (20 minutes). */
-  idleTimeout?: string | undefined;
-  /** Optional. The action to take when the workstation has been idle for the duration specified in idle_timeout. Defaults to STOP. */
-  idleAction?: WorkstationConfigIdleActionEnum | undefined;
-  /** Output only. Time when this workstation configuration was soft-deleted. */
-  deleteTime?: string | undefined;
-  /** Optional. Number of seconds to wait before automatically stopping a workstation. We recommend that workstations be stopped daily so that security updates can be applied upon restart. The idle_timeout and running_timeout fields are independent of each other. Note that the running_timeout field stops workstations after the specified time, regardless of whether or not the workstations are idle. Note: This timeout applies to workstations in the following states: - STATE_RUNNING - STATE_SUSPENDED Suspending a workstation does not reset this timeout. Provide duration terminated by `s` for seconds--for example, `"54000s"` (15 hours). Defaults to `"43200s"` (12 hours). A value of `"0s"` indicates that workstations using this configuration should never time out. If encryption_key is set, it must be greater than `"0s"` and less than `"86400s"` (24 hours). Warning: A value of `"0s"` indicates that Cloud Workstations VMs created with this configuration have no maximum running time. This is strongly discouraged because you incur costs and will not pick up security updates. */
-  runningTimeout?: string | undefined;
-  /** Optional. Runtime host for the workstation. */
-  host?: Host | undefined;
-  /** Optional. Checksum computed by the server. May be sent on update and delete requests to make sure that the client has an up-to-date value before proceeding. */
-  etag?: string | undefined;
-  /** Immutable. Encrypts resources of this workstation configuration using a customer-managed encryption key (CMEK). If specified, the boot disk of the Compute Engine instance and the persistent disk are encrypted using this encryption key. If this field is not set, the disks are encrypted using a generated key. Customer-managed encryption keys do not protect disk metadata. If the customer-managed encryption key is rotated, when the workstation instance is stopped, the system attempts to recreate the persistent disk with the new version of the key. Be sure to keep older versions of the key until the persistent disk is recreated. Otherwise, data on the persistent disk might be lost. If the encryption key is revoked, the workstation session automatically stops within 7 hours. Immutable after the workstation configuration is created. */
-  encryptionKey?: CustomerEncryptionKey | undefined;
-  /** Output only. Indicates whether this workstation configuration is currently being updated to match its intended state. */
-  reconciling?: boolean | undefined;
-  /** Optional. Ephemeral directories which won't persist across workstation sessions. */
-  ephemeralDirectories?: EphemeralDirectoryList | undefined;
-  /** Optional. Client-specified annotations. */
-  annotations?: StringMap | undefined;
-  /** Output only. Whether this workstation configuration is in degraded mode, in which case it may require user action to restore full functionality. The conditions field contains detailed information about the status of the configuration. */
-  degraded?: boolean | undefined;
-  /** Optional. Directories to persist across workstation sessions. */
-  persistentDirectories?: PersistentDirectoryList | undefined;
-  /** Identifier. Full name of this workstation configuration. */
-  name?: string | undefined;
-  /** Output only. Time when this workstation configuration was created. */
-  createTime?: string | undefined;
-  /** Optional. Container that runs upon startup for each workstation using this workstation configuration. */
-  container?: Container | undefined;
-  /** Optional. Disables support for plain TCP connections in the workstation. By default the service supports TCP connections through a websocket relay. Setting this option to true disables that relay, which prevents the usage of services that require plain TCP connections, such as SSH. When enabled, all communication must occur over HTTPS or WSS. */
-  disableTcpConnections?: boolean | undefined;
-}
 export interface GetProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest {
   /** Required. Name of the requested resource. */
   name: string;
-}
-/** A single instance of a developer workstation with its own persistent storage. */
-export interface Workstation {
-  /** Identifier. Full name of this workstation. */
-  name?: string | undefined;
-  /** Optional. Output only. Runtime host for the workstation when in STATE_RUNNING. */
-  runtimeHost?: RuntimeHost | undefined;
-  /** Output only. Time when this workstation was created. */
-  createTime?: string | undefined;
-  /** Optional. Client-specified annotations. */
-  annotations?: StringMap | undefined;
-  /** Optional. [Labels](https://cloud.google.com/workstations/docs/label-resources) that are applied to the workstation and that are also propagated to the underlying Compute Engine resources. */
-  labels?: StringMap | undefined;
-  /** Output only. Indicates whether this workstation is currently being updated to match its intended state. */
-  reconciling?: boolean | undefined;
-  /** Optional. Environment variables passed to the workstation container's entrypoint. */
-  env?: StringMap | undefined;
-  /** Optional. Human-readable name for this workstation. */
-  displayName?: string | undefined;
-  /** Output only. Time when this workstation was most recently successfully started, regardless of the workstation's initial state. */
-  startTime?: string | undefined;
-  /** Optional. The source workstation from which this workstation's persistent directories were cloned on creation. */
-  sourceWorkstation?: string | undefined;
-  /** Optional. Checksum computed by the server. May be sent on update and delete requests to make sure that the client has an up-to-date value before proceeding. */
-  etag?: string | undefined;
-  /** Output only. The name of the Google Cloud KMS encryption key used to encrypt this workstation. The KMS key can only be configured in the WorkstationConfig. The expected format is `projects/*\/locations/*\/keyRings/*\/cryptoKeys/*`. */
-  kmsKey?: string | undefined;
-  /** Output only. A system-assigned unique identifier for this workstation. */
-  uid?: string | undefined;
-  /** Output only. Host to which clients can send HTTPS traffic that will be received by the workstation. Authorized traffic will be received to the workstation as HTTP on port 80. To send traffic to a different port, clients may prefix the host with the destination port in the format `{port}-{host}`. */
-  host?: string | undefined;
-  /** Optional. Directories to persist across workstation sessions. */
-  persistentDirectories?: WorkstationPersistentDirectoryList | undefined;
-  /** Output only. Time when this workstation was soft-deleted. */
-  deleteTime?: string | undefined;
-  /** Output only. Current state of the workstation. */
-  state?: WorkstationStateEnum | undefined;
-  /** Output only. Time when this workstation was most recently updated. */
-  updateTime?: string | undefined;
 }
 export interface ListProjectsLocationsRequest {
   /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
@@ -937,7 +808,10 @@ export interface ListUsableWorkstationsResponse {
   /** Token to retrieve the next page of results, or empty if there are no more results in the list. */
   nextPageToken?: string | undefined;
 }
-export interface PatchProjectsLocationsWorkstationClustersRequest {
+export interface PatchProjectsLocationsWorkstationClustersRequest extends Omit<
+  WorkstationCluster,
+  "name"
+> {
   /** Optional. If set, and the workstation cluster is not found, a new workstation cluster will be created. In this situation, update_mask is ignored. */
   allowMissing?: boolean | undefined;
   /** Optional. If set, validate the request and preview the result, but do not actually apply it. */
@@ -946,48 +820,11 @@ export interface PatchProjectsLocationsWorkstationClustersRequest {
   name: string;
   /** Required. Mask that specifies which fields in the workstation cluster should be updated. */
   updateMask?: string | undefined;
-  /** Optional. Specifies the redirect URL for unauthorized requests received by workstation VMs in this cluster. Redirects to this endpoint will send a base64 encoded `state` query param containing the target workstation name and original request hostname. The endpoint is responsible for retrieving a token using `GenerateAccessToken` and redirecting back to the original hostname with the token. */
-  workstationAuthorizationUrl?: string | undefined;
-  /** Output only. Time when this workstation cluster was created. */
-  createTime?: string | undefined;
-  /** Immutable. Name of the Compute Engine subnetwork in which instances associated with this workstation cluster will be created. Must be part of the subnetwork specified for this workstation cluster. */
-  subnetwork?: string | undefined;
-  /** Optional. Input only. Immutable. Tag keys/values directly bound to this resource. For example: "123/environment": "production", "123/costCenter": "marketing" */
-  tags?: StringMap | undefined;
-  /** Optional. Configuration for private workstation cluster. */
-  privateClusterConfig?: PrivateClusterConfig | undefined;
-  /** Optional. Configuration options for Cluster HTTP Gateway. */
-  gatewayConfig?: GatewayConfig | undefined;
-  /** Output only. Status conditions describing the workstation cluster's current state. */
-  conditions?: StatusList | undefined;
-  /** Optional. Configuration options for a custom domain. */
-  domainConfig?: DomainConfig | undefined;
-  /** Optional. Specifies the launch URL for workstations in this cluster. Requests sent to unstarted workstations will be redirected to this URL. Requests redirected to the launch endpoint will be sent with a `workstation` and `project` query parameter containing the full workstation resource name and project ID, respectively. The launch endpoint is responsible for starting the workstation, polling it until it reaches `STATE_RUNNING`, and then issuing a redirect to the workstation's host URL. */
-  workstationLaunchUrl?: string | undefined;
-  /** Output only. Whether this workstation cluster is in degraded mode, in which case it may require user action to restore full functionality. The conditions field contains detailed information about the status of the cluster. */
-  degraded?: boolean | undefined;
-  /** Output only. Indicates whether this workstation cluster is currently being updated to match its intended state. */
-  reconciling?: boolean | undefined;
-  /** Optional. Human-readable name for this workstation cluster. */
-  displayName?: string | undefined;
-  /** Optional. Client-specified annotations. */
-  annotations?: StringMap | undefined;
-  /** Immutable. Name of the Compute Engine network in which instances associated with this workstation cluster will be created. */
-  network?: string | undefined;
-  /** Output only. The private IP address of the control plane for this workstation cluster. Workstation VMs need access to this IP address to work with the service, so make sure that your firewall rules allow egress from the workstation VMs to this address. */
-  controlPlaneIp?: string | undefined;
-  /** Optional. Checksum computed by the server. May be sent on update and delete requests to make sure that the client has an up-to-date value before proceeding. */
-  etag?: string | undefined;
-  /** Optional. [Labels](https://cloud.google.com/workstations/docs/label-resources) that are applied to the workstation cluster and that are also propagated to the underlying Compute Engine resources. */
-  labels?: StringMap | undefined;
-  /** Output only. A system-assigned unique identifier for this workstation cluster. */
-  uid?: string | undefined;
-  /** Output only. Time when this workstation cluster was soft-deleted. */
-  deleteTime?: string | undefined;
-  /** Output only. Time when this workstation cluster was most recently updated. */
-  updateTime?: string | undefined;
 }
-export interface PatchProjectsLocationsWorkstationClustersWorkstationConfigsRequest {
+export interface PatchProjectsLocationsWorkstationClustersWorkstationConfigsRequest extends Omit<
+  WorkstationConfig,
+  "name"
+> {
   /** Identifier. Full name of this workstation configuration. */
   name: string;
   /** Optional. If set and the workstation configuration is not found, a new workstation configuration will be created. In this situation, update_mask is ignored. */
@@ -996,60 +833,11 @@ export interface PatchProjectsLocationsWorkstationClustersWorkstationConfigsRequ
   validateOnly?: boolean | undefined;
   /** Required. Mask specifying which fields in the workstation configuration should be updated. */
   updateMask?: string | undefined;
-  /** Output only. Time when this workstation configuration was most recently updated. */
-  updateTime?: string | undefined;
-  /** Optional. Human-readable name for this workstation configuration. */
-  displayName?: string | undefined;
-  /** Optional. Readiness checks to perform when starting a workstation using this workstation configuration. Mark a workstation as running only after all specified readiness checks return 200 status codes. */
-  readinessChecks?: ReadinessCheckList | undefined;
-  /** Optional. [Labels](https://cloud.google.com/workstations/docs/label-resources) that are applied to the workstation configuration and that are also propagated to the underlying Compute Engine resources. */
-  labels?: StringMap | undefined;
-  /** Optional. Immutable. Specifies the zones used to replicate the VM and disk resources within the region. If set, exactly two zones within the workstation cluster's region must be specified--for example, `['us-central1-a', 'us-central1-f']`. If this field is empty, two default zones within the region are used. Immutable after the workstation configuration is created. */
-  replicaZones?: StringList | undefined;
-  /** Optional. Maximum number of workstations under this configuration a user can have `workstations.workstation.use` permission on. Only enforced on CreateWorkstation API calls on the user issuing the API request. Can be overridden by: - granting a user workstations.workstationConfigs.exemptMaxUsableWorkstationLimit permission, or - having a user with that permission create a workstation and granting another user `workstations.workstation.use` permission on that workstation. If not specified, defaults to `0`, which indicates unlimited. */
-  maxUsableWorkstations?: number | undefined;
-  /** Optional. Grant creator of a workstation `roles/workstations.policyAdmin` role along with `roles/workstations.user` role on the workstation created by them. This allows workstation users to share access to either their entire workstation, or individual ports. Defaults to false. */
-  grantWorkstationAdminRoleOnCreate?: boolean | undefined;
-  /** Optional. A list of PortRanges specifying single ports or ranges of ports that are externally accessible in the workstation. Allowed ports must be one of 22, 80, or within range 1024-65535. If not specified defaults to ports 22, 80, and ports 1024-65535. */
-  allowedPorts?: PortRangeList | undefined;
-  /** Optional. Whether to enable Linux `auditd` logging on the workstation. When enabled, a service_account must also be specified that has `roles/logging.logWriter` and `roles/monitoring.metricWriter` on the project. Operating system audit logging is distinct from [Cloud Audit Logs](https://cloud.google.com/workstations/docs/audit-logging) and [Container output logging](https://cloud.google.com/workstations/docs/container-output-logging#overview). Operating system audit logs are available in the [Cloud Logging](https://cloud.google.com/logging/docs) console by querying: resource.type="gce_instance" log_name:"/logs/linux-auditd" */
-  enableAuditAgent?: boolean | undefined;
-  /** Output only. A system-assigned unique identifier for this workstation configuration. */
-  uid?: string | undefined;
-  /** Output only. Status conditions describing the workstation configuration's current state. */
-  conditions?: StatusList | undefined;
-  /** Optional. Number of seconds to wait before automatically stopping or suspending a workstation after it last received user traffic. See idle_action to configure whether to stop or suspend idle workstations. A value of `"0s"` indicates that Cloud Workstations VMs created with this configuration should never time out due to idleness. Provide [duration](https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration) terminated by `s` for seconds--for example, `"7200s"` (2 hours). The default is `"1200s"` (20 minutes). */
-  idleTimeout?: string | undefined;
-  /** Optional. The action to take when the workstation has been idle for the duration specified in idle_timeout. Defaults to STOP. */
-  idleAction?: WorkstationConfigIdleActionEnum | (string & {}) | undefined;
-  /** Output only. Time when this workstation configuration was soft-deleted. */
-  deleteTime?: string | undefined;
-  /** Optional. Number of seconds to wait before automatically stopping a workstation. We recommend that workstations be stopped daily so that security updates can be applied upon restart. The idle_timeout and running_timeout fields are independent of each other. Note that the running_timeout field stops workstations after the specified time, regardless of whether or not the workstations are idle. Note: This timeout applies to workstations in the following states: - STATE_RUNNING - STATE_SUSPENDED Suspending a workstation does not reset this timeout. Provide duration terminated by `s` for seconds--for example, `"54000s"` (15 hours). Defaults to `"43200s"` (12 hours). A value of `"0s"` indicates that workstations using this configuration should never time out. If encryption_key is set, it must be greater than `"0s"` and less than `"86400s"` (24 hours). Warning: A value of `"0s"` indicates that Cloud Workstations VMs created with this configuration have no maximum running time. This is strongly discouraged because you incur costs and will not pick up security updates. */
-  runningTimeout?: string | undefined;
-  /** Optional. Runtime host for the workstation. */
-  host?: Host | undefined;
-  /** Optional. Checksum computed by the server. May be sent on update and delete requests to make sure that the client has an up-to-date value before proceeding. */
-  etag?: string | undefined;
-  /** Immutable. Encrypts resources of this workstation configuration using a customer-managed encryption key (CMEK). If specified, the boot disk of the Compute Engine instance and the persistent disk are encrypted using this encryption key. If this field is not set, the disks are encrypted using a generated key. Customer-managed encryption keys do not protect disk metadata. If the customer-managed encryption key is rotated, when the workstation instance is stopped, the system attempts to recreate the persistent disk with the new version of the key. Be sure to keep older versions of the key until the persistent disk is recreated. Otherwise, data on the persistent disk might be lost. If the encryption key is revoked, the workstation session automatically stops within 7 hours. Immutable after the workstation configuration is created. */
-  encryptionKey?: CustomerEncryptionKey | undefined;
-  /** Output only. Indicates whether this workstation configuration is currently being updated to match its intended state. */
-  reconciling?: boolean | undefined;
-  /** Optional. Ephemeral directories which won't persist across workstation sessions. */
-  ephemeralDirectories?: EphemeralDirectoryList | undefined;
-  /** Optional. Client-specified annotations. */
-  annotations?: StringMap | undefined;
-  /** Output only. Whether this workstation configuration is in degraded mode, in which case it may require user action to restore full functionality. The conditions field contains detailed information about the status of the configuration. */
-  degraded?: boolean | undefined;
-  /** Optional. Directories to persist across workstation sessions. */
-  persistentDirectories?: PersistentDirectoryList | undefined;
-  /** Output only. Time when this workstation configuration was created. */
-  createTime?: string | undefined;
-  /** Optional. Container that runs upon startup for each workstation using this workstation configuration. */
-  container?: Container | undefined;
-  /** Optional. Disables support for plain TCP connections in the workstation. By default the service supports TCP connections through a websocket relay. Setting this option to true disables that relay, which prevents the usage of services that require plain TCP connections, such as SSH. When enabled, all communication must occur over HTTPS or WSS. */
-  disableTcpConnections?: boolean | undefined;
 }
-export interface PatchProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest {
+export interface PatchProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest extends Omit<
+  Workstation,
+  "name"
+> {
   /** Identifier. Full name of this workstation. */
   name: string;
   /** Required. Mask specifying which fields in the workstation should be updated. */
@@ -1058,60 +846,24 @@ export interface PatchProjectsLocationsWorkstationClustersWorkstationConfigsWork
   validateOnly?: boolean | undefined;
   /** Optional. If set and the workstation is not found, a new workstation is created. In this situation, update_mask is ignored. */
   allowMissing?: boolean | undefined;
-  /** Optional. Output only. Runtime host for the workstation when in STATE_RUNNING. */
-  runtimeHost?: RuntimeHost | undefined;
-  /** Output only. Time when this workstation was created. */
-  createTime?: string | undefined;
-  /** Optional. Client-specified annotations. */
-  annotations?: StringMap | undefined;
-  /** Optional. [Labels](https://cloud.google.com/workstations/docs/label-resources) that are applied to the workstation and that are also propagated to the underlying Compute Engine resources. */
-  labels?: StringMap | undefined;
-  /** Output only. Indicates whether this workstation is currently being updated to match its intended state. */
-  reconciling?: boolean | undefined;
-  /** Optional. Environment variables passed to the workstation container's entrypoint. */
-  env?: StringMap | undefined;
-  /** Optional. Human-readable name for this workstation. */
-  displayName?: string | undefined;
-  /** Output only. Time when this workstation was most recently successfully started, regardless of the workstation's initial state. */
-  startTime?: string | undefined;
-  /** Optional. The source workstation from which this workstation's persistent directories were cloned on creation. */
-  sourceWorkstation?: string | undefined;
-  /** Optional. Checksum computed by the server. May be sent on update and delete requests to make sure that the client has an up-to-date value before proceeding. */
-  etag?: string | undefined;
-  /** Output only. The name of the Google Cloud KMS encryption key used to encrypt this workstation. The KMS key can only be configured in the WorkstationConfig. The expected format is `projects/*\/locations/*\/keyRings/*\/cryptoKeys/*`. */
-  kmsKey?: string | undefined;
-  /** Output only. A system-assigned unique identifier for this workstation. */
-  uid?: string | undefined;
-  /** Output only. Host to which clients can send HTTPS traffic that will be received by the workstation. Authorized traffic will be received to the workstation as HTTP on port 80. To send traffic to a different port, clients may prefix the host with the destination port in the format `{port}-{host}`. */
-  host?: string | undefined;
-  /** Optional. Directories to persist across workstation sessions. */
-  persistentDirectories?: WorkstationPersistentDirectoryList | undefined;
-  /** Output only. Time when this workstation was soft-deleted. */
-  deleteTime?: string | undefined;
-  /** Output only. Current state of the workstation. */
-  state?: WorkstationStateEnum | (string & {}) | undefined;
-  /** Output only. Time when this workstation was most recently updated. */
-  updateTime?: string | undefined;
 }
-export interface SetIamPolicyProjectsLocationsWorkstationClustersWorkstationConfigsRequest {
-  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
+/** Request message for `SetIamPolicy` method. */
+export interface SetIamPolicyRequest {
   /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
   updateMask?: string | undefined;
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
   policy?: Policy | undefined;
 }
-export interface SetIamPolicyProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest {
+export interface SetIamPolicyProjectsLocationsWorkstationClustersWorkstationConfigsRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
-  updateMask?: string | undefined;
-  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
-  policy?: Policy | undefined;
 }
-export interface StartProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest {
-  /** Required. Name of the workstation to start. */
-  name: string;
+export interface SetIamPolicyProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest extends SetIamPolicyRequest {
+  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
+}
+/** Request message for StartWorkstation. */
+export interface StartWorkstationRequest {
   /** Optional. If set, the request will be rejected if the latest version of the workstation on the server does not have this ETag. */
   etag?: string | undefined;
   /** Optional. If set, the workstation starts using the boost configuration with the specified ID. */
@@ -1119,38 +871,44 @@ export interface StartProjectsLocationsWorkstationClustersWorkstationConfigsWork
   /** Optional. If set, validate the request and preview the result, but do not actually apply it. */
   validateOnly?: boolean | undefined;
 }
-export interface StopProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest {
+export interface StartProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest extends StartWorkstationRequest {
+  /** Required. Name of the workstation to start. */
+  name: string;
+}
+/** Request message for StopWorkstation. */
+export interface StopWorkstationRequest {
+  /** Optional. If set, validate the request and preview the result, but do not actually apply it. */
+  validateOnly?: boolean | undefined;
+  /** Optional. If set, the request will be rejected if the latest version of the workstation on the server does not have this ETag. */
+  etag?: string | undefined;
+}
+export interface StopProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest extends StopWorkstationRequest {
   /** Required. Name of the workstation to stop. */
   name: string;
-  /** Optional. If set, validate the request and preview the result, but do not actually apply it. */
-  validateOnly?: boolean | undefined;
-  /** Optional. If set, the request will be rejected if the latest version of the workstation on the server does not have this ETag. */
-  etag?: string | undefined;
 }
-export interface SuspendProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest {
+/** Request message for SuspendWorkstation. */
+export type SuspendWorkstationRequest = StopWorkstationRequest;
+export interface SuspendProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest extends StopWorkstationRequest {
   /** Required. Name of the workstation to suspend. */
   name: string;
-  /** Optional. If set, validate the request and preview the result, but do not actually apply it. */
-  validateOnly?: boolean | undefined;
-  /** Optional. If set, the request will be rejected if the latest version of the workstation on the server does not have this ETag. */
-  etag?: string | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsWorkstationClustersWorkstationConfigsRequest {
-  /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
+/** Request message for `TestIamPermissions` method. */
+export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: StringList | undefined;
+}
+export interface TestIamPermissionsProjectsLocationsWorkstationClustersWorkstationConfigsRequest extends TestIamPermissionsRequest {
+  /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest {
+export interface TestIamPermissionsProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
-  permissions?: StringList | undefined;
 }
 export type CancelProjectsLocationsOperationsError =
   | NotFound
@@ -1165,8 +923,8 @@ export const cancelProjectsLocationsOperations: API.OperationMethod<
   CancelProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c35, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
-  output: __S(1152, __c36, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  input: __S(1088, __c34, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
+  output: __S(1120, __c35, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1187,8 +945,8 @@ export const createProjectsLocationsWorkstationClusters: API.OperationMethod<
   CreateProjectsLocationsWorkstationClustersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1184, __c37, 0) as any as S.Schema<CreateProjectsLocationsWorkstationClustersRequest>,
-  output: __S(1408, __c44, 0) as any as S.Schema<Operation>,
+  input: __S(1152, __c36, 0) as any as S.Schema<CreateProjectsLocationsWorkstationClustersRequest>,
+  output: __S(1376, __c43, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1210,11 +968,11 @@ export const createProjectsLocationsWorkstationClustersWorkstationConfigs: API.O
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1440,
-    __c45,
+    1408,
+    __c44,
     0,
   ) as any as S.Schema<CreateProjectsLocationsWorkstationClustersWorkstationConfigsRequest>,
-  output: __S(1408, __c44, 0) as any as S.Schema<Operation>,
+  output: __S(1376, __c43, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1236,11 +994,11 @@ export const createProjectsLocationsWorkstationClustersWorkstationConfigsWorksta
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1504,
-    __c47,
+    1472,
+    __c46,
     0,
   ) as any as S.Schema<CreateProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest>,
-  output: __S(1408, __c44, 0) as any as S.Schema<Operation>,
+  output: __S(1376, __c43, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1261,8 +1019,8 @@ export const deleteProjectsLocationsOperations: API.OperationMethod<
   DeleteProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1568, __c49, 0) as any as S.Schema<DeleteProjectsLocationsOperationsRequest>,
-  output: __S(1152, __c36, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  input: __S(1536, __c48, 0) as any as S.Schema<DeleteProjectsLocationsOperationsRequest>,
+  output: __S(1120, __c35, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1283,8 +1041,8 @@ export const deleteProjectsLocationsWorkstationClusters: API.OperationMethod<
   DeleteProjectsLocationsWorkstationClustersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1600, __c50, 0) as any as S.Schema<DeleteProjectsLocationsWorkstationClustersRequest>,
-  output: __S(1408, __c44, 0) as any as S.Schema<Operation>,
+  input: __S(1568, __c49, 0) as any as S.Schema<DeleteProjectsLocationsWorkstationClustersRequest>,
+  output: __S(1376, __c43, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1310,7 +1068,7 @@ export const deleteProjectsLocationsWorkstationClustersWorkstationConfigs: API.O
     __c0,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsWorkstationClustersWorkstationConfigsRequest>,
-  output: __S(1408, __c44, 0) as any as S.Schema<Operation>,
+  output: __S(1376, __c43, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1336,7 +1094,7 @@ export const deleteProjectsLocationsWorkstationClustersWorkstationConfigsWorksta
     __c1,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest>,
-  output: __S(1408, __c44, 0) as any as S.Schema<Operation>,
+  output: __S(1376, __c43, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1358,11 +1116,11 @@ export const generateAccessTokenProjectsLocationsWorkstationClustersWorkstationC
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    64,
+    65,
     __c2,
-    0,
+    1,
   ) as any as S.Schema<GenerateAccessTokenProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest>,
-  output: __S(65, __c2, 1) as any as S.Schema<GenerateAccessTokenResponse>,
+  output: __S(66, __c2, 2) as any as S.Schema<GenerateAccessTokenResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1444,7 +1202,7 @@ export const getProjectsLocationsOperations: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c8, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
-  output: __S(1408, __c44, 0) as any as S.Schema<Operation>,
+  output: __S(1376, __c43, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1461,7 +1219,7 @@ export const getProjectsLocationsWorkstationClusters: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c9, 0) as any as S.Schema<GetProjectsLocationsWorkstationClustersRequest>,
-  output: __S(320, __c10, 0) as any as S.Schema<WorkstationCluster>,
+  output: __S(1187, __c37, 3) as any as S.Schema<WorkstationCluster>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1481,11 +1239,11 @@ export const getProjectsLocationsWorkstationClustersWorkstationConfigs: API.Oper
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    352,
-    __c11,
+    320,
+    __c10,
     0,
   ) as any as S.Schema<GetProjectsLocationsWorkstationClustersWorkstationConfigsRequest>,
-  output: __S(384, __c12, 0) as any as S.Schema<WorkstationConfig>,
+  output: __S(1461, __c45, 21) as any as S.Schema<WorkstationConfig>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1505,11 +1263,11 @@ export const getProjectsLocationsWorkstationClustersWorkstationConfigsWorkstatio
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    416,
-    __c13,
+    352,
+    __c11,
     0,
   ) as any as S.Schema<GetProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest>,
-  output: __S(448, __c14, 0) as any as S.Schema<Workstation>,
+  output: __S(1508, __c47, 4) as any as S.Schema<Workstation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1526,8 +1284,8 @@ export const listProjectsLocations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListLocationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(480, __c15, 0) as any as S.Schema<ListProjectsLocationsRequest>,
-  output: __S(482, __c15, 2) as any as S.Schema<ListLocationsResponse>,
+  input: __S(384, __c12, 0) as any as S.Schema<ListProjectsLocationsRequest>,
+  output: __S(386, __c12, 2) as any as S.Schema<ListLocationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1545,8 +1303,8 @@ export const listProjectsLocationsOperations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListOperationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(512, __c16, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
-  output: __S(514, __c16, 2) as any as S.Schema<ListOperationsResponse>,
+  input: __S(416, __c13, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
+  output: __S(418, __c13, 2) as any as S.Schema<ListOperationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1564,8 +1322,8 @@ export const listProjectsLocationsWorkstationClusters: API.PaginatedOperationMet
   GcpOpContext,
   ListWorkstationClustersResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(544, __c17, 0) as any as S.Schema<ListProjectsLocationsWorkstationClustersRequest>,
-  output: __S(546, __c17, 2) as any as S.Schema<ListWorkstationClustersResponse>,
+  input: __S(448, __c14, 0) as any as S.Schema<ListProjectsLocationsWorkstationClustersRequest>,
+  output: __S(450, __c14, 2) as any as S.Schema<ListWorkstationClustersResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1587,11 +1345,11 @@ export const listProjectsLocationsWorkstationClustersWorkstationConfigs: API.Pag
   ListWorkstationConfigsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    576,
-    __c18,
+    480,
+    __c15,
     0,
   ) as any as S.Schema<ListProjectsLocationsWorkstationClustersWorkstationConfigsRequest>,
-  output: __S(577, __c18, 1) as any as S.Schema<ListWorkstationConfigsResponse>,
+  output: __S(481, __c15, 1) as any as S.Schema<ListWorkstationConfigsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1613,11 +1371,11 @@ export const listProjectsLocationsWorkstationClustersWorkstationConfigsWorkstati
   ListWorkstationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    640,
-    __c20,
+    544,
+    __c17,
     0,
   ) as any as S.Schema<ListProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest>,
-  output: __S(641, __c20, 1) as any as S.Schema<ListWorkstationsResponse>,
+  output: __S(545, __c17, 1) as any as S.Schema<ListWorkstationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1639,11 +1397,11 @@ export const listUsableProjectsLocationsWorkstationClustersWorkstationConfigs: A
   ListUsableWorkstationConfigsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    704,
-    __c22,
+    608,
+    __c19,
     0,
   ) as any as S.Schema<ListUsableProjectsLocationsWorkstationClustersWorkstationConfigsRequest>,
-  output: __S(705, __c22, 1) as any as S.Schema<ListUsableWorkstationConfigsResponse>,
+  output: __S(609, __c19, 1) as any as S.Schema<ListUsableWorkstationConfigsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1665,11 +1423,11 @@ export const listUsableProjectsLocationsWorkstationClustersWorkstationConfigsWor
   ListUsableWorkstationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    736,
-    __c23,
+    640,
+    __c20,
     0,
   ) as any as S.Schema<ListUsableProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest>,
-  output: __S(737, __c23, 1) as any as S.Schema<ListUsableWorkstationsResponse>,
+  output: __S(641, __c20, 1) as any as S.Schema<ListUsableWorkstationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1691,8 +1449,8 @@ export const patchProjectsLocationsWorkstationClusters: API.OperationMethod<
   PatchProjectsLocationsWorkstationClustersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c24, 0) as any as S.Schema<PatchProjectsLocationsWorkstationClustersRequest>,
-  output: __S(1408, __c44, 0) as any as S.Schema<Operation>,
+  input: __S(672, __c21, 0) as any as S.Schema<PatchProjectsLocationsWorkstationClustersRequest>,
+  output: __S(1376, __c43, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1714,11 +1472,11 @@ export const patchProjectsLocationsWorkstationClustersWorkstationConfigs: API.Op
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    800,
-    __c25,
+    704,
+    __c22,
     0,
   ) as any as S.Schema<PatchProjectsLocationsWorkstationClustersWorkstationConfigsRequest>,
-  output: __S(1408, __c44, 0) as any as S.Schema<Operation>,
+  output: __S(1376, __c43, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1740,11 +1498,11 @@ export const patchProjectsLocationsWorkstationClustersWorkstationConfigsWorkstat
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    832,
-    __c26,
+    736,
+    __c23,
     0,
   ) as any as S.Schema<PatchProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest>,
-  output: __S(1408, __c44, 0) as any as S.Schema<Operation>,
+  output: __S(1376, __c43, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1766,8 +1524,8 @@ export const setIamPolicyProjectsLocationsWorkstationClustersWorkstationConfigs:
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    864,
-    __c27,
+    768,
+    __c24,
     0,
   ) as any as S.Schema<SetIamPolicyProjectsLocationsWorkstationClustersWorkstationConfigsRequest>,
   output: __S(135, __c4, 7) as any as S.Schema<Policy>,
@@ -1792,8 +1550,8 @@ export const setIamPolicyProjectsLocationsWorkstationClustersWorkstationConfigsW
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    896,
-    __c28,
+    832,
+    __c26,
     0,
   ) as any as S.Schema<SetIamPolicyProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest>,
   output: __S(135, __c4, 7) as any as S.Schema<Policy>,
@@ -1818,11 +1576,11 @@ export const startProjectsLocationsWorkstationClustersWorkstationConfigsWorkstat
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    928,
-    __c29,
-    0,
+    865,
+    __c27,
+    1,
   ) as any as S.Schema<StartProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest>,
-  output: __S(1408, __c44, 0) as any as S.Schema<Operation>,
+  output: __S(1376, __c43, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1844,11 +1602,11 @@ export const stopProjectsLocationsWorkstationClustersWorkstationConfigsWorkstati
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    960,
-    __c30,
+    896,
+    __c28,
     0,
   ) as any as S.Schema<StopProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest>,
-  output: __S(1408, __c44, 0) as any as S.Schema<Operation>,
+  output: __S(1376, __c43, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1870,11 +1628,11 @@ export const suspendProjectsLocationsWorkstationClustersWorkstationConfigsWorkst
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    992,
-    __c31,
+    960,
+    __c30,
     0,
   ) as any as S.Schema<SuspendProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest>,
-  output: __S(1408, __c44, 0) as any as S.Schema<Operation>,
+  output: __S(1376, __c43, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1896,11 +1654,11 @@ export const testIamPermissionsProjectsLocationsWorkstationClustersWorkstationCo
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1024,
-    __c32,
+    992,
+    __c31,
     0,
   ) as any as S.Schema<TestIamPermissionsProjectsLocationsWorkstationClustersWorkstationConfigsRequest>,
-  output: __S(1056, __c33, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  output: __S(1024, __c32, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1922,11 +1680,11 @@ export const testIamPermissionsProjectsLocationsWorkstationClustersWorkstationCo
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1088,
-    __c34,
+    1056,
+    __c33,
     0,
   ) as any as S.Schema<TestIamPermissionsProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest>,
-  output: __S(1056, __c33, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  output: __S(1024, __c32, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1982,11 +1740,19 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          workstation: S.String.pipe(T.Label()),
           ttl: S.optional(S.String),
           port: S.optional(S.Number),
           expireTime: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "GenerateAccessTokenRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(64, __c2, 0),
+          S.Struct({
+            workstation: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+workstation}:generateAccessToken",
@@ -1997,7 +1763,7 @@ function __c2(j: number): any {
         identifier:
           "GenerateAccessTokenProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest",
       });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           expireTime: S.optional(S.String),
@@ -2030,7 +1796,7 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          exemptedMembers: S.optional(__S(1248, __c39, 0)),
+          exemptedMembers: S.optional(__S(1216, __c38, 0)),
           logType: S.optional(S.String),
         }),
       ).annotate({ identifier: "AuditLogConfig" });
@@ -2059,7 +1825,7 @@ function __c4(j: number): any {
         S.Struct({
           role: S.optional(S.String),
           condition: S.optional(__S(132, __c4, 4)),
-          members: S.optional(__S(1248, __c39, 0)),
+          members: S.optional(__S(1216, __c38, 0)),
         }),
       ).annotate({ identifier: "Binding" });
     case 6:
@@ -2118,8 +1884,8 @@ function __c7(j: number): any {
         S.Struct({
           displayName: S.optional(S.String),
           locationId: S.optional(S.String),
-          labels: S.optional(__S(1312, __c41, 0)),
-          metadata: S.optional(__S(1344, __c42, 0)),
+          labels: S.optional(__S(1280, __c40, 0)),
+          metadata: S.optional(__S(1312, __c41, 0)),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "Location" });
@@ -2162,36 +1928,6 @@ function __c10(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          workstationAuthorizationUrl: S.optional(S.String),
-          createTime: S.optional(S.String),
-          subnetwork: S.optional(S.String),
-          tags: S.optional(__S(1312, __c41, 0)),
-          privateClusterConfig: S.optional(__S(1216, __c38, 0)),
-          gatewayConfig: S.optional(__S(1217, __c38, 1)),
-          name: S.optional(S.String),
-          conditions: S.optional(__S(1280, __c40, 0)),
-          domainConfig: S.optional(__S(1218, __c38, 2)),
-          workstationLaunchUrl: S.optional(S.String),
-          degraded: S.optional(S.Boolean),
-          reconciling: S.optional(S.Boolean),
-          displayName: S.optional(S.String),
-          annotations: S.optional(__S(1312, __c41, 0)),
-          network: S.optional(S.String),
-          controlPlaneIp: S.optional(S.String),
-          etag: S.optional(S.String),
-          labels: S.optional(__S(1312, __c41, 0)),
-          uid: S.optional(S.String),
-          deleteTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "WorkstationCluster" });
-  }
-}
-function __c11(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
           name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -2205,43 +1941,7 @@ function __c11(j: number): any {
       });
   }
 }
-function __c12(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          updateTime: S.optional(S.String),
-          displayName: S.optional(S.String),
-          readinessChecks: S.optional(__S(1473, __c46, 1)),
-          labels: S.optional(__S(1312, __c41, 0)),
-          replicaZones: S.optional(__S(1248, __c39, 0)),
-          maxUsableWorkstations: S.optional(S.Number),
-          grantWorkstationAdminRoleOnCreate: S.optional(S.Boolean),
-          allowedPorts: S.optional(__S(1475, __c46, 3)),
-          enableAuditAgent: S.optional(S.Boolean),
-          uid: S.optional(S.String),
-          conditions: S.optional(__S(1280, __c40, 0)),
-          idleTimeout: S.optional(S.String),
-          idleAction: S.optional(S.String),
-          deleteTime: S.optional(S.String),
-          runningTimeout: S.optional(S.String),
-          host: S.optional(__S(1483, __c46, 11)),
-          etag: S.optional(S.String),
-          encryptionKey: S.optional(__S(1484, __c46, 12)),
-          reconciling: S.optional(S.Boolean),
-          ephemeralDirectories: S.optional(__S(1487, __c46, 15)),
-          annotations: S.optional(__S(1312, __c41, 0)),
-          degraded: S.optional(S.Boolean),
-          persistentDirectories: S.optional(__S(1491, __c46, 19)),
-          name: S.optional(S.String),
-          createTime: S.optional(S.String),
-          container: S.optional(__S(1492, __c46, 20)),
-          disableTcpConnections: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "WorkstationConfig" });
-  }
-}
-function __c13(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2259,40 +1959,13 @@ function __c13(j: number): any {
       });
   }
 }
-function __c14(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          runtimeHost: S.optional(__S(1537, __c48, 1)),
-          createTime: S.optional(S.String),
-          annotations: S.optional(__S(1312, __c41, 0)),
-          labels: S.optional(__S(1312, __c41, 0)),
-          reconciling: S.optional(S.Boolean),
-          env: S.optional(__S(1312, __c41, 0)),
-          displayName: S.optional(S.String),
-          startTime: S.optional(S.String),
-          sourceWorkstation: S.optional(S.String),
-          etag: S.optional(S.String),
-          kmsKey: S.optional(S.String),
-          uid: S.optional(S.String),
-          host: S.optional(S.String),
-          persistentDirectories: S.optional(__S(1539, __c48, 3)),
-          deleteTime: S.optional(S.String),
-          state: S.optional(S.String),
-          updateTime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Workstation" });
-  }
-}
-function __c15(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           filter: S.optional(S.String.pipe(T.Query())),
-          extraLocationTypes: S.optional(__S(1248, __c39, 0).pipe(T.Query())),
+          extraLocationTypes: S.optional(__S(1216, __c38, 0).pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
@@ -2309,13 +1982,13 @@ function __c15(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          locations: S.optional(__S(481, __c15, 1)),
+          locations: S.optional(__S(385, __c12, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListLocationsResponse" });
   }
 }
-function __c16(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2334,18 +2007,18 @@ function __c16(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsOperationsRequest" });
     case 1:
-      return S.Array(__S(1408, __c44, 0));
+      return S.Array(__S(1376, __c43, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(1248, __c39, 0)),
-          operations: S.optional(__S(513, __c16, 1)),
+          unreachable: S.optional(__S(1216, __c38, 0)),
+          operations: S.optional(__S(417, __c13, 1)),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
   }
 }
-function __c17(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2363,18 +2036,18 @@ function __c17(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsWorkstationClustersRequest" });
     case 1:
-      return S.Array(__S(320, __c10, 0));
+      return S.Array(__S(1187, __c37, 3));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          workstationClusters: S.optional(__S(545, __c17, 1)),
+          workstationClusters: S.optional(__S(449, __c14, 1)),
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(1248, __c39, 0)),
+          unreachable: S.optional(__S(1216, __c38, 0)),
         }),
       ).annotate({ identifier: "ListWorkstationClustersResponse" });
   }
 }
-function __c18(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2396,20 +2069,20 @@ function __c18(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(1248, __c39, 0)),
-          workstationConfigs: S.optional(__S(608, __c19, 0)),
+          unreachable: S.optional(__S(1216, __c38, 0)),
+          workstationConfigs: S.optional(__S(512, __c16, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListWorkstationConfigsResponse" });
   }
 }
-function __c19(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(384, __c12, 0));
+      return S.Array(__S(1461, __c45, 21));
   }
 }
-function __c20(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2431,20 +2104,20 @@ function __c20(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(1248, __c39, 0)),
-          workstations: S.optional(__S(672, __c21, 0)),
+          unreachable: S.optional(__S(1216, __c38, 0)),
+          workstations: S.optional(__S(576, __c18, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListWorkstationsResponse" });
   }
 }
-function __c21(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(448, __c14, 0));
+      return S.Array(__S(1508, __c47, 4));
   }
 }
-function __c22(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2466,13 +2139,13 @@ function __c22(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(1248, __c39, 0)),
-          workstationConfigs: S.optional(__S(608, __c19, 0)),
+          unreachable: S.optional(__S(1216, __c38, 0)),
+          workstationConfigs: S.optional(__S(512, __c16, 0)),
         }),
       ).annotate({ identifier: "ListUsableWorkstationConfigsResponse" });
   }
 }
-function __c23(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2494,43 +2167,26 @@ function __c23(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          workstations: S.optional(__S(672, __c21, 0)),
-          unreachable: S.optional(__S(1248, __c39, 0)),
+          workstations: S.optional(__S(576, __c18, 0)),
+          unreachable: S.optional(__S(1216, __c38, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListUsableWorkstationsResponse" });
   }
 }
-function __c24(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          workstationAuthorizationUrl: S.optional(S.String),
-          createTime: S.optional(S.String),
-          subnetwork: S.optional(S.String),
-          tags: S.optional(__S(1312, __c41, 0)),
-          privateClusterConfig: S.optional(__S(1216, __c38, 0)),
-          gatewayConfig: S.optional(__S(1217, __c38, 1)),
-          conditions: S.optional(__S(1280, __c40, 0)),
-          domainConfig: S.optional(__S(1218, __c38, 2)),
-          workstationLaunchUrl: S.optional(S.String),
-          degraded: S.optional(S.Boolean),
-          reconciling: S.optional(S.Boolean),
-          displayName: S.optional(S.String),
-          annotations: S.optional(__S(1312, __c41, 0)),
-          network: S.optional(S.String),
-          controlPlaneIp: S.optional(S.String),
-          etag: S.optional(S.String),
-          labels: S.optional(__S(1312, __c41, 0)),
-          uid: S.optional(S.String),
-          deleteTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1187, __c37, 3),
+          S.Struct({
+            allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -2540,42 +2196,19 @@ function __c24(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsWorkstationClustersRequest" });
   }
 }
-function __c25(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          updateTime: S.optional(S.String),
-          displayName: S.optional(S.String),
-          readinessChecks: S.optional(__S(1473, __c46, 1)),
-          labels: S.optional(__S(1312, __c41, 0)),
-          replicaZones: S.optional(__S(1248, __c39, 0)),
-          maxUsableWorkstations: S.optional(S.Number),
-          grantWorkstationAdminRoleOnCreate: S.optional(S.Boolean),
-          allowedPorts: S.optional(__S(1475, __c46, 3)),
-          enableAuditAgent: S.optional(S.Boolean),
-          uid: S.optional(S.String),
-          conditions: S.optional(__S(1280, __c40, 0)),
-          idleTimeout: S.optional(S.String),
-          idleAction: S.optional(S.String),
-          deleteTime: S.optional(S.String),
-          runningTimeout: S.optional(S.String),
-          host: S.optional(__S(1483, __c46, 11)),
-          etag: S.optional(S.String),
-          encryptionKey: S.optional(__S(1484, __c46, 12)),
-          reconciling: S.optional(S.Boolean),
-          ephemeralDirectories: S.optional(__S(1487, __c46, 15)),
-          annotations: S.optional(__S(1312, __c41, 0)),
-          degraded: S.optional(S.Boolean),
-          persistentDirectories: S.optional(__S(1491, __c46, 19)),
-          createTime: S.optional(S.String),
-          container: S.optional(__S(1492, __c46, 20)),
-          disableTcpConnections: S.optional(S.Boolean),
-        }).pipe(
+        S.Extend(
+          __S(1461, __c45, 21),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -2587,33 +2220,19 @@ function __c25(j: number): any {
       });
   }
 }
-function __c26(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-          runtimeHost: S.optional(__S(1537, __c48, 1)),
-          createTime: S.optional(S.String),
-          annotations: S.optional(__S(1312, __c41, 0)),
-          labels: S.optional(__S(1312, __c41, 0)),
-          reconciling: S.optional(S.Boolean),
-          env: S.optional(__S(1312, __c41, 0)),
-          displayName: S.optional(S.String),
-          startTime: S.optional(S.String),
-          sourceWorkstation: S.optional(S.String),
-          etag: S.optional(S.String),
-          kmsKey: S.optional(S.String),
-          uid: S.optional(S.String),
-          host: S.optional(S.String),
-          persistentDirectories: S.optional(__S(1539, __c48, 3)),
-          deleteTime: S.optional(S.String),
-          state: S.optional(S.String),
-          updateTime: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1508, __c47, 4),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -2626,15 +2245,16 @@ function __c26(j: number): any {
       });
   }
 }
-function __c27(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String),
-          policy: S.optional(__S(135, __c4, 7)),
-        }).pipe(
+        S.Extend(
+          __S(800, __c25, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -2646,15 +2266,27 @@ function __c27(j: number): any {
       });
   }
 }
-function __c28(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          resource: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String),
           policy: S.optional(__S(135, __c4, 7)),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "SetIamPolicyRequest" });
+  }
+}
+function __c26(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(800, __c25, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -2667,16 +2299,24 @@ function __c28(j: number): any {
       });
   }
 }
-function __c29(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           etag: S.optional(S.String),
           boostConfig: S.optional(S.String),
           validateOnly: S.optional(S.Boolean),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "StartWorkstationRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(864, __c27, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:start",
@@ -2689,15 +2329,16 @@ function __c29(j: number): any {
       });
   }
 }
-function __c30(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          validateOnly: S.optional(S.Boolean),
-          etag: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(928, __c29, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:stop",
@@ -2709,15 +2350,27 @@ function __c30(j: number): any {
       });
   }
 }
-function __c31(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           validateOnly: S.optional(S.Boolean),
           etag: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "StopWorkstationRequest" });
+  }
+}
+function __c30(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(928, __c29, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:suspend",
@@ -2730,14 +2383,16 @@ function __c31(j: number): any {
       });
   }
 }
-function __c32(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          permissions: S.optional(__S(1248, __c39, 0)),
-        }).pipe(
+        S.Extend(
+          __S(1024, __c32, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -2750,24 +2405,26 @@ function __c32(j: number): any {
       });
   }
 }
+function __c32(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          permissions: S.optional(__S(1216, __c38, 0)),
+        }),
+      ).annotate({ identifier: "TestIamPermissionsRequest" });
+  }
+}
 function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          permissions: S.optional(__S(1248, __c39, 0)),
-        }),
-      ).annotate({ identifier: "TestIamPermissionsResponse" });
-  }
-}
-function __c34(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          permissions: S.optional(__S(1248, __c39, 0)),
-        }).pipe(
+        S.Extend(
+          __S(1024, __c32, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -2780,13 +2437,13 @@ function __c34(j: number): any {
       });
   }
 }
-function __c35(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1152, __c36, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(1120, __c35, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2797,42 +2454,24 @@ function __c35(j: number): any {
       ).annotate({ identifier: "CancelProjectsLocationsOperationsRequest" });
   }
 }
-function __c36(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "CancelOperationRequest" });
   }
 }
-function __c37(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          workstationClusterId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          workstationAuthorizationUrl: S.optional(S.String),
-          createTime: S.optional(S.String),
-          subnetwork: S.optional(S.String),
-          tags: S.optional(__S(1312, __c41, 0)),
-          privateClusterConfig: S.optional(__S(1216, __c38, 0)),
-          gatewayConfig: S.optional(__S(1217, __c38, 1)),
-          name: S.optional(S.String),
-          conditions: S.optional(__S(1280, __c40, 0)),
-          domainConfig: S.optional(__S(1218, __c38, 2)),
-          workstationLaunchUrl: S.optional(S.String),
-          degraded: S.optional(S.Boolean),
-          reconciling: S.optional(S.Boolean),
-          displayName: S.optional(S.String),
-          annotations: S.optional(__S(1312, __c41, 0)),
-          network: S.optional(S.String),
-          controlPlaneIp: S.optional(S.String),
-          etag: S.optional(S.String),
-          labels: S.optional(__S(1312, __c41, 0)),
-          uid: S.optional(S.String),
-          deleteTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1187, __c37, 3),
+          S.Struct({
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            workstationClusterId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/workstationClusters",
@@ -2842,12 +2481,12 @@ function __c37(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsWorkstationClustersRequest" });
   }
 }
-function __c38(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          allowedProjects: S.optional(__S(1248, __c39, 0)),
+          allowedProjects: S.optional(__S(1216, __c38, 0)),
           serviceAttachmentUri: S.optional(S.String),
           clusterHostname: S.optional(S.String),
           enablePrivateEndpoint: S.optional(S.Boolean),
@@ -2865,96 +2504,98 @@ function __c38(j: number): any {
           domain: S.optional(S.String),
         }),
       ).annotate({ identifier: "DomainConfig" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          workstationAuthorizationUrl: S.optional(S.String),
+          createTime: S.optional(S.String),
+          subnetwork: S.optional(S.String),
+          tags: S.optional(__S(1280, __c40, 0)),
+          privateClusterConfig: S.optional(__S(1184, __c37, 0)),
+          gatewayConfig: S.optional(__S(1185, __c37, 1)),
+          name: S.optional(S.String),
+          conditions: S.optional(__S(1248, __c39, 0)),
+          domainConfig: S.optional(__S(1186, __c37, 2)),
+          workstationLaunchUrl: S.optional(S.String),
+          degraded: S.optional(S.Boolean),
+          reconciling: S.optional(S.Boolean),
+          displayName: S.optional(S.String),
+          annotations: S.optional(__S(1280, __c40, 0)),
+          network: S.optional(S.String),
+          controlPlaneIp: S.optional(S.String),
+          etag: S.optional(S.String),
+          labels: S.optional(__S(1280, __c40, 0)),
+          uid: S.optional(S.String),
+          deleteTime: S.optional(S.String),
+          updateTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "WorkstationCluster" });
   }
 }
-function __c39(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c40(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1377, __c43, 1));
+      return S.Array(__S(1345, __c42, 1));
   }
 }
-function __c41(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
   }
 }
-function __c42(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c43(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1344, __c42, 0));
+      return S.Array(__S(1312, __c41, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
           message: S.optional(S.String),
-          details: S.optional(__S(1376, __c43, 0)),
+          details: S.optional(__S(1344, __c42, 0)),
           code: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Status" });
+  }
+}
+function __c43(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          done: S.optional(S.Boolean),
+          metadata: S.optional(__S(1312, __c41, 0)),
+          error: S.optional(__S(1345, __c42, 1)),
+          name: S.optional(S.String),
+          response: S.optional(__S(1312, __c41, 0)),
+        }),
+      ).annotate({ identifier: "Operation" });
   }
 }
 function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          done: S.optional(S.Boolean),
-          metadata: S.optional(__S(1344, __c42, 0)),
-          error: S.optional(__S(1377, __c43, 1)),
-          name: S.optional(S.String),
-          response: S.optional(__S(1344, __c42, 0)),
-        }),
-      ).annotate({ identifier: "Operation" });
-  }
-}
-function __c45(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          workstationConfigId: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          updateTime: S.optional(S.String),
-          displayName: S.optional(S.String),
-          readinessChecks: S.optional(__S(1473, __c46, 1)),
-          labels: S.optional(__S(1312, __c41, 0)),
-          replicaZones: S.optional(__S(1248, __c39, 0)),
-          maxUsableWorkstations: S.optional(S.Number),
-          grantWorkstationAdminRoleOnCreate: S.optional(S.Boolean),
-          allowedPorts: S.optional(__S(1475, __c46, 3)),
-          enableAuditAgent: S.optional(S.Boolean),
-          uid: S.optional(S.String),
-          conditions: S.optional(__S(1280, __c40, 0)),
-          idleTimeout: S.optional(S.String),
-          idleAction: S.optional(S.String),
-          deleteTime: S.optional(S.String),
-          runningTimeout: S.optional(S.String),
-          host: S.optional(__S(1483, __c46, 11)),
-          etag: S.optional(S.String),
-          encryptionKey: S.optional(__S(1484, __c46, 12)),
-          reconciling: S.optional(S.Boolean),
-          ephemeralDirectories: S.optional(__S(1487, __c46, 15)),
-          annotations: S.optional(__S(1312, __c41, 0)),
-          degraded: S.optional(S.Boolean),
-          persistentDirectories: S.optional(__S(1491, __c46, 19)),
-          name: S.optional(S.String),
-          createTime: S.optional(S.String),
-          container: S.optional(__S(1492, __c46, 20)),
-          disableTcpConnections: S.optional(S.Boolean),
-        }).pipe(
+        S.Extend(
+          __S(1461, __c45, 21),
+          S.Struct({
+            workstationConfigId: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/workstationConfigs",
@@ -2966,7 +2607,7 @@ function __c45(j: number): any {
       });
   }
 }
-function __c46(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2976,7 +2617,7 @@ function __c46(j: number): any {
         }),
       ).annotate({ identifier: "ReadinessCheck" });
     case 1:
-      return S.Array(__S(1472, __c46, 0));
+      return S.Array(__S(1440, __c45, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -2985,7 +2626,7 @@ function __c46(j: number): any {
         }),
       ).annotate({ identifier: "PortRange" });
     case 3:
-      return S.Array(__S(1474, __c46, 2));
+      return S.Array(__S(1442, __c45, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -2994,7 +2635,7 @@ function __c46(j: number): any {
         }),
       ).annotate({ identifier: "Accelerator" });
     case 5:
-      return S.Array(__S(1476, __c46, 4));
+      return S.Array(__S(1444, __c45, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -3003,11 +2644,11 @@ function __c46(j: number): any {
           id: S.optional(S.String),
           enableNestedVirtualization: S.optional(S.Boolean),
           poolSize: S.optional(S.Number),
-          accelerators: S.optional(__S(1477, __c46, 5)),
+          accelerators: S.optional(__S(1445, __c45, 5)),
         }),
       ).annotate({ identifier: "BoostConfig" });
     case 7:
-      return S.Array(__S(1478, __c46, 6));
+      return S.Array(__S(1446, __c45, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
@@ -3025,29 +2666,29 @@ function __c46(j: number): any {
     case 10:
       return S.suspend(() =>
         S.Struct({
-          boostConfigs: S.optional(__S(1479, __c46, 7)),
+          boostConfigs: S.optional(__S(1447, __c45, 7)),
           poolSize: S.optional(S.Number),
           enableNestedVirtualization: S.optional(S.Boolean),
-          serviceAccountScopes: S.optional(__S(1248, __c39, 0)),
+          serviceAccountScopes: S.optional(__S(1216, __c38, 0)),
           disableSsh: S.optional(S.Boolean),
           bootDiskSizeGb: S.optional(S.Number),
-          confidentialInstanceConfig: S.optional(__S(1480, __c46, 8)),
+          confidentialInstanceConfig: S.optional(__S(1448, __c45, 8)),
           serviceAccount: S.optional(S.String),
           machineType: S.optional(S.String),
           disablePublicIpAddresses: S.optional(S.Boolean),
-          shieldedInstanceConfig: S.optional(__S(1481, __c46, 9)),
-          vmTags: S.optional(__S(1312, __c41, 0)),
-          instanceMetadata: S.optional(__S(1312, __c41, 0)),
-          tags: S.optional(__S(1248, __c39, 0)),
+          shieldedInstanceConfig: S.optional(__S(1449, __c45, 9)),
+          vmTags: S.optional(__S(1280, __c40, 0)),
+          instanceMetadata: S.optional(__S(1280, __c40, 0)),
+          tags: S.optional(__S(1216, __c38, 0)),
           pooledInstances: S.optional(S.Number),
           startupScriptUri: S.optional(S.String),
-          accelerators: S.optional(__S(1477, __c46, 5)),
+          accelerators: S.optional(__S(1445, __c45, 5)),
         }),
       ).annotate({ identifier: "GceInstance" });
     case 11:
       return S.suspend(() =>
         S.Struct({
-          gceInstance: S.optional(__S(1482, __c46, 10)),
+          gceInstance: S.optional(__S(1450, __c45, 10)),
         }),
       ).annotate({ identifier: "Host" });
     case 12:
@@ -3070,11 +2711,11 @@ function __c46(j: number): any {
       return S.suspend(() =>
         S.Struct({
           mountPath: S.optional(S.String),
-          gcePd: S.optional(__S(1485, __c46, 13)),
+          gcePd: S.optional(__S(1453, __c45, 13)),
         }),
       ).annotate({ identifier: "EphemeralDirectory" });
     case 15:
-      return S.Array(__S(1486, __c46, 14));
+      return S.Array(__S(1454, __c45, 14));
     case 16:
       return S.suspend(() =>
         S.Struct({
@@ -3100,53 +2741,70 @@ function __c46(j: number): any {
     case 18:
       return S.suspend(() =>
         S.Struct({
-          gceHd: S.optional(__S(1488, __c46, 16)),
+          gceHd: S.optional(__S(1456, __c45, 16)),
           mountPath: S.optional(S.String),
-          gcePd: S.optional(__S(1489, __c46, 17)),
+          gcePd: S.optional(__S(1457, __c45, 17)),
         }),
       ).annotate({ identifier: "PersistentDirectory" });
     case 19:
-      return S.Array(__S(1490, __c46, 18));
+      return S.Array(__S(1458, __c45, 18));
     case 20:
       return S.suspend(() =>
         S.Struct({
           image: S.optional(S.String),
           workingDir: S.optional(S.String),
-          command: S.optional(__S(1248, __c39, 0)),
-          args: S.optional(__S(1248, __c39, 0)),
-          env: S.optional(__S(1312, __c41, 0)),
+          command: S.optional(__S(1216, __c38, 0)),
+          args: S.optional(__S(1216, __c38, 0)),
+          env: S.optional(__S(1280, __c40, 0)),
           runAsUser: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Container" });
+    case 21:
+      return S.suspend(() =>
+        S.Struct({
+          updateTime: S.optional(S.String),
+          displayName: S.optional(S.String),
+          readinessChecks: S.optional(__S(1441, __c45, 1)),
+          labels: S.optional(__S(1280, __c40, 0)),
+          replicaZones: S.optional(__S(1216, __c38, 0)),
+          maxUsableWorkstations: S.optional(S.Number),
+          grantWorkstationAdminRoleOnCreate: S.optional(S.Boolean),
+          allowedPorts: S.optional(__S(1443, __c45, 3)),
+          enableAuditAgent: S.optional(S.Boolean),
+          uid: S.optional(S.String),
+          conditions: S.optional(__S(1248, __c39, 0)),
+          idleTimeout: S.optional(S.String),
+          idleAction: S.optional(S.String),
+          deleteTime: S.optional(S.String),
+          runningTimeout: S.optional(S.String),
+          host: S.optional(__S(1451, __c45, 11)),
+          etag: S.optional(S.String),
+          encryptionKey: S.optional(__S(1452, __c45, 12)),
+          reconciling: S.optional(S.Boolean),
+          ephemeralDirectories: S.optional(__S(1455, __c45, 15)),
+          annotations: S.optional(__S(1280, __c40, 0)),
+          degraded: S.optional(S.Boolean),
+          persistentDirectories: S.optional(__S(1459, __c45, 19)),
+          name: S.optional(S.String),
+          createTime: S.optional(S.String),
+          container: S.optional(__S(1460, __c45, 20)),
+          disableTcpConnections: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "WorkstationConfig" });
   }
 }
-function __c47(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          workstationId: S.optional(S.String.pipe(T.Query())),
-          name: S.optional(S.String),
-          runtimeHost: S.optional(__S(1537, __c48, 1)),
-          createTime: S.optional(S.String),
-          annotations: S.optional(__S(1312, __c41, 0)),
-          labels: S.optional(__S(1312, __c41, 0)),
-          reconciling: S.optional(S.Boolean),
-          env: S.optional(__S(1312, __c41, 0)),
-          displayName: S.optional(S.String),
-          startTime: S.optional(S.String),
-          sourceWorkstation: S.optional(S.String),
-          etag: S.optional(S.String),
-          kmsKey: S.optional(S.String),
-          uid: S.optional(S.String),
-          host: S.optional(S.String),
-          persistentDirectories: S.optional(__S(1539, __c48, 3)),
-          deleteTime: S.optional(S.String),
-          state: S.optional(S.String),
-          updateTime: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1508, __c47, 4),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            workstationId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/workstations",
@@ -3159,7 +2817,7 @@ function __c47(j: number): any {
       });
   }
 }
-function __c48(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3172,7 +2830,7 @@ function __c48(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          gceInstanceHost: S.optional(__S(1536, __c48, 0)),
+          gceInstanceHost: S.optional(__S(1504, __c47, 0)),
         }),
       ).annotate({ identifier: "RuntimeHost" });
     case 2:
@@ -3183,10 +2841,33 @@ function __c48(j: number): any {
         }),
       ).annotate({ identifier: "WorkstationPersistentDirectory" });
     case 3:
-      return S.Array(__S(1538, __c48, 2));
+      return S.Array(__S(1506, __c47, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          runtimeHost: S.optional(__S(1505, __c47, 1)),
+          createTime: S.optional(S.String),
+          annotations: S.optional(__S(1280, __c40, 0)),
+          labels: S.optional(__S(1280, __c40, 0)),
+          reconciling: S.optional(S.Boolean),
+          env: S.optional(__S(1280, __c40, 0)),
+          displayName: S.optional(S.String),
+          startTime: S.optional(S.String),
+          sourceWorkstation: S.optional(S.String),
+          etag: S.optional(S.String),
+          kmsKey: S.optional(S.String),
+          uid: S.optional(S.String),
+          host: S.optional(S.String),
+          persistentDirectories: S.optional(__S(1507, __c47, 3)),
+          deleteTime: S.optional(S.String),
+          state: S.optional(S.String),
+          updateTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Workstation" });
   }
 }
-function __c49(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3202,7 +2883,7 @@ function __c49(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsOperationsRequest" });
   }
 }
-function __c50(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

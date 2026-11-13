@@ -376,13 +376,8 @@ export interface OSPolicyAssignmentRollout {
   /** Required. The maximum number (or percentage) of VMs per zone to disrupt at any given moment. */
   disruptionBudget?: FixedOrPercent | undefined;
 }
-export interface CreateProjectsLocationsOsPolicyAssignmentsRequest {
-  /** Optional. A unique identifier for this request. Restricted to 36 ASCII characters. A random UUID is recommended. This request is only idempotent if a `request_id` is provided. */
-  requestId?: string | undefined;
-  /** Required. The parent resource name in the form: projects/{project}/locations/{location} */
-  parent: string;
-  /** Required. The logical name of the OS policy assignment in the project with the following restrictions: * Must contain only lowercase letters, numbers, and hyphens. * Must start with a letter. * Must be between 1-63 characters. * Must end with a number or a letter. * Must be unique within the project. */
-  osPolicyAssignmentId?: string | undefined;
+/** OS policy assignment is an API resource that is used to apply a set of OS policies to a dynamically targeted group of Compute Engine VM instances. An OS policy is used to define the desired state configuration for a Compute Engine VM instance through a set of configuration resources that provide capabilities such as installing or removing software packages, or executing a script. For more information, see [OS policy and OS policy assignment](https://cloud.google.com/compute/docs/os-configuration-management/working-with-os-policies). */
+export interface OSPolicyAssignment {
   /** Required. List of OS policies to be applied to the VMs. */
   osPolicies?: OSPolicyList | undefined;
   /** Output only. The assignment revision ID A new revision is committed whenever a rollout is triggered for a OS policy assignment */
@@ -409,6 +404,14 @@ export interface CreateProjectsLocationsOsPolicyAssignmentsRequest {
   rollout?: OSPolicyAssignmentRollout | undefined;
   /** Resource name. Format: `projects/{project_number}/locations/{location}/osPolicyAssignments/{os_policy_assignment_id}` This field is ignored when you create an OS policy assignment. */
   name?: string | undefined;
+}
+export interface CreateProjectsLocationsOsPolicyAssignmentsRequest extends OSPolicyAssignment {
+  /** Optional. A unique identifier for this request. Restricted to 36 ASCII characters. A random UUID is recommended. This request is only idempotent if a `request_id` is provided. */
+  requestId?: string | undefined;
+  /** Required. The parent resource name in the form: projects/{project}/locations/{location} */
+  parent: string;
+  /** Required. The logical name of the OS policy assignment in the project with the following restrictions: * Must contain only lowercase letters, numbers, and hyphens. * Must start with a letter. * Must be between 1-63 characters. * Must end with a number or a letter. * Must be unique within the project. */
+  osPolicyAssignmentId?: string | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -916,35 +919,6 @@ export interface GetProjectsLocationsOsPolicyAssignmentsRequest {
   /** Required. The resource name of OS policy assignment. Format: `projects/{project}/locations/{location}/osPolicyAssignments/{os_policy_assignment}@{revisionId}` */
   name: string;
 }
-/** OS policy assignment is an API resource that is used to apply a set of OS policies to a dynamically targeted group of Compute Engine VM instances. An OS policy is used to define the desired state configuration for a Compute Engine VM instance through a set of configuration resources that provide capabilities such as installing or removing software packages, or executing a script. For more information, see [OS policy and OS policy assignment](https://cloud.google.com/compute/docs/os-configuration-management/working-with-os-policies). */
-export interface OSPolicyAssignment {
-  /** Required. List of OS policies to be applied to the VMs. */
-  osPolicies?: OSPolicyList | undefined;
-  /** Output only. The assignment revision ID A new revision is committed whenever a rollout is triggered for a OS policy assignment */
-  revisionId?: string | undefined;
-  /** Required. Filter to select VMs. */
-  instanceFilter?: OSPolicyAssignmentInstanceFilter | undefined;
-  /** Output only. Indicates that this revision deletes the OS policy assignment. */
-  deleted?: boolean | undefined;
-  /** The etag for this OS policy assignment. If this is provided on update, it must match the server's etag. */
-  etag?: string | undefined;
-  /** Output only. OS policy assignment rollout state */
-  rolloutState?: OSPolicyAssignmentRolloutStateEnum | undefined;
-  /** OS policy assignment description. Length of the description is limited to 1024 characters. */
-  description?: string | undefined;
-  /** Output only. Server generated unique id for the OS policy assignment resource. */
-  uid?: string | undefined;
-  /** Output only. Indicates that reconciliation is in progress for the revision. This value is `true` when the `rollout_state` is one of: * IN_PROGRESS * CANCELLING */
-  reconciling?: boolean | undefined;
-  /** Output only. Indicates that this revision has been successfully rolled out in this zone and new VMs will be assigned OS policies from this revision. For a given OS policy assignment, there is only one revision with a value of `true` for this field. */
-  baseline?: boolean | undefined;
-  /** Output only. The timestamp that the revision was created. */
-  revisionCreateTime?: string | undefined;
-  /** Required. Rollout to deploy the OS policy assignment. A rollout is triggered in the following situations: 1) OSPolicyAssignment is created. 2) OSPolicyAssignment is updated and the update contains changes to one of the following fields: - instance_filter - os_policies 3) OSPolicyAssignment is deleted. */
-  rollout?: OSPolicyAssignmentRollout | undefined;
-  /** Resource name. Format: `projects/{project_number}/locations/{location}/osPolicyAssignments/{os_policy_assignment_id}` This field is ignored when you create an OS policy assignment. */
-  name?: string | undefined;
-}
 export interface GetProjectsLocationsOsPolicyAssignmentsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -1058,7 +1032,10 @@ export interface ListOSPolicyAssignmentRevisionsResponse {
   /** The pagination token to retrieve the next page of OS policy assignment revisions. */
   nextPageToken?: string | undefined;
 }
-export interface PatchProjectsLocationsOsPolicyAssignmentsRequest {
+export interface PatchProjectsLocationsOsPolicyAssignmentsRequest extends Omit<
+  OSPolicyAssignment,
+  "name"
+> {
   /** Optional. A unique identifier for this request. Restricted to 36 ASCII characters. A random UUID is recommended. This request is only idempotent if a `request_id` is provided. */
   requestId?: string | undefined;
   /** Optional. Field mask that controls which fields of the assignment should be updated. */
@@ -1067,30 +1044,6 @@ export interface PatchProjectsLocationsOsPolicyAssignmentsRequest {
   name: string;
   /** Optional. If set to true, and the OS policy assignment is not found, a new OS policy assignment will be created. In this situation, `update_mask` is ignored. */
   allowMissing?: boolean | undefined;
-  /** Required. List of OS policies to be applied to the VMs. */
-  osPolicies?: OSPolicyList | undefined;
-  /** Output only. The assignment revision ID A new revision is committed whenever a rollout is triggered for a OS policy assignment */
-  revisionId?: string | undefined;
-  /** Required. Filter to select VMs. */
-  instanceFilter?: OSPolicyAssignmentInstanceFilter | undefined;
-  /** Output only. Indicates that this revision deletes the OS policy assignment. */
-  deleted?: boolean | undefined;
-  /** The etag for this OS policy assignment. If this is provided on update, it must match the server's etag. */
-  etag?: string | undefined;
-  /** Output only. OS policy assignment rollout state */
-  rolloutState?: OSPolicyAssignmentRolloutStateEnum | (string & {}) | undefined;
-  /** OS policy assignment description. Length of the description is limited to 1024 characters. */
-  description?: string | undefined;
-  /** Output only. Server generated unique id for the OS policy assignment resource. */
-  uid?: string | undefined;
-  /** Output only. Indicates that reconciliation is in progress for the revision. This value is `true` when the `rollout_state` is one of: * IN_PROGRESS * CANCELLING */
-  reconciling?: boolean | undefined;
-  /** Output only. Indicates that this revision has been successfully rolled out in this zone and new VMs will be assigned OS policies from this revision. For a given OS policy assignment, there is only one revision with a value of `true` for this field. */
-  baseline?: boolean | undefined;
-  /** Output only. The timestamp that the revision was created. */
-  revisionCreateTime?: string | undefined;
-  /** Required. Rollout to deploy the OS policy assignment. A rollout is triggered in the following situations: 1) OSPolicyAssignment is created. 2) OSPolicyAssignment is updated and the update contains changes to one of the following fields: - instance_filter - os_policies 3) OSPolicyAssignment is deleted. */
-  rollout?: OSPolicyAssignmentRollout | undefined;
 }
 export type CancelProjectsLocationsOsPolicyAssignmentsOperationsError =
   | NotFound
@@ -1106,11 +1059,11 @@ export const cancelProjectsLocationsOsPolicyAssignmentsOperations: API.Operation
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    417,
-    __c13,
+    385,
+    __c12,
     1,
   ) as any as S.Schema<CancelProjectsLocationsOsPolicyAssignmentsOperationsRequest>,
-  output: __S(416, __c13, 0) as any as S.Schema<Empty>,
+  output: __S(384, __c12, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1131,8 +1084,8 @@ export const createProjectsLocationsOsPolicyAssignments: API.OperationMethod<
   CreateProjectsLocationsOsPolicyAssignmentsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c14, 0) as any as S.Schema<CreateProjectsLocationsOsPolicyAssignmentsRequest>,
-  output: __S(515, __c16, 3) as any as S.Schema<Operation>,
+  input: __S(416, __c13, 0) as any as S.Schema<CreateProjectsLocationsOsPolicyAssignmentsRequest>,
+  output: __S(483, __c15, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1153,8 +1106,8 @@ export const deleteProjectsLocationsOsPolicyAssignments: API.OperationMethod<
   DeleteProjectsLocationsOsPolicyAssignmentsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c18, 0) as any as S.Schema<DeleteProjectsLocationsOsPolicyAssignmentsRequest>,
-  output: __S(515, __c16, 3) as any as S.Schema<Operation>,
+  input: __S(544, __c17, 0) as any as S.Schema<DeleteProjectsLocationsOsPolicyAssignmentsRequest>,
+  output: __S(483, __c15, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1174,11 +1127,11 @@ export const getProjectsLocationsInstanceOSPoliciesCompliances: API.OperationMet
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    608,
-    __c19,
+    576,
+    __c18,
     0,
   ) as any as S.Schema<GetProjectsLocationsInstanceOSPoliciesCompliancesRequest>,
-  output: __S(646, __c20, 6) as any as S.Schema<InstanceOSPoliciesCompliance>,
+  output: __S(614, __c19, 6) as any as S.Schema<InstanceOSPoliciesCompliance>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1194,8 +1147,8 @@ export const getProjectsLocationsInstancesInventories: API.OperationMethod<
   GetProjectsLocationsInstancesInventoriesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c22, 0) as any as S.Schema<GetProjectsLocationsInstancesInventoriesRequest>,
-  output: __S(748, __c23, 12) as any as S.Schema<Inventory>,
+  input: __S(672, __c21, 0) as any as S.Schema<GetProjectsLocationsInstancesInventoriesRequest>,
+  output: __S(716, __c22, 12) as any as S.Schema<Inventory>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1215,11 +1168,11 @@ export const getProjectsLocationsInstancesOsPolicyAssignmentsReports: API.Operat
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    768,
-    __c24,
+    736,
+    __c23,
     0,
   ) as any as S.Schema<GetProjectsLocationsInstancesOsPolicyAssignmentsReportsRequest>,
-  output: __S(806, __c25, 6) as any as S.Schema<OSPolicyAssignmentReport>,
+  output: __S(774, __c24, 6) as any as S.Schema<OSPolicyAssignmentReport>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1260,7 +1213,7 @@ export const getProjectsLocationsOsPolicyAssignments: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c2, 0) as any as S.Schema<GetProjectsLocationsOsPolicyAssignmentsRequest>,
-  output: __S(96, __c3, 0) as any as S.Schema<OSPolicyAssignment>,
+  output: __S(478, __c14, 30) as any as S.Schema<OSPolicyAssignment>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1280,11 +1233,11 @@ export const getProjectsLocationsOsPolicyAssignmentsOperations: API.OperationMet
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    128,
-    __c4,
+    96,
+    __c3,
     0,
   ) as any as S.Schema<GetProjectsLocationsOsPolicyAssignmentsOperationsRequest>,
-  output: __S(515, __c16, 3) as any as S.Schema<Operation>,
+  output: __S(483, __c15, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1305,11 +1258,11 @@ export const listProjectsLocationsInstanceOSPoliciesCompliances: API.PaginatedOp
   ListInstanceOSPoliciesCompliancesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    160,
-    __c5,
+    128,
+    __c4,
     0,
   ) as any as S.Schema<ListProjectsLocationsInstanceOSPoliciesCompliancesRequest>,
-  output: __S(162, __c5, 2) as any as S.Schema<ListInstanceOSPoliciesCompliancesResponse>,
+  output: __S(130, __c4, 2) as any as S.Schema<ListInstanceOSPoliciesCompliancesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1327,8 +1280,8 @@ export const listProjectsLocationsInstancesInventories: API.PaginatedOperationMe
   GcpOpContext,
   ListInventoriesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(192, __c6, 0) as any as S.Schema<ListProjectsLocationsInstancesInventoriesRequest>,
-  output: __S(194, __c6, 2) as any as S.Schema<ListInventoriesResponse>,
+  input: __S(160, __c5, 0) as any as S.Schema<ListProjectsLocationsInstancesInventoriesRequest>,
+  output: __S(162, __c5, 2) as any as S.Schema<ListInventoriesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1350,11 +1303,11 @@ export const listProjectsLocationsInstancesOsPolicyAssignmentsReports: API.Pagin
   ListOSPolicyAssignmentReportsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    224,
-    __c7,
+    192,
+    __c6,
     0,
   ) as any as S.Schema<ListProjectsLocationsInstancesOsPolicyAssignmentsReportsRequest>,
-  output: __S(226, __c7, 2) as any as S.Schema<ListOSPolicyAssignmentReportsResponse>,
+  output: __S(194, __c6, 2) as any as S.Schema<ListOSPolicyAssignmentReportsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1376,11 +1329,11 @@ export const listProjectsLocationsInstancesVulnerabilityReports: API.PaginatedOp
   ListVulnerabilityReportsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    256,
-    __c8,
+    224,
+    __c7,
     0,
   ) as any as S.Schema<ListProjectsLocationsInstancesVulnerabilityReportsRequest>,
-  output: __S(258, __c8, 2) as any as S.Schema<ListVulnerabilityReportsResponse>,
+  output: __S(226, __c7, 2) as any as S.Schema<ListVulnerabilityReportsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1398,8 +1351,8 @@ export const listProjectsLocationsOsPolicyAssignments: API.PaginatedOperationMet
   GcpOpContext,
   ListOSPolicyAssignmentsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(288, __c9, 0) as any as S.Schema<ListProjectsLocationsOsPolicyAssignmentsRequest>,
-  output: __S(289, __c9, 1) as any as S.Schema<ListOSPolicyAssignmentsResponse>,
+  input: __S(256, __c8, 0) as any as S.Schema<ListProjectsLocationsOsPolicyAssignmentsRequest>,
+  output: __S(257, __c8, 1) as any as S.Schema<ListOSPolicyAssignmentsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1421,11 +1374,11 @@ export const listRevisionsProjectsLocationsOsPolicyAssignments: API.PaginatedOpe
   ListOSPolicyAssignmentRevisionsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    352,
-    __c11,
+    320,
+    __c10,
     0,
   ) as any as S.Schema<ListRevisionsProjectsLocationsOsPolicyAssignmentsRequest>,
-  output: __S(353, __c11, 1) as any as S.Schema<ListOSPolicyAssignmentRevisionsResponse>,
+  output: __S(321, __c10, 1) as any as S.Schema<ListOSPolicyAssignmentRevisionsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1447,8 +1400,8 @@ export const patchProjectsLocationsOsPolicyAssignments: API.OperationMethod<
   PatchProjectsLocationsOsPolicyAssignmentsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c12, 0) as any as S.Schema<PatchProjectsLocationsOsPolicyAssignmentsRequest>,
-  output: __S(515, __c16, 3) as any as S.Schema<Operation>,
+  input: __S(352, __c11, 0) as any as S.Schema<PatchProjectsLocationsOsPolicyAssignmentsRequest>,
+  output: __S(483, __c15, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1529,8 +1482,8 @@ function __c1(j: number): any {
           updateTime: S.optional(S.String),
           createTime: S.optional(S.String),
           details: S.optional(__S(37, __c1, 5)),
-          availableInventoryItemIds: S.optional(__S(544, __c17, 0)),
-          installedInventoryItemIds: S.optional(__S(544, __c17, 0)),
+          availableInventoryItemIds: S.optional(__S(512, __c16, 0)),
+          installedInventoryItemIds: S.optional(__S(512, __c16, 0)),
         }),
       ).annotate({ identifier: "VulnerabilityReportVulnerability" });
     case 7:
@@ -1567,28 +1520,6 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          osPolicies: S.optional(__S(503, __c15, 23)),
-          revisionId: S.optional(S.String),
-          instanceFilter: S.optional(__S(507, __c15, 27)),
-          deleted: S.optional(S.Boolean),
-          etag: S.optional(S.String),
-          rolloutState: S.optional(S.String),
-          description: S.optional(S.String),
-          uid: S.optional(S.String),
-          reconciling: S.optional(S.Boolean),
-          baseline: S.optional(S.Boolean),
-          revisionCreateTime: S.optional(S.String),
-          rollout: S.optional(__S(509, __c15, 29)),
-          name: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "OSPolicyAssignment" });
-  }
-}
-function __c4(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
           name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -1600,7 +1531,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsOsPolicyAssignmentsOperationsRequest" });
   }
 }
-function __c5(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1618,17 +1549,17 @@ function __c5(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsInstanceOSPoliciesCompliancesRequest" });
     case 1:
-      return S.Array(__S(646, __c20, 6));
+      return S.Array(__S(614, __c19, 6));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          instanceOsPoliciesCompliances: S.optional(__S(161, __c5, 1)),
+          instanceOsPoliciesCompliances: S.optional(__S(129, __c4, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListInstanceOSPoliciesCompliancesResponse" });
   }
 }
-function __c6(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1647,17 +1578,17 @@ function __c6(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsInstancesInventoriesRequest" });
     case 1:
-      return S.Array(__S(748, __c23, 12));
+      return S.Array(__S(716, __c22, 12));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          inventories: S.optional(__S(193, __c6, 1)),
+          inventories: S.optional(__S(161, __c5, 1)),
         }),
       ).annotate({ identifier: "ListInventoriesResponse" });
   }
 }
-function __c7(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1675,17 +1606,17 @@ function __c7(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsInstancesOsPolicyAssignmentsReportsRequest" });
     case 1:
-      return S.Array(__S(806, __c25, 6));
+      return S.Array(__S(774, __c24, 6));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          osPolicyAssignmentReports: S.optional(__S(225, __c7, 1)),
+          osPolicyAssignmentReports: S.optional(__S(193, __c6, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOSPolicyAssignmentReportsResponse" });
   }
 }
-function __c8(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1708,12 +1639,12 @@ function __c8(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          vulnerabilityReports: S.optional(__S(257, __c8, 1)),
+          vulnerabilityReports: S.optional(__S(225, __c7, 1)),
         }),
       ).annotate({ identifier: "ListVulnerabilityReportsResponse" });
   }
 }
-function __c9(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1733,18 +1664,18 @@ function __c9(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          osPolicyAssignments: S.optional(__S(320, __c10, 0)),
+          osPolicyAssignments: S.optional(__S(288, __c9, 0)),
         }),
       ).annotate({ identifier: "ListOSPolicyAssignmentsResponse" });
   }
 }
-function __c10(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(96, __c3, 0));
+      return S.Array(__S(478, __c14, 30));
   }
 }
-function __c11(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1763,34 +1694,25 @@ function __c11(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          osPolicyAssignments: S.optional(__S(320, __c10, 0)),
+          osPolicyAssignments: S.optional(__S(288, __c9, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOSPolicyAssignmentRevisionsResponse" });
   }
 }
-function __c12(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-          osPolicies: S.optional(__S(503, __c15, 23)),
-          revisionId: S.optional(S.String),
-          instanceFilter: S.optional(__S(507, __c15, 27)),
-          deleted: S.optional(S.Boolean),
-          etag: S.optional(S.String),
-          rolloutState: S.optional(S.String),
-          description: S.optional(S.String),
-          uid: S.optional(S.String),
-          reconciling: S.optional(S.Boolean),
-          baseline: S.optional(S.Boolean),
-          revisionCreateTime: S.optional(S.String),
-          rollout: S.optional(__S(509, __c15, 29)),
-        }).pipe(
+        S.Extend(
+          __S(478, __c14, 30),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha/{+name}",
@@ -1800,7 +1722,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsOsPolicyAssignmentsRequest" });
   }
 }
-function __c13(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "CancelOperationRequest" });
@@ -1808,7 +1730,7 @@ function __c13(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(416, __c13, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(384, __c12, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1819,28 +1741,18 @@ function __c13(j: number): any {
       ).annotate({ identifier: "CancelProjectsLocationsOsPolicyAssignmentsOperationsRequest" });
   }
 }
-function __c14(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          osPolicyAssignmentId: S.optional(S.String.pipe(T.Query())),
-          osPolicies: S.optional(__S(503, __c15, 23)),
-          revisionId: S.optional(S.String),
-          instanceFilter: S.optional(__S(507, __c15, 27)),
-          deleted: S.optional(S.Boolean),
-          etag: S.optional(S.String),
-          rolloutState: S.optional(S.String),
-          description: S.optional(S.String),
-          uid: S.optional(S.String),
-          reconciling: S.optional(S.Boolean),
-          baseline: S.optional(S.Boolean),
-          revisionCreateTime: S.optional(S.String),
-          rollout: S.optional(__S(509, __c15, 29)),
-          name: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(478, __c14, 30),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            osPolicyAssignmentId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/osPolicyAssignments",
@@ -1850,7 +1762,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsOsPolicyAssignmentsRequest" });
   }
 }
-function __c15(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1860,12 +1772,12 @@ function __c15(j: number): any {
         }),
       ).annotate({ identifier: "OSPolicyInventoryFilter" });
     case 1:
-      return S.Array(__S(480, __c15, 0));
+      return S.Array(__S(448, __c14, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           uri: S.optional(S.String),
-          components: S.optional(__S(544, __c17, 0)),
+          components: S.optional(__S(512, __c16, 0)),
           distribution: S.optional(S.String),
           gpgKey: S.optional(S.String),
           archiveType: S.optional(S.String),
@@ -1877,14 +1789,14 @@ function __c15(j: number): any {
           displayName: S.optional(S.String),
           id: S.optional(S.String),
           baseUrl: S.optional(S.String),
-          gpgKeys: S.optional(__S(544, __c17, 0)),
+          gpgKeys: S.optional(__S(512, __c16, 0)),
         }),
       ).annotate({ identifier: "OSPolicyResourceRepositoryResourceYumRepository" });
     case 4:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
-          gpgKeys: S.optional(__S(544, __c17, 0)),
+          gpgKeys: S.optional(__S(512, __c16, 0)),
           displayName: S.optional(S.String),
           baseUrl: S.optional(S.String),
         }),
@@ -1899,10 +1811,10 @@ function __c15(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          apt: S.optional(__S(482, __c15, 2)),
-          yum: S.optional(__S(483, __c15, 3)),
-          zypper: S.optional(__S(484, __c15, 4)),
-          goo: S.optional(__S(485, __c15, 5)),
+          apt: S.optional(__S(450, __c14, 2)),
+          yum: S.optional(__S(451, __c14, 3)),
+          zypper: S.optional(__S(452, __c14, 4)),
+          goo: S.optional(__S(453, __c14, 5)),
         }),
       ).annotate({ identifier: "OSPolicyResourceRepositoryResource" });
     case 7:
@@ -1923,8 +1835,8 @@ function __c15(j: number): any {
     case 9:
       return S.suspend(() =>
         S.Struct({
-          gcs: S.optional(__S(487, __c15, 7)),
-          remote: S.optional(__S(488, __c15, 8)),
+          gcs: S.optional(__S(455, __c14, 7)),
+          remote: S.optional(__S(456, __c14, 8)),
           allowInsecure: S.optional(S.Boolean),
           localPath: S.optional(S.String),
         }),
@@ -1932,24 +1844,24 @@ function __c15(j: number): any {
     case 10:
       return S.suspend(() =>
         S.Struct({
-          file: S.optional(__S(489, __c15, 9)),
+          file: S.optional(__S(457, __c14, 9)),
           interpreter: S.optional(S.String),
           outputFilePath: S.optional(S.String),
-          args: S.optional(__S(544, __c17, 0)),
+          args: S.optional(__S(512, __c16, 0)),
           script: S.optional(S.String),
         }),
       ).annotate({ identifier: "OSPolicyResourceExecResourceExec" });
     case 11:
       return S.suspend(() =>
         S.Struct({
-          enforce: S.optional(__S(490, __c15, 10)),
-          validate: S.optional(__S(490, __c15, 10)),
+          enforce: S.optional(__S(458, __c14, 10)),
+          validate: S.optional(__S(458, __c14, 10)),
         }),
       ).annotate({ identifier: "OSPolicyResourceExecResource" });
     case 12:
       return S.suspend(() =>
         S.Struct({
-          file: S.optional(__S(489, __c15, 9)),
+          file: S.optional(__S(457, __c14, 9)),
           path: S.optional(S.String),
           state: S.optional(S.String),
           permissions: S.optional(S.String),
@@ -1959,7 +1871,7 @@ function __c15(j: number): any {
     case 13:
       return S.suspend(() =>
         S.Struct({
-          source: S.optional(__S(489, __c15, 9)),
+          source: S.optional(__S(457, __c14, 9)),
           pullDeps: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "OSPolicyResourcePackageResourceDeb" });
@@ -1972,56 +1884,56 @@ function __c15(j: number): any {
     case 15:
       return S.suspend(() =>
         S.Struct({
-          properties: S.optional(__S(544, __c17, 0)),
-          source: S.optional(__S(489, __c15, 9)),
+          properties: S.optional(__S(512, __c16, 0)),
+          source: S.optional(__S(457, __c14, 9)),
         }),
       ).annotate({ identifier: "OSPolicyResourcePackageResourceMSI" });
     case 16:
       return S.suspend(() =>
         S.Struct({
           pullDeps: S.optional(S.Boolean),
-          source: S.optional(__S(489, __c15, 9)),
+          source: S.optional(__S(457, __c14, 9)),
         }),
       ).annotate({ identifier: "OSPolicyResourcePackageResourceRPM" });
     case 17:
       return S.suspend(() =>
         S.Struct({
-          deb: S.optional(__S(493, __c15, 13)),
-          yum: S.optional(__S(494, __c15, 14)),
+          deb: S.optional(__S(461, __c14, 13)),
+          yum: S.optional(__S(462, __c14, 14)),
           desiredState: S.optional(S.String),
-          apt: S.optional(__S(494, __c15, 14)),
-          msi: S.optional(__S(495, __c15, 15)),
-          zypper: S.optional(__S(494, __c15, 14)),
-          googet: S.optional(__S(494, __c15, 14)),
-          rpm: S.optional(__S(496, __c15, 16)),
+          apt: S.optional(__S(462, __c14, 14)),
+          msi: S.optional(__S(463, __c14, 15)),
+          zypper: S.optional(__S(462, __c14, 14)),
+          googet: S.optional(__S(462, __c14, 14)),
+          rpm: S.optional(__S(464, __c14, 16)),
         }),
       ).annotate({ identifier: "OSPolicyResourcePackageResource" });
     case 18:
       return S.suspend(() =>
         S.Struct({
-          repository: S.optional(__S(486, __c15, 6)),
-          exec: S.optional(__S(491, __c15, 11)),
-          file: S.optional(__S(492, __c15, 12)),
+          repository: S.optional(__S(454, __c14, 6)),
+          exec: S.optional(__S(459, __c14, 11)),
+          file: S.optional(__S(460, __c14, 12)),
           id: S.optional(S.String),
-          pkg: S.optional(__S(497, __c15, 17)),
+          pkg: S.optional(__S(465, __c14, 17)),
         }),
       ).annotate({ identifier: "OSPolicyResource" });
     case 19:
-      return S.Array(__S(498, __c15, 18));
+      return S.Array(__S(466, __c14, 18));
     case 20:
       return S.suspend(() =>
         S.Struct({
-          inventoryFilters: S.optional(__S(481, __c15, 1)),
-          resources: S.optional(__S(499, __c15, 19)),
-          osFilter: S.optional(__S(480, __c15, 0)),
+          inventoryFilters: S.optional(__S(449, __c14, 1)),
+          resources: S.optional(__S(467, __c14, 19)),
+          osFilter: S.optional(__S(448, __c14, 0)),
         }),
       ).annotate({ identifier: "OSPolicyResourceGroup" });
     case 21:
-      return S.Array(__S(500, __c15, 20));
+      return S.Array(__S(468, __c14, 20));
     case 22:
       return S.suspend(() =>
         S.Struct({
-          resourceGroups: S.optional(__S(501, __c15, 21)),
+          resourceGroups: S.optional(__S(469, __c14, 21)),
           mode: S.optional(S.String),
           allowNoResourceGroupMatch: S.optional(S.Boolean),
           id: S.optional(S.String),
@@ -2029,25 +1941,25 @@ function __c15(j: number): any {
         }),
       ).annotate({ identifier: "OSPolicy" });
     case 23:
-      return S.Array(__S(502, __c15, 22));
+      return S.Array(__S(470, __c14, 22));
     case 24:
       return S.Record(S.String, S.String);
     case 25:
       return S.suspend(() =>
         S.Struct({
-          labels: S.optional(__S(504, __c15, 24)),
+          labels: S.optional(__S(472, __c14, 24)),
         }),
       ).annotate({ identifier: "OSPolicyAssignmentLabelSet" });
     case 26:
-      return S.Array(__S(505, __c15, 25));
+      return S.Array(__S(473, __c14, 25));
     case 27:
       return S.suspend(() =>
         S.Struct({
-          osShortNames: S.optional(__S(544, __c17, 0)),
-          inclusionLabels: S.optional(__S(506, __c15, 26)),
-          exclusionLabels: S.optional(__S(506, __c15, 26)),
+          osShortNames: S.optional(__S(512, __c16, 0)),
+          inclusionLabels: S.optional(__S(474, __c14, 26)),
+          exclusionLabels: S.optional(__S(474, __c14, 26)),
           all: S.optional(S.Boolean),
-          inventories: S.optional(__S(481, __c15, 1)),
+          inventories: S.optional(__S(449, __c14, 1)),
         }),
       ).annotate({ identifier: "OSPolicyAssignmentInstanceFilter" });
     case 28:
@@ -2061,44 +1973,62 @@ function __c15(j: number): any {
       return S.suspend(() =>
         S.Struct({
           minWaitDuration: S.optional(S.String),
-          disruptionBudget: S.optional(__S(508, __c15, 28)),
+          disruptionBudget: S.optional(__S(476, __c14, 28)),
         }),
       ).annotate({ identifier: "OSPolicyAssignmentRollout" });
+    case 30:
+      return S.suspend(() =>
+        S.Struct({
+          osPolicies: S.optional(__S(471, __c14, 23)),
+          revisionId: S.optional(S.String),
+          instanceFilter: S.optional(__S(475, __c14, 27)),
+          deleted: S.optional(S.Boolean),
+          etag: S.optional(S.String),
+          rolloutState: S.optional(S.String),
+          description: S.optional(S.String),
+          uid: S.optional(S.String),
+          reconciling: S.optional(S.Boolean),
+          baseline: S.optional(S.Boolean),
+          revisionCreateTime: S.optional(S.String),
+          rollout: S.optional(__S(477, __c14, 29)),
+          name: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "OSPolicyAssignment" });
   }
 }
-function __c16(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
     case 1:
-      return S.Array(__S(512, __c16, 0));
+      return S.Array(__S(480, __c15, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           code: S.optional(S.Number),
           message: S.optional(S.String),
-          details: S.optional(__S(513, __c16, 1)),
+          details: S.optional(__S(481, __c15, 1)),
         }),
       ).annotate({ identifier: "Status" });
     case 3:
       return S.suspend(() =>
         S.Struct({
           done: S.optional(S.Boolean),
-          error: S.optional(__S(514, __c16, 2)),
-          metadata: S.optional(__S(512, __c16, 0)),
-          response: S.optional(__S(512, __c16, 0)),
+          error: S.optional(__S(482, __c15, 2)),
+          metadata: S.optional(__S(480, __c15, 0)),
+          response: S.optional(__S(480, __c15, 0)),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "Operation" });
   }
 }
-function __c17(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c18(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2115,7 +2045,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsOsPolicyAssignmentsRequest" });
   }
 }
-function __c19(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2131,7 +2061,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsInstanceOSPoliciesCompliancesRequest" });
   }
 }
-function __c20(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2142,33 +2072,33 @@ function __c20(j: number): any {
         }),
       ).annotate({ identifier: "OSPolicyResourceConfigStep" });
     case 1:
-      return S.Array(__S(640, __c20, 0));
+      return S.Array(__S(608, __c19, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          execResourceOutput: S.optional(__S(672, __c21, 0)),
+          execResourceOutput: S.optional(__S(640, __c20, 0)),
           state: S.optional(S.String),
-          configSteps: S.optional(__S(641, __c20, 1)),
+          configSteps: S.optional(__S(609, __c19, 1)),
           osPolicyResourceId: S.optional(S.String),
         }),
       ).annotate({ identifier: "OSPolicyResourceCompliance" });
     case 3:
-      return S.Array(__S(642, __c20, 2));
+      return S.Array(__S(610, __c19, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           state: S.optional(S.String),
-          osPolicyResourceCompliances: S.optional(__S(643, __c20, 3)),
+          osPolicyResourceCompliances: S.optional(__S(611, __c19, 3)),
           osPolicyAssignment: S.optional(S.String),
           osPolicyId: S.optional(S.String),
         }),
       ).annotate({ identifier: "InstanceOSPoliciesComplianceOSPolicyCompliance" });
     case 5:
-      return S.Array(__S(644, __c20, 4));
+      return S.Array(__S(612, __c19, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          osPolicyCompliances: S.optional(__S(645, __c20, 5)),
+          osPolicyCompliances: S.optional(__S(613, __c19, 5)),
           detailedState: S.optional(S.String),
           lastComplianceRunId: S.optional(S.String),
           state: S.optional(S.String),
@@ -2180,7 +2110,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "InstanceOSPoliciesCompliance" });
   }
 }
-function __c21(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2190,7 +2120,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "OSPolicyResourceComplianceExecResourceOutput" });
   }
 }
-function __c22(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2207,7 +2137,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsInstancesInventoriesRequest" });
   }
 }
-function __c23(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2242,7 +2172,7 @@ function __c23(j: number): any {
       return S.suspend(() =>
         S.Struct({
           displayVersion: S.optional(S.String),
-          installDate: S.optional(__S(738, __c23, 2)),
+          installDate: S.optional(__S(706, __c22, 2)),
           displayName: S.optional(S.String),
           publisher: S.optional(S.String),
           helpLink: S.optional(S.String),
@@ -2265,14 +2195,14 @@ function __c23(j: number): any {
         }),
       ).annotate({ identifier: "InventoryWindowsUpdatePackageWindowsUpdateCategory" });
     case 6:
-      return S.Array(__S(741, __c23, 5));
+      return S.Array(__S(709, __c22, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          categories: S.optional(__S(742, __c23, 6)),
+          categories: S.optional(__S(710, __c22, 6)),
           title: S.optional(S.String),
-          kbArticleIds: S.optional(__S(544, __c17, 0)),
-          moreInfoUrls: S.optional(__S(544, __c17, 0)),
+          kbArticleIds: S.optional(__S(512, __c16, 0)),
+          moreInfoUrls: S.optional(__S(512, __c16, 0)),
           revisionNumber: S.optional(S.Number),
           supportUrl: S.optional(S.String),
           lastDeploymentChangeTime: S.optional(S.String),
@@ -2292,43 +2222,43 @@ function __c23(j: number): any {
     case 9:
       return S.suspend(() =>
         S.Struct({
-          googetPackage: S.optional(__S(737, __c23, 1)),
-          windowsApplication: S.optional(__S(739, __c23, 3)),
-          aptPackage: S.optional(__S(737, __c23, 1)),
-          cosPackage: S.optional(__S(737, __c23, 1)),
-          qfePackage: S.optional(__S(740, __c23, 4)),
-          wuaPackage: S.optional(__S(743, __c23, 7)),
-          zypperPatch: S.optional(__S(744, __c23, 8)),
-          yumPackage: S.optional(__S(737, __c23, 1)),
-          zypperPackage: S.optional(__S(737, __c23, 1)),
+          googetPackage: S.optional(__S(705, __c22, 1)),
+          windowsApplication: S.optional(__S(707, __c22, 3)),
+          aptPackage: S.optional(__S(705, __c22, 1)),
+          cosPackage: S.optional(__S(705, __c22, 1)),
+          qfePackage: S.optional(__S(708, __c22, 4)),
+          wuaPackage: S.optional(__S(711, __c22, 7)),
+          zypperPatch: S.optional(__S(712, __c22, 8)),
+          yumPackage: S.optional(__S(705, __c22, 1)),
+          zypperPackage: S.optional(__S(705, __c22, 1)),
         }),
       ).annotate({ identifier: "InventorySoftwarePackage" });
     case 10:
       return S.suspend(() =>
         S.Struct({
-          installedPackage: S.optional(__S(745, __c23, 9)),
+          installedPackage: S.optional(__S(713, __c22, 9)),
           id: S.optional(S.String),
           originType: S.optional(S.String),
           createTime: S.optional(S.String),
           type: S.optional(S.String),
-          availablePackage: S.optional(__S(745, __c23, 9)),
+          availablePackage: S.optional(__S(713, __c22, 9)),
           updateTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "InventoryItem" });
     case 11:
-      return S.Record(S.String, __S(746, __c23, 10));
+      return S.Record(S.String, __S(714, __c22, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
-          osInfo: S.optional(__S(736, __c23, 0)),
-          items: S.optional(__S(747, __c23, 11)),
+          osInfo: S.optional(__S(704, __c22, 0)),
+          items: S.optional(__S(715, __c22, 11)),
           updateTime: S.optional(S.String),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "Inventory" });
   }
 }
-function __c24(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2344,7 +2274,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsInstancesOsPolicyAssignmentsReportsRequest" });
   }
 }
-function __c25(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2357,32 +2287,32 @@ function __c25(j: number): any {
           "OSPolicyAssignmentReportOSPolicyComplianceOSPolicyResourceComplianceOSPolicyResourceConfigStep",
       });
     case 1:
-      return S.Array(__S(800, __c25, 0));
+      return S.Array(__S(768, __c24, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           osPolicyResourceId: S.optional(S.String),
-          configSteps: S.optional(__S(801, __c25, 1)),
+          configSteps: S.optional(__S(769, __c24, 1)),
           complianceStateReason: S.optional(S.String),
           complianceState: S.optional(S.String),
-          execResourceOutput: S.optional(__S(672, __c21, 0)),
+          execResourceOutput: S.optional(__S(640, __c20, 0)),
         }),
       ).annotate({
         identifier: "OSPolicyAssignmentReportOSPolicyComplianceOSPolicyResourceCompliance",
       });
     case 3:
-      return S.Array(__S(802, __c25, 2));
+      return S.Array(__S(770, __c24, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           complianceState: S.optional(S.String),
-          osPolicyResourceCompliances: S.optional(__S(803, __c25, 3)),
+          osPolicyResourceCompliances: S.optional(__S(771, __c24, 3)),
           osPolicyId: S.optional(S.String),
           complianceStateReason: S.optional(S.String),
         }),
       ).annotate({ identifier: "OSPolicyAssignmentReportOSPolicyCompliance" });
     case 5:
-      return S.Array(__S(804, __c25, 4));
+      return S.Array(__S(772, __c24, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -2391,7 +2321,7 @@ function __c25(j: number): any {
           lastRunId: S.optional(S.String),
           instance: S.optional(S.String),
           name: S.optional(S.String),
-          osPolicyCompliances: S.optional(__S(805, __c25, 5)),
+          osPolicyCompliances: S.optional(__S(773, __c24, 5)),
         }),
       ).annotate({ identifier: "OSPolicyAssignmentReport" });
   }

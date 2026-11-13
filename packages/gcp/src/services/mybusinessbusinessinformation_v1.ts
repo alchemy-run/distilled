@@ -404,54 +404,6 @@ export interface PhoneNumbers {
   /** Required. A phone number that connects to your individual business location as directly as possible. Use a local phone number instead of a central, call center helpline number whenever possible. */
   primaryPhone?: string | undefined;
 }
-export interface CreateAccountsLocationsRequest {
-  /** Required. The name of the account in which to create this location. */
-  parent: string;
-  /** Optional. If true, the request is validated without actually creating the location. */
-  validateOnly?: boolean | undefined;
-  /** Optional. A unique request ID for the server to detect duplicated requests. We recommend using UUIDs. Max length is 50 characters. */
-  requestId?: string | undefined;
-  /** Optional. Additional information that is surfaced in AdWords. */
-  adWordsLocationExtensions?: AdWordsLocationExtensions | undefined;
-  /** Optional. List of services supported by merchants. A service can be haircut, install water heater, etc. Duplicated service items will be removed automatically. */
-  serviceItems?: ServiceItemList | undefined;
-  /** Optional. A URL for this business. If possible, use a URL that represents this individual business location instead of a generic website/URL that represents all locations, or the brand. */
-  websiteUri?: string | undefined;
-  /** Optional. A flag that indicates whether the location is currently open for business. */
-  openInfo?: OpenInfo | undefined;
-  /** Optional. The different categories that describe the business. */
-  categories?: Categories | undefined;
-  /** Identifier. Google identifier for this location in the form: `locations/{location_id}`. */
-  name?: string | undefined;
-  /** Optional. Service area businesses provide their service at the customer's location. If this business is a service area business, this field describes the area(s) serviced by the business. */
-  serviceArea?: ServiceAreaBusiness | undefined;
-  /** Optional. External identifier for this location, which must be unique within a given account. This is a means of associating the location with your own records. */
-  storeCode?: string | undefined;
-  /** Optional. User-provided latitude and longitude. When creating a location, this field is ignored if the provided address geocodes successfully. This field is only returned on get requests if the user-provided `latlng` value was accepted during create, or the `latlng` value was updated through the Google Business Profile website. This field can only be updated by approved clients. */
-  latlng?: LatLng | undefined;
-  /** Output only. Additional non-user-editable information. */
-  metadata?: Metadata | undefined;
-  /** Optional. A collection of free-form strings to allow you to tag your business. These labels are NOT user facing; only you can see them. Must be between 1-255 characters per label. */
-  labels?: StringList | undefined;
-  /** Optional. Special hours for the business. This typically includes holiday hours, and other times outside of regular operating hours. These override regular business hours. This field cannot be set without regular hours. */
-  specialHours?: SpecialHours | undefined;
-  /** Optional. More hours for a business's different departments or specific customers. */
-  moreHours?: MoreHoursList | undefined;
-  /** Required. Location name should reflect your business's real-world name, as used consistently on your storefront, website, and stationery, and as known to customers. Any additional information, when relevant, can be included in other fields of the resource (for example, `Address`, `Categories`). Don't add unnecessary information to your name (for example, prefer "Google" over "Google Inc. - Mountain View Corporate Headquarters"). Don't include marketing taglines, store codes, special characters, hours or closed/open status, phone numbers, website URLs, service/product information, location/address or directions, or containment information (for example, "Chase ATM in Duane Reade"). */
-  title?: string | undefined;
-  /** Optional. Describes your business in your own voice and shares with users the unique story of your business and offerings. This field is required for all categories except lodging categories (e.g., hotels, motels, inns). */
-  profile?: Profile | undefined;
-  /** Immutable. The language of the location. Set during creation and not updateable. */
-  languageCode?: string | undefined;
-  /** Optional. Operating hours for the business. */
-  regularHours?: BusinessHours | undefined;
-  /** Optional. All locations and chain related to this one. */
-  relationshipData?: RelationshipData | undefined;
-  /** Optional. A precise, accurate address to describe your business location. PO boxes or mailboxes located at remote locations are not acceptable. At this time, you can specify a maximum of five `address_lines` values in the address. This field should only be set for businesses that have a storefront. This field should not be set for locations of type `CUSTOMER_LOCATION_ONLY` but if set, any value provided will be discarded. */
-  storefrontAddress?: PostalAddress | undefined;
-  /** Optional. The different phone numbers that customers can use to get in touch with the business. */
-  phoneNumbers?: PhoneNumbers | undefined;
-}
 /** A location. See the [help center article] (https://support.google.com/business/answer/3038177) for a detailed description of these fields, or the [category endpoint](/my-business/reference/rest/v4/categories) for a list of valid business categories. */
 export interface Location {
   /** Optional. Additional information that is surfaced in AdWords. */
@@ -494,6 +446,14 @@ export interface Location {
   storefrontAddress?: PostalAddress | undefined;
   /** Optional. The different phone numbers that customers can use to get in touch with the business. */
   phoneNumbers?: PhoneNumbers | undefined;
+}
+export interface CreateAccountsLocationsRequest extends Location {
+  /** Required. The name of the account in which to create this location. */
+  parent: string;
+  /** Optional. If true, the request is validated without actually creating the location. */
+  validateOnly?: boolean | undefined;
+  /** Optional. A unique request ID for the server to detect duplicated requests. We recommend using UUIDs. Max length is 50 characters. */
+  requestId?: string | undefined;
 }
 export interface DeleteLocationsRequest {
   /** Required. The name of the location to delete. */
@@ -701,51 +661,13 @@ export interface ListCategoriesResponse {
   /** The matching categories based on the requested parameters. */
   categories?: CategoryList | undefined;
 }
-export interface PatchLocationsRequest {
+export interface PatchLocationsRequest extends Omit<Location, "name"> {
   /** Optional. If true, the request is validated without actually updating the location. When this field is set, we will only return validation errors if there were any. The response will be empty if no errors were found. */
   validateOnly?: boolean | undefined;
   /** Required. The specific fields to update. */
   updateMask?: string | undefined;
   /** Identifier. Google identifier for this location in the form: `locations/{location_id}`. */
   name: string;
-  /** Optional. Additional information that is surfaced in AdWords. */
-  adWordsLocationExtensions?: AdWordsLocationExtensions | undefined;
-  /** Optional. List of services supported by merchants. A service can be haircut, install water heater, etc. Duplicated service items will be removed automatically. */
-  serviceItems?: ServiceItemList | undefined;
-  /** Optional. A URL for this business. If possible, use a URL that represents this individual business location instead of a generic website/URL that represents all locations, or the brand. */
-  websiteUri?: string | undefined;
-  /** Optional. A flag that indicates whether the location is currently open for business. */
-  openInfo?: OpenInfo | undefined;
-  /** Optional. The different categories that describe the business. */
-  categories?: Categories | undefined;
-  /** Optional. Service area businesses provide their service at the customer's location. If this business is a service area business, this field describes the area(s) serviced by the business. */
-  serviceArea?: ServiceAreaBusiness | undefined;
-  /** Optional. External identifier for this location, which must be unique within a given account. This is a means of associating the location with your own records. */
-  storeCode?: string | undefined;
-  /** Optional. User-provided latitude and longitude. When creating a location, this field is ignored if the provided address geocodes successfully. This field is only returned on get requests if the user-provided `latlng` value was accepted during create, or the `latlng` value was updated through the Google Business Profile website. This field can only be updated by approved clients. */
-  latlng?: LatLng | undefined;
-  /** Output only. Additional non-user-editable information. */
-  metadata?: Metadata | undefined;
-  /** Optional. A collection of free-form strings to allow you to tag your business. These labels are NOT user facing; only you can see them. Must be between 1-255 characters per label. */
-  labels?: StringList | undefined;
-  /** Optional. Special hours for the business. This typically includes holiday hours, and other times outside of regular operating hours. These override regular business hours. This field cannot be set without regular hours. */
-  specialHours?: SpecialHours | undefined;
-  /** Optional. More hours for a business's different departments or specific customers. */
-  moreHours?: MoreHoursList | undefined;
-  /** Required. Location name should reflect your business's real-world name, as used consistently on your storefront, website, and stationery, and as known to customers. Any additional information, when relevant, can be included in other fields of the resource (for example, `Address`, `Categories`). Don't add unnecessary information to your name (for example, prefer "Google" over "Google Inc. - Mountain View Corporate Headquarters"). Don't include marketing taglines, store codes, special characters, hours or closed/open status, phone numbers, website URLs, service/product information, location/address or directions, or containment information (for example, "Chase ATM in Duane Reade"). */
-  title?: string | undefined;
-  /** Optional. Describes your business in your own voice and shares with users the unique story of your business and offerings. This field is required for all categories except lodging categories (e.g., hotels, motels, inns). */
-  profile?: Profile | undefined;
-  /** Immutable. The language of the location. Set during creation and not updateable. */
-  languageCode?: string | undefined;
-  /** Optional. Operating hours for the business. */
-  regularHours?: BusinessHours | undefined;
-  /** Optional. All locations and chain related to this one. */
-  relationshipData?: RelationshipData | undefined;
-  /** Optional. A precise, accurate address to describe your business location. PO boxes or mailboxes located at remote locations are not acceptable. At this time, you can specify a maximum of five `address_lines` values in the address. This field should only be set for businesses that have a storefront. This field should not be set for locations of type `CUSTOMER_LOCATION_ONLY` but if set, any value provided will be discarded. */
-  storefrontAddress?: PostalAddress | undefined;
-  /** Optional. The different phone numbers that customers can use to get in touch with the business. */
-  phoneNumbers?: PhoneNumbers | undefined;
 }
 export interface SearchChainsRequest {
   /** The maximum number of matched chains to return from this query. The default is 10. The maximum possible value is 500. */
@@ -759,7 +681,8 @@ export interface SearchChainsResponse {
   /** Chains that match the queried chain_display_name in SearchChainsRequest. If there are no matches, this field will be empty. Results are listed in order of relevance. */
   chains?: ChainList | undefined;
 }
-export interface SearchGoogleLocationsRequest_ {
+/** Request message for GoogleLocations.SearchGoogleLocations. */
+export interface SearchGoogleLocationsRequest {
   /** The number of matches to return. The default value is 3, with a maximum of 10. Note that latency may increase if more are requested. There is no pagination. */
   pageSize?: number | undefined;
   /** Text query to search for. The search results from a query string will be less accurate than if providing an exact location, but can provide more inexact matches. */
@@ -767,6 +690,7 @@ export interface SearchGoogleLocationsRequest_ {
   /** Location to search for. If provided, will find locations which match the provided location details, which must include a value for the title. */
   location?: Location | undefined;
 }
+export interface SearchGoogleLocationsRequest_ extends SearchGoogleLocationsRequest {}
 /** Represents a Location that is present on Google. This can be a location that has been claimed by the user, someone else, or could be unclaimed. */
 export interface GoogleLocation {
   /** The sparsely populated Location information. This field can be re-used in CreateLocation if it is not currently claimed by a user. */
@@ -782,13 +706,11 @@ export interface SearchGoogleLocationsResponse {
   /** A collection of GoogleLocations that are potential matches to the specified request, listed in order from most to least accuracy. */
   googleLocations?: GoogleLocationList | undefined;
 }
-export interface UpdateAttributesLocationsRequest {
+export interface UpdateAttributesLocationsRequest extends Omit<Attributes, "name"> {
   /** Required. Google identifier for this location in the form of `locations/{location_id}/attributes`. */
   name: string;
   /** Required. Attribute name of attributes that you'd like to update. Represented by `attributes/{attribute}`. Updates: All attributes provided in the attributes field that you would like to update must be set in the `attribute_mask`. Attributes set in the above list but not in the `attribute_mask` will be ignored. Deletes: If you'd like to delete certain attributes, they must be specified in the `attribute_mask` with no matching entry in the attributes list. If you'd like to delete all attributes set on a location, you should look up all the applicable attributes for the location and then add them to the `attribute_mask` with an empty attributes field. */
   attributeMask?: string | undefined;
-  /** A collection of attributes that need to be updated. */
-  attributes?: AttributeList | undefined;
 }
 export type BatchGetCategoriesError = NotFound | Forbidden | GcpOpError;
 /** Returns a list of business categories for the provided language and GConcept ids. */
@@ -1026,8 +948,8 @@ export const searchGoogleLocations: API.OperationMethod<
   SearchGoogleLocationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c7, 0) as any as S.Schema<SearchGoogleLocationsRequest_>,
-  output: __S(227, __c7, 3) as any as S.Schema<SearchGoogleLocationsResponse>,
+  input: __S(225, __c7, 1) as any as S.Schema<SearchGoogleLocationsRequest_>,
+  output: __S(228, __c7, 4) as any as S.Schema<SearchGoogleLocationsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1206,30 +1128,14 @@ function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          adWordsLocationExtensions: S.optional(__S(416, __c13, 0)),
-          serviceItems: S.optional(__S(422, __c13, 6)),
-          websiteUri: S.optional(S.String),
-          openInfo: S.optional(__S(424, __c13, 8)),
-          categories: S.optional(__S(425, __c13, 9)),
-          serviceArea: S.optional(__S(429, __c13, 13)),
-          storeCode: S.optional(S.String),
-          latlng: S.optional(__S(430, __c13, 14)),
-          metadata: S.optional(__S(431, __c13, 15)),
-          labels: S.optional(__S(320, __c10, 0)),
-          specialHours: S.optional(__S(435, __c13, 19)),
-          moreHours: S.optional(__S(439, __c13, 23)),
-          title: S.optional(S.String),
-          profile: S.optional(__S(440, __c13, 24)),
-          languageCode: S.optional(S.String),
-          regularHours: S.optional(__S(441, __c13, 25)),
-          relationshipData: S.optional(__S(444, __c13, 28)),
-          storefrontAddress: S.optional(__S(445, __c13, 29)),
-          phoneNumbers: S.optional(__S(446, __c13, 30)),
-        }).pipe(
+        S.Extend(
+          __S(447, __c13, 31),
+          S.Struct({
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -1272,7 +1178,11 @@ function __c7(j: number): any {
           pageSize: S.optional(S.Number),
           query: S.optional(S.String),
           location: S.optional(__S(447, __c13, 31)),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "SearchGoogleLocationsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(__S(224, __c7, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/googleLocations:search",
@@ -1280,7 +1190,7 @@ function __c7(j: number): any {
           }),
         ),
       ).annotate({ identifier: "SearchGoogleLocationsRequest_" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           location: S.optional(__S(447, __c13, 31)),
@@ -1288,12 +1198,12 @@ function __c7(j: number): any {
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleLocation" });
-    case 2:
-      return S.Array(__S(225, __c7, 1));
     case 3:
+      return S.Array(__S(226, __c7, 2));
+    case 4:
       return S.suspend(() =>
         S.Struct({
-          googleLocations: S.optional(__S(226, __c7, 2)),
+          googleLocations: S.optional(__S(227, __c7, 3)),
         }),
       ).annotate({ identifier: "SearchGoogleLocationsResponse" });
   }
@@ -1302,11 +1212,13 @@ function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          attributeMask: S.optional(S.String.pipe(T.Query())),
-          attributes: S.optional(__S(515, __c16, 3)),
-        }).pipe(
+        S.Extend(
+          __S(516, __c16, 4),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            attributeMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -1385,31 +1297,14 @@ function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          adWordsLocationExtensions: S.optional(__S(416, __c13, 0)),
-          serviceItems: S.optional(__S(422, __c13, 6)),
-          websiteUri: S.optional(S.String),
-          openInfo: S.optional(__S(424, __c13, 8)),
-          categories: S.optional(__S(425, __c13, 9)),
-          name: S.optional(S.String),
-          serviceArea: S.optional(__S(429, __c13, 13)),
-          storeCode: S.optional(S.String),
-          latlng: S.optional(__S(430, __c13, 14)),
-          metadata: S.optional(__S(431, __c13, 15)),
-          labels: S.optional(__S(320, __c10, 0)),
-          specialHours: S.optional(__S(435, __c13, 19)),
-          moreHours: S.optional(__S(439, __c13, 23)),
-          title: S.optional(S.String),
-          profile: S.optional(__S(440, __c13, 24)),
-          languageCode: S.optional(S.String),
-          regularHours: S.optional(__S(441, __c13, 25)),
-          relationshipData: S.optional(__S(444, __c13, 28)),
-          storefrontAddress: S.optional(__S(445, __c13, 29)),
-          phoneNumbers: S.optional(__S(446, __c13, 30)),
-        }).pipe(
+        S.Extend(
+          __S(447, __c13, 31),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/locations",

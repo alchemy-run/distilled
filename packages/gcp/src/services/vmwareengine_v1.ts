@@ -117,13 +117,8 @@ export type DatastoreStateEnum =
   | "ACTIVE"
   | "UPDATING"
   | "DELETING";
-export interface CreateProjectsLocationsDatastoresRequest {
-  /** Optional. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Required. The user-provided identifier of the datastore to be created. This identifier must be unique among each `Datastore` within the parent and becomes the final token in the name URI. The identifier must meet the following requirements: * Only contains 1-63 alphanumeric characters and hyphens * Begins with an alphabetical character * Ends with a non-hyphen character * Not formatted as a UUID * Complies with [RFC 1034](https://datatracker.ietf.org/doc/html/rfc1034) (section 3.5) */
-  datastoreId?: string | undefined;
-  /** Required. The resource name of the location to create the new datastore in. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1` */
-  parent: string;
+/** Represents a datastore resource. */
+export interface Datastore {
   /** Output only. System-generated unique identifier for the resource. */
   uid?: string | undefined;
   /** Output only. Identifier. The resource name of this datastore. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1/datastores/datastore` */
@@ -142,6 +137,14 @@ export interface CreateProjectsLocationsDatastoresRequest {
   createTime?: string | undefined;
   /** Output only. Last update time of this resource. */
   updateTime?: string | undefined;
+}
+export interface CreateProjectsLocationsDatastoresRequest extends Datastore {
+  /** Optional. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+  /** Required. The user-provided identifier of the datastore to be created. This identifier must be unique among each `Datastore` within the parent and becomes the final token in the name URI. The identifier must meet the following requirements: * Only contains 1-63 alphanumeric characters and hyphens * Begins with an alphabetical character * Ends with a non-hyphen character * Not formatted as a UUID * Complies with [RFC 1034](https://datatracker.ietf.org/doc/html/rfc1034) (section 3.5) */
+  datastoreId?: string | undefined;
+  /** Required. The resource name of the location to create the new datastore in. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1` */
+  parent: string;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -183,15 +186,8 @@ export type NetworkPeeringStateEnum =
   | "ACTIVE"
   | "CREATING"
   | "DELETING";
-export interface CreateProjectsLocationsNetworkPeeringsRequest {
-  /** Required. The resource name of the location to create the new network peering in. This value is always `global`, because `NetworkPeering` is a global resource. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/global` */
-  parent: string;
-  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Optional. If set to `true`, only validates the request but doesn't execute the request. If set to `false`, validates and executes the request. */
-  validateOnly?: boolean | undefined;
-  /** Required. The user-provided identifier of the new `NetworkPeering`. This identifier must be unique among `NetworkPeering` resources within the parent and becomes the final token in the name URI. The identifier must meet the following requirements: * Only contains 1-63 alphanumeric characters and hyphens * Begins with an alphabetical character * Ends with a non-hyphen character * Not formatted as a UUID * Complies with [RFC 1034](https://datatracker.ietf.org/doc/html/rfc1034) (section 3.5) */
-  networkPeeringId?: string | undefined;
+/** Details of a network peering. */
+export interface NetworkPeering {
   /** Optional. True if custom routes are exported to the peered network; false otherwise. The default value is true. */
   exportCustomRoutes?: boolean | undefined;
   /** Optional. User-provided description for this network peering. */
@@ -225,6 +221,16 @@ export interface CreateProjectsLocationsNetworkPeeringsRequest {
   /** Output only. System-generated unique identifier for the resource. */
   uid?: string | undefined;
 }
+export interface CreateProjectsLocationsNetworkPeeringsRequest extends NetworkPeering {
+  /** Required. The resource name of the location to create the new network peering in. This value is always `global`, because `NetworkPeering` is a global resource. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/global` */
+  parent: string;
+  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+  /** Optional. If set to `true`, only validates the request but doesn't execute the request. If set to `false`, validates and executes the request. */
+  validateOnly?: boolean | undefined;
+  /** Required. The user-provided identifier of the new `NetworkPeering`. This identifier must be unique among `NetworkPeering` resources within the parent and becomes the final token in the name URI. The identifier must meet the following requirements: * Only contains 1-63 alphanumeric characters and hyphens * Begins with an alphabetical character * Ends with a non-hyphen character * Not formatted as a UUID * Complies with [RFC 1034](https://datatracker.ietf.org/doc/html/rfc1034) (section 3.5) */
+  networkPeeringId?: string | undefined;
+}
 export type NetworkServiceStateEnum =
   | "STATE_UNSPECIFIED"
   | "UNPROVISIONED"
@@ -237,15 +243,8 @@ export interface NetworkService {
   /** Output only. State of the service. New values may be added to this enum when appropriate. */
   state?: NetworkServiceStateEnum | (string & {}) | undefined;
 }
-export interface CreateProjectsLocationsNetworkPoliciesRequest {
-  /** Required. The resource name of the location (region) to create the new network policy in. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1` */
-  parent: string;
-  /** Optional. If set to `true`, only validates the request but doesn't execute the request. If set to `false`, validates and executes the request. */
-  validateOnly?: boolean | undefined;
-  /** Required. The user-provided identifier of the network policy to be created. This identifier must be unique within parent `projects/{my-project}/locations/{us-central1}/networkPolicies` and becomes the final token in the name URI. The identifier must meet the following requirements: * Only contains 1-63 alphanumeric characters and hyphens * Begins with an alphabetical character * Ends with a non-hyphen character * Not formatted as a UUID * Complies with [RFC 1034](https://datatracker.ietf.org/doc/html/rfc1034) (section 3.5) */
-  networkPolicyId?: string | undefined;
-  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
+/** Represents a network policy resource. Network policies are regional resources. You can use a network policy to enable or disable internet access and external IP access. Network policies are associated with a VMware Engine network, which might span across regions. For a given region, a network policy applies to all private clouds in the VMware Engine network associated with the policy. */
+export interface NetworkPolicy {
   /** Output only. System-generated unique identifier for the resource. */
   uid?: string | undefined;
   /** Optional. User-provided description for this network policy. */
@@ -267,6 +266,16 @@ export interface CreateProjectsLocationsNetworkPoliciesRequest {
   /** Network service that allows External IP addresses to be assigned to VMware workloads. This service can only be enabled when `internet_access` is also enabled. */
   externalIp?: NetworkService | undefined;
 }
+export interface CreateProjectsLocationsNetworkPoliciesRequest extends NetworkPolicy {
+  /** Required. The resource name of the location (region) to create the new network policy in. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1` */
+  parent: string;
+  /** Optional. If set to `true`, only validates the request but doesn't execute the request. If set to `false`, validates and executes the request. */
+  validateOnly?: boolean | undefined;
+  /** Required. The user-provided identifier of the network policy to be created. This identifier must be unique within parent `projects/{my-project}/locations/{us-central1}/networkPolicies` and becomes the final token in the name URI. The identifier must meet the following requirements: * Only contains 1-63 alphanumeric characters and hyphens * Begins with an alphabetical character * Ends with a non-hyphen character * Not formatted as a UUID * Complies with [RFC 1034](https://datatracker.ietf.org/doc/html/rfc1034) (section 3.5) */
+  networkPolicyId?: string | undefined;
+  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+}
 export type ExternalAccessRuleStateEnum =
   | "STATE_UNSPECIFIED"
   | "ACTIVE"
@@ -284,15 +293,8 @@ export interface IpRange {
 }
 export type IpRangeList = Array<IpRange>;
 export type ExternalAccessRuleActionEnum = "ACTION_UNSPECIFIED" | "ALLOW" | "DENY";
-export interface CreateProjectsLocationsNetworkPoliciesExternalAccessRulesRequest {
-  /** Optional. If set to `true`, only validates the request but doesn't execute the request. If set to `false`, validates and executes the request. */
-  validateOnly?: boolean | undefined;
-  /** A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Required. The user-provided identifier of the `ExternalAccessRule` to be created. This identifier must be unique among `ExternalAccessRule` resources within the parent and becomes the final token in the name URI. The identifier must meet the following requirements: * Only contains 1-63 alphanumeric characters and hyphens * Begins with an alphabetical character * Ends with a non-hyphen character * Not formatted as a UUID * Complies with [RFC 1034](https://datatracker.ietf.org/doc/html/rfc1034) (section 3.5) */
-  externalAccessRuleId?: string | undefined;
-  /** Required. The resource name of the network policy to create a new external access firewall rule in. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1/networkPolicies/my-policy` */
-  parent: string;
+/** External access firewall rules for filtering incoming traffic destined to `ExternalAddress` resources. */
+export interface ExternalAccessRule {
   /** Output only. The state of the resource. */
   state?: ExternalAccessRuleStateEnum | (string & {}) | undefined;
   /** A list of destination ports to which the external access rule applies. This field is only applicable for the UDP or TCP protocol. Each entry must be either an integer or a range. For example: `["22"]`, `["80","443"]`, or `["12345-12349"]`. To match all destination ports, specify `["0-65535"]`. */
@@ -319,6 +321,16 @@ export interface CreateProjectsLocationsNetworkPoliciesExternalAccessRulesReques
   sourceIpRanges?: IpRangeList | undefined;
   /** The action that the external access rule performs. */
   action?: ExternalAccessRuleActionEnum | (string & {}) | undefined;
+}
+export interface CreateProjectsLocationsNetworkPoliciesExternalAccessRulesRequest extends ExternalAccessRule {
+  /** Optional. If set to `true`, only validates the request but doesn't execute the request. If set to `false`, validates and executes the request. */
+  validateOnly?: boolean | undefined;
+  /** A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+  /** Required. The user-provided identifier of the `ExternalAccessRule` to be created. This identifier must be unique among `ExternalAccessRule` resources within the parent and becomes the final token in the name URI. The identifier must meet the following requirements: * Only contains 1-63 alphanumeric characters and hyphens * Begins with an alphabetical character * Ends with a non-hyphen character * Not formatted as a UUID * Complies with [RFC 1034](https://datatracker.ietf.org/doc/html/rfc1034) (section 3.5) */
+  externalAccessRuleId?: string | undefined;
+  /** Required. The resource name of the network policy to create a new external access firewall rule in. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1/networkPolicies/my-policy` */
+  parent: string;
 }
 export type VcenterStateEnum = "STATE_UNSPECIFIED" | "ACTIVE" | "CREATING";
 /** Details about a vCenter Server management appliance. */
@@ -416,15 +428,8 @@ export interface Hcx {
   /** Output only. The state of the appliance. */
   state?: HcxStateEnum | (string & {}) | undefined;
 }
-export interface CreateProjectsLocationsPrivateCloudsRequest {
-  /** Optional. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Required. The resource name of the location to create the new private cloud in. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a` */
-  parent: string;
-  /** Optional. If set to `true`, only validates the request but doesn't execute the request. If set to `false`, validates and executes the request. */
-  validateOnly?: boolean | undefined;
-  /** Required. The user-provided identifier of the private cloud to be created. This identifier must be unique among each `PrivateCloud` within the parent and becomes the final token in the name URI. The identifier must meet the following requirements: * Only contains 1-63 alphanumeric characters and hyphens * Begins with an alphabetical character * Ends with a non-hyphen character * Not formatted as a UUID * Complies with [RFC 1034](https://datatracker.ietf.org/doc/html/rfc1034) (section 3.5) */
-  privateCloudId?: string | undefined;
+/** Represents a private cloud resource. Private clouds of type `STANDARD` and `TIME_LIMITED` are zonal resources, `STRETCHED` private clouds are regional. */
+export interface PrivateCloud {
   /** Output only. Vcenter appliance. */
   vcenter?: Vcenter | undefined;
   /** Optional. Type of the private cloud. Defaults to STANDARD. */
@@ -455,6 +460,16 @@ export interface CreateProjectsLocationsPrivateCloudsRequest {
   hcx?: Hcx | undefined;
   /** Output only. System-generated unique identifier for the resource. */
   uid?: string | undefined;
+}
+export interface CreateProjectsLocationsPrivateCloudsRequest extends PrivateCloud {
+  /** Optional. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+  /** Required. The resource name of the location to create the new private cloud in. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a` */
+  parent: string;
+  /** Optional. If set to `true`, only validates the request but doesn't execute the request. If set to `false`, validates and executes the request. */
+  validateOnly?: boolean | undefined;
+  /** Required. The user-provided identifier of the private cloud to be created. This identifier must be unique among each `PrivateCloud` within the parent and becomes the final token in the name URI. The identifier must meet the following requirements: * Only contains 1-63 alphanumeric characters and hyphens * Begins with an alphabetical character * Ends with a non-hyphen character * Not formatted as a UUID * Complies with [RFC 1034](https://datatracker.ietf.org/doc/html/rfc1034) (section 3.5) */
+  privateCloudId?: string | undefined;
 }
 export type ClusterStateEnum =
   | "STATE_UNSPECIFIED"
@@ -529,15 +544,8 @@ export interface DatastoreMountConfig {
   fileShare?: string | undefined;
 }
 export type DatastoreMountConfigList = Array<DatastoreMountConfig>;
-export interface CreateProjectsLocationsPrivateCloudsClustersRequest {
-  /** Required. The user-provided identifier of the new `Cluster`. This identifier must be unique among clusters within the parent and becomes the final token in the name URI. The identifier must meet the following requirements: * Only contains 1-63 alphanumeric characters and hyphens * Begins with an alphabetical character * Ends with a non-hyphen character * Not formatted as a UUID * Complies with [RFC 1034](https://datatracker.ietf.org/doc/html/rfc1034) (section 3.5) */
-  clusterId?: string | undefined;
-  /** Optional. If set to `true`, only validates the request but doesn't execute the request. If set to `false`, validates and executes the request. */
-  validateOnly?: boolean | undefined;
-  /** Optional. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Required. The resource name of the private cloud to create a new cluster in. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud` */
-  parent: string;
+/** A cluster in a private cloud. */
+export interface Cluster {
   /** Required. The map of cluster node types in this cluster, where the key is canonical identifier of the node type (corresponds to the `NodeType`). */
   nodeTypeConfigs?: NodeTypeConfigMap | undefined;
   /** Output only. Creation time of this resource. */
@@ -561,21 +569,24 @@ export interface CreateProjectsLocationsPrivateCloudsClustersRequest {
   /** Optional. Configuration of a stretched cluster. Required for clusters that belong to a STRETCHED private cloud. */
   stretchedClusterConfig?: StretchedClusterConfig | undefined;
 }
+export interface CreateProjectsLocationsPrivateCloudsClustersRequest extends Cluster {
+  /** Required. The user-provided identifier of the new `Cluster`. This identifier must be unique among clusters within the parent and becomes the final token in the name URI. The identifier must meet the following requirements: * Only contains 1-63 alphanumeric characters and hyphens * Begins with an alphabetical character * Ends with a non-hyphen character * Not formatted as a UUID * Complies with [RFC 1034](https://datatracker.ietf.org/doc/html/rfc1034) (section 3.5) */
+  clusterId?: string | undefined;
+  /** Optional. If set to `true`, only validates the request but doesn't execute the request. If set to `false`, validates and executes the request. */
+  validateOnly?: boolean | undefined;
+  /** Optional. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+  /** Required. The resource name of the private cloud to create a new cluster in. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud` */
+  parent: string;
+}
 export type ExternalAddressStateEnum =
   | "STATE_UNSPECIFIED"
   | "ACTIVE"
   | "CREATING"
   | "UPDATING"
   | "DELETING";
-export interface CreateProjectsLocationsPrivateCloudsExternalAddressesRequest {
-  /** Optional. If set to `true`, only validates the request but doesn't execute the request. If set to `false`, validates and executes the request. */
-  validateOnly?: boolean | undefined;
-  /** Required. The resource name of the private cloud to create a new external IP address in. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud` */
-  parent: string;
-  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Required. The user-provided identifier of the `ExternalAddress` to be created. This identifier must be unique among `ExternalAddress` resources within the parent and becomes the final token in the name URI. The identifier must meet the following requirements: * Only contains 1-63 alphanumeric characters and hyphens * Begins with an alphabetical character * Ends with a non-hyphen character * Not formatted as a UUID * Complies with [RFC 1034](https://datatracker.ietf.org/doc/html/rfc1034) (section 3.5) */
-  externalAddressId?: string | undefined;
+/** Represents an allocated external IP address and its corresponding internal IP address in a private cloud. */
+export interface ExternalAddress {
   /** Output only. The state of the resource. */
   state?: ExternalAddressStateEnum | (string & {}) | undefined;
   /** Output only. The external IP address of a workload VM. */
@@ -593,14 +604,19 @@ export interface CreateProjectsLocationsPrivateCloudsExternalAddressesRequest {
   /** The internal IP address of a workload VM. */
   internalIp?: string | undefined;
 }
-export type HcxActivationKeyStateEnum = "STATE_UNSPECIFIED" | "AVAILABLE" | "CONSUMED" | "CREATING";
-export interface CreateProjectsLocationsPrivateCloudsHcxActivationKeysRequest {
-  /** Required. The user-provided identifier of the `HcxActivationKey` to be created. This identifier must be unique among `HcxActivationKey` resources within the parent and becomes the final token in the name URI. The identifier must meet the following requirements: * Only contains 1-63 alphanumeric characters and hyphens * Begins with an alphabetical character * Ends with a non-hyphen character * Not formatted as a UUID * Complies with [RFC 1034](https://datatracker.ietf.org/doc/html/rfc1034) (section 3.5) */
-  hcxActivationKeyId?: string | undefined;
-  /** A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Required. The resource name of the private cloud to create the key for. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1/privateClouds/my-cloud` */
+export interface CreateProjectsLocationsPrivateCloudsExternalAddressesRequest extends ExternalAddress {
+  /** Optional. If set to `true`, only validates the request but doesn't execute the request. If set to `false`, validates and executes the request. */
+  validateOnly?: boolean | undefined;
+  /** Required. The resource name of the private cloud to create a new external IP address in. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud` */
   parent: string;
+  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+  /** Required. The user-provided identifier of the `ExternalAddress` to be created. This identifier must be unique among `ExternalAddress` resources within the parent and becomes the final token in the name URI. The identifier must meet the following requirements: * Only contains 1-63 alphanumeric characters and hyphens * Begins with an alphabetical character * Ends with a non-hyphen character * Not formatted as a UUID * Complies with [RFC 1034](https://datatracker.ietf.org/doc/html/rfc1034) (section 3.5) */
+  externalAddressId?: string | undefined;
+}
+export type HcxActivationKeyStateEnum = "STATE_UNSPECIFIED" | "AVAILABLE" | "CONSUMED" | "CREATING";
+/** HCX activation key. A default key is created during private cloud provisioning, but this behavior is subject to change and you should always verify active keys. Use VmwareEngine.ListHcxActivationKeys to retrieve existing keys and VmwareEngine.CreateHcxActivationKey to create new ones. */
+export interface HcxActivationKey {
   /** Output only. HCX activation key. */
   activationKey?: string | undefined;
   /** Output only. System-generated unique identifier for the resource. */
@@ -612,6 +628,14 @@ export interface CreateProjectsLocationsPrivateCloudsHcxActivationKeysRequest {
   /** Output only. The resource name of this HcxActivationKey. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1/privateClouds/my-cloud/hcxActivationKeys/my-key` */
   name?: string | undefined;
 }
+export interface CreateProjectsLocationsPrivateCloudsHcxActivationKeysRequest extends HcxActivationKey {
+  /** Required. The user-provided identifier of the `HcxActivationKey` to be created. This identifier must be unique among `HcxActivationKey` resources within the parent and becomes the final token in the name URI. The identifier must meet the following requirements: * Only contains 1-63 alphanumeric characters and hyphens * Begins with an alphabetical character * Ends with a non-hyphen character * Not formatted as a UUID * Complies with [RFC 1034](https://datatracker.ietf.org/doc/html/rfc1034) (section 3.5) */
+  hcxActivationKeyId?: string | undefined;
+  /** A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+  /** Required. The resource name of the private cloud to create the key for. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1/privateClouds/my-cloud` */
+  parent: string;
+}
 export type LoggingServerProtocolEnum =
   | "PROTOCOL_UNSPECIFIED"
   | "UDP"
@@ -620,13 +644,8 @@ export type LoggingServerProtocolEnum =
   | "SSL"
   | "RELP";
 export type LoggingServerSourceTypeEnum = "SOURCE_TYPE_UNSPECIFIED" | "ESXI" | "VCSA";
-export interface CreateProjectsLocationsPrivateCloudsLoggingServersRequest {
-  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Required. The resource name of the private cloud to create a new Logging Server in. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud` */
-  parent: string;
-  /** Required. The user-provided identifier of the `LoggingServer` to be created. This identifier must be unique among `LoggingServer` resources within the parent and becomes the final token in the name URI. The identifier must meet the following requirements: * Only contains 1-63 alphanumeric characters and hyphens * Begins with an alphabetical character * Ends with a non-hyphen character * Not formatted as a UUID * Complies with [RFC 1034](https://datatracker.ietf.org/doc/html/rfc1034) (section 3.5) */
-  loggingServerId?: string | undefined;
+/** Logging server to receive vCenter or ESXi logs. */
+export interface LoggingServer {
   /** Required. Protocol used by vCenter to send logs to a logging server. */
   protocol?: LoggingServerProtocolEnum | (string & {}) | undefined;
   /** Output only. Creation time of this resource. */
@@ -644,6 +663,14 @@ export interface CreateProjectsLocationsPrivateCloudsLoggingServersRequest {
   /** Required. The type of component that produces logs that will be forwarded to this logging server. */
   sourceType?: LoggingServerSourceTypeEnum | (string & {}) | undefined;
 }
+export interface CreateProjectsLocationsPrivateCloudsLoggingServersRequest extends LoggingServer {
+  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+  /** Required. The resource name of the private cloud to create a new Logging Server in. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud` */
+  parent: string;
+  /** Required. The user-provided identifier of the `LoggingServer` to be created. This identifier must be unique among `LoggingServer` resources within the parent and becomes the final token in the name URI. The identifier must meet the following requirements: * Only contains 1-63 alphanumeric characters and hyphens * Begins with an alphabetical character * Ends with a non-hyphen character * Not formatted as a UUID * Complies with [RFC 1034](https://datatracker.ietf.org/doc/html/rfc1034) (section 3.5) */
+  loggingServerId?: string | undefined;
+}
 export type ManagementDnsZoneBindingStateEnum =
   | "STATE_UNSPECIFIED"
   | "ACTIVE"
@@ -651,13 +678,8 @@ export type ManagementDnsZoneBindingStateEnum =
   | "UPDATING"
   | "DELETING"
   | "FAILED";
-export interface CreateProjectsLocationsPrivateCloudsManagementDnsZoneBindingsRequest {
-  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Required. The user-provided identifier of the `ManagementDnsZoneBinding` resource to be created. This identifier must be unique among `ManagementDnsZoneBinding` resources within the parent and becomes the final token in the name URI. The identifier must meet the following requirements: * Only contains 1-63 alphanumeric characters and hyphens * Begins with an alphabetical character * Ends with a non-hyphen character * Not formatted as a UUID * Complies with [RFC 1034](https://datatracker.ietf.org/doc/html/rfc1034) (section 3.5) */
-  managementDnsZoneBindingId?: string | undefined;
-  /** Required. The resource name of the private cloud to create a new management DNS zone binding for. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud` */
-  parent: string;
+/** Represents a binding between a network and the management DNS zone. A management DNS zone is the Cloud DNS cross-project binding zone that VMware Engine creates for each private cloud. It contains FQDNs and corresponding IP addresses for the private cloud's ESXi hosts and management VM appliances like vCenter and NSX Manager. */
+export interface ManagementDnsZoneBinding {
   /** Network to bind is a standard consumer VPC. Specify the name in the following form for consumer VPC network: `projects/{project}/global/networks/{network_id}`. `{project}` can either be a project number or a project ID. */
   vpcNetwork?: string | undefined;
   /** User-provided description for this resource. */
@@ -674,6 +696,14 @@ export interface CreateProjectsLocationsPrivateCloudsManagementDnsZoneBindingsRe
   state?: ManagementDnsZoneBindingStateEnum | (string & {}) | undefined;
   /** Output only. System-generated unique identifier for the resource. */
   uid?: string | undefined;
+}
+export interface CreateProjectsLocationsPrivateCloudsManagementDnsZoneBindingsRequest extends ManagementDnsZoneBinding {
+  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+  /** Required. The user-provided identifier of the `ManagementDnsZoneBinding` resource to be created. This identifier must be unique among `ManagementDnsZoneBinding` resources within the parent and becomes the final token in the name URI. The identifier must meet the following requirements: * Only contains 1-63 alphanumeric characters and hyphens * Begins with an alphabetical character * Ends with a non-hyphen character * Not formatted as a UUID * Complies with [RFC 1034](https://datatracker.ietf.org/doc/html/rfc1034) (section 3.5) */
+  managementDnsZoneBindingId?: string | undefined;
+  /** Required. The resource name of the private cloud to create a new management DNS zone binding for. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud` */
+  parent: string;
 }
 export type PrivateConnectionRoutingModeEnum = "ROUTING_MODE_UNSPECIFIED" | "GLOBAL" | "REGIONAL";
 export type PrivateConnectionTypeEnum =
@@ -694,15 +724,8 @@ export type PrivateConnectionStateEnum =
   | "DELETING"
   | "UNPROVISIONED"
   | "FAILED";
-export interface CreateProjectsLocationsPrivateConnectionsRequest {
-  /** Required. The user-provided identifier of the new private connection. This identifier must be unique among private connection resources within the parent and becomes the final token in the name URI. The identifier must meet the following requirements: * Only contains 1-63 alphanumeric characters and hyphens * Begins with an alphabetical character * Ends with a non-hyphen character * Not formatted as a UUID * Complies with [RFC 1034](https://datatracker.ietf.org/doc/html/rfc1034) (section 3.5) */
-  privateConnectionId?: string | undefined;
-  /** Required. The resource name of the location to create the new private connection in. Private connection is a regional resource. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1` */
-  parent: string;
-  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Optional. If set to `true`, only validates the request but doesn't execute the request. If set to `false`, validates and executes the request. */
-  validateOnly?: boolean | undefined;
+/** Private connection resource that provides connectivity for VMware Engine private clouds. */
+export interface PrivateConnection {
   /** Optional. Routing Mode. Default value is set to GLOBAL. For type = PRIVATE_SERVICE_ACCESS, this field can be set to GLOBAL or REGIONAL, for other types only GLOBAL is supported. */
   routingMode?: PrivateConnectionRoutingModeEnum | (string & {}) | undefined;
   /** Required. Private connection type. */
@@ -730,6 +753,16 @@ export interface CreateProjectsLocationsPrivateConnectionsRequest {
   /** Required. Service network to create private connection. Specify the name in the following form: `projects/{project}/global/networks/{network_id}` For type = PRIVATE_SERVICE_ACCESS, this field represents servicenetworking VPC, e.g. projects/project-tp/global/networks/servicenetworking. For type = NETAPP_CLOUD_VOLUME, this field represents NetApp service VPC, e.g. projects/project-tp/global/networks/netapp-tenant-vpc. For type = DELL_POWERSCALE, this field represent Dell service VPC, e.g. projects/project-tp/global/networks/dell-tenant-vpc. For type= THIRD_PARTY_SERVICE, this field could represent a consumer VPC or any other producer VPC to which the VMware Engine Network needs to be connected, e.g. projects/project/global/networks/vpc. */
   serviceNetwork?: string | undefined;
 }
+export interface CreateProjectsLocationsPrivateConnectionsRequest extends PrivateConnection {
+  /** Required. The user-provided identifier of the new private connection. This identifier must be unique among private connection resources within the parent and becomes the final token in the name URI. The identifier must meet the following requirements: * Only contains 1-63 alphanumeric characters and hyphens * Begins with an alphabetical character * Ends with a non-hyphen character * Not formatted as a UUID * Complies with [RFC 1034](https://datatracker.ietf.org/doc/html/rfc1034) (section 3.5) */
+  privateConnectionId?: string | undefined;
+  /** Required. The resource name of the location to create the new private connection in. Private connection is a regional resource. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1` */
+  parent: string;
+  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+  /** Optional. If set to `true`, only validates the request but doesn't execute the request. If set to `false`, validates and executes the request. */
+  validateOnly?: boolean | undefined;
+}
 export type VmwareEngineNetworkTypeEnum = "TYPE_UNSPECIFIED" | "LEGACY" | "STANDARD";
 export type VpcNetworkTypeEnum = "TYPE_UNSPECIFIED" | "INTRANET" | "INTERNET" | "GOOGLE_CLOUD";
 /** Represents a VMware Engine VPC network that is managed by a VMware Engine network resource. */
@@ -746,15 +779,8 @@ export type VmwareEngineNetworkStateEnum =
   | "ACTIVE"
   | "UPDATING"
   | "DELETING";
-export interface CreateProjectsLocationsVmwareEngineNetworksRequest {
-  /** Optional. If set to `true`, only validates the request but doesn't execute the request. If set to `false`, validates and executes the request. */
-  validateOnly?: boolean | undefined;
-  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Required. The user-provided identifier of the new VMware Engine network. This identifier must be unique among VMware Engine network resources within the parent and becomes the final token in the name URI. The identifier must meet the following requirements: * For networks of type LEGACY, adheres to the format: `{region-id}-default`. Replace `{region-id}` with the region where you want to create the VMware Engine network. For example, "us-central1-default". * Only contains 1-63 alphanumeric characters and hyphens * Begins with an alphabetical character * Ends with a non-hyphen character * Not formatted as a UUID * Complies with [RFC 1034](https://datatracker.ietf.org/doc/html/rfc1034) (section 3.5) */
-  vmwareEngineNetworkId?: string | undefined;
-  /** Required. The resource name of the location to create the new VMware Engine network in. A VMware Engine network of type `LEGACY` is a regional resource, and a VMware Engine network of type `STANDARD` is a global resource. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/global` */
-  parent: string;
+/** VMware Engine network resource that provides connectivity for VMware Engine private clouds. */
+export interface VmwareEngineNetwork {
   /** Output only. System-generated unique identifier for the resource. */
   uid?: string | undefined;
   /** Output only. Creation time of this resource. */
@@ -773,6 +799,16 @@ export interface CreateProjectsLocationsVmwareEngineNetworksRequest {
   etag?: string | undefined;
   /** Output only. State of the VMware Engine network. */
   state?: VmwareEngineNetworkStateEnum | (string & {}) | undefined;
+}
+export interface CreateProjectsLocationsVmwareEngineNetworksRequest extends VmwareEngineNetwork {
+  /** Optional. If set to `true`, only validates the request but doesn't execute the request. If set to `false`, validates and executes the request. */
+  validateOnly?: boolean | undefined;
+  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+  /** Required. The user-provided identifier of the new VMware Engine network. This identifier must be unique among VMware Engine network resources within the parent and becomes the final token in the name URI. The identifier must meet the following requirements: * For networks of type LEGACY, adheres to the format: `{region-id}-default`. Replace `{region-id}` with the region where you want to create the VMware Engine network. For example, "us-central1-default". * Only contains 1-63 alphanumeric characters and hyphens * Begins with an alphabetical character * Ends with a non-hyphen character * Not formatted as a UUID * Complies with [RFC 1034](https://datatracker.ietf.org/doc/html/rfc1034) (section 3.5) */
+  vmwareEngineNetworkId?: string | undefined;
+  /** Required. The resource name of the location to create the new VMware Engine network in. A VMware Engine network of type `LEGACY` is a regional resource, and a VMware Engine network of type `STANDARD` is a global resource. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/global` */
+  parent: string;
 }
 export interface DeleteProjectsLocationsDatastoresRequest {
   /** Required. The resource name of the Datastore to be deleted. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1/datastore/my-datastore` */
@@ -861,25 +897,6 @@ export interface FetchExternalAddressesProjectsLocationsNetworkPoliciesRequest {
   networkPolicy: string;
   /** A page token, received from a previous `FetchNetworkPolicyExternalAddresses` call. Provide this to retrieve the subsequent page. When paginating, all parameters provided to `FetchNetworkPolicyExternalAddresses`, except for `page_size` and `page_token`, must match the call that provided the page token. */
   pageToken?: string | undefined;
-}
-/** Represents an allocated external IP address and its corresponding internal IP address in a private cloud. */
-export interface ExternalAddress {
-  /** Output only. The state of the resource. */
-  state?: ExternalAddressStateEnum | undefined;
-  /** Output only. The external IP address of a workload VM. */
-  externalIp?: string | undefined;
-  /** Output only. System-generated unique identifier for the resource. */
-  uid?: string | undefined;
-  /** User-provided description for this resource. */
-  description?: string | undefined;
-  /** Output only. Creation time of this resource. */
-  createTime?: string | undefined;
-  /** Output only. Last update time of this resource. */
-  updateTime?: string | undefined;
-  /** Output only. Identifier. The resource name of this external IP address. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud/externalAddresses/my-address` */
-  name?: string | undefined;
-  /** The internal IP address of a workload VM. */
-  internalIp?: string | undefined;
 }
 export type ExternalAddressList = Array<ExternalAddress>;
 /** Response message for VmwareEngine.FetchNetworkPolicyExternalAddresses */
@@ -1070,125 +1087,17 @@ export interface GetProjectsLocationsDatastoresRequest {
   /** Required. The resource name of the Datastore to retrieve. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1/datastores/my-datastore` */
   name: string;
 }
-/** Represents a datastore resource. */
-export interface Datastore {
-  /** Output only. System-generated unique identifier for the resource. */
-  uid?: string | undefined;
-  /** Output only. Identifier. The resource name of this datastore. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1/datastores/datastore` */
-  name?: string | undefined;
-  /** Output only. Clusters to which the datastore is attached. */
-  clusters?: StringList | undefined;
-  /** Optional. Checksum that may be sent on update and delete requests to ensure that the user-provided value is up to date before the server processes a request. The server computes checksums based on the value of other fields in the request. */
-  etag?: string | undefined;
-  /** Optional. User-provided description for this datastore */
-  description?: string | undefined;
-  /** Required. Settings for the NFS datastore. */
-  nfsDatastore?: NfsDatastore | undefined;
-  /** Output only. The state of the Datastore. */
-  state?: DatastoreStateEnum | undefined;
-  /** Output only. Creation time of this resource. */
-  createTime?: string | undefined;
-  /** Output only. Last update time of this resource. */
-  updateTime?: string | undefined;
-}
 export interface GetProjectsLocationsNetworkPeeringsRequest {
   /** Required. The resource name of the network peering to retrieve. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/global/networkPeerings/my-peering` */
   name: string;
-}
-/** Details of a network peering. */
-export interface NetworkPeering {
-  /** Optional. True if custom routes are exported to the peered network; false otherwise. The default value is true. */
-  exportCustomRoutes?: boolean | undefined;
-  /** Optional. User-provided description for this network peering. */
-  description?: string | undefined;
-  /** Required. The type of the network to peer with the VMware Engine network. */
-  peerNetworkType?: NetworkPeeringPeerNetworkTypeEnum | undefined;
-  /** Output only. Identifier. The resource name of the network peering. NetworkPeering is a global resource and location can only be global. Resource names are scheme-less URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/global/networkPeerings/my-peering` */
-  name?: string | undefined;
-  /** Required. The relative resource name of the network to peer with a standard VMware Engine network. The provided network can be a consumer VPC network or another standard VMware Engine network. If the `peer_network_type` is VMWARE_ENGINE_NETWORK, specify the name in the form: `projects/{project}/locations/global/vmwareEngineNetworks/{vmware_engine_network_id}`. Otherwise specify the name in the form: `projects/{project}/global/networks/{network_id}`, where `{project}` can either be a project number or a project ID. */
-  peerNetwork?: string | undefined;
-  /** Optional. True if full mesh connectivity is created and managed automatically between peered networks; false otherwise. Currently this field is always true because Google Compute Engine automatically creates and manages subnetwork routes between two VPC networks when peering state is 'ACTIVE'. */
-  exchangeSubnetRoutes?: boolean | undefined;
-  /** Optional. True if custom routes are imported from the peered network; false otherwise. The default value is true. */
-  importCustomRoutes?: boolean | undefined;
-  /** Output only. State of the network peering. This field has a value of 'ACTIVE' when there's a matching configuration in the peer network. New values may be added to this enum when appropriate. */
-  state?: NetworkPeeringStateEnum | undefined;
-  /** Optional. Maximum transmission unit (MTU) in bytes. The default value is `1500`. If a value of `0` is provided for this field, VMware Engine uses the default value instead. */
-  peerMtu?: number | undefined;
-  /** Required. The relative resource name of the VMware Engine network. Specify the name in the following form: `projects/{project}/locations/{location}/vmwareEngineNetworks/{vmware_engine_network_id}` where `{project}` can either be a project number or a project ID. */
-  vmwareEngineNetwork?: string | undefined;
-  /** Output only. Output Only. Details about the current state of the network peering. */
-  stateDetails?: string | undefined;
-  /** Optional. True if all subnet routes with a public IP address range are exported; false otherwise. The default value is true. IPv4 special-use ranges (https://en.wikipedia.org/wiki/IPv4#Special_addresses) are always exported to peers and are not controlled by this field. */
-  exportCustomRoutesWithPublicIp?: boolean | undefined;
-  /** Output only. Creation time of this resource. */
-  createTime?: string | undefined;
-  /** Output only. Last update time of this resource. */
-  updateTime?: string | undefined;
-  /** Optional. True if all subnet routes with public IP address range are imported; false otherwise. The default value is true. IPv4 special-use ranges (https://en.wikipedia.org/wiki/IPv4#Special_addresses) are always imported to peers and are not controlled by this field. */
-  importCustomRoutesWithPublicIp?: boolean | undefined;
-  /** Output only. System-generated unique identifier for the resource. */
-  uid?: string | undefined;
 }
 export interface GetProjectsLocationsNetworkPoliciesRequest {
   /** Required. The resource name of the network policy to retrieve. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1/networkPolicies/my-network-policy` */
   name: string;
 }
-/** Represents a network policy resource. Network policies are regional resources. You can use a network policy to enable or disable internet access and external IP access. Network policies are associated with a VMware Engine network, which might span across regions. For a given region, a network policy applies to all private clouds in the VMware Engine network associated with the policy. */
-export interface NetworkPolicy {
-  /** Output only. System-generated unique identifier for the resource. */
-  uid?: string | undefined;
-  /** Optional. User-provided description for this network policy. */
-  description?: string | undefined;
-  /** Output only. Creation time of this resource. */
-  createTime?: string | undefined;
-  /** Output only. Last update time of this resource. */
-  updateTime?: string | undefined;
-  /** Optional. The relative resource name of the VMware Engine network. Specify the name in the following form: `projects/{project}/locations/{location}/vmwareEngineNetworks/{vmware_engine_network_id}` where `{project}` can either be a project number or a project ID. */
-  vmwareEngineNetwork?: string | undefined;
-  /** Output only. The canonical name of the VMware Engine network in the form: `projects/{project_number}/locations/{location}/vmwareEngineNetworks/{vmware_engine_network_id}` */
-  vmwareEngineNetworkCanonical?: string | undefined;
-  /** Required. IP address range in CIDR notation used to create internet access and external IP access. An RFC 1918 CIDR block, with a "/26" prefix, is required. The range cannot overlap with any prefixes either in the consumer VPC network or in use by the private clouds attached to that VPC network. */
-  edgeServicesCidr?: string | undefined;
-  /** Output only. Identifier. The resource name of this network policy. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1/networkPolicies/my-network-policy` */
-  name?: string | undefined;
-  /** Network service that allows VMware workloads to access the internet. */
-  internetAccess?: NetworkService | undefined;
-  /** Network service that allows External IP addresses to be assigned to VMware workloads. This service can only be enabled when `internet_access` is also enabled. */
-  externalIp?: NetworkService | undefined;
-}
 export interface GetProjectsLocationsNetworkPoliciesExternalAccessRulesRequest {
   /** Required. The resource name of the external access firewall rule to retrieve. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1/networkPolicies/my-policy/externalAccessRules/my-rule` */
   name: string;
-}
-/** External access firewall rules for filtering incoming traffic destined to `ExternalAddress` resources. */
-export interface ExternalAccessRule {
-  /** Output only. The state of the resource. */
-  state?: ExternalAccessRuleStateEnum | undefined;
-  /** A list of destination ports to which the external access rule applies. This field is only applicable for the UDP or TCP protocol. Each entry must be either an integer or a range. For example: `["22"]`, `["80","443"]`, or `["12345-12349"]`. To match all destination ports, specify `["0-65535"]`. */
-  destinationPorts?: StringList | undefined;
-  /** Output only. System-generated unique identifier for the resource. */
-  uid?: string | undefined;
-  /** If destination ranges are specified, the external access rule applies only to the traffic that has a destination IP address in these ranges. The specified IP addresses must have reserved external IP addresses in the scope of the parent network policy. To match all external IP addresses in the scope of the parent network policy, specify `0.0.0.0/0`. To match a specific external IP address, specify it using the `IpRange.external_address` property. */
-  destinationIpRanges?: IpRangeList | undefined;
-  /** A list of source ports to which the external access rule applies. This field is only applicable for the UDP or TCP protocol. Each entry must be either an integer or a range. For example: `["22"]`, `["80","443"]`, or `["12345-12349"]`. To match all source ports, specify `["0-65535"]`. */
-  sourcePorts?: StringList | undefined;
-  /** The IP protocol to which the external access rule applies. This value can be one of the following three protocol strings (not case-sensitive): `tcp`, `udp`, or `icmp`. */
-  ipProtocol?: string | undefined;
-  /** Output only. Creation time of this resource. */
-  createTime?: string | undefined;
-  /** Output only. Last update time of this resource. */
-  updateTime?: string | undefined;
-  /** Output only. The resource name of this external access rule. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1/networkPolicies/my-policy/externalAccessRules/my-rule` */
-  name?: string | undefined;
-  /** User-provided description for this external access rule. */
-  description?: string | undefined;
-  /** External access rule priority, which determines the external access rule to use when multiple rules apply. If multiple rules have the same priority, their ordering is non-deterministic. If specific ordering is required, assign unique priorities to enforce such ordering. The external access rule priority is an integer from 100 to 4096, both inclusive. Lower integers indicate higher precedence. For example, a rule with priority `100` has higher precedence than a rule with priority `101`. */
-  priority?: number | undefined;
-  /** If source ranges are specified, the external access rule applies only to traffic that has a source IP address in these ranges. These ranges can either be expressed in the CIDR format or as an IP address. As only inbound rules are supported, `ExternalAddress` resources cannot be the source IP addresses of an external access rule. To match all source addresses, specify `0.0.0.0/0`. */
-  sourceIpRanges?: IpRangeList | undefined;
-  /** The action that the external access rule performs. */
-  action?: ExternalAccessRuleActionEnum | undefined;
 }
 export interface GetProjectsLocationsNodeTypesRequest {
   /** Required. The resource name of the node type to retrieve. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-proj/locations/us-central1-a/nodeTypes/standard-72` */
@@ -1231,67 +1140,9 @@ export interface GetProjectsLocationsPrivateCloudsRequest {
   /** Required. The resource name of the private cloud to retrieve. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud` */
   name: string;
 }
-/** Represents a private cloud resource. Private clouds of type `STANDARD` and `TIME_LIMITED` are zonal resources, `STRETCHED` private clouds are regional. */
-export interface PrivateCloud {
-  /** Output only. Vcenter appliance. */
-  vcenter?: Vcenter | undefined;
-  /** Optional. Type of the private cloud. Defaults to STANDARD. */
-  type?: PrivateCloudTypeEnum | undefined;
-  /** Required. Input only. The management cluster for this private cloud. This field is required during creation of the private cloud to provide details for the default cluster. The following fields can't be changed after private cloud creation: `ManagementCluster.clusterId`, `ManagementCluster.nodeTypeId`. */
-  managementCluster?: ManagementCluster | undefined;
-  /** User-provided description for this private cloud. */
-  description?: string | undefined;
-  /** Required. Network configuration of the private cloud. */
-  networkConfig?: NetworkConfig | undefined;
-  /** Optional. Encryption configuration for the private cloud. If this field is left unspecified, Google default encryption is used. */
-  encryptionConfig?: EncryptionConfig | undefined;
-  /** Output only. Creation time of this resource. */
-  createTime?: string | undefined;
-  /** Output only. Last update time of this resource. */
-  updateTime?: string | undefined;
-  /** Output only. State of the resource. New values may be added to this enum when appropriate. */
-  state?: PrivateCloudStateEnum | undefined;
-  /** Output only. Identifier. The resource name of this private cloud. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud` */
-  name?: string | undefined;
-  /** Output only. Time when the resource was scheduled for deletion. */
-  deleteTime?: string | undefined;
-  /** Output only. NSX appliance. */
-  nsx?: Nsx | undefined;
-  /** Output only. Time when the resource will be irreversibly deleted. */
-  expireTime?: string | undefined;
-  /** Output only. HCX appliance. */
-  hcx?: Hcx | undefined;
-  /** Output only. System-generated unique identifier for the resource. */
-  uid?: string | undefined;
-}
 export interface GetProjectsLocationsPrivateCloudsClustersRequest {
   /** Required. The cluster resource name to retrieve. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud/clusters/my-cluster` */
   name: string;
-}
-/** A cluster in a private cloud. */
-export interface Cluster {
-  /** Required. The map of cluster node types in this cluster, where the key is canonical identifier of the node type (corresponds to the `NodeType`). */
-  nodeTypeConfigs?: NodeTypeConfigMap | undefined;
-  /** Output only. Creation time of this resource. */
-  createTime?: string | undefined;
-  /** Output only. Last update time of this resource. */
-  updateTime?: string | undefined;
-  /** Output only. State of the resource. */
-  state?: ClusterStateEnum | undefined;
-  /** Optional. Configuration of the autoscaling applied to this cluster. */
-  autoscalingSettings?: AutoscalingSettings | undefined;
-  /** Optional. The identifier of the placement group for cluster nodes. A placement group is an internal Google identifier for a group of resources that are physically located within the same fault domain. If provided, nodes for this cluster are placed within the specified placement group. If this field is omitted, the system selects an appropriate placement group. */
-  placementGroup?: string | undefined;
-  /** Output only. System-generated unique identifier for the resource. */
-  uid?: string | undefined;
-  /** Output only. True if the cluster is a management cluster; false otherwise. There can only be one management cluster in a private cloud and it has to be the first one. */
-  management?: boolean | undefined;
-  /** Output only. Identifier. The resource name of this cluster. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud/clusters/my-cluster` */
-  name?: string | undefined;
-  /** Output only. Configuration of a mounted datastore. */
-  datastoreMountConfig?: DatastoreMountConfigList | undefined;
-  /** Optional. Configuration of a stretched cluster. Required for clusters that belong to a STRETCHED private cloud. */
-  stretchedClusterConfig?: StretchedClusterConfig | undefined;
 }
 export interface GetProjectsLocationsPrivateCloudsClustersNodesRequest {
   /** Required. The resource name of the node to retrieve. For example: `projects/{project}/locations/{location}/privateClouds/{private_cloud}/clusters/{cluster}/nodes/{node}` */
@@ -1323,64 +1174,13 @@ export interface GetProjectsLocationsPrivateCloudsHcxActivationKeysRequest {
   /** Required. The resource name of the HCX activation key to retrieve. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1/privateClouds/my-cloud/hcxActivationKeys/my-key` */
   name: string;
 }
-/** HCX activation key. A default key is created during private cloud provisioning, but this behavior is subject to change and you should always verify active keys. Use VmwareEngine.ListHcxActivationKeys to retrieve existing keys and VmwareEngine.CreateHcxActivationKey to create new ones. */
-export interface HcxActivationKey {
-  /** Output only. HCX activation key. */
-  activationKey?: string | undefined;
-  /** Output only. System-generated unique identifier for the resource. */
-  uid?: string | undefined;
-  /** Output only. State of HCX activation key. */
-  state?: HcxActivationKeyStateEnum | undefined;
-  /** Output only. Creation time of HCX activation key. */
-  createTime?: string | undefined;
-  /** Output only. The resource name of this HcxActivationKey. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1/privateClouds/my-cloud/hcxActivationKeys/my-key` */
-  name?: string | undefined;
-}
 export interface GetProjectsLocationsPrivateCloudsLoggingServersRequest {
   /** Required. The resource name of the Logging Server to retrieve. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud/loggingServers/my-logging-server` */
   name: string;
 }
-/** Logging server to receive vCenter or ESXi logs. */
-export interface LoggingServer {
-  /** Required. Protocol used by vCenter to send logs to a logging server. */
-  protocol?: LoggingServerProtocolEnum | undefined;
-  /** Output only. Creation time of this resource. */
-  createTime?: string | undefined;
-  /** Output only. Last update time of this resource. */
-  updateTime?: string | undefined;
-  /** Required. Fully-qualified domain name (FQDN) or IP Address of the logging server. */
-  hostname?: string | undefined;
-  /** Output only. System-generated unique identifier for the resource. */
-  uid?: string | undefined;
-  /** Required. Port number at which the logging server receives logs. */
-  port?: number | undefined;
-  /** Output only. The resource name of this logging server. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud/loggingServers/my-logging-server` */
-  name?: string | undefined;
-  /** Required. The type of component that produces logs that will be forwarded to this logging server. */
-  sourceType?: LoggingServerSourceTypeEnum | undefined;
-}
 export interface GetProjectsLocationsPrivateCloudsManagementDnsZoneBindingsRequest {
   /** Required. The resource name of the management DNS zone binding to retrieve. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud/managementDnsZoneBindings/my-management-dns-zone-binding` */
   name: string;
-}
-/** Represents a binding between a network and the management DNS zone. A management DNS zone is the Cloud DNS cross-project binding zone that VMware Engine creates for each private cloud. It contains FQDNs and corresponding IP addresses for the private cloud's ESXi hosts and management VM appliances like vCenter and NSX Manager. */
-export interface ManagementDnsZoneBinding {
-  /** Network to bind is a standard consumer VPC. Specify the name in the following form for consumer VPC network: `projects/{project}/global/networks/{network_id}`. `{project}` can either be a project number or a project ID. */
-  vpcNetwork?: string | undefined;
-  /** User-provided description for this resource. */
-  description?: string | undefined;
-  /** Output only. The resource name of this binding. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud/managementDnsZoneBindings/my-management-dns-zone-binding` */
-  name?: string | undefined;
-  /** Network to bind is a VMware Engine network. Specify the name in the following form for VMware engine network: `projects/{project}/locations/global/vmwareEngineNetworks/{vmware_engine_network_id}`. `{project}` can either be a project number or a project ID. */
-  vmwareEngineNetwork?: string | undefined;
-  /** Output only. Creation time of this resource. */
-  createTime?: string | undefined;
-  /** Output only. Last update time of this resource. */
-  updateTime?: string | undefined;
-  /** Output only. The state of the resource. */
-  state?: ManagementDnsZoneBindingStateEnum | undefined;
-  /** Output only. System-generated unique identifier for the resource. */
-  uid?: string | undefined;
 }
 export interface GetProjectsLocationsPrivateCloudsSubnetsRequest {
   /** Required. The resource name of the subnet to retrieve. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud/subnets/my-subnet` */
@@ -1405,7 +1205,7 @@ export interface Subnet {
   /** Output only. VLAN ID of the VLAN on which the subnet is configured */
   vlanId?: number | undefined;
   /** Output only. The state of the resource. */
-  state?: SubnetStateEnum | undefined;
+  state?: SubnetStateEnum | (string & {}) | undefined;
   /** Output only. The type of the subnet. For example "management" or "userDefined". */
   type?: string | undefined;
 }
@@ -1571,7 +1371,7 @@ export interface Upgrade {
   /** Output only. Identifier. The resource name of the private cloud `Upgrade`. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-west1-a/privateClouds/my-cloud/upgrades/my-upgrade` */
   name?: string | undefined;
   /** Output only. Output Only. The type of upgrade. */
-  type?: UpgradeTypeEnum | undefined;
+  type?: UpgradeTypeEnum | (string & {}) | undefined;
   /** Output only. Output Only. The list of component upgrades. */
   componentUpgrades?: VmwareUpgradeComponentList | undefined;
   /** Output only. Output Only. The target version */
@@ -1579,7 +1379,7 @@ export interface Upgrade {
   /** Output only. */
   version?: string | undefined;
   /** Output only. The current state of the upgrade. */
-  state?: UpgradeStateEnum | undefined;
+  state?: UpgradeStateEnum | (string & {}) | undefined;
   /** The etag for the upgrade resource. If this is provided on update, it must match the server's etag. */
   etag?: string | undefined;
   /** Output only. Output Only. Creation time of this resource. */
@@ -1593,59 +1393,9 @@ export interface GetProjectsLocationsPrivateConnectionsRequest {
   /** Required. The resource name of the private connection to retrieve. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1/privateConnections/my-connection` */
   name: string;
 }
-/** Private connection resource that provides connectivity for VMware Engine private clouds. */
-export interface PrivateConnection {
-  /** Optional. Routing Mode. Default value is set to GLOBAL. For type = PRIVATE_SERVICE_ACCESS, this field can be set to GLOBAL or REGIONAL, for other types only GLOBAL is supported. */
-  routingMode?: PrivateConnectionRoutingModeEnum | undefined;
-  /** Required. Private connection type. */
-  type?: PrivateConnectionTypeEnum | undefined;
-  /** Output only. VPC network peering id between given network VPC and VMwareEngineNetwork. */
-  peeringId?: string | undefined;
-  /** Output only. System-generated unique identifier for the resource. */
-  uid?: string | undefined;
-  /** Output only. Creation time of this resource. */
-  createTime?: string | undefined;
-  /** Output only. Last update time of this resource. */
-  updateTime?: string | undefined;
-  /** Required. The relative resource name of Legacy VMware Engine network. Specify the name in the following form: `projects/{project}/locations/{location}/vmwareEngineNetworks/{vmware_engine_network_id}` where `{project}`, `{location}` will be same as specified in private connection resource name and `{vmware_engine_network_id}` will be in the form of `{location}`-default e.g. projects/project/locations/us-central1/vmwareEngineNetworks/us-central1-default. */
-  vmwareEngineNetwork?: string | undefined;
-  /** Optional. User-provided description for this private connection. */
-  description?: string | undefined;
-  /** Output only. The canonical name of the VMware Engine network in the form: `projects/{project_number}/locations/{location}/vmwareEngineNetworks/{vmware_engine_network_id}` */
-  vmwareEngineNetworkCanonical?: string | undefined;
-  /** Output only. Peering state between service network and VMware Engine network. */
-  peeringState?: PrivateConnectionPeeringStateEnum | undefined;
-  /** Output only. The resource name of the private connection. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1/privateConnections/my-connection` */
-  name?: string | undefined;
-  /** Output only. State of the private connection. */
-  state?: PrivateConnectionStateEnum | undefined;
-  /** Required. Service network to create private connection. Specify the name in the following form: `projects/{project}/global/networks/{network_id}` For type = PRIVATE_SERVICE_ACCESS, this field represents servicenetworking VPC, e.g. projects/project-tp/global/networks/servicenetworking. For type = NETAPP_CLOUD_VOLUME, this field represents NetApp service VPC, e.g. projects/project-tp/global/networks/netapp-tenant-vpc. For type = DELL_POWERSCALE, this field represent Dell service VPC, e.g. projects/project-tp/global/networks/dell-tenant-vpc. For type= THIRD_PARTY_SERVICE, this field could represent a consumer VPC or any other producer VPC to which the VMware Engine Network needs to be connected, e.g. projects/project/global/networks/vpc. */
-  serviceNetwork?: string | undefined;
-}
 export interface GetProjectsLocationsVmwareEngineNetworksRequest {
   /** Required. The resource name of the VMware Engine network to retrieve. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/global/vmwareEngineNetworks/my-network` */
   name: string;
-}
-/** VMware Engine network resource that provides connectivity for VMware Engine private clouds. */
-export interface VmwareEngineNetwork {
-  /** Output only. System-generated unique identifier for the resource. */
-  uid?: string | undefined;
-  /** Output only. Creation time of this resource. */
-  createTime?: string | undefined;
-  /** Output only. Last update time of this resource. */
-  updateTime?: string | undefined;
-  /** Required. VMware Engine network type. */
-  type?: VmwareEngineNetworkTypeEnum | undefined;
-  /** User-provided description for this VMware Engine network. */
-  description?: string | undefined;
-  /** Output only. VMware Engine service VPC networks that provide connectivity from a private cloud to customer projects, the internet, and other Google Cloud services. */
-  vpcNetworks?: VpcNetworkList | undefined;
-  /** Output only. Identifier. The resource name of the VMware Engine network. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/global/vmwareEngineNetworks/my-network` */
-  name?: string | undefined;
-  /** Checksum that may be sent on update and delete requests to ensure that the user-provided value is up to date before the server processes a request. The server computes checksums based on the value of other fields in the request. */
-  etag?: string | undefined;
-  /** Output only. State of the VMware Engine network. */
-  state?: VmwareEngineNetworkStateEnum | undefined;
 }
 export interface GetVcenterCredentialsProjectsLocationsPrivateCloudsRequest {
   /** Required. The resource name of the private cloud to be queried for credentials. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud` */
@@ -1653,13 +1403,16 @@ export interface GetVcenterCredentialsProjectsLocationsPrivateCloudsRequest {
   /** Optional. The username of the user to be queried for credentials. The default value of this field is CloudOwner@gve.local. The provided value must be one of the following: CloudOwner@gve.local, solution-user-01@gve.local, solution-user-02@gve.local, solution-user-03@gve.local, solution-user-04@gve.local, solution-user-05@gve.local, zertoadmin@gve.local. */
   username?: string | undefined;
 }
-export interface GrantProjectsLocationsDnsBindPermissionRequest {
-  /** Required. The name of the resource which stores the users/service accounts having the permission to bind to the corresponding intranet VPC of the consumer project. DnsBindPermission is a global resource. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/global/dnsBindPermission` */
-  name: string;
+/** Request message for VmwareEngine.GrantDnsBindPermission */
+export interface GrantDnsBindPermissionRequest {
   /** Required. The consumer provided user/service account which needs to be granted permission to bind with the intranet VPC corresponding to the consumer project. Principal can be a user or a service account. For example, to specify the user `user@example.com`, use `"principal": {"user": "user@example.com"}` and to specify the service account `service-account@gserviceaccount.com`, use `"principal": {"serviceAccount": "service-account@gserviceaccount.com"}`. */
   principal?: Principal | undefined;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
+}
+export interface GrantProjectsLocationsDnsBindPermissionRequest extends GrantDnsBindPermissionRequest {
+  /** Required. The name of the resource which stores the users/service accounts having the permission to bind to the corresponding intranet VPC of the consumer project. DnsBindPermission is a global resource. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/global/dnsBindPermission` */
+  name: string;
 }
 export interface ListProjectsLocationsRequest {
   /** The resource that owns the locations collection, if applicable. */
@@ -2151,9 +1904,8 @@ export interface ListVmwareEngineNetworksResponse {
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string | undefined;
 }
-export interface MigrateManagementVmsProjectsLocationsPrivateCloudsRequest {
-  /** Required. The resource name of the private cloud whose management vms are getting migrated. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud` */
-  name: string;
+/** Request message for VmwareEngine.MigrateManagementVms */
+export interface MigrateManagementVmsRequest {
   /** Optional. Checksum used to ensure that the user-provided value is up to date before the server processes the request. The server compares provided checksum with the current checksum of the resource. If the user-provided value is out of date, this request returns an `ABORTED` error. */
   etag?: string | undefined;
   /** Required. The user-provided identifier of the workload cluster to which the management VMs are to be migrated. The cluster must be in the same private cloud as the one specified in `name`, and must be a workload cluster. The eventual cluster name will be constructed from the private cloud name and this cluster ID. */
@@ -2161,9 +1913,12 @@ export interface MigrateManagementVmsProjectsLocationsPrivateCloudsRequest {
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
 }
-export interface MountDatastoreProjectsLocationsPrivateCloudsClustersRequest {
-  /** Required. The resource name of the cluster to mount the datastore. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud/clusters/my-cluster` */
+export interface MigrateManagementVmsProjectsLocationsPrivateCloudsRequest extends MigrateManagementVmsRequest {
+  /** Required. The resource name of the private cloud whose management vms are getting migrated. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud` */
   name: string;
+}
+/** Mount Datastore Request message */
+export interface MountDatastoreRequest {
   /** Optional. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Optional. If set to true, the colocation requirement will be ignored. If set to false, the colocation requirement will be enforced. If not set, the colocation requirement will be enforced. Colocation requirement is the requirement that the cluster must be in the same region/zone of datastore(regional/zonal datastore). */
@@ -2173,31 +1928,19 @@ export interface MountDatastoreProjectsLocationsPrivateCloudsClustersRequest {
   /** Optional. If set to `true`, only validates the request but doesn't execute the request. If set to `false`, validates and executes the request. */
   validateOnly?: boolean | undefined;
 }
-export interface PatchProjectsLocationsDatastoresRequest {
+export interface MountDatastoreProjectsLocationsPrivateCloudsClustersRequest extends MountDatastoreRequest {
+  /** Required. The resource name of the cluster to mount the datastore. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud/clusters/my-cluster` */
+  name: string;
+}
+export interface PatchProjectsLocationsDatastoresRequest extends Omit<Datastore, "name"> {
   /** Optional. Field mask is used to specify the fields to be overwritten in the Datastore resource by the update. The fields specified in the `update_mask` are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
   /** Output only. Identifier. The resource name of this datastore. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1/datastores/datastore` */
   name: string;
   /** Optional. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Output only. System-generated unique identifier for the resource. */
-  uid?: string | undefined;
-  /** Output only. Clusters to which the datastore is attached. */
-  clusters?: StringList | undefined;
-  /** Optional. Checksum that may be sent on update and delete requests to ensure that the user-provided value is up to date before the server processes a request. The server computes checksums based on the value of other fields in the request. */
-  etag?: string | undefined;
-  /** Optional. User-provided description for this datastore */
-  description?: string | undefined;
-  /** Required. Settings for the NFS datastore. */
-  nfsDatastore?: NfsDatastore | undefined;
-  /** Output only. The state of the Datastore. */
-  state?: DatastoreStateEnum | (string & {}) | undefined;
-  /** Output only. Creation time of this resource. */
-  createTime?: string | undefined;
-  /** Output only. Last update time of this resource. */
-  updateTime?: string | undefined;
 }
-export interface PatchProjectsLocationsNetworkPeeringsRequest {
+export interface PatchProjectsLocationsNetworkPeeringsRequest extends Omit<NetworkPeering, "name"> {
   /** Output only. Identifier. The resource name of the network peering. NetworkPeering is a global resource and location can only be global. Resource names are scheme-less URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/global/networkPeerings/my-peering` */
   name: string;
   /** Required. Field mask is used to specify the fields to be overwritten in the `NetworkPeering` resource by the update. The fields specified in the `update_mask` are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
@@ -2206,38 +1949,8 @@ export interface PatchProjectsLocationsNetworkPeeringsRequest {
   requestId?: string | undefined;
   /** Optional. If set to `true`, only validates the request but doesn't execute the request. If set to `false`, validates and executes the request. */
   validateOnly?: boolean | undefined;
-  /** Optional. True if custom routes are exported to the peered network; false otherwise. The default value is true. */
-  exportCustomRoutes?: boolean | undefined;
-  /** Optional. User-provided description for this network peering. */
-  description?: string | undefined;
-  /** Required. The type of the network to peer with the VMware Engine network. */
-  peerNetworkType?: NetworkPeeringPeerNetworkTypeEnum | (string & {}) | undefined;
-  /** Required. The relative resource name of the network to peer with a standard VMware Engine network. The provided network can be a consumer VPC network or another standard VMware Engine network. If the `peer_network_type` is VMWARE_ENGINE_NETWORK, specify the name in the form: `projects/{project}/locations/global/vmwareEngineNetworks/{vmware_engine_network_id}`. Otherwise specify the name in the form: `projects/{project}/global/networks/{network_id}`, where `{project}` can either be a project number or a project ID. */
-  peerNetwork?: string | undefined;
-  /** Optional. True if full mesh connectivity is created and managed automatically between peered networks; false otherwise. Currently this field is always true because Google Compute Engine automatically creates and manages subnetwork routes between two VPC networks when peering state is 'ACTIVE'. */
-  exchangeSubnetRoutes?: boolean | undefined;
-  /** Optional. True if custom routes are imported from the peered network; false otherwise. The default value is true. */
-  importCustomRoutes?: boolean | undefined;
-  /** Output only. State of the network peering. This field has a value of 'ACTIVE' when there's a matching configuration in the peer network. New values may be added to this enum when appropriate. */
-  state?: NetworkPeeringStateEnum | (string & {}) | undefined;
-  /** Optional. Maximum transmission unit (MTU) in bytes. The default value is `1500`. If a value of `0` is provided for this field, VMware Engine uses the default value instead. */
-  peerMtu?: number | undefined;
-  /** Required. The relative resource name of the VMware Engine network. Specify the name in the following form: `projects/{project}/locations/{location}/vmwareEngineNetworks/{vmware_engine_network_id}` where `{project}` can either be a project number or a project ID. */
-  vmwareEngineNetwork?: string | undefined;
-  /** Output only. Output Only. Details about the current state of the network peering. */
-  stateDetails?: string | undefined;
-  /** Optional. True if all subnet routes with a public IP address range are exported; false otherwise. The default value is true. IPv4 special-use ranges (https://en.wikipedia.org/wiki/IPv4#Special_addresses) are always exported to peers and are not controlled by this field. */
-  exportCustomRoutesWithPublicIp?: boolean | undefined;
-  /** Output only. Creation time of this resource. */
-  createTime?: string | undefined;
-  /** Output only. Last update time of this resource. */
-  updateTime?: string | undefined;
-  /** Optional. True if all subnet routes with public IP address range are imported; false otherwise. The default value is true. IPv4 special-use ranges (https://en.wikipedia.org/wiki/IPv4#Special_addresses) are always imported to peers and are not controlled by this field. */
-  importCustomRoutesWithPublicIp?: boolean | undefined;
-  /** Output only. System-generated unique identifier for the resource. */
-  uid?: string | undefined;
 }
-export interface PatchProjectsLocationsNetworkPoliciesRequest {
+export interface PatchProjectsLocationsNetworkPoliciesRequest extends Omit<NetworkPolicy, "name"> {
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Optional. If set to `true`, only validates the request but doesn't execute the request. If set to `false`, validates and executes the request. */
@@ -2246,26 +1959,11 @@ export interface PatchProjectsLocationsNetworkPoliciesRequest {
   name: string;
   /** Required. Field mask is used to specify the fields to be overwritten in the `NetworkPolicy` resource by the update. The fields specified in the `update_mask` are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
-  /** Output only. System-generated unique identifier for the resource. */
-  uid?: string | undefined;
-  /** Optional. User-provided description for this network policy. */
-  description?: string | undefined;
-  /** Output only. Creation time of this resource. */
-  createTime?: string | undefined;
-  /** Output only. Last update time of this resource. */
-  updateTime?: string | undefined;
-  /** Optional. The relative resource name of the VMware Engine network. Specify the name in the following form: `projects/{project}/locations/{location}/vmwareEngineNetworks/{vmware_engine_network_id}` where `{project}` can either be a project number or a project ID. */
-  vmwareEngineNetwork?: string | undefined;
-  /** Output only. The canonical name of the VMware Engine network in the form: `projects/{project_number}/locations/{location}/vmwareEngineNetworks/{vmware_engine_network_id}` */
-  vmwareEngineNetworkCanonical?: string | undefined;
-  /** Required. IP address range in CIDR notation used to create internet access and external IP access. An RFC 1918 CIDR block, with a "/26" prefix, is required. The range cannot overlap with any prefixes either in the consumer VPC network or in use by the private clouds attached to that VPC network. */
-  edgeServicesCidr?: string | undefined;
-  /** Network service that allows VMware workloads to access the internet. */
-  internetAccess?: NetworkService | undefined;
-  /** Network service that allows External IP addresses to be assigned to VMware workloads. This service can only be enabled when `internet_access` is also enabled. */
-  externalIp?: NetworkService | undefined;
 }
-export interface PatchProjectsLocationsNetworkPoliciesExternalAccessRulesRequest {
+export interface PatchProjectsLocationsNetworkPoliciesExternalAccessRulesRequest extends Omit<
+  ExternalAccessRule,
+  "name"
+> {
   /** Optional. If set to `true`, only validates the request but doesn't execute the// request. If set to `false`, validates and executes the request. */
   validateOnly?: boolean | undefined;
   /** Output only. The resource name of this external access rule. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1/networkPolicies/my-policy/externalAccessRules/my-rule` */
@@ -2274,32 +1972,8 @@ export interface PatchProjectsLocationsNetworkPoliciesExternalAccessRulesRequest
   updateMask?: string | undefined;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Output only. The state of the resource. */
-  state?: ExternalAccessRuleStateEnum | (string & {}) | undefined;
-  /** A list of destination ports to which the external access rule applies. This field is only applicable for the UDP or TCP protocol. Each entry must be either an integer or a range. For example: `["22"]`, `["80","443"]`, or `["12345-12349"]`. To match all destination ports, specify `["0-65535"]`. */
-  destinationPorts?: StringList | undefined;
-  /** Output only. System-generated unique identifier for the resource. */
-  uid?: string | undefined;
-  /** If destination ranges are specified, the external access rule applies only to the traffic that has a destination IP address in these ranges. The specified IP addresses must have reserved external IP addresses in the scope of the parent network policy. To match all external IP addresses in the scope of the parent network policy, specify `0.0.0.0/0`. To match a specific external IP address, specify it using the `IpRange.external_address` property. */
-  destinationIpRanges?: IpRangeList | undefined;
-  /** A list of source ports to which the external access rule applies. This field is only applicable for the UDP or TCP protocol. Each entry must be either an integer or a range. For example: `["22"]`, `["80","443"]`, or `["12345-12349"]`. To match all source ports, specify `["0-65535"]`. */
-  sourcePorts?: StringList | undefined;
-  /** The IP protocol to which the external access rule applies. This value can be one of the following three protocol strings (not case-sensitive): `tcp`, `udp`, or `icmp`. */
-  ipProtocol?: string | undefined;
-  /** Output only. Creation time of this resource. */
-  createTime?: string | undefined;
-  /** Output only. Last update time of this resource. */
-  updateTime?: string | undefined;
-  /** User-provided description for this external access rule. */
-  description?: string | undefined;
-  /** External access rule priority, which determines the external access rule to use when multiple rules apply. If multiple rules have the same priority, their ordering is non-deterministic. If specific ordering is required, assign unique priorities to enforce such ordering. The external access rule priority is an integer from 100 to 4096, both inclusive. Lower integers indicate higher precedence. For example, a rule with priority `100` has higher precedence than a rule with priority `101`. */
-  priority?: number | undefined;
-  /** If source ranges are specified, the external access rule applies only to traffic that has a source IP address in these ranges. These ranges can either be expressed in the CIDR format or as an IP address. As only inbound rules are supported, `ExternalAddress` resources cannot be the source IP addresses of an external access rule. To match all source addresses, specify `0.0.0.0/0`. */
-  sourceIpRanges?: IpRangeList | undefined;
-  /** The action that the external access rule performs. */
-  action?: ExternalAccessRuleActionEnum | (string & {}) | undefined;
 }
-export interface PatchProjectsLocationsPrivateCloudsRequest {
+export interface PatchProjectsLocationsPrivateCloudsRequest extends Omit<PrivateCloud, "name"> {
   /** Required. Field mask is used to specify the fields to be overwritten in the `PrivateCloud` resource by the update. The fields specified in `updateMask` are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then only the description field will be overwritten. */
   updateMask?: string | undefined;
   /** Optional. If set to `true`, only validates the request but doesn't execute the request. If set to `false`, validates and executes the request. */
@@ -2308,36 +1982,8 @@ export interface PatchProjectsLocationsPrivateCloudsRequest {
   name: string;
   /** Optional. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Output only. Vcenter appliance. */
-  vcenter?: Vcenter | undefined;
-  /** Optional. Type of the private cloud. Defaults to STANDARD. */
-  type?: PrivateCloudTypeEnum | (string & {}) | undefined;
-  /** Required. Input only. The management cluster for this private cloud. This field is required during creation of the private cloud to provide details for the default cluster. The following fields can't be changed after private cloud creation: `ManagementCluster.clusterId`, `ManagementCluster.nodeTypeId`. */
-  managementCluster?: ManagementCluster | undefined;
-  /** User-provided description for this private cloud. */
-  description?: string | undefined;
-  /** Required. Network configuration of the private cloud. */
-  networkConfig?: NetworkConfig | undefined;
-  /** Optional. Encryption configuration for the private cloud. If this field is left unspecified, Google default encryption is used. */
-  encryptionConfig?: EncryptionConfig | undefined;
-  /** Output only. Creation time of this resource. */
-  createTime?: string | undefined;
-  /** Output only. Last update time of this resource. */
-  updateTime?: string | undefined;
-  /** Output only. State of the resource. New values may be added to this enum when appropriate. */
-  state?: PrivateCloudStateEnum | (string & {}) | undefined;
-  /** Output only. Time when the resource was scheduled for deletion. */
-  deleteTime?: string | undefined;
-  /** Output only. NSX appliance. */
-  nsx?: Nsx | undefined;
-  /** Output only. Time when the resource will be irreversibly deleted. */
-  expireTime?: string | undefined;
-  /** Output only. HCX appliance. */
-  hcx?: Hcx | undefined;
-  /** Output only. System-generated unique identifier for the resource. */
-  uid?: string | undefined;
 }
-export interface PatchProjectsLocationsPrivateCloudsClustersRequest {
+export interface PatchProjectsLocationsPrivateCloudsClustersRequest extends Omit<Cluster, "name"> {
   /** Output only. Identifier. The resource name of this cluster. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud/clusters/my-cluster` */
   name: string;
   /** Required. Field mask is used to specify the fields to be overwritten in the `Cluster` resource by the update. The fields specified in the `updateMask` are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
@@ -2346,28 +1992,11 @@ export interface PatchProjectsLocationsPrivateCloudsClustersRequest {
   requestId?: string | undefined;
   /** Optional. If set to `true`, only validates the request but doesn't execute the request. If set to `false`, validates and executes the request. */
   validateOnly?: boolean | undefined;
-  /** Required. The map of cluster node types in this cluster, where the key is canonical identifier of the node type (corresponds to the `NodeType`). */
-  nodeTypeConfigs?: NodeTypeConfigMap | undefined;
-  /** Output only. Creation time of this resource. */
-  createTime?: string | undefined;
-  /** Output only. Last update time of this resource. */
-  updateTime?: string | undefined;
-  /** Output only. State of the resource. */
-  state?: ClusterStateEnum | (string & {}) | undefined;
-  /** Optional. Configuration of the autoscaling applied to this cluster. */
-  autoscalingSettings?: AutoscalingSettings | undefined;
-  /** Optional. The identifier of the placement group for cluster nodes. A placement group is an internal Google identifier for a group of resources that are physically located within the same fault domain. If provided, nodes for this cluster are placed within the specified placement group. If this field is omitted, the system selects an appropriate placement group. */
-  placementGroup?: string | undefined;
-  /** Output only. System-generated unique identifier for the resource. */
-  uid?: string | undefined;
-  /** Output only. True if the cluster is a management cluster; false otherwise. There can only be one management cluster in a private cloud and it has to be the first one. */
-  management?: boolean | undefined;
-  /** Output only. Configuration of a mounted datastore. */
-  datastoreMountConfig?: DatastoreMountConfigList | undefined;
-  /** Optional. Configuration of a stretched cluster. Required for clusters that belong to a STRETCHED private cloud. */
-  stretchedClusterConfig?: StretchedClusterConfig | undefined;
 }
-export interface PatchProjectsLocationsPrivateCloudsExternalAddressesRequest {
+export interface PatchProjectsLocationsPrivateCloudsExternalAddressesRequest extends Omit<
+  ExternalAddress,
+  "name"
+> {
   /** Required. Field mask is used to specify the fields to be overwritten in the `ExternalAddress` resource by the update. The fields specified in the `update_mask` are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
   /** Output only. Identifier. The resource name of this external IP address. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud/externalAddresses/my-address` */
@@ -2376,118 +2005,47 @@ export interface PatchProjectsLocationsPrivateCloudsExternalAddressesRequest {
   requestId?: string | undefined;
   /** Optional. If set to `true`, only validates the request but doesn't execute the request. If set to `false`, validates and executes the request. */
   validateOnly?: boolean | undefined;
-  /** Output only. The state of the resource. */
-  state?: ExternalAddressStateEnum | (string & {}) | undefined;
-  /** Output only. The external IP address of a workload VM. */
-  externalIp?: string | undefined;
-  /** Output only. System-generated unique identifier for the resource. */
-  uid?: string | undefined;
-  /** User-provided description for this resource. */
-  description?: string | undefined;
-  /** Output only. Creation time of this resource. */
-  createTime?: string | undefined;
-  /** Output only. Last update time of this resource. */
-  updateTime?: string | undefined;
-  /** The internal IP address of a workload VM. */
-  internalIp?: string | undefined;
 }
-export interface PatchProjectsLocationsPrivateCloudsLoggingServersRequest {
+export interface PatchProjectsLocationsPrivateCloudsLoggingServersRequest extends Omit<
+  LoggingServer,
+  "name"
+> {
   /** Required. Field mask is used to specify the fields to be overwritten in the `LoggingServer` resource by the update. The fields specified in the `update_mask` are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
   /** Output only. The resource name of this logging server. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud/loggingServers/my-logging-server` */
   name: string;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Required. Protocol used by vCenter to send logs to a logging server. */
-  protocol?: LoggingServerProtocolEnum | (string & {}) | undefined;
-  /** Output only. Creation time of this resource. */
-  createTime?: string | undefined;
-  /** Output only. Last update time of this resource. */
-  updateTime?: string | undefined;
-  /** Required. Fully-qualified domain name (FQDN) or IP Address of the logging server. */
-  hostname?: string | undefined;
-  /** Output only. System-generated unique identifier for the resource. */
-  uid?: string | undefined;
-  /** Required. Port number at which the logging server receives logs. */
-  port?: number | undefined;
-  /** Required. The type of component that produces logs that will be forwarded to this logging server. */
-  sourceType?: LoggingServerSourceTypeEnum | (string & {}) | undefined;
 }
-export interface PatchProjectsLocationsPrivateCloudsManagementDnsZoneBindingsRequest {
+export interface PatchProjectsLocationsPrivateCloudsManagementDnsZoneBindingsRequest extends Omit<
+  ManagementDnsZoneBinding,
+  "name"
+> {
   /** Required. Field mask is used to specify the fields to be overwritten in the `ManagementDnsZoneBinding` resource by the update. The fields specified in the `update_mask` are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Output only. The resource name of this binding. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud/managementDnsZoneBindings/my-management-dns-zone-binding` */
   name: string;
-  /** Network to bind is a standard consumer VPC. Specify the name in the following form for consumer VPC network: `projects/{project}/global/networks/{network_id}`. `{project}` can either be a project number or a project ID. */
-  vpcNetwork?: string | undefined;
-  /** User-provided description for this resource. */
-  description?: string | undefined;
-  /** Network to bind is a VMware Engine network. Specify the name in the following form for VMware engine network: `projects/{project}/locations/global/vmwareEngineNetworks/{vmware_engine_network_id}`. `{project}` can either be a project number or a project ID. */
-  vmwareEngineNetwork?: string | undefined;
-  /** Output only. Creation time of this resource. */
-  createTime?: string | undefined;
-  /** Output only. Last update time of this resource. */
-  updateTime?: string | undefined;
-  /** Output only. The state of the resource. */
-  state?: ManagementDnsZoneBindingStateEnum | (string & {}) | undefined;
-  /** Output only. System-generated unique identifier for the resource. */
-  uid?: string | undefined;
 }
-export interface PatchProjectsLocationsPrivateCloudsSubnetsRequest {
+export interface PatchProjectsLocationsPrivateCloudsSubnetsRequest extends Omit<Subnet, "name"> {
   /** Output only. Identifier. The resource name of this subnet. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud/subnets/my-subnet` */
   name: string;
   /** Required. Field mask is used to specify the fields to be overwritten in the `Subnet` resource by the update. The fields specified in the `update_mask` are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
-  /** The IP address range of the subnet in CIDR format '10.0.0.0/24'. */
-  ipCidrRange?: string | undefined;
-  /** The IP address of the gateway of this subnet. Must fall within the IP prefix defined above. */
-  gatewayIp?: string | undefined;
-  /** Output only. VLAN ID of the VLAN on which the subnet is configured */
-  vlanId?: number | undefined;
-  /** Output only. The state of the resource. */
-  state?: SubnetStateEnum | (string & {}) | undefined;
-  /** Output only. The type of the subnet. For example "management" or "userDefined". */
-  type?: string | undefined;
 }
-export interface PatchProjectsLocationsPrivateCloudsUpgradesRequest {
+export interface PatchProjectsLocationsPrivateCloudsUpgradesRequest extends Omit<Upgrade, "name"> {
   /** Required. Field mask is used to specify the fields to be overwritten in the `Upgrade` resource by the update. The fields specified in the `update_mask` are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Output only. Identifier. The resource name of the private cloud `Upgrade`. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-west1-a/privateClouds/my-cloud/upgrades/my-upgrade` */
   name: string;
-  /** Output only. Output Only. The description of the upgrade. This is used to provide additional information about the private cloud upgrade, such as the upgrade's purpose, the changes included in the upgrade, or any other relevant information about the upgrade. */
-  description?: string | undefined;
-  /** Output only. Output Only. End time of the upgrade. */
-  endTime?: string | undefined;
-  /** Schedule details for the upgrade. */
-  schedule?: Schedule | undefined;
-  /** Output only. Output Only. The start version */
-  startVersion?: string | undefined;
-  /** Output only. Output Only. The estimated total duration of the upgrade. This information can be used to plan or schedule upgrades to minimize disruptions. Please note that the estimated duration is only an estimate. The actual upgrade duration may vary. */
-  estimatedDuration?: string | undefined;
-  /** Output only. Output Only. The type of upgrade. */
-  type?: UpgradeTypeEnum | (string & {}) | undefined;
-  /** Output only. Output Only. The list of component upgrades. */
-  componentUpgrades?: VmwareUpgradeComponentList | undefined;
-  /** Output only. Output Only. The target version */
-  targetVersion?: string | undefined;
-  /** Output only. */
-  version?: string | undefined;
-  /** Output only. The current state of the upgrade. */
-  state?: UpgradeStateEnum | (string & {}) | undefined;
-  /** The etag for the upgrade resource. If this is provided on update, it must match the server's etag. */
-  etag?: string | undefined;
-  /** Output only. Output Only. Creation time of this resource. */
-  createTime?: string | undefined;
-  /** Output only. Output Only. Last update time of this resource. */
-  updateTime?: string | undefined;
-  /** Output only. System-generated unique identifier for the resource. */
-  uid?: string | undefined;
 }
-export interface PatchProjectsLocationsPrivateConnectionsRequest {
+export interface PatchProjectsLocationsPrivateConnectionsRequest extends Omit<
+  PrivateConnection,
+  "name"
+> {
   /** Required. Field mask is used to specify the fields to be overwritten in the `PrivateConnection` resource by the update. The fields specified in the `update_mask` are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
   /** Optional. If set to `true`, only validates the request but doesn't execute the request. If set to `false`, validates and executes the request. */
@@ -2496,32 +2054,11 @@ export interface PatchProjectsLocationsPrivateConnectionsRequest {
   name: string;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Optional. Routing Mode. Default value is set to GLOBAL. For type = PRIVATE_SERVICE_ACCESS, this field can be set to GLOBAL or REGIONAL, for other types only GLOBAL is supported. */
-  routingMode?: PrivateConnectionRoutingModeEnum | (string & {}) | undefined;
-  /** Required. Private connection type. */
-  type?: PrivateConnectionTypeEnum | (string & {}) | undefined;
-  /** Output only. VPC network peering id between given network VPC and VMwareEngineNetwork. */
-  peeringId?: string | undefined;
-  /** Output only. System-generated unique identifier for the resource. */
-  uid?: string | undefined;
-  /** Output only. Creation time of this resource. */
-  createTime?: string | undefined;
-  /** Output only. Last update time of this resource. */
-  updateTime?: string | undefined;
-  /** Required. The relative resource name of Legacy VMware Engine network. Specify the name in the following form: `projects/{project}/locations/{location}/vmwareEngineNetworks/{vmware_engine_network_id}` where `{project}`, `{location}` will be same as specified in private connection resource name and `{vmware_engine_network_id}` will be in the form of `{location}`-default e.g. projects/project/locations/us-central1/vmwareEngineNetworks/us-central1-default. */
-  vmwareEngineNetwork?: string | undefined;
-  /** Optional. User-provided description for this private connection. */
-  description?: string | undefined;
-  /** Output only. The canonical name of the VMware Engine network in the form: `projects/{project_number}/locations/{location}/vmwareEngineNetworks/{vmware_engine_network_id}` */
-  vmwareEngineNetworkCanonical?: string | undefined;
-  /** Output only. Peering state between service network and VMware Engine network. */
-  peeringState?: PrivateConnectionPeeringStateEnum | (string & {}) | undefined;
-  /** Output only. State of the private connection. */
-  state?: PrivateConnectionStateEnum | (string & {}) | undefined;
-  /** Required. Service network to create private connection. Specify the name in the following form: `projects/{project}/global/networks/{network_id}` For type = PRIVATE_SERVICE_ACCESS, this field represents servicenetworking VPC, e.g. projects/project-tp/global/networks/servicenetworking. For type = NETAPP_CLOUD_VOLUME, this field represents NetApp service VPC, e.g. projects/project-tp/global/networks/netapp-tenant-vpc. For type = DELL_POWERSCALE, this field represent Dell service VPC, e.g. projects/project-tp/global/networks/dell-tenant-vpc. For type= THIRD_PARTY_SERVICE, this field could represent a consumer VPC or any other producer VPC to which the VMware Engine Network needs to be connected, e.g. projects/project/global/networks/vpc. */
-  serviceNetwork?: string | undefined;
 }
-export interface PatchProjectsLocationsVmwareEngineNetworksRequest {
+export interface PatchProjectsLocationsVmwareEngineNetworksRequest extends Omit<
+  VmwareEngineNetwork,
+  "name"
+> {
   /** Required. Field mask is used to specify the fields to be overwritten in the VMware Engine network resource by the update. The fields specified in the `update_mask` are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. Only the following fields can be updated: `description`. */
   updateMask?: string | undefined;
   /** Optional. If set to `true`, only validates the request but doesn't execute the request. If set to `false`, validates and executes the request. */
@@ -2530,115 +2067,105 @@ export interface PatchProjectsLocationsVmwareEngineNetworksRequest {
   name: string;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Output only. System-generated unique identifier for the resource. */
-  uid?: string | undefined;
-  /** Output only. Creation time of this resource. */
-  createTime?: string | undefined;
-  /** Output only. Last update time of this resource. */
-  updateTime?: string | undefined;
-  /** Required. VMware Engine network type. */
-  type?: VmwareEngineNetworkTypeEnum | (string & {}) | undefined;
-  /** User-provided description for this VMware Engine network. */
-  description?: string | undefined;
-  /** Output only. VMware Engine service VPC networks that provide connectivity from a private cloud to customer projects, the internet, and other Google Cloud services. */
-  vpcNetworks?: VpcNetworkList | undefined;
-  /** Checksum that may be sent on update and delete requests to ensure that the user-provided value is up to date before the server processes a request. The server computes checksums based on the value of other fields in the request. */
-  etag?: string | undefined;
-  /** Output only. State of the VMware Engine network. */
-  state?: VmwareEngineNetworkStateEnum | (string & {}) | undefined;
 }
-export interface PrivateCloudDeletionNowProjectsLocationsPrivateCloudsRequest {
-  /** Required. The resource name of the private cloud in softdeletion. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud` */
-  name: string;
+/** Request message for VmwareEngine.AcceleratePrivateCloudDeletion */
+export interface AcceleratePrivateCloudDeletionRequest {
   /** Optional. Checksum used to ensure that the user-provided value is up to date before the server processes the request. The server compares provided checksum with the current checksum of the resource. If the user-provided value is out of date, this request returns an `ABORTED` error. */
   etag?: string | undefined;
   /** Optional. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
 }
-export interface RepairProjectsLocationsPrivateCloudsManagementDnsZoneBindingsRequest {
-  /** Required. The resource name of the management DNS zone binding to repair. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud/managementDnsZoneBindings/my-management-dns-zone-binding` */
+export interface PrivateCloudDeletionNowProjectsLocationsPrivateCloudsRequest extends AcceleratePrivateCloudDeletionRequest {
+  /** Required. The resource name of the private cloud in softdeletion. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud` */
   name: string;
+}
+/** Request message for VmwareEngine.RepairManagementDnsZoneBindings */
+export interface RepairManagementDnsZoneBindingRequest {
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
 }
-export interface ResetNsxCredentialsProjectsLocationsPrivateCloudsRequest {
-  /** Required. The resource name of the private cloud to reset credentials for. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud` */
-  privateCloud: string;
+export interface RepairProjectsLocationsPrivateCloudsManagementDnsZoneBindingsRequest extends RepairManagementDnsZoneBindingRequest {
+  /** Required. The resource name of the management DNS zone binding to repair. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud/managementDnsZoneBindings/my-management-dns-zone-binding` */
+  name: string;
+}
+/** Request message for VmwareEngine.ResetNsxCredentials */
+export interface ResetNsxCredentialsRequest {
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
 }
-export interface ResetVcenterCredentialsProjectsLocationsPrivateCloudsRequest {
+export interface ResetNsxCredentialsProjectsLocationsPrivateCloudsRequest extends ResetNsxCredentialsRequest {
   /** Required. The resource name of the private cloud to reset credentials for. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud` */
   privateCloud: string;
+}
+/** Request message for VmwareEngine.ResetVcenterCredentials */
+export interface ResetVcenterCredentialsRequest {
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Optional. The username of the user to be to reset the credentials. The default value of this field is CloudOwner@gve.local. The provided value should be one of the following: solution-user-01@gve.local, solution-user-02@gve.local, solution-user-03@gve.local, solution-user-04@gve.local, solution-user-05@gve.local, zertoadmin@gve.local. */
   username?: string | undefined;
 }
-export interface RevokeProjectsLocationsDnsBindPermissionRequest {
+export interface ResetVcenterCredentialsProjectsLocationsPrivateCloudsRequest extends ResetVcenterCredentialsRequest {
+  /** Required. The resource name of the private cloud to reset credentials for. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud` */
+  privateCloud: string;
+}
+/** Request message for VmwareEngine.RevokeDnsBindPermission */
+export type RevokeDnsBindPermissionRequest = GrantDnsBindPermissionRequest;
+export interface RevokeProjectsLocationsDnsBindPermissionRequest extends GrantDnsBindPermissionRequest {
   /** Required. The name of the resource which stores the users/service accounts having the permission to bind to the corresponding intranet VPC of the consumer project. DnsBindPermission is a global resource. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/global/dnsBindPermission` */
   name: string;
-  /** Required. The consumer provided user/service account which needs to be granted permission to bind with the intranet VPC corresponding to the consumer project. Principal can be a user or a service account. For example, to specify the user `user@example.com`, use `"principal": {"user": "user@example.com"}` and to specify the service account `service-account@gserviceaccount.com`, use `"principal": {"serviceAccount": "service-account@gserviceaccount.com"}`. */
-  principal?: Principal | undefined;
-  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
 }
-export interface SetIamPolicyProjectsLocationsPrivateCloudsRequest {
-  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
+/** Request message for `SetIamPolicy` method. */
+export interface SetIamPolicyRequest {
   /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
   updateMask?: string | undefined;
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
   policy?: Policy | undefined;
 }
-export interface SetIamPolicyProjectsLocationsPrivateCloudsClustersRequest {
+export interface SetIamPolicyProjectsLocationsPrivateCloudsRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
-  updateMask?: string | undefined;
-  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
-  policy?: Policy | undefined;
 }
-export interface SetIamPolicyProjectsLocationsPrivateCloudsHcxActivationKeysRequest {
+export interface SetIamPolicyProjectsLocationsPrivateCloudsClustersRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
-  updateMask?: string | undefined;
-  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
-  policy?: Policy | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsPrivateCloudsRequest {
-  /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+export interface SetIamPolicyProjectsLocationsPrivateCloudsHcxActivationKeysRequest extends SetIamPolicyRequest {
+  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
+}
+/** Request message for `TestIamPermissions` method. */
+export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: StringList | undefined;
+}
+export interface TestIamPermissionsProjectsLocationsPrivateCloudsRequest extends TestIamPermissionsRequest {
+  /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsPrivateCloudsClustersRequest {
+export interface TestIamPermissionsProjectsLocationsPrivateCloudsClustersRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
-  permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsPrivateCloudsHcxActivationKeysRequest {
+export interface TestIamPermissionsProjectsLocationsPrivateCloudsHcxActivationKeysRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
-  permissions?: StringList | undefined;
 }
-export interface UndeleteProjectsLocationsPrivateCloudsRequest {
-  /** Required. The resource name of the private cloud scheduled for deletion. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud` */
-  name: string;
+/** Request message for VmwareEngine.UndeletePrivateCloud */
+export interface UndeletePrivateCloudRequest {
   /** Optional. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
 }
-export interface UnmountDatastoreProjectsLocationsPrivateCloudsClustersRequest {
-  /** Required. The resource name of the cluster to unmount the datastore. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud/clusters/my-cluster` */
+export interface UndeleteProjectsLocationsPrivateCloudsRequest extends UndeletePrivateCloudRequest {
+  /** Required. The resource name of the private cloud scheduled for deletion. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud` */
   name: string;
+}
+/** Unmount Datastore Request messag */
+export interface UnmountDatastoreRequest {
   /** Optional. If set to `true`, only validates the request but doesn't execute the request. If set to `false`, validates and executes the request. */
   validateOnly?: boolean | undefined;
   /** Required. The resource name of the datastore to unmount. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1/datastores/my-datastore` */
@@ -2646,19 +2173,20 @@ export interface UnmountDatastoreProjectsLocationsPrivateCloudsClustersRequest {
   /** Optional. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
 }
-export interface UpdateDnsForwardingProjectsLocationsPrivateCloudsRequest {
+export interface UnmountDatastoreProjectsLocationsPrivateCloudsClustersRequest extends UnmountDatastoreRequest {
+  /** Required. The resource name of the cluster to unmount the datastore. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud/clusters/my-cluster` */
+  name: string;
+}
+export interface UpdateDnsForwardingProjectsLocationsPrivateCloudsRequest extends Omit<
+  DnsForwarding,
+  "name"
+> {
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Output only. Identifier. The resource name of this DNS profile. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud/dnsForwarding` */
   name: string;
   /** Required. Field mask is used to specify the fields to be overwritten in the `DnsForwarding` resource by the update. The fields specified in the `update_mask` are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
-  /** Required. List of domain mappings to configure */
-  forwardingRules?: ForwardingRuleList | undefined;
-  /** Output only. Creation time of this resource. */
-  createTime?: string | undefined;
-  /** Output only. Last update time of this resource. */
-  updateTime?: string | undefined;
 }
 export type CreateProjectsLocationsDatastoresError =
   | NotFound
@@ -2673,8 +2201,8 @@ export const createProjectsLocationsDatastores: API.OperationMethod<
   CreateProjectsLocationsDatastoresError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(816, __c51, 0) as any as S.Schema<CreateProjectsLocationsDatastoresRequest>,
-  output: __S(882, __c55, 2) as any as S.Schema<Operation>,
+  input: __S(832, __c52, 0) as any as S.Schema<CreateProjectsLocationsDatastoresRequest>,
+  output: __S(898, __c56, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2695,8 +2223,8 @@ export const createProjectsLocationsNetworkPeerings: API.OperationMethod<
   CreateProjectsLocationsNetworkPeeringsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1200, __c75, 0) as any as S.Schema<CreateProjectsLocationsNetworkPeeringsRequest>,
-  output: __S(882, __c55, 2) as any as S.Schema<Operation>,
+  input: __S(1120, __c70, 0) as any as S.Schema<CreateProjectsLocationsNetworkPeeringsRequest>,
+  output: __S(898, __c56, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2717,8 +2245,8 @@ export const createProjectsLocationsNetworkPolicies: API.OperationMethod<
   CreateProjectsLocationsNetworkPoliciesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1456, __c91, 0) as any as S.Schema<CreateProjectsLocationsNetworkPoliciesRequest>,
-  output: __S(882, __c55, 2) as any as S.Schema<Operation>,
+  input: __S(1360, __c85, 0) as any as S.Schema<CreateProjectsLocationsNetworkPoliciesRequest>,
+  output: __S(898, __c56, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2740,11 +2268,11 @@ export const createProjectsLocationsNetworkPoliciesExternalAccessRules: API.Oper
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1664,
-    __c104,
+    1568,
+    __c98,
     0,
   ) as any as S.Schema<CreateProjectsLocationsNetworkPoliciesExternalAccessRulesRequest>,
-  output: __S(882, __c55, 2) as any as S.Schema<Operation>,
+  output: __S(898, __c56, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2765,8 +2293,8 @@ export const createProjectsLocationsPrivateClouds: API.OperationMethod<
   CreateProjectsLocationsPrivateCloudsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1856, __c116, 0) as any as S.Schema<CreateProjectsLocationsPrivateCloudsRequest>,
-  output: __S(882, __c55, 2) as any as S.Schema<Operation>,
+  input: __S(1760, __c110, 0) as any as S.Schema<CreateProjectsLocationsPrivateCloudsRequest>,
+  output: __S(898, __c56, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2788,11 +2316,11 @@ export const createProjectsLocationsPrivateCloudsClusters: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2064,
-    __c129,
+    1968,
+    __c123,
     0,
   ) as any as S.Schema<CreateProjectsLocationsPrivateCloudsClustersRequest>,
-  output: __S(882, __c55, 2) as any as S.Schema<Operation>,
+  output: __S(898, __c56, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2818,7 +2346,7 @@ export const createProjectsLocationsPrivateCloudsExternalAddresses: API.Operatio
     __c0,
     0,
   ) as any as S.Schema<CreateProjectsLocationsPrivateCloudsExternalAddressesRequest>,
-  output: __S(882, __c55, 2) as any as S.Schema<Operation>,
+  output: __S(898, __c56, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2840,11 +2368,11 @@ export const createProjectsLocationsPrivateCloudsHcxActivationKeys: API.Operatio
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    144,
-    __c9,
+    160,
+    __c10,
     0,
   ) as any as S.Schema<CreateProjectsLocationsPrivateCloudsHcxActivationKeysRequest>,
-  output: __S(882, __c55, 2) as any as S.Schema<Operation>,
+  output: __S(898, __c56, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2866,11 +2394,11 @@ export const createProjectsLocationsPrivateCloudsLoggingServers: API.OperationMe
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    160,
-    __c10,
+    192,
+    __c12,
     0,
   ) as any as S.Schema<CreateProjectsLocationsPrivateCloudsLoggingServersRequest>,
-  output: __S(882, __c55, 2) as any as S.Schema<Operation>,
+  output: __S(898, __c56, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2892,11 +2420,11 @@ export const createProjectsLocationsPrivateCloudsManagementDnsZoneBindings: API.
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    176,
-    __c11,
+    224,
+    __c14,
     0,
   ) as any as S.Schema<CreateProjectsLocationsPrivateCloudsManagementDnsZoneBindingsRequest>,
-  output: __S(882, __c55, 2) as any as S.Schema<Operation>,
+  output: __S(898, __c56, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2917,8 +2445,8 @@ export const createProjectsLocationsPrivateConnections: API.OperationMethod<
   CreateProjectsLocationsPrivateConnectionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c12, 0) as any as S.Schema<CreateProjectsLocationsPrivateConnectionsRequest>,
-  output: __S(882, __c55, 2) as any as S.Schema<Operation>,
+  input: __S(256, __c16, 0) as any as S.Schema<CreateProjectsLocationsPrivateConnectionsRequest>,
+  output: __S(898, __c56, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2939,8 +2467,8 @@ export const createProjectsLocationsVmwareEngineNetworks: API.OperationMethod<
   CreateProjectsLocationsVmwareEngineNetworksError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c13, 0) as any as S.Schema<CreateProjectsLocationsVmwareEngineNetworksRequest>,
-  output: __S(882, __c55, 2) as any as S.Schema<Operation>,
+  input: __S(288, __c18, 0) as any as S.Schema<CreateProjectsLocationsVmwareEngineNetworksRequest>,
+  output: __S(898, __c56, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2961,8 +2489,8 @@ export const deleteProjectsLocationsDatastores: API.OperationMethod<
   DeleteProjectsLocationsDatastoresError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c15, 0) as any as S.Schema<DeleteProjectsLocationsDatastoresRequest>,
-  output: __S(882, __c55, 2) as any as S.Schema<Operation>,
+  input: __S(320, __c20, 0) as any as S.Schema<DeleteProjectsLocationsDatastoresRequest>,
+  output: __S(898, __c56, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2983,8 +2511,8 @@ export const deleteProjectsLocationsNetworkPeerings: API.OperationMethod<
   DeleteProjectsLocationsNetworkPeeringsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c16, 0) as any as S.Schema<DeleteProjectsLocationsNetworkPeeringsRequest>,
-  output: __S(882, __c55, 2) as any as S.Schema<Operation>,
+  input: __S(336, __c21, 0) as any as S.Schema<DeleteProjectsLocationsNetworkPeeringsRequest>,
+  output: __S(898, __c56, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3005,8 +2533,8 @@ export const deleteProjectsLocationsNetworkPolicies: API.OperationMethod<
   DeleteProjectsLocationsNetworkPoliciesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c17, 0) as any as S.Schema<DeleteProjectsLocationsNetworkPoliciesRequest>,
-  output: __S(882, __c55, 2) as any as S.Schema<Operation>,
+  input: __S(352, __c22, 0) as any as S.Schema<DeleteProjectsLocationsNetworkPoliciesRequest>,
+  output: __S(898, __c56, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3028,11 +2556,11 @@ export const deleteProjectsLocationsNetworkPoliciesExternalAccessRules: API.Oper
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    288,
-    __c18,
+    368,
+    __c23,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsNetworkPoliciesExternalAccessRulesRequest>,
-  output: __S(882, __c55, 2) as any as S.Schema<Operation>,
+  output: __S(898, __c56, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3053,8 +2581,8 @@ export const deleteProjectsLocationsOperations: API.OperationMethod<
   DeleteProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c19, 0) as any as S.Schema<DeleteProjectsLocationsOperationsRequest>,
-  output: __S(832, __c52, 0) as any as S.Schema<Empty>,
+  input: __S(384, __c24, 0) as any as S.Schema<DeleteProjectsLocationsOperationsRequest>,
+  output: __S(848, __c53, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3075,8 +2603,8 @@ export const deleteProjectsLocationsPrivateClouds: API.OperationMethod<
   DeleteProjectsLocationsPrivateCloudsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c20, 0) as any as S.Schema<DeleteProjectsLocationsPrivateCloudsRequest>,
-  output: __S(882, __c55, 2) as any as S.Schema<Operation>,
+  input: __S(400, __c25, 0) as any as S.Schema<DeleteProjectsLocationsPrivateCloudsRequest>,
+  output: __S(898, __c56, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3097,8 +2625,8 @@ export const deleteProjectsLocationsPrivateCloudsClusters: API.OperationMethod<
   DeleteProjectsLocationsPrivateCloudsClustersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c21, 0) as any as S.Schema<DeleteProjectsLocationsPrivateCloudsClustersRequest>,
-  output: __S(882, __c55, 2) as any as S.Schema<Operation>,
+  input: __S(416, __c26, 0) as any as S.Schema<DeleteProjectsLocationsPrivateCloudsClustersRequest>,
+  output: __S(898, __c56, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3120,11 +2648,11 @@ export const deleteProjectsLocationsPrivateCloudsExternalAddresses: API.Operatio
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    352,
-    __c22,
+    432,
+    __c27,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsPrivateCloudsExternalAddressesRequest>,
-  output: __S(882, __c55, 2) as any as S.Schema<Operation>,
+  output: __S(898, __c56, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3146,11 +2674,11 @@ export const deleteProjectsLocationsPrivateCloudsLoggingServers: API.OperationMe
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    368,
-    __c23,
+    448,
+    __c28,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsPrivateCloudsLoggingServersRequest>,
-  output: __S(882, __c55, 2) as any as S.Schema<Operation>,
+  output: __S(898, __c56, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3172,11 +2700,11 @@ export const deleteProjectsLocationsPrivateCloudsManagementDnsZoneBindings: API.
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    384,
-    __c24,
+    464,
+    __c29,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsPrivateCloudsManagementDnsZoneBindingsRequest>,
-  output: __S(882, __c55, 2) as any as S.Schema<Operation>,
+  output: __S(898, __c56, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3197,8 +2725,8 @@ export const deleteProjectsLocationsPrivateConnections: API.OperationMethod<
   DeleteProjectsLocationsPrivateConnectionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(400, __c25, 0) as any as S.Schema<DeleteProjectsLocationsPrivateConnectionsRequest>,
-  output: __S(882, __c55, 2) as any as S.Schema<Operation>,
+  input: __S(480, __c30, 0) as any as S.Schema<DeleteProjectsLocationsPrivateConnectionsRequest>,
+  output: __S(898, __c56, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3219,8 +2747,8 @@ export const deleteProjectsLocationsVmwareEngineNetworks: API.OperationMethod<
   DeleteProjectsLocationsVmwareEngineNetworksError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c26, 0) as any as S.Schema<DeleteProjectsLocationsVmwareEngineNetworksRequest>,
-  output: __S(882, __c55, 2) as any as S.Schema<Operation>,
+  input: __S(496, __c31, 0) as any as S.Schema<DeleteProjectsLocationsVmwareEngineNetworksRequest>,
+  output: __S(898, __c56, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3241,11 +2769,11 @@ export const fetchExternalAddressesProjectsLocationsNetworkPolicies: API.Paginat
   FetchNetworkPolicyExternalAddressesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    432,
-    __c27,
+    512,
+    __c32,
     0,
   ) as any as S.Schema<FetchExternalAddressesProjectsLocationsNetworkPoliciesRequest>,
-  output: __S(433, __c27, 1) as any as S.Schema<FetchNetworkPolicyExternalAddressesResponse>,
+  output: __S(513, __c32, 1) as any as S.Schema<FetchNetworkPolicyExternalAddressesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3262,8 +2790,8 @@ export const getDnsBindPermissionProjectsLocations: API.OperationMethod<
   GetDnsBindPermissionProjectsLocationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c30, 0) as any as S.Schema<GetDnsBindPermissionProjectsLocationsRequest>,
-  output: __S(482, __c30, 2) as any as S.Schema<DnsBindPermission>,
+  input: __S(544, __c34, 0) as any as S.Schema<GetDnsBindPermissionProjectsLocationsRequest>,
+  output: __S(546, __c34, 2) as any as S.Schema<DnsBindPermission>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3280,11 +2808,11 @@ export const getDnsForwardingProjectsLocationsPrivateClouds: API.OperationMethod
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    512,
-    __c32,
+    576,
+    __c36,
     0,
   ) as any as S.Schema<GetDnsForwardingProjectsLocationsPrivateCloudsRequest>,
-  output: __S(513, __c32, 1) as any as S.Schema<DnsForwarding>,
+  output: __S(594, __c37, 2) as any as S.Schema<DnsForwarding>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3300,8 +2828,8 @@ export const getIamPolicyProjectsLocationsPrivateClouds: API.OperationMethod<
   GetIamPolicyProjectsLocationsPrivateCloudsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c34, 0) as any as S.Schema<GetIamPolicyProjectsLocationsPrivateCloudsRequest>,
-  output: __S(567, __c35, 7) as any as S.Schema<Policy>,
+  input: __S(608, __c38, 0) as any as S.Schema<GetIamPolicyProjectsLocationsPrivateCloudsRequest>,
+  output: __S(631, __c39, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3321,11 +2849,11 @@ export const getIamPolicyProjectsLocationsPrivateCloudsClusters: API.OperationMe
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    576,
-    __c36,
+    640,
+    __c40,
     0,
   ) as any as S.Schema<GetIamPolicyProjectsLocationsPrivateCloudsClustersRequest>,
-  output: __S(567, __c35, 7) as any as S.Schema<Policy>,
+  output: __S(631, __c39, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3345,11 +2873,11 @@ export const getIamPolicyProjectsLocationsPrivateCloudsHcxActivationKeys: API.Op
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    592,
-    __c37,
+    656,
+    __c41,
     0,
   ) as any as S.Schema<GetIamPolicyProjectsLocationsPrivateCloudsHcxActivationKeysRequest>,
-  output: __S(567, __c35, 7) as any as S.Schema<Policy>,
+  output: __S(631, __c39, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3369,11 +2897,11 @@ export const getNsxCredentialsProjectsLocationsPrivateClouds: API.OperationMetho
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    608,
-    __c38,
+    672,
+    __c42,
     0,
   ) as any as S.Schema<GetNsxCredentialsProjectsLocationsPrivateCloudsRequest>,
-  output: __S(624, __c39, 0) as any as S.Schema<Vmwareengine_Credentials>,
+  output: __S(688, __c43, 0) as any as S.Schema<Vmwareengine_Credentials>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3389,8 +2917,8 @@ export const getProjectsLocations: API.OperationMethod<
   GetProjectsLocationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c40, 0) as any as S.Schema<GetProjectsLocationsRequest>,
-  output: __S(672, __c42, 0) as any as S.Schema<Location>,
+  input: __S(704, __c44, 0) as any as S.Schema<GetProjectsLocationsRequest>,
+  output: __S(736, __c46, 0) as any as S.Schema<Location>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3406,8 +2934,8 @@ export const getProjectsLocationsAnnouncements: API.OperationMethod<
   GetProjectsLocationsAnnouncementsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(688, __c43, 0) as any as S.Schema<GetProjectsLocationsAnnouncementsRequest>,
-  output: __S(704, __c44, 0) as any as S.Schema<Announcement>,
+  input: __S(752, __c47, 0) as any as S.Schema<GetProjectsLocationsAnnouncementsRequest>,
+  output: __S(768, __c48, 0) as any as S.Schema<Announcement>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3423,8 +2951,8 @@ export const getProjectsLocationsDatastores: API.OperationMethod<
   GetProjectsLocationsDatastoresError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(720, __c45, 0) as any as S.Schema<GetProjectsLocationsDatastoresRequest>,
-  output: __S(736, __c46, 0) as any as S.Schema<Datastore>,
+  input: __S(784, __c49, 0) as any as S.Schema<GetProjectsLocationsDatastoresRequest>,
+  output: __S(867, __c54, 3) as any as S.Schema<Datastore>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3440,8 +2968,8 @@ export const getProjectsLocationsNetworkPeerings: API.OperationMethod<
   GetProjectsLocationsNetworkPeeringsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(752, __c47, 0) as any as S.Schema<GetProjectsLocationsNetworkPeeringsRequest>,
-  output: __S(768, __c48, 0) as any as S.Schema<NetworkPeering>,
+  input: __S(800, __c50, 0) as any as S.Schema<GetProjectsLocationsNetworkPeeringsRequest>,
+  output: __S(1136, __c71, 0) as any as S.Schema<NetworkPeering>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3457,8 +2985,8 @@ export const getProjectsLocationsNetworkPolicies: API.OperationMethod<
   GetProjectsLocationsNetworkPoliciesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(784, __c49, 0) as any as S.Schema<GetProjectsLocationsNetworkPoliciesRequest>,
-  output: __S(800, __c50, 0) as any as S.Schema<NetworkPolicy>,
+  input: __S(816, __c51, 0) as any as S.Schema<GetProjectsLocationsNetworkPoliciesRequest>,
+  output: __S(1377, __c86, 1) as any as S.Schema<NetworkPolicy>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3478,11 +3006,11 @@ export const getProjectsLocationsNetworkPoliciesExternalAccessRules: API.Operati
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    912,
-    __c57,
+    928,
+    __c58,
     0,
   ) as any as S.Schema<GetProjectsLocationsNetworkPoliciesExternalAccessRulesRequest>,
-  output: __S(928, __c58, 0) as any as S.Schema<ExternalAccessRule>,
+  output: __S(1586, __c99, 2) as any as S.Schema<ExternalAccessRule>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3516,7 +3044,7 @@ export const getProjectsLocationsOperations: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(976, __c61, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
-  output: __S(882, __c55, 2) as any as S.Schema<Operation>,
+  output: __S(898, __c56, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3533,7 +3061,7 @@ export const getProjectsLocationsPrivateClouds: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(992, __c62, 0) as any as S.Schema<GetProjectsLocationsPrivateCloudsRequest>,
-  output: __S(1008, __c63, 0) as any as S.Schema<PrivateCloud>,
+  output: __S(1782, __c111, 6) as any as S.Schema<PrivateCloud>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3549,8 +3077,8 @@ export const getProjectsLocationsPrivateCloudsClusters: API.OperationMethod<
   GetProjectsLocationsPrivateCloudsClustersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c64, 0) as any as S.Schema<GetProjectsLocationsPrivateCloudsClustersRequest>,
-  output: __S(1040, __c65, 0) as any as S.Schema<Cluster>,
+  input: __S(1008, __c63, 0) as any as S.Schema<GetProjectsLocationsPrivateCloudsClustersRequest>,
+  output: __S(2005, __c125, 5) as any as S.Schema<Cluster>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3567,11 +3095,11 @@ export const getProjectsLocationsPrivateCloudsClustersNodes: API.OperationMethod
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1056,
-    __c66,
+    1024,
+    __c64,
     0,
   ) as any as S.Schema<GetProjectsLocationsPrivateCloudsClustersNodesRequest>,
-  output: __S(1072, __c67, 0) as any as S.Schema<Node>,
+  output: __S(1040, __c65, 0) as any as S.Schema<Node>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3591,11 +3119,11 @@ export const getProjectsLocationsPrivateCloudsExternalAddresses: API.OperationMe
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1088,
-    __c68,
+    1056,
+    __c66,
     0,
   ) as any as S.Schema<GetProjectsLocationsPrivateCloudsExternalAddressesRequest>,
-  output: __S(448, __c28, 0) as any as S.Schema<ExternalAddress>,
+  output: __S(16, __c1, 0) as any as S.Schema<ExternalAddress>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3615,11 +3143,11 @@ export const getProjectsLocationsPrivateCloudsHcxActivationKeys: API.OperationMe
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1104,
-    __c69,
+    1072,
+    __c67,
     0,
   ) as any as S.Schema<GetProjectsLocationsPrivateCloudsHcxActivationKeysRequest>,
-  output: __S(1120, __c70, 0) as any as S.Schema<HcxActivationKey>,
+  output: __S(176, __c11, 0) as any as S.Schema<HcxActivationKey>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3639,11 +3167,11 @@ export const getProjectsLocationsPrivateCloudsLoggingServers: API.OperationMetho
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1136,
-    __c71,
+    1088,
+    __c68,
     0,
   ) as any as S.Schema<GetProjectsLocationsPrivateCloudsLoggingServersRequest>,
-  output: __S(1152, __c72, 0) as any as S.Schema<LoggingServer>,
+  output: __S(208, __c13, 0) as any as S.Schema<LoggingServer>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3663,11 +3191,11 @@ export const getProjectsLocationsPrivateCloudsManagementDnsZoneBindings: API.Ope
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1168,
-    __c73,
+    1104,
+    __c69,
     0,
   ) as any as S.Schema<GetProjectsLocationsPrivateCloudsManagementDnsZoneBindingsRequest>,
-  output: __S(1184, __c74, 0) as any as S.Schema<ManagementDnsZoneBinding>,
+  output: __S(240, __c15, 0) as any as S.Schema<ManagementDnsZoneBinding>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3683,8 +3211,8 @@ export const getProjectsLocationsPrivateCloudsSubnets: API.OperationMethod<
   GetProjectsLocationsPrivateCloudsSubnetsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1216, __c76, 0) as any as S.Schema<GetProjectsLocationsPrivateCloudsSubnetsRequest>,
-  output: __S(1232, __c77, 0) as any as S.Schema<Subnet>,
+  input: __S(1152, __c72, 0) as any as S.Schema<GetProjectsLocationsPrivateCloudsSubnetsRequest>,
+  output: __S(1168, __c73, 0) as any as S.Schema<Subnet>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3700,8 +3228,8 @@ export const getProjectsLocationsPrivateCloudsUpgrades: API.OperationMethod<
   GetProjectsLocationsPrivateCloudsUpgradesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c78, 0) as any as S.Schema<GetProjectsLocationsPrivateCloudsUpgradesRequest>,
-  output: __S(1264, __c79, 0) as any as S.Schema<Upgrade>,
+  input: __S(1184, __c74, 0) as any as S.Schema<GetProjectsLocationsPrivateCloudsUpgradesRequest>,
+  output: __S(1210, __c75, 10) as any as S.Schema<Upgrade>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3717,8 +3245,8 @@ export const getProjectsLocationsPrivateConnections: API.OperationMethod<
   GetProjectsLocationsPrivateConnectionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1296, __c81, 0) as any as S.Schema<GetProjectsLocationsPrivateConnectionsRequest>,
-  output: __S(1312, __c82, 0) as any as S.Schema<PrivateConnection>,
+  input: __S(1216, __c76, 0) as any as S.Schema<GetProjectsLocationsPrivateConnectionsRequest>,
+  output: __S(272, __c17, 0) as any as S.Schema<PrivateConnection>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3734,8 +3262,8 @@ export const getProjectsLocationsVmwareEngineNetworks: API.OperationMethod<
   GetProjectsLocationsVmwareEngineNetworksError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1328, __c83, 0) as any as S.Schema<GetProjectsLocationsVmwareEngineNetworksRequest>,
-  output: __S(1344, __c84, 0) as any as S.Schema<VmwareEngineNetwork>,
+  input: __S(1232, __c77, 0) as any as S.Schema<GetProjectsLocationsVmwareEngineNetworksRequest>,
+  output: __S(306, __c19, 2) as any as S.Schema<VmwareEngineNetwork>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3755,11 +3283,11 @@ export const getVcenterCredentialsProjectsLocationsPrivateClouds: API.OperationM
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1360,
-    __c85,
+    1248,
+    __c78,
     0,
   ) as any as S.Schema<GetVcenterCredentialsProjectsLocationsPrivateCloudsRequest>,
-  output: __S(624, __c39, 0) as any as S.Schema<Vmwareengine_Credentials>,
+  output: __S(688, __c43, 0) as any as S.Schema<Vmwareengine_Credentials>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3780,8 +3308,8 @@ export const grantProjectsLocationsDnsBindPermission: API.OperationMethod<
   GrantProjectsLocationsDnsBindPermissionError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c86, 0) as any as S.Schema<GrantProjectsLocationsDnsBindPermissionRequest>,
-  output: __S(882, __c55, 2) as any as S.Schema<Operation>,
+  input: __S(1264, __c79, 0) as any as S.Schema<GrantProjectsLocationsDnsBindPermissionRequest>,
+  output: __S(898, __c56, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3798,8 +3326,8 @@ export const listProjectsLocations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListLocationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1392, __c87, 0) as any as S.Schema<ListProjectsLocationsRequest>,
-  output: __S(1394, __c87, 2) as any as S.Schema<ListLocationsResponse>,
+  input: __S(1296, __c81, 0) as any as S.Schema<ListProjectsLocationsRequest>,
+  output: __S(1298, __c81, 2) as any as S.Schema<ListLocationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3817,8 +3345,8 @@ export const listProjectsLocationsAnnouncements: API.PaginatedOperationMethod<
   GcpOpContext,
   ListAnnouncementsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1408, __c88, 0) as any as S.Schema<ListProjectsLocationsAnnouncementsRequest>,
-  output: __S(1410, __c88, 2) as any as S.Schema<ListAnnouncementsResponse>,
+  input: __S(1312, __c82, 0) as any as S.Schema<ListProjectsLocationsAnnouncementsRequest>,
+  output: __S(1314, __c82, 2) as any as S.Schema<ListAnnouncementsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3836,8 +3364,8 @@ export const listProjectsLocationsCapacityAllocations: API.PaginatedOperationMet
   GcpOpContext,
   ListCapacityAllocationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1424, __c89, 0) as any as S.Schema<ListProjectsLocationsCapacityAllocationsRequest>,
-  output: __S(1427, __c89, 3) as any as S.Schema<ListCapacityAllocationsResponse>,
+  input: __S(1328, __c83, 0) as any as S.Schema<ListProjectsLocationsCapacityAllocationsRequest>,
+  output: __S(1331, __c83, 3) as any as S.Schema<ListCapacityAllocationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3855,8 +3383,8 @@ export const listProjectsLocationsDatastores: API.PaginatedOperationMethod<
   GcpOpContext,
   ListDatastoresResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1440, __c90, 0) as any as S.Schema<ListProjectsLocationsDatastoresRequest>,
-  output: __S(1442, __c90, 2) as any as S.Schema<ListDatastoresResponse>,
+  input: __S(1344, __c84, 0) as any as S.Schema<ListProjectsLocationsDatastoresRequest>,
+  output: __S(1346, __c84, 2) as any as S.Schema<ListDatastoresResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3874,8 +3402,8 @@ export const listProjectsLocationsNetworkPeerings: API.PaginatedOperationMethod<
   GcpOpContext,
   ListNetworkPeeringsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1488, __c93, 0) as any as S.Schema<ListProjectsLocationsNetworkPeeringsRequest>,
-  output: __S(1490, __c93, 2) as any as S.Schema<ListNetworkPeeringsResponse>,
+  input: __S(1392, __c87, 0) as any as S.Schema<ListProjectsLocationsNetworkPeeringsRequest>,
+  output: __S(1394, __c87, 2) as any as S.Schema<ListNetworkPeeringsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3897,11 +3425,11 @@ export const listProjectsLocationsNetworkPeeringsPeeringRoutes: API.PaginatedOpe
   ListPeeringRoutesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    1504,
-    __c94,
+    1408,
+    __c88,
     0,
   ) as any as S.Schema<ListProjectsLocationsNetworkPeeringsPeeringRoutesRequest>,
-  output: __S(1522, __c95, 2) as any as S.Schema<ListPeeringRoutesResponse>,
+  output: __S(1426, __c89, 2) as any as S.Schema<ListPeeringRoutesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3919,8 +3447,8 @@ export const listProjectsLocationsNetworkPolicies: API.PaginatedOperationMethod<
   GcpOpContext,
   ListNetworkPoliciesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1536, __c96, 0) as any as S.Schema<ListProjectsLocationsNetworkPoliciesRequest>,
-  output: __S(1538, __c96, 2) as any as S.Schema<ListNetworkPoliciesResponse>,
+  input: __S(1440, __c90, 0) as any as S.Schema<ListProjectsLocationsNetworkPoliciesRequest>,
+  output: __S(1442, __c90, 2) as any as S.Schema<ListNetworkPoliciesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3942,11 +3470,11 @@ export const listProjectsLocationsNetworkPoliciesExternalAccessRules: API.Pagina
   ListExternalAccessRulesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    1552,
-    __c97,
+    1456,
+    __c91,
     0,
   ) as any as S.Schema<ListProjectsLocationsNetworkPoliciesExternalAccessRulesRequest>,
-  output: __S(1554, __c97, 2) as any as S.Schema<ListExternalAccessRulesResponse>,
+  output: __S(1458, __c91, 2) as any as S.Schema<ListExternalAccessRulesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3964,8 +3492,8 @@ export const listProjectsLocationsNodeTypes: API.PaginatedOperationMethod<
   GcpOpContext,
   ListNodeTypesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1568, __c98, 0) as any as S.Schema<ListProjectsLocationsNodeTypesRequest>,
-  output: __S(1570, __c98, 2) as any as S.Schema<ListNodeTypesResponse>,
+  input: __S(1472, __c92, 0) as any as S.Schema<ListProjectsLocationsNodeTypesRequest>,
+  output: __S(1474, __c92, 2) as any as S.Schema<ListNodeTypesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3983,8 +3511,8 @@ export const listProjectsLocationsOperations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListOperationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1584, __c99, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
-  output: __S(1586, __c99, 2) as any as S.Schema<ListOperationsResponse>,
+  input: __S(1488, __c93, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
+  output: __S(1490, __c93, 2) as any as S.Schema<ListOperationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4002,8 +3530,8 @@ export const listProjectsLocationsPrivateClouds: API.PaginatedOperationMethod<
   GcpOpContext,
   ListPrivateCloudsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1600, __c100, 0) as any as S.Schema<ListProjectsLocationsPrivateCloudsRequest>,
-  output: __S(1602, __c100, 2) as any as S.Schema<ListPrivateCloudsResponse>,
+  input: __S(1504, __c94, 0) as any as S.Schema<ListProjectsLocationsPrivateCloudsRequest>,
+  output: __S(1506, __c94, 2) as any as S.Schema<ListPrivateCloudsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4021,8 +3549,8 @@ export const listProjectsLocationsPrivateCloudsClusters: API.PaginatedOperationM
   GcpOpContext,
   ListClustersResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1616, __c101, 0) as any as S.Schema<ListProjectsLocationsPrivateCloudsClustersRequest>,
-  output: __S(1618, __c101, 2) as any as S.Schema<ListClustersResponse>,
+  input: __S(1520, __c95, 0) as any as S.Schema<ListProjectsLocationsPrivateCloudsClustersRequest>,
+  output: __S(1522, __c95, 2) as any as S.Schema<ListClustersResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4044,11 +3572,11 @@ export const listProjectsLocationsPrivateCloudsClustersNodes: API.PaginatedOpera
   ListNodesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    1632,
-    __c102,
+    1536,
+    __c96,
     0,
   ) as any as S.Schema<ListProjectsLocationsPrivateCloudsClustersNodesRequest>,
-  output: __S(1634, __c102, 2) as any as S.Schema<ListNodesResponse>,
+  output: __S(1538, __c96, 2) as any as S.Schema<ListNodesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4070,11 +3598,11 @@ export const listProjectsLocationsPrivateCloudsExternalAddresses: API.PaginatedO
   ListExternalAddressesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    1648,
-    __c103,
+    1552,
+    __c97,
     0,
   ) as any as S.Schema<ListProjectsLocationsPrivateCloudsExternalAddressesRequest>,
-  output: __S(1649, __c103, 1) as any as S.Schema<ListExternalAddressesResponse>,
+  output: __S(1553, __c97, 1) as any as S.Schema<ListExternalAddressesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4096,11 +3624,11 @@ export const listProjectsLocationsPrivateCloudsHcxActivationKeys: API.PaginatedO
   ListHcxActivationKeysResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    1696,
-    __c106,
+    1600,
+    __c100,
     0,
   ) as any as S.Schema<ListProjectsLocationsPrivateCloudsHcxActivationKeysRequest>,
-  output: __S(1698, __c106, 2) as any as S.Schema<ListHcxActivationKeysResponse>,
+  output: __S(1602, __c100, 2) as any as S.Schema<ListHcxActivationKeysResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4122,11 +3650,11 @@ export const listProjectsLocationsPrivateCloudsLoggingServers: API.PaginatedOper
   ListLoggingServersResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    1712,
-    __c107,
+    1616,
+    __c101,
     0,
   ) as any as S.Schema<ListProjectsLocationsPrivateCloudsLoggingServersRequest>,
-  output: __S(1714, __c107, 2) as any as S.Schema<ListLoggingServersResponse>,
+  output: __S(1618, __c101, 2) as any as S.Schema<ListLoggingServersResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4148,11 +3676,11 @@ export const listProjectsLocationsPrivateCloudsManagementDnsZoneBindings: API.Pa
   ListManagementDnsZoneBindingsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    1728,
-    __c108,
+    1632,
+    __c102,
     0,
   ) as any as S.Schema<ListProjectsLocationsPrivateCloudsManagementDnsZoneBindingsRequest>,
-  output: __S(1730, __c108, 2) as any as S.Schema<ListManagementDnsZoneBindingsResponse>,
+  output: __S(1634, __c102, 2) as any as S.Schema<ListManagementDnsZoneBindingsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4170,8 +3698,8 @@ export const listProjectsLocationsPrivateCloudsSubnets: API.PaginatedOperationMe
   GcpOpContext,
   ListSubnetsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1744, __c109, 0) as any as S.Schema<ListProjectsLocationsPrivateCloudsSubnetsRequest>,
-  output: __S(1746, __c109, 2) as any as S.Schema<ListSubnetsResponse>,
+  input: __S(1648, __c103, 0) as any as S.Schema<ListProjectsLocationsPrivateCloudsSubnetsRequest>,
+  output: __S(1650, __c103, 2) as any as S.Schema<ListSubnetsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4189,8 +3717,8 @@ export const listProjectsLocationsPrivateCloudsUpgrades: API.PaginatedOperationM
   GcpOpContext,
   ListUpgradesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1760, __c110, 0) as any as S.Schema<ListProjectsLocationsPrivateCloudsUpgradesRequest>,
-  output: __S(1762, __c110, 2) as any as S.Schema<ListUpgradesResponse>,
+  input: __S(1664, __c104, 0) as any as S.Schema<ListProjectsLocationsPrivateCloudsUpgradesRequest>,
+  output: __S(1666, __c104, 2) as any as S.Schema<ListUpgradesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4208,8 +3736,8 @@ export const listProjectsLocationsPrivateConnections: API.PaginatedOperationMeth
   GcpOpContext,
   ListPrivateConnectionsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1776, __c111, 0) as any as S.Schema<ListProjectsLocationsPrivateConnectionsRequest>,
-  output: __S(1778, __c111, 2) as any as S.Schema<ListPrivateConnectionsResponse>,
+  input: __S(1680, __c105, 0) as any as S.Schema<ListProjectsLocationsPrivateConnectionsRequest>,
+  output: __S(1682, __c105, 2) as any as S.Schema<ListPrivateConnectionsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4231,11 +3759,11 @@ export const listProjectsLocationsPrivateConnectionsPeeringRoutes: API.Paginated
   ListPrivateConnectionPeeringRoutesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    1792,
-    __c112,
+    1696,
+    __c106,
     0,
   ) as any as S.Schema<ListProjectsLocationsPrivateConnectionsPeeringRoutesRequest>,
-  output: __S(1522, __c95, 2) as any as S.Schema<ListPrivateConnectionPeeringRoutesResponse>,
+  output: __S(1426, __c89, 2) as any as S.Schema<ListPrivateConnectionPeeringRoutesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4253,8 +3781,8 @@ export const listProjectsLocationsVmwareEngineNetworks: API.PaginatedOperationMe
   GcpOpContext,
   ListVmwareEngineNetworksResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1808, __c113, 0) as any as S.Schema<ListProjectsLocationsVmwareEngineNetworksRequest>,
-  output: __S(1810, __c113, 2) as any as S.Schema<ListVmwareEngineNetworksResponse>,
+  input: __S(1712, __c107, 0) as any as S.Schema<ListProjectsLocationsVmwareEngineNetworksRequest>,
+  output: __S(1714, __c107, 2) as any as S.Schema<ListVmwareEngineNetworksResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4277,11 +3805,11 @@ export const migrateManagementVmsProjectsLocationsPrivateClouds: API.OperationMe
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1824,
-    __c114,
-    0,
+    1729,
+    __c108,
+    1,
   ) as any as S.Schema<MigrateManagementVmsProjectsLocationsPrivateCloudsRequest>,
-  output: __S(882, __c55, 2) as any as S.Schema<Operation>,
+  output: __S(898, __c56, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4303,11 +3831,11 @@ export const mountDatastoreProjectsLocationsPrivateCloudsClusters: API.Operation
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1840,
-    __c115,
-    0,
+    1745,
+    __c109,
+    1,
   ) as any as S.Schema<MountDatastoreProjectsLocationsPrivateCloudsClustersRequest>,
-  output: __S(882, __c55, 2) as any as S.Schema<Operation>,
+  output: __S(898, __c56, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4328,8 +3856,8 @@ export const patchProjectsLocationsDatastores: API.OperationMethod<
   PatchProjectsLocationsDatastoresError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1904, __c119, 0) as any as S.Schema<PatchProjectsLocationsDatastoresRequest>,
-  output: __S(882, __c55, 2) as any as S.Schema<Operation>,
+  input: __S(1808, __c113, 0) as any as S.Schema<PatchProjectsLocationsDatastoresRequest>,
+  output: __S(898, __c56, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4350,8 +3878,8 @@ export const patchProjectsLocationsNetworkPeerings: API.OperationMethod<
   PatchProjectsLocationsNetworkPeeringsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1920, __c120, 0) as any as S.Schema<PatchProjectsLocationsNetworkPeeringsRequest>,
-  output: __S(882, __c55, 2) as any as S.Schema<Operation>,
+  input: __S(1824, __c114, 0) as any as S.Schema<PatchProjectsLocationsNetworkPeeringsRequest>,
+  output: __S(898, __c56, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4372,8 +3900,8 @@ export const patchProjectsLocationsNetworkPolicies: API.OperationMethod<
   PatchProjectsLocationsNetworkPoliciesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1936, __c121, 0) as any as S.Schema<PatchProjectsLocationsNetworkPoliciesRequest>,
-  output: __S(882, __c55, 2) as any as S.Schema<Operation>,
+  input: __S(1840, __c115, 0) as any as S.Schema<PatchProjectsLocationsNetworkPoliciesRequest>,
+  output: __S(898, __c56, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4395,11 +3923,11 @@ export const patchProjectsLocationsNetworkPoliciesExternalAccessRules: API.Opera
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1952,
-    __c122,
+    1856,
+    __c116,
     0,
   ) as any as S.Schema<PatchProjectsLocationsNetworkPoliciesExternalAccessRulesRequest>,
-  output: __S(882, __c55, 2) as any as S.Schema<Operation>,
+  output: __S(898, __c56, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4420,8 +3948,8 @@ export const patchProjectsLocationsPrivateClouds: API.OperationMethod<
   PatchProjectsLocationsPrivateCloudsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1968, __c123, 0) as any as S.Schema<PatchProjectsLocationsPrivateCloudsRequest>,
-  output: __S(882, __c55, 2) as any as S.Schema<Operation>,
+  input: __S(1872, __c117, 0) as any as S.Schema<PatchProjectsLocationsPrivateCloudsRequest>,
+  output: __S(898, __c56, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4443,11 +3971,11 @@ export const patchProjectsLocationsPrivateCloudsClusters: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1984,
-    __c124,
+    1888,
+    __c118,
     0,
   ) as any as S.Schema<PatchProjectsLocationsPrivateCloudsClustersRequest>,
-  output: __S(882, __c55, 2) as any as S.Schema<Operation>,
+  output: __S(898, __c56, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4469,11 +3997,11 @@ export const patchProjectsLocationsPrivateCloudsExternalAddresses: API.Operation
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2000,
-    __c125,
+    1904,
+    __c119,
     0,
   ) as any as S.Schema<PatchProjectsLocationsPrivateCloudsExternalAddressesRequest>,
-  output: __S(882, __c55, 2) as any as S.Schema<Operation>,
+  output: __S(898, __c56, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4495,11 +4023,11 @@ export const patchProjectsLocationsPrivateCloudsLoggingServers: API.OperationMet
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2016,
-    __c126,
+    1920,
+    __c120,
     0,
   ) as any as S.Schema<PatchProjectsLocationsPrivateCloudsLoggingServersRequest>,
-  output: __S(882, __c55, 2) as any as S.Schema<Operation>,
+  output: __S(898, __c56, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4521,11 +4049,11 @@ export const patchProjectsLocationsPrivateCloudsManagementDnsZoneBindings: API.O
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2032,
-    __c127,
+    1936,
+    __c121,
     0,
   ) as any as S.Schema<PatchProjectsLocationsPrivateCloudsManagementDnsZoneBindingsRequest>,
-  output: __S(882, __c55, 2) as any as S.Schema<Operation>,
+  output: __S(898, __c56, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4546,8 +4074,8 @@ export const patchProjectsLocationsPrivateCloudsSubnets: API.OperationMethod<
   PatchProjectsLocationsPrivateCloudsSubnetsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2048, __c128, 0) as any as S.Schema<PatchProjectsLocationsPrivateCloudsSubnetsRequest>,
-  output: __S(882, __c55, 2) as any as S.Schema<Operation>,
+  input: __S(1952, __c122, 0) as any as S.Schema<PatchProjectsLocationsPrivateCloudsSubnetsRequest>,
+  output: __S(898, __c56, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4569,11 +4097,11 @@ export const patchProjectsLocationsPrivateCloudsUpgrades: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2112,
-    __c132,
+    2016,
+    __c126,
     0,
   ) as any as S.Schema<PatchProjectsLocationsPrivateCloudsUpgradesRequest>,
-  output: __S(882, __c55, 2) as any as S.Schema<Operation>,
+  output: __S(898, __c56, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4594,8 +4122,8 @@ export const patchProjectsLocationsPrivateConnections: API.OperationMethod<
   PatchProjectsLocationsPrivateConnectionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2128, __c133, 0) as any as S.Schema<PatchProjectsLocationsPrivateConnectionsRequest>,
-  output: __S(882, __c55, 2) as any as S.Schema<Operation>,
+  input: __S(2032, __c127, 0) as any as S.Schema<PatchProjectsLocationsPrivateConnectionsRequest>,
+  output: __S(898, __c56, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4616,8 +4144,8 @@ export const patchProjectsLocationsVmwareEngineNetworks: API.OperationMethod<
   PatchProjectsLocationsVmwareEngineNetworksError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2144, __c134, 0) as any as S.Schema<PatchProjectsLocationsVmwareEngineNetworksRequest>,
-  output: __S(882, __c55, 2) as any as S.Schema<Operation>,
+  input: __S(2048, __c128, 0) as any as S.Schema<PatchProjectsLocationsVmwareEngineNetworksRequest>,
+  output: __S(898, __c56, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4639,11 +4167,11 @@ export const privateCloudDeletionNowProjectsLocationsPrivateClouds: API.Operatio
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2160,
-    __c135,
-    0,
+    2065,
+    __c129,
+    1,
   ) as any as S.Schema<PrivateCloudDeletionNowProjectsLocationsPrivateCloudsRequest>,
-  output: __S(882, __c55, 2) as any as S.Schema<Operation>,
+  output: __S(898, __c56, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4665,11 +4193,11 @@ export const repairProjectsLocationsPrivateCloudsManagementDnsZoneBindings: API.
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2176,
-    __c136,
+    2080,
+    __c130,
     0,
   ) as any as S.Schema<RepairProjectsLocationsPrivateCloudsManagementDnsZoneBindingsRequest>,
-  output: __S(882, __c55, 2) as any as S.Schema<Operation>,
+  output: __S(898, __c56, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4691,11 +4219,11 @@ export const resetNsxCredentialsProjectsLocationsPrivateClouds: API.OperationMet
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2192,
-    __c137,
+    2112,
+    __c132,
     0,
   ) as any as S.Schema<ResetNsxCredentialsProjectsLocationsPrivateCloudsRequest>,
-  output: __S(882, __c55, 2) as any as S.Schema<Operation>,
+  output: __S(898, __c56, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4717,11 +4245,11 @@ export const resetVcenterCredentialsProjectsLocationsPrivateClouds: API.Operatio
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2208,
-    __c138,
-    0,
+    2129,
+    __c133,
+    1,
   ) as any as S.Schema<ResetVcenterCredentialsProjectsLocationsPrivateCloudsRequest>,
-  output: __S(882, __c55, 2) as any as S.Schema<Operation>,
+  output: __S(898, __c56, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4742,8 +4270,8 @@ export const revokeProjectsLocationsDnsBindPermission: API.OperationMethod<
   RevokeProjectsLocationsDnsBindPermissionError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2224, __c139, 0) as any as S.Schema<RevokeProjectsLocationsDnsBindPermissionRequest>,
-  output: __S(882, __c55, 2) as any as S.Schema<Operation>,
+  input: __S(2144, __c134, 0) as any as S.Schema<RevokeProjectsLocationsDnsBindPermissionRequest>,
+  output: __S(898, __c56, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4764,8 +4292,8 @@ export const setIamPolicyProjectsLocationsPrivateClouds: API.OperationMethod<
   SetIamPolicyProjectsLocationsPrivateCloudsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2240, __c140, 0) as any as S.Schema<SetIamPolicyProjectsLocationsPrivateCloudsRequest>,
-  output: __S(567, __c35, 7) as any as S.Schema<Policy>,
+  input: __S(2160, __c135, 0) as any as S.Schema<SetIamPolicyProjectsLocationsPrivateCloudsRequest>,
+  output: __S(631, __c39, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4787,11 +4315,11 @@ export const setIamPolicyProjectsLocationsPrivateCloudsClusters: API.OperationMe
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2256,
-    __c141,
+    2192,
+    __c137,
     0,
   ) as any as S.Schema<SetIamPolicyProjectsLocationsPrivateCloudsClustersRequest>,
-  output: __S(567, __c35, 7) as any as S.Schema<Policy>,
+  output: __S(631, __c39, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4813,11 +4341,11 @@ export const setIamPolicyProjectsLocationsPrivateCloudsHcxActivationKeys: API.Op
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    16,
-    __c1,
+    32,
+    __c2,
     0,
   ) as any as S.Schema<SetIamPolicyProjectsLocationsPrivateCloudsHcxActivationKeysRequest>,
-  output: __S(567, __c35, 7) as any as S.Schema<Policy>,
+  output: __S(631, __c39, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4839,11 +4367,11 @@ export const testIamPermissionsProjectsLocationsPrivateClouds: API.OperationMeth
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    32,
-    __c2,
+    48,
+    __c3,
     0,
   ) as any as S.Schema<TestIamPermissionsProjectsLocationsPrivateCloudsRequest>,
-  output: __S(48, __c3, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  output: __S(64, __c4, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4865,11 +4393,11 @@ export const testIamPermissionsProjectsLocationsPrivateCloudsClusters: API.Opera
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    64,
-    __c4,
+    80,
+    __c5,
     0,
   ) as any as S.Schema<TestIamPermissionsProjectsLocationsPrivateCloudsClustersRequest>,
-  output: __S(48, __c3, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  output: __S(64, __c4, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4891,11 +4419,11 @@ export const testIamPermissionsProjectsLocationsPrivateCloudsHcxActivationKeys: 
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    80,
-    __c5,
+    96,
+    __c6,
     0,
   ) as any as S.Schema<TestIamPermissionsProjectsLocationsPrivateCloudsHcxActivationKeysRequest>,
-  output: __S(48, __c3, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  output: __S(64, __c4, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4916,8 +4444,8 @@ export const undeleteProjectsLocationsPrivateClouds: API.OperationMethod<
   UndeleteProjectsLocationsPrivateCloudsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c6, 0) as any as S.Schema<UndeleteProjectsLocationsPrivateCloudsRequest>,
-  output: __S(882, __c55, 2) as any as S.Schema<Operation>,
+  input: __S(112, __c7, 0) as any as S.Schema<UndeleteProjectsLocationsPrivateCloudsRequest>,
+  output: __S(898, __c56, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4939,11 +4467,11 @@ export const unmountDatastoreProjectsLocationsPrivateCloudsClusters: API.Operati
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    112,
-    __c7,
-    0,
+    129,
+    __c8,
+    1,
   ) as any as S.Schema<UnmountDatastoreProjectsLocationsPrivateCloudsClustersRequest>,
-  output: __S(882, __c55, 2) as any as S.Schema<Operation>,
+  output: __S(898, __c56, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4965,11 +4493,11 @@ export const updateDnsForwardingProjectsLocationsPrivateClouds: API.OperationMet
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    128,
-    __c8,
+    144,
+    __c9,
     0,
   ) as any as S.Schema<UpdateDnsForwardingProjectsLocationsPrivateCloudsRequest>,
-  output: __S(882, __c55, 2) as any as S.Schema<Operation>,
+  output: __S(898, __c56, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4982,20 +4510,15 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          externalAddressId: S.optional(S.String.pipe(T.Query())),
-          state: S.optional(S.String),
-          externalIp: S.optional(S.String),
-          uid: S.optional(S.String),
-          description: S.optional(S.String),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          name: S.optional(S.String),
-          internalIp: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(16, __c1, 0),
+          S.Struct({
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            externalAddressId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/externalAddresses",
@@ -5010,10 +4533,28 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          resource: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String),
-          policy: S.optional(__S(567, __c35, 7)),
-        }).pipe(
+          state: S.optional(S.String),
+          externalIp: S.optional(S.String),
+          uid: S.optional(S.String),
+          description: S.optional(S.String),
+          createTime: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          name: S.optional(S.String),
+          internalIp: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ExternalAddress" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(2176, __c136, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -5025,14 +4566,16 @@ function __c1(j: number): any {
       });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          permissions: S.optional(__S(896, __c56, 0)),
-        }).pipe(
+        S.Extend(
+          __S(64, __c4, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -5042,24 +4585,26 @@ function __c2(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsLocationsPrivateCloudsRequest" });
   }
 }
-function __c3(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          permissions: S.optional(__S(896, __c56, 0)),
-        }),
-      ).annotate({ identifier: "TestIamPermissionsResponse" });
-  }
-}
 function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          resource: S.String.pipe(T.Label()),
-          permissions: S.optional(__S(896, __c56, 0)),
-        }).pipe(
+          permissions: S.optional(__S(912, __c57, 0)),
+        }),
+      ).annotate({ identifier: "TestIamPermissionsRequest" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(64, __c4, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -5069,14 +4614,16 @@ function __c4(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsLocationsPrivateCloudsClustersRequest" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          permissions: S.optional(__S(896, __c56, 0)),
-        }).pipe(
+        S.Extend(
+          __S(64, __c4, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -5088,14 +4635,16 @@ function __c5(j: number): any {
       });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(2096, __c131, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:undelete",
@@ -5105,16 +4654,24 @@ function __c6(j: number): any {
       ).annotate({ identifier: "UndeleteProjectsLocationsPrivateCloudsRequest" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           validateOnly: S.optional(S.Boolean),
           datastore: S.optional(S.String),
           requestId: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "UnmountDatastoreRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(128, __c8, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:unmountDatastore",
@@ -5124,18 +4681,18 @@ function __c7(j: number): any {
       ).annotate({ identifier: "UnmountDatastoreProjectsLocationsPrivateCloudsClustersRequest" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          forwardingRules: S.optional(__S(529, __c33, 1)),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(594, __c37, 2),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -5145,20 +4702,18 @@ function __c8(j: number): any {
       ).annotate({ identifier: "UpdateDnsForwardingProjectsLocationsPrivateCloudsRequest" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          hcxActivationKeyId: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          activationKey: S.optional(S.String),
-          uid: S.optional(S.String),
-          state: S.optional(S.String),
-          createTime: S.optional(S.String),
-          name: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(176, __c11, 0),
+          S.Struct({
+            hcxActivationKeyId: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/hcxActivationKeys",
@@ -5168,23 +4723,32 @@ function __c9(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsPrivateCloudsHcxActivationKeysRequest" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          loggingServerId: S.optional(S.String.pipe(T.Query())),
-          protocol: S.optional(S.String),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          hostname: S.optional(S.String),
+          activationKey: S.optional(S.String),
           uid: S.optional(S.String),
-          port: S.optional(S.Number),
+          state: S.optional(S.String),
+          createTime: S.optional(S.String),
           name: S.optional(S.String),
-          sourceType: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "HcxActivationKey" });
+  }
+}
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(208, __c13, 0),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            loggingServerId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/loggingServers",
@@ -5194,23 +4758,35 @@ function __c10(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsPrivateCloudsLoggingServersRequest" });
   }
 }
-function __c11(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          managementDnsZoneBindingId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          vpcNetwork: S.optional(S.String),
-          description: S.optional(S.String),
-          name: S.optional(S.String),
-          vmwareEngineNetwork: S.optional(S.String),
+          protocol: S.optional(S.String),
           createTime: S.optional(S.String),
           updateTime: S.optional(S.String),
-          state: S.optional(S.String),
+          hostname: S.optional(S.String),
           uid: S.optional(S.String),
-        }).pipe(
+          port: S.optional(S.Number),
+          name: S.optional(S.String),
+          sourceType: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "LoggingServer" });
+  }
+}
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(240, __c15, 0),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            managementDnsZoneBindingId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/managementDnsZoneBindings",
@@ -5222,15 +4798,50 @@ function __c11(j: number): any {
       });
   }
 }
-function __c12(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          privateConnectionId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          vpcNetwork: S.optional(S.String),
+          description: S.optional(S.String),
+          name: S.optional(S.String),
+          vmwareEngineNetwork: S.optional(S.String),
+          createTime: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          state: S.optional(S.String),
+          uid: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ManagementDnsZoneBinding" });
+  }
+}
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(272, __c17, 0),
+          S.Struct({
+            privateConnectionId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
+          T.Http({
+            method: "POST",
+            uri: "v1/{+parent}/privateConnections",
+            baseUrl: "https://vmwareengine.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "CreateProjectsLocationsPrivateConnectionsRequest" });
+  }
+}
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           routingMode: S.optional(S.String),
           type: S.optional(S.String),
           peeringId: S.optional(S.String),
@@ -5244,35 +4855,23 @@ function __c12(j: number): any {
           name: S.optional(S.String),
           state: S.optional(S.String),
           serviceNetwork: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "v1/{+parent}/privateConnections",
-            baseUrl: "https://vmwareengine.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "CreateProjectsLocationsPrivateConnectionsRequest" });
+        }),
+      ).annotate({ identifier: "PrivateConnection" });
   }
 }
-function __c13(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          vmwareEngineNetworkId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          uid: S.optional(S.String),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          type: S.optional(S.String),
-          description: S.optional(S.String),
-          vpcNetworks: S.optional(__S(225, __c14, 1)),
-          name: S.optional(S.String),
-          etag: S.optional(S.String),
-          state: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(306, __c19, 2),
+          S.Struct({
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            vmwareEngineNetworkId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/vmwareEngineNetworks",
@@ -5282,7 +4881,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsVmwareEngineNetworksRequest" });
   }
 }
-function __c14(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5292,10 +4891,24 @@ function __c14(j: number): any {
         }),
       ).annotate({ identifier: "VpcNetwork" });
     case 1:
-      return S.Array(__S(224, __c14, 0));
+      return S.Array(__S(304, __c19, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          uid: S.optional(S.String),
+          createTime: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          type: S.optional(S.String),
+          description: S.optional(S.String),
+          vpcNetworks: S.optional(__S(305, __c19, 1)),
+          name: S.optional(S.String),
+          etag: S.optional(S.String),
+          state: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "VmwareEngineNetwork" });
   }
 }
-function __c15(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5313,7 +4926,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsDatastoresRequest" });
   }
 }
-function __c16(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5330,7 +4943,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsNetworkPeeringsRequest" });
   }
 }
-function __c17(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5347,7 +4960,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsNetworkPoliciesRequest" });
   }
 }
-function __c18(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5366,7 +4979,7 @@ function __c18(j: number): any {
       });
   }
 }
-function __c19(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5382,7 +4995,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsOperationsRequest" });
   }
 }
-function __c20(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5401,7 +5014,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsPrivateCloudsRequest" });
   }
 }
-function __c21(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5418,7 +5031,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsPrivateCloudsClustersRequest" });
   }
 }
-function __c22(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5435,7 +5048,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsPrivateCloudsExternalAddressesRequest" });
   }
 }
-function __c23(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5452,7 +5065,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsPrivateCloudsLoggingServersRequest" });
   }
 }
-function __c24(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5471,7 +5084,7 @@ function __c24(j: number): any {
       });
   }
 }
-function __c25(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5488,7 +5101,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsPrivateConnectionsRequest" });
   }
 }
-function __c26(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5506,7 +5119,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsVmwareEngineNetworksRequest" });
   }
 }
-function __c27(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5525,36 +5138,19 @@ function __c27(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          externalAddresses: S.optional(__S(464, __c29, 0)),
+          externalAddresses: S.optional(__S(528, __c33, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "FetchNetworkPolicyExternalAddressesResponse" });
   }
 }
-function __c28(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          state: S.optional(S.String),
-          externalIp: S.optional(S.String),
-          uid: S.optional(S.String),
-          description: S.optional(S.String),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          name: S.optional(S.String),
-          internalIp: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ExternalAddress" });
+      return S.Array(__S(16, __c1, 0));
   }
 }
-function __c29(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(448, __c28, 0));
-  }
-}
-function __c30(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5569,17 +5165,17 @@ function __c30(j: number): any {
         ),
       ).annotate({ identifier: "GetDnsBindPermissionProjectsLocationsRequest" });
     case 1:
-      return S.Array(__S(496, __c31, 0));
+      return S.Array(__S(560, __c35, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          principals: S.optional(__S(481, __c30, 1)),
+          principals: S.optional(__S(545, __c34, 1)),
         }),
       ).annotate({ identifier: "DnsBindPermission" });
   }
 }
-function __c31(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5590,7 +5186,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "Principal" });
   }
 }
-function __c32(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5604,31 +5200,31 @@ function __c32(j: number): any {
           }),
         ),
       ).annotate({ identifier: "GetDnsForwardingProjectsLocationsPrivateCloudsRequest" });
+  }
+}
+function __c37(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          nameServers: S.optional(__S(912, __c57, 0)),
+          domain: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ForwardingRule" });
     case 1:
+      return S.Array(__S(592, __c37, 0));
+    case 2:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          forwardingRules: S.optional(__S(529, __c33, 1)),
+          forwardingRules: S.optional(__S(593, __c37, 1)),
           createTime: S.optional(S.String),
           updateTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "DnsForwarding" });
   }
 }
-function __c33(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          nameServers: S.optional(__S(896, __c56, 0)),
-          domain: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ForwardingRule" });
-    case 1:
-      return S.Array(__S(528, __c33, 0));
-  }
-}
-function __c34(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5645,7 +5241,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "GetIamPolicyProjectsLocationsPrivateCloudsRequest" });
   }
 }
-function __c35(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5659,43 +5255,43 @@ function __c35(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          condition: S.optional(__S(560, __c35, 0)),
+          condition: S.optional(__S(624, __c39, 0)),
           role: S.optional(S.String),
-          members: S.optional(__S(896, __c56, 0)),
+          members: S.optional(__S(912, __c57, 0)),
         }),
       ).annotate({ identifier: "Binding" });
     case 2:
-      return S.Array(__S(561, __c35, 1));
+      return S.Array(__S(625, __c39, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           logType: S.optional(S.String),
-          exemptedMembers: S.optional(__S(896, __c56, 0)),
+          exemptedMembers: S.optional(__S(912, __c57, 0)),
         }),
       ).annotate({ identifier: "AuditLogConfig" });
     case 4:
-      return S.Array(__S(563, __c35, 3));
+      return S.Array(__S(627, __c39, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          auditLogConfigs: S.optional(__S(564, __c35, 4)),
+          auditLogConfigs: S.optional(__S(628, __c39, 4)),
           service: S.optional(S.String),
         }),
       ).annotate({ identifier: "AuditConfig" });
     case 6:
-      return S.Array(__S(565, __c35, 5));
+      return S.Array(__S(629, __c39, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          bindings: S.optional(__S(562, __c35, 2)),
+          bindings: S.optional(__S(626, __c39, 2)),
           etag: S.optional(S.String),
-          auditConfigs: S.optional(__S(566, __c35, 6)),
+          auditConfigs: S.optional(__S(630, __c39, 6)),
           version: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Policy" });
   }
 }
-function __c36(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5712,7 +5308,7 @@ function __c36(j: number): any {
       ).annotate({ identifier: "GetIamPolicyProjectsLocationsPrivateCloudsClustersRequest" });
   }
 }
-function __c37(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5731,7 +5327,7 @@ function __c37(j: number): any {
       });
   }
 }
-function __c38(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5747,7 +5343,7 @@ function __c38(j: number): any {
       ).annotate({ identifier: "GetNsxCredentialsProjectsLocationsPrivateCloudsRequest" });
   }
 }
-function __c39(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5758,7 +5354,7 @@ function __c39(j: number): any {
       ).annotate({ identifier: "Vmwareengine_Credentials" });
   }
 }
-function __c40(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5774,76 +5370,10 @@ function __c40(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsRequest" });
   }
 }
-function __c41(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, S.String);
-  }
-}
-function __c42(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          metadata: S.optional(__S(864, __c54, 0)),
-          displayName: S.optional(S.String),
-          locationId: S.optional(S.String),
-          name: S.optional(S.String),
-          labels: S.optional(__S(656, __c41, 0)),
-        }),
-      ).annotate({ identifier: "Location" });
-  }
-}
-function __c43(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v1/{+name}",
-            baseUrl: "https://vmwareengine.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "GetProjectsLocationsAnnouncementsRequest" });
-  }
-}
-function __c44(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          metadata: S.optional(__S(656, __c41, 0)),
-          code: S.optional(S.String),
-          privateCloud: S.optional(S.String),
-          targetResourceType: S.optional(S.String),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          state: S.optional(S.String),
-          cluster: S.optional(S.String),
-          activityType: S.optional(S.String),
-          description: S.optional(S.String),
-          name: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Announcement" });
-  }
-}
 function __c45(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v1/{+name}",
-            baseUrl: "https://vmwareengine.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "GetProjectsLocationsDatastoresRequest" });
+      return S.Record(S.String, S.String);
   }
 }
 function __c46(j: number): any {
@@ -5851,17 +5381,13 @@ function __c46(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          uid: S.optional(S.String),
+          metadata: S.optional(__S(880, __c55, 0)),
+          displayName: S.optional(S.String),
+          locationId: S.optional(S.String),
           name: S.optional(S.String),
-          clusters: S.optional(__S(896, __c56, 0)),
-          etag: S.optional(S.String),
-          description: S.optional(S.String),
-          nfsDatastore: S.optional(__S(850, __c53, 2)),
-          state: S.optional(S.String),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
+          labels: S.optional(__S(720, __c45, 0)),
         }),
-      ).annotate({ identifier: "Datastore" });
+      ).annotate({ identifier: "Location" });
   }
 }
 function __c47(j: number): any {
@@ -5877,7 +5403,7 @@ function __c47(j: number): any {
             baseUrl: "https://vmwareengine.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsNetworkPeeringsRequest" });
+      ).annotate({ identifier: "GetProjectsLocationsAnnouncementsRequest" });
   }
 }
 function __c48(j: number): any {
@@ -5885,24 +5411,19 @@ function __c48(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          exportCustomRoutes: S.optional(S.Boolean),
-          description: S.optional(S.String),
-          peerNetworkType: S.optional(S.String),
-          name: S.optional(S.String),
-          peerNetwork: S.optional(S.String),
-          exchangeSubnetRoutes: S.optional(S.Boolean),
-          importCustomRoutes: S.optional(S.Boolean),
-          state: S.optional(S.String),
-          peerMtu: S.optional(S.Number),
-          vmwareEngineNetwork: S.optional(S.String),
-          stateDetails: S.optional(S.String),
-          exportCustomRoutesWithPublicIp: S.optional(S.Boolean),
+          metadata: S.optional(__S(720, __c45, 0)),
+          code: S.optional(S.String),
+          privateCloud: S.optional(S.String),
+          targetResourceType: S.optional(S.String),
           createTime: S.optional(S.String),
           updateTime: S.optional(S.String),
-          importCustomRoutesWithPublicIp: S.optional(S.Boolean),
-          uid: S.optional(S.String),
+          state: S.optional(S.String),
+          cluster: S.optional(S.String),
+          activityType: S.optional(S.String),
+          description: S.optional(S.String),
+          name: S.optional(S.String),
         }),
-      ).annotate({ identifier: "NetworkPeering" });
+      ).annotate({ identifier: "Announcement" });
   }
 }
 function __c49(j: number): any {
@@ -5918,7 +5439,7 @@ function __c49(j: number): any {
             baseUrl: "https://vmwareengine.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsNetworkPoliciesRequest" });
+      ).annotate({ identifier: "GetProjectsLocationsDatastoresRequest" });
   }
 }
 function __c50(j: number): any {
@@ -5926,18 +5447,15 @@ function __c50(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          uid: S.optional(S.String),
-          description: S.optional(S.String),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          vmwareEngineNetwork: S.optional(S.String),
-          vmwareEngineNetworkCanonical: S.optional(S.String),
-          edgeServicesCidr: S.optional(S.String),
-          name: S.optional(S.String),
-          internetAccess: S.optional(__S(1472, __c92, 0)),
-          externalIp: S.optional(__S(1472, __c92, 0)),
-        }),
-      ).annotate({ identifier: "NetworkPolicy" });
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1/{+name}",
+            baseUrl: "https://vmwareengine.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "GetProjectsLocationsNetworkPeeringsRequest" });
   }
 }
 function __c51(j: number): any {
@@ -5945,19 +5463,29 @@ function __c51(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          datastoreId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          uid: S.optional(S.String),
-          name: S.optional(S.String),
-          clusters: S.optional(__S(896, __c56, 0)),
-          etag: S.optional(S.String),
-          description: S.optional(S.String),
-          nfsDatastore: S.optional(__S(850, __c53, 2)),
-          state: S.optional(S.String),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
+          name: S.String.pipe(T.Label()),
         }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1/{+name}",
+            baseUrl: "https://vmwareengine.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "GetProjectsLocationsNetworkPoliciesRequest" });
+  }
+}
+function __c52(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(867, __c54, 3),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            datastoreId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/datastores",
@@ -5967,13 +5495,13 @@ function __c51(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsDatastoresRequest" });
   }
 }
-function __c52(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "GoogleVmwareFileService" });
   }
 }
-function __c53(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5985,7 +5513,7 @@ function __c53(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          servers: S.optional(__S(896, __c56, 0)),
+          servers: S.optional(__S(912, __c57, 0)),
           network: S.optional(S.String),
           fileShare: S.optional(S.String),
         }),
@@ -5993,50 +5521,64 @@ function __c53(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          googleFileService: S.optional(__S(848, __c53, 0)),
-          thirdPartyFileService: S.optional(__S(849, __c53, 1)),
-          googleVmwareFileService: S.optional(__S(832, __c52, 0)),
+          googleFileService: S.optional(__S(864, __c54, 0)),
+          thirdPartyFileService: S.optional(__S(865, __c54, 1)),
+          googleVmwareFileService: S.optional(__S(848, __c53, 0)),
         }),
       ).annotate({ identifier: "NfsDatastore" });
-  }
-}
-function __c54(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, S.Unknown);
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          uid: S.optional(S.String),
+          name: S.optional(S.String),
+          clusters: S.optional(__S(912, __c57, 0)),
+          etag: S.optional(S.String),
+          description: S.optional(S.String),
+          nfsDatastore: S.optional(__S(866, __c54, 2)),
+          state: S.optional(S.String),
+          createTime: S.optional(S.String),
+          updateTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Datastore" });
   }
 }
 function __c55(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(864, __c54, 0));
+      return S.Record(S.String, S.Unknown);
+  }
+}
+function __c56(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(880, __c55, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
           code: S.optional(S.Number),
           message: S.optional(S.String),
-          details: S.optional(__S(880, __c55, 0)),
+          details: S.optional(__S(896, __c56, 0)),
         }),
       ).annotate({ identifier: "Status" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          metadata: S.optional(__S(864, __c54, 0)),
-          response: S.optional(__S(864, __c54, 0)),
-          error: S.optional(__S(881, __c55, 1)),
+          metadata: S.optional(__S(880, __c55, 0)),
+          response: S.optional(__S(880, __c55, 0)),
+          error: S.optional(__S(897, __c56, 1)),
           done: S.optional(S.Boolean),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "Operation" });
   }
 }
-function __c56(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c57(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6050,28 +5592,6 @@ function __c57(j: number): any {
           }),
         ),
       ).annotate({ identifier: "GetProjectsLocationsNetworkPoliciesExternalAccessRulesRequest" });
-  }
-}
-function __c58(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          state: S.optional(S.String),
-          destinationPorts: S.optional(__S(896, __c56, 0)),
-          uid: S.optional(S.String),
-          destinationIpRanges: S.optional(__S(1681, __c105, 1)),
-          sourcePorts: S.optional(__S(896, __c56, 0)),
-          ipProtocol: S.optional(S.String),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          name: S.optional(S.String),
-          description: S.optional(S.String),
-          priority: S.optional(S.Number),
-          sourceIpRanges: S.optional(__S(1681, __c105, 1)),
-          action: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ExternalAccessRule" });
   }
 }
 function __c59(j: number): any {
@@ -6099,7 +5619,7 @@ function __c60(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          families: S.optional(__S(896, __c56, 0)),
+          families: S.optional(__S(912, __c57, 0)),
           name: S.optional(S.String),
           capabilities: S.optional(__S(960, __c60, 0)),
           kind: S.optional(S.String),
@@ -6151,23 +5671,15 @@ function __c63(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          vcenter: S.optional(__S(1872, __c117, 0)),
-          type: S.optional(S.String),
-          managementCluster: S.optional(__S(1873, __c117, 1)),
-          description: S.optional(S.String),
-          networkConfig: S.optional(__S(1874, __c117, 2)),
-          encryptionConfig: S.optional(__S(1875, __c117, 3)),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          state: S.optional(S.String),
-          name: S.optional(S.String),
-          deleteTime: S.optional(S.String),
-          nsx: S.optional(__S(1876, __c117, 4)),
-          expireTime: S.optional(S.String),
-          hcx: S.optional(__S(1877, __c117, 5)),
-          uid: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "PrivateCloud" });
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1/{+name}",
+            baseUrl: "https://vmwareengine.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "GetProjectsLocationsPrivateCloudsClustersRequest" });
   }
 }
 function __c64(j: number): any {
@@ -6183,46 +5695,10 @@ function __c64(j: number): any {
             baseUrl: "https://vmwareengine.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsPrivateCloudsClustersRequest" });
-  }
-}
-function __c65(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          nodeTypeConfigs: S.optional(__S(1889, __c118, 1)),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          state: S.optional(S.String),
-          autoscalingSettings: S.optional(__S(2099, __c131, 3)),
-          placementGroup: S.optional(S.String),
-          uid: S.optional(S.String),
-          management: S.optional(S.Boolean),
-          name: S.optional(S.String),
-          datastoreMountConfig: S.optional(__S(2100, __c131, 4)),
-          stretchedClusterConfig: S.optional(__S(1890, __c118, 2)),
-        }),
-      ).annotate({ identifier: "Cluster" });
-  }
-}
-function __c66(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v1/{+name}",
-            baseUrl: "https://vmwareengine.googleapis.com/",
-          }),
-        ),
       ).annotate({ identifier: "GetProjectsLocationsPrivateCloudsClustersNodesRequest" });
   }
 }
-function __c67(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6238,7 +5714,7 @@ function __c67(j: number): any {
       ).annotate({ identifier: "Node" });
   }
 }
-function __c68(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6254,7 +5730,7 @@ function __c68(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsPrivateCloudsExternalAddressesRequest" });
   }
 }
-function __c69(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6270,21 +5746,7 @@ function __c69(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsPrivateCloudsHcxActivationKeysRequest" });
   }
 }
-function __c70(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          activationKey: S.optional(S.String),
-          uid: S.optional(S.String),
-          state: S.optional(S.String),
-          createTime: S.optional(S.String),
-          name: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "HcxActivationKey" });
-  }
-}
-function __c71(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6300,24 +5762,7 @@ function __c71(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsPrivateCloudsLoggingServersRequest" });
   }
 }
-function __c72(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          protocol: S.optional(S.String),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          hostname: S.optional(S.String),
-          uid: S.optional(S.String),
-          port: S.optional(S.Number),
-          name: S.optional(S.String),
-          sourceType: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "LoggingServer" });
-  }
-}
-function __c73(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6335,32 +5780,33 @@ function __c73(j: number): any {
       });
   }
 }
-function __c74(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          vpcNetwork: S.optional(S.String),
-          description: S.optional(S.String),
-          name: S.optional(S.String),
-          vmwareEngineNetwork: S.optional(S.String),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          state: S.optional(S.String),
-          uid: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ManagementDnsZoneBinding" });
+        S.Extend(
+          __S(1136, __c71, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            networkPeeringId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
+          T.Http({
+            method: "POST",
+            uri: "v1/{+parent}/networkPeerings",
+            baseUrl: "https://vmwareengine.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "CreateProjectsLocationsNetworkPeeringsRequest" });
   }
 }
-function __c75(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          networkPeeringId: S.optional(S.String.pipe(T.Query())),
           exportCustomRoutes: S.optional(S.Boolean),
           description: S.optional(S.String),
           peerNetworkType: S.optional(S.String),
@@ -6377,17 +5823,11 @@ function __c75(j: number): any {
           updateTime: S.optional(S.String),
           importCustomRoutesWithPublicIp: S.optional(S.Boolean),
           uid: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "v1/{+parent}/networkPeerings",
-            baseUrl: "https://vmwareengine.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "CreateProjectsLocationsNetworkPeeringsRequest" });
+        }),
+      ).annotate({ identifier: "NetworkPeering" });
   }
 }
-function __c76(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6403,7 +5843,7 @@ function __c76(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsPrivateCloudsSubnetsRequest" });
   }
 }
-function __c77(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6418,7 +5858,7 @@ function __c77(j: number): any {
       ).annotate({ identifier: "Subnet" });
   }
 }
-function __c78(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6434,31 +5874,7 @@ function __c78(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsPrivateCloudsUpgradesRequest" });
   }
 }
-function __c79(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          description: S.optional(S.String),
-          endTime: S.optional(S.String),
-          schedule: S.optional(__S(1287, __c80, 7)),
-          startVersion: S.optional(S.String),
-          estimatedDuration: S.optional(S.String),
-          name: S.optional(S.String),
-          type: S.optional(S.String),
-          componentUpgrades: S.optional(__S(1289, __c80, 9)),
-          targetVersion: S.optional(S.String),
-          version: S.optional(S.String),
-          state: S.optional(S.String),
-          etag: S.optional(S.String),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          uid: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Upgrade" });
-  }
-}
-function __c80(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6479,20 +5895,20 @@ function __c80(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          startTime: S.optional(__S(1281, __c80, 1)),
-          endTime: S.optional(__S(1281, __c80, 1)),
+          startTime: S.optional(__S(1201, __c75, 1)),
+          endTime: S.optional(__S(1201, __c75, 1)),
           endDay: S.optional(S.String),
           startDay: S.optional(S.String),
         }),
       ).annotate({ identifier: "WeeklyTimeInterval" });
     case 3:
-      return S.Array(__S(1282, __c80, 2));
+      return S.Array(__S(1202, __c75, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          disallowedIntervals: S.optional(__S(1283, __c80, 3)),
+          disallowedIntervals: S.optional(__S(1203, __c75, 3)),
           minHoursWeek: S.optional(S.Number),
-          rescheduleDateRange: S.optional(__S(1280, __c80, 0)),
+          rescheduleDateRange: S.optional(__S(1200, __c75, 0)),
           minHoursDay: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Constraints" });
@@ -6500,20 +5916,20 @@ function __c80(j: number): any {
       return S.suspend(() =>
         S.Struct({
           dayOfWeek: S.optional(S.String),
-          startTime: S.optional(__S(1281, __c80, 1)),
+          startTime: S.optional(__S(1201, __c75, 1)),
           duration: S.optional(S.String),
         }),
       ).annotate({ identifier: "TimeWindow" });
     case 6:
-      return S.Array(__S(1285, __c80, 5));
+      return S.Array(__S(1205, __c75, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
           startTime: S.optional(S.String),
           lastEditor: S.optional(S.String),
-          editWindow: S.optional(__S(1280, __c80, 0)),
-          constraints: S.optional(__S(1284, __c80, 4)),
-          weeklyWindows: S.optional(__S(1286, __c80, 6)),
+          editWindow: S.optional(__S(1200, __c75, 0)),
+          constraints: S.optional(__S(1204, __c75, 4)),
+          weeklyWindows: S.optional(__S(1206, __c75, 6)),
         }),
       ).annotate({ identifier: "Schedule" });
     case 8:
@@ -6524,10 +5940,30 @@ function __c80(j: number): any {
         }),
       ).annotate({ identifier: "VmwareUpgradeComponent" });
     case 9:
-      return S.Array(__S(1288, __c80, 8));
+      return S.Array(__S(1208, __c75, 8));
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          description: S.optional(S.String),
+          endTime: S.optional(S.String),
+          schedule: S.optional(__S(1207, __c75, 7)),
+          startVersion: S.optional(S.String),
+          estimatedDuration: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          componentUpgrades: S.optional(__S(1209, __c75, 9)),
+          targetVersion: S.optional(S.String),
+          version: S.optional(S.String),
+          state: S.optional(S.String),
+          etag: S.optional(S.String),
+          createTime: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          uid: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Upgrade" });
   }
 }
-function __c81(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6543,29 +5979,7 @@ function __c81(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsPrivateConnectionsRequest" });
   }
 }
-function __c82(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          routingMode: S.optional(S.String),
-          type: S.optional(S.String),
-          peeringId: S.optional(S.String),
-          uid: S.optional(S.String),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          vmwareEngineNetwork: S.optional(S.String),
-          description: S.optional(S.String),
-          vmwareEngineNetworkCanonical: S.optional(S.String),
-          peeringState: S.optional(S.String),
-          name: S.optional(S.String),
-          state: S.optional(S.String),
-          serviceNetwork: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "PrivateConnection" });
-  }
-}
-function __c83(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6581,25 +5995,7 @@ function __c83(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsVmwareEngineNetworksRequest" });
   }
 }
-function __c84(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uid: S.optional(S.String),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          type: S.optional(S.String),
-          description: S.optional(S.String),
-          vpcNetworks: S.optional(__S(225, __c14, 1)),
-          name: S.optional(S.String),
-          etag: S.optional(S.String),
-          state: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "VmwareEngineNetwork" });
-  }
-}
-function __c85(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6616,15 +6012,16 @@ function __c85(j: number): any {
       ).annotate({ identifier: "GetVcenterCredentialsProjectsLocationsPrivateCloudsRequest" });
   }
 }
-function __c86(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          principal: S.optional(__S(496, __c31, 0)),
-          requestId: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1280, __c80, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:grant",
@@ -6634,14 +6031,25 @@ function __c86(j: number): any {
       ).annotate({ identifier: "GrantProjectsLocationsDnsBindPermissionRequest" });
   }
 }
-function __c87(j: number): any {
+function __c80(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          principal: S.optional(__S(560, __c35, 0)),
+          requestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GrantDnsBindPermissionRequest" });
+  }
+}
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          extraLocationTypes: S.optional(__S(896, __c56, 0).pipe(T.Query())),
+          extraLocationTypes: S.optional(__S(912, __c57, 0).pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
@@ -6653,17 +6061,17 @@ function __c87(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsRequest" });
     case 1:
-      return S.Array(__S(672, __c42, 0));
+      return S.Array(__S(736, __c46, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          locations: S.optional(__S(1393, __c87, 1)),
+          locations: S.optional(__S(1297, __c81, 1)),
         }),
       ).annotate({ identifier: "ListLocationsResponse" });
   }
 }
-function __c88(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6682,18 +6090,18 @@ function __c88(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsAnnouncementsRequest" });
     case 1:
-      return S.Array(__S(704, __c44, 0));
+      return S.Array(__S(768, __c48, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(896, __c56, 0)),
-          announcements: S.optional(__S(1409, __c88, 1)),
+          unreachable: S.optional(__S(912, __c57, 0)),
+          announcements: S.optional(__S(1313, __c82, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListAnnouncementsResponse" });
   }
 }
-function __c89(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6718,22 +6126,22 @@ function __c89(j: number): any {
           machineFamily: S.optional(S.String),
           consumedCapacityCount: S.optional(S.Number),
           name: S.optional(S.String),
-          privateClouds: S.optional(__S(896, __c56, 0)),
+          privateClouds: S.optional(__S(912, __c57, 0)),
         }),
       ).annotate({ identifier: "CapacityAllocation" });
     case 2:
-      return S.Array(__S(1425, __c89, 1));
+      return S.Array(__S(1329, __c83, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          capacityAllocations: S.optional(__S(1426, __c89, 2)),
-          unreachable: S.optional(__S(896, __c56, 0)),
+          capacityAllocations: S.optional(__S(1330, __c83, 2)),
+          unreachable: S.optional(__S(912, __c57, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListCapacityAllocationsResponse" });
   }
 }
-function __c90(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6753,37 +6161,30 @@ function __c90(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsDatastoresRequest" });
     case 1:
-      return S.Array(__S(736, __c46, 0));
+      return S.Array(__S(867, __c54, 3));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(896, __c56, 0)),
-          datastores: S.optional(__S(1441, __c90, 1)),
+          unreachable: S.optional(__S(912, __c57, 0)),
+          datastores: S.optional(__S(1345, __c84, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListDatastoresResponse" });
   }
 }
-function __c91(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          networkPolicyId: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          uid: S.optional(S.String),
-          description: S.optional(S.String),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          vmwareEngineNetwork: S.optional(S.String),
-          vmwareEngineNetworkCanonical: S.optional(S.String),
-          edgeServicesCidr: S.optional(S.String),
-          name: S.optional(S.String),
-          internetAccess: S.optional(__S(1472, __c92, 0)),
-          externalIp: S.optional(__S(1472, __c92, 0)),
-        }).pipe(
+        S.Extend(
+          __S(1377, __c86, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            networkPolicyId: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/networkPolicies",
@@ -6793,7 +6194,7 @@ function __c91(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsNetworkPoliciesRequest" });
   }
 }
-function __c92(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6802,9 +6203,24 @@ function __c92(j: number): any {
           state: S.optional(S.String),
         }),
       ).annotate({ identifier: "NetworkService" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          uid: S.optional(S.String),
+          description: S.optional(S.String),
+          createTime: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          vmwareEngineNetwork: S.optional(S.String),
+          vmwareEngineNetworkCanonical: S.optional(S.String),
+          edgeServicesCidr: S.optional(S.String),
+          name: S.optional(S.String),
+          internetAccess: S.optional(__S(1376, __c86, 0)),
+          externalIp: S.optional(__S(1376, __c86, 0)),
+        }),
+      ).annotate({ identifier: "NetworkPolicy" });
   }
 }
-function __c93(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6823,18 +6239,18 @@ function __c93(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsNetworkPeeringsRequest" });
     case 1:
-      return S.Array(__S(768, __c48, 0));
+      return S.Array(__S(1136, __c71, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(896, __c56, 0)),
-          networkPeerings: S.optional(__S(1489, __c93, 1)),
+          unreachable: S.optional(__S(912, __c57, 0)),
+          networkPeerings: S.optional(__S(1393, __c87, 1)),
         }),
       ).annotate({ identifier: "ListNetworkPeeringsResponse" });
   }
 }
-function __c94(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6853,7 +6269,7 @@ function __c94(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsNetworkPeeringsPeeringRoutesRequest" });
   }
 }
-function __c95(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6867,17 +6283,17 @@ function __c95(j: number): any {
         }),
       ).annotate({ identifier: "PeeringRoute" });
     case 1:
-      return S.Array(__S(1520, __c95, 0));
+      return S.Array(__S(1424, __c89, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          peeringRoutes: S.optional(__S(1521, __c95, 1)),
+          peeringRoutes: S.optional(__S(1425, __c89, 1)),
         }),
       ).annotate({ identifier: "ListPeeringRoutesResponse" });
   }
 }
-function __c96(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6896,18 +6312,18 @@ function __c96(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsNetworkPoliciesRequest" });
     case 1:
-      return S.Array(__S(800, __c50, 0));
+      return S.Array(__S(1377, __c86, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          networkPolicies: S.optional(__S(1537, __c96, 1)),
+          networkPolicies: S.optional(__S(1441, __c90, 1)),
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(896, __c56, 0)),
+          unreachable: S.optional(__S(912, __c57, 0)),
         }),
       ).annotate({ identifier: "ListNetworkPoliciesResponse" });
   }
 }
-function __c97(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6926,18 +6342,18 @@ function __c97(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsNetworkPoliciesExternalAccessRulesRequest" });
     case 1:
-      return S.Array(__S(928, __c58, 0));
+      return S.Array(__S(1586, __c99, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          externalAccessRules: S.optional(__S(1553, __c97, 1)),
+          externalAccessRules: S.optional(__S(1457, __c91, 1)),
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(896, __c56, 0)),
+          unreachable: S.optional(__S(912, __c57, 0)),
         }),
       ).annotate({ identifier: "ListExternalAccessRulesResponse" });
   }
 }
-function __c98(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6959,14 +6375,14 @@ function __c98(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(896, __c56, 0)),
+          unreachable: S.optional(__S(912, __c57, 0)),
           nextPageToken: S.optional(S.String),
-          nodeTypes: S.optional(__S(1569, __c98, 1)),
+          nodeTypes: S.optional(__S(1473, __c92, 1)),
         }),
       ).annotate({ identifier: "ListNodeTypesResponse" });
   }
 }
-function __c99(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6985,18 +6401,18 @@ function __c99(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsOperationsRequest" });
     case 1:
-      return S.Array(__S(882, __c55, 2));
+      return S.Array(__S(898, __c56, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(896, __c56, 0)),
-          operations: S.optional(__S(1585, __c99, 1)),
+          unreachable: S.optional(__S(912, __c57, 0)),
+          operations: S.optional(__S(1489, __c93, 1)),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
   }
 }
-function __c100(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7015,18 +6431,18 @@ function __c100(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsPrivateCloudsRequest" });
     case 1:
-      return S.Array(__S(1008, __c63, 0));
+      return S.Array(__S(1782, __c111, 6));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          privateClouds: S.optional(__S(1601, __c100, 1)),
+          privateClouds: S.optional(__S(1505, __c94, 1)),
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(896, __c56, 0)),
+          unreachable: S.optional(__S(912, __c57, 0)),
         }),
       ).annotate({ identifier: "ListPrivateCloudsResponse" });
   }
 }
-function __c101(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7045,18 +6461,18 @@ function __c101(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsPrivateCloudsClustersRequest" });
     case 1:
-      return S.Array(__S(1040, __c65, 0));
+      return S.Array(__S(2005, __c125, 5));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(896, __c56, 0)),
+          unreachable: S.optional(__S(912, __c57, 0)),
           nextPageToken: S.optional(S.String),
-          clusters: S.optional(__S(1617, __c101, 1)),
+          clusters: S.optional(__S(1521, __c95, 1)),
         }),
       ).annotate({ identifier: "ListClustersResponse" });
   }
 }
-function __c102(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7073,17 +6489,17 @@ function __c102(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsPrivateCloudsClustersNodesRequest" });
     case 1:
-      return S.Array(__S(1072, __c67, 0));
+      return S.Array(__S(1040, __c65, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          nodes: S.optional(__S(1633, __c102, 1)),
+          nodes: S.optional(__S(1537, __c96, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListNodesResponse" });
   }
 }
-function __c103(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7105,35 +6521,25 @@ function __c103(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          externalAddresses: S.optional(__S(464, __c29, 0)),
-          unreachable: S.optional(__S(896, __c56, 0)),
+          externalAddresses: S.optional(__S(528, __c33, 0)),
+          unreachable: S.optional(__S(912, __c57, 0)),
         }),
       ).annotate({ identifier: "ListExternalAddressesResponse" });
   }
 }
-function __c104(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          externalAccessRuleId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          state: S.optional(S.String),
-          destinationPorts: S.optional(__S(896, __c56, 0)),
-          uid: S.optional(S.String),
-          destinationIpRanges: S.optional(__S(1681, __c105, 1)),
-          sourcePorts: S.optional(__S(896, __c56, 0)),
-          ipProtocol: S.optional(S.String),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          name: S.optional(S.String),
-          description: S.optional(S.String),
-          priority: S.optional(S.Number),
-          sourceIpRanges: S.optional(__S(1681, __c105, 1)),
-          action: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1586, __c99, 2),
+          S.Struct({
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            externalAccessRuleId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/externalAccessRules",
@@ -7145,7 +6551,7 @@ function __c104(j: number): any {
       });
   }
 }
-function __c105(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7156,10 +6562,28 @@ function __c105(j: number): any {
         }),
       ).annotate({ identifier: "IpRange" });
     case 1:
-      return S.Array(__S(1680, __c105, 0));
+      return S.Array(__S(1584, __c99, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          state: S.optional(S.String),
+          destinationPorts: S.optional(__S(912, __c57, 0)),
+          uid: S.optional(S.String),
+          destinationIpRanges: S.optional(__S(1585, __c99, 1)),
+          sourcePorts: S.optional(__S(912, __c57, 0)),
+          ipProtocol: S.optional(S.String),
+          createTime: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          name: S.optional(S.String),
+          description: S.optional(S.String),
+          priority: S.optional(S.Number),
+          sourceIpRanges: S.optional(__S(1585, __c99, 1)),
+          action: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ExternalAccessRule" });
   }
 }
-function __c106(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7176,18 +6600,18 @@ function __c106(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsPrivateCloudsHcxActivationKeysRequest" });
     case 1:
-      return S.Array(__S(1120, __c70, 0));
+      return S.Array(__S(176, __c11, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(896, __c56, 0)),
-          hcxActivationKeys: S.optional(__S(1697, __c106, 1)),
+          unreachable: S.optional(__S(912, __c57, 0)),
+          hcxActivationKeys: S.optional(__S(1601, __c100, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListHcxActivationKeysResponse" });
   }
 }
-function __c107(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7206,18 +6630,18 @@ function __c107(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsPrivateCloudsLoggingServersRequest" });
     case 1:
-      return S.Array(__S(1152, __c72, 0));
+      return S.Array(__S(208, __c13, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(896, __c56, 0)),
-          loggingServers: S.optional(__S(1713, __c107, 1)),
+          unreachable: S.optional(__S(912, __c57, 0)),
+          loggingServers: S.optional(__S(1617, __c101, 1)),
         }),
       ).annotate({ identifier: "ListLoggingServersResponse" });
   }
 }
-function __c108(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7238,18 +6662,18 @@ function __c108(j: number): any {
         identifier: "ListProjectsLocationsPrivateCloudsManagementDnsZoneBindingsRequest",
       });
     case 1:
-      return S.Array(__S(1184, __c74, 0));
+      return S.Array(__S(240, __c15, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          managementDnsZoneBindings: S.optional(__S(1729, __c108, 1)),
+          managementDnsZoneBindings: S.optional(__S(1633, __c102, 1)),
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(896, __c56, 0)),
+          unreachable: S.optional(__S(912, __c57, 0)),
         }),
       ).annotate({ identifier: "ListManagementDnsZoneBindingsResponse" });
   }
 }
-function __c109(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7266,18 +6690,18 @@ function __c109(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsPrivateCloudsSubnetsRequest" });
     case 1:
-      return S.Array(__S(1232, __c77, 0));
+      return S.Array(__S(1168, __c73, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          subnets: S.optional(__S(1745, __c109, 1)),
+          subnets: S.optional(__S(1649, __c103, 1)),
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(896, __c56, 0)),
+          unreachable: S.optional(__S(912, __c57, 0)),
         }),
       ).annotate({ identifier: "ListSubnetsResponse" });
   }
 }
-function __c110(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7296,18 +6720,18 @@ function __c110(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsPrivateCloudsUpgradesRequest" });
     case 1:
-      return S.Array(__S(1264, __c79, 0));
+      return S.Array(__S(1210, __c75, 10));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(896, __c56, 0)),
-          upgrades: S.optional(__S(1761, __c110, 1)),
+          unreachable: S.optional(__S(912, __c57, 0)),
+          upgrades: S.optional(__S(1665, __c104, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListUpgradesResponse" });
   }
 }
-function __c111(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7326,18 +6750,18 @@ function __c111(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsPrivateConnectionsRequest" });
     case 1:
-      return S.Array(__S(1312, __c82, 0));
+      return S.Array(__S(272, __c17, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          privateConnections: S.optional(__S(1777, __c111, 1)),
+          privateConnections: S.optional(__S(1681, __c105, 1)),
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(896, __c56, 0)),
+          unreachable: S.optional(__S(912, __c57, 0)),
         }),
       ).annotate({ identifier: "ListPrivateConnectionsResponse" });
   }
 }
-function __c112(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7355,7 +6779,7 @@ function __c112(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsPrivateConnectionsPeeringRoutesRequest" });
   }
 }
-function __c113(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7374,27 +6798,35 @@ function __c113(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsVmwareEngineNetworksRequest" });
     case 1:
-      return S.Array(__S(1344, __c84, 0));
+      return S.Array(__S(306, __c19, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(896, __c56, 0)),
-          vmwareEngineNetworks: S.optional(__S(1809, __c113, 1)),
+          unreachable: S.optional(__S(912, __c57, 0)),
+          vmwareEngineNetworks: S.optional(__S(1713, __c107, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListVmwareEngineNetworksResponse" });
   }
 }
-function __c114(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           etag: S.optional(S.String),
           clusterId: S.optional(S.String),
           requestId: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "MigrateManagementVmsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(1728, __c108, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:migrateManagementVms",
@@ -7404,17 +6836,25 @@ function __c114(j: number): any {
       ).annotate({ identifier: "MigrateManagementVmsProjectsLocationsPrivateCloudsRequest" });
   }
 }
-function __c115(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           requestId: S.optional(S.String),
           ignoreColocation: S.optional(S.Boolean),
-          datastoreMountConfig: S.optional(__S(2081, __c130, 1)),
+          datastoreMountConfig: S.optional(__S(1985, __c124, 1)),
           validateOnly: S.optional(S.Boolean),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "MountDatastoreRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(1744, __c109, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:mountDatastore",
@@ -7424,31 +6864,19 @@ function __c115(j: number): any {
       ).annotate({ identifier: "MountDatastoreProjectsLocationsPrivateCloudsClustersRequest" });
   }
 }
-function __c116(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          privateCloudId: S.optional(S.String.pipe(T.Query())),
-          vcenter: S.optional(__S(1872, __c117, 0)),
-          type: S.optional(S.String),
-          managementCluster: S.optional(__S(1873, __c117, 1)),
-          description: S.optional(S.String),
-          networkConfig: S.optional(__S(1874, __c117, 2)),
-          encryptionConfig: S.optional(__S(1875, __c117, 3)),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          state: S.optional(S.String),
-          name: S.optional(S.String),
-          deleteTime: S.optional(S.String),
-          nsx: S.optional(__S(1876, __c117, 4)),
-          expireTime: S.optional(S.String),
-          hcx: S.optional(__S(1877, __c117, 5)),
-          uid: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1782, __c111, 6),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            privateCloudId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/privateClouds",
@@ -7458,7 +6886,7 @@ function __c116(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsPrivateCloudsRequest" });
   }
 }
-function __c117(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7472,8 +6900,8 @@ function __c117(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          nodeTypeConfigs: S.optional(__S(1889, __c118, 1)),
-          stretchedClusterConfig: S.optional(__S(1890, __c118, 2)),
+          nodeTypeConfigs: S.optional(__S(1793, __c112, 1)),
+          stretchedClusterConfig: S.optional(__S(1794, __c112, 2)),
           placementGroup: S.optional(S.String),
           clusterId: S.optional(S.String),
         }),
@@ -7513,9 +6941,29 @@ function __c117(j: number): any {
           state: S.optional(S.String),
         }),
       ).annotate({ identifier: "Hcx" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          vcenter: S.optional(__S(1776, __c111, 0)),
+          type: S.optional(S.String),
+          managementCluster: S.optional(__S(1777, __c111, 1)),
+          description: S.optional(S.String),
+          networkConfig: S.optional(__S(1778, __c111, 2)),
+          encryptionConfig: S.optional(__S(1779, __c111, 3)),
+          createTime: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          state: S.optional(S.String),
+          name: S.optional(S.String),
+          deleteTime: S.optional(S.String),
+          nsx: S.optional(__S(1780, __c111, 4)),
+          expireTime: S.optional(S.String),
+          hcx: S.optional(__S(1781, __c111, 5)),
+          uid: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PrivateCloud" });
   }
 }
-function __c118(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7525,7 +6973,7 @@ function __c118(j: number): any {
         }),
       ).annotate({ identifier: "NodeTypeConfig" });
     case 1:
-      return S.Record(S.String, __S(1888, __c118, 0));
+      return S.Record(S.String, __S(1792, __c112, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -7537,23 +6985,18 @@ function __c118(j: number): any {
       ).annotate({ identifier: "StretchedClusterConfig" });
   }
 }
-function __c119(j: number): any {
+function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          uid: S.optional(S.String),
-          clusters: S.optional(__S(896, __c56, 0)),
-          etag: S.optional(S.String),
-          description: S.optional(S.String),
-          nfsDatastore: S.optional(__S(850, __c53, 2)),
-          state: S.optional(S.String),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(867, __c54, 3),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -7563,31 +7006,19 @@ function __c119(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsDatastoresRequest" });
   }
 }
-function __c120(j: number): any {
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          exportCustomRoutes: S.optional(S.Boolean),
-          description: S.optional(S.String),
-          peerNetworkType: S.optional(S.String),
-          peerNetwork: S.optional(S.String),
-          exchangeSubnetRoutes: S.optional(S.Boolean),
-          importCustomRoutes: S.optional(S.Boolean),
-          state: S.optional(S.String),
-          peerMtu: S.optional(S.Number),
-          vmwareEngineNetwork: S.optional(S.String),
-          stateDetails: S.optional(S.String),
-          exportCustomRoutesWithPublicIp: S.optional(S.Boolean),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          importCustomRoutesWithPublicIp: S.optional(S.Boolean),
-          uid: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1136, __c71, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -7597,25 +7028,19 @@ function __c120(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsNetworkPeeringsRequest" });
   }
 }
-function __c121(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          uid: S.optional(S.String),
-          description: S.optional(S.String),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          vmwareEngineNetwork: S.optional(S.String),
-          vmwareEngineNetworkCanonical: S.optional(S.String),
-          edgeServicesCidr: S.optional(S.String),
-          internetAccess: S.optional(__S(1472, __c92, 0)),
-          externalIp: S.optional(__S(1472, __c92, 0)),
-        }).pipe(
+        S.Extend(
+          __S(1377, __c86, 1),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -7625,28 +7050,19 @@ function __c121(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsNetworkPoliciesRequest" });
   }
 }
-function __c122(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          state: S.optional(S.String),
-          destinationPorts: S.optional(__S(896, __c56, 0)),
-          uid: S.optional(S.String),
-          destinationIpRanges: S.optional(__S(1681, __c105, 1)),
-          sourcePorts: S.optional(__S(896, __c56, 0)),
-          ipProtocol: S.optional(S.String),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          description: S.optional(S.String),
-          priority: S.optional(S.Number),
-          sourceIpRanges: S.optional(__S(1681, __c105, 1)),
-          action: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1586, __c99, 2),
+          S.Struct({
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -7656,30 +7072,19 @@ function __c122(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsNetworkPoliciesExternalAccessRulesRequest" });
   }
 }
-function __c123(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          vcenter: S.optional(__S(1872, __c117, 0)),
-          type: S.optional(S.String),
-          managementCluster: S.optional(__S(1873, __c117, 1)),
-          description: S.optional(S.String),
-          networkConfig: S.optional(__S(1874, __c117, 2)),
-          encryptionConfig: S.optional(__S(1875, __c117, 3)),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          state: S.optional(S.String),
-          deleteTime: S.optional(S.String),
-          nsx: S.optional(__S(1876, __c117, 4)),
-          expireTime: S.optional(S.String),
-          hcx: S.optional(__S(1877, __c117, 5)),
-          uid: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1782, __c111, 6),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -7689,26 +7094,19 @@ function __c123(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsPrivateCloudsRequest" });
   }
 }
-function __c124(j: number): any {
+function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          nodeTypeConfigs: S.optional(__S(1889, __c118, 1)),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          state: S.optional(S.String),
-          autoscalingSettings: S.optional(__S(2099, __c131, 3)),
-          placementGroup: S.optional(S.String),
-          uid: S.optional(S.String),
-          management: S.optional(S.Boolean),
-          datastoreMountConfig: S.optional(__S(2100, __c131, 4)),
-          stretchedClusterConfig: S.optional(__S(1890, __c118, 2)),
-        }).pipe(
+        S.Extend(
+          __S(2005, __c125, 5),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -7718,23 +7116,19 @@ function __c124(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsPrivateCloudsClustersRequest" });
   }
 }
-function __c125(j: number): any {
+function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          state: S.optional(S.String),
-          externalIp: S.optional(S.String),
-          uid: S.optional(S.String),
-          description: S.optional(S.String),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          internalIp: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(16, __c1, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -7744,22 +7138,18 @@ function __c125(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsPrivateCloudsExternalAddressesRequest" });
   }
 }
-function __c126(j: number): any {
+function __c120(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          protocol: S.optional(S.String),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          hostname: S.optional(S.String),
-          uid: S.optional(S.String),
-          port: S.optional(S.Number),
-          sourceType: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(208, __c13, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -7769,22 +7159,18 @@ function __c126(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsPrivateCloudsLoggingServersRequest" });
   }
 }
-function __c127(j: number): any {
+function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          vpcNetwork: S.optional(S.String),
-          description: S.optional(S.String),
-          vmwareEngineNetwork: S.optional(S.String),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          state: S.optional(S.String),
-          uid: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(240, __c15, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -7796,19 +7182,17 @@ function __c127(j: number): any {
       });
   }
 }
-function __c128(j: number): any {
+function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          ipCidrRange: S.optional(S.String),
-          gatewayIp: S.optional(S.String),
-          vlanId: S.optional(S.Number),
-          state: S.optional(S.String),
-          type: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1168, __c73, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -7818,27 +7202,19 @@ function __c128(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsPrivateCloudsSubnetsRequest" });
   }
 }
-function __c129(j: number): any {
+function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          clusterId: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          nodeTypeConfigs: S.optional(__S(1889, __c118, 1)),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          state: S.optional(S.String),
-          autoscalingSettings: S.optional(__S(2099, __c131, 3)),
-          placementGroup: S.optional(S.String),
-          uid: S.optional(S.String),
-          management: S.optional(S.Boolean),
-          name: S.optional(S.String),
-          datastoreMountConfig: S.optional(__S(2100, __c131, 4)),
-          stretchedClusterConfig: S.optional(__S(1890, __c118, 2)),
-        }).pipe(
+        S.Extend(
+          __S(2005, __c125, 5),
+          S.Struct({
+            clusterId: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/clusters",
@@ -7848,7 +7224,7 @@ function __c129(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsPrivateCloudsClustersRequest" });
   }
 }
-function __c130(j: number): any {
+function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7865,14 +7241,14 @@ function __c130(j: number): any {
           datastore: S.optional(S.String),
           accessMode: S.optional(S.String),
           nfsVersion: S.optional(S.String),
-          servers: S.optional(__S(896, __c56, 0)),
-          datastoreNetwork: S.optional(__S(2080, __c130, 0)),
+          servers: S.optional(__S(912, __c57, 0)),
+          datastoreNetwork: S.optional(__S(1984, __c124, 0)),
           fileShare: S.optional(S.String),
         }),
       ).annotate({ identifier: "DatastoreMountConfig" });
   }
 }
-function __c131(j: number): any {
+function __c125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7884,52 +7260,57 @@ function __c131(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          grantedMemoryThresholds: S.optional(__S(2096, __c131, 0)),
-          storageThresholds: S.optional(__S(2096, __c131, 0)),
+          grantedMemoryThresholds: S.optional(__S(2000, __c125, 0)),
+          storageThresholds: S.optional(__S(2000, __c125, 0)),
           scaleOutSize: S.optional(S.Number),
-          consumedMemoryThresholds: S.optional(__S(2096, __c131, 0)),
+          consumedMemoryThresholds: S.optional(__S(2000, __c125, 0)),
           nodeTypeId: S.optional(S.String),
-          cpuThresholds: S.optional(__S(2096, __c131, 0)),
+          cpuThresholds: S.optional(__S(2000, __c125, 0)),
         }),
       ).annotate({ identifier: "AutoscalingPolicy" });
     case 2:
-      return S.Record(S.String, __S(2097, __c131, 1));
+      return S.Record(S.String, __S(2001, __c125, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           minClusterNodeCount: S.optional(S.Number),
           maxClusterNodeCount: S.optional(S.Number),
-          autoscalingPolicies: S.optional(__S(2098, __c131, 2)),
+          autoscalingPolicies: S.optional(__S(2002, __c125, 2)),
           coolDownPeriod: S.optional(S.String),
         }),
       ).annotate({ identifier: "AutoscalingSettings" });
     case 4:
-      return S.Array(__S(2081, __c130, 1));
+      return S.Array(__S(1985, __c124, 1));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          nodeTypeConfigs: S.optional(__S(1793, __c112, 1)),
+          createTime: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          state: S.optional(S.String),
+          autoscalingSettings: S.optional(__S(2003, __c125, 3)),
+          placementGroup: S.optional(S.String),
+          uid: S.optional(S.String),
+          management: S.optional(S.Boolean),
+          name: S.optional(S.String),
+          datastoreMountConfig: S.optional(__S(2004, __c125, 4)),
+          stretchedClusterConfig: S.optional(__S(1794, __c112, 2)),
+        }),
+      ).annotate({ identifier: "Cluster" });
   }
 }
-function __c132(j: number): any {
+function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          description: S.optional(S.String),
-          endTime: S.optional(S.String),
-          schedule: S.optional(__S(1287, __c80, 7)),
-          startVersion: S.optional(S.String),
-          estimatedDuration: S.optional(S.String),
-          type: S.optional(S.String),
-          componentUpgrades: S.optional(__S(1289, __c80, 9)),
-          targetVersion: S.optional(S.String),
-          version: S.optional(S.String),
-          state: S.optional(S.String),
-          etag: S.optional(S.String),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          uid: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1210, __c75, 10),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -7939,28 +7320,19 @@ function __c132(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsPrivateCloudsUpgradesRequest" });
   }
 }
-function __c133(j: number): any {
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          routingMode: S.optional(S.String),
-          type: S.optional(S.String),
-          peeringId: S.optional(S.String),
-          uid: S.optional(S.String),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          vmwareEngineNetwork: S.optional(S.String),
-          description: S.optional(S.String),
-          vmwareEngineNetworkCanonical: S.optional(S.String),
-          peeringState: S.optional(S.String),
-          state: S.optional(S.String),
-          serviceNetwork: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(272, __c17, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -7970,24 +7342,19 @@ function __c133(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsPrivateConnectionsRequest" });
   }
 }
-function __c134(j: number): any {
+function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          uid: S.optional(S.String),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          type: S.optional(S.String),
-          description: S.optional(S.String),
-          vpcNetworks: S.optional(__S(225, __c14, 1)),
-          etag: S.optional(S.String),
-          state: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(306, __c19, 2),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -7997,15 +7364,23 @@ function __c134(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsVmwareEngineNetworksRequest" });
   }
 }
-function __c135(j: number): any {
+function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           etag: S.optional(S.String),
           requestId: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "AcceleratePrivateCloudDeletionRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(2064, __c129, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:privateCloudDeletionNow",
@@ -8015,14 +7390,16 @@ function __c135(j: number): any {
       ).annotate({ identifier: "PrivateCloudDeletionNowProjectsLocationsPrivateCloudsRequest" });
   }
 }
-function __c136(j: number): any {
+function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(2096, __c131, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:repair",
@@ -8034,14 +7411,26 @@ function __c136(j: number): any {
       });
   }
 }
-function __c137(j: number): any {
+function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          privateCloud: S.String.pipe(T.Label()),
           requestId: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "RepairManagementDnsZoneBindingRequest" });
+  }
+}
+function __c132(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(2096, __c131, 0),
+          S.Struct({
+            privateCloud: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+privateCloud}:resetNsxCredentials",
@@ -8051,15 +7440,23 @@ function __c137(j: number): any {
       ).annotate({ identifier: "ResetNsxCredentialsProjectsLocationsPrivateCloudsRequest" });
   }
 }
-function __c138(j: number): any {
+function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          privateCloud: S.String.pipe(T.Label()),
           requestId: S.optional(S.String),
           username: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "ResetVcenterCredentialsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(2128, __c133, 0),
+          S.Struct({
+            privateCloud: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+privateCloud}:resetVcenterCredentials",
@@ -8069,15 +7466,16 @@ function __c138(j: number): any {
       ).annotate({ identifier: "ResetVcenterCredentialsProjectsLocationsPrivateCloudsRequest" });
   }
 }
-function __c139(j: number): any {
+function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          principal: S.optional(__S(496, __c31, 0)),
-          requestId: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1280, __c80, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:revoke",
@@ -8087,15 +7485,16 @@ function __c139(j: number): any {
       ).annotate({ identifier: "RevokeProjectsLocationsDnsBindPermissionRequest" });
   }
 }
-function __c140(j: number): any {
+function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String),
-          policy: S.optional(__S(567, __c35, 7)),
-        }).pipe(
+        S.Extend(
+          __S(2176, __c136, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -8105,15 +7504,27 @@ function __c140(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsLocationsPrivateCloudsRequest" });
   }
 }
-function __c141(j: number): any {
+function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          resource: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String),
-          policy: S.optional(__S(567, __c35, 7)),
-        }).pipe(
+          policy: S.optional(__S(631, __c39, 7)),
+        }),
+      ).annotate({ identifier: "SetIamPolicyRequest" });
+  }
+}
+function __c137(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(2176, __c136, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",

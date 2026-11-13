@@ -257,9 +257,8 @@ export interface GoogleCloudDatapipelinesV1Workload {
   /** Template information and additional parameters needed to launch a Dataflow job using the standard launch API. */
   dataflowLaunchTemplateRequest?: GoogleCloudDatapipelinesV1LaunchTemplateRequest | undefined;
 }
-export interface CreateProjectsLocationsPipelinesRequest {
-  /** Required. The location name. For example: `projects/PROJECT_ID/locations/LOCATION_ID`. */
-  parent: string;
+/** The main pipeline entity and all the necessary metadata for launching and managing linked jobs. */
+export interface GoogleCloudDatapipelinesV1Pipeline {
   /** The pipeline name. For example: `projects/PROJECT_ID/locations/LOCATION_ID/pipelines/PIPELINE_ID`. * `PROJECT_ID` can contain letters ([A-Za-z]), numbers ([0-9]), hyphens (-), colons (:), and periods (.). For more information, see [Identifying projects](https://cloud.google.com/resource-manager/docs/creating-managing-projects#identifying_projects). * `LOCATION_ID` is the canonical ID for the pipeline's location. The list of available locations can be obtained by calling `google.cloud.location.Locations.ListLocations`. Note that the Data Pipelines service is not available in all regions. It depends on Cloud Scheduler, an App Engine application, so it's only available in [App Engine regions](https://cloud.google.com/about/locations#region). * `PIPELINE_ID` is the ID of the pipeline. Must be unique for the selected project and location. */
   name?: string | undefined;
   /** Output only. Immutable. The timestamp when the pipeline was last modified. Set by the Data Pipelines service. */
@@ -283,30 +282,9 @@ export interface CreateProjectsLocationsPipelinesRequest {
   /** Workload information for creating new jobs. */
   workload?: GoogleCloudDatapipelinesV1Workload | undefined;
 }
-/** The main pipeline entity and all the necessary metadata for launching and managing linked jobs. */
-export interface GoogleCloudDatapipelinesV1Pipeline {
-  /** The pipeline name. For example: `projects/PROJECT_ID/locations/LOCATION_ID/pipelines/PIPELINE_ID`. * `PROJECT_ID` can contain letters ([A-Za-z]), numbers ([0-9]), hyphens (-), colons (:), and periods (.). For more information, see [Identifying projects](https://cloud.google.com/resource-manager/docs/creating-managing-projects#identifying_projects). * `LOCATION_ID` is the canonical ID for the pipeline's location. The list of available locations can be obtained by calling `google.cloud.location.Locations.ListLocations`. Note that the Data Pipelines service is not available in all regions. It depends on Cloud Scheduler, an App Engine application, so it's only available in [App Engine regions](https://cloud.google.com/about/locations#region). * `PIPELINE_ID` is the ID of the pipeline. Must be unique for the selected project and location. */
-  name?: string | undefined;
-  /** Output only. Immutable. The timestamp when the pipeline was last modified. Set by the Data Pipelines service. */
-  lastUpdateTime?: string | undefined;
-  /** Required. The type of the pipeline. This field affects the scheduling of the pipeline and the type of metrics to show for the pipeline. */
-  type?: GoogleCloudDatapipelinesV1PipelineTypeEnum | undefined;
-  /** Required. The display name of the pipeline. It can contain only letters ([A-Za-z]), numbers ([0-9]), hyphens (-), and underscores (_). */
-  displayName?: string | undefined;
-  /** Immutable. The sources of the pipeline (for example, Knowledge Catalog). The keys and values are set by the corresponding sources during pipeline creation. */
-  pipelineSources?: StringMap | undefined;
-  /** Internal scheduling information for a pipeline. If this information is provided, periodic jobs will be created per the schedule. If not, users are responsible for creating jobs externally. */
-  scheduleInfo?: GoogleCloudDatapipelinesV1ScheduleSpec | undefined;
-  /** Required. The state of the pipeline. When the pipeline is created, the state is set to 'PIPELINE_STATE_ACTIVE' by default. State changes can be requested by setting the state to stopping, paused, or resuming. State cannot be changed through UpdatePipeline requests. */
-  state?: GoogleCloudDatapipelinesV1PipelineStateEnum | undefined;
-  /** Optional. A service account email to be used with the Cloud Scheduler job. If not specified, the default compute engine service account will be used. */
-  schedulerServiceAccountEmail?: string | undefined;
-  /** Output only. Immutable. The timestamp when the pipeline was initially created. Set by the Data Pipelines service. */
-  createTime?: string | undefined;
-  /** Output only. Number of jobs. */
-  jobCount?: number | undefined;
-  /** Workload information for creating new jobs. */
-  workload?: GoogleCloudDatapipelinesV1Workload | undefined;
+export interface CreateProjectsLocationsPipelinesRequest extends GoogleCloudDatapipelinesV1Pipeline {
+  /** Required. The location name. For example: `projects/PROJECT_ID/locations/LOCATION_ID`. */
+  parent: string;
 }
 export interface DeleteProjectsLocationsPipelinesRequest {
   /** Required. The pipeline name. For example: `projects/PROJECT_ID/locations/LOCATION_ID/pipelines/PIPELINE_ID`. */
@@ -412,31 +390,14 @@ export interface GoogleCloudDatapipelinesV1ListJobsResponse {
   /** Results that were accessible to the caller. Results are always in descending order of job creation date. */
   jobs?: GoogleCloudDatapipelinesV1JobList | undefined;
 }
-export interface PatchProjectsLocationsPipelinesRequest {
+export interface PatchProjectsLocationsPipelinesRequest extends Omit<
+  GoogleCloudDatapipelinesV1Pipeline,
+  "name"
+> {
   /** The pipeline name. For example: `projects/PROJECT_ID/locations/LOCATION_ID/pipelines/PIPELINE_ID`. * `PROJECT_ID` can contain letters ([A-Za-z]), numbers ([0-9]), hyphens (-), colons (:), and periods (.). For more information, see [Identifying projects](https://cloud.google.com/resource-manager/docs/creating-managing-projects#identifying_projects). * `LOCATION_ID` is the canonical ID for the pipeline's location. The list of available locations can be obtained by calling `google.cloud.location.Locations.ListLocations`. Note that the Data Pipelines service is not available in all regions. It depends on Cloud Scheduler, an App Engine application, so it's only available in [App Engine regions](https://cloud.google.com/about/locations#region). * `PIPELINE_ID` is the ID of the pipeline. Must be unique for the selected project and location. */
   name: string;
   /** The list of fields to be updated. */
   updateMask?: string | undefined;
-  /** Output only. Immutable. The timestamp when the pipeline was last modified. Set by the Data Pipelines service. */
-  lastUpdateTime?: string | undefined;
-  /** Required. The type of the pipeline. This field affects the scheduling of the pipeline and the type of metrics to show for the pipeline. */
-  type?: GoogleCloudDatapipelinesV1PipelineTypeEnum | (string & {}) | undefined;
-  /** Required. The display name of the pipeline. It can contain only letters ([A-Za-z]), numbers ([0-9]), hyphens (-), and underscores (_). */
-  displayName?: string | undefined;
-  /** Immutable. The sources of the pipeline (for example, Knowledge Catalog). The keys and values are set by the corresponding sources during pipeline creation. */
-  pipelineSources?: StringMap | undefined;
-  /** Internal scheduling information for a pipeline. If this information is provided, periodic jobs will be created per the schedule. If not, users are responsible for creating jobs externally. */
-  scheduleInfo?: GoogleCloudDatapipelinesV1ScheduleSpec | undefined;
-  /** Required. The state of the pipeline. When the pipeline is created, the state is set to 'PIPELINE_STATE_ACTIVE' by default. State changes can be requested by setting the state to stopping, paused, or resuming. State cannot be changed through UpdatePipeline requests. */
-  state?: GoogleCloudDatapipelinesV1PipelineStateEnum | (string & {}) | undefined;
-  /** Optional. A service account email to be used with the Cloud Scheduler job. If not specified, the default compute engine service account will be used. */
-  schedulerServiceAccountEmail?: string | undefined;
-  /** Output only. Immutable. The timestamp when the pipeline was initially created. Set by the Data Pipelines service. */
-  createTime?: string | undefined;
-  /** Output only. Number of jobs. */
-  jobCount?: number | undefined;
-  /** Workload information for creating new jobs. */
-  workload?: GoogleCloudDatapipelinesV1Workload | undefined;
 }
 /** Request message for RunPipeline */
 export interface GoogleCloudDatapipelinesV1RunPipelineRequest {}
@@ -670,20 +631,12 @@ function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          name: S.optional(S.String),
-          lastUpdateTime: S.optional(S.String),
-          type: S.optional(S.String),
-          displayName: S.optional(S.String),
-          pipelineSources: S.optional(__S(48, __c3, 0)),
-          scheduleInfo: S.optional(__S(49, __c3, 1)),
-          state: S.optional(S.String),
-          schedulerServiceAccountEmail: S.optional(S.String),
-          createTime: S.optional(S.String),
-          jobCount: S.optional(S.Number),
-          workload: S.optional(__S(57, __c3, 9)),
-        }).pipe(
+        S.Extend(
+          __S(58, __c3, 10),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/pipelines",
@@ -958,20 +911,13 @@ function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          lastUpdateTime: S.optional(S.String),
-          type: S.optional(S.String),
-          displayName: S.optional(S.String),
-          pipelineSources: S.optional(__S(48, __c3, 0)),
-          scheduleInfo: S.optional(__S(49, __c3, 1)),
-          state: S.optional(S.String),
-          schedulerServiceAccountEmail: S.optional(S.String),
-          createTime: S.optional(S.String),
-          jobCount: S.optional(S.Number),
-          workload: S.optional(__S(57, __c3, 9)),
-        }).pipe(
+        S.Extend(
+          __S(58, __c3, 10),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",

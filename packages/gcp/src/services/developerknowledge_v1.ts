@@ -83,12 +83,14 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
-export interface AnswerQueryV1Request {
+/** Request message for DeveloperKnowledge.AnswerQuery. */
+export interface AnswerQueryRequest {
   /** Required. The query to answer. */
   query?: string | undefined;
   /** Optional. Applies a strict filter to the search results used to ground the answer. The expression supports a subset of the syntax described at https://google.aip.dev/160. Supported fields for filtering: * `content_length_bytes` (INTEGER): The length of the `Document.content` field in bytes. * `data_source` (STRING): The source of the document, e.g. `docs.cloud.google.com`. See https://developers.google.com/knowledge/reference/corpus-reference for the complete list of data sources in the corpus. * `update_time` (TIMESTAMP): The timestamp of when the document was last meaningfully updated. A meaningful update is one that changes document's markdown content or metadata. * `uri` (STRING): The document URI, e.g. `https://docs.cloud.google.com/bigquery/docs/tables`. INTEGER fields support `=`, `<`, `<=`, `>`, and `>=` operators. STRING fields support `=` (equals) and `!=` (not equals) operators for **exact match** on the whole string. Partial match, prefix match, and regexp match are not supported. TIMESTAMP fields support `=`, `<`, `<=`, `>`, and `>=` operators. Timestamps must be in RFC-3339 format, e.g., `"2025-01-01T00:00:00Z"`. You can combine expressions using `AND`, `OR`, and `NOT` (or `-`) logical operators. `OR` has higher precedence than `AND`. Use parentheses for explicit precedence grouping. Examples: * Filter by `Document.content_length_bytes`: `content_length_bytes < 50000` * `data_source = "docs.cloud.google.com" OR data_source = "firebase.google.com"` * `data_source != "firebase.google.com"` * `update_time < "2024-01-01T00:00:00Z"` * `update_time >= "2025-01-22T00:00:00Z" AND (data_source = "developer.chrome.com" OR data_source = "web.dev")` * `uri = "https://docs.cloud.google.com/release-notes"` The `filter` string must not exceed 500 characters; values longer than 500 characters will result in an `INVALID_ARGUMENT` error. */
   filter?: string | undefined;
 }
+export interface AnswerQueryV1Request extends AnswerQueryRequest {}
 /** Citation source. */
 export interface CitationSource {
   /** Output only. Contains the index of the Answer.AnswerReference in the `references` repeated field. */
@@ -224,8 +226,8 @@ export const answerQueryV1: API.OperationMethod<
   AnswerQueryV1Error,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<AnswerQueryV1Request>,
-  output: __S(9, __c0, 9) as any as S.Schema<AnswerQueryResponse>,
+  input: __S(1, __c0, 1) as any as S.Schema<AnswerQueryV1Request>,
+  output: __S(10, __c0, 10) as any as S.Schema<AnswerQueryResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -294,7 +296,11 @@ function __c0(j: number): any {
         S.Struct({
           query: S.optional(S.String),
           filter: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "AnswerQueryRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(__S(0, __c0, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1:answerQuery",
@@ -302,50 +308,50 @@ function __c0(j: number): any {
           }),
         ),
       ).annotate({ identifier: "AnswerQueryV1Request" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           referenceIndex: S.optional(S.Number),
         }),
       ).annotate({ identifier: "CitationSource" });
-    case 2:
-      return S.Array(__S(1, __c0, 1));
     case 3:
+      return S.Array(__S(2, __c0, 2));
+    case 4:
       return S.suspend(() =>
         S.Struct({
           endIndex: S.optional(S.Number),
-          sources: S.optional(__S(2, __c0, 2)),
+          sources: S.optional(__S(3, __c0, 3)),
           startIndex: S.optional(S.Number),
         }),
       ).annotate({ identifier: "AnswerCitation" });
-    case 4:
-      return S.Array(__S(3, __c0, 3));
     case 5:
+      return S.Array(__S(4, __c0, 4));
+    case 6:
       return S.suspend(() =>
         S.Struct({
           documentChunk: S.optional(__S(32, __c2, 0)),
         }),
       ).annotate({ identifier: "DocumentReference" });
-    case 6:
+    case 7:
       return S.suspend(() =>
         S.Struct({
-          documentReference: S.optional(__S(5, __c0, 5)),
+          documentReference: S.optional(__S(6, __c0, 6)),
         }),
       ).annotate({ identifier: "AnswerReference" });
-    case 7:
-      return S.Array(__S(6, __c0, 6));
     case 8:
-      return S.suspend(() =>
-        S.Struct({
-          citations: S.optional(__S(4, __c0, 4)),
-          answerText: S.optional(S.String),
-          references: S.optional(__S(7, __c0, 7)),
-        }),
-      ).annotate({ identifier: "Answer" });
+      return S.Array(__S(7, __c0, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
-          answer: S.optional(__S(8, __c0, 8)),
+          citations: S.optional(__S(5, __c0, 5)),
+          answerText: S.optional(S.String),
+          references: S.optional(__S(8, __c0, 8)),
+        }),
+      ).annotate({ identifier: "Answer" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          answer: S.optional(__S(9, __c0, 9)),
         }),
       ).annotate({ identifier: "AnswerQueryResponse" });
   }

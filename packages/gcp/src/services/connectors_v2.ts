@@ -121,18 +121,6 @@ export interface CheckStatusResponse {
   /** Metadata like service latency, etc. */
   metadata?: DocumentMapMap | undefined;
 }
-export interface CreateProjectsLocationsConnectionsEntityTypesEntitiesRequest {
-  /** Required. Resource name of the Entity Type. Format: projects/{project}/locations/{location}/connections/{connection}/entityTypes/{type} */
-  parent: string;
-  /** headers to be used for the request. For example: headers:'{"x-integration-connectors-managed-connection-id":"conn-id","x-integration-connectors-runtime-config":"runtime-cfg"}' */
-  "executionConfig.headers"?: string | undefined;
-  /** Fields of the entity. The key is name of the field and the value contains the applicable `google.protobuf.Value` entry for this field. */
-  fields?: DocumentMap | undefined;
-  /** Metadata like service latency, etc. */
-  metadata?: DocumentMapMap | undefined;
-  /** Output only. Resource name of the Entity. Format: projects/{project}/locations/{location}/connections/{connection}/entityTypes/{type}/entities/{id} */
-  name?: string | undefined;
-}
 /** 'Entity row'/ 'Entity' refers to a single row of an entity type. */
 export interface Entity {
   /** Fields of the entity. The key is name of the field and the value contains the applicable `google.protobuf.Value` entry for this field. */
@@ -141,6 +129,12 @@ export interface Entity {
   metadata?: DocumentMapMap | undefined;
   /** Output only. Resource name of the Entity. Format: projects/{project}/locations/{location}/connections/{connection}/entityTypes/{type}/entities/{id} */
   name?: string | undefined;
+}
+export interface CreateProjectsLocationsConnectionsEntityTypesEntitiesRequest extends Entity {
+  /** Required. Resource name of the Entity Type. Format: projects/{project}/locations/{location}/connections/{connection}/entityTypes/{type} */
+  parent: string;
+  /** headers to be used for the request. For example: headers:'{"x-integration-connectors-managed-connection-id":"conn-id","x-integration-connectors-runtime-config":"runtime-cfg"}' */
+  "executionConfig.headers"?: string | undefined;
 }
 export interface DeleteEntitiesWithConditionsProjectsLocationsConnectionsEntityTypesEntitiesRequest {
   /** Required. Conditions to be used when deleting entities. From a proto standpoint, There are no restrictions on what can be passed using this field. The connector documentation should have information about what format of filters/conditions are supported. Note: If this conditions field is left empty, an exception is thrown. We don't want to consider 'empty conditions' to be a match-all case. Connector developers can determine and document what a match-all case constraint would be. */
@@ -182,14 +176,17 @@ export interface AuthCodeData {
   /** OAuth authorization code. */
   authCode?: string | undefined;
 }
-export interface ExchangeAuthCodeProjectsLocationsConnectionsRequest {
-  name: string;
+/** ExchangeAuthCodeRequest currently includes the auth code data. */
+export interface ExchangeAuthCodeRequest {
   /** OAuth2Config contains the OAuth2 config for the connection. */
   oauth2Config?: OAuth2Config | undefined;
   /** ExecutionConfig contains the configuration for the execution of the request. */
   executionConfig?: ExecutionConfig | undefined;
   /** Optional. AuthCodeData contains the data the runtime requires to exchange for access and refresh tokens. If the data is not provided, the runtime will read the data from the secret manager. */
   authCodeData?: AuthCodeData | undefined;
+}
+export interface ExchangeAuthCodeProjectsLocationsConnectionsRequest extends ExchangeAuthCodeRequest {
+  name: string;
 }
 /** AccessCredentials includes the OAuth access token, and the other fields returned along with it. */
 export interface AccessCredentials {
@@ -223,9 +220,7 @@ export type ExecuteHttpRequestRequestHttpMethodEnum =
   | "HTTP_METHOD_DELETE"
   | "HTTP_METHOD_HEAD"
   | "HTTP_METHOD_OPTIONS";
-export interface ExecuteHttpRequestProjectsLocationsConnectionsRequest {
-  /** Required. Resource name of the Connection. Format: projects/{project}/locations/{location}/connections/{connection} */
-  name: string;
+export interface ExecuteHttpRequestRequest {
   /** HTTP headers to send with the request (e.g., Content-Type: application/json). Order is preserved and duplicate keys are allowed. */
   headers?: HttpHeaderList | undefined;
   /** Raw byte payload. Used for all pre-serialized formats including JSON, XML, GraphQL, and Multipart. */
@@ -234,6 +229,10 @@ export interface ExecuteHttpRequestProjectsLocationsConnectionsRequest {
   httpMethod?: ExecuteHttpRequestRequestHttpMethodEnum | (string & {}) | undefined;
   /** Required. The fully resolved absolute target URL. Callers must pre-encode any query parameters. */
   url?: string | undefined;
+}
+export interface ExecuteHttpRequestProjectsLocationsConnectionsRequest extends ExecuteHttpRequestRequest {
+  /** Required. Resource name of the Connection. Format: projects/{project}/locations/{location}/connections/{connection} */
+  name: string;
 }
 export interface ExecuteHttpRequestResponse {
   /** The HTTP status code received from the backend. */
@@ -245,13 +244,16 @@ export interface ExecuteHttpRequestResponse {
   /** The HTTP status reason phrase received from the backend (e.g., "Not Found"). May be empty if the backend did not provide one. */
   reason?: string | undefined;
 }
-export interface ExecuteProjectsLocationsConnectionsActionsRequest {
-  /** Required. Resource name of the Action. Format: projects/{project}/locations/{location}/connections/{connection}/actions/{action} */
-  name: string;
+/** Request message for ActionService.ExecuteAction */
+export interface ExecuteActionRequest {
   /** Parameters for executing the action. The parameters can be key/value pairs or nested structs. */
   parameters?: DocumentMap | undefined;
   /** Execution config for the request. */
   executionConfig?: ExecutionConfig | undefined;
+}
+export interface ExecuteProjectsLocationsConnectionsActionsRequest extends ExecuteActionRequest {
+  /** Required. Resource name of the Action. Format: projects/{project}/locations/{location}/connections/{connection}/actions/{action} */
+  name: string;
 }
 export type DocumentMapList = Array<DocumentMap>;
 /** Response message for ActionService.ExecuteAction */
@@ -261,15 +263,18 @@ export interface ExecuteActionResponse {
   /** Metadata like service latency, etc. */
   metadata?: DocumentMapMap | undefined;
 }
-export interface ExecuteProjectsLocationsConnectionsToolsRequest {
-  /** Required. Resource name of the Tool. Format: projects/{project}/locations/{location}/connections/{connection}/tools/{tool} */
-  name: string;
+/** Request message for ConnectorAgentService.ExecuteTool */
+export interface ExecuteToolRequest {
   /** Input parameters for the tool. */
   parameters?: DocumentMap | undefined;
   /** execution config for the request. */
   executionConfig?: ExecutionConfig | undefined;
   /** Tool definition for the tool to be executed. */
   toolDefinition?: DocumentMap | undefined;
+}
+export interface ExecuteProjectsLocationsConnectionsToolsRequest extends ExecuteToolRequest {
+  /** Required. Resource name of the Tool. Format: projects/{project}/locations/{location}/connections/{connection}/tools/{tool} */
+  name: string;
 }
 /** Response message for ConnectorAgentService.ExecuteTool */
 export interface ExecuteToolResponse {
@@ -343,11 +348,14 @@ export interface Query {
   /** Required. Sql query to execute. */
   query?: string | undefined;
 }
-export interface ExecuteSqlQueryProjectsLocationsConnectionsRequest {
-  /** Required. Resource name of the Connection. Format: projects/{project}/locations/{location}/connections/{connection} */
-  connection: string;
+/** An execute sql query request containing the query and the connection to execute it on. */
+export interface ExecuteSqlQueryRequest {
   /** Required. SQL statement passed by clients like Integration Platform, the query is passed as-is to the driver used for interfacing with external systems. */
   query?: Query | undefined;
+}
+export interface ExecuteSqlQueryProjectsLocationsConnectionsRequest extends ExecuteSqlQueryRequest {
+  /** Required. Resource name of the Connection. Format: projects/{project}/locations/{location}/connections/{connection} */
+  connection: string;
 }
 /** A response returned by the connection after executing the sql query. */
 export interface ExecuteSqlQueryResponse {
@@ -370,11 +378,13 @@ export interface ToolName {
   operation?: ToolNameOperationEnum | (string & {}) | undefined;
 }
 export type ToolNameList = Array<ToolName>;
-export interface GenerateConnectionToolspecOverrideProjectsLocationsConnectionsRequest {
-  /** Required. Resource name of the Connection. Format: projects/{project}/locations/{location}/connections/{connection} */
-  name: string;
+export interface GenerateCustomToolspecRequest {
   /** list of tools to be generated. */
   toolNames?: ToolNameList | undefined;
+}
+export interface GenerateConnectionToolspecOverrideProjectsLocationsConnectionsRequest extends GenerateCustomToolspecRequest {
+  /** Required. Resource name of the Connection. Format: projects/{project}/locations/{location}/connections/{connection} */
+  name: string;
 }
 export interface ToolSpec {
   /** Version of the tool spec. Format: providerId/connectorId/versionId/toolSpecId */
@@ -824,13 +834,16 @@ export interface GetResourceResponse {
   /** Metadata for the resource. */
   _meta?: DocumentMap | undefined;
 }
-export interface GetResourcePostProjectsLocationsConnectionsResourcesRequest {
-  /** Required. Resource name of the Resource. Format: projects/{project}/locations/{location}/connections/{connection}/resources/{resource} */
-  name: string;
+/** Request message for ConnectorAgentService.GetResourcePost */
+export interface GetResourcePostRequest {
   /** execution config for the request. */
   executionConfig?: ExecutionConfig | undefined;
   /** List of tool specifications. */
   toolSpec?: ToolSpec | undefined;
+}
+export interface GetResourcePostProjectsLocationsConnectionsResourcesRequest extends GetResourcePostRequest {
+  /** Required. Resource name of the Resource. Format: projects/{project}/locations/{location}/connections/{connection}/resources/{resource} */
+  name: string;
 }
 export interface ListCustomToolNamesProjectsLocationsConnectionsRequest {
   /** Required. Resource name of the Connection. Format: projects/{project}/locations/{location}/connections/{connection} */
@@ -1007,18 +1020,17 @@ export interface ListToolsResponse {
   /** Next page token. */
   nextPageToken?: string | undefined;
 }
-export interface PatchProjectsLocationsConnectionsEntityTypesEntitiesRequest {
+export interface PatchProjectsLocationsConnectionsEntityTypesEntitiesRequest extends Omit<
+  Entity,
+  "name"
+> {
   /** headers to be used for the request. For example: headers:'{"x-integration-connectors-managed-connection-id":"conn-id","x-integration-connectors-runtime-config":"runtime-cfg"}' */
   "executionConfig.headers"?: string | undefined;
   /** Output only. Resource name of the Entity. Format: projects/{project}/locations/{location}/connections/{connection}/entityTypes/{type}/entities/{id} */
   name: string;
-  /** Fields of the entity. The key is name of the field and the value contains the applicable `google.protobuf.Value` entry for this field. */
-  fields?: DocumentMap | undefined;
-  /** Metadata like service latency, etc. */
-  metadata?: DocumentMapMap | undefined;
 }
-export interface RefreshAccessTokenProjectsLocationsConnectionsRequest {
-  name: string;
+/** RefreshAccessTokenRequest includes the refresh token. */
+export interface RefreshAccessTokenRequest {
   /** ExecutionConfig contains the configuration for the execution of the request. */
   executionConfig?: ExecutionConfig | undefined;
   /** Optional. Refresh Token String. If the Refresh Token is not provided, the runtime will read the data from the secret manager. */
@@ -1026,15 +1038,17 @@ export interface RefreshAccessTokenProjectsLocationsConnectionsRequest {
   /** OAuth2Config contains the OAuth2 config for the connection. */
   oauth2Config?: OAuth2Config | undefined;
 }
+export interface RefreshAccessTokenProjectsLocationsConnectionsRequest extends RefreshAccessTokenRequest {
+  name: string;
+}
 /** RefreshAccessTokenResponse includes the returned access token and its associated credentials. */
 export interface RefreshAccessTokenResponse {
   /** Metadata like service latency, etc. */
   metadata?: DocumentMapMap | undefined;
   accessCredentials?: AccessCredentials | undefined;
 }
-export interface ToolsProjectsLocationsConnectionsRequest {
-  /** Required. Resource name of the Connection. Format: projects/{project}/locations/{location}/connections/{connection} */
-  parent: string;
+/** Request message for ConnectorAgentService.ListToolsPost */
+export interface ListToolsPostRequest {
   /** Page size. */
   pageSize?: number | undefined;
   /** List of tool specifications. */
@@ -1046,19 +1060,17 @@ export interface ToolsProjectsLocationsConnectionsRequest {
   /** List of tool names to for selective tool fetching. */
   toolNames?: StringList | undefined;
 }
-export interface UpdateEntitiesWithConditionsProjectsLocationsConnectionsEntityTypesEntitiesRequest {
+export interface ToolsProjectsLocationsConnectionsRequest extends ListToolsPostRequest {
+  /** Required. Resource name of the Connection. Format: projects/{project}/locations/{location}/connections/{connection} */
+  parent: string;
+}
+export interface UpdateEntitiesWithConditionsProjectsLocationsConnectionsEntityTypesEntitiesRequest extends Entity {
   /** Required. Resource name of the Entity Type. Format: projects/{project}/locations/{location}/connections/{connection}/entityTypes/{type} */
   entityType: string;
   /** headers to be used for the request. For example: headers:'{"x-integration-connectors-managed-connection-id":"conn-id","x-integration-connectors-runtime-config":"runtime-cfg"}' */
   "executionConfig.headers"?: string | undefined;
   /** Required. Conditions to be used when updating entities. From a proto standpoint, There are no restrictions on what can be passed using this field. The connector documentation should have information about what format of filters/conditions are supported. Note: If this conditions field is left empty, an exception is thrown. We don't want to consider 'empty conditions' to be a match-all case. Connector developers can determine and document what a match-all case constraint would be. */
   conditions?: string | undefined;
-  /** Fields of the entity. The key is name of the field and the value contains the applicable `google.protobuf.Value` entry for this field. */
-  fields?: DocumentMap | undefined;
-  /** Metadata like service latency, etc. */
-  metadata?: DocumentMapMap | undefined;
-  /** Output only. Resource name of the Entity. Format: projects/{project}/locations/{location}/connections/{connection}/entityTypes/{type}/entities/{id} */
-  name?: string | undefined;
 }
 /** Response message for EntityService.UpdateEntitiesWithConditions */
 export interface UpdateEntitiesWithConditionsResponse {
@@ -1194,8 +1206,8 @@ export const exchangeAuthCodeProjectsLocationsConnections: API.OperationMethod<
   ExchangeAuthCodeProjectsLocationsConnectionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1, __c0, 1) as any as S.Schema<ExchangeAuthCodeProjectsLocationsConnectionsRequest>,
-  output: __S(2, __c0, 2) as any as S.Schema<ExchangeAuthCodeResponse>,
+  input: __S(2, __c0, 2) as any as S.Schema<ExchangeAuthCodeProjectsLocationsConnectionsRequest>,
+  output: __S(3, __c0, 3) as any as S.Schema<ExchangeAuthCodeResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1216,8 +1228,8 @@ export const executeHttpRequestProjectsLocationsConnections: API.OperationMethod
   ExecuteHttpRequestProjectsLocationsConnectionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(34, __c4, 2) as any as S.Schema<ExecuteHttpRequestProjectsLocationsConnectionsRequest>,
-  output: __S(35, __c4, 3) as any as S.Schema<ExecuteHttpRequestResponse>,
+  input: __S(35, __c4, 3) as any as S.Schema<ExecuteHttpRequestProjectsLocationsConnectionsRequest>,
+  output: __S(36, __c4, 4) as any as S.Schema<ExecuteHttpRequestResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1238,8 +1250,8 @@ export const executeProjectsLocationsConnectionsActions: API.OperationMethod<
   ExecuteProjectsLocationsConnectionsActionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<ExecuteProjectsLocationsConnectionsActionsRequest>,
-  output: __S(41, __c5, 1) as any as S.Schema<ExecuteActionResponse>,
+  input: __S(41, __c5, 1) as any as S.Schema<ExecuteProjectsLocationsConnectionsActionsRequest>,
+  output: __S(42, __c5, 2) as any as S.Schema<ExecuteActionResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1260,8 +1272,8 @@ export const executeProjectsLocationsConnectionsTools: API.OperationMethod<
   ExecuteProjectsLocationsConnectionsToolsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<ExecuteProjectsLocationsConnectionsToolsRequest>,
-  output: __S(57, __c7, 1) as any as S.Schema<ExecuteToolResponse>,
+  input: __S(57, __c7, 1) as any as S.Schema<ExecuteProjectsLocationsConnectionsToolsRequest>,
+  output: __S(58, __c7, 2) as any as S.Schema<ExecuteToolResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1282,8 +1294,8 @@ export const executeSqlQueryProjectsLocationsConnections: API.OperationMethod<
   ExecuteSqlQueryProjectsLocationsConnectionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(67, __c8, 3) as any as S.Schema<ExecuteSqlQueryProjectsLocationsConnectionsRequest>,
-  output: __S(68, __c8, 4) as any as S.Schema<ExecuteSqlQueryResponse>,
+  input: __S(68, __c8, 4) as any as S.Schema<ExecuteSqlQueryProjectsLocationsConnectionsRequest>,
+  output: __S(69, __c8, 5) as any as S.Schema<ExecuteSqlQueryResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1407,9 +1419,9 @@ export const getResourcePostProjectsLocationsConnectionsResources: API.Operation
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    160,
+    161,
     __c20,
-    0,
+    1,
   ) as any as S.Schema<GetResourcePostProjectsLocationsConnectionsResourcesRequest>,
   output: __S(152, __c19, 0) as any as S.Schema<GetResourceResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
@@ -1435,7 +1447,7 @@ export const listCustomToolNamesProjectsLocationsConnections: API.OperationMetho
     __c21,
     0,
   ) as any as S.Schema<ListCustomToolNamesProjectsLocationsConnectionsRequest>,
-  output: __S(169, __c21, 1) as any as S.Schema<ListCustomToolNamesResponse>,
+  output: __S(90, __c11, 2) as any as S.Schema<ListCustomToolNamesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1587,11 +1599,11 @@ export const refreshAccessTokenProjectsLocationsConnections: API.OperationMethod
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    232,
+    233,
     __c29,
-    0,
+    1,
   ) as any as S.Schema<RefreshAccessTokenProjectsLocationsConnectionsRequest>,
-  output: __S(233, __c29, 1) as any as S.Schema<RefreshAccessTokenResponse>,
+  output: __S(234, __c29, 2) as any as S.Schema<RefreshAccessTokenResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1612,7 +1624,7 @@ export const toolsProjectsLocationsConnections: API.OperationMethod<
   ToolsProjectsLocationsConnectionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c30, 0) as any as S.Schema<ToolsProjectsLocationsConnectionsRequest>,
+  input: __S(241, __c30, 1) as any as S.Schema<ToolsProjectsLocationsConnectionsRequest>,
   output: __S(219, __c27, 3) as any as S.Schema<ListToolsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -1662,11 +1674,19 @@ function __c0(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           oauth2Config: S.optional(__S(24, __c3, 0)),
           executionConfig: S.optional(__S(8, __c1, 0)),
           authCodeData: S.optional(__S(0, __c0, 0)),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "ExchangeAuthCodeRequest" });
+    case 2:
+      return S.suspend(() =>
+        S.Extend(
+          __S(1, __c0, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+name}:exchangeAuthCode",
@@ -1674,7 +1694,7 @@ function __c0(j: number): any {
           }),
         ),
       ).annotate({ identifier: "ExchangeAuthCodeProjectsLocationsConnectionsRequest" });
-    case 2:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           accessCredentials: S.optional(__S(25, __c3, 1)),
@@ -1733,12 +1753,20 @@ function __c4(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           headers: S.optional(__S(33, __c4, 1)),
           rawBody: S.optional(S.String),
           httpMethod: S.optional(S.String),
           url: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "ExecuteHttpRequestRequest" });
+    case 3:
+      return S.suspend(() =>
+        S.Extend(
+          __S(34, __c4, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+name}:executeHttpRequest",
@@ -1746,7 +1774,7 @@ function __c4(j: number): any {
           }),
         ),
       ).annotate({ identifier: "ExecuteHttpRequestProjectsLocationsConnectionsRequest" });
-    case 3:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           statusCode: S.optional(S.Number),
@@ -1762,10 +1790,18 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           parameters: S.optional(__S(272, __c34, 0)),
           executionConfig: S.optional(__S(8, __c1, 0)),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "ExecuteActionRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(40, __c5, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+name}:execute",
@@ -1773,7 +1809,7 @@ function __c5(j: number): any {
           }),
         ),
       ).annotate({ identifier: "ExecuteProjectsLocationsConnectionsActionsRequest" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           results: S.optional(__S(48, __c6, 0)),
@@ -1793,11 +1829,19 @@ function __c7(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           parameters: S.optional(__S(272, __c34, 0)),
           executionConfig: S.optional(__S(8, __c1, 0)),
           toolDefinition: S.optional(__S(272, __c34, 0)),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "ExecuteToolRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(56, __c7, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+name}:execute",
@@ -1805,7 +1849,7 @@ function __c7(j: number): any {
           }),
         ),
       ).annotate({ identifier: "ExecuteProjectsLocationsConnectionsToolsRequest" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           metadata: S.optional(__S(280, __c35, 0)),
@@ -1838,9 +1882,17 @@ function __c8(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          connection: S.String.pipe(T.Label()),
           query: S.optional(__S(66, __c8, 2)),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "ExecuteSqlQueryRequest" });
+    case 4:
+      return S.suspend(() =>
+        S.Extend(
+          __S(67, __c8, 3),
+          S.Struct({
+            connection: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+connection}:executeSqlQuery",
@@ -1848,7 +1900,7 @@ function __c8(j: number): any {
           }),
         ),
       ).annotate({ identifier: "ExecuteSqlQueryProjectsLocationsConnectionsRequest" });
-    case 4:
+    case 5:
       return S.suspend(() =>
         S.Struct({
           results: S.optional(__S(48, __c6, 0)),
@@ -1860,10 +1912,12 @@ function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          toolNames: S.optional(__S(89, __c11, 1)),
-        }).pipe(
+        S.Extend(
+          __S(90, __c11, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+name}:generateConnectionToolspecOverride",
@@ -1904,6 +1958,12 @@ function __c11(j: number): any {
       ).annotate({ identifier: "ToolName" });
     case 1:
       return S.Array(__S(88, __c11, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          toolNames: S.optional(__S(89, __c11, 1)),
+        }),
+      ).annotate({ identifier: "GenerateCustomToolspecRequest" });
   }
 }
 function __c12(j: number): any {
@@ -2146,10 +2206,18 @@ function __c20(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           executionConfig: S.optional(__S(8, __c1, 0)),
           toolSpec: S.optional(__S(80, __c10, 0)),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "GetResourcePostRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(160, __c20, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+name}",
@@ -2173,12 +2241,6 @@ function __c21(j: number): any {
           }),
         ),
       ).annotate({ identifier: "ListCustomToolNamesProjectsLocationsConnectionsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          toolNames: S.optional(__S(89, __c11, 1)),
-        }),
-      ).annotate({ identifier: "ListCustomToolNamesResponse" });
   }
 }
 function __c22(j: number): any {
@@ -2375,12 +2437,13 @@ function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          "executionConfig.headers": S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          fields: S.optional(__S(272, __c34, 0)),
-          metadata: S.optional(__S(280, __c35, 0)),
-        }).pipe(
+        S.Extend(
+          __S(296, __c37, 0),
+          S.Struct({
+            "executionConfig.headers": S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -2395,11 +2458,19 @@ function __c29(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           executionConfig: S.optional(__S(8, __c1, 0)),
           refreshToken: S.optional(S.String),
           oauth2Config: S.optional(__S(24, __c3, 0)),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "RefreshAccessTokenRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(232, __c29, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+name}:refreshAccessToken",
@@ -2407,7 +2478,7 @@ function __c29(j: number): any {
           }),
         ),
       ).annotate({ identifier: "RefreshAccessTokenProjectsLocationsConnectionsRequest" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           metadata: S.optional(__S(280, __c35, 0)),
@@ -2421,13 +2492,21 @@ function __c30(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number),
           toolSpec: S.optional(__S(80, __c10, 0)),
           pageToken: S.optional(S.String),
           executionConfig: S.optional(__S(8, __c1, 0)),
           toolNames: S.optional(__S(16, __c2, 0)),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "ListToolsPostRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(240, __c30, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/tools",
@@ -2441,14 +2520,14 @@ function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          entityType: S.String.pipe(T.Label()),
-          "executionConfig.headers": S.optional(S.String.pipe(T.Query())),
-          conditions: S.optional(S.String.pipe(T.Query())),
-          fields: S.optional(__S(272, __c34, 0)),
-          metadata: S.optional(__S(280, __c35, 0)),
-          name: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(296, __c37, 0),
+          S.Struct({
+            entityType: S.String.pipe(T.Label()),
+            "executionConfig.headers": S.optional(S.String.pipe(T.Query())),
+            conditions: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+entityType}/entities:updateEntitiesWithConditions",
@@ -2531,13 +2610,13 @@ function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          "executionConfig.headers": S.optional(S.String.pipe(T.Query())),
-          fields: S.optional(__S(272, __c34, 0)),
-          metadata: S.optional(__S(280, __c35, 0)),
-          name: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(296, __c37, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            "executionConfig.headers": S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/entities",

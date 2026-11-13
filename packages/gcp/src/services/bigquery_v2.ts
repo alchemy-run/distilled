@@ -84,17 +84,20 @@ export class NotFound
   ) {}
 
 export type StringList = Array<string>;
-export interface BatchDeleteRowAccessPoliciesRequest_ {
+/** Request message for the BatchDeleteRowAccessPoliciesRequest method. */
+export interface BatchDeleteRowAccessPoliciesRequest {
+  /** Required. Policy IDs of the row access policies. */
+  policyIds?: StringList | undefined;
+  /** If set to true, it deletes the row access policy even if it's the last row access policy on the table and the deletion will widen the access rather narrowing it. */
+  force?: boolean | undefined;
+}
+export interface BatchDeleteRowAccessPoliciesRequest_ extends BatchDeleteRowAccessPoliciesRequest {
   /** Required. Project ID of the table to delete the row access policies. */
   projectId: string;
   /** Required. Dataset ID of the table to delete the row access policies. */
   datasetId: string;
   /** Required. Table ID of the table to delete the row access policies. */
   tableId: string;
-  /** Required. Policy IDs of the row access policies. */
-  policyIds?: StringList | undefined;
-  /** If set to true, it deletes the row access policy even if it's the last row access policy on the table and the deletion will widen the access rather narrowing it. */
-  force?: boolean | undefined;
 }
 export interface BatchDeleteRowAccessPoliciesResponse {}
 export interface CancelJobsRequest {
@@ -2832,7 +2835,7 @@ export interface Dataset {
   /** Optional. The [tags](https://cloud.google.com/bigquery/docs/tags) attached to this dataset. Tag keys are globally unique. Tag key is expected to be in the namespaced format, for example "123456789012/environment" where 123456789012 is the ID of the parent organization or project resource for this tag key. Tag value is expected to be the short name, for example "Production". See [Tag definitions](https://cloud.google.com/iam/docs/tags-access-control#definitions) for more details. */
   resourceTags?: StringMap | undefined;
   /** Optional. Updates storage_billing_model for the dataset. */
-  storageBillingModel?: DatasetStorageBillingModelEnum | undefined;
+  storageBillingModel?: DatasetStorageBillingModelEnum | (string & {}) | undefined;
   /** Optional. An array of objects that define dataset access for one or more entities. You can set this property when inserting or updating a dataset in order to control who is allowed to access the data. If unspecified at dataset creation time, BigQuery adds default dataset access for the following entities: access.specialGroup: projectReaders; access.role: READER; access.specialGroup: projectWriters; access.role: WRITER; access.specialGroup: projectOwners; access.role: OWNER; access.userByEmail: [dataset creator email]; access.role: OWNER; If you patch a dataset, then this field is overwritten by the patched dataset's access field. To add entities, you must supply the entire existing access array in addition to any new entities that you want to add. */
   access?: DatasetAccessItemList | undefined;
   /** Optional. The default lifetime of all tables in the dataset, in milliseconds. The minimum lifetime value is 3600000 milliseconds (one hour). To clear an existing default expiration with a PATCH request, set to 0. Once this property is set, all newly-created tables in the dataset will have an expirationTime property set to the creation time plus the value in this property, and changing the value will only affect new tables, not existing ones. When the expirationTime for a given table is reached, that table will be deleted automatically. If a table's expirationTime is modified or removed before the table expires, or if you provide an explicit expirationTime when creating a table, that value takes precedence over the default expiration time indicated by this property. */
@@ -2882,7 +2885,7 @@ export interface Dataset {
   /** Optional. Defines the default collation specification of future tables created in the dataset. If a table is created in this dataset without table-level default collation, then the table inherits the dataset default collation, which is applied to the string fields that do not have explicit collation specified. A change to this field affects only tables created afterwards, and does not alter the existing tables. The following values are supported: * 'und:ci': undetermined locale, case insensitive. * '': empty string. Default to case-sensitive behavior. */
   defaultCollation?: string | undefined;
   /** Optional. Defines the default rounding mode specification of new tables created within this dataset. During table creation, if this field is specified, the table within this dataset will inherit the default rounding mode of the dataset. Setting the default rounding mode on a table overrides this option. Existing tables in the dataset are unaffected. If columns are defined during that table creation, they will immediately inherit the table's default rounding mode, unless otherwise specified. */
-  defaultRoundingMode?: DatasetDefaultRoundingModeEnum | undefined;
+  defaultRoundingMode?: DatasetDefaultRoundingModeEnum | (string & {}) | undefined;
   /** Optional. Defines the time travel window in hours. The value can be from 48 to 168 hours (2 to 7 days). The default value is 168 hours if this is not set. */
   maxTimeTravelHours?: string | undefined;
   /** Output only. The fully-qualified unique name of the dataset in the format projectId:datasetId. The dataset name without the project name is given in the datasetId field. When creating a new dataset, leave this field blank, and instead specify the datasetId field. */
@@ -2893,11 +2896,14 @@ export interface GetPolicyOptions {
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   requestedPolicyVersion?: number | undefined;
 }
-export interface GetIamPolicyRoutinesRequest {
-  /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
+/** Request message for `GetIamPolicy` method. */
+export interface GetIamPolicyRequest {
   /** OPTIONAL: A `GetPolicyOptions` object for specifying options to `GetIamPolicy`. */
   options?: GetPolicyOptions | undefined;
+}
+export interface GetIamPolicyRoutinesRequest extends GetIamPolicyRequest {
+  /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
 }
 export type AuditLogConfigLogTypeEnum =
   | "LOG_TYPE_UNSPECIFIED"
@@ -2941,17 +2947,13 @@ export interface Policy {
   /** Associates a list of `members`, or principals, with a `role`. Optionally, may specify a `condition` that determines how and when the `bindings` are applied. Each of the `bindings` must contain at least one principal. The `bindings` in a `Policy` can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the `bindings` grant 50 different roles to `user:alice@example.com`, and not to any other principal, then you can add another 1,450 principals to the `bindings` in the `Policy`. */
   bindings?: BindingList | undefined;
 }
-export interface GetIamPolicyRowAccessPoliciesRequest {
+export interface GetIamPolicyRowAccessPoliciesRequest extends GetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** OPTIONAL: A `GetPolicyOptions` object for specifying options to `GetIamPolicy`. */
-  options?: GetPolicyOptions | undefined;
 }
-export interface GetIamPolicyTablesRequest {
+export interface GetIamPolicyTablesRequest extends GetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** OPTIONAL: A `GetPolicyOptions` object for specifying options to `GetIamPolicy`. */
-  options?: GetPolicyOptions | undefined;
 }
 export interface GetJobsRequest {
   /** The geographic location of the job. You must specify the location to run the job for the following scenarios: * If the location to run a job is not in the `us` or the `eu` multi-regional location * If the job's location is in a single region (for example, `us-central1`) For more information, see how to [specify locations](https://cloud.google.com/bigquery/docs/locations#specify_locations). */
@@ -3193,7 +3195,7 @@ export interface Model {
   /** Output only. A hash of this resource. */
   etag?: string | undefined;
   /** Output only. Type of the model resource. */
-  modelType?: ModelModelTypeEnum | undefined;
+  modelType?: ModelModelTypeEnum | (string & {}) | undefined;
   /** Output only. Trials of a [hyperparameter tuning](https://cloud.google.com/bigquery-ml/docs/reference/standard-sql/bigqueryml-syntax-hp-tuning-overview) model sorted by trial_id. */
   hparamTrials?: HparamTuningTrialList | undefined;
   /** Output only. The geographic location where the model resides. This value is inherited from the dataset. */
@@ -3429,7 +3431,7 @@ export interface RemoteFunctionOptions {
 /** A user-defined function or a stored procedure. */
 export interface Routine {
   /** Optional. The determinism level of the JavaScript UDF, if defined. */
-  determinismLevel?: RoutineDeterminismLevelEnum | undefined;
+  determinismLevel?: RoutineDeterminismLevelEnum | (string & {}) | undefined;
   /** Output only. A hash of this resource. */
   etag?: string | undefined;
   /** Optional. */
@@ -3441,7 +3443,7 @@ export interface Routine {
   /** Optional. The description of the routine, if defined. */
   description?: string | undefined;
   /** Optional. Defaults to "SQL" if remote_function_options field is absent, not set otherwise. */
-  language?: RoutineLanguageEnum | undefined;
+  language?: RoutineLanguageEnum | (string & {}) | undefined;
   /** Output only. The time when this routine was created, in milliseconds since the epoch. */
   creationTime?: string | undefined;
   /** Output only. The build status of the routine. This field is only applicable to Python UDFs. [Preview](https://cloud.google.com/products/#product-launch-stages) */
@@ -3457,15 +3459,15 @@ export interface Routine {
   /** Optional. Use this option to catch many common errors. Error checking is not exhaustive, and successfully creating a procedure doesn't guarantee that the procedure will successfully execute at runtime. If `strictMode` is set to `TRUE`, the procedure body is further checked for errors such as non-existent tables or columns. The `CREATE PROCEDURE` statement fails if the body fails any of these checks. If `strictMode` is set to `FALSE`, the procedure body is checked only for syntax. For procedures that invoke themselves recursively, specify `strictMode=FALSE` to avoid non-existent procedure errors during validation. Default value is `TRUE`. */
   strictMode?: boolean | undefined;
   /** Optional. The security mode of the routine, if defined. If not defined, the security mode is automatically determined from the routine's configuration. */
-  securityMode?: RoutineSecurityModeEnum | undefined;
+  securityMode?: RoutineSecurityModeEnum | (string & {}) | undefined;
   /** Optional. Options for the Python UDF. [Preview](https://cloud.google.com/products/#product-launch-stages) */
   pythonOptions?: PythonOptions | undefined;
   /** Required. The body of the routine. For functions, this is the expression in the AS clause. If `language = "SQL"`, it is the substring inside (but excluding) the parentheses. For example, for the function created with the following statement: `CREATE FUNCTION JoinLines(x string, y string) as (concat(x, "\n", y))` The definition_body is `concat(x, "\n", y)` (\n is not replaced with linebreak). If `language="JAVASCRIPT"`, it is the evaluated string in the AS clause. For example, for the function created with the following statement: `CREATE FUNCTION f() RETURNS STRING LANGUAGE js AS 'return "\n";\n'` The definition_body is `return "\n";\n` Note that both \n are replaced with linebreaks. If `definition_body` references another routine, then that routine must be fully qualified with its project ID. */
   definitionBody?: string | undefined;
   /** Required. The type of routine. */
-  routineType?: RoutineRoutineTypeEnum | undefined;
+  routineType?: RoutineRoutineTypeEnum | (string & {}) | undefined;
   /** Optional. If set to `DATA_MASKING`, the function is validated and made available as a masking function. For more information, see [Create custom masking routines](https://cloud.google.com/bigquery/docs/user-defined-functions#custom-mask). */
-  dataGovernanceType?: RoutineDataGovernanceTypeEnum | undefined;
+  dataGovernanceType?: RoutineDataGovernanceTypeEnum | (string & {}) | undefined;
   /** Optional. Remote function specific options. */
   remoteFunctionOptions?: RemoteFunctionOptions | undefined;
   /** Required. Reference describing the ID of this routine. */
@@ -3848,322 +3850,6 @@ export interface Table {
   /** Output only. An opaque ID uniquely identifying the table. */
   id?: string | undefined;
   /** Optional. If set, overrides the default managed table type configured in the dataset. */
-  managedTableType?: TableManagedTableTypeEnum | undefined;
-  /** Optional. Output only. Restriction config for table. If set, restrict certain accesses on the table based on the config. See [Data egress](https://cloud.google.com/bigquery/docs/analytics-hub-introduction#data_egress) for more details. */
-  restrictions?: RestrictionConfig | undefined;
-  /** Output only. Contains information about the clone. This value is set via the clone operation. */
-  cloneDefinition?: CloneDefinition | undefined;
-  /** Deprecated. */
-  model?: ModelDefinition | undefined;
-  /** If specified, configures time-based partitioning for this table. */
-  timePartitioning?: TimePartitioning | undefined;
-  /** Output only. The materialized view status. */
-  materializedViewStatus?: MaterializedViewStatus | undefined;
-  /** Optional. Describes the schema of this table. */
-  schema?: TableSchema | undefined;
-  /** Optional. Specifies the configuration of a BigQuery table for Apache Iceberg. */
-  biglakeConfiguration?: BigLakeConfiguration | undefined;
-  /** Output only. A hash of this resource. */
-  etag?: string | undefined;
-  /** Output only. The geographic location where the table resides. This value is inherited from the dataset. */
-  location?: string | undefined;
-  /** Optional. Options defining open source compatible table. */
-  externalCatalogTableOptions?: ExternalCatalogTableOptions | undefined;
-  /** If specified, configures range partitioning for this table. */
-  rangePartitioning?: RangePartitioning | undefined;
-  /** Output only. Contains information about the snapshot. This value is set via snapshot creation. */
-  snapshotDefinition?: SnapshotDefinition | undefined;
-  /** Output only. The time when this table was last modified, in milliseconds since the epoch. */
-  lastModifiedTime?: string | undefined;
-  /** Optional. Output only. Table references of all replicas currently active on the table. */
-  replicas?: TableReferenceList | undefined;
-  /** Output only. A URL that can be used to access this resource again. */
-  selfLink?: string | undefined;
-  /** The type of resource ID. */
-  kind?: string | undefined;
-  /** Optional. The time when this table expires, in milliseconds since the epoch. If not present, the table will persist indefinitely. Expired tables will be deleted and their storage reclaimed. The defaultTableExpirationMs property of the encapsulating dataset can be used to set a default expirationTime on newly created tables. */
-  expirationTime?: string | undefined;
-  /** Required. Reference describing the ID of this table. */
-  tableReference?: TableReference | undefined;
-  /** Output only. Number of physical bytes used by time travel storage (deleted or changed data). This data is not kept in real time, and might be delayed by a few seconds to a few minutes. */
-  numTimeTravelPhysicalBytes?: string | undefined;
-  /** Output only. Number of logical bytes that are less than 90 days old. */
-  numActiveLogicalBytes?: string | undefined;
-  /** Optional. The materialized view definition. */
-  materializedView?: MaterializedViewDefinition | undefined;
-  /** Output only. The size of this table in logical bytes, excluding any data in the streaming buffer. */
-  numBytes?: string | undefined;
-  /** Custom encryption configuration (e.g., Cloud KMS keys). */
-  encryptionConfiguration?: EncryptionConfiguration | undefined;
-  /** Optional. Defines the default rounding mode specification of new decimal fields (NUMERIC OR BIGNUMERIC) in the table. During table creation or update, if a decimal field is added to this table without an explicit rounding mode specified, then the field inherits the table default rounding mode. Changing this field doesn't affect existing fields. */
-  defaultRoundingMode?: TableDefaultRoundingModeEnum | undefined;
-  /** Optional. A descriptive name for this table. */
-  friendlyName?: string | undefined;
-}
-export type JsonValue = unknown;
-/** Represents a single JSON object. */
-export type JsonObject = { [key: string]: JsonValue | undefined };
-export interface TableDataInsertAllRequestRowsItem {
-  /** Insertion ID for best-effort deduplication. This feature is not recommended, and users seeking stronger insertion semantics are encouraged to use other mechanisms such as the BigQuery Write API. */
-  insertId?: string | undefined;
-  /** Data for a single row. */
-  json?: JsonObject | undefined;
-}
-export type TableDataInsertAllRequestRowsItemList = Array<TableDataInsertAllRequestRowsItem>;
-export interface InsertAllTabledataRequest {
-  /** Required. Dataset ID of the destination. */
-  datasetId: string;
-  /** Required. Table ID of the destination. */
-  tableId: string;
-  /** Required. Project ID of the destination. */
-  projectId: string;
-  /** Optional. Accept rows that contain values that do not match the schema. The unknown values are ignored. Default is false, which treats unknown values as errors. */
-  ignoreUnknownValues?: boolean | undefined;
-  /** Optional. Unique request trace id. Used for debugging purposes only. It is case-sensitive, limited to up to 36 ASCII characters. A UUID is recommended. */
-  traceId?: string | undefined;
-  /** Optional. The resource type of the response. The value is not checked at the backend. Historically, it has been set to "bigquery#tableDataInsertAllRequest" but you are not required to set it. */
-  kind?: string | undefined;
-  /** Optional. If specified, treats the destination table as a base template, and inserts the rows into an instance table named "{destination}{templateSuffix}". BigQuery will manage creation of the instance table, using the schema of the base template table. See https://cloud.google.com/bigquery/streaming-data-into-bigquery#template-tables for considerations when working with templates tables. */
-  templateSuffix?: string | undefined;
-  /** Optional. Insert all valid rows of a request, even if invalid rows exist. The default value is false, which causes the entire request to fail if any invalid rows exist. */
-  skipInvalidRows?: boolean | undefined;
-  rows?: TableDataInsertAllRequestRowsItemList | undefined;
-}
-export interface TableDataInsertAllResponseInsertErrorsItem {
-  /** Error information for the row indicated by the index property. */
-  errors?: ErrorProtoList | undefined;
-  /** The index of the row that error applies to. */
-  index?: number | undefined;
-}
-export type TableDataInsertAllResponseInsertErrorsItemList =
-  Array<TableDataInsertAllResponseInsertErrorsItem>;
-/** Describes the format of a streaming insert response. */
-export interface TableDataInsertAllResponse {
-  /** Describes specific errors encountered while processing the request. */
-  insertErrors?: TableDataInsertAllResponseInsertErrorsItemList | undefined;
-  /** Returns "bigquery#tableDataInsertAllResponse". */
-  kind?: string | undefined;
-}
-export interface InsertDatasetsRequest {
-  /** Optional. The version of the provided access policy schema. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. This version refers to the schema version of the access policy and not the version of access policy. This field's value can be equal or more than the access policy schema provided in the request. For example, * Requests with conditional access policy binding in datasets must specify version 3. * But dataset with no conditional role bindings in access policy may specify any valid value or leave the field unset. If unset or if 0 or 1 value is used for dataset with conditional bindings, request will be rejected. This field will be mapped to IAM Policy version (https://cloud.google.com/iam/docs/policies#versions) and will be used to set policy in IAM. */
-  accessPolicyVersion?: number | undefined;
-  /** Required. Project ID of the new dataset */
-  projectId: string;
-  /** The labels associated with this dataset. You can use these to organize and group your datasets. You can set this property when inserting or updating a dataset. See [Creating and Updating Dataset Labels](https://cloud.google.com/bigquery/docs/creating-managing-labels#creating_and_updating_dataset_labels) for more information. */
-  labels?: StringMap | undefined;
-  /** Output only. Reserved for future use. */
-  satisfiesPzs?: boolean | undefined;
-  /** Optional. The [tags](https://cloud.google.com/bigquery/docs/tags) attached to this dataset. Tag keys are globally unique. Tag key is expected to be in the namespaced format, for example "123456789012/environment" where 123456789012 is the ID of the parent organization or project resource for this tag key. Tag value is expected to be the short name, for example "Production". See [Tag definitions](https://cloud.google.com/iam/docs/tags-access-control#definitions) for more details. */
-  resourceTags?: StringMap | undefined;
-  /** Optional. Updates storage_billing_model for the dataset. */
-  storageBillingModel?: DatasetStorageBillingModelEnum | (string & {}) | undefined;
-  /** Optional. An array of objects that define dataset access for one or more entities. You can set this property when inserting or updating a dataset in order to control who is allowed to access the data. If unspecified at dataset creation time, BigQuery adds default dataset access for the following entities: access.specialGroup: projectReaders; access.role: READER; access.specialGroup: projectWriters; access.role: WRITER; access.specialGroup: projectOwners; access.role: OWNER; access.userByEmail: [dataset creator email]; access.role: OWNER; If you patch a dataset, then this field is overwritten by the patched dataset's access field. To add entities, you must supply the entire existing access array in addition to any new entities that you want to add. */
-  access?: DatasetAccessItemList | undefined;
-  /** Optional. The default lifetime of all tables in the dataset, in milliseconds. The minimum lifetime value is 3600000 milliseconds (one hour). To clear an existing default expiration with a PATCH request, set to 0. Once this property is set, all newly-created tables in the dataset will have an expirationTime property set to the creation time plus the value in this property, and changing the value will only affect new tables, not existing ones. When the expirationTime for a given table is reached, that table will be deleted automatically. If a table's expirationTime is modified or removed before the table expires, or if you provide an explicit expirationTime when creating a table, that value takes precedence over the default expiration time indicated by this property. */
-  defaultTableExpirationMs?: string | undefined;
-  /** Output only. Same as `type` in `ListFormatDataset`. The type of the dataset, one of: * DEFAULT - only accessible by owner and authorized accounts, * PUBLIC - accessible by everyone, * LINKED - linked dataset, * EXTERNAL - dataset with definition in external metadata catalog, * BIGLAKE_ICEBERG - a Biglake dataset accessible through the Iceberg API, * BIGLAKE_HIVE - a Biglake dataset accessible through the Hive API. */
-  type?: string | undefined;
-  /** Optional. Options defining open source compatible datasets living in the BigQuery catalog. Contains metadata of open source database, schema or namespace represented by the current dataset. */
-  externalCatalogDatasetOptions?: ExternalCatalogDatasetOptions | undefined;
-  /** Output only. The resource type. */
-  kind?: string | undefined;
-  /** Required. A reference that identifies the dataset. */
-  datasetReference?: DatasetReference | undefined;
-  /** The default encryption key for all tables in the dataset. After this property is set, the encryption key of all newly-created tables in the dataset is set to this value unless the table creation request or query explicitly overrides the key. */
-  defaultEncryptionConfiguration?: EncryptionConfiguration | undefined;
-  /** Output only. A URL that can be used to access the resource again. You can use this URL in Get or Update requests to the resource. */
-  selfLink?: string | undefined;
-  /** This default partition expiration, expressed in milliseconds. When new time-partitioned tables are created in a dataset where this property is set, the table will inherit this value, propagated as the `TimePartitioning.expirationMs` property on the new table. If you set `TimePartitioning.expirationMs` explicitly when creating a table, the `defaultPartitionExpirationMs` of the containing dataset is ignored. When creating a partitioned table, if `defaultPartitionExpirationMs` is set, the `defaultTableExpirationMs` value is ignored and the table will not be inherit a table expiration deadline. */
-  defaultPartitionExpirationMs?: string | undefined;
-  /** Output only. Tags for the dataset. To provide tags as inputs, use the `resourceTags` field. */
-  tags?: DatasetTagsItemList | undefined;
-  /** Optional. A descriptive name for the dataset. */
-  friendlyName?: string | undefined;
-  /** Optional. TRUE if the dataset and its table names are case-insensitive, otherwise FALSE. By default, this is FALSE, which means the dataset and its table names are case-sensitive. This field does not affect routine references. */
-  isCaseInsensitive?: boolean | undefined;
-  /** Output only. The time when this dataset was created, in milliseconds since the epoch. */
-  creationTime?: string | undefined;
-  /** Output only. Metadata about the LinkedDataset. Filled out when the dataset type is LINKED. */
-  linkedDatasetMetadata?: LinkedDatasetMetadata | undefined;
-  /** The geographic location where the dataset should reside. See https://cloud.google.com/bigquery/docs/locations for supported locations. */
-  location?: string | undefined;
-  /** Output only. Reserved for future use. */
-  satisfiesPzi?: boolean | undefined;
-  /** Optional. The source dataset reference when the dataset is of type LINKED. For all other dataset types it is not set. This field cannot be updated once it is set. Any attempt to update this field using Update and Patch API Operations will be ignored. */
-  linkedDatasetSource?: LinkedDatasetSource | undefined;
-  /** Optional. Output only. Restriction config for all tables and dataset. If set, restrict certain accesses on the dataset and all its tables based on the config. See [Data egress](https://cloud.google.com/bigquery/docs/analytics-hub-introduction#data_egress) for more details. */
-  restrictions?: RestrictionConfig | undefined;
-  /** Output only. The date when this dataset was last modified, in milliseconds since the epoch. */
-  lastModifiedTime?: string | undefined;
-  /** Output only. The origin of the dataset, one of: * (Unset) - Native BigQuery Dataset * BIGLAKE - Dataset is backed by a namespace stored natively in Biglake */
-  catalogSource?: string | undefined;
-  /** Optional. Reference to a read-only external dataset defined in data catalogs outside of BigQuery. Filled out when the dataset type is EXTERNAL. */
-  externalDatasetReference?: ExternalDatasetReference | undefined;
-  /** Output only. A hash of the resource. */
-  etag?: string | undefined;
-  /** Optional. A user-friendly description of the dataset. */
-  description?: string | undefined;
-  /** Optional. Defines the default collation specification of future tables created in the dataset. If a table is created in this dataset without table-level default collation, then the table inherits the dataset default collation, which is applied to the string fields that do not have explicit collation specified. A change to this field affects only tables created afterwards, and does not alter the existing tables. The following values are supported: * 'und:ci': undetermined locale, case insensitive. * '': empty string. Default to case-sensitive behavior. */
-  defaultCollation?: string | undefined;
-  /** Optional. Defines the default rounding mode specification of new tables created within this dataset. During table creation, if this field is specified, the table within this dataset will inherit the default rounding mode of the dataset. Setting the default rounding mode on a table overrides this option. Existing tables in the dataset are unaffected. If columns are defined during that table creation, they will immediately inherit the table's default rounding mode, unless otherwise specified. */
-  defaultRoundingMode?: DatasetDefaultRoundingModeEnum | (string & {}) | undefined;
-  /** Optional. Defines the time travel window in hours. The value can be from 48 to 168 hours (2 to 7 days). The default value is 168 hours if this is not set. */
-  maxTimeTravelHours?: string | undefined;
-  /** Output only. The fully-qualified unique name of the dataset in the format projectId:datasetId. The dataset name without the project name is given in the datasetId field. When creating a new dataset, leave this field blank, and instead specify the datasetId field. */
-  id?: string | undefined;
-}
-export interface InsertJobsRequest {
-  /** Project ID of project that will be billed for the job. */
-  projectId: string;
-  /** Required. Describes the job configuration. */
-  configuration?: JobConfiguration | undefined;
-  /** Output only. The reason why a Job was created. */
-  jobCreationReason?: JobCreationReason | undefined;
-  /** Output only. A URL that can be used to access the resource again. */
-  selfLink?: string | undefined;
-  /** Output only. A hash of this resource. */
-  etag?: string | undefined;
-  /** Output only. The type of the resource. */
-  kind?: string | undefined;
-  /** Output only. Information about the job, including starting time and ending time of the job. */
-  statistics?: JobStatistics | undefined;
-  /** Output only. Email address of the user who ran the job. */
-  user_email?: string | undefined;
-  /** Output only. [Full-projection-only] String representation of identity of requesting party. Populated for both first- and third-party identities. Only present for APIs that support third-party identities. */
-  principal_subject?: string | undefined;
-  /** Output only. The status of this job. Examine this value when polling an asynchronous job to see if the job is complete. */
-  status?: JobStatus | undefined;
-  /** Optional. Reference describing the unique-per-user name of the job. */
-  jobReference?: JobReference | undefined;
-  /** Output only. Opaque ID field of the job. */
-  id?: string | undefined;
-}
-export interface InsertRoutinesRequest {
-  /** Required. Dataset ID of the new routine */
-  datasetId: string;
-  /** Required. Project ID of the new routine */
-  projectId: string;
-  /** Optional. The determinism level of the JavaScript UDF, if defined. */
-  determinismLevel?: RoutineDeterminismLevelEnum | (string & {}) | undefined;
-  /** Output only. A hash of this resource. */
-  etag?: string | undefined;
-  /** Optional. */
-  arguments?: ArgumentList | undefined;
-  /** Output only. The time when this routine was last modified, in milliseconds since the epoch. */
-  lastModifiedTime?: string | undefined;
-  /** Optional if language = "SQL"; required otherwise. Cannot be set if routine_type = "TABLE_VALUED_FUNCTION". If absent, the return type is inferred from definition_body at query time in each query that references this routine. If present, then the evaluated result will be cast to the specified returned type at query time. For example, for the functions created with the following statements: * `CREATE FUNCTION Add(x FLOAT64, y FLOAT64) RETURNS FLOAT64 AS (x + y);` * `CREATE FUNCTION Increment(x FLOAT64) AS (Add(x, 1));` * `CREATE FUNCTION Decrement(x FLOAT64) RETURNS FLOAT64 AS (Add(x, -1));` The return_type is `{type_kind: "FLOAT64"}` for `Add` and `Decrement`, and is absent for `Increment` (inferred as FLOAT64 at query time). Suppose the function `Add` is replaced by `CREATE OR REPLACE FUNCTION Add(x INT64, y INT64) AS (x + y);` Then the inferred return type of `Increment` is automatically changed to INT64 at query time, while the return type of `Decrement` remains FLOAT64. */
-  returnType?: StandardSqlDataType | undefined;
-  /** Optional. The description of the routine, if defined. */
-  description?: string | undefined;
-  /** Optional. Defaults to "SQL" if remote_function_options field is absent, not set otherwise. */
-  language?: RoutineLanguageEnum | (string & {}) | undefined;
-  /** Output only. The time when this routine was created, in milliseconds since the epoch. */
-  creationTime?: string | undefined;
-  /** Output only. The build status of the routine. This field is only applicable to Python UDFs. [Preview](https://cloud.google.com/products/#product-launch-stages) */
-  buildStatus?: RoutineBuildStatus | undefined;
-  /** Optional. If language = "JAVASCRIPT", this field stores the path of the imported JAVASCRIPT libraries. */
-  importedLibraries?: StringList | undefined;
-  /** Optional. Spark specific options. */
-  sparkOptions?: SparkOptions | undefined;
-  /** Optional. Options for the runtime of the external system executing the routine. This field is only applicable for Python UDFs. [Preview](https://cloud.google.com/products/#product-launch-stages) */
-  externalRuntimeOptions?: ExternalRuntimeOptions | undefined;
-  /** Optional. Can be set only if routine_type = "TABLE_VALUED_FUNCTION". If absent, the return table type is inferred from definition_body at query time in each query that references this routine. If present, then the columns in the evaluated table result will be cast to match the column types specified in return table type, at query time. */
-  returnTableType?: StandardSqlTableType | undefined;
-  /** Optional. Use this option to catch many common errors. Error checking is not exhaustive, and successfully creating a procedure doesn't guarantee that the procedure will successfully execute at runtime. If `strictMode` is set to `TRUE`, the procedure body is further checked for errors such as non-existent tables or columns. The `CREATE PROCEDURE` statement fails if the body fails any of these checks. If `strictMode` is set to `FALSE`, the procedure body is checked only for syntax. For procedures that invoke themselves recursively, specify `strictMode=FALSE` to avoid non-existent procedure errors during validation. Default value is `TRUE`. */
-  strictMode?: boolean | undefined;
-  /** Optional. The security mode of the routine, if defined. If not defined, the security mode is automatically determined from the routine's configuration. */
-  securityMode?: RoutineSecurityModeEnum | (string & {}) | undefined;
-  /** Optional. Options for the Python UDF. [Preview](https://cloud.google.com/products/#product-launch-stages) */
-  pythonOptions?: PythonOptions | undefined;
-  /** Required. The body of the routine. For functions, this is the expression in the AS clause. If `language = "SQL"`, it is the substring inside (but excluding) the parentheses. For example, for the function created with the following statement: `CREATE FUNCTION JoinLines(x string, y string) as (concat(x, "\n", y))` The definition_body is `concat(x, "\n", y)` (\n is not replaced with linebreak). If `language="JAVASCRIPT"`, it is the evaluated string in the AS clause. For example, for the function created with the following statement: `CREATE FUNCTION f() RETURNS STRING LANGUAGE js AS 'return "\n";\n'` The definition_body is `return "\n";\n` Note that both \n are replaced with linebreaks. If `definition_body` references another routine, then that routine must be fully qualified with its project ID. */
-  definitionBody?: string | undefined;
-  /** Required. The type of routine. */
-  routineType?: RoutineRoutineTypeEnum | (string & {}) | undefined;
-  /** Optional. If set to `DATA_MASKING`, the function is validated and made available as a masking function. For more information, see [Create custom masking routines](https://cloud.google.com/bigquery/docs/user-defined-functions#custom-mask). */
-  dataGovernanceType?: RoutineDataGovernanceTypeEnum | (string & {}) | undefined;
-  /** Optional. Remote function specific options. */
-  remoteFunctionOptions?: RemoteFunctionOptions | undefined;
-  /** Required. Reference describing the ID of this routine. */
-  routineReference?: RoutineReference | undefined;
-}
-export interface InsertRowAccessPoliciesRequest {
-  /** Required. Dataset ID of the table to get the row access policy. */
-  datasetId: string;
-  /** Required. Table ID of the table to get the row access policy. */
-  tableId: string;
-  /** Required. Project ID of the table to get the row access policy. */
-  projectId: string;
-  /** Output only. A hash of this resource. */
-  etag?: string | undefined;
-  /** Required. Reference describing the ID of this row access policy. */
-  rowAccessPolicyReference?: RowAccessPolicyReference | undefined;
-  /** Optional. Input only. The optional list of iam_member users or groups that specifies the initial members that the row-level access policy should be created with. grantees types: - "user:alice@example.com": An email address that represents a specific Google account. - "serviceAccount:my-other-app@appspot.gserviceaccount.com": An email address that represents a service account. - "group:admins@example.com": An email address that represents a Google group. - "domain:example.com":The Google Workspace domain (primary) that represents all the users of that domain. - "allAuthenticatedUsers": A special identifier that represents all service accounts and all users on the internet who have authenticated with a Google Account. This identifier includes accounts that aren't connected to a Google Workspace or Cloud Identity domain, such as personal Gmail accounts. Users who aren't authenticated, such as anonymous visitors, aren't included. - "allUsers":A special identifier that represents anyone who is on the internet, including authenticated and unauthenticated users. Because BigQuery requires authentication before a user can access the service, allUsers includes only authenticated users. */
-  grantees?: StringList | undefined;
-  /** Required. A SQL boolean expression that represents the rows defined by this row access policy, similar to the boolean expression in a WHERE clause of a SELECT query on a table. References to other tables, routines, and temporary functions are not supported. Examples: region="EU" date_field = CAST('2019-9-27' as DATE) nullable_field is not NULL numeric_field BETWEEN 1.0 AND 5.0 */
-  filterPredicate?: string | undefined;
-  /** Output only. The time when this row access policy was last modified, in milliseconds since the epoch. */
-  lastModifiedTime?: string | undefined;
-  /** Output only. The time when this row access policy was created, in milliseconds since the epoch. */
-  creationTime?: string | undefined;
-}
-export interface InsertTablesRequest {
-  /** Required. Dataset ID of the new table */
-  datasetId: string;
-  /** Required. Project ID of the new table */
-  projectId: string;
-  /** Output only. Contains information regarding this table's streaming buffer, if one is present. This field will be absent if the table is not being streamed to or if there is no data in the streaming buffer. */
-  streamingBuffer?: Streamingbuffer | undefined;
-  /** Optional. The view definition. */
-  view?: ViewDefinition | undefined;
-  /** Output only. Number of physical bytes more than 90 days old. This data is not kept in real time, and might be delayed by a few seconds to a few minutes. */
-  numLongTermPhysicalBytes?: string | undefined;
-  /** Optional. A user-friendly description of this table. */
-  description?: string | undefined;
-  /** Output only. The physical size of this table in bytes. This also includes storage used for time travel. This data is not kept in real time, and might be delayed by a few seconds to a few minutes. */
-  numTotalPhysicalBytes?: string | undefined;
-  /** Output only. Total number of logical bytes in the table or materialized view. */
-  numTotalLogicalBytes?: string | undefined;
-  /** Output only. The number of rows of data in this table, excluding any data in the streaming buffer. */
-  numRows?: string | undefined;
-  /** Output only. Number of logical bytes that are more than 90 days old. */
-  numLongTermLogicalBytes?: string | undefined;
-  /** Optional. Describes the data format, location, and other properties of a table stored outside of BigQuery. By defining these properties, the data source can then be queried as if it were a standard BigQuery table. */
-  externalDataConfiguration?: ExternalDataConfiguration | undefined;
-  /** Optional. If set to true, queries over this table require a partition filter that can be used for partition elimination to be specified. */
-  requirePartitionFilter?: boolean | undefined;
-  /** Output only. Number of physical bytes used by current live data storage. This data is not kept in real time, and might be delayed by a few seconds to a few minutes. */
-  numCurrentPhysicalBytes?: string | undefined;
-  /** Optional. Table replication info for table created `AS REPLICA` DDL like: `CREATE MATERIALIZED VIEW mv1 AS REPLICA OF src_mv` */
-  tableReplicationInfo?: TableReplicationInfo | undefined;
-  /** Optional. The partition information for all table formats, including managed partitioned tables, hive partitioned tables, iceberg partitioned, and metastore partitioned tables. This field is only populated for metastore partitioned tables. For other table formats, this is an output only field. */
-  partitionDefinition?: PartitioningDefinition | undefined;
-  /** Output only. The number of logical bytes in the table that are considered "long-term storage". */
-  numLongTermBytes?: string | undefined;
-  /** [Optional] The tags associated with this table. Tag keys are globally unique. See additional information on [tags](https://cloud.google.com/iam/docs/tags-access-control#definitions). An object containing a list of "key": value pairs. The key is the namespaced friendly name of the tag key, e.g. "12345/environment" where 12345 is parent id. The value is the friendly short name of the tag value, e.g. "production". */
-  resourceTags?: StringMap | undefined;
-  /** Output only. The physical size of this table in bytes. This includes storage used for time travel. */
-  numPhysicalBytes?: string | undefined;
-  /** Output only. Number of physical bytes less than 90 days old. This data is not kept in real time, and might be delayed by a few seconds to a few minutes. */
-  numActivePhysicalBytes?: string | undefined;
-  /** Optional. Defines the default collation specification of new STRING fields in the table. During table creation or update, if a STRING field is added to this table without explicit collation specified, then the table inherits the table default collation. A change to this field affects only fields added afterwards, and does not alter the existing fields. The following values are supported: * 'und:ci': undetermined locale, case insensitive. * '': empty string. Default to case-sensitive behavior. */
-  defaultCollation?: string | undefined;
-  /** Output only. Describes the table type. The following values are supported: * `TABLE`: A normal BigQuery table. * `VIEW`: A virtual table defined by a SQL query. * `EXTERNAL`: A table that references data stored in an external storage system, such as Google Cloud Storage. * `MATERIALIZED_VIEW`: A precomputed view defined by a SQL query. * `SNAPSHOT`: An immutable BigQuery table that preserves the contents of a base table at a particular time. See additional information on [table snapshots](https://cloud.google.com/bigquery/docs/table-snapshots-intro). The default value is `TABLE`. */
-  type?: string | undefined;
-  /** Clustering specification for the table. Must be specified with time-based partitioning, data in the table will be first partitioned and subsequently clustered. */
-  clustering?: Clustering | undefined;
-  /** Output only. The number of partitions present in the table or materialized view. This data is not kept in real time, and might be delayed by a few seconds to a few minutes. */
-  numPartitions?: string | undefined;
-  /** Optional. Tables Primary Key and Foreign Key information */
-  tableConstraints?: TableConstraints | undefined;
-  /** Output only. The time when this table was created, in milliseconds since the epoch. */
-  creationTime?: string | undefined;
-  /** Optional. The maximum staleness of data that could be returned when the table (or stale MV) is queried. Staleness encoded as a string encoding of sql IntervalValue type. */
-  maxStaleness?: string | undefined;
-  /** The labels associated with this table. You can use these to organize and group your tables. Label keys and values can be no longer than 63 characters, can only contain lowercase letters, numeric characters, underscores and dashes. International characters are allowed. Label values are optional. Label keys must start with a letter and each label in the list must have a different key. */
-  labels?: StringMap | undefined;
-  /** Output only. An opaque ID uniquely identifying the table. */
-  id?: string | undefined;
-  /** Optional. If set, overrides the default managed table type configured in the dataset. */
   managedTableType?: TableManagedTableTypeEnum | (string & {}) | undefined;
   /** Optional. Output only. Restriction config for table. If set, restrict certain accesses on the table based on the config. See [Data egress](https://cloud.google.com/bigquery/docs/analytics-hub-introduction#data_egress) for more details. */
   restrictions?: RestrictionConfig | undefined;
@@ -4215,6 +3901,83 @@ export interface InsertTablesRequest {
   defaultRoundingMode?: TableDefaultRoundingModeEnum | (string & {}) | undefined;
   /** Optional. A descriptive name for this table. */
   friendlyName?: string | undefined;
+}
+export type JsonValue = unknown;
+/** Represents a single JSON object. */
+export type JsonObject = { [key: string]: JsonValue | undefined };
+export interface TableDataInsertAllRequestRowsItem {
+  /** Insertion ID for best-effort deduplication. This feature is not recommended, and users seeking stronger insertion semantics are encouraged to use other mechanisms such as the BigQuery Write API. */
+  insertId?: string | undefined;
+  /** Data for a single row. */
+  json?: JsonObject | undefined;
+}
+export type TableDataInsertAllRequestRowsItemList = Array<TableDataInsertAllRequestRowsItem>;
+/** Request for sending a single streaming insert. */
+export interface TableDataInsertAllRequest {
+  /** Optional. Accept rows that contain values that do not match the schema. The unknown values are ignored. Default is false, which treats unknown values as errors. */
+  ignoreUnknownValues?: boolean | undefined;
+  /** Optional. Unique request trace id. Used for debugging purposes only. It is case-sensitive, limited to up to 36 ASCII characters. A UUID is recommended. */
+  traceId?: string | undefined;
+  /** Optional. The resource type of the response. The value is not checked at the backend. Historically, it has been set to "bigquery#tableDataInsertAllRequest" but you are not required to set it. */
+  kind?: string | undefined;
+  /** Optional. If specified, treats the destination table as a base template, and inserts the rows into an instance table named "{destination}{templateSuffix}". BigQuery will manage creation of the instance table, using the schema of the base template table. See https://cloud.google.com/bigquery/streaming-data-into-bigquery#template-tables for considerations when working with templates tables. */
+  templateSuffix?: string | undefined;
+  /** Optional. Insert all valid rows of a request, even if invalid rows exist. The default value is false, which causes the entire request to fail if any invalid rows exist. */
+  skipInvalidRows?: boolean | undefined;
+  rows?: TableDataInsertAllRequestRowsItemList | undefined;
+}
+export interface InsertAllTabledataRequest extends TableDataInsertAllRequest {
+  /** Required. Dataset ID of the destination. */
+  datasetId: string;
+  /** Required. Table ID of the destination. */
+  tableId: string;
+  /** Required. Project ID of the destination. */
+  projectId: string;
+}
+export interface TableDataInsertAllResponseInsertErrorsItem {
+  /** Error information for the row indicated by the index property. */
+  errors?: ErrorProtoList | undefined;
+  /** The index of the row that error applies to. */
+  index?: number | undefined;
+}
+export type TableDataInsertAllResponseInsertErrorsItemList =
+  Array<TableDataInsertAllResponseInsertErrorsItem>;
+/** Describes the format of a streaming insert response. */
+export interface TableDataInsertAllResponse {
+  /** Describes specific errors encountered while processing the request. */
+  insertErrors?: TableDataInsertAllResponseInsertErrorsItemList | undefined;
+  /** Returns "bigquery#tableDataInsertAllResponse". */
+  kind?: string | undefined;
+}
+export interface InsertDatasetsRequest extends Dataset {
+  /** Optional. The version of the provided access policy schema. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. This version refers to the schema version of the access policy and not the version of access policy. This field's value can be equal or more than the access policy schema provided in the request. For example, * Requests with conditional access policy binding in datasets must specify version 3. * But dataset with no conditional role bindings in access policy may specify any valid value or leave the field unset. If unset or if 0 or 1 value is used for dataset with conditional bindings, request will be rejected. This field will be mapped to IAM Policy version (https://cloud.google.com/iam/docs/policies#versions) and will be used to set policy in IAM. */
+  accessPolicyVersion?: number | undefined;
+  /** Required. Project ID of the new dataset */
+  projectId: string;
+}
+export interface InsertJobsRequest extends Job {
+  /** Project ID of project that will be billed for the job. */
+  projectId: string;
+}
+export interface InsertRoutinesRequest extends Routine {
+  /** Required. Dataset ID of the new routine */
+  datasetId: string;
+  /** Required. Project ID of the new routine */
+  projectId: string;
+}
+export interface InsertRowAccessPoliciesRequest extends RowAccessPolicy {
+  /** Required. Dataset ID of the table to get the row access policy. */
+  datasetId: string;
+  /** Required. Table ID of the table to get the row access policy. */
+  tableId: string;
+  /** Required. Project ID of the table to get the row access policy. */
+  projectId: string;
+}
+export interface InsertTablesRequest extends Table {
+  /** Required. Dataset ID of the new table */
+  datasetId: string;
+  /** Required. Project ID of the new table */
+  projectId: string;
 }
 export interface ListDatasetsRequest {
   /** Page token, returned by a previous call, to request the next page of results */
@@ -4521,7 +4284,7 @@ export type PatchDatasetsUpdateModeEnum =
   | "UPDATE_METADATA"
   | "UPDATE_ACL"
   | "UPDATE_FULL";
-export interface PatchDatasetsRequest {
+export interface PatchDatasetsRequest extends Dataset {
   /** Required. Project ID of the dataset being updated */
   projectId: string;
   /** Optional. The version of the provided access policy schema. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. This version refers to the schema version of the access policy and not the version of access policy. This field's value can be equal or more than the access policy schema provided in the request. For example, * Operations updating conditional access policy binding in datasets must specify version 3. Some of the operations are : - Adding a new access policy entry with condition. - Removing an access policy entry with condition. - Updating an access policy entry with condition. * But dataset with no conditional role bindings in access policy may specify any valid value or leave the field unset. If unset or if 0 or 1 value is used for dataset with conditional bindings, request will be rejected. This field will be mapped to IAM Policy version (https://cloud.google.com/iam/docs/policies#versions) and will be used to set policy in IAM. */
@@ -4530,120 +4293,16 @@ export interface PatchDatasetsRequest {
   updateMode?: PatchDatasetsUpdateModeEnum | (string & {}) | undefined;
   /** Required. Dataset ID of the dataset being updated */
   datasetId: string;
-  /** The labels associated with this dataset. You can use these to organize and group your datasets. You can set this property when inserting or updating a dataset. See [Creating and Updating Dataset Labels](https://cloud.google.com/bigquery/docs/creating-managing-labels#creating_and_updating_dataset_labels) for more information. */
-  labels?: StringMap | undefined;
-  /** Output only. Reserved for future use. */
-  satisfiesPzs?: boolean | undefined;
-  /** Optional. The [tags](https://cloud.google.com/bigquery/docs/tags) attached to this dataset. Tag keys are globally unique. Tag key is expected to be in the namespaced format, for example "123456789012/environment" where 123456789012 is the ID of the parent organization or project resource for this tag key. Tag value is expected to be the short name, for example "Production". See [Tag definitions](https://cloud.google.com/iam/docs/tags-access-control#definitions) for more details. */
-  resourceTags?: StringMap | undefined;
-  /** Optional. Updates storage_billing_model for the dataset. */
-  storageBillingModel?: DatasetStorageBillingModelEnum | (string & {}) | undefined;
-  /** Optional. An array of objects that define dataset access for one or more entities. You can set this property when inserting or updating a dataset in order to control who is allowed to access the data. If unspecified at dataset creation time, BigQuery adds default dataset access for the following entities: access.specialGroup: projectReaders; access.role: READER; access.specialGroup: projectWriters; access.role: WRITER; access.specialGroup: projectOwners; access.role: OWNER; access.userByEmail: [dataset creator email]; access.role: OWNER; If you patch a dataset, then this field is overwritten by the patched dataset's access field. To add entities, you must supply the entire existing access array in addition to any new entities that you want to add. */
-  access?: DatasetAccessItemList | undefined;
-  /** Optional. The default lifetime of all tables in the dataset, in milliseconds. The minimum lifetime value is 3600000 milliseconds (one hour). To clear an existing default expiration with a PATCH request, set to 0. Once this property is set, all newly-created tables in the dataset will have an expirationTime property set to the creation time plus the value in this property, and changing the value will only affect new tables, not existing ones. When the expirationTime for a given table is reached, that table will be deleted automatically. If a table's expirationTime is modified or removed before the table expires, or if you provide an explicit expirationTime when creating a table, that value takes precedence over the default expiration time indicated by this property. */
-  defaultTableExpirationMs?: string | undefined;
-  /** Output only. Same as `type` in `ListFormatDataset`. The type of the dataset, one of: * DEFAULT - only accessible by owner and authorized accounts, * PUBLIC - accessible by everyone, * LINKED - linked dataset, * EXTERNAL - dataset with definition in external metadata catalog, * BIGLAKE_ICEBERG - a Biglake dataset accessible through the Iceberg API, * BIGLAKE_HIVE - a Biglake dataset accessible through the Hive API. */
-  type?: string | undefined;
-  /** Optional. Options defining open source compatible datasets living in the BigQuery catalog. Contains metadata of open source database, schema or namespace represented by the current dataset. */
-  externalCatalogDatasetOptions?: ExternalCatalogDatasetOptions | undefined;
-  /** Output only. The resource type. */
-  kind?: string | undefined;
-  /** Required. A reference that identifies the dataset. */
-  datasetReference?: DatasetReference | undefined;
-  /** The default encryption key for all tables in the dataset. After this property is set, the encryption key of all newly-created tables in the dataset is set to this value unless the table creation request or query explicitly overrides the key. */
-  defaultEncryptionConfiguration?: EncryptionConfiguration | undefined;
-  /** Output only. A URL that can be used to access the resource again. You can use this URL in Get or Update requests to the resource. */
-  selfLink?: string | undefined;
-  /** This default partition expiration, expressed in milliseconds. When new time-partitioned tables are created in a dataset where this property is set, the table will inherit this value, propagated as the `TimePartitioning.expirationMs` property on the new table. If you set `TimePartitioning.expirationMs` explicitly when creating a table, the `defaultPartitionExpirationMs` of the containing dataset is ignored. When creating a partitioned table, if `defaultPartitionExpirationMs` is set, the `defaultTableExpirationMs` value is ignored and the table will not be inherit a table expiration deadline. */
-  defaultPartitionExpirationMs?: string | undefined;
-  /** Output only. Tags for the dataset. To provide tags as inputs, use the `resourceTags` field. */
-  tags?: DatasetTagsItemList | undefined;
-  /** Optional. A descriptive name for the dataset. */
-  friendlyName?: string | undefined;
-  /** Optional. TRUE if the dataset and its table names are case-insensitive, otherwise FALSE. By default, this is FALSE, which means the dataset and its table names are case-sensitive. This field does not affect routine references. */
-  isCaseInsensitive?: boolean | undefined;
-  /** Output only. The time when this dataset was created, in milliseconds since the epoch. */
-  creationTime?: string | undefined;
-  /** Output only. Metadata about the LinkedDataset. Filled out when the dataset type is LINKED. */
-  linkedDatasetMetadata?: LinkedDatasetMetadata | undefined;
-  /** The geographic location where the dataset should reside. See https://cloud.google.com/bigquery/docs/locations for supported locations. */
-  location?: string | undefined;
-  /** Output only. Reserved for future use. */
-  satisfiesPzi?: boolean | undefined;
-  /** Optional. The source dataset reference when the dataset is of type LINKED. For all other dataset types it is not set. This field cannot be updated once it is set. Any attempt to update this field using Update and Patch API Operations will be ignored. */
-  linkedDatasetSource?: LinkedDatasetSource | undefined;
-  /** Optional. Output only. Restriction config for all tables and dataset. If set, restrict certain accesses on the dataset and all its tables based on the config. See [Data egress](https://cloud.google.com/bigquery/docs/analytics-hub-introduction#data_egress) for more details. */
-  restrictions?: RestrictionConfig | undefined;
-  /** Output only. The date when this dataset was last modified, in milliseconds since the epoch. */
-  lastModifiedTime?: string | undefined;
-  /** Output only. The origin of the dataset, one of: * (Unset) - Native BigQuery Dataset * BIGLAKE - Dataset is backed by a namespace stored natively in Biglake */
-  catalogSource?: string | undefined;
-  /** Optional. Reference to a read-only external dataset defined in data catalogs outside of BigQuery. Filled out when the dataset type is EXTERNAL. */
-  externalDatasetReference?: ExternalDatasetReference | undefined;
-  /** Output only. A hash of the resource. */
-  etag?: string | undefined;
-  /** Optional. A user-friendly description of the dataset. */
-  description?: string | undefined;
-  /** Optional. Defines the default collation specification of future tables created in the dataset. If a table is created in this dataset without table-level default collation, then the table inherits the dataset default collation, which is applied to the string fields that do not have explicit collation specified. A change to this field affects only tables created afterwards, and does not alter the existing tables. The following values are supported: * 'und:ci': undetermined locale, case insensitive. * '': empty string. Default to case-sensitive behavior. */
-  defaultCollation?: string | undefined;
-  /** Optional. Defines the default rounding mode specification of new tables created within this dataset. During table creation, if this field is specified, the table within this dataset will inherit the default rounding mode of the dataset. Setting the default rounding mode on a table overrides this option. Existing tables in the dataset are unaffected. If columns are defined during that table creation, they will immediately inherit the table's default rounding mode, unless otherwise specified. */
-  defaultRoundingMode?: DatasetDefaultRoundingModeEnum | (string & {}) | undefined;
-  /** Optional. Defines the time travel window in hours. The value can be from 48 to 168 hours (2 to 7 days). The default value is 168 hours if this is not set. */
-  maxTimeTravelHours?: string | undefined;
-  /** Output only. The fully-qualified unique name of the dataset in the format projectId:datasetId. The dataset name without the project name is given in the datasetId field. When creating a new dataset, leave this field blank, and instead specify the datasetId field. */
-  id?: string | undefined;
 }
-export interface PatchModelsRequest {
+export interface PatchModelsRequest extends Model {
   /** Required. Dataset ID of the model to patch. */
   datasetId: string;
   /** Required. Model ID of the model to patch. */
   modelId: string;
   /** Required. Project ID of the model to patch. */
   projectId: string;
-  /** Required. Unique identifier for this model. */
-  modelReference?: ModelReference | undefined;
-  /** Output only. All hyperparameter search spaces in this model. */
-  hparamSearchSpaces?: HparamSearchSpaces | undefined;
-  /** Output only. For single-objective [hyperparameter tuning](https://cloud.google.com/bigquery-ml/docs/reference/standard-sql/bigqueryml-syntax-hp-tuning-overview) models, it only contains the best trial. For multi-objective [hyperparameter tuning](https://cloud.google.com/bigquery-ml/docs/reference/standard-sql/bigqueryml-syntax-hp-tuning-overview) models, it contains all Pareto optimal trials sorted by trial_id. */
-  optimalTrialIds?: StringList | undefined;
-  /** Output only. The time when this model was last modified, in millisecs since the epoch. */
-  lastModifiedTime?: string | undefined;
-  /** The best trial_id across all training runs. */
-  bestTrialId?: string | undefined;
-  /** Output only. Label columns that were used to train this model. The output of the model will have a "predicted_" prefix to these columns. */
-  labelColumns?: StandardSqlFieldList | undefined;
-  /** Output only. A hash of this resource. */
-  etag?: string | undefined;
-  /** Output only. Type of the model resource. */
-  modelType?: ModelModelTypeEnum | (string & {}) | undefined;
-  /** Output only. Trials of a [hyperparameter tuning](https://cloud.google.com/bigquery-ml/docs/reference/standard-sql/bigqueryml-syntax-hp-tuning-overview) model sorted by trial_id. */
-  hparamTrials?: HparamTuningTrialList | undefined;
-  /** Output only. The geographic location where the model resides. This value is inherited from the dataset. */
-  location?: string | undefined;
-  /** Optional. A descriptive name for this model. */
-  friendlyName?: string | undefined;
-  /** Output only. Remote model info */
-  remoteModelInfo?: RemoteModelInfo | undefined;
-  /** Optional. A user-friendly description of this model. */
-  description?: string | undefined;
-  /** Information for all training runs in increasing order of start_time. */
-  trainingRuns?: TrainingRunList | undefined;
-  /** Custom encryption configuration (e.g., Cloud KMS keys). This shows the encryption configuration of the model data while stored in BigQuery storage. This field can be used with PatchModel to update encryption key for an already encrypted model. */
-  encryptionConfiguration?: EncryptionConfiguration | undefined;
-  /** Optional. The time when this model expires, in milliseconds since the epoch. If not present, the model will persist indefinitely. Expired models will be deleted and their storage reclaimed. The defaultTableExpirationMs property of the encapsulating dataset can be used to set a default expirationTime on newly created models. */
-  expirationTime?: string | undefined;
-  /** Output only. Input feature columns for the model inference. If the model is trained with TRANSFORM clause, these are the input of the TRANSFORM clause. */
-  featureColumns?: StandardSqlFieldList | undefined;
-  /** Output only. The time when this model was created, in millisecs since the epoch. */
-  creationTime?: string | undefined;
-  /** Output only. This field will be populated if a TRANSFORM clause was used to train a model. TRANSFORM clause (if used) takes feature_columns as input and outputs transform_columns. transform_columns then are used to train the model. */
-  transformColumns?: TransformColumnList | undefined;
-  /** The labels associated with this model. You can use these to organize and group your models. Label keys and values can be no longer than 63 characters, can only contain lowercase letters, numeric characters, underscores and dashes. International characters are allowed. Label values are optional. Label keys must start with a letter and each label in the list must have a different key. */
-  labels?: StringMap | undefined;
-  /** Output only. The default trial_id to use in TVFs when the trial_id is not passed in. For single-objective [hyperparameter tuning](https://cloud.google.com/bigquery-ml/docs/reference/standard-sql/bigqueryml-syntax-hp-tuning-overview) models, this is the best trial ID. For multi-objective [hyperparameter tuning](https://cloud.google.com/bigquery-ml/docs/reference/standard-sql/bigqueryml-syntax-hp-tuning-overview) models, this is the smallest trial ID among all Pareto optimal trials. */
-  defaultTrialId?: string | undefined;
 }
-export interface PatchTablesRequest {
+export interface PatchTablesRequest extends Table {
   /** Required. Project ID of the table to update */
   projectId: string;
   /** Required. Table ID of the table to update */
@@ -4652,110 +4311,6 @@ export interface PatchTablesRequest {
   autodetect_schema?: boolean | undefined;
   /** Required. Dataset ID of the table to update */
   datasetId: string;
-  /** Output only. Contains information regarding this table's streaming buffer, if one is present. This field will be absent if the table is not being streamed to or if there is no data in the streaming buffer. */
-  streamingBuffer?: Streamingbuffer | undefined;
-  /** Optional. The view definition. */
-  view?: ViewDefinition | undefined;
-  /** Output only. Number of physical bytes more than 90 days old. This data is not kept in real time, and might be delayed by a few seconds to a few minutes. */
-  numLongTermPhysicalBytes?: string | undefined;
-  /** Optional. A user-friendly description of this table. */
-  description?: string | undefined;
-  /** Output only. The physical size of this table in bytes. This also includes storage used for time travel. This data is not kept in real time, and might be delayed by a few seconds to a few minutes. */
-  numTotalPhysicalBytes?: string | undefined;
-  /** Output only. Total number of logical bytes in the table or materialized view. */
-  numTotalLogicalBytes?: string | undefined;
-  /** Output only. The number of rows of data in this table, excluding any data in the streaming buffer. */
-  numRows?: string | undefined;
-  /** Output only. Number of logical bytes that are more than 90 days old. */
-  numLongTermLogicalBytes?: string | undefined;
-  /** Optional. Describes the data format, location, and other properties of a table stored outside of BigQuery. By defining these properties, the data source can then be queried as if it were a standard BigQuery table. */
-  externalDataConfiguration?: ExternalDataConfiguration | undefined;
-  /** Optional. If set to true, queries over this table require a partition filter that can be used for partition elimination to be specified. */
-  requirePartitionFilter?: boolean | undefined;
-  /** Output only. Number of physical bytes used by current live data storage. This data is not kept in real time, and might be delayed by a few seconds to a few minutes. */
-  numCurrentPhysicalBytes?: string | undefined;
-  /** Optional. Table replication info for table created `AS REPLICA` DDL like: `CREATE MATERIALIZED VIEW mv1 AS REPLICA OF src_mv` */
-  tableReplicationInfo?: TableReplicationInfo | undefined;
-  /** Optional. The partition information for all table formats, including managed partitioned tables, hive partitioned tables, iceberg partitioned, and metastore partitioned tables. This field is only populated for metastore partitioned tables. For other table formats, this is an output only field. */
-  partitionDefinition?: PartitioningDefinition | undefined;
-  /** Output only. The number of logical bytes in the table that are considered "long-term storage". */
-  numLongTermBytes?: string | undefined;
-  /** [Optional] The tags associated with this table. Tag keys are globally unique. See additional information on [tags](https://cloud.google.com/iam/docs/tags-access-control#definitions). An object containing a list of "key": value pairs. The key is the namespaced friendly name of the tag key, e.g. "12345/environment" where 12345 is parent id. The value is the friendly short name of the tag value, e.g. "production". */
-  resourceTags?: StringMap | undefined;
-  /** Output only. The physical size of this table in bytes. This includes storage used for time travel. */
-  numPhysicalBytes?: string | undefined;
-  /** Output only. Number of physical bytes less than 90 days old. This data is not kept in real time, and might be delayed by a few seconds to a few minutes. */
-  numActivePhysicalBytes?: string | undefined;
-  /** Optional. Defines the default collation specification of new STRING fields in the table. During table creation or update, if a STRING field is added to this table without explicit collation specified, then the table inherits the table default collation. A change to this field affects only fields added afterwards, and does not alter the existing fields. The following values are supported: * 'und:ci': undetermined locale, case insensitive. * '': empty string. Default to case-sensitive behavior. */
-  defaultCollation?: string | undefined;
-  /** Output only. Describes the table type. The following values are supported: * `TABLE`: A normal BigQuery table. * `VIEW`: A virtual table defined by a SQL query. * `EXTERNAL`: A table that references data stored in an external storage system, such as Google Cloud Storage. * `MATERIALIZED_VIEW`: A precomputed view defined by a SQL query. * `SNAPSHOT`: An immutable BigQuery table that preserves the contents of a base table at a particular time. See additional information on [table snapshots](https://cloud.google.com/bigquery/docs/table-snapshots-intro). The default value is `TABLE`. */
-  type?: string | undefined;
-  /** Clustering specification for the table. Must be specified with time-based partitioning, data in the table will be first partitioned and subsequently clustered. */
-  clustering?: Clustering | undefined;
-  /** Output only. The number of partitions present in the table or materialized view. This data is not kept in real time, and might be delayed by a few seconds to a few minutes. */
-  numPartitions?: string | undefined;
-  /** Optional. Tables Primary Key and Foreign Key information */
-  tableConstraints?: TableConstraints | undefined;
-  /** Output only. The time when this table was created, in milliseconds since the epoch. */
-  creationTime?: string | undefined;
-  /** Optional. The maximum staleness of data that could be returned when the table (or stale MV) is queried. Staleness encoded as a string encoding of sql IntervalValue type. */
-  maxStaleness?: string | undefined;
-  /** The labels associated with this table. You can use these to organize and group your tables. Label keys and values can be no longer than 63 characters, can only contain lowercase letters, numeric characters, underscores and dashes. International characters are allowed. Label values are optional. Label keys must start with a letter and each label in the list must have a different key. */
-  labels?: StringMap | undefined;
-  /** Output only. An opaque ID uniquely identifying the table. */
-  id?: string | undefined;
-  /** Optional. If set, overrides the default managed table type configured in the dataset. */
-  managedTableType?: TableManagedTableTypeEnum | (string & {}) | undefined;
-  /** Optional. Output only. Restriction config for table. If set, restrict certain accesses on the table based on the config. See [Data egress](https://cloud.google.com/bigquery/docs/analytics-hub-introduction#data_egress) for more details. */
-  restrictions?: RestrictionConfig | undefined;
-  /** Output only. Contains information about the clone. This value is set via the clone operation. */
-  cloneDefinition?: CloneDefinition | undefined;
-  /** Deprecated. */
-  model?: ModelDefinition | undefined;
-  /** If specified, configures time-based partitioning for this table. */
-  timePartitioning?: TimePartitioning | undefined;
-  /** Output only. The materialized view status. */
-  materializedViewStatus?: MaterializedViewStatus | undefined;
-  /** Optional. Describes the schema of this table. */
-  schema?: TableSchema | undefined;
-  /** Optional. Specifies the configuration of a BigQuery table for Apache Iceberg. */
-  biglakeConfiguration?: BigLakeConfiguration | undefined;
-  /** Output only. A hash of this resource. */
-  etag?: string | undefined;
-  /** Output only. The geographic location where the table resides. This value is inherited from the dataset. */
-  location?: string | undefined;
-  /** Optional. Options defining open source compatible table. */
-  externalCatalogTableOptions?: ExternalCatalogTableOptions | undefined;
-  /** If specified, configures range partitioning for this table. */
-  rangePartitioning?: RangePartitioning | undefined;
-  /** Output only. Contains information about the snapshot. This value is set via snapshot creation. */
-  snapshotDefinition?: SnapshotDefinition | undefined;
-  /** Output only. The time when this table was last modified, in milliseconds since the epoch. */
-  lastModifiedTime?: string | undefined;
-  /** Optional. Output only. Table references of all replicas currently active on the table. */
-  replicas?: TableReferenceList | undefined;
-  /** Output only. A URL that can be used to access this resource again. */
-  selfLink?: string | undefined;
-  /** The type of resource ID. */
-  kind?: string | undefined;
-  /** Optional. The time when this table expires, in milliseconds since the epoch. If not present, the table will persist indefinitely. Expired tables will be deleted and their storage reclaimed. The defaultTableExpirationMs property of the encapsulating dataset can be used to set a default expirationTime on newly created tables. */
-  expirationTime?: string | undefined;
-  /** Required. Reference describing the ID of this table. */
-  tableReference?: TableReference | undefined;
-  /** Output only. Number of physical bytes used by time travel storage (deleted or changed data). This data is not kept in real time, and might be delayed by a few seconds to a few minutes. */
-  numTimeTravelPhysicalBytes?: string | undefined;
-  /** Output only. Number of logical bytes that are less than 90 days old. */
-  numActiveLogicalBytes?: string | undefined;
-  /** Optional. The materialized view definition. */
-  materializedView?: MaterializedViewDefinition | undefined;
-  /** Output only. The size of this table in logical bytes, excluding any data in the streaming buffer. */
-  numBytes?: string | undefined;
-  /** Custom encryption configuration (e.g., Cloud KMS keys). */
-  encryptionConfiguration?: EncryptionConfiguration | undefined;
-  /** Optional. Defines the default rounding mode specification of new decimal fields (NUMERIC OR BIGNUMERIC) in the table. During table creation or update, if a decimal field is added to this table without an explicit rounding mode specified, then the field inherits the table default rounding mode. Changing this field doesn't affect existing fields. */
-  defaultRoundingMode?: TableDefaultRoundingModeEnum | (string & {}) | undefined;
-  /** Optional. A descriptive name for this table. */
-  friendlyName?: string | undefined;
 }
 export type ArrowSerializationOptionsPicosTimestampPrecisionEnum =
   | "PICOS_TIMESTAMP_PRECISION_UNSPECIFIED"
@@ -4796,9 +4351,8 @@ export interface DataFormatOptions {
   /** Optional. Output timestamp as usec int64. Default is false. */
   useInt64Timestamp?: boolean | undefined;
 }
-export interface QueryJobsRequest {
-  /** Required. Project ID of the query request. */
-  projectId: string;
+/** Describes the format of the jobs.query request. */
+export interface QueryRequest {
   /** Query parameters for GoogleSQL queries. */
   queryParameters?: QueryParameterList | undefined;
   /** Optional. A set of key-value pairs representing the secure context. This can be used to pass sensitive or context-specific information. They can be retrieved via the SECURE_CONTEXT() function and used to modify the run-time behavior of a query. */
@@ -4855,6 +4409,10 @@ export interface QueryJobsRequest {
   kind?: string | undefined;
   /** Optional. A target limit on the rate of slot consumption by this query. If set to a value > 0, BigQuery will attempt to limit the rate of slot consumption by this query to keep it below the configured limit, even if the query is eligible for more slots based on fair scheduling. The unused slots will be available for other jobs and queries to use. Note: This feature is not yet generally available. */
   maxSlots?: number | undefined;
+}
+export interface QueryJobsRequest extends QueryRequest {
+  /** Required. Project ID of the query request. */
+  projectId: string;
 }
 /** Arrow RecordBatch. This feature is not yet available. */
 export interface ArrowRecordBatch {
@@ -4918,59 +4476,60 @@ export interface QueryResponse {
   /** Output only. Arrow schema */
   arrowSchema?: ArrowSchema | undefined;
 }
-export interface SetIamPolicyRoutinesRequest {
-  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
+/** Request message for `SetIamPolicy` method. */
+export interface SetIamPolicyRequest {
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
   policy?: Policy | undefined;
   /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
   updateMask?: string | undefined;
 }
-export interface SetIamPolicyTablesRequest {
+export interface SetIamPolicyRoutinesRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
-  policy?: Policy | undefined;
-  /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
-  updateMask?: string | undefined;
 }
-export interface TestIamPermissionsRoutinesRequest {
-  /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+export interface SetIamPolicyTablesRequest extends SetIamPolicyRequest {
+  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
+}
+/** Request message for `TestIamPermissions` method. */
+export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: StringList | undefined;
+}
+export interface TestIamPermissionsRoutinesRequest extends TestIamPermissionsRequest {
+  /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsRowAccessPoliciesRequest {
+export interface TestIamPermissionsRowAccessPoliciesRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
-  permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsTablesRequest {
+export interface TestIamPermissionsTablesRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
-  permissions?: StringList | undefined;
 }
-export interface UndeleteDatasetsRequest {
+/** Request format for undeleting a dataset. */
+export interface UndeleteDatasetRequest {
+  /** Optional. The exact time when the dataset was deleted. If not specified, the most recently deleted version is undeleted. Undeleting a dataset using deletion time is not supported. */
+  deletionTime?: string | undefined;
+}
+export interface UndeleteDatasetsRequest extends UndeleteDatasetRequest {
   /** Required. Dataset ID of dataset being deleted */
   datasetId: string;
   /** Required. Project ID of the dataset to be undeleted */
   projectId: string;
-  /** Optional. The exact time when the dataset was deleted. If not specified, the most recently deleted version is undeleted. Undeleting a dataset using deletion time is not supported. */
-  deletionTime?: string | undefined;
 }
 export type UpdateDatasetsUpdateModeEnum =
   | "UPDATE_MODE_UNSPECIFIED"
   | "UPDATE_METADATA"
   | "UPDATE_ACL"
   | "UPDATE_FULL";
-export interface UpdateDatasetsRequest {
+export interface UpdateDatasetsRequest extends Dataset {
   /** Required. Project ID of the dataset being updated */
   projectId: string;
   /** Optional. The version of the provided access policy schema. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. This version refers to the schema version of the access policy and not the version of access policy. This field's value can be equal or more than the access policy schema provided in the request. For example, * Operations updating conditional access policy binding in datasets must specify version 3. Some of the operations are : - Adding a new access policy entry with condition. - Removing an access policy entry with condition. - Updating an access policy entry with condition. * But dataset with no conditional role bindings in access policy may specify any valid value or leave the field unset. If unset or if 0 or 1 value is used for dataset with conditional bindings, request will be rejected. This field will be mapped to IAM Policy version (https://cloud.google.com/iam/docs/policies#versions) and will be used to set policy in IAM. */
@@ -4979,120 +4538,16 @@ export interface UpdateDatasetsRequest {
   datasetId: string;
   /** Optional. Specifies the fields of dataset that update/patch operation is targeting By default, both metadata and ACL fields are updated. */
   updateMode?: UpdateDatasetsUpdateModeEnum | (string & {}) | undefined;
-  /** The labels associated with this dataset. You can use these to organize and group your datasets. You can set this property when inserting or updating a dataset. See [Creating and Updating Dataset Labels](https://cloud.google.com/bigquery/docs/creating-managing-labels#creating_and_updating_dataset_labels) for more information. */
-  labels?: StringMap | undefined;
-  /** Output only. Reserved for future use. */
-  satisfiesPzs?: boolean | undefined;
-  /** Optional. The [tags](https://cloud.google.com/bigquery/docs/tags) attached to this dataset. Tag keys are globally unique. Tag key is expected to be in the namespaced format, for example "123456789012/environment" where 123456789012 is the ID of the parent organization or project resource for this tag key. Tag value is expected to be the short name, for example "Production". See [Tag definitions](https://cloud.google.com/iam/docs/tags-access-control#definitions) for more details. */
-  resourceTags?: StringMap | undefined;
-  /** Optional. Updates storage_billing_model for the dataset. */
-  storageBillingModel?: DatasetStorageBillingModelEnum | (string & {}) | undefined;
-  /** Optional. An array of objects that define dataset access for one or more entities. You can set this property when inserting or updating a dataset in order to control who is allowed to access the data. If unspecified at dataset creation time, BigQuery adds default dataset access for the following entities: access.specialGroup: projectReaders; access.role: READER; access.specialGroup: projectWriters; access.role: WRITER; access.specialGroup: projectOwners; access.role: OWNER; access.userByEmail: [dataset creator email]; access.role: OWNER; If you patch a dataset, then this field is overwritten by the patched dataset's access field. To add entities, you must supply the entire existing access array in addition to any new entities that you want to add. */
-  access?: DatasetAccessItemList | undefined;
-  /** Optional. The default lifetime of all tables in the dataset, in milliseconds. The minimum lifetime value is 3600000 milliseconds (one hour). To clear an existing default expiration with a PATCH request, set to 0. Once this property is set, all newly-created tables in the dataset will have an expirationTime property set to the creation time plus the value in this property, and changing the value will only affect new tables, not existing ones. When the expirationTime for a given table is reached, that table will be deleted automatically. If a table's expirationTime is modified or removed before the table expires, or if you provide an explicit expirationTime when creating a table, that value takes precedence over the default expiration time indicated by this property. */
-  defaultTableExpirationMs?: string | undefined;
-  /** Output only. Same as `type` in `ListFormatDataset`. The type of the dataset, one of: * DEFAULT - only accessible by owner and authorized accounts, * PUBLIC - accessible by everyone, * LINKED - linked dataset, * EXTERNAL - dataset with definition in external metadata catalog, * BIGLAKE_ICEBERG - a Biglake dataset accessible through the Iceberg API, * BIGLAKE_HIVE - a Biglake dataset accessible through the Hive API. */
-  type?: string | undefined;
-  /** Optional. Options defining open source compatible datasets living in the BigQuery catalog. Contains metadata of open source database, schema or namespace represented by the current dataset. */
-  externalCatalogDatasetOptions?: ExternalCatalogDatasetOptions | undefined;
-  /** Output only. The resource type. */
-  kind?: string | undefined;
-  /** Required. A reference that identifies the dataset. */
-  datasetReference?: DatasetReference | undefined;
-  /** The default encryption key for all tables in the dataset. After this property is set, the encryption key of all newly-created tables in the dataset is set to this value unless the table creation request or query explicitly overrides the key. */
-  defaultEncryptionConfiguration?: EncryptionConfiguration | undefined;
-  /** Output only. A URL that can be used to access the resource again. You can use this URL in Get or Update requests to the resource. */
-  selfLink?: string | undefined;
-  /** This default partition expiration, expressed in milliseconds. When new time-partitioned tables are created in a dataset where this property is set, the table will inherit this value, propagated as the `TimePartitioning.expirationMs` property on the new table. If you set `TimePartitioning.expirationMs` explicitly when creating a table, the `defaultPartitionExpirationMs` of the containing dataset is ignored. When creating a partitioned table, if `defaultPartitionExpirationMs` is set, the `defaultTableExpirationMs` value is ignored and the table will not be inherit a table expiration deadline. */
-  defaultPartitionExpirationMs?: string | undefined;
-  /** Output only. Tags for the dataset. To provide tags as inputs, use the `resourceTags` field. */
-  tags?: DatasetTagsItemList | undefined;
-  /** Optional. A descriptive name for the dataset. */
-  friendlyName?: string | undefined;
-  /** Optional. TRUE if the dataset and its table names are case-insensitive, otherwise FALSE. By default, this is FALSE, which means the dataset and its table names are case-sensitive. This field does not affect routine references. */
-  isCaseInsensitive?: boolean | undefined;
-  /** Output only. The time when this dataset was created, in milliseconds since the epoch. */
-  creationTime?: string | undefined;
-  /** Output only. Metadata about the LinkedDataset. Filled out when the dataset type is LINKED. */
-  linkedDatasetMetadata?: LinkedDatasetMetadata | undefined;
-  /** The geographic location where the dataset should reside. See https://cloud.google.com/bigquery/docs/locations for supported locations. */
-  location?: string | undefined;
-  /** Output only. Reserved for future use. */
-  satisfiesPzi?: boolean | undefined;
-  /** Optional. The source dataset reference when the dataset is of type LINKED. For all other dataset types it is not set. This field cannot be updated once it is set. Any attempt to update this field using Update and Patch API Operations will be ignored. */
-  linkedDatasetSource?: LinkedDatasetSource | undefined;
-  /** Optional. Output only. Restriction config for all tables and dataset. If set, restrict certain accesses on the dataset and all its tables based on the config. See [Data egress](https://cloud.google.com/bigquery/docs/analytics-hub-introduction#data_egress) for more details. */
-  restrictions?: RestrictionConfig | undefined;
-  /** Output only. The date when this dataset was last modified, in milliseconds since the epoch. */
-  lastModifiedTime?: string | undefined;
-  /** Output only. The origin of the dataset, one of: * (Unset) - Native BigQuery Dataset * BIGLAKE - Dataset is backed by a namespace stored natively in Biglake */
-  catalogSource?: string | undefined;
-  /** Optional. Reference to a read-only external dataset defined in data catalogs outside of BigQuery. Filled out when the dataset type is EXTERNAL. */
-  externalDatasetReference?: ExternalDatasetReference | undefined;
-  /** Output only. A hash of the resource. */
-  etag?: string | undefined;
-  /** Optional. A user-friendly description of the dataset. */
-  description?: string | undefined;
-  /** Optional. Defines the default collation specification of future tables created in the dataset. If a table is created in this dataset without table-level default collation, then the table inherits the dataset default collation, which is applied to the string fields that do not have explicit collation specified. A change to this field affects only tables created afterwards, and does not alter the existing tables. The following values are supported: * 'und:ci': undetermined locale, case insensitive. * '': empty string. Default to case-sensitive behavior. */
-  defaultCollation?: string | undefined;
-  /** Optional. Defines the default rounding mode specification of new tables created within this dataset. During table creation, if this field is specified, the table within this dataset will inherit the default rounding mode of the dataset. Setting the default rounding mode on a table overrides this option. Existing tables in the dataset are unaffected. If columns are defined during that table creation, they will immediately inherit the table's default rounding mode, unless otherwise specified. */
-  defaultRoundingMode?: DatasetDefaultRoundingModeEnum | (string & {}) | undefined;
-  /** Optional. Defines the time travel window in hours. The value can be from 48 to 168 hours (2 to 7 days). The default value is 168 hours if this is not set. */
-  maxTimeTravelHours?: string | undefined;
-  /** Output only. The fully-qualified unique name of the dataset in the format projectId:datasetId. The dataset name without the project name is given in the datasetId field. When creating a new dataset, leave this field blank, and instead specify the datasetId field. */
-  id?: string | undefined;
 }
-export interface UpdateRoutinesRequest {
+export interface UpdateRoutinesRequest extends Routine {
   /** Required. Dataset ID of the routine to update */
   datasetId: string;
   /** Required. Routine ID of the routine to update */
   routineId: string;
   /** Required. Project ID of the routine to update */
   projectId: string;
-  /** Optional. The determinism level of the JavaScript UDF, if defined. */
-  determinismLevel?: RoutineDeterminismLevelEnum | (string & {}) | undefined;
-  /** Output only. A hash of this resource. */
-  etag?: string | undefined;
-  /** Optional. */
-  arguments?: ArgumentList | undefined;
-  /** Output only. The time when this routine was last modified, in milliseconds since the epoch. */
-  lastModifiedTime?: string | undefined;
-  /** Optional if language = "SQL"; required otherwise. Cannot be set if routine_type = "TABLE_VALUED_FUNCTION". If absent, the return type is inferred from definition_body at query time in each query that references this routine. If present, then the evaluated result will be cast to the specified returned type at query time. For example, for the functions created with the following statements: * `CREATE FUNCTION Add(x FLOAT64, y FLOAT64) RETURNS FLOAT64 AS (x + y);` * `CREATE FUNCTION Increment(x FLOAT64) AS (Add(x, 1));` * `CREATE FUNCTION Decrement(x FLOAT64) RETURNS FLOAT64 AS (Add(x, -1));` The return_type is `{type_kind: "FLOAT64"}` for `Add` and `Decrement`, and is absent for `Increment` (inferred as FLOAT64 at query time). Suppose the function `Add` is replaced by `CREATE OR REPLACE FUNCTION Add(x INT64, y INT64) AS (x + y);` Then the inferred return type of `Increment` is automatically changed to INT64 at query time, while the return type of `Decrement` remains FLOAT64. */
-  returnType?: StandardSqlDataType | undefined;
-  /** Optional. The description of the routine, if defined. */
-  description?: string | undefined;
-  /** Optional. Defaults to "SQL" if remote_function_options field is absent, not set otherwise. */
-  language?: RoutineLanguageEnum | (string & {}) | undefined;
-  /** Output only. The time when this routine was created, in milliseconds since the epoch. */
-  creationTime?: string | undefined;
-  /** Output only. The build status of the routine. This field is only applicable to Python UDFs. [Preview](https://cloud.google.com/products/#product-launch-stages) */
-  buildStatus?: RoutineBuildStatus | undefined;
-  /** Optional. If language = "JAVASCRIPT", this field stores the path of the imported JAVASCRIPT libraries. */
-  importedLibraries?: StringList | undefined;
-  /** Optional. Spark specific options. */
-  sparkOptions?: SparkOptions | undefined;
-  /** Optional. Options for the runtime of the external system executing the routine. This field is only applicable for Python UDFs. [Preview](https://cloud.google.com/products/#product-launch-stages) */
-  externalRuntimeOptions?: ExternalRuntimeOptions | undefined;
-  /** Optional. Can be set only if routine_type = "TABLE_VALUED_FUNCTION". If absent, the return table type is inferred from definition_body at query time in each query that references this routine. If present, then the columns in the evaluated table result will be cast to match the column types specified in return table type, at query time. */
-  returnTableType?: StandardSqlTableType | undefined;
-  /** Optional. Use this option to catch many common errors. Error checking is not exhaustive, and successfully creating a procedure doesn't guarantee that the procedure will successfully execute at runtime. If `strictMode` is set to `TRUE`, the procedure body is further checked for errors such as non-existent tables or columns. The `CREATE PROCEDURE` statement fails if the body fails any of these checks. If `strictMode` is set to `FALSE`, the procedure body is checked only for syntax. For procedures that invoke themselves recursively, specify `strictMode=FALSE` to avoid non-existent procedure errors during validation. Default value is `TRUE`. */
-  strictMode?: boolean | undefined;
-  /** Optional. The security mode of the routine, if defined. If not defined, the security mode is automatically determined from the routine's configuration. */
-  securityMode?: RoutineSecurityModeEnum | (string & {}) | undefined;
-  /** Optional. Options for the Python UDF. [Preview](https://cloud.google.com/products/#product-launch-stages) */
-  pythonOptions?: PythonOptions | undefined;
-  /** Required. The body of the routine. For functions, this is the expression in the AS clause. If `language = "SQL"`, it is the substring inside (but excluding) the parentheses. For example, for the function created with the following statement: `CREATE FUNCTION JoinLines(x string, y string) as (concat(x, "\n", y))` The definition_body is `concat(x, "\n", y)` (\n is not replaced with linebreak). If `language="JAVASCRIPT"`, it is the evaluated string in the AS clause. For example, for the function created with the following statement: `CREATE FUNCTION f() RETURNS STRING LANGUAGE js AS 'return "\n";\n'` The definition_body is `return "\n";\n` Note that both \n are replaced with linebreaks. If `definition_body` references another routine, then that routine must be fully qualified with its project ID. */
-  definitionBody?: string | undefined;
-  /** Required. The type of routine. */
-  routineType?: RoutineRoutineTypeEnum | (string & {}) | undefined;
-  /** Optional. If set to `DATA_MASKING`, the function is validated and made available as a masking function. For more information, see [Create custom masking routines](https://cloud.google.com/bigquery/docs/user-defined-functions#custom-mask). */
-  dataGovernanceType?: RoutineDataGovernanceTypeEnum | (string & {}) | undefined;
-  /** Optional. Remote function specific options. */
-  remoteFunctionOptions?: RemoteFunctionOptions | undefined;
-  /** Required. Reference describing the ID of this routine. */
-  routineReference?: RoutineReference | undefined;
 }
-export interface UpdateRowAccessPoliciesRequest {
+export interface UpdateRowAccessPoliciesRequest extends RowAccessPolicy {
   /** Required. Project ID of the table to get the row access policy. */
   projectId: string;
   /** Required. Table ID of the table to get the row access policy. */
@@ -5101,20 +4556,8 @@ export interface UpdateRowAccessPoliciesRequest {
   policyId: string;
   /** Required. Dataset ID of the table to get the row access policy. */
   datasetId: string;
-  /** Output only. A hash of this resource. */
-  etag?: string | undefined;
-  /** Required. Reference describing the ID of this row access policy. */
-  rowAccessPolicyReference?: RowAccessPolicyReference | undefined;
-  /** Optional. Input only. The optional list of iam_member users or groups that specifies the initial members that the row-level access policy should be created with. grantees types: - "user:alice@example.com": An email address that represents a specific Google account. - "serviceAccount:my-other-app@appspot.gserviceaccount.com": An email address that represents a service account. - "group:admins@example.com": An email address that represents a Google group. - "domain:example.com":The Google Workspace domain (primary) that represents all the users of that domain. - "allAuthenticatedUsers": A special identifier that represents all service accounts and all users on the internet who have authenticated with a Google Account. This identifier includes accounts that aren't connected to a Google Workspace or Cloud Identity domain, such as personal Gmail accounts. Users who aren't authenticated, such as anonymous visitors, aren't included. - "allUsers":A special identifier that represents anyone who is on the internet, including authenticated and unauthenticated users. Because BigQuery requires authentication before a user can access the service, allUsers includes only authenticated users. */
-  grantees?: StringList | undefined;
-  /** Required. A SQL boolean expression that represents the rows defined by this row access policy, similar to the boolean expression in a WHERE clause of a SELECT query on a table. References to other tables, routines, and temporary functions are not supported. Examples: region="EU" date_field = CAST('2019-9-27' as DATE) nullable_field is not NULL numeric_field BETWEEN 1.0 AND 5.0 */
-  filterPredicate?: string | undefined;
-  /** Output only. The time when this row access policy was last modified, in milliseconds since the epoch. */
-  lastModifiedTime?: string | undefined;
-  /** Output only. The time when this row access policy was created, in milliseconds since the epoch. */
-  creationTime?: string | undefined;
 }
-export interface UpdateTablesRequest {
+export interface UpdateTablesRequest extends Table {
   /** Required. Project ID of the table to update */
   projectId: string;
   /** Required. Table ID of the table to update */
@@ -5123,110 +4566,6 @@ export interface UpdateTablesRequest {
   autodetect_schema?: boolean | undefined;
   /** Required. Dataset ID of the table to update */
   datasetId: string;
-  /** Output only. Contains information regarding this table's streaming buffer, if one is present. This field will be absent if the table is not being streamed to or if there is no data in the streaming buffer. */
-  streamingBuffer?: Streamingbuffer | undefined;
-  /** Optional. The view definition. */
-  view?: ViewDefinition | undefined;
-  /** Output only. Number of physical bytes more than 90 days old. This data is not kept in real time, and might be delayed by a few seconds to a few minutes. */
-  numLongTermPhysicalBytes?: string | undefined;
-  /** Optional. A user-friendly description of this table. */
-  description?: string | undefined;
-  /** Output only. The physical size of this table in bytes. This also includes storage used for time travel. This data is not kept in real time, and might be delayed by a few seconds to a few minutes. */
-  numTotalPhysicalBytes?: string | undefined;
-  /** Output only. Total number of logical bytes in the table or materialized view. */
-  numTotalLogicalBytes?: string | undefined;
-  /** Output only. The number of rows of data in this table, excluding any data in the streaming buffer. */
-  numRows?: string | undefined;
-  /** Output only. Number of logical bytes that are more than 90 days old. */
-  numLongTermLogicalBytes?: string | undefined;
-  /** Optional. Describes the data format, location, and other properties of a table stored outside of BigQuery. By defining these properties, the data source can then be queried as if it were a standard BigQuery table. */
-  externalDataConfiguration?: ExternalDataConfiguration | undefined;
-  /** Optional. If set to true, queries over this table require a partition filter that can be used for partition elimination to be specified. */
-  requirePartitionFilter?: boolean | undefined;
-  /** Output only. Number of physical bytes used by current live data storage. This data is not kept in real time, and might be delayed by a few seconds to a few minutes. */
-  numCurrentPhysicalBytes?: string | undefined;
-  /** Optional. Table replication info for table created `AS REPLICA` DDL like: `CREATE MATERIALIZED VIEW mv1 AS REPLICA OF src_mv` */
-  tableReplicationInfo?: TableReplicationInfo | undefined;
-  /** Optional. The partition information for all table formats, including managed partitioned tables, hive partitioned tables, iceberg partitioned, and metastore partitioned tables. This field is only populated for metastore partitioned tables. For other table formats, this is an output only field. */
-  partitionDefinition?: PartitioningDefinition | undefined;
-  /** Output only. The number of logical bytes in the table that are considered "long-term storage". */
-  numLongTermBytes?: string | undefined;
-  /** [Optional] The tags associated with this table. Tag keys are globally unique. See additional information on [tags](https://cloud.google.com/iam/docs/tags-access-control#definitions). An object containing a list of "key": value pairs. The key is the namespaced friendly name of the tag key, e.g. "12345/environment" where 12345 is parent id. The value is the friendly short name of the tag value, e.g. "production". */
-  resourceTags?: StringMap | undefined;
-  /** Output only. The physical size of this table in bytes. This includes storage used for time travel. */
-  numPhysicalBytes?: string | undefined;
-  /** Output only. Number of physical bytes less than 90 days old. This data is not kept in real time, and might be delayed by a few seconds to a few minutes. */
-  numActivePhysicalBytes?: string | undefined;
-  /** Optional. Defines the default collation specification of new STRING fields in the table. During table creation or update, if a STRING field is added to this table without explicit collation specified, then the table inherits the table default collation. A change to this field affects only fields added afterwards, and does not alter the existing fields. The following values are supported: * 'und:ci': undetermined locale, case insensitive. * '': empty string. Default to case-sensitive behavior. */
-  defaultCollation?: string | undefined;
-  /** Output only. Describes the table type. The following values are supported: * `TABLE`: A normal BigQuery table. * `VIEW`: A virtual table defined by a SQL query. * `EXTERNAL`: A table that references data stored in an external storage system, such as Google Cloud Storage. * `MATERIALIZED_VIEW`: A precomputed view defined by a SQL query. * `SNAPSHOT`: An immutable BigQuery table that preserves the contents of a base table at a particular time. See additional information on [table snapshots](https://cloud.google.com/bigquery/docs/table-snapshots-intro). The default value is `TABLE`. */
-  type?: string | undefined;
-  /** Clustering specification for the table. Must be specified with time-based partitioning, data in the table will be first partitioned and subsequently clustered. */
-  clustering?: Clustering | undefined;
-  /** Output only. The number of partitions present in the table or materialized view. This data is not kept in real time, and might be delayed by a few seconds to a few minutes. */
-  numPartitions?: string | undefined;
-  /** Optional. Tables Primary Key and Foreign Key information */
-  tableConstraints?: TableConstraints | undefined;
-  /** Output only. The time when this table was created, in milliseconds since the epoch. */
-  creationTime?: string | undefined;
-  /** Optional. The maximum staleness of data that could be returned when the table (or stale MV) is queried. Staleness encoded as a string encoding of sql IntervalValue type. */
-  maxStaleness?: string | undefined;
-  /** The labels associated with this table. You can use these to organize and group your tables. Label keys and values can be no longer than 63 characters, can only contain lowercase letters, numeric characters, underscores and dashes. International characters are allowed. Label values are optional. Label keys must start with a letter and each label in the list must have a different key. */
-  labels?: StringMap | undefined;
-  /** Output only. An opaque ID uniquely identifying the table. */
-  id?: string | undefined;
-  /** Optional. If set, overrides the default managed table type configured in the dataset. */
-  managedTableType?: TableManagedTableTypeEnum | (string & {}) | undefined;
-  /** Optional. Output only. Restriction config for table. If set, restrict certain accesses on the table based on the config. See [Data egress](https://cloud.google.com/bigquery/docs/analytics-hub-introduction#data_egress) for more details. */
-  restrictions?: RestrictionConfig | undefined;
-  /** Output only. Contains information about the clone. This value is set via the clone operation. */
-  cloneDefinition?: CloneDefinition | undefined;
-  /** Deprecated. */
-  model?: ModelDefinition | undefined;
-  /** If specified, configures time-based partitioning for this table. */
-  timePartitioning?: TimePartitioning | undefined;
-  /** Output only. The materialized view status. */
-  materializedViewStatus?: MaterializedViewStatus | undefined;
-  /** Optional. Describes the schema of this table. */
-  schema?: TableSchema | undefined;
-  /** Optional. Specifies the configuration of a BigQuery table for Apache Iceberg. */
-  biglakeConfiguration?: BigLakeConfiguration | undefined;
-  /** Output only. A hash of this resource. */
-  etag?: string | undefined;
-  /** Output only. The geographic location where the table resides. This value is inherited from the dataset. */
-  location?: string | undefined;
-  /** Optional. Options defining open source compatible table. */
-  externalCatalogTableOptions?: ExternalCatalogTableOptions | undefined;
-  /** If specified, configures range partitioning for this table. */
-  rangePartitioning?: RangePartitioning | undefined;
-  /** Output only. Contains information about the snapshot. This value is set via snapshot creation. */
-  snapshotDefinition?: SnapshotDefinition | undefined;
-  /** Output only. The time when this table was last modified, in milliseconds since the epoch. */
-  lastModifiedTime?: string | undefined;
-  /** Optional. Output only. Table references of all replicas currently active on the table. */
-  replicas?: TableReferenceList | undefined;
-  /** Output only. A URL that can be used to access this resource again. */
-  selfLink?: string | undefined;
-  /** The type of resource ID. */
-  kind?: string | undefined;
-  /** Optional. The time when this table expires, in milliseconds since the epoch. If not present, the table will persist indefinitely. Expired tables will be deleted and their storage reclaimed. The defaultTableExpirationMs property of the encapsulating dataset can be used to set a default expirationTime on newly created tables. */
-  expirationTime?: string | undefined;
-  /** Required. Reference describing the ID of this table. */
-  tableReference?: TableReference | undefined;
-  /** Output only. Number of physical bytes used by time travel storage (deleted or changed data). This data is not kept in real time, and might be delayed by a few seconds to a few minutes. */
-  numTimeTravelPhysicalBytes?: string | undefined;
-  /** Output only. Number of logical bytes that are less than 90 days old. */
-  numActiveLogicalBytes?: string | undefined;
-  /** Optional. The materialized view definition. */
-  materializedView?: MaterializedViewDefinition | undefined;
-  /** Output only. The size of this table in logical bytes, excluding any data in the streaming buffer. */
-  numBytes?: string | undefined;
-  /** Custom encryption configuration (e.g., Cloud KMS keys). */
-  encryptionConfiguration?: EncryptionConfiguration | undefined;
-  /** Optional. Defines the default rounding mode specification of new decimal fields (NUMERIC OR BIGNUMERIC) in the table. During table creation or update, if a decimal field is added to this table without an explicit rounding mode specified, then the field inherits the table default rounding mode. Changing this field doesn't affect existing fields. */
-  defaultRoundingMode?: TableDefaultRoundingModeEnum | (string & {}) | undefined;
-  /** Optional. A descriptive name for this table. */
-  friendlyName?: string | undefined;
 }
 export type BatchDeleteRowAccessPoliciesError =
   | NotFound
@@ -5241,7 +4580,7 @@ export const batchDeleteRowAccessPolicies: API.OperationMethod<
   BatchDeleteRowAccessPoliciesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1344, __c42, 0) as any as S.Schema<BatchDeleteRowAccessPoliciesRequest_>,
+  input: __S(1345, __c42, 1) as any as S.Schema<BatchDeleteRowAccessPoliciesRequest_>,
   output: __S(1408, __c44, 0) as any as S.Schema<BatchDeleteRowAccessPoliciesResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -5258,8 +4597,8 @@ export const cancelJobs: API.OperationMethod<
   CancelJobsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1792, __c56, 0) as any as S.Schema<CancelJobsRequest>,
-  output: __S(1793, __c56, 1) as any as S.Schema<JobCancelResponse>,
+  input: __S(1824, __c57, 0) as any as S.Schema<CancelJobsRequest>,
+  output: __S(1825, __c57, 1) as any as S.Schema<JobCancelResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5275,7 +4614,7 @@ export const deleteDatasets: API.OperationMethod<
   DeleteDatasetsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2592, __c81, 0) as any as S.Schema<DeleteDatasetsRequest>,
+  input: __S(2624, __c82, 0) as any as S.Schema<DeleteDatasetsRequest>,
   output: __S(1408, __c44, 0) as any as S.Schema<DeleteDatasetsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -5292,7 +4631,7 @@ export const deleteJobs: API.OperationMethod<
   DeleteJobsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2624, __c82, 0) as any as S.Schema<DeleteJobsRequest>,
+  input: __S(2656, __c83, 0) as any as S.Schema<DeleteJobsRequest>,
   output: __S(1408, __c44, 0) as any as S.Schema<DeleteJobsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -5309,7 +4648,7 @@ export const deleteModels: API.OperationMethod<
   DeleteModelsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2656, __c83, 0) as any as S.Schema<DeleteModelsRequest>,
+  input: __S(2688, __c84, 0) as any as S.Schema<DeleteModelsRequest>,
   output: __S(1408, __c44, 0) as any as S.Schema<DeleteModelsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -5326,7 +4665,7 @@ export const deleteRoutines: API.OperationMethod<
   DeleteRoutinesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2688, __c84, 0) as any as S.Schema<DeleteRoutinesRequest>,
+  input: __S(2720, __c85, 0) as any as S.Schema<DeleteRoutinesRequest>,
   output: __S(1408, __c44, 0) as any as S.Schema<DeleteRoutinesResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -5452,7 +4791,7 @@ export type GetJobsError = NotFound | Forbidden | GcpOpError;
 export const getJobs: API.OperationMethod<GetJobsRequest, Job, GetJobsError, GcpOpContext> =
   /*@__PURE__*/ API.make(() => ({
     input: __S(384, __c12, 0) as any as S.Schema<GetJobsRequest>,
-    output: __S(2368, __c74, 0) as any as S.Schema<Job>,
+    output: __S(2400, __c75, 0) as any as S.Schema<Job>,
     errors: [NotFound, Forbidden, UnknownGCPError],
     protocol: GcpProtocol,
     retry: Retry.Retry,
@@ -5562,8 +4901,8 @@ export const insertAllTabledata: API.OperationMethod<
   InsertAllTabledataError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(803, __c25, 3) as any as S.Schema<InsertAllTabledataRequest>,
-  output: __S(806, __c25, 6) as any as S.Schema<TableDataInsertAllResponse>,
+  input: __S(804, __c25, 4) as any as S.Schema<InsertAllTabledataRequest>,
+  output: __S(807, __c25, 7) as any as S.Schema<TableDataInsertAllResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5597,7 +4936,7 @@ export const insertJobs: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(864, __c27, 0) as any as S.Schema<InsertJobsRequest>,
-  output: __S(2368, __c74, 0) as any as S.Schema<Job>,
+  output: __S(2400, __c75, 0) as any as S.Schema<Job>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5870,8 +5209,8 @@ export const queryJobs: API.OperationMethod<
   QueryJobsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1442, __c45, 2) as any as S.Schema<QueryJobsRequest>,
-  output: __S(1445, __c45, 5) as any as S.Schema<QueryResponse>,
+  input: __S(1443, __c45, 3) as any as S.Schema<QueryJobsRequest>,
+  output: __S(1446, __c45, 6) as any as S.Schema<QueryResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5904,7 +5243,7 @@ export const setIamPolicyTables: API.OperationMethod<
   SetIamPolicyTablesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c47, 0) as any as S.Schema<SetIamPolicyTablesRequest>,
+  input: __S(1536, __c48, 0) as any as S.Schema<SetIamPolicyTablesRequest>,
   output: __S(294, __c9, 6) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -5926,8 +5265,8 @@ export const testIamPermissionsRoutines: API.OperationMethod<
   TestIamPermissionsRoutinesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1536, __c48, 0) as any as S.Schema<TestIamPermissionsRoutinesRequest>,
-  output: __S(1568, __c49, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  input: __S(1568, __c49, 0) as any as S.Schema<TestIamPermissionsRoutinesRequest>,
+  output: __S(1600, __c50, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5948,8 +5287,8 @@ export const testIamPermissionsRowAccessPolicies: API.OperationMethod<
   TestIamPermissionsRowAccessPoliciesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1600, __c50, 0) as any as S.Schema<TestIamPermissionsRowAccessPoliciesRequest>,
-  output: __S(1568, __c49, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  input: __S(1632, __c51, 0) as any as S.Schema<TestIamPermissionsRowAccessPoliciesRequest>,
+  output: __S(1600, __c50, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5970,8 +5309,8 @@ export const testIamPermissionsTables: API.OperationMethod<
   TestIamPermissionsTablesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1632, __c51, 0) as any as S.Schema<TestIamPermissionsTablesRequest>,
-  output: __S(1568, __c49, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  input: __S(1664, __c52, 0) as any as S.Schema<TestIamPermissionsTablesRequest>,
+  output: __S(1600, __c50, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5987,7 +5326,7 @@ export const undeleteDatasets: API.OperationMethod<
   UndeleteDatasetsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c52, 0) as any as S.Schema<UndeleteDatasetsRequest>,
+  input: __S(1697, __c53, 1) as any as S.Schema<UndeleteDatasetsRequest>,
   output: __S(200, __c6, 8) as any as S.Schema<Dataset>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -6004,7 +5343,7 @@ export const updateDatasets: API.OperationMethod<
   UpdateDatasetsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c53, 0) as any as S.Schema<UpdateDatasetsRequest>,
+  input: __S(1728, __c54, 0) as any as S.Schema<UpdateDatasetsRequest>,
   output: __S(200, __c6, 8) as any as S.Schema<Dataset>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -6021,7 +5360,7 @@ export const updateRoutines: API.OperationMethod<
   UpdateRoutinesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1728, __c54, 0) as any as S.Schema<UpdateRoutinesRequest>,
+  input: __S(1760, __c55, 0) as any as S.Schema<UpdateRoutinesRequest>,
   output: __S(586, __c18, 10) as any as S.Schema<Routine>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -6043,7 +5382,7 @@ export const updateRowAccessPolicies: API.OperationMethod<
   UpdateRowAccessPoliciesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1760, __c55, 0) as any as S.Schema<UpdateRowAccessPoliciesRequest>,
+  input: __S(1792, __c56, 0) as any as S.Schema<UpdateRowAccessPoliciesRequest>,
   output: __S(640, __c20, 0) as any as S.Schema<RowAccessPolicy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -6060,7 +5399,7 @@ export const updateTables: API.OperationMethod<
   UpdateTablesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2560, __c80, 0) as any as S.Schema<UpdateTablesRequest>,
+  input: __S(2592, __c81, 0) as any as S.Schema<UpdateTablesRequest>,
   output: __S(798, __c24, 30) as any as S.Schema<Table>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -6166,8 +5505,8 @@ function __c6(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          targetTypes: S.optional(__S(1920, __c60, 0)),
-          dataset: S.optional(__S(1984, __c62, 0)),
+          targetTypes: S.optional(__S(1952, __c61, 0)),
+          dataset: S.optional(__S(2016, __c63, 0)),
         }),
       ).annotate({ identifier: "DatasetAccessEntry" });
     case 1:
@@ -6178,9 +5517,9 @@ function __c6(j: number): any {
           dataset: S.optional(__S(192, __c6, 0)),
           domain: S.optional(S.String),
           userByEmail: S.optional(S.String),
-          view: S.optional(__S(1856, __c58, 0)),
+          view: S.optional(__S(1888, __c59, 0)),
           iamMember: S.optional(S.String),
-          routine: S.optional(__S(1952, __c61, 0)),
+          routine: S.optional(__S(1984, __c62, 0)),
           groupByEmail: S.optional(S.String),
           role: S.optional(S.String),
         }),
@@ -6191,7 +5530,7 @@ function __c6(j: number): any {
       return S.suspend(() =>
         S.Struct({
           defaultStorageLocationUri: S.optional(S.String),
-          parameters: S.optional(__S(1824, __c57, 0)),
+          parameters: S.optional(__S(1856, __c58, 0)),
         }),
       ).annotate({ identifier: "ExternalCatalogDatasetOptions" });
     case 4:
@@ -6212,23 +5551,23 @@ function __c6(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          sourceDataset: S.optional(__S(1984, __c62, 0)),
+          sourceDataset: S.optional(__S(2016, __c63, 0)),
         }),
       ).annotate({ identifier: "LinkedDatasetSource" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          labels: S.optional(__S(1824, __c57, 0)),
+          labels: S.optional(__S(1856, __c58, 0)),
           satisfiesPzs: S.optional(S.Boolean),
-          resourceTags: S.optional(__S(1824, __c57, 0)),
+          resourceTags: S.optional(__S(1856, __c58, 0)),
           storageBillingModel: S.optional(S.String),
           access: S.optional(__S(194, __c6, 2)),
           defaultTableExpirationMs: S.optional(S.String),
           type: S.optional(S.String),
           externalCatalogDatasetOptions: S.optional(__S(195, __c6, 3)),
           kind: S.optional(S.String),
-          datasetReference: S.optional(__S(1984, __c62, 0)),
-          defaultEncryptionConfiguration: S.optional(__S(1888, __c59, 0)),
+          datasetReference: S.optional(__S(2016, __c63, 0)),
+          defaultEncryptionConfiguration: S.optional(__S(1920, __c60, 0)),
           selfLink: S.optional(S.String),
           defaultPartitionExpirationMs: S.optional(S.String),
           tags: S.optional(__S(197, __c6, 5)),
@@ -6257,10 +5596,12 @@ function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          options: S.optional(__S(256, __c8, 0)),
-        }).pipe(
+        S.Extend(
+          __S(257, __c8, 1),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "{+resource}:getIamPolicy",
@@ -6278,6 +5619,12 @@ function __c8(j: number): any {
           requestedPolicyVersion: S.optional(S.Number),
         }),
       ).annotate({ identifier: "GetPolicyOptions" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          options: S.optional(__S(256, __c8, 0)),
+        }),
+      ).annotate({ identifier: "GetIamPolicyRequest" });
   }
 }
 function __c9(j: number): any {
@@ -6325,10 +5672,12 @@ function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          options: S.optional(__S(256, __c8, 0)),
-        }).pipe(
+        S.Extend(
+          __S(257, __c8, 1),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "{+resource}:getIamPolicy",
@@ -6342,10 +5691,12 @@ function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          options: S.optional(__S(256, __c8, 0)),
-        }).pipe(
+        S.Extend(
+          __S(257, __c8, 1),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "{+resource}:getIamPolicy",
@@ -6416,7 +5767,7 @@ function __c14(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          candidates: S.optional(__S(2048, __c64, 0)),
+          candidates: S.optional(__S(2080, __c65, 0)),
         }),
       ).annotate({ identifier: "DoubleCandidates" });
     case 4:
@@ -6488,9 +5839,9 @@ function __c14(j: number): any {
     case 11:
       return S.suspend(() =>
         S.Struct({
-          evaluationTable: S.optional(__S(1856, __c58, 0)),
-          trainingTable: S.optional(__S(1856, __c58, 0)),
-          testTable: S.optional(__S(1856, __c58, 0)),
+          evaluationTable: S.optional(__S(1888, __c59, 0)),
+          trainingTable: S.optional(__S(1888, __c59, 0)),
+          testTable: S.optional(__S(1888, __c59, 0)),
         }),
       ).annotate({ identifier: "DataSplitResult" });
     case 12:
@@ -6514,12 +5865,12 @@ function __c14(j: number): any {
     case 16:
       return S.suspend(() =>
         S.Struct({
-          trainingOptions: S.optional(__S(2113, __c66, 1)),
+          trainingOptions: S.optional(__S(2145, __c67, 1)),
           startTime: S.optional(S.String),
           vertexAiModelId: S.optional(S.String),
-          evaluationMetrics: S.optional(__S(2111, __c65, 31)),
+          evaluationMetrics: S.optional(__S(2143, __c66, 31)),
           trainingStartTime: S.optional(S.String),
-          results: S.optional(__S(2125, __c66, 13)),
+          results: S.optional(__S(2157, __c67, 13)),
           vertexAiModelVersion: S.optional(S.String),
           dataSplitResult: S.optional(__S(459, __c14, 11)),
           classLevelGlobalExplanations: S.optional(__S(463, __c14, 15)),
@@ -6531,7 +5882,7 @@ function __c14(j: number): any {
     case 18:
       return S.suspend(() =>
         S.Struct({
-          type: S.optional(__S(2019, __c63, 3)),
+          type: S.optional(__S(2051, __c64, 3)),
           name: S.optional(S.String),
           transformSql: S.optional(S.String),
         }),
@@ -6541,26 +5892,26 @@ function __c14(j: number): any {
     case 20:
       return S.suspend(() =>
         S.Struct({
-          modelReference: S.optional(__S(2080, __c65, 0)),
+          modelReference: S.optional(__S(2112, __c66, 0)),
           hparamSearchSpaces: S.optional(__S(457, __c14, 9)),
           optimalTrialIds: S.optional(__S(1376, __c43, 0)),
           lastModifiedTime: S.optional(S.String),
           bestTrialId: S.optional(S.String),
-          labelColumns: S.optional(__S(2017, __c63, 1)),
+          labelColumns: S.optional(__S(2049, __c64, 1)),
           etag: S.optional(S.String),
           modelType: S.optional(S.String),
-          hparamTrials: S.optional(__S(2115, __c66, 3)),
+          hparamTrials: S.optional(__S(2147, __c67, 3)),
           location: S.optional(S.String),
           friendlyName: S.optional(S.String),
           remoteModelInfo: S.optional(__S(458, __c14, 10)),
           description: S.optional(S.String),
           trainingRuns: S.optional(__S(465, __c14, 17)),
-          encryptionConfiguration: S.optional(__S(1888, __c59, 0)),
+          encryptionConfiguration: S.optional(__S(1920, __c60, 0)),
           expirationTime: S.optional(S.String),
-          featureColumns: S.optional(__S(2017, __c63, 1)),
+          featureColumns: S.optional(__S(2049, __c64, 1)),
           creationTime: S.optional(S.String),
           transformColumns: S.optional(__S(467, __c14, 19)),
-          labels: S.optional(__S(1824, __c57, 0)),
+          labels: S.optional(__S(1856, __c58, 0)),
           defaultTrialId: S.optional(S.String),
         }),
       ).annotate({ identifier: "Model" });
@@ -6591,12 +5942,12 @@ function __c15(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          jobReference: S.optional(__S(2240, __c70, 0)),
-          errors: S.optional(__S(2208, __c69, 0)),
+          jobReference: S.optional(__S(2272, __c71, 0)),
+          errors: S.optional(__S(2240, __c70, 0)),
           rows: S.optional(__S(515, __c16, 3)),
           etag: S.optional(S.String),
           kind: S.optional(S.String),
-          schema: S.optional(__S(2187, __c68, 11)),
+          schema: S.optional(__S(2219, __c69, 11)),
           pageToken: S.optional(S.String),
           totalBytesProcessed: S.optional(S.String),
           totalRows: S.optional(S.String),
@@ -6651,7 +6002,7 @@ function __c18(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          columns: S.optional(__S(2017, __c63, 1)),
+          columns: S.optional(__S(2049, __c64, 1)),
         }),
       ).annotate({ identifier: "StandardSqlTableType" });
     case 1:
@@ -6661,7 +6012,7 @@ function __c18(j: number): any {
           name: S.optional(S.String),
           isAggregate: S.optional(S.Boolean),
           argumentKind: S.optional(S.String),
-          dataType: S.optional(__S(2019, __c63, 3)),
+          dataType: S.optional(__S(2051, __c64, 3)),
           tableType: S.optional(__S(576, __c18, 0)),
         }),
       ).annotate({ identifier: "Argument" });
@@ -6673,7 +6024,7 @@ function __c18(j: number): any {
           imageSizeBytes: S.optional(S.String),
           buildDuration: S.optional(S.String),
           buildState: S.optional(S.String),
-          errorResult: S.optional(__S(2144, __c67, 0)),
+          errorResult: S.optional(__S(2176, __c68, 0)),
           buildStateUpdateTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "RoutineBuildStatus" });
@@ -6682,7 +6033,7 @@ function __c18(j: number): any {
         S.Struct({
           connection: S.optional(S.String),
           jarUris: S.optional(__S(1376, __c43, 0)),
-          properties: S.optional(__S(1824, __c57, 0)),
+          properties: S.optional(__S(1856, __c58, 0)),
           mainFileUri: S.optional(S.String),
           runtimeVersion: S.optional(S.String),
           fileUris: S.optional(__S(1376, __c43, 0)),
@@ -6724,7 +6075,7 @@ function __c18(j: number): any {
       return S.suspend(() =>
         S.Struct({
           endpoint: S.optional(S.String),
-          userDefinedContext: S.optional(__S(1824, __c57, 0)),
+          userDefinedContext: S.optional(__S(1856, __c58, 0)),
           connection: S.optional(S.String),
           maxBatchingRows: S.optional(S.String),
         }),
@@ -6736,7 +6087,7 @@ function __c18(j: number): any {
           etag: S.optional(S.String),
           arguments: S.optional(__S(578, __c18, 2)),
           lastModifiedTime: S.optional(S.String),
-          returnType: S.optional(__S(2019, __c63, 3)),
+          returnType: S.optional(__S(2051, __c64, 3)),
           description: S.optional(S.String),
           language: S.optional(S.String),
           creationTime: S.optional(S.String),
@@ -6752,7 +6103,7 @@ function __c18(j: number): any {
           routineType: S.optional(S.String),
           dataGovernanceType: S.optional(S.String),
           remoteFunctionOptions: S.optional(__S(585, __c18, 9)),
-          routineReference: S.optional(__S(1952, __c61, 0)),
+          routineReference: S.optional(__S(1984, __c62, 0)),
         }),
       ).annotate({ identifier: "Routine" });
   }
@@ -6782,7 +6133,7 @@ function __c20(j: number): any {
       return S.suspend(() =>
         S.Struct({
           etag: S.optional(S.String),
-          rowAccessPolicyReference: S.optional(__S(2272, __c71, 0)),
+          rowAccessPolicyReference: S.optional(__S(2304, __c72, 0)),
           grantees: S.optional(__S(1376, __c43, 0)),
           filterPredicate: S.optional(S.String),
           lastModifiedTime: S.optional(S.String),
@@ -6895,7 +6246,7 @@ function __c24(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          userDefinedFunctionResources: S.optional(__S(2339, __c73, 3)),
+          userDefinedFunctionResources: S.optional(__S(2371, __c74, 3)),
           useExplicitColumnNames: S.optional(S.Boolean),
           foreignDefinitions: S.optional(__S(770, __c24, 2)),
           privacyPolicy: S.optional(__S(739, __c23, 3)),
@@ -6907,8 +6258,8 @@ function __c24(j: number): any {
       return S.suspend(() =>
         S.Struct({
           replicationIntervalMs: S.optional(S.String),
-          sourceTable: S.optional(__S(1856, __c58, 0)),
-          replicationError: S.optional(__S(2144, __c67, 0)),
+          sourceTable: S.optional(__S(1888, __c59, 0)),
+          replicationError: S.optional(__S(2176, __c68, 0)),
           replicationStatus: S.optional(S.String),
           replicatedSourceLastRefreshTime: S.optional(S.String),
         }),
@@ -6970,7 +6321,7 @@ function __c24(j: number): any {
     case 15:
       return S.suspend(() =>
         S.Struct({
-          baseTableReference: S.optional(__S(1856, __c58, 0)),
+          baseTableReference: S.optional(__S(1888, __c59, 0)),
           cloneTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "CloneDefinition" });
@@ -7030,7 +6381,7 @@ function __c24(j: number): any {
       return S.suspend(() =>
         S.Struct({
           refreshWatermark: S.optional(S.String),
-          lastRefreshStatus: S.optional(__S(2144, __c67, 0)),
+          lastRefreshStatus: S.optional(__S(2176, __c68, 0)),
         }),
       ).annotate({ identifier: "MaterializedViewStatus" });
     case 24:
@@ -7046,7 +6397,7 @@ function __c24(j: number): any {
       return S.suspend(() =>
         S.Struct({
           serializationLibrary: S.optional(S.String),
-          parameters: S.optional(__S(1824, __c57, 0)),
+          parameters: S.optional(__S(1856, __c58, 0)),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "SerDeInfo" });
@@ -7064,13 +6415,13 @@ function __c24(j: number): any {
         S.Struct({
           storageDescriptor: S.optional(__S(794, __c24, 26)),
           connectionId: S.optional(S.String),
-          parameters: S.optional(__S(1824, __c57, 0)),
+          parameters: S.optional(__S(1856, __c58, 0)),
         }),
       ).annotate({ identifier: "ExternalCatalogTableOptions" });
     case 28:
       return S.suspend(() =>
         S.Struct({
-          baseTableReference: S.optional(__S(1856, __c58, 0)),
+          baseTableReference: S.optional(__S(1888, __c59, 0)),
           snapshotTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "SnapshotDefinition" });
@@ -7096,48 +6447,48 @@ function __c24(j: number): any {
           numTotalLogicalBytes: S.optional(S.String),
           numRows: S.optional(S.String),
           numLongTermLogicalBytes: S.optional(S.String),
-          externalDataConfiguration: S.optional(__S(2350, __c73, 14)),
+          externalDataConfiguration: S.optional(__S(2382, __c74, 14)),
           requirePartitionFilter: S.optional(S.Boolean),
           numCurrentPhysicalBytes: S.optional(S.String),
           tableReplicationInfo: S.optional(__S(772, __c24, 4)),
           partitionDefinition: S.optional(__S(775, __c24, 7)),
           numLongTermBytes: S.optional(S.String),
-          resourceTags: S.optional(__S(1824, __c57, 0)),
+          resourceTags: S.optional(__S(1856, __c58, 0)),
           numPhysicalBytes: S.optional(S.String),
           numActivePhysicalBytes: S.optional(S.String),
           defaultCollation: S.optional(S.String),
           type: S.optional(S.String),
-          clustering: S.optional(__S(2304, __c72, 0)),
+          clustering: S.optional(__S(2336, __c73, 0)),
           numPartitions: S.optional(S.String),
           tableConstraints: S.optional(__S(782, __c24, 14)),
           creationTime: S.optional(S.String),
           maxStaleness: S.optional(S.String),
-          labels: S.optional(__S(1824, __c57, 0)),
+          labels: S.optional(__S(1856, __c58, 0)),
           id: S.optional(S.String),
           managedTableType: S.optional(S.String),
           restrictions: S.optional(__S(128, __c4, 0)),
           cloneDefinition: S.optional(__S(783, __c24, 15)),
           model: S.optional(__S(790, __c24, 22)),
-          timePartitioning: S.optional(__S(2305, __c72, 1)),
+          timePartitioning: S.optional(__S(2337, __c73, 1)),
           materializedViewStatus: S.optional(__S(791, __c24, 23)),
-          schema: S.optional(__S(2187, __c68, 11)),
+          schema: S.optional(__S(2219, __c69, 11)),
           biglakeConfiguration: S.optional(__S(792, __c24, 24)),
           etag: S.optional(S.String),
           location: S.optional(S.String),
           externalCatalogTableOptions: S.optional(__S(795, __c24, 27)),
-          rangePartitioning: S.optional(__S(2307, __c72, 3)),
+          rangePartitioning: S.optional(__S(2339, __c73, 3)),
           snapshotDefinition: S.optional(__S(796, __c24, 28)),
           lastModifiedTime: S.optional(S.String),
-          replicas: S.optional(__S(2351, __c73, 15)),
+          replicas: S.optional(__S(2383, __c74, 15)),
           selfLink: S.optional(S.String),
           kind: S.optional(S.String),
           expirationTime: S.optional(S.String),
-          tableReference: S.optional(__S(1856, __c58, 0)),
+          tableReference: S.optional(__S(1888, __c59, 0)),
           numTimeTravelPhysicalBytes: S.optional(S.String),
           numActiveLogicalBytes: S.optional(S.String),
           materializedView: S.optional(__S(797, __c24, 29)),
           numBytes: S.optional(S.String),
-          encryptionConfiguration: S.optional(__S(1888, __c59, 0)),
+          encryptionConfiguration: S.optional(__S(1920, __c60, 0)),
           defaultRoundingMode: S.optional(S.String),
           friendlyName: S.optional(S.String),
         }),
@@ -7160,16 +6511,24 @@ function __c25(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          datasetId: S.String.pipe(T.Label()),
-          tableId: S.String.pipe(T.Label()),
-          projectId: S.String.pipe(T.Label()),
           ignoreUnknownValues: S.optional(S.Boolean),
           traceId: S.optional(S.String),
           kind: S.optional(S.String),
           templateSuffix: S.optional(S.String),
           skipInvalidRows: S.optional(S.Boolean),
           rows: S.optional(__S(802, __c25, 2)),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "TableDataInsertAllRequest" });
+    case 4:
+      return S.suspend(() =>
+        S.Extend(
+          __S(803, __c25, 3),
+          S.Struct({
+            datasetId: S.String.pipe(T.Label()),
+            tableId: S.String.pipe(T.Label()),
+            projectId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{+projectId}/datasets/{+datasetId}/tables/{+tableId}/insertAll",
@@ -7177,19 +6536,19 @@ function __c25(j: number): any {
           }),
         ),
       ).annotate({ identifier: "InsertAllTabledataRequest" });
-    case 4:
+    case 5:
       return S.suspend(() =>
         S.Struct({
-          errors: S.optional(__S(2208, __c69, 0)),
+          errors: S.optional(__S(2240, __c70, 0)),
           index: S.optional(S.Number),
         }),
       ).annotate({ identifier: "TableDataInsertAllResponseInsertErrorsItem" });
-    case 5:
-      return S.Array(__S(804, __c25, 4));
     case 6:
+      return S.Array(__S(805, __c25, 5));
+    case 7:
       return S.suspend(() =>
         S.Struct({
-          insertErrors: S.optional(__S(805, __c25, 5)),
+          insertErrors: S.optional(__S(806, __c25, 6)),
           kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "TableDataInsertAllResponse" });
@@ -7199,41 +6558,13 @@ function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          accessPolicyVersion: S.optional(S.Number.pipe(T.Query())),
-          projectId: S.String.pipe(T.Label()),
-          labels: S.optional(__S(1824, __c57, 0)),
-          satisfiesPzs: S.optional(S.Boolean),
-          resourceTags: S.optional(__S(1824, __c57, 0)),
-          storageBillingModel: S.optional(S.String),
-          access: S.optional(__S(194, __c6, 2)),
-          defaultTableExpirationMs: S.optional(S.String),
-          type: S.optional(S.String),
-          externalCatalogDatasetOptions: S.optional(__S(195, __c6, 3)),
-          kind: S.optional(S.String),
-          datasetReference: S.optional(__S(1984, __c62, 0)),
-          defaultEncryptionConfiguration: S.optional(__S(1888, __c59, 0)),
-          selfLink: S.optional(S.String),
-          defaultPartitionExpirationMs: S.optional(S.String),
-          tags: S.optional(__S(197, __c6, 5)),
-          friendlyName: S.optional(S.String),
-          isCaseInsensitive: S.optional(S.Boolean),
-          creationTime: S.optional(S.String),
-          linkedDatasetMetadata: S.optional(__S(198, __c6, 6)),
-          location: S.optional(S.String),
-          satisfiesPzi: S.optional(S.Boolean),
-          linkedDatasetSource: S.optional(__S(199, __c6, 7)),
-          restrictions: S.optional(__S(128, __c4, 0)),
-          lastModifiedTime: S.optional(S.String),
-          catalogSource: S.optional(S.String),
-          externalDatasetReference: S.optional(__S(160, __c5, 0)),
-          etag: S.optional(S.String),
-          description: S.optional(S.String),
-          defaultCollation: S.optional(S.String),
-          defaultRoundingMode: S.optional(S.String),
-          maxTimeTravelHours: S.optional(S.String),
-          id: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(200, __c6, 8),
+          S.Struct({
+            accessPolicyVersion: S.optional(S.Number.pipe(T.Query())),
+            projectId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{+projectId}/datasets",
@@ -7247,20 +6578,12 @@ function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          configuration: S.optional(__S(2410, __c75, 10)),
-          jobCreationReason: S.optional(__S(2528, __c79, 0)),
-          selfLink: S.optional(S.String),
-          etag: S.optional(S.String),
-          kind: S.optional(S.String),
-          statistics: S.optional(__S(2485, __c77, 21)),
-          user_email: S.optional(S.String),
-          principal_subject: S.optional(S.String),
-          status: S.optional(__S(2486, __c77, 22)),
-          jobReference: S.optional(__S(2240, __c70, 0)),
-          id: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(2400, __c75, 0),
+          S.Struct({
+            projectId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{+projectId}/jobs",
@@ -7274,31 +6597,13 @@ function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          datasetId: S.String.pipe(T.Label()),
-          projectId: S.String.pipe(T.Label()),
-          determinismLevel: S.optional(S.String),
-          etag: S.optional(S.String),
-          arguments: S.optional(__S(578, __c18, 2)),
-          lastModifiedTime: S.optional(S.String),
-          returnType: S.optional(__S(2019, __c63, 3)),
-          description: S.optional(S.String),
-          language: S.optional(S.String),
-          creationTime: S.optional(S.String),
-          buildStatus: S.optional(__S(579, __c18, 3)),
-          importedLibraries: S.optional(__S(1376, __c43, 0)),
-          sparkOptions: S.optional(__S(580, __c18, 4)),
-          externalRuntimeOptions: S.optional(__S(583, __c18, 7)),
-          returnTableType: S.optional(__S(576, __c18, 0)),
-          strictMode: S.optional(S.Boolean),
-          securityMode: S.optional(S.String),
-          pythonOptions: S.optional(__S(584, __c18, 8)),
-          definitionBody: S.optional(S.String),
-          routineType: S.optional(S.String),
-          dataGovernanceType: S.optional(S.String),
-          remoteFunctionOptions: S.optional(__S(585, __c18, 9)),
-          routineReference: S.optional(__S(1952, __c61, 0)),
-        }).pipe(
+        S.Extend(
+          __S(586, __c18, 10),
+          S.Struct({
+            datasetId: S.String.pipe(T.Label()),
+            projectId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{+projectId}/datasets/{+datasetId}/routines",
@@ -7312,17 +6617,14 @@ function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          datasetId: S.String.pipe(T.Label()),
-          tableId: S.String.pipe(T.Label()),
-          projectId: S.String.pipe(T.Label()),
-          etag: S.optional(S.String),
-          rowAccessPolicyReference: S.optional(__S(2272, __c71, 0)),
-          grantees: S.optional(__S(1376, __c43, 0)),
-          filterPredicate: S.optional(S.String),
-          lastModifiedTime: S.optional(S.String),
-          creationTime: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(640, __c20, 0),
+          S.Struct({
+            datasetId: S.String.pipe(T.Label()),
+            tableId: S.String.pipe(T.Label()),
+            projectId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{+projectId}/datasets/{+datasetId}/tables/{+tableId}/rowAccessPolicies",
@@ -7336,62 +6638,13 @@ function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          datasetId: S.String.pipe(T.Label()),
-          projectId: S.String.pipe(T.Label()),
-          streamingBuffer: S.optional(__S(768, __c24, 0)),
-          view: S.optional(__S(771, __c24, 3)),
-          numLongTermPhysicalBytes: S.optional(S.String),
-          description: S.optional(S.String),
-          numTotalPhysicalBytes: S.optional(S.String),
-          numTotalLogicalBytes: S.optional(S.String),
-          numRows: S.optional(S.String),
-          numLongTermLogicalBytes: S.optional(S.String),
-          externalDataConfiguration: S.optional(__S(2350, __c73, 14)),
-          requirePartitionFilter: S.optional(S.Boolean),
-          numCurrentPhysicalBytes: S.optional(S.String),
-          tableReplicationInfo: S.optional(__S(772, __c24, 4)),
-          partitionDefinition: S.optional(__S(775, __c24, 7)),
-          numLongTermBytes: S.optional(S.String),
-          resourceTags: S.optional(__S(1824, __c57, 0)),
-          numPhysicalBytes: S.optional(S.String),
-          numActivePhysicalBytes: S.optional(S.String),
-          defaultCollation: S.optional(S.String),
-          type: S.optional(S.String),
-          clustering: S.optional(__S(2304, __c72, 0)),
-          numPartitions: S.optional(S.String),
-          tableConstraints: S.optional(__S(782, __c24, 14)),
-          creationTime: S.optional(S.String),
-          maxStaleness: S.optional(S.String),
-          labels: S.optional(__S(1824, __c57, 0)),
-          id: S.optional(S.String),
-          managedTableType: S.optional(S.String),
-          restrictions: S.optional(__S(128, __c4, 0)),
-          cloneDefinition: S.optional(__S(783, __c24, 15)),
-          model: S.optional(__S(790, __c24, 22)),
-          timePartitioning: S.optional(__S(2305, __c72, 1)),
-          materializedViewStatus: S.optional(__S(791, __c24, 23)),
-          schema: S.optional(__S(2187, __c68, 11)),
-          biglakeConfiguration: S.optional(__S(792, __c24, 24)),
-          etag: S.optional(S.String),
-          location: S.optional(S.String),
-          externalCatalogTableOptions: S.optional(__S(795, __c24, 27)),
-          rangePartitioning: S.optional(__S(2307, __c72, 3)),
-          snapshotDefinition: S.optional(__S(796, __c24, 28)),
-          lastModifiedTime: S.optional(S.String),
-          replicas: S.optional(__S(2351, __c73, 15)),
-          selfLink: S.optional(S.String),
-          kind: S.optional(S.String),
-          expirationTime: S.optional(S.String),
-          tableReference: S.optional(__S(1856, __c58, 0)),
-          numTimeTravelPhysicalBytes: S.optional(S.String),
-          numActiveLogicalBytes: S.optional(S.String),
-          materializedView: S.optional(__S(797, __c24, 29)),
-          numBytes: S.optional(S.String),
-          encryptionConfiguration: S.optional(__S(1888, __c59, 0)),
-          defaultRoundingMode: S.optional(S.String),
-          friendlyName: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(798, __c24, 30),
+          S.Struct({
+            datasetId: S.String.pipe(T.Label()),
+            projectId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{+projectId}/datasets/{+datasetId}/tables",
@@ -7425,10 +6678,10 @@ function __c31(j: number): any {
           location: S.optional(S.String),
           friendlyName: S.optional(S.String),
           kind: S.optional(S.String),
-          labels: S.optional(__S(1824, __c57, 0)),
+          labels: S.optional(__S(1856, __c58, 0)),
           type: S.optional(S.String),
           id: S.optional(S.String),
-          datasetReference: S.optional(__S(1984, __c62, 0)),
+          datasetReference: S.optional(__S(2016, __c63, 0)),
           catalogSource: S.optional(S.String),
           externalDatasetReference: S.optional(__S(160, __c5, 0)),
         }),
@@ -7455,7 +6708,7 @@ function __c32(j: number): any {
           parentJobId: S.optional(S.String.pipe(T.Query())),
           allUsers: S.optional(S.Boolean.pipe(T.Query())),
           projection: S.optional(S.String.pipe(T.Query())),
-          stateFilter: S.optional(__S(1920, __c60, 0).pipe(T.Query())),
+          stateFilter: S.optional(__S(1952, __c61, 0).pipe(T.Query())),
           maxResults: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           maxCreationTime: S.optional(S.String.pipe(T.Query())),
@@ -7472,15 +6725,15 @@ function __c32(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          jobReference: S.optional(__S(2240, __c70, 0)),
+          jobReference: S.optional(__S(2272, __c71, 0)),
           id: S.optional(S.String),
           state: S.optional(S.String),
-          errorResult: S.optional(__S(2144, __c67, 0)),
+          errorResult: S.optional(__S(2176, __c68, 0)),
           kind: S.optional(S.String),
-          status: S.optional(__S(2486, __c77, 22)),
-          statistics: S.optional(__S(2485, __c77, 21)),
+          status: S.optional(__S(2518, __c78, 22)),
+          statistics: S.optional(__S(2517, __c78, 21)),
           user_email: S.optional(S.String),
-          configuration: S.optional(__S(2410, __c75, 10)),
+          configuration: S.optional(__S(2442, __c76, 10)),
           principal_subject: S.optional(S.String),
         }),
       ).annotate({ identifier: "JobListJobsItem" });
@@ -7692,18 +6945,18 @@ function __c38(j: number): any {
       return S.suspend(() =>
         S.Struct({
           friendlyName: S.optional(S.String),
-          rangePartitioning: S.optional(__S(2307, __c72, 3)),
+          rangePartitioning: S.optional(__S(2339, __c73, 3)),
           view: S.optional(__S(1217, __c38, 1)),
           creationTime: S.optional(S.String),
-          tableReference: S.optional(__S(1856, __c58, 0)),
+          tableReference: S.optional(__S(1888, __c59, 0)),
           id: S.optional(S.String),
           kind: S.optional(S.String),
-          labels: S.optional(__S(1824, __c57, 0)),
+          labels: S.optional(__S(1856, __c58, 0)),
           type: S.optional(S.String),
           requirePartitionFilter: S.optional(S.Boolean),
-          clustering: S.optional(__S(2304, __c72, 0)),
+          clustering: S.optional(__S(2336, __c73, 0)),
           expirationTime: S.optional(S.String),
-          timePartitioning: S.optional(__S(2305, __c72, 1)),
+          timePartitioning: S.optional(__S(2337, __c73, 1)),
         }),
       ).annotate({ identifier: "TableListTablesItem" });
     case 3:
@@ -7724,43 +6977,15 @@ function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          accessPolicyVersion: S.optional(S.Number.pipe(T.Query())),
-          updateMode: S.optional(S.String.pipe(T.Query())),
-          datasetId: S.String.pipe(T.Label()),
-          labels: S.optional(__S(1824, __c57, 0)),
-          satisfiesPzs: S.optional(S.Boolean),
-          resourceTags: S.optional(__S(1824, __c57, 0)),
-          storageBillingModel: S.optional(S.String),
-          access: S.optional(__S(194, __c6, 2)),
-          defaultTableExpirationMs: S.optional(S.String),
-          type: S.optional(S.String),
-          externalCatalogDatasetOptions: S.optional(__S(195, __c6, 3)),
-          kind: S.optional(S.String),
-          datasetReference: S.optional(__S(1984, __c62, 0)),
-          defaultEncryptionConfiguration: S.optional(__S(1888, __c59, 0)),
-          selfLink: S.optional(S.String),
-          defaultPartitionExpirationMs: S.optional(S.String),
-          tags: S.optional(__S(197, __c6, 5)),
-          friendlyName: S.optional(S.String),
-          isCaseInsensitive: S.optional(S.Boolean),
-          creationTime: S.optional(S.String),
-          linkedDatasetMetadata: S.optional(__S(198, __c6, 6)),
-          location: S.optional(S.String),
-          satisfiesPzi: S.optional(S.Boolean),
-          linkedDatasetSource: S.optional(__S(199, __c6, 7)),
-          restrictions: S.optional(__S(128, __c4, 0)),
-          lastModifiedTime: S.optional(S.String),
-          catalogSource: S.optional(S.String),
-          externalDatasetReference: S.optional(__S(160, __c5, 0)),
-          etag: S.optional(S.String),
-          description: S.optional(S.String),
-          defaultCollation: S.optional(S.String),
-          defaultRoundingMode: S.optional(S.String),
-          maxTimeTravelHours: S.optional(S.String),
-          id: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(200, __c6, 8),
+          S.Struct({
+            projectId: S.String.pipe(T.Label()),
+            accessPolicyVersion: S.optional(S.Number.pipe(T.Query())),
+            updateMode: S.optional(S.String.pipe(T.Query())),
+            datasetId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "projects/{+projectId}/datasets/{+datasetId}",
@@ -7774,32 +6999,14 @@ function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          datasetId: S.String.pipe(T.Label()),
-          modelId: S.String.pipe(T.Label()),
-          projectId: S.String.pipe(T.Label()),
-          modelReference: S.optional(__S(2080, __c65, 0)),
-          hparamSearchSpaces: S.optional(__S(457, __c14, 9)),
-          optimalTrialIds: S.optional(__S(1376, __c43, 0)),
-          lastModifiedTime: S.optional(S.String),
-          bestTrialId: S.optional(S.String),
-          labelColumns: S.optional(__S(2017, __c63, 1)),
-          etag: S.optional(S.String),
-          modelType: S.optional(S.String),
-          hparamTrials: S.optional(__S(2115, __c66, 3)),
-          location: S.optional(S.String),
-          friendlyName: S.optional(S.String),
-          remoteModelInfo: S.optional(__S(458, __c14, 10)),
-          description: S.optional(S.String),
-          trainingRuns: S.optional(__S(465, __c14, 17)),
-          encryptionConfiguration: S.optional(__S(1888, __c59, 0)),
-          expirationTime: S.optional(S.String),
-          featureColumns: S.optional(__S(2017, __c63, 1)),
-          creationTime: S.optional(S.String),
-          transformColumns: S.optional(__S(467, __c14, 19)),
-          labels: S.optional(__S(1824, __c57, 0)),
-          defaultTrialId: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(468, __c14, 20),
+          S.Struct({
+            datasetId: S.String.pipe(T.Label()),
+            modelId: S.String.pipe(T.Label()),
+            projectId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "projects/{+projectId}/datasets/{+datasetId}/models/{+modelId}",
@@ -7813,64 +7020,15 @@ function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          tableId: S.String.pipe(T.Label()),
-          autodetect_schema: S.optional(S.Boolean.pipe(T.Query())),
-          datasetId: S.String.pipe(T.Label()),
-          streamingBuffer: S.optional(__S(768, __c24, 0)),
-          view: S.optional(__S(771, __c24, 3)),
-          numLongTermPhysicalBytes: S.optional(S.String),
-          description: S.optional(S.String),
-          numTotalPhysicalBytes: S.optional(S.String),
-          numTotalLogicalBytes: S.optional(S.String),
-          numRows: S.optional(S.String),
-          numLongTermLogicalBytes: S.optional(S.String),
-          externalDataConfiguration: S.optional(__S(2350, __c73, 14)),
-          requirePartitionFilter: S.optional(S.Boolean),
-          numCurrentPhysicalBytes: S.optional(S.String),
-          tableReplicationInfo: S.optional(__S(772, __c24, 4)),
-          partitionDefinition: S.optional(__S(775, __c24, 7)),
-          numLongTermBytes: S.optional(S.String),
-          resourceTags: S.optional(__S(1824, __c57, 0)),
-          numPhysicalBytes: S.optional(S.String),
-          numActivePhysicalBytes: S.optional(S.String),
-          defaultCollation: S.optional(S.String),
-          type: S.optional(S.String),
-          clustering: S.optional(__S(2304, __c72, 0)),
-          numPartitions: S.optional(S.String),
-          tableConstraints: S.optional(__S(782, __c24, 14)),
-          creationTime: S.optional(S.String),
-          maxStaleness: S.optional(S.String),
-          labels: S.optional(__S(1824, __c57, 0)),
-          id: S.optional(S.String),
-          managedTableType: S.optional(S.String),
-          restrictions: S.optional(__S(128, __c4, 0)),
-          cloneDefinition: S.optional(__S(783, __c24, 15)),
-          model: S.optional(__S(790, __c24, 22)),
-          timePartitioning: S.optional(__S(2305, __c72, 1)),
-          materializedViewStatus: S.optional(__S(791, __c24, 23)),
-          schema: S.optional(__S(2187, __c68, 11)),
-          biglakeConfiguration: S.optional(__S(792, __c24, 24)),
-          etag: S.optional(S.String),
-          location: S.optional(S.String),
-          externalCatalogTableOptions: S.optional(__S(795, __c24, 27)),
-          rangePartitioning: S.optional(__S(2307, __c72, 3)),
-          snapshotDefinition: S.optional(__S(796, __c24, 28)),
-          lastModifiedTime: S.optional(S.String),
-          replicas: S.optional(__S(2351, __c73, 15)),
-          selfLink: S.optional(S.String),
-          kind: S.optional(S.String),
-          expirationTime: S.optional(S.String),
-          tableReference: S.optional(__S(1856, __c58, 0)),
-          numTimeTravelPhysicalBytes: S.optional(S.String),
-          numActiveLogicalBytes: S.optional(S.String),
-          materializedView: S.optional(__S(797, __c24, 29)),
-          numBytes: S.optional(S.String),
-          encryptionConfiguration: S.optional(__S(1888, __c59, 0)),
-          defaultRoundingMode: S.optional(S.String),
-          friendlyName: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(798, __c24, 30),
+          S.Struct({
+            projectId: S.String.pipe(T.Label()),
+            tableId: S.String.pipe(T.Label()),
+            autodetect_schema: S.optional(S.Boolean.pipe(T.Query())),
+            datasetId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "projects/{+projectId}/datasets/{+datasetId}/tables/{+tableId}",
@@ -7885,12 +7043,20 @@ function __c42(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          datasetId: S.String.pipe(T.Label()),
-          tableId: S.String.pipe(T.Label()),
           policyIds: S.optional(__S(1376, __c43, 0)),
           force: S.optional(S.Boolean),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "BatchDeleteRowAccessPoliciesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(1344, __c42, 0),
+          S.Struct({
+            projectId: S.String.pipe(T.Label()),
+            datasetId: S.String.pipe(T.Label()),
+            tableId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{+projectId}/datasets/{+datasetId}/tables/{+tableId}/rowAccessPolicies:batchDelete",
@@ -7933,24 +7099,23 @@ function __c45(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          queryParameters: S.optional(__S(2508, __c78, 12)),
-          secureContext: S.optional(__S(2497, __c78, 1)),
+          queryParameters: S.optional(__S(2540, __c79, 12)),
+          secureContext: S.optional(__S(2529, __c79, 1)),
           arrowSerializationOptions: S.optional(__S(1440, __c45, 0)),
-          connectionProperties: S.optional(__S(2499, __c78, 3)),
+          connectionProperties: S.optional(__S(2531, __c79, 3)),
           dryRun: S.optional(S.Boolean),
           jobTimeoutMs: S.optional(S.String),
           writeIncrementalResults: S.optional(S.Boolean),
           preserveNulls: S.optional(S.Boolean),
           location: S.optional(S.String),
-          destinationEncryptionConfiguration: S.optional(__S(1888, __c59, 0)),
+          destinationEncryptionConfiguration: S.optional(__S(1920, __c60, 0)),
           requestId: S.optional(S.String),
           jobCreationMode: S.optional(S.String),
           timeoutMs: S.optional(S.Number),
           maxResults: S.optional(S.Number),
-          defaultDataset: S.optional(__S(1984, __c62, 0)),
+          defaultDataset: S.optional(__S(2016, __c63, 0)),
           queryResultsFormat: S.optional(S.String),
-          labels: S.optional(__S(1824, __c57, 0)),
+          labels: S.optional(__S(1856, __c58, 0)),
           continuous: S.optional(S.Boolean),
           createSession: S.optional(S.Boolean),
           useQueryCache: S.optional(S.Boolean),
@@ -7962,7 +7127,16 @@ function __c45(j: number): any {
           query: S.optional(S.String),
           kind: S.optional(S.String),
           maxSlots: S.optional(S.Number),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "QueryRequest" });
+    case 3:
+      return S.suspend(() =>
+        S.Extend(
+          __S(1442, __c45, 2),
+          S.Struct({
+            projectId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{+projectId}/queries",
@@ -7970,46 +7144,46 @@ function __c45(j: number): any {
           }),
         ),
       ).annotate({ identifier: "QueryJobsRequest" });
-    case 3:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           serializedRecordBatch: S.optional(S.String),
         }),
       ).annotate({ identifier: "ArrowRecordBatch" });
-    case 4:
+    case 5:
       return S.suspend(() =>
         S.Struct({
           serializedSchema: S.optional(S.String),
         }),
       ).annotate({ identifier: "ArrowSchema" });
-    case 5:
+    case 6:
       return S.suspend(() =>
         S.Struct({
           creationTime: S.optional(S.String),
           statementType: S.optional(S.String),
-          arrowRecordBatch: S.optional(__S(1443, __c45, 3)),
+          arrowRecordBatch: S.optional(__S(1444, __c45, 4)),
           queryId: S.optional(S.String),
-          sessionInfo: S.optional(__S(2510, __c78, 14)),
-          schema: S.optional(__S(2187, __c68, 11)),
+          sessionInfo: S.optional(__S(2542, __c79, 14)),
+          schema: S.optional(__S(2219, __c69, 11)),
           pageToken: S.optional(S.String),
           totalRows: S.optional(S.String),
-          jobCreationReason: S.optional(__S(2528, __c79, 0)),
+          jobCreationReason: S.optional(__S(2560, __c80, 0)),
           totalBytesBilled: S.optional(S.String),
           kind: S.optional(S.String),
           totalBytesProcessed: S.optional(S.String),
           totalSlotMs: S.optional(S.String),
           startTime: S.optional(S.String),
           pageRowCount: S.optional(S.String),
-          dmlStats: S.optional(__S(2509, __c78, 13)),
+          dmlStats: S.optional(__S(2541, __c79, 13)),
           cacheHit: S.optional(S.Boolean),
           rows: S.optional(__S(515, __c16, 3)),
           numDmlAffectedRows: S.optional(S.String),
-          errors: S.optional(__S(2208, __c69, 0)),
+          errors: S.optional(__S(2240, __c70, 0)),
           endTime: S.optional(S.String),
           jobComplete: S.optional(S.Boolean),
           location: S.optional(S.String),
-          jobReference: S.optional(__S(2240, __c70, 0)),
-          arrowSchema: S.optional(__S(1444, __c45, 4)),
+          jobReference: S.optional(__S(2272, __c71, 0)),
+          arrowSchema: S.optional(__S(1445, __c45, 5)),
         }),
       ).annotate({ identifier: "QueryResponse" });
   }
@@ -8018,11 +7192,12 @@ function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          policy: S.optional(__S(294, __c9, 6)),
-          updateMask: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1504, __c47, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "{+resource}:setIamPolicy",
@@ -8037,10 +7212,22 @@ function __c47(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          resource: S.String.pipe(T.Label()),
           policy: S.optional(__S(294, __c9, 6)),
           updateMask: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "SetIamPolicyRequest" });
+  }
+}
+function __c48(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(1504, __c47, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "{+resource}:setIamPolicy",
@@ -8050,14 +7237,16 @@ function __c47(j: number): any {
       ).annotate({ identifier: "SetIamPolicyTablesRequest" });
   }
 }
-function __c48(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          permissions: S.optional(__S(1376, __c43, 0)),
-        }).pipe(
+        S.Extend(
+          __S(1600, __c50, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "{+resource}:testIamPermissions",
@@ -8067,24 +7256,26 @@ function __c48(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsRoutinesRequest" });
   }
 }
-function __c49(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           permissions: S.optional(__S(1376, __c43, 0)),
         }),
-      ).annotate({ identifier: "TestIamPermissionsResponse" });
+      ).annotate({ identifier: "TestIamPermissionsRequest" });
   }
 }
-function __c50(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          permissions: S.optional(__S(1376, __c43, 0)),
-        }).pipe(
+        S.Extend(
+          __S(1600, __c50, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "{+resource}:testIamPermissions",
@@ -8094,14 +7285,16 @@ function __c50(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsRowAccessPoliciesRequest" });
   }
 }
-function __c51(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          permissions: S.optional(__S(1376, __c43, 0)),
-        }).pipe(
+        S.Extend(
+          __S(1600, __c50, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "{+resource}:testIamPermissions",
@@ -8111,15 +7304,23 @@ function __c51(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsTablesRequest" });
   }
 }
-function __c52(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          datasetId: S.String.pipe(T.Label()),
-          projectId: S.String.pipe(T.Label()),
           deletionTime: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "UndeleteDatasetRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(1696, __c53, 0),
+          S.Struct({
+            datasetId: S.String.pipe(T.Label()),
+            projectId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "projects/{+projectId}/datasets/{+datasetId}:undelete",
@@ -8129,47 +7330,19 @@ function __c52(j: number): any {
       ).annotate({ identifier: "UndeleteDatasetsRequest" });
   }
 }
-function __c53(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          accessPolicyVersion: S.optional(S.Number.pipe(T.Query())),
-          datasetId: S.String.pipe(T.Label()),
-          updateMode: S.optional(S.String.pipe(T.Query())),
-          labels: S.optional(__S(1824, __c57, 0)),
-          satisfiesPzs: S.optional(S.Boolean),
-          resourceTags: S.optional(__S(1824, __c57, 0)),
-          storageBillingModel: S.optional(S.String),
-          access: S.optional(__S(194, __c6, 2)),
-          defaultTableExpirationMs: S.optional(S.String),
-          type: S.optional(S.String),
-          externalCatalogDatasetOptions: S.optional(__S(195, __c6, 3)),
-          kind: S.optional(S.String),
-          datasetReference: S.optional(__S(1984, __c62, 0)),
-          defaultEncryptionConfiguration: S.optional(__S(1888, __c59, 0)),
-          selfLink: S.optional(S.String),
-          defaultPartitionExpirationMs: S.optional(S.String),
-          tags: S.optional(__S(197, __c6, 5)),
-          friendlyName: S.optional(S.String),
-          isCaseInsensitive: S.optional(S.Boolean),
-          creationTime: S.optional(S.String),
-          linkedDatasetMetadata: S.optional(__S(198, __c6, 6)),
-          location: S.optional(S.String),
-          satisfiesPzi: S.optional(S.Boolean),
-          linkedDatasetSource: S.optional(__S(199, __c6, 7)),
-          restrictions: S.optional(__S(128, __c4, 0)),
-          lastModifiedTime: S.optional(S.String),
-          catalogSource: S.optional(S.String),
-          externalDatasetReference: S.optional(__S(160, __c5, 0)),
-          etag: S.optional(S.String),
-          description: S.optional(S.String),
-          defaultCollation: S.optional(S.String),
-          defaultRoundingMode: S.optional(S.String),
-          maxTimeTravelHours: S.optional(S.String),
-          id: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(200, __c6, 8),
+          S.Struct({
+            projectId: S.String.pipe(T.Label()),
+            accessPolicyVersion: S.optional(S.Number.pipe(T.Query())),
+            datasetId: S.String.pipe(T.Label()),
+            updateMode: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "projects/{+projectId}/datasets/{+datasetId}",
@@ -8179,36 +7352,18 @@ function __c53(j: number): any {
       ).annotate({ identifier: "UpdateDatasetsRequest" });
   }
 }
-function __c54(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          datasetId: S.String.pipe(T.Label()),
-          routineId: S.String.pipe(T.Label()),
-          projectId: S.String.pipe(T.Label()),
-          determinismLevel: S.optional(S.String),
-          etag: S.optional(S.String),
-          arguments: S.optional(__S(578, __c18, 2)),
-          lastModifiedTime: S.optional(S.String),
-          returnType: S.optional(__S(2019, __c63, 3)),
-          description: S.optional(S.String),
-          language: S.optional(S.String),
-          creationTime: S.optional(S.String),
-          buildStatus: S.optional(__S(579, __c18, 3)),
-          importedLibraries: S.optional(__S(1376, __c43, 0)),
-          sparkOptions: S.optional(__S(580, __c18, 4)),
-          externalRuntimeOptions: S.optional(__S(583, __c18, 7)),
-          returnTableType: S.optional(__S(576, __c18, 0)),
-          strictMode: S.optional(S.Boolean),
-          securityMode: S.optional(S.String),
-          pythonOptions: S.optional(__S(584, __c18, 8)),
-          definitionBody: S.optional(S.String),
-          routineType: S.optional(S.String),
-          dataGovernanceType: S.optional(S.String),
-          remoteFunctionOptions: S.optional(__S(585, __c18, 9)),
-          routineReference: S.optional(__S(1952, __c61, 0)),
-        }).pipe(
+        S.Extend(
+          __S(586, __c18, 10),
+          S.Struct({
+            datasetId: S.String.pipe(T.Label()),
+            routineId: S.String.pipe(T.Label()),
+            projectId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "projects/{+projectId}/datasets/{+datasetId}/routines/{+routineId}",
@@ -8218,22 +7373,19 @@ function __c54(j: number): any {
       ).annotate({ identifier: "UpdateRoutinesRequest" });
   }
 }
-function __c55(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          tableId: S.String.pipe(T.Label()),
-          policyId: S.String.pipe(T.Label()),
-          datasetId: S.String.pipe(T.Label()),
-          etag: S.optional(S.String),
-          rowAccessPolicyReference: S.optional(__S(2272, __c71, 0)),
-          grantees: S.optional(__S(1376, __c43, 0)),
-          filterPredicate: S.optional(S.String),
-          lastModifiedTime: S.optional(S.String),
-          creationTime: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(640, __c20, 0),
+          S.Struct({
+            projectId: S.String.pipe(T.Label()),
+            tableId: S.String.pipe(T.Label()),
+            policyId: S.String.pipe(T.Label()),
+            datasetId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "projects/{+projectId}/datasets/{+datasetId}/tables/{+tableId}/rowAccessPolicies/{+policyId}",
@@ -8243,7 +7395,7 @@ function __c55(j: number): any {
       ).annotate({ identifier: "UpdateRowAccessPoliciesRequest" });
   }
 }
-function __c56(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8262,19 +7414,19 @@ function __c56(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          job: S.optional(__S(2368, __c74, 0)),
+          job: S.optional(__S(2400, __c75, 0)),
           kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "JobCancelResponse" });
   }
 }
-function __c57(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
   }
 }
-function __c58(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8286,7 +7438,7 @@ function __c58(j: number): any {
       ).annotate({ identifier: "TableReference" });
   }
 }
-function __c59(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8296,13 +7448,13 @@ function __c59(j: number): any {
       ).annotate({ identifier: "EncryptionConfiguration" });
   }
 }
-function __c60(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c61(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8314,7 +7466,7 @@ function __c61(j: number): any {
       ).annotate({ identifier: "RoutineReference" });
   }
 }
-function __c62(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8325,41 +7477,41 @@ function __c62(j: number): any {
       ).annotate({ identifier: "DatasetReference" });
   }
 }
-function __c63(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          type: S.optional(S.suspend(() => __S(2019, __c63, 3))),
+          type: S.optional(S.suspend(() => __S(2051, __c64, 3))),
         }),
       ).annotate({ identifier: "StandardSqlField" });
     case 1:
-      return S.Array(__S(2016, __c63, 0));
+      return S.Array(__S(2048, __c64, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          fields: S.optional(__S(2017, __c63, 1)),
+          fields: S.optional(__S(2049, __c64, 1)),
         }),
       ).annotate({ identifier: "StandardSqlStructType" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          rangeElementType: S.optional(__S(2019, __c63, 3)),
-          structType: S.optional(__S(2018, __c63, 2)),
-          arrayElementType: S.optional(__S(2019, __c63, 3)),
+          rangeElementType: S.optional(__S(2051, __c64, 3)),
+          structType: S.optional(__S(2050, __c64, 2)),
+          arrayElementType: S.optional(__S(2051, __c64, 3)),
           typeKind: S.optional(S.String),
         }),
       ).annotate({ identifier: "StandardSqlDataType" });
   }
 }
-function __c64(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Number);
   }
 }
-function __c65(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8412,14 +7564,14 @@ function __c65(j: number): any {
         }),
       ).annotate({ identifier: "BinaryConfusionMatrix" });
     case 5:
-      return S.Array(__S(2084, __c65, 4));
+      return S.Array(__S(2116, __c66, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          aggregateClassificationMetrics: S.optional(__S(2083, __c65, 3)),
+          aggregateClassificationMetrics: S.optional(__S(2115, __c66, 3)),
           negativeLabel: S.optional(S.String),
           positiveLabel: S.optional(S.String),
-          binaryConfusionMatrixList: S.optional(__S(2085, __c65, 5)),
+          binaryConfusionMatrixList: S.optional(__S(2117, __c66, 5)),
         }),
       ).annotate({ identifier: "BinaryClassificationMetrics" });
     case 7:
@@ -8430,30 +7582,30 @@ function __c65(j: number): any {
         }),
       ).annotate({ identifier: "Entry" });
     case 8:
-      return S.Array(__S(2087, __c65, 7));
+      return S.Array(__S(2119, __c66, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
           actualLabel: S.optional(S.String),
-          entries: S.optional(__S(2088, __c65, 8)),
+          entries: S.optional(__S(2120, __c66, 8)),
         }),
       ).annotate({ identifier: "Row" });
     case 10:
-      return S.Array(__S(2089, __c65, 9));
+      return S.Array(__S(2121, __c66, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
           confidenceThreshold: S.optional(S.Number),
-          rows: S.optional(__S(2090, __c65, 10)),
+          rows: S.optional(__S(2122, __c66, 10)),
         }),
       ).annotate({ identifier: "ConfusionMatrix" });
     case 12:
-      return S.Array(__S(2091, __c65, 11));
+      return S.Array(__S(2123, __c66, 11));
     case 13:
       return S.suspend(() =>
         S.Struct({
-          aggregateClassificationMetrics: S.optional(__S(2083, __c65, 3)),
-          confusionMatrixList: S.optional(__S(2092, __c65, 12)),
+          aggregateClassificationMetrics: S.optional(__S(2115, __c66, 3)),
+          confusionMatrixList: S.optional(__S(2124, __c66, 12)),
         }),
       ).annotate({ identifier: "MultiClassClassificationMetrics" });
     case 14:
@@ -8473,37 +7625,37 @@ function __c65(j: number): any {
         }),
       ).annotate({ identifier: "CategoryCount" });
     case 16:
-      return S.Array(__S(2095, __c65, 15));
+      return S.Array(__S(2127, __c66, 15));
     case 17:
       return S.suspend(() =>
         S.Struct({
-          categoryCounts: S.optional(__S(2096, __c65, 16)),
+          categoryCounts: S.optional(__S(2128, __c66, 16)),
         }),
       ).annotate({ identifier: "CategoricalValue" });
     case 18:
       return S.suspend(() =>
         S.Struct({
           numericalValue: S.optional(S.Number),
-          categoricalValue: S.optional(__S(2097, __c65, 17)),
+          categoricalValue: S.optional(__S(2129, __c66, 17)),
           featureColumn: S.optional(S.String),
         }),
       ).annotate({ identifier: "FeatureValue" });
     case 19:
-      return S.Array(__S(2098, __c65, 18));
+      return S.Array(__S(2130, __c66, 18));
     case 20:
       return S.suspend(() =>
         S.Struct({
           centroidId: S.optional(S.String),
           count: S.optional(S.String),
-          featureValues: S.optional(__S(2099, __c65, 19)),
+          featureValues: S.optional(__S(2131, __c66, 19)),
         }),
       ).annotate({ identifier: "Cluster" });
     case 21:
-      return S.Array(__S(2100, __c65, 20));
+      return S.Array(__S(2132, __c66, 20));
     case 22:
       return S.suspend(() =>
         S.Struct({
-          clusters: S.optional(__S(2101, __c65, 21)),
+          clusters: S.optional(__S(2133, __c66, 21)),
           meanSquaredDistance: S.optional(S.Number),
           daviesBouldinIndex: S.optional(S.Number),
         }),
@@ -8529,49 +7681,49 @@ function __c65(j: number): any {
         S.Struct({
           hasSpikesAndDips: S.optional(S.Boolean),
           hasStepChanges: S.optional(S.Boolean),
-          arimaFittingMetrics: S.optional(__S(2103, __c65, 23)),
-          nonSeasonalOrder: S.optional(__S(2104, __c65, 24)),
+          arimaFittingMetrics: S.optional(__S(2135, __c66, 23)),
+          nonSeasonalOrder: S.optional(__S(2136, __c66, 24)),
           hasDrift: S.optional(S.Boolean),
           timeSeriesIds: S.optional(__S(1376, __c43, 0)),
-          seasonalPeriods: S.optional(__S(1920, __c60, 0)),
+          seasonalPeriods: S.optional(__S(1952, __c61, 0)),
           hasHolidayEffect: S.optional(S.Boolean),
           timeSeriesId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ArimaSingleModelForecastingMetrics" });
     case 26:
-      return S.Array(__S(2105, __c65, 25));
+      return S.Array(__S(2137, __c66, 25));
     case 27:
-      return S.Array(__S(2103, __c65, 23));
+      return S.Array(__S(2135, __c66, 23));
     case 28:
-      return S.Array(__S(2104, __c65, 24));
+      return S.Array(__S(2136, __c66, 24));
     case 29:
       return S.Array(S.Boolean);
     case 30:
       return S.suspend(() =>
         S.Struct({
           timeSeriesId: S.optional(__S(1376, __c43, 0)),
-          seasonalPeriods: S.optional(__S(1920, __c60, 0)),
-          arimaSingleModelForecastingMetrics: S.optional(__S(2106, __c65, 26)),
-          arimaFittingMetrics: S.optional(__S(2107, __c65, 27)),
-          nonSeasonalOrder: S.optional(__S(2108, __c65, 28)),
-          hasDrift: S.optional(__S(2109, __c65, 29)),
+          seasonalPeriods: S.optional(__S(1952, __c61, 0)),
+          arimaSingleModelForecastingMetrics: S.optional(__S(2138, __c66, 26)),
+          arimaFittingMetrics: S.optional(__S(2139, __c66, 27)),
+          nonSeasonalOrder: S.optional(__S(2140, __c66, 28)),
+          hasDrift: S.optional(__S(2141, __c66, 29)),
         }),
       ).annotate({ identifier: "ArimaForecastingMetrics" });
     case 31:
       return S.suspend(() =>
         S.Struct({
-          dimensionalityReductionMetrics: S.optional(__S(2081, __c65, 1)),
-          regressionMetrics: S.optional(__S(2082, __c65, 2)),
-          binaryClassificationMetrics: S.optional(__S(2086, __c65, 6)),
-          multiClassClassificationMetrics: S.optional(__S(2093, __c65, 13)),
-          rankingMetrics: S.optional(__S(2094, __c65, 14)),
-          clusteringMetrics: S.optional(__S(2102, __c65, 22)),
-          arimaForecastingMetrics: S.optional(__S(2110, __c65, 30)),
+          dimensionalityReductionMetrics: S.optional(__S(2113, __c66, 1)),
+          regressionMetrics: S.optional(__S(2114, __c66, 2)),
+          binaryClassificationMetrics: S.optional(__S(2118, __c66, 6)),
+          multiClassClassificationMetrics: S.optional(__S(2125, __c66, 13)),
+          rankingMetrics: S.optional(__S(2126, __c66, 14)),
+          clusteringMetrics: S.optional(__S(2134, __c66, 22)),
+          arimaForecastingMetrics: S.optional(__S(2142, __c66, 30)),
         }),
       ).annotate({ identifier: "EvaluationMetrics" });
   }
 }
-function __c66(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Number);
@@ -8609,7 +7761,7 @@ function __c66(j: number): any {
           fitIntercept: S.optional(S.Boolean),
           distanceType: S.optional(S.String),
           sampledShapleyNumPaths: S.optional(S.String),
-          nonSeasonalOrder: S.optional(__S(2104, __c65, 24)),
+          nonSeasonalOrder: S.optional(__S(2136, __c66, 24)),
           xgboostVersion: S.optional(S.String),
           timeSeriesIdColumns: S.optional(__S(1376, __c43, 0)),
           dropout: S.optional(S.Number),
@@ -8617,7 +7769,7 @@ function __c66(j: number): any {
           learnRateStrategy: S.optional(S.String),
           minAprioriSupport: S.optional(S.Number),
           l1Regularization: S.optional(S.Number),
-          hparamTuningObjectives: S.optional(__S(1920, __c60, 0)),
+          hparamTuningObjectives: S.optional(__S(1952, __c61, 0)),
           categoryEncodingMethod: S.optional(S.String),
           userColumn: S.optional(S.String),
           reservationAffinityValues: S.optional(__S(1376, __c43, 0)),
@@ -8672,9 +7824,9 @@ function __c66(j: number): any {
           colsampleBytree: S.optional(S.Number),
           instanceWeightColumn: S.optional(S.String),
           modelUri: S.optional(S.String),
-          holidayRegions: S.optional(__S(1920, __c60, 0)),
+          holidayRegions: S.optional(__S(1952, __c61, 0)),
           isTestColumn: S.optional(S.String),
-          labelClassWeights: S.optional(__S(2112, __c66, 0)),
+          labelClassWeights: S.optional(__S(2144, __c67, 0)),
           huggingFaceModelId: S.optional(S.String),
           minRelativeProgress: S.optional(S.Number),
           colorSpace: S.optional(S.String),
@@ -8690,14 +7842,14 @@ function __c66(j: number): any {
           trialId: S.optional(S.String),
           trainingLoss: S.optional(S.Number),
           status: S.optional(S.String),
-          hparamTuningEvaluationMetrics: S.optional(__S(2111, __c65, 31)),
-          hparams: S.optional(__S(2113, __c66, 1)),
+          hparamTuningEvaluationMetrics: S.optional(__S(2143, __c66, 31)),
+          hparams: S.optional(__S(2145, __c67, 1)),
           errorMessage: S.optional(S.String),
-          evaluationMetrics: S.optional(__S(2111, __c65, 31)),
+          evaluationMetrics: S.optional(__S(2143, __c66, 31)),
         }),
       ).annotate({ identifier: "HparamTuningTrial" });
     case 3:
-      return S.Array(__S(2114, __c66, 2));
+      return S.Array(__S(2146, __c67, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -8707,12 +7859,12 @@ function __c66(j: number): any {
         }),
       ).annotate({ identifier: "ClusterInfo" });
     case 5:
-      return S.Array(__S(2116, __c66, 4));
+      return S.Array(__S(2148, __c67, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          autoRegressiveCoefficients: S.optional(__S(2048, __c64, 0)),
-          movingAverageCoefficients: S.optional(__S(2048, __c64, 0)),
+          autoRegressiveCoefficients: S.optional(__S(2080, __c65, 0)),
+          movingAverageCoefficients: S.optional(__S(2080, __c65, 0)),
           interceptCoefficient: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ArimaCoefficients" });
@@ -8721,23 +7873,23 @@ function __c66(j: number): any {
         S.Struct({
           hasStepChanges: S.optional(S.Boolean),
           hasSpikesAndDips: S.optional(S.Boolean),
-          nonSeasonalOrder: S.optional(__S(2104, __c65, 24)),
+          nonSeasonalOrder: S.optional(__S(2136, __c66, 24)),
           hasDrift: S.optional(S.Boolean),
           timeSeriesIds: S.optional(__S(1376, __c43, 0)),
-          seasonalPeriods: S.optional(__S(1920, __c60, 0)),
-          arimaFittingMetrics: S.optional(__S(2103, __c65, 23)),
+          seasonalPeriods: S.optional(__S(1952, __c61, 0)),
+          arimaFittingMetrics: S.optional(__S(2135, __c66, 23)),
           timeSeriesId: S.optional(S.String),
           hasHolidayEffect: S.optional(S.Boolean),
-          arimaCoefficients: S.optional(__S(2118, __c66, 6)),
+          arimaCoefficients: S.optional(__S(2150, __c67, 6)),
         }),
       ).annotate({ identifier: "ArimaModelInfo" });
     case 8:
-      return S.Array(__S(2119, __c66, 7));
+      return S.Array(__S(2151, __c67, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
-          arimaModelInfo: S.optional(__S(2120, __c66, 8)),
-          seasonalPeriods: S.optional(__S(1920, __c60, 0)),
+          arimaModelInfo: S.optional(__S(2152, __c67, 8)),
+          seasonalPeriods: S.optional(__S(1952, __c61, 0)),
         }),
       ).annotate({ identifier: "ArimaResult" });
     case 10:
@@ -8750,25 +7902,25 @@ function __c66(j: number): any {
         }),
       ).annotate({ identifier: "PrincipalComponentInfo" });
     case 11:
-      return S.Array(__S(2122, __c66, 10));
+      return S.Array(__S(2154, __c67, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
-          clusterInfos: S.optional(__S(2117, __c66, 5)),
+          clusterInfos: S.optional(__S(2149, __c67, 5)),
           trainingLoss: S.optional(S.Number),
           index: S.optional(S.Number),
           learnRate: S.optional(S.Number),
           durationMs: S.optional(S.String),
-          arimaResult: S.optional(__S(2121, __c66, 9)),
+          arimaResult: S.optional(__S(2153, __c67, 9)),
           evalLoss: S.optional(S.Number),
-          principalComponentInfos: S.optional(__S(2123, __c66, 11)),
+          principalComponentInfos: S.optional(__S(2155, __c67, 11)),
         }),
       ).annotate({ identifier: "IterationResult" });
     case 13:
-      return S.Array(__S(2124, __c66, 12));
+      return S.Array(__S(2156, __c67, 12));
   }
 }
-function __c67(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8781,12 +7933,12 @@ function __c67(j: number): any {
       ).annotate({ identifier: "ErrorProto" });
   }
 }
-function __c68(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          dataGovernanceTags: S.optional(__S(1824, __c57, 0)),
+          dataGovernanceTags: S.optional(__S(1856, __c58, 0)),
         }),
       ).annotate({ identifier: "TableFieldSchemaDataGovernanceTagsInfo" });
     case 1:
@@ -8802,11 +7954,11 @@ function __c68(j: number): any {
         }),
       ).annotate({ identifier: "DataPolicyOption" });
     case 3:
-      return S.Array(__S(2178, __c68, 2));
+      return S.Array(__S(2210, __c69, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          dataPolicies: S.optional(__S(2179, __c68, 3)),
+          dataPolicies: S.optional(__S(2211, __c69, 3)),
         }),
       ).annotate({ identifier: "DataPolicyList" });
     case 5:
@@ -8826,7 +7978,7 @@ function __c68(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          generatedExpressionInfo: S.optional(__S(2182, __c68, 6)),
+          generatedExpressionInfo: S.optional(__S(2214, __c69, 6)),
           generatedMode: S.optional(S.String),
         }),
       ).annotate({ identifier: "GeneratedColumn" });
@@ -8834,29 +7986,29 @@ function __c68(j: number): any {
       return S.suspend(() =>
         S.Struct({
           collation: S.optional(S.String),
-          dataGovernanceTagsInfo: S.optional(__S(2176, __c68, 0)),
+          dataGovernanceTagsInfo: S.optional(__S(2208, __c69, 0)),
           precision: S.optional(S.String),
           scale: S.optional(S.String),
-          policyTags: S.optional(__S(2177, __c68, 1)),
+          policyTags: S.optional(__S(2209, __c69, 1)),
           foreignTypeDefinition: S.optional(S.String),
           type: S.optional(S.String),
           maxLength: S.optional(S.String),
           timestampPrecision: S.optional(S.String),
-          dataPolicyList: S.optional(__S(2180, __c68, 4)),
-          dataPolicies: S.optional(__S(2179, __c68, 3)),
+          dataPolicyList: S.optional(__S(2212, __c69, 4)),
+          dataPolicies: S.optional(__S(2211, __c69, 3)),
           roundingMode: S.optional(S.String),
           mode: S.optional(S.String),
-          fields: S.optional(S.suspend(() => __S(2185, __c68, 9))),
+          fields: S.optional(S.suspend(() => __S(2217, __c69, 9))),
           defaultValueExpression: S.optional(S.String),
-          rangeElementType: S.optional(__S(2181, __c68, 5)),
-          generatedColumn: S.optional(__S(2183, __c68, 7)),
+          rangeElementType: S.optional(__S(2213, __c69, 5)),
+          generatedColumn: S.optional(__S(2215, __c69, 7)),
           description: S.optional(S.String),
           name: S.optional(S.String),
-          categories: S.optional(__S(2177, __c68, 1)),
+          categories: S.optional(__S(2209, __c69, 1)),
         }),
       ).annotate({ identifier: "TableFieldSchema" });
     case 9:
-      return S.Array(__S(2184, __c68, 8));
+      return S.Array(__S(2216, __c69, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
@@ -8866,19 +8018,19 @@ function __c68(j: number): any {
     case 11:
       return S.suspend(() =>
         S.Struct({
-          fields: S.optional(__S(2185, __c68, 9)),
-          foreignTypeInfo: S.optional(__S(2186, __c68, 10)),
+          fields: S.optional(__S(2217, __c69, 9)),
+          foreignTypeInfo: S.optional(__S(2218, __c69, 10)),
         }),
       ).annotate({ identifier: "TableSchema" });
   }
 }
-function __c69(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2144, __c67, 0));
+      return S.Array(__S(2176, __c68, 0));
   }
 }
-function __c70(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8890,7 +8042,7 @@ function __c70(j: number): any {
       ).annotate({ identifier: "JobReference" });
   }
 }
-function __c71(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8903,7 +8055,7 @@ function __c71(j: number): any {
       ).annotate({ identifier: "RowAccessPolicyReference" });
   }
 }
-function __c72(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8932,12 +8084,12 @@ function __c72(j: number): any {
       return S.suspend(() =>
         S.Struct({
           field: S.optional(S.String),
-          range: S.optional(__S(2306, __c72, 2)),
+          range: S.optional(__S(2338, __c73, 2)),
         }),
       ).annotate({ identifier: "RangePartitioning" });
   }
 }
-function __c73(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8964,7 +8116,7 @@ function __c73(j: number): any {
         }),
       ).annotate({ identifier: "UserDefinedFunctionResource" });
     case 3:
-      return S.Array(__S(2338, __c73, 2));
+      return S.Array(__S(2370, __c74, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -9007,30 +8159,30 @@ function __c73(j: number): any {
           type: S.optional(S.String),
           qualifierEncoded: S.optional(S.String),
           encoding: S.optional(S.String),
-          protoConfig: S.optional(__S(2343, __c73, 7)),
+          protoConfig: S.optional(__S(2375, __c74, 7)),
           qualifierString: S.optional(S.String),
         }),
       ).annotate({ identifier: "BigtableColumn" });
     case 9:
-      return S.Array(__S(2344, __c73, 8));
+      return S.Array(__S(2376, __c74, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
           familyId: S.optional(S.String),
-          protoConfig: S.optional(__S(2343, __c73, 7)),
-          columns: S.optional(__S(2345, __c73, 9)),
+          protoConfig: S.optional(__S(2375, __c74, 7)),
+          columns: S.optional(__S(2377, __c74, 9)),
           onlyReadLatest: S.optional(S.Boolean),
           type: S.optional(S.String),
           encoding: S.optional(S.String),
         }),
       ).annotate({ identifier: "BigtableColumnFamily" });
     case 11:
-      return S.Array(__S(2346, __c73, 10));
+      return S.Array(__S(2378, __c74, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
           readRowkeyAsString: S.optional(S.Boolean),
-          columnFamilies: S.optional(__S(2347, __c73, 11)),
+          columnFamilies: S.optional(__S(2379, __c74, 11)),
           ignoreUnspecifiedColumnFamilies: S.optional(S.Boolean),
           outputColumnFamiliesAsJson: S.optional(S.Boolean),
         }),
@@ -9046,7 +8198,7 @@ function __c73(j: number): any {
       return S.suspend(() =>
         S.Struct({
           timeZone: S.optional(S.String),
-          csvOptions: S.optional(__S(2340, __c73, 4)),
+          csvOptions: S.optional(__S(2372, __c74, 4)),
           dateFormat: S.optional(S.String),
           fileSetSpecType: S.optional(S.String),
           compression: S.optional(S.String),
@@ -9055,50 +8207,50 @@ function __c73(j: number): any {
           connectionId: S.optional(S.String),
           timestampFormat: S.optional(S.String),
           timeFormat: S.optional(S.String),
-          jsonOptions: S.optional(__S(2341, __c73, 5)),
-          hivePartitioningOptions: S.optional(__S(2336, __c73, 0)),
+          jsonOptions: S.optional(__S(2373, __c74, 5)),
+          hivePartitioningOptions: S.optional(__S(2368, __c74, 0)),
           referenceFileSchemaUri: S.optional(S.String),
           maxBadRecords: S.optional(S.Number),
           autodetect: S.optional(S.Boolean),
           sourceUris: S.optional(__S(1376, __c43, 0)),
           metadataCacheMode: S.optional(S.String),
           jsonExtension: S.optional(S.String),
-          avroOptions: S.optional(__S(2342, __c73, 6)),
+          avroOptions: S.optional(__S(2374, __c74, 6)),
           sourceFormat: S.optional(S.String),
-          timestampTargetPrecision: S.optional(__S(2048, __c64, 0)),
+          timestampTargetPrecision: S.optional(__S(2080, __c65, 0)),
           objectMetadata: S.optional(S.String),
-          schema: S.optional(__S(2187, __c68, 11)),
-          bigtableOptions: S.optional(__S(2348, __c73, 12)),
-          parquetOptions: S.optional(__S(2337, __c73, 1)),
-          decimalTargetTypes: S.optional(__S(1920, __c60, 0)),
-          googleSheetsOptions: S.optional(__S(2349, __c73, 13)),
+          schema: S.optional(__S(2219, __c69, 11)),
+          bigtableOptions: S.optional(__S(2380, __c74, 12)),
+          parquetOptions: S.optional(__S(2369, __c74, 1)),
+          decimalTargetTypes: S.optional(__S(1952, __c61, 0)),
+          googleSheetsOptions: S.optional(__S(2381, __c74, 13)),
         }),
       ).annotate({ identifier: "ExternalDataConfiguration" });
     case 15:
-      return S.Array(__S(1856, __c58, 0));
+      return S.Array(__S(1888, __c59, 0));
   }
 }
-function __c74(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          configuration: S.optional(__S(2410, __c75, 10)),
-          jobCreationReason: S.optional(__S(2528, __c79, 0)),
+          configuration: S.optional(__S(2442, __c76, 10)),
+          jobCreationReason: S.optional(__S(2560, __c80, 0)),
           selfLink: S.optional(S.String),
           etag: S.optional(S.String),
           kind: S.optional(S.String),
-          statistics: S.optional(__S(2485, __c77, 21)),
+          statistics: S.optional(__S(2517, __c78, 21)),
           user_email: S.optional(S.String),
           principal_subject: S.optional(S.String),
-          status: S.optional(__S(2486, __c77, 22)),
-          jobReference: S.optional(__S(2240, __c70, 0)),
+          status: S.optional(__S(2518, __c78, 22)),
+          jobReference: S.optional(__S(2272, __c71, 0)),
           id: S.optional(S.String),
         }),
       ).annotate({ identifier: "Job" });
   }
 }
-function __c75(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9109,14 +8261,14 @@ function __c75(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          modelExtractOptions: S.optional(__S(2400, __c75, 0)),
+          modelExtractOptions: S.optional(__S(2432, __c76, 0)),
           useAvroLogicalTypes: S.optional(S.Boolean),
           compression: S.optional(S.String),
-          sourceTable: S.optional(__S(1856, __c58, 0)),
-          sourceModel: S.optional(__S(2080, __c65, 0)),
+          sourceTable: S.optional(__S(1888, __c59, 0)),
+          sourceModel: S.optional(__S(2112, __c66, 0)),
           destinationFormat: S.optional(S.String),
           destinationUri: S.optional(S.String),
-          secureContext: S.optional(__S(2497, __c78, 1)),
+          secureContext: S.optional(__S(2529, __c79, 1)),
           fieldDelimiter: S.optional(S.String),
           destinationUris: S.optional(__S(1376, __c43, 0)),
           nativeGeographyExportEnabled: S.optional(S.Boolean),
@@ -9129,7 +8281,7 @@ function __c75(j: number): any {
           description: S.optional(S.String),
           expirationTime: S.optional(S.String),
           friendlyName: S.optional(S.String),
-          labels: S.optional(__S(1824, __c57, 0)),
+          labels: S.optional(__S(1856, __c58, 0)),
         }),
       ).annotate({ identifier: "DestinationTableProperties" });
     case 3:
@@ -9138,24 +8290,24 @@ function __c75(j: number): any {
           timestampFormat: S.optional(S.String),
           sourceFormat: S.optional(S.String),
           encoding: S.optional(S.String),
-          destinationTable: S.optional(__S(1856, __c58, 0)),
-          hivePartitioningOptions: S.optional(__S(2336, __c73, 0)),
+          destinationTable: S.optional(__S(1888, __c59, 0)),
+          hivePartitioningOptions: S.optional(__S(2368, __c74, 0)),
           useAvroLogicalTypes: S.optional(S.Boolean),
           jsonExtension: S.optional(S.String),
-          connectionProperties: S.optional(__S(2499, __c78, 3)),
+          connectionProperties: S.optional(__S(2531, __c79, 3)),
           timeFormat: S.optional(S.String),
           preserveAsciiControlCharacters: S.optional(S.Boolean),
           timeZone: S.optional(S.String),
           schemaInline: S.optional(S.String),
           sourceColumnMatch: S.optional(S.String),
           fieldDelimiter: S.optional(S.String),
-          clustering: S.optional(__S(2304, __c72, 0)),
+          clustering: S.optional(__S(2336, __c73, 0)),
           maxBadRecords: S.optional(S.Number),
           allowJaggedRows: S.optional(S.Boolean),
-          destinationEncryptionConfiguration: S.optional(__S(1888, __c59, 0)),
+          destinationEncryptionConfiguration: S.optional(__S(1920, __c60, 0)),
           skipLeadingRows: S.optional(S.Number),
           fileSetSpecType: S.optional(S.String),
-          destinationTableProperties: S.optional(__S(2402, __c75, 2)),
+          destinationTableProperties: S.optional(__S(2434, __c76, 2)),
           projectionFields: S.optional(__S(1376, __c43, 0)),
           datetimeFormat: S.optional(S.String),
           schemaInlineFormat: S.optional(S.String),
@@ -9165,30 +8317,30 @@ function __c75(j: number): any {
           dateFormat: S.optional(S.String),
           schemaUpdateOptions: S.optional(__S(1376, __c43, 0)),
           allowQuotedNewlines: S.optional(S.Boolean),
-          timePartitioning: S.optional(__S(2305, __c72, 1)),
-          parquetOptions: S.optional(__S(2337, __c73, 1)),
+          timePartitioning: S.optional(__S(2337, __c73, 1)),
+          parquetOptions: S.optional(__S(2369, __c74, 1)),
           referenceFileSchemaUri: S.optional(S.String),
-          schema: S.optional(__S(2187, __c68, 11)),
+          schema: S.optional(__S(2219, __c69, 11)),
           createDisposition: S.optional(S.String),
           copyFilesOnly: S.optional(S.Boolean),
           writeDisposition: S.optional(S.String),
           ignoreUnknownValues: S.optional(S.Boolean),
           sourceUris: S.optional(__S(1376, __c43, 0)),
-          rangePartitioning: S.optional(__S(2307, __c72, 3)),
+          rangePartitioning: S.optional(__S(2339, __c73, 3)),
           autodetect: S.optional(S.Boolean),
           nullMarker: S.optional(S.String),
-          decimalTargetTypes: S.optional(__S(1920, __c60, 0)),
+          decimalTargetTypes: S.optional(__S(1952, __c61, 0)),
           quote: S.optional(S.String),
-          timestampTargetPrecision: S.optional(__S(2048, __c64, 0)),
+          timestampTargetPrecision: S.optional(__S(2080, __c65, 0)),
         }),
       ).annotate({ identifier: "JobConfigurationLoad" });
     case 4:
-      return S.Record(S.String, __S(2019, __c63, 3));
+      return S.Record(S.String, __S(2051, __c64, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          types: S.optional(__S(2404, __c75, 4)),
-          values: S.optional(__S(2496, __c78, 0)),
+          types: S.optional(__S(2436, __c76, 4)),
+          values: S.optional(__S(2528, __c79, 0)),
         }),
       ).annotate({ identifier: "SystemVariables" });
     case 6:
@@ -9200,37 +8352,37 @@ function __c75(j: number): any {
         }),
       ).annotate({ identifier: "ScriptOptions" });
     case 7:
-      return S.Record(S.String, __S(2350, __c73, 14));
+      return S.Record(S.String, __S(2382, __c74, 14));
     case 8:
       return S.suspend(() =>
         S.Struct({
           allowLargeResults: S.optional(S.Boolean),
           useLegacySql: S.optional(S.Boolean),
-          rangePartitioning: S.optional(__S(2307, __c72, 3)),
+          rangePartitioning: S.optional(__S(2339, __c73, 3)),
           writeDisposition: S.optional(S.String),
           priority: S.optional(S.String),
           createSession: S.optional(S.Boolean),
           flattenResults: S.optional(S.Boolean),
-          systemVariables: S.optional(__S(2405, __c75, 5)),
+          systemVariables: S.optional(__S(2437, __c76, 5)),
           useQueryCache: S.optional(S.Boolean),
-          scriptOptions: S.optional(__S(2406, __c75, 6)),
+          scriptOptions: S.optional(__S(2438, __c76, 6)),
           writeIncrementalResults: S.optional(S.Boolean),
           createDisposition: S.optional(S.String),
           maximumBillingTier: S.optional(S.Number),
           maximumBytesBilled: S.optional(S.String),
           parameterMode: S.optional(S.String),
-          connectionProperties: S.optional(__S(2499, __c78, 3)),
-          clustering: S.optional(__S(2304, __c72, 0)),
-          userDefinedFunctionResources: S.optional(__S(2339, __c73, 3)),
-          tableDefinitions: S.optional(__S(2407, __c75, 7)),
-          secureContext: S.optional(__S(2497, __c78, 1)),
-          destinationEncryptionConfiguration: S.optional(__S(1888, __c59, 0)),
-          queryParameters: S.optional(__S(2508, __c78, 12)),
-          destinationTable: S.optional(__S(1856, __c58, 0)),
-          timePartitioning: S.optional(__S(2305, __c72, 1)),
+          connectionProperties: S.optional(__S(2531, __c79, 3)),
+          clustering: S.optional(__S(2336, __c73, 0)),
+          userDefinedFunctionResources: S.optional(__S(2371, __c74, 3)),
+          tableDefinitions: S.optional(__S(2439, __c76, 7)),
+          secureContext: S.optional(__S(2529, __c79, 1)),
+          destinationEncryptionConfiguration: S.optional(__S(1920, __c60, 0)),
+          queryParameters: S.optional(__S(2540, __c79, 12)),
+          destinationTable: S.optional(__S(1888, __c59, 0)),
+          timePartitioning: S.optional(__S(2337, __c73, 1)),
           continuous: S.optional(S.Boolean),
           query: S.optional(S.String),
-          defaultDataset: S.optional(__S(1984, __c62, 0)),
+          defaultDataset: S.optional(__S(2016, __c63, 0)),
           preserveNulls: S.optional(S.Boolean),
           schemaUpdateOptions: S.optional(__S(1376, __c43, 0)),
         }),
@@ -9238,11 +8390,11 @@ function __c75(j: number): any {
     case 9:
       return S.suspend(() =>
         S.Struct({
-          destinationEncryptionConfiguration: S.optional(__S(1888, __c59, 0)),
-          destinationTable: S.optional(__S(1856, __c58, 0)),
+          destinationEncryptionConfiguration: S.optional(__S(1920, __c60, 0)),
+          destinationTable: S.optional(__S(1888, __c59, 0)),
           writeDisposition: S.optional(S.String),
-          sourceTable: S.optional(__S(1856, __c58, 0)),
-          sourceTables: S.optional(__S(2351, __c73, 15)),
+          sourceTable: S.optional(__S(1888, __c59, 0)),
+          sourceTables: S.optional(__S(2383, __c74, 15)),
           destinationExpirationTime: S.optional(S.String),
           createDisposition: S.optional(S.String),
           operationType: S.optional(S.String),
@@ -9251,15 +8403,15 @@ function __c75(j: number): any {
     case 10:
       return S.suspend(() =>
         S.Struct({
-          extract: S.optional(__S(2401, __c75, 1)),
-          load: S.optional(__S(2403, __c75, 3)),
-          query: S.optional(__S(2408, __c75, 8)),
+          extract: S.optional(__S(2433, __c76, 1)),
+          load: S.optional(__S(2435, __c76, 3)),
+          query: S.optional(__S(2440, __c76, 8)),
           jobType: S.optional(S.String),
           dryRun: S.optional(S.Boolean),
-          copy: S.optional(__S(2409, __c75, 9)),
+          copy: S.optional(__S(2441, __c76, 9)),
           jobTimeoutMs: S.optional(S.String),
           reservation: S.optional(S.String),
-          labels: S.optional(__S(1824, __c57, 0)),
+          labels: S.optional(__S(1856, __c58, 0)),
           maxSlots: S.optional(S.Number),
         }),
       ).annotate({ identifier: "JobConfiguration" });
@@ -9276,7 +8428,7 @@ function __c75(j: number): any {
         }),
       ).annotate({ identifier: "QueryTimelineSample" });
     case 12:
-      return S.Array(__S(2411, __c75, 11));
+      return S.Array(__S(2443, __c76, 11));
     case 13:
       return S.suspend(() =>
         S.Struct({
@@ -9284,7 +8436,7 @@ function __c75(j: number): any {
           inputFileBytes: S.optional(S.String),
           badRecords: S.optional(S.String),
           outputBytes: S.optional(S.String),
-          timeline: S.optional(__S(2412, __c75, 12)),
+          timeline: S.optional(__S(2444, __c76, 12)),
           inputFiles: S.optional(S.String),
         }),
       ).annotate({ identifier: "JobStatistics3" });
@@ -9306,12 +8458,12 @@ function __c75(j: number): any {
         }),
       ).annotate({ identifier: "ScriptStackFrame" });
     case 16:
-      return S.Array(__S(2415, __c75, 15));
+      return S.Array(__S(2447, __c76, 15));
     case 17:
       return S.suspend(() =>
         S.Struct({
           evaluationKind: S.optional(S.String),
-          stackFrames: S.optional(__S(2416, __c75, 16)),
+          stackFrames: S.optional(__S(2448, __c76, 16)),
         }),
       ).annotate({ identifier: "ScriptStatistics" });
     case 18:
@@ -9333,19 +8485,19 @@ function __c75(j: number): any {
       return S.suspend(() =>
         S.Struct({
           explanation: S.optional(S.String),
-          tableReference: S.optional(__S(1856, __c58, 0)),
-          pruningStats: S.optional(__S(2419, __c75, 19)),
+          tableReference: S.optional(__S(1888, __c59, 0)),
+          pruningStats: S.optional(__S(2451, __c76, 19)),
           tableType: S.optional(S.String),
           unusedReason: S.optional(S.String),
           staleness: S.optional(S.String),
         }),
       ).annotate({ identifier: "TableMetadataCacheUsage" });
     case 21:
-      return S.Array(__S(2420, __c75, 20));
+      return S.Array(__S(2452, __c76, 20));
     case 22:
       return S.suspend(() =>
         S.Struct({
-          tableMetadataCacheUsage: S.optional(__S(2421, __c75, 21)),
+          tableMetadataCacheUsage: S.optional(__S(2453, __c76, 21)),
         }),
       ).annotate({ identifier: "MetadataCacheStatistics" });
     case 23:
@@ -9359,11 +8511,11 @@ function __c75(j: number): any {
       return S.suspend(() =>
         S.Struct({
           kmsKeyName: S.optional(S.String),
-          endpoints: S.optional(__S(1824, __c57, 0)),
+          endpoints: S.optional(__S(1856, __c58, 0)),
           sparkJobLocation: S.optional(S.String),
           sparkJobId: S.optional(S.String),
           gcsStagingBucket: S.optional(S.String),
-          loggingInfo: S.optional(__S(2423, __c75, 23)),
+          loggingInfo: S.optional(__S(2455, __c76, 23)),
         }),
       ).annotate({ identifier: "SparkStatistics" });
     case 25:
@@ -9374,7 +8526,7 @@ function __c75(j: number): any {
         }),
       ).annotate({ identifier: "JobStatistics2ReservationUsageItem" });
     case 26:
-      return S.Array(__S(2425, __c75, 25));
+      return S.Array(__S(2457, __c76, 25));
     case 27:
       return S.suspend(() =>
         S.Struct({
@@ -9387,7 +8539,7 @@ function __c75(j: number): any {
         }),
       ).annotate({ identifier: "ExternalServiceCost" });
     case 28:
-      return S.Array(__S(2427, __c75, 27));
+      return S.Array(__S(2459, __c76, 27));
     case 29:
       return S.suspend(() =>
         S.Struct({
@@ -9409,7 +8561,7 @@ function __c75(j: number): any {
       ).annotate({ identifier: "GenAiFunctionCostOptimizationStats" });
   }
 }
-function __c76(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9421,21 +8573,21 @@ function __c76(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          cacheStats: S.optional(__S(2430, __c75, 30)),
-          costOptimizationStats: S.optional(__S(2431, __c75, 31)),
-          errorStats: S.optional(__S(2432, __c76, 0)),
+          cacheStats: S.optional(__S(2462, __c76, 30)),
+          costOptimizationStats: S.optional(__S(2463, __c76, 31)),
+          errorStats: S.optional(__S(2464, __c77, 0)),
           prompt: S.optional(S.String),
           functionName: S.optional(S.String),
           numProcessedRows: S.optional(S.String),
         }),
       ).annotate({ identifier: "GenAiFunctionStats" });
     case 2:
-      return S.Array(__S(2433, __c76, 1));
+      return S.Array(__S(2465, __c77, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          errorStats: S.optional(__S(2429, __c75, 29)),
-          functionStats: S.optional(__S(2434, __c76, 2)),
+          errorStats: S.optional(__S(2461, __c76, 29)),
+          functionStats: S.optional(__S(2466, __c77, 2)),
         }),
       ).annotate({ identifier: "GenAiStats" });
     case 4:
@@ -9446,7 +8598,7 @@ function __c76(j: number): any {
         }),
       ).annotate({ identifier: "BiEngineReason" });
     case 5:
-      return S.Array(__S(2436, __c76, 4));
+      return S.Array(__S(2468, __c77, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -9457,11 +8609,11 @@ function __c76(j: number): any {
         }),
       ).annotate({ identifier: "SkewSource" });
     case 7:
-      return S.Array(__S(2438, __c76, 6));
+      return S.Array(__S(2470, __c77, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          skewSources: S.optional(__S(2439, __c76, 7)),
+          skewSources: S.optional(__S(2471, __c77, 7)),
         }),
       ).annotate({ identifier: "PartitionSkew" });
     case 9:
@@ -9474,20 +8626,20 @@ function __c76(j: number): any {
         }),
       ).annotate({ identifier: "HighCardinalityJoin" });
     case 10:
-      return S.Array(__S(2441, __c76, 9));
+      return S.Array(__S(2473, __c77, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
-          biEngineReasons: S.optional(__S(2437, __c76, 5)),
-          partitionSkew: S.optional(__S(2440, __c76, 8)),
-          highCardinalityJoins: S.optional(__S(2442, __c76, 10)),
+          biEngineReasons: S.optional(__S(2469, __c77, 5)),
+          partitionSkew: S.optional(__S(2472, __c77, 8)),
+          highCardinalityJoins: S.optional(__S(2474, __c77, 10)),
           stageId: S.optional(S.String),
           slotContention: S.optional(S.Boolean),
           insufficientShuffleQuota: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "StagePerformanceStandaloneInsight" });
     case 12:
-      return S.Array(__S(2443, __c76, 11));
+      return S.Array(__S(2475, __c77, 11));
     case 13:
       return S.suspend(() =>
         S.Struct({
@@ -9499,12 +8651,12 @@ function __c76(j: number): any {
       return S.suspend(() =>
         S.Struct({
           metadataCacheNotUsedButUsedPreviously: S.optional(S.Boolean),
-          tableReference: S.optional(__S(1856, __c58, 0)),
-          metadataCacheStalenessInsight: S.optional(__S(2445, __c76, 13)),
+          tableReference: S.optional(__S(1888, __c59, 0)),
+          metadataCacheStalenessInsight: S.optional(__S(2477, __c77, 13)),
         }),
       ).annotate({ identifier: "TableChangeInsight" });
     case 15:
-      return S.Array(__S(2446, __c76, 14));
+      return S.Array(__S(2478, __c77, 14));
     case 16:
       return S.suspend(() =>
         S.Struct({
@@ -9515,18 +8667,18 @@ function __c76(j: number): any {
       return S.suspend(() =>
         S.Struct({
           stageId: S.optional(S.String),
-          inputDataChange: S.optional(__S(2448, __c76, 16)),
+          inputDataChange: S.optional(__S(2480, __c77, 16)),
         }),
       ).annotate({ identifier: "StagePerformanceChangeInsight" });
     case 18:
-      return S.Array(__S(2449, __c76, 17));
+      return S.Array(__S(2481, __c77, 17));
     case 19:
       return S.suspend(() =>
         S.Struct({
-          stagePerformanceStandaloneInsights: S.optional(__S(2444, __c76, 12)),
+          stagePerformanceStandaloneInsights: S.optional(__S(2476, __c77, 12)),
           avgPreviousExecutionMs: S.optional(S.String),
-          tableChangeInsights: S.optional(__S(2447, __c76, 15)),
-          stagePerformanceChangeInsights: S.optional(__S(2450, __c76, 18)),
+          tableChangeInsights: S.optional(__S(2479, __c77, 15)),
+          stagePerformanceChangeInsights: S.optional(__S(2482, __c77, 18)),
         }),
       ).annotate({ identifier: "PerformanceInsights" });
     case 20:
@@ -9538,7 +8690,7 @@ function __c76(j: number): any {
         }),
       ).annotate({ identifier: "ObjectStorageStats" });
     case 21:
-      return S.Array(__S(2452, __c76, 20));
+      return S.Array(__S(2484, __c77, 20));
     case 22:
       return S.suspend(() =>
         S.Struct({
@@ -9563,47 +8715,47 @@ function __c76(j: number): any {
         S.Struct({
           trainingType: S.optional(S.String),
           maxIterations: S.optional(S.String),
-          hparamTrials: S.optional(__S(2115, __c66, 3)),
+          hparamTrials: S.optional(__S(2147, __c67, 3)),
           modelType: S.optional(S.String),
-          iterationResults: S.optional(__S(2125, __c66, 13)),
+          iterationResults: S.optional(__S(2157, __c67, 13)),
         }),
       ).annotate({ identifier: "MlStatistics" });
     case 25:
       return S.suspend(() =>
         S.Struct({
           accelerationMode: S.optional(S.String),
-          biEngineReasons: S.optional(__S(2437, __c76, 5)),
+          biEngineReasons: S.optional(__S(2469, __c77, 5)),
           biEngineMode: S.optional(S.String),
         }),
       ).annotate({ identifier: "BiEngineStatistics" });
     case 26:
       return S.suspend(() =>
         S.Struct({
-          baseTable: S.optional(__S(1856, __c58, 0)),
+          baseTable: S.optional(__S(1888, __c59, 0)),
           postIndexPruningParallelInputCount: S.optional(S.String),
           preIndexPruningParallelInputCount: S.optional(S.String),
           indexId: S.optional(S.String),
         }),
       ).annotate({ identifier: "IndexPruningStats" });
     case 27:
-      return S.Array(__S(2458, __c76, 26));
+      return S.Array(__S(2490, __c77, 26));
     case 28:
       return S.suspend(() =>
         S.Struct({
           code: S.optional(S.String),
           message: S.optional(S.String),
-          baseTable: S.optional(__S(1856, __c58, 0)),
+          baseTable: S.optional(__S(1888, __c59, 0)),
           indexName: S.optional(S.String),
         }),
       ).annotate({ identifier: "IndexUnusedReason" });
     case 29:
-      return S.Array(__S(2460, __c76, 28));
+      return S.Array(__S(2492, __c77, 28));
     case 30:
       return S.suspend(() =>
         S.Struct({
           indexUsageMode: S.optional(S.String),
-          indexPruningStats: S.optional(__S(2459, __c76, 27)),
-          indexUnusedReasons: S.optional(__S(2461, __c76, 29)),
+          indexPruningStats: S.optional(__S(2491, __c77, 27)),
+          indexUnusedReasons: S.optional(__S(2493, __c77, 29)),
         }),
       ).annotate({ identifier: "SearchStatistics" });
     case 31:
@@ -9616,26 +8768,26 @@ function __c76(j: number): any {
       ).annotate({ identifier: "StoredColumnsUnusedReason" });
   }
 }
-function __c77(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2463, __c76, 31));
+      return S.Array(__S(2495, __c77, 31));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          storedColumnsUnusedReasons: S.optional(__S(2464, __c77, 0)),
-          baseTable: S.optional(__S(1856, __c58, 0)),
+          storedColumnsUnusedReasons: S.optional(__S(2496, __c78, 0)),
+          baseTable: S.optional(__S(1888, __c59, 0)),
           isQueryAccelerated: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "StoredColumnsUsage" });
     case 2:
-      return S.Array(__S(2465, __c77, 1));
+      return S.Array(__S(2497, __c78, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           indexUsageMode: S.optional(S.String),
-          indexUnusedReasons: S.optional(__S(2461, __c76, 29)),
-          storedColumnsUsages: S.optional(__S(2466, __c77, 2)),
+          indexUnusedReasons: S.optional(__S(2493, __c77, 29)),
+          storedColumnsUsages: S.optional(__S(2498, __c78, 2)),
         }),
       ).annotate({ identifier: "VectorSearchStatistics" });
     case 4:
@@ -9650,11 +8802,11 @@ function __c77(j: number): any {
         }),
       ).annotate({ identifier: "LoadQueryStatistics" });
     case 5:
-      return S.Array(__S(1952, __c61, 0));
+      return S.Array(__S(1984, __c62, 0));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          optimizationDetails: S.optional(__S(2496, __c78, 0)),
+          optimizationDetails: S.optional(__S(2528, __c79, 0)),
         }),
       ).annotate({ identifier: "QueryInfo" });
     case 7:
@@ -9666,7 +8818,7 @@ function __c77(j: number): any {
         }),
       ).annotate({ identifier: "PropertyGraphReference" });
     case 8:
-      return S.Array(__S(2471, __c77, 7));
+      return S.Array(__S(2503, __c78, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
@@ -9675,7 +8827,7 @@ function __c77(j: number): any {
         }),
       ).annotate({ identifier: "ExplainQueryStep" });
     case 10:
-      return S.Array(__S(2473, __c77, 9));
+      return S.Array(__S(2505, __c78, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
@@ -9705,7 +8857,7 @@ function __c77(j: number): any {
           waitMsAvg: S.optional(S.String),
           shuffleOutputBytesSpilled: S.optional(S.String),
           waitMsMax: S.optional(S.String),
-          steps: S.optional(__S(2474, __c77, 10)),
+          steps: S.optional(__S(2506, __c78, 10)),
           id: S.optional(S.String),
           recordsWritten: S.optional(S.String),
           computeMsMax: S.optional(S.String),
@@ -9713,75 +8865,75 @@ function __c77(j: number): any {
         }),
       ).annotate({ identifier: "ExplainQueryStage" });
     case 12:
-      return S.Array(__S(2475, __c77, 11));
+      return S.Array(__S(2507, __c78, 11));
     case 13:
       return S.suspend(() =>
         S.Struct({
           estimatedBytesSaved: S.optional(S.String),
           chosen: S.optional(S.Boolean),
           rejectedReason: S.optional(S.String),
-          tableReference: S.optional(__S(1856, __c58, 0)),
+          tableReference: S.optional(__S(1888, __c59, 0)),
         }),
       ).annotate({ identifier: "MaterializedView" });
     case 14:
-      return S.Array(__S(2477, __c77, 13));
+      return S.Array(__S(2509, __c78, 13));
     case 15:
       return S.suspend(() =>
         S.Struct({
-          materializedView: S.optional(__S(2478, __c77, 14)),
+          materializedView: S.optional(__S(2510, __c78, 14)),
         }),
       ).annotate({ identifier: "MaterializedViewStatistics" });
     case 16:
       return S.suspend(() =>
         S.Struct({
-          modelTraining: S.optional(__S(2418, __c75, 18)),
+          modelTraining: S.optional(__S(2450, __c76, 18)),
           numDmlAffectedRows: S.optional(S.String),
-          ddlTargetRowAccessPolicy: S.optional(__S(2272, __c71, 0)),
+          ddlTargetRowAccessPolicy: S.optional(__S(2304, __c72, 0)),
           modelTrainingExpectedTotalIteration: S.optional(S.String),
-          dclTargetDataset: S.optional(__S(1984, __c62, 0)),
-          dclTargetTable: S.optional(__S(1856, __c58, 0)),
-          metadataCacheStatistics: S.optional(__S(2422, __c75, 22)),
-          sparkStatistics: S.optional(__S(2424, __c75, 24)),
-          reservationUsage: S.optional(__S(2426, __c75, 26)),
+          dclTargetDataset: S.optional(__S(2016, __c63, 0)),
+          dclTargetTable: S.optional(__S(1888, __c59, 0)),
+          metadataCacheStatistics: S.optional(__S(2454, __c76, 22)),
+          sparkStatistics: S.optional(__S(2456, __c76, 24)),
+          reservationUsage: S.optional(__S(2458, __c76, 26)),
           transferredBytes: S.optional(S.String),
-          referencedLogicalViews: S.optional(__S(2351, __c73, 15)),
-          undeclaredQueryParameters: S.optional(__S(2508, __c78, 12)),
-          externalServiceCosts: S.optional(__S(2428, __c75, 28)),
+          referencedLogicalViews: S.optional(__S(2383, __c74, 15)),
+          undeclaredQueryParameters: S.optional(__S(2540, __c79, 12)),
+          externalServiceCosts: S.optional(__S(2460, __c76, 28)),
           billingTier: S.optional(S.Number),
-          schema: S.optional(__S(2187, __c68, 11)),
-          genAiStats: S.optional(__S(2435, __c76, 3)),
-          performanceInsights: S.optional(__S(2451, __c76, 19)),
-          objectStorageStats: S.optional(__S(2453, __c76, 21)),
-          exportDataStatistics: S.optional(__S(2454, __c76, 22)),
-          incrementalResultStats: S.optional(__S(2455, __c76, 23)),
-          ddlTargetDataset: S.optional(__S(1984, __c62, 0)),
+          schema: S.optional(__S(2219, __c69, 11)),
+          genAiStats: S.optional(__S(2467, __c77, 3)),
+          performanceInsights: S.optional(__S(2483, __c77, 19)),
+          objectStorageStats: S.optional(__S(2485, __c77, 21)),
+          exportDataStatistics: S.optional(__S(2486, __c77, 22)),
+          incrementalResultStats: S.optional(__S(2487, __c77, 23)),
+          ddlTargetDataset: S.optional(__S(2016, __c63, 0)),
           totalServicesSkuSlotMs: S.optional(S.String),
-          mlStatistics: S.optional(__S(2456, __c76, 24)),
-          biEngineStatistics: S.optional(__S(2457, __c76, 25)),
-          searchStatistics: S.optional(__S(2462, __c76, 30)),
+          mlStatistics: S.optional(__S(2488, __c77, 24)),
+          biEngineStatistics: S.optional(__S(2489, __c77, 25)),
+          searchStatistics: S.optional(__S(2494, __c77, 30)),
           cacheHit: S.optional(S.Boolean),
-          vectorSearchStatistics: S.optional(__S(2467, __c77, 3)),
-          ddlTargetRoutine: S.optional(__S(1952, __c61, 0)),
-          timeline: S.optional(__S(2412, __c75, 12)),
-          dmlStats: S.optional(__S(2509, __c78, 13)),
-          ddlTargetTable: S.optional(__S(1856, __c58, 0)),
+          vectorSearchStatistics: S.optional(__S(2499, __c78, 3)),
+          ddlTargetRoutine: S.optional(__S(1984, __c62, 0)),
+          timeline: S.optional(__S(2444, __c76, 12)),
+          dmlStats: S.optional(__S(2541, __c79, 13)),
+          ddlTargetTable: S.optional(__S(1888, __c59, 0)),
           totalBytesProcessed: S.optional(S.String),
-          loadQueryStatistics: S.optional(__S(2468, __c77, 4)),
-          referencedRoutines: S.optional(__S(2469, __c77, 5)),
+          loadQueryStatistics: S.optional(__S(2500, __c78, 4)),
+          referencedRoutines: S.optional(__S(2501, __c78, 5)),
           statementType: S.optional(S.String),
           totalSlotMs: S.optional(S.String),
           estimatedBytesProcessed: S.optional(S.String),
-          queryInfo: S.optional(__S(2470, __c77, 6)),
-          ddlDestinationTable: S.optional(__S(1856, __c58, 0)),
+          queryInfo: S.optional(__S(2502, __c78, 6)),
+          ddlDestinationTable: S.optional(__S(1888, __c59, 0)),
           totalBytesBilled: S.optional(S.String),
-          referencedPropertyGraphs: S.optional(__S(2472, __c77, 8)),
-          queryPlan: S.optional(__S(2476, __c77, 12)),
+          referencedPropertyGraphs: S.optional(__S(2504, __c78, 8)),
+          queryPlan: S.optional(__S(2508, __c78, 12)),
           modelTrainingCurrentIteration: S.optional(S.Number),
-          referencedTables: S.optional(__S(2351, __c73, 15)),
+          referencedTables: S.optional(__S(2383, __c74, 15)),
           ddlAffectedRowAccessPolicyCount: S.optional(S.String),
-          dclTargetView: S.optional(__S(1856, __c58, 0)),
+          dclTargetView: S.optional(__S(1888, __c59, 0)),
           totalPartitionsProcessed: S.optional(S.String),
-          materializedViewStatistics: S.optional(__S(2479, __c77, 15)),
+          materializedViewStatistics: S.optional(__S(2511, __c78, 15)),
           ddlOperationPerformed: S.optional(S.String),
           totalBytesProcessedAccuracy: S.optional(S.String),
         }),
@@ -9811,35 +8963,35 @@ function __c77(j: number): any {
         S.Struct({
           destinationUriFileCounts: S.optional(__S(1376, __c43, 0)),
           inputBytes: S.optional(S.String),
-          timeline: S.optional(__S(2412, __c75, 12)),
+          timeline: S.optional(__S(2444, __c76, 12)),
         }),
       ).annotate({ identifier: "JobStatistics4" });
     case 21:
       return S.suspend(() =>
         S.Struct({
-          load: S.optional(__S(2413, __c75, 13)),
+          load: S.optional(__S(2445, __c76, 13)),
           edition: S.optional(S.String),
           reservationGroupPath: S.optional(__S(1376, __c43, 0)),
           totalSlotMs: S.optional(S.String),
-          dataMaskingStatistics: S.optional(__S(2414, __c75, 14)),
+          dataMaskingStatistics: S.optional(__S(2446, __c76, 14)),
           completionRatio: S.optional(S.Number),
           parentJobId: S.optional(S.String),
           totalBytesProcessed: S.optional(S.String),
-          scriptStatistics: S.optional(__S(2417, __c75, 17)),
-          query: S.optional(__S(2480, __c77, 16)),
-          sessionInfo: S.optional(__S(2510, __c78, 14)),
-          parentGlobalQueryJob: S.optional(__S(2240, __c70, 0)),
-          copy: S.optional(__S(2481, __c77, 17)),
+          scriptStatistics: S.optional(__S(2449, __c76, 17)),
+          query: S.optional(__S(2512, __c78, 16)),
+          sessionInfo: S.optional(__S(2542, __c79, 14)),
+          parentGlobalQueryJob: S.optional(__S(2272, __c71, 0)),
+          copy: S.optional(__S(2513, __c78, 17)),
           reservation_id: S.optional(S.String),
           startTime: S.optional(S.String),
-          reservationUsage: S.optional(__S(2426, __c75, 26)),
-          rowLevelSecurityStatistics: S.optional(__S(2482, __c77, 18)),
+          reservationUsage: S.optional(__S(2458, __c76, 26)),
+          rowLevelSecurityStatistics: S.optional(__S(2514, __c78, 18)),
           quotaDeferments: S.optional(__S(1376, __c43, 0)),
           finalExecutionDurationMs: S.optional(S.String),
           numChildJobs: S.optional(S.String),
-          transactionInfo: S.optional(__S(2483, __c77, 19)),
+          transactionInfo: S.optional(__S(2515, __c78, 19)),
           creationTime: S.optional(S.String),
-          extract: S.optional(__S(2484, __c77, 20)),
+          extract: S.optional(__S(2516, __c78, 20)),
           globalQueryRemoteRegions: S.optional(__S(1376, __c43, 0)),
           endTime: S.optional(S.String),
         }),
@@ -9847,21 +8999,21 @@ function __c77(j: number): any {
     case 22:
       return S.suspend(() =>
         S.Struct({
-          errors: S.optional(__S(2208, __c69, 0)),
-          errorResult: S.optional(__S(2144, __c67, 0)),
+          errors: S.optional(__S(2240, __c70, 0)),
+          errorResult: S.optional(__S(2176, __c68, 0)),
           state: S.optional(S.String),
         }),
       ).annotate({ identifier: "JobStatus" });
   }
 }
-function __c78(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
     case 1:
       return S.suspend(() =>
         S.Struct({
-          secureParameterEntries: S.optional(__S(2496, __c78, 0)),
+          secureParameterEntries: S.optional(__S(2528, __c79, 0)),
         }),
       ).annotate({ identifier: "SecureContext" });
     case 2:
@@ -9872,60 +9024,60 @@ function __c78(j: number): any {
         }),
       ).annotate({ identifier: "ConnectionProperty" });
     case 3:
-      return S.Array(__S(2498, __c78, 2));
+      return S.Array(__S(2530, __c79, 2));
     case 4:
       return S.Record(
         S.String,
-        /*@__PURE__*/ S.suspend(() => __S(2503, __c78, 7)),
+        /*@__PURE__*/ S.suspend(() => __S(2535, __c79, 7)),
       );
     case 5:
       return S.suspend(() =>
         S.Struct({
-          end: S.optional(S.suspend(() => __S(2503, __c78, 7))),
-          start: S.optional(S.suspend(() => __S(2503, __c78, 7))),
+          end: S.optional(S.suspend(() => __S(2535, __c79, 7))),
+          start: S.optional(S.suspend(() => __S(2535, __c79, 7))),
         }),
       ).annotate({ identifier: "RangeValue" });
     case 6:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(2503, __c78, 7)));
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(2535, __c79, 7)));
     case 7:
       return S.suspend(() =>
         S.Struct({
           value: S.optional(S.String),
-          structValues: S.optional(__S(2500, __c78, 4)),
-          rangeValue: S.optional(__S(2501, __c78, 5)),
-          arrayValues: S.optional(__S(2502, __c78, 6)),
+          structValues: S.optional(__S(2532, __c79, 4)),
+          rangeValue: S.optional(__S(2533, __c79, 5)),
+          arrayValues: S.optional(__S(2534, __c79, 6)),
         }),
       ).annotate({ identifier: "QueryParameterValue" });
     case 8:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
-          type: S.optional(S.suspend(() => __S(2506, __c78, 10))),
+          type: S.optional(S.suspend(() => __S(2538, __c79, 10))),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "QueryParameterTypeStructTypesItem" });
     case 9:
-      return S.Array(__S(2504, __c78, 8));
+      return S.Array(__S(2536, __c79, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
-          rangeElementType: S.optional(__S(2506, __c78, 10)),
+          rangeElementType: S.optional(__S(2538, __c79, 10)),
           type: S.optional(S.String),
-          arrayType: S.optional(__S(2506, __c78, 10)),
+          arrayType: S.optional(__S(2538, __c79, 10)),
           timestampPrecision: S.optional(S.String),
-          structTypes: S.optional(__S(2505, __c78, 9)),
+          structTypes: S.optional(__S(2537, __c79, 9)),
         }),
       ).annotate({ identifier: "QueryParameterType" });
     case 11:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          parameterValue: S.optional(__S(2503, __c78, 7)),
-          parameterType: S.optional(__S(2506, __c78, 10)),
+          parameterValue: S.optional(__S(2535, __c79, 7)),
+          parameterType: S.optional(__S(2538, __c79, 10)),
         }),
       ).annotate({ identifier: "QueryParameter" });
     case 12:
-      return S.Array(__S(2507, __c78, 11));
+      return S.Array(__S(2539, __c79, 11));
     case 13:
       return S.suspend(() =>
         S.Struct({
@@ -9944,7 +9096,7 @@ function __c78(j: number): any {
       ).annotate({ identifier: "SessionInfo" });
   }
 }
-function __c79(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9954,68 +9106,19 @@ function __c79(j: number): any {
       ).annotate({ identifier: "JobCreationReason" });
   }
 }
-function __c80(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          tableId: S.String.pipe(T.Label()),
-          autodetect_schema: S.optional(S.Boolean.pipe(T.Query())),
-          datasetId: S.String.pipe(T.Label()),
-          streamingBuffer: S.optional(__S(768, __c24, 0)),
-          view: S.optional(__S(771, __c24, 3)),
-          numLongTermPhysicalBytes: S.optional(S.String),
-          description: S.optional(S.String),
-          numTotalPhysicalBytes: S.optional(S.String),
-          numTotalLogicalBytes: S.optional(S.String),
-          numRows: S.optional(S.String),
-          numLongTermLogicalBytes: S.optional(S.String),
-          externalDataConfiguration: S.optional(__S(2350, __c73, 14)),
-          requirePartitionFilter: S.optional(S.Boolean),
-          numCurrentPhysicalBytes: S.optional(S.String),
-          tableReplicationInfo: S.optional(__S(772, __c24, 4)),
-          partitionDefinition: S.optional(__S(775, __c24, 7)),
-          numLongTermBytes: S.optional(S.String),
-          resourceTags: S.optional(__S(1824, __c57, 0)),
-          numPhysicalBytes: S.optional(S.String),
-          numActivePhysicalBytes: S.optional(S.String),
-          defaultCollation: S.optional(S.String),
-          type: S.optional(S.String),
-          clustering: S.optional(__S(2304, __c72, 0)),
-          numPartitions: S.optional(S.String),
-          tableConstraints: S.optional(__S(782, __c24, 14)),
-          creationTime: S.optional(S.String),
-          maxStaleness: S.optional(S.String),
-          labels: S.optional(__S(1824, __c57, 0)),
-          id: S.optional(S.String),
-          managedTableType: S.optional(S.String),
-          restrictions: S.optional(__S(128, __c4, 0)),
-          cloneDefinition: S.optional(__S(783, __c24, 15)),
-          model: S.optional(__S(790, __c24, 22)),
-          timePartitioning: S.optional(__S(2305, __c72, 1)),
-          materializedViewStatus: S.optional(__S(791, __c24, 23)),
-          schema: S.optional(__S(2187, __c68, 11)),
-          biglakeConfiguration: S.optional(__S(792, __c24, 24)),
-          etag: S.optional(S.String),
-          location: S.optional(S.String),
-          externalCatalogTableOptions: S.optional(__S(795, __c24, 27)),
-          rangePartitioning: S.optional(__S(2307, __c72, 3)),
-          snapshotDefinition: S.optional(__S(796, __c24, 28)),
-          lastModifiedTime: S.optional(S.String),
-          replicas: S.optional(__S(2351, __c73, 15)),
-          selfLink: S.optional(S.String),
-          kind: S.optional(S.String),
-          expirationTime: S.optional(S.String),
-          tableReference: S.optional(__S(1856, __c58, 0)),
-          numTimeTravelPhysicalBytes: S.optional(S.String),
-          numActiveLogicalBytes: S.optional(S.String),
-          materializedView: S.optional(__S(797, __c24, 29)),
-          numBytes: S.optional(S.String),
-          encryptionConfiguration: S.optional(__S(1888, __c59, 0)),
-          defaultRoundingMode: S.optional(S.String),
-          friendlyName: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(798, __c24, 30),
+          S.Struct({
+            projectId: S.String.pipe(T.Label()),
+            tableId: S.String.pipe(T.Label()),
+            autodetect_schema: S.optional(S.Boolean.pipe(T.Query())),
+            datasetId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "projects/{+projectId}/datasets/{+datasetId}/tables/{+tableId}",
@@ -10025,7 +9128,7 @@ function __c80(j: number): any {
       ).annotate({ identifier: "UpdateTablesRequest" });
   }
 }
-function __c81(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10043,7 +9146,7 @@ function __c81(j: number): any {
       ).annotate({ identifier: "DeleteDatasetsRequest" });
   }
 }
-function __c82(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10061,7 +9164,7 @@ function __c82(j: number): any {
       ).annotate({ identifier: "DeleteJobsRequest" });
   }
 }
-function __c83(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10079,7 +9182,7 @@ function __c83(j: number): any {
       ).annotate({ identifier: "DeleteModelsRequest" });
   }
 }
-function __c84(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

@@ -172,7 +172,8 @@ export interface WmxSite {
   /** The URL of the site. */
   siteUrl?: string | undefined;
 }
-export interface InspectUrlInspectionIndexRequest {
+/** Index inspection request. */
+export interface InspectUrlIndexRequest {
   /** Required. URL to inspect. Must be under the property specified in "site_url". */
   inspectionUrl?: string | undefined;
   /** Optional. An [IETF BCP-47](https://en.wikipedia.org/wiki/IETF_language_tag) language code representing the requested language for translated issue messages, e.g. "en-US", "or "de-CH". Default value is "en-US". */
@@ -180,6 +181,7 @@ export interface InspectUrlInspectionIndexRequest {
   /** Required. The URL of the property as defined in Search Console. **Examples:** `http://www.example.com/` for a URL-prefix property, or `sc-domain:example.com` for a Domain property. */
   siteUrl?: string | undefined;
 }
+export interface InspectUrlInspectionIndexRequest extends InspectUrlIndexRequest {}
 export type IndexStatusInspectionResultPageFetchStateEnum =
   | "PAGE_FETCH_STATE_UNSPECIFIED"
   | "SUCCESSFUL"
@@ -472,9 +474,7 @@ export interface ApiDimensionFilterGroup {
   filters?: ApiDimensionFilterList | undefined;
 }
 export type ApiDimensionFilterGroupList = Array<ApiDimensionFilterGroup>;
-export interface QuerySearchanalyticsRequest {
-  /** The site's URL, including protocol. For example: `http://www.example.com/`. */
-  siteUrl: string;
+export interface SearchAnalyticsQueryRequest {
   /** Optional. [Optional; Default is \"web\"] Type of report: search type, or either Discover or Gnews. */
   type?: SearchAnalyticsQueryRequestTypeEnum | (string & {}) | undefined;
   /** [Required] Start date of the requested date range, in YYYY-MM-DD format, in PST time (UTC - 8:00). Must be less than or equal to the end date. This value is included in the range. */
@@ -495,6 +495,10 @@ export interface QuerySearchanalyticsRequest {
   dimensions?: SearchAnalyticsQueryRequestDimensionsItemEnumList | undefined;
   /** [Optional] Zero or more filters to apply to the dimension grouping values; for example, 'query contains \"buy\"' to see only data where the query string contains the substring \"buy\" (not case-sensitive). You can filter by a dimension without grouping by it. */
   dimensionFilterGroups?: ApiDimensionFilterGroupList | undefined;
+}
+export interface QuerySearchanalyticsRequest extends SearchAnalyticsQueryRequest {
+  /** The site's URL, including protocol. For example: `http://www.example.com/`. */
+  siteUrl: string;
 }
 /** An object that may be returned with your query results, providing context about the state of the data. When you request recent data (using `all` or `hourly_all` for `dataState`), some of the rows returned may represent data that is incomplete, which means that the data is still being collected and processed. This metadata object helps you identify exactly when this starts and ends. All dates and times provided in this object are in the `America/Los_Angeles` time zone. The specific field returned within this object depends on how you've grouped your data in the request. See details in inner fields. */
 export interface Metadata {
@@ -525,12 +529,14 @@ export interface SearchAnalyticsQueryResponse {
   /** How the results were aggregated. */
   responseAggregationType?: SearchAnalyticsQueryResponseResponseAggregationTypeEnum | undefined;
 }
-export interface RunUrlTestingToolsMobileFriendlyTestRequest {
+/** Mobile-friendly test request. */
+export interface RunMobileFriendlyTestRequest {
   /** URL for inspection. */
   url?: string | undefined;
   /** Whether or not screenshot is requested. Default is false. */
   requestScreenshot?: boolean | undefined;
 }
+export interface RunUrlTestingToolsMobileFriendlyTestRequest extends RunMobileFriendlyTestRequest {}
 export type RunMobileFriendlyTestResponseMobileFriendlinessEnum =
   | "MOBILE_FRIENDLY_TEST_RESULT_UNSPECIFIED"
   | "MOBILE_FRIENDLY"
@@ -693,8 +699,8 @@ export const inspectUrlInspectionIndex: API.OperationMethod<
   InspectUrlInspectionIndexError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c13, 0) as any as S.Schema<InspectUrlInspectionIndexRequest>,
-  output: __S(222, __c13, 14) as any as S.Schema<InspectUrlIndexResponse>,
+  input: __S(209, __c13, 1) as any as S.Schema<InspectUrlInspectionIndexRequest>,
+  output: __S(223, __c13, 15) as any as S.Schema<InspectUrlIndexResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -744,8 +750,8 @@ export const querySearchanalytics: API.OperationMethod<
   QuerySearchanalyticsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(37, __c2, 5) as any as S.Schema<QuerySearchanalyticsRequest>,
-  output: __S(41, __c2, 9) as any as S.Schema<SearchAnalyticsQueryResponse>,
+  input: __S(38, __c2, 6) as any as S.Schema<QuerySearchanalyticsRequest>,
+  output: __S(42, __c2, 10) as any as S.Schema<SearchAnalyticsQueryResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -766,8 +772,8 @@ export const runUrlTestingToolsMobileFriendlyTest: API.OperationMethod<
   RunUrlTestingToolsMobileFriendlyTestError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c3, 0) as any as S.Schema<RunUrlTestingToolsMobileFriendlyTestRequest>,
-  output: __S(56, __c3, 8) as any as S.Schema<RunMobileFriendlyTestResponse>,
+  input: __S(49, __c3, 1) as any as S.Schema<RunUrlTestingToolsMobileFriendlyTestRequest>,
+  output: __S(57, __c3, 9) as any as S.Schema<RunMobileFriendlyTestResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -866,7 +872,6 @@ function __c2(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          siteUrl: S.String.pipe(T.Label()),
           type: S.optional(S.String),
           startDate: S.optional(S.String),
           searchType: S.optional(S.String),
@@ -877,7 +882,16 @@ function __c2(j: number): any {
           endDate: S.optional(S.String),
           dimensions: S.optional(__S(32, __c2, 0)),
           dimensionFilterGroups: S.optional(__S(36, __c2, 4)),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "SearchAnalyticsQueryRequest" });
+    case 6:
+      return S.suspend(() =>
+        S.Extend(
+          __S(37, __c2, 5),
+          S.Struct({
+            siteUrl: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "webmasters/v3/sites/{siteUrl}/searchAnalytics/query",
@@ -885,14 +899,14 @@ function __c2(j: number): any {
           }),
         ),
       ).annotate({ identifier: "QuerySearchanalyticsRequest" });
-    case 6:
+    case 7:
       return S.suspend(() =>
         S.Struct({
           firstIncompleteHour: S.optional(S.String),
           firstIncompleteDate: S.optional(S.String),
         }),
       ).annotate({ identifier: "Metadata" });
-    case 7:
+    case 8:
       return S.suspend(() =>
         S.Struct({
           impressions: S.optional(S.Number),
@@ -902,13 +916,13 @@ function __c2(j: number): any {
           clicks: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ApiDataRow" });
-    case 8:
-      return S.Array(__S(39, __c2, 7));
     case 9:
+      return S.Array(__S(40, __c2, 8));
+    case 10:
       return S.suspend(() =>
         S.Struct({
-          metadata: S.optional(__S(38, __c2, 6)),
-          rows: S.optional(__S(40, __c2, 8)),
+          metadata: S.optional(__S(39, __c2, 7)),
+          rows: S.optional(__S(41, __c2, 9)),
           responseAggregationType: S.optional(S.String),
         }),
       ).annotate({ identifier: "SearchAnalyticsQueryResponse" });
@@ -921,7 +935,11 @@ function __c3(j: number): any {
         S.Struct({
           url: S.optional(S.String),
           requestScreenshot: S.optional(S.Boolean),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "RunMobileFriendlyTestRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(__S(48, __c3, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/urlTestingTools/mobileFriendlyTest:run",
@@ -929,50 +947,50 @@ function __c3(j: number): any {
           }),
         ),
       ).annotate({ identifier: "RunUrlTestingToolsMobileFriendlyTestRequest" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           data: S.optional(S.String),
           mimeType: S.optional(S.String),
         }),
       ).annotate({ identifier: "Image" });
-    case 2:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           rule: S.optional(S.String),
         }),
       ).annotate({ identifier: "MobileFriendlyIssue" });
-    case 3:
-      return S.Array(__S(50, __c3, 2));
     case 4:
+      return S.Array(__S(51, __c3, 3));
+    case 5:
       return S.suspend(() =>
         S.Struct({
           url: S.optional(S.String),
         }),
       ).annotate({ identifier: "BlockedResource" });
-    case 5:
+    case 6:
       return S.suspend(() =>
         S.Struct({
-          blockedResource: S.optional(__S(52, __c3, 4)),
+          blockedResource: S.optional(__S(53, __c3, 5)),
         }),
       ).annotate({ identifier: "ResourceIssue" });
-    case 6:
-      return S.Array(__S(53, __c3, 5));
     case 7:
+      return S.Array(__S(54, __c3, 6));
+    case 8:
       return S.suspend(() =>
         S.Struct({
           details: S.optional(S.String),
           status: S.optional(S.String),
         }),
       ).annotate({ identifier: "TestStatus" });
-    case 8:
+    case 9:
       return S.suspend(() =>
         S.Struct({
           mobileFriendliness: S.optional(S.String),
-          screenshot: S.optional(__S(49, __c3, 1)),
-          mobileFriendlyIssues: S.optional(__S(51, __c3, 3)),
-          resourceIssues: S.optional(__S(54, __c3, 6)),
-          testStatus: S.optional(__S(55, __c3, 7)),
+          screenshot: S.optional(__S(50, __c3, 2)),
+          mobileFriendlyIssues: S.optional(__S(52, __c3, 4)),
+          resourceIssues: S.optional(__S(55, __c3, 7)),
+          testStatus: S.optional(__S(56, __c3, 8)),
         }),
       ).annotate({ identifier: "RunMobileFriendlyTestResponse" });
   }
@@ -1129,7 +1147,11 @@ function __c13(j: number): any {
           inspectionUrl: S.optional(S.String),
           languageCode: S.optional(S.String),
           siteUrl: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "InspectUrlIndexRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(__S(208, __c13, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/urlInspection/index:inspect",
@@ -1137,7 +1159,7 @@ function __c13(j: number): any {
           }),
         ),
       ).annotate({ identifier: "InspectUrlInspectionIndexRequest" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           pageFetchState: S.optional(S.String),
@@ -1153,19 +1175,19 @@ function __c13(j: number): any {
           googleCanonical: S.optional(S.String),
         }),
       ).annotate({ identifier: "IndexStatusInspectionResult" });
-    case 2:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           issueMessage: S.optional(S.String),
           severity: S.optional(S.String),
         }),
       ).annotate({ identifier: "AmpIssue" });
-    case 3:
-      return S.Array(__S(210, __c13, 2));
     case 4:
+      return S.Array(__S(211, __c13, 3));
+    case 5:
       return S.suspend(() =>
         S.Struct({
-          issues: S.optional(__S(211, __c13, 3)),
+          issues: S.optional(__S(212, __c13, 4)),
           robotsTxtState: S.optional(S.String),
           indexingState: S.optional(S.String),
           lastCrawlTime: S.optional(S.String),
@@ -1175,7 +1197,7 @@ function __c13(j: number): any {
           ampUrl: S.optional(S.String),
         }),
       ).annotate({ identifier: "AmpInspectionResult" });
-    case 5:
+    case 6:
       return S.suspend(() =>
         S.Struct({
           message: S.optional(S.String),
@@ -1183,54 +1205,54 @@ function __c13(j: number): any {
           severity: S.optional(S.String),
         }),
       ).annotate({ identifier: "MobileUsabilityIssue" });
-    case 6:
-      return S.Array(__S(213, __c13, 5));
     case 7:
-      return S.suspend(() =>
-        S.Struct({
-          issues: S.optional(__S(214, __c13, 6)),
-          verdict: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "MobileUsabilityInspectionResult" });
+      return S.Array(__S(214, __c13, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          issues: S.optional(__S(211, __c13, 3)),
+          issues: S.optional(__S(215, __c13, 7)),
+          verdict: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "MobileUsabilityInspectionResult" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          issues: S.optional(__S(212, __c13, 4)),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "Item" });
-    case 9:
-      return S.Array(__S(216, __c13, 8));
     case 10:
+      return S.Array(__S(217, __c13, 9));
+    case 11:
       return S.suspend(() =>
         S.Struct({
           richResultType: S.optional(S.String),
-          items: S.optional(__S(217, __c13, 9)),
+          items: S.optional(__S(218, __c13, 10)),
         }),
       ).annotate({ identifier: "DetectedItems" });
-    case 11:
-      return S.Array(__S(218, __c13, 10));
     case 12:
-      return S.suspend(() =>
-        S.Struct({
-          verdict: S.optional(S.String),
-          detectedItems: S.optional(__S(219, __c13, 11)),
-        }),
-      ).annotate({ identifier: "RichResultsInspectionResult" });
+      return S.Array(__S(219, __c13, 11));
     case 13:
       return S.suspend(() =>
         S.Struct({
-          indexStatusResult: S.optional(__S(209, __c13, 1)),
-          ampResult: S.optional(__S(212, __c13, 4)),
-          mobileUsabilityResult: S.optional(__S(215, __c13, 7)),
-          inspectionResultLink: S.optional(S.String),
-          richResultsResult: S.optional(__S(220, __c13, 12)),
+          verdict: S.optional(S.String),
+          detectedItems: S.optional(__S(220, __c13, 12)),
         }),
-      ).annotate({ identifier: "UrlInspectionResult" });
+      ).annotate({ identifier: "RichResultsInspectionResult" });
     case 14:
       return S.suspend(() =>
         S.Struct({
-          inspectionResult: S.optional(__S(221, __c13, 13)),
+          indexStatusResult: S.optional(__S(210, __c13, 2)),
+          ampResult: S.optional(__S(213, __c13, 5)),
+          mobileUsabilityResult: S.optional(__S(216, __c13, 8)),
+          inspectionResultLink: S.optional(S.String),
+          richResultsResult: S.optional(__S(221, __c13, 13)),
+        }),
+      ).annotate({ identifier: "UrlInspectionResult" });
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          inspectionResult: S.optional(__S(222, __c13, 14)),
         }),
       ).annotate({ identifier: "InspectUrlIndexResponse" });
   }

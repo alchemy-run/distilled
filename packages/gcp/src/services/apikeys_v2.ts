@@ -134,11 +134,8 @@ export interface V2Restrictions {
   androidKeyRestrictions?: V2AndroidKeyRestrictions | undefined;
 }
 export type StringMap = { [key: string]: string | undefined };
-export interface CreateProjectsLocationsKeysRequest {
-  /** User specified key id (optional). If specified, it will become the final component of the key resource name. The id must be unique within the project, must conform with RFC-1034, is restricted to lower-cased letters, and has a maximum length of 63 characters. In another word, the id must match the regular expression: `[a-z]([a-z0-9-]{0,61}[a-z0-9])?`. The id must NOT be a UUID-like string. */
-  keyId?: string | undefined;
-  /** Required. The project in which the API key is created. The parent field must be in format of "projects//locations/global". */
-  parent: string;
+/** The representation of a key managed by the API Keys API. */
+export interface V2Key {
   /** Identifier. The resource name of the key. The `name` has the form: `projects//locations/global/keys/`. For example: `projects/123456867718/locations/global/keys/b7ff1f9f-8275-410a-94dd-3855ee9b5dd2` NOTE: Key is a global resource; hence the only supported value for location is `global`. */
   name?: string | undefined;
   /** Output only. An encrypted and signed value held by this key. This field can be accessed only through the `GetKeyString` method. */
@@ -161,6 +158,12 @@ export interface CreateProjectsLocationsKeysRequest {
   annotations?: StringMap | undefined;
   /** Human-readable display name of this key that you can modify. The maximum length is 63 characters. */
   displayName?: string | undefined;
+}
+export interface CreateProjectsLocationsKeysRequest extends V2Key {
+  /** User specified key id (optional). If specified, it will become the final component of the key resource name. The id must be unique within the project, must conform with RFC-1034, is restricted to lower-cased letters, and has a maximum length of 63 characters. In another word, the id must match the regular expression: `[a-z]([a-z0-9-]{0,61}[a-z0-9])?`. The id must NOT be a UUID-like string. */
+  keyId?: string | undefined;
+  /** Required. The project in which the API key is created. The parent field must be in format of "projects//locations/global". */
+  parent: string;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -218,31 +221,6 @@ export interface GetProjectsLocationsKeysRequest {
   /** Required. The resource name of the API key to get. */
   name: string;
 }
-/** The representation of a key managed by the API Keys API. */
-export interface V2Key {
-  /** Identifier. The resource name of the key. The `name` has the form: `projects//locations/global/keys/`. For example: `projects/123456867718/locations/global/keys/b7ff1f9f-8275-410a-94dd-3855ee9b5dd2` NOTE: Key is a global resource; hence the only supported value for location is `global`. */
-  name?: string | undefined;
-  /** Output only. An encrypted and signed value held by this key. This field can be accessed only through the `GetKeyString` method. */
-  keyString?: string | undefined;
-  /** Optional. The email address of [the service account](https://cloud.google.com/iam/docs/service-accounts) the key is bound to. */
-  serviceAccountEmail?: string | undefined;
-  /** A checksum computed by the server based on the current value of the Key resource. This may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. See https://google.aip.dev/154. */
-  etag?: string | undefined;
-  /** Output only. A timestamp identifying the time this key was originally created. */
-  createTime?: string | undefined;
-  /** Key restrictions. */
-  restrictions?: V2Restrictions | undefined;
-  /** Output only. Unique id in UUID4 format. */
-  uid?: string | undefined;
-  /** Output only. A timestamp when this key was deleted. If the resource is not deleted, this must be empty. */
-  deleteTime?: string | undefined;
-  /** Output only. A timestamp identifying the time this key was last updated. */
-  updateTime?: string | undefined;
-  /** Annotations is an unstructured key-value map stored with a policy that may be set by external tools to store and retrieve arbitrary metadata. They are not queryable and should be preserved when modifying objects. */
-  annotations?: StringMap | undefined;
-  /** Human-readable display name of this key that you can modify. The maximum length is 63 characters. */
-  displayName?: string | undefined;
-}
 export interface ListProjectsLocationsKeysRequest {
   /** Optional. Requests a specific page of results. */
   pageToken?: string | undefined;
@@ -276,33 +254,13 @@ export type PatchProjectsLocationsKeysCheckExistingUsageEnum =
   | "CHECK_EXISTING_USAGE_UNSPECIFIED"
   | "SKIP"
   | "CHECK";
-export interface PatchProjectsLocationsKeysRequest {
+export interface PatchProjectsLocationsKeysRequest extends Omit<V2Key, "name"> {
   /** Identifier. The resource name of the key. The `name` has the form: `projects//locations/global/keys/`. For example: `projects/123456867718/locations/global/keys/b7ff1f9f-8275-410a-94dd-3855ee9b5dd2` NOTE: Key is a global resource; hence the only supported value for location is `global`. */
   name: string;
   /** Optional. Defines the behavior for checking existing usage when updating a key. */
   checkExistingUsage?: PatchProjectsLocationsKeysCheckExistingUsageEnum | (string & {}) | undefined;
   /** The field mask specifies which fields to be updated as part of this request. All other fields are ignored. Mutable fields are: `display_name`, `restrictions`, and `annotations`. If an update mask is not provided, the service treats it as an implied mask equivalent to all allowed fields that are set on the wire. If the field mask has a special value "*", the service treats it equivalent to replace all allowed mutable fields. */
   updateMask?: string | undefined;
-  /** Output only. An encrypted and signed value held by this key. This field can be accessed only through the `GetKeyString` method. */
-  keyString?: string | undefined;
-  /** Optional. The email address of [the service account](https://cloud.google.com/iam/docs/service-accounts) the key is bound to. */
-  serviceAccountEmail?: string | undefined;
-  /** A checksum computed by the server based on the current value of the Key resource. This may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. See https://google.aip.dev/154. */
-  etag?: string | undefined;
-  /** Output only. A timestamp identifying the time this key was originally created. */
-  createTime?: string | undefined;
-  /** Key restrictions. */
-  restrictions?: V2Restrictions | undefined;
-  /** Output only. Unique id in UUID4 format. */
-  uid?: string | undefined;
-  /** Output only. A timestamp when this key was deleted. If the resource is not deleted, this must be empty. */
-  deleteTime?: string | undefined;
-  /** Output only. A timestamp identifying the time this key was last updated. */
-  updateTime?: string | undefined;
-  /** Annotations is an unstructured key-value map stored with a policy that may be set by external tools to store and retrieve arbitrary metadata. They are not queryable and should be preserved when modifying objects. */
-  annotations?: StringMap | undefined;
-  /** Human-readable display name of this key that you can modify. The maximum length is 63 characters. */
-  displayName?: string | undefined;
 }
 /** Request message for `UndeleteKey` method. */
 export interface V2UndeleteKeyRequest {}
@@ -399,7 +357,7 @@ export const getProjectsLocationsKeys: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(144, __c9, 0) as any as S.Schema<GetProjectsLocationsKeysRequest>,
-  output: __S(160, __c10, 0) as any as S.Schema<V2Key>,
+  output: __S(91, __c5, 11) as any as S.Schema<V2Key>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -416,8 +374,8 @@ export const listProjectsLocationsKeys: API.PaginatedOperationMethod<
   GcpOpContext,
   V2ListKeysResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(176, __c11, 0) as any as S.Schema<ListProjectsLocationsKeysRequest>,
-  output: __S(178, __c11, 2) as any as S.Schema<V2ListKeysResponse>,
+  input: __S(160, __c10, 0) as any as S.Schema<ListProjectsLocationsKeysRequest>,
+  output: __S(162, __c10, 2) as any as S.Schema<V2ListKeysResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -515,21 +473,14 @@ function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          checkExistingUsage: S.optional(S.String.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          keyString: S.optional(S.String),
-          serviceAccountEmail: S.optional(S.String),
-          etag: S.optional(S.String),
-          createTime: S.optional(S.String),
-          restrictions: S.optional(__S(89, __c5, 9)),
-          uid: S.optional(S.String),
-          deleteTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          annotations: S.optional(__S(90, __c5, 10)),
-          displayName: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(91, __c5, 11),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            checkExistingUsage: S.optional(S.String.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -562,21 +513,13 @@ function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          keyId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          name: S.optional(S.String),
-          keyString: S.optional(S.String),
-          serviceAccountEmail: S.optional(S.String),
-          etag: S.optional(S.String),
-          createTime: S.optional(S.String),
-          restrictions: S.optional(__S(89, __c5, 9)),
-          uid: S.optional(S.String),
-          deleteTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          annotations: S.optional(__S(90, __c5, 10)),
-          displayName: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(91, __c5, 11),
+          S.Struct({
+            keyId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/keys",
@@ -670,6 +613,22 @@ function __c5(j: number): any {
       ).annotate({ identifier: "V2Restrictions" });
     case 10:
       return S.Record(S.String, S.String);
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          keyString: S.optional(S.String),
+          serviceAccountEmail: S.optional(S.String),
+          etag: S.optional(S.String),
+          createTime: S.optional(S.String),
+          restrictions: S.optional(__S(89, __c5, 9)),
+          uid: S.optional(S.String),
+          deleteTime: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          annotations: S.optional(__S(90, __c5, 10)),
+          displayName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "V2Key" });
   }
 }
 function __c6(j: number): any {
@@ -741,26 +700,6 @@ function __c10(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          keyString: S.optional(S.String),
-          serviceAccountEmail: S.optional(S.String),
-          etag: S.optional(S.String),
-          createTime: S.optional(S.String),
-          restrictions: S.optional(__S(89, __c5, 9)),
-          uid: S.optional(S.String),
-          deleteTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          annotations: S.optional(__S(90, __c5, 10)),
-          displayName: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "V2Key" });
-  }
-}
-function __c11(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
           pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
@@ -774,11 +713,11 @@ function __c11(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsKeysRequest" });
     case 1:
-      return S.Array(__S(160, __c10, 0));
+      return S.Array(__S(91, __c5, 11));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          keys: S.optional(__S(177, __c11, 1)),
+          keys: S.optional(__S(161, __c10, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "V2ListKeysResponse" });

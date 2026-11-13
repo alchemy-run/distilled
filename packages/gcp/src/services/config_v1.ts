@@ -133,13 +133,8 @@ export type DeploymentGroupProvisioningStateEnum =
   | "DEPROVISIONING"
   | "DEPROVISIONED"
   | "FAILED_TO_DEPROVISION";
-export interface CreateProjectsLocationsDeploymentGroupsRequest {
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Required. The parent in whose context the Deployment Group is created. The parent value is in the format: 'projects/{project_id}/locations/{location}' */
-  parent: string;
-  /** Required. The deployment group ID. */
-  deploymentGroupId?: string | undefined;
+/** A DeploymentGroup is a collection of DeploymentUnits that in a DAG-like structure. */
+export interface DeploymentGroup {
   /** Output only. Time when the deployment group was created. */
   createTime?: string | undefined;
   /** Output only. The error status of the deployment group provisioning or deprovisioning. */
@@ -162,6 +157,14 @@ export interface CreateProjectsLocationsDeploymentGroupsRequest {
   labels?: StringMap | undefined;
   /** Output only. The provisioning state of the deployment group. */
   provisioningState?: DeploymentGroupProvisioningStateEnum | (string & {}) | undefined;
+}
+export interface CreateProjectsLocationsDeploymentGroupsRequest extends DeploymentGroup {
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+  /** Required. The parent in whose context the Deployment Group is created. The parent value is in the format: 'projects/{project_id}/locations/{location}' */
+  parent: string;
+  /** Required. The deployment group ID. */
+  deploymentGroupId?: string | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
@@ -277,13 +280,8 @@ export interface TerraformError {
   resourceAddress?: string | undefined;
 }
 export type TerraformErrorList = Array<TerraformError>;
-export interface CreateProjectsLocationsDeploymentsRequest {
-  /** Required. The Deployment ID. */
-  deploymentId?: string | undefined;
-  /** Required. The parent in whose context the Deployment is created. The parent value is in the format: 'projects/{project_id}/locations/{location}'. */
-  parent: string;
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
+/** A Deployment is a group of resources and configs managed and provisioned by Infra Manager. */
+export interface Deployment {
   /** Output only. Error code describing errors that may have occurred. */
   errorCode?: DeploymentErrorCodeEnum | (string & {}) | undefined;
   /** The user-specified Cloud Build worker pool resource in which the Cloud Build job will execute. Format: `projects/{project}/locations/{location}/workerPools/{workerPoolId}`. If this field is unspecified, the default Cloud Build worker pool will be used. */
@@ -333,6 +331,14 @@ export interface CreateProjectsLocationsDeploymentsRequest {
   /** Required. User-specified Service Account (SA) credentials to be used when actuating resources. Format: `projects/{projectID}/serviceAccounts/{serviceAccount}` */
   serviceAccount?: string | undefined;
 }
+export interface CreateProjectsLocationsDeploymentsRequest extends Deployment {
+  /** Required. The Deployment ID. */
+  deploymentId?: string | undefined;
+  /** Required. The parent in whose context the Deployment is created. The parent value is in the format: 'projects/{project_id}/locations/{location}'. */
+  parent: string;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+}
 /** Artifacts created by preview. */
 export interface PreviewArtifacts {
   /** Output only. Location of artifacts in Google Cloud Storage. Format: `gs://{bucket}/{object}` */
@@ -359,13 +365,8 @@ export type PreviewErrorCodeEnum =
   | "PREVIEW_BUILD_API_FAILED"
   | "PREVIEW_BUILD_RUN_FAILED"
   | "EXTERNAL_VALUE_SOURCE_IMPORT_FAILED";
-export interface CreateProjectsLocationsPreviewsRequest {
-  /** Optional. The preview ID. */
-  previewId?: string | undefined;
-  /** Required. The parent in whose context the Preview is created. The parent value is in the format: 'projects/{project_id}/locations/{location}'. */
-  parent: string;
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
+/** A preview represents a set of actions Infra Manager would perform to move the resources towards the desired state as specified in the configuration. */
+export interface Preview {
   /** Output only. Artifacts from preview. */
   previewArtifacts?: PreviewArtifacts | undefined;
   /** Optional. User-defined labels for the preview. */
@@ -409,6 +410,14 @@ export interface CreateProjectsLocationsPreviewsRequest {
   /** The user-specified Terraform version constraint. Example: "=1.3.10". */
   tfVersionConstraint?: string | undefined;
 }
+export interface CreateProjectsLocationsPreviewsRequest extends Preview {
+  /** Optional. The preview ID. */
+  previewId?: string | undefined;
+  /** Required. The parent in whose context the Preview is created. The parent value is in the format: 'projects/{project_id}/locations/{location}'. */
+  parent: string;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+}
 export type DeleteProjectsLocationsDeploymentGroupsDeploymentReferencePolicyEnum =
   | "DEPLOYMENT_REFERENCE_POLICY_UNSPECIFIED"
   | "FAIL_IF_ANY_REFERENCES_EXIST"
@@ -451,23 +460,29 @@ export interface DeleteProjectsLocationsPreviewsRequest {
   /** Required. The name of the Preview in the format: 'projects/{project_id}/locations/{location}/previews/{preview}'. */
   name: string;
 }
-export interface DeleteStateProjectsLocationsDeploymentsRequest {
-  /** Required. The name of the deployment in the format: 'projects/{project_id}/locations/{location}/deployments/{deployment}'. */
-  name: string;
+/** A request to delete a state file passed to a 'DeleteStatefile' call. */
+export interface DeleteStatefileRequest {
   /** Required. Lock ID of the lock file to verify that the user who is deleting the state file previously locked the Deployment. */
   lockId?: string | undefined;
+}
+export interface DeleteStateProjectsLocationsDeploymentsRequest extends DeleteStatefileRequest {
+  /** Required. The name of the deployment in the format: 'projects/{project_id}/locations/{location}/deployments/{deployment}'. */
+  name: string;
 }
 export type DeprovisionDeploymentGroupRequestDeletePolicyEnum =
   | "DELETE_POLICY_UNSPECIFIED"
   | "DELETE"
   | "ABANDON";
-export interface DeprovisionProjectsLocationsDeploymentGroupsRequest {
-  /** Required. The name of the deployment group to deprovision. Format: 'projects/{project_id}/locations/{location}/deploymentGroups/{deployment_group}'. */
-  name: string;
+/** The request message for the DeprovisionDeploymentGroup method. */
+export interface DeprovisionDeploymentGroupRequest {
   /** Optional. Policy on how resources within each deployment should be handled during deletion. This policy is applied globally to the deletion of all deployments in this group. This corresponds to the 'delete_policy' field in DeleteDeploymentRequest. */
   deletePolicy?: DeprovisionDeploymentGroupRequestDeletePolicyEnum | (string & {}) | undefined;
   /** Optional. If set to true, this option is propagated to the deletion of each deployment in the group. This corresponds to the 'force' field in DeleteDeploymentRequest. */
   force?: boolean | undefined;
+}
+export interface DeprovisionProjectsLocationsDeploymentGroupsRequest extends DeprovisionDeploymentGroupRequest {
+  /** Required. The name of the deployment group to deprovision. Format: 'projects/{project_id}/locations/{location}/deploymentGroups/{deployment_group}'. */
+  name: string;
 }
 export interface ExportLockProjectsLocationsDeploymentsRequest {
   /** Required. The name of the deployment in the format: 'projects/{project_id}/locations/{location}/deployments/{deployment}'. */
@@ -508,11 +523,14 @@ export interface ExportPreviewResultResponse {
   /** Output only. Signed URLs for accessing the plan files. */
   result?: PreviewResult | undefined;
 }
-export interface ExportStateProjectsLocationsDeploymentsRequest {
-  /** Required. The parent in whose context the statefile is listed. The parent value is in the format: 'projects/{project_id}/locations/{location}/deployments/{deployment}'. */
-  parent: string;
+/** A request to export a state file passed to a 'ExportDeploymentStatefile' call. */
+export interface ExportDeploymentStatefileRequest {
   /** Optional. If this flag is set to true, the exported deployment state file will be the draft state. This will enable the draft file to be validated before copying it over to the working state on unlock. */
   draft?: boolean | undefined;
+}
+export interface ExportStateProjectsLocationsDeploymentsRequest extends ExportDeploymentStatefileRequest {
+  /** Required. The parent in whose context the statefile is listed. The parent value is in the format: 'projects/{project_id}/locations/{location}/deployments/{deployment}'. */
+  parent: string;
 }
 /** Contains info about a Terraform state file */
 export interface Statefile {
@@ -620,31 +638,6 @@ export interface GetProjectsLocationsDeploymentGroupsRequest {
   /** Required. The name of the deployment group to retrieve. Format: 'projects/{project_id}/locations/{location}/deploymentGroups/{deployment_group}'. */
   name: string;
 }
-/** A DeploymentGroup is a collection of DeploymentUnits that in a DAG-like structure. */
-export interface DeploymentGroup {
-  /** Output only. Time when the deployment group was created. */
-  createTime?: string | undefined;
-  /** Output only. The error status of the deployment group provisioning or deprovisioning. */
-  provisioningError?: Status | undefined;
-  /** Identifier. The name of the deployment group. Format: 'projects/{project_id}/locations/{location}/deploymentGroups/{deployment_group}'. */
-  name?: string | undefined;
-  /** Output only. Current state of the deployment group. */
-  state?: DeploymentGroupStateEnum | undefined;
-  /** The deployment units of the deployment group in a DAG like structure. When a deployment group is being provisioned, the deployment units are deployed in a DAG order. The provided units must be in a DAG order, otherwise an error will be returned. */
-  deploymentUnits?: DeploymentUnitList | undefined;
-  /** Output only. Time when the deployment group was last updated. */
-  updateTime?: string | undefined;
-  /** Output only. Additional information regarding the current state. */
-  stateDescription?: string | undefined;
-  /** Optional. Arbitrary key-value metadata storage e.g. to help client tools identify deployment group during automation. See https://google.aip.dev/148#annotations for details on format and size limitations. */
-  annotations?: StringMap | undefined;
-  /** Output only. Additional information regarding the current provisioning state. */
-  provisioningStateDescription?: string | undefined;
-  /** Optional. User-defined metadata for the deployment group. */
-  labels?: StringMap | undefined;
-  /** Output only. The provisioning state of the deployment group. */
-  provisioningState?: DeploymentGroupProvisioningStateEnum | undefined;
-}
 export interface GetProjectsLocationsDeploymentGroupsRevisionsRequest {
   /** Required. The name of the deployment group revision to retrieve. Format: 'projects/{project_id}/locations/{location}/deploymentGroups/{deployment_group}/revisions/{revision}'. */
   name: string;
@@ -663,57 +656,6 @@ export interface DeploymentGroupRevision {
 export interface GetProjectsLocationsDeploymentsRequest {
   /** Required. The name of the deployment. Format: 'projects/{project_id}/locations/{location}/deployments/{deployment}'. */
   name: string;
-}
-/** A Deployment is a group of resources and configs managed and provisioned by Infra Manager. */
-export interface Deployment {
-  /** Output only. Error code describing errors that may have occurred. */
-  errorCode?: DeploymentErrorCodeEnum | (string & {}) | undefined;
-  /** The user-specified Cloud Build worker pool resource in which the Cloud Build job will execute. Format: `projects/{project}/locations/{location}/workerPools/{workerPoolId}`. If this field is unspecified, the default Cloud Build worker pool will be used. */
-  workerPool?: string | undefined;
-  /** Output only. Current lock state of the deployment. */
-  lockState?: DeploymentLockStateEnum | (string & {}) | undefined;
-  /** Output only. Time when the deployment was last modified. */
-  updateTime?: string | undefined;
-  /** The user-specified Terraform version constraint. Example: "=1.3.10". */
-  tfVersionConstraint?: string | undefined;
-  /** Optional. This field specifies the provider configurations. */
-  providerConfig?: ProviderConfig | undefined;
-  /** Output only. Location of Terraform error logs in Google Cloud Storage. Format: `gs://{bucket}/{object}`. */
-  errorLogs?: string | undefined;
-  /** User-defined location of Cloud Build logs and artifacts in Google Cloud Storage. Format: `gs://{bucket}/{folder}` A default bucket will be bootstrapped if the field is not set or empty. Default bucket format: `gs://--blueprint-config` Constraints: - The bucket needs to be in the same project as the deployment - The path cannot be within the path of `gcs_source` - The field cannot be updated, including changing its presence */
-  artifactsGcsBucket?: string | undefined;
-  /** Output only. Time when the deployment was created. */
-  createTime?: string | undefined;
-  /** A blueprint described using Terraform's HashiCorp Configuration Language as a root module. */
-  terraformBlueprint?: TerraformBlueprint | undefined;
-  /** Output only. Cloud Build instance UUID associated with deleting this deployment. */
-  deleteBuild?: string | undefined;
-  /** Output only. Current state of the deployment. */
-  state?: DeploymentStateEnum | (string & {}) | undefined;
-  /** Output only. Revision name that was most recently applied. Format: `projects/{project}/locations/{location}/deployments/{deployment}/ revisions/{revision}` */
-  latestRevision?: string | undefined;
-  /** Output only. Additional information regarding the current state. */
-  stateDetail?: string | undefined;
-  /** Optional. User-defined metadata for the deployment. */
-  labels?: StringMap | undefined;
-  /** Output only. Location of artifacts from a DeleteDeployment operation. */
-  deleteResults?: ApplyResults | undefined;
-  /** By default, Infra Manager will return a failure when Terraform encounters a 409 code (resource conflict error) during actuation. If this flag is set to true, Infra Manager will instead attempt to automatically import the resource into the Terraform state (for supported resource types) and continue actuation. Not all resource types are supported, refer to documentation. */
-  importExistingResources?: boolean | undefined;
-  /** Optional. Arbitrary key-value metadata storage e.g. to help client tools identify deployments during automation. See https://google.aip.dev/148#annotations for details on format and size limitations. */
-  annotations?: StringMap | undefined;
-  /** Output only. The current Terraform version set on the deployment. It is in the format of "Major.Minor.Patch", for example, "1.3.10". */
-  tfVersion?: string | undefined;
-  /** Identifier. Resource name of the deployment. Format: `projects/{project}/locations/{location}/deployments/{deployment}` */
-  name?: string | undefined;
-  /** Optional. Input to control quota checks for resources in terraform configuration files. There are limited resources on which quota validation applies. */
-  quotaValidation?: DeploymentQuotaValidationEnum | (string & {}) | undefined;
-  /** Output only. Errors encountered when deleting this deployment. Errors are truncated to 10 entries, see `delete_results` and `error_logs` for full details. */
-  tfErrors?: TerraformErrorList | undefined;
-  /** Output only. Location of Cloud Build logs in Google Cloud Storage, populated when deleting this deployment. Format: `gs://{bucket}/{object}`. */
-  deleteLogs?: string | undefined;
-  /** Required. User-specified Service Account (SA) credentials to be used when actuating resources. Format: `projects/{projectID}/serviceAccounts/{serviceAccount}` */
-  serviceAccount?: string | undefined;
 }
 export interface GetProjectsLocationsDeploymentsRevisionsRequest {
   /** Required. The name of the Revision in the format: 'projects/{project_id}/locations/{location}/deployments/{deployment}/revisions/{revision}'. */
@@ -827,51 +769,6 @@ export interface GetProjectsLocationsPreviewsRequest {
   /** Required. The name of the preview. Format: 'projects/{project_id}/locations/{location}/previews/{preview}'. */
   name: string;
 }
-/** A preview represents a set of actions Infra Manager would perform to move the resources towards the desired state as specified in the configuration. */
-export interface Preview {
-  /** Output only. Artifacts from preview. */
-  previewArtifacts?: PreviewArtifacts | undefined;
-  /** Optional. User-defined labels for the preview. */
-  labels?: StringMap | undefined;
-  /** The user-specified Worker Pool resource in which the Cloud Build job will execute. Format projects/{project}/locations/{location}/workerPools/{workerPoolId} If this field is unspecified, the default Cloud Build worker pool will be used. If omitted and deployment resource ref provided has worker_pool defined, that worker pool is used. */
-  workerPool?: string | undefined;
-  /** Output only. Current state of the preview. */
-  state?: PreviewStateEnum | undefined;
-  /** The terraform blueprint to preview. */
-  terraformBlueprint?: TerraformBlueprint | undefined;
-  /** Output only. The current Terraform version set on the preview. It is in the format of "Major.Minor.Patch", for example, "1.3.10". */
-  tfVersion?: string | undefined;
-  /** Optional. Arbitrary key-value metadata storage e.g. to help client tools identify preview during automation. See https://google.aip.dev/148#annotations for details on format and size limitations. */
-  annotations?: StringMap | undefined;
-  /** Output only. Additional information regarding the current state. */
-  errorStatus?: Status | undefined;
-  /** Identifier. Resource name of the preview. Resource name can be user provided or server generated ID if unspecified. Format: `projects/{project}/locations/{location}/previews/{preview}` */
-  name?: string | undefined;
-  /** Optional. Current mode of preview. */
-  previewMode?: PreviewPreviewModeEnum | undefined;
-  /** Required. User-specified Service Account (SA) credentials to be used when previewing resources. Format: `projects/{projectID}/serviceAccounts/{serviceAccount}` */
-  serviceAccount?: string | undefined;
-  /** Optional. Deployment reference. If specified, the preview will be performed using the provided deployment's current state and use any relevant fields from the deployment unless explicitly specified in the preview create request. */
-  deployment?: string | undefined;
-  /** Output only. Cloud Build instance UUID associated with this preview. */
-  build?: string | undefined;
-  /** Output only. Link to tf-error.ndjson file, which contains the full list of the errors encountered during a Terraform preview. Format: `gs://{bucket}/{object}`. */
-  errorLogs?: string | undefined;
-  /** Output only. Summary of errors encountered during Terraform preview. It has a size limit of 10, i.e. only top 10 errors will be summarized here. */
-  tfErrors?: TerraformErrorList | undefined;
-  /** Output only. Time the preview was created. */
-  createTime?: string | undefined;
-  /** User-defined location of Cloud Build logs, artifacts, and in Google Cloud Storage. Format: `gs://{bucket}/{folder}` A default bucket will be bootstrapped if the field is not set or empty Default Bucket Format: `gs://--blueprint-config` Constraints: - The bucket needs to be in the same project as the deployment - The path cannot be within the path of `gcs_source` If omitted and deployment resource ref provided has artifacts_gcs_bucket defined, that artifact bucket is used. */
-  artifactsGcsBucket?: string | undefined;
-  /** Optional. This field specifies the provider configurations. */
-  providerConfig?: ProviderConfig | undefined;
-  /** Output only. Code describing any errors that may have occurred. */
-  errorCode?: PreviewErrorCodeEnum | undefined;
-  /** Output only. Location of preview logs in `gs://{bucket}/{object}` format. */
-  logs?: string | undefined;
-  /** The user-specified Terraform version constraint. Example: "=1.3.10". */
-  tfVersionConstraint?: string | undefined;
-}
 export interface GetProjectsLocationsPreviewsResourceChangesRequest {
   /** Required. The name of the resource change to retrieve. Format: 'projects/{project_id}/locations/{location}/previews/{preview}/resourceChanges/{resource_change}'. */
   name: string;
@@ -977,11 +874,14 @@ export interface TerraformVersion {
   /** Output only. When the version is deprecated. */
   deprecateTime?: string | undefined;
 }
-export interface ImportStateProjectsLocationsDeploymentsRequest {
-  /** Required. The parent in whose context the statefile is listed. The parent value is in the format: 'projects/{project_id}/locations/{location}/deployments/{deployment}'. */
-  parent: string;
+/** A request to import a state file passed to a 'ImportStatefile' call. */
+export interface ImportStatefileRequest {
   /** Required. Lock ID of the lock file to verify that the user who is importing the state file previously locked the Deployment. */
   lockId?: string | undefined;
+}
+export interface ImportStateProjectsLocationsDeploymentsRequest extends ImportStatefileRequest {
+  /** Required. The parent in whose context the statefile is listed. The parent value is in the format: 'projects/{project_id}/locations/{location}/deployments/{deployment}'. */
+  parent: string;
 }
 export interface ListProjectsLocationsRequest {
   /** The resource that owns the locations collection, if applicable. */
@@ -1226,87 +1126,24 @@ export interface LockProjectsLocationsDeploymentsRequest {
   /** Request body */
   body?: CancelOperationRequest | undefined;
 }
-export interface PatchProjectsLocationsDeploymentGroupsRequest {
+export interface PatchProjectsLocationsDeploymentGroupsRequest extends Omit<
+  DeploymentGroup,
+  "name"
+> {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Optional. Field mask used to specify the fields to be overwritten in the Deployment Group resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
   /** Identifier. The name of the deployment group. Format: 'projects/{project_id}/locations/{location}/deploymentGroups/{deployment_group}'. */
   name: string;
-  /** Output only. Time when the deployment group was created. */
-  createTime?: string | undefined;
-  /** Output only. The error status of the deployment group provisioning or deprovisioning. */
-  provisioningError?: Status | undefined;
-  /** Output only. Current state of the deployment group. */
-  state?: DeploymentGroupStateEnum | (string & {}) | undefined;
-  /** The deployment units of the deployment group in a DAG like structure. When a deployment group is being provisioned, the deployment units are deployed in a DAG order. The provided units must be in a DAG order, otherwise an error will be returned. */
-  deploymentUnits?: DeploymentUnitList | undefined;
-  /** Output only. Time when the deployment group was last updated. */
-  updateTime?: string | undefined;
-  /** Output only. Additional information regarding the current state. */
-  stateDescription?: string | undefined;
-  /** Optional. Arbitrary key-value metadata storage e.g. to help client tools identify deployment group during automation. See https://google.aip.dev/148#annotations for details on format and size limitations. */
-  annotations?: StringMap | undefined;
-  /** Output only. Additional information regarding the current provisioning state. */
-  provisioningStateDescription?: string | undefined;
-  /** Optional. User-defined metadata for the deployment group. */
-  labels?: StringMap | undefined;
-  /** Output only. The provisioning state of the deployment group. */
-  provisioningState?: DeploymentGroupProvisioningStateEnum | (string & {}) | undefined;
 }
-export interface PatchProjectsLocationsDeploymentsRequest {
+export interface PatchProjectsLocationsDeploymentsRequest extends Omit<Deployment, "name"> {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Identifier. Resource name of the deployment. Format: `projects/{project}/locations/{location}/deployments/{deployment}` */
   name: string;
   /** Optional. Field mask used to specify the fields to be overwritten in the Deployment resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
-  /** Output only. Error code describing errors that may have occurred. */
-  errorCode?: DeploymentErrorCodeEnum | (string & {}) | undefined;
-  /** The user-specified Cloud Build worker pool resource in which the Cloud Build job will execute. Format: `projects/{project}/locations/{location}/workerPools/{workerPoolId}`. If this field is unspecified, the default Cloud Build worker pool will be used. */
-  workerPool?: string | undefined;
-  /** Output only. Current lock state of the deployment. */
-  lockState?: DeploymentLockStateEnum | (string & {}) | undefined;
-  /** Output only. Time when the deployment was last modified. */
-  updateTime?: string | undefined;
-  /** The user-specified Terraform version constraint. Example: "=1.3.10". */
-  tfVersionConstraint?: string | undefined;
-  /** Optional. This field specifies the provider configurations. */
-  providerConfig?: ProviderConfig | undefined;
-  /** Output only. Location of Terraform error logs in Google Cloud Storage. Format: `gs://{bucket}/{object}`. */
-  errorLogs?: string | undefined;
-  /** User-defined location of Cloud Build logs and artifacts in Google Cloud Storage. Format: `gs://{bucket}/{folder}` A default bucket will be bootstrapped if the field is not set or empty. Default bucket format: `gs://--blueprint-config` Constraints: - The bucket needs to be in the same project as the deployment - The path cannot be within the path of `gcs_source` - The field cannot be updated, including changing its presence */
-  artifactsGcsBucket?: string | undefined;
-  /** Output only. Time when the deployment was created. */
-  createTime?: string | undefined;
-  /** A blueprint described using Terraform's HashiCorp Configuration Language as a root module. */
-  terraformBlueprint?: TerraformBlueprint | undefined;
-  /** Output only. Cloud Build instance UUID associated with deleting this deployment. */
-  deleteBuild?: string | undefined;
-  /** Output only. Current state of the deployment. */
-  state?: DeploymentStateEnum | (string & {}) | undefined;
-  /** Output only. Revision name that was most recently applied. Format: `projects/{project}/locations/{location}/deployments/{deployment}/ revisions/{revision}` */
-  latestRevision?: string | undefined;
-  /** Output only. Additional information regarding the current state. */
-  stateDetail?: string | undefined;
-  /** Optional. User-defined metadata for the deployment. */
-  labels?: StringMap | undefined;
-  /** Output only. Location of artifacts from a DeleteDeployment operation. */
-  deleteResults?: ApplyResults | undefined;
-  /** By default, Infra Manager will return a failure when Terraform encounters a 409 code (resource conflict error) during actuation. If this flag is set to true, Infra Manager will instead attempt to automatically import the resource into the Terraform state (for supported resource types) and continue actuation. Not all resource types are supported, refer to documentation. */
-  importExistingResources?: boolean | undefined;
-  /** Optional. Arbitrary key-value metadata storage e.g. to help client tools identify deployments during automation. See https://google.aip.dev/148#annotations for details on format and size limitations. */
-  annotations?: StringMap | undefined;
-  /** Output only. The current Terraform version set on the deployment. It is in the format of "Major.Minor.Patch", for example, "1.3.10". */
-  tfVersion?: string | undefined;
-  /** Optional. Input to control quota checks for resources in terraform configuration files. There are limited resources on which quota validation applies. */
-  quotaValidation?: DeploymentQuotaValidationEnum | (string & {}) | undefined;
-  /** Output only. Errors encountered when deleting this deployment. Errors are truncated to 10 entries, see `delete_results` and `error_logs` for full details. */
-  tfErrors?: TerraformErrorList | undefined;
-  /** Output only. Location of Cloud Build logs in Google Cloud Storage, populated when deleting this deployment. Format: `gs://{bucket}/{object}`. */
-  deleteLogs?: string | undefined;
-  /** Required. User-specified Service Account (SA) credentials to be used when actuating resources. Format: `projects/{projectID}/serviceAccounts/{serviceAccount}` */
-  serviceAccount?: string | undefined;
 }
 /** Spec for a deployment to be created. */
 export interface DeploymentSpec {
@@ -1316,46 +1153,57 @@ export interface DeploymentSpec {
   deploymentId?: string | undefined;
 }
 export type DeploymentSpecMap = { [key: string]: DeploymentSpec | undefined };
-export interface ProvisionProjectsLocationsDeploymentGroupsRequest {
-  /** Required. The name of the deployment group to provision. Format: 'projects/{project_id}/locations/{location}/deploymentGroups/{deployment_group}'. */
-  name: string;
+/** The request message for the ProvisionDeploymentGroup method. */
+export interface ProvisionDeploymentGroupRequest {
   /** Optional. The deployment specs of the deployment units to be created within the same project and location of the deployment group. The key is the unit ID, and the value is the `DeploymentSpec`. Provisioning will fail if a `deployment_spec` has a `deployment_id` that matches an existing deployment in the same project and location. If an existing deployment was part of the last successful revision but is no longer in the current DeploymentGroup's `deployment_units`, it will be recreated if included in `deployment_specs`. */
   deploymentSpecs?: DeploymentSpecMap | undefined;
 }
-export interface SetIamPolicyProjectsLocationsDeploymentsRequest {
-  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
+export interface ProvisionProjectsLocationsDeploymentGroupsRequest extends ProvisionDeploymentGroupRequest {
+  /** Required. The name of the deployment group to provision. Format: 'projects/{project_id}/locations/{location}/deploymentGroups/{deployment_group}'. */
+  name: string;
+}
+/** Request message for `SetIamPolicy` method. */
+export interface SetIamPolicyRequest {
   /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
   updateMask?: string | undefined;
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
   policy?: Policy | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsDeploymentsRequest {
-  /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+export interface SetIamPolicyProjectsLocationsDeploymentsRequest extends SetIamPolicyRequest {
+  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
+}
+/** Request message for `TestIamPermissions` method. */
+export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: StringList | undefined;
+}
+export interface TestIamPermissionsProjectsLocationsDeploymentsRequest extends TestIamPermissionsRequest {
+  /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
   permissions?: StringList | undefined;
 }
-export interface UnlockProjectsLocationsDeploymentsRequest {
-  /** Required. The name of the deployment in the format: 'projects/{project_id}/locations/{location}/deployments/{deployment}'. */
-  name: string;
+/** A request to unlock a state file passed to a 'UnlockDeployment' call. */
+export interface UnlockDeploymentRequest {
   /** Required. Lock ID of the lock file to be unlocked. */
   lockId?: string | undefined;
 }
-export interface UpdateAutoMigrationConfigProjectsLocationsRequest {
+export interface UnlockProjectsLocationsDeploymentsRequest extends UnlockDeploymentRequest {
+  /** Required. The name of the deployment in the format: 'projects/{project_id}/locations/{location}/deployments/{deployment}'. */
+  name: string;
+}
+export interface UpdateAutoMigrationConfigProjectsLocationsRequest extends Omit<
+  AutoMigrationConfig,
+  "name"
+> {
   /** Optional. The update mask applies to the resource. See google.protobuf.FieldMask. */
   updateMask?: string | undefined;
   /** Identifier. The name of the AutoMigrationConfig. Format: 'projects/{project_id}/locations/{location}/AutoMigrationConfig'. */
   name: string;
-  /** Optional. Whether the auto migration is enabled for the project. */
-  autoMigrationEnabled?: boolean | undefined;
-  /** Output only. Time the AutoMigrationConfig was last updated. */
-  updateTime?: string | undefined;
 }
 export type CancelProjectsLocationsOperationsError =
   | NotFound
@@ -1370,8 +1218,8 @@ export const cancelProjectsLocationsOperations: API.OperationMethod<
   CancelProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c42, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
-  output: __S(688, __c43, 0) as any as S.Schema<Empty>,
+  input: __S(656, __c41, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
+  output: __S(672, __c42, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1392,8 +1240,8 @@ export const createProjectsLocationsDeploymentGroups: API.OperationMethod<
   CreateProjectsLocationsDeploymentGroupsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c54, 0) as any as S.Schema<CreateProjectsLocationsDeploymentGroupsRequest>,
-  output: __S(960, __c60, 0) as any as S.Schema<Operation>,
+  input: __S(848, __c53, 0) as any as S.Schema<CreateProjectsLocationsDeploymentGroupsRequest>,
+  output: __S(944, __c59, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1414,8 +1262,8 @@ export const createProjectsLocationsDeployments: API.OperationMethod<
   CreateProjectsLocationsDeploymentsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c62, 0) as any as S.Schema<CreateProjectsLocationsDeploymentsRequest>,
-  output: __S(960, __c60, 0) as any as S.Schema<Operation>,
+  input: __S(976, __c61, 0) as any as S.Schema<CreateProjectsLocationsDeploymentsRequest>,
+  output: __S(944, __c59, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1437,7 +1285,7 @@ export const createProjectsLocationsPreviews: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1040, __c65, 0) as any as S.Schema<CreateProjectsLocationsPreviewsRequest>,
-  output: __S(960, __c60, 0) as any as S.Schema<Operation>,
+  output: __S(944, __c59, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1459,7 +1307,7 @@ export const deleteProjectsLocationsDeploymentGroups: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1072, __c67, 0) as any as S.Schema<DeleteProjectsLocationsDeploymentGroupsRequest>,
-  output: __S(960, __c60, 0) as any as S.Schema<Operation>,
+  output: __S(944, __c59, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1481,7 +1329,7 @@ export const deleteProjectsLocationsDeployments: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1088, __c68, 0) as any as S.Schema<DeleteProjectsLocationsDeploymentsRequest>,
-  output: __S(960, __c60, 0) as any as S.Schema<Operation>,
+  output: __S(944, __c59, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1503,7 +1351,7 @@ export const deleteProjectsLocationsOperations: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<DeleteProjectsLocationsOperationsRequest>,
-  output: __S(688, __c43, 0) as any as S.Schema<Empty>,
+  output: __S(672, __c42, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1525,7 +1373,7 @@ export const deleteProjectsLocationsPreviews: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c1, 0) as any as S.Schema<DeleteProjectsLocationsPreviewsRequest>,
-  output: __S(960, __c60, 0) as any as S.Schema<Operation>,
+  output: __S(944, __c59, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1547,7 +1395,7 @@ export const deleteStateProjectsLocationsDeployments: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c2, 0) as any as S.Schema<DeleteStateProjectsLocationsDeploymentsRequest>,
-  output: __S(688, __c43, 0) as any as S.Schema<Empty>,
+  output: __S(672, __c42, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1568,8 +1416,8 @@ export const deprovisionProjectsLocationsDeploymentGroups: API.OperationMethod<
   DeprovisionProjectsLocationsDeploymentGroupsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c3, 0) as any as S.Schema<DeprovisionProjectsLocationsDeploymentGroupsRequest>,
-  output: __S(960, __c60, 0) as any as S.Schema<Operation>,
+  input: __S(65, __c4, 1) as any as S.Schema<DeprovisionProjectsLocationsDeploymentGroupsRequest>,
+  output: __S(944, __c59, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1585,8 +1433,8 @@ export const exportLockProjectsLocationsDeployments: API.OperationMethod<
   ExportLockProjectsLocationsDeploymentsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c4, 0) as any as S.Schema<ExportLockProjectsLocationsDeploymentsRequest>,
-  output: __S(65, __c4, 1) as any as S.Schema<LockInfo>,
+  input: __S(80, __c5, 0) as any as S.Schema<ExportLockProjectsLocationsDeploymentsRequest>,
+  output: __S(81, __c5, 1) as any as S.Schema<LockInfo>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1607,8 +1455,8 @@ export const exportProjectsLocationsPreviews: API.OperationMethod<
   ExportProjectsLocationsPreviewsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c5, 0) as any as S.Schema<ExportProjectsLocationsPreviewsRequest>,
-  output: __S(82, __c5, 2) as any as S.Schema<ExportPreviewResultResponse>,
+  input: __S(96, __c6, 0) as any as S.Schema<ExportProjectsLocationsPreviewsRequest>,
+  output: __S(98, __c6, 2) as any as S.Schema<ExportPreviewResultResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1629,8 +1477,8 @@ export const exportStateProjectsLocationsDeployments: API.OperationMethod<
   ExportStateProjectsLocationsDeploymentsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c6, 0) as any as S.Schema<ExportStateProjectsLocationsDeploymentsRequest>,
-  output: __S(112, __c7, 0) as any as S.Schema<Statefile>,
+  input: __S(113, __c7, 1) as any as S.Schema<ExportStateProjectsLocationsDeploymentsRequest>,
+  output: __S(128, __c8, 0) as any as S.Schema<Statefile>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1652,11 +1500,11 @@ export const exportStateProjectsLocationsDeploymentsRevisions: API.OperationMeth
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    128,
-    __c8,
+    144,
+    __c9,
     0,
   ) as any as S.Schema<ExportStateProjectsLocationsDeploymentsRevisionsRequest>,
-  output: __S(112, __c7, 0) as any as S.Schema<Statefile>,
+  output: __S(128, __c8, 0) as any as S.Schema<Statefile>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1672,8 +1520,8 @@ export const getAutoMigrationConfigProjectsLocations: API.OperationMethod<
   GetAutoMigrationConfigProjectsLocationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c9, 0) as any as S.Schema<GetAutoMigrationConfigProjectsLocationsRequest>,
-  output: __S(145, __c9, 1) as any as S.Schema<AutoMigrationConfig>,
+  input: __S(160, __c10, 0) as any as S.Schema<GetAutoMigrationConfigProjectsLocationsRequest>,
+  output: __S(176, __c11, 0) as any as S.Schema<AutoMigrationConfig>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1689,8 +1537,8 @@ export const getIamPolicyProjectsLocationsDeployments: API.OperationMethod<
   GetIamPolicyProjectsLocationsDeploymentsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c10, 0) as any as S.Schema<GetIamPolicyProjectsLocationsDeploymentsRequest>,
-  output: __S(183, __c11, 7) as any as S.Schema<Policy>,
+  input: __S(192, __c12, 0) as any as S.Schema<GetIamPolicyProjectsLocationsDeploymentsRequest>,
+  output: __S(215, __c13, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1706,8 +1554,8 @@ export const getProjectsLocations: API.OperationMethod<
   GetProjectsLocationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c12, 0) as any as S.Schema<GetProjectsLocationsRequest>,
-  output: __S(208, __c13, 0) as any as S.Schema<Location>,
+  input: __S(224, __c14, 0) as any as S.Schema<GetProjectsLocationsRequest>,
+  output: __S(240, __c15, 0) as any as S.Schema<Location>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1723,8 +1571,8 @@ export const getProjectsLocationsDeploymentGroups: API.OperationMethod<
   GetProjectsLocationsDeploymentGroupsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c14, 0) as any as S.Schema<GetProjectsLocationsDeploymentGroupsRequest>,
-  output: __S(240, __c15, 0) as any as S.Schema<DeploymentGroup>,
+  input: __S(256, __c16, 0) as any as S.Schema<GetProjectsLocationsDeploymentGroupsRequest>,
+  output: __S(882, __c55, 2) as any as S.Schema<DeploymentGroup>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1741,11 +1589,11 @@ export const getProjectsLocationsDeploymentGroupsRevisions: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    256,
-    __c16,
+    272,
+    __c17,
     0,
   ) as any as S.Schema<GetProjectsLocationsDeploymentGroupsRevisionsRequest>,
-  output: __S(272, __c17, 0) as any as S.Schema<DeploymentGroupRevision>,
+  output: __S(288, __c18, 0) as any as S.Schema<DeploymentGroupRevision>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1761,8 +1609,8 @@ export const getProjectsLocationsDeployments: API.OperationMethod<
   GetProjectsLocationsDeploymentsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c18, 0) as any as S.Schema<GetProjectsLocationsDeploymentsRequest>,
-  output: __S(304, __c19, 0) as any as S.Schema<Deployment>,
+  input: __S(304, __c19, 0) as any as S.Schema<GetProjectsLocationsDeploymentsRequest>,
+  output: __S(1008, __c63, 0) as any as S.Schema<Deployment>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1820,7 +1668,7 @@ export const getProjectsLocationsOperations: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c24, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
-  output: __S(960, __c60, 0) as any as S.Schema<Operation>,
+  output: __S(944, __c59, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1837,7 +1685,7 @@ export const getProjectsLocationsPreviews: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(400, __c25, 0) as any as S.Schema<GetProjectsLocationsPreviewsRequest>,
-  output: __S(416, __c26, 0) as any as S.Schema<Preview>,
+  output: __S(1057, __c66, 1) as any as S.Schema<Preview>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1853,8 +1701,8 @@ export const getProjectsLocationsPreviewsResourceChanges: API.OperationMethod<
   GetProjectsLocationsPreviewsResourceChangesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(432, __c27, 0) as any as S.Schema<GetProjectsLocationsPreviewsResourceChangesRequest>,
-  output: __S(451, __c28, 3) as any as S.Schema<ResourceChange>,
+  input: __S(416, __c26, 0) as any as S.Schema<GetProjectsLocationsPreviewsResourceChangesRequest>,
+  output: __S(435, __c27, 3) as any as S.Schema<ResourceChange>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1870,8 +1718,8 @@ export const getProjectsLocationsPreviewsResourceDrifts: API.OperationMethod<
   GetProjectsLocationsPreviewsResourceDriftsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(464, __c29, 0) as any as S.Schema<GetProjectsLocationsPreviewsResourceDriftsRequest>,
-  output: __S(483, __c30, 3) as any as S.Schema<ResourceDrift>,
+  input: __S(448, __c28, 0) as any as S.Schema<GetProjectsLocationsPreviewsResourceDriftsRequest>,
+  output: __S(467, __c29, 3) as any as S.Schema<ResourceDrift>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1887,8 +1735,8 @@ export const getProjectsLocationsTerraformVersions: API.OperationMethod<
   GetProjectsLocationsTerraformVersionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(496, __c31, 0) as any as S.Schema<GetProjectsLocationsTerraformVersionsRequest>,
-  output: __S(512, __c32, 0) as any as S.Schema<TerraformVersion>,
+  input: __S(480, __c30, 0) as any as S.Schema<GetProjectsLocationsTerraformVersionsRequest>,
+  output: __S(496, __c31, 0) as any as S.Schema<TerraformVersion>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1909,8 +1757,8 @@ export const importStateProjectsLocationsDeployments: API.OperationMethod<
   ImportStateProjectsLocationsDeploymentsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(528, __c33, 0) as any as S.Schema<ImportStateProjectsLocationsDeploymentsRequest>,
-  output: __S(112, __c7, 0) as any as S.Schema<Statefile>,
+  input: __S(512, __c32, 0) as any as S.Schema<ImportStateProjectsLocationsDeploymentsRequest>,
+  output: __S(128, __c8, 0) as any as S.Schema<Statefile>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1927,8 +1775,8 @@ export const listProjectsLocations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListLocationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(544, __c34, 0) as any as S.Schema<ListProjectsLocationsRequest>,
-  output: __S(546, __c34, 2) as any as S.Schema<ListLocationsResponse>,
+  input: __S(528, __c33, 0) as any as S.Schema<ListProjectsLocationsRequest>,
+  output: __S(530, __c33, 2) as any as S.Schema<ListLocationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1946,8 +1794,8 @@ export const listProjectsLocationsDeploymentGroups: API.PaginatedOperationMethod
   GcpOpContext,
   ListDeploymentGroupsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(560, __c35, 0) as any as S.Schema<ListProjectsLocationsDeploymentGroupsRequest>,
-  output: __S(562, __c35, 2) as any as S.Schema<ListDeploymentGroupsResponse>,
+  input: __S(544, __c34, 0) as any as S.Schema<ListProjectsLocationsDeploymentGroupsRequest>,
+  output: __S(546, __c34, 2) as any as S.Schema<ListDeploymentGroupsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1966,11 +1814,11 @@ export const listProjectsLocationsDeploymentGroupsRevisions: API.PaginatedOperat
   ListDeploymentGroupRevisionsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    576,
-    __c36,
+    560,
+    __c35,
     0,
   ) as any as S.Schema<ListProjectsLocationsDeploymentGroupsRevisionsRequest>,
-  output: __S(578, __c36, 2) as any as S.Schema<ListDeploymentGroupRevisionsResponse>,
+  output: __S(562, __c35, 2) as any as S.Schema<ListDeploymentGroupRevisionsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1988,8 +1836,8 @@ export const listProjectsLocationsDeployments: API.PaginatedOperationMethod<
   GcpOpContext,
   ListDeploymentsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(592, __c37, 0) as any as S.Schema<ListProjectsLocationsDeploymentsRequest>,
-  output: __S(594, __c37, 2) as any as S.Schema<ListDeploymentsResponse>,
+  input: __S(576, __c36, 0) as any as S.Schema<ListProjectsLocationsDeploymentsRequest>,
+  output: __S(578, __c36, 2) as any as S.Schema<ListDeploymentsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2007,8 +1855,8 @@ export const listProjectsLocationsDeploymentsRevisions: API.PaginatedOperationMe
   GcpOpContext,
   ListRevisionsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(608, __c38, 0) as any as S.Schema<ListProjectsLocationsDeploymentsRevisionsRequest>,
-  output: __S(610, __c38, 2) as any as S.Schema<ListRevisionsResponse>,
+  input: __S(592, __c37, 0) as any as S.Schema<ListProjectsLocationsDeploymentsRevisionsRequest>,
+  output: __S(594, __c37, 2) as any as S.Schema<ListRevisionsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2030,11 +1878,11 @@ export const listProjectsLocationsDeploymentsRevisionsResources: API.PaginatedOp
   ListResourcesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    624,
-    __c39,
+    608,
+    __c38,
     0,
   ) as any as S.Schema<ListProjectsLocationsDeploymentsRevisionsResourcesRequest>,
-  output: __S(626, __c39, 2) as any as S.Schema<ListResourcesResponse>,
+  output: __S(610, __c38, 2) as any as S.Schema<ListResourcesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2052,8 +1900,8 @@ export const listProjectsLocationsOperations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListOperationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(640, __c40, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
-  output: __S(642, __c40, 2) as any as S.Schema<ListOperationsResponse>,
+  input: __S(624, __c39, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
+  output: __S(626, __c39, 2) as any as S.Schema<ListOperationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2071,8 +1919,8 @@ export const listProjectsLocationsPreviews: API.PaginatedOperationMethod<
   GcpOpContext,
   ListPreviewsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(656, __c41, 0) as any as S.Schema<ListProjectsLocationsPreviewsRequest>,
-  output: __S(658, __c41, 2) as any as S.Schema<ListPreviewsResponse>,
+  input: __S(640, __c40, 0) as any as S.Schema<ListProjectsLocationsPreviewsRequest>,
+  output: __S(642, __c40, 2) as any as S.Schema<ListPreviewsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2090,8 +1938,8 @@ export const listProjectsLocationsPreviewsResourceChanges: API.PaginatedOperatio
   GcpOpContext,
   ListResourceChangesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(704, __c44, 0) as any as S.Schema<ListProjectsLocationsPreviewsResourceChangesRequest>,
-  output: __S(706, __c44, 2) as any as S.Schema<ListResourceChangesResponse>,
+  input: __S(688, __c43, 0) as any as S.Schema<ListProjectsLocationsPreviewsResourceChangesRequest>,
+  output: __S(690, __c43, 2) as any as S.Schema<ListResourceChangesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2109,8 +1957,8 @@ export const listProjectsLocationsPreviewsResourceDrifts: API.PaginatedOperation
   GcpOpContext,
   ListResourceDriftsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(720, __c45, 0) as any as S.Schema<ListProjectsLocationsPreviewsResourceDriftsRequest>,
-  output: __S(722, __c45, 2) as any as S.Schema<ListResourceDriftsResponse>,
+  input: __S(704, __c44, 0) as any as S.Schema<ListProjectsLocationsPreviewsResourceDriftsRequest>,
+  output: __S(706, __c44, 2) as any as S.Schema<ListResourceDriftsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2128,8 +1976,8 @@ export const listProjectsLocationsTerraformVersions: API.PaginatedOperationMetho
   GcpOpContext,
   ListTerraformVersionsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(736, __c46, 0) as any as S.Schema<ListProjectsLocationsTerraformVersionsRequest>,
-  output: __S(738, __c46, 2) as any as S.Schema<ListTerraformVersionsResponse>,
+  input: __S(720, __c45, 0) as any as S.Schema<ListProjectsLocationsTerraformVersionsRequest>,
+  output: __S(722, __c45, 2) as any as S.Schema<ListTerraformVersionsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2151,8 +1999,8 @@ export const lockProjectsLocationsDeployments: API.OperationMethod<
   LockProjectsLocationsDeploymentsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(752, __c47, 0) as any as S.Schema<LockProjectsLocationsDeploymentsRequest>,
-  output: __S(960, __c60, 0) as any as S.Schema<Operation>,
+  input: __S(736, __c46, 0) as any as S.Schema<LockProjectsLocationsDeploymentsRequest>,
+  output: __S(944, __c59, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2173,8 +2021,8 @@ export const patchProjectsLocationsDeploymentGroups: API.OperationMethod<
   PatchProjectsLocationsDeploymentGroupsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c48, 0) as any as S.Schema<PatchProjectsLocationsDeploymentGroupsRequest>,
-  output: __S(960, __c60, 0) as any as S.Schema<Operation>,
+  input: __S(752, __c47, 0) as any as S.Schema<PatchProjectsLocationsDeploymentGroupsRequest>,
+  output: __S(944, __c59, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2195,8 +2043,8 @@ export const patchProjectsLocationsDeployments: API.OperationMethod<
   PatchProjectsLocationsDeploymentsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(784, __c49, 0) as any as S.Schema<PatchProjectsLocationsDeploymentsRequest>,
-  output: __S(960, __c60, 0) as any as S.Schema<Operation>,
+  input: __S(768, __c48, 0) as any as S.Schema<PatchProjectsLocationsDeploymentsRequest>,
+  output: __S(944, __c59, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2217,8 +2065,8 @@ export const provisionProjectsLocationsDeploymentGroups: API.OperationMethod<
   ProvisionProjectsLocationsDeploymentGroupsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(802, __c50, 2) as any as S.Schema<ProvisionProjectsLocationsDeploymentGroupsRequest>,
-  output: __S(960, __c60, 0) as any as S.Schema<Operation>,
+  input: __S(787, __c49, 3) as any as S.Schema<ProvisionProjectsLocationsDeploymentGroupsRequest>,
+  output: __S(944, __c59, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2239,8 +2087,8 @@ export const setIamPolicyProjectsLocationsDeployments: API.OperationMethod<
   SetIamPolicyProjectsLocationsDeploymentsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(816, __c51, 0) as any as S.Schema<SetIamPolicyProjectsLocationsDeploymentsRequest>,
-  output: __S(183, __c11, 7) as any as S.Schema<Policy>,
+  input: __S(801, __c50, 1) as any as S.Schema<SetIamPolicyProjectsLocationsDeploymentsRequest>,
+  output: __S(215, __c13, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2262,11 +2110,11 @@ export const testIamPermissionsProjectsLocationsDeployments: API.OperationMethod
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    832,
-    __c52,
-    0,
+    817,
+    __c51,
+    1,
   ) as any as S.Schema<TestIamPermissionsProjectsLocationsDeploymentsRequest>,
-  output: __S(833, __c52, 1) as any as S.Schema<TestIamPermissionsResponse>,
+  output: __S(816, __c51, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2287,8 +2135,8 @@ export const unlockProjectsLocationsDeployments: API.OperationMethod<
   UnlockProjectsLocationsDeploymentsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(848, __c53, 0) as any as S.Schema<UnlockProjectsLocationsDeploymentsRequest>,
-  output: __S(960, __c60, 0) as any as S.Schema<Operation>,
+  input: __S(832, __c52, 0) as any as S.Schema<UnlockProjectsLocationsDeploymentsRequest>,
+  output: __S(944, __c59, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2309,8 +2157,8 @@ export const updateAutoMigrationConfigProjectsLocations: API.OperationMethod<
   UpdateAutoMigrationConfigProjectsLocationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(976, __c61, 0) as any as S.Schema<UpdateAutoMigrationConfigProjectsLocationsRequest>,
-  output: __S(960, __c60, 0) as any as S.Schema<Operation>,
+  input: __S(960, __c60, 0) as any as S.Schema<UpdateAutoMigrationConfigProjectsLocationsRequest>,
+  output: __S(944, __c59, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2356,10 +2204,12 @@ function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          lockId: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(48, __c3, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:deleteState",
@@ -2374,10 +2224,28 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
+          lockId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DeleteStatefileRequest" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           deletePolicy: S.optional(S.String),
           force: S.optional(S.Boolean),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "DeprovisionDeploymentGroupRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(64, __c4, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:deprovision",
@@ -2387,7 +2255,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "DeprovisionProjectsLocationsDeploymentGroupsRequest" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2414,13 +2282,13 @@ function __c4(j: number): any {
       ).annotate({ identifier: "LockInfo" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(688, __c43, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(672, __c42, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2439,19 +2307,27 @@ function __c5(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          result: S.optional(__S(81, __c5, 1)),
+          result: S.optional(__S(97, __c6, 1)),
         }),
       ).annotate({ identifier: "ExportPreviewResultResponse" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
           draft: S.optional(S.Boolean),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "ExportDeploymentStatefileRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(112, __c7, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}:exportState",
@@ -2461,7 +2337,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "ExportStateProjectsLocationsDeploymentsRequest" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2471,13 +2347,13 @@ function __c7(j: number): any {
       ).annotate({ identifier: "Statefile" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(688, __c43, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(672, __c42, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2488,7 +2364,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "ExportStateProjectsLocationsDeploymentsRevisionsRequest" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2498,7 +2374,11 @@ function __c9(j: number): any {
           T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://config.googleapis.com/" }),
         ),
       ).annotate({ identifier: "GetAutoMigrationConfigProjectsLocationsRequest" });
-    case 1:
+  }
+}
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           autoMigrationEnabled: S.optional(S.Boolean),
@@ -2508,7 +2388,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "AutoMigrationConfig" });
   }
 }
-function __c10(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2525,26 +2405,26 @@ function __c10(j: number): any {
       ).annotate({ identifier: "GetIamPolicyProjectsLocationsDeploymentsRequest" });
   }
 }
-function __c11(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          exemptedMembers: S.optional(__S(880, __c55, 0)),
+          exemptedMembers: S.optional(__S(864, __c54, 0)),
           logType: S.optional(S.String),
         }),
       ).annotate({ identifier: "AuditLogConfig" });
     case 1:
-      return S.Array(__S(176, __c11, 0));
+      return S.Array(__S(208, __c13, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           service: S.optional(S.String),
-          auditLogConfigs: S.optional(__S(177, __c11, 1)),
+          auditLogConfigs: S.optional(__S(209, __c13, 1)),
         }),
       ).annotate({ identifier: "AuditConfig" });
     case 3:
-      return S.Array(__S(178, __c11, 2));
+      return S.Array(__S(210, __c13, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -2557,48 +2437,22 @@ function __c11(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          condition: S.optional(__S(180, __c11, 4)),
+          condition: S.optional(__S(212, __c13, 4)),
           role: S.optional(S.String),
-          members: S.optional(__S(880, __c55, 0)),
+          members: S.optional(__S(864, __c54, 0)),
         }),
       ).annotate({ identifier: "Binding" });
     case 6:
-      return S.Array(__S(181, __c11, 5));
+      return S.Array(__S(213, __c13, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          auditConfigs: S.optional(__S(179, __c11, 3)),
+          auditConfigs: S.optional(__S(211, __c13, 3)),
           version: S.optional(S.Number),
           etag: S.optional(S.String),
-          bindings: S.optional(__S(182, __c11, 6)),
+          bindings: S.optional(__S(214, __c13, 6)),
         }),
       ).annotate({ identifier: "Policy" });
-  }
-}
-function __c12(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://config.googleapis.com/" }),
-        ),
-      ).annotate({ identifier: "GetProjectsLocationsRequest" });
-  }
-}
-function __c13(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          labels: S.optional(__S(912, __c57, 0)),
-          locationId: S.optional(S.String),
-          name: S.optional(S.String),
-          displayName: S.optional(S.String),
-          metadata: S.optional(__S(928, __c58, 0)),
-        }),
-      ).annotate({ identifier: "Location" });
   }
 }
 function __c14(j: number): any {
@@ -2610,7 +2464,7 @@ function __c14(j: number): any {
         }).pipe(
           T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://config.googleapis.com/" }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsDeploymentGroupsRequest" });
+      ).annotate({ identifier: "GetProjectsLocationsRequest" });
   }
 }
 function __c15(j: number): any {
@@ -2618,19 +2472,13 @@ function __c15(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          createTime: S.optional(S.String),
-          provisioningError: S.optional(__S(945, __c59, 1)),
+          labels: S.optional(__S(896, __c56, 0)),
+          locationId: S.optional(S.String),
           name: S.optional(S.String),
-          state: S.optional(S.String),
-          deploymentUnits: S.optional(__S(897, __c56, 1)),
-          updateTime: S.optional(S.String),
-          stateDescription: S.optional(S.String),
-          annotations: S.optional(__S(912, __c57, 0)),
-          provisioningStateDescription: S.optional(S.String),
-          labels: S.optional(__S(912, __c57, 0)),
-          provisioningState: S.optional(S.String),
+          displayName: S.optional(S.String),
+          metadata: S.optional(__S(912, __c57, 0)),
         }),
-      ).annotate({ identifier: "DeploymentGroup" });
+      ).annotate({ identifier: "Location" });
   }
 }
 function __c16(j: number): any {
@@ -2642,7 +2490,7 @@ function __c16(j: number): any {
         }).pipe(
           T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://config.googleapis.com/" }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsDeploymentGroupsRevisionsRequest" });
+      ).annotate({ identifier: "GetProjectsLocationsDeploymentGroupsRequest" });
   }
 }
 function __c17(j: number): any {
@@ -2650,15 +2498,27 @@ function __c17(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          alternativeIds: S.optional(__S(880, __c55, 0)),
-          snapshot: S.optional(__S(240, __c15, 0)),
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://config.googleapis.com/" }),
+        ),
+      ).annotate({ identifier: "GetProjectsLocationsDeploymentGroupsRevisionsRequest" });
+  }
+}
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          alternativeIds: S.optional(__S(864, __c54, 0)),
+          snapshot: S.optional(__S(882, __c55, 2)),
           name: S.optional(S.String),
           createTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "DeploymentGroupRevision" });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2668,39 +2528,6 @@ function __c18(j: number): any {
           T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://config.googleapis.com/" }),
         ),
       ).annotate({ identifier: "GetProjectsLocationsDeploymentsRequest" });
-  }
-}
-function __c19(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          errorCode: S.optional(S.String),
-          workerPool: S.optional(S.String),
-          lockState: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          tfVersionConstraint: S.optional(S.String),
-          providerConfig: S.optional(__S(1024, __c64, 0)),
-          errorLogs: S.optional(S.String),
-          artifactsGcsBucket: S.optional(S.String),
-          createTime: S.optional(S.String),
-          terraformBlueprint: S.optional(__S(1031, __c64, 7)),
-          deleteBuild: S.optional(S.String),
-          state: S.optional(S.String),
-          latestRevision: S.optional(S.String),
-          stateDetail: S.optional(S.String),
-          labels: S.optional(__S(912, __c57, 0)),
-          deleteResults: S.optional(__S(1010, __c63, 2)),
-          importExistingResources: S.optional(S.Boolean),
-          annotations: S.optional(__S(912, __c57, 0)),
-          tfVersion: S.optional(S.String),
-          name: S.optional(S.String),
-          quotaValidation: S.optional(S.String),
-          tfErrors: S.optional(__S(1033, __c64, 9)),
-          deleteLogs: S.optional(S.String),
-          serviceAccount: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Deployment" });
   }
 }
 function __c20(j: number): any {
@@ -2734,7 +2561,7 @@ function __c21(j: number): any {
           action: S.optional(S.String),
           quotaValidation: S.optional(S.String),
           serviceAccount: S.optional(S.String),
-          applyResults: S.optional(__S(1010, __c63, 2)),
+          applyResults: S.optional(__S(994, __c62, 2)),
           name: S.optional(S.String),
           errorCode: S.optional(S.String),
           stateDetail: S.optional(S.String),
@@ -2816,36 +2643,6 @@ function __c26(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          previewArtifacts: S.optional(__S(1056, __c66, 0)),
-          labels: S.optional(__S(912, __c57, 0)),
-          workerPool: S.optional(S.String),
-          state: S.optional(S.String),
-          terraformBlueprint: S.optional(__S(1031, __c64, 7)),
-          tfVersion: S.optional(S.String),
-          annotations: S.optional(__S(912, __c57, 0)),
-          errorStatus: S.optional(__S(945, __c59, 1)),
-          name: S.optional(S.String),
-          previewMode: S.optional(S.String),
-          serviceAccount: S.optional(S.String),
-          deployment: S.optional(S.String),
-          build: S.optional(S.String),
-          errorLogs: S.optional(S.String),
-          tfErrors: S.optional(__S(1033, __c64, 9)),
-          createTime: S.optional(S.String),
-          artifactsGcsBucket: S.optional(S.String),
-          providerConfig: S.optional(__S(1024, __c64, 0)),
-          errorCode: S.optional(S.String),
-          logs: S.optional(S.String),
-          tfVersionConstraint: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Preview" });
-  }
-}
-function __c27(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
           name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://config.googleapis.com/" }),
@@ -2853,26 +2650,26 @@ function __c27(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsPreviewsResourceChangesRequest" });
   }
 }
-function __c28(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           after: S.optional(S.Unknown),
           before: S.optional(S.Unknown),
-          afterSensitivePaths: S.optional(__S(880, __c55, 0)),
-          beforeSensitivePaths: S.optional(__S(880, __c55, 0)),
+          afterSensitivePaths: S.optional(__S(864, __c54, 0)),
+          beforeSensitivePaths: S.optional(__S(864, __c54, 0)),
           path: S.optional(S.String),
         }),
       ).annotate({ identifier: "PropertyChange" });
     case 1:
-      return S.Array(__S(448, __c28, 0));
+      return S.Array(__S(432, __c27, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           resourceName: S.optional(S.String),
           address: S.optional(S.String),
-          actions: S.optional(__S(880, __c55, 0)),
+          actions: S.optional(__S(864, __c54, 0)),
           provider: S.optional(S.String),
           type: S.optional(S.String),
         }),
@@ -2880,15 +2677,15 @@ function __c28(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          propertyChanges: S.optional(__S(449, __c28, 1)),
+          propertyChanges: S.optional(__S(433, __c27, 1)),
           name: S.optional(S.String),
-          terraformInfo: S.optional(__S(450, __c28, 2)),
+          terraformInfo: S.optional(__S(434, __c27, 2)),
           intent: S.optional(S.String),
         }),
       ).annotate({ identifier: "ResourceChange" });
   }
 }
-function __c29(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2900,7 +2697,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsPreviewsResourceDriftsRequest" });
   }
 }
-function __c30(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2916,24 +2713,24 @@ function __c30(j: number): any {
         S.Struct({
           path: S.optional(S.String),
           after: S.optional(S.Unknown),
-          afterSensitivePaths: S.optional(__S(880, __c55, 0)),
+          afterSensitivePaths: S.optional(__S(864, __c54, 0)),
           before: S.optional(S.Unknown),
-          beforeSensitivePaths: S.optional(__S(880, __c55, 0)),
+          beforeSensitivePaths: S.optional(__S(864, __c54, 0)),
         }),
       ).annotate({ identifier: "PropertyDrift" });
     case 2:
-      return S.Array(__S(481, __c30, 1));
+      return S.Array(__S(465, __c29, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          terraformInfo: S.optional(__S(480, __c30, 0)),
-          propertyDrifts: S.optional(__S(482, __c30, 2)),
+          terraformInfo: S.optional(__S(464, __c29, 0)),
+          propertyDrifts: S.optional(__S(466, __c29, 2)),
         }),
       ).annotate({ identifier: "ResourceDrift" });
   }
 }
-function __c31(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2945,7 +2742,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsTerraformVersionsRequest" });
   }
 }
-function __c32(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2959,14 +2756,16 @@ function __c32(j: number): any {
       ).annotate({ identifier: "TerraformVersion" });
   }
 }
-function __c33(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          lockId: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(48, __c3, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}:importState",
@@ -2976,7 +2775,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "ImportStateProjectsLocationsDeploymentsRequest" });
   }
 }
-function __c34(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2984,7 +2783,7 @@ function __c34(j: number): any {
           name: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
-          extraLocationTypes: S.optional(__S(880, __c55, 0).pipe(T.Query())),
+          extraLocationTypes: S.optional(__S(864, __c54, 0).pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -2995,17 +2794,17 @@ function __c34(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsRequest" });
     case 1:
-      return S.Array(__S(208, __c13, 0));
+      return S.Array(__S(240, __c15, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          locations: S.optional(__S(545, __c34, 1)),
+          locations: S.optional(__S(529, __c33, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListLocationsResponse" });
   }
 }
-function __c35(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3024,18 +2823,18 @@ function __c35(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsDeploymentGroupsRequest" });
     case 1:
-      return S.Array(__S(240, __c15, 0));
+      return S.Array(__S(882, __c55, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          deploymentGroups: S.optional(__S(561, __c35, 1)),
-          unreachable: S.optional(__S(880, __c55, 0)),
+          deploymentGroups: S.optional(__S(545, __c34, 1)),
+          unreachable: S.optional(__S(864, __c54, 0)),
         }),
       ).annotate({ identifier: "ListDeploymentGroupsResponse" });
   }
 }
-function __c36(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3052,18 +2851,18 @@ function __c36(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsDeploymentGroupsRevisionsRequest" });
     case 1:
-      return S.Array(__S(272, __c17, 0));
+      return S.Array(__S(288, __c18, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(880, __c55, 0)),
-          deploymentGroupRevisions: S.optional(__S(577, __c36, 1)),
+          unreachable: S.optional(__S(864, __c54, 0)),
+          deploymentGroupRevisions: S.optional(__S(561, __c35, 1)),
         }),
       ).annotate({ identifier: "ListDeploymentGroupRevisionsResponse" });
   }
 }
-function __c37(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3082,18 +2881,18 @@ function __c37(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsDeploymentsRequest" });
     case 1:
-      return S.Array(__S(304, __c19, 0));
+      return S.Array(__S(1008, __c63, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          deployments: S.optional(__S(593, __c37, 1)),
-          unreachable: S.optional(__S(880, __c55, 0)),
+          deployments: S.optional(__S(577, __c36, 1)),
+          unreachable: S.optional(__S(864, __c54, 0)),
         }),
       ).annotate({ identifier: "ListDeploymentsResponse" });
   }
 }
-function __c38(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3116,14 +2915,14 @@ function __c38(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          revisions: S.optional(__S(609, __c38, 1)),
-          unreachable: S.optional(__S(880, __c55, 0)),
+          revisions: S.optional(__S(593, __c37, 1)),
+          unreachable: S.optional(__S(864, __c54, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListRevisionsResponse" });
   }
 }
-function __c39(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3146,14 +2945,14 @@ function __c39(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(880, __c55, 0)),
-          resources: S.optional(__S(625, __c39, 1)),
+          unreachable: S.optional(__S(864, __c54, 0)),
+          resources: S.optional(__S(609, __c38, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListResourcesResponse" });
   }
 }
-function __c40(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3172,18 +2971,18 @@ function __c40(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsOperationsRequest" });
     case 1:
-      return S.Array(__S(960, __c60, 0));
+      return S.Array(__S(944, __c59, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          operations: S.optional(__S(641, __c40, 1)),
+          operations: S.optional(__S(625, __c39, 1)),
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(880, __c55, 0)),
+          unreachable: S.optional(__S(864, __c54, 0)),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
   }
 }
-function __c41(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3202,24 +3001,24 @@ function __c41(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsPreviewsRequest" });
     case 1:
-      return S.Array(__S(416, __c26, 0));
+      return S.Array(__S(1057, __c66, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          previews: S.optional(__S(657, __c41, 1)),
-          unreachable: S.optional(__S(880, __c55, 0)),
+          previews: S.optional(__S(641, __c40, 1)),
+          unreachable: S.optional(__S(864, __c54, 0)),
         }),
       ).annotate({ identifier: "ListPreviewsResponse" });
   }
 }
-function __c42(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(688, __c43, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(672, __c42, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3230,13 +3029,13 @@ function __c42(j: number): any {
       ).annotate({ identifier: "CancelProjectsLocationsOperationsRequest" });
   }
 }
-function __c43(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "CancelOperationRequest" });
   }
 }
-function __c44(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3255,18 +3054,18 @@ function __c44(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsPreviewsResourceChangesRequest" });
     case 1:
-      return S.Array(__S(451, __c28, 3));
+      return S.Array(__S(435, __c27, 3));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(880, __c55, 0)),
+          unreachable: S.optional(__S(864, __c54, 0)),
           nextPageToken: S.optional(S.String),
-          resourceChanges: S.optional(__S(705, __c44, 1)),
+          resourceChanges: S.optional(__S(689, __c43, 1)),
         }),
       ).annotate({ identifier: "ListResourceChangesResponse" });
   }
 }
-function __c45(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3285,18 +3084,18 @@ function __c45(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsPreviewsResourceDriftsRequest" });
     case 1:
-      return S.Array(__S(483, __c30, 3));
+      return S.Array(__S(467, __c29, 3));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          resourceDrifts: S.optional(__S(721, __c45, 1)),
+          resourceDrifts: S.optional(__S(705, __c44, 1)),
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(880, __c55, 0)),
+          unreachable: S.optional(__S(864, __c54, 0)),
         }),
       ).annotate({ identifier: "ListResourceDriftsResponse" });
   }
 }
-function __c46(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3315,24 +3114,24 @@ function __c46(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsTerraformVersionsRequest" });
     case 1:
-      return S.Array(__S(512, __c32, 0));
+      return S.Array(__S(496, __c31, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(880, __c55, 0)),
-          terraformVersions: S.optional(__S(737, __c46, 1)),
+          unreachable: S.optional(__S(864, __c54, 0)),
+          terraformVersions: S.optional(__S(721, __c45, 1)),
         }),
       ).annotate({ identifier: "ListTerraformVersionsResponse" });
   }
 }
-function __c47(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(688, __c43, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(672, __c42, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3343,28 +3142,38 @@ function __c47(j: number): any {
       ).annotate({ identifier: "LockProjectsLocationsDeploymentsRequest" });
   }
 }
+function __c47(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(882, __c55, 2),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
+          T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://config.googleapis.com/" }),
+        ),
+      ).annotate({ identifier: "PatchProjectsLocationsDeploymentGroupsRequest" });
+  }
+}
 function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          createTime: S.optional(S.String),
-          provisioningError: S.optional(__S(945, __c59, 1)),
-          state: S.optional(S.String),
-          deploymentUnits: S.optional(__S(897, __c56, 1)),
-          updateTime: S.optional(S.String),
-          stateDescription: S.optional(S.String),
-          annotations: S.optional(__S(912, __c57, 0)),
-          provisioningStateDescription: S.optional(S.String),
-          labels: S.optional(__S(912, __c57, 0)),
-          provisioningState: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1008, __c63, 0),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://config.googleapis.com/" }),
         ),
-      ).annotate({ identifier: "PatchProjectsLocationsDeploymentGroupsRequest" });
+      ).annotate({ identifier: "PatchProjectsLocationsDeploymentsRequest" });
   }
 }
 function __c49(j: number): any {
@@ -3372,55 +3181,26 @@ function __c49(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          errorCode: S.optional(S.String),
-          workerPool: S.optional(S.String),
-          lockState: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          tfVersionConstraint: S.optional(S.String),
-          providerConfig: S.optional(__S(1024, __c64, 0)),
-          errorLogs: S.optional(S.String),
-          artifactsGcsBucket: S.optional(S.String),
-          createTime: S.optional(S.String),
-          terraformBlueprint: S.optional(__S(1031, __c64, 7)),
-          deleteBuild: S.optional(S.String),
-          state: S.optional(S.String),
-          latestRevision: S.optional(S.String),
-          stateDetail: S.optional(S.String),
-          labels: S.optional(__S(912, __c57, 0)),
-          deleteResults: S.optional(__S(1010, __c63, 2)),
-          importExistingResources: S.optional(S.Boolean),
-          annotations: S.optional(__S(912, __c57, 0)),
-          tfVersion: S.optional(S.String),
-          quotaValidation: S.optional(S.String),
-          tfErrors: S.optional(__S(1033, __c64, 9)),
-          deleteLogs: S.optional(S.String),
-          serviceAccount: S.optional(S.String),
-        }).pipe(
-          T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://config.googleapis.com/" }),
-        ),
-      ).annotate({ identifier: "PatchProjectsLocationsDeploymentsRequest" });
-  }
-}
-function __c50(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          deployment: S.optional(__S(304, __c19, 0)),
+          deployment: S.optional(__S(1008, __c63, 0)),
           deploymentId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DeploymentSpec" });
     case 1:
-      return S.Record(S.String, __S(800, __c50, 0));
+      return S.Record(S.String, __S(784, __c49, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
-          deploymentSpecs: S.optional(__S(801, __c50, 1)),
-        }).pipe(
+          deploymentSpecs: S.optional(__S(785, __c49, 1)),
+        }),
+      ).annotate({ identifier: "ProvisionDeploymentGroupRequest" });
+    case 3:
+      return S.suspend(() =>
+        S.Extend(
+          __S(786, __c49, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:provision",
@@ -3430,15 +3210,23 @@ function __c50(j: number): any {
       ).annotate({ identifier: "ProvisionProjectsLocationsDeploymentGroupsRequest" });
   }
 }
-function __c51(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          resource: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String),
-          policy: S.optional(__S(183, __c11, 7)),
-        }).pipe(
+          policy: S.optional(__S(215, __c13, 7)),
+        }),
+      ).annotate({ identifier: "SetIamPolicyRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(800, __c50, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -3448,14 +3236,22 @@ function __c51(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsLocationsDeploymentsRequest" });
   }
 }
-function __c52(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          resource: S.String.pipe(T.Label()),
-          permissions: S.optional(__S(880, __c55, 0)),
-        }).pipe(
+          permissions: S.optional(__S(864, __c54, 0)),
+        }),
+      ).annotate({ identifier: "TestIamPermissionsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(816, __c51, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -3463,22 +3259,18 @@ function __c52(j: number): any {
           }),
         ),
       ).annotate({ identifier: "TestIamPermissionsProjectsLocationsDeploymentsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          permissions: S.optional(__S(880, __c55, 0)),
-        }),
-      ).annotate({ identifier: "TestIamPermissionsResponse" });
   }
 }
-function __c53(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          lockId: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(48, __c3, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:unlock",
@@ -3488,26 +3280,18 @@ function __c53(j: number): any {
       ).annotate({ identifier: "UnlockProjectsLocationsDeploymentsRequest" });
   }
 }
-function __c54(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          deploymentGroupId: S.optional(S.String.pipe(T.Query())),
-          createTime: S.optional(S.String),
-          provisioningError: S.optional(__S(945, __c59, 1)),
-          name: S.optional(S.String),
-          state: S.optional(S.String),
-          deploymentUnits: S.optional(__S(897, __c56, 1)),
-          updateTime: S.optional(S.String),
-          stateDescription: S.optional(S.String),
-          annotations: S.optional(__S(912, __c57, 0)),
-          provisioningStateDescription: S.optional(S.String),
-          labels: S.optional(__S(912, __c57, 0)),
-          provisioningState: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(882, __c55, 2),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            deploymentGroupId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/deploymentGroups",
@@ -3517,79 +3301,117 @@ function __c54(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsDeploymentGroupsRequest" });
   }
 }
-function __c55(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c56(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           deployment: S.optional(S.String),
           id: S.optional(S.String),
-          dependencies: S.optional(__S(880, __c55, 0)),
+          dependencies: S.optional(__S(864, __c54, 0)),
         }),
       ).annotate({ identifier: "DeploymentUnit" });
     case 1:
-      return S.Array(__S(896, __c56, 0));
+      return S.Array(__S(880, __c55, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          createTime: S.optional(S.String),
+          provisioningError: S.optional(__S(929, __c58, 1)),
+          name: S.optional(S.String),
+          state: S.optional(S.String),
+          deploymentUnits: S.optional(__S(881, __c55, 1)),
+          updateTime: S.optional(S.String),
+          stateDescription: S.optional(S.String),
+          annotations: S.optional(__S(896, __c56, 0)),
+          provisioningStateDescription: S.optional(S.String),
+          labels: S.optional(__S(896, __c56, 0)),
+          provisioningState: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DeploymentGroup" });
   }
 }
-function __c57(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
   }
 }
-function __c58(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c59(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(928, __c58, 0));
+      return S.Array(__S(912, __c57, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          details: S.optional(__S(944, __c59, 0)),
+          details: S.optional(__S(928, __c58, 0)),
           message: S.optional(S.String),
           code: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Status" });
   }
 }
-function __c60(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          metadata: S.optional(__S(928, __c58, 0)),
-          response: S.optional(__S(928, __c58, 0)),
+          metadata: S.optional(__S(912, __c57, 0)),
+          response: S.optional(__S(912, __c57, 0)),
           name: S.optional(S.String),
           done: S.optional(S.Boolean),
-          error: S.optional(__S(945, __c59, 1)),
+          error: S.optional(__S(929, __c58, 1)),
         }),
       ).annotate({ identifier: "Operation" });
+  }
+}
+function __c60(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(176, __c11, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
+          T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://config.googleapis.com/" }),
+        ),
+      ).annotate({ identifier: "UpdateAutoMigrationConfigProjectsLocationsRequest" });
   }
 }
 function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          autoMigrationEnabled: S.optional(S.Boolean),
-          updateTime: S.optional(S.String),
-        }).pipe(
-          T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://config.googleapis.com/" }),
+        S.Extend(
+          __S(1008, __c63, 0),
+          S.Struct({
+            deploymentId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
+          T.Http({
+            method: "POST",
+            uri: "v1/{+parent}/deployments",
+            baseUrl: "https://config.googleapis.com/",
+          }),
         ),
-      ).annotate({ identifier: "UpdateAutoMigrationConfigProjectsLocationsRequest" });
+      ).annotate({ identifier: "CreateProjectsLocationsDeploymentsRequest" });
   }
 }
 function __c62(j: number): any {
@@ -3597,9 +3419,27 @@ function __c62(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          deploymentId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
+          sensitive: S.optional(S.Boolean),
+          value: S.optional(S.Unknown),
+        }),
+      ).annotate({ identifier: "TerraformOutput" });
+    case 1:
+      return S.Record(S.String, __S(992, __c62, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          outputs: S.optional(__S(993, __c62, 1)),
+          artifacts: S.optional(S.String),
+          content: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ApplyResults" });
+  }
+}
+function __c63(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           errorCode: S.optional(S.String),
           workerPool: S.optional(S.String),
           lockState: S.optional(S.String),
@@ -3614,45 +3454,18 @@ function __c62(j: number): any {
           state: S.optional(S.String),
           latestRevision: S.optional(S.String),
           stateDetail: S.optional(S.String),
-          labels: S.optional(__S(912, __c57, 0)),
-          deleteResults: S.optional(__S(1010, __c63, 2)),
+          labels: S.optional(__S(896, __c56, 0)),
+          deleteResults: S.optional(__S(994, __c62, 2)),
           importExistingResources: S.optional(S.Boolean),
-          annotations: S.optional(__S(912, __c57, 0)),
+          annotations: S.optional(__S(896, __c56, 0)),
           tfVersion: S.optional(S.String),
           name: S.optional(S.String),
           quotaValidation: S.optional(S.String),
           tfErrors: S.optional(__S(1033, __c64, 9)),
           deleteLogs: S.optional(S.String),
           serviceAccount: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "v1/{+parent}/deployments",
-            baseUrl: "https://config.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "CreateProjectsLocationsDeploymentsRequest" });
-  }
-}
-function __c63(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          sensitive: S.optional(S.Boolean),
-          value: S.optional(S.Unknown),
         }),
-      ).annotate({ identifier: "TerraformOutput" });
-    case 1:
-      return S.Record(S.String, __S(1008, __c63, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          outputs: S.optional(__S(1009, __c63, 1)),
-          artifacts: S.optional(S.String),
-          content: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ApplyResults" });
+      ).annotate({ identifier: "Deployment" });
   }
 }
 function __c64(j: number): any {
@@ -3708,7 +3521,7 @@ function __c64(j: number): any {
         S.Struct({
           httpResponseCode: S.optional(S.Number),
           errorDescription: S.optional(S.String),
-          error: S.optional(__S(945, __c59, 1)),
+          error: S.optional(__S(929, __c58, 1)),
           resourceAddress: S.optional(S.String),
         }),
       ).annotate({ identifier: "TerraformError" });
@@ -3720,32 +3533,14 @@ function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          previewId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          previewArtifacts: S.optional(__S(1056, __c66, 0)),
-          labels: S.optional(__S(912, __c57, 0)),
-          workerPool: S.optional(S.String),
-          state: S.optional(S.String),
-          terraformBlueprint: S.optional(__S(1031, __c64, 7)),
-          tfVersion: S.optional(S.String),
-          annotations: S.optional(__S(912, __c57, 0)),
-          errorStatus: S.optional(__S(945, __c59, 1)),
-          name: S.optional(S.String),
-          previewMode: S.optional(S.String),
-          serviceAccount: S.optional(S.String),
-          deployment: S.optional(S.String),
-          build: S.optional(S.String),
-          errorLogs: S.optional(S.String),
-          tfErrors: S.optional(__S(1033, __c64, 9)),
-          createTime: S.optional(S.String),
-          artifactsGcsBucket: S.optional(S.String),
-          providerConfig: S.optional(__S(1024, __c64, 0)),
-          errorCode: S.optional(S.String),
-          logs: S.optional(S.String),
-          tfVersionConstraint: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1057, __c66, 1),
+          S.Struct({
+            previewId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/previews",
@@ -3764,6 +3559,32 @@ function __c66(j: number): any {
           content: S.optional(S.String),
         }),
       ).annotate({ identifier: "PreviewArtifacts" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          previewArtifacts: S.optional(__S(1056, __c66, 0)),
+          labels: S.optional(__S(896, __c56, 0)),
+          workerPool: S.optional(S.String),
+          state: S.optional(S.String),
+          terraformBlueprint: S.optional(__S(1031, __c64, 7)),
+          tfVersion: S.optional(S.String),
+          annotations: S.optional(__S(896, __c56, 0)),
+          errorStatus: S.optional(__S(929, __c58, 1)),
+          name: S.optional(S.String),
+          previewMode: S.optional(S.String),
+          serviceAccount: S.optional(S.String),
+          deployment: S.optional(S.String),
+          build: S.optional(S.String),
+          errorLogs: S.optional(S.String),
+          tfErrors: S.optional(__S(1033, __c64, 9)),
+          createTime: S.optional(S.String),
+          artifactsGcsBucket: S.optional(S.String),
+          providerConfig: S.optional(__S(1024, __c64, 0)),
+          errorCode: S.optional(S.String),
+          logs: S.optional(S.String),
+          tfVersionConstraint: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Preview" });
   }
 }
 function __c67(j: number): any {

@@ -104,9 +104,8 @@ export interface DataMaskingPolicy {
   /** A predefined masking expression. */
   predefinedExpression?: DataMaskingPolicyPredefinedExpressionEnum | (string & {}) | undefined;
 }
-export interface CreateProjectsLocationsDataPoliciesRequest {
-  /** Required. Resource name of the project that the data policy will belong to. The format is `projects/{project_number}/locations/{location_id}`. */
-  parent: string;
+/** Represents the label-policy binding. */
+export interface DataPolicy {
   /** Output only. Resource name of this data policy, in the format of `projects/{project_number}/locations/{location_id}/dataPolicies/{data_policy_id}`. */
   name?: string | undefined;
   /** User-assigned (human readable) ID of the data policy that needs to be unique within a project. Used as {data_policy_id} in part of the resource name. */
@@ -118,18 +117,9 @@ export interface CreateProjectsLocationsDataPoliciesRequest {
   /** The data masking policy that specifies the data masking rule to use. */
   dataMaskingPolicy?: DataMaskingPolicy | undefined;
 }
-/** Represents the label-policy binding. */
-export interface DataPolicy {
-  /** Output only. Resource name of this data policy, in the format of `projects/{project_number}/locations/{location_id}/dataPolicies/{data_policy_id}`. */
-  name?: string | undefined;
-  /** User-assigned (human readable) ID of the data policy that needs to be unique within a project. Used as {data_policy_id} in part of the resource name. */
-  dataPolicyId?: string | undefined;
-  /** Required. Data policy type. Type of data policy. */
-  dataPolicyType?: DataPolicyDataPolicyTypeEnum | undefined;
-  /** Policy tag resource name, in the format of `projects/{project_number}/locations/{location_id}/taxonomies/{taxonomy_id}/policyTags/{policyTag_id}`. */
-  policyTag?: string | undefined;
-  /** The data masking policy that specifies the data masking rule to use. */
-  dataMaskingPolicy?: DataMaskingPolicy | undefined;
+export interface CreateProjectsLocationsDataPoliciesRequest extends DataPolicy {
+  /** Required. Resource name of the project that the data policy will belong to. The format is `projects/{project_number}/locations/{location_id}`. */
+  parent: string;
 }
 export interface DeleteProjectsLocationsDataPoliciesRequest {
   /** Optional. If true, the data policy will be deleted even when it is referenced by one or more table columns. */
@@ -144,11 +134,14 @@ export interface GetPolicyOptions {
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   requestedPolicyVersion?: number | undefined;
 }
-export interface GetIamPolicyProjectsLocationsDataPoliciesRequest {
-  /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
+/** Request message for `GetIamPolicy` method. */
+export interface GetIamPolicyRequest {
   /** OPTIONAL: A `GetPolicyOptions` object for specifying options to `GetIamPolicy`. */
   options?: GetPolicyOptions | undefined;
+}
+export interface GetIamPolicyProjectsLocationsDataPoliciesRequest extends GetIamPolicyRequest {
+  /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
 }
 export type StringList = Array<string>;
 /** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
@@ -226,41 +219,42 @@ export interface ListDataPoliciesResponse {
   /** Data policies that belong to the requested project. */
   dataPolicies?: DataPolicyList | undefined;
 }
-export interface PatchProjectsLocationsDataPoliciesRequest {
+export interface PatchProjectsLocationsDataPoliciesRequest extends Omit<DataPolicy, "name"> {
   /** The update mask applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask If not set, defaults to all of the fields that are allowed to update. Updates to the `name` and `dataPolicyId` fields are not allowed. */
   updateMask?: string | undefined;
   /** Optional. If set to true, and the data policy is not found, a new data policy will be created. In this situation, update_mask is ignored. */
   allowMissing?: boolean | undefined;
   /** Output only. Resource name of this data policy, in the format of `projects/{project_number}/locations/{location_id}/dataPolicies/{data_policy_id}`. */
   name: string;
-  /** User-assigned (human readable) ID of the data policy that needs to be unique within a project. Used as {data_policy_id} in part of the resource name. */
-  dataPolicyId?: string | undefined;
-  /** Required. Data policy type. Type of data policy. */
-  dataPolicyType?: DataPolicyDataPolicyTypeEnum | (string & {}) | undefined;
-  /** Policy tag resource name, in the format of `projects/{project_number}/locations/{location_id}/taxonomies/{taxonomy_id}/policyTags/{policyTag_id}`. */
-  policyTag?: string | undefined;
-  /** The data masking policy that specifies the data masking rule to use. */
-  dataMaskingPolicy?: DataMaskingPolicy | undefined;
 }
-export interface RenameProjectsLocationsDataPoliciesRequest {
-  /** Required. Resource name of the data policy to rename. The format is `projects/{project_number}/locations/{location_id}/dataPolicies/{data_policy_id}` */
-  name: string;
+/** Request message for the RenameDataPolicy method. */
+export interface RenameDataPolicyRequest {
   /** Required. The new data policy id. */
   newDataPolicyId?: string | undefined;
 }
-export interface SetIamPolicyProjectsLocationsDataPoliciesRequest {
-  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
+export interface RenameProjectsLocationsDataPoliciesRequest extends RenameDataPolicyRequest {
+  /** Required. Resource name of the data policy to rename. The format is `projects/{project_number}/locations/{location_id}/dataPolicies/{data_policy_id}` */
+  name: string;
+}
+/** Request message for `SetIamPolicy` method. */
+export interface SetIamPolicyRequest {
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
   policy?: Policy | undefined;
   /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
   updateMask?: string | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsDataPoliciesRequest {
-  /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+export interface SetIamPolicyProjectsLocationsDataPoliciesRequest extends SetIamPolicyRequest {
+  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
+}
+/** Request message for `TestIamPermissions` method. */
+export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: StringList | undefined;
+}
+export interface TestIamPermissionsProjectsLocationsDataPoliciesRequest extends TestIamPermissionsRequest {
+  /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
@@ -324,7 +318,7 @@ export const getIamPolicyProjectsLocationsDataPolicies: API.OperationMethod<
   GetIamPolicyProjectsLocationsDataPoliciesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(49, __c6, 1) as any as S.Schema<GetIamPolicyProjectsLocationsDataPoliciesRequest>,
+  input: __S(50, __c6, 2) as any as S.Schema<GetIamPolicyProjectsLocationsDataPoliciesRequest>,
   output: __S(63, __c7, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -404,7 +398,7 @@ export const renameProjectsLocationsDataPolicies: API.OperationMethod<
   RenameProjectsLocationsDataPoliciesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<RenameProjectsLocationsDataPoliciesRequest>,
+  input: __S(1, __c0, 1) as any as S.Schema<RenameProjectsLocationsDataPoliciesRequest>,
   output: __S(33, __c4, 1) as any as S.Schema<DataPolicy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -426,7 +420,7 @@ export const setIamPolicyProjectsLocationsDataPolicies: API.OperationMethod<
   SetIamPolicyProjectsLocationsDataPoliciesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c1, 0) as any as S.Schema<SetIamPolicyProjectsLocationsDataPoliciesRequest>,
+  input: __S(9, __c1, 1) as any as S.Schema<SetIamPolicyProjectsLocationsDataPoliciesRequest>,
   output: __S(63, __c7, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -449,11 +443,11 @@ export const testIamPermissionsProjectsLocationsDataPolicies: API.OperationMetho
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    16,
+    17,
     __c2,
-    0,
+    1,
   ) as any as S.Schema<TestIamPermissionsProjectsLocationsDataPoliciesRequest>,
-  output: __S(17, __c2, 1) as any as S.Schema<TestIamPermissionsResponse>,
+  output: __S(16, __c2, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -467,9 +461,17 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           newDataPolicyId: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "RenameDataPolicyRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(0, __c0, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:rename",
@@ -484,10 +486,18 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          resource: S.String.pipe(T.Label()),
           policy: S.optional(__S(63, __c7, 7)),
           updateMask: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "SetIamPolicyRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(8, __c1, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -502,9 +512,17 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          resource: S.String.pipe(T.Label()),
           permissions: S.optional(__S(64, __c8, 0)),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "TestIamPermissionsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(16, __c2, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -512,26 +530,18 @@ function __c2(j: number): any {
           }),
         ),
       ).annotate({ identifier: "TestIamPermissionsProjectsLocationsDataPoliciesRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          permissions: S.optional(__S(64, __c8, 0)),
-        }),
-      ).annotate({ identifier: "TestIamPermissionsResponse" });
   }
 }
 function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          name: S.optional(S.String),
-          dataPolicyId: S.optional(S.String),
-          dataPolicyType: S.optional(S.String),
-          policyTag: S.optional(S.String),
-          dataMaskingPolicy: S.optional(__S(32, __c4, 0)),
-        }).pipe(
+        S.Extend(
+          __S(33, __c4, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/dataPolicies",
@@ -592,9 +602,17 @@ function __c6(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          resource: S.String.pipe(T.Label()),
           options: S.optional(__S(48, __c6, 0)),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "GetIamPolicyRequest" });
+    case 2:
+      return S.suspend(() =>
+        S.Extend(
+          __S(49, __c6, 1),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:getIamPolicy",
@@ -708,15 +726,14 @@ function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          dataPolicyId: S.optional(S.String),
-          dataPolicyType: S.optional(S.String),
-          policyTag: S.optional(S.String),
-          dataMaskingPolicy: S.optional(__S(32, __c4, 0)),
-        }).pipe(
+        S.Extend(
+          __S(33, __c4, 1),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",

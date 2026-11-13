@@ -226,7 +226,8 @@ export interface GoogleCloudVideointelligenceV1p3beta1_VideoContext {
     | GoogleCloudVideointelligenceV1p3beta1_ShotChangeDetectionConfig
     | undefined;
 }
-export interface AnnotateVideosRequest {
+/** Video annotation request. */
+export interface GoogleCloudVideointelligenceV1p3beta1_AnnotateVideoRequest {
   /** The video data bytes. If unset, the input video(s) should be specified via the `input_uri`. If set, `input_uri` must be unset. */
   inputContent?: string | undefined;
   /** Required. Requested video annotation features. */
@@ -242,6 +243,7 @@ export interface AnnotateVideosRequest {
   /** Optional. Location where the output (in JSON format) should be stored. Currently, only [Cloud Storage](https://cloud.google.com/storage/) URIs are supported. These must be specified in the following format: `gs://bucket-id/object-id` (other URI formats return google.rpc.Code.INVALID_ARGUMENT). For more information, see [Request URIs](https://cloud.google.com/storage/docs/request-endpoints). */
   outputUri?: string | undefined;
 }
+export interface AnnotateVideosRequest extends GoogleCloudVideointelligenceV1p3beta1_AnnotateVideoRequest {}
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
@@ -274,8 +276,8 @@ export const annotateVideos: API.OperationMethod<
   AnnotateVideosError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14, __c0, 14) as any as S.Schema<AnnotateVideosRequest>,
-  output: __S(18, __c0, 18) as any as S.Schema<GoogleLongrunning_Operation>,
+  input: __S(15, __c0, 15) as any as S.Schema<AnnotateVideosRequest>,
+  output: __S(19, __c0, 19) as any as S.Schema<GoogleLongrunning_Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -386,7 +388,11 @@ function __c0(j: number): any {
           inputUri: S.optional(S.String),
           videoContext: S.optional(__S(13, __c0, 13)),
           outputUri: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "GoogleCloudVideointelligenceV1p3beta1_AnnotateVideoRequest" });
+    case 15:
+      return S.suspend(() =>
+        S.Extend(__S(14, __c0, 14), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1p3beta1/videos:annotate",
@@ -394,25 +400,25 @@ function __c0(j: number): any {
           }),
         ),
       ).annotate({ identifier: "AnnotateVideosRequest" });
-    case 15:
-      return S.Record(S.String, S.Unknown);
     case 16:
-      return S.Array(__S(15, __c0, 15));
+      return S.Record(S.String, S.Unknown);
     case 17:
-      return S.suspend(() =>
-        S.Struct({
-          message: S.optional(S.String),
-          details: S.optional(__S(16, __c0, 16)),
-          code: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "GoogleRpc_Status" });
+      return S.Array(__S(16, __c0, 16));
     case 18:
       return S.suspend(() =>
         S.Struct({
+          message: S.optional(S.String),
+          details: S.optional(__S(17, __c0, 17)),
+          code: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "GoogleRpc_Status" });
+    case 19:
+      return S.suspend(() =>
+        S.Struct({
           name: S.optional(S.String),
-          metadata: S.optional(__S(15, __c0, 15)),
-          error: S.optional(__S(17, __c0, 17)),
-          response: S.optional(__S(15, __c0, 15)),
+          metadata: S.optional(__S(16, __c0, 16)),
+          error: S.optional(__S(18, __c0, 18)),
+          response: S.optional(__S(16, __c0, 16)),
           done: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "GoogleLongrunning_Operation" });

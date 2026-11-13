@@ -130,9 +130,8 @@ export interface NotificationEndpoint {
   pubsubTopic?: string | undefined;
 }
 export type StringList = Array<string>;
-export interface CreateSubscriptionsRequest {
-  /** Optional. If set to `true`, validates and previews the request, but doesn't create the subscription. */
-  validateOnly?: boolean | undefined;
+/** A subscription to receive events about a Google Workspace resource. To learn more about subscriptions, see the [Google Workspace Events API overview](https://developers.google.com/workspace/events). */
+export interface Subscription {
   /** Non-empty default. The timestamp in UTC when the subscription expires. Always displayed on output, regardless of what was used on input. */
   expireTime?: string | undefined;
   /** Optional. Options about what data to include in the event payload. Only supported for Google Chat and Google Drive events. */
@@ -169,6 +168,10 @@ export interface CreateSubscriptionsRequest {
   targetResource?: string | undefined;
   /** Output only. The user who authorized the creation of the subscription. The user must be able to view the `target_resource`. For Google Workspace users, the `{user}` value is the [`user.id`](https://developers.google.com/workspace/admin/directory/reference/rest/v1/users#User.FIELDS.id) field from the Directory API. Format: `users/{user}` */
   userAuthority?: string | undefined;
+}
+export interface CreateSubscriptionsRequest extends Subscription {
+  /** Optional. If set to `true`, validates and previews the request, but doesn't create the subscription. */
+  validateOnly?: boolean | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -212,45 +215,6 @@ export interface GetSubscriptionsRequest {
   /** Required. Resource name of the subscription. Format: `subscriptions/{subscription}` */
   name: string;
 }
-/** A subscription to receive events about a Google Workspace resource. To learn more about subscriptions, see the [Google Workspace Events API overview](https://developers.google.com/workspace/events). */
-export interface Subscription {
-  /** Non-empty default. The timestamp in UTC when the subscription expires. Always displayed on output, regardless of what was used on input. */
-  expireTime?: string | undefined;
-  /** Optional. Options about what data to include in the event payload. Only supported for Google Chat and Google Drive events. */
-  payloadOptions?: PayloadOptions | undefined;
-  /** Output only. The last time that the subscription is updated. */
-  updateTime?: string | undefined;
-  /** Identifier. Resource name of the subscription. Format: `subscriptions/{subscription}` */
-  name?: string | undefined;
-  /** Output only. The state of the subscription. Determines whether the subscription can receive events and deliver them to the notification endpoint. */
-  state?: SubscriptionStateEnum | undefined;
-  /** Input only. The time-to-live (TTL) or duration for the subscription. If unspecified or set to `0`, uses the maximum possible duration. */
-  ttl?: string | undefined;
-  /** Optional. Features that are supported only for subscriptions on Drive resources. */
-  driveOptions?: DriveOptions | undefined;
-  /** Output only. The time when the subscription is created. */
-  createTime?: string | undefined;
-  /** Output only. The user who authorized the creation of the subscription. When a user authorizes the subscription, this field and the `user_authority` field have the same value and the format is: Format: `users/{user}` For Google Workspace users, the `{user}` value is the [`user.id`](https://developers.google.com/admin-sdk/directory/reference/rest/v1/users#User.FIELDS.ids) field from the Directory API. When a Chat app authorizes the subscription, only `service_account_authority` field populates and this field is empty. */
-  authority?: string | undefined;
-  /** Output only. System-assigned unique identifier for the subscription. */
-  uid?: string | undefined;
-  /** Output only. The error that suspended the subscription. To reactivate the subscription, resolve the error and call the `ReactivateSubscription` method. */
-  suspensionReason?: SubscriptionSuspensionReasonEnum | undefined;
-  /** Optional. This checksum is computed by the server based on the value of other fields, and might be sent on update requests to ensure the client has an up-to-date value before proceeding. */
-  etag?: string | undefined;
-  /** Output only. The service account that was used to authorize the creation of the subscription. This service account must be owned by the same Google Cloud project where you created this subscription. Format: `projects/{project_id}/serviceAccounts/{service_account_id}` */
-  serviceAccountAuthority?: string | undefined;
-  /** Output only. If `true`, the subscription is in the process of being updated. */
-  reconciling?: boolean | undefined;
-  /** Required. Immutable. The endpoint where the subscription delivers events, such as a Pub/Sub topic. */
-  notificationEndpoint?: NotificationEndpoint | undefined;
-  /** Required. Unordered list. Input for creating a subscription. Otherwise, output only. One or more types of events to receive about the target resource. Formatted according to the CloudEvents specification. The supported event types depend on the target resource of your subscription. For details, see [Supported Google Workspace events](https://developers.google.com/workspace/events/guides#supported-events). By default, you also receive events about the [lifecycle of your subscription](https://developers.google.com/workspace/events/guides/events-lifecycle). You don't need to specify lifecycle events for this field. If you specify an event type that doesn't exist for the target resource, the request returns an HTTP `400 Bad Request` status code. */
-  eventTypes?: StringList | undefined;
-  /** Required. Immutable. The Google Workspace resource that's monitored for events, formatted as the [full resource name](https://google.aip.dev/122#full-resource-names). To learn about target resources and the events that they support, see [Supported Google Workspace events](https://developers.google.com/workspace/events#supported-events). A user can only authorize your app to create one subscription for a given target resource. If your app tries to create another subscription with the same user credentials, the request returns an `ALREADY_EXISTS` error. */
-  targetResource?: string | undefined;
-  /** Output only. The user who authorized the creation of the subscription. The user must be able to view the `target_resource`. For Google Workspace users, the `{user}` value is the [`user.id`](https://developers.google.com/workspace/admin/directory/reference/rest/v1/users#User.FIELDS.id) field from the Directory API. Format: `users/{user}` */
-  userAuthority?: string | undefined;
-}
 export interface ListSubscriptionsRequest {
   /** Optional. A page token, received from a previous list subscriptions call. Provide this parameter to retrieve the subsequent page. When paginating, the filter value should match the call that provided the page token. Passing a different value might lead to unexpected results. */
   pageToken?: string | undefined;
@@ -267,47 +231,13 @@ export interface ListSubscriptionsResponse {
   /** List of subscriptions. */
   subscriptions?: SubscriptionList | undefined;
 }
-export interface PatchSubscriptionsRequest {
+export interface PatchSubscriptionsRequest extends Omit<Subscription, "name"> {
   /** Optional. The field to update. If omitted, updates any fields included in the request. You can update one of the following fields in a subscription: * `expire_time`: The timestamp when the subscription expires. * `ttl`: The time-to-live (TTL) or duration of the subscription. * `event_types`: The list of event types to receive about the target resource. When using the `*` wildcard (equivalent to `PUT`), omitted fields are set to empty values and rejected if they're invalid. */
   updateMask?: string | undefined;
   /** Optional. If set to `true`, validates and previews the request, but doesn't update the subscription. */
   validateOnly?: boolean | undefined;
   /** Identifier. Resource name of the subscription. Format: `subscriptions/{subscription}` */
   name: string;
-  /** Non-empty default. The timestamp in UTC when the subscription expires. Always displayed on output, regardless of what was used on input. */
-  expireTime?: string | undefined;
-  /** Optional. Options about what data to include in the event payload. Only supported for Google Chat and Google Drive events. */
-  payloadOptions?: PayloadOptions | undefined;
-  /** Output only. The last time that the subscription is updated. */
-  updateTime?: string | undefined;
-  /** Output only. The state of the subscription. Determines whether the subscription can receive events and deliver them to the notification endpoint. */
-  state?: SubscriptionStateEnum | (string & {}) | undefined;
-  /** Input only. The time-to-live (TTL) or duration for the subscription. If unspecified or set to `0`, uses the maximum possible duration. */
-  ttl?: string | undefined;
-  /** Optional. Features that are supported only for subscriptions on Drive resources. */
-  driveOptions?: DriveOptions | undefined;
-  /** Output only. The time when the subscription is created. */
-  createTime?: string | undefined;
-  /** Output only. The user who authorized the creation of the subscription. When a user authorizes the subscription, this field and the `user_authority` field have the same value and the format is: Format: `users/{user}` For Google Workspace users, the `{user}` value is the [`user.id`](https://developers.google.com/admin-sdk/directory/reference/rest/v1/users#User.FIELDS.ids) field from the Directory API. When a Chat app authorizes the subscription, only `service_account_authority` field populates and this field is empty. */
-  authority?: string | undefined;
-  /** Output only. System-assigned unique identifier for the subscription. */
-  uid?: string | undefined;
-  /** Output only. The error that suspended the subscription. To reactivate the subscription, resolve the error and call the `ReactivateSubscription` method. */
-  suspensionReason?: SubscriptionSuspensionReasonEnum | (string & {}) | undefined;
-  /** Optional. This checksum is computed by the server based on the value of other fields, and might be sent on update requests to ensure the client has an up-to-date value before proceeding. */
-  etag?: string | undefined;
-  /** Output only. The service account that was used to authorize the creation of the subscription. This service account must be owned by the same Google Cloud project where you created this subscription. Format: `projects/{project_id}/serviceAccounts/{service_account_id}` */
-  serviceAccountAuthority?: string | undefined;
-  /** Output only. If `true`, the subscription is in the process of being updated. */
-  reconciling?: boolean | undefined;
-  /** Required. Immutable. The endpoint where the subscription delivers events, such as a Pub/Sub topic. */
-  notificationEndpoint?: NotificationEndpoint | undefined;
-  /** Required. Unordered list. Input for creating a subscription. Otherwise, output only. One or more types of events to receive about the target resource. Formatted according to the CloudEvents specification. The supported event types depend on the target resource of your subscription. For details, see [Supported Google Workspace events](https://developers.google.com/workspace/events/guides#supported-events). By default, you also receive events about the [lifecycle of your subscription](https://developers.google.com/workspace/events/guides/events-lifecycle). You don't need to specify lifecycle events for this field. If you specify an event type that doesn't exist for the target resource, the request returns an HTTP `400 Bad Request` status code. */
-  eventTypes?: StringList | undefined;
-  /** Required. Immutable. The Google Workspace resource that's monitored for events, formatted as the [full resource name](https://google.aip.dev/122#full-resource-names). To learn about target resources and the events that they support, see [Supported Google Workspace events](https://developers.google.com/workspace/events#supported-events). A user can only authorize your app to create one subscription for a given target resource. If your app tries to create another subscription with the same user credentials, the request returns an `ALREADY_EXISTS` error. */
-  targetResource?: string | undefined;
-  /** Output only. The user who authorized the creation of the subscription. The user must be able to view the `target_resource`. For Google Workspace users, the `{user}` value is the [`user.id`](https://developers.google.com/workspace/admin/directory/reference/rest/v1/users#User.FIELDS.id) field from the Directory API. Format: `users/{user}` */
-  userAuthority?: string | undefined;
 }
 /** The request message for SubscriptionsService.ReactivateSubscription. */
 export interface ReactivateSubscriptionRequest {}
@@ -331,8 +261,8 @@ export const createSubscriptions: API.OperationMethod<
   CreateSubscriptionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c2, 0) as any as S.Schema<CreateSubscriptionsRequest>,
-  output: __S(15, __c3, 3) as any as S.Schema<Operation>,
+  input: __S(16, __c2, 0) as any as S.Schema<CreateSubscriptionsRequest>,
+  output: __S(27, __c3, 3) as any as S.Schema<Operation>,
   errors: [
     NotFound,
     Forbidden,
@@ -361,8 +291,8 @@ export const deleteSubscriptions: API.OperationMethod<
   DeleteSubscriptionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20, __c5, 0) as any as S.Schema<DeleteSubscriptionsRequest>,
-  output: __S(15, __c3, 3) as any as S.Schema<Operation>,
+  input: __S(40, __c5, 0) as any as S.Schema<DeleteSubscriptionsRequest>,
+  output: __S(27, __c3, 3) as any as S.Schema<Operation>,
   errors: [
     NotFound,
     Forbidden,
@@ -385,8 +315,8 @@ export const getOperations: API.OperationMethod<
   GetOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c6, 0) as any as S.Schema<GetOperationsRequest>,
-  output: __S(15, __c3, 3) as any as S.Schema<Operation>,
+  input: __S(48, __c6, 0) as any as S.Schema<GetOperationsRequest>,
+  output: __S(27, __c3, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -406,8 +336,8 @@ export const getSubscriptions: API.OperationMethod<
   GetSubscriptionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28, __c7, 0) as any as S.Schema<GetSubscriptionsRequest>,
-  output: __S(32, __c8, 0) as any as S.Schema<Subscription>,
+  input: __S(56, __c7, 0) as any as S.Schema<GetSubscriptionsRequest>,
+  output: __S(36, __c4, 4) as any as S.Schema<Subscription>,
   errors: [NotFound, Forbidden, WorkspaceEventsScopeInsufficient, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -428,8 +358,8 @@ export const listSubscriptions: API.PaginatedOperationMethod<
   GcpOpContext,
   ListSubscriptionsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(36, __c9, 0) as any as S.Schema<ListSubscriptionsRequest>,
-  output: __S(38, __c9, 2) as any as S.Schema<ListSubscriptionsResponse>,
+  input: __S(64, __c8, 0) as any as S.Schema<ListSubscriptionsRequest>,
+  output: __S(66, __c8, 2) as any as S.Schema<ListSubscriptionsResponse>,
   errors: [NotFound, Forbidden, WorkspaceEventsScopeInsufficient, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -453,7 +383,7 @@ export const patchSubscriptions: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<PatchSubscriptionsRequest>,
-  output: __S(15, __c3, 3) as any as S.Schema<Operation>,
+  output: __S(27, __c3, 3) as any as S.Schema<Operation>,
   errors: [
     NotFound,
     Forbidden,
@@ -482,8 +412,8 @@ export const reactivateSubscriptions: API.OperationMethod<
   ReactivateSubscriptionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5, __c1, 1) as any as S.Schema<ReactivateSubscriptionsRequest>,
-  output: __S(15, __c3, 3) as any as S.Schema<Operation>,
+  input: __S(9, __c1, 1) as any as S.Schema<ReactivateSubscriptionsRequest>,
+  output: __S(27, __c3, 3) as any as S.Schema<Operation>,
   errors: [
     NotFound,
     Forbidden,
@@ -503,28 +433,14 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          expireTime: S.optional(S.String),
-          payloadOptions: S.optional(__S(16, __c4, 0)),
-          updateTime: S.optional(S.String),
-          state: S.optional(S.String),
-          ttl: S.optional(S.String),
-          driveOptions: S.optional(__S(17, __c4, 1)),
-          createTime: S.optional(S.String),
-          authority: S.optional(S.String),
-          uid: S.optional(S.String),
-          suspensionReason: S.optional(S.String),
-          etag: S.optional(S.String),
-          serviceAccountAuthority: S.optional(S.String),
-          reconciling: S.optional(S.Boolean),
-          notificationEndpoint: S.optional(__S(18, __c4, 2)),
-          eventTypes: S.optional(__S(19, __c4, 3)),
-          targetResource: S.optional(S.String),
-          userAuthority: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(36, __c4, 4),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -544,7 +460,7 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(4, __c1, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(8, __c1, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -559,27 +475,12 @@ function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          expireTime: S.optional(S.String),
-          payloadOptions: S.optional(__S(16, __c4, 0)),
-          updateTime: S.optional(S.String),
-          name: S.optional(S.String),
-          state: S.optional(S.String),
-          ttl: S.optional(S.String),
-          driveOptions: S.optional(__S(17, __c4, 1)),
-          createTime: S.optional(S.String),
-          authority: S.optional(S.String),
-          uid: S.optional(S.String),
-          suspensionReason: S.optional(S.String),
-          etag: S.optional(S.String),
-          serviceAccountAuthority: S.optional(S.String),
-          reconciling: S.optional(S.Boolean),
-          notificationEndpoint: S.optional(__S(18, __c4, 2)),
-          eventTypes: S.optional(__S(19, __c4, 3)),
-          targetResource: S.optional(S.String),
-          userAuthority: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(36, __c4, 4),
+          S.Struct({
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/subscriptions",
@@ -594,11 +495,11 @@ function __c3(j: number): any {
     case 0:
       return S.Record(S.String, S.Unknown);
     case 1:
-      return S.Array(__S(12, __c3, 0));
+      return S.Array(__S(24, __c3, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          details: S.optional(__S(13, __c3, 1)),
+          details: S.optional(__S(25, __c3, 1)),
           code: S.optional(S.Number),
           message: S.optional(S.String),
         }),
@@ -608,9 +509,9 @@ function __c3(j: number): any {
         S.Struct({
           name: S.optional(S.String),
           done: S.optional(S.Boolean),
-          metadata: S.optional(__S(12, __c3, 0)),
-          response: S.optional(__S(12, __c3, 0)),
-          error: S.optional(__S(14, __c3, 2)),
+          metadata: S.optional(__S(24, __c3, 0)),
+          response: S.optional(__S(24, __c3, 0)),
+          error: S.optional(__S(26, __c3, 2)),
         }),
       ).annotate({ identifier: "Operation" });
   }
@@ -638,6 +539,29 @@ function __c4(j: number): any {
       ).annotate({ identifier: "NotificationEndpoint" });
     case 3:
       return S.Array(S.String);
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          expireTime: S.optional(S.String),
+          payloadOptions: S.optional(__S(32, __c4, 0)),
+          updateTime: S.optional(S.String),
+          name: S.optional(S.String),
+          state: S.optional(S.String),
+          ttl: S.optional(S.String),
+          driveOptions: S.optional(__S(33, __c4, 1)),
+          createTime: S.optional(S.String),
+          authority: S.optional(S.String),
+          uid: S.optional(S.String),
+          suspensionReason: S.optional(S.String),
+          etag: S.optional(S.String),
+          serviceAccountAuthority: S.optional(S.String),
+          reconciling: S.optional(S.Boolean),
+          notificationEndpoint: S.optional(__S(34, __c4, 2)),
+          eventTypes: S.optional(__S(35, __c4, 3)),
+          targetResource: S.optional(S.String),
+          userAuthority: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Subscription" });
   }
 }
 function __c5(j: number): any {
@@ -696,33 +620,6 @@ function __c8(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          expireTime: S.optional(S.String),
-          payloadOptions: S.optional(__S(16, __c4, 0)),
-          updateTime: S.optional(S.String),
-          name: S.optional(S.String),
-          state: S.optional(S.String),
-          ttl: S.optional(S.String),
-          driveOptions: S.optional(__S(17, __c4, 1)),
-          createTime: S.optional(S.String),
-          authority: S.optional(S.String),
-          uid: S.optional(S.String),
-          suspensionReason: S.optional(S.String),
-          etag: S.optional(S.String),
-          serviceAccountAuthority: S.optional(S.String),
-          reconciling: S.optional(S.Boolean),
-          notificationEndpoint: S.optional(__S(18, __c4, 2)),
-          eventTypes: S.optional(__S(19, __c4, 3)),
-          targetResource: S.optional(S.String),
-          userAuthority: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Subscription" });
-  }
-}
-function __c9(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
           pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
@@ -735,12 +632,12 @@ function __c9(j: number): any {
         ),
       ).annotate({ identifier: "ListSubscriptionsRequest" });
     case 1:
-      return S.Array(__S(32, __c8, 0));
+      return S.Array(__S(36, __c4, 4));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          subscriptions: S.optional(__S(37, __c9, 1)),
+          subscriptions: S.optional(__S(65, __c8, 1)),
         }),
       ).annotate({ identifier: "ListSubscriptionsResponse" });
   }

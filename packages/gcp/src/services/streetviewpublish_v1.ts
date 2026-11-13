@@ -84,10 +84,12 @@ export class NotFound
   ) {}
 
 export type StringList = Array<string>;
-export interface BatchDeletePhotosRequest_ {
+/** Request to delete multiple Photos. */
+export interface BatchDeletePhotosRequest {
   /** Required. IDs of the Photos. HTTP GET requests require the following syntax for the URL query parameter: `photoIds=&photoIds=&...`. */
   photoIds?: StringList | undefined;
 }
+export interface BatchDeletePhotosRequest_ extends BatchDeletePhotosRequest {}
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
@@ -236,43 +238,18 @@ export interface UpdatePhotoRequest {
   updateMask?: string | undefined;
 }
 export type UpdatePhotoRequestList = Array<UpdatePhotoRequest>;
-export interface BatchUpdatePhotosRequest_ {
+/** Request to update the metadata of photos. Updating the pixels of photos is not supported. */
+export interface BatchUpdatePhotosRequest {
   /** Required. List of UpdatePhotoRequests. */
   updatePhotoRequests?: UpdatePhotoRequestList | undefined;
 }
+export interface BatchUpdatePhotosRequest_ extends BatchUpdatePhotosRequest {}
 /** Response to batch update of metadata of one or more Photos. */
 export interface BatchUpdatePhotosResponse {
   /** List of results for each individual Photo updated, in the same order as the request. */
   results?: PhotoResponseList | undefined;
 }
-export interface CreatePhotoRequest {
-  /** Output only. The download URL for the photo bytes. This field is set only when GetPhotoRequest.view is set to PhotoView.INCLUDE_DOWNLOAD_URL. */
-  downloadUrl?: string | undefined;
-  /** Output only. View count of the photo. */
-  viewCount?: string | undefined;
-  /** Output only. Status in Google Maps, whether this photo was published or rejected. */
-  mapsPublishStatus?: PhotoMapsPublishStatusEnum | (string & {}) | undefined;
-  /** Output only. Time when the image was uploaded. */
-  uploadTime?: string | undefined;
-  /** Output only. Status of rights transfer on this photo. */
-  transferStatus?: PhotoTransferStatusEnum | (string & {}) | undefined;
-  /** Required. Output only. Required when updating a photo. Output only when creating a photo. Identifier for the photo, which is unique among all photos in Google. */
-  photoId?: PhotoId | undefined;
-  /** Optional. Connections to other photos. A connection represents the link from this photo to another photo. */
-  connections?: ConnectionList | undefined;
-  /** Output only. The thumbnail URL for showing a preview of the given photo. */
-  thumbnailUrl?: string | undefined;
-  /** Input only. Required when creating a photo. Input only. The resource URL where the photo bytes are uploaded to. */
-  uploadReference?: UploadRef | undefined;
-  /** Optional. Places where this photo belongs. */
-  places?: PlaceList | undefined;
-  /** Output only. The share link for the photo. */
-  shareLink?: string | undefined;
-  /** Optional. Absolute time when the photo was captured. When the photo has no exif timestamp, this is used to set a timestamp in the photo metadata. */
-  captureTime?: string | undefined;
-  /** Optional. Pose of the photo. */
-  pose?: Pose | undefined;
-}
+export interface CreatePhotoRequest extends Photo {}
 export type CreatePhotoSequenceInputTypeEnum = "INPUT_TYPE_UNSPECIFIED" | "VIDEO" | "XDM";
 export type PhotoSequenceGpsSourceEnum = "PHOTO_SEQUENCE" | "CAMERA_MOTION_METADATA_TRACK";
 /** Details related to ProcessingFailureReason#NOT_OUTDOORS. If there are multiple indoor frames found, the first frame is recorded here. */
@@ -385,9 +362,8 @@ export type PhotoSequenceFailureReasonEnum =
   | "MAST_DOWN"
   | "CAMERA_COVERED";
 export type PoseList = Array<Pose>;
-export interface CreatePhotoSequenceRequest {
-  /** Required. The input form of PhotoSequence. */
-  inputType?: CreatePhotoSequenceInputTypeEnum | (string & {}) | undefined;
+/** A sequence of 360 photos along with metadata. */
+export interface PhotoSequence {
   /** Input only. If both raw_gps_timeline and the Camera Motion Metadata Track (CAMM) contain GPS measurements, indicate which takes precedence. */
   gpsSource?: PhotoSequenceGpsSourceEnum | (string & {}) | undefined;
   /** Output only. If this sequence has `failure_reason` set, this may contain additional details about the failure. */
@@ -418,6 +394,10 @@ export interface CreatePhotoSequenceRequest {
   failureReason?: PhotoSequenceFailureReasonEnum | (string & {}) | undefined;
   /** Input only. Raw GPS measurements with increasing timestamps from the device that aren't time synced with each photo. These raw measurements will be used to infer the pose of each frame. Required in input when InputType is VIDEO and raw GPS measurements are not in Camera Motion Metadata Track (CAMM). User can indicate which takes precedence using gps_source if raw GPS measurements are provided in both raw_gps_timeline and Camera Motion Metadata Track (CAMM). */
   rawGpsTimeline?: PoseList | undefined;
+}
+export interface CreatePhotoSequenceRequest extends PhotoSequence {
+  /** Required. The input form of PhotoSequence. */
+  inputType?: CreatePhotoSequenceInputTypeEnum | (string & {}) | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
@@ -504,37 +484,11 @@ export interface StartUploadPhotoSequenceRequest {
   /** Request body */
   body?: Empty | undefined;
 }
-export interface UpdatePhotoRequest_ {
+export interface UpdatePhotoRequest_ extends Photo {
   /** Required. Mask that identifies fields on the photo metadata to update. If not present, the old Photo metadata is entirely replaced with the new Photo metadata in this request. The update fails if invalid fields are specified. Multiple fields can be specified in a comma-delimited list. The following fields are valid: * `pose.heading` * `pose.lat_lng_pair` * `pose.pitch` * `pose.roll` * `pose.level` * `pose.altitude` * `connections` * `places` > Note: When updateMask contains repeated fields, the entire set of repeated values get replaced with the new contents. For example, if updateMask contains `connections` and `UpdatePhotoRequest.photo.connections` is empty, all connections are removed. */
   updateMask?: string | undefined;
   /** A unique identifier for a photo. */
   id: string;
-  /** Output only. The download URL for the photo bytes. This field is set only when GetPhotoRequest.view is set to PhotoView.INCLUDE_DOWNLOAD_URL. */
-  downloadUrl?: string | undefined;
-  /** Output only. View count of the photo. */
-  viewCount?: string | undefined;
-  /** Output only. Status in Google Maps, whether this photo was published or rejected. */
-  mapsPublishStatus?: PhotoMapsPublishStatusEnum | (string & {}) | undefined;
-  /** Output only. Time when the image was uploaded. */
-  uploadTime?: string | undefined;
-  /** Output only. Status of rights transfer on this photo. */
-  transferStatus?: PhotoTransferStatusEnum | (string & {}) | undefined;
-  /** Required. Output only. Required when updating a photo. Output only when creating a photo. Identifier for the photo, which is unique among all photos in Google. */
-  photoId?: PhotoId | undefined;
-  /** Optional. Connections to other photos. A connection represents the link from this photo to another photo. */
-  connections?: ConnectionList | undefined;
-  /** Output only. The thumbnail URL for showing a preview of the given photo. */
-  thumbnailUrl?: string | undefined;
-  /** Input only. Required when creating a photo. Input only. The resource URL where the photo bytes are uploaded to. */
-  uploadReference?: UploadRef | undefined;
-  /** Optional. Places where this photo belongs. */
-  places?: PlaceList | undefined;
-  /** Output only. The share link for the photo. */
-  shareLink?: string | undefined;
-  /** Optional. Absolute time when the photo was captured. When the photo has no exif timestamp, this is used to set a timestamp in the photo metadata. */
-  captureTime?: string | undefined;
-  /** Optional. Pose of the photo. */
-  pose?: Pose | undefined;
 }
 export type BatchDeletePhotosError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
 /** Deletes a list of Photos and their metadata. Note that if BatchDeletePhotos fails, either critical fields are missing or there is an authentication error. Even if BatchDeletePhotos succeeds, individual photos in the batch may have failures. These failures are specified in each PhotoResponse.status in BatchDeletePhotosResponse.results. See DeletePhoto for specific failures that can occur per photo. */
@@ -544,8 +498,8 @@ export const batchDeletePhotos: API.OperationMethod<
   BatchDeletePhotosError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c8, 0) as any as S.Schema<BatchDeletePhotosRequest_>,
-  output: __S(130, __c8, 2) as any as S.Schema<BatchDeletePhotosResponse>,
+  input: __S(129, __c8, 1) as any as S.Schema<BatchDeletePhotosRequest_>,
+  output: __S(131, __c8, 3) as any as S.Schema<BatchDeletePhotosResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -578,7 +532,7 @@ export const batchUpdatePhotos: API.OperationMethod<
   BatchUpdatePhotosError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(242, __c15, 2) as any as S.Schema<BatchUpdatePhotosRequest_>,
+  input: __S(243, __c15, 3) as any as S.Schema<BatchUpdatePhotosRequest_>,
   output: __S(194, __c12, 2) as any as S.Schema<BatchUpdatePhotosResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -612,7 +566,7 @@ export const createPhotoSequence: API.OperationMethod<
   CreatePhotoSequenceError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(283, __c17, 11) as any as S.Schema<CreatePhotoSequenceRequest>,
+  input: __S(284, __c17, 12) as any as S.Schema<CreatePhotoSequenceRequest>,
   output: __S(288, __c18, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -922,23 +876,13 @@ function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          id: S.String.pipe(T.Label()),
-          downloadUrl: S.optional(S.String),
-          viewCount: S.optional(S.String),
-          mapsPublishStatus: S.optional(S.String),
-          uploadTime: S.optional(S.String),
-          transferStatus: S.optional(S.String),
-          photoId: S.optional(__S(224, __c14, 0)),
-          connections: S.optional(__S(226, __c14, 2)),
-          thumbnailUrl: S.optional(S.String),
-          uploadReference: S.optional(__S(208, __c13, 0)),
-          places: S.optional(__S(228, __c14, 4)),
-          shareLink: S.optional(S.String),
-          captureTime: S.optional(S.String),
-          pose: S.optional(__S(231, __c14, 7)),
-        }).pipe(
+        S.Extend(
+          __S(232, __c14, 8),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            id: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "v1/photo/{id}",
@@ -954,7 +898,11 @@ function __c8(j: number): any {
       return S.suspend(() =>
         S.Struct({
           photoIds: S.optional(__S(144, __c9, 0)),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "BatchDeletePhotosRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(__S(128, __c8, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/photos:batchDelete",
@@ -962,12 +910,12 @@ function __c8(j: number): any {
           }),
         ),
       ).annotate({ identifier: "BatchDeletePhotosRequest_" });
-    case 1:
-      return S.Array(__S(162, __c10, 2));
     case 2:
+      return S.Array(__S(162, __c10, 2));
+    case 3:
       return S.suspend(() =>
         S.Struct({
-          status: S.optional(__S(129, __c8, 1)),
+          status: S.optional(__S(130, __c8, 2)),
         }),
       ).annotate({ identifier: "BatchDeletePhotosResponse" });
   }
@@ -1129,7 +1077,11 @@ function __c15(j: number): any {
       return S.suspend(() =>
         S.Struct({
           updatePhotoRequests: S.optional(__S(241, __c15, 1)),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "BatchUpdatePhotosRequest" });
+    case 3:
+      return S.suspend(() =>
+        S.Extend(__S(242, __c15, 2), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/photos:batchUpdate",
@@ -1143,21 +1095,7 @@ function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          downloadUrl: S.optional(S.String),
-          viewCount: S.optional(S.String),
-          mapsPublishStatus: S.optional(S.String),
-          uploadTime: S.optional(S.String),
-          transferStatus: S.optional(S.String),
-          photoId: S.optional(__S(224, __c14, 0)),
-          connections: S.optional(__S(226, __c14, 2)),
-          thumbnailUrl: S.optional(S.String),
-          uploadReference: S.optional(__S(208, __c13, 0)),
-          places: S.optional(__S(228, __c14, 4)),
-          shareLink: S.optional(S.String),
-          captureTime: S.optional(S.String),
-          pose: S.optional(__S(231, __c14, 7)),
-        }).pipe(
+        S.Extend(__S(232, __c14, 8), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/photo",
@@ -1245,7 +1183,6 @@ function __c17(j: number): any {
     case 11:
       return S.suspend(() =>
         S.Struct({
-          inputType: S.optional(S.String.pipe(T.Query())),
           gpsSource: S.optional(S.String),
           failureDetails: S.optional(__S(277, __c17, 5)),
           filename: S.optional(S.String),
@@ -1261,7 +1198,16 @@ function __c17(j: number): any {
           uploadTime: S.optional(S.String),
           failureReason: S.optional(S.String),
           rawGpsTimeline: S.optional(__S(282, __c17, 10)),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "PhotoSequence" });
+    case 12:
+      return S.suspend(() =>
+        S.Extend(
+          __S(283, __c17, 11),
+          S.Struct({
+            inputType: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/photoSequence",

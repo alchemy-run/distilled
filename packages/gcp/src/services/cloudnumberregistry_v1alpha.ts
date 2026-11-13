@@ -139,11 +139,14 @@ export interface CheckAvailabilityIpamAdminScopesResponse {
   /** The details of the requested scopes. */
   scopeAvailabilities?: IpamAdminScopeAvailabilityList | undefined;
 }
-export interface CleanupProjectsLocationsIpamAdminScopesRequest {
-  /** Required. The resource name of the IpamAdminScope to clean up. */
-  name: string;
+/** Request message for the CloudNumberRegistry.CleanupIpamAdminScope method. */
+export interface CleanupIpamAdminScopeRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
+}
+export interface CleanupProjectsLocationsIpamAdminScopesRequest extends CleanupIpamAdminScopeRequest {
+  /** Required. The resource name of the IpamAdminScope to clean up. */
+  name: string;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -170,13 +173,8 @@ export interface Operation {
   done?: boolean | undefined;
 }
 export type StringMap = { [key: string]: string | undefined };
-export interface CreateOrganizationsLocationsOrgNumberRegistriesRequest {
-  /** Required. The parent resource name where the OrgNumberRegistry will be created. */
-  parent: string;
-  /** Required. The ID to use for the OrgNumberRegistry, which will become the final segment of the resource name. */
-  orgNumberRegistryId?: string | undefined;
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
+/** An OrgNumberRegistry defines a delegation of authority from an organization to a project, allowing the project to manage IP address data within specified scopes of the organization. */
+export interface OrgNumberRegistry {
   /** Identifier. The resource name of the OrgNumberRegistry. */
   name?: string | undefined;
   /** Required. The scopes within the organization that the project is able to manage. Currently only organization scope is supported. For example, "organizations/1234567890". */
@@ -190,6 +188,14 @@ export interface CreateOrganizationsLocationsOrgNumberRegistriesRequest {
   /** Optional. User-defined labels. */
   labels?: StringMap | undefined;
 }
+export interface CreateOrganizationsLocationsOrgNumberRegistriesRequest extends OrgNumberRegistry {
+  /** Required. The parent resource name where the OrgNumberRegistry will be created. */
+  parent: string;
+  /** Required. The ID to use for the OrgNumberRegistry, which will become the final segment of the resource name. */
+  orgNumberRegistryId?: string | undefined;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+}
 /** A key-value pair representing a custom attribute associated with a resource. */
 export interface Attribute {
   /** Required. The value of the attribute. */
@@ -198,13 +204,8 @@ export interface Attribute {
   key?: string | undefined;
 }
 export type AttributeList = Array<Attribute>;
-export interface CreateProjectsLocationsCustomRangesRequest {
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Required. The parent resource name where the CustomRange will be created. */
-  parent: string;
-  /** Required. The ID to use for the CustomRange, which will become the final segment of the resource name. */
-  customRangeId?: string | undefined;
+/** A CustomRange represents a user-defined IP address range. */
+export interface CustomRange {
   /** Optional. User-defined labels. */
   labels?: StringMap | undefined;
   /** Optional. The attributes of the CustomRange. */
@@ -223,6 +224,14 @@ export interface CreateProjectsLocationsCustomRangesRequest {
   ipv6CidrRange?: string | undefined;
   /** Optional. The resource name of the parent CustomRange, in the format `projects/{project}/locations/{location}/customRanges/{custom_range}`. If specified, the parent CustomRange must be in the same RegistryBook. This field is mutually exclusive with the `realm` field, as the Realm is inherited from the parent CustomRange. */
   parentRange?: string | undefined;
+}
+export interface CreateProjectsLocationsCustomRangesRequest extends CustomRange {
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+  /** Required. The parent resource name where the CustomRange will be created. */
+  parent: string;
+  /** Required. The ID to use for the CustomRange, which will become the final segment of the resource name. */
+  customRangeId?: string | undefined;
 }
 export type IpamAdminScopeEnabledAddonPlatformsItemEnum =
   | "ADD_ON_PLATFORM_UNSPECIFIED"
@@ -244,13 +253,8 @@ export type IpamAdminScopeStateEnum =
   | "DELETION_COMPLETED"
   | "CLEANUP_IN_PROGRESS"
   | "READY_FOR_DELETION";
-export interface CreateProjectsLocationsIpamAdminScopesRequest {
-  /** Required. The ID to use for the IpamAdminScope, which will become the final segment of the resource name. */
-  ipamAdminScopeId?: string | undefined;
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Required. The parent resource name where the IpamAdminScope will be created. */
-  parent: string;
+/** An IpamAdminScope defines the administrative boundary for IP address discovery and management. It configures which platforms and organizational scopes are enabled for IP tracking. */
+export interface IpamAdminScope {
   /** Required. Identifier. The resource name of the IpamAdminScope. */
   name?: string | undefined;
   /** Required. Add-on platforms that are enabled for this IpamAdminScope. Cloud Number Registry only discovers the IP addresses from the enabled platforms. */
@@ -265,6 +269,14 @@ export interface CreateProjectsLocationsIpamAdminScopesRequest {
   createTime?: string | undefined;
   /** Optional. User-defined labels. */
   labels?: StringMap | undefined;
+}
+export interface CreateProjectsLocationsIpamAdminScopesRequest extends IpamAdminScope {
+  /** Required. The ID to use for the IpamAdminScope, which will become the final segment of the resource name. */
+  ipamAdminScopeId?: string | undefined;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+  /** Required. The parent resource name where the IpamAdminScope will be created. */
+  parent: string;
 }
 export type RealmManagementTypeEnum = "MANAGEMENT_TYPE_UNSPECIFIED" | "CNR" | "USER";
 export type DiscoveryMetadataStateEnum =
@@ -306,13 +318,8 @@ export interface RealmAggregatedData {
   /** Output only. Number of DiscoveredRanges in the Realm. */
   discoveredRangesCount?: number | undefined;
 }
-export interface CreateProjectsLocationsRealmsRequest {
-  /** Required. The parent resource name where the Realm will be created. */
-  parent: string;
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. */
-  requestId?: string | undefined;
-  /** Required. The ID to use for the Realm, which will become the final segment of the resource name. */
-  realmId?: string | undefined;
+/** A Realm represents a distinct network domain or security zone. It groups Ranges that share the same traffic and management characteristics. All the ranges in a Realm are routable to each other, meaning that they cannot overlap. */
+export interface Realm {
   /** Required. Identifier. The resource name of the Realm. */
   name?: string | undefined;
   /** Optional. Management type of the Realm. */
@@ -333,6 +340,14 @@ export interface CreateProjectsLocationsRealmsRequest {
   ipVersion?: RealmIpVersionEnum | (string & {}) | undefined;
   /** Output only. Aggregated data for the Realm. Populated only when the view is AGGREGATE. */
   aggregatedData?: RealmAggregatedData | undefined;
+}
+export interface CreateProjectsLocationsRealmsRequest extends Realm {
+  /** Required. The parent resource name where the Realm will be created. */
+  parent: string;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. */
+  requestId?: string | undefined;
+  /** Required. The ID to use for the Realm, which will become the final segment of the resource name. */
+  realmId?: string | undefined;
 }
 /** Details of a scope (e.g. project or folder). */
 export interface ScopeInfo {
@@ -357,13 +372,8 @@ export interface AggregatedData {
   /** Output only. Number of discovered Realms in the RegistryBook. */
   discoveredRealmsCount?: number | undefined;
 }
-export interface CreateProjectsLocationsRegistryBooksRequest {
-  /** Required. The ID to use for the RegistryBook, which will become the final segment of the resource name. */
-  registryBookId?: string | undefined;
-  /** Required. The parent resource name where the RegistryBook will be created. */
-  parent: string;
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
+/** A RegistryBook organizes and manages IP address space. It claims specific scopes (such as projects) and groups related Realms and Ranges. */
+export interface RegistryBook {
   /** Output only. Detailed scope information corresponding to each entry in `claimed_scopes`. */
   claimedScopesInfo?: ScopeInfoList | undefined;
   /** Optional. List of scopes claimed by the RegistryBook. In Preview, Only project scope is supported. Each scope is in the format of projects/{project}. Each scope can only be claimed once. */
@@ -380,6 +390,14 @@ export interface CreateProjectsLocationsRegistryBooksRequest {
   name?: string | undefined;
   /** Optional. User-defined labels. */
   labels?: StringMap | undefined;
+}
+export interface CreateProjectsLocationsRegistryBooksRequest extends RegistryBook {
+  /** Required. The ID to use for the RegistryBook, which will become the final segment of the resource name. */
+  registryBookId?: string | undefined;
+  /** Required. The parent resource name where the RegistryBook will be created. */
+  parent: string;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
 }
 export interface DeleteOrganizationsLocationsOperationsRequest {
   /** The name of the operation resource to be deleted. */
@@ -427,11 +445,11 @@ export interface DeleteProjectsLocationsRegistryBooksRequest {
   /** Required. The resource name of the RegistryBook to delete. */
   name: string;
 }
-export interface DisableProjectsLocationsIpamAdminScopesRequest {
+/** Request message for the CloudNumberRegistry.DisableIpamAdminScope method. */
+export type DisableIpamAdminScopeRequest = CleanupIpamAdminScopeRequest;
+export interface DisableProjectsLocationsIpamAdminScopesRequest extends CleanupIpamAdminScopeRequest {
   /** Required. The resource name of the IpamAdminScope to disable. */
   name: string;
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
 }
 export interface FindFreeIpRangesProjectsLocationsCustomRangesRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -471,21 +489,6 @@ export interface GetOrganizationsLocationsOrgNumberRegistriesRequest {
   /** Required. The resource name of the OrgNumberRegistry to retrieve. */
   name: string;
 }
-/** An OrgNumberRegistry defines a delegation of authority from an organization to a project, allowing the project to manage IP address data within specified scopes of the organization. */
-export interface OrgNumberRegistry {
-  /** Identifier. The resource name of the OrgNumberRegistry. */
-  name?: string | undefined;
-  /** Required. The scopes within the organization that the project is able to manage. Currently only organization scope is supported. For example, "organizations/1234567890". */
-  targetScopes?: StringList | undefined;
-  /** Output only. The time at which the OrgNumberRegistry was last updated. */
-  updateTime?: string | undefined;
-  /** Required. The project that will act as the admin project for CNR resources Format: projects/{project_number} or projects/{project_id} */
-  adminProject?: string | undefined;
-  /** Output only. The time at which the OrgNumberRegistry was created. */
-  createTime?: string | undefined;
-  /** Optional. User-defined labels. */
-  labels?: StringMap | undefined;
-}
 export interface GetProjectsLocationsRequest {
   /** Resource name for the location. */
   name: string;
@@ -506,27 +509,6 @@ export interface Location {
 export interface GetProjectsLocationsCustomRangesRequest {
   /** Required. The resource name of the CustomRange to retrieve. */
   name: string;
-}
-/** A CustomRange represents a user-defined IP address range. */
-export interface CustomRange {
-  /** Optional. User-defined labels. */
-  labels?: StringMap | undefined;
-  /** Optional. The attributes of the CustomRange. */
-  attributes?: AttributeList | undefined;
-  /** Output only. The RegistryBook of the CustomRange. This field is inherited from the Realm or parent CustomRange depending on which one is specified. */
-  registryBook?: string | undefined;
-  /** Optional. The description of the CustomRange. */
-  description?: string | undefined;
-  /** Required. Identifier. The resource name of the CustomRange, in the format `projects/{project}/locations/{location}/customRanges/{custom_range}`. */
-  name?: string | undefined;
-  /** Optional. The resource name of the Realm associated with the CustomRange, in the format `projects/{project}/locations/{location}/realms/{realm}`. The Realm must be in the same project as the CustomRange. This field must not be set if the `parent_range` field is set, as the Realm will be inherited from the parent CustomRange. */
-  realm?: string | undefined;
-  /** Optional. The IPv4 CIDR range of the CustomRange. */
-  ipv4CidrRange?: string | undefined;
-  /** Optional. The IPv6 CIDR range of the CustomRange. */
-  ipv6CidrRange?: string | undefined;
-  /** Optional. The resource name of the parent CustomRange, in the format `projects/{project}/locations/{location}/customRanges/{custom_range}`. If specified, the parent CustomRange must be in the same RegistryBook. This field is mutually exclusive with the `realm` field, as the Realm is inherited from the parent CustomRange. */
-  parentRange?: string | undefined;
 }
 export interface GetProjectsLocationsDiscoveredRangesRequest {
   /** Required. The resource name of the DiscoveredRange to retrieve. */
@@ -565,23 +547,6 @@ export interface GetProjectsLocationsIpamAdminScopesRequest {
   /** Required. The resource name of the IpamAdminScope to retrieve. */
   name: string;
 }
-/** An IpamAdminScope defines the administrative boundary for IP address discovery and management. It configures which platforms and organizational scopes are enabled for IP tracking. */
-export interface IpamAdminScope {
-  /** Required. Identifier. The resource name of the IpamAdminScope. */
-  name?: string | undefined;
-  /** Required. Add-on platforms that are enabled for this IpamAdminScope. Cloud Number Registry only discovers the IP addresses from the enabled platforms. */
-  enabledAddonPlatforms?: IpamAdminScopeEnabledAddonPlatformsItemEnumList | undefined;
-  /** Output only. The time at which the IpamAdminScope was last updated. */
-  updateTime?: string | undefined;
-  /** Output only. State of resource discovery pipeline. */
-  state?: IpamAdminScopeStateEnum | undefined;
-  /** Required. Administrative scopes enabled for IP address discovery and management. For example, "organizations/1234567890". Minimum of 1 scope is required. In preview, only one organization scope is allowed. */
-  scopes?: StringList | undefined;
-  /** Output only. The time at which the IpamAdminScope was created. */
-  createTime?: string | undefined;
-  /** Optional. User-defined labels. */
-  labels?: StringMap | undefined;
-}
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -597,29 +562,6 @@ export interface GetProjectsLocationsRealmsRequest {
   /** Optional. The view of the Realm to retrieve. */
   view?: GetProjectsLocationsRealmsViewEnum | (string & {}) | undefined;
 }
-/** A Realm represents a distinct network domain or security zone. It groups Ranges that share the same traffic and management characteristics. All the ranges in a Realm are routable to each other, meaning that they cannot overlap. */
-export interface Realm {
-  /** Required. Identifier. The resource name of the Realm. */
-  name?: string | undefined;
-  /** Optional. Management type of the Realm. */
-  managementType?: RealmManagementTypeEnum | undefined;
-  /** Output only. The time at which the Realm was created. */
-  createTime?: string | undefined;
-  /** Output only. The time at which the Realm was last updated. */
-  updateTime?: string | undefined;
-  /** Output only. Discovery metadata of the Realm. */
-  discoveryMetadata?: DiscoveryMetadata | undefined;
-  /** Required. Name of the RegistryBook that claims the Realm. */
-  registryBook?: string | undefined;
-  /** Optional. User-defined labels. */
-  labels?: StringMap | undefined;
-  /** Required. Traffic type of the Realm. */
-  trafficType?: RealmTrafficTypeEnum | undefined;
-  /** Optional. IP version of the Realm. */
-  ipVersion?: RealmIpVersionEnum | undefined;
-  /** Output only. Aggregated data for the Realm. Populated only when the view is AGGREGATE. */
-  aggregatedData?: RealmAggregatedData | undefined;
-}
 export type GetProjectsLocationsRegistryBooksViewEnum =
   | "REGISTRY_BOOK_VIEW_UNSPECIFIED"
   | "BASIC"
@@ -630,25 +572,6 @@ export interface GetProjectsLocationsRegistryBooksRequest {
   name: string;
   /** Optional. The view of the RegistryBook to retrieve. */
   view?: GetProjectsLocationsRegistryBooksViewEnum | (string & {}) | undefined;
-}
-/** A RegistryBook organizes and manages IP address space. It claims specific scopes (such as projects) and groups related Realms and Ranges. */
-export interface RegistryBook {
-  /** Output only. Detailed scope information corresponding to each entry in `claimed_scopes`. */
-  claimedScopesInfo?: ScopeInfoList | undefined;
-  /** Optional. List of scopes claimed by the RegistryBook. In Preview, Only project scope is supported. Each scope is in the format of projects/{project}. Each scope can only be claimed once. */
-  claimedScopes?: StringList | undefined;
-  /** Output only. The time at which the RegistryBook was last updated. */
-  updateTime?: string | undefined;
-  /** Output only. Aggregated data for the RegistryBook. Populated only when the view is AGGREGATE. */
-  aggregatedData?: AggregatedData | undefined;
-  /** Output only. Whether the RegistryBook is the default one. */
-  isDefault?: boolean | undefined;
-  /** Output only. The time at which the RegistryBook was created. */
-  createTime?: string | undefined;
-  /** Required. Identifier. The resource name of the RegistryBook. */
-  name?: string | undefined;
-  /** Optional. User-defined labels. */
-  labels?: StringMap | undefined;
 }
 export interface GetUtilizationProjectsLocationsCustomRangesRequest {
   /** Required. The resource name of the CustomRange. */
@@ -881,97 +804,37 @@ export interface ListRegistryBooksResponse {
   /** Locations that could not be reached. */
   unreachable?: StringList | undefined;
 }
-export interface PatchProjectsLocationsCustomRangesRequest {
+export interface PatchProjectsLocationsCustomRangesRequest extends Omit<CustomRange, "name"> {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Optional. Field mask is used to specify the fields to be overwritten in the CustomRange resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
   /** Required. Identifier. The resource name of the CustomRange, in the format `projects/{project}/locations/{location}/customRanges/{custom_range}`. */
   name: string;
-  /** Optional. User-defined labels. */
-  labels?: StringMap | undefined;
-  /** Optional. The attributes of the CustomRange. */
-  attributes?: AttributeList | undefined;
-  /** Output only. The RegistryBook of the CustomRange. This field is inherited from the Realm or parent CustomRange depending on which one is specified. */
-  registryBook?: string | undefined;
-  /** Optional. The description of the CustomRange. */
-  description?: string | undefined;
-  /** Optional. The resource name of the Realm associated with the CustomRange, in the format `projects/{project}/locations/{location}/realms/{realm}`. The Realm must be in the same project as the CustomRange. This field must not be set if the `parent_range` field is set, as the Realm will be inherited from the parent CustomRange. */
-  realm?: string | undefined;
-  /** Optional. The IPv4 CIDR range of the CustomRange. */
-  ipv4CidrRange?: string | undefined;
-  /** Optional. The IPv6 CIDR range of the CustomRange. */
-  ipv6CidrRange?: string | undefined;
-  /** Optional. The resource name of the parent CustomRange, in the format `projects/{project}/locations/{location}/customRanges/{custom_range}`. If specified, the parent CustomRange must be in the same RegistryBook. This field is mutually exclusive with the `realm` field, as the Realm is inherited from the parent CustomRange. */
-  parentRange?: string | undefined;
 }
-export interface PatchProjectsLocationsIpamAdminScopesRequest {
+export interface PatchProjectsLocationsIpamAdminScopesRequest extends Omit<IpamAdminScope, "name"> {
   /** Optional. Field mask is used to specify the fields to be overwritten in the IpamAdminScope resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
   /** Required. Identifier. The resource name of the IpamAdminScope. */
   name: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Required. Add-on platforms that are enabled for this IpamAdminScope. Cloud Number Registry only discovers the IP addresses from the enabled platforms. */
-  enabledAddonPlatforms?: IpamAdminScopeEnabledAddonPlatformsItemEnumList | undefined;
-  /** Output only. The time at which the IpamAdminScope was last updated. */
-  updateTime?: string | undefined;
-  /** Output only. State of resource discovery pipeline. */
-  state?: IpamAdminScopeStateEnum | (string & {}) | undefined;
-  /** Required. Administrative scopes enabled for IP address discovery and management. For example, "organizations/1234567890". Minimum of 1 scope is required. In preview, only one organization scope is allowed. */
-  scopes?: StringList | undefined;
-  /** Output only. The time at which the IpamAdminScope was created. */
-  createTime?: string | undefined;
-  /** Optional. User-defined labels. */
-  labels?: StringMap | undefined;
 }
-export interface PatchProjectsLocationsRealmsRequest {
+export interface PatchProjectsLocationsRealmsRequest extends Omit<Realm, "name"> {
   /** Optional. Field mask is used to specify the fields to be overwritten in the Realm resource by the update. */
   updateMask?: string | undefined;
   /** Required. Identifier. The resource name of the Realm. */
   name: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. */
   requestId?: string | undefined;
-  /** Optional. Management type of the Realm. */
-  managementType?: RealmManagementTypeEnum | (string & {}) | undefined;
-  /** Output only. The time at which the Realm was created. */
-  createTime?: string | undefined;
-  /** Output only. The time at which the Realm was last updated. */
-  updateTime?: string | undefined;
-  /** Output only. Discovery metadata of the Realm. */
-  discoveryMetadata?: DiscoveryMetadata | undefined;
-  /** Required. Name of the RegistryBook that claims the Realm. */
-  registryBook?: string | undefined;
-  /** Optional. User-defined labels. */
-  labels?: StringMap | undefined;
-  /** Required. Traffic type of the Realm. */
-  trafficType?: RealmTrafficTypeEnum | (string & {}) | undefined;
-  /** Optional. IP version of the Realm. */
-  ipVersion?: RealmIpVersionEnum | (string & {}) | undefined;
-  /** Output only. Aggregated data for the Realm. Populated only when the view is AGGREGATE. */
-  aggregatedData?: RealmAggregatedData | undefined;
 }
-export interface PatchProjectsLocationsRegistryBooksRequest {
+export interface PatchProjectsLocationsRegistryBooksRequest extends Omit<RegistryBook, "name"> {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Required. Identifier. The resource name of the RegistryBook. */
   name: string;
   /** Optional. Field mask is used to specify the fields to be overwritten in the RegistryBook resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
-  /** Output only. Detailed scope information corresponding to each entry in `claimed_scopes`. */
-  claimedScopesInfo?: ScopeInfoList | undefined;
-  /** Optional. List of scopes claimed by the RegistryBook. In Preview, Only project scope is supported. Each scope is in the format of projects/{project}. Each scope can only be claimed once. */
-  claimedScopes?: StringList | undefined;
-  /** Output only. The time at which the RegistryBook was last updated. */
-  updateTime?: string | undefined;
-  /** Output only. Aggregated data for the RegistryBook. Populated only when the view is AGGREGATE. */
-  aggregatedData?: AggregatedData | undefined;
-  /** Output only. Whether the RegistryBook is the default one. */
-  isDefault?: boolean | undefined;
-  /** Output only. The time at which the RegistryBook was created. */
-  createTime?: string | undefined;
-  /** Optional. User-defined labels. */
-  labels?: StringMap | undefined;
 }
 export type SearchIpResourcesRequestSearchResourceTypesItemEnum =
   | "SEARCH_RESOURCE_TYPE_UNSPECIFIED"
@@ -980,9 +843,8 @@ export type SearchIpResourcesRequestSearchResourceTypesItemEnum =
 export type SearchIpResourcesRequestSearchResourceTypesItemEnumList = Array<
   SearchIpResourcesRequestSearchResourceTypesItemEnum | (string & {})
 >;
-export interface SearchIpResourcesProjectsLocationsRegistryBooksRequest {
-  /** Required. The resource name of the RegistryBook to search in. */
-  name: string;
+/** Request message for the CloudNumberRegistry.SearchIpResources method. */
+export interface SearchIpResourcesRequest {
   /** Optional. Whether to show the utilization of the Ranges in the response. */
   showUtilization?: boolean | undefined;
   /** Optional. Hint for how to order the results. Supported sort fields are: - `name`: Sort alphabetically by the resource name. - `create_time`: Sort by the creation timestamp of the resource. - `update_time`: Sort by the last update timestamp of the resource. Supported directions are `asc` (ascending) and `desc` (descending). If unspecified, direction defaults to `asc`. Only sorting by a single field is supported. */
@@ -995,6 +857,10 @@ export interface SearchIpResourcesProjectsLocationsRegistryBooksRequest {
   pageSize?: number | undefined;
   /** Optional. A token identifying a page of results the server should return. */
   pageToken?: string | undefined;
+}
+export interface SearchIpResourcesProjectsLocationsRegistryBooksRequest extends SearchIpResourcesRequest {
+  /** Required. The resource name of the RegistryBook to search in. */
+  name: string;
 }
 /** Represents either a CustomRange or a DiscoveredRange. */
 export interface Range {
@@ -1039,8 +905,8 @@ export const cancelOrganizationsLocationsOperations: API.OperationMethod<
   CancelOrganizationsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(432, __c54, 0) as any as S.Schema<CancelOrganizationsLocationsOperationsRequest>,
-  output: __S(440, __c55, 0) as any as S.Schema<Empty>,
+  input: __S(408, __c51, 0) as any as S.Schema<CancelOrganizationsLocationsOperationsRequest>,
+  output: __S(416, __c52, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1062,8 +928,8 @@ export const cancelProjectsLocationsOperations: API.OperationMethod<
   CancelProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c56, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
-  output: __S(440, __c55, 0) as any as S.Schema<Empty>,
+  input: __S(424, __c53, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
+  output: __S(416, __c52, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1084,11 +950,11 @@ export const checkAvailabilityProjectsLocationsIpamAdminScopes: API.OperationMet
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    456,
-    __c57,
+    432,
+    __c54,
     0,
   ) as any as S.Schema<CheckAvailabilityProjectsLocationsIpamAdminScopesRequest>,
-  output: __S(459, __c57, 3) as any as S.Schema<CheckAvailabilityIpamAdminScopesResponse>,
+  output: __S(435, __c54, 3) as any as S.Schema<CheckAvailabilityIpamAdminScopesResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1110,8 +976,8 @@ export const cleanupProjectsLocationsIpamAdminScopes: API.OperationMethod<
   CleanupProjectsLocationsIpamAdminScopesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(472, __c59, 0) as any as S.Schema<CleanupProjectsLocationsIpamAdminScopesRequest>,
-  output: __S(490, __c61, 2) as any as S.Schema<Operation>,
+  input: __S(448, __c56, 0) as any as S.Schema<CleanupProjectsLocationsIpamAdminScopesRequest>,
+  output: __S(474, __c59, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1134,11 +1000,11 @@ export const createOrganizationsLocationsOrgNumberRegistries: API.OperationMetho
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    496,
-    __c62,
+    480,
+    __c60,
     0,
   ) as any as S.Schema<CreateOrganizationsLocationsOrgNumberRegistriesRequest>,
-  output: __S(490, __c61, 2) as any as S.Schema<Operation>,
+  output: __S(474, __c59, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1161,7 +1027,7 @@ export const createProjectsLocationsCustomRanges: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateProjectsLocationsCustomRangesRequest>,
-  output: __S(490, __c61, 2) as any as S.Schema<Operation>,
+  output: __S(474, __c59, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1183,8 +1049,8 @@ export const createProjectsLocationsIpamAdminScopes: API.OperationMethod<
   CreateProjectsLocationsIpamAdminScopesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c2, 0) as any as S.Schema<CreateProjectsLocationsIpamAdminScopesRequest>,
-  output: __S(490, __c61, 2) as any as S.Schema<Operation>,
+  input: __S(24, __c3, 0) as any as S.Schema<CreateProjectsLocationsIpamAdminScopesRequest>,
+  output: __S(474, __c59, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1206,8 +1072,8 @@ export const createProjectsLocationsRealms: API.OperationMethod<
   CreateProjectsLocationsRealmsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c4, 0) as any as S.Schema<CreateProjectsLocationsRealmsRequest>,
-  output: __S(490, __c61, 2) as any as S.Schema<Operation>,
+  input: __S(48, __c6, 0) as any as S.Schema<CreateProjectsLocationsRealmsRequest>,
+  output: __S(474, __c59, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1229,8 +1095,8 @@ export const createProjectsLocationsRegistryBooks: API.OperationMethod<
   CreateProjectsLocationsRegistryBooksError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<CreateProjectsLocationsRegistryBooksRequest>,
-  output: __S(490, __c61, 2) as any as S.Schema<Operation>,
+  input: __S(72, __c9, 0) as any as S.Schema<CreateProjectsLocationsRegistryBooksRequest>,
+  output: __S(474, __c59, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1252,8 +1118,8 @@ export const deleteOrganizationsLocationsOperations: API.OperationMethod<
   DeleteOrganizationsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c9, 0) as any as S.Schema<DeleteOrganizationsLocationsOperationsRequest>,
-  output: __S(440, __c55, 0) as any as S.Schema<Empty>,
+  input: __S(88, __c11, 0) as any as S.Schema<DeleteOrganizationsLocationsOperationsRequest>,
+  output: __S(416, __c52, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1276,11 +1142,11 @@ export const deleteOrganizationsLocationsOrgNumberRegistries: API.OperationMetho
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    80,
-    __c10,
+    96,
+    __c12,
     0,
   ) as any as S.Schema<DeleteOrganizationsLocationsOrgNumberRegistriesRequest>,
-  output: __S(490, __c61, 2) as any as S.Schema<Operation>,
+  output: __S(474, __c59, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1302,8 +1168,8 @@ export const deleteProjectsLocationsCustomRanges: API.OperationMethod<
   DeleteProjectsLocationsCustomRangesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c11, 0) as any as S.Schema<DeleteProjectsLocationsCustomRangesRequest>,
-  output: __S(490, __c61, 2) as any as S.Schema<Operation>,
+  input: __S(104, __c13, 0) as any as S.Schema<DeleteProjectsLocationsCustomRangesRequest>,
+  output: __S(474, __c59, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1325,8 +1191,8 @@ export const deleteProjectsLocationsIpamAdminScopes: API.OperationMethod<
   DeleteProjectsLocationsIpamAdminScopesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c12, 0) as any as S.Schema<DeleteProjectsLocationsIpamAdminScopesRequest>,
-  output: __S(490, __c61, 2) as any as S.Schema<Operation>,
+  input: __S(112, __c14, 0) as any as S.Schema<DeleteProjectsLocationsIpamAdminScopesRequest>,
+  output: __S(474, __c59, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1348,8 +1214,8 @@ export const deleteProjectsLocationsOperations: API.OperationMethod<
   DeleteProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(104, __c13, 0) as any as S.Schema<DeleteProjectsLocationsOperationsRequest>,
-  output: __S(440, __c55, 0) as any as S.Schema<Empty>,
+  input: __S(120, __c15, 0) as any as S.Schema<DeleteProjectsLocationsOperationsRequest>,
+  output: __S(416, __c52, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1371,8 +1237,8 @@ export const deleteProjectsLocationsRealms: API.OperationMethod<
   DeleteProjectsLocationsRealmsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c14, 0) as any as S.Schema<DeleteProjectsLocationsRealmsRequest>,
-  output: __S(490, __c61, 2) as any as S.Schema<Operation>,
+  input: __S(128, __c16, 0) as any as S.Schema<DeleteProjectsLocationsRealmsRequest>,
+  output: __S(474, __c59, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1394,8 +1260,8 @@ export const deleteProjectsLocationsRegistryBooks: API.OperationMethod<
   DeleteProjectsLocationsRegistryBooksError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(120, __c15, 0) as any as S.Schema<DeleteProjectsLocationsRegistryBooksRequest>,
-  output: __S(490, __c61, 2) as any as S.Schema<Operation>,
+  input: __S(136, __c17, 0) as any as S.Schema<DeleteProjectsLocationsRegistryBooksRequest>,
+  output: __S(474, __c59, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1417,8 +1283,8 @@ export const disableProjectsLocationsIpamAdminScopes: API.OperationMethod<
   DisableProjectsLocationsIpamAdminScopesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c16, 0) as any as S.Schema<DisableProjectsLocationsIpamAdminScopesRequest>,
-  output: __S(490, __c61, 2) as any as S.Schema<Operation>,
+  input: __S(144, __c18, 0) as any as S.Schema<DisableProjectsLocationsIpamAdminScopesRequest>,
+  output: __S(474, __c59, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1439,11 +1305,11 @@ export const findFreeIpRangesProjectsLocationsCustomRanges: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    136,
-    __c17,
+    152,
+    __c19,
     0,
   ) as any as S.Schema<FindFreeIpRangesProjectsLocationsCustomRangesRequest>,
-  output: __S(144, __c18, 0) as any as S.Schema<FindCustomRangeFreeIpRangesResponse>,
+  output: __S(160, __c20, 0) as any as S.Schema<FindCustomRangeFreeIpRangesResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1464,11 +1330,11 @@ export const findFreeIpRangesProjectsLocationsDiscoveredRanges: API.OperationMet
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    152,
-    __c19,
+    168,
+    __c21,
     0,
   ) as any as S.Schema<FindFreeIpRangesProjectsLocationsDiscoveredRangesRequest>,
-  output: __S(144, __c18, 0) as any as S.Schema<FindDiscoveredRangeFreeIpRangesResponse>,
+  output: __S(160, __c20, 0) as any as S.Schema<FindDiscoveredRangeFreeIpRangesResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1488,8 +1354,8 @@ export const getOrganizationsLocationsOperations: API.OperationMethod<
   GetOrganizationsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c20, 0) as any as S.Schema<GetOrganizationsLocationsOperationsRequest>,
-  output: __S(490, __c61, 2) as any as S.Schema<Operation>,
+  input: __S(176, __c22, 0) as any as S.Schema<GetOrganizationsLocationsOperationsRequest>,
+  output: __S(474, __c59, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1509,8 +1375,8 @@ export const getOrganizationsLocationsOrgNumberRegistries: API.OperationMethod<
   GetOrganizationsLocationsOrgNumberRegistriesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(168, __c21, 0) as any as S.Schema<GetOrganizationsLocationsOrgNumberRegistriesRequest>,
-  output: __S(176, __c22, 0) as any as S.Schema<OrgNumberRegistry>,
+  input: __S(184, __c23, 0) as any as S.Schema<GetOrganizationsLocationsOrgNumberRegistriesRequest>,
+  output: __S(496, __c62, 0) as any as S.Schema<OrgNumberRegistry>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1526,8 +1392,8 @@ export const getProjectsLocations: API.OperationMethod<
   GetProjectsLocationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(184, __c23, 0) as any as S.Schema<GetProjectsLocationsRequest>,
-  output: __S(192, __c24, 0) as any as S.Schema<Location>,
+  input: __S(192, __c24, 0) as any as S.Schema<GetProjectsLocationsRequest>,
+  output: __S(200, __c25, 0) as any as S.Schema<Location>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1547,8 +1413,8 @@ export const getProjectsLocationsCustomRanges: API.OperationMethod<
   GetProjectsLocationsCustomRangesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(200, __c25, 0) as any as S.Schema<GetProjectsLocationsCustomRangesRequest>,
-  output: __S(208, __c26, 0) as any as S.Schema<CustomRange>,
+  input: __S(208, __c26, 0) as any as S.Schema<GetProjectsLocationsCustomRangesRequest>,
+  output: __S(16, __c2, 0) as any as S.Schema<CustomRange>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1590,7 +1456,7 @@ export const getProjectsLocationsIpamAdminScopes: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(232, __c29, 0) as any as S.Schema<GetProjectsLocationsIpamAdminScopesRequest>,
-  output: __S(240, __c30, 0) as any as S.Schema<IpamAdminScope>,
+  output: __S(32, __c4, 0) as any as S.Schema<IpamAdminScope>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1610,8 +1476,8 @@ export const getProjectsLocationsOperations: API.OperationMethod<
   GetProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(248, __c31, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
-  output: __S(490, __c61, 2) as any as S.Schema<Operation>,
+  input: __S(240, __c30, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
+  output: __S(474, __c59, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1627,8 +1493,8 @@ export const getProjectsLocationsRealms: API.OperationMethod<
   GetProjectsLocationsRealmsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c32, 0) as any as S.Schema<GetProjectsLocationsRealmsRequest>,
-  output: __S(264, __c33, 0) as any as S.Schema<Realm>,
+  input: __S(248, __c31, 0) as any as S.Schema<GetProjectsLocationsRealmsRequest>,
+  output: __S(65, __c8, 1) as any as S.Schema<Realm>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1648,8 +1514,8 @@ export const getProjectsLocationsRegistryBooks: API.OperationMethod<
   GetProjectsLocationsRegistryBooksError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c34, 0) as any as S.Schema<GetProjectsLocationsRegistryBooksRequest>,
-  output: __S(280, __c35, 0) as any as S.Schema<RegistryBook>,
+  input: __S(256, __c32, 0) as any as S.Schema<GetProjectsLocationsRegistryBooksRequest>,
+  output: __S(83, __c10, 3) as any as S.Schema<RegistryBook>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1665,8 +1531,8 @@ export const getUtilizationProjectsLocationsCustomRanges: API.OperationMethod<
   GetUtilizationProjectsLocationsCustomRangesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c36, 0) as any as S.Schema<GetUtilizationProjectsLocationsCustomRangesRequest>,
-  output: __S(289, __c36, 1) as any as S.Schema<ShowCustomRangeUtilizationResponse>,
+  input: __S(264, __c33, 0) as any as S.Schema<GetUtilizationProjectsLocationsCustomRangesRequest>,
+  output: __S(265, __c33, 1) as any as S.Schema<ShowCustomRangeUtilizationResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1686,11 +1552,11 @@ export const getUtilizationProjectsLocationsDiscoveredRanges: API.OperationMetho
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    304,
-    __c38,
+    280,
+    __c35,
     0,
   ) as any as S.Schema<GetUtilizationProjectsLocationsDiscoveredRangesRequest>,
-  output: __S(305, __c38, 1) as any as S.Schema<ShowDiscoveredRangeUtilizationResponse>,
+  output: __S(281, __c35, 1) as any as S.Schema<ShowDiscoveredRangeUtilizationResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1711,8 +1577,8 @@ export const listOrganizationsLocationsOperations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListOperationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(312, __c39, 0) as any as S.Schema<ListOrganizationsLocationsOperationsRequest>,
-  output: __S(321, __c40, 1) as any as S.Schema<ListOperationsResponse>,
+  input: __S(288, __c36, 0) as any as S.Schema<ListOrganizationsLocationsOperationsRequest>,
+  output: __S(297, __c37, 1) as any as S.Schema<ListOperationsResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1735,11 +1601,11 @@ export const listOrganizationsLocationsOrgNumberRegistries: API.PaginatedOperati
   ListOrgNumberRegistriesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    328,
-    __c41,
+    304,
+    __c38,
     0,
   ) as any as S.Schema<ListOrganizationsLocationsOrgNumberRegistriesRequest>,
-  output: __S(330, __c41, 2) as any as S.Schema<ListOrgNumberRegistriesResponse>,
+  output: __S(306, __c38, 2) as any as S.Schema<ListOrgNumberRegistriesResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1757,8 +1623,8 @@ export const listProjectsLocations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListLocationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(336, __c42, 0) as any as S.Schema<ListProjectsLocationsRequest>,
-  output: __S(338, __c42, 2) as any as S.Schema<ListLocationsResponse>,
+  input: __S(312, __c39, 0) as any as S.Schema<ListProjectsLocationsRequest>,
+  output: __S(314, __c39, 2) as any as S.Schema<ListLocationsResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1780,8 +1646,8 @@ export const listProjectsLocationsCustomRanges: API.PaginatedOperationMethod<
   GcpOpContext,
   ListCustomRangesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(344, __c43, 0) as any as S.Schema<ListProjectsLocationsCustomRangesRequest>,
-  output: __S(346, __c43, 2) as any as S.Schema<ListCustomRangesResponse>,
+  input: __S(320, __c40, 0) as any as S.Schema<ListProjectsLocationsCustomRangesRequest>,
+  output: __S(322, __c40, 2) as any as S.Schema<ListCustomRangesResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1803,8 +1669,8 @@ export const listProjectsLocationsDiscoveredRanges: API.PaginatedOperationMethod
   GcpOpContext,
   ListDiscoveredRangesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(352, __c44, 0) as any as S.Schema<ListProjectsLocationsDiscoveredRangesRequest>,
-  output: __S(354, __c44, 2) as any as S.Schema<ListDiscoveredRangesResponse>,
+  input: __S(328, __c41, 0) as any as S.Schema<ListProjectsLocationsDiscoveredRangesRequest>,
+  output: __S(330, __c41, 2) as any as S.Schema<ListDiscoveredRangesResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1826,8 +1692,8 @@ export const listProjectsLocationsIpamAdminScopes: API.PaginatedOperationMethod<
   GcpOpContext,
   ListIpamAdminScopesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(360, __c45, 0) as any as S.Schema<ListProjectsLocationsIpamAdminScopesRequest>,
-  output: __S(362, __c45, 2) as any as S.Schema<ListIpamAdminScopesResponse>,
+  input: __S(336, __c42, 0) as any as S.Schema<ListProjectsLocationsIpamAdminScopesRequest>,
+  output: __S(338, __c42, 2) as any as S.Schema<ListIpamAdminScopesResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1849,8 +1715,8 @@ export const listProjectsLocationsOperations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListOperationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(368, __c46, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
-  output: __S(321, __c40, 1) as any as S.Schema<ListOperationsResponse>,
+  input: __S(344, __c43, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
+  output: __S(297, __c37, 1) as any as S.Schema<ListOperationsResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1868,8 +1734,8 @@ export const listProjectsLocationsRealms: API.PaginatedOperationMethod<
   GcpOpContext,
   ListRealmsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(376, __c47, 0) as any as S.Schema<ListProjectsLocationsRealmsRequest>,
-  output: __S(378, __c47, 2) as any as S.Schema<ListRealmsResponse>,
+  input: __S(352, __c44, 0) as any as S.Schema<ListProjectsLocationsRealmsRequest>,
+  output: __S(354, __c44, 2) as any as S.Schema<ListRealmsResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1891,8 +1757,8 @@ export const listProjectsLocationsRegistryBooks: API.PaginatedOperationMethod<
   GcpOpContext,
   ListRegistryBooksResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(384, __c48, 0) as any as S.Schema<ListProjectsLocationsRegistryBooksRequest>,
-  output: __S(386, __c48, 2) as any as S.Schema<ListRegistryBooksResponse>,
+  input: __S(360, __c45, 0) as any as S.Schema<ListProjectsLocationsRegistryBooksRequest>,
+  output: __S(362, __c45, 2) as any as S.Schema<ListRegistryBooksResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1915,8 +1781,8 @@ export const patchProjectsLocationsCustomRanges: API.OperationMethod<
   PatchProjectsLocationsCustomRangesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(392, __c49, 0) as any as S.Schema<PatchProjectsLocationsCustomRangesRequest>,
-  output: __S(490, __c61, 2) as any as S.Schema<Operation>,
+  input: __S(368, __c46, 0) as any as S.Schema<PatchProjectsLocationsCustomRangesRequest>,
+  output: __S(474, __c59, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1938,8 +1804,8 @@ export const patchProjectsLocationsIpamAdminScopes: API.OperationMethod<
   PatchProjectsLocationsIpamAdminScopesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(400, __c50, 0) as any as S.Schema<PatchProjectsLocationsIpamAdminScopesRequest>,
-  output: __S(490, __c61, 2) as any as S.Schema<Operation>,
+  input: __S(376, __c47, 0) as any as S.Schema<PatchProjectsLocationsIpamAdminScopesRequest>,
+  output: __S(474, __c59, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1961,8 +1827,8 @@ export const patchProjectsLocationsRealms: API.OperationMethod<
   PatchProjectsLocationsRealmsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(408, __c51, 0) as any as S.Schema<PatchProjectsLocationsRealmsRequest>,
-  output: __S(490, __c61, 2) as any as S.Schema<Operation>,
+  input: __S(384, __c48, 0) as any as S.Schema<PatchProjectsLocationsRealmsRequest>,
+  output: __S(474, __c59, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1984,8 +1850,8 @@ export const patchProjectsLocationsRegistryBooks: API.OperationMethod<
   PatchProjectsLocationsRegistryBooksError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c52, 0) as any as S.Schema<PatchProjectsLocationsRegistryBooksRequest>,
-  output: __S(490, __c61, 2) as any as S.Schema<Operation>,
+  input: __S(392, __c49, 0) as any as S.Schema<PatchProjectsLocationsRegistryBooksRequest>,
+  output: __S(474, __c59, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2008,11 +1874,11 @@ export const searchIpResourcesProjectsLocationsRegistryBooks: API.OperationMetho
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    424,
-    __c53,
-    0,
+    401,
+    __c50,
+    1,
   ) as any as S.Schema<SearchIpResourcesProjectsLocationsRegistryBooksRequest>,
-  output: __S(429, __c53, 5) as any as S.Schema<SearchIpResourcesResponse>,
+  output: __S(406, __c50, 6) as any as S.Schema<SearchIpResourcesResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2025,20 +1891,14 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          customRangeId: S.optional(S.String.pipe(T.Query())),
-          labels: S.optional(__S(504, __c63, 0)),
-          attributes: S.optional(__S(9, __c1, 1)),
-          registryBook: S.optional(S.String),
-          description: S.optional(S.String),
-          name: S.optional(S.String),
-          realm: S.optional(S.String),
-          ipv4CidrRange: S.optional(S.String),
-          ipv6CidrRange: S.optional(S.String),
-          parentRange: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(16, __c2, 0),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            customRangeId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/customRanges",
@@ -2066,17 +1926,31 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          ipamAdminScopeId: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
+          labels: S.optional(__S(488, __c61, 0)),
+          attributes: S.optional(__S(9, __c1, 1)),
+          registryBook: S.optional(S.String),
+          description: S.optional(S.String),
           name: S.optional(S.String),
-          enabledAddonPlatforms: S.optional(__S(24, __c3, 0)),
-          updateTime: S.optional(S.String),
-          state: S.optional(S.String),
-          scopes: S.optional(__S(464, __c58, 0)),
-          createTime: S.optional(S.String),
-          labels: S.optional(__S(504, __c63, 0)),
-        }).pipe(
+          realm: S.optional(S.String),
+          ipv4CidrRange: S.optional(S.String),
+          ipv6CidrRange: S.optional(S.String),
+          parentRange: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CustomRange" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(32, __c4, 0),
+          S.Struct({
+            ipamAdminScopeId: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/ipamAdminScopes",
@@ -2086,31 +1960,40 @@ function __c2(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsIpamAdminScopesRequest" });
   }
 }
-function __c3(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
 function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          realmId: S.optional(S.String.pipe(T.Query())),
           name: S.optional(S.String),
-          managementType: S.optional(S.String),
-          createTime: S.optional(S.String),
+          enabledAddonPlatforms: S.optional(__S(40, __c5, 0)),
           updateTime: S.optional(S.String),
-          discoveryMetadata: S.optional(__S(40, __c5, 0)),
-          registryBook: S.optional(S.String),
-          labels: S.optional(__S(504, __c63, 0)),
-          trafficType: S.optional(S.String),
-          ipVersion: S.optional(S.String),
-          aggregatedData: S.optional(__S(48, __c6, 0)),
-        }).pipe(
+          state: S.optional(S.String),
+          scopes: S.optional(__S(440, __c55, 0)),
+          createTime: S.optional(S.String),
+          labels: S.optional(__S(488, __c61, 0)),
+        }),
+      ).annotate({ identifier: "IpamAdminScope" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(65, __c8, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            realmId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/realms",
@@ -2120,7 +2003,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsRealmsRequest" });
   }
 }
-function __c5(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2137,7 +2020,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "DiscoveryMetadata" });
   }
 }
-function __c6(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2146,25 +2029,35 @@ function __c6(j: number): any {
           discoveredRangesCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "RealmAggregatedData" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          managementType: S.optional(S.String),
+          createTime: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          discoveryMetadata: S.optional(__S(56, __c7, 0)),
+          registryBook: S.optional(S.String),
+          labels: S.optional(__S(488, __c61, 0)),
+          trafficType: S.optional(S.String),
+          ipVersion: S.optional(S.String),
+          aggregatedData: S.optional(__S(64, __c8, 0)),
+        }),
+      ).annotate({ identifier: "Realm" });
   }
 }
-function __c7(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          registryBookId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          claimedScopesInfo: S.optional(__S(65, __c8, 1)),
-          claimedScopes: S.optional(__S(464, __c58, 0)),
-          updateTime: S.optional(S.String),
-          aggregatedData: S.optional(__S(66, __c8, 2)),
-          isDefault: S.optional(S.Boolean),
-          createTime: S.optional(S.String),
-          name: S.optional(S.String),
-          labels: S.optional(__S(504, __c63, 0)),
-        }).pipe(
+        S.Extend(
+          __S(83, __c10, 3),
+          S.Struct({
+            registryBookId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/registryBooks",
@@ -2174,7 +2067,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsRegistryBooksRequest" });
   }
 }
-function __c8(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2185,7 +2078,7 @@ function __c8(j: number): any {
         }),
       ).annotate({ identifier: "ScopeInfo" });
     case 1:
-      return S.Array(__S(64, __c8, 0));
+      return S.Array(__S(80, __c10, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -2196,9 +2089,22 @@ function __c8(j: number): any {
           discoveredRealmsCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "AggregatedData" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          claimedScopesInfo: S.optional(__S(81, __c10, 1)),
+          claimedScopes: S.optional(__S(440, __c55, 0)),
+          updateTime: S.optional(S.String),
+          aggregatedData: S.optional(__S(82, __c10, 2)),
+          isDefault: S.optional(S.Boolean),
+          createTime: S.optional(S.String),
+          name: S.optional(S.String),
+          labels: S.optional(__S(488, __c61, 0)),
+        }),
+      ).annotate({ identifier: "RegistryBook" });
   }
 }
-function __c9(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2214,7 +2120,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "DeleteOrganizationsLocationsOperationsRequest" });
   }
 }
-function __c10(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2231,7 +2137,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "DeleteOrganizationsLocationsOrgNumberRegistriesRequest" });
   }
 }
-function __c11(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2249,7 +2155,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsCustomRangesRequest" });
   }
 }
-function __c12(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2267,7 +2173,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsIpamAdminScopesRequest" });
   }
 }
-function __c13(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2283,7 +2189,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsOperationsRequest" });
   }
 }
-function __c14(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2301,7 +2207,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsRealmsRequest" });
   }
 }
-function __c15(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2319,14 +2225,16 @@ function __c15(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsRegistryBooksRequest" });
   }
 }
-function __c16(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(456, __c57, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+name}:disable",
@@ -2336,7 +2244,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "DisableProjectsLocationsIpamAdminScopesRequest" });
   }
 }
-function __c17(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2355,17 +2263,17 @@ function __c17(j: number): any {
       ).annotate({ identifier: "FindFreeIpRangesProjectsLocationsCustomRangesRequest" });
   }
 }
-function __c18(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          freeIpCidrRanges: S.optional(__S(464, __c58, 0)),
+          freeIpCidrRanges: S.optional(__S(440, __c55, 0)),
         }),
       ).annotate({ identifier: "FindCustomRangeFreeIpRangesResponse" });
   }
 }
-function __c19(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2384,7 +2292,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "FindFreeIpRangesProjectsLocationsDiscoveredRangesRequest" });
   }
 }
-function __c20(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2400,7 +2308,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "GetOrganizationsLocationsOperationsRequest" });
   }
 }
-function __c21(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2416,22 +2324,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "GetOrganizationsLocationsOrgNumberRegistriesRequest" });
   }
 }
-function __c22(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          targetScopes: S.optional(__S(464, __c58, 0)),
-          updateTime: S.optional(S.String),
-          adminProject: S.optional(S.String),
-          createTime: S.optional(S.String),
-          labels: S.optional(__S(504, __c63, 0)),
-        }),
-      ).annotate({ identifier: "OrgNumberRegistry" });
-  }
-}
-function __c23(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2447,21 +2340,21 @@ function __c23(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsRequest" });
   }
 }
-function __c24(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
           displayName: S.optional(S.String),
-          metadata: S.optional(__S(480, __c60, 0)),
-          labels: S.optional(__S(504, __c63, 0)),
+          metadata: S.optional(__S(464, __c58, 0)),
+          labels: S.optional(__S(488, __c61, 0)),
           locationId: S.optional(S.String),
         }),
       ).annotate({ identifier: "Location" });
   }
 }
-function __c25(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2475,24 +2368,6 @@ function __c25(j: number): any {
           }),
         ),
       ).annotate({ identifier: "GetProjectsLocationsCustomRangesRequest" });
-  }
-}
-function __c26(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          labels: S.optional(__S(504, __c63, 0)),
-          attributes: S.optional(__S(9, __c1, 1)),
-          registryBook: S.optional(S.String),
-          description: S.optional(S.String),
-          name: S.optional(S.String),
-          realm: S.optional(S.String),
-          ipv4CidrRange: S.optional(S.String),
-          ipv6CidrRange: S.optional(S.String),
-          parentRange: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CustomRange" });
   }
 }
 function __c27(j: number): any {
@@ -2523,10 +2398,10 @@ function __c28(j: number): any {
           attributes: S.optional(__S(9, __c1, 1)),
           createTime: S.optional(S.String),
           name: S.optional(S.String),
-          labels: S.optional(__S(504, __c63, 0)),
+          labels: S.optional(__S(488, __c61, 0)),
           updateTime: S.optional(S.String),
           ipv6CidrRange: S.optional(S.String),
-          discoveryMetadata: S.optional(__S(40, __c5, 0)),
+          discoveryMetadata: S.optional(__S(56, __c7, 0)),
           description: S.optional(S.String),
           realm: S.optional(S.String),
         }),
@@ -2554,22 +2429,6 @@ function __c30(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          enabledAddonPlatforms: S.optional(__S(24, __c3, 0)),
-          updateTime: S.optional(S.String),
-          state: S.optional(S.String),
-          scopes: S.optional(__S(464, __c58, 0)),
-          createTime: S.optional(S.String),
-          labels: S.optional(__S(504, __c63, 0)),
-        }),
-      ).annotate({ identifier: "IpamAdminScope" });
-  }
-}
-function __c31(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
           name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -2581,7 +2440,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsOperationsRequest" });
   }
 }
-function __c32(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2598,26 +2457,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsRealmsRequest" });
   }
 }
-function __c33(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          managementType: S.optional(S.String),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          discoveryMetadata: S.optional(__S(40, __c5, 0)),
-          registryBook: S.optional(S.String),
-          labels: S.optional(__S(504, __c63, 0)),
-          trafficType: S.optional(S.String),
-          ipVersion: S.optional(S.String),
-          aggregatedData: S.optional(__S(48, __c6, 0)),
-        }),
-      ).annotate({ identifier: "Realm" });
-  }
-}
-function __c34(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2634,24 +2474,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsRegistryBooksRequest" });
   }
 }
-function __c35(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          claimedScopesInfo: S.optional(__S(65, __c8, 1)),
-          claimedScopes: S.optional(__S(464, __c58, 0)),
-          updateTime: S.optional(S.String),
-          aggregatedData: S.optional(__S(66, __c8, 2)),
-          isDefault: S.optional(S.Boolean),
-          createTime: S.optional(S.String),
-          name: S.optional(S.String),
-          labels: S.optional(__S(504, __c63, 0)),
-        }),
-      ).annotate({ identifier: "RegistryBook" });
-  }
-}
-function __c36(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2668,13 +2491,13 @@ function __c36(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          rangeUtilization: S.optional(__S(296, __c37, 0)),
-          customRange: S.optional(__S(208, __c26, 0)),
+          rangeUtilization: S.optional(__S(272, __c34, 0)),
+          customRange: S.optional(__S(16, __c2, 0)),
         }),
       ).annotate({ identifier: "ShowCustomRangeUtilizationResponse" });
   }
 }
-function __c37(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2686,7 +2509,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "RangeUtilization" });
   }
 }
-function __c38(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2703,13 +2526,13 @@ function __c38(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          rangeUtilization: S.optional(__S(296, __c37, 0)),
+          rangeUtilization: S.optional(__S(272, __c34, 0)),
           discoveredRange: S.optional(__S(224, __c28, 0)),
         }),
       ).annotate({ identifier: "ShowDiscoveredRangeUtilizationResponse" });
   }
 }
-function __c39(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2729,21 +2552,21 @@ function __c39(j: number): any {
       ).annotate({ identifier: "ListOrganizationsLocationsOperationsRequest" });
   }
 }
-function __c40(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(490, __c61, 2));
+      return S.Array(__S(474, __c59, 2));
     case 1:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          operations: S.optional(__S(320, __c40, 0)),
-          unreachable: S.optional(__S(464, __c58, 0)),
+          operations: S.optional(__S(296, __c37, 0)),
+          unreachable: S.optional(__S(440, __c55, 0)),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
   }
 }
-function __c41(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2762,18 +2585,18 @@ function __c41(j: number): any {
         ),
       ).annotate({ identifier: "ListOrganizationsLocationsOrgNumberRegistriesRequest" });
     case 1:
-      return S.Array(__S(176, __c22, 0));
+      return S.Array(__S(496, __c62, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(464, __c58, 0)),
-          orgNumberRegistries: S.optional(__S(329, __c41, 1)),
+          unreachable: S.optional(__S(440, __c55, 0)),
+          orgNumberRegistries: S.optional(__S(305, __c38, 1)),
         }),
       ).annotate({ identifier: "ListOrgNumberRegistriesResponse" });
   }
 }
-function __c42(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2782,7 +2605,7 @@ function __c42(j: number): any {
           name: S.String.pipe(T.Label()),
           filter: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
-          extraLocationTypes: S.optional(__S(464, __c58, 0).pipe(T.Query())),
+          extraLocationTypes: S.optional(__S(440, __c55, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2792,17 +2615,17 @@ function __c42(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsRequest" });
     case 1:
-      return S.Array(__S(192, __c24, 0));
+      return S.Array(__S(200, __c25, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          locations: S.optional(__S(337, __c42, 1)),
+          locations: S.optional(__S(313, __c39, 1)),
         }),
       ).annotate({ identifier: "ListLocationsResponse" });
   }
 }
-function __c43(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2821,18 +2644,18 @@ function __c43(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsCustomRangesRequest" });
     case 1:
-      return S.Array(__S(208, __c26, 0));
+      return S.Array(__S(16, __c2, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(464, __c58, 0)),
-          customRanges: S.optional(__S(345, __c43, 1)),
+          unreachable: S.optional(__S(440, __c55, 0)),
+          customRanges: S.optional(__S(321, __c40, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListCustomRangesResponse" });
   }
 }
-function __c44(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2855,14 +2678,14 @@ function __c44(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          discoveredRanges: S.optional(__S(353, __c44, 1)),
-          unreachable: S.optional(__S(464, __c58, 0)),
+          discoveredRanges: S.optional(__S(329, __c41, 1)),
+          unreachable: S.optional(__S(440, __c55, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListDiscoveredRangesResponse" });
   }
 }
-function __c45(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2881,18 +2704,18 @@ function __c45(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsIpamAdminScopesRequest" });
     case 1:
-      return S.Array(__S(240, __c30, 0));
+      return S.Array(__S(32, __c4, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          ipamAdminScopes: S.optional(__S(361, __c45, 1)),
-          unreachable: S.optional(__S(464, __c58, 0)),
+          ipamAdminScopes: S.optional(__S(337, __c42, 1)),
+          unreachable: S.optional(__S(440, __c55, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListIpamAdminScopesResponse" });
   }
 }
-function __c46(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2912,7 +2735,7 @@ function __c46(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsOperationsRequest" });
   }
 }
-function __c47(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2932,18 +2755,18 @@ function __c47(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsRealmsRequest" });
     case 1:
-      return S.Array(__S(264, __c33, 0));
+      return S.Array(__S(65, __c8, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(464, __c58, 0)),
-          realms: S.optional(__S(377, __c47, 1)),
+          unreachable: S.optional(__S(440, __c55, 0)),
+          realms: S.optional(__S(353, __c44, 1)),
         }),
       ).annotate({ identifier: "ListRealmsResponse" });
   }
 }
-function __c48(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2963,34 +2786,29 @@ function __c48(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsRegistryBooksRequest" });
     case 1:
-      return S.Array(__S(280, __c35, 0));
+      return S.Array(__S(83, __c10, 3));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          registryBooks: S.optional(__S(385, __c48, 1)),
+          registryBooks: S.optional(__S(361, __c45, 1)),
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(464, __c58, 0)),
+          unreachable: S.optional(__S(440, __c55, 0)),
         }),
       ).annotate({ identifier: "ListRegistryBooksResponse" });
   }
 }
-function __c49(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          labels: S.optional(__S(504, __c63, 0)),
-          attributes: S.optional(__S(9, __c1, 1)),
-          registryBook: S.optional(S.String),
-          description: S.optional(S.String),
-          realm: S.optional(S.String),
-          ipv4CidrRange: S.optional(S.String),
-          ipv6CidrRange: S.optional(S.String),
-          parentRange: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(16, __c2, 0),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha/{+name}",
@@ -3000,21 +2818,18 @@ function __c49(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsCustomRangesRequest" });
   }
 }
-function __c50(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          enabledAddonPlatforms: S.optional(__S(24, __c3, 0)),
-          updateTime: S.optional(S.String),
-          state: S.optional(S.String),
-          scopes: S.optional(__S(464, __c58, 0)),
-          createTime: S.optional(S.String),
-          labels: S.optional(__S(504, __c63, 0)),
-        }).pipe(
+        S.Extend(
+          __S(32, __c4, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha/{+name}",
@@ -3024,24 +2839,18 @@ function __c50(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsIpamAdminScopesRequest" });
   }
 }
-function __c51(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          managementType: S.optional(S.String),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          discoveryMetadata: S.optional(__S(40, __c5, 0)),
-          registryBook: S.optional(S.String),
-          labels: S.optional(__S(504, __c63, 0)),
-          trafficType: S.optional(S.String),
-          ipVersion: S.optional(S.String),
-          aggregatedData: S.optional(__S(48, __c6, 0)),
-        }).pipe(
+        S.Extend(
+          __S(65, __c8, 1),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha/{+name}",
@@ -3051,22 +2860,18 @@ function __c51(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsRealmsRequest" });
   }
 }
-function __c52(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          claimedScopesInfo: S.optional(__S(65, __c8, 1)),
-          claimedScopes: S.optional(__S(464, __c58, 0)),
-          updateTime: S.optional(S.String),
-          aggregatedData: S.optional(__S(66, __c8, 2)),
-          isDefault: S.optional(S.Boolean),
-          createTime: S.optional(S.String),
-          labels: S.optional(__S(504, __c63, 0)),
-        }).pipe(
+        S.Extend(
+          __S(83, __c10, 3),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha/{+name}",
@@ -3076,19 +2881,27 @@ function __c52(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsRegistryBooksRequest" });
   }
 }
-function __c53(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           showUtilization: S.optional(S.Boolean),
           orderBy: S.optional(S.String),
-          searchResourceTypes: S.optional(__S(24, __c3, 0)),
+          searchResourceTypes: S.optional(__S(40, __c5, 0)),
           query: S.optional(S.String),
           pageSize: S.optional(S.Number),
           pageToken: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "SearchIpResourcesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(400, __c50, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+name}:searchIpResources",
@@ -3096,43 +2909,43 @@ function __c53(j: number): any {
           }),
         ),
       ).annotate({ identifier: "SearchIpResourcesProjectsLocationsRegistryBooksRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          utilization: S.optional(__S(296, __c37, 0)),
-          customRange: S.optional(__S(208, __c26, 0)),
-          discoveredRange: S.optional(__S(224, __c28, 0)),
-        }),
-      ).annotate({ identifier: "Range" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          range: S.optional(__S(425, __c53, 1)),
-          realm: S.optional(__S(264, __c33, 0)),
+          utilization: S.optional(__S(272, __c34, 0)),
+          customRange: S.optional(__S(16, __c2, 0)),
+          discoveredRange: S.optional(__S(224, __c28, 0)),
         }),
-      ).annotate({ identifier: "SearchIpResourcesResult" });
+      ).annotate({ identifier: "Range" });
     case 3:
-      return S.Array(__S(426, __c53, 2));
-    case 4:
-      return S.Array(__S(425, __c53, 1));
-    case 5:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(464, __c58, 0)),
-          results: S.optional(__S(427, __c53, 3)),
+          range: S.optional(__S(402, __c50, 2)),
+          realm: S.optional(__S(65, __c8, 1)),
+        }),
+      ).annotate({ identifier: "SearchIpResourcesResult" });
+    case 4:
+      return S.Array(__S(403, __c50, 3));
+    case 5:
+      return S.Array(__S(402, __c50, 2));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          unreachable: S.optional(__S(440, __c55, 0)),
+          results: S.optional(__S(404, __c50, 4)),
           nextPageToken: S.optional(S.String),
-          ranges: S.optional(__S(428, __c53, 4)),
+          ranges: S.optional(__S(405, __c50, 5)),
         }),
       ).annotate({ identifier: "SearchIpResourcesResponse" });
   }
 }
-function __c54(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(440, __c55, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(416, __c52, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3143,19 +2956,19 @@ function __c54(j: number): any {
       ).annotate({ identifier: "CancelOrganizationsLocationsOperationsRequest" });
   }
 }
-function __c55(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "CancelOperationRequest" });
   }
 }
-function __c56(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(440, __c55, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(416, __c52, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3166,12 +2979,12 @@ function __c56(j: number): any {
       ).annotate({ identifier: "CancelProjectsLocationsOperationsRequest" });
   }
 }
-function __c57(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          scopes: S.optional(__S(464, __c58, 0).pipe(T.Query())),
+          scopes: S.optional(__S(440, __c55, 0).pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -3190,29 +3003,31 @@ function __c57(j: number): any {
         }),
       ).annotate({ identifier: "IpamAdminScopeAvailability" });
     case 2:
-      return S.Array(__S(457, __c57, 1));
+      return S.Array(__S(433, __c54, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          scopeAvailabilities: S.optional(__S(458, __c57, 2)),
+          scopeAvailabilities: S.optional(__S(434, __c54, 2)),
         }),
       ).annotate({ identifier: "CheckAvailabilityIpamAdminScopesResponse" });
   }
 }
-function __c58(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c59(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(456, __c57, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+name}:cleanup",
@@ -3222,51 +3037,58 @@ function __c59(j: number): any {
       ).annotate({ identifier: "CleanupProjectsLocationsIpamAdminScopesRequest" });
   }
 }
-function __c60(j: number): any {
+function __c57(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          requestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CleanupIpamAdminScopeRequest" });
+  }
+}
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c61(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(480, __c60, 0));
+      return S.Array(__S(464, __c58, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
           message: S.optional(S.String),
-          details: S.optional(__S(488, __c61, 0)),
+          details: S.optional(__S(472, __c59, 0)),
           code: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Status" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          metadata: S.optional(__S(480, __c60, 0)),
-          error: S.optional(__S(489, __c61, 1)),
-          response: S.optional(__S(480, __c60, 0)),
+          metadata: S.optional(__S(464, __c58, 0)),
+          error: S.optional(__S(473, __c59, 1)),
+          response: S.optional(__S(464, __c58, 0)),
           name: S.optional(S.String),
           done: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "Operation" });
   }
 }
-function __c62(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          orgNumberRegistryId: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          name: S.optional(S.String),
-          targetScopes: S.optional(__S(464, __c58, 0)),
-          updateTime: S.optional(S.String),
-          adminProject: S.optional(S.String),
-          createTime: S.optional(S.String),
-          labels: S.optional(__S(504, __c63, 0)),
-        }).pipe(
+        S.Extend(
+          __S(496, __c62, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            orgNumberRegistryId: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/orgNumberRegistries",
@@ -3276,10 +3098,25 @@ function __c62(j: number): any {
       ).annotate({ identifier: "CreateOrganizationsLocationsOrgNumberRegistriesRequest" });
   }
 }
-function __c63(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
+  }
+}
+function __c62(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          targetScopes: S.optional(__S(440, __c55, 0)),
+          updateTime: S.optional(S.String),
+          adminProject: S.optional(S.String),
+          createTime: S.optional(S.String),
+          labels: S.optional(__S(488, __c61, 0)),
+        }),
+      ).annotate({ identifier: "OrgNumberRegistry" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

@@ -726,7 +726,8 @@ export type BatchCreateContactsRequestSourcesItemEnum =
 export type BatchCreateContactsRequestSourcesItemEnumList = Array<
   BatchCreateContactsRequestSourcesItemEnum | (string & {})
 >;
-export interface BatchCreateContactsPeopleRequest {
+/** A request to create a batch of contacts. */
+export interface BatchCreateContactsRequest {
   /** Required. The contact to create. Allows up to 200 contacts in a single request. */
   contacts?: ContactToCreateList | undefined;
   /** Required. A field mask to restrict which fields on each person are returned in the response. Multiple fields can be specified by separating them with commas. If read mask is left empty, the post-mutate-get is skipped and no data will be returned in the response. Valid values are: * addresses * ageRanges * biographies * birthdays * calendarUrls * clientData * coverPhotos * emailAddresses * events * externalIds * genders * imClients * interests * locales * locations * memberships * metadata * miscKeywords * names * nicknames * occupations * organizations * phoneNumbers * photos * relations * sipAddresses * skills * urls * userDefined */
@@ -734,6 +735,7 @@ export interface BatchCreateContactsPeopleRequest {
   /** Optional. A mask of what source types to return in the post mutate read. Defaults to READ_SOURCE_TYPE_CONTACT and READ_SOURCE_TYPE_PROFILE if not set. */
   sources?: BatchCreateContactsRequestSourcesItemEnumList | undefined;
 }
+export interface BatchCreateContactsPeopleRequest extends BatchCreateContactsRequest {}
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
@@ -762,10 +764,12 @@ export interface BatchCreateContactsResponse {
   /** The contacts that were created, unless the request `read_mask` is empty. */
   createdPeople?: PersonResponseList | undefined;
 }
-export interface BatchDeleteContactsPeopleRequest {
+/** A request to delete a batch of existing contacts. */
+export interface BatchDeleteContactsRequest {
   /** Required. The resource names of the contact to delete. It's repeatable. Allows up to 500 resource names in a single request. */
   resourceNames?: StringList | undefined;
 }
+export interface BatchDeleteContactsPeopleRequest extends BatchDeleteContactsRequest {}
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
 export interface BatchGetContactGroupsRequest {
@@ -841,7 +845,8 @@ export type BatchUpdateContactsRequestSourcesItemEnum =
 export type BatchUpdateContactsRequestSourcesItemEnumList = Array<
   BatchUpdateContactsRequestSourcesItemEnum | (string & {})
 >;
-export interface BatchUpdateContactsPeopleRequest {
+/** A request to update a batch of contacts. */
+export interface BatchUpdateContactsRequest {
   /** Required. A map of resource names to the person data to be updated. Allows up to 200 contacts in a single request. */
   contacts?: PersonMap | undefined;
   /** Required. A field mask to restrict which fields on each person are returned. Multiple fields can be specified by separating them with commas. If read mask is left empty, the post-mutate-get is skipped and no data will be returned in the response. Valid values are: * addresses * ageRanges * biographies * birthdays * calendarUrls * clientData * coverPhotos * emailAddresses * events * externalIds * genders * imClients * interests * locales * locations * memberships * metadata * miscKeywords * names * nicknames * occupations * organizations * phoneNumbers * photos * relations * sipAddresses * skills * urls * userDefined */
@@ -851,6 +856,7 @@ export interface BatchUpdateContactsPeopleRequest {
   /** Required. A field mask to restrict which fields on the person are updated. Multiple fields can be specified by separating them with commas. All specified fields will be replaced, or cleared if left empty for each person. Valid values are: * addresses * biographies * birthdays * calendarUrls * clientData * emailAddresses * events * externalIds * genders * imClients * interests * locales * locations * memberships * miscKeywords * names * nicknames * occupations * organizations * phoneNumbers * relations * sipAddresses * urls * userDefined */
   updateMask?: string | undefined;
 }
+export interface BatchUpdateContactsPeopleRequest extends BatchUpdateContactsRequest {}
 export type PersonResponseMap = { [key: string]: PersonResponse | undefined };
 /** If not successful, returns BatchUpdateContactsErrorDetails, a list of errors corresponding to each contact. The response to a request to update a batch of contacts. */
 export interface BatchUpdateContactsResponse {
@@ -866,9 +872,8 @@ export type CopyOtherContactToMyContactsGroupRequestSourcesItemEnum =
 export type CopyOtherContactToMyContactsGroupRequestSourcesItemEnumList = Array<
   CopyOtherContactToMyContactsGroupRequestSourcesItemEnum | (string & {})
 >;
-export interface CopyOtherContactToMyContactsGroupOtherContactsRequest {
-  /** Required. The resource name of the "Other contact" to copy. */
-  resourceName: string;
+/** A request to copy an "Other contact" to my contacts group. */
+export interface CopyOtherContactToMyContactsGroupRequest {
   /** Optional. A field mask to restrict which fields on the person are returned. Multiple fields can be specified by separating them with commas. Defaults to the copy mask with metadata and membership fields if not set. Valid values are: * addresses * ageRanges * biographies * birthdays * calendarUrls * clientData * coverPhotos * emailAddresses * events * externalIds * genders * imClients * interests * locales * locations * memberships * metadata * miscKeywords * names * nicknames * occupations * organizations * phoneNumbers * photos * relations * sipAddresses * skills * urls * userDefined */
   readMask?: string | undefined;
   /** Optional. A mask of what source types to return. Defaults to READ_SOURCE_TYPE_CONTACT and READ_SOURCE_TYPE_PROFILE if not set. */
@@ -876,12 +881,18 @@ export interface CopyOtherContactToMyContactsGroupOtherContactsRequest {
   /** Required. A field mask to restrict which fields are copied into the new contact. Valid values are: * emailAddresses * names * phoneNumbers */
   copyMask?: string | undefined;
 }
-export interface CreateContactGroupsRequest {
+export interface CopyOtherContactToMyContactsGroupOtherContactsRequest extends CopyOtherContactToMyContactsGroupRequest {
+  /** Required. The resource name of the "Other contact" to copy. */
+  resourceName: string;
+}
+/** A request to create a new contact group. */
+export interface CreateContactGroupRequest {
   /** Optional. A field mask to restrict which fields on the group are returned. Defaults to `metadata`, `groupType`, and `name` if not set or set to empty. Valid fields are: * clientData * groupType * metadata * name */
   readGroupFields?: string | undefined;
   /** Required. The contact group to create. */
   contactGroup?: ContactGroup | undefined;
 }
+export interface CreateContactGroupsRequest extends CreateContactGroupRequest {}
 export type CreateContactPeopleSourcesEnum =
   | "READ_SOURCE_TYPE_UNSPECIFIED"
   | "READ_SOURCE_TYPE_PROFILE"
@@ -891,87 +902,11 @@ export type CreateContactPeopleSourcesEnum =
 export type CreateContactPeopleSourcesEnumList = Array<
   CreateContactPeopleSourcesEnum | (string & {})
 >;
-export interface CreateContactPeopleRequest {
+export interface CreateContactPeopleRequest extends Person {
   /** Required. A field mask to restrict which fields on each person are returned. Multiple fields can be specified by separating them with commas. Defaults to all fields if not set. Valid values are: * addresses * ageRanges * biographies * birthdays * calendarUrls * clientData * coverPhotos * emailAddresses * events * externalIds * genders * imClients * interests * locales * locations * memberships * metadata * miscKeywords * names * nicknames * occupations * organizations * phoneNumbers * photos * relations * sipAddresses * skills * urls * userDefined */
   personFields?: string | undefined;
   /** Optional. A mask of what source types to return. Defaults to READ_SOURCE_TYPE_CONTACT and READ_SOURCE_TYPE_PROFILE if not set. */
   sources?: CreateContactPeopleSourcesEnumList | undefined;
-  /** The resource name for the person, assigned by the server. An ASCII string in the form of `people/{person_id}`. */
-  resourceName?: string | undefined;
-  /** Output only. **DEPRECATED**: No data will be returned The person's relationship statuses. */
-  relationshipStatuses?: RelationshipStatusList | undefined;
-  /** The person's names. This field is a singleton for contact sources. */
-  names?: NameList | undefined;
-  /** The person's birthdays. This field is a singleton for contact sources. */
-  birthdays?: BirthdayList | undefined;
-  /** **DEPRECATED**: (Please use `person.locations` instead) The person's residences. */
-  residences?: ResidenceList | undefined;
-  /** The person's instant messaging clients. */
-  imClients?: ImClientList | undefined;
-  /** The person's occupations. */
-  occupations?: OccupationList | undefined;
-  /** Output only. The person's photos. */
-  photos?: PhotoList | undefined;
-  /** The person's SIP addresses. */
-  sipAddresses?: SipAddressList | undefined;
-  /** The person's relations. */
-  relations?: RelationList | undefined;
-  /** The person's past or current organizations. */
-  organizations?: OrganizationList | undefined;
-  /** The person's phone numbers. For `people.connections.list` and `otherContacts.list` the number of phone numbers is limited to 100. If a Person has more phone numbers the entire set can be obtained by calling GetPeople. */
-  phoneNumbers?: PhoneNumberList | undefined;
-  /** The person's locations. */
-  locations?: LocationList | undefined;
-  /** The [HTTP entity tag](https://en.wikipedia.org/wiki/HTTP_ETag) of the resource. Used for web cache validation. */
-  etag?: string | undefined;
-  /** Output only. Metadata about the person. */
-  metadata?: PersonMetadata | undefined;
-  /** Output only. **DEPRECATED**: No data will be returned The person's taglines. */
-  taglines?: TaglineList | undefined;
-  /** The person's genders. This field is a singleton for contact sources. */
-  genders?: GenderList | undefined;
-  /** The person's group memberships. */
-  memberships?: MembershipList | undefined;
-  /** The person's interests. */
-  interests?: InterestList | undefined;
-  /** The person's nicknames. */
-  nicknames?: NicknameList | undefined;
-  /** The person's street addresses. */
-  addresses?: AddressList | undefined;
-  /** The person's biographies. This field is a singleton for contact sources. */
-  biographies?: BiographyList | undefined;
-  /** The person's locale preferences. */
-  locales?: LocaleList | undefined;
-  /** The person's file-ases. */
-  fileAses?: FileAsList | undefined;
-  /** The person's external IDs. */
-  externalIds?: ExternalIdList | undefined;
-  /** The person's calendar URLs. */
-  calendarUrls?: CalendarUrlList | undefined;
-  /** The person's events. */
-  events?: EventList | undefined;
-  /** Output only. **DEPRECATED** (Please use `person.ageRanges` instead) The person's age range. */
-  ageRange?: PersonAgeRangeEnum | (string & {}) | undefined;
-  /** The person's user defined data. */
-  userDefined?: UserDefinedList | undefined;
-  /** The person's email addresses. For `people.connections.list` and `otherContacts.list` the number of email addresses is limited to 100. If a Person has more email addresses the entire set can be obtained by calling GetPeople. */
-  emailAddresses?: EmailAddressList | undefined;
-  /** The person's skills. */
-  skills?: SkillList | undefined;
-  /** The person's miscellaneous keywords. */
-  miscKeywords?: MiscKeywordList | undefined;
-  /** **DEPRECATED**: No data will be returned The person's bragging rights. */
-  braggingRights?: BraggingRightsList | undefined;
-  /** The person's client data. */
-  clientData?: ClientDataList | undefined;
-  /** Output only. The person's cover photos. */
-  coverPhotos?: CoverPhotoList | undefined;
-  /** Output only. The person's age ranges. */
-  ageRanges?: AgeRangeTypeList | undefined;
-  /** Output only. **DEPRECATED**: No data will be returned The person's relationship interests. */
-  relationshipInterests?: RelationshipInterestList | undefined;
-  /** The person's associated URLs. */
-  urls?: UrlList | undefined;
 }
 export interface DeleteContactGroupsRequest {
   /** Optional. Set to true to also delete the contacts in the specified group. */
@@ -1192,13 +1127,16 @@ export interface ListConnectionsResponse {
   /** The list of people that the requestor is connected to. */
   connections?: PersonList | undefined;
 }
-export interface ModifyContactGroupsMembersRequest {
-  /** Required. The resource name of the contact group to modify. */
-  resourceName: string;
+/** A request to modify an existing contact group's members. Contacts can be removed from any group but they can only be added to a user group or "myContacts" or "starred" system groups. */
+export interface ModifyContactGroupMembersRequest {
   /** Optional. The resource names of the contact people to remove in the form of `people/{person_id}`. The total number of resource names in `resource_names_to_add` and `resource_names_to_remove` must be less than or equal to 1000. */
   resourceNamesToRemove?: StringList | undefined;
   /** Optional. The resource names of the contact people to add in the form of `people/{person_id}`. The total number of resource names in `resource_names_to_add` and `resource_names_to_remove` must be less than or equal to 1000. */
   resourceNamesToAdd?: StringList | undefined;
+}
+export interface ModifyContactGroupsMembersRequest extends ModifyContactGroupMembersRequest {
+  /** Required. The resource name of the contact group to modify. */
+  resourceName: string;
 }
 /** The response to a modify contact group members request. */
 export interface ModifyContactGroupMembersResponse {
@@ -1281,15 +1219,18 @@ export interface SearchOtherContactsRequest {
   /** Required. The plain-text query for the request. The query is used to match prefix phrases of the fields on a person. For example, a person with name "foo name" matches queries such as "f", "fo", "foo", "foo n", "nam", etc., but not "oo n". */
   query?: string | undefined;
 }
-export interface UpdateContactGroupsRequest {
-  /** The resource name for the contact group, assigned by the server. An ASCII string, in the form of `contactGroups/{contact_group_id}`. */
-  resourceName: string;
+/** A request to update an existing user contact group. All updated fields will be replaced. */
+export interface UpdateContactGroupRequest {
   /** Required. The contact group to update. */
   contactGroup?: ContactGroup | undefined;
   /** Optional. A field mask to restrict which fields on the group are updated. Multiple fields can be specified by separating them with commas. Defaults to `name` if not set or set to empty. Updated fields are replaced. Valid values are: * clientData * name */
   updateGroupFields?: string | undefined;
   /** Optional. A field mask to restrict which fields on the group are returned. Defaults to `metadata`, `groupType`, and `name` if not set or set to empty. Valid fields are: * clientData * groupType * memberCount * metadata * name */
   readGroupFields?: string | undefined;
+}
+export interface UpdateContactGroupsRequest extends UpdateContactGroupRequest {
+  /** The resource name for the contact group, assigned by the server. An ASCII string, in the form of `contactGroups/{contact_group_id}`. */
+  resourceName: string;
 }
 export type UpdateContactPeopleSourcesEnum =
   | "READ_SOURCE_TYPE_UNSPECIFIED"
@@ -1300,7 +1241,7 @@ export type UpdateContactPeopleSourcesEnum =
 export type UpdateContactPeopleSourcesEnumList = Array<
   UpdateContactPeopleSourcesEnum | (string & {})
 >;
-export interface UpdateContactPeopleRequest {
+export interface UpdateContactPeopleRequest extends Omit<Person, "resourceName"> {
   /** Optional. A mask of what source types to return. Defaults to READ_SOURCE_TYPE_CONTACT and READ_SOURCE_TYPE_PROFILE if not set. */
   sources?: UpdateContactPeopleSourcesEnumList | undefined;
   /** Required. A field mask to restrict which fields on the person are updated. Multiple fields can be specified by separating them with commas. All updated fields will be replaced. Valid values are: * addresses * biographies * birthdays * calendarUrls * clientData * emailAddresses * events * externalIds * genders * imClients * interests * locales * locations * memberships * miscKeywords * names * nicknames * occupations * organizations * phoneNumbers * relations * sipAddresses * urls * userDefined */
@@ -1309,80 +1250,6 @@ export interface UpdateContactPeopleRequest {
   resourceName: string;
   /** Optional. A field mask to restrict which fields on each person are returned. Multiple fields can be specified by separating them with commas. Defaults to all fields if not set. Valid values are: * addresses * ageRanges * biographies * birthdays * calendarUrls * clientData * coverPhotos * emailAddresses * events * externalIds * genders * imClients * interests * locales * locations * memberships * metadata * miscKeywords * names * nicknames * occupations * organizations * phoneNumbers * photos * relations * sipAddresses * skills * urls * userDefined */
   personFields?: string | undefined;
-  /** Output only. **DEPRECATED**: No data will be returned The person's relationship statuses. */
-  relationshipStatuses?: RelationshipStatusList | undefined;
-  /** The person's names. This field is a singleton for contact sources. */
-  names?: NameList | undefined;
-  /** The person's birthdays. This field is a singleton for contact sources. */
-  birthdays?: BirthdayList | undefined;
-  /** **DEPRECATED**: (Please use `person.locations` instead) The person's residences. */
-  residences?: ResidenceList | undefined;
-  /** The person's instant messaging clients. */
-  imClients?: ImClientList | undefined;
-  /** The person's occupations. */
-  occupations?: OccupationList | undefined;
-  /** Output only. The person's photos. */
-  photos?: PhotoList | undefined;
-  /** The person's SIP addresses. */
-  sipAddresses?: SipAddressList | undefined;
-  /** The person's relations. */
-  relations?: RelationList | undefined;
-  /** The person's past or current organizations. */
-  organizations?: OrganizationList | undefined;
-  /** The person's phone numbers. For `people.connections.list` and `otherContacts.list` the number of phone numbers is limited to 100. If a Person has more phone numbers the entire set can be obtained by calling GetPeople. */
-  phoneNumbers?: PhoneNumberList | undefined;
-  /** The person's locations. */
-  locations?: LocationList | undefined;
-  /** The [HTTP entity tag](https://en.wikipedia.org/wiki/HTTP_ETag) of the resource. Used for web cache validation. */
-  etag?: string | undefined;
-  /** Output only. Metadata about the person. */
-  metadata?: PersonMetadata | undefined;
-  /** Output only. **DEPRECATED**: No data will be returned The person's taglines. */
-  taglines?: TaglineList | undefined;
-  /** The person's genders. This field is a singleton for contact sources. */
-  genders?: GenderList | undefined;
-  /** The person's group memberships. */
-  memberships?: MembershipList | undefined;
-  /** The person's interests. */
-  interests?: InterestList | undefined;
-  /** The person's nicknames. */
-  nicknames?: NicknameList | undefined;
-  /** The person's street addresses. */
-  addresses?: AddressList | undefined;
-  /** The person's biographies. This field is a singleton for contact sources. */
-  biographies?: BiographyList | undefined;
-  /** The person's locale preferences. */
-  locales?: LocaleList | undefined;
-  /** The person's file-ases. */
-  fileAses?: FileAsList | undefined;
-  /** The person's external IDs. */
-  externalIds?: ExternalIdList | undefined;
-  /** The person's calendar URLs. */
-  calendarUrls?: CalendarUrlList | undefined;
-  /** The person's events. */
-  events?: EventList | undefined;
-  /** Output only. **DEPRECATED** (Please use `person.ageRanges` instead) The person's age range. */
-  ageRange?: PersonAgeRangeEnum | (string & {}) | undefined;
-  /** The person's user defined data. */
-  userDefined?: UserDefinedList | undefined;
-  /** The person's email addresses. For `people.connections.list` and `otherContacts.list` the number of email addresses is limited to 100. If a Person has more email addresses the entire set can be obtained by calling GetPeople. */
-  emailAddresses?: EmailAddressList | undefined;
-  /** The person's skills. */
-  skills?: SkillList | undefined;
-  /** The person's miscellaneous keywords. */
-  miscKeywords?: MiscKeywordList | undefined;
-  /** **DEPRECATED**: No data will be returned The person's bragging rights. */
-  braggingRights?: BraggingRightsList | undefined;
-  /** The person's client data. */
-  clientData?: ClientDataList | undefined;
-  /** Output only. The person's cover photos. */
-  coverPhotos?: CoverPhotoList | undefined;
-  /** Output only. The person's age ranges. */
-  ageRanges?: AgeRangeTypeList | undefined;
-  /** Output only. **DEPRECATED**: No data will be returned The person's relationship interests. */
-  relationshipInterests?: RelationshipInterestList | undefined;
-  /** The person's associated URLs. */
-  urls?: UrlList | undefined;
 }
 export type UpdateContactPhotoRequestSourcesItemEnum =
   | "READ_SOURCE_TYPE_UNSPECIFIED"
@@ -1393,15 +1260,18 @@ export type UpdateContactPhotoRequestSourcesItemEnum =
 export type UpdateContactPhotoRequestSourcesItemEnumList = Array<
   UpdateContactPhotoRequestSourcesItemEnum | (string & {})
 >;
-export interface UpdateContactPhotoPeopleRequest {
-  /** Required. Person resource name */
-  resourceName: string;
+/** A request to update an existing contact's photo. All requests must have a valid photo format: JPEG or PNG. */
+export interface UpdateContactPhotoRequest {
   /** Optional. A mask of what source types to return. Defaults to READ_SOURCE_TYPE_CONTACT and READ_SOURCE_TYPE_PROFILE if not set. */
   sources?: UpdateContactPhotoRequestSourcesItemEnumList | undefined;
   /** Optional. A field mask to restrict which fields on the person are returned. Multiple fields can be specified by separating them with commas. Defaults to empty if not set, which will skip the post mutate get. Valid values are: * addresses * ageRanges * biographies * birthdays * calendarUrls * clientData * coverPhotos * emailAddresses * events * externalIds * genders * imClients * interests * locales * locations * memberships * metadata * miscKeywords * names * nicknames * occupations * organizations * phoneNumbers * photos * relations * sipAddresses * skills * urls * userDefined */
   personFields?: string | undefined;
   /** Required. Raw photo bytes */
   photoBytes?: string | undefined;
+}
+export interface UpdateContactPhotoPeopleRequest extends UpdateContactPhotoRequest {
+  /** Required. Person resource name */
+  resourceName: string;
 }
 /** The response for updating a contact's photo. */
 export interface UpdateContactPhotoResponse {
@@ -1421,8 +1291,8 @@ export const batchCreateContactsPeople: API.OperationMethod<
   BatchCreateContactsPeopleError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(674, __c21, 2) as any as S.Schema<BatchCreateContactsPeopleRequest>,
-  output: __S(675, __c21, 3) as any as S.Schema<BatchCreateContactsResponse>,
+  input: __S(675, __c21, 3) as any as S.Schema<BatchCreateContactsPeopleRequest>,
+  output: __S(676, __c21, 4) as any as S.Schema<BatchCreateContactsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1443,7 +1313,7 @@ export const batchDeleteContactsPeople: API.OperationMethod<
   BatchDeleteContactsPeopleError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c29, 0) as any as S.Schema<BatchDeleteContactsPeopleRequest>,
+  input: __S(929, __c29, 1) as any as S.Schema<BatchDeleteContactsPeopleRequest>,
   output: __S(960, __c30, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -1482,8 +1352,8 @@ export const batchUpdateContactsPeople: API.OperationMethod<
   BatchUpdateContactsPeopleError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1057, __c33, 1) as any as S.Schema<BatchUpdateContactsPeopleRequest>,
-  output: __S(1059, __c33, 3) as any as S.Schema<BatchUpdateContactsResponse>,
+  input: __S(1058, __c33, 2) as any as S.Schema<BatchUpdateContactsPeopleRequest>,
+  output: __S(1060, __c33, 4) as any as S.Schema<BatchUpdateContactsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1505,9 +1375,9 @@ export const copyOtherContactToMyContactsGroupOtherContacts: API.OperationMethod
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1088,
+    1089,
     __c34,
-    0,
+    1,
   ) as any as S.Schema<CopyOtherContactToMyContactsGroupOtherContactsRequest>,
   output: __S(897, __c28, 1) as any as S.Schema<Person>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
@@ -1525,7 +1395,7 @@ export const createContactGroups: API.OperationMethod<
   CreateContactGroupsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c35, 0) as any as S.Schema<CreateContactGroupsRequest>,
+  input: __S(1121, __c35, 1) as any as S.Schema<CreateContactGroupsRequest>,
   output: __S(1027, __c32, 3) as any as S.Schema<ContactGroup>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -1747,8 +1617,8 @@ export const modifyContactGroupsMembers: API.OperationMethod<
   ModifyContactGroupsMembersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c13, 0) as any as S.Schema<ModifyContactGroupsMembersRequest>,
-  output: __S(417, __c13, 1) as any as S.Schema<ModifyContactGroupMembersResponse>,
+  input: __S(417, __c13, 1) as any as S.Schema<ModifyContactGroupsMembersRequest>,
+  output: __S(418, __c13, 2) as any as S.Schema<ModifyContactGroupMembersResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1817,7 +1687,7 @@ export const updateContactGroups: API.OperationMethod<
   UpdateContactGroupsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c18, 0) as any as S.Schema<UpdateContactGroupsRequest>,
+  input: __S(577, __c18, 1) as any as S.Schema<UpdateContactGroupsRequest>,
   output: __S(1027, __c32, 3) as any as S.Schema<ContactGroup>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -1856,7 +1726,7 @@ export const updateContactPhotoPeople: API.OperationMethod<
   UpdateContactPhotoPeopleError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c20, 0) as any as S.Schema<UpdateContactPhotoPeopleRequest>,
+  input: __S(641, __c20, 1) as any as S.Schema<UpdateContactPhotoPeopleRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<UpdateContactPhotoResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -1870,48 +1740,13 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          personFields: S.optional(S.String.pipe(T.Query())),
-          sources: S.optional(__S(832, __c26, 0).pipe(T.Query())),
-          resourceName: S.optional(S.String),
-          relationshipStatuses: S.optional(__S(837, __c26, 5)),
-          names: S.optional(__S(839, __c26, 7)),
-          birthdays: S.optional(__S(842, __c26, 10)),
-          residences: S.optional(__S(844, __c26, 12)),
-          imClients: S.optional(__S(846, __c26, 14)),
-          occupations: S.optional(__S(848, __c26, 16)),
-          photos: S.optional(__S(850, __c26, 18)),
-          sipAddresses: S.optional(__S(852, __c26, 20)),
-          relations: S.optional(__S(854, __c26, 22)),
-          organizations: S.optional(__S(856, __c26, 24)),
-          phoneNumbers: S.optional(__S(858, __c26, 26)),
-          locations: S.optional(__S(860, __c26, 28)),
-          etag: S.optional(S.String),
-          metadata: S.optional(__S(862, __c26, 30)),
-          taglines: S.optional(__S(848, __c26, 16)),
-          genders: S.optional(__S(864, __c27, 0)),
-          memberships: S.optional(__S(868, __c27, 4)),
-          interests: S.optional(__S(870, __c27, 6)),
-          nicknames: S.optional(__S(872, __c27, 8)),
-          addresses: S.optional(__S(874, __c27, 10)),
-          biographies: S.optional(__S(876, __c27, 12)),
-          locales: S.optional(__S(870, __c27, 6)),
-          fileAses: S.optional(__S(848, __c26, 16)),
-          externalIds: S.optional(__S(878, __c27, 14)),
-          calendarUrls: S.optional(__S(880, __c27, 16)),
-          events: S.optional(__S(882, __c27, 18)),
-          ageRange: S.optional(S.String),
-          userDefined: S.optional(__S(884, __c27, 20)),
-          emailAddresses: S.optional(__S(886, __c27, 22)),
-          skills: S.optional(__S(870, __c27, 6)),
-          miscKeywords: S.optional(__S(888, __c27, 24)),
-          braggingRights: S.optional(__S(870, __c27, 6)),
-          clientData: S.optional(__S(890, __c27, 26)),
-          coverPhotos: S.optional(__S(892, __c27, 28)),
-          ageRanges: S.optional(__S(894, __c27, 30)),
-          relationshipInterests: S.optional(__S(896, __c28, 0)),
-          urls: S.optional(__S(852, __c26, 20)),
-        }).pipe(
+        S.Extend(
+          __S(897, __c28, 1),
+          S.Struct({
+            personFields: S.optional(S.String.pipe(T.Query())),
+            sources: S.optional(__S(832, __c26, 0).pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/people:createContact",
@@ -2179,10 +2014,18 @@ function __c13(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          resourceName: S.String.pipe(T.Label()),
           resourceNamesToRemove: S.optional(__S(736, __c23, 0)),
           resourceNamesToAdd: S.optional(__S(736, __c23, 0)),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "ModifyContactGroupMembersRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(416, __c13, 0),
+          S.Struct({
+            resourceName: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resourceName}/members:modify",
@@ -2190,7 +2033,7 @@ function __c13(j: number): any {
           }),
         ),
       ).annotate({ identifier: "ModifyContactGroupsMembersRequest" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           canNotRemoveLastContactGroupResourceNames: S.optional(__S(736, __c23, 0)),
@@ -2282,11 +2125,19 @@ function __c18(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          resourceName: S.String.pipe(T.Label()),
           contactGroup: S.optional(__S(1027, __c32, 3)),
           updateGroupFields: S.optional(S.String),
           readGroupFields: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "UpdateContactGroupRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(576, __c18, 0),
+          S.Struct({
+            resourceName: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "v1/{+resourceName}",
@@ -2300,49 +2151,15 @@ function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          sources: S.optional(__S(832, __c26, 0).pipe(T.Query())),
-          updatePersonFields: S.optional(S.String.pipe(T.Query())),
-          resourceName: S.String.pipe(T.Label()),
-          personFields: S.optional(S.String.pipe(T.Query())),
-          relationshipStatuses: S.optional(__S(837, __c26, 5)),
-          names: S.optional(__S(839, __c26, 7)),
-          birthdays: S.optional(__S(842, __c26, 10)),
-          residences: S.optional(__S(844, __c26, 12)),
-          imClients: S.optional(__S(846, __c26, 14)),
-          occupations: S.optional(__S(848, __c26, 16)),
-          photos: S.optional(__S(850, __c26, 18)),
-          sipAddresses: S.optional(__S(852, __c26, 20)),
-          relations: S.optional(__S(854, __c26, 22)),
-          organizations: S.optional(__S(856, __c26, 24)),
-          phoneNumbers: S.optional(__S(858, __c26, 26)),
-          locations: S.optional(__S(860, __c26, 28)),
-          etag: S.optional(S.String),
-          metadata: S.optional(__S(862, __c26, 30)),
-          taglines: S.optional(__S(848, __c26, 16)),
-          genders: S.optional(__S(864, __c27, 0)),
-          memberships: S.optional(__S(868, __c27, 4)),
-          interests: S.optional(__S(870, __c27, 6)),
-          nicknames: S.optional(__S(872, __c27, 8)),
-          addresses: S.optional(__S(874, __c27, 10)),
-          biographies: S.optional(__S(876, __c27, 12)),
-          locales: S.optional(__S(870, __c27, 6)),
-          fileAses: S.optional(__S(848, __c26, 16)),
-          externalIds: S.optional(__S(878, __c27, 14)),
-          calendarUrls: S.optional(__S(880, __c27, 16)),
-          events: S.optional(__S(882, __c27, 18)),
-          ageRange: S.optional(S.String),
-          userDefined: S.optional(__S(884, __c27, 20)),
-          emailAddresses: S.optional(__S(886, __c27, 22)),
-          skills: S.optional(__S(870, __c27, 6)),
-          miscKeywords: S.optional(__S(888, __c27, 24)),
-          braggingRights: S.optional(__S(870, __c27, 6)),
-          clientData: S.optional(__S(890, __c27, 26)),
-          coverPhotos: S.optional(__S(892, __c27, 28)),
-          ageRanges: S.optional(__S(894, __c27, 30)),
-          relationshipInterests: S.optional(__S(896, __c28, 0)),
-          urls: S.optional(__S(852, __c26, 20)),
-        }).pipe(
+        S.Extend(
+          __S(897, __c28, 1),
+          S.Struct({
+            sources: S.optional(__S(832, __c26, 0).pipe(T.Query())),
+            updatePersonFields: S.optional(S.String.pipe(T.Query())),
+            resourceName: S.String.pipe(T.Label()),
+            personFields: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+resourceName}:updateContact",
@@ -2357,11 +2174,19 @@ function __c20(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          resourceName: S.String.pipe(T.Label()),
           sources: S.optional(__S(832, __c26, 0)),
           personFields: S.optional(S.String),
           photoBytes: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "UpdateContactPhotoRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(640, __c20, 0),
+          S.Struct({
+            resourceName: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+resourceName}:updateContactPhoto",
@@ -2387,7 +2212,11 @@ function __c21(j: number): any {
           contacts: S.optional(__S(673, __c21, 1)),
           readMask: S.optional(S.String),
           sources: S.optional(__S(832, __c26, 0)),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "BatchCreateContactsRequest" });
+    case 3:
+      return S.suspend(() =>
+        S.Extend(__S(674, __c21, 2), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/people:batchCreateContacts",
@@ -2395,7 +2224,7 @@ function __c21(j: number): any {
           }),
         ),
       ).annotate({ identifier: "BatchCreateContactsPeopleRequest" });
-    case 3:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           createdPeople: S.optional(__S(704, __c22, 0)),
@@ -2896,7 +2725,11 @@ function __c29(j: number): any {
       return S.suspend(() =>
         S.Struct({
           resourceNames: S.optional(__S(736, __c23, 0)),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "BatchDeleteContactsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(__S(928, __c29, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/people:batchDeleteContacts",
@@ -2991,7 +2824,11 @@ function __c33(j: number): any {
           readMask: S.optional(S.String),
           sources: S.optional(__S(832, __c26, 0)),
           updateMask: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "BatchUpdateContactsRequest" });
+    case 2:
+      return S.suspend(() =>
+        S.Extend(__S(1057, __c33, 1), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/people:batchUpdateContacts",
@@ -2999,12 +2836,12 @@ function __c33(j: number): any {
           }),
         ),
       ).annotate({ identifier: "BatchUpdateContactsPeopleRequest" });
-    case 2:
-      return S.Record(S.String, __S(800, __c25, 0));
     case 3:
+      return S.Record(S.String, __S(800, __c25, 0));
+    case 4:
       return S.suspend(() =>
         S.Struct({
-          updateResult: S.optional(__S(1058, __c33, 2)),
+          updateResult: S.optional(__S(1059, __c33, 3)),
         }),
       ).annotate({ identifier: "BatchUpdateContactsResponse" });
   }
@@ -3014,11 +2851,19 @@ function __c34(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          resourceName: S.String.pipe(T.Label()),
           readMask: S.optional(S.String),
           sources: S.optional(__S(832, __c26, 0)),
           copyMask: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "CopyOtherContactToMyContactsGroupRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(1088, __c34, 0),
+          S.Struct({
+            resourceName: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resourceName}:copyOtherContactToMyContactsGroup",
@@ -3035,7 +2880,11 @@ function __c35(j: number): any {
         S.Struct({
           readGroupFields: S.optional(S.String),
           contactGroup: S.optional(__S(1027, __c32, 3)),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "CreateContactGroupRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(__S(1120, __c35, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/contactGroups",

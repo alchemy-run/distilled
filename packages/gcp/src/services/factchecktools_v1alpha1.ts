@@ -138,20 +138,6 @@ export interface GoogleFactcheckingFactchecktoolsV1alpha1ClaimReviewAuthor {
   /** Name of the organization that is publishing the fact check. Corresponds to `ClaimReview.author.name`. */
   name?: string | undefined;
 }
-export interface CreatePagesRequest {
-  /** A list of individual claim reviews for this page. Each item in the list corresponds to one `ClaimReview` element. */
-  claimReviewMarkups?: GoogleFactcheckingFactchecktoolsV1alpha1ClaimReviewMarkupList | undefined;
-  /** The URL of the page associated with this `ClaimReview` markup. While every individual `ClaimReview` has its own URL field, semantically this is a page-level field, and each `ClaimReview` on this page will use this value unless individually overridden. Corresponds to `ClaimReview.url` */
-  pageUrl?: string | undefined;
-  /** Info about the author of this claim review. Similar to the above, semantically these are page-level fields, and each `ClaimReview` on this page will contain the same values. */
-  claimReviewAuthor?: GoogleFactcheckingFactchecktoolsV1alpha1ClaimReviewAuthor | undefined;
-  /** The date when the fact check was published. Similar to the URL, semantically this is a page-level field, and each `ClaimReview` on this page will contain the same value. Corresponds to `ClaimReview.datePublished` */
-  publishDate?: string | undefined;
-  /** The name of this `ClaimReview` markup page resource, in the form of `pages/{page_id}`. Except for update requests, this field is output-only and should not be set by the user. */
-  name?: string | undefined;
-  /** The version ID for this markup. Except for update requests, this field is output-only and should not be set by the user. */
-  versionId?: string | undefined;
-}
 /** Holds one or more instances of `ClaimReview` markup for a webpage. */
 export interface GoogleFactcheckingFactchecktoolsV1alpha1ClaimReviewMarkupPage {
   /** A list of individual claim reviews for this page. Each item in the list corresponds to one `ClaimReview` element. */
@@ -167,6 +153,7 @@ export interface GoogleFactcheckingFactchecktoolsV1alpha1ClaimReviewMarkupPage {
   /** The version ID for this markup. Except for update requests, this field is output-only and should not be set by the user. */
   versionId?: string | undefined;
 }
+export interface CreatePagesRequest extends GoogleFactcheckingFactchecktoolsV1alpha1ClaimReviewMarkupPage {}
 export interface DeletePagesRequest {
   /** The name of the resource to delete, in the form of `pages/{page_id}`. */
   name: string;
@@ -288,19 +275,12 @@ export interface GoogleFactcheckingFactchecktoolsV1alpha1FactCheckedClaimSearchR
   /** The next pagination token in the Search response. It should be used as the `page_token` for the following request. An empty value means no more results. */
   nextPageToken?: string | undefined;
 }
-export interface UpdatePagesRequest {
+export interface UpdatePagesRequest extends Omit<
+  GoogleFactcheckingFactchecktoolsV1alpha1ClaimReviewMarkupPage,
+  "name"
+> {
   /** The name of this `ClaimReview` markup page resource, in the form of `pages/{page_id}`. Except for update requests, this field is output-only and should not be set by the user. */
   name: string;
-  /** A list of individual claim reviews for this page. Each item in the list corresponds to one `ClaimReview` element. */
-  claimReviewMarkups?: GoogleFactcheckingFactchecktoolsV1alpha1ClaimReviewMarkupList | undefined;
-  /** The URL of the page associated with this `ClaimReview` markup. While every individual `ClaimReview` has its own URL field, semantically this is a page-level field, and each `ClaimReview` on this page will use this value unless individually overridden. Corresponds to `ClaimReview.url` */
-  pageUrl?: string | undefined;
-  /** Info about the author of this claim review. Similar to the above, semantically these are page-level fields, and each `ClaimReview` on this page will contain the same values. */
-  claimReviewAuthor?: GoogleFactcheckingFactchecktoolsV1alpha1ClaimReviewAuthor | undefined;
-  /** The date when the fact check was published. Similar to the URL, semantically this is a page-level field, and each `ClaimReview` on this page will contain the same value. Corresponds to `ClaimReview.datePublished` */
-  publishDate?: string | undefined;
-  /** The version ID for this markup. Except for update requests, this field is output-only and should not be set by the user. */
-  versionId?: string | undefined;
 }
 export type CreatePagesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
 /** Create `ClaimReview` markup on a page. */
@@ -456,14 +436,12 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          claimReviewMarkups: S.optional(__S(20, __c2, 4)),
-          pageUrl: S.optional(S.String),
-          claimReviewAuthor: S.optional(__S(21, __c2, 5)),
-          publishDate: S.optional(S.String),
-          versionId: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(22, __c2, 6),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "v1alpha1/{+name}",
@@ -477,14 +455,7 @@ function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          claimReviewMarkups: S.optional(__S(20, __c2, 4)),
-          pageUrl: S.optional(S.String),
-          claimReviewAuthor: S.optional(__S(21, __c2, 5)),
-          publishDate: S.optional(S.String),
-          name: S.optional(S.String),
-          versionId: S.optional(S.String),
-        }).pipe(
+        S.Extend(__S(22, __c2, 6), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/pages",

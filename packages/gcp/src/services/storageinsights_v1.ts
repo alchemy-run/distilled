@@ -158,13 +158,8 @@ export interface SourceProjects {
   /** Optional. The list of project numbers to include in the dataset. */
   projectNumbers?: StringList | undefined;
 }
-export interface CreateProjectsLocationsDatasetConfigsRequest {
-  /** Required. Value for parent. */
-  parent: string;
-  /** Optional. A unique identifier for your request. Specify the request ID if you need to retry the request. If you retry the request with the same ID within 60 minutes, the server ignores the request if it has already completed the original request. For example, if your initial request times out and you retry the request using the same request ID, the server recognizes the original request and does not process the new request. The request ID must be a valid UUID and cannot be a zero UUID (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Required. ID of the requesting object. If auto-generating ID is enabled on the server-side, remove this field and `dataset_config_id` from the method_signature of Create RPC Note: The value should not contain any hyphens. */
-  datasetConfigId?: string | undefined;
+/** Message describing the dataset configuration properties. For more information, see [Dataset configuration properties](https://cloud.google.com/storage/docs/insights/datasets#dataset-config). */
+export interface DatasetConfig {
   /** Defines the options for providing a source organization for the dataset. */
   organizationScope?: boolean | undefined;
   /** Cloud Storage buckets to include in the dataset. */
@@ -211,6 +206,14 @@ export interface CreateProjectsLocationsDatasetConfigsRequest {
   description?: string | undefined;
   /** Defines the options for providing source projects for the dataset. */
   sourceProjects?: SourceProjects | undefined;
+}
+export interface CreateProjectsLocationsDatasetConfigsRequest extends DatasetConfig {
+  /** Required. Value for parent. */
+  parent: string;
+  /** Optional. A unique identifier for your request. Specify the request ID if you need to retry the request. If you retry the request with the same ID within 60 minutes, the server ignores the request if it has already completed the original request. For example, if your initial request times out and you retry the request using the same request ID, the server recognizes the original request and does not process the new request. The request ID must be a valid UUID and cannot be a zero UUID (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+  /** Required. ID of the requesting object. If auto-generating ID is enabled on the server-side, remove this field and `dataset_config_id` from the method_signature of Create RPC Note: The value should not contain any hyphens. */
+  datasetConfigId?: string | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
@@ -276,30 +279,6 @@ export interface ObjectMetadataReportOptions {
   /** Optional. The metadata fields included in an inventory report. */
   metadataFields?: StringList | undefined;
 }
-export interface CreateProjectsLocationsReportConfigsRequest {
-  /** Optional. A unique identifier for your request. Specify the request ID if you need to retry the request. If you retry the request with the same ID within 60 minutes, the server ignores the request if it has already completed the original request. For example, if your initial request times out and you retry the request using the same request ID, the server recognizes the original request and does not process the new request. The request ID must be a valid UUID and cannot be a zero UUID (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Required. Value for parent. */
-  parent: string;
-  /** Optional. The frequency of the inventory report generation. */
-  frequencyOptions?: FrequencyOptions | undefined;
-  /** Optional. User provided display name that can be empty and limited to 256 characters that is editable.. */
-  displayName?: string | undefined;
-  /** Optional. Labels as key value pairs */
-  labels?: StringMap | undefined;
-  /** Identifier. Name of resource. Format: `projects/{project_id}/locations/{location}/reportConfigs/{report-config-id}`. */
-  name?: string | undefined;
-  /** Options for CSV formatted reports. */
-  csvOptions?: CSVOptions | undefined;
-  /** Options for Parquet formatted reports. */
-  parquetOptions?: CancelOperationRequest | undefined;
-  /** Options for including object metadata in an inventory report. */
-  objectMetadataReportOptions?: ObjectMetadataReportOptions | undefined;
-  /** Output only. The UTC time at which the inventory report configuration was updated. This is auto-populated. */
-  updateTime?: string | undefined;
-  /** Output only. The UTC time at which the inventory report configuration was created. This is auto-populated. */
-  createTime?: string | undefined;
-}
 /** Message describing the `ReportConfig` object. `ReportConfig` is the configuration used to generate inventory reports. For information about how to set various fields, see [Create an inventory report configuration](https://cloud.google.com/storage/docs/insights/using-inventory-reports#create-report-config). */
 export interface ReportConfig {
   /** Optional. The frequency of the inventory report generation. */
@@ -320,6 +299,12 @@ export interface ReportConfig {
   updateTime?: string | undefined;
   /** Output only. The UTC time at which the inventory report configuration was created. This is auto-populated. */
   createTime?: string | undefined;
+}
+export interface CreateProjectsLocationsReportConfigsRequest extends ReportConfig {
+  /** Optional. A unique identifier for your request. Specify the request ID if you need to retry the request. If you retry the request with the same ID within 60 minutes, the server ignores the request if it has already completed the original request. For example, if your initial request times out and you retry the request using the same request ID, the server recognizes the original request and does not process the new request. The request ID must be a valid UUID and cannot be a zero UUID (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+  /** Required. Value for parent. */
+  parent: string;
 }
 export interface DeleteProjectsLocationsDatasetConfigsRequest {
   /** Optional. A unique identifier for your request. Specify the request ID if you need to retry the request. If you retry the request with the same ID within 60 minutes, the server ignores the request if it has already completed the original request. For example, if your initial request times out and you retry the request using the same request ID, the server recognizes the original request and does not process the new request. The request ID must be a valid UUID and cannot be a zero UUID (00000000-0000-0000-0000-000000000000). */
@@ -359,55 +344,6 @@ export interface Location {
 export interface GetProjectsLocationsDatasetConfigsRequest {
   /** Required. Name of the resource */
   name: string;
-}
-/** Message describing the dataset configuration properties. For more information, see [Dataset configuration properties](https://cloud.google.com/storage/docs/insights/datasets#dataset-config). */
-export interface DatasetConfig {
-  /** Defines the options for providing a source organization for the dataset. */
-  organizationScope?: boolean | undefined;
-  /** Cloud Storage buckets to include in the dataset. */
-  includeCloudStorageBuckets?: CloudStorageBuckets | undefined;
-  /** Optional. Labels as key value pairs */
-  labels?: StringMap | undefined;
-  /** Identifier. name of resource */
-  name?: string | undefined;
-  /** Optional. If set to `false`, then all the permission checks must be successful before the system can start ingesting data. This field can only be updated before the system ingests data for the first time. Any attempt to modify the field after data ingestion starts results in an error. */
-  skipVerificationAndIngest?: boolean | undefined;
-  /** Optional. Identity used by this `datasetConfig`. */
-  identity?: Identity | undefined;
-  /** Output only. The UTC time at which the dataset configuration was created. This is auto-populated. */
-  createTime?: string | undefined;
-  /** Cloud Storage locations to include in the dataset. */
-  includeCloudStorageLocations?: CloudStorageLocations | undefined;
-  /** Output only. The UTC time at which the dataset configuration was last updated. This is auto-populated. */
-  updateTime?: string | undefined;
-  /** Defines the options for providing source folders for the dataset. */
-  sourceFolders?: SourceFolders | undefined;
-  /** Output only. Status of the `datasetConfig`. */
-  status?: Status | undefined;
-  /** Optional. Organization resource ID that the source projects should belong to. Projects that do not belong to the provided organization are not considered when creating the dataset. */
-  organizationNumber?: string | undefined;
-  /** Cloud Storage buckets to exclude from the dataset. */
-  excludeCloudStorageBuckets?: CloudStorageBuckets | undefined;
-  /** Output only. State of the `datasetConfig`. */
-  datasetConfigState?: DatasetConfigDatasetConfigStateEnum | undefined;
-  /** Optional. Number of days of history that must be retained. */
-  retentionPeriodDays?: number | undefined;
-  /** Optional. If set to `true`, the request includes all the newly created buckets in the dataset that meet the inclusion and exclusion rules. */
-  includeNewlyCreatedBuckets?: boolean | undefined;
-  /** Optional. When set, overrides the retention period for activity data. Otherwise, the `retention_period_days` value is used for activity data as well. */
-  activityDataRetentionPeriodDays?: number | undefined;
-  /** Input only. Cloud Storage object path containing a list of project or folder numbers to include in the dataset; it cannot contain a mix of project and folders. The object must be a text file where each line has one of the following entries: - Project number, formatted as `projects/{project_number}`, for example, `projects/1234567890`. - Folder identifier, formatted as `folders/{folder_number}`, for example, `folders/9876543210`. Path must be in the format `gs://{bucket_name}/{object_name}`. */
-  cloudStorageObjectPath?: string | undefined;
-  /** Output only. System generated unique identifier for the resource. */
-  uid?: string | undefined;
-  /** Output only. Details of the linked dataset. */
-  link?: Link | undefined;
-  /** Cloud Storage locations to exclude from the dataset. */
-  excludeCloudStorageLocations?: CloudStorageLocations | undefined;
-  /** Optional. A user-provided description for the dataset configuration. Maximum length: 256 characters. */
-  description?: string | undefined;
-  /** Defines the options for providing source projects for the dataset. */
-  sourceProjects?: SourceProjects | undefined;
 }
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
@@ -589,81 +525,21 @@ export interface ListReportDetailsResponse {
   /** Locations that could not be reached. */
   unreachable?: StringList | undefined;
 }
-export interface PatchProjectsLocationsDatasetConfigsRequest {
+export interface PatchProjectsLocationsDatasetConfigsRequest extends Omit<DatasetConfig, "name"> {
   /** Optional. A unique identifier for your request. Specify the request ID if you need to retry the request. If you retry the request with the same ID within 60 minutes, the server ignores the request if it has already completed the original request. For example, if your initial request times out and you retry the request using the same request ID, the server recognizes the original request and does not process the new request. The request ID must be a valid UUID and cannot be a zero UUID (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Required. Field mask is used to specify the fields to be overwritten in the `DatasetConfig` resource by the update. The fields specified in the `update_mask` are relative to the resource, not the full request. A field is overwritten if it is in the mask. If the user does not provide a mask then it returns an "Invalid Argument" error. */
   updateMask?: string | undefined;
   /** Identifier. name of resource */
   name: string;
-  /** Defines the options for providing a source organization for the dataset. */
-  organizationScope?: boolean | undefined;
-  /** Cloud Storage buckets to include in the dataset. */
-  includeCloudStorageBuckets?: CloudStorageBuckets | undefined;
-  /** Optional. Labels as key value pairs */
-  labels?: StringMap | undefined;
-  /** Optional. If set to `false`, then all the permission checks must be successful before the system can start ingesting data. This field can only be updated before the system ingests data for the first time. Any attempt to modify the field after data ingestion starts results in an error. */
-  skipVerificationAndIngest?: boolean | undefined;
-  /** Optional. Identity used by this `datasetConfig`. */
-  identity?: Identity | undefined;
-  /** Output only. The UTC time at which the dataset configuration was created. This is auto-populated. */
-  createTime?: string | undefined;
-  /** Cloud Storage locations to include in the dataset. */
-  includeCloudStorageLocations?: CloudStorageLocations | undefined;
-  /** Output only. The UTC time at which the dataset configuration was last updated. This is auto-populated. */
-  updateTime?: string | undefined;
-  /** Defines the options for providing source folders for the dataset. */
-  sourceFolders?: SourceFolders | undefined;
-  /** Output only. Status of the `datasetConfig`. */
-  status?: Status | undefined;
-  /** Optional. Organization resource ID that the source projects should belong to. Projects that do not belong to the provided organization are not considered when creating the dataset. */
-  organizationNumber?: string | undefined;
-  /** Cloud Storage buckets to exclude from the dataset. */
-  excludeCloudStorageBuckets?: CloudStorageBuckets | undefined;
-  /** Output only. State of the `datasetConfig`. */
-  datasetConfigState?: DatasetConfigDatasetConfigStateEnum | (string & {}) | undefined;
-  /** Optional. Number of days of history that must be retained. */
-  retentionPeriodDays?: number | undefined;
-  /** Optional. If set to `true`, the request includes all the newly created buckets in the dataset that meet the inclusion and exclusion rules. */
-  includeNewlyCreatedBuckets?: boolean | undefined;
-  /** Optional. When set, overrides the retention period for activity data. Otherwise, the `retention_period_days` value is used for activity data as well. */
-  activityDataRetentionPeriodDays?: number | undefined;
-  /** Input only. Cloud Storage object path containing a list of project or folder numbers to include in the dataset; it cannot contain a mix of project and folders. The object must be a text file where each line has one of the following entries: - Project number, formatted as `projects/{project_number}`, for example, `projects/1234567890`. - Folder identifier, formatted as `folders/{folder_number}`, for example, `folders/9876543210`. Path must be in the format `gs://{bucket_name}/{object_name}`. */
-  cloudStorageObjectPath?: string | undefined;
-  /** Output only. System generated unique identifier for the resource. */
-  uid?: string | undefined;
-  /** Output only. Details of the linked dataset. */
-  link?: Link | undefined;
-  /** Cloud Storage locations to exclude from the dataset. */
-  excludeCloudStorageLocations?: CloudStorageLocations | undefined;
-  /** Optional. A user-provided description for the dataset configuration. Maximum length: 256 characters. */
-  description?: string | undefined;
-  /** Defines the options for providing source projects for the dataset. */
-  sourceProjects?: SourceProjects | undefined;
 }
-export interface PatchProjectsLocationsReportConfigsRequest {
+export interface PatchProjectsLocationsReportConfigsRequest extends Omit<ReportConfig, "name"> {
   /** Required. A mask specifying a list of fields to be updated in the `ReportConfig` resource. The fields specified in the `update_mask` are relative to the resource, not the full request. A field is overwritten if it is in the mask. The `update_mask` is required. */
   updateMask?: string | undefined;
   /** Optional. A unique identifier for your request. Specify the request ID if you need to retry the request. If you retry the request with the same ID within 60 minutes, the server ignores the request if it has already completed the original request. For example, if your initial request times out and you retry the request using the same request ID, the server recognizes the original request and does not process the new request. The request ID must be a valid UUID and cannot be a zero UUID (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Identifier. Name of resource. Format: `projects/{project_id}/locations/{location}/reportConfigs/{report-config-id}`. */
   name: string;
-  /** Optional. The frequency of the inventory report generation. */
-  frequencyOptions?: FrequencyOptions | undefined;
-  /** Optional. User provided display name that can be empty and limited to 256 characters that is editable.. */
-  displayName?: string | undefined;
-  /** Optional. Labels as key value pairs */
-  labels?: StringMap | undefined;
-  /** Options for CSV formatted reports. */
-  csvOptions?: CSVOptions | undefined;
-  /** Options for Parquet formatted reports. */
-  parquetOptions?: CancelOperationRequest | undefined;
-  /** Options for including object metadata in an inventory report. */
-  objectMetadataReportOptions?: ObjectMetadataReportOptions | undefined;
-  /** Output only. The UTC time at which the inventory report configuration was updated. This is auto-populated. */
-  updateTime?: string | undefined;
-  /** Output only. The UTC time at which the inventory report configuration was created. This is auto-populated. */
-  createTime?: string | undefined;
 }
 /** Request message for `UnlinkDataset` */
 export type UnlinkDatasetRequest = CancelOperationRequest;
@@ -686,8 +562,8 @@ export const cancelProjectsLocationsOperations: API.OperationMethod<
   CancelProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(136, __c17, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
-  output: __S(144, __c18, 0) as any as S.Schema<Empty>,
+  input: __S(256, __c16, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
+  output: __S(272, __c17, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -708,8 +584,8 @@ export const createProjectsLocationsDatasetConfigs: API.OperationMethod<
   CreateProjectsLocationsDatasetConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(152, __c19, 0) as any as S.Schema<CreateProjectsLocationsDatasetConfigsRequest>,
-  output: __S(200, __c25, 0) as any as S.Schema<Operation>,
+  input: __S(288, __c18, 0) as any as S.Schema<CreateProjectsLocationsDatasetConfigsRequest>,
+  output: __S(384, __c24, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -730,8 +606,8 @@ export const createProjectsLocationsReportConfigs: API.OperationMethod<
   CreateProjectsLocationsReportConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c26, 0) as any as S.Schema<CreateProjectsLocationsReportConfigsRequest>,
-  output: __S(222, __c27, 6) as any as S.Schema<ReportConfig>,
+  input: __S(400, __c25, 0) as any as S.Schema<CreateProjectsLocationsReportConfigsRequest>,
+  output: __S(422, __c26, 6) as any as S.Schema<ReportConfig>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -752,8 +628,8 @@ export const deleteProjectsLocationsDatasetConfigs: API.OperationMethod<
   DeleteProjectsLocationsDatasetConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c28, 0) as any as S.Schema<DeleteProjectsLocationsDatasetConfigsRequest>,
-  output: __S(200, __c25, 0) as any as S.Schema<Operation>,
+  input: __S(432, __c27, 0) as any as S.Schema<DeleteProjectsLocationsDatasetConfigsRequest>,
+  output: __S(384, __c24, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -774,8 +650,8 @@ export const deleteProjectsLocationsOperations: API.OperationMethod<
   DeleteProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(232, __c29, 0) as any as S.Schema<DeleteProjectsLocationsOperationsRequest>,
-  output: __S(144, __c18, 0) as any as S.Schema<Empty>,
+  input: __S(448, __c28, 0) as any as S.Schema<DeleteProjectsLocationsOperationsRequest>,
+  output: __S(272, __c17, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -796,8 +672,8 @@ export const deleteProjectsLocationsReportConfigs: API.OperationMethod<
   DeleteProjectsLocationsReportConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c30, 0) as any as S.Schema<DeleteProjectsLocationsReportConfigsRequest>,
-  output: __S(144, __c18, 0) as any as S.Schema<Empty>,
+  input: __S(464, __c29, 0) as any as S.Schema<DeleteProjectsLocationsReportConfigsRequest>,
+  output: __S(272, __c17, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -814,7 +690,7 @@ export const getProjectsLocations: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<GetProjectsLocationsRequest>,
-  output: __S(8, __c1, 0) as any as S.Schema<Location>,
+  output: __S(16, __c1, 0) as any as S.Schema<Location>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -830,8 +706,8 @@ export const getProjectsLocationsDatasetConfigs: API.OperationMethod<
   GetProjectsLocationsDatasetConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c2, 0) as any as S.Schema<GetProjectsLocationsDatasetConfigsRequest>,
-  output: __S(24, __c3, 0) as any as S.Schema<DatasetConfig>,
+  input: __S(32, __c2, 0) as any as S.Schema<GetProjectsLocationsDatasetConfigsRequest>,
+  output: __S(312, __c19, 8) as any as S.Schema<DatasetConfig>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -847,8 +723,8 @@ export const getProjectsLocationsOperations: API.OperationMethod<
   GetProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c4, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
-  output: __S(200, __c25, 0) as any as S.Schema<Operation>,
+  input: __S(48, __c3, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
+  output: __S(384, __c24, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -864,8 +740,8 @@ export const getProjectsLocationsReportConfigs: API.OperationMethod<
   GetProjectsLocationsReportConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<GetProjectsLocationsReportConfigsRequest>,
-  output: __S(222, __c27, 6) as any as S.Schema<ReportConfig>,
+  input: __S(64, __c4, 0) as any as S.Schema<GetProjectsLocationsReportConfigsRequest>,
+  output: __S(422, __c26, 6) as any as S.Schema<ReportConfig>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -881,8 +757,8 @@ export const getProjectsLocationsReportConfigsReportDetails: API.OperationMethod
   GetProjectsLocationsReportConfigsReportDetailsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c6, 0) as any as S.Schema<GetProjectsLocationsReportConfigsReportDetailsRequest>,
-  output: __S(59, __c7, 3) as any as S.Schema<ReportDetail>,
+  input: __S(80, __c5, 0) as any as S.Schema<GetProjectsLocationsReportConfigsReportDetailsRequest>,
+  output: __S(99, __c6, 3) as any as S.Schema<ReportDetail>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -903,8 +779,8 @@ export const linkDatasetProjectsLocationsDatasetConfigs: API.OperationMethod<
   LinkDatasetProjectsLocationsDatasetConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c8, 0) as any as S.Schema<LinkDatasetProjectsLocationsDatasetConfigsRequest>,
-  output: __S(200, __c25, 0) as any as S.Schema<Operation>,
+  input: __S(112, __c7, 0) as any as S.Schema<LinkDatasetProjectsLocationsDatasetConfigsRequest>,
+  output: __S(384, __c24, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -921,8 +797,8 @@ export const listProjectsLocations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListLocationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(72, __c9, 0) as any as S.Schema<ListProjectsLocationsRequest>,
-  output: __S(74, __c9, 2) as any as S.Schema<ListLocationsResponse>,
+  input: __S(128, __c8, 0) as any as S.Schema<ListProjectsLocationsRequest>,
+  output: __S(130, __c8, 2) as any as S.Schema<ListLocationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -940,8 +816,8 @@ export const listProjectsLocationsDatasetConfigs: API.PaginatedOperationMethod<
   GcpOpContext,
   ListDatasetConfigsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(80, __c10, 0) as any as S.Schema<ListProjectsLocationsDatasetConfigsRequest>,
-  output: __S(82, __c10, 2) as any as S.Schema<ListDatasetConfigsResponse>,
+  input: __S(144, __c9, 0) as any as S.Schema<ListProjectsLocationsDatasetConfigsRequest>,
+  output: __S(146, __c9, 2) as any as S.Schema<ListDatasetConfigsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -959,8 +835,8 @@ export const listProjectsLocationsOperations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListOperationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(88, __c11, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
-  output: __S(90, __c11, 2) as any as S.Schema<ListOperationsResponse>,
+  input: __S(160, __c10, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
+  output: __S(162, __c10, 2) as any as S.Schema<ListOperationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -978,8 +854,8 @@ export const listProjectsLocationsReportConfigs: API.PaginatedOperationMethod<
   GcpOpContext,
   ListReportConfigsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(96, __c12, 0) as any as S.Schema<ListProjectsLocationsReportConfigsRequest>,
-  output: __S(98, __c12, 2) as any as S.Schema<ListReportConfigsResponse>,
+  input: __S(176, __c11, 0) as any as S.Schema<ListProjectsLocationsReportConfigsRequest>,
+  output: __S(178, __c11, 2) as any as S.Schema<ListReportConfigsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1001,11 +877,11 @@ export const listProjectsLocationsReportConfigsReportDetails: API.PaginatedOpera
   ListReportDetailsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    104,
-    __c13,
+    192,
+    __c12,
     0,
   ) as any as S.Schema<ListProjectsLocationsReportConfigsReportDetailsRequest>,
-  output: __S(106, __c13, 2) as any as S.Schema<ListReportDetailsResponse>,
+  output: __S(194, __c12, 2) as any as S.Schema<ListReportDetailsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1027,8 +903,8 @@ export const patchProjectsLocationsDatasetConfigs: API.OperationMethod<
   PatchProjectsLocationsDatasetConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c14, 0) as any as S.Schema<PatchProjectsLocationsDatasetConfigsRequest>,
-  output: __S(200, __c25, 0) as any as S.Schema<Operation>,
+  input: __S(208, __c13, 0) as any as S.Schema<PatchProjectsLocationsDatasetConfigsRequest>,
+  output: __S(384, __c24, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1049,8 +925,8 @@ export const patchProjectsLocationsReportConfigs: API.OperationMethod<
   PatchProjectsLocationsReportConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(120, __c15, 0) as any as S.Schema<PatchProjectsLocationsReportConfigsRequest>,
-  output: __S(222, __c27, 6) as any as S.Schema<ReportConfig>,
+  input: __S(224, __c14, 0) as any as S.Schema<PatchProjectsLocationsReportConfigsRequest>,
+  output: __S(422, __c26, 6) as any as S.Schema<ReportConfig>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1071,8 +947,8 @@ export const unlinkDatasetProjectsLocationsDatasetConfigs: API.OperationMethod<
   UnlinkDatasetProjectsLocationsDatasetConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c16, 0) as any as S.Schema<UnlinkDatasetProjectsLocationsDatasetConfigsRequest>,
-  output: __S(200, __c25, 0) as any as S.Schema<Operation>,
+  input: __S(240, __c15, 0) as any as S.Schema<UnlinkDatasetProjectsLocationsDatasetConfigsRequest>,
+  output: __S(384, __c24, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1103,9 +979,9 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           displayName: S.optional(S.String),
-          labels: S.optional(__S(168, __c21, 0)),
+          labels: S.optional(__S(320, __c20, 0)),
           name: S.optional(S.String),
-          metadata: S.optional(__S(184, __c23, 0)),
+          metadata: S.optional(__S(352, __c22, 0)),
           locationId: S.optional(S.String),
         }),
       ).annotate({ identifier: "Location" });
@@ -1132,31 +1008,15 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          organizationScope: S.optional(S.Boolean),
-          includeCloudStorageBuckets: S.optional(__S(162, __c20, 2)),
-          labels: S.optional(__S(168, __c21, 0)),
-          name: S.optional(S.String),
-          skipVerificationAndIngest: S.optional(S.Boolean),
-          identity: S.optional(__S(163, __c20, 3)),
-          createTime: S.optional(S.String),
-          includeCloudStorageLocations: S.optional(__S(164, __c20, 4)),
-          updateTime: S.optional(S.String),
-          sourceFolders: S.optional(__S(165, __c20, 5)),
-          status: S.optional(__S(193, __c24, 1)),
-          organizationNumber: S.optional(S.String),
-          excludeCloudStorageBuckets: S.optional(__S(162, __c20, 2)),
-          datasetConfigState: S.optional(S.String),
-          retentionPeriodDays: S.optional(S.Number),
-          includeNewlyCreatedBuckets: S.optional(S.Boolean),
-          activityDataRetentionPeriodDays: S.optional(S.Number),
-          cloudStorageObjectPath: S.optional(S.String),
-          uid: S.optional(S.String),
-          link: S.optional(__S(166, __c20, 6)),
-          excludeCloudStorageLocations: S.optional(__S(164, __c20, 4)),
-          description: S.optional(S.String),
-          sourceProjects: S.optional(__S(167, __c20, 7)),
-        }),
-      ).annotate({ identifier: "DatasetConfig" });
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1/{+name}",
+            baseUrl: "https://storageinsights.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "GetProjectsLocationsOperationsRequest" });
   }
 }
 function __c4(j: number): any {
@@ -1172,7 +1032,7 @@ function __c4(j: number): any {
             baseUrl: "https://storageinsights.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsOperationsRequest" });
+      ).annotate({ identifier: "GetProjectsLocationsReportConfigsRequest" });
   }
 }
 function __c5(j: number): any {
@@ -1188,26 +1048,10 @@ function __c5(j: number): any {
             baseUrl: "https://storageinsights.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsReportConfigsRequest" });
-  }
-}
-function __c6(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v1/{+name}",
-            baseUrl: "https://storageinsights.googleapis.com/",
-          }),
-        ),
       ).annotate({ identifier: "GetProjectsLocationsReportConfigsReportDetailsRequest" });
   }
 }
-function __c7(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1227,7 +1071,7 @@ function __c7(j: number): any {
           utcOffset: S.optional(S.String),
           minutes: S.optional(S.Number),
           year: S.optional(S.Number),
-          timeZone: S.optional(__S(56, __c7, 0)),
+          timeZone: S.optional(__S(96, __c6, 0)),
         }),
       ).annotate({ identifier: "DateTime" });
     case 2:
@@ -1239,25 +1083,25 @@ function __c7(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          targetDatetime: S.optional(__S(57, __c7, 1)),
+          targetDatetime: S.optional(__S(97, __c6, 1)),
           reportPathPrefix: S.optional(S.String),
-          reportMetrics: S.optional(__S(58, __c7, 2)),
+          reportMetrics: S.optional(__S(98, __c6, 2)),
           name: S.optional(S.String),
-          labels: S.optional(__S(168, __c21, 0)),
-          status: S.optional(__S(193, __c24, 1)),
+          labels: S.optional(__S(320, __c20, 0)),
+          status: S.optional(__S(369, __c23, 1)),
           shardsCount: S.optional(S.String),
           snapshotTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "ReportDetail" });
   }
 }
-function __c8(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(144, __c18, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(272, __c17, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1268,7 +1112,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "LinkDatasetProjectsLocationsDatasetConfigsRequest" });
   }
 }
-function __c9(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1277,7 +1121,7 @@ function __c9(j: number): any {
           filter: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          extraLocationTypes: S.optional(__S(176, __c22, 0).pipe(T.Query())),
+          extraLocationTypes: S.optional(__S(336, __c21, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1287,17 +1131,17 @@ function __c9(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsRequest" });
     case 1:
-      return S.Array(__S(8, __c1, 0));
+      return S.Array(__S(16, __c1, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          locations: S.optional(__S(73, __c9, 1)),
+          locations: S.optional(__S(129, __c8, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListLocationsResponse" });
   }
 }
-function __c10(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1316,18 +1160,18 @@ function __c10(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsDatasetConfigsRequest" });
     case 1:
-      return S.Array(__S(24, __c3, 0));
+      return S.Array(__S(312, __c19, 8));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          datasetConfigs: S.optional(__S(81, __c10, 1)),
-          unreachable: S.optional(__S(176, __c22, 0)),
+          datasetConfigs: S.optional(__S(145, __c9, 1)),
+          unreachable: S.optional(__S(336, __c21, 0)),
         }),
       ).annotate({ identifier: "ListDatasetConfigsResponse" });
   }
 }
-function __c11(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1346,18 +1190,18 @@ function __c11(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsOperationsRequest" });
     case 1:
-      return S.Array(__S(200, __c25, 0));
+      return S.Array(__S(384, __c24, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          operations: S.optional(__S(89, __c11, 1)),
-          unreachable: S.optional(__S(176, __c22, 0)),
+          operations: S.optional(__S(161, __c10, 1)),
+          unreachable: S.optional(__S(336, __c21, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
   }
 }
-function __c12(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1376,18 +1220,18 @@ function __c12(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsReportConfigsRequest" });
     case 1:
-      return S.Array(__S(222, __c27, 6));
+      return S.Array(__S(422, __c26, 6));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          reportConfigs: S.optional(__S(97, __c12, 1)),
-          unreachable: S.optional(__S(176, __c22, 0)),
+          reportConfigs: S.optional(__S(177, __c11, 1)),
+          unreachable: S.optional(__S(336, __c21, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListReportConfigsResponse" });
   }
 }
-function __c13(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1406,48 +1250,29 @@ function __c13(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsReportConfigsReportDetailsRequest" });
     case 1:
-      return S.Array(__S(59, __c7, 3));
+      return S.Array(__S(99, __c6, 3));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          reportDetails: S.optional(__S(105, __c13, 1)),
+          reportDetails: S.optional(__S(193, __c12, 1)),
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(176, __c22, 0)),
+          unreachable: S.optional(__S(336, __c21, 0)),
         }),
       ).annotate({ identifier: "ListReportDetailsResponse" });
   }
 }
-function __c14(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          organizationScope: S.optional(S.Boolean),
-          includeCloudStorageBuckets: S.optional(__S(162, __c20, 2)),
-          labels: S.optional(__S(168, __c21, 0)),
-          skipVerificationAndIngest: S.optional(S.Boolean),
-          identity: S.optional(__S(163, __c20, 3)),
-          createTime: S.optional(S.String),
-          includeCloudStorageLocations: S.optional(__S(164, __c20, 4)),
-          updateTime: S.optional(S.String),
-          sourceFolders: S.optional(__S(165, __c20, 5)),
-          status: S.optional(__S(193, __c24, 1)),
-          organizationNumber: S.optional(S.String),
-          excludeCloudStorageBuckets: S.optional(__S(162, __c20, 2)),
-          datasetConfigState: S.optional(S.String),
-          retentionPeriodDays: S.optional(S.Number),
-          includeNewlyCreatedBuckets: S.optional(S.Boolean),
-          activityDataRetentionPeriodDays: S.optional(S.Number),
-          cloudStorageObjectPath: S.optional(S.String),
-          uid: S.optional(S.String),
-          link: S.optional(__S(166, __c20, 6)),
-          excludeCloudStorageLocations: S.optional(__S(164, __c20, 4)),
-          description: S.optional(S.String),
-          sourceProjects: S.optional(__S(167, __c20, 7)),
-        }).pipe(
+        S.Extend(
+          __S(312, __c19, 8),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -1457,23 +1282,18 @@ function __c14(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsDatasetConfigsRequest" });
   }
 }
-function __c15(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          frequencyOptions: S.optional(__S(217, __c27, 1)),
-          displayName: S.optional(S.String),
-          labels: S.optional(__S(168, __c21, 0)),
-          csvOptions: S.optional(__S(218, __c27, 2)),
-          parquetOptions: S.optional(__S(144, __c18, 0)),
-          objectMetadataReportOptions: S.optional(__S(221, __c27, 5)),
-          updateTime: S.optional(S.String),
-          createTime: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(422, __c26, 6),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -1483,13 +1303,13 @@ function __c15(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsReportConfigsRequest" });
   }
 }
-function __c16(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(144, __c18, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(272, __c17, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1500,13 +1320,13 @@ function __c16(j: number): any {
       ).annotate({ identifier: "UnlinkDatasetProjectsLocationsDatasetConfigsRequest" });
   }
 }
-function __c17(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(144, __c18, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(272, __c17, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1517,44 +1337,24 @@ function __c17(j: number): any {
       ).annotate({ identifier: "CancelProjectsLocationsOperationsRequest" });
   }
 }
-function __c18(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "CancelOperationRequest" });
   }
 }
-function __c19(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          datasetConfigId: S.optional(S.String.pipe(T.Query())),
-          organizationScope: S.optional(S.Boolean),
-          includeCloudStorageBuckets: S.optional(__S(162, __c20, 2)),
-          labels: S.optional(__S(168, __c21, 0)),
-          name: S.optional(S.String),
-          skipVerificationAndIngest: S.optional(S.Boolean),
-          identity: S.optional(__S(163, __c20, 3)),
-          createTime: S.optional(S.String),
-          includeCloudStorageLocations: S.optional(__S(164, __c20, 4)),
-          updateTime: S.optional(S.String),
-          sourceFolders: S.optional(__S(165, __c20, 5)),
-          status: S.optional(__S(193, __c24, 1)),
-          organizationNumber: S.optional(S.String),
-          excludeCloudStorageBuckets: S.optional(__S(162, __c20, 2)),
-          datasetConfigState: S.optional(S.String),
-          retentionPeriodDays: S.optional(S.Number),
-          includeNewlyCreatedBuckets: S.optional(S.Boolean),
-          activityDataRetentionPeriodDays: S.optional(S.Number),
-          cloudStorageObjectPath: S.optional(S.String),
-          uid: S.optional(S.String),
-          link: S.optional(__S(166, __c20, 6)),
-          excludeCloudStorageLocations: S.optional(__S(164, __c20, 4)),
-          description: S.optional(S.String),
-          sourceProjects: S.optional(__S(167, __c20, 7)),
-        }).pipe(
+        S.Extend(
+          __S(312, __c19, 8),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            datasetConfigId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/datasetConfigs",
@@ -1564,7 +1364,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsDatasetConfigsRequest" });
   }
 }
-function __c20(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1574,11 +1374,11 @@ function __c20(j: number): any {
         }),
       ).annotate({ identifier: "CloudStorageBucket" });
     case 1:
-      return S.Array(__S(160, __c20, 0));
+      return S.Array(__S(304, __c19, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          cloudStorageBuckets: S.optional(__S(161, __c20, 1)),
+          cloudStorageBuckets: S.optional(__S(305, __c19, 1)),
         }),
       ).annotate({ identifier: "CloudStorageBuckets" });
     case 3:
@@ -1591,13 +1391,13 @@ function __c20(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          locations: S.optional(__S(176, __c22, 0)),
+          locations: S.optional(__S(336, __c21, 0)),
         }),
       ).annotate({ identifier: "CloudStorageLocations" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          folderNumbers: S.optional(__S(176, __c22, 0)),
+          folderNumbers: S.optional(__S(336, __c21, 0)),
         }),
       ).annotate({ identifier: "SourceFolders" });
     case 6:
@@ -1610,74 +1410,96 @@ function __c20(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          projectNumbers: S.optional(__S(176, __c22, 0)),
+          projectNumbers: S.optional(__S(336, __c21, 0)),
         }),
       ).annotate({ identifier: "SourceProjects" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          organizationScope: S.optional(S.Boolean),
+          includeCloudStorageBuckets: S.optional(__S(306, __c19, 2)),
+          labels: S.optional(__S(320, __c20, 0)),
+          name: S.optional(S.String),
+          skipVerificationAndIngest: S.optional(S.Boolean),
+          identity: S.optional(__S(307, __c19, 3)),
+          createTime: S.optional(S.String),
+          includeCloudStorageLocations: S.optional(__S(308, __c19, 4)),
+          updateTime: S.optional(S.String),
+          sourceFolders: S.optional(__S(309, __c19, 5)),
+          status: S.optional(__S(369, __c23, 1)),
+          organizationNumber: S.optional(S.String),
+          excludeCloudStorageBuckets: S.optional(__S(306, __c19, 2)),
+          datasetConfigState: S.optional(S.String),
+          retentionPeriodDays: S.optional(S.Number),
+          includeNewlyCreatedBuckets: S.optional(S.Boolean),
+          activityDataRetentionPeriodDays: S.optional(S.Number),
+          cloudStorageObjectPath: S.optional(S.String),
+          uid: S.optional(S.String),
+          link: S.optional(__S(310, __c19, 6)),
+          excludeCloudStorageLocations: S.optional(__S(308, __c19, 4)),
+          description: S.optional(S.String),
+          sourceProjects: S.optional(__S(311, __c19, 7)),
+        }),
+      ).annotate({ identifier: "DatasetConfig" });
   }
 }
-function __c21(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
   }
 }
-function __c22(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c23(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c24(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(184, __c23, 0));
+      return S.Array(__S(352, __c22, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          details: S.optional(__S(192, __c24, 0)),
+          details: S.optional(__S(368, __c23, 0)),
           code: S.optional(S.Number),
           message: S.optional(S.String),
         }),
       ).annotate({ identifier: "Status" });
   }
 }
-function __c25(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          response: S.optional(__S(184, __c23, 0)),
+          response: S.optional(__S(352, __c22, 0)),
           name: S.optional(S.String),
           done: S.optional(S.Boolean),
-          metadata: S.optional(__S(184, __c23, 0)),
-          error: S.optional(__S(193, __c24, 1)),
+          metadata: S.optional(__S(352, __c22, 0)),
+          error: S.optional(__S(369, __c23, 1)),
         }),
       ).annotate({ identifier: "Operation" });
   }
 }
-function __c26(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          frequencyOptions: S.optional(__S(217, __c27, 1)),
-          displayName: S.optional(S.String),
-          labels: S.optional(__S(168, __c21, 0)),
-          name: S.optional(S.String),
-          csvOptions: S.optional(__S(218, __c27, 2)),
-          parquetOptions: S.optional(__S(144, __c18, 0)),
-          objectMetadataReportOptions: S.optional(__S(221, __c27, 5)),
-          updateTime: S.optional(S.String),
-          createTime: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(422, __c26, 6),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/reportConfigs",
@@ -1687,7 +1509,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsReportConfigsRequest" });
   }
 }
-function __c27(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1700,9 +1522,9 @@ function __c27(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          endDate: S.optional(__S(216, __c27, 0)),
+          endDate: S.optional(__S(416, __c26, 0)),
           frequency: S.optional(S.String),
-          startDate: S.optional(__S(216, __c27, 0)),
+          startDate: S.optional(__S(416, __c26, 0)),
         }),
       ).annotate({ identifier: "FrequencyOptions" });
     case 2:
@@ -1729,28 +1551,28 @@ function __c27(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          storageDestinationOptions: S.optional(__S(219, __c27, 3)),
-          storageFilters: S.optional(__S(220, __c27, 4)),
-          metadataFields: S.optional(__S(176, __c22, 0)),
+          storageDestinationOptions: S.optional(__S(419, __c26, 3)),
+          storageFilters: S.optional(__S(420, __c26, 4)),
+          metadataFields: S.optional(__S(336, __c21, 0)),
         }),
       ).annotate({ identifier: "ObjectMetadataReportOptions" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          frequencyOptions: S.optional(__S(217, __c27, 1)),
+          frequencyOptions: S.optional(__S(417, __c26, 1)),
           displayName: S.optional(S.String),
-          labels: S.optional(__S(168, __c21, 0)),
+          labels: S.optional(__S(320, __c20, 0)),
           name: S.optional(S.String),
-          csvOptions: S.optional(__S(218, __c27, 2)),
-          parquetOptions: S.optional(__S(144, __c18, 0)),
-          objectMetadataReportOptions: S.optional(__S(221, __c27, 5)),
+          csvOptions: S.optional(__S(418, __c26, 2)),
+          parquetOptions: S.optional(__S(272, __c17, 0)),
+          objectMetadataReportOptions: S.optional(__S(421, __c26, 5)),
           updateTime: S.optional(S.String),
           createTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "ReportConfig" });
   }
 }
-function __c28(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1767,7 +1589,7 @@ function __c28(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsDatasetConfigsRequest" });
   }
 }
-function __c29(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1783,7 +1605,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsOperationsRequest" });
   }
 }
-function __c30(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

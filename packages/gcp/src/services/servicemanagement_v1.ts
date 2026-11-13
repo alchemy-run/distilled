@@ -125,12 +125,14 @@ export class ServiceSoftDeleted
     [{ status: 400, message: { includes: "has been deleted and will be purged" } }],
   ) {}
 
-export interface CreateServicesRequest {
+/** The full representation of a Service that is managed by Google Service Management. */
+export interface ManagedService {
   /** ID of the project that produces and owns this service. */
   producerProjectId?: string | undefined;
   /** The name of the service. See the [overview](https://cloud.google.com/service-infrastructure/docs/overview) for naming requirements. */
   serviceName?: string | undefined;
 }
+export interface CreateServicesRequest extends ManagedService {}
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
@@ -1066,68 +1068,6 @@ export interface Authentication {
   /** A list of authentication rules that apply to individual API methods. **NOTE:** All service configuration rules follow "last one wins" order. */
   rules?: AuthenticationRuleList | undefined;
 }
-export interface CreateServicesConfigsRequest {
-  /** Required. The name of the service. See the [overview](https://cloud.google.com/service-management/overview) for naming requirements. For example: `example.googleapis.com`. */
-  serviceName: string;
-  /** Billing configuration. */
-  billing?: Billing | undefined;
-  /** Configuration controlling usage of this service. */
-  usage?: Usage | undefined;
-  /** Configuration aspects. This is a repeated field to allow multiple aspects to be configured. The kind field in each ConfigAspect specifies the type of aspect. The spec field contains the configuration for that aspect. The schema for the spec field is defined by the backend service owners. */
-  aspects?: AspectList | undefined;
-  /** Configuration for the service control plane. */
-  control?: Control | undefined;
-  /** Monitoring configuration. */
-  monitoring?: Monitoring | undefined;
-  /** HTTP configuration. */
-  http?: Http | undefined;
-  /** Custom error configuration. */
-  customError?: CustomError | undefined;
-  /** Quota configuration. */
-  quota?: Quota | undefined;
-  /** Defines the monitored resources used by this service. This is required by the `Service.monitoring` and `Service.logging` configurations. */
-  monitoredResources?: MonitoredResourceDescriptorList | undefined;
-  /** A list of all enum types included in this API service. Enums referenced directly or indirectly by the `apis` are automatically included. Enums which are not referenced but shall be included should be listed here by name by the configuration author. Example: enums: - name: google.someapi.v1.SomeEnum */
-  enums?: EnumList | undefined;
-  /** Defines the logs used by this service. */
-  logs?: LogDescriptorList | undefined;
-  /** A unique ID for a specific instance of this message, typically assigned by the client for tracking purpose. Must be no longer than 63 characters and only lower case letters, digits, '.', '_' and '-' are allowed. If empty, the server may choose to generate one instead. */
-  id?: string | undefined;
-  /** The service name, which is a DNS-like logical identifier for the service, such as `calendar.googleapis.com`. The service name typically goes through DNS verification to make sure the owner of the service also owns the DNS name. */
-  name?: string | undefined;
-  /** The Google project that owns this service. */
-  producerProjectId?: string | undefined;
-  /** Additional API documentation. */
-  documentation?: Documentation | undefined;
-  /** Logging configuration. */
-  logging?: Logging | undefined;
-  /** A list of API interfaces exported by this service. Only the `name` field of the google.protobuf.Api needs to be provided by the configuration author, as the remaining fields will be derived from the IDL during the normalization process. It is an error to specify an API interface here which cannot be resolved against the associated IDL files. */
-  apis?: ApiList | undefined;
-  /** Output only. The source information for this configuration if available. */
-  sourceInfo?: SourceInfo | undefined;
-  /** Context configuration. */
-  context?: Context | undefined;
-  /** Settings for [Google Cloud Client libraries](https://cloud.google.com/apis/docs/cloud-client-libraries) generated from APIs defined as protocol buffers. */
-  publishing?: Publishing | undefined;
-  /** Defines the metrics used by this service. */
-  metrics?: MetricDescriptorList | undefined;
-  /** A list of all proto message types included in this API service. It serves similar purpose as [google.api.Service.types], except that these types are not needed by user-defined APIs. Therefore, they will not show up in the generated discovery doc. This field should only be used to define system APIs in ESF. */
-  systemTypes?: TypeList | undefined;
-  /** The product title for this service, it is the name displayed in Google Cloud Console. */
-  title?: string | undefined;
-  /** System parameter configuration. */
-  systemParameters?: SystemParameters | undefined;
-  /** Configuration for network endpoints. If this is empty, then an endpoint with the same name as the service is automatically generated to service all defined APIs. */
-  endpoints?: EndpointList | undefined;
-  /** API backend configuration. */
-  backend?: Backend | undefined;
-  /** Obsolete. Do not use. This field has no semantic meaning. The service config compiler always sets this field to `3`. */
-  configVersion?: number | undefined;
-  /** A list of all proto message types included in this API service. Types referenced directly or indirectly by the `apis` are automatically included. Messages which are not referenced but shall be included, such as types used by the `google.protobuf.Any` type, should be listed here by name by the configuration author. Example: types: - name: google.protobuf.Int32 */
-  types?: TypeList | undefined;
-  /** Auth configuration. */
-  authentication?: Authentication | undefined;
-}
 /** `Service` is the root object of Google API service configuration (service config). It describes the basic information about a logical service, such as the service name and the user-facing title, and delegates other aspects to sub-sections. Each sub-section is either a proto message or a repeated proto message that configures a specific aspect, such as auth. For more information, see each proto message definition. Example: type: google.api.Service name: calendar.googleapis.com title: Google Calendar API apis: - name: google.calendar.v3.Calendar visibility: rules: - selector: "google.calendar.v3.*" restriction: PREVIEW backend: rules: - selector: "google.calendar.v3.*" address: calendar.example.com authentication: providers: - id: google_calendar_auth jwks_uri: https://www.googleapis.com/oauth2/v1/certs issuer: https://securetoken.google.com rules: - selector: "*" requirements: provider_id: google_calendar_auth */
 export interface Service {
   /** Billing configuration. */
@@ -1189,6 +1129,10 @@ export interface Service {
   /** Auth configuration. */
   authentication?: Authentication | undefined;
 }
+export interface CreateServicesConfigsRequest extends Service {
+  /** Required. The name of the service. See the [overview](https://cloud.google.com/service-management/overview) for naming requirements. For example: `example.googleapis.com`. */
+  serviceName: string;
+}
 export type RolloutStatusEnum =
   | "ROLLOUT_STATUS_UNSPECIFIED"
   | "IN_PROGRESS"
@@ -1205,13 +1149,14 @@ export interface TrafficPercentStrategy {
   /** Maps service configuration IDs to their corresponding traffic percentage. Key is the service configuration ID, Value is the traffic percentage which must be greater than 0.0 and the sum must equal to 100.0. */
   percentages?: DoubleMap | undefined;
 }
-export interface CreateServicesRolloutsRequest {
-  /** Required. The name of the service. See the [overview](https://cloud.google.com/service-management/overview) for naming requirements. For example: `example.googleapis.com`. */
-  serviceName: string;
+/** A rollout resource that defines how service configuration versions are pushed to control plane systems. Typically, you create a new version of the service config, and then create a Rollout to push the service config. */
+export interface Rollout {
   /** The status of this rollout. Readonly. In case of a failed rollout, the system will automatically rollback to the current Rollout version. Readonly. */
   status?: RolloutStatusEnum | (string & {}) | undefined;
   /** Creation time of the rollout. Readonly. */
   createTime?: string | undefined;
+  /** The name of the service associated with this Rollout. */
+  serviceName?: string | undefined;
   /** The strategy associated with a rollout to delete a `ManagedService`. Readonly. */
   deleteServiceStrategy?: DeleteServiceStrategy | undefined;
   /** Optional. Unique identifier of this Rollout. Must be no longer than 63 characters and only lower case letters, digits, '.', '_' and '-' are allowed. If not specified by client, the server will generate one. The generated id will have the form of , where "date" is the create date in ISO 8601 format. "revision number" is a monotonically increasing positive number that is reset every day for each service. An example of the generated rollout_id is '2016-02-16r1' */
@@ -1221,16 +1166,22 @@ export interface CreateServicesRolloutsRequest {
   /** Google Service Control selects service configurations based on traffic percentage. */
   trafficPercentStrategy?: TrafficPercentStrategy | undefined;
 }
+export interface CreateServicesRolloutsRequest extends Omit<Rollout, "serviceName"> {
+  /** Required. The name of the service. See the [overview](https://cloud.google.com/service-management/overview) for naming requirements. For example: `example.googleapis.com`. */
+  serviceName: string;
+}
 export interface DeleteServicesRequest {
   /** Required. The name of the service. See the [overview](https://cloud.google.com/service-management/overview) for naming requirements. For example: `example.googleapis.com`. */
   serviceName: string;
 }
-export interface GenerateConfigReportServicesRequest {
+/** Request message for GenerateConfigReport method. */
+export interface GenerateConfigReportRequest {
   /** Required. Service configuration for which we want to generate the report. For this version of API, the supported types are google.api.servicemanagement.v1.ConfigRef, google.api.servicemanagement.v1.ConfigSource, and google.api.Service */
   newConfig?: DocumentMap | undefined;
   /** Optional. Service configuration against which the comparison will be done. For this version of API, the supported types are google.api.servicemanagement.v1.ConfigRef, google.api.servicemanagement.v1.ConfigSource, and google.api.Service */
   oldConfig?: DocumentMap | undefined;
 }
+export interface GenerateConfigReportServicesRequest extends GenerateConfigReportRequest {}
 export type ConfigChangeChangeTypeEnum =
   | "CHANGE_TYPE_UNSPECIFIED"
   | "ADDED"
@@ -1298,11 +1249,14 @@ export interface GetPolicyOptions {
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   requestedPolicyVersion?: number | undefined;
 }
-export interface GetIamPolicyServicesRequest {
-  /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
+/** Request message for `GetIamPolicy` method. */
+export interface GetIamPolicyRequest {
   /** OPTIONAL: A `GetPolicyOptions` object for specifying options to `GetIamPolicy`. */
   options?: GetPolicyOptions | undefined;
+}
+export interface GetIamPolicyServicesRequest extends GetIamPolicyRequest {
+  /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
 }
 /** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
 export interface Expr {
@@ -1357,11 +1311,9 @@ export interface Policy {
   /** `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An `etag` is returned in the response to `getIamPolicy`, and systems are expected to put that etag in the request to `setIamPolicy` to ensure that their change will be applied to the same version of the policy. **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. */
   etag?: string | undefined;
 }
-export interface GetIamPolicyServicesConsumersRequest {
+export interface GetIamPolicyServicesConsumersRequest extends GetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** OPTIONAL: A `GetPolicyOptions` object for specifying options to `GetIamPolicy`. */
-  options?: GetPolicyOptions | undefined;
 }
 export interface GetOperationsRequest {
   /** The name of the operation resource. */
@@ -1370,13 +1322,6 @@ export interface GetOperationsRequest {
 export interface GetServicesRequest {
   /** Required. The name of the service. See the `ServiceManager` overview for naming requirements. For example: `example.googleapis.com`. */
   serviceName: string;
-}
-/** The full representation of a Service that is managed by Google Service Management. */
-export interface ManagedService {
-  /** ID of the project that produces and owns this service. */
-  producerProjectId?: string | undefined;
-  /** The name of the service. See the [overview](https://cloud.google.com/service-infrastructure/docs/overview) for naming requirements. */
-  serviceName?: string | undefined;
 }
 export type GetServicesConfigsViewEnum = "BASIC" | "FULL";
 export interface GetServicesConfigsRequest {
@@ -1392,23 +1337,6 @@ export interface GetServicesRolloutsRequest {
   serviceName: string;
   /** Required. The id of the rollout resource. */
   rolloutId: string;
-}
-/** A rollout resource that defines how service configuration versions are pushed to control plane systems. Typically, you create a new version of the service config, and then create a Rollout to push the service config. */
-export interface Rollout {
-  /** The status of this rollout. Readonly. In case of a failed rollout, the system will automatically rollback to the current Rollout version. Readonly. */
-  status?: RolloutStatusEnum | undefined;
-  /** Creation time of the rollout. Readonly. */
-  createTime?: string | undefined;
-  /** The name of the service associated with this Rollout. */
-  serviceName?: string | undefined;
-  /** The strategy associated with a rollout to delete a `ManagedService`. Readonly. */
-  deleteServiceStrategy?: DeleteServiceStrategy | undefined;
-  /** Optional. Unique identifier of this Rollout. Must be no longer than 63 characters and only lower case letters, digits, '.', '_' and '-' are allowed. If not specified by client, the server will generate one. The generated id will have the form of , where "date" is the create date in ISO 8601 format. "revision number" is a monotonically increasing positive number that is reset every day for each service. An example of the generated rollout_id is '2016-02-16r1' */
-  rolloutId?: string | undefined;
-  /** The user who created the Rollout. Readonly. */
-  createdBy?: string | undefined;
-  /** Google Service Control selects service configurations based on traffic percentage. */
-  trafficPercentStrategy?: TrafficPercentStrategy | undefined;
 }
 export interface ListOperationsRequest {
   /** The standard list page token. */
@@ -1484,21 +1412,20 @@ export interface ListServiceRolloutsResponse {
   /** The token of the next page of results. */
   nextPageToken?: string | undefined;
 }
-export interface SetIamPolicyServicesRequest {
-  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
+/** Request message for `SetIamPolicy` method. */
+export interface SetIamPolicyRequest {
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
   policy?: Policy | undefined;
   /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
   updateMask?: string | undefined;
 }
-export interface SetIamPolicyServicesConsumersRequest {
+export interface SetIamPolicyServicesRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
-  policy?: Policy | undefined;
-  /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
-  updateMask?: string | undefined;
+}
+export interface SetIamPolicyServicesConsumersRequest extends SetIamPolicyRequest {
+  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
 }
 export type ConfigFileFileTypeEnum =
   | "FILE_TYPE_UNSPECIFIED"
@@ -1524,30 +1451,34 @@ export interface ConfigSource {
   /** A unique ID for a specific instance of this message, typically assigned by the client for tracking purpose. If empty, the server may choose to generate one instead. */
   id?: string | undefined;
 }
-export interface SubmitServicesConfigsRequest {
-  /** Required. The name of the service. See the [overview](https://cloud.google.com/service-management/overview) for naming requirements. For example: `example.googleapis.com`. */
-  serviceName: string;
+/** Request message for SubmitConfigSource method. */
+export interface SubmitConfigSourceRequest {
   /** Required. The source configuration for the service. */
   configSource?: ConfigSource | undefined;
   /** Optional. If set, this will result in the generation of a `google.api.Service` configuration based on the `ConfigSource` provided, but the generated config and the sources will NOT be persisted. */
   validateOnly?: boolean | undefined;
 }
-export interface TestIamPermissionsServicesRequest {
-  /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
+export interface SubmitServicesConfigsRequest extends SubmitConfigSourceRequest {
+  /** Required. The name of the service. See the [overview](https://cloud.google.com/service-management/overview) for naming requirements. For example: `example.googleapis.com`. */
+  serviceName: string;
+}
+/** Request message for `TestIamPermissions` method. */
+export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: StringList | undefined;
+}
+export interface TestIamPermissionsServicesRequest extends TestIamPermissionsRequest {
+  /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsServicesConsumersRequest {
+export interface TestIamPermissionsServicesConsumersRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
-  permissions?: StringList | undefined;
 }
 export interface UndeleteServicesRequest {
   /** Required. The name of the service. See the [overview](https://cloud.google.com/service-management/overview) for naming requirements. For example: `example.googleapis.com`. */
@@ -1567,7 +1498,7 @@ export const createServices: API.OperationMethod<
   CreateServicesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c24, 0) as any as S.Schema<CreateServicesRequest>,
+  input: __S(736, __c23, 0) as any as S.Schema<CreateServicesRequest>,
   output: __S(865, __c27, 1) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceSoftDeleted, UnknownGCPError],
   protocol: GcpProtocol,
@@ -1652,8 +1583,8 @@ export const generateConfigReportServices: API.OperationMethod<
   GenerateConfigReportServicesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c1, 0) as any as S.Schema<GenerateConfigReportServicesRequest>,
-  output: __S(41, __c1, 9) as any as S.Schema<GenerateConfigReportResponse>,
+  input: __S(33, __c1, 1) as any as S.Schema<GenerateConfigReportServicesRequest>,
+  output: __S(42, __c1, 10) as any as S.Schema<GenerateConfigReportResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1743,7 +1674,7 @@ export const getServices: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c8, 0) as any as S.Schema<GetServicesRequest>,
-  output: __S(288, __c9, 0) as any as S.Schema<ManagedService>,
+  output: __S(768, __c24, 0) as any as S.Schema<ManagedService>,
   errors: [NotFound, Forbidden, ServiceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1759,7 +1690,7 @@ export const getServicesConfigs: API.OperationMethod<
   GetServicesConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c10, 0) as any as S.Schema<GetServicesConfigsRequest>,
+  input: __S(288, __c9, 0) as any as S.Schema<GetServicesConfigsRequest>,
   output: __S(1067, __c33, 11) as any as S.Schema<Service>,
   errors: [NotFound, Forbidden, ServiceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
@@ -1776,8 +1707,8 @@ export const getServicesRollouts: API.OperationMethod<
   GetServicesRolloutsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c11, 0) as any as S.Schema<GetServicesRolloutsRequest>,
-  output: __S(384, __c12, 0) as any as S.Schema<Rollout>,
+  input: __S(320, __c10, 0) as any as S.Schema<GetServicesRolloutsRequest>,
+  output: __S(1123, __c35, 3) as any as S.Schema<Rollout>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1794,8 +1725,8 @@ export const listOperations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListOperationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(416, __c13, 0) as any as S.Schema<ListOperationsRequest>,
-  output: __S(418, __c13, 2) as any as S.Schema<ListOperationsResponse>,
+  input: __S(352, __c11, 0) as any as S.Schema<ListOperationsRequest>,
+  output: __S(354, __c11, 2) as any as S.Schema<ListOperationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1813,8 +1744,8 @@ export const listServices: API.PaginatedOperationMethod<
   GcpOpContext,
   ListServicesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(448, __c14, 0) as any as S.Schema<ListServicesRequest>,
-  output: __S(450, __c14, 2) as any as S.Schema<ListServicesResponse>,
+  input: __S(384, __c12, 0) as any as S.Schema<ListServicesRequest>,
+  output: __S(386, __c12, 2) as any as S.Schema<ListServicesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1832,8 +1763,8 @@ export const listServicesConfigs: API.PaginatedOperationMethod<
   GcpOpContext,
   ListServiceConfigsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(480, __c15, 0) as any as S.Schema<ListServicesConfigsRequest>,
-  output: __S(482, __c15, 2) as any as S.Schema<ListServiceConfigsResponse>,
+  input: __S(416, __c13, 0) as any as S.Schema<ListServicesConfigsRequest>,
+  output: __S(418, __c13, 2) as any as S.Schema<ListServiceConfigsResponse>,
   errors: [NotFound, Forbidden, ServiceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1851,8 +1782,8 @@ export const listServicesRollouts: API.PaginatedOperationMethod<
   GcpOpContext,
   ListServiceRolloutsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(512, __c16, 0) as any as S.Schema<ListServicesRolloutsRequest>,
-  output: __S(514, __c16, 2) as any as S.Schema<ListServiceRolloutsResponse>,
+  input: __S(448, __c14, 0) as any as S.Schema<ListServicesRolloutsRequest>,
+  output: __S(450, __c14, 2) as any as S.Schema<ListServiceRolloutsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1869,7 +1800,7 @@ export const setIamPolicyServices: API.OperationMethod<
   SetIamPolicyServicesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c17, 0) as any as S.Schema<SetIamPolicyServicesRequest>,
+  input: __S(480, __c15, 0) as any as S.Schema<SetIamPolicyServicesRequest>,
   output: __S(167, __c5, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -1891,7 +1822,7 @@ export const setIamPolicyServicesConsumers: API.OperationMethod<
   SetIamPolicyServicesConsumersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c18, 0) as any as S.Schema<SetIamPolicyServicesConsumersRequest>,
+  input: __S(544, __c17, 0) as any as S.Schema<SetIamPolicyServicesConsumersRequest>,
   output: __S(167, __c5, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -1908,7 +1839,7 @@ export const submitServicesConfigs: API.OperationMethod<
   SubmitServicesConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(611, __c19, 3) as any as S.Schema<SubmitServicesConfigsRequest>,
+  input: __S(580, __c18, 4) as any as S.Schema<SubmitServicesConfigsRequest>,
   output: __S(865, __c27, 1) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -1930,8 +1861,8 @@ export const testIamPermissionsServices: API.OperationMethod<
   TestIamPermissionsServicesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c20, 0) as any as S.Schema<TestIamPermissionsServicesRequest>,
-  output: __S(672, __c21, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  input: __S(608, __c19, 0) as any as S.Schema<TestIamPermissionsServicesRequest>,
+  output: __S(640, __c20, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1952,8 +1883,8 @@ export const testIamPermissionsServicesConsumers: API.OperationMethod<
   TestIamPermissionsServicesConsumersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c22, 0) as any as S.Schema<TestIamPermissionsServicesConsumersRequest>,
-  output: __S(672, __c21, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  input: __S(672, __c21, 0) as any as S.Schema<TestIamPermissionsServicesConsumersRequest>,
+  output: __S(640, __c20, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1976,7 +1907,7 @@ export const undeleteServices: API.OperationMethod<
   UndeleteServicesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c23, 0) as any as S.Schema<UndeleteServicesRequest>,
+  input: __S(704, __c22, 0) as any as S.Schema<UndeleteServicesRequest>,
   output: __S(865, __c27, 1) as any as S.Schema<Operation>,
   errors: [
     NotFound,
@@ -2017,7 +1948,11 @@ function __c1(j: number): any {
         S.Struct({
           newConfig: S.optional(__S(800, __c25, 0)),
           oldConfig: S.optional(__S(800, __c25, 0)),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "GenerateConfigReportRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(__S(32, __c1, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/services:generateConfigReport",
@@ -2025,35 +1960,35 @@ function __c1(j: number): any {
           }),
         ),
       ).annotate({ identifier: "GenerateConfigReportServicesRequest" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
         }),
       ).annotate({ identifier: "Advice" });
-    case 2:
-      return S.Array(__S(33, __c1, 1));
     case 3:
+      return S.Array(__S(34, __c1, 2));
+    case 4:
       return S.suspend(() =>
         S.Struct({
           element: S.optional(S.String),
           newValue: S.optional(S.String),
           oldValue: S.optional(S.String),
           changeType: S.optional(S.String),
-          advices: S.optional(__S(34, __c1, 2)),
+          advices: S.optional(__S(35, __c1, 3)),
         }),
       ).annotate({ identifier: "ConfigChange" });
-    case 4:
-      return S.Array(__S(35, __c1, 3));
     case 5:
+      return S.Array(__S(36, __c1, 4));
+    case 6:
       return S.suspend(() =>
         S.Struct({
-          configChanges: S.optional(__S(36, __c1, 4)),
+          configChanges: S.optional(__S(37, __c1, 5)),
         }),
       ).annotate({ identifier: "ChangeReport" });
-    case 6:
-      return S.Array(__S(37, __c1, 5));
     case 7:
+      return S.Array(__S(38, __c1, 6));
+    case 8:
       return S.suspend(() =>
         S.Struct({
           kind: S.optional(S.String),
@@ -2061,13 +1996,13 @@ function __c1(j: number): any {
           location: S.optional(S.String),
         }),
       ).annotate({ identifier: "Diagnostic" });
-    case 8:
-      return S.Array(__S(39, __c1, 7));
     case 9:
+      return S.Array(__S(40, __c1, 8));
+    case 10:
       return S.suspend(() =>
         S.Struct({
-          changeReports: S.optional(__S(38, __c1, 6)),
-          diagnostics: S.optional(__S(40, __c1, 8)),
+          changeReports: S.optional(__S(39, __c1, 7)),
+          diagnostics: S.optional(__S(41, __c1, 9)),
           id: S.optional(S.String),
           serviceName: S.optional(S.String),
         }),
@@ -2096,10 +2031,12 @@ function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          options: S.optional(__S(128, __c4, 0)),
-        }).pipe(
+        S.Extend(
+          __S(129, __c4, 1),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:getIamPolicy",
@@ -2117,6 +2054,12 @@ function __c4(j: number): any {
           requestedPolicyVersion: S.optional(S.Number),
         }),
       ).annotate({ identifier: "GetPolicyOptions" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          options: S.optional(__S(128, __c4, 0)),
+        }),
+      ).annotate({ identifier: "GetIamPolicyRequest" });
   }
 }
 function __c5(j: number): any {
@@ -2173,10 +2116,12 @@ function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          options: S.optional(__S(128, __c4, 0)),
-        }).pipe(
+        S.Extend(
+          __S(129, __c4, 1),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:getIamPolicy",
@@ -2223,17 +2168,6 @@ function __c9(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          producerProjectId: S.optional(S.String),
-          serviceName: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ManagedService" });
-  }
-}
-function __c10(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
           configId: S.String.pipe(T.Label()),
           view: S.optional(S.String.pipe(T.Query())),
           serviceName: S.String.pipe(T.Label()),
@@ -2247,7 +2181,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "GetServicesConfigsRequest" });
   }
 }
-function __c11(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2264,23 +2198,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "GetServicesRolloutsRequest" });
   }
 }
-function __c12(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          status: S.optional(S.String),
-          createTime: S.optional(S.String),
-          serviceName: S.optional(S.String),
-          deleteServiceStrategy: S.optional(__S(1120, __c35, 0)),
-          rolloutId: S.optional(S.String),
-          createdBy: S.optional(S.String),
-          trafficPercentStrategy: S.optional(__S(1122, __c35, 2)),
-        }),
-      ).annotate({ identifier: "Rollout" });
-  }
-}
-function __c13(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2305,12 +2223,12 @@ function __c13(j: number): any {
         S.Struct({
           unreachable: S.optional(__S(928, __c29, 0)),
           nextPageToken: S.optional(S.String),
-          operations: S.optional(__S(417, __c13, 1)),
+          operations: S.optional(__S(353, __c11, 1)),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
   }
 }
-function __c14(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2328,17 +2246,17 @@ function __c14(j: number): any {
         ),
       ).annotate({ identifier: "ListServicesRequest" });
     case 1:
-      return S.Array(__S(288, __c9, 0));
+      return S.Array(__S(768, __c24, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          services: S.optional(__S(449, __c14, 1)),
+          services: S.optional(__S(385, __c12, 1)),
         }),
       ).annotate({ identifier: "ListServicesResponse" });
   }
 }
-function __c15(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2359,13 +2277,13 @@ function __c15(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          serviceConfigs: S.optional(__S(481, __c15, 1)),
+          serviceConfigs: S.optional(__S(417, __c13, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListServiceConfigsResponse" });
   }
 }
-function __c16(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2383,25 +2301,26 @@ function __c16(j: number): any {
         ),
       ).annotate({ identifier: "ListServicesRolloutsRequest" });
     case 1:
-      return S.Array(__S(384, __c12, 0));
+      return S.Array(__S(1123, __c35, 3));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          rollouts: S.optional(__S(513, __c16, 1)),
+          rollouts: S.optional(__S(449, __c14, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListServiceRolloutsResponse" });
   }
 }
-function __c17(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          policy: S.optional(__S(167, __c5, 7)),
-          updateMask: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(512, __c16, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -2411,15 +2330,27 @@ function __c17(j: number): any {
       ).annotate({ identifier: "SetIamPolicyServicesRequest" });
   }
 }
-function __c18(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          resource: S.String.pipe(T.Label()),
           policy: S.optional(__S(167, __c5, 7)),
           updateMask: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "SetIamPolicyRequest" });
+  }
+}
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(512, __c16, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -2429,7 +2360,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "SetIamPolicyServicesConsumersRequest" });
   }
 }
-function __c19(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2440,21 +2371,29 @@ function __c19(j: number): any {
         }),
       ).annotate({ identifier: "ConfigFile" });
     case 1:
-      return S.Array(__S(608, __c19, 0));
+      return S.Array(__S(576, __c18, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          files: S.optional(__S(609, __c19, 1)),
+          files: S.optional(__S(577, __c18, 1)),
           id: S.optional(S.String),
         }),
       ).annotate({ identifier: "ConfigSource" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          serviceName: S.String.pipe(T.Label()),
-          configSource: S.optional(__S(610, __c19, 2)),
+          configSource: S.optional(__S(578, __c18, 2)),
           validateOnly: S.optional(S.Boolean),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "SubmitConfigSourceRequest" });
+    case 4:
+      return S.suspend(() =>
+        S.Extend(
+          __S(579, __c18, 3),
+          S.Struct({
+            serviceName: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/services/{serviceName}/configs:submit",
@@ -2464,14 +2403,16 @@ function __c19(j: number): any {
       ).annotate({ identifier: "SubmitServicesConfigsRequest" });
   }
 }
-function __c20(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          permissions: S.optional(__S(928, __c29, 0)),
-        }).pipe(
+        S.Extend(
+          __S(640, __c20, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -2481,24 +2422,26 @@ function __c20(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsServicesRequest" });
   }
 }
-function __c21(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           permissions: S.optional(__S(928, __c29, 0)),
         }),
-      ).annotate({ identifier: "TestIamPermissionsResponse" });
+      ).annotate({ identifier: "TestIamPermissionsRequest" });
   }
 }
-function __c22(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          permissions: S.optional(__S(928, __c29, 0)),
-        }).pipe(
+        S.Extend(
+          __S(640, __c20, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -2508,7 +2451,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsServicesConsumersRequest" });
   }
 }
-function __c23(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2524,14 +2467,11 @@ function __c23(j: number): any {
       ).annotate({ identifier: "UndeleteServicesRequest" });
   }
 }
-function __c24(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          producerProjectId: S.optional(S.String),
-          serviceName: S.optional(S.String),
-        }).pipe(
+        S.Extend(__S(768, __c24, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/services",
@@ -2539,6 +2479,17 @@ function __c24(j: number): any {
           }),
         ),
       ).annotate({ identifier: "CreateServicesRequest" });
+  }
+}
+function __c24(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          producerProjectId: S.optional(S.String),
+          serviceName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ManagedService" });
   }
 }
 function __c25(j: number): any {
@@ -2579,38 +2530,12 @@ function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          serviceName: S.String.pipe(T.Label()),
-          billing: S.optional(__S(962, __c30, 2)),
-          usage: S.optional(__S(965, __c30, 5)),
-          aspects: S.optional(__S(969, __c30, 9)),
-          control: S.optional(__S(974, __c30, 14)),
-          monitoring: S.optional(__S(975, __c30, 15)),
-          http: S.optional(__S(979, __c30, 19)),
-          customError: S.optional(__S(982, __c30, 22)),
-          quota: S.optional(__S(988, __c30, 28)),
-          monitoredResources: S.optional(__S(992, __c31, 0)),
-          enums: S.optional(__S(999, __c31, 7)),
-          logs: S.optional(__S(1001, __c31, 9)),
-          id: S.optional(S.String),
-          name: S.optional(S.String),
-          producerProjectId: S.optional(S.String),
-          documentation: S.optional(__S(1006, __c31, 14)),
-          logging: S.optional(__S(1009, __c31, 17)),
-          apis: S.optional(__S(1015, __c31, 23)),
-          sourceInfo: S.optional(__S(1016, __c31, 24)),
-          context: S.optional(__S(1019, __c31, 27)),
-          publishing: S.optional(__S(1038, __c32, 14)),
-          metrics: S.optional(__S(1041, __c32, 17)),
-          systemTypes: S.optional(__S(1045, __c32, 21)),
-          title: S.optional(S.String),
-          systemParameters: S.optional(__S(1050, __c32, 26)),
-          endpoints: S.optional(__S(1052, __c32, 28)),
-          backend: S.optional(__S(1056, __c33, 0)),
-          configVersion: S.optional(S.Number),
-          types: S.optional(__S(1045, __c32, 21)),
-          authentication: S.optional(__S(1066, __c33, 10)),
-        }).pipe(
+        S.Extend(
+          __S(1067, __c33, 11),
+          S.Struct({
+            serviceName: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/services/{serviceName}/configs",
@@ -3368,15 +3293,12 @@ function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          serviceName: S.String.pipe(T.Label()),
-          status: S.optional(S.String),
-          createTime: S.optional(S.String),
-          deleteServiceStrategy: S.optional(__S(1120, __c35, 0)),
-          rolloutId: S.optional(S.String),
-          createdBy: S.optional(S.String),
-          trafficPercentStrategy: S.optional(__S(1122, __c35, 2)),
-        }).pipe(
+        S.Extend(
+          __S(1123, __c35, 3),
+          S.Struct({
+            serviceName: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/services/{serviceName}/rollouts",
@@ -3398,6 +3320,18 @@ function __c35(j: number): any {
           percentages: S.optional(__S(1121, __c35, 1)),
         }),
       ).annotate({ identifier: "TrafficPercentStrategy" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.optional(S.String),
+          createTime: S.optional(S.String),
+          serviceName: S.optional(S.String),
+          deleteServiceStrategy: S.optional(__S(1120, __c35, 0)),
+          rolloutId: S.optional(S.String),
+          createdBy: S.optional(S.String),
+          trafficPercentStrategy: S.optional(__S(1122, __c35, 2)),
+        }),
+      ).annotate({ identifier: "Rollout" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

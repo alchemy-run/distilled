@@ -125,18 +125,6 @@ export class SchemaRegistryRequiresCluster
     [{ status: 400, message: { includes: "is required to access the Schema Registry service" } }],
   ) {}
 
-export interface AddAclEntryProjectsLocationsClustersAclsRequest {
-  /** Required. The name of the acl to add the acl entry to. Structured like: `projects/{project}/locations/{location}/clusters/{cluster}/acls/{acl_id}`. The structure of `acl_id` defines the Resource Pattern (resource_type, resource_name, pattern_type) of the acl. See `Acl.name` for details. */
-  acl: string;
-  /** Required. The permission type. Accepted values are (case insensitive): ALLOW, DENY. */
-  permissionType?: string | undefined;
-  /** Required. The principal. Specified as Google Cloud account, with the Kafka StandardAuthorizer prefix "User:". For example: "User:test-kafka-client@test-project.iam.gserviceaccount.com". Can be the wildcard "User:*" to refer to all users. */
-  principal?: string | undefined;
-  /** Required. The operation type. Allowed values are (case insensitive): ALL, READ, WRITE, CREATE, DELETE, ALTER, DESCRIBE, CLUSTER_ACTION, DESCRIBE_CONFIGS, ALTER_CONFIGS, and IDEMPOTENT_WRITE. See https://kafka.apache.org/documentation/#operations_resources_and_protocols for valid combinations of resource_type and operation for different Kafka API requests. */
-  operation?: string | undefined;
-  /** Required. The host. Must be set to "*" for Managed Service for Apache Kafka. */
-  host?: string | undefined;
-}
 /** Represents the access granted for a given Resource Pattern in an ACL. */
 export interface AclEntry {
   /** Required. The permission type. Accepted values are (case insensitive): ALLOW, DENY. */
@@ -147,6 +135,10 @@ export interface AclEntry {
   operation?: string | undefined;
   /** Required. The host. Must be set to "*" for Managed Service for Apache Kafka. */
   host?: string | undefined;
+}
+export interface AddAclEntryProjectsLocationsClustersAclsRequest extends AclEntry {
+  /** Required. The name of the acl to add the acl entry to. Structured like: `projects/{project}/locations/{location}/clusters/{cluster}/acls/{acl_id}`. The structure of `acl_id` defines the Resource Pattern (resource_type, resource_name, pattern_type) of the acl. See `Acl.name` for details. */
+  acl: string;
 }
 export type AclEntryList = Array<AclEntry>;
 /** Represents the set of ACLs for a given Kafka Resource Pattern, which consists of resource_type, resource_name and pattern_type. */
@@ -196,9 +188,8 @@ export interface SchemaReference {
   name?: string | undefined;
 }
 export type SchemaReferenceList = Array<SchemaReference>;
-export interface CheckCompatibilityProjectsLocationsSchemaRegistriesCompatibilityRequest {
-  /** Required. The name of the resource to check compatibility for. The format is either of following: * projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/compatibility/subjects/*\/versions: Check compatibility with one or more versions of the specified subject. * projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/compatibility/subjects/{subject}/versions/{version}: Check compatibility with a specific version of the subject. */
-  name: string;
+/** Request for CheckCompatibility. */
+export interface CheckCompatibilityRequest {
   /** Optional. The schema type of the schema. */
   schemaType?: CheckCompatibilityRequestSchemaTypeEnum | (string & {}) | undefined;
   /** Required. The schema payload */
@@ -207,6 +198,10 @@ export interface CheckCompatibilityProjectsLocationsSchemaRegistriesCompatibilit
   verbose?: boolean | undefined;
   /** Optional. The schema references used by the schema. */
   references?: SchemaReferenceList | undefined;
+}
+export interface CheckCompatibilityProjectsLocationsSchemaRegistriesCompatibilityRequest extends CheckCompatibilityRequest {
+  /** Required. The name of the resource to check compatibility for. The format is either of following: * projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/compatibility/subjects/*\/versions: Check compatibility with one or more versions of the specified subject. * projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/compatibility/subjects/{subject}/versions/{version}: Check compatibility with a specific version of the subject. */
+  name: string;
 }
 export type StringList = Array<string>;
 /** Response for CheckCompatibility. */
@@ -216,17 +211,9 @@ export interface CheckCompatibilityResponse {
   /** Failure reasons if verbose = true. */
   messages?: StringList | undefined;
 }
-export interface CheckCompatibilityProjectsLocationsSchemaRegistriesContextsCompatibilityRequest {
+export interface CheckCompatibilityProjectsLocationsSchemaRegistriesContextsCompatibilityRequest extends CheckCompatibilityRequest {
   /** Required. The name of the resource to check compatibility for. The format is either of following: * projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/compatibility/subjects/*\/versions: Check compatibility with one or more versions of the specified subject. * projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/compatibility/subjects/{subject}/versions/{version}: Check compatibility with a specific version of the subject. */
   name: string;
-  /** Optional. The schema type of the schema. */
-  schemaType?: CheckCompatibilityRequestSchemaTypeEnum | (string & {}) | undefined;
-  /** Required. The schema payload */
-  schema?: string | undefined;
-  /** Optional. If true, the response will contain the compatibility check result with reasons for failed checks. The default is false. */
-  verbose?: boolean | undefined;
-  /** Optional. The schema references used by the schema. */
-  references?: SchemaReferenceList | undefined;
 }
 /** A capacity configuration of a Kafka cluster. */
 export interface CapacityConfig {
@@ -328,13 +315,8 @@ export interface GcpConfig {
   /** Required. Access configuration for the Kafka cluster. */
   accessConfig?: AccessConfig | undefined;
 }
-export interface CreateProjectsLocationsClustersRequest {
-  /** Required. The parent region in which to create the cluster. Structured like `projects/{project}/locations/{location}`. */
-  parent: string;
-  /** Required. The ID to use for the cluster, which will become the final component of the cluster's name. The ID must be 1-63 characters long, and match the regular expression `[a-z]([-a-z0-9]*[a-z0-9])?` to comply with RFC 1035. This value is structured like: `my-cluster-id`. */
-  clusterId?: string | undefined;
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID to avoid duplication of requests. If a request times out or fails, retrying with the same ID allows the server to recognize the previous attempt. For at least 60 minutes, the server ignores duplicate requests bearing the same ID. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID within 60 minutes of the last request, the server checks if an original operation with the same request ID was received. If so, the server ignores the second request. The request ID must be a valid UUID. A zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
+/** An Apache Kafka cluster deployed in a location. */
+export interface Cluster {
   /** Required. Capacity configuration for the Kafka cluster. */
   capacityConfig?: CapacityConfig | undefined;
   /** Output only. Only populated when FULL view is requested. Details of each broker in the cluster. */
@@ -372,6 +354,14 @@ export interface CreateProjectsLocationsClustersRequest {
   /** Required. Configuration properties for a Kafka cluster deployed to Google Cloud Platform. */
   gcpConfig?: GcpConfig | undefined;
 }
+export interface CreateProjectsLocationsClustersRequest extends Cluster {
+  /** Required. The parent region in which to create the cluster. Structured like `projects/{project}/locations/{location}`. */
+  parent: string;
+  /** Required. The ID to use for the cluster, which will become the final component of the cluster's name. The ID must be 1-63 characters long, and match the regular expression `[a-z]([-a-z0-9]*[a-z0-9])?` to comply with RFC 1035. This value is structured like: `my-cluster-id`. */
+  clusterId?: string | undefined;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID to avoid duplication of requests. If a request times out or fails, retrying with the same ID allows the server to recognize the previous attempt. For at least 60 minutes, the server ignores duplicate requests bearing the same ID. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID within 60 minutes of the last request, the server checks if an original operation with the same request ID was received. If so, the server ignores the second request. The request ID must be a valid UUID. A zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+}
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
@@ -396,37 +386,11 @@ export interface Operation {
   /** The error result of the operation in case of failure or cancellation. */
   error?: Status | undefined;
 }
-export interface CreateProjectsLocationsClustersAclsRequest {
+export interface CreateProjectsLocationsClustersAclsRequest extends Acl {
   /** Required. The ID to use for the acl, which will become the final component of the acl's name. The structure of `acl_id` defines the Resource Pattern (resource_type, resource_name, pattern_type) of the acl. `acl_id` is structured like one of the following: For acls on the cluster: `cluster` For acls on a single resource within the cluster: `topic/{resource_name}` `consumerGroup/{resource_name}` `transactionalId/{resource_name}` For acls on all resources that match a prefix: `topicPrefixed/{resource_name}` `consumerGroupPrefixed/{resource_name}` `transactionalIdPrefixed/{resource_name}` For acls on all resources of a given type (i.e. the wildcard literal "*"): `allTopics` (represents `topic/*`) `allConsumerGroups` (represents `consumerGroup/*`) `allTransactionalIds` (represents `transactionalId/*`) */
   aclId?: string | undefined;
   /** Required. The parent cluster in which to create the acl. Structured like `projects/{project}/locations/{location}/clusters/{cluster}`. */
   parent: string;
-  /** Optional. `etag` is used for concurrency control. An `etag` is returned in the response to `GetAcl` and `CreateAcl`. Callers are required to put that etag in the request to `UpdateAcl` to ensure that their change will be applied to the same version of the acl that exists in the Kafka Cluster. A terminal 'T' character in the etag indicates that the AclEntries were truncated; more entries for the Acl exist on the Kafka Cluster, but can't be returned in the Acl due to repeated field limits. */
-  etag?: string | undefined;
-  /** Output only. The ACL resource name derived from the name. For cluster resource_type, this is always "kafka-cluster". Can be the wildcard literal "*". */
-  resourceName?: string | undefined;
-  /** Required. The ACL entries that apply to the resource pattern. The maximum number of allowed entries 100. */
-  aclEntries?: AclEntryList | undefined;
-  /** Output only. The ACL pattern type derived from the name. One of: LITERAL, PREFIXED. */
-  patternType?: string | undefined;
-  /** Identifier. The name for the acl. Represents a single Resource Pattern. Structured like: projects/{project}/locations/{location}/clusters/{cluster}/acls/{acl_id} The structure of `acl_id` defines the Resource Pattern (resource_type, resource_name, pattern_type) of the acl. `acl_id` is structured like one of the following: For acls on the cluster: `cluster` For acls on a single resource within the cluster: `topic/{resource_name}` `consumerGroup/{resource_name}` `transactionalId/{resource_name}` For acls on all resources that match a prefix: `topicPrefixed/{resource_name}` `consumerGroupPrefixed/{resource_name}` `transactionalIdPrefixed/{resource_name}` For acls on all resources of a given type (i.e. the wildcard literal "*"): `allTopics` (represents `topic/*`) `allConsumerGroups` (represents `consumerGroup/*`) `allTransactionalIds` (represents `transactionalId/*`) */
-  name?: string | undefined;
-  /** Output only. The ACL resource type derived from the name. One of: CLUSTER, TOPIC, GROUP, TRANSACTIONAL_ID. */
-  resourceType?: string | undefined;
-}
-export interface CreateProjectsLocationsClustersTopicsRequest {
-  /** Required. The ID to use for the topic, which will become the final component of the topic's name. This value is structured like: `my-topic-name`. */
-  topicId?: string | undefined;
-  /** Required. The parent cluster in which to create the topic. Structured like `projects/{project}/locations/{location}/clusters/{cluster}`. */
-  parent: string;
-  /** Identifier. The name of the topic. The `topic` segment is used when connecting directly to the cluster. Structured like: projects/{project}/locations/{location}/clusters/{cluster}/topics/{topic} */
-  name?: string | undefined;
-  /** Optional. Configurations for the topic that are overridden from the cluster defaults. The key of the map is a Kafka topic property name, for example: `cleanup.policy`, `compression.type`. */
-  configs?: StringMap | undefined;
-  /** Required. Immutable. The number of replicas of each partition. A replication factor of 3 is recommended for high availability. */
-  replicationFactor?: number | undefined;
-  /** Required. The number of partitions this topic has. The partition count can only be increased, not decreased. Please note that if partitions are increased for a topic that has a key, the partitioning logic or the ordering of the messages will be affected. */
-  partitionCount?: number | undefined;
 }
 /** A Kafka topic in a given cluster. */
 export interface Topic {
@@ -438,6 +402,12 @@ export interface Topic {
   replicationFactor?: number | undefined;
   /** Required. The number of partitions this topic has. The partition count can only be increased, not decreased. Please note that if partitions are increased for a topic that has a key, the partitioning logic or the ordering of the messages will be affected. */
   partitionCount?: number | undefined;
+}
+export interface CreateProjectsLocationsClustersTopicsRequest extends Topic {
+  /** Required. The ID to use for the topic, which will become the final component of the topic's name. This value is structured like: `my-topic-name`. */
+  topicId?: string | undefined;
+  /** Required. The parent cluster in which to create the topic. Structured like `projects/{project}/locations/{location}/clusters/{cluster}`. */
+  parent: string;
 }
 export type ConnectClusterStateEnum =
   | "STATE_UNSPECIFIED"
@@ -467,13 +437,8 @@ export interface ConnectGcpConfig {
   /** Required. Access configuration for the Kafka Connect cluster. */
   accessConfig?: ConnectAccessConfig | undefined;
 }
-export interface CreateProjectsLocationsConnectClustersRequest {
-  /** Required. The parent project/location in which to create the Kafka Connect cluster. Structured like `projects/{project}/locations/{location}/`. */
-  parent: string;
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID to avoid duplication of requests. If a request times out or fails, retrying with the same ID allows the server to recognize the previous attempt. For at least 60 minutes, the server ignores duplicate requests bearing the same ID. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID within 60 minutes of the last request, the server checks if an original operation with the same request ID was received. If so, the server ignores the second request. The request ID must be a valid UUID. A zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Required. The ID to use for the Connect cluster, which will become the final component of the cluster's name. The ID must be 1-63 characters long, and match the regular expression `[a-z]([-a-z0-9]*[a-z0-9])?` to comply with RFC 1035. This value is structured like: `my-cluster-id`. */
-  connectClusterId?: string | undefined;
+/** An Apache Kafka Connect cluster deployed in a location. */
+export interface ConnectCluster {
   /** Optional. Reserved for future use. This field is meant for worker config overrides, but is unsupported for now. */
   config?: StringMap | undefined;
   /** Output only. The time when the cluster was last updated. */
@@ -497,6 +462,14 @@ export interface CreateProjectsLocationsConnectClustersRequest {
   /** Output only. Reserved for future use. */
   satisfiesPzi?: boolean | undefined;
 }
+export interface CreateProjectsLocationsConnectClustersRequest extends ConnectCluster {
+  /** Required. The parent project/location in which to create the Kafka Connect cluster. Structured like `projects/{project}/locations/{location}/`. */
+  parent: string;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID to avoid duplication of requests. If a request times out or fails, retrying with the same ID allows the server to recognize the previous attempt. For at least 60 minutes, the server ignores duplicate requests bearing the same ID. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID within 60 minutes of the last request, the server checks if an original operation with the same request ID was received. If so, the server ignores the second request. The request ID must be a valid UUID. A zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+  /** Required. The ID to use for the Connect cluster, which will become the final component of the cluster's name. The ID must be 1-63 characters long, and match the regular expression `[a-z]([-a-z0-9]*[a-z0-9])?` to comply with RFC 1035. This value is structured like: `my-cluster-id`. */
+  connectClusterId?: string | undefined;
+}
 export type ConnectorStateEnum =
   | "STATE_UNSPECIFIED"
   | "UNASSIGNED"
@@ -514,11 +487,8 @@ export interface TaskRetryPolicy {
   /** Optional. The minimum amount of time to wait before retrying a failed task. This sets a lower bound for the backoff delay. */
   minimumBackoff?: string | undefined;
 }
-export interface CreateProjectsLocationsConnectClustersConnectorsRequest {
-  /** Required. The parent Connect cluster in which to create the connector. Structured like `projects/{project}/locations/{location}/connectClusters/{connect_cluster_id}`. */
-  parent: string;
-  /** Required. The ID to use for the connector, which will become the final component of the connector's name. The ID must be 1-63 characters long, and match the regular expression `[a-z]([-a-z0-9]*[a-z0-9])?` to comply with RFC 1035. This value is structured like: `my-connector-id`. */
-  connectorId?: string | undefined;
+/** A Kafka Connect connector in a given ConnectCluster. */
+export interface Connector {
   /** Output only. The current state of the connector. */
   state?: ConnectorStateEnum | (string & {}) | undefined;
   /** Identifier. The name of the connector. Structured like: projects/{project}/locations/{location}/connectClusters/{connect_cluster}/connectors/{connector} */
@@ -528,16 +498,11 @@ export interface CreateProjectsLocationsConnectClustersConnectorsRequest {
   /** Optional. Restarts the individual tasks of a Connector. */
   taskRestartPolicy?: TaskRetryPolicy | undefined;
 }
-/** A Kafka Connect connector in a given ConnectCluster. */
-export interface Connector {
-  /** Output only. The current state of the connector. */
-  state?: ConnectorStateEnum | undefined;
-  /** Identifier. The name of the connector. Structured like: projects/{project}/locations/{location}/connectClusters/{connect_cluster}/connectors/{connector} */
-  name?: string | undefined;
-  /** Optional. Connector config as keys/values. The keys of the map are connector property names, for example: `connector.class`, `tasks.max`, `key.converter`. */
-  configs?: StringMap | undefined;
-  /** Optional. Restarts the individual tasks of a Connector. */
-  taskRestartPolicy?: TaskRetryPolicy | undefined;
+export interface CreateProjectsLocationsConnectClustersConnectorsRequest extends Connector {
+  /** Required. The parent Connect cluster in which to create the connector. Structured like `projects/{project}/locations/{location}/connectClusters/{connect_cluster_id}`. */
+  parent: string;
+  /** Required. The ID to use for the connector, which will become the final component of the connector's name. The ID must be 1-63 characters long, and match the regular expression `[a-z]([-a-z0-9]*[a-z0-9])?` to comply with RFC 1035. This value is structured like: `my-connector-id`. */
+  connectorId?: string | undefined;
 }
 /** SchemaRegistry is a schema registry instance. */
 export interface SchemaRegistry {
@@ -546,22 +511,24 @@ export interface SchemaRegistry {
   /** Identifier. The name of the schema registry instance. Structured like: `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}` The instance name {schema_registry} can contain the following: * Up to 255 characters. * Letters (uppercase or lowercase), numbers, and underscores. */
   name?: string | undefined;
 }
-export interface CreateProjectsLocationsSchemaRegistriesRequest {
-  /** Required. The parent whose schema registry instance is to be created. Structured like: `projects/{project}/locations/{location}` */
-  parent: string;
+/** Request to create a schema registry instance. */
+export interface CreateSchemaRegistryRequest {
   /** Required. The schema registry instance ID to use for this schema registry. The ID must contain only letters (a-z, A-Z), numbers (0-9), and underscores (-). The maximum length is 63 characters. The ID must not start with a number. */
   schemaRegistryId?: string | undefined;
   /** Required. The schema registry instance to create. The name field is ignored. */
   schemaRegistry?: SchemaRegistry | undefined;
+}
+export interface CreateProjectsLocationsSchemaRegistriesRequest extends CreateSchemaRegistryRequest {
+  /** Required. The parent whose schema registry instance is to be created. Structured like: `projects/{project}/locations/{location}` */
+  parent: string;
 }
 export type CreateVersionRequestSchemaTypeEnum =
   | "SCHEMA_TYPE_UNSPECIFIED"
   | "AVRO"
   | "JSON"
   | "PROTOBUF";
-export interface CreateProjectsLocationsSchemaRegistriesContextsSubjectsVersionsRequest {
-  /** Required. The subject to create the version for. Structured like: `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/subjects/{subject}` or `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/contexts/{context}/subjects/{subject}` */
-  parent: string;
+/** Request for CreateVersion. */
+export interface CreateVersionRequest {
   /** Optional. The version to create. It is optional. If not specified, the version will be created with the max version ID of the subject increased by 1. If the version ID is specified, it will be used as the new version ID and must not be used by an existing version of the subject. */
   version?: number | undefined;
   /** Optional. The type of the schema. It is optional. If not specified, the schema type will be AVRO. */
@@ -574,27 +541,19 @@ export interface CreateProjectsLocationsSchemaRegistriesContextsSubjectsVersions
   schema?: string | undefined;
   /** Optional. If true, the schema will be normalized before being stored. The default is false. */
   normalize?: boolean | undefined;
+}
+export interface CreateProjectsLocationsSchemaRegistriesContextsSubjectsVersionsRequest extends CreateVersionRequest {
+  /** Required. The subject to create the version for. Structured like: `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/subjects/{subject}` or `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/contexts/{context}/subjects/{subject}` */
+  parent: string;
 }
 /** Response for CreateVersion. */
 export interface CreateVersionResponse {
   /** The unique identifier of the schema created. */
   id?: number | undefined;
 }
-export interface CreateProjectsLocationsSchemaRegistriesSubjectsVersionsRequest {
+export interface CreateProjectsLocationsSchemaRegistriesSubjectsVersionsRequest extends CreateVersionRequest {
   /** Required. The subject to create the version for. Structured like: `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/subjects/{subject}` or `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/contexts/{context}/subjects/{subject}` */
   parent: string;
-  /** Optional. The version to create. It is optional. If not specified, the version will be created with the max version ID of the subject increased by 1. If the version ID is specified, it will be used as the new version ID and must not be used by an existing version of the subject. */
-  version?: number | undefined;
-  /** Optional. The type of the schema. It is optional. If not specified, the schema type will be AVRO. */
-  schemaType?: CreateVersionRequestSchemaTypeEnum | (string & {}) | undefined;
-  /** Optional. The schema ID of the schema. If not specified, the schema ID will be generated by the server. If the schema ID is specified, it must not be used by an existing schema that is different from the schema to be created. */
-  id?: number | undefined;
-  /** Optional. The schema references used by the schema. */
-  references?: SchemaReferenceList | undefined;
-  /** Required. The schema payload */
-  schema?: string | undefined;
-  /** Optional. If true, the schema will be normalized before being stored. The default is false. */
-  normalize?: boolean | undefined;
 }
 export interface DeleteProjectsLocationsClustersRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID to avoid duplication of requests. If a request times out or fails, retrying with the same ID allows the server to recognize the previous attempt. For at least 60 minutes, the server ignores duplicate requests bearing the same ID. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID within 60 minutes of the last request, the server checks if an original operation with the same request ID was received. If so, the server ignores the second request. The request ID must be a valid UUID. A zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -731,45 +690,6 @@ export interface GetProjectsLocationsClustersRequest {
   /** Optional. Specifies the view of the Cluster resource to be returned. Defaults to CLUSTER_VIEW_BASIC. See the ClusterView enum for possible values. */
   view?: GetProjectsLocationsClustersViewEnum | (string & {}) | undefined;
 }
-/** An Apache Kafka cluster deployed in a location. */
-export interface Cluster {
-  /** Required. Capacity configuration for the Kafka cluster. */
-  capacityConfig?: CapacityConfig | undefined;
-  /** Output only. Only populated when FULL view is requested. Details of each broker in the cluster. */
-  brokerDetails?: BrokerDetailsList | undefined;
-  /** Output only. Reserved for future use. */
-  satisfiesPzs?: boolean | undefined;
-  /** Output only. Only populated when FULL view is requested. The effective capacity configuration of the cluster. */
-  effectiveCapacityConfig?: EffectiveCapacityConfig | undefined;
-  /** Optional. UpdateOptions represents options that control how updates to the cluster are applied. */
-  updateOptions?: UpdateOptions | undefined;
-  /** Optional. Rebalance configuration for the Kafka cluster. */
-  rebalanceConfig?: RebalanceConfig | undefined;
-  /** Optional. Capacity configuration at a per-broker level within the Kafka cluster. The config will be appled to each broker in the cluster. */
-  brokerCapacityConfig?: BrokerCapacityConfig | undefined;
-  /** Output only. Reserved for future use. */
-  satisfiesPzi?: boolean | undefined;
-  /** Output only. The bootstrap address of the Kafka cluster. The returned address format is: `bootstrap-...managedkafka.s.cloud.goog` or `bootstrap...managedkafka..cloud.goog` (legacy format). ## Examples: `bootstrap-nol2mecj8p94jhx2ge2rg54579a.c0aad26f.europe-west1.managedkafka.s.cloud.goog` - `bootstrap.my-cluster.us-central1.managedkafka.my-project.cloud.goog` The port number is omitted so clients can connect to their target listener (for example, `:9092` for TLS or `:9094` for mTLS). */
-  bootstrapAddress?: string | undefined;
-  /** Output only. The current state of the cluster. */
-  state?: ClusterStateEnum | undefined;
-  /** Output only. The time when the cluster was created. */
-  createTime?: string | undefined;
-  /** Optional. The Apache Kafka version of the cluster. Specifically, this value is the finalized metadata version. If not specified during cluster creation, defaults to `3.7.x`. Supported values: `3.7.x`. */
-  kafkaVersion?: string | undefined;
-  /** Optional. TLS configuration for the Kafka cluster. */
-  tlsConfig?: TlsConfig | undefined;
-  /** Output only. The time when the cluster was last updated. */
-  updateTime?: string | undefined;
-  /** Identifier. The name of the cluster. Structured like: projects/{project_number}/locations/{location}/clusters/{cluster_id} */
-  name?: string | undefined;
-  /** Optional. Labels as key value pairs. */
-  labels?: StringMap | undefined;
-  /** Output only. Details of the public cluster feature for the Kafka cluster. */
-  publicClusterDetails?: PublicClusterDetails | undefined;
-  /** Required. Configuration properties for a Kafka cluster deployed to Google Cloud Platform. */
-  gcpConfig?: GcpConfig | undefined;
-}
 export interface GetProjectsLocationsClustersAclsRequest {
   /** Required. The name of the acl to return. Structured like: `projects/{project}/locations/{location}/clusters/{cluster}/acls/{acl_id}`. The structure of `acl_id` defines the Resource Pattern (resource_type, resource_name, pattern_type) of the acl. See `Acl.name` for details. */
   name: string;
@@ -806,31 +726,6 @@ export interface GetProjectsLocationsClustersTopicsRequest {
 export interface GetProjectsLocationsConnectClustersRequest {
   /** Required. The name of the Kafka Connect cluster whose configuration to return. Structured like `projects/{project}/locations/{location}/connectClusters/{connect_cluster_id}`. */
   name: string;
-}
-/** An Apache Kafka Connect cluster deployed in a location. */
-export interface ConnectCluster {
-  /** Optional. Reserved for future use. This field is meant for worker config overrides, but is unsupported for now. */
-  config?: StringMap | undefined;
-  /** Output only. The time when the cluster was last updated. */
-  updateTime?: string | undefined;
-  /** Required. Capacity configuration for the Kafka Connect cluster. */
-  capacityConfig?: CapacityConfig | undefined;
-  /** Optional. Labels as key value pairs. */
-  labels?: StringMap | undefined;
-  /** Output only. The current state of the Kafka Connect cluster. */
-  state?: ConnectClusterStateEnum | undefined;
-  /** Output only. Reserved for future use. */
-  satisfiesPzs?: boolean | undefined;
-  /** Identifier. The name of the Kafka Connect cluster. Structured like: projects/{project_number}/locations/{location}/connectClusters/{connect_cluster_id} */
-  name?: string | undefined;
-  /** Output only. The time when the cluster was created. */
-  createTime?: string | undefined;
-  /** Required. Immutable. The name of the Kafka cluster this Kafka Connect cluster is attached to. Structured like: projects/{project}/locations/{location}/clusters/{cluster} */
-  kafkaCluster?: string | undefined;
-  /** Required. Configuration properties for a Kafka Connect cluster deployed to Google Cloud Platform. */
-  gcpConfig?: ConnectGcpConfig | undefined;
-  /** Output only. Reserved for future use. */
-  satisfiesPzi?: boolean | undefined;
 }
 export interface GetProjectsLocationsConnectClustersConnectorsRequest {
   /** Required. The name of the connector whose configuration to return. Structured like: projects/{project}/locations/{location}/connectClusters/{connectCluster}/connectors/{connector} */
@@ -1212,9 +1107,8 @@ export type LookupVersionRequestSchemaTypeEnum =
   | "AVRO"
   | "JSON"
   | "PROTOBUF";
-export interface LookupVersionProjectsLocationsSchemaRegistriesContextsSubjectsRequest {
-  /** Required. The subject to lookup the schema in. Structured like: `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/subjects/{subject}` or `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/contexts/{context}/subjects/{subject}` */
-  parent: string;
+/** Request for LookupVersion. */
+export interface LookupVersionRequest {
   /** Required. The schema payload */
   schema?: string | undefined;
   /** Optional. The schema type of the schema. */
@@ -1226,137 +1120,59 @@ export interface LookupVersionProjectsLocationsSchemaRegistriesContextsSubjectsR
   /** Optional. If true, the schema will be normalized before being looked up. The default is false. */
   normalize?: boolean | undefined;
 }
-export interface LookupVersionProjectsLocationsSchemaRegistriesSubjectsRequest {
+export interface LookupVersionProjectsLocationsSchemaRegistriesContextsSubjectsRequest extends LookupVersionRequest {
   /** Required. The subject to lookup the schema in. Structured like: `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/subjects/{subject}` or `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/contexts/{context}/subjects/{subject}` */
   parent: string;
-  /** Required. The schema payload */
-  schema?: string | undefined;
-  /** Optional. The schema type of the schema. */
-  schemaType?: LookupVersionRequestSchemaTypeEnum | (string & {}) | undefined;
-  /** Optional. The schema references used by the schema. */
-  references?: SchemaReferenceList | undefined;
-  /** Optional. If true, soft-deleted versions will be included in lookup, no matter if the subject is active or soft-deleted. If false, soft-deleted versions will be excluded. The default is false. */
-  deleted?: boolean | undefined;
-  /** Optional. If true, the schema will be normalized before being looked up. The default is false. */
-  normalize?: boolean | undefined;
 }
-export interface PatchProjectsLocationsClustersRequest {
+export interface LookupVersionProjectsLocationsSchemaRegistriesSubjectsRequest extends LookupVersionRequest {
+  /** Required. The subject to lookup the schema in. Structured like: `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/subjects/{subject}` or `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/contexts/{context}/subjects/{subject}` */
+  parent: string;
+}
+export interface PatchProjectsLocationsClustersRequest extends Omit<Cluster, "name"> {
   /** Identifier. The name of the cluster. Structured like: projects/{project_number}/locations/{location}/clusters/{cluster_id} */
   name: string;
   /** Required. Field mask is used to specify the fields to be overwritten in the cluster resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. The mask is required and a value of * will update all fields. */
   updateMask?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID to avoid duplication of requests. If a request times out or fails, retrying with the same ID allows the server to recognize the previous attempt. For at least 60 minutes, the server ignores duplicate requests bearing the same ID. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID within 60 minutes of the last request, the server checks if an original operation with the same request ID was received. If so, the server ignores the second request. The request ID must be a valid UUID. A zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Required. Capacity configuration for the Kafka cluster. */
-  capacityConfig?: CapacityConfig | undefined;
-  /** Output only. Only populated when FULL view is requested. Details of each broker in the cluster. */
-  brokerDetails?: BrokerDetailsList | undefined;
-  /** Output only. Reserved for future use. */
-  satisfiesPzs?: boolean | undefined;
-  /** Output only. Only populated when FULL view is requested. The effective capacity configuration of the cluster. */
-  effectiveCapacityConfig?: EffectiveCapacityConfig | undefined;
-  /** Optional. UpdateOptions represents options that control how updates to the cluster are applied. */
-  updateOptions?: UpdateOptions | undefined;
-  /** Optional. Rebalance configuration for the Kafka cluster. */
-  rebalanceConfig?: RebalanceConfig | undefined;
-  /** Optional. Capacity configuration at a per-broker level within the Kafka cluster. The config will be appled to each broker in the cluster. */
-  brokerCapacityConfig?: BrokerCapacityConfig | undefined;
-  /** Output only. Reserved for future use. */
-  satisfiesPzi?: boolean | undefined;
-  /** Output only. The bootstrap address of the Kafka cluster. The returned address format is: `bootstrap-...managedkafka.s.cloud.goog` or `bootstrap...managedkafka..cloud.goog` (legacy format). ## Examples: `bootstrap-nol2mecj8p94jhx2ge2rg54579a.c0aad26f.europe-west1.managedkafka.s.cloud.goog` - `bootstrap.my-cluster.us-central1.managedkafka.my-project.cloud.goog` The port number is omitted so clients can connect to their target listener (for example, `:9092` for TLS or `:9094` for mTLS). */
-  bootstrapAddress?: string | undefined;
-  /** Output only. The current state of the cluster. */
-  state?: ClusterStateEnum | (string & {}) | undefined;
-  /** Output only. The time when the cluster was created. */
-  createTime?: string | undefined;
-  /** Optional. The Apache Kafka version of the cluster. Specifically, this value is the finalized metadata version. If not specified during cluster creation, defaults to `3.7.x`. Supported values: `3.7.x`. */
-  kafkaVersion?: string | undefined;
-  /** Optional. TLS configuration for the Kafka cluster. */
-  tlsConfig?: TlsConfig | undefined;
-  /** Output only. The time when the cluster was last updated. */
-  updateTime?: string | undefined;
-  /** Optional. Labels as key value pairs. */
-  labels?: StringMap | undefined;
-  /** Output only. Details of the public cluster feature for the Kafka cluster. */
-  publicClusterDetails?: PublicClusterDetails | undefined;
-  /** Required. Configuration properties for a Kafka cluster deployed to Google Cloud Platform. */
-  gcpConfig?: GcpConfig | undefined;
 }
-export interface PatchProjectsLocationsClustersAclsRequest {
+export interface PatchProjectsLocationsClustersAclsRequest extends Omit<Acl, "name"> {
   /** Optional. Field mask is used to specify the fields to be overwritten in the Acl resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. */
   updateMask?: string | undefined;
   /** Identifier. The name for the acl. Represents a single Resource Pattern. Structured like: projects/{project}/locations/{location}/clusters/{cluster}/acls/{acl_id} The structure of `acl_id` defines the Resource Pattern (resource_type, resource_name, pattern_type) of the acl. `acl_id` is structured like one of the following: For acls on the cluster: `cluster` For acls on a single resource within the cluster: `topic/{resource_name}` `consumerGroup/{resource_name}` `transactionalId/{resource_name}` For acls on all resources that match a prefix: `topicPrefixed/{resource_name}` `consumerGroupPrefixed/{resource_name}` `transactionalIdPrefixed/{resource_name}` For acls on all resources of a given type (i.e. the wildcard literal "*"): `allTopics` (represents `topic/*`) `allConsumerGroups` (represents `consumerGroup/*`) `allTransactionalIds` (represents `transactionalId/*`) */
   name: string;
-  /** Optional. `etag` is used for concurrency control. An `etag` is returned in the response to `GetAcl` and `CreateAcl`. Callers are required to put that etag in the request to `UpdateAcl` to ensure that their change will be applied to the same version of the acl that exists in the Kafka Cluster. A terminal 'T' character in the etag indicates that the AclEntries were truncated; more entries for the Acl exist on the Kafka Cluster, but can't be returned in the Acl due to repeated field limits. */
-  etag?: string | undefined;
-  /** Output only. The ACL resource name derived from the name. For cluster resource_type, this is always "kafka-cluster". Can be the wildcard literal "*". */
-  resourceName?: string | undefined;
-  /** Required. The ACL entries that apply to the resource pattern. The maximum number of allowed entries 100. */
-  aclEntries?: AclEntryList | undefined;
-  /** Output only. The ACL pattern type derived from the name. One of: LITERAL, PREFIXED. */
-  patternType?: string | undefined;
-  /** Output only. The ACL resource type derived from the name. One of: CLUSTER, TOPIC, GROUP, TRANSACTIONAL_ID. */
-  resourceType?: string | undefined;
 }
-export interface PatchProjectsLocationsClustersConsumerGroupsRequest {
+export interface PatchProjectsLocationsClustersConsumerGroupsRequest extends Omit<
+  ConsumerGroup,
+  "name"
+> {
   /** Required. Field mask is used to specify the fields to be overwritten in the ConsumerGroup resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. The mask is required and a value of * will update all fields. */
   updateMask?: string | undefined;
   /** Identifier. The name of the consumer group. The `consumer_group` segment is used when connecting directly to the cluster. Structured like: projects/{project}/locations/{location}/clusters/{cluster}/consumerGroups/{consumer_group} */
   name: string;
-  /** Optional. Metadata for this consumer group for all topics it has metadata for. The key of the map is a topic name, structured like: projects/{project}/locations/{location}/clusters/{cluster}/topics/{topic} */
-  topics?: ConsumerTopicMetadataMap | undefined;
 }
-export interface PatchProjectsLocationsClustersTopicsRequest {
+export interface PatchProjectsLocationsClustersTopicsRequest extends Omit<Topic, "name"> {
   /** Identifier. The name of the topic. The `topic` segment is used when connecting directly to the cluster. Structured like: projects/{project}/locations/{location}/clusters/{cluster}/topics/{topic} */
   name: string;
   /** Required. Field mask is used to specify the fields to be overwritten in the Topic resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. The mask is required and a value of * will update all fields. */
   updateMask?: string | undefined;
-  /** Optional. Configurations for the topic that are overridden from the cluster defaults. The key of the map is a Kafka topic property name, for example: `cleanup.policy`, `compression.type`. */
-  configs?: StringMap | undefined;
-  /** Required. Immutable. The number of replicas of each partition. A replication factor of 3 is recommended for high availability. */
-  replicationFactor?: number | undefined;
-  /** Required. The number of partitions this topic has. The partition count can only be increased, not decreased. Please note that if partitions are increased for a topic that has a key, the partitioning logic or the ordering of the messages will be affected. */
-  partitionCount?: number | undefined;
 }
-export interface PatchProjectsLocationsConnectClustersRequest {
+export interface PatchProjectsLocationsConnectClustersRequest extends Omit<ConnectCluster, "name"> {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID to avoid duplication of requests. If a request times out or fails, retrying with the same ID allows the server to recognize the previous attempt. For at least 60 minutes, the server ignores duplicate requests bearing the same ID. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID within 60 minutes of the last request, the server checks if an original operation with the same request ID was received. If so, the server ignores the second request. The request ID must be a valid UUID. A zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Identifier. The name of the Kafka Connect cluster. Structured like: projects/{project_number}/locations/{location}/connectClusters/{connect_cluster_id} */
   name: string;
   /** Required. Field mask is used to specify the fields to be overwritten in the cluster resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. The mask is required and a value of * will update all fields. */
   updateMask?: string | undefined;
-  /** Optional. Reserved for future use. This field is meant for worker config overrides, but is unsupported for now. */
-  config?: StringMap | undefined;
-  /** Output only. The time when the cluster was last updated. */
-  updateTime?: string | undefined;
-  /** Required. Capacity configuration for the Kafka Connect cluster. */
-  capacityConfig?: CapacityConfig | undefined;
-  /** Optional. Labels as key value pairs. */
-  labels?: StringMap | undefined;
-  /** Output only. The current state of the Kafka Connect cluster. */
-  state?: ConnectClusterStateEnum | (string & {}) | undefined;
-  /** Output only. Reserved for future use. */
-  satisfiesPzs?: boolean | undefined;
-  /** Output only. The time when the cluster was created. */
-  createTime?: string | undefined;
-  /** Required. Immutable. The name of the Kafka cluster this Kafka Connect cluster is attached to. Structured like: projects/{project}/locations/{location}/clusters/{cluster} */
-  kafkaCluster?: string | undefined;
-  /** Required. Configuration properties for a Kafka Connect cluster deployed to Google Cloud Platform. */
-  gcpConfig?: ConnectGcpConfig | undefined;
-  /** Output only. Reserved for future use. */
-  satisfiesPzi?: boolean | undefined;
 }
-export interface PatchProjectsLocationsConnectClustersConnectorsRequest {
+export interface PatchProjectsLocationsConnectClustersConnectorsRequest extends Omit<
+  Connector,
+  "name"
+> {
   /** Required. Field mask is used to specify the fields to be overwritten in the cluster resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. The mask is required and a value of * will update all fields. */
   updateMask?: string | undefined;
   /** Identifier. The name of the connector. Structured like: projects/{project}/locations/{location}/connectClusters/{connect_cluster}/connectors/{connector} */
   name: string;
-  /** Output only. The current state of the connector. */
-  state?: ConnectorStateEnum | (string & {}) | undefined;
-  /** Optional. Connector config as keys/values. The keys of the map are connector property names, for example: `connector.class`, `tasks.max`, `key.converter`. */
-  configs?: StringMap | undefined;
-  /** Optional. Restarts the individual tasks of a Connector. */
-  taskRestartPolicy?: TaskRetryPolicy | undefined;
 }
 /** Request for PauseConnector. */
 export type PauseConnectorRequest = CancelOperationRequest;
@@ -1368,17 +1184,9 @@ export interface PauseProjectsLocationsConnectClustersConnectorsRequest {
 }
 /** Response for PauseConnector. */
 export interface PauseConnectorResponse {}
-export interface RemoveAclEntryProjectsLocationsClustersAclsRequest {
+export interface RemoveAclEntryProjectsLocationsClustersAclsRequest extends AclEntry {
   /** Required. The name of the acl to remove the acl entry from. Structured like: `projects/{project}/locations/{location}/clusters/{cluster}/acls/{acl_id}`. The structure of `acl_id` defines the Resource Pattern (resource_type, resource_name, pattern_type) of the acl. See `Acl.name` for details. */
   acl: string;
-  /** Required. The permission type. Accepted values are (case insensitive): ALLOW, DENY. */
-  permissionType?: string | undefined;
-  /** Required. The principal. Specified as Google Cloud account, with the Kafka StandardAuthorizer prefix "User:". For example: "User:test-kafka-client@test-project.iam.gserviceaccount.com". Can be the wildcard "User:*" to refer to all users. */
-  principal?: string | undefined;
-  /** Required. The operation type. Allowed values are (case insensitive): ALL, READ, WRITE, CREATE, DELETE, ALTER, DESCRIBE, CLUSTER_ACTION, DESCRIBE_CONFIGS, ALTER_CONFIGS, and IDEMPOTENT_WRITE. See https://kafka.apache.org/documentation/#operations_resources_and_protocols for valid combinations of resource_type and operation for different Kafka API requests. */
-  operation?: string | undefined;
-  /** Required. The host. Must be set to "*" for Managed Service for Apache Kafka. */
-  host?: string | undefined;
 }
 /** Response for RemoveAclEntry. */
 export interface RemoveAclEntryResponse {
@@ -1425,34 +1233,34 @@ export type UpdateSchemaConfigRequestCompatibilityEnum =
   | "FORWARD_TRANSITIVE"
   | "FULL"
   | "FULL_TRANSITIVE";
-export interface UpdateProjectsLocationsSchemaRegistriesConfigRequest {
-  /** Required. The resource name to update the config for. It can be either of following: * projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/config: Update config at global level. * projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/config/{subject}: Update config for a specific subject. */
-  name: string;
+/** Request for updating schema config. On a SchemaSubject-level SchemaConfig, an unset field will be removed from the SchemaConfig. */
+export interface UpdateSchemaConfigRequest {
   /** Required. The compatibility type of the schemas. Cannot be unset for a SchemaRegistry-level SchemaConfig. If unset on a SchemaSubject-level SchemaConfig, removes the compatibility field for the SchemaConfig. */
   compatibility?: UpdateSchemaConfigRequestCompatibilityEnum | (string & {}) | undefined;
   /** Optional. If true, the schema will be normalized before being stored or looked up. The default is false. Cannot be unset for a SchemaRegistry-level SchemaConfig. If unset on a SchemaSubject-level SchemaConfig, removes the normalize field for the SchemaConfig. */
   normalize?: boolean | undefined;
 }
-export interface UpdateProjectsLocationsSchemaRegistriesContextsConfigRequest {
+export interface UpdateProjectsLocationsSchemaRegistriesConfigRequest extends UpdateSchemaConfigRequest {
   /** Required. The resource name to update the config for. It can be either of following: * projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/config: Update config at global level. * projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/config/{subject}: Update config for a specific subject. */
   name: string;
-  /** Required. The compatibility type of the schemas. Cannot be unset for a SchemaRegistry-level SchemaConfig. If unset on a SchemaSubject-level SchemaConfig, removes the compatibility field for the SchemaConfig. */
-  compatibility?: UpdateSchemaConfigRequestCompatibilityEnum | (string & {}) | undefined;
-  /** Optional. If true, the schema will be normalized before being stored or looked up. The default is false. Cannot be unset for a SchemaRegistry-level SchemaConfig. If unset on a SchemaSubject-level SchemaConfig, removes the normalize field for the SchemaConfig. */
-  normalize?: boolean | undefined;
+}
+export interface UpdateProjectsLocationsSchemaRegistriesContextsConfigRequest extends UpdateSchemaConfigRequest {
+  /** Required. The resource name to update the config for. It can be either of following: * projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/config: Update config at global level. * projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/config/{subject}: Update config for a specific subject. */
+  name: string;
 }
 export type UpdateSchemaModeRequestModeEnum = "NONE" | "READONLY" | "READWRITE" | "IMPORT";
-export interface UpdateProjectsLocationsSchemaRegistriesContextsModeRequest {
-  /** Required. The resource name of the mode. The format is * projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/mode/{subject}: mode for a schema registry, or * projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/contexts/{context}/mode/{subject}: mode for a specific subject in a specific context */
-  name: string;
+/** Request for updating schema registry or subject mode. */
+export interface UpdateSchemaModeRequest {
   /** Required. The mode type. */
   mode?: UpdateSchemaModeRequestModeEnum | (string & {}) | undefined;
 }
-export interface UpdateProjectsLocationsSchemaRegistriesModeRequest {
+export interface UpdateProjectsLocationsSchemaRegistriesContextsModeRequest extends UpdateSchemaModeRequest {
   /** Required. The resource name of the mode. The format is * projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/mode/{subject}: mode for a schema registry, or * projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/contexts/{context}/mode/{subject}: mode for a specific subject in a specific context */
   name: string;
-  /** Required. The mode type. */
-  mode?: UpdateSchemaModeRequestModeEnum | (string & {}) | undefined;
+}
+export interface UpdateProjectsLocationsSchemaRegistriesModeRequest extends UpdateSchemaModeRequest {
+  /** Required. The resource name of the mode. The format is * projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/mode/{subject}: mode for a schema registry, or * projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/contexts/{context}/mode/{subject}: mode for a specific subject in a specific context */
+  name: string;
 }
 export type AddAclEntryProjectsLocationsClustersAclsError =
   | NotFound
@@ -1468,8 +1276,8 @@ export const addAclEntryProjectsLocationsClustersAcls: API.OperationMethod<
   AddAclEntryProjectsLocationsClustersAclsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1280, __c80, 0) as any as S.Schema<AddAclEntryProjectsLocationsClustersAclsRequest>,
-  output: __S(1281, __c80, 1) as any as S.Schema<AddAclEntryResponse>,
+  input: __S(1248, __c78, 0) as any as S.Schema<AddAclEntryProjectsLocationsClustersAclsRequest>,
+  output: __S(1249, __c78, 1) as any as S.Schema<AddAclEntryResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, AclClusterNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1490,8 +1298,8 @@ export const cancelProjectsLocationsOperations: API.OperationMethod<
   CancelProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c92, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
-  output: __S(1488, __c93, 0) as any as S.Schema<Empty>,
+  input: __S(1456, __c91, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
+  output: __S(1472, __c92, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1514,11 +1322,11 @@ export const checkCompatibilityProjectsLocationsSchemaRegistriesCompatibility: A
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1664,
-    __c104,
+    1648,
+    __c103,
     0,
   ) as any as S.Schema<CheckCompatibilityProjectsLocationsSchemaRegistriesCompatibilityRequest>,
-  output: __S(1680, __c105, 0) as any as S.Schema<CheckCompatibilityResponse>,
+  output: __S(1665, __c104, 1) as any as S.Schema<CheckCompatibilityResponse>,
   errors: [
     NotFound,
     Forbidden,
@@ -1552,7 +1360,7 @@ export const checkCompatibilityProjectsLocationsSchemaRegistriesContextsCompatib
     __c0,
     0,
   ) as any as S.Schema<CheckCompatibilityProjectsLocationsSchemaRegistriesContextsCompatibilityRequest>,
-  output: __S(1680, __c105, 0) as any as S.Schema<CheckCompatibilityResponse>,
+  output: __S(1665, __c104, 1) as any as S.Schema<CheckCompatibilityResponse>,
   errors: [
     NotFound,
     Forbidden,
@@ -1604,7 +1412,7 @@ export const createProjectsLocationsClustersAcls: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(144, __c9, 0) as any as S.Schema<CreateProjectsLocationsClustersAclsRequest>,
-  output: __S(1298, __c81, 2) as any as S.Schema<Acl>,
+  output: __S(1266, __c79, 2) as any as S.Schema<Acl>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, AclClusterNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1696,7 +1504,7 @@ export const createProjectsLocationsSchemaRegistries: API.OperationMethod<
   CreateProjectsLocationsSchemaRegistriesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c16, 0) as any as S.Schema<CreateProjectsLocationsSchemaRegistriesRequest>,
+  input: __S(257, __c16, 1) as any as S.Schema<CreateProjectsLocationsSchemaRegistriesRequest>,
   output: __S(272, __c17, 0) as any as S.Schema<SchemaRegistry>,
   errors: [
     NotFound,
@@ -1731,7 +1539,7 @@ export const createProjectsLocationsSchemaRegistriesContextsSubjectsVersions: AP
     __c18,
     0,
   ) as any as S.Schema<CreateProjectsLocationsSchemaRegistriesContextsSubjectsVersionsRequest>,
-  output: __S(304, __c19, 0) as any as S.Schema<CreateVersionResponse>,
+  output: __S(305, __c19, 1) as any as S.Schema<CreateVersionResponse>,
   errors: [
     NotFound,
     Forbidden,
@@ -1765,7 +1573,7 @@ export const createProjectsLocationsSchemaRegistriesSubjectsVersions: API.Operat
     __c20,
     0,
   ) as any as S.Schema<CreateProjectsLocationsSchemaRegistriesSubjectsVersionsRequest>,
-  output: __S(304, __c19, 0) as any as S.Schema<CreateVersionResponse>,
+  output: __S(305, __c19, 1) as any as S.Schema<CreateVersionResponse>,
   errors: [
     NotFound,
     Forbidden,
@@ -1817,7 +1625,7 @@ export const deleteProjectsLocationsClustersAcls: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c22, 0) as any as S.Schema<DeleteProjectsLocationsClustersAclsRequest>,
-  output: __S(1488, __c93, 0) as any as S.Schema<Empty>,
+  output: __S(1472, __c92, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, AclClusterNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1843,7 +1651,7 @@ export const deleteProjectsLocationsClustersConsumerGroups: API.OperationMethod<
     __c23,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsClustersConsumerGroupsRequest>,
-  output: __S(1488, __c93, 0) as any as S.Schema<Empty>,
+  output: __S(1472, __c92, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1865,7 +1673,7 @@ export const deleteProjectsLocationsClustersTopics: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c24, 0) as any as S.Schema<DeleteProjectsLocationsClustersTopicsRequest>,
-  output: __S(1488, __c93, 0) as any as S.Schema<Empty>,
+  output: __S(1472, __c92, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1913,7 +1721,7 @@ export const deleteProjectsLocationsConnectClustersConnectors: API.OperationMeth
     __c26,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsConnectClustersConnectorsRequest>,
-  output: __S(1488, __c93, 0) as any as S.Schema<Empty>,
+  output: __S(1472, __c92, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1935,7 +1743,7 @@ export const deleteProjectsLocationsOperations: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(432, __c27, 0) as any as S.Schema<DeleteProjectsLocationsOperationsRequest>,
-  output: __S(1488, __c93, 0) as any as S.Schema<Empty>,
+  output: __S(1472, __c92, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1958,7 +1766,7 @@ export const deleteProjectsLocationsSchemaRegistries: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c28, 0) as any as S.Schema<DeleteProjectsLocationsSchemaRegistriesRequest>,
-  output: __S(1488, __c93, 0) as any as S.Schema<Empty>,
+  output: __S(1472, __c92, 0) as any as S.Schema<Empty>,
   errors: [
     NotFound,
     Forbidden,
@@ -2275,7 +2083,7 @@ export const getProjectsLocationsClusters: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(656, __c41, 0) as any as S.Schema<GetProjectsLocationsClustersRequest>,
-  output: __S(672, __c42, 0) as any as S.Schema<Cluster>,
+  output: __S(143, __c8, 15) as any as S.Schema<Cluster>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2295,8 +2103,8 @@ export const getProjectsLocationsClustersAcls: API.OperationMethod<
   GetProjectsLocationsClustersAclsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(688, __c43, 0) as any as S.Schema<GetProjectsLocationsClustersAclsRequest>,
-  output: __S(1298, __c81, 2) as any as S.Schema<Acl>,
+  input: __S(672, __c42, 0) as any as S.Schema<GetProjectsLocationsClustersAclsRequest>,
+  output: __S(1266, __c79, 2) as any as S.Schema<Acl>,
   errors: [NotFound, Forbidden, AclClusterNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2312,8 +2120,8 @@ export const getProjectsLocationsClustersConsumerGroups: API.OperationMethod<
   GetProjectsLocationsClustersConsumerGroupsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c44, 0) as any as S.Schema<GetProjectsLocationsClustersConsumerGroupsRequest>,
-  output: __S(724, __c45, 4) as any as S.Schema<ConsumerGroup>,
+  input: __S(688, __c43, 0) as any as S.Schema<GetProjectsLocationsClustersConsumerGroupsRequest>,
+  output: __S(708, __c44, 4) as any as S.Schema<ConsumerGroup>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2329,7 +2137,7 @@ export const getProjectsLocationsClustersTopics: API.OperationMethod<
   GetProjectsLocationsClustersTopicsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c46, 0) as any as S.Schema<GetProjectsLocationsClustersTopicsRequest>,
+  input: __S(720, __c45, 0) as any as S.Schema<GetProjectsLocationsClustersTopicsRequest>,
   output: __S(176, __c11, 0) as any as S.Schema<Topic>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
@@ -2346,8 +2154,8 @@ export const getProjectsLocationsConnectClusters: API.OperationMethod<
   GetProjectsLocationsConnectClustersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(752, __c47, 0) as any as S.Schema<GetProjectsLocationsConnectClustersRequest>,
-  output: __S(768, __c48, 0) as any as S.Schema<ConnectCluster>,
+  input: __S(736, __c46, 0) as any as S.Schema<GetProjectsLocationsConnectClustersRequest>,
+  output: __S(212, __c13, 4) as any as S.Schema<ConnectCluster>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2364,8 +2172,8 @@ export const getProjectsLocationsConnectClustersConnectors: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    784,
-    __c49,
+    752,
+    __c47,
     0,
   ) as any as S.Schema<GetProjectsLocationsConnectClustersConnectorsRequest>,
   output: __S(241, __c15, 1) as any as S.Schema<Connector>,
@@ -2384,7 +2192,7 @@ export const getProjectsLocationsOperations: API.OperationMethod<
   GetProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c50, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
+  input: __S(768, __c48, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
   output: __S(81, __c5, 1) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
@@ -2405,7 +2213,7 @@ export const getProjectsLocationsSchemaRegistries: API.OperationMethod<
   GetProjectsLocationsSchemaRegistriesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(816, __c51, 0) as any as S.Schema<GetProjectsLocationsSchemaRegistriesRequest>,
+  input: __S(784, __c49, 0) as any as S.Schema<GetProjectsLocationsSchemaRegistriesRequest>,
   output: __S(272, __c17, 0) as any as S.Schema<SchemaRegistry>,
   errors: [NotFound, Forbidden, SchemaRegistryRequiresCluster, UnknownGCPError],
   protocol: GcpProtocol,
@@ -2426,7 +2234,7 @@ export const getProjectsLocationsSchemaRegistriesConfig: API.OperationMethod<
   GetProjectsLocationsSchemaRegistriesConfigError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c52, 0) as any as S.Schema<GetProjectsLocationsSchemaRegistriesConfigRequest>,
+  input: __S(800, __c50, 0) as any as S.Schema<GetProjectsLocationsSchemaRegistriesConfigRequest>,
   output: __S(480, __c30, 0) as any as S.Schema<SchemaConfig>,
   errors: [NotFound, Forbidden, SchemaRegistryRequiresCluster, UnknownGCPError],
   protocol: GcpProtocol,
@@ -2447,8 +2255,8 @@ export const getProjectsLocationsSchemaRegistriesContexts: API.OperationMethod<
   GetProjectsLocationsSchemaRegistriesContextsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(848, __c53, 0) as any as S.Schema<GetProjectsLocationsSchemaRegistriesContextsRequest>,
-  output: __S(849, __c53, 1) as any as S.Schema<Context>,
+  input: __S(816, __c51, 0) as any as S.Schema<GetProjectsLocationsSchemaRegistriesContextsRequest>,
+  output: __S(817, __c51, 1) as any as S.Schema<Context>,
   errors: [NotFound, Forbidden, SchemaRegistryRequiresCluster, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2469,8 +2277,8 @@ export const getProjectsLocationsSchemaRegistriesContextsConfig: API.OperationMe
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    864,
-    __c54,
+    832,
+    __c52,
     0,
   ) as any as S.Schema<GetProjectsLocationsSchemaRegistriesContextsConfigRequest>,
   output: __S(480, __c30, 0) as any as S.Schema<SchemaConfig>,
@@ -2494,8 +2302,8 @@ export const getProjectsLocationsSchemaRegistriesContextsMode: API.OperationMeth
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    880,
-    __c55,
+    848,
+    __c53,
     0,
   ) as any as S.Schema<GetProjectsLocationsSchemaRegistriesContextsModeRequest>,
   output: __S(112, __c7, 0) as any as S.Schema<SchemaMode>,
@@ -2519,11 +2327,11 @@ export const getProjectsLocationsSchemaRegistriesContextsSchemas: API.OperationM
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    896,
-    __c56,
+    864,
+    __c54,
     0,
   ) as any as S.Schema<GetProjectsLocationsSchemaRegistriesContextsSchemasRequest>,
-  output: __S(912, __c57, 0) as any as S.Schema<Managedkafka_Schema>,
+  output: __S(880, __c55, 0) as any as S.Schema<Managedkafka_Schema>,
   errors: [NotFound, Forbidden, SchemaRegistryRequiresCluster, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2545,11 +2353,11 @@ export const getProjectsLocationsSchemaRegistriesContextsSubjectsVersions: API.O
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    928,
-    __c58,
+    896,
+    __c56,
     0,
   ) as any as S.Schema<GetProjectsLocationsSchemaRegistriesContextsSubjectsVersionsRequest>,
-  output: __S(944, __c59, 0) as any as S.Schema<SchemaVersion>,
+  output: __S(912, __c57, 0) as any as S.Schema<SchemaVersion>,
   errors: [
     NotFound,
     Forbidden,
@@ -2575,7 +2383,7 @@ export const getProjectsLocationsSchemaRegistriesMode: API.OperationMethod<
   GetProjectsLocationsSchemaRegistriesModeError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c60, 0) as any as S.Schema<GetProjectsLocationsSchemaRegistriesModeRequest>,
+  input: __S(928, __c58, 0) as any as S.Schema<GetProjectsLocationsSchemaRegistriesModeRequest>,
   output: __S(112, __c7, 0) as any as S.Schema<SchemaMode>,
   errors: [NotFound, Forbidden, SchemaRegistryRequiresCluster, UnknownGCPError],
   protocol: GcpProtocol,
@@ -2596,8 +2404,8 @@ export const getProjectsLocationsSchemaRegistriesSchemas: API.OperationMethod<
   GetProjectsLocationsSchemaRegistriesSchemasError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(976, __c61, 0) as any as S.Schema<GetProjectsLocationsSchemaRegistriesSchemasRequest>,
-  output: __S(912, __c57, 0) as any as S.Schema<Managedkafka_Schema>,
+  input: __S(944, __c59, 0) as any as S.Schema<GetProjectsLocationsSchemaRegistriesSchemasRequest>,
+  output: __S(880, __c55, 0) as any as S.Schema<Managedkafka_Schema>,
   errors: [NotFound, Forbidden, SchemaRegistryRequiresCluster, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2619,11 +2427,11 @@ export const getProjectsLocationsSchemaRegistriesSubjectsVersions: API.Operation
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    992,
-    __c62,
+    960,
+    __c60,
     0,
   ) as any as S.Schema<GetProjectsLocationsSchemaRegistriesSubjectsVersionsRequest>,
-  output: __S(944, __c59, 0) as any as S.Schema<SchemaVersion>,
+  output: __S(912, __c57, 0) as any as S.Schema<SchemaVersion>,
   errors: [
     NotFound,
     Forbidden,
@@ -2650,8 +2458,8 @@ export const getSchemaProjectsLocationsSchemaRegistriesContextsSchemas: API.Oper
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1008,
-    __c63,
+    976,
+    __c61,
     0,
   ) as any as S.Schema<GetSchemaProjectsLocationsSchemaRegistriesContextsSchemasRequest>,
   output: __S(544, __c34, 0) as any as S.Schema<HttpBody>,
@@ -2675,8 +2483,8 @@ export const getSchemaProjectsLocationsSchemaRegistriesContextsSubjectsVersions:
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1024,
-    __c64,
+    992,
+    __c62,
     0,
   ) as any as S.Schema<GetSchemaProjectsLocationsSchemaRegistriesContextsSubjectsVersionsRequest>,
   output: __S(544, __c34, 0) as any as S.Schema<HttpBody>,
@@ -2700,8 +2508,8 @@ export const getSchemaProjectsLocationsSchemaRegistriesSchemas: API.OperationMet
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1040,
-    __c65,
+    1008,
+    __c63,
     0,
   ) as any as S.Schema<GetSchemaProjectsLocationsSchemaRegistriesSchemasRequest>,
   output: __S(544, __c34, 0) as any as S.Schema<HttpBody>,
@@ -2725,8 +2533,8 @@ export const getSchemaProjectsLocationsSchemaRegistriesSubjectsVersions: API.Ope
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1056,
-    __c66,
+    1024,
+    __c64,
     0,
   ) as any as S.Schema<GetSchemaProjectsLocationsSchemaRegistriesSubjectsVersionsRequest>,
   output: __S(544, __c34, 0) as any as S.Schema<HttpBody>,
@@ -2746,8 +2554,8 @@ export const listProjectsLocations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListLocationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1072, __c67, 0) as any as S.Schema<ListProjectsLocationsRequest>,
-  output: __S(1074, __c67, 2) as any as S.Schema<ListLocationsResponse>,
+  input: __S(1040, __c65, 0) as any as S.Schema<ListProjectsLocationsRequest>,
+  output: __S(1042, __c65, 2) as any as S.Schema<ListLocationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2765,8 +2573,8 @@ export const listProjectsLocationsClusters: API.PaginatedOperationMethod<
   GcpOpContext,
   ListClustersResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1088, __c68, 0) as any as S.Schema<ListProjectsLocationsClustersRequest>,
-  output: __S(1090, __c68, 2) as any as S.Schema<ListClustersResponse>,
+  input: __S(1056, __c66, 0) as any as S.Schema<ListProjectsLocationsClustersRequest>,
+  output: __S(1058, __c66, 2) as any as S.Schema<ListClustersResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2788,8 +2596,8 @@ export const listProjectsLocationsClustersAcls: API.PaginatedOperationMethod<
   GcpOpContext,
   ListAclsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1104, __c69, 0) as any as S.Schema<ListProjectsLocationsClustersAclsRequest>,
-  output: __S(1106, __c69, 2) as any as S.Schema<ListAclsResponse>,
+  input: __S(1072, __c67, 0) as any as S.Schema<ListProjectsLocationsClustersAclsRequest>,
+  output: __S(1074, __c67, 2) as any as S.Schema<ListAclsResponse>,
   errors: [NotFound, Forbidden, AclClusterNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2807,8 +2615,8 @@ export const listProjectsLocationsClustersConsumerGroups: API.PaginatedOperation
   GcpOpContext,
   ListConsumerGroupsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1120, __c70, 0) as any as S.Schema<ListProjectsLocationsClustersConsumerGroupsRequest>,
-  output: __S(1122, __c70, 2) as any as S.Schema<ListConsumerGroupsResponse>,
+  input: __S(1088, __c68, 0) as any as S.Schema<ListProjectsLocationsClustersConsumerGroupsRequest>,
+  output: __S(1090, __c68, 2) as any as S.Schema<ListConsumerGroupsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2826,8 +2634,8 @@ export const listProjectsLocationsClustersTopics: API.PaginatedOperationMethod<
   GcpOpContext,
   ListTopicsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1136, __c71, 0) as any as S.Schema<ListProjectsLocationsClustersTopicsRequest>,
-  output: __S(1138, __c71, 2) as any as S.Schema<ListTopicsResponse>,
+  input: __S(1104, __c69, 0) as any as S.Schema<ListProjectsLocationsClustersTopicsRequest>,
+  output: __S(1106, __c69, 2) as any as S.Schema<ListTopicsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2845,8 +2653,8 @@ export const listProjectsLocationsConnectClusters: API.PaginatedOperationMethod<
   GcpOpContext,
   ListConnectClustersResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1152, __c72, 0) as any as S.Schema<ListProjectsLocationsConnectClustersRequest>,
-  output: __S(1154, __c72, 2) as any as S.Schema<ListConnectClustersResponse>,
+  input: __S(1120, __c70, 0) as any as S.Schema<ListProjectsLocationsConnectClustersRequest>,
+  output: __S(1122, __c70, 2) as any as S.Schema<ListConnectClustersResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2865,11 +2673,11 @@ export const listProjectsLocationsConnectClustersConnectors: API.PaginatedOperat
   ListConnectorsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    1168,
-    __c73,
+    1136,
+    __c71,
     0,
   ) as any as S.Schema<ListProjectsLocationsConnectClustersConnectorsRequest>,
-  output: __S(1170, __c73, 2) as any as S.Schema<ListConnectorsResponse>,
+  output: __S(1138, __c71, 2) as any as S.Schema<ListConnectorsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2887,8 +2695,8 @@ export const listProjectsLocationsOperations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListOperationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1184, __c74, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
-  output: __S(1186, __c74, 2) as any as S.Schema<ListOperationsResponse>,
+  input: __S(1152, __c72, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
+  output: __S(1154, __c72, 2) as any as S.Schema<ListOperationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2909,8 +2717,8 @@ export const listProjectsLocationsSchemaRegistries: API.OperationMethod<
   ListProjectsLocationsSchemaRegistriesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1200, __c75, 0) as any as S.Schema<ListProjectsLocationsSchemaRegistriesRequest>,
-  output: __S(1202, __c75, 2) as any as S.Schema<ListSchemaRegistriesResponse>,
+  input: __S(1168, __c73, 0) as any as S.Schema<ListProjectsLocationsSchemaRegistriesRequest>,
+  output: __S(1170, __c73, 2) as any as S.Schema<ListSchemaRegistriesResponse>,
   errors: [NotFound, Forbidden, SchemaRegistryRequiresCluster, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2931,8 +2739,8 @@ export const listProjectsLocationsSchemaRegistriesContexts: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1216,
-    __c76,
+    1184,
+    __c74,
     0,
   ) as any as S.Schema<ListProjectsLocationsSchemaRegistriesContextsRequest>,
   output: __S(544, __c34, 0) as any as S.Schema<HttpBody>,
@@ -2956,8 +2764,8 @@ export const listProjectsLocationsSchemaRegistriesContextsSchemasSubjects: API.O
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1232,
-    __c77,
+    1200,
+    __c75,
     0,
   ) as any as S.Schema<ListProjectsLocationsSchemaRegistriesContextsSchemasSubjectsRequest>,
   output: __S(544, __c34, 0) as any as S.Schema<HttpBody>,
@@ -2981,8 +2789,8 @@ export const listProjectsLocationsSchemaRegistriesContextsSchemasTypes: API.Oper
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1248,
-    __c78,
+    1216,
+    __c76,
     0,
   ) as any as S.Schema<ListProjectsLocationsSchemaRegistriesContextsSchemasTypesRequest>,
   output: __S(544, __c34, 0) as any as S.Schema<HttpBody>,
@@ -3006,8 +2814,8 @@ export const listProjectsLocationsSchemaRegistriesContextsSchemasVersions: API.O
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1264,
-    __c79,
+    1232,
+    __c77,
     0,
   ) as any as S.Schema<ListProjectsLocationsSchemaRegistriesContextsSchemasVersionsRequest>,
   output: __S(544, __c34, 0) as any as S.Schema<HttpBody>,
@@ -3031,8 +2839,8 @@ export const listProjectsLocationsSchemaRegistriesContextsSubjects: API.Operatio
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1312,
-    __c82,
+    1280,
+    __c80,
     0,
   ) as any as S.Schema<ListProjectsLocationsSchemaRegistriesContextsSubjectsRequest>,
   output: __S(544, __c34, 0) as any as S.Schema<HttpBody>,
@@ -3056,8 +2864,8 @@ export const listProjectsLocationsSchemaRegistriesContextsSubjectsVersions: API.
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1328,
-    __c83,
+    1296,
+    __c81,
     0,
   ) as any as S.Schema<ListProjectsLocationsSchemaRegistriesContextsSubjectsVersionsRequest>,
   output: __S(544, __c34, 0) as any as S.Schema<HttpBody>,
@@ -3081,8 +2889,8 @@ export const listProjectsLocationsSchemaRegistriesContextsSubjectsVersionsRefere
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1344,
-    __c84,
+    1312,
+    __c82,
     0,
   ) as any as S.Schema<ListProjectsLocationsSchemaRegistriesContextsSubjectsVersionsReferencedbyRequest>,
   output: __S(544, __c34, 0) as any as S.Schema<HttpBody>,
@@ -3106,8 +2914,8 @@ export const listProjectsLocationsSchemaRegistriesSchemasSubjects: API.Operation
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1360,
-    __c85,
+    1328,
+    __c83,
     0,
   ) as any as S.Schema<ListProjectsLocationsSchemaRegistriesSchemasSubjectsRequest>,
   output: __S(544, __c34, 0) as any as S.Schema<HttpBody>,
@@ -3131,8 +2939,8 @@ export const listProjectsLocationsSchemaRegistriesSchemasTypes: API.OperationMet
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1376,
-    __c86,
+    1344,
+    __c84,
     0,
   ) as any as S.Schema<ListProjectsLocationsSchemaRegistriesSchemasTypesRequest>,
   output: __S(544, __c34, 0) as any as S.Schema<HttpBody>,
@@ -3156,8 +2964,8 @@ export const listProjectsLocationsSchemaRegistriesSchemasVersions: API.Operation
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1392,
-    __c87,
+    1360,
+    __c85,
     0,
   ) as any as S.Schema<ListProjectsLocationsSchemaRegistriesSchemasVersionsRequest>,
   output: __S(544, __c34, 0) as any as S.Schema<HttpBody>,
@@ -3181,8 +2989,8 @@ export const listProjectsLocationsSchemaRegistriesSubjects: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1408,
-    __c88,
+    1376,
+    __c86,
     0,
   ) as any as S.Schema<ListProjectsLocationsSchemaRegistriesSubjectsRequest>,
   output: __S(544, __c34, 0) as any as S.Schema<HttpBody>,
@@ -3206,8 +3014,8 @@ export const listProjectsLocationsSchemaRegistriesSubjectsVersions: API.Operatio
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1424,
-    __c89,
+    1392,
+    __c87,
     0,
   ) as any as S.Schema<ListProjectsLocationsSchemaRegistriesSubjectsVersionsRequest>,
   output: __S(544, __c34, 0) as any as S.Schema<HttpBody>,
@@ -3231,8 +3039,8 @@ export const listProjectsLocationsSchemaRegistriesSubjectsVersionsReferencedby: 
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1440,
-    __c90,
+    1408,
+    __c88,
     0,
   ) as any as S.Schema<ListProjectsLocationsSchemaRegistriesSubjectsVersionsReferencedbyRequest>,
   output: __S(544, __c34, 0) as any as S.Schema<HttpBody>,
@@ -3258,11 +3066,11 @@ export const lookupVersionProjectsLocationsSchemaRegistriesContextsSubjects: API
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1456,
-    __c91,
+    1424,
+    __c89,
     0,
   ) as any as S.Schema<LookupVersionProjectsLocationsSchemaRegistriesContextsSubjectsRequest>,
-  output: __S(944, __c59, 0) as any as S.Schema<SchemaVersion>,
+  output: __S(912, __c57, 0) as any as S.Schema<SchemaVersion>,
   errors: [
     NotFound,
     Forbidden,
@@ -3292,11 +3100,11 @@ export const lookupVersionProjectsLocationsSchemaRegistriesSubjects: API.Operati
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1504,
-    __c94,
+    1488,
+    __c93,
     0,
   ) as any as S.Schema<LookupVersionProjectsLocationsSchemaRegistriesSubjectsRequest>,
-  output: __S(944, __c59, 0) as any as S.Schema<SchemaVersion>,
+  output: __S(912, __c57, 0) as any as S.Schema<SchemaVersion>,
   errors: [
     NotFound,
     Forbidden,
@@ -3324,7 +3132,7 @@ export const patchProjectsLocationsClusters: API.OperationMethod<
   PatchProjectsLocationsClustersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1520, __c95, 0) as any as S.Schema<PatchProjectsLocationsClustersRequest>,
+  input: __S(1504, __c94, 0) as any as S.Schema<PatchProjectsLocationsClustersRequest>,
   output: __S(81, __c5, 1) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -3347,8 +3155,8 @@ export const patchProjectsLocationsClustersAcls: API.OperationMethod<
   PatchProjectsLocationsClustersAclsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1536, __c96, 0) as any as S.Schema<PatchProjectsLocationsClustersAclsRequest>,
-  output: __S(1298, __c81, 2) as any as S.Schema<Acl>,
+  input: __S(1520, __c95, 0) as any as S.Schema<PatchProjectsLocationsClustersAclsRequest>,
+  output: __S(1266, __c79, 2) as any as S.Schema<Acl>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, AclClusterNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3370,11 +3178,11 @@ export const patchProjectsLocationsClustersConsumerGroups: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1552,
-    __c97,
+    1536,
+    __c96,
     0,
   ) as any as S.Schema<PatchProjectsLocationsClustersConsumerGroupsRequest>,
-  output: __S(724, __c45, 4) as any as S.Schema<ConsumerGroup>,
+  output: __S(708, __c44, 4) as any as S.Schema<ConsumerGroup>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3395,7 +3203,7 @@ export const patchProjectsLocationsClustersTopics: API.OperationMethod<
   PatchProjectsLocationsClustersTopicsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1568, __c98, 0) as any as S.Schema<PatchProjectsLocationsClustersTopicsRequest>,
+  input: __S(1552, __c97, 0) as any as S.Schema<PatchProjectsLocationsClustersTopicsRequest>,
   output: __S(176, __c11, 0) as any as S.Schema<Topic>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -3417,7 +3225,7 @@ export const patchProjectsLocationsConnectClusters: API.OperationMethod<
   PatchProjectsLocationsConnectClustersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1584, __c99, 0) as any as S.Schema<PatchProjectsLocationsConnectClustersRequest>,
+  input: __S(1568, __c98, 0) as any as S.Schema<PatchProjectsLocationsConnectClustersRequest>,
   output: __S(81, __c5, 1) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -3440,8 +3248,8 @@ export const patchProjectsLocationsConnectClustersConnectors: API.OperationMetho
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1600,
-    __c100,
+    1584,
+    __c99,
     0,
   ) as any as S.Schema<PatchProjectsLocationsConnectClustersConnectorsRequest>,
   output: __S(241, __c15, 1) as any as S.Schema<Connector>,
@@ -3466,11 +3274,11 @@ export const pauseProjectsLocationsConnectClustersConnectors: API.OperationMetho
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1616,
-    __c101,
+    1600,
+    __c100,
     0,
   ) as any as S.Schema<PauseProjectsLocationsConnectClustersConnectorsRequest>,
-  output: __S(1488, __c93, 0) as any as S.Schema<PauseConnectorResponse>,
+  output: __S(1472, __c92, 0) as any as S.Schema<PauseConnectorResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3493,11 +3301,11 @@ export const removeAclEntryProjectsLocationsClustersAcls: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1632,
-    __c102,
+    1616,
+    __c101,
     0,
   ) as any as S.Schema<RemoveAclEntryProjectsLocationsClustersAclsRequest>,
-  output: __S(1633, __c102, 1) as any as S.Schema<RemoveAclEntryResponse>,
+  output: __S(1617, __c101, 1) as any as S.Schema<RemoveAclEntryResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, AclClusterNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3519,11 +3327,11 @@ export const restartProjectsLocationsConnectClustersConnectors: API.OperationMet
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1648,
-    __c103,
+    1632,
+    __c102,
     0,
   ) as any as S.Schema<RestartProjectsLocationsConnectClustersConnectorsRequest>,
-  output: __S(1488, __c93, 0) as any as S.Schema<RestartConnectorResponse>,
+  output: __S(1472, __c92, 0) as any as S.Schema<RestartConnectorResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3545,11 +3353,11 @@ export const resumeProjectsLocationsConnectClustersConnectors: API.OperationMeth
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1728,
-    __c108,
+    1712,
+    __c107,
     0,
   ) as any as S.Schema<ResumeProjectsLocationsConnectClustersConnectorsRequest>,
-  output: __S(1488, __c93, 0) as any as S.Schema<ResumeConnectorResponse>,
+  output: __S(1472, __c92, 0) as any as S.Schema<ResumeConnectorResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3571,11 +3379,11 @@ export const stopProjectsLocationsConnectClustersConnectors: API.OperationMethod
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1744,
-    __c109,
+    1728,
+    __c108,
     0,
   ) as any as S.Schema<StopProjectsLocationsConnectClustersConnectorsRequest>,
-  output: __S(1488, __c93, 0) as any as S.Schema<StopConnectorResponse>,
+  output: __S(1472, __c92, 0) as any as S.Schema<StopConnectorResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3598,8 +3406,8 @@ export const updateProjectsLocationsSchemaRegistriesConfig: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1760,
-    __c110,
+    1744,
+    __c109,
     0,
   ) as any as S.Schema<UpdateProjectsLocationsSchemaRegistriesConfigRequest>,
   output: __S(480, __c30, 0) as any as S.Schema<SchemaConfig>,
@@ -3724,13 +3532,12 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          schemaType: S.optional(S.String),
-          schema: S.optional(S.String),
-          verbose: S.optional(S.Boolean),
-          references: S.optional(__S(1713, __c107, 1)),
-        }).pipe(
+        S.Extend(
+          __S(1664, __c104, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}",
@@ -3747,29 +3554,14 @@ function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          clusterId: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          capacityConfig: S.optional(__S(96, __c6, 0)),
-          brokerDetails: S.optional(__S(129, __c8, 1)),
-          satisfiesPzs: S.optional(S.Boolean),
-          effectiveCapacityConfig: S.optional(__S(130, __c8, 2)),
-          updateOptions: S.optional(__S(131, __c8, 3)),
-          rebalanceConfig: S.optional(__S(112, __c7, 0)),
-          brokerCapacityConfig: S.optional(__S(132, __c8, 4)),
-          satisfiesPzi: S.optional(S.Boolean),
-          bootstrapAddress: S.optional(S.String),
-          state: S.optional(S.String),
-          createTime: S.optional(S.String),
-          kafkaVersion: S.optional(S.String),
-          tlsConfig: S.optional(__S(136, __c8, 8)),
-          updateTime: S.optional(S.String),
-          name: S.optional(S.String),
-          labels: S.optional(__S(32, __c2, 0)),
-          publicClusterDetails: S.optional(__S(137, __c8, 9)),
-          gcpConfig: S.optional(__S(142, __c8, 14)),
-        }).pipe(
+        S.Extend(
+          __S(143, __c8, 15),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            clusterId: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/clusters",
@@ -3895,8 +3687,8 @@ function __c8(j: number): any {
     case 9:
       return S.suspend(() =>
         S.Struct({
-          discoveryDnsRecords: S.optional(__S(1696, __c106, 0)),
-          externalIpAddresses: S.optional(__S(1696, __c106, 0)),
+          discoveryDnsRecords: S.optional(__S(1680, __c105, 0)),
+          externalIpAddresses: S.optional(__S(1680, __c105, 0)),
         }),
       ).annotate({ identifier: "PublicClusterDetails" });
     case 10:
@@ -3910,7 +3702,7 @@ function __c8(j: number): any {
     case 12:
       return S.suspend(() =>
         S.Struct({
-          allowedSourceIpRanges: S.optional(__S(1696, __c106, 0)),
+          allowedSourceIpRanges: S.optional(__S(1680, __c105, 0)),
         }),
       ).annotate({ identifier: "PublicClusterConfig" });
     case 13:
@@ -3927,22 +3719,42 @@ function __c8(j: number): any {
           accessConfig: S.optional(__S(141, __c8, 13)),
         }),
       ).annotate({ identifier: "GcpConfig" });
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          capacityConfig: S.optional(__S(96, __c6, 0)),
+          brokerDetails: S.optional(__S(129, __c8, 1)),
+          satisfiesPzs: S.optional(S.Boolean),
+          effectiveCapacityConfig: S.optional(__S(130, __c8, 2)),
+          updateOptions: S.optional(__S(131, __c8, 3)),
+          rebalanceConfig: S.optional(__S(112, __c7, 0)),
+          brokerCapacityConfig: S.optional(__S(132, __c8, 4)),
+          satisfiesPzi: S.optional(S.Boolean),
+          bootstrapAddress: S.optional(S.String),
+          state: S.optional(S.String),
+          createTime: S.optional(S.String),
+          kafkaVersion: S.optional(S.String),
+          tlsConfig: S.optional(__S(136, __c8, 8)),
+          updateTime: S.optional(S.String),
+          name: S.optional(S.String),
+          labels: S.optional(__S(32, __c2, 0)),
+          publicClusterDetails: S.optional(__S(137, __c8, 9)),
+          gcpConfig: S.optional(__S(142, __c8, 14)),
+        }),
+      ).annotate({ identifier: "Cluster" });
   }
 }
 function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          aclId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          etag: S.optional(S.String),
-          resourceName: S.optional(S.String),
-          aclEntries: S.optional(__S(1297, __c81, 1)),
-          patternType: S.optional(S.String),
-          name: S.optional(S.String),
-          resourceType: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1266, __c79, 2),
+          S.Struct({
+            aclId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/acls",
@@ -3956,14 +3768,13 @@ function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          topicId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          name: S.optional(S.String),
-          configs: S.optional(__S(32, __c2, 0)),
-          replicationFactor: S.optional(S.Number),
-          partitionCount: S.optional(S.Number),
-        }).pipe(
+        S.Extend(
+          __S(176, __c11, 0),
+          S.Struct({
+            topicId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/topics",
@@ -3990,22 +3801,14 @@ function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          connectClusterId: S.optional(S.String.pipe(T.Query())),
-          config: S.optional(__S(32, __c2, 0)),
-          updateTime: S.optional(S.String),
-          capacityConfig: S.optional(__S(96, __c6, 0)),
-          labels: S.optional(__S(32, __c2, 0)),
-          state: S.optional(S.String),
-          satisfiesPzs: S.optional(S.Boolean),
-          name: S.optional(S.String),
-          createTime: S.optional(S.String),
-          kafkaCluster: S.optional(S.String),
-          gcpConfig: S.optional(__S(211, __c13, 3)),
-          satisfiesPzi: S.optional(S.Boolean),
-        }).pipe(
+        S.Extend(
+          __S(212, __c13, 4),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            connectClusterId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/connectClusters",
@@ -4020,9 +3823,9 @@ function __c13(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          dnsDomainNames: S.optional(__S(1696, __c106, 0)),
+          dnsDomainNames: S.optional(__S(1680, __c105, 0)),
           primarySubnet: S.optional(S.String),
-          additionalSubnets: S.optional(__S(1696, __c106, 0)),
+          additionalSubnets: S.optional(__S(1680, __c105, 0)),
         }),
       ).annotate({ identifier: "ConnectNetworkConfig" });
     case 1:
@@ -4036,24 +3839,39 @@ function __c13(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          secretPaths: S.optional(__S(1696, __c106, 0)),
+          secretPaths: S.optional(__S(1680, __c105, 0)),
           accessConfig: S.optional(__S(210, __c13, 2)),
         }),
       ).annotate({ identifier: "ConnectGcpConfig" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          config: S.optional(__S(32, __c2, 0)),
+          updateTime: S.optional(S.String),
+          capacityConfig: S.optional(__S(96, __c6, 0)),
+          labels: S.optional(__S(32, __c2, 0)),
+          state: S.optional(S.String),
+          satisfiesPzs: S.optional(S.Boolean),
+          name: S.optional(S.String),
+          createTime: S.optional(S.String),
+          kafkaCluster: S.optional(S.String),
+          gcpConfig: S.optional(__S(211, __c13, 3)),
+          satisfiesPzi: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "ConnectCluster" });
   }
 }
 function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          connectorId: S.optional(S.String.pipe(T.Query())),
-          state: S.optional(S.String),
-          name: S.optional(S.String),
-          configs: S.optional(__S(32, __c2, 0)),
-          taskRestartPolicy: S.optional(__S(240, __c15, 0)),
-        }).pipe(
+        S.Extend(
+          __S(241, __c15, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            connectorId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/connectors",
@@ -4089,10 +3907,18 @@ function __c16(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
           schemaRegistryId: S.optional(S.String),
           schemaRegistry: S.optional(__S(272, __c17, 0)),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "CreateSchemaRegistryRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(256, __c16, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/schemaRegistries",
@@ -4107,7 +3933,7 @@ function __c17(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          contexts: S.optional(__S(1696, __c106, 0)),
+          contexts: S.optional(__S(1680, __c105, 0)),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "SchemaRegistry" });
@@ -4117,15 +3943,12 @@ function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          version: S.optional(S.Number),
-          schemaType: S.optional(S.String),
-          id: S.optional(S.Number),
-          references: S.optional(__S(1713, __c107, 1)),
-          schema: S.optional(S.String),
-          normalize: S.optional(S.Boolean),
-        }).pipe(
+        S.Extend(
+          __S(304, __c19, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/versions",
@@ -4142,6 +3965,17 @@ function __c19(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          version: S.optional(S.Number),
+          schemaType: S.optional(S.String),
+          id: S.optional(S.Number),
+          references: S.optional(__S(1697, __c106, 1)),
+          schema: S.optional(S.String),
+          normalize: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "CreateVersionRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
           id: S.optional(S.Number),
         }),
       ).annotate({ identifier: "CreateVersionResponse" });
@@ -4151,15 +3985,12 @@ function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          version: S.optional(S.Number),
-          schemaType: S.optional(S.String),
-          id: S.optional(S.Number),
-          references: S.optional(__S(1713, __c107, 1)),
-          schema: S.optional(S.String),
-          normalize: S.optional(S.Boolean),
-        }).pipe(
+        S.Extend(
+          __S(304, __c19, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/versions",
@@ -4509,26 +4340,15 @@ function __c42(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          capacityConfig: S.optional(__S(96, __c6, 0)),
-          brokerDetails: S.optional(__S(129, __c8, 1)),
-          satisfiesPzs: S.optional(S.Boolean),
-          effectiveCapacityConfig: S.optional(__S(130, __c8, 2)),
-          updateOptions: S.optional(__S(131, __c8, 3)),
-          rebalanceConfig: S.optional(__S(112, __c7, 0)),
-          brokerCapacityConfig: S.optional(__S(132, __c8, 4)),
-          satisfiesPzi: S.optional(S.Boolean),
-          bootstrapAddress: S.optional(S.String),
-          state: S.optional(S.String),
-          createTime: S.optional(S.String),
-          kafkaVersion: S.optional(S.String),
-          tlsConfig: S.optional(__S(136, __c8, 8)),
-          updateTime: S.optional(S.String),
-          name: S.optional(S.String),
-          labels: S.optional(__S(32, __c2, 0)),
-          publicClusterDetails: S.optional(__S(137, __c8, 9)),
-          gcpConfig: S.optional(__S(142, __c8, 14)),
-        }),
-      ).annotate({ identifier: "Cluster" });
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1/{+name}",
+            baseUrl: "https://managedkafka.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "GetProjectsLocationsClustersAclsRequest" });
   }
 }
 function __c43(j: number): any {
@@ -4544,26 +4364,10 @@ function __c43(j: number): any {
             baseUrl: "https://managedkafka.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsClustersAclsRequest" });
-  }
-}
-function __c44(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v1/{+name}",
-            baseUrl: "https://managedkafka.googleapis.com/",
-          }),
-        ),
       ).annotate({ identifier: "GetProjectsLocationsClustersConsumerGroupsRequest" });
   }
 }
-function __c45(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4573,25 +4377,25 @@ function __c45(j: number): any {
         }),
       ).annotate({ identifier: "ConsumerPartitionMetadata" });
     case 1:
-      return S.Record(S.String, __S(720, __c45, 0));
+      return S.Record(S.String, __S(704, __c44, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          partitions: S.optional(__S(721, __c45, 1)),
+          partitions: S.optional(__S(705, __c44, 1)),
         }),
       ).annotate({ identifier: "ConsumerTopicMetadata" });
     case 3:
-      return S.Record(S.String, __S(722, __c45, 2));
+      return S.Record(S.String, __S(706, __c44, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          topics: S.optional(__S(723, __c45, 3)),
+          topics: S.optional(__S(707, __c44, 3)),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "ConsumerGroup" });
   }
 }
-function __c46(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4607,7 +4411,7 @@ function __c46(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsClustersTopicsRequest" });
   }
 }
-function __c47(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4623,27 +4427,7 @@ function __c47(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsConnectClustersRequest" });
   }
 }
-function __c48(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          config: S.optional(__S(32, __c2, 0)),
-          updateTime: S.optional(S.String),
-          capacityConfig: S.optional(__S(96, __c6, 0)),
-          labels: S.optional(__S(32, __c2, 0)),
-          state: S.optional(S.String),
-          satisfiesPzs: S.optional(S.Boolean),
-          name: S.optional(S.String),
-          createTime: S.optional(S.String),
-          kafkaCluster: S.optional(S.String),
-          gcpConfig: S.optional(__S(211, __c13, 3)),
-          satisfiesPzi: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "ConnectCluster" });
-  }
-}
-function __c49(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4659,7 +4443,7 @@ function __c49(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsConnectClustersConnectorsRequest" });
   }
 }
-function __c50(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4675,7 +4459,7 @@ function __c50(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsOperationsRequest" });
   }
 }
-function __c51(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4691,7 +4475,7 @@ function __c51(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsSchemaRegistriesRequest" });
   }
 }
-function __c52(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4708,7 +4492,7 @@ function __c52(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsSchemaRegistriesConfigRequest" });
   }
 }
-function __c53(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4725,13 +4509,13 @@ function __c53(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          subjects: S.optional(__S(1696, __c106, 0)),
+          subjects: S.optional(__S(1680, __c105, 0)),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "Context" });
   }
 }
-function __c54(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4748,7 +4532,7 @@ function __c54(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsSchemaRegistriesContextsConfigRequest" });
   }
 }
-function __c55(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4764,7 +4548,7 @@ function __c55(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsSchemaRegistriesContextsModeRequest" });
   }
 }
-function __c56(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4781,19 +4565,19 @@ function __c56(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsSchemaRegistriesContextsSchemasRequest" });
   }
 }
-function __c57(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          references: S.optional(__S(1713, __c107, 1)),
+          references: S.optional(__S(1697, __c106, 1)),
           schema: S.optional(S.String),
           schemaType: S.optional(S.String),
         }),
       ).annotate({ identifier: "Managedkafka_Schema" });
   }
 }
-function __c58(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4812,12 +4596,12 @@ function __c58(j: number): any {
       });
   }
 }
-function __c59(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          references: S.optional(__S(1713, __c107, 1)),
+          references: S.optional(__S(1697, __c106, 1)),
           id: S.optional(S.Number),
           schemaType: S.optional(S.String),
           schema: S.optional(S.String),
@@ -4827,7 +4611,7 @@ function __c59(j: number): any {
       ).annotate({ identifier: "SchemaVersion" });
   }
 }
-function __c60(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4843,7 +4627,7 @@ function __c60(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsSchemaRegistriesModeRequest" });
   }
 }
-function __c61(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4860,7 +4644,7 @@ function __c61(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsSchemaRegistriesSchemasRequest" });
   }
 }
-function __c62(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4877,7 +4661,7 @@ function __c62(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsSchemaRegistriesSubjectsVersionsRequest" });
   }
 }
-function __c63(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4896,7 +4680,7 @@ function __c63(j: number): any {
       });
   }
 }
-function __c64(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4915,7 +4699,7 @@ function __c64(j: number): any {
       });
   }
 }
-function __c65(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4932,7 +4716,7 @@ function __c65(j: number): any {
       ).annotate({ identifier: "GetSchemaProjectsLocationsSchemaRegistriesSchemasRequest" });
   }
 }
-function __c66(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4951,12 +4735,12 @@ function __c66(j: number): any {
       });
   }
 }
-function __c67(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          extraLocationTypes: S.optional(__S(1696, __c106, 0).pipe(T.Query())),
+          extraLocationTypes: S.optional(__S(1680, __c105, 0).pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
@@ -4974,13 +4758,13 @@ function __c67(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          locations: S.optional(__S(1073, __c67, 1)),
+          locations: S.optional(__S(1041, __c65, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListLocationsResponse" });
   }
 }
-function __c68(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4999,18 +4783,18 @@ function __c68(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsClustersRequest" });
     case 1:
-      return S.Array(__S(672, __c42, 0));
+      return S.Array(__S(143, __c8, 15));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(1696, __c106, 0)),
-          clusters: S.optional(__S(1089, __c68, 1)),
+          unreachable: S.optional(__S(1680, __c105, 0)),
+          clusters: S.optional(__S(1057, __c66, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListClustersResponse" });
   }
 }
-function __c69(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5027,17 +4811,17 @@ function __c69(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsClustersAclsRequest" });
     case 1:
-      return S.Array(__S(1298, __c81, 2));
+      return S.Array(__S(1266, __c79, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          acls: S.optional(__S(1105, __c69, 1)),
+          acls: S.optional(__S(1073, __c67, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListAclsResponse" });
   }
 }
-function __c70(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5056,17 +4840,17 @@ function __c70(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsClustersConsumerGroupsRequest" });
     case 1:
-      return S.Array(__S(724, __c45, 4));
+      return S.Array(__S(708, __c44, 4));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          consumerGroups: S.optional(__S(1121, __c70, 1)),
+          consumerGroups: S.optional(__S(1089, __c68, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListConsumerGroupsResponse" });
   }
 }
-function __c71(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5088,12 +4872,12 @@ function __c71(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          topics: S.optional(__S(1137, __c71, 1)),
+          topics: S.optional(__S(1105, __c69, 1)),
         }),
       ).annotate({ identifier: "ListTopicsResponse" });
   }
 }
-function __c72(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5112,18 +4896,18 @@ function __c72(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsConnectClustersRequest" });
     case 1:
-      return S.Array(__S(768, __c48, 0));
+      return S.Array(__S(212, __c13, 4));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(1696, __c106, 0)),
-          connectClusters: S.optional(__S(1153, __c72, 1)),
+          unreachable: S.optional(__S(1680, __c105, 0)),
+          connectClusters: S.optional(__S(1121, __c70, 1)),
         }),
       ).annotate({ identifier: "ListConnectClustersResponse" });
   }
 }
-function __c73(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5144,13 +4928,13 @@ function __c73(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          connectors: S.optional(__S(1169, __c73, 1)),
+          connectors: S.optional(__S(1137, __c71, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListConnectorsResponse" });
   }
 }
-function __c74(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5173,14 +4957,14 @@ function __c74(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(1696, __c106, 0)),
-          operations: S.optional(__S(1185, __c74, 1)),
+          unreachable: S.optional(__S(1680, __c105, 0)),
+          operations: S.optional(__S(1153, __c72, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
   }
 }
-function __c75(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5200,12 +4984,12 @@ function __c75(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          schemaRegistries: S.optional(__S(1201, __c75, 1)),
+          schemaRegistries: S.optional(__S(1169, __c73, 1)),
         }),
       ).annotate({ identifier: "ListSchemaRegistriesResponse" });
   }
 }
-function __c76(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5221,7 +5005,7 @@ function __c76(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsSchemaRegistriesContextsRequest" });
   }
 }
-function __c77(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5241,7 +5025,7 @@ function __c77(j: number): any {
       });
   }
 }
-function __c78(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5259,7 +5043,7 @@ function __c78(j: number): any {
       });
   }
 }
-function __c79(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5279,17 +5063,16 @@ function __c79(j: number): any {
       });
   }
 }
-function __c80(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          acl: S.String.pipe(T.Label()),
-          permissionType: S.optional(S.String),
-          principal: S.optional(S.String),
-          operation: S.optional(S.String),
-          host: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1264, __c79, 0),
+          S.Struct({
+            acl: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+acl}:addAclEntry",
@@ -5300,13 +5083,13 @@ function __c80(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          acl: S.optional(__S(1298, __c81, 2)),
+          acl: S.optional(__S(1266, __c79, 2)),
           aclCreated: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "AddAclEntryResponse" });
   }
 }
-function __c81(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5318,13 +5101,13 @@ function __c81(j: number): any {
         }),
       ).annotate({ identifier: "AclEntry" });
     case 1:
-      return S.Array(__S(1296, __c81, 0));
+      return S.Array(__S(1264, __c79, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           etag: S.optional(S.String),
           resourceName: S.optional(S.String),
-          aclEntries: S.optional(__S(1297, __c81, 1)),
+          aclEntries: S.optional(__S(1265, __c79, 1)),
           patternType: S.optional(S.String),
           name: S.optional(S.String),
           resourceType: S.optional(S.String),
@@ -5332,7 +5115,7 @@ function __c81(j: number): any {
       ).annotate({ identifier: "Acl" });
   }
 }
-function __c82(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5350,7 +5133,7 @@ function __c82(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsSchemaRegistriesContextsSubjectsRequest" });
   }
 }
-function __c83(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5369,7 +5152,7 @@ function __c83(j: number): any {
       });
   }
 }
-function __c84(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5388,7 +5171,7 @@ function __c84(j: number): any {
       });
   }
 }
-function __c85(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5406,7 +5189,7 @@ function __c85(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsSchemaRegistriesSchemasSubjectsRequest" });
   }
 }
-function __c86(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5422,7 +5205,7 @@ function __c86(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsSchemaRegistriesSchemasTypesRequest" });
   }
 }
-function __c87(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5440,7 +5223,7 @@ function __c87(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsSchemaRegistriesSchemasVersionsRequest" });
   }
 }
-function __c88(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5458,7 +5241,7 @@ function __c88(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsSchemaRegistriesSubjectsRequest" });
   }
 }
-function __c89(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5475,7 +5258,7 @@ function __c89(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsSchemaRegistriesSubjectsVersionsRequest" });
   }
 }
-function __c90(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5493,18 +5276,16 @@ function __c90(j: number): any {
       });
   }
 }
-function __c91(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          schema: S.optional(S.String),
-          schemaType: S.optional(S.String),
-          references: S.optional(__S(1713, __c107, 1)),
-          deleted: S.optional(S.Boolean),
-          normalize: S.optional(S.Boolean),
-        }).pipe(
+        S.Extend(
+          __S(1440, __c90, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}",
@@ -5516,13 +5297,27 @@ function __c91(j: number): any {
       });
   }
 }
-function __c92(j: number): any {
+function __c90(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          schema: S.optional(S.String),
+          schemaType: S.optional(S.String),
+          references: S.optional(__S(1697, __c106, 1)),
+          deleted: S.optional(S.Boolean),
+          normalize: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "LookupVersionRequest" });
+  }
+}
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1488, __c93, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(1472, __c92, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5533,24 +5328,22 @@ function __c92(j: number): any {
       ).annotate({ identifier: "CancelProjectsLocationsOperationsRequest" });
   }
 }
-function __c93(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "CancelOperationRequest" });
   }
 }
-function __c94(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          schema: S.optional(S.String),
-          schemaType: S.optional(S.String),
-          references: S.optional(__S(1713, __c107, 1)),
-          deleted: S.optional(S.Boolean),
-          normalize: S.optional(S.Boolean),
-        }).pipe(
+        S.Extend(
+          __S(1440, __c90, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}",
@@ -5560,32 +5353,18 @@ function __c94(j: number): any {
       ).annotate({ identifier: "LookupVersionProjectsLocationsSchemaRegistriesSubjectsRequest" });
   }
 }
-function __c95(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          capacityConfig: S.optional(__S(96, __c6, 0)),
-          brokerDetails: S.optional(__S(129, __c8, 1)),
-          satisfiesPzs: S.optional(S.Boolean),
-          effectiveCapacityConfig: S.optional(__S(130, __c8, 2)),
-          updateOptions: S.optional(__S(131, __c8, 3)),
-          rebalanceConfig: S.optional(__S(112, __c7, 0)),
-          brokerCapacityConfig: S.optional(__S(132, __c8, 4)),
-          satisfiesPzi: S.optional(S.Boolean),
-          bootstrapAddress: S.optional(S.String),
-          state: S.optional(S.String),
-          createTime: S.optional(S.String),
-          kafkaVersion: S.optional(S.String),
-          tlsConfig: S.optional(__S(136, __c8, 8)),
-          updateTime: S.optional(S.String),
-          labels: S.optional(__S(32, __c2, 0)),
-          publicClusterDetails: S.optional(__S(137, __c8, 9)),
-          gcpConfig: S.optional(__S(142, __c8, 14)),
-        }).pipe(
+        S.Extend(
+          __S(143, __c8, 15),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -5595,19 +5374,17 @@ function __c95(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsClustersRequest" });
   }
 }
-function __c96(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          etag: S.optional(S.String),
-          resourceName: S.optional(S.String),
-          aclEntries: S.optional(__S(1297, __c81, 1)),
-          patternType: S.optional(S.String),
-          resourceType: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1266, __c79, 2),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -5617,15 +5394,17 @@ function __c96(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsClustersAclsRequest" });
   }
 }
-function __c97(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          topics: S.optional(__S(723, __c45, 3)),
-        }).pipe(
+        S.Extend(
+          __S(708, __c44, 4),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -5635,17 +5414,17 @@ function __c97(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsClustersConsumerGroupsRequest" });
   }
 }
-function __c98(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          configs: S.optional(__S(32, __c2, 0)),
-          replicationFactor: S.optional(S.Number),
-          partitionCount: S.optional(S.Number),
-        }).pipe(
+        S.Extend(
+          __S(176, __c11, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -5655,25 +5434,18 @@ function __c98(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsClustersTopicsRequest" });
   }
 }
-function __c99(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          config: S.optional(__S(32, __c2, 0)),
-          updateTime: S.optional(S.String),
-          capacityConfig: S.optional(__S(96, __c6, 0)),
-          labels: S.optional(__S(32, __c2, 0)),
-          state: S.optional(S.String),
-          satisfiesPzs: S.optional(S.Boolean),
-          createTime: S.optional(S.String),
-          kafkaCluster: S.optional(S.String),
-          gcpConfig: S.optional(__S(211, __c13, 3)),
-          satisfiesPzi: S.optional(S.Boolean),
-        }).pipe(
+        S.Extend(
+          __S(212, __c13, 4),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -5683,17 +5455,17 @@ function __c99(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsConnectClustersRequest" });
   }
 }
-function __c100(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          state: S.optional(S.String),
-          configs: S.optional(__S(32, __c2, 0)),
-          taskRestartPolicy: S.optional(__S(240, __c15, 0)),
-        }).pipe(
+        S.Extend(
+          __S(241, __c15, 1),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -5703,13 +5475,13 @@ function __c100(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsConnectClustersConnectorsRequest" });
   }
 }
-function __c101(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1488, __c93, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(1472, __c92, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5720,17 +5492,16 @@ function __c101(j: number): any {
       ).annotate({ identifier: "PauseProjectsLocationsConnectClustersConnectorsRequest" });
   }
 }
-function __c102(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          acl: S.String.pipe(T.Label()),
-          permissionType: S.optional(S.String),
-          principal: S.optional(S.String),
-          operation: S.optional(S.String),
-          host: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1264, __c79, 0),
+          S.Struct({
+            acl: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+acl}:removeAclEntry",
@@ -5742,18 +5513,18 @@ function __c102(j: number): any {
       return S.suspend(() =>
         S.Struct({
           aclDeleted: S.optional(S.Boolean),
-          acl: S.optional(__S(1298, __c81, 2)),
+          acl: S.optional(__S(1266, __c79, 2)),
         }),
       ).annotate({ identifier: "RemoveAclEntryResponse" });
   }
 }
-function __c103(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1488, __c93, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(1472, __c92, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5764,17 +5535,16 @@ function __c103(j: number): any {
       ).annotate({ identifier: "RestartProjectsLocationsConnectClustersConnectorsRequest" });
   }
 }
-function __c104(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          schemaType: S.optional(S.String),
-          schema: S.optional(S.String),
-          verbose: S.optional(S.Boolean),
-          references: S.optional(__S(1713, __c107, 1)),
-        }).pipe(
+        S.Extend(
+          __S(1664, __c104, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}",
@@ -5786,24 +5556,33 @@ function __c104(j: number): any {
       });
   }
 }
-function __c105(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          schemaType: S.optional(S.String),
+          schema: S.optional(S.String),
+          verbose: S.optional(S.Boolean),
+          references: S.optional(__S(1697, __c106, 1)),
+        }),
+      ).annotate({ identifier: "CheckCompatibilityRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
           is_compatible: S.optional(S.Boolean),
-          messages: S.optional(__S(1696, __c106, 0)),
+          messages: S.optional(__S(1680, __c105, 0)),
         }),
       ).annotate({ identifier: "CheckCompatibilityResponse" });
   }
 }
-function __c106(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c107(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5814,16 +5593,16 @@ function __c107(j: number): any {
         }),
       ).annotate({ identifier: "SchemaReference" });
     case 1:
-      return S.Array(__S(1712, __c107, 0));
+      return S.Array(__S(1696, __c106, 0));
   }
 }
-function __c108(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1488, __c93, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(1472, __c92, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5834,13 +5613,13 @@ function __c108(j: number): any {
       ).annotate({ identifier: "ResumeProjectsLocationsConnectClustersConnectorsRequest" });
   }
 }
-function __c109(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1488, __c93, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(1472, __c92, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5851,15 +5630,16 @@ function __c109(j: number): any {
       ).annotate({ identifier: "StopProjectsLocationsConnectClustersConnectorsRequest" });
   }
 }
-function __c110(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          compatibility: S.optional(S.String),
-          normalize: S.optional(S.Boolean),
-        }).pipe(
+        S.Extend(
+          __S(1760, __c110, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "v1/{+name}",
@@ -5869,15 +5649,27 @@ function __c110(j: number): any {
       ).annotate({ identifier: "UpdateProjectsLocationsSchemaRegistriesConfigRequest" });
   }
 }
-function __c111(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           compatibility: S.optional(S.String),
           normalize: S.optional(S.Boolean),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "UpdateSchemaConfigRequest" });
+  }
+}
+function __c111(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(1760, __c110, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "v1/{+name}",
@@ -5891,10 +5683,12 @@ function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          mode: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(112, __c7, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "v1/{+name}",
@@ -5908,10 +5702,12 @@ function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          mode: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(112, __c7, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "v1/{+name}",

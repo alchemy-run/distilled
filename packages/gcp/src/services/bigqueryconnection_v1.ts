@@ -293,42 +293,6 @@ export interface SalesforceDataCloudProperties {
   /** The ID of the user's Salesforce tenant. */
   tenantId?: string | undefined;
 }
-export interface CreateProjectsLocationsConnectionsRequest {
-  /** Optional. Connection id that should be assigned to the created connection. */
-  connectionId?: string | undefined;
-  /** Required. Parent resource name. Must be in the format `projects/{project_id}/locations/{location_id}` */
-  parent: string;
-  /** Spark properties. */
-  spark?: SparkProperties | undefined;
-  /** Amazon Web Services (AWS) properties. */
-  aws?: AwsProperties | undefined;
-  /** Cloud SQL properties. */
-  cloudSql?: CloudSqlProperties | undefined;
-  /** User provided description. */
-  description?: string | undefined;
-  /** Output only. The creation timestamp of the connection. */
-  creationTime?: string | undefined;
-  /** Output only. The last update timestamp of the connection. */
-  lastModifiedTime?: string | undefined;
-  /** Cloud Resource properties. */
-  cloudResource?: CloudResourceProperties | undefined;
-  /** Output only. True, if credential is configured for this connection. */
-  hasCredential?: boolean | undefined;
-  /** User provided display name for the connection. */
-  friendlyName?: string | undefined;
-  /** Azure properties. */
-  azure?: AzureProperties | undefined;
-  /** Cloud Spanner properties. */
-  cloudSpanner?: CloudSpannerProperties | undefined;
-  /** Output only. The resource name of the connection in the form of: `projects/{project_id}/locations/{location_id}/connections/{connection_id}` */
-  name?: string | undefined;
-  /** Optional. The Cloud KMS key that is used for credentials encryption. If omitted, internal Google owned encryption keys are used. Example: `projects/[kms_project_id]/locations/[region]/keyRings/[key_region]/cryptoKeys/[key]` */
-  kmsKeyName?: string | undefined;
-  /** Optional. Connector configuration. */
-  configuration?: ConnectorConfiguration | undefined;
-  /** Optional. Salesforce DataCloud properties. This field is intended for use only by Salesforce partner projects. This field contains properties for your Salesforce DataCloud connection. */
-  salesforceDataCloud?: SalesforceDataCloudProperties | undefined;
-}
 /** Configuration parameters to establish connection with an external data source, except the credential attributes. */
 export interface Connection {
   /** Spark properties. */
@@ -362,6 +326,12 @@ export interface Connection {
   /** Optional. Salesforce DataCloud properties. This field is intended for use only by Salesforce partner projects. This field contains properties for your Salesforce DataCloud connection. */
   salesforceDataCloud?: SalesforceDataCloudProperties | undefined;
 }
+export interface CreateProjectsLocationsConnectionsRequest extends Connection {
+  /** Optional. Connection id that should be assigned to the created connection. */
+  connectionId?: string | undefined;
+  /** Required. Parent resource name. Must be in the format `projects/{project_id}/locations/{location_id}` */
+  parent: string;
+}
 export interface DeleteProjectsLocationsConnectionsRequest {
   /** Required. Name of the deleted connection, for example: `projects/{project_id}/locations/{location_id}/connections/{connection_id}` */
   name: string;
@@ -373,11 +343,14 @@ export interface GetPolicyOptions {
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   requestedPolicyVersion?: number | undefined;
 }
-export interface GetIamPolicyProjectsLocationsConnectionsRequest {
-  /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
+/** Request message for `GetIamPolicy` method. */
+export interface GetIamPolicyRequest {
   /** OPTIONAL: A `GetPolicyOptions` object for specifying options to `GetIamPolicy`. */
   options?: GetPolicyOptions | undefined;
+}
+export interface GetIamPolicyProjectsLocationsConnectionsRequest extends GetIamPolicyRequest {
+  /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
 }
 export type StringList = Array<string>;
 /** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
@@ -453,53 +426,31 @@ export interface ListConnectionsResponse {
   /** Next page token. */
   nextPageToken?: string | undefined;
 }
-export interface PatchProjectsLocationsConnectionsRequest {
+export interface PatchProjectsLocationsConnectionsRequest extends Omit<Connection, "name"> {
   /** Required. Name of the connection to update, for example: `projects/{project_id}/locations/{location_id}/connections/{connection_id}` */
   name: string;
   /** Required. Update mask for the connection fields to be updated. */
   updateMask?: string | undefined;
-  /** Spark properties. */
-  spark?: SparkProperties | undefined;
-  /** Amazon Web Services (AWS) properties. */
-  aws?: AwsProperties | undefined;
-  /** Cloud SQL properties. */
-  cloudSql?: CloudSqlProperties | undefined;
-  /** User provided description. */
-  description?: string | undefined;
-  /** Output only. The creation timestamp of the connection. */
-  creationTime?: string | undefined;
-  /** Output only. The last update timestamp of the connection. */
-  lastModifiedTime?: string | undefined;
-  /** Cloud Resource properties. */
-  cloudResource?: CloudResourceProperties | undefined;
-  /** Output only. True, if credential is configured for this connection. */
-  hasCredential?: boolean | undefined;
-  /** User provided display name for the connection. */
-  friendlyName?: string | undefined;
-  /** Azure properties. */
-  azure?: AzureProperties | undefined;
-  /** Cloud Spanner properties. */
-  cloudSpanner?: CloudSpannerProperties | undefined;
-  /** Optional. The Cloud KMS key that is used for credentials encryption. If omitted, internal Google owned encryption keys are used. Example: `projects/[kms_project_id]/locations/[region]/keyRings/[key_region]/cryptoKeys/[key]` */
-  kmsKeyName?: string | undefined;
-  /** Optional. Connector configuration. */
-  configuration?: ConnectorConfiguration | undefined;
-  /** Optional. Salesforce DataCloud properties. This field is intended for use only by Salesforce partner projects. This field contains properties for your Salesforce DataCloud connection. */
-  salesforceDataCloud?: SalesforceDataCloudProperties | undefined;
 }
-export interface SetIamPolicyProjectsLocationsConnectionsRequest {
-  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
+/** Request message for `SetIamPolicy` method. */
+export interface SetIamPolicyRequest {
   /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
   updateMask?: string | undefined;
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
   policy?: Policy | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsConnectionsRequest {
-  /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+export interface SetIamPolicyProjectsLocationsConnectionsRequest extends SetIamPolicyRequest {
+  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
+}
+/** Request message for `TestIamPermissions` method. */
+export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: StringList | undefined;
+}
+export interface TestIamPermissionsProjectsLocationsConnectionsRequest extends TestIamPermissionsRequest {
+  /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
@@ -563,7 +514,7 @@ export const getIamPolicyProjectsLocationsConnections: API.OperationMethod<
   GetIamPolicyProjectsLocationsConnectionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(193, __c6, 1) as any as S.Schema<GetIamPolicyProjectsLocationsConnectionsRequest>,
+  input: __S(194, __c6, 2) as any as S.Schema<GetIamPolicyProjectsLocationsConnectionsRequest>,
   output: __S(231, __c7, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -643,7 +594,7 @@ export const setIamPolicyProjectsLocationsConnections: API.OperationMethod<
   SetIamPolicyProjectsLocationsConnectionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<SetIamPolicyProjectsLocationsConnectionsRequest>,
+  input: __S(1, __c0, 1) as any as S.Schema<SetIamPolicyProjectsLocationsConnectionsRequest>,
   output: __S(231, __c7, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -665,8 +616,8 @@ export const testIamPermissionsProjectsLocationsConnections: API.OperationMethod
   TestIamPermissionsProjectsLocationsConnectionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c1, 0) as any as S.Schema<TestIamPermissionsProjectsLocationsConnectionsRequest>,
-  output: __S(33, __c1, 1) as any as S.Schema<TestIamPermissionsResponse>,
+  input: __S(33, __c1, 1) as any as S.Schema<TestIamPermissionsProjectsLocationsConnectionsRequest>,
+  output: __S(32, __c1, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -680,10 +631,18 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          resource: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String),
           policy: S.optional(__S(231, __c7, 7)),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "SetIamPolicyRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(0, __c0, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -698,9 +657,17 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          resource: S.String.pipe(T.Label()),
           permissions: S.optional(__S(256, __c8, 0)),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "TestIamPermissionsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(32, __c1, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -708,37 +675,19 @@ function __c1(j: number): any {
           }),
         ),
       ).annotate({ identifier: "TestIamPermissionsProjectsLocationsConnectionsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          permissions: S.optional(__S(256, __c8, 0)),
-        }),
-      ).annotate({ identifier: "TestIamPermissionsResponse" });
   }
 }
 function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          connectionId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          spark: S.optional(__S(130, __c4, 2)),
-          aws: S.optional(__S(133, __c4, 5)),
-          cloudSql: S.optional(__S(135, __c4, 7)),
-          description: S.optional(S.String),
-          creationTime: S.optional(S.String),
-          lastModifiedTime: S.optional(S.String),
-          cloudResource: S.optional(__S(136, __c4, 8)),
-          hasCredential: S.optional(S.Boolean),
-          friendlyName: S.optional(S.String),
-          azure: S.optional(__S(137, __c4, 9)),
-          cloudSpanner: S.optional(__S(138, __c4, 10)),
-          name: S.optional(S.String),
-          kmsKeyName: S.optional(S.String),
-          configuration: S.optional(__S(150, __c4, 22)),
-          salesforceDataCloud: S.optional(__S(151, __c4, 23)),
-        }).pipe(
+        S.Extend(
+          __S(152, __c4, 24),
+          S.Struct({
+            connectionId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/connections",
@@ -988,9 +937,17 @@ function __c6(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          resource: S.String.pipe(T.Label()),
           options: S.optional(__S(192, __c6, 0)),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "GetIamPolicyRequest" });
+    case 2:
+      return S.suspend(() =>
+        S.Extend(
+          __S(193, __c6, 1),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:getIamPolicy",
@@ -1103,24 +1060,13 @@ function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          spark: S.optional(__S(130, __c4, 2)),
-          aws: S.optional(__S(133, __c4, 5)),
-          cloudSql: S.optional(__S(135, __c4, 7)),
-          description: S.optional(S.String),
-          creationTime: S.optional(S.String),
-          lastModifiedTime: S.optional(S.String),
-          cloudResource: S.optional(__S(136, __c4, 8)),
-          hasCredential: S.optional(S.Boolean),
-          friendlyName: S.optional(S.String),
-          azure: S.optional(__S(137, __c4, 9)),
-          cloudSpanner: S.optional(__S(138, __c4, 10)),
-          kmsKeyName: S.optional(S.String),
-          configuration: S.optional(__S(150, __c4, 22)),
-          salesforceDataCloud: S.optional(__S(151, __c4, 23)),
-        }).pipe(
+        S.Extend(
+          __S(152, __c4, 24),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",

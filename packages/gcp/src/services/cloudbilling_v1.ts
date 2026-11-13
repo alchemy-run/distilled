@@ -83,11 +83,13 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
-export interface CancelTasksRequest {
-  /** The resource name of the task to cancel. Format: tasks/{task_id} */
-  name: string;
+export interface CancelTaskRequest {
   /** Optional tenant, provided as a path parameter. Experimental, might still change for 1.0 release. */
   tenant?: string | undefined;
+}
+export interface CancelTasksRequest extends CancelTaskRequest {
+  /** The resource name of the task to cancel. Format: tasks/{task_id} */
+  name: string;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type StringList_ = Array<string>;
@@ -180,20 +182,6 @@ export interface Task {
   /** The current status of a Task, including state and a message. */
   status?: TaskStatus | undefined;
 }
-export interface CreateBillingAccountsRequest {
-  /** Optional. The parent to create a billing account from. Format: - `billingAccounts/{billing_account_id}`, for example, `billingAccounts/012345-567890-ABCDEF` */
-  parent?: string | undefined;
-  /** Output only. The resource name of the billing account. The resource name has the form `billingAccounts/{billing_account_id}`. For example, `billingAccounts/012345-567890-ABCDEF` would be the resource name for billing account `012345-567890-ABCDEF`. */
-  name?: string | undefined;
-  /** Output only. True if the billing account is open, and will therefore be charged for any usage on associated projects. False if the billing account is closed, and therefore projects associated with it are unable to use paid services. */
-  open?: boolean | undefined;
-  /** Optional. The currency in which the billing account is billed and charged, represented as an ISO 4217 code such as `USD`. Billing account currency is determined at the time of billing account creation and cannot be updated subsequently, so this field should not be set on update requests. In addition, a subaccount always matches the currency of its parent billing account, so this field should not be set on subaccount creation requests. Clients can read this field to determine the currency of an existing billing account. */
-  currencyCode?: string | undefined;
-  /** The display name given to the billing account, such as `My Billing Account`. This name is displayed in the Google Cloud Console. */
-  displayName?: string | undefined;
-  /** If this account is a [subaccount](https://cloud.google.com/billing/docs/concepts), then this will be the resource name of the parent billing account that it is being resold through. Otherwise this will be empty. */
-  masterBillingAccount?: string | undefined;
-}
 /** A billing account in the [Google Cloud Console](https://console.cloud.google.com/). You can assign a billing account to one or more projects. */
 export interface BillingAccount {
   /** Output only. The resource name of the billing account. The resource name has the form `billingAccounts/{billing_account_id}`. For example, `billingAccounts/012345-567890-ABCDEF` would be the resource name for billing account `012345-567890-ABCDEF`. */
@@ -209,33 +197,17 @@ export interface BillingAccount {
   /** If this account is a [subaccount](https://cloud.google.com/billing/docs/concepts), then this will be the resource name of the parent billing account that it is being resold through. Otherwise this will be empty. */
   masterBillingAccount?: string | undefined;
 }
-export interface CreateBillingAccountsSubAccountsRequest {
+export interface CreateBillingAccountsRequest extends Omit<BillingAccount, "parent"> {
   /** Optional. The parent to create a billing account from. Format: - `billingAccounts/{billing_account_id}`, for example, `billingAccounts/012345-567890-ABCDEF` */
-  parent: string;
-  /** Output only. The resource name of the billing account. The resource name has the form `billingAccounts/{billing_account_id}`. For example, `billingAccounts/012345-567890-ABCDEF` would be the resource name for billing account `012345-567890-ABCDEF`. */
-  name?: string | undefined;
-  /** Output only. True if the billing account is open, and will therefore be charged for any usage on associated projects. False if the billing account is closed, and therefore projects associated with it are unable to use paid services. */
-  open?: boolean | undefined;
-  /** Optional. The currency in which the billing account is billed and charged, represented as an ISO 4217 code such as `USD`. Billing account currency is determined at the time of billing account creation and cannot be updated subsequently, so this field should not be set on update requests. In addition, a subaccount always matches the currency of its parent billing account, so this field should not be set on subaccount creation requests. Clients can read this field to determine the currency of an existing billing account. */
-  currencyCode?: string | undefined;
-  /** The display name given to the billing account, such as `My Billing Account`. This name is displayed in the Google Cloud Console. */
-  displayName?: string | undefined;
-  /** If this account is a [subaccount](https://cloud.google.com/billing/docs/concepts), then this will be the resource name of the parent billing account that it is being resold through. Otherwise this will be empty. */
-  masterBillingAccount?: string | undefined;
+  parent?: string | undefined;
 }
-export interface CreateOrganizationsBillingAccountsRequest {
+export interface CreateBillingAccountsSubAccountsRequest extends Omit<BillingAccount, "parent"> {
   /** Optional. The parent to create a billing account from. Format: - `billingAccounts/{billing_account_id}`, for example, `billingAccounts/012345-567890-ABCDEF` */
   parent: string;
-  /** Output only. The resource name of the billing account. The resource name has the form `billingAccounts/{billing_account_id}`. For example, `billingAccounts/012345-567890-ABCDEF` would be the resource name for billing account `012345-567890-ABCDEF`. */
-  name?: string | undefined;
-  /** Output only. True if the billing account is open, and will therefore be charged for any usage on associated projects. False if the billing account is closed, and therefore projects associated with it are unable to use paid services. */
-  open?: boolean | undefined;
-  /** Optional. The currency in which the billing account is billed and charged, represented as an ISO 4217 code such as `USD`. Billing account currency is determined at the time of billing account creation and cannot be updated subsequently, so this field should not be set on update requests. In addition, a subaccount always matches the currency of its parent billing account, so this field should not be set on subaccount creation requests. Clients can read this field to determine the currency of an existing billing account. */
-  currencyCode?: string | undefined;
-  /** The display name given to the billing account, such as `My Billing Account`. This name is displayed in the Google Cloud Console. */
-  displayName?: string | undefined;
-  /** If this account is a [subaccount](https://cloud.google.com/billing/docs/concepts), then this will be the resource name of the parent billing account that it is being resold through. Otherwise this will be empty. */
-  masterBillingAccount?: string | undefined;
+}
+export interface CreateOrganizationsBillingAccountsRequest extends Omit<BillingAccount, "parent"> {
+  /** Optional. The parent to create a billing account from. Format: - `billingAccounts/{billing_account_id}`, for example, `billingAccounts/012345-567890-ABCDEF` */
+  parent: string;
 }
 /** Defines authentication details, used for push notifications. */
 export interface AuthenticationInfo {
@@ -255,23 +227,19 @@ export interface PushNotificationConfig {
   /** A unique identifier (e.g. UUID) for this push notification. */
   id?: string | undefined;
 }
-export interface CreateTasksPushNotificationConfigsRequest {
+export interface TaskPushNotificationConfig {
+  /** The resource name of the config. Format: tasks/{task_id}/pushNotificationConfigs/{config_id} */
+  name?: string | undefined;
+  /** The push notification configuration details. */
+  pushNotificationConfig?: PushNotificationConfig | undefined;
+}
+export interface CreateTasksPushNotificationConfigsRequest extends TaskPushNotificationConfig {
   /** Required. The ID for the new config. */
   configId?: string | undefined;
   /** Optional tenant, provided as a path parameter. Experimental, might still change for 1.0 release. */
   tenant?: string | undefined;
   /** Required. The parent task resource for this config. Format: tasks/{task_id} */
   parent: string;
-  /** The resource name of the config. Format: tasks/{task_id}/pushNotificationConfigs/{config_id} */
-  name?: string | undefined;
-  /** The push notification configuration details. */
-  pushNotificationConfig?: PushNotificationConfig | undefined;
-}
-export interface TaskPushNotificationConfig {
-  /** The resource name of the config. Format: tasks/{task_id}/pushNotificationConfigs/{config_id} */
-  name?: string | undefined;
-  /** The push notification configuration details. */
-  pushNotificationConfig?: PushNotificationConfig | undefined;
 }
 export interface DeleteTasksPushNotificationConfigsRequest {
   /** The resource name of the config to delete. Format: tasks/{task_id}/pushNotificationConfigs/{config_id} */
@@ -788,11 +756,14 @@ export interface ListTaskPushNotificationConfigResponse {
   /** The list of push notification configurations. */
   configs?: TaskPushNotificationConfigList | undefined;
 }
-export interface MoveBillingAccountsRequest {
-  /** Required. The resource name of the billing account to move. Must be of the form `billingAccounts/{billing_account_id}`. The specified billing account cannot be a subaccount, since a subaccount always belongs to the same organization as its parent account. */
-  name: string;
+/** Request message for `MoveBillingAccount` RPC. */
+export interface MoveBillingAccountRequest {
   /** Required. The resource name of the Organization to move the billing account under. Must be of the form `organizations/{organization_id}`. */
   destinationParent?: string | undefined;
+}
+export interface MoveBillingAccountsRequest extends MoveBillingAccountRequest {
+  /** Required. The resource name of the billing account to move. Must be of the form `billingAccounts/{billing_account_id}`. The specified billing account cannot be a subaccount, since a subaccount always belongs to the same organization as its parent account. */
+  name: string;
 }
 export interface MoveOrganizationsBillingAccountsRequest {
   /** Required. The resource name of the billing account to move. Must be of the form `billingAccounts/{billing_account_id}`. The specified billing account cannot be a subaccount, since a subaccount always belongs to the same organization as its parent account. */
@@ -800,21 +771,11 @@ export interface MoveOrganizationsBillingAccountsRequest {
   /** Required. The resource name of the Organization to move the billing account under. Must be of the form `organizations/{organization_id}`. */
   destinationParent: string;
 }
-export interface PatchBillingAccountsRequest {
+export interface PatchBillingAccountsRequest extends Omit<BillingAccount, "name"> {
   /** Required. The name of the billing account resource to be updated. */
   name: string;
   /** The update mask applied to the resource. Only "display_name" is currently supported. */
   updateMask?: string | undefined;
-  /** Output only. True if the billing account is open, and will therefore be charged for any usage on associated projects. False if the billing account is closed, and therefore projects associated with it are unable to use paid services. */
-  open?: boolean | undefined;
-  /** Optional. The currency in which the billing account is billed and charged, represented as an ISO 4217 code such as `USD`. Billing account currency is determined at the time of billing account creation and cannot be updated subsequently, so this field should not be set on update requests. In addition, a subaccount always matches the currency of its parent billing account, so this field should not be set on subaccount creation requests. Clients can read this field to determine the currency of an existing billing account. */
-  currencyCode?: string | undefined;
-  /** The display name given to the billing account, such as `My Billing Account`. This name is displayed in the Google Cloud Console. */
-  displayName?: string | undefined;
-  /** Output only. The billing account's parent resource identifier. Use the `MoveBillingAccount` method to update the account's parent resource if it is a organization. Format: - `organizations/{organization_id}`, for example, `organizations/12345678` - `billingAccounts/{billing_account_id}`, for example, `billingAccounts/012345-567890-ABCDEF` */
-  parent?: string | undefined;
-  /** If this account is a [subaccount](https://cloud.google.com/billing/docs/concepts), then this will be the resource name of the parent billing account that it is being resold through. Otherwise this will be empty. */
-  masterBillingAccount?: string | undefined;
 }
 /** Configuration of a send message request. */
 export interface SendMessageConfiguration {
@@ -827,7 +788,8 @@ export interface SendMessageConfiguration {
   /** The output modes that the agent is expected to respond with. */
   acceptedOutputModes?: StringList_ | undefined;
 }
-export interface SendMessageRequest_ {
+/** /////////// Request Messages /////////// */
+export interface SendMessageRequest {
   /** Required. The message to send to the agent. */
   message?: Message | undefined;
   /** Configuration for the send request. */
@@ -837,29 +799,24 @@ export interface SendMessageRequest_ {
   /** Optional metadata for the request. */
   metadata?: DocumentMap | undefined;
 }
+export interface SendMessageRequest_ extends SendMessageRequest {}
 /** ////// Response Messages /////////// */
 export interface SendMessageResponse {
   task?: Task | undefined;
   message?: Message | undefined;
 }
-export interface SetIamPolicyBillingAccountsRequest {
-  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
+/** Request message for `SetIamPolicy` method. */
+export interface SetIamPolicyRequest {
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
   policy?: Policy | undefined;
   /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
   updateMask?: string | undefined;
 }
-export interface StreamMessageRequest {
-  /** Required. The message to send to the agent. */
-  message?: Message | undefined;
-  /** Configuration for the send request. */
-  configuration?: SendMessageConfiguration | undefined;
-  /** Optional tenant, provided as a path parameter. Experimental, might still change for 1.0 release. */
-  tenant?: string | undefined;
-  /** Optional metadata for the request. */
-  metadata?: DocumentMap | undefined;
+export interface SetIamPolicyBillingAccountsRequest extends SetIamPolicyRequest {
+  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
 }
+export interface StreamMessageRequest extends SendMessageRequest {}
 /** TaskStatusUpdateEvent is a delta even on a task indicating that a task has changed. */
 export interface TaskStatusUpdateEvent {
   /** Optional metadata to associate with the task update. */
@@ -901,26 +858,23 @@ export interface SubscribeTasksRequest {
   /** Optional tenant, provided as a path parameter. Experimental, might still change for 1.0 release. */
   tenant?: string | undefined;
 }
-export interface TestIamPermissionsBillingAccountsRequest {
-  /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
+/** Request message for `TestIamPermissions` method. */
+export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: StringList_ | undefined;
+}
+export interface TestIamPermissionsBillingAccountsRequest extends TestIamPermissionsRequest {
+  /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
   permissions?: StringList_ | undefined;
 }
-export interface UpdateBillingInfoProjectsRequest {
+export interface UpdateBillingInfoProjectsRequest extends Omit<ProjectBillingInfo, "name"> {
   /** Required. The resource name of the project associated with the billing information that you want to update. For example, `projects/tokyo-rain-123`. */
   name: string;
-  /** Output only. True if the project is associated with an open billing account, to which usage on the project is charged. False if the project is associated with a closed billing account, or no billing account at all, and therefore cannot use paid services. */
-  billingEnabled?: boolean | undefined;
-  /** Output only. The ID of the project that this `ProjectBillingInfo` represents, such as `tokyo-rain-123`. This is a convenience field so that you don't need to parse the `name` field to obtain a project ID. */
-  projectId?: string | undefined;
-  /** The resource name of the billing account associated with the project, if any. For example, `billingAccounts/012345-567890-ABCDEF`. */
-  billingAccountName?: string | undefined;
 }
 export type CancelTasksError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
 /** Cancel a task from the agent. If supported one should expect no more task updates for the task. */
@@ -930,7 +884,7 @@ export const cancelTasks: API.OperationMethod<
   CancelTasksError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c27, 0) as any as S.Schema<CancelTasksRequest>,
+  input: __S(865, __c27, 1) as any as S.Schema<CancelTasksRequest>,
   output: __S(937, __c29, 9) as any as S.Schema<Task>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -1283,7 +1237,7 @@ export const moveBillingAccounts: API.OperationMethod<
   MoveBillingAccountsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c16, 0) as any as S.Schema<MoveBillingAccountsRequest>,
+  input: __S(513, __c16, 1) as any as S.Schema<MoveBillingAccountsRequest>,
   output: __S(1024, __c32, 0) as any as S.Schema<BillingAccount>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -1356,7 +1310,7 @@ export const setIamPolicyBillingAccounts: API.OperationMethod<
   SetIamPolicyBillingAccountsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c21, 0) as any as S.Schema<SetIamPolicyBillingAccountsRequest>,
+  input: __S(673, __c21, 1) as any as S.Schema<SetIamPolicyBillingAccountsRequest>,
   output: __S(167, __c5, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -1412,8 +1366,8 @@ export const testIamPermissionsBillingAccounts: API.OperationMethod<
   TestIamPermissionsBillingAccountsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c25, 0) as any as S.Schema<TestIamPermissionsBillingAccountsRequest>,
-  output: __S(801, __c25, 1) as any as S.Schema<TestIamPermissionsResponse>,
+  input: __S(801, __c25, 1) as any as S.Schema<TestIamPermissionsBillingAccountsRequest>,
+  output: __S(800, __c25, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2065,9 +2019,17 @@ function __c16(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           destinationParent: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "MoveBillingAccountRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(512, __c16, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:move",
@@ -2098,15 +2060,13 @@ function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          open: S.optional(S.Boolean),
-          currencyCode: S.optional(S.String),
-          displayName: S.optional(S.String),
-          parent: S.optional(S.String),
-          masterBillingAccount: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1024, __c32, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -2120,12 +2080,7 @@ function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          message: S.optional(__S(934, __c29, 6)),
-          configuration: S.optional(__S(640, __c20, 0)),
-          tenant: S.optional(S.String),
-          metadata: S.optional(__S(896, __c28, 0)),
-        }).pipe(
+        S.Extend(__S(641, __c20, 1), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/message:send",
@@ -2153,6 +2108,15 @@ function __c20(j: number): any {
           acceptedOutputModes: S.optional(__S(960, __c30, 0)),
         }),
       ).annotate({ identifier: "SendMessageConfiguration" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          message: S.optional(__S(934, __c29, 6)),
+          configuration: S.optional(__S(640, __c20, 0)),
+          tenant: S.optional(S.String),
+          metadata: S.optional(__S(896, __c28, 0)),
+        }),
+      ).annotate({ identifier: "SendMessageRequest" });
   }
 }
 function __c21(j: number): any {
@@ -2160,10 +2124,18 @@ function __c21(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          resource: S.String.pipe(T.Label()),
           policy: S.optional(__S(167, __c5, 7)),
           updateMask: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "SetIamPolicyRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(672, __c21, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -2177,12 +2149,7 @@ function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          message: S.optional(__S(934, __c29, 6)),
-          configuration: S.optional(__S(640, __c20, 0)),
-          tenant: S.optional(S.String),
-          metadata: S.optional(__S(896, __c28, 0)),
-        }).pipe(
+        S.Extend(__S(641, __c20, 1), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/message:stream",
@@ -2248,9 +2215,17 @@ function __c25(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          resource: S.String.pipe(T.Label()),
           permissions: S.optional(__S(960, __c30, 0)),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "TestIamPermissionsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(800, __c25, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -2258,24 +2233,18 @@ function __c25(j: number): any {
           }),
         ),
       ).annotate({ identifier: "TestIamPermissionsBillingAccountsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          permissions: S.optional(__S(960, __c30, 0)),
-        }),
-      ).annotate({ identifier: "TestIamPermissionsResponse" });
   }
 }
 function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          billingEnabled: S.optional(S.Boolean),
-          projectId: S.optional(S.String),
-          billingAccountName: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(64, __c2, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "v1/{+name}/billingInfo",
@@ -2290,9 +2259,17 @@ function __c27(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           tenant: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "CancelTaskRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(864, __c27, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:cancel",
@@ -2394,14 +2371,12 @@ function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.optional(S.String.pipe(T.Query())),
-          name: S.optional(S.String),
-          open: S.optional(S.Boolean),
-          currencyCode: S.optional(S.String),
-          displayName: S.optional(S.String),
-          masterBillingAccount: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1024, __c32, 0),
+          S.Struct({
+            parent: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/billingAccounts",
@@ -2430,14 +2405,12 @@ function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          name: S.optional(S.String),
-          open: S.optional(S.Boolean),
-          currencyCode: S.optional(S.String),
-          displayName: S.optional(S.String),
-          masterBillingAccount: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1024, __c32, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/subAccounts",
@@ -2451,14 +2424,12 @@ function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          name: S.optional(S.String),
-          open: S.optional(S.Boolean),
-          currencyCode: S.optional(S.String),
-          displayName: S.optional(S.String),
-          masterBillingAccount: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1024, __c32, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/billingAccounts",
@@ -2472,13 +2443,14 @@ function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          configId: S.optional(S.String.pipe(T.Query())),
-          tenant: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          name: S.optional(S.String),
-          pushNotificationConfig: S.optional(__S(1185, __c37, 1)),
-        }).pipe(
+        S.Extend(
+          __S(1152, __c36, 0),
+          S.Struct({
+            configId: S.optional(S.String.pipe(T.Query())),
+            tenant: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}",

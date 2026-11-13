@@ -614,9 +614,8 @@ export type ExportAssetsRequestContentTypeEnum =
   | "CONTENT_TYPE_UNSPECIFIED"
   | "RESOURCE"
   | "IAM_POLICY";
-export interface ExportAssetsFoldersRequest {
-  /** Required. The relative name of the root asset. This can only be an organization number (such as "organizations/123"), a project ID (such as "projects/my-project-id"), a project number (such as "projects/12345"), or a folder number (such as "folders/123"). */
-  parent: string;
+/** Export asset request. */
+export interface ExportAssetsRequest {
   /** Timestamp to take an asset snapshot. This can only be set to a timestamp between 2018-10-02 UTC (inclusive) and the current time. If not specified, the current time will be used. Due to delays in resource data collection and indexing, there is a volatile window during which running the same query may get different results. */
   readTime?: string | undefined;
   /** Required. Output configuration indicating where the results will be output to. All results will be in newline delimited JSON format. */
@@ -625,6 +624,10 @@ export interface ExportAssetsFoldersRequest {
   contentType?: ExportAssetsRequestContentTypeEnum | (string & {}) | undefined;
   /** A list of asset types of which to take a snapshot for. For example: "google.compute.Disk". If specified, only matching assets will be returned. See [Introduction to Cloud Asset Inventory](https://cloud.google.com/resource-manager/docs/cloud-asset-inventory/overview) for all supported asset types. */
   assetTypes?: StringList | undefined;
+}
+export interface ExportAssetsFoldersRequest extends ExportAssetsRequest {
+  /** Required. The relative name of the root asset. This can only be an organization number (such as "organizations/123"), a project ID (such as "projects/my-project-id"), a project number (such as "projects/12345"), or a folder number (such as "folders/123"). */
+  parent: string;
 }
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
@@ -649,29 +652,13 @@ export interface Operation {
   /** The error result of the operation in case of failure or cancellation. */
   error?: Status | undefined;
 }
-export interface ExportAssetsOrganizationsRequest {
+export interface ExportAssetsOrganizationsRequest extends ExportAssetsRequest {
   /** Required. The relative name of the root asset. This can only be an organization number (such as "organizations/123"), a project ID (such as "projects/my-project-id"), a project number (such as "projects/12345"), or a folder number (such as "folders/123"). */
   parent: string;
-  /** Timestamp to take an asset snapshot. This can only be set to a timestamp between 2018-10-02 UTC (inclusive) and the current time. If not specified, the current time will be used. Due to delays in resource data collection and indexing, there is a volatile window during which running the same query may get different results. */
-  readTime?: string | undefined;
-  /** Required. Output configuration indicating where the results will be output to. All results will be in newline delimited JSON format. */
-  outputConfig?: OutputConfig | undefined;
-  /** Asset content type. If not specified, no content but the asset name will be returned. */
-  contentType?: ExportAssetsRequestContentTypeEnum | (string & {}) | undefined;
-  /** A list of asset types of which to take a snapshot for. For example: "google.compute.Disk". If specified, only matching assets will be returned. See [Introduction to Cloud Asset Inventory](https://cloud.google.com/resource-manager/docs/cloud-asset-inventory/overview) for all supported asset types. */
-  assetTypes?: StringList | undefined;
 }
-export interface ExportAssetsProjectsRequest {
+export interface ExportAssetsProjectsRequest extends ExportAssetsRequest {
   /** Required. The relative name of the root asset. This can only be an organization number (such as "organizations/123"), a project ID (such as "projects/my-project-id"), a project number (such as "projects/12345"), or a folder number (such as "folders/123"). */
   parent: string;
-  /** Timestamp to take an asset snapshot. This can only be set to a timestamp between 2018-10-02 UTC (inclusive) and the current time. If not specified, the current time will be used. Due to delays in resource data collection and indexing, there is a volatile window during which running the same query may get different results. */
-  readTime?: string | undefined;
-  /** Required. Output configuration indicating where the results will be output to. All results will be in newline delimited JSON format. */
-  outputConfig?: OutputConfig | undefined;
-  /** Asset content type. If not specified, no content but the asset name will be returned. */
-  contentType?: ExportAssetsRequestContentTypeEnum | (string & {}) | undefined;
-  /** A list of asset types of which to take a snapshot for. For example: "google.compute.Disk". If specified, only matching assets will be returned. See [Introduction to Cloud Asset Inventory](https://cloud.google.com/resource-manager/docs/cloud-asset-inventory/overview) for all supported asset types. */
-  assetTypes?: StringList | undefined;
 }
 export interface GetFoldersOperationsRequest {
   /** The name of the operation resource. */
@@ -1293,13 +1280,12 @@ function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          readTime: S.optional(S.String),
-          outputConfig: S.optional(__S(289, __c9, 1)),
-          contentType: S.optional(S.String),
-          assetTypes: S.optional(__S(160, __c5, 0)),
-        }).pipe(
+        S.Extend(
+          __S(290, __c9, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}:exportAssets",
@@ -1324,6 +1310,15 @@ function __c9(j: number): any {
           gcsDestination: S.optional(__S(288, __c9, 0)),
         }),
       ).annotate({ identifier: "OutputConfig" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          readTime: S.optional(S.String),
+          outputConfig: S.optional(__S(289, __c9, 1)),
+          contentType: S.optional(S.String),
+          assetTypes: S.optional(__S(160, __c5, 0)),
+        }),
+      ).annotate({ identifier: "ExportAssetsRequest" });
   }
 }
 function __c10(j: number): any {
@@ -1354,13 +1349,12 @@ function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          readTime: S.optional(S.String),
-          outputConfig: S.optional(__S(289, __c9, 1)),
-          contentType: S.optional(S.String),
-          assetTypes: S.optional(__S(160, __c5, 0)),
-        }).pipe(
+        S.Extend(
+          __S(290, __c9, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}:exportAssets",
@@ -1374,13 +1368,12 @@ function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          readTime: S.optional(S.String),
-          outputConfig: S.optional(__S(289, __c9, 1)),
-          contentType: S.optional(S.String),
-          assetTypes: S.optional(__S(160, __c5, 0)),
-        }).pipe(
+        S.Extend(
+          __S(290, __c9, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}:exportAssets",

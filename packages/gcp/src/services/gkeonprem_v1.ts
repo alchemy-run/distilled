@@ -463,15 +463,8 @@ export interface BareMetalAdminStorageConfig {
   /** Required. Specifies the config for local PersistentVolumes backed by mounted node disks. These disks need to be formatted and mounted by the user, which can be done before or after cluster creation. */
   lvpNodeMountsConfig?: BareMetalLvpConfig | undefined;
 }
-export interface CreateProjectsLocationsBareMetalAdminClustersRequest {
-  /** Required. The parent of the project and location where the cluster is created in. Format: "projects/{project}/locations/{location}" */
-  parent: string;
-  /** Required. User provided identifier that is used as part of the resource name; must conform to RFC-1034 and additionally restrict to lower-cased letters. This comes out roughly to: /^a-z+[a-z0-9]$/ */
-  bareMetalAdminClusterId?: string | undefined;
-  /** Optional. If set to true, CLM will force CCFE to persist the cluster resource in RMS when the creation fails during standalone preflight checks. In that case the subsequent create call will fail with "cluster already exists" error and hence a update cluster is required to fix the cluster. */
-  allowPreflightFailure?: boolean | undefined;
-  /** Validate the request without actually doing any updates. */
-  validateOnly?: boolean | undefined;
+/** Resource that represents a bare metal admin cluster. */
+export interface BareMetalAdminCluster {
   /** Output only. The IP address name of bare metal admin cluster's API server. */
   endpoint?: string | undefined;
   /** A human readable description of this bare metal admin cluster. */
@@ -530,6 +523,16 @@ export interface CreateProjectsLocationsBareMetalAdminClustersRequest {
   storage?: BareMetalAdminStorageConfig | undefined;
   /** Output only. The time at which this bare metal admin cluster was last updated. */
   updateTime?: string | undefined;
+}
+export interface CreateProjectsLocationsBareMetalAdminClustersRequest extends BareMetalAdminCluster {
+  /** Required. The parent of the project and location where the cluster is created in. Format: "projects/{project}/locations/{location}" */
+  parent: string;
+  /** Required. User provided identifier that is used as part of the resource name; must conform to RFC-1034 and additionally restrict to lower-cased letters. This comes out roughly to: /^a-z+[a-z0-9]$/ */
+  bareMetalAdminClusterId?: string | undefined;
+  /** Optional. If set to true, CLM will force CCFE to persist the cluster resource in RMS when the creation fails during standalone preflight checks. In that case the subsequent create call will fail with "cluster already exists" error and hence a update cluster is required to fix the cluster. */
+  allowPreflightFailure?: boolean | undefined;
+  /** Validate the request without actually doing any updates. */
+  validateOnly?: boolean | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -744,15 +747,8 @@ export interface BareMetalControlPlaneConfig {
   /** Customizes the default API server args. Only a subset of customized flags are supported. For the exact format, refer to the [API server documentation](https://kubernetes.io/docs/reference/command-line-tools-reference/kube-apiserver/). */
   apiServerArgs?: BareMetalApiServerArgumentList | undefined;
 }
-export interface CreateProjectsLocationsBareMetalClustersRequest {
-  /** Required. The parent of the project and location where the cluster is created in. Format: "projects/{project}/locations/{location}" */
-  parent: string;
-  /** Optional. If set to true, CLM will force CCFE to persist the cluster resource in RMS when the creation fails during standalone preflight checks. In that case the subsequent create call will fail with "cluster already exists" error and hence a update cluster is required to fix the cluster. */
-  allowPreflightFailure?: boolean | undefined;
-  /** Validate the request without actually doing any updates. */
-  validateOnly?: boolean | undefined;
-  /** Required. User provided identifier that is used as part of the resource name; must conform to RFC-1034 and additionally restrict to lower-cased letters. This comes out roughly to: /^a-z+[a-z0-9]$/ */
-  bareMetalClusterId?: string | undefined;
+/** Resource that represents a bare metal user cluster. */
+export interface BareMetalCluster {
   /** Immutable. The bare metal user cluster resource name. */
   name?: string | undefined;
   /** Output only. The IP address of the bare metal user cluster's API server. */
@@ -820,6 +816,16 @@ export interface CreateProjectsLocationsBareMetalClustersRequest {
   /** Output only. The time when the bare metal user cluster was last updated. */
   updateTime?: string | undefined;
 }
+export interface CreateProjectsLocationsBareMetalClustersRequest extends BareMetalCluster {
+  /** Required. The parent of the project and location where the cluster is created in. Format: "projects/{project}/locations/{location}" */
+  parent: string;
+  /** Optional. If set to true, CLM will force CCFE to persist the cluster resource in RMS when the creation fails during standalone preflight checks. In that case the subsequent create call will fail with "cluster already exists" error and hence a update cluster is required to fix the cluster. */
+  allowPreflightFailure?: boolean | undefined;
+  /** Validate the request without actually doing any updates. */
+  validateOnly?: boolean | undefined;
+  /** Required. User provided identifier that is used as part of the resource name; must conform to RFC-1034 and additionally restrict to lower-cased letters. This comes out roughly to: /^a-z+[a-z0-9]$/ */
+  bareMetalClusterId?: string | undefined;
+}
 /** BareMetalParallelUpgradeConfig defines the parallel upgrade settings for worker node pools. */
 export interface BareMetalParallelUpgradeConfig {
   /** The minimum number of nodes that should be healthy and available during an upgrade. If set to the default value of 0, it is possible that none of the nodes will be available during an upgrade. */
@@ -840,13 +846,8 @@ export type BareMetalNodePoolStateEnum =
   | "STOPPING"
   | "ERROR"
   | "DEGRADED";
-export interface CreateProjectsLocationsBareMetalClustersBareMetalNodePoolsRequest {
-  /** The ID to use for the node pool, which will become the final component of the node pool's resource name. This value must be up to 63 characters, and valid characters are /a-z-/. The value must not be permitted to be a UUID (or UUID-like: anything matching /^[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$/i). */
-  bareMetalNodePoolId?: string | undefined;
-  /** Required. The parent resource where this node pool will be created. projects/{project}/locations/{location}/bareMetalClusters/{cluster} */
-  parent: string;
-  /** If set, only validate the request, but do not actually create the node pool. */
-  validateOnly?: boolean | undefined;
+/** Resource that represents a bare metal node pool. */
+export interface BareMetalNodePool {
   /** The display name for the bare metal node pool. */
   displayName?: string | undefined;
   /** Output only. If set, there are currently changes in flight to the bare metal node pool. */
@@ -873,6 +874,14 @@ export interface CreateProjectsLocationsBareMetalClustersBareMetalNodePoolsReque
   etag?: string | undefined;
   /** Output only. The time at which this bare metal node pool was created. */
   createTime?: string | undefined;
+}
+export interface CreateProjectsLocationsBareMetalClustersBareMetalNodePoolsRequest extends BareMetalNodePool {
+  /** The ID to use for the node pool, which will become the final component of the node pool's resource name. This value must be up to 63 characters, and valid characters are /a-z-/. The value must not be permitted to be a UUID (or UUID-like: anything matching /^[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$/i). */
+  bareMetalNodePoolId?: string | undefined;
+  /** Required. The parent resource where this node pool will be created. projects/{project}/locations/{location}/bareMetalClusters/{cluster} */
+  parent: string;
+  /** If set, only validate the request, but do not actually create the node pool. */
+  validateOnly?: boolean | undefined;
 }
 /** VmwareAdminControlPlaneNodeConfig contains control plane node configuration for VMware admin cluster. */
 export interface VmwareAdminControlPlaneNodeConfig {
@@ -1095,17 +1104,8 @@ export interface VmwareAdminPrivateRegistryConfig {
   /** When the container runtime pulls an image from private registry, the registry must prove its identity by presenting a certificate. The registry's certificate is signed by a certificate authority (CA). The container runtime uses the CA's certificate to validate the registry's certificate. */
   caCert?: string | undefined;
 }
-export interface CreateProjectsLocationsVmwareAdminClustersRequest {
-  /** Optional. If set, skip the specified validations. */
-  skipValidations?: StringList | undefined;
-  /** Required. User provided identifier that is used as part of the resource name; must conform to RFC-1034 and additionally restrict to lower-cased letters. This comes out roughly to: /^a-z+[a-z0-9]$/ */
-  vmwareAdminClusterId?: string | undefined;
-  /** Optional. If set to true, CLM will force CCFE to persist the cluster resource in RMS when the creation fails during standalone preflight checks. In that case the subsequent create call will fail with "cluster already exists" error and hence a update cluster is required to fix the cluster. */
-  allowPreflightFailure?: boolean | undefined;
-  /** Required. The parent of the project and location where the cluster is created in. Format: "projects/{project}/locations/{location}" */
-  parent: string;
-  /** Validate the request without actually doing any updates. */
-  validateOnly?: boolean | undefined;
+/** Resource that represents a VMware admin cluster. */
+export interface VmwareAdminCluster {
   /** The Anthos clusters on the VMware version for the admin cluster. */
   onPremVersion?: string | undefined;
   /** Output only. The object name of the VMware OnPremAdminCluster custom resource. This field is used to support conflicting names when enrolling existing clusters to the API. When used as a part of cluster enrollment, this field will differ from the ID in the resource name. For new clusters, this field will match the user provided cluster name and be visible in the last component of the resource name. It is not modifiable. All users should use this name to access their cluster using gkectl or kubectl and should expect to see the local name when viewing admin cluster controller logs. */
@@ -1166,6 +1166,18 @@ export interface CreateProjectsLocationsVmwareAdminClustersRequest {
   loadBalancer?: VmwareAdminLoadBalancerConfig | undefined;
   /** Configuration for registry. */
   privateRegistryConfig?: VmwareAdminPrivateRegistryConfig | undefined;
+}
+export interface CreateProjectsLocationsVmwareAdminClustersRequest extends VmwareAdminCluster {
+  /** Optional. If set, skip the specified validations. */
+  skipValidations?: StringList | undefined;
+  /** Required. User provided identifier that is used as part of the resource name; must conform to RFC-1034 and additionally restrict to lower-cased letters. This comes out roughly to: /^a-z+[a-z0-9]$/ */
+  vmwareAdminClusterId?: string | undefined;
+  /** Optional. If set to true, CLM will force CCFE to persist the cluster resource in RMS when the creation fails during standalone preflight checks. In that case the subsequent create call will fail with "cluster already exists" error and hence a update cluster is required to fix the cluster. */
+  allowPreflightFailure?: boolean | undefined;
+  /** Required. The parent of the project and location where the cluster is created in. Format: "projects/{project}/locations/{location}" */
+  parent: string;
+  /** Validate the request without actually doing any updates. */
+  validateOnly?: boolean | undefined;
 }
 /** VmwareSeesawConfig represents configuration parameters for an already existing Seesaw load balancer. IMPORTANT: Please note that the Anthos On-Prem API will not generate or update Seesaw configurations it can only bind a pre-existing configuration to a new user cluster. IMPORTANT: When attempting to create a user cluster with a pre-existing Seesaw load balancer you will need to follow some preparation steps before calling the 'CreateVmwareCluster' API method. First you will need to create the user cluster's namespace via kubectl. The namespace will need to use the following naming convention : -gke-onprem-mgmt or -gke-onprem-mgmt depending on whether you used the 'VmwareCluster.local_name' to disambiguate collisions; for more context see the documentation of 'VmwareCluster.local_name'. Once the namespace is created you will need to create a secret resource via kubectl. This secret will contain copies of your Seesaw credentials. The Secret must be called 'user-cluster-creds' and contain Seesaw's SSH and Cert credentials. The credentials must be keyed with the following names: 'seesaw-ssh-private-key', 'seesaw-ssh-public-key', 'seesaw-ssh-ca-key', 'seesaw-ssh-ca-cert'. */
 export interface VmwareSeesawConfig {
@@ -1329,17 +1341,8 @@ export interface VmwareNetworkConfig {
   /** Configuration settings for a DHCP IP configuration. */
   dhcpIpConfig?: VmwareDhcpIpConfig | undefined;
 }
-export interface CreateProjectsLocationsVmwareClustersRequest {
-  /** User provided identifier that is used as part of the resource name; This value must be up to 40 characters and follow RFC-1123 (https://tools.ietf.org/html/rfc1123) format. */
-  vmwareClusterId?: string | undefined;
-  /** Required. The parent of the project and location where this cluster is created in. Format: "projects/{project}/locations/{location}" */
-  parent: string;
-  /** Validate the request without actually doing any updates. */
-  validateOnly?: boolean | undefined;
-  /** Optional. List of validations to skip during cluster creation. */
-  skipValidations?: StringList | undefined;
-  /** Optional. If set to true, CLM will force CCFE to persist the cluster resource in RMS when the creation fails during standalone preflight checks. In that case the subsequent create call will fail with "cluster already exists" error and hence a update cluster is required to fix the cluster. */
-  allowPreflightFailure?: boolean | undefined;
+/** Resource that represents a VMware user cluster. ## */
+export interface VmwareCluster {
   /** Output only. Fleet configuration for the cluster. */
   fleet?: Fleet | undefined;
   /** Output only. The object name of the VMware OnPremUserCluster custom resource on the associated admin cluster. This field is used to support conflicting names when enrolling existing clusters to the API. When used as a part of cluster enrollment, this field will differ from the ID in the resource name. For new clusters, this field will match the user provided cluster name and be visible in the last component of the resource name. It is not modifiable. All users should use this name to access their cluster using gkectl or kubectl and should expect to see the local name when viewing admin cluster controller logs. */
@@ -1407,6 +1410,18 @@ export interface CreateProjectsLocationsVmwareClustersRequest {
   /** Output only. The time at which VMware user cluster was created. */
   createTime?: string | undefined;
 }
+export interface CreateProjectsLocationsVmwareClustersRequest extends VmwareCluster {
+  /** User provided identifier that is used as part of the resource name; This value must be up to 40 characters and follow RFC-1123 (https://tools.ietf.org/html/rfc1123) format. */
+  vmwareClusterId?: string | undefined;
+  /** Required. The parent of the project and location where this cluster is created in. Format: "projects/{project}/locations/{location}" */
+  parent: string;
+  /** Validate the request without actually doing any updates. */
+  validateOnly?: boolean | undefined;
+  /** Optional. List of validations to skip during cluster creation. */
+  skipValidations?: StringList | undefined;
+  /** Optional. If set to true, CLM will force CCFE to persist the cluster resource in RMS when the creation fails during standalone preflight checks. In that case the subsequent create call will fail with "cluster already exists" error and hence a update cluster is required to fix the cluster. */
+  allowPreflightFailure?: boolean | undefined;
+}
 export type VmwareNodePoolStateEnum =
   | "STATE_UNSPECIFIED"
   | "PROVISIONING"
@@ -1462,13 +1477,8 @@ export interface VmwareNodeConfig {
   /** The number of CPUs for each node in the node pool. */
   cpus?: string | undefined;
 }
-export interface CreateProjectsLocationsVmwareClustersVmwareNodePoolsRequest {
-  /** The ID to use for the node pool, which will become the final component of the node pool's resource name. This value must be up to 40 characters and follow RFC-1123 (https://tools.ietf.org/html/rfc1123) format. The value must not be permitted to be a UUID (or UUID-like: anything matching /^[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$/i). */
-  vmwareNodePoolId?: string | undefined;
-  /** If set, only validate the request, but do not actually create the node pool. */
-  validateOnly?: boolean | undefined;
-  /** Required. The parent resource where this node pool will be created. projects/{project}/locations/{location}/vmwareClusters/{cluster} */
-  parent: string;
+/** Resource VmwareNodePool represents a VMware node pool. ## */
+export interface VmwareNodePool {
   /** Output only. The current state of the node pool. */
   state?: VmwareNodePoolStateEnum | (string & {}) | undefined;
   /** Anthos version for the node pool. Defaults to the user cluster version. */
@@ -1499,6 +1509,14 @@ export interface CreateProjectsLocationsVmwareClustersVmwareNodePoolsRequest {
   name?: string | undefined;
   /** The validation check for the node pool. */
   validationCheck?: ValidationCheck | undefined;
+}
+export interface CreateProjectsLocationsVmwareClustersVmwareNodePoolsRequest extends VmwareNodePool {
+  /** The ID to use for the node pool, which will become the final component of the node pool's resource name. This value must be up to 40 characters and follow RFC-1123 (https://tools.ietf.org/html/rfc1123) format. The value must not be permitted to be a UUID (or UUID-like: anything matching /^[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$/i). */
+  vmwareNodePoolId?: string | undefined;
+  /** If set, only validate the request, but do not actually create the node pool. */
+  validateOnly?: boolean | undefined;
+  /** Required. The parent resource where this node pool will be created. projects/{project}/locations/{location}/vmwareClusters/{cluster} */
+  parent: string;
 }
 export interface DeleteProjectsLocationsBareMetalClustersRequest {
   /** If set to true, the deletion of a bare metal user cluster resource will succeed even if errors occur during deletion. This parameter can be used when you want to delete GCP's cluster resource and the on-prem admin cluster that hosts your user cluster is disconnected / unreachable or deleted. WARNING: Using this parameter when your user cluster still exists may result in a deleted GCP user cluster but an existing on-prem user cluster. */
@@ -1556,17 +1574,19 @@ export interface DeleteProjectsLocationsVmwareClustersVmwareNodePoolsRequest {
   /** If set to true, the deletion of a VMware node pool resource will succeed even if errors occur during deletion. This parameter can be used when you want to delete GCP's node pool resource and you've already deleted the on-prem admin cluster that hosted your node pool. WARNING: Using this parameter when your user cluster still exists may result in a deleted GCP node pool but an existing on-prem node pool. */
   ignoreErrors?: boolean | undefined;
 }
-export interface EnrollProjectsLocationsBareMetalAdminClustersRequest {
-  /** Required. The parent of the project and location where the cluster is enrolled in. Format: "projects/{project}/locations/{location}" */
-  parent: string;
+/** Message for enrolling an existing bare metal admin cluster to the GKE on-prem API. */
+export interface EnrollBareMetalAdminClusterRequest {
   /** Required. This is the full resource name of this admin cluster's fleet membership. */
   membership?: string | undefined;
   /** User provided OnePlatform identifier that is used as part of the resource name. This must be unique among all GKE on-prem clusters within a project and location and will return a 409 if the cluster already exists. (https://tools.ietf.org/html/rfc1123) format. */
   bareMetalAdminClusterId?: string | undefined;
 }
-export interface EnrollProjectsLocationsBareMetalClustersRequest {
+export interface EnrollProjectsLocationsBareMetalAdminClustersRequest extends EnrollBareMetalAdminClusterRequest {
   /** Required. The parent of the project and location where the cluster is enrolled in. Format: "projects/{project}/locations/{location}" */
   parent: string;
+}
+/** Message for enrolling an existing bare metal cluster to the Anthos On-Prem API. */
+export interface EnrollBareMetalClusterRequest {
   /** User provided OnePlatform identifier that is used as part of the resource name. This must be unique among all bare metal clusters within a project and location and will return a 409 if the cluster already exists. (https://tools.ietf.org/html/rfc1123) format. */
   bareMetalClusterId?: string | undefined;
   /** Optional. The namespace of the cluster. */
@@ -1576,25 +1596,34 @@ export interface EnrollProjectsLocationsBareMetalClustersRequest {
   /** Required. The admin cluster this bare metal user cluster belongs to. This is the full resource name of the admin cluster's fleet membership. In the future, references to other resource types might be allowed if admin clusters are modeled as their own resources. */
   adminClusterMembership?: string | undefined;
 }
-export interface EnrollProjectsLocationsBareMetalClustersBareMetalNodePoolsRequest {
-  /** Required. The parent resource where this node pool will be created. projects/{project}/locations/{location}/bareMetalClusters/{cluster} */
+export interface EnrollProjectsLocationsBareMetalClustersRequest extends EnrollBareMetalClusterRequest {
+  /** Required. The parent of the project and location where the cluster is enrolled in. Format: "projects/{project}/locations/{location}" */
   parent: string;
+}
+/** Message for enrolling an existing bare metal node pool to the GKE on-prem API. */
+export interface EnrollBareMetalNodePoolRequest {
   /** User provided OnePlatform identifier that is used as part of the resource name. (https://tools.ietf.org/html/rfc1123) format. */
   bareMetalNodePoolId?: string | undefined;
   /** If set, only validate the request, but do not actually enroll the node pool. */
   validateOnly?: boolean | undefined;
 }
-export interface EnrollProjectsLocationsVmwareAdminClustersRequest {
-  /** Required. The parent of the project and location where the cluster is enrolled in. Format: "projects/{project}/locations/{location}" */
+export interface EnrollProjectsLocationsBareMetalClustersBareMetalNodePoolsRequest extends EnrollBareMetalNodePoolRequest {
+  /** Required. The parent resource where this node pool will be created. projects/{project}/locations/{location}/bareMetalClusters/{cluster} */
   parent: string;
+}
+/** Message for enrolling an existing VMware admin cluster to the GKE on-prem API. */
+export interface EnrollVmwareAdminClusterRequest {
   /** Required. This is the full resource name of this admin cluster's fleet membership. */
   membership?: string | undefined;
   /** User provided OnePlatform identifier that is used as part of the resource name. This must be unique among all GKE on-prem clusters within a project and location and will return a 409 if the cluster already exists. (https://tools.ietf.org/html/rfc1123) format. */
   vmwareAdminClusterId?: string | undefined;
 }
-export interface EnrollProjectsLocationsVmwareClustersRequest {
-  /** Required. The parent of the project and location where the cluster is Enrolled in. Format: "projects/{project}/locations/{location}" */
+export interface EnrollProjectsLocationsVmwareAdminClustersRequest extends EnrollVmwareAdminClusterRequest {
+  /** Required. The parent of the project and location where the cluster is enrolled in. Format: "projects/{project}/locations/{location}" */
   parent: string;
+}
+/** Message for enrolling an existing VMware cluster to the Anthos On-Prem API. */
+export interface EnrollVmwareClusterRequest {
   /** Optional. The object name of the VMware OnPremUserCluster custom resource on the associated admin cluster. This field is used to support conflicting resource names when enrolling existing clusters to the API. When not provided, this field will resolve to the vmware_cluster_id. Otherwise, it must match the object name of the VMware OnPremUserCluster custom resource. It is not modifiable outside / beyond the enrollment operation. */
   localName?: string | undefined;
   /** User provided OnePlatform identifier that is used as part of the resource name. This must be unique among all GKE on-prem clusters within a project and location and will return a 409 if the cluster already exists. (https://tools.ietf.org/html/rfc1123) format. */
@@ -1604,11 +1633,18 @@ export interface EnrollProjectsLocationsVmwareClustersRequest {
   /** Required. The admin cluster this VMware user cluster belongs to. This is the full resource name of the admin cluster's fleet membership. In the future, references to other resource types might be allowed if admin clusters are modeled as their own resources. */
   adminClusterMembership?: string | undefined;
 }
-export interface EnrollProjectsLocationsVmwareClustersVmwareNodePoolsRequest {
-  /** Required. The parent resource where the node pool is enrolled in. */
+export interface EnrollProjectsLocationsVmwareClustersRequest extends EnrollVmwareClusterRequest {
+  /** Required. The parent of the project and location where the cluster is Enrolled in. Format: "projects/{project}/locations/{location}" */
   parent: string;
+}
+/** Message for enrolling a VMware node pool. */
+export interface EnrollVmwareNodePoolRequest {
   /** The target node pool id to be enrolled. */
   vmwareNodePoolId?: string | undefined;
+}
+export interface EnrollProjectsLocationsVmwareClustersVmwareNodePoolsRequest extends EnrollVmwareNodePoolRequest {
+  /** Required. The parent resource where the node pool is enrolled in. */
+  parent: string;
 }
 export interface GetIamPolicyProjectsLocationsBareMetalAdminClustersRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
@@ -1705,67 +1741,6 @@ export interface GetProjectsLocationsBareMetalAdminClustersRequest {
   /** View for bare metal admin cluster. When `BASIC` is specified, only the cluster resource name and membership are returned. The default/unset value `CLUSTER_VIEW_UNSPECIFIED` is the same as `FULL', which returns the complete cluster configuration details. */
   view?: GetProjectsLocationsBareMetalAdminClustersViewEnum | (string & {}) | undefined;
 }
-/** Resource that represents a bare metal admin cluster. */
-export interface BareMetalAdminCluster {
-  /** Output only. The IP address name of bare metal admin cluster's API server. */
-  endpoint?: string | undefined;
-  /** A human readable description of this bare metal admin cluster. */
-  description?: string | undefined;
-  /** Output only. The unique identifier of the bare metal admin cluster. */
-  uid?: string | undefined;
-  /** Control plane configuration. */
-  controlPlane?: BareMetalAdminControlPlaneConfig | undefined;
-  /** Output only. The time at which this bare metal admin cluster was created. */
-  createTime?: string | undefined;
-  /** Output only. MaintenanceStatus representing state of maintenance. */
-  maintenanceStatus?: BareMetalAdminMaintenanceStatus | undefined;
-  /** Annotations on the bare metal admin cluster. This field has the same restrictions as Kubernetes annotations. The total size of all keys and values combined is limited to 256k. Key can have 2 segments: prefix (optional) and name (required), separated by a slash (/). Prefix must be a DNS subdomain. Name must be 63 characters or less, begin and end with alphanumerics, with dashes (-), underscores (_), dots (.), and alphanumerics between. */
-  annotations?: StringMap | undefined;
-  /** Proxy configuration. */
-  proxy?: BareMetalAdminProxyConfig | undefined;
-  /** Workload node configuration. */
-  nodeConfig?: BareMetalAdminWorkloadNodeConfig | undefined;
-  /** Output only. The time at which this bare metal admin cluster was deleted. If the resource is not deleted, this must be empty */
-  deleteTime?: string | undefined;
-  /** Output only. If set, there are currently changes in flight to the bare metal Admin Cluster. */
-  reconciling?: boolean | undefined;
-  /** Binary Authorization related configurations. */
-  binaryAuthorization?: BinaryAuthorization | undefined;
-  /** Output only. Fleet configuration for the cluster. */
-  fleet?: Fleet | undefined;
-  /** Security related configuration. */
-  securityConfig?: BareMetalAdminSecurityConfig | undefined;
-  /** OS environment related configurations. */
-  osEnvironmentConfig?: BareMetalAdminOsEnvironmentConfig | undefined;
-  /** Load balancer configuration. */
-  loadBalancer?: BareMetalAdminLoadBalancerConfig | undefined;
-  /** Node access related configurations. */
-  nodeAccessConfig?: BareMetalAdminNodeAccessConfig | undefined;
-  /** Maintenance configuration. */
-  maintenanceConfig?: BareMetalAdminMaintenanceConfig | undefined;
-  /** The Anthos clusters on bare metal version for the bare metal admin cluster. */
-  bareMetalVersion?: string | undefined;
-  /** Output only. The object name of the bare metal cluster custom resource. This field is used to support conflicting names when enrolling existing clusters to the API. When used as a part of cluster enrollment, this field will differ from the ID in the resource name. For new clusters, this field will match the user provided cluster name and be visible in the last component of the resource name. It is not modifiable. All users should use this name to access their cluster using gkectl or kubectl and should expect to see the local name when viewing admin cluster controller logs. */
-  localName?: string | undefined;
-  /** Output only. ValidationCheck representing the result of the preflight check. */
-  validationCheck?: ValidationCheck | undefined;
-  /** Immutable. The bare metal admin cluster resource name. */
-  name?: string | undefined;
-  /** Output only. ResourceStatus representing detailed cluster status. */
-  status?: ResourceStatus | undefined;
-  /** This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. Allows clients to perform consistent read-modify-writes through optimistic concurrency control. */
-  etag?: string | undefined;
-  /** Output only. The current state of the bare metal admin cluster. */
-  state?: BareMetalAdminClusterStateEnum | undefined;
-  /** Cluster operations configuration. */
-  clusterOperations?: BareMetalAdminClusterOperationsConfig | undefined;
-  /** Network configuration. */
-  networkConfig?: BareMetalAdminNetworkConfig | undefined;
-  /** Storage configuration. */
-  storage?: BareMetalAdminStorageConfig | undefined;
-  /** Output only. The time at which this bare metal admin cluster was last updated. */
-  updateTime?: string | undefined;
-}
 export interface GetProjectsLocationsBareMetalAdminClustersOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -1782,75 +1757,6 @@ export interface GetProjectsLocationsBareMetalClustersRequest {
   /** View for bare metal user cluster. When `BASIC` is specified, only the cluster resource name and admin cluster membership are returned. The default/unset value `CLUSTER_VIEW_UNSPECIFIED` is the same as `FULL', which returns the complete cluster configuration details. */
   view?: GetProjectsLocationsBareMetalClustersViewEnum | (string & {}) | undefined;
 }
-/** Resource that represents a bare metal user cluster. */
-export interface BareMetalCluster {
-  /** Immutable. The bare metal user cluster resource name. */
-  name?: string | undefined;
-  /** Output only. The IP address of the bare metal user cluster's API server. */
-  endpoint?: string | undefined;
-  /** Output only. The resource name of the bare metal admin cluster managing this user cluster. */
-  adminClusterName?: string | undefined;
-  /** Cluster operations configuration. */
-  clusterOperations?: BareMetalAdminClusterOperationsConfig | undefined;
-  /** Output only. This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. Allows clients to perform consistent read-modify-writes through optimistic concurrency control. */
-  etag?: string | undefined;
-  /** Output only. The time when the bare metal user cluster was created. */
-  createTime?: string | undefined;
-  /** The cluster upgrade policy. */
-  upgradePolicy?: BareMetalClusterUpgradePolicy | undefined;
-  /** Output only. The current state of the bare metal user cluster. */
-  state?: BareMetalClusterStateEnum | undefined;
-  /** OS environment related configurations. */
-  osEnvironmentConfig?: BareMetalOsEnvironmentConfig | undefined;
-  /** Output only. The unique identifier of the bare metal user cluster. */
-  uid?: string | undefined;
-  /** Output only. The time when the bare metal user cluster was deleted. If the resource is not deleted, this must be empty */
-  deleteTime?: string | undefined;
-  /** Binary Authorization related configurations. */
-  binaryAuthorization?: BinaryAuthorization | undefined;
-  /** Workload node configuration. */
-  nodeConfig?: BareMetalWorkloadNodeConfig | undefined;
-  /** Node access related configurations. */
-  nodeAccessConfig?: BareMetalNodeAccessConfig | undefined;
-  /** Required. Storage configuration. */
-  storage?: BareMetalAdminStorageConfig | undefined;
-  /** Security related setting configuration. */
-  securityConfig?: BareMetalSecurityConfig | undefined;
-  /** Required. The Anthos clusters on bare metal version for your user cluster. */
-  bareMetalVersion?: string | undefined;
-  /** Maintenance configuration. */
-  maintenanceConfig?: BareMetalAdminMaintenanceConfig | undefined;
-  /** A human readable description of this bare metal user cluster. */
-  description?: string | undefined;
-  /** Output only. Detailed cluster status. */
-  status?: ResourceStatus | undefined;
-  /** Required. Load balancer configuration. */
-  loadBalancer?: BareMetalLoadBalancerConfig | undefined;
-  /** Output only. The result of the preflight check. */
-  validationCheck?: ValidationCheck | undefined;
-  /** Required. Network configuration. */
-  networkConfig?: BareMetalNetworkConfig | undefined;
-  /** Proxy configuration. */
-  proxy?: BareMetalProxyConfig | undefined;
-  /** Output only. Status of on-going maintenance tasks. */
-  maintenanceStatus?: BareMetalMaintenanceStatus | undefined;
-  /** Output only. Fleet configuration for the cluster. */
-  fleet?: Fleet | undefined;
-  /** Annotations on the bare metal user cluster. This field has the same restrictions as Kubernetes annotations. The total size of all keys and values combined is limited to 256k. Key can have 2 segments: prefix (optional) and name (required), separated by a slash (/). Prefix must be a DNS subdomain. Name must be 63 characters or less, begin and end with alphanumerics, with dashes (-), underscores (_), dots (.), and alphanumerics between. */
-  annotations?: StringMap | undefined;
-  /** Required. The admin cluster this bare metal user cluster belongs to. This is the full resource name of the admin cluster's fleet membership. */
-  adminClusterMembership?: string | undefined;
-  /** Output only. The object name of the bare metal user cluster custom resource on the associated admin cluster. This field is used to support conflicting names when enrolling existing clusters to the API. When used as a part of cluster enrollment, this field will differ from the name in the resource name. For new clusters, this field will match the user provided cluster name and be visible in the last component of the resource name. It is not modifiable. When the local name and cluster name differ, the local name is used in the admin cluster controller logs. You use the cluster name when accessing the cluster using bmctl and kubectl. */
-  localName?: string | undefined;
-  /** Output only. The namespace of the cluster. */
-  localNamespace?: string | undefined;
-  /** Required. Control plane configuration. */
-  controlPlane?: BareMetalControlPlaneConfig | undefined;
-  /** Output only. If set, there are currently changes in flight to the bare metal user cluster. */
-  reconciling?: boolean | undefined;
-  /** Output only. The time when the bare metal user cluster was last updated. */
-  updateTime?: string | undefined;
-}
 export type GetProjectsLocationsBareMetalClustersBareMetalNodePoolsViewEnum =
   | "NODE_POOL_VIEW_UNSPECIFIED"
   | "BASIC"
@@ -1863,35 +1769,6 @@ export interface GetProjectsLocationsBareMetalClustersBareMetalNodePoolsRequest 
     | GetProjectsLocationsBareMetalClustersBareMetalNodePoolsViewEnum
     | (string & {})
     | undefined;
-}
-/** Resource that represents a bare metal node pool. */
-export interface BareMetalNodePool {
-  /** The display name for the bare metal node pool. */
-  displayName?: string | undefined;
-  /** Output only. If set, there are currently changes in flight to the bare metal node pool. */
-  reconciling?: boolean | undefined;
-  /** Output only. ResourceStatus representing the detailed node pool status. */
-  status?: ResourceStatus | undefined;
-  /** Output only. The time at which this bare metal node pool was last updated. */
-  updateTime?: string | undefined;
-  /** The worker node pool upgrade policy. */
-  upgradePolicy?: BareMetalNodePoolUpgradePolicy | undefined;
-  /** Required. Node pool configuration. */
-  nodePoolConfig?: BareMetalNodePoolConfig | undefined;
-  /** Annotations on the bare metal node pool. This field has the same restrictions as Kubernetes annotations. The total size of all keys and values combined is limited to 256k. Key can have 2 segments: prefix (optional) and name (required), separated by a slash (/). Prefix must be a DNS subdomain. Name must be 63 characters or less, begin and end with alphanumerics, with dashes (-), underscores (_), dots (.), and alphanumerics between. */
-  annotations?: StringMap | undefined;
-  /** Output only. The time at which this bare metal node pool was deleted. If the resource is not deleted, this must be empty */
-  deleteTime?: string | undefined;
-  /** Output only. The unique identifier of the bare metal node pool. */
-  uid?: string | undefined;
-  /** Immutable. The bare metal node pool resource name. */
-  name?: string | undefined;
-  /** Output only. The current state of the bare metal node pool. */
-  state?: BareMetalNodePoolStateEnum | undefined;
-  /** This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. Allows clients to perform consistent read-modify-writes through optimistic concurrency control. */
-  etag?: string | undefined;
-  /** Output only. The time at which this bare metal node pool was created. */
-  createTime?: string | undefined;
 }
 export interface GetProjectsLocationsBareMetalClustersBareMetalNodePoolsOperationsRequest {
   /** The name of the operation resource. */
@@ -1917,69 +1794,6 @@ export interface GetProjectsLocationsVmwareAdminClustersRequest {
   /** View for VMware admin cluster. When `BASIC` is specified, only the cluster resource name and membership are returned. The default/unset value `CLUSTER_VIEW_UNSPECIFIED` is the same as `FULL', which returns the complete cluster configuration details. */
   view?: GetProjectsLocationsVmwareAdminClustersViewEnum | (string & {}) | undefined;
 }
-/** Resource that represents a VMware admin cluster. */
-export interface VmwareAdminCluster {
-  /** The Anthos clusters on the VMware version for the admin cluster. */
-  onPremVersion?: string | undefined;
-  /** Output only. The object name of the VMware OnPremAdminCluster custom resource. This field is used to support conflicting names when enrolling existing clusters to the API. When used as a part of cluster enrollment, this field will differ from the ID in the resource name. For new clusters, this field will match the user provided cluster name and be visible in the last component of the resource name. It is not modifiable. All users should use this name to access their cluster using gkectl or kubectl and should expect to see the local name when viewing admin cluster controller logs. */
-  localName?: string | undefined;
-  /** The VMware admin cluster control plane node configuration. */
-  controlPlaneNode?: VmwareAdminControlPlaneNodeConfig | undefined;
-  /** This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. Allows clients to perform consistent read-modify-writes through optimistic concurrency control. */
-  etag?: string | undefined;
-  /** The bootstrap cluster this VMware admin cluster belongs to. */
-  bootstrapClusterMembership?: string | undefined;
-  /** The VMware admin cluster authorization configuration. */
-  authorization?: VmwareAdminAuthorizationConfig | undefined;
-  /** Immutable. The VMware admin cluster resource name. */
-  name?: string | undefined;
-  /** Output only. The time at which VMware admin cluster was last updated. */
-  updateTime?: string | undefined;
-  /** Output only. ValidationCheck represents the result of the preflight check job. */
-  validationCheck?: ValidationCheck | undefined;
-  /** Output only. The VMware admin cluster prepared secrets configuration. It should always be enabled by the Central API, instead of letting users set it. */
-  preparedSecrets?: VmwareAdminPreparedSecretsConfig | undefined;
-  /** Output only. ResourceStatus representing detailed cluster state. */
-  status?: ResourceStatus | undefined;
-  /** Enable advanced cluster. */
-  enableAdvancedCluster?: boolean | undefined;
-  /** The VMware admin cluster network configuration. */
-  networkConfig?: VmwareAdminNetworkConfig | undefined;
-  /** Output only. The current state of VMware admin cluster. */
-  state?: VmwareAdminClusterStateEnum | undefined;
-  /** The VMware admin cluster anti affinity group configuration. */
-  antiAffinityGroups?: VmwareAAGConfig | undefined;
-  /** The VMware admin cluster addon node configuration. */
-  addonNode?: VmwareAdminAddonNodeConfig | undefined;
-  /** The VMware admin cluster auto repair configuration. */
-  autoRepairConfig?: VmwareAutoRepairConfig | undefined;
-  /** The VMware platform configuration. */
-  platformConfig?: VmwarePlatformConfig | undefined;
-  /** Annotations on the VMware admin cluster. This field has the same restrictions as Kubernetes annotations. The total size of all keys and values combined is limited to 256k. Key can have 2 segments: prefix (optional) and name (required), separated by a slash (/). Prefix must be a DNS subdomain. Name must be 63 characters or less, begin and end with alphanumerics, with dashes (-), underscores (_), dots (.), and alphanumerics between. */
-  annotations?: StringMap | undefined;
-  /** Output only. If set, there are currently changes in flight to the VMware admin cluster. */
-  reconciling?: boolean | undefined;
-  /** The VMware admin cluster VCenter configuration. */
-  vcenter?: VmwareAdminVCenterConfig | undefined;
-  /** The OS image type for the VMware admin cluster. */
-  imageType?: string | undefined;
-  /** Configuration for proxy. */
-  proxy?: VmwareAdminProxy | undefined;
-  /** Output only. The unique identifier of the VMware admin cluster. */
-  uid?: string | undefined;
-  /** Output only. The DNS name of VMware admin cluster's API server. */
-  endpoint?: string | undefined;
-  /** A human readable description of this VMware admin cluster. */
-  description?: string | undefined;
-  /** Output only. Fleet configuration for the cluster. */
-  fleet?: Fleet | undefined;
-  /** Output only. The time at which VMware admin cluster was created. */
-  createTime?: string | undefined;
-  /** The VMware admin cluster load balancer configuration. */
-  loadBalancer?: VmwareAdminLoadBalancerConfig | undefined;
-  /** Configuration for registry. */
-  privateRegistryConfig?: VmwareAdminPrivateRegistryConfig | undefined;
-}
 export interface GetProjectsLocationsVmwareAdminClustersOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -1996,75 +1810,6 @@ export interface GetProjectsLocationsVmwareClustersRequest {
   /** Optional. If true, return Vmware Cluster including the one that only exists in RMS. */
   allowMissing?: boolean | undefined;
 }
-/** Resource that represents a VMware user cluster. ## */
-export interface VmwareCluster {
-  /** Output only. Fleet configuration for the cluster. */
-  fleet?: Fleet | undefined;
-  /** Output only. The object name of the VMware OnPremUserCluster custom resource on the associated admin cluster. This field is used to support conflicting names when enrolling existing clusters to the API. When used as a part of cluster enrollment, this field will differ from the ID in the resource name. For new clusters, this field will match the user provided cluster name and be visible in the last component of the resource name. It is not modifiable. All users should use this name to access their cluster using gkectl or kubectl and should expect to see the local name when viewing admin cluster controller logs. */
-  localName?: string | undefined;
-  /** Output only. The DNS name of VMware user cluster's API server. */
-  endpoint?: string | undefined;
-  /** Enable VM tracking. */
-  vmTrackingEnabled?: boolean | undefined;
-  /** Output only. The unique identifier of the VMware user cluster. */
-  uid?: string | undefined;
-  /** Output only. ValidationCheck represents the result of the preflight check job. */
-  validationCheck?: ValidationCheck | undefined;
-  /** Output only. The time at which VMware user cluster was last updated. */
-  updateTime?: string | undefined;
-  /** AAGConfig specifies whether to spread VMware user cluster nodes across at least three physical hosts in the datacenter. */
-  antiAffinityGroups?: VmwareAAGConfig | undefined;
-  /** This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. Allows clients to perform consistent read-modify-writes through optimistic concurrency control. */
-  etag?: string | undefined;
-  /** Immutable. The VMware user cluster resource name. */
-  name?: string | undefined;
-  /** Output only. The resource name of the VMware admin cluster hosting this user cluster. */
-  adminClusterName?: string | undefined;
-  /** Load balancer configuration. */
-  loadBalancer?: VmwareLoadBalancerConfig | undefined;
-  /** Specifies upgrade policy for the cluster. */
-  upgradePolicy?: VmwareClusterUpgradePolicy | undefined;
-  /** Binary Authorization related configurations. */
-  binaryAuthorization?: BinaryAuthorization | undefined;
-  /** VmwareDataplaneV2Config specifies configuration for Dataplane V2. */
-  dataplaneV2?: VmwareDataplaneV2Config | undefined;
-  /** VmwareVCenterConfig specifies vCenter config for the user cluster. If unspecified, it is inherited from the admin cluster. */
-  vcenter?: VmwareVCenterConfig | undefined;
-  /** VMware user cluster control plane nodes must have either 1 or 3 replicas. */
-  controlPlaneNode?: VmwareControlPlaneNodeConfig | undefined;
-  /** Required. The Anthos clusters on the VMware version for your user cluster. */
-  onPremVersion?: string | undefined;
-  /** RBAC policy that will be applied and managed by the Anthos On-Prem API. */
-  authorization?: Authorization | undefined;
-  /** Output only. If set, there are currently changes in flight to the VMware user cluster. */
-  reconciling?: boolean | undefined;
-  /** Output only. The time at which VMware user cluster was deleted. */
-  deleteTime?: string | undefined;
-  /** Output only. The current state of VMware user cluster. */
-  state?: VmwareClusterStateEnum | undefined;
-  /** Required. The admin cluster this VMware user cluster belongs to. This is the full resource name of the admin cluster's fleet membership. In the future, references to other resource types might be allowed if admin clusters are modeled as their own resources. */
-  adminClusterMembership?: string | undefined;
-  /** Disable bundled ingress. */
-  disableBundledIngress?: boolean | undefined;
-  /** Annotations on the VMware user cluster. This field has the same restrictions as Kubernetes annotations. The total size of all keys and values combined is limited to 256k. Key can have 2 segments: prefix (optional) and name (required), separated by a slash (/). Prefix must be a DNS subdomain. Name must be 63 characters or less, begin and end with alphanumerics, with dashes (-), underscores (_), dots (.), and alphanumerics between. */
-  annotations?: StringMap | undefined;
-  /** Enable control plane V2. Default to false. */
-  enableControlPlaneV2?: boolean | undefined;
-  /** Storage configuration. */
-  storage?: VmwareStorageConfig | undefined;
-  /** The VMware user cluster network configuration. */
-  networkConfig?: VmwareNetworkConfig | undefined;
-  /** Enable advanced cluster. */
-  enableAdvancedCluster?: boolean | undefined;
-  /** Output only. ResourceStatus representing detailed cluster state. */
-  status?: ResourceStatus | undefined;
-  /** A human readable description of this VMware user cluster. */
-  description?: string | undefined;
-  /** Configuration for auto repairing. */
-  autoRepairConfig?: VmwareAutoRepairConfig | undefined;
-  /** Output only. The time at which VMware user cluster was created. */
-  createTime?: string | undefined;
-}
 export interface GetProjectsLocationsVmwareClustersOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -2078,39 +1823,6 @@ export interface GetProjectsLocationsVmwareClustersVmwareNodePoolsRequest {
   name: string;
   /** View for VMware node pool. When `BASIC` is specified, only the node pool resource name is returned. The default/unset value `NODE_POOL_VIEW_UNSPECIFIED` is the same as `FULL', which returns the complete node pool configuration details. */
   view?: GetProjectsLocationsVmwareClustersVmwareNodePoolsViewEnum | (string & {}) | undefined;
-}
-/** Resource VmwareNodePool represents a VMware node pool. ## */
-export interface VmwareNodePool {
-  /** Output only. The current state of the node pool. */
-  state?: VmwareNodePoolStateEnum | undefined;
-  /** Anthos version for the node pool. Defaults to the user cluster version. */
-  onPremVersion?: string | undefined;
-  /** The display name for the node pool. */
-  displayName?: string | undefined;
-  /** Output only. If set, there are currently changes in flight to the node pool. */
-  reconciling?: boolean | undefined;
-  /** Node pool autoscaling config for the node pool. */
-  nodePoolAutoscaling?: VmwareNodePoolAutoscalingConfig | undefined;
-  /** Output only. The unique identifier of the node pool. */
-  uid?: string | undefined;
-  /** Output only. The time at which this node pool was created. */
-  createTime?: string | undefined;
-  /** Annotations on the node pool. This field has the same restrictions as Kubernetes annotations. The total size of all keys and values combined is limited to 256k. Key can have 2 segments: prefix (optional) and name (required), separated by a slash (/). Prefix must be a DNS subdomain. Name must be 63 characters or less, begin and end with alphanumerics, with dashes (-), underscores (_), dots (.), and alphanumerics between. */
-  annotations?: StringMap | undefined;
-  /** Output only. The time at which this node pool was deleted. If the resource is not deleted, this must be empty */
-  deleteTime?: string | undefined;
-  /** Output only. ResourceStatus representing the detailed VMware node pool state. */
-  status?: ResourceStatus | undefined;
-  /** Required. The node configuration of the node pool. */
-  config?: VmwareNodeConfig | undefined;
-  /** This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. Allows clients to perform consistent read-modify-writes through optimistic concurrency control. */
-  etag?: string | undefined;
-  /** Output only. The time at which this node pool was last updated. */
-  updateTime?: string | undefined;
-  /** Immutable. The resource name of this node pool. */
-  name?: string | undefined;
-  /** The validation check for the node pool. */
-  validationCheck?: ValidationCheck | undefined;
 }
 export interface GetProjectsLocationsVmwareClustersVmwareNodePoolsOperationsRequest {
   /** The name of the operation resource. */
@@ -2389,71 +2101,21 @@ export interface ListProjectsLocationsVmwareClustersVmwareNodePoolsOperationsReq
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
   returnPartialSuccess?: boolean | undefined;
 }
-export interface PatchProjectsLocationsBareMetalAdminClustersRequest {
+export interface PatchProjectsLocationsBareMetalAdminClustersRequest extends Omit<
+  BareMetalAdminCluster,
+  "name"
+> {
   /** Required. Field mask is used to specify the fields to be overwritten in the BareMetalAdminCluster resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all populated fields in the BareMetalAdminCluster message will be updated. Empty fields will be ignored unless a field mask is used. */
   updateMask?: string | undefined;
   /** Validate the request without actually doing any updates. */
   validateOnly?: boolean | undefined;
   /** Immutable. The bare metal admin cluster resource name. */
   name: string;
-  /** Output only. The IP address name of bare metal admin cluster's API server. */
-  endpoint?: string | undefined;
-  /** A human readable description of this bare metal admin cluster. */
-  description?: string | undefined;
-  /** Output only. The unique identifier of the bare metal admin cluster. */
-  uid?: string | undefined;
-  /** Control plane configuration. */
-  controlPlane?: BareMetalAdminControlPlaneConfig | undefined;
-  /** Output only. The time at which this bare metal admin cluster was created. */
-  createTime?: string | undefined;
-  /** Output only. MaintenanceStatus representing state of maintenance. */
-  maintenanceStatus?: BareMetalAdminMaintenanceStatus | undefined;
-  /** Annotations on the bare metal admin cluster. This field has the same restrictions as Kubernetes annotations. The total size of all keys and values combined is limited to 256k. Key can have 2 segments: prefix (optional) and name (required), separated by a slash (/). Prefix must be a DNS subdomain. Name must be 63 characters or less, begin and end with alphanumerics, with dashes (-), underscores (_), dots (.), and alphanumerics between. */
-  annotations?: StringMap | undefined;
-  /** Proxy configuration. */
-  proxy?: BareMetalAdminProxyConfig | undefined;
-  /** Workload node configuration. */
-  nodeConfig?: BareMetalAdminWorkloadNodeConfig | undefined;
-  /** Output only. The time at which this bare metal admin cluster was deleted. If the resource is not deleted, this must be empty */
-  deleteTime?: string | undefined;
-  /** Output only. If set, there are currently changes in flight to the bare metal Admin Cluster. */
-  reconciling?: boolean | undefined;
-  /** Binary Authorization related configurations. */
-  binaryAuthorization?: BinaryAuthorization | undefined;
-  /** Output only. Fleet configuration for the cluster. */
-  fleet?: Fleet | undefined;
-  /** Security related configuration. */
-  securityConfig?: BareMetalAdminSecurityConfig | undefined;
-  /** OS environment related configurations. */
-  osEnvironmentConfig?: BareMetalAdminOsEnvironmentConfig | undefined;
-  /** Load balancer configuration. */
-  loadBalancer?: BareMetalAdminLoadBalancerConfig | undefined;
-  /** Node access related configurations. */
-  nodeAccessConfig?: BareMetalAdminNodeAccessConfig | undefined;
-  /** Maintenance configuration. */
-  maintenanceConfig?: BareMetalAdminMaintenanceConfig | undefined;
-  /** The Anthos clusters on bare metal version for the bare metal admin cluster. */
-  bareMetalVersion?: string | undefined;
-  /** Output only. The object name of the bare metal cluster custom resource. This field is used to support conflicting names when enrolling existing clusters to the API. When used as a part of cluster enrollment, this field will differ from the ID in the resource name. For new clusters, this field will match the user provided cluster name and be visible in the last component of the resource name. It is not modifiable. All users should use this name to access their cluster using gkectl or kubectl and should expect to see the local name when viewing admin cluster controller logs. */
-  localName?: string | undefined;
-  /** Output only. ValidationCheck representing the result of the preflight check. */
-  validationCheck?: ValidationCheck | undefined;
-  /** Output only. ResourceStatus representing detailed cluster status. */
-  status?: ResourceStatus | undefined;
-  /** This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. Allows clients to perform consistent read-modify-writes through optimistic concurrency control. */
-  etag?: string | undefined;
-  /** Output only. The current state of the bare metal admin cluster. */
-  state?: BareMetalAdminClusterStateEnum | (string & {}) | undefined;
-  /** Cluster operations configuration. */
-  clusterOperations?: BareMetalAdminClusterOperationsConfig | undefined;
-  /** Network configuration. */
-  networkConfig?: BareMetalAdminNetworkConfig | undefined;
-  /** Storage configuration. */
-  storage?: BareMetalAdminStorageConfig | undefined;
-  /** Output only. The time at which this bare metal admin cluster was last updated. */
-  updateTime?: string | undefined;
 }
-export interface PatchProjectsLocationsBareMetalClustersRequest {
+export interface PatchProjectsLocationsBareMetalClustersRequest extends Omit<
+  BareMetalCluster,
+  "name"
+> {
   /** If set to true, and the bare metal cluster is not found, the request will create a new bare metal cluster with the provided configuration. The user must have both create and update permission to call Update with allow_missing set to true. */
   allowMissing?: boolean | undefined;
   /** Validate the request without actually doing any updates. */
@@ -2462,72 +2124,11 @@ export interface PatchProjectsLocationsBareMetalClustersRequest {
   updateMask?: string | undefined;
   /** Immutable. The bare metal user cluster resource name. */
   name: string;
-  /** Output only. The IP address of the bare metal user cluster's API server. */
-  endpoint?: string | undefined;
-  /** Output only. The resource name of the bare metal admin cluster managing this user cluster. */
-  adminClusterName?: string | undefined;
-  /** Cluster operations configuration. */
-  clusterOperations?: BareMetalAdminClusterOperationsConfig | undefined;
-  /** Output only. This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. Allows clients to perform consistent read-modify-writes through optimistic concurrency control. */
-  etag?: string | undefined;
-  /** Output only. The time when the bare metal user cluster was created. */
-  createTime?: string | undefined;
-  /** The cluster upgrade policy. */
-  upgradePolicy?: BareMetalClusterUpgradePolicy | undefined;
-  /** Output only. The current state of the bare metal user cluster. */
-  state?: BareMetalClusterStateEnum | (string & {}) | undefined;
-  /** OS environment related configurations. */
-  osEnvironmentConfig?: BareMetalOsEnvironmentConfig | undefined;
-  /** Output only. The unique identifier of the bare metal user cluster. */
-  uid?: string | undefined;
-  /** Output only. The time when the bare metal user cluster was deleted. If the resource is not deleted, this must be empty */
-  deleteTime?: string | undefined;
-  /** Binary Authorization related configurations. */
-  binaryAuthorization?: BinaryAuthorization | undefined;
-  /** Workload node configuration. */
-  nodeConfig?: BareMetalWorkloadNodeConfig | undefined;
-  /** Node access related configurations. */
-  nodeAccessConfig?: BareMetalNodeAccessConfig | undefined;
-  /** Required. Storage configuration. */
-  storage?: BareMetalAdminStorageConfig | undefined;
-  /** Security related setting configuration. */
-  securityConfig?: BareMetalSecurityConfig | undefined;
-  /** Required. The Anthos clusters on bare metal version for your user cluster. */
-  bareMetalVersion?: string | undefined;
-  /** Maintenance configuration. */
-  maintenanceConfig?: BareMetalAdminMaintenanceConfig | undefined;
-  /** A human readable description of this bare metal user cluster. */
-  description?: string | undefined;
-  /** Output only. Detailed cluster status. */
-  status?: ResourceStatus | undefined;
-  /** Required. Load balancer configuration. */
-  loadBalancer?: BareMetalLoadBalancerConfig | undefined;
-  /** Output only. The result of the preflight check. */
-  validationCheck?: ValidationCheck | undefined;
-  /** Required. Network configuration. */
-  networkConfig?: BareMetalNetworkConfig | undefined;
-  /** Proxy configuration. */
-  proxy?: BareMetalProxyConfig | undefined;
-  /** Output only. Status of on-going maintenance tasks. */
-  maintenanceStatus?: BareMetalMaintenanceStatus | undefined;
-  /** Output only. Fleet configuration for the cluster. */
-  fleet?: Fleet | undefined;
-  /** Annotations on the bare metal user cluster. This field has the same restrictions as Kubernetes annotations. The total size of all keys and values combined is limited to 256k. Key can have 2 segments: prefix (optional) and name (required), separated by a slash (/). Prefix must be a DNS subdomain. Name must be 63 characters or less, begin and end with alphanumerics, with dashes (-), underscores (_), dots (.), and alphanumerics between. */
-  annotations?: StringMap | undefined;
-  /** Required. The admin cluster this bare metal user cluster belongs to. This is the full resource name of the admin cluster's fleet membership. */
-  adminClusterMembership?: string | undefined;
-  /** Output only. The object name of the bare metal user cluster custom resource on the associated admin cluster. This field is used to support conflicting names when enrolling existing clusters to the API. When used as a part of cluster enrollment, this field will differ from the name in the resource name. For new clusters, this field will match the user provided cluster name and be visible in the last component of the resource name. It is not modifiable. When the local name and cluster name differ, the local name is used in the admin cluster controller logs. You use the cluster name when accessing the cluster using bmctl and kubectl. */
-  localName?: string | undefined;
-  /** Output only. The namespace of the cluster. */
-  localNamespace?: string | undefined;
-  /** Required. Control plane configuration. */
-  controlPlane?: BareMetalControlPlaneConfig | undefined;
-  /** Output only. If set, there are currently changes in flight to the bare metal user cluster. */
-  reconciling?: boolean | undefined;
-  /** Output only. The time when the bare metal user cluster was last updated. */
-  updateTime?: string | undefined;
 }
-export interface PatchProjectsLocationsBareMetalClustersBareMetalNodePoolsRequest {
+export interface PatchProjectsLocationsBareMetalClustersBareMetalNodePoolsRequest extends Omit<
+  BareMetalNodePool,
+  "name"
+> {
   /** If set to true, and the bare metal node pool is not found, the request will create a new bare metal node pool with the provided configuration. The user must have both create and update permission to call Update with allow_missing set to true. */
   allowMissing?: boolean | undefined;
   /** Required. Field mask is used to specify the fields to be overwritten in the BareMetalNodePool resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all populated fields in the BareMetalNodePool message will be updated. Empty fields will be ignored unless a field mask is used. */
@@ -2536,32 +2137,11 @@ export interface PatchProjectsLocationsBareMetalClustersBareMetalNodePoolsReques
   name: string;
   /** Validate the request without actually doing any updates. */
   validateOnly?: boolean | undefined;
-  /** The display name for the bare metal node pool. */
-  displayName?: string | undefined;
-  /** Output only. If set, there are currently changes in flight to the bare metal node pool. */
-  reconciling?: boolean | undefined;
-  /** Output only. ResourceStatus representing the detailed node pool status. */
-  status?: ResourceStatus | undefined;
-  /** Output only. The time at which this bare metal node pool was last updated. */
-  updateTime?: string | undefined;
-  /** The worker node pool upgrade policy. */
-  upgradePolicy?: BareMetalNodePoolUpgradePolicy | undefined;
-  /** Required. Node pool configuration. */
-  nodePoolConfig?: BareMetalNodePoolConfig | undefined;
-  /** Annotations on the bare metal node pool. This field has the same restrictions as Kubernetes annotations. The total size of all keys and values combined is limited to 256k. Key can have 2 segments: prefix (optional) and name (required), separated by a slash (/). Prefix must be a DNS subdomain. Name must be 63 characters or less, begin and end with alphanumerics, with dashes (-), underscores (_), dots (.), and alphanumerics between. */
-  annotations?: StringMap | undefined;
-  /** Output only. The time at which this bare metal node pool was deleted. If the resource is not deleted, this must be empty */
-  deleteTime?: string | undefined;
-  /** Output only. The unique identifier of the bare metal node pool. */
-  uid?: string | undefined;
-  /** Output only. The current state of the bare metal node pool. */
-  state?: BareMetalNodePoolStateEnum | (string & {}) | undefined;
-  /** This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. Allows clients to perform consistent read-modify-writes through optimistic concurrency control. */
-  etag?: string | undefined;
-  /** Output only. The time at which this bare metal node pool was created. */
-  createTime?: string | undefined;
 }
-export interface PatchProjectsLocationsVmwareAdminClustersRequest {
+export interface PatchProjectsLocationsVmwareAdminClustersRequest extends Omit<
+  VmwareAdminCluster,
+  "name"
+> {
   /** Optional. If set, the server-side preflight checks will be skipped. */
   skipValidations?: StringList | undefined;
   /** Required. Field mask is used to specify the fields to be overwritten in the VMwareAdminCluster resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all populated fields in the VmwareAdminCluster message will be updated. Empty fields will be ignored unless a field mask is used. */
@@ -2570,66 +2150,8 @@ export interface PatchProjectsLocationsVmwareAdminClustersRequest {
   validateOnly?: boolean | undefined;
   /** Immutable. The VMware admin cluster resource name. */
   name: string;
-  /** The Anthos clusters on the VMware version for the admin cluster. */
-  onPremVersion?: string | undefined;
-  /** Output only. The object name of the VMware OnPremAdminCluster custom resource. This field is used to support conflicting names when enrolling existing clusters to the API. When used as a part of cluster enrollment, this field will differ from the ID in the resource name. For new clusters, this field will match the user provided cluster name and be visible in the last component of the resource name. It is not modifiable. All users should use this name to access their cluster using gkectl or kubectl and should expect to see the local name when viewing admin cluster controller logs. */
-  localName?: string | undefined;
-  /** The VMware admin cluster control plane node configuration. */
-  controlPlaneNode?: VmwareAdminControlPlaneNodeConfig | undefined;
-  /** This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. Allows clients to perform consistent read-modify-writes through optimistic concurrency control. */
-  etag?: string | undefined;
-  /** The bootstrap cluster this VMware admin cluster belongs to. */
-  bootstrapClusterMembership?: string | undefined;
-  /** The VMware admin cluster authorization configuration. */
-  authorization?: VmwareAdminAuthorizationConfig | undefined;
-  /** Output only. The time at which VMware admin cluster was last updated. */
-  updateTime?: string | undefined;
-  /** Output only. ValidationCheck represents the result of the preflight check job. */
-  validationCheck?: ValidationCheck | undefined;
-  /** Output only. The VMware admin cluster prepared secrets configuration. It should always be enabled by the Central API, instead of letting users set it. */
-  preparedSecrets?: VmwareAdminPreparedSecretsConfig | undefined;
-  /** Output only. ResourceStatus representing detailed cluster state. */
-  status?: ResourceStatus | undefined;
-  /** Enable advanced cluster. */
-  enableAdvancedCluster?: boolean | undefined;
-  /** The VMware admin cluster network configuration. */
-  networkConfig?: VmwareAdminNetworkConfig | undefined;
-  /** Output only. The current state of VMware admin cluster. */
-  state?: VmwareAdminClusterStateEnum | (string & {}) | undefined;
-  /** The VMware admin cluster anti affinity group configuration. */
-  antiAffinityGroups?: VmwareAAGConfig | undefined;
-  /** The VMware admin cluster addon node configuration. */
-  addonNode?: VmwareAdminAddonNodeConfig | undefined;
-  /** The VMware admin cluster auto repair configuration. */
-  autoRepairConfig?: VmwareAutoRepairConfig | undefined;
-  /** The VMware platform configuration. */
-  platformConfig?: VmwarePlatformConfig | undefined;
-  /** Annotations on the VMware admin cluster. This field has the same restrictions as Kubernetes annotations. The total size of all keys and values combined is limited to 256k. Key can have 2 segments: prefix (optional) and name (required), separated by a slash (/). Prefix must be a DNS subdomain. Name must be 63 characters or less, begin and end with alphanumerics, with dashes (-), underscores (_), dots (.), and alphanumerics between. */
-  annotations?: StringMap | undefined;
-  /** Output only. If set, there are currently changes in flight to the VMware admin cluster. */
-  reconciling?: boolean | undefined;
-  /** The VMware admin cluster VCenter configuration. */
-  vcenter?: VmwareAdminVCenterConfig | undefined;
-  /** The OS image type for the VMware admin cluster. */
-  imageType?: string | undefined;
-  /** Configuration for proxy. */
-  proxy?: VmwareAdminProxy | undefined;
-  /** Output only. The unique identifier of the VMware admin cluster. */
-  uid?: string | undefined;
-  /** Output only. The DNS name of VMware admin cluster's API server. */
-  endpoint?: string | undefined;
-  /** A human readable description of this VMware admin cluster. */
-  description?: string | undefined;
-  /** Output only. Fleet configuration for the cluster. */
-  fleet?: Fleet | undefined;
-  /** Output only. The time at which VMware admin cluster was created. */
-  createTime?: string | undefined;
-  /** The VMware admin cluster load balancer configuration. */
-  loadBalancer?: VmwareAdminLoadBalancerConfig | undefined;
-  /** Configuration for registry. */
-  privateRegistryConfig?: VmwareAdminPrivateRegistryConfig | undefined;
 }
-export interface PatchProjectsLocationsVmwareClustersRequest {
+export interface PatchProjectsLocationsVmwareClustersRequest extends Omit<VmwareCluster, "name"> {
   /** Validate the request without actually doing any updates. */
   validateOnly?: boolean | undefined;
   /** Required. Field mask is used to specify the fields to be overwritten in the VMwareCluster resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all populated fields in the VmwareCluster message will be updated. Empty fields will be ignored unless a field mask is used. */
@@ -2637,106 +2159,17 @@ export interface PatchProjectsLocationsVmwareClustersRequest {
   /** Immutable. The VMware user cluster resource name. */
   name: string;
   skipValidations?: StringList | undefined;
-  /** Output only. Fleet configuration for the cluster. */
-  fleet?: Fleet | undefined;
-  /** Output only. The object name of the VMware OnPremUserCluster custom resource on the associated admin cluster. This field is used to support conflicting names when enrolling existing clusters to the API. When used as a part of cluster enrollment, this field will differ from the ID in the resource name. For new clusters, this field will match the user provided cluster name and be visible in the last component of the resource name. It is not modifiable. All users should use this name to access their cluster using gkectl or kubectl and should expect to see the local name when viewing admin cluster controller logs. */
-  localName?: string | undefined;
-  /** Output only. The DNS name of VMware user cluster's API server. */
-  endpoint?: string | undefined;
-  /** Enable VM tracking. */
-  vmTrackingEnabled?: boolean | undefined;
-  /** Output only. The unique identifier of the VMware user cluster. */
-  uid?: string | undefined;
-  /** Output only. ValidationCheck represents the result of the preflight check job. */
-  validationCheck?: ValidationCheck | undefined;
-  /** Output only. The time at which VMware user cluster was last updated. */
-  updateTime?: string | undefined;
-  /** AAGConfig specifies whether to spread VMware user cluster nodes across at least three physical hosts in the datacenter. */
-  antiAffinityGroups?: VmwareAAGConfig | undefined;
-  /** This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. Allows clients to perform consistent read-modify-writes through optimistic concurrency control. */
-  etag?: string | undefined;
-  /** Output only. The resource name of the VMware admin cluster hosting this user cluster. */
-  adminClusterName?: string | undefined;
-  /** Load balancer configuration. */
-  loadBalancer?: VmwareLoadBalancerConfig | undefined;
-  /** Specifies upgrade policy for the cluster. */
-  upgradePolicy?: VmwareClusterUpgradePolicy | undefined;
-  /** Binary Authorization related configurations. */
-  binaryAuthorization?: BinaryAuthorization | undefined;
-  /** VmwareDataplaneV2Config specifies configuration for Dataplane V2. */
-  dataplaneV2?: VmwareDataplaneV2Config | undefined;
-  /** VmwareVCenterConfig specifies vCenter config for the user cluster. If unspecified, it is inherited from the admin cluster. */
-  vcenter?: VmwareVCenterConfig | undefined;
-  /** VMware user cluster control plane nodes must have either 1 or 3 replicas. */
-  controlPlaneNode?: VmwareControlPlaneNodeConfig | undefined;
-  /** Required. The Anthos clusters on the VMware version for your user cluster. */
-  onPremVersion?: string | undefined;
-  /** RBAC policy that will be applied and managed by the Anthos On-Prem API. */
-  authorization?: Authorization | undefined;
-  /** Output only. If set, there are currently changes in flight to the VMware user cluster. */
-  reconciling?: boolean | undefined;
-  /** Output only. The time at which VMware user cluster was deleted. */
-  deleteTime?: string | undefined;
-  /** Output only. The current state of VMware user cluster. */
-  state?: VmwareClusterStateEnum | (string & {}) | undefined;
-  /** Required. The admin cluster this VMware user cluster belongs to. This is the full resource name of the admin cluster's fleet membership. In the future, references to other resource types might be allowed if admin clusters are modeled as their own resources. */
-  adminClusterMembership?: string | undefined;
-  /** Disable bundled ingress. */
-  disableBundledIngress?: boolean | undefined;
-  /** Annotations on the VMware user cluster. This field has the same restrictions as Kubernetes annotations. The total size of all keys and values combined is limited to 256k. Key can have 2 segments: prefix (optional) and name (required), separated by a slash (/). Prefix must be a DNS subdomain. Name must be 63 characters or less, begin and end with alphanumerics, with dashes (-), underscores (_), dots (.), and alphanumerics between. */
-  annotations?: StringMap | undefined;
-  /** Enable control plane V2. Default to false. */
-  enableControlPlaneV2?: boolean | undefined;
-  /** Storage configuration. */
-  storage?: VmwareStorageConfig | undefined;
-  /** The VMware user cluster network configuration. */
-  networkConfig?: VmwareNetworkConfig | undefined;
-  /** Enable advanced cluster. */
-  enableAdvancedCluster?: boolean | undefined;
-  /** Output only. ResourceStatus representing detailed cluster state. */
-  status?: ResourceStatus | undefined;
-  /** A human readable description of this VMware user cluster. */
-  description?: string | undefined;
-  /** Configuration for auto repairing. */
-  autoRepairConfig?: VmwareAutoRepairConfig | undefined;
-  /** Output only. The time at which VMware user cluster was created. */
-  createTime?: string | undefined;
 }
-export interface PatchProjectsLocationsVmwareClustersVmwareNodePoolsRequest {
+export interface PatchProjectsLocationsVmwareClustersVmwareNodePoolsRequest extends Omit<
+  VmwareNodePool,
+  "name"
+> {
   /** Required. Field mask is used to specify the fields to be overwritten in the VMwareNodePool resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all populated fields in the VMwareNodePool message will be updated. Empty fields will be ignored unless a field mask is used. */
   updateMask?: string | undefined;
   /** Validate the request without actually doing any updates. */
   validateOnly?: boolean | undefined;
   /** Immutable. The resource name of this node pool. */
   name: string;
-  /** Output only. The current state of the node pool. */
-  state?: VmwareNodePoolStateEnum | (string & {}) | undefined;
-  /** Anthos version for the node pool. Defaults to the user cluster version. */
-  onPremVersion?: string | undefined;
-  /** The display name for the node pool. */
-  displayName?: string | undefined;
-  /** Output only. If set, there are currently changes in flight to the node pool. */
-  reconciling?: boolean | undefined;
-  /** Node pool autoscaling config for the node pool. */
-  nodePoolAutoscaling?: VmwareNodePoolAutoscalingConfig | undefined;
-  /** Output only. The unique identifier of the node pool. */
-  uid?: string | undefined;
-  /** Output only. The time at which this node pool was created. */
-  createTime?: string | undefined;
-  /** Annotations on the node pool. This field has the same restrictions as Kubernetes annotations. The total size of all keys and values combined is limited to 256k. Key can have 2 segments: prefix (optional) and name (required), separated by a slash (/). Prefix must be a DNS subdomain. Name must be 63 characters or less, begin and end with alphanumerics, with dashes (-), underscores (_), dots (.), and alphanumerics between. */
-  annotations?: StringMap | undefined;
-  /** Output only. The time at which this node pool was deleted. If the resource is not deleted, this must be empty */
-  deleteTime?: string | undefined;
-  /** Output only. ResourceStatus representing the detailed VMware node pool state. */
-  status?: ResourceStatus | undefined;
-  /** Required. The node configuration of the node pool. */
-  config?: VmwareNodeConfig | undefined;
-  /** This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. Allows clients to perform consistent read-modify-writes through optimistic concurrency control. */
-  etag?: string | undefined;
-  /** Output only. The time at which this node pool was last updated. */
-  updateTime?: string | undefined;
-  /** The validation check for the node pool. */
-  validationCheck?: ValidationCheck | undefined;
 }
 export interface QueryVersionConfigProjectsLocationsBareMetalAdminClustersRequest {
   /** The admin cluster resource name. This is the full resource name of the admin cluster resource. Format: "projects/{project}/locations/{location}/bareMetalAdminClusters/{bare_metal_admin_cluster}" */
@@ -2813,82 +2246,68 @@ export interface QueryVmwareVersionConfigResponse {
   /** List of available versions to install or to upgrade to. */
   versions?: VmwareVersionInfoList | undefined;
 }
-export interface SetIamPolicyProjectsLocationsBareMetalAdminClustersRequest {
-  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
+/** Request message for `SetIamPolicy` method. */
+export interface SetIamPolicyRequest {
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
   policy?: Policy | undefined;
 }
-export interface SetIamPolicyProjectsLocationsBareMetalClustersRequest {
+export interface SetIamPolicyProjectsLocationsBareMetalAdminClustersRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
-  policy?: Policy | undefined;
 }
-export interface SetIamPolicyProjectsLocationsBareMetalClustersBareMetalNodePoolsRequest {
+export interface SetIamPolicyProjectsLocationsBareMetalClustersRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
-  policy?: Policy | undefined;
 }
-export interface SetIamPolicyProjectsLocationsVmwareAdminClustersRequest {
+export interface SetIamPolicyProjectsLocationsBareMetalClustersBareMetalNodePoolsRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
-  policy?: Policy | undefined;
 }
-export interface SetIamPolicyProjectsLocationsVmwareClustersRequest {
+export interface SetIamPolicyProjectsLocationsVmwareAdminClustersRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
-  policy?: Policy | undefined;
 }
-export interface SetIamPolicyProjectsLocationsVmwareClustersVmwareNodePoolsRequest {
+export interface SetIamPolicyProjectsLocationsVmwareClustersRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
-  policy?: Policy | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsBareMetalAdminClustersRequest {
-  /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+export interface SetIamPolicyProjectsLocationsVmwareClustersVmwareNodePoolsRequest extends SetIamPolicyRequest {
+  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
+}
+/** Request message for `TestIamPermissions` method. */
+export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: StringList | undefined;
+}
+export interface TestIamPermissionsProjectsLocationsBareMetalAdminClustersRequest extends TestIamPermissionsRequest {
+  /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsBareMetalClustersRequest {
+export interface TestIamPermissionsProjectsLocationsBareMetalClustersRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
-  permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsBareMetalClustersBareMetalNodePoolsRequest {
+export interface TestIamPermissionsProjectsLocationsBareMetalClustersBareMetalNodePoolsRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
-  permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsVmwareAdminClustersRequest {
+export interface TestIamPermissionsProjectsLocationsVmwareAdminClustersRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
-  permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsVmwareClustersRequest {
+export interface TestIamPermissionsProjectsLocationsVmwareClustersRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
-  permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsVmwareClustersVmwareNodePoolsRequest {
+export interface TestIamPermissionsProjectsLocationsVmwareClustersVmwareNodePoolsRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
-  permissions?: StringList | undefined;
 }
 export interface UnenrollProjectsLocationsBareMetalAdminClustersRequest {
   /** If set to true, and the bare metal admin cluster is not found, the request will succeed but no action will be taken on the server and return a completed LRO. */
@@ -2971,8 +2390,8 @@ export const cancelProjectsLocationsOperations: API.OperationMethod<
   CancelProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1632, __c51, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
-  output: __S(1664, __c52, 0) as any as S.Schema<Empty>,
+  input: __S(1440, __c45, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
+  output: __S(1472, __c46, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2994,11 +2413,11 @@ export const createProjectsLocationsBareMetalAdminClusters: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2016,
-    __c63,
+    1824,
+    __c57,
     0,
   ) as any as S.Schema<CreateProjectsLocationsBareMetalAdminClustersRequest>,
-  output: __S(2242, __c70, 2) as any as S.Schema<Operation>,
+  output: __S(2050, __c64, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3020,8 +2439,8 @@ export const createProjectsLocationsBareMetalClusters: API.OperationMethod<
   CreateProjectsLocationsBareMetalClustersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2816, __c88, 0) as any as S.Schema<CreateProjectsLocationsBareMetalClustersRequest>,
-  output: __S(2242, __c70, 2) as any as S.Schema<Operation>,
+  input: __S(2656, __c83, 0) as any as S.Schema<CreateProjectsLocationsBareMetalClustersRequest>,
+  output: __S(2050, __c64, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, AdminClusterUnreachable, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3043,11 +2462,11 @@ export const createProjectsLocationsBareMetalClustersBareMetalNodePools: API.Ope
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3232,
-    __c101,
+    3072,
+    __c96,
     0,
   ) as any as S.Schema<CreateProjectsLocationsBareMetalClustersBareMetalNodePoolsRequest>,
-  output: __S(2242, __c70, 2) as any as S.Schema<Operation>,
+  output: __S(2050, __c64, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3068,8 +2487,8 @@ export const createProjectsLocationsVmwareAdminClusters: API.OperationMethod<
   CreateProjectsLocationsVmwareAdminClustersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3424, __c107, 0) as any as S.Schema<CreateProjectsLocationsVmwareAdminClustersRequest>,
-  output: __S(2242, __c70, 2) as any as S.Schema<Operation>,
+  input: __S(3264, __c102, 0) as any as S.Schema<CreateProjectsLocationsVmwareAdminClustersRequest>,
+  output: __S(2050, __c64, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3092,7 +2511,7 @@ export const createProjectsLocationsVmwareClusters: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateProjectsLocationsVmwareClustersRequest>,
-  output: __S(2242, __c70, 2) as any as S.Schema<Operation>,
+  output: __S(2050, __c64, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, AdminClusterUnreachable, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3118,7 +2537,7 @@ export const createProjectsLocationsVmwareClustersVmwareNodePools: API.Operation
     __c2,
     0,
   ) as any as S.Schema<CreateProjectsLocationsVmwareClustersVmwareNodePoolsRequest>,
-  output: __S(2242, __c70, 2) as any as S.Schema<Operation>,
+  output: __S(2050, __c64, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3140,7 +2559,7 @@ export const deleteProjectsLocationsBareMetalClusters: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c4, 0) as any as S.Schema<DeleteProjectsLocationsBareMetalClustersRequest>,
-  output: __S(2242, __c70, 2) as any as S.Schema<Operation>,
+  output: __S(2050, __c64, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3166,7 +2585,7 @@ export const deleteProjectsLocationsBareMetalClustersBareMetalNodePools: API.Ope
     __c5,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsBareMetalClustersBareMetalNodePoolsRequest>,
-  output: __S(2242, __c70, 2) as any as S.Schema<Operation>,
+  output: __S(2050, __c64, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3188,7 +2607,7 @@ export const deleteProjectsLocationsOperations: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c6, 0) as any as S.Schema<DeleteProjectsLocationsOperationsRequest>,
-  output: __S(1664, __c52, 0) as any as S.Schema<Empty>,
+  output: __S(1472, __c46, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3210,7 +2629,7 @@ export const deleteProjectsLocationsVmwareClusters: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c7, 0) as any as S.Schema<DeleteProjectsLocationsVmwareClustersRequest>,
-  output: __S(2242, __c70, 2) as any as S.Schema<Operation>,
+  output: __S(2050, __c64, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3236,7 +2655,7 @@ export const deleteProjectsLocationsVmwareClustersVmwareNodePools: API.Operation
     __c8,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsVmwareClustersVmwareNodePoolsRequest>,
-  output: __S(2242, __c70, 2) as any as S.Schema<Operation>,
+  output: __S(2050, __c64, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3257,8 +2676,8 @@ export const enrollProjectsLocationsBareMetalAdminClusters: API.OperationMethod<
   EnrollProjectsLocationsBareMetalAdminClustersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c9, 0) as any as S.Schema<EnrollProjectsLocationsBareMetalAdminClustersRequest>,
-  output: __S(2242, __c70, 2) as any as S.Schema<Operation>,
+  input: __S(289, __c9, 1) as any as S.Schema<EnrollProjectsLocationsBareMetalAdminClustersRequest>,
+  output: __S(2050, __c64, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3279,8 +2698,8 @@ export const enrollProjectsLocationsBareMetalClusters: API.OperationMethod<
   EnrollProjectsLocationsBareMetalClustersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c10, 0) as any as S.Schema<EnrollProjectsLocationsBareMetalClustersRequest>,
-  output: __S(2242, __c70, 2) as any as S.Schema<Operation>,
+  input: __S(321, __c10, 1) as any as S.Schema<EnrollProjectsLocationsBareMetalClustersRequest>,
+  output: __S(2050, __c64, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3302,11 +2721,11 @@ export const enrollProjectsLocationsBareMetalClustersBareMetalNodePools: API.Ope
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    352,
+    353,
     __c11,
-    0,
+    1,
   ) as any as S.Schema<EnrollProjectsLocationsBareMetalClustersBareMetalNodePoolsRequest>,
-  output: __S(2242, __c70, 2) as any as S.Schema<Operation>,
+  output: __S(2050, __c64, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3327,8 +2746,8 @@ export const enrollProjectsLocationsVmwareAdminClusters: API.OperationMethod<
   EnrollProjectsLocationsVmwareAdminClustersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c12, 0) as any as S.Schema<EnrollProjectsLocationsVmwareAdminClustersRequest>,
-  output: __S(2242, __c70, 2) as any as S.Schema<Operation>,
+  input: __S(385, __c12, 1) as any as S.Schema<EnrollProjectsLocationsVmwareAdminClustersRequest>,
+  output: __S(2050, __c64, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3349,8 +2768,8 @@ export const enrollProjectsLocationsVmwareClusters: API.OperationMethod<
   EnrollProjectsLocationsVmwareClustersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c13, 0) as any as S.Schema<EnrollProjectsLocationsVmwareClustersRequest>,
-  output: __S(2242, __c70, 2) as any as S.Schema<Operation>,
+  input: __S(417, __c13, 1) as any as S.Schema<EnrollProjectsLocationsVmwareClustersRequest>,
+  output: __S(2050, __c64, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3372,11 +2791,11 @@ export const enrollProjectsLocationsVmwareClustersVmwareNodePools: API.Operation
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    448,
+    449,
     __c14,
-    0,
+    1,
   ) as any as S.Schema<EnrollProjectsLocationsVmwareClustersVmwareNodePoolsRequest>,
-  output: __S(2242, __c70, 2) as any as S.Schema<Operation>,
+  output: __S(2050, __c64, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3544,7 +2963,7 @@ export const getProjectsLocationsBareMetalAdminClusters: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c24, 0) as any as S.Schema<GetProjectsLocationsBareMetalAdminClustersRequest>,
-  output: __S(800, __c25, 0) as any as S.Schema<BareMetalAdminCluster>,
+  output: __S(1873, __c58, 17) as any as S.Schema<BareMetalAdminCluster>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3564,11 +2983,11 @@ export const getProjectsLocationsBareMetalAdminClustersOperations: API.Operation
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    832,
-    __c26,
+    800,
+    __c25,
     0,
   ) as any as S.Schema<GetProjectsLocationsBareMetalAdminClustersOperationsRequest>,
-  output: __S(2242, __c70, 2) as any as S.Schema<Operation>,
+  output: __S(2050, __c64, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3584,8 +3003,8 @@ export const getProjectsLocationsBareMetalClusters: API.OperationMethod<
   GetProjectsLocationsBareMetalClustersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c27, 0) as any as S.Schema<GetProjectsLocationsBareMetalClustersRequest>,
-  output: __S(896, __c28, 0) as any as S.Schema<BareMetalCluster>,
+  input: __S(832, __c26, 0) as any as S.Schema<GetProjectsLocationsBareMetalClustersRequest>,
+  output: __S(2707, __c84, 19) as any as S.Schema<BareMetalCluster>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3605,11 +3024,11 @@ export const getProjectsLocationsBareMetalClustersBareMetalNodePools: API.Operat
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    928,
-    __c29,
+    864,
+    __c27,
     0,
   ) as any as S.Schema<GetProjectsLocationsBareMetalClustersBareMetalNodePoolsRequest>,
-  output: __S(960, __c30, 0) as any as S.Schema<BareMetalNodePool>,
+  output: __S(3106, __c97, 2) as any as S.Schema<BareMetalNodePool>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3629,11 +3048,11 @@ export const getProjectsLocationsBareMetalClustersBareMetalNodePoolsOperations: 
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    992,
-    __c31,
+    896,
+    __c28,
     0,
   ) as any as S.Schema<GetProjectsLocationsBareMetalClustersBareMetalNodePoolsOperationsRequest>,
-  output: __S(2242, __c70, 2) as any as S.Schema<Operation>,
+  output: __S(2050, __c64, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3653,11 +3072,11 @@ export const getProjectsLocationsBareMetalClustersOperations: API.OperationMetho
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1024,
-    __c32,
+    928,
+    __c29,
     0,
   ) as any as S.Schema<GetProjectsLocationsBareMetalClustersOperationsRequest>,
-  output: __S(2242, __c70, 2) as any as S.Schema<Operation>,
+  output: __S(2050, __c64, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3673,8 +3092,8 @@ export const getProjectsLocationsOperations: API.OperationMethod<
   GetProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c33, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
-  output: __S(2242, __c70, 2) as any as S.Schema<Operation>,
+  input: __S(960, __c30, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
+  output: __S(2050, __c64, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3690,8 +3109,8 @@ export const getProjectsLocationsVmwareAdminClusters: API.OperationMethod<
   GetProjectsLocationsVmwareAdminClustersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c34, 0) as any as S.Schema<GetProjectsLocationsVmwareAdminClustersRequest>,
-  output: __S(1120, __c35, 0) as any as S.Schema<VmwareAdminCluster>,
+  input: __S(992, __c31, 0) as any as S.Schema<GetProjectsLocationsVmwareAdminClustersRequest>,
+  output: __S(3343, __c104, 15) as any as S.Schema<VmwareAdminCluster>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3711,11 +3130,11 @@ export const getProjectsLocationsVmwareAdminClustersOperations: API.OperationMet
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1152,
-    __c36,
+    1024,
+    __c32,
     0,
   ) as any as S.Schema<GetProjectsLocationsVmwareAdminClustersOperationsRequest>,
-  output: __S(2242, __c70, 2) as any as S.Schema<Operation>,
+  output: __S(2050, __c64, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3731,8 +3150,8 @@ export const getProjectsLocationsVmwareClusters: API.OperationMethod<
   GetProjectsLocationsVmwareClustersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1184, __c37, 0) as any as S.Schema<GetProjectsLocationsVmwareClustersRequest>,
-  output: __S(1216, __c38, 0) as any as S.Schema<VmwareCluster>,
+  input: __S(1056, __c33, 0) as any as S.Schema<GetProjectsLocationsVmwareClustersRequest>,
+  output: __S(47, __c1, 15) as any as S.Schema<VmwareCluster>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3749,11 +3168,11 @@ export const getProjectsLocationsVmwareClustersOperations: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1248,
-    __c39,
+    1088,
+    __c34,
     0,
   ) as any as S.Schema<GetProjectsLocationsVmwareClustersOperationsRequest>,
-  output: __S(2242, __c70, 2) as any as S.Schema<Operation>,
+  output: __S(2050, __c64, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3773,11 +3192,11 @@ export const getProjectsLocationsVmwareClustersVmwareNodePools: API.OperationMet
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1280,
-    __c40,
+    1120,
+    __c35,
     0,
   ) as any as S.Schema<GetProjectsLocationsVmwareClustersVmwareNodePoolsRequest>,
-  output: __S(1312, __c41, 0) as any as S.Schema<VmwareNodePool>,
+  output: __S(101, __c3, 5) as any as S.Schema<VmwareNodePool>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3797,11 +3216,11 @@ export const getProjectsLocationsVmwareClustersVmwareNodePoolsOperations: API.Op
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1344,
-    __c42,
+    1152,
+    __c36,
     0,
   ) as any as S.Schema<GetProjectsLocationsVmwareClustersVmwareNodePoolsOperationsRequest>,
-  output: __S(2242, __c70, 2) as any as S.Schema<Operation>,
+  output: __S(2050, __c64, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3818,8 +3237,8 @@ export const listProjectsLocations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListLocationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1376, __c43, 0) as any as S.Schema<ListProjectsLocationsRequest>,
-  output: __S(1378, __c43, 2) as any as S.Schema<ListLocationsResponse>,
+  input: __S(1184, __c37, 0) as any as S.Schema<ListProjectsLocationsRequest>,
+  output: __S(1186, __c37, 2) as any as S.Schema<ListLocationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3837,8 +3256,8 @@ export const listProjectsLocationsBareMetalAdminClusters: API.PaginatedOperation
   GcpOpContext,
   ListBareMetalAdminClustersResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1408, __c44, 0) as any as S.Schema<ListProjectsLocationsBareMetalAdminClustersRequest>,
-  output: __S(1410, __c44, 2) as any as S.Schema<ListBareMetalAdminClustersResponse>,
+  input: __S(1216, __c38, 0) as any as S.Schema<ListProjectsLocationsBareMetalAdminClustersRequest>,
+  output: __S(1218, __c38, 2) as any as S.Schema<ListBareMetalAdminClustersResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3860,11 +3279,11 @@ export const listProjectsLocationsBareMetalAdminClustersOperations: API.Paginate
   ListOperationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    1440,
-    __c45,
+    1248,
+    __c39,
     0,
   ) as any as S.Schema<ListProjectsLocationsBareMetalAdminClustersOperationsRequest>,
-  output: __S(1473, __c46, 1) as any as S.Schema<ListOperationsResponse>,
+  output: __S(1281, __c40, 1) as any as S.Schema<ListOperationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3882,8 +3301,8 @@ export const listProjectsLocationsBareMetalClusters: API.PaginatedOperationMetho
   GcpOpContext,
   ListBareMetalClustersResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1504, __c47, 0) as any as S.Schema<ListProjectsLocationsBareMetalClustersRequest>,
-  output: __S(1506, __c47, 2) as any as S.Schema<ListBareMetalClustersResponse>,
+  input: __S(1312, __c41, 0) as any as S.Schema<ListProjectsLocationsBareMetalClustersRequest>,
+  output: __S(1314, __c41, 2) as any as S.Schema<ListBareMetalClustersResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3905,11 +3324,11 @@ export const listProjectsLocationsBareMetalClustersBareMetalNodePools: API.Pagin
   ListBareMetalNodePoolsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    1536,
-    __c48,
+    1344,
+    __c42,
     0,
   ) as any as S.Schema<ListProjectsLocationsBareMetalClustersBareMetalNodePoolsRequest>,
-  output: __S(1538, __c48, 2) as any as S.Schema<ListBareMetalNodePoolsResponse>,
+  output: __S(1346, __c42, 2) as any as S.Schema<ListBareMetalNodePoolsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3931,11 +3350,11 @@ export const listProjectsLocationsBareMetalClustersBareMetalNodePoolsOperations:
   ListOperationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    1568,
-    __c49,
+    1376,
+    __c43,
     0,
   ) as any as S.Schema<ListProjectsLocationsBareMetalClustersBareMetalNodePoolsOperationsRequest>,
-  output: __S(1473, __c46, 1) as any as S.Schema<ListOperationsResponse>,
+  output: __S(1281, __c40, 1) as any as S.Schema<ListOperationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3957,11 +3376,11 @@ export const listProjectsLocationsBareMetalClustersOperations: API.PaginatedOper
   ListOperationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    1600,
-    __c50,
+    1408,
+    __c44,
     0,
   ) as any as S.Schema<ListProjectsLocationsBareMetalClustersOperationsRequest>,
-  output: __S(1473, __c46, 1) as any as S.Schema<ListOperationsResponse>,
+  output: __S(1281, __c40, 1) as any as S.Schema<ListOperationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3979,8 +3398,8 @@ export const listProjectsLocationsOperations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListOperationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1696, __c53, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
-  output: __S(1473, __c46, 1) as any as S.Schema<ListOperationsResponse>,
+  input: __S(1504, __c47, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
+  output: __S(1281, __c40, 1) as any as S.Schema<ListOperationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3998,8 +3417,8 @@ export const listProjectsLocationsVmwareAdminClusters: API.PaginatedOperationMet
   GcpOpContext,
   ListVmwareAdminClustersResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1728, __c54, 0) as any as S.Schema<ListProjectsLocationsVmwareAdminClustersRequest>,
-  output: __S(1730, __c54, 2) as any as S.Schema<ListVmwareAdminClustersResponse>,
+  input: __S(1536, __c48, 0) as any as S.Schema<ListProjectsLocationsVmwareAdminClustersRequest>,
+  output: __S(1538, __c48, 2) as any as S.Schema<ListVmwareAdminClustersResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4021,11 +3440,11 @@ export const listProjectsLocationsVmwareAdminClustersOperations: API.PaginatedOp
   ListOperationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    1760,
-    __c55,
+    1568,
+    __c49,
     0,
   ) as any as S.Schema<ListProjectsLocationsVmwareAdminClustersOperationsRequest>,
-  output: __S(1473, __c46, 1) as any as S.Schema<ListOperationsResponse>,
+  output: __S(1281, __c40, 1) as any as S.Schema<ListOperationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4043,8 +3462,8 @@ export const listProjectsLocationsVmwareClusters: API.PaginatedOperationMethod<
   GcpOpContext,
   ListVmwareClustersResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1792, __c56, 0) as any as S.Schema<ListProjectsLocationsVmwareClustersRequest>,
-  output: __S(1794, __c56, 2) as any as S.Schema<ListVmwareClustersResponse>,
+  input: __S(1600, __c50, 0) as any as S.Schema<ListProjectsLocationsVmwareClustersRequest>,
+  output: __S(1602, __c50, 2) as any as S.Schema<ListVmwareClustersResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4063,11 +3482,11 @@ export const listProjectsLocationsVmwareClustersOperations: API.PaginatedOperati
   ListOperationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    1824,
-    __c57,
+    1632,
+    __c51,
     0,
   ) as any as S.Schema<ListProjectsLocationsVmwareClustersOperationsRequest>,
-  output: __S(1473, __c46, 1) as any as S.Schema<ListOperationsResponse>,
+  output: __S(1281, __c40, 1) as any as S.Schema<ListOperationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4089,11 +3508,11 @@ export const listProjectsLocationsVmwareClustersVmwareNodePools: API.PaginatedOp
   ListVmwareNodePoolsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    1856,
-    __c58,
+    1664,
+    __c52,
     0,
   ) as any as S.Schema<ListProjectsLocationsVmwareClustersVmwareNodePoolsRequest>,
-  output: __S(1858, __c58, 2) as any as S.Schema<ListVmwareNodePoolsResponse>,
+  output: __S(1666, __c52, 2) as any as S.Schema<ListVmwareNodePoolsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4115,11 +3534,11 @@ export const listProjectsLocationsVmwareClustersVmwareNodePoolsOperations: API.P
   ListOperationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    1888,
-    __c59,
+    1696,
+    __c53,
     0,
   ) as any as S.Schema<ListProjectsLocationsVmwareClustersVmwareNodePoolsOperationsRequest>,
-  output: __S(1473, __c46, 1) as any as S.Schema<ListOperationsResponse>,
+  output: __S(1281, __c40, 1) as any as S.Schema<ListOperationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4142,11 +3561,11 @@ export const patchProjectsLocationsBareMetalAdminClusters: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1920,
-    __c60,
+    1728,
+    __c54,
     0,
   ) as any as S.Schema<PatchProjectsLocationsBareMetalAdminClustersRequest>,
-  output: __S(2242, __c70, 2) as any as S.Schema<Operation>,
+  output: __S(2050, __c64, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4167,8 +3586,8 @@ export const patchProjectsLocationsBareMetalClusters: API.OperationMethod<
   PatchProjectsLocationsBareMetalClustersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1952, __c61, 0) as any as S.Schema<PatchProjectsLocationsBareMetalClustersRequest>,
-  output: __S(2242, __c70, 2) as any as S.Schema<Operation>,
+  input: __S(1760, __c55, 0) as any as S.Schema<PatchProjectsLocationsBareMetalClustersRequest>,
+  output: __S(2050, __c64, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4190,11 +3609,11 @@ export const patchProjectsLocationsBareMetalClustersBareMetalNodePools: API.Oper
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1984,
-    __c62,
+    1792,
+    __c56,
     0,
   ) as any as S.Schema<PatchProjectsLocationsBareMetalClustersBareMetalNodePoolsRequest>,
-  output: __S(2242, __c70, 2) as any as S.Schema<Operation>,
+  output: __S(2050, __c64, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4215,8 +3634,8 @@ export const patchProjectsLocationsVmwareAdminClusters: API.OperationMethod<
   PatchProjectsLocationsVmwareAdminClustersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2432, __c76, 0) as any as S.Schema<PatchProjectsLocationsVmwareAdminClustersRequest>,
-  output: __S(2242, __c70, 2) as any as S.Schema<Operation>,
+  input: __S(2240, __c70, 0) as any as S.Schema<PatchProjectsLocationsVmwareAdminClustersRequest>,
+  output: __S(2050, __c64, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4237,8 +3656,8 @@ export const patchProjectsLocationsVmwareClusters: API.OperationMethod<
   PatchProjectsLocationsVmwareClustersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2464, __c77, 0) as any as S.Schema<PatchProjectsLocationsVmwareClustersRequest>,
-  output: __S(2242, __c70, 2) as any as S.Schema<Operation>,
+  input: __S(2272, __c71, 0) as any as S.Schema<PatchProjectsLocationsVmwareClustersRequest>,
+  output: __S(2050, __c64, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4260,11 +3679,11 @@ export const patchProjectsLocationsVmwareClustersVmwareNodePools: API.OperationM
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2496,
-    __c78,
+    2304,
+    __c72,
     0,
   ) as any as S.Schema<PatchProjectsLocationsVmwareClustersVmwareNodePoolsRequest>,
-  output: __S(2242, __c70, 2) as any as S.Schema<Operation>,
+  output: __S(2050, __c64, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4286,11 +3705,11 @@ export const queryVersionConfigProjectsLocationsBareMetalAdminClusters: API.Oper
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2528,
-    __c79,
+    2336,
+    __c73,
     0,
   ) as any as S.Schema<QueryVersionConfigProjectsLocationsBareMetalAdminClustersRequest>,
-  output: __S(2562, __c80, 2) as any as S.Schema<QueryBareMetalAdminVersionConfigResponse>,
+  output: __S(2370, __c74, 2) as any as S.Schema<QueryBareMetalAdminVersionConfigResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4312,11 +3731,11 @@ export const queryVersionConfigProjectsLocationsBareMetalClusters: API.Operation
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2624,
-    __c82,
+    2432,
+    __c76,
     0,
   ) as any as S.Schema<QueryVersionConfigProjectsLocationsBareMetalClustersRequest>,
-  output: __S(2562, __c80, 2) as any as S.Schema<QueryBareMetalVersionConfigResponse>,
+  output: __S(2370, __c74, 2) as any as S.Schema<QueryBareMetalVersionConfigResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4338,11 +3757,11 @@ export const queryVersionConfigProjectsLocationsVmwareClusters: API.OperationMet
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2656,
-    __c83,
+    2464,
+    __c77,
     0,
   ) as any as S.Schema<QueryVersionConfigProjectsLocationsVmwareClustersRequest>,
-  output: __S(2659, __c83, 3) as any as S.Schema<QueryVmwareVersionConfigResponse>,
+  output: __S(2467, __c77, 3) as any as S.Schema<QueryVmwareVersionConfigResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4364,8 +3783,8 @@ export const setIamPolicyProjectsLocationsBareMetalAdminClusters: API.OperationM
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2688,
-    __c84,
+    2496,
+    __c78,
     0,
   ) as any as S.Schema<SetIamPolicyProjectsLocationsBareMetalAdminClustersRequest>,
   output: __S(515, __c16, 3) as any as S.Schema<Policy>,
@@ -4390,8 +3809,8 @@ export const setIamPolicyProjectsLocationsBareMetalClusters: API.OperationMethod
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2720,
-    __c85,
+    2560,
+    __c80,
     0,
   ) as any as S.Schema<SetIamPolicyProjectsLocationsBareMetalClustersRequest>,
   output: __S(515, __c16, 3) as any as S.Schema<Policy>,
@@ -4416,8 +3835,8 @@ export const setIamPolicyProjectsLocationsBareMetalClustersBareMetalNodePools: A
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2752,
-    __c86,
+    2592,
+    __c81,
     0,
   ) as any as S.Schema<SetIamPolicyProjectsLocationsBareMetalClustersBareMetalNodePoolsRequest>,
   output: __S(515, __c16, 3) as any as S.Schema<Policy>,
@@ -4442,8 +3861,8 @@ export const setIamPolicyProjectsLocationsVmwareAdminClusters: API.OperationMeth
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2784,
-    __c87,
+    2624,
+    __c82,
     0,
   ) as any as S.Schema<SetIamPolicyProjectsLocationsVmwareAdminClustersRequest>,
   output: __S(515, __c16, 3) as any as S.Schema<Policy>,
@@ -4467,7 +3886,7 @@ export const setIamPolicyProjectsLocationsVmwareClusters: API.OperationMethod<
   SetIamPolicyProjectsLocationsVmwareClustersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2880, __c90, 0) as any as S.Schema<SetIamPolicyProjectsLocationsVmwareClustersRequest>,
+  input: __S(2720, __c85, 0) as any as S.Schema<SetIamPolicyProjectsLocationsVmwareClustersRequest>,
   output: __S(515, __c16, 3) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -4490,8 +3909,8 @@ export const setIamPolicyProjectsLocationsVmwareClustersVmwareNodePools: API.Ope
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2912,
-    __c91,
+    2752,
+    __c86,
     0,
   ) as any as S.Schema<SetIamPolicyProjectsLocationsVmwareClustersVmwareNodePoolsRequest>,
   output: __S(515, __c16, 3) as any as S.Schema<Policy>,
@@ -4516,11 +3935,11 @@ export const testIamPermissionsProjectsLocationsBareMetalAdminClusters: API.Oper
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2944,
-    __c92,
+    2784,
+    __c87,
     0,
   ) as any as S.Schema<TestIamPermissionsProjectsLocationsBareMetalAdminClustersRequest>,
-  output: __S(2976, __c93, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  output: __S(2816, __c88, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4542,11 +3961,11 @@ export const testIamPermissionsProjectsLocationsBareMetalClusters: API.Operation
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3008,
-    __c94,
+    2848,
+    __c89,
     0,
   ) as any as S.Schema<TestIamPermissionsProjectsLocationsBareMetalClustersRequest>,
-  output: __S(2976, __c93, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  output: __S(2816, __c88, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4568,11 +3987,11 @@ export const testIamPermissionsProjectsLocationsBareMetalClustersBareMetalNodePo
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3040,
-    __c95,
+    2880,
+    __c90,
     0,
   ) as any as S.Schema<TestIamPermissionsProjectsLocationsBareMetalClustersBareMetalNodePoolsRequest>,
-  output: __S(2976, __c93, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  output: __S(2816, __c88, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4594,11 +4013,11 @@ export const testIamPermissionsProjectsLocationsVmwareAdminClusters: API.Operati
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3072,
-    __c96,
+    2912,
+    __c91,
     0,
   ) as any as S.Schema<TestIamPermissionsProjectsLocationsVmwareAdminClustersRequest>,
-  output: __S(2976, __c93, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  output: __S(2816, __c88, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4620,11 +4039,11 @@ export const testIamPermissionsProjectsLocationsVmwareClusters: API.OperationMet
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3104,
-    __c97,
+    2944,
+    __c92,
     0,
   ) as any as S.Schema<TestIamPermissionsProjectsLocationsVmwareClustersRequest>,
-  output: __S(2976, __c93, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  output: __S(2816, __c88, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4646,11 +4065,11 @@ export const testIamPermissionsProjectsLocationsVmwareClustersVmwareNodePools: A
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3136,
-    __c98,
+    2976,
+    __c93,
     0,
   ) as any as S.Schema<TestIamPermissionsProjectsLocationsVmwareClustersVmwareNodePoolsRequest>,
-  output: __S(2976, __c93, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  output: __S(2816, __c88, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4672,11 +4091,11 @@ export const unenrollProjectsLocationsBareMetalAdminClusters: API.OperationMetho
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3168,
-    __c99,
+    3008,
+    __c94,
     0,
   ) as any as S.Schema<UnenrollProjectsLocationsBareMetalAdminClustersRequest>,
-  output: __S(2242, __c70, 2) as any as S.Schema<Operation>,
+  output: __S(2050, __c64, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4697,8 +4116,8 @@ export const unenrollProjectsLocationsBareMetalClusters: API.OperationMethod<
   UnenrollProjectsLocationsBareMetalClustersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3200, __c100, 0) as any as S.Schema<UnenrollProjectsLocationsBareMetalClustersRequest>,
-  output: __S(2242, __c70, 2) as any as S.Schema<Operation>,
+  input: __S(3040, __c95, 0) as any as S.Schema<UnenrollProjectsLocationsBareMetalClustersRequest>,
+  output: __S(2050, __c64, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4720,11 +4139,11 @@ export const unenrollProjectsLocationsBareMetalClustersBareMetalNodePools: API.O
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3296,
-    __c103,
+    3136,
+    __c98,
     0,
   ) as any as S.Schema<UnenrollProjectsLocationsBareMetalClustersBareMetalNodePoolsRequest>,
-  output: __S(2242, __c70, 2) as any as S.Schema<Operation>,
+  output: __S(2050, __c64, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4746,11 +4165,11 @@ export const unenrollProjectsLocationsVmwareAdminClusters: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3328,
-    __c104,
+    3168,
+    __c99,
     0,
   ) as any as S.Schema<UnenrollProjectsLocationsVmwareAdminClustersRequest>,
-  output: __S(2242, __c70, 2) as any as S.Schema<Operation>,
+  output: __S(2050, __c64, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4771,8 +4190,8 @@ export const unenrollProjectsLocationsVmwareClusters: API.OperationMethod<
   UnenrollProjectsLocationsVmwareClustersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3360, __c105, 0) as any as S.Schema<UnenrollProjectsLocationsVmwareClustersRequest>,
-  output: __S(2242, __c70, 2) as any as S.Schema<Operation>,
+  input: __S(3200, __c100, 0) as any as S.Schema<UnenrollProjectsLocationsVmwareClustersRequest>,
+  output: __S(2050, __c64, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4794,11 +4213,11 @@ export const unenrollProjectsLocationsVmwareClustersVmwareNodePools: API.Operati
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3392,
-    __c106,
+    3232,
+    __c101,
     0,
   ) as any as S.Schema<UnenrollProjectsLocationsVmwareClustersVmwareNodePoolsRequest>,
-  output: __S(2242, __c70, 2) as any as S.Schema<Operation>,
+  output: __S(2050, __c64, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4811,46 +4230,16 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          vmwareClusterId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          skipValidations: S.optional(__S(2336, __c73, 0).pipe(T.Query())),
-          allowPreflightFailure: S.optional(S.Boolean.pipe(T.Query())),
-          fleet: S.optional(__S(2400, __c75, 0)),
-          localName: S.optional(S.String),
-          endpoint: S.optional(S.String),
-          vmTrackingEnabled: S.optional(S.Boolean),
-          uid: S.optional(S.String),
-          validationCheck: S.optional(__S(2371, __c74, 3)),
-          updateTime: S.optional(S.String),
-          antiAffinityGroups: S.optional(__S(3463, __c108, 7)),
-          etag: S.optional(S.String),
-          name: S.optional(S.String),
-          adminClusterName: S.optional(S.String),
-          loadBalancer: S.optional(__S(39, __c1, 7)),
-          upgradePolicy: S.optional(__S(40, __c1, 8)),
-          binaryAuthorization: S.optional(__S(2080, __c65, 0)),
-          dataplaneV2: S.optional(__S(41, __c1, 9)),
-          vcenter: S.optional(__S(42, __c1, 10)),
-          controlPlaneNode: S.optional(__S(44, __c1, 12)),
-          onPremVersion: S.optional(S.String),
-          authorization: S.optional(__S(2081, __c65, 1)),
-          reconciling: S.optional(S.Boolean),
-          deleteTime: S.optional(S.String),
-          state: S.optional(S.String),
-          adminClusterMembership: S.optional(S.String),
-          disableBundledIngress: S.optional(S.Boolean),
-          annotations: S.optional(__S(2272, __c71, 0)),
-          enableControlPlaneV2: S.optional(S.Boolean),
-          storage: S.optional(__S(45, __c1, 13)),
-          networkConfig: S.optional(__S(46, __c1, 14)),
-          enableAdvancedCluster: S.optional(S.Boolean),
-          status: S.optional(__S(2309, __c72, 5)),
-          description: S.optional(S.String),
-          autoRepairConfig: S.optional(__S(2403, __c75, 3)),
-          createTime: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(47, __c1, 15),
+          S.Struct({
+            vmwareClusterId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            skipValidations: S.optional(__S(2144, __c67, 0).pipe(T.Query())),
+            allowPreflightFailure: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/vmwareClusters",
@@ -4866,9 +4255,9 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           group: S.optional(S.String),
-          ipBlocks: S.optional(__S(3461, __c108, 5)),
+          ipBlocks: S.optional(__S(3301, __c103, 5)),
           enableHa: S.optional(S.Boolean),
-          vms: S.optional(__S(2336, __c73, 0)),
+          vms: S.optional(__S(2144, __c67, 0)),
           stackdriverName: S.optional(S.String),
           masterIp: S.optional(S.String),
         }),
@@ -4877,7 +4266,7 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           manualAssign: S.optional(S.Boolean),
-          addresses: S.optional(__S(2336, __c73, 0)),
+          addresses: S.optional(__S(2144, __c67, 0)),
           pool: S.optional(S.String),
           avoidBuggyIps: S.optional(S.Boolean),
         }),
@@ -4962,7 +4351,7 @@ function __c1(j: number): any {
     case 12:
       return S.suspend(() =>
         S.Struct({
-          autoResizeConfig: S.optional(__S(2403, __c75, 3)),
+          autoResizeConfig: S.optional(__S(2211, __c69, 3)),
           memory: S.optional(S.String),
           vsphereConfig: S.optional(__S(43, __c1, 11)),
           cpus: S.optional(S.String),
@@ -4978,41 +4367,67 @@ function __c1(j: number): any {
     case 14:
       return S.suspend(() =>
         S.Struct({
-          controlPlaneV2Config: S.optional(__S(3460, __c108, 4)),
-          serviceAddressCidrBlocks: S.optional(__S(2336, __c73, 0)),
-          hostConfig: S.optional(__S(3456, __c108, 0)),
+          controlPlaneV2Config: S.optional(__S(3300, __c103, 4)),
+          serviceAddressCidrBlocks: S.optional(__S(2144, __c67, 0)),
+          hostConfig: S.optional(__S(3296, __c103, 0)),
           vcenterNetwork: S.optional(S.String),
-          staticIpConfig: S.optional(__S(3462, __c108, 6)),
-          podAddressCidrBlocks: S.optional(__S(2336, __c73, 0)),
-          dhcpIpConfig: S.optional(__S(2403, __c75, 3)),
+          staticIpConfig: S.optional(__S(3302, __c103, 6)),
+          podAddressCidrBlocks: S.optional(__S(2144, __c67, 0)),
+          dhcpIpConfig: S.optional(__S(2211, __c69, 3)),
         }),
       ).annotate({ identifier: "VmwareNetworkConfig" });
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          fleet: S.optional(__S(2208, __c69, 0)),
+          localName: S.optional(S.String),
+          endpoint: S.optional(S.String),
+          vmTrackingEnabled: S.optional(S.Boolean),
+          uid: S.optional(S.String),
+          validationCheck: S.optional(__S(2179, __c68, 3)),
+          updateTime: S.optional(S.String),
+          antiAffinityGroups: S.optional(__S(3303, __c103, 7)),
+          etag: S.optional(S.String),
+          name: S.optional(S.String),
+          adminClusterName: S.optional(S.String),
+          loadBalancer: S.optional(__S(39, __c1, 7)),
+          upgradePolicy: S.optional(__S(40, __c1, 8)),
+          binaryAuthorization: S.optional(__S(1888, __c59, 0)),
+          dataplaneV2: S.optional(__S(41, __c1, 9)),
+          vcenter: S.optional(__S(42, __c1, 10)),
+          controlPlaneNode: S.optional(__S(44, __c1, 12)),
+          onPremVersion: S.optional(S.String),
+          authorization: S.optional(__S(1889, __c59, 1)),
+          reconciling: S.optional(S.Boolean),
+          deleteTime: S.optional(S.String),
+          state: S.optional(S.String),
+          adminClusterMembership: S.optional(S.String),
+          disableBundledIngress: S.optional(S.Boolean),
+          annotations: S.optional(__S(2080, __c65, 0)),
+          enableControlPlaneV2: S.optional(S.Boolean),
+          storage: S.optional(__S(45, __c1, 13)),
+          networkConfig: S.optional(__S(46, __c1, 14)),
+          enableAdvancedCluster: S.optional(S.Boolean),
+          status: S.optional(__S(2117, __c66, 5)),
+          description: S.optional(S.String),
+          autoRepairConfig: S.optional(__S(2211, __c69, 3)),
+          createTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "VmwareCluster" });
   }
 }
 function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          vmwareNodePoolId: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          state: S.optional(S.String),
-          onPremVersion: S.optional(S.String),
-          displayName: S.optional(S.String),
-          reconciling: S.optional(S.Boolean),
-          nodePoolAutoscaling: S.optional(__S(96, __c3, 0)),
-          uid: S.optional(S.String),
-          createTime: S.optional(S.String),
-          annotations: S.optional(__S(2272, __c71, 0)),
-          deleteTime: S.optional(S.String),
-          status: S.optional(__S(2309, __c72, 5)),
-          config: S.optional(__S(100, __c3, 4)),
-          etag: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          name: S.optional(S.String),
-          validationCheck: S.optional(__S(2371, __c74, 3)),
-        }).pipe(
+        S.Extend(
+          __S(101, __c3, 5),
+          S.Struct({
+            vmwareNodePoolId: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/vmwareNodePools",
@@ -5045,7 +4460,7 @@ function __c3(j: number): any {
         S.Struct({
           datastore: S.optional(S.String),
           tags: S.optional(__S(98, __c3, 2)),
-          hostGroups: S.optional(__S(2336, __c73, 0)),
+          hostGroups: S.optional(__S(2144, __c67, 0)),
         }),
       ).annotate({ identifier: "VmwareVsphereConfig" });
     case 4:
@@ -5057,12 +4472,32 @@ function __c3(j: number): any {
           enableLoadBalancer: S.optional(S.Boolean),
           memoryMb: S.optional(S.String),
           replicas: S.optional(S.String),
-          labels: S.optional(__S(2272, __c71, 0)),
-          taints: S.optional(__S(2145, __c67, 1)),
+          labels: S.optional(__S(2080, __c65, 0)),
+          taints: S.optional(__S(1953, __c61, 1)),
           image: S.optional(S.String),
           cpus: S.optional(S.String),
         }),
       ).annotate({ identifier: "VmwareNodeConfig" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          state: S.optional(S.String),
+          onPremVersion: S.optional(S.String),
+          displayName: S.optional(S.String),
+          reconciling: S.optional(S.Boolean),
+          nodePoolAutoscaling: S.optional(__S(96, __c3, 0)),
+          uid: S.optional(S.String),
+          createTime: S.optional(S.String),
+          annotations: S.optional(__S(2080, __c65, 0)),
+          deleteTime: S.optional(S.String),
+          status: S.optional(__S(2117, __c66, 5)),
+          config: S.optional(__S(100, __c3, 4)),
+          etag: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          name: S.optional(S.String),
+          validationCheck: S.optional(__S(2179, __c68, 3)),
+        }),
+      ).annotate({ identifier: "VmwareNodePool" });
   }
 }
 function __c4(j: number): any {
@@ -5170,10 +4605,18 @@ function __c9(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
           membership: S.optional(S.String),
           bareMetalAdminClusterId: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "EnrollBareMetalAdminClusterRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(288, __c9, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/bareMetalAdminClusters:enroll",
@@ -5188,12 +4631,20 @@ function __c10(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
           bareMetalClusterId: S.optional(S.String),
           localNamespace: S.optional(S.String),
           localName: S.optional(S.String),
           adminClusterMembership: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "EnrollBareMetalClusterRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(320, __c10, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/bareMetalClusters:enroll",
@@ -5208,10 +4659,18 @@ function __c11(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
           bareMetalNodePoolId: S.optional(S.String),
           validateOnly: S.optional(S.Boolean),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "EnrollBareMetalNodePoolRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(352, __c11, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/bareMetalNodePools:enroll",
@@ -5228,10 +4687,18 @@ function __c12(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
           membership: S.optional(S.String),
           vmwareAdminClusterId: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "EnrollVmwareAdminClusterRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(384, __c12, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/vmwareAdminClusters:enroll",
@@ -5246,12 +4713,20 @@ function __c13(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
           localName: S.optional(S.String),
           vmwareClusterId: S.optional(S.String),
           validateOnly: S.optional(S.Boolean),
           adminClusterMembership: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "EnrollVmwareClusterRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(416, __c13, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/vmwareClusters:enroll",
@@ -5266,9 +4741,17 @@ function __c14(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
           vmwareNodePoolId: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "EnrollVmwareNodePoolRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(448, __c14, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/vmwareNodePools:enroll",
@@ -5309,7 +4792,7 @@ function __c16(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          members: S.optional(__S(2336, __c73, 0)),
+          members: S.optional(__S(2144, __c67, 0)),
           role: S.optional(S.String),
           condition: S.optional(__S(512, __c16, 0)),
         }),
@@ -5438,9 +4921,9 @@ function __c23(j: number): any {
         S.Struct({
           name: S.optional(S.String),
           locationId: S.optional(S.String),
-          labels: S.optional(__S(2272, __c71, 0)),
+          labels: S.optional(__S(2080, __c65, 0)),
           displayName: S.optional(S.String),
-          metadata: S.optional(__S(2208, __c69, 0)),
+          metadata: S.optional(__S(2016, __c63, 0)),
         }),
       ).annotate({ identifier: "Location" });
   }
@@ -5468,44 +4951,6 @@ function __c25(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          endpoint: S.optional(S.String),
-          description: S.optional(S.String),
-          uid: S.optional(S.String),
-          controlPlane: S.optional(__S(2050, __c64, 2)),
-          createTime: S.optional(S.String),
-          maintenanceStatus: S.optional(__S(2054, __c64, 6)),
-          annotations: S.optional(__S(2272, __c71, 0)),
-          proxy: S.optional(__S(2055, __c64, 7)),
-          nodeConfig: S.optional(__S(2056, __c64, 8)),
-          deleteTime: S.optional(S.String),
-          reconciling: S.optional(S.Boolean),
-          binaryAuthorization: S.optional(__S(2080, __c65, 0)),
-          fleet: S.optional(__S(2400, __c75, 0)),
-          securityConfig: S.optional(__S(2115, __c66, 3)),
-          osEnvironmentConfig: S.optional(__S(2116, __c66, 4)),
-          loadBalancer: S.optional(__S(2063, __c64, 15)),
-          nodeAccessConfig: S.optional(__S(2118, __c66, 6)),
-          maintenanceConfig: S.optional(__S(2119, __c66, 7)),
-          bareMetalVersion: S.optional(S.String),
-          localName: S.optional(S.String),
-          validationCheck: S.optional(__S(2371, __c74, 3)),
-          name: S.optional(S.String),
-          status: S.optional(__S(2309, __c72, 5)),
-          etag: S.optional(S.String),
-          state: S.optional(S.String),
-          clusterOperations: S.optional(__S(2120, __c66, 8)),
-          networkConfig: S.optional(__S(2064, __c64, 16)),
-          storage: S.optional(__S(2124, __c66, 12)),
-          updateTime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "BareMetalAdminCluster" });
-  }
-}
-function __c26(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
           name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -5517,7 +4962,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsBareMetalAdminClustersOperationsRequest" });
   }
 }
-function __c27(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5535,49 +4980,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsBareMetalClustersRequest" });
   }
 }
-function __c28(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          endpoint: S.optional(S.String),
-          adminClusterName: S.optional(S.String),
-          clusterOperations: S.optional(__S(2120, __c66, 8)),
-          etag: S.optional(S.String),
-          createTime: S.optional(S.String),
-          upgradePolicy: S.optional(__S(2848, __c89, 0)),
-          state: S.optional(S.String),
-          osEnvironmentConfig: S.optional(__S(2116, __c66, 4)),
-          uid: S.optional(S.String),
-          deleteTime: S.optional(S.String),
-          binaryAuthorization: S.optional(__S(2080, __c65, 0)),
-          nodeConfig: S.optional(__S(2849, __c89, 1)),
-          nodeAccessConfig: S.optional(__S(2118, __c66, 6)),
-          storage: S.optional(__S(2124, __c66, 12)),
-          securityConfig: S.optional(__S(2115, __c66, 3)),
-          bareMetalVersion: S.optional(S.String),
-          maintenanceConfig: S.optional(__S(2119, __c66, 7)),
-          description: S.optional(S.String),
-          status: S.optional(__S(2309, __c72, 5)),
-          loadBalancer: S.optional(__S(2857, __c89, 9)),
-          validationCheck: S.optional(__S(2371, __c74, 3)),
-          networkConfig: S.optional(__S(2858, __c89, 10)),
-          proxy: S.optional(__S(2859, __c89, 11)),
-          maintenanceStatus: S.optional(__S(2863, __c89, 15)),
-          fleet: S.optional(__S(2400, __c75, 0)),
-          annotations: S.optional(__S(2272, __c71, 0)),
-          adminClusterMembership: S.optional(S.String),
-          localName: S.optional(S.String),
-          localNamespace: S.optional(S.String),
-          controlPlane: S.optional(__S(2866, __c89, 18)),
-          reconciling: S.optional(S.Boolean),
-          updateTime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "BareMetalCluster" });
-  }
-}
-function __c29(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5594,29 +4997,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsBareMetalClustersBareMetalNodePoolsRequest" });
   }
 }
-function __c30(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          displayName: S.optional(S.String),
-          reconciling: S.optional(S.Boolean),
-          status: S.optional(__S(2309, __c72, 5)),
-          updateTime: S.optional(S.String),
-          upgradePolicy: S.optional(__S(3265, __c102, 1)),
-          nodePoolConfig: S.optional(__S(2179, __c68, 3)),
-          annotations: S.optional(__S(2272, __c71, 0)),
-          deleteTime: S.optional(S.String),
-          uid: S.optional(S.String),
-          name: S.optional(S.String),
-          state: S.optional(S.String),
-          etag: S.optional(S.String),
-          createTime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "BareMetalNodePool" });
-  }
-}
-function __c31(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5634,7 +5015,7 @@ function __c31(j: number): any {
       });
   }
 }
-function __c32(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5650,7 +5031,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsBareMetalClustersOperationsRequest" });
   }
 }
-function __c33(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5666,7 +5047,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsOperationsRequest" });
   }
 }
-function __c34(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5684,46 +5065,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsVmwareAdminClustersRequest" });
   }
 }
-function __c35(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          onPremVersion: S.optional(S.String),
-          localName: S.optional(S.String),
-          controlPlaneNode: S.optional(__S(3488, __c109, 0)),
-          etag: S.optional(S.String),
-          bootstrapClusterMembership: S.optional(S.String),
-          authorization: S.optional(__S(3489, __c109, 1)),
-          name: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          validationCheck: S.optional(__S(2371, __c74, 3)),
-          preparedSecrets: S.optional(__S(2403, __c75, 3)),
-          status: S.optional(__S(2309, __c72, 5)),
-          enableAdvancedCluster: S.optional(S.Boolean),
-          networkConfig: S.optional(__S(3490, __c109, 2)),
-          state: S.optional(S.String),
-          antiAffinityGroups: S.optional(__S(3463, __c108, 7)),
-          addonNode: S.optional(__S(3491, __c109, 3)),
-          autoRepairConfig: S.optional(__S(2403, __c75, 3)),
-          platformConfig: S.optional(__S(3494, __c109, 6)),
-          annotations: S.optional(__S(2272, __c71, 0)),
-          reconciling: S.optional(S.Boolean),
-          vcenter: S.optional(__S(3495, __c109, 7)),
-          imageType: S.optional(S.String),
-          proxy: S.optional(__S(3496, __c109, 8)),
-          uid: S.optional(S.String),
-          endpoint: S.optional(S.String),
-          description: S.optional(S.String),
-          fleet: S.optional(__S(2400, __c75, 0)),
-          createTime: S.optional(S.String),
-          loadBalancer: S.optional(__S(3501, __c109, 13)),
-          privateRegistryConfig: S.optional(__S(3502, __c109, 14)),
-        }),
-      ).annotate({ identifier: "VmwareAdminCluster" });
-  }
-}
-function __c36(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5739,7 +5081,7 @@ function __c36(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsVmwareAdminClustersOperationsRequest" });
   }
 }
-function __c37(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5757,49 +5099,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsVmwareClustersRequest" });
   }
 }
-function __c38(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          fleet: S.optional(__S(2400, __c75, 0)),
-          localName: S.optional(S.String),
-          endpoint: S.optional(S.String),
-          vmTrackingEnabled: S.optional(S.Boolean),
-          uid: S.optional(S.String),
-          validationCheck: S.optional(__S(2371, __c74, 3)),
-          updateTime: S.optional(S.String),
-          antiAffinityGroups: S.optional(__S(3463, __c108, 7)),
-          etag: S.optional(S.String),
-          name: S.optional(S.String),
-          adminClusterName: S.optional(S.String),
-          loadBalancer: S.optional(__S(39, __c1, 7)),
-          upgradePolicy: S.optional(__S(40, __c1, 8)),
-          binaryAuthorization: S.optional(__S(2080, __c65, 0)),
-          dataplaneV2: S.optional(__S(41, __c1, 9)),
-          vcenter: S.optional(__S(42, __c1, 10)),
-          controlPlaneNode: S.optional(__S(44, __c1, 12)),
-          onPremVersion: S.optional(S.String),
-          authorization: S.optional(__S(2081, __c65, 1)),
-          reconciling: S.optional(S.Boolean),
-          deleteTime: S.optional(S.String),
-          state: S.optional(S.String),
-          adminClusterMembership: S.optional(S.String),
-          disableBundledIngress: S.optional(S.Boolean),
-          annotations: S.optional(__S(2272, __c71, 0)),
-          enableControlPlaneV2: S.optional(S.Boolean),
-          storage: S.optional(__S(45, __c1, 13)),
-          networkConfig: S.optional(__S(46, __c1, 14)),
-          enableAdvancedCluster: S.optional(S.Boolean),
-          status: S.optional(__S(2309, __c72, 5)),
-          description: S.optional(S.String),
-          autoRepairConfig: S.optional(__S(2403, __c75, 3)),
-          createTime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "VmwareCluster" });
-  }
-}
-function __c39(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5815,7 +5115,7 @@ function __c39(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsVmwareClustersOperationsRequest" });
   }
 }
-function __c40(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5832,31 +5132,7 @@ function __c40(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsVmwareClustersVmwareNodePoolsRequest" });
   }
 }
-function __c41(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          state: S.optional(S.String),
-          onPremVersion: S.optional(S.String),
-          displayName: S.optional(S.String),
-          reconciling: S.optional(S.Boolean),
-          nodePoolAutoscaling: S.optional(__S(96, __c3, 0)),
-          uid: S.optional(S.String),
-          createTime: S.optional(S.String),
-          annotations: S.optional(__S(2272, __c71, 0)),
-          deleteTime: S.optional(S.String),
-          status: S.optional(__S(2309, __c72, 5)),
-          config: S.optional(__S(100, __c3, 4)),
-          etag: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          name: S.optional(S.String),
-          validationCheck: S.optional(__S(2371, __c74, 3)),
-        }),
-      ).annotate({ identifier: "VmwareNodePool" });
-  }
-}
-function __c42(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5874,7 +5150,7 @@ function __c42(j: number): any {
       });
   }
 }
-function __c43(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5882,7 +5158,7 @@ function __c43(j: number): any {
           pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
-          extraLocationTypes: S.optional(__S(2336, __c73, 0).pipe(T.Query())),
+          extraLocationTypes: S.optional(__S(2144, __c67, 0).pipe(T.Query())),
           name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -5898,12 +5174,12 @@ function __c43(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          locations: S.optional(__S(1377, __c43, 1)),
+          locations: S.optional(__S(1185, __c37, 1)),
         }),
       ).annotate({ identifier: "ListLocationsResponse" });
   }
 }
-function __c44(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5922,18 +5198,18 @@ function __c44(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsBareMetalAdminClustersRequest" });
     case 1:
-      return S.Array(__S(800, __c25, 0));
+      return S.Array(__S(1873, __c58, 17));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          bareMetalAdminClusters: S.optional(__S(1409, __c44, 1)),
-          unreachable: S.optional(__S(2336, __c73, 0)),
+          bareMetalAdminClusters: S.optional(__S(1217, __c38, 1)),
+          unreachable: S.optional(__S(2144, __c67, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListBareMetalAdminClustersResponse" });
   }
 }
-function __c45(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5953,21 +5229,21 @@ function __c45(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsBareMetalAdminClustersOperationsRequest" });
   }
 }
-function __c46(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2242, __c70, 2));
+      return S.Array(__S(2050, __c64, 2));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          operations: S.optional(__S(1472, __c46, 0)),
+          operations: S.optional(__S(1280, __c40, 0)),
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(2336, __c73, 0)),
+          unreachable: S.optional(__S(2144, __c67, 0)),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
   }
 }
-function __c47(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5987,18 +5263,18 @@ function __c47(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsBareMetalClustersRequest" });
     case 1:
-      return S.Array(__S(896, __c28, 0));
+      return S.Array(__S(2707, __c84, 19));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          bareMetalClusters: S.optional(__S(1505, __c47, 1)),
-          unreachable: S.optional(__S(2336, __c73, 0)),
+          bareMetalClusters: S.optional(__S(1313, __c41, 1)),
+          unreachable: S.optional(__S(2144, __c67, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListBareMetalClustersResponse" });
   }
 }
-function __c48(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6016,18 +5292,18 @@ function __c48(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsBareMetalClustersBareMetalNodePoolsRequest" });
     case 1:
-      return S.Array(__S(960, __c30, 0));
+      return S.Array(__S(3106, __c97, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          bareMetalNodePools: S.optional(__S(1537, __c48, 1)),
-          unreachable: S.optional(__S(2336, __c73, 0)),
+          bareMetalNodePools: S.optional(__S(1345, __c42, 1)),
+          unreachable: S.optional(__S(2144, __c67, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListBareMetalNodePoolsResponse" });
   }
 }
-function __c49(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6049,7 +5325,7 @@ function __c49(j: number): any {
       });
   }
 }
-function __c50(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6069,13 +5345,13 @@ function __c50(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsBareMetalClustersOperationsRequest" });
   }
 }
-function __c51(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1664, __c52, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(1472, __c46, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6086,13 +5362,13 @@ function __c51(j: number): any {
       ).annotate({ identifier: "CancelProjectsLocationsOperationsRequest" });
   }
 }
-function __c52(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "CancelOperationRequest" });
   }
 }
-function __c53(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6112,7 +5388,7 @@ function __c53(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsOperationsRequest" });
   }
 }
-function __c54(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6131,18 +5407,18 @@ function __c54(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsVmwareAdminClustersRequest" });
     case 1:
-      return S.Array(__S(1120, __c35, 0));
+      return S.Array(__S(3343, __c104, 15));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          vmwareAdminClusters: S.optional(__S(1729, __c54, 1)),
-          unreachable: S.optional(__S(2336, __c73, 0)),
+          vmwareAdminClusters: S.optional(__S(1537, __c48, 1)),
+          unreachable: S.optional(__S(2144, __c67, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListVmwareAdminClustersResponse" });
   }
 }
-function __c55(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6162,7 +5438,7 @@ function __c55(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsVmwareAdminClustersOperationsRequest" });
   }
 }
-function __c56(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6182,18 +5458,18 @@ function __c56(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsVmwareClustersRequest" });
     case 1:
-      return S.Array(__S(1216, __c38, 0));
+      return S.Array(__S(47, __c1, 15));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(2336, __c73, 0)),
-          vmwareClusters: S.optional(__S(1793, __c56, 1)),
+          unreachable: S.optional(__S(2144, __c67, 0)),
+          vmwareClusters: S.optional(__S(1601, __c50, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListVmwareClustersResponse" });
   }
 }
-function __c57(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6213,7 +5489,7 @@ function __c57(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsVmwareClustersOperationsRequest" });
   }
 }
-function __c58(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6231,18 +5507,18 @@ function __c58(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsVmwareClustersVmwareNodePoolsRequest" });
     case 1:
-      return S.Array(__S(1312, __c41, 0));
+      return S.Array(__S(101, __c3, 5));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          vmwareNodePools: S.optional(__S(1857, __c58, 1)),
-          unreachable: S.optional(__S(2336, __c73, 0)),
+          vmwareNodePools: S.optional(__S(1665, __c52, 1)),
+          unreachable: S.optional(__S(2144, __c67, 0)),
         }),
       ).annotate({ identifier: "ListVmwareNodePoolsResponse" });
   }
 }
-function __c59(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6264,43 +5540,18 @@ function __c59(j: number): any {
       });
   }
 }
-function __c60(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          endpoint: S.optional(S.String),
-          description: S.optional(S.String),
-          uid: S.optional(S.String),
-          controlPlane: S.optional(__S(2050, __c64, 2)),
-          createTime: S.optional(S.String),
-          maintenanceStatus: S.optional(__S(2054, __c64, 6)),
-          annotations: S.optional(__S(2272, __c71, 0)),
-          proxy: S.optional(__S(2055, __c64, 7)),
-          nodeConfig: S.optional(__S(2056, __c64, 8)),
-          deleteTime: S.optional(S.String),
-          reconciling: S.optional(S.Boolean),
-          binaryAuthorization: S.optional(__S(2080, __c65, 0)),
-          fleet: S.optional(__S(2400, __c75, 0)),
-          securityConfig: S.optional(__S(2115, __c66, 3)),
-          osEnvironmentConfig: S.optional(__S(2116, __c66, 4)),
-          loadBalancer: S.optional(__S(2063, __c64, 15)),
-          nodeAccessConfig: S.optional(__S(2118, __c66, 6)),
-          maintenanceConfig: S.optional(__S(2119, __c66, 7)),
-          bareMetalVersion: S.optional(S.String),
-          localName: S.optional(S.String),
-          validationCheck: S.optional(__S(2371, __c74, 3)),
-          status: S.optional(__S(2309, __c72, 5)),
-          etag: S.optional(S.String),
-          state: S.optional(S.String),
-          clusterOperations: S.optional(__S(2120, __c66, 8)),
-          networkConfig: S.optional(__S(2064, __c64, 16)),
-          storage: S.optional(__S(2124, __c66, 12)),
-          updateTime: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1873, __c58, 17),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -6310,48 +5561,19 @@ function __c60(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsBareMetalAdminClustersRequest" });
   }
 }
-function __c61(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          endpoint: S.optional(S.String),
-          adminClusterName: S.optional(S.String),
-          clusterOperations: S.optional(__S(2120, __c66, 8)),
-          etag: S.optional(S.String),
-          createTime: S.optional(S.String),
-          upgradePolicy: S.optional(__S(2848, __c89, 0)),
-          state: S.optional(S.String),
-          osEnvironmentConfig: S.optional(__S(2116, __c66, 4)),
-          uid: S.optional(S.String),
-          deleteTime: S.optional(S.String),
-          binaryAuthorization: S.optional(__S(2080, __c65, 0)),
-          nodeConfig: S.optional(__S(2849, __c89, 1)),
-          nodeAccessConfig: S.optional(__S(2118, __c66, 6)),
-          storage: S.optional(__S(2124, __c66, 12)),
-          securityConfig: S.optional(__S(2115, __c66, 3)),
-          bareMetalVersion: S.optional(S.String),
-          maintenanceConfig: S.optional(__S(2119, __c66, 7)),
-          description: S.optional(S.String),
-          status: S.optional(__S(2309, __c72, 5)),
-          loadBalancer: S.optional(__S(2857, __c89, 9)),
-          validationCheck: S.optional(__S(2371, __c74, 3)),
-          networkConfig: S.optional(__S(2858, __c89, 10)),
-          proxy: S.optional(__S(2859, __c89, 11)),
-          maintenanceStatus: S.optional(__S(2863, __c89, 15)),
-          fleet: S.optional(__S(2400, __c75, 0)),
-          annotations: S.optional(__S(2272, __c71, 0)),
-          adminClusterMembership: S.optional(S.String),
-          localName: S.optional(S.String),
-          localNamespace: S.optional(S.String),
-          controlPlane: S.optional(__S(2866, __c89, 18)),
-          reconciling: S.optional(S.Boolean),
-          updateTime: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(2707, __c84, 19),
+          S.Struct({
+            allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -6361,28 +5583,19 @@ function __c61(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsBareMetalClustersRequest" });
   }
 }
-function __c62(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          displayName: S.optional(S.String),
-          reconciling: S.optional(S.Boolean),
-          status: S.optional(__S(2309, __c72, 5)),
-          updateTime: S.optional(S.String),
-          upgradePolicy: S.optional(__S(3265, __c102, 1)),
-          nodePoolConfig: S.optional(__S(2179, __c68, 3)),
-          annotations: S.optional(__S(2272, __c71, 0)),
-          deleteTime: S.optional(S.String),
-          uid: S.optional(S.String),
-          state: S.optional(S.String),
-          etag: S.optional(S.String),
-          createTime: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(3106, __c97, 2),
+          S.Struct({
+            allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -6394,45 +5607,19 @@ function __c62(j: number): any {
       });
   }
 }
-function __c63(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          bareMetalAdminClusterId: S.optional(S.String.pipe(T.Query())),
-          allowPreflightFailure: S.optional(S.Boolean.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          endpoint: S.optional(S.String),
-          description: S.optional(S.String),
-          uid: S.optional(S.String),
-          controlPlane: S.optional(__S(2050, __c64, 2)),
-          createTime: S.optional(S.String),
-          maintenanceStatus: S.optional(__S(2054, __c64, 6)),
-          annotations: S.optional(__S(2272, __c71, 0)),
-          proxy: S.optional(__S(2055, __c64, 7)),
-          nodeConfig: S.optional(__S(2056, __c64, 8)),
-          deleteTime: S.optional(S.String),
-          reconciling: S.optional(S.Boolean),
-          binaryAuthorization: S.optional(__S(2080, __c65, 0)),
-          fleet: S.optional(__S(2400, __c75, 0)),
-          securityConfig: S.optional(__S(2115, __c66, 3)),
-          osEnvironmentConfig: S.optional(__S(2116, __c66, 4)),
-          loadBalancer: S.optional(__S(2063, __c64, 15)),
-          nodeAccessConfig: S.optional(__S(2118, __c66, 6)),
-          maintenanceConfig: S.optional(__S(2119, __c66, 7)),
-          bareMetalVersion: S.optional(S.String),
-          localName: S.optional(S.String),
-          validationCheck: S.optional(__S(2371, __c74, 3)),
-          name: S.optional(S.String),
-          status: S.optional(__S(2309, __c72, 5)),
-          etag: S.optional(S.String),
-          state: S.optional(S.String),
-          clusterOperations: S.optional(__S(2120, __c66, 8)),
-          networkConfig: S.optional(__S(2064, __c64, 16)),
-          storage: S.optional(__S(2124, __c66, 12)),
-          updateTime: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1873, __c58, 17),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            bareMetalAdminClusterId: S.optional(S.String.pipe(T.Query())),
+            allowPreflightFailure: S.optional(S.Boolean.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/bareMetalAdminClusters",
@@ -6442,7 +5629,7 @@ function __c63(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsBareMetalAdminClustersRequest" });
   }
 }
-function __c64(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6452,12 +5639,12 @@ function __c64(j: number): any {
         }),
       ).annotate({ identifier: "BareMetalAdminApiServerArgument" });
     case 1:
-      return S.Array(__S(2048, __c64, 0));
+      return S.Array(__S(1856, __c58, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          apiServerArgs: S.optional(__S(2049, __c64, 1)),
-          controlPlaneNodePoolConfig: S.optional(__S(2112, __c66, 0)),
+          apiServerArgs: S.optional(__S(1857, __c58, 1)),
+          controlPlaneNodePoolConfig: S.optional(__S(1920, __c60, 0)),
         }),
       ).annotate({ identifier: "BareMetalAdminControlPlaneConfig" });
     case 3:
@@ -6468,24 +5655,24 @@ function __c64(j: number): any {
         }),
       ).annotate({ identifier: "BareMetalAdminDrainingMachine" });
     case 4:
-      return S.Array(__S(2051, __c64, 3));
+      return S.Array(__S(1859, __c58, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          drainedMachines: S.optional(__S(2114, __c66, 2)),
-          drainingMachines: S.optional(__S(2052, __c64, 4)),
+          drainedMachines: S.optional(__S(1922, __c60, 2)),
+          drainingMachines: S.optional(__S(1860, __c58, 4)),
         }),
       ).annotate({ identifier: "BareMetalAdminMachineDrainStatus" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          machineDrainStatus: S.optional(__S(2053, __c64, 5)),
+          machineDrainStatus: S.optional(__S(1861, __c58, 5)),
         }),
       ).annotate({ identifier: "BareMetalAdminMaintenanceStatus" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          noProxy: S.optional(__S(2336, __c73, 0)),
+          noProxy: S.optional(__S(2144, __c67, 0)),
           uri: S.optional(S.String),
         }),
       ).annotate({ identifier: "BareMetalAdminProxyConfig" });
@@ -6499,29 +5686,29 @@ function __c64(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ipAddress: S.optional(S.String),
-          controlPlaneNodes: S.optional(__S(2336, __c73, 0)),
+          controlPlaneNodes: S.optional(__S(2144, __c67, 0)),
           asn: S.optional(S.String),
         }),
       ).annotate({ identifier: "BareMetalAdminBgpPeerConfig" });
     case 10:
-      return S.Array(__S(2057, __c64, 9));
+      return S.Array(__S(1865, __c58, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
-          addresses: S.optional(__S(2336, __c73, 0)),
+          addresses: S.optional(__S(2144, __c67, 0)),
           pool: S.optional(S.String),
           avoidBuggyIps: S.optional(S.Boolean),
           manualAssign: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "BareMetalAdminLoadBalancerAddressPool" });
     case 12:
-      return S.Array(__S(2059, __c64, 11));
+      return S.Array(__S(1867, __c58, 11));
     case 13:
       return S.suspend(() =>
         S.Struct({
-          bgpPeerConfigs: S.optional(__S(2058, __c64, 10)),
-          loadBalancerNodePoolConfig: S.optional(__S(2112, __c66, 0)),
-          addressPools: S.optional(__S(2060, __c64, 12)),
+          bgpPeerConfigs: S.optional(__S(1866, __c58, 10)),
+          loadBalancerNodePoolConfig: S.optional(__S(1920, __c60, 0)),
+          addressPools: S.optional(__S(1868, __c58, 12)),
           asn: S.optional(S.String),
         }),
       ).annotate({ identifier: "BareMetalAdminBgpLbConfig" });
@@ -6534,23 +5721,57 @@ function __c64(j: number): any {
     case 15:
       return S.suspend(() =>
         S.Struct({
-          manualLbConfig: S.optional(__S(2403, __c75, 3)),
-          portConfig: S.optional(__S(2117, __c66, 5)),
-          bgpLbConfig: S.optional(__S(2061, __c64, 13)),
-          vipConfig: S.optional(__S(2062, __c64, 14)),
+          manualLbConfig: S.optional(__S(2211, __c69, 3)),
+          portConfig: S.optional(__S(1925, __c60, 5)),
+          bgpLbConfig: S.optional(__S(1869, __c58, 13)),
+          vipConfig: S.optional(__S(1870, __c58, 14)),
         }),
       ).annotate({ identifier: "BareMetalAdminLoadBalancerConfig" });
     case 16:
       return S.suspend(() =>
         S.Struct({
           advancedNetworking: S.optional(S.Boolean),
-          islandModeCidr: S.optional(__S(2121, __c66, 9)),
-          multipleNetworkInterfacesConfig: S.optional(__S(2403, __c75, 3)),
+          islandModeCidr: S.optional(__S(1929, __c60, 9)),
+          multipleNetworkInterfacesConfig: S.optional(__S(2211, __c69, 3)),
         }),
       ).annotate({ identifier: "BareMetalAdminNetworkConfig" });
+    case 17:
+      return S.suspend(() =>
+        S.Struct({
+          endpoint: S.optional(S.String),
+          description: S.optional(S.String),
+          uid: S.optional(S.String),
+          controlPlane: S.optional(__S(1858, __c58, 2)),
+          createTime: S.optional(S.String),
+          maintenanceStatus: S.optional(__S(1862, __c58, 6)),
+          annotations: S.optional(__S(2080, __c65, 0)),
+          proxy: S.optional(__S(1863, __c58, 7)),
+          nodeConfig: S.optional(__S(1864, __c58, 8)),
+          deleteTime: S.optional(S.String),
+          reconciling: S.optional(S.Boolean),
+          binaryAuthorization: S.optional(__S(1888, __c59, 0)),
+          fleet: S.optional(__S(2208, __c69, 0)),
+          securityConfig: S.optional(__S(1923, __c60, 3)),
+          osEnvironmentConfig: S.optional(__S(1924, __c60, 4)),
+          loadBalancer: S.optional(__S(1871, __c58, 15)),
+          nodeAccessConfig: S.optional(__S(1926, __c60, 6)),
+          maintenanceConfig: S.optional(__S(1927, __c60, 7)),
+          bareMetalVersion: S.optional(S.String),
+          localName: S.optional(S.String),
+          validationCheck: S.optional(__S(2179, __c68, 3)),
+          name: S.optional(S.String),
+          status: S.optional(__S(2117, __c66, 5)),
+          etag: S.optional(S.String),
+          state: S.optional(S.String),
+          clusterOperations: S.optional(__S(1928, __c60, 8)),
+          networkConfig: S.optional(__S(1872, __c58, 16)),
+          storage: S.optional(__S(1932, __c60, 12)),
+          updateTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "BareMetalAdminCluster" });
   }
 }
-function __c65(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6561,17 +5782,17 @@ function __c65(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          adminUsers: S.optional(__S(2402, __c75, 2)),
+          adminUsers: S.optional(__S(2210, __c69, 2)),
         }),
       ).annotate({ identifier: "Authorization" });
   }
 }
-function __c66(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          nodePoolConfig: S.optional(__S(2179, __c68, 3)),
+          nodePoolConfig: S.optional(__S(1987, __c62, 3)),
         }),
       ).annotate({ identifier: "BareMetalAdminControlPlaneNodePoolConfig" });
     case 1:
@@ -6581,11 +5802,11 @@ function __c66(j: number): any {
         }),
       ).annotate({ identifier: "BareMetalAdminDrainedMachine" });
     case 2:
-      return S.Array(__S(2113, __c66, 1));
+      return S.Array(__S(1921, __c60, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          authorization: S.optional(__S(2081, __c65, 1)),
+          authorization: S.optional(__S(1889, __c59, 1)),
         }),
       ).annotate({ identifier: "BareMetalAdminSecurityConfig" });
     case 4:
@@ -6609,7 +5830,7 @@ function __c66(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          maintenanceAddressCidrBlocks: S.optional(__S(2336, __c73, 0)),
+          maintenanceAddressCidrBlocks: S.optional(__S(2144, __c67, 0)),
         }),
       ).annotate({ identifier: "BareMetalAdminMaintenanceConfig" });
     case 8:
@@ -6621,8 +5842,8 @@ function __c66(j: number): any {
     case 9:
       return S.suspend(() =>
         S.Struct({
-          serviceAddressCidrBlocks: S.optional(__S(2336, __c73, 0)),
-          podAddressCidrBlocks: S.optional(__S(2336, __c73, 0)),
+          serviceAddressCidrBlocks: S.optional(__S(2144, __c67, 0)),
+          podAddressCidrBlocks: S.optional(__S(2144, __c67, 0)),
         }),
       ).annotate({ identifier: "BareMetalAdminIslandModeCidrConfig" });
     case 10:
@@ -6635,20 +5856,20 @@ function __c66(j: number): any {
     case 11:
       return S.suspend(() =>
         S.Struct({
-          lvpConfig: S.optional(__S(2122, __c66, 10)),
+          lvpConfig: S.optional(__S(1930, __c60, 10)),
           sharedPathPvCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "BareMetalLvpShareConfig" });
     case 12:
       return S.suspend(() =>
         S.Struct({
-          lvpShareConfig: S.optional(__S(2123, __c66, 11)),
-          lvpNodeMountsConfig: S.optional(__S(2122, __c66, 10)),
+          lvpShareConfig: S.optional(__S(1931, __c60, 11)),
+          lvpNodeMountsConfig: S.optional(__S(1930, __c60, 10)),
         }),
       ).annotate({ identifier: "BareMetalAdminStorageConfig" });
   }
 }
-function __c67(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6659,10 +5880,10 @@ function __c67(j: number): any {
         }),
       ).annotate({ identifier: "NodeTaint" });
     case 1:
-      return S.Array(__S(2144, __c67, 0));
+      return S.Array(__S(1952, __c61, 0));
   }
 }
-function __c68(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6676,60 +5897,60 @@ function __c68(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nodeIp: S.optional(S.String),
-          labels: S.optional(__S(2272, __c71, 0)),
+          labels: S.optional(__S(2080, __c65, 0)),
         }),
       ).annotate({ identifier: "BareMetalNodeConfig" });
     case 2:
-      return S.Array(__S(2177, __c68, 1));
+      return S.Array(__S(1985, __c62, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          kubeletConfig: S.optional(__S(2176, __c68, 0)),
-          labels: S.optional(__S(2272, __c71, 0)),
-          taints: S.optional(__S(2145, __c67, 1)),
-          nodeConfigs: S.optional(__S(2178, __c68, 2)),
+          kubeletConfig: S.optional(__S(1984, __c62, 0)),
+          labels: S.optional(__S(2080, __c65, 0)),
+          taints: S.optional(__S(1953, __c61, 1)),
+          nodeConfigs: S.optional(__S(1986, __c62, 2)),
           operatingSystem: S.optional(S.String),
         }),
       ).annotate({ identifier: "BareMetalNodePoolConfig" });
   }
 }
-function __c69(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c70(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2208, __c69, 0));
+      return S.Array(__S(2016, __c63, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
           code: S.optional(S.Number),
-          details: S.optional(__S(2240, __c70, 0)),
+          details: S.optional(__S(2048, __c64, 0)),
           message: S.optional(S.String),
         }),
       ).annotate({ identifier: "Status" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          response: S.optional(__S(2208, __c69, 0)),
-          error: S.optional(__S(2241, __c70, 1)),
+          response: S.optional(__S(2016, __c63, 0)),
+          error: S.optional(__S(2049, __c64, 1)),
           name: S.optional(S.String),
           done: S.optional(S.Boolean),
-          metadata: S.optional(__S(2208, __c69, 0)),
+          metadata: S.optional(__S(2016, __c63, 0)),
         }),
       ).annotate({ identifier: "Operation" });
   }
 }
-function __c71(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
   }
 }
-function __c72(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6742,7 +5963,7 @@ function __c72(j: number): any {
         }),
       ).annotate({ identifier: "ResourceCondition" });
     case 1:
-      return S.Array(__S(2304, __c72, 0));
+      return S.Array(__S(2112, __c66, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -6751,31 +5972,31 @@ function __c72(j: number): any {
         }),
       ).annotate({ identifier: "Version" });
     case 3:
-      return S.Array(__S(2306, __c72, 2));
+      return S.Array(__S(2114, __c66, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          versions: S.optional(__S(2307, __c72, 3)),
+          versions: S.optional(__S(2115, __c66, 3)),
         }),
       ).annotate({ identifier: "Versions" });
     case 5:
       return S.suspend(() =>
         S.Struct({
           errorMessage: S.optional(S.String),
-          conditions: S.optional(__S(2305, __c72, 1)),
+          conditions: S.optional(__S(2113, __c66, 1)),
           version: S.optional(S.String),
-          versions: S.optional(__S(2308, __c72, 4)),
+          versions: S.optional(__S(2116, __c66, 4)),
         }),
       ).annotate({ identifier: "ResourceStatus" });
   }
 }
-function __c73(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c74(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6788,11 +6009,11 @@ function __c74(j: number): any {
         }),
       ).annotate({ identifier: "ValidationCheckResult" });
     case 1:
-      return S.Array(__S(2368, __c74, 0));
+      return S.Array(__S(2176, __c68, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          result: S.optional(__S(2369, __c74, 1)),
+          result: S.optional(__S(2177, __c68, 1)),
         }),
       ).annotate({ identifier: "ValidationCheckStatus" });
     case 3:
@@ -6800,12 +6021,12 @@ function __c74(j: number): any {
         S.Struct({
           scenario: S.optional(S.String),
           option: S.optional(S.String),
-          status: S.optional(__S(2370, __c74, 2)),
+          status: S.optional(__S(2178, __c68, 2)),
         }),
       ).annotate({ identifier: "ValidationCheck" });
   }
 }
-function __c75(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6820,7 +6041,7 @@ function __c75(j: number): any {
         }),
       ).annotate({ identifier: "ClusterUser" });
     case 2:
-      return S.Array(__S(2401, __c75, 1));
+      return S.Array(__S(2209, __c69, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -6829,45 +6050,19 @@ function __c75(j: number): any {
       ).annotate({ identifier: "BareMetalAdminManualLbConfig" });
   }
 }
-function __c76(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          skipValidations: S.optional(__S(2336, __c73, 0).pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          onPremVersion: S.optional(S.String),
-          localName: S.optional(S.String),
-          controlPlaneNode: S.optional(__S(3488, __c109, 0)),
-          etag: S.optional(S.String),
-          bootstrapClusterMembership: S.optional(S.String),
-          authorization: S.optional(__S(3489, __c109, 1)),
-          updateTime: S.optional(S.String),
-          validationCheck: S.optional(__S(2371, __c74, 3)),
-          preparedSecrets: S.optional(__S(2403, __c75, 3)),
-          status: S.optional(__S(2309, __c72, 5)),
-          enableAdvancedCluster: S.optional(S.Boolean),
-          networkConfig: S.optional(__S(3490, __c109, 2)),
-          state: S.optional(S.String),
-          antiAffinityGroups: S.optional(__S(3463, __c108, 7)),
-          addonNode: S.optional(__S(3491, __c109, 3)),
-          autoRepairConfig: S.optional(__S(2403, __c75, 3)),
-          platformConfig: S.optional(__S(3494, __c109, 6)),
-          annotations: S.optional(__S(2272, __c71, 0)),
-          reconciling: S.optional(S.Boolean),
-          vcenter: S.optional(__S(3495, __c109, 7)),
-          imageType: S.optional(S.String),
-          proxy: S.optional(__S(3496, __c109, 8)),
-          uid: S.optional(S.String),
-          endpoint: S.optional(S.String),
-          description: S.optional(S.String),
-          fleet: S.optional(__S(2400, __c75, 0)),
-          createTime: S.optional(S.String),
-          loadBalancer: S.optional(__S(3501, __c109, 13)),
-          privateRegistryConfig: S.optional(__S(3502, __c109, 14)),
-        }).pipe(
+        S.Extend(
+          __S(3343, __c104, 15),
+          S.Struct({
+            skipValidations: S.optional(__S(2144, __c67, 0).pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -6877,48 +6072,19 @@ function __c76(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsVmwareAdminClustersRequest" });
   }
 }
-function __c77(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          skipValidations: S.optional(__S(2336, __c73, 0).pipe(T.Query())),
-          fleet: S.optional(__S(2400, __c75, 0)),
-          localName: S.optional(S.String),
-          endpoint: S.optional(S.String),
-          vmTrackingEnabled: S.optional(S.Boolean),
-          uid: S.optional(S.String),
-          validationCheck: S.optional(__S(2371, __c74, 3)),
-          updateTime: S.optional(S.String),
-          antiAffinityGroups: S.optional(__S(3463, __c108, 7)),
-          etag: S.optional(S.String),
-          adminClusterName: S.optional(S.String),
-          loadBalancer: S.optional(__S(39, __c1, 7)),
-          upgradePolicy: S.optional(__S(40, __c1, 8)),
-          binaryAuthorization: S.optional(__S(2080, __c65, 0)),
-          dataplaneV2: S.optional(__S(41, __c1, 9)),
-          vcenter: S.optional(__S(42, __c1, 10)),
-          controlPlaneNode: S.optional(__S(44, __c1, 12)),
-          onPremVersion: S.optional(S.String),
-          authorization: S.optional(__S(2081, __c65, 1)),
-          reconciling: S.optional(S.Boolean),
-          deleteTime: S.optional(S.String),
-          state: S.optional(S.String),
-          adminClusterMembership: S.optional(S.String),
-          disableBundledIngress: S.optional(S.Boolean),
-          annotations: S.optional(__S(2272, __c71, 0)),
-          enableControlPlaneV2: S.optional(S.Boolean),
-          storage: S.optional(__S(45, __c1, 13)),
-          networkConfig: S.optional(__S(46, __c1, 14)),
-          enableAdvancedCluster: S.optional(S.Boolean),
-          status: S.optional(__S(2309, __c72, 5)),
-          description: S.optional(S.String),
-          autoRepairConfig: S.optional(__S(2403, __c75, 3)),
-          createTime: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(47, __c1, 15),
+          S.Struct({
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            skipValidations: S.optional(__S(2144, __c67, 0).pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -6928,29 +6094,18 @@ function __c77(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsVmwareClustersRequest" });
   }
 }
-function __c78(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          state: S.optional(S.String),
-          onPremVersion: S.optional(S.String),
-          displayName: S.optional(S.String),
-          reconciling: S.optional(S.Boolean),
-          nodePoolAutoscaling: S.optional(__S(96, __c3, 0)),
-          uid: S.optional(S.String),
-          createTime: S.optional(S.String),
-          annotations: S.optional(__S(2272, __c71, 0)),
-          deleteTime: S.optional(S.String),
-          status: S.optional(__S(2309, __c72, 5)),
-          config: S.optional(__S(100, __c3, 4)),
-          etag: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          validationCheck: S.optional(__S(2371, __c74, 3)),
-        }).pipe(
+        S.Extend(
+          __S(101, __c3, 5),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -6960,7 +6115,7 @@ function __c78(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsVmwareClustersVmwareNodePoolsRequest" });
   }
 }
-function __c79(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6979,27 +6134,27 @@ function __c79(j: number): any {
       });
   }
 }
-function __c80(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           hasDependencies: S.optional(S.Boolean),
-          dependencies: S.optional(__S(2593, __c81, 1)),
+          dependencies: S.optional(__S(2401, __c75, 1)),
           version: S.optional(S.String),
         }),
       ).annotate({ identifier: "BareMetalVersionInfo" });
     case 1:
-      return S.Array(__S(2560, __c80, 0));
+      return S.Array(__S(2368, __c74, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          versions: S.optional(__S(2561, __c80, 1)),
+          versions: S.optional(__S(2369, __c74, 1)),
         }),
       ).annotate({ identifier: "QueryBareMetalAdminVersionConfigResponse" });
   }
 }
-function __c81(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7011,10 +6166,10 @@ function __c81(j: number): any {
         }),
       ).annotate({ identifier: "UpgradeDependency" });
     case 1:
-      return S.Array(__S(2592, __c81, 0));
+      return S.Array(__S(2400, __c75, 0));
   }
 }
-function __c82(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7033,7 +6188,7 @@ function __c82(j: number): any {
       ).annotate({ identifier: "QueryVersionConfigProjectsLocationsBareMetalClustersRequest" });
   }
 }
-function __c83(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7054,29 +6209,31 @@ function __c83(j: number): any {
       return S.suspend(() =>
         S.Struct({
           isInstalled: S.optional(S.Boolean),
-          dependencies: S.optional(__S(2593, __c81, 1)),
+          dependencies: S.optional(__S(2401, __c75, 1)),
           hasDependencies: S.optional(S.Boolean),
           version: S.optional(S.String),
         }),
       ).annotate({ identifier: "VmwareVersionInfo" });
     case 2:
-      return S.Array(__S(2657, __c83, 1));
+      return S.Array(__S(2465, __c77, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          versions: S.optional(__S(2658, __c83, 2)),
+          versions: S.optional(__S(2466, __c77, 2)),
         }),
       ).annotate({ identifier: "QueryVmwareVersionConfigResponse" });
   }
 }
-function __c84(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          policy: S.optional(__S(515, __c16, 3)),
-        }).pipe(
+        S.Extend(
+          __S(2528, __c79, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -7086,14 +6243,26 @@ function __c84(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsLocationsBareMetalAdminClustersRequest" });
   }
 }
-function __c85(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          resource: S.String.pipe(T.Label()),
           policy: S.optional(__S(515, __c16, 3)),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "SetIamPolicyRequest" });
+  }
+}
+function __c80(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(2528, __c79, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -7103,14 +6272,16 @@ function __c85(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsLocationsBareMetalClustersRequest" });
   }
 }
-function __c86(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          policy: S.optional(__S(515, __c16, 3)),
-        }).pipe(
+        S.Extend(
+          __S(2528, __c79, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -7122,14 +6293,16 @@ function __c86(j: number): any {
       });
   }
 }
-function __c87(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          policy: S.optional(__S(515, __c16, 3)),
-        }).pipe(
+        S.Extend(
+          __S(2528, __c79, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -7139,49 +6312,19 @@ function __c87(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsLocationsVmwareAdminClustersRequest" });
   }
 }
-function __c88(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          allowPreflightFailure: S.optional(S.Boolean.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          bareMetalClusterId: S.optional(S.String.pipe(T.Query())),
-          name: S.optional(S.String),
-          endpoint: S.optional(S.String),
-          adminClusterName: S.optional(S.String),
-          clusterOperations: S.optional(__S(2120, __c66, 8)),
-          etag: S.optional(S.String),
-          createTime: S.optional(S.String),
-          upgradePolicy: S.optional(__S(2848, __c89, 0)),
-          state: S.optional(S.String),
-          osEnvironmentConfig: S.optional(__S(2116, __c66, 4)),
-          uid: S.optional(S.String),
-          deleteTime: S.optional(S.String),
-          binaryAuthorization: S.optional(__S(2080, __c65, 0)),
-          nodeConfig: S.optional(__S(2849, __c89, 1)),
-          nodeAccessConfig: S.optional(__S(2118, __c66, 6)),
-          storage: S.optional(__S(2124, __c66, 12)),
-          securityConfig: S.optional(__S(2115, __c66, 3)),
-          bareMetalVersion: S.optional(S.String),
-          maintenanceConfig: S.optional(__S(2119, __c66, 7)),
-          description: S.optional(S.String),
-          status: S.optional(__S(2309, __c72, 5)),
-          loadBalancer: S.optional(__S(2857, __c89, 9)),
-          validationCheck: S.optional(__S(2371, __c74, 3)),
-          networkConfig: S.optional(__S(2858, __c89, 10)),
-          proxy: S.optional(__S(2859, __c89, 11)),
-          maintenanceStatus: S.optional(__S(2863, __c89, 15)),
-          fleet: S.optional(__S(2400, __c75, 0)),
-          annotations: S.optional(__S(2272, __c71, 0)),
-          adminClusterMembership: S.optional(S.String),
-          localName: S.optional(S.String),
-          localNamespace: S.optional(S.String),
-          controlPlane: S.optional(__S(2866, __c89, 18)),
-          reconciling: S.optional(S.Boolean),
-          updateTime: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(2707, __c84, 19),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            allowPreflightFailure: S.optional(S.Boolean.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            bareMetalClusterId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/bareMetalClusters",
@@ -7191,7 +6334,7 @@ function __c88(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsBareMetalClustersRequest" });
   }
 }
-function __c89(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7211,18 +6354,18 @@ function __c89(j: number): any {
       return S.suspend(() =>
         S.Struct({
           pool: S.optional(S.String),
-          addresses: S.optional(__S(2336, __c73, 0)),
+          addresses: S.optional(__S(2144, __c67, 0)),
           avoidBuggyIps: S.optional(S.Boolean),
           manualAssign: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "BareMetalLoadBalancerAddressPool" });
     case 3:
-      return S.Array(__S(2850, __c89, 2));
+      return S.Array(__S(2690, __c84, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          loadBalancerNodePoolConfig: S.optional(__S(2112, __c66, 0)),
-          addressPools: S.optional(__S(2851, __c89, 3)),
+          loadBalancerNodePoolConfig: S.optional(__S(1920, __c60, 0)),
+          addressPools: S.optional(__S(2691, __c84, 3)),
         }),
       ).annotate({ identifier: "BareMetalMetalLbConfig" });
     case 5:
@@ -7236,45 +6379,45 @@ function __c89(j: number): any {
       return S.suspend(() =>
         S.Struct({
           asn: S.optional(S.String),
-          controlPlaneNodes: S.optional(__S(2336, __c73, 0)),
+          controlPlaneNodes: S.optional(__S(2144, __c67, 0)),
           ipAddress: S.optional(S.String),
         }),
       ).annotate({ identifier: "BareMetalBgpPeerConfig" });
     case 7:
-      return S.Array(__S(2854, __c89, 6));
+      return S.Array(__S(2694, __c84, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
           asn: S.optional(S.String),
-          bgpPeerConfigs: S.optional(__S(2855, __c89, 7)),
-          addressPools: S.optional(__S(2851, __c89, 3)),
-          loadBalancerNodePoolConfig: S.optional(__S(2112, __c66, 0)),
+          bgpPeerConfigs: S.optional(__S(2695, __c84, 7)),
+          addressPools: S.optional(__S(2691, __c84, 3)),
+          loadBalancerNodePoolConfig: S.optional(__S(1920, __c60, 0)),
         }),
       ).annotate({ identifier: "BareMetalBgpLbConfig" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          portConfig: S.optional(__S(2117, __c66, 5)),
-          manualLbConfig: S.optional(__S(2403, __c75, 3)),
-          metalLbConfig: S.optional(__S(2852, __c89, 4)),
-          vipConfig: S.optional(__S(2853, __c89, 5)),
-          bgpLbConfig: S.optional(__S(2856, __c89, 8)),
+          portConfig: S.optional(__S(1925, __c60, 5)),
+          manualLbConfig: S.optional(__S(2211, __c69, 3)),
+          metalLbConfig: S.optional(__S(2692, __c84, 4)),
+          vipConfig: S.optional(__S(2693, __c84, 5)),
+          bgpLbConfig: S.optional(__S(2696, __c84, 8)),
         }),
       ).annotate({ identifier: "BareMetalLoadBalancerConfig" });
     case 10:
       return S.suspend(() =>
         S.Struct({
           advancedNetworking: S.optional(S.Boolean),
-          srIovConfig: S.optional(__S(2403, __c75, 3)),
-          multipleNetworkInterfacesConfig: S.optional(__S(2403, __c75, 3)),
-          islandModeCidr: S.optional(__S(2121, __c66, 9)),
+          srIovConfig: S.optional(__S(2211, __c69, 3)),
+          multipleNetworkInterfacesConfig: S.optional(__S(2211, __c69, 3)),
+          islandModeCidr: S.optional(__S(1929, __c60, 9)),
         }),
       ).annotate({ identifier: "BareMetalNetworkConfig" });
     case 11:
       return S.suspend(() =>
         S.Struct({
           uri: S.optional(S.String),
-          noProxy: S.optional(__S(2336, __c73, 0)),
+          noProxy: S.optional(__S(2144, __c67, 0)),
         }),
       ).annotate({ identifier: "BareMetalProxyConfig" });
     case 12:
@@ -7285,18 +6428,18 @@ function __c89(j: number): any {
         }),
       ).annotate({ identifier: "BareMetalDrainingMachine" });
     case 13:
-      return S.Array(__S(2860, __c89, 12));
+      return S.Array(__S(2700, __c84, 12));
     case 14:
       return S.suspend(() =>
         S.Struct({
-          drainingMachines: S.optional(__S(2861, __c89, 13)),
-          drainedMachines: S.optional(__S(2114, __c66, 2)),
+          drainingMachines: S.optional(__S(2701, __c84, 13)),
+          drainedMachines: S.optional(__S(1922, __c60, 2)),
         }),
       ).annotate({ identifier: "BareMetalMachineDrainStatus" });
     case 15:
       return S.suspend(() =>
         S.Struct({
-          machineDrainStatus: S.optional(__S(2862, __c89, 14)),
+          machineDrainStatus: S.optional(__S(2702, __c84, 14)),
         }),
       ).annotate({ identifier: "BareMetalMaintenanceStatus" });
     case 16:
@@ -7307,24 +6450,64 @@ function __c89(j: number): any {
         }),
       ).annotate({ identifier: "BareMetalApiServerArgument" });
     case 17:
-      return S.Array(__S(2864, __c89, 16));
+      return S.Array(__S(2704, __c84, 16));
     case 18:
       return S.suspend(() =>
         S.Struct({
-          controlPlaneNodePoolConfig: S.optional(__S(2112, __c66, 0)),
-          apiServerArgs: S.optional(__S(2865, __c89, 17)),
+          controlPlaneNodePoolConfig: S.optional(__S(1920, __c60, 0)),
+          apiServerArgs: S.optional(__S(2705, __c84, 17)),
         }),
       ).annotate({ identifier: "BareMetalControlPlaneConfig" });
+    case 19:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          endpoint: S.optional(S.String),
+          adminClusterName: S.optional(S.String),
+          clusterOperations: S.optional(__S(1928, __c60, 8)),
+          etag: S.optional(S.String),
+          createTime: S.optional(S.String),
+          upgradePolicy: S.optional(__S(2688, __c84, 0)),
+          state: S.optional(S.String),
+          osEnvironmentConfig: S.optional(__S(1924, __c60, 4)),
+          uid: S.optional(S.String),
+          deleteTime: S.optional(S.String),
+          binaryAuthorization: S.optional(__S(1888, __c59, 0)),
+          nodeConfig: S.optional(__S(2689, __c84, 1)),
+          nodeAccessConfig: S.optional(__S(1926, __c60, 6)),
+          storage: S.optional(__S(1932, __c60, 12)),
+          securityConfig: S.optional(__S(1923, __c60, 3)),
+          bareMetalVersion: S.optional(S.String),
+          maintenanceConfig: S.optional(__S(1927, __c60, 7)),
+          description: S.optional(S.String),
+          status: S.optional(__S(2117, __c66, 5)),
+          loadBalancer: S.optional(__S(2697, __c84, 9)),
+          validationCheck: S.optional(__S(2179, __c68, 3)),
+          networkConfig: S.optional(__S(2698, __c84, 10)),
+          proxy: S.optional(__S(2699, __c84, 11)),
+          maintenanceStatus: S.optional(__S(2703, __c84, 15)),
+          fleet: S.optional(__S(2208, __c69, 0)),
+          annotations: S.optional(__S(2080, __c65, 0)),
+          adminClusterMembership: S.optional(S.String),
+          localName: S.optional(S.String),
+          localNamespace: S.optional(S.String),
+          controlPlane: S.optional(__S(2706, __c84, 18)),
+          reconciling: S.optional(S.Boolean),
+          updateTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "BareMetalCluster" });
   }
 }
-function __c90(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          policy: S.optional(__S(515, __c16, 3)),
-        }).pipe(
+        S.Extend(
+          __S(2528, __c79, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -7334,14 +6517,16 @@ function __c90(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsLocationsVmwareClustersRequest" });
   }
 }
-function __c91(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          policy: S.optional(__S(515, __c16, 3)),
-        }).pipe(
+        S.Extend(
+          __S(2528, __c79, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -7353,14 +6538,16 @@ function __c91(j: number): any {
       });
   }
 }
-function __c92(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          permissions: S.optional(__S(2336, __c73, 0)),
-        }).pipe(
+        S.Extend(
+          __S(2816, __c88, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -7372,24 +6559,26 @@ function __c92(j: number): any {
       });
   }
 }
-function __c93(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          permissions: S.optional(__S(2336, __c73, 0)),
+          permissions: S.optional(__S(2144, __c67, 0)),
         }),
-      ).annotate({ identifier: "TestIamPermissionsResponse" });
+      ).annotate({ identifier: "TestIamPermissionsRequest" });
   }
 }
-function __c94(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          permissions: S.optional(__S(2336, __c73, 0)),
-        }).pipe(
+        S.Extend(
+          __S(2816, __c88, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -7399,14 +6588,16 @@ function __c94(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsLocationsBareMetalClustersRequest" });
   }
 }
-function __c95(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          permissions: S.optional(__S(2336, __c73, 0)),
-        }).pipe(
+        S.Extend(
+          __S(2816, __c88, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -7418,14 +6609,16 @@ function __c95(j: number): any {
       });
   }
 }
-function __c96(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          permissions: S.optional(__S(2336, __c73, 0)),
-        }).pipe(
+        S.Extend(
+          __S(2816, __c88, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -7435,14 +6628,16 @@ function __c96(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsLocationsVmwareAdminClustersRequest" });
   }
 }
-function __c97(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          permissions: S.optional(__S(2336, __c73, 0)),
-        }).pipe(
+        S.Extend(
+          __S(2816, __c88, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -7452,14 +6647,16 @@ function __c97(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsLocationsVmwareClustersRequest" });
   }
 }
-function __c98(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          permissions: S.optional(__S(2336, __c73, 0)),
-        }).pipe(
+        S.Extend(
+          __S(2816, __c88, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -7471,7 +6668,7 @@ function __c98(j: number): any {
       });
   }
 }
-function __c99(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7491,7 +6688,7 @@ function __c99(j: number): any {
       ).annotate({ identifier: "UnenrollProjectsLocationsBareMetalAdminClustersRequest" });
   }
 }
-function __c100(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7511,28 +6708,18 @@ function __c100(j: number): any {
       ).annotate({ identifier: "UnenrollProjectsLocationsBareMetalClustersRequest" });
   }
 }
-function __c101(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          bareMetalNodePoolId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          displayName: S.optional(S.String),
-          reconciling: S.optional(S.Boolean),
-          status: S.optional(__S(2309, __c72, 5)),
-          updateTime: S.optional(S.String),
-          upgradePolicy: S.optional(__S(3265, __c102, 1)),
-          nodePoolConfig: S.optional(__S(2179, __c68, 3)),
-          annotations: S.optional(__S(2272, __c71, 0)),
-          deleteTime: S.optional(S.String),
-          uid: S.optional(S.String),
-          name: S.optional(S.String),
-          state: S.optional(S.String),
-          etag: S.optional(S.String),
-          createTime: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(3106, __c97, 2),
+          S.Struct({
+            bareMetalNodePoolId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/bareMetalNodePools",
@@ -7544,7 +6731,7 @@ function __c101(j: number): any {
       });
   }
 }
-function __c102(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7556,12 +6743,30 @@ function __c102(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          parallelUpgradeConfig: S.optional(__S(3264, __c102, 0)),
+          parallelUpgradeConfig: S.optional(__S(3104, __c97, 0)),
         }),
       ).annotate({ identifier: "BareMetalNodePoolUpgradePolicy" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          displayName: S.optional(S.String),
+          reconciling: S.optional(S.Boolean),
+          status: S.optional(__S(2117, __c66, 5)),
+          updateTime: S.optional(S.String),
+          upgradePolicy: S.optional(__S(3105, __c97, 1)),
+          nodePoolConfig: S.optional(__S(1987, __c62, 3)),
+          annotations: S.optional(__S(2080, __c65, 0)),
+          deleteTime: S.optional(S.String),
+          uid: S.optional(S.String),
+          name: S.optional(S.String),
+          state: S.optional(S.String),
+          etag: S.optional(S.String),
+          createTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "BareMetalNodePool" });
   }
 }
-function __c103(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7582,7 +6787,7 @@ function __c103(j: number): any {
       });
   }
 }
-function __c104(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7602,7 +6807,7 @@ function __c104(j: number): any {
       ).annotate({ identifier: "UnenrollProjectsLocationsVmwareAdminClustersRequest" });
   }
 }
-function __c105(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7622,7 +6827,7 @@ function __c105(j: number): any {
       ).annotate({ identifier: "UnenrollProjectsLocationsVmwareClustersRequest" });
   }
 }
-function __c106(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7641,47 +6846,20 @@ function __c106(j: number): any {
       ).annotate({ identifier: "UnenrollProjectsLocationsVmwareClustersVmwareNodePoolsRequest" });
   }
 }
-function __c107(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          skipValidations: S.optional(__S(2336, __c73, 0).pipe(T.Query())),
-          vmwareAdminClusterId: S.optional(S.String.pipe(T.Query())),
-          allowPreflightFailure: S.optional(S.Boolean.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          onPremVersion: S.optional(S.String),
-          localName: S.optional(S.String),
-          controlPlaneNode: S.optional(__S(3488, __c109, 0)),
-          etag: S.optional(S.String),
-          bootstrapClusterMembership: S.optional(S.String),
-          authorization: S.optional(__S(3489, __c109, 1)),
-          name: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          validationCheck: S.optional(__S(2371, __c74, 3)),
-          preparedSecrets: S.optional(__S(2403, __c75, 3)),
-          status: S.optional(__S(2309, __c72, 5)),
-          enableAdvancedCluster: S.optional(S.Boolean),
-          networkConfig: S.optional(__S(3490, __c109, 2)),
-          state: S.optional(S.String),
-          antiAffinityGroups: S.optional(__S(3463, __c108, 7)),
-          addonNode: S.optional(__S(3491, __c109, 3)),
-          autoRepairConfig: S.optional(__S(2403, __c75, 3)),
-          platformConfig: S.optional(__S(3494, __c109, 6)),
-          annotations: S.optional(__S(2272, __c71, 0)),
-          reconciling: S.optional(S.Boolean),
-          vcenter: S.optional(__S(3495, __c109, 7)),
-          imageType: S.optional(S.String),
-          proxy: S.optional(__S(3496, __c109, 8)),
-          uid: S.optional(S.String),
-          endpoint: S.optional(S.String),
-          description: S.optional(S.String),
-          fleet: S.optional(__S(2400, __c75, 0)),
-          createTime: S.optional(S.String),
-          loadBalancer: S.optional(__S(3501, __c109, 13)),
-          privateRegistryConfig: S.optional(__S(3502, __c109, 14)),
-        }).pipe(
+        S.Extend(
+          __S(3343, __c104, 15),
+          S.Struct({
+            skipValidations: S.optional(__S(2144, __c67, 0).pipe(T.Query())),
+            vmwareAdminClusterId: S.optional(S.String.pipe(T.Query())),
+            allowPreflightFailure: S.optional(S.Boolean.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/vmwareAdminClusters",
@@ -7691,14 +6869,14 @@ function __c107(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsVmwareAdminClustersRequest" });
   }
 }
-function __c108(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          dnsServers: S.optional(__S(2336, __c73, 0)),
-          ntpServers: S.optional(__S(2336, __c73, 0)),
-          dnsSearchDomains: S.optional(__S(2336, __c73, 0)),
+          dnsServers: S.optional(__S(2144, __c67, 0)),
+          ntpServers: S.optional(__S(2144, __c67, 0)),
+          dnsSearchDomains: S.optional(__S(2144, __c67, 0)),
         }),
       ).annotate({ identifier: "VmwareHostConfig" });
     case 1:
@@ -7709,27 +6887,27 @@ function __c108(j: number): any {
         }),
       ).annotate({ identifier: "VmwareHostIp" });
     case 2:
-      return S.Array(__S(3457, __c108, 1));
+      return S.Array(__S(3297, __c103, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           netmask: S.optional(S.String),
           gateway: S.optional(S.String),
-          ips: S.optional(__S(3458, __c108, 2)),
+          ips: S.optional(__S(3298, __c103, 2)),
         }),
       ).annotate({ identifier: "VmwareIpBlock" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          controlPlaneIpBlock: S.optional(__S(3459, __c108, 3)),
+          controlPlaneIpBlock: S.optional(__S(3299, __c103, 3)),
         }),
       ).annotate({ identifier: "VmwareAdminHAControlPlaneConfig" });
     case 5:
-      return S.Array(__S(3459, __c108, 3));
+      return S.Array(__S(3299, __c103, 3));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          ipBlocks: S.optional(__S(3461, __c108, 5)),
+          ipBlocks: S.optional(__S(3301, __c103, 5)),
         }),
       ).annotate({ identifier: "VmwareStaticIpConfig" });
     case 7:
@@ -7740,7 +6918,7 @@ function __c108(j: number): any {
       ).annotate({ identifier: "VmwareAAGConfig" });
   }
 }
-function __c109(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7753,43 +6931,43 @@ function __c109(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          viewerUsers: S.optional(__S(2402, __c75, 2)),
+          viewerUsers: S.optional(__S(2210, __c69, 2)),
         }),
       ).annotate({ identifier: "VmwareAdminAuthorizationConfig" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          podAddressCidrBlocks: S.optional(__S(2336, __c73, 0)),
-          hostConfig: S.optional(__S(3456, __c108, 0)),
-          haControlPlaneConfig: S.optional(__S(3460, __c108, 4)),
-          serviceAddressCidrBlocks: S.optional(__S(2336, __c73, 0)),
-          dhcpIpConfig: S.optional(__S(2403, __c75, 3)),
+          podAddressCidrBlocks: S.optional(__S(2144, __c67, 0)),
+          hostConfig: S.optional(__S(3296, __c103, 0)),
+          haControlPlaneConfig: S.optional(__S(3300, __c103, 4)),
+          serviceAddressCidrBlocks: S.optional(__S(2144, __c67, 0)),
+          dhcpIpConfig: S.optional(__S(2211, __c69, 3)),
           vcenterNetwork: S.optional(S.String),
-          staticIpConfig: S.optional(__S(3462, __c108, 6)),
+          staticIpConfig: S.optional(__S(3302, __c103, 6)),
         }),
       ).annotate({ identifier: "VmwareAdminNetworkConfig" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          autoResizeConfig: S.optional(__S(2403, __c75, 3)),
+          autoResizeConfig: S.optional(__S(2211, __c69, 3)),
         }),
       ).annotate({ identifier: "VmwareAdminAddonNodeConfig" });
     case 4:
       return S.suspend(() =>
         S.Struct({
           version: S.optional(S.String),
-          status: S.optional(__S(2309, __c72, 5)),
+          status: S.optional(__S(2117, __c66, 5)),
         }),
       ).annotate({ identifier: "VmwareBundleConfig" });
     case 5:
-      return S.Array(__S(3492, __c109, 4));
+      return S.Array(__S(3332, __c104, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           platformVersion: S.optional(S.String),
           requiredPlatformVersion: S.optional(S.String),
-          status: S.optional(__S(2309, __c72, 5)),
-          bundles: S.optional(__S(3493, __c109, 5)),
+          status: S.optional(__S(2117, __c66, 5)),
+          bundles: S.optional(__S(3333, __c104, 5)),
         }),
       ).annotate({ identifier: "VmwarePlatformConfig" });
     case 7:
@@ -7843,20 +7021,20 @@ function __c109(j: number): any {
         S.Struct({
           stackdriverName: S.optional(S.String),
           group: S.optional(S.String),
-          ipBlocks: S.optional(__S(3461, __c108, 5)),
+          ipBlocks: S.optional(__S(3301, __c103, 5)),
           enableHa: S.optional(S.Boolean),
-          vms: S.optional(__S(2336, __c73, 0)),
+          vms: S.optional(__S(2144, __c67, 0)),
           masterIp: S.optional(S.String),
         }),
       ).annotate({ identifier: "VmwareAdminSeesawConfig" });
     case 13:
       return S.suspend(() =>
         S.Struct({
-          vipConfig: S.optional(__S(3497, __c109, 9)),
-          metalLbConfig: S.optional(__S(2403, __c75, 3)),
-          f5Config: S.optional(__S(3498, __c109, 10)),
-          manualLbConfig: S.optional(__S(3499, __c109, 11)),
-          seesawConfig: S.optional(__S(3500, __c109, 12)),
+          vipConfig: S.optional(__S(3337, __c104, 9)),
+          metalLbConfig: S.optional(__S(2211, __c69, 3)),
+          f5Config: S.optional(__S(3338, __c104, 10)),
+          manualLbConfig: S.optional(__S(3339, __c104, 11)),
+          seesawConfig: S.optional(__S(3340, __c104, 12)),
         }),
       ).annotate({ identifier: "VmwareAdminLoadBalancerConfig" });
     case 14:
@@ -7866,6 +7044,41 @@ function __c109(j: number): any {
           caCert: S.optional(S.String),
         }),
       ).annotate({ identifier: "VmwareAdminPrivateRegistryConfig" });
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          onPremVersion: S.optional(S.String),
+          localName: S.optional(S.String),
+          controlPlaneNode: S.optional(__S(3328, __c104, 0)),
+          etag: S.optional(S.String),
+          bootstrapClusterMembership: S.optional(S.String),
+          authorization: S.optional(__S(3329, __c104, 1)),
+          name: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          validationCheck: S.optional(__S(2179, __c68, 3)),
+          preparedSecrets: S.optional(__S(2211, __c69, 3)),
+          status: S.optional(__S(2117, __c66, 5)),
+          enableAdvancedCluster: S.optional(S.Boolean),
+          networkConfig: S.optional(__S(3330, __c104, 2)),
+          state: S.optional(S.String),
+          antiAffinityGroups: S.optional(__S(3303, __c103, 7)),
+          addonNode: S.optional(__S(3331, __c104, 3)),
+          autoRepairConfig: S.optional(__S(2211, __c69, 3)),
+          platformConfig: S.optional(__S(3334, __c104, 6)),
+          annotations: S.optional(__S(2080, __c65, 0)),
+          reconciling: S.optional(S.Boolean),
+          vcenter: S.optional(__S(3335, __c104, 7)),
+          imageType: S.optional(S.String),
+          proxy: S.optional(__S(3336, __c104, 8)),
+          uid: S.optional(S.String),
+          endpoint: S.optional(S.String),
+          description: S.optional(S.String),
+          fleet: S.optional(__S(2208, __c69, 0)),
+          createTime: S.optional(S.String),
+          loadBalancer: S.optional(__S(3341, __c104, 13)),
+          privateRegistryConfig: S.optional(__S(3342, __c104, 14)),
+        }),
+      ).annotate({ identifier: "VmwareAdminCluster" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

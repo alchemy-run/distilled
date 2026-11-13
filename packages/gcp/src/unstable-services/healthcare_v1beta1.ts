@@ -83,15 +83,18 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
-export interface ActivateProjectsLocationsDatasetsConsentStoresConsentsRequest {
-  /** Required. The resource name of the Consent to activate, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/consentStores/{consent_store_id}/consents/{consent_id}`. An INVALID_ARGUMENT error occurs if `revision_id` is specified in the name. */
-  name: string;
+/** Activates the latest revision of the specified Consent by committing a new revision with `state` updated to `ACTIVE`. If the latest revision of the given Consent is in the `ACTIVE` state, no new revision is committed. A FAILED_PRECONDITION error occurs if the latest revision of the given consent is in the `REJECTED` or `REVOKED` state. */
+export interface ActivateConsentRequest {
   /** The time to live for this Consent from when it is marked as active. */
   ttl?: string | undefined;
   /** Timestamp in UTC of when this Consent is considered expired. */
   expireTime?: string | undefined;
   /** Required. The resource name of the Consent artifact that contains documentation of the user's consent, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/consentStores/{consent_store_id}/consentArtifacts/{consent_artifact_id}`. If the draft Consent had a Consent artifact, this Consent artifact overwrites it. */
   consentArtifact?: string | undefined;
+}
+export interface ActivateProjectsLocationsDatasetsConsentStoresConsentsRequest extends ActivateConsentRequest {
+  /** Required. The resource name of the Consent to activate, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/consentStores/{consent_store_id}/consents/{consent_id}`. An INVALID_ARGUMENT error occurs if `revision_id` is specified in the name. */
+  name: string;
 }
 export type ConsentStateEnum =
   | "STATE_UNSPECIFIED"
@@ -135,7 +138,7 @@ export interface Consent {
   /** Identifier. Resource name of the Consent, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/consentStores/{consent_store_id}/consents/{consent_id}`. Cannot be changed after creation. */
   name?: string | undefined;
   /** Required. Indicates the current state of this Consent. */
-  state?: ConsentStateEnum | undefined;
+  state?: ConsentStateEnum | (string & {}) | undefined;
   /** Required. The resource name of the Consent artifact that contains proof of the end user's consent, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/consentStores/{consent_store_id}/consentArtifacts/{consent_artifact_id}`. */
   consentArtifact?: string | undefined;
   /** Output only. The timestamp that the revision was created. */
@@ -163,9 +166,8 @@ export type AnalyzeEntitiesRequestLicensedVocabulariesItemEnum =
 export type AnalyzeEntitiesRequestLicensedVocabulariesItemEnumList = Array<
   AnalyzeEntitiesRequestLicensedVocabulariesItemEnum | (string & {})
 >;
-export interface AnalyzeEntitiesProjectsLocationsServicesNlpRequest {
-  /** The resource name of the service of the form: "projects/{project_id}/locations/{location_id}/services/nlp". */
-  nlpService: string;
+/** The request to analyze healthcare entities in a document. */
+export interface AnalyzeEntitiesRequest {
   /** Optional. Alternative output format to be generated based on the results of analysis. */
   alternativeOutputFormat?:
     | AnalyzeEntitiesRequestAlternativeOutputFormatEnum
@@ -175,6 +177,10 @@ export interface AnalyzeEntitiesProjectsLocationsServicesNlpRequest {
   documentContent?: string | undefined;
   /** A list of licensed vocabularies to use in the request, in addition to the default unlicensed vocabularies. */
   licensedVocabularies?: AnalyzeEntitiesRequestLicensedVocabulariesItemEnumList | undefined;
+}
+export interface AnalyzeEntitiesProjectsLocationsServicesNlpRequest extends AnalyzeEntitiesRequest {
+  /** The resource name of the service of the form: "projects/{project_id}/locations/{location_id}/services/nlp". */
+  nlpService: string;
 }
 /** EntityMentions can be linked to multiple entities using a LinkedEntity message lets us add other fields, e.g. confidence. */
 export interface LinkedEntity {
@@ -255,13 +261,16 @@ export interface AdminConsents {
   /** The versioned names of the admin Consent resource(s), in the format `projects/{project_id}/locations/{location}/datasets/{dataset_id}/fhirStores/{fhir_store_id}/fhir/Consent/{resource_id}/_history/{version_id}`. For FHIR stores with `disable_resource_versioning=true`, the format is `projects/{project_id}/locations/{location}/datasets/{dataset_id}/fhirStores/{fhir_store_id}/fhir/Consent/{resource_id}`. */
   names?: StringList | undefined;
 }
-export interface ApplyAdminConsentsProjectsLocationsDatasetsFhirStoresRequest {
-  /** Required. The name of the FHIR store to enforce, in the format `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/fhirStores/{fhir_store_id}`. */
-  name: string;
+/** Request to apply the admin Consent resources for the specified FHIR store. */
+export interface ApplyAdminConsentsRequest {
   /** If true, the method only validates Consent resources to make sure they are supported. Otherwise, the method applies the aggregate consent information to update the enforcement model and reindex the FHIR resources. If all Consent resources can be applied successfully, the ApplyAdminConsentsResponse is returned containing the following fields: * `consent_apply_success` to indicate the number of Consent resources applied. * `affected_resources` to indicate the number of resources that might have had their consent access changed. If, however, one or more Consent resources are unsupported or cannot be applied, the method fails and ApplyAdminConsentsErrorDetail is is returned with details about the unsupported Consent resources. */
   validateOnly?: boolean | undefined;
   /** A new list of admin Consent resources to be applied. Any existing enforced Consents, which are specified in `consent_config.enforced_admin_consents` of the FhirStore, that are not part of this list will be disabled. An empty list is equivalent to clearing or disabling all Consents enforced on the FHIR store. When a FHIR store has `disable_resource_versioning=true` and this list contains a Consent resource that exists in `consent_config.enforced_admin_consents`, the method enforces any updates to the existing resource since the last enforcement. If the existing resource hasn't been updated since the last enforcement, the resource is unaffected. After the method finishes, the resulting consent enforcement model is determined by the contents of the Consent resource(s) when the method was called: * When `disable_resource_versioning=true`, the result is identical to the current resource(s) in the FHIR store. * When `disable_resource_versioning=false`, the result is based on the historical version(s) of the Consent resource(s) at the point in time when the method was called. At most 200 Consents can be specified. */
   newConsentsList?: AdminConsents | undefined;
+}
+export interface ApplyAdminConsentsProjectsLocationsDatasetsFhirStoresRequest extends ApplyAdminConsentsRequest {
+  /** Required. The name of the FHIR store to enforce, in the format `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/fhirStores/{fhir_store_id}`. */
+  name: string;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -299,15 +308,18 @@ export interface TimeRange {
   /** Optional. The latest consent change time, in format YYYY-MM-DDThh:mm:ss.sss+zz:zz If not specified, the system uses the time when ApplyConsents was called. */
   end?: string | undefined;
 }
-export interface ApplyConsentsProjectsLocationsDatasetsFhirStoresRequest {
-  /** Required. The name of the FHIR store to enforce, in the format `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/fhirStores/{fhir_store_id}`. */
-  name: string;
+/** Request to apply the Consent resources for the specified FHIR store. */
+export interface ApplyConsentsRequest {
   /** Optional. If true, the method only validates Consent resources to make sure they are supported. When the operation completes, ApplyConsentsResponse is returned where `consent_apply_success` and `consent_apply_failure` indicate supported and unsupported (or invalid) Consent resources, respectively. Otherwise, the method propagates the aggregate consensual information to the patient's resources. Upon success, `affected_resources` in the ApplyConsentsResponse indicates the number of resources that may have consensual access changed. */
   validateOnly?: boolean | undefined;
   /** Optional. Scope down to a list of patients. */
   patientScope?: PatientScope | undefined;
   /** Optional. Scope down to patients whose most recent consent changes are in the time range. Can only be used with a versioning store (i.e. when disable_resource_versioning is set to false). */
   timeRange?: TimeRange | undefined;
+}
+export interface ApplyConsentsProjectsLocationsDatasetsFhirStoresRequest extends ApplyConsentsRequest {
+  /** Required. The name of the FHIR store to enforce, in the format `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/fhirStores/{fhir_store_id}`. */
+  name: string;
 }
 /** Archives the specified User data mapping. */
 export interface ArchiveUserDataMappingRequest {}
@@ -420,9 +432,8 @@ export type BulkDeleteResourcesRequestVersionConfigEnum =
   | "ALL"
   | "CURRENT_ONLY"
   | "HISTORY_ONLY";
-export interface BulkDeleteProjectsLocationsDatasetsFhirStoresRequest {
-  /** Required. The name of the FHIR store to bulk delete resources from, in the format of `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/fhirStores/{fhir_store_id}`. */
-  name: string;
+/** Request to bulk delete FHIR resources. */
+export interface BulkDeleteResourcesRequest {
   /** Optional. If provided, only resources updated before or atthis time are deleted. The time uses the format YYYY-MM-DDThh:mm:ss.sss+zz:zz. For example, `2015-02-07T13:28:17.239+02:00` or `2017-01-01T00:00:00Z`. The time must be specified to the second and include a time zone. */
   until?: string | undefined;
   /** Optional. Specifies the Cloud Storage source data location containing the list of resource IDs to delete. Each file inside `gcs_source` must contain newline-delimited strings in the format `{resourceType}/{resourceId}`. This field is mutually exclusive with filter parameters such as `type` and `until`. */
@@ -436,7 +447,11 @@ export interface BulkDeleteProjectsLocationsDatasetsFhirStoresRequest {
   /** Optional. Specifies which version of the resources to delete. */
   versionConfig?: BulkDeleteResourcesRequestVersionConfigEnum | (string & {}) | undefined;
 }
-export interface BulkExportGroupPostProjectsLocationsDatasetsFhirStoresRequest {
+export interface BulkDeleteProjectsLocationsDatasetsFhirStoresRequest extends BulkDeleteResourcesRequest {
+  /** Required. The name of the FHIR store to bulk delete resources from, in the format of `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/fhirStores/{fhir_store_id}`. */
+  name: string;
+}
+export interface BulkExportGroupPostProjectsLocationsDatasetsFhirStoresRequest extends HttpBody {
   /** Required. Name of the `Group` resource that is exported, in format `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/fhirStores/{fhir_store_id}/fhir/Group/{group_id}`. */
   name: string;
   /** Optional. String of comma-delimited FHIR resource types. If provided, only resources of the specified resource type(s) are exported. */
@@ -447,12 +462,6 @@ export interface BulkExportGroupPostProjectsLocationsDatasetsFhirStoresRequest {
   outputFormat?: string | undefined;
   /** Required. The FHIR resource type used to organize exported resources. Only supports "Patient". When organized by Patient resource, output files are grouped as follows: * Patient file(s) containing the Patient resources. Each Patient is sequentially followed by all resources the Patient references, and all resources that reference the Patient (equivalent to a GetPatientEverything request). * Individual files grouped by resource type for resources in the Group's member field and the Group resource itself. Resources may be duplicated across multiple Patients. For example, if two Patient resources reference the same Organization resource, it will appear twice, once after each Patient. The Group resource from the request does not appear in the Patient files. */
   organizeOutputBy?: string | undefined;
-  /** The HTTP Content-Type header value specifying the content type of the body. */
-  contentType?: string | undefined;
-  /** Application specific response metadata. Must be set in the first response for streaming APIs. */
-  extensions?: DocumentMapList | undefined;
-  /** The HTTP request/response body as raw binary. */
-  data?: string | undefined;
 }
 export interface BulkExportGroupProjectsLocationsDatasetsFhirStoresRequest {
   /** Required. Name of the `Group` resource that is exported, in format `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/fhirStores/{fhir_store_id}/fhir/Group/{group_id}`. */
@@ -496,9 +505,8 @@ export interface ConsentList {
   consents?: StringList | undefined;
 }
 export type CheckDataAccessRequestResponseViewEnum = "RESPONSE_VIEW_UNSPECIFIED" | "BASIC" | "FULL";
-export interface CheckDataAccessProjectsLocationsDatasetsConsentStoresRequest {
-  /** Required. Name of the consent store where the requested data_id is stored, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/consentStores/{consent_store_id}`. */
-  consentStore: string;
+/** Checks if a particular data_id of a User data mapping in the given consent store is consented for a given use. */
+export interface CheckDataAccessRequest {
   /** Optional. Specific Consents to evaluate the access request against. These Consents must have the same `user_id` as the evaluated User data mapping, must exist in the current `consent_store`, and have a `state` of either `ACTIVE` or `DRAFT`. A maximum of 100 Consents can be provided here. If no selection is specified, the access request is evaluated against all `ACTIVE` unexpired Consents with the same `user_id` as the evaluated User data mapping. */
   consentList?: ConsentList | undefined;
   /** The values of request attributes associated with this access request. */
@@ -507,6 +515,10 @@ export interface CheckDataAccessProjectsLocationsDatasetsConsentStoresRequest {
   dataId?: string | undefined;
   /** Optional. The view for CheckDataAccessResponse. If unspecified, defaults to `BASIC` and returns `consented` as `TRUE` or `FALSE`. */
   responseView?: CheckDataAccessRequestResponseViewEnum | (string & {}) | undefined;
+}
+export interface CheckDataAccessProjectsLocationsDatasetsConsentStoresRequest extends CheckDataAccessRequest {
+  /** Required. Name of the consent store where the requested data_id is stored, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/consentStores/{consent_store_id}`. */
+  consentStore: string;
 }
 export type ConsentEvaluationEvaluationResultEnum =
   | "EVALUATION_RESULT_UNSPECIFIED"
@@ -543,62 +555,44 @@ export interface ConditionalDeleteProjectsLocationsDatasetsFhirStoresFhirRequest
   /** Required. The name of the FHIR store this resource belongs to. */
   parent: string;
 }
-export interface ConditionalPatchProjectsLocationsDatasetsFhirStoresFhirRequest {
+export interface ConditionalPatchProjectsLocationsDatasetsFhirStoresFhirRequest extends HttpBody {
   /** Required. The name of the FHIR store this resource belongs to. */
   parent: string;
   /** Required. The FHIR resource type to update, such as Patient or Observation. For a complete list, see the FHIR Resource Index ([DSTU2](https://hl7.org/fhir/DSTU2/resourcelist.html), [STU3](https://hl7.org/fhir/STU3/resourcelist.html), [R4](https://hl7.org/fhir/R4/resourcelist.html), [R5](https://hl7.org/fhir/R5/resourcelist.html)). */
   type: string;
-  /** The HTTP Content-Type header value specifying the content type of the body. */
-  contentType?: string | undefined;
-  /** Application specific response metadata. Must be set in the first response for streaming APIs. */
-  extensions?: DocumentMapList | undefined;
-  /** The HTTP request/response body as raw binary. */
-  data?: string | undefined;
 }
-export interface ConditionalUpdateProjectsLocationsDatasetsFhirStoresFhirRequest {
+export interface ConditionalUpdateProjectsLocationsDatasetsFhirStoresFhirRequest extends HttpBody {
   /** Required. The name of the FHIR store this resource belongs to. */
   parent: string;
   /** Required. The FHIR resource type to update, such as Patient or Observation. For a complete list, see the FHIR Resource Index ([DSTU2](https://hl7.org/fhir/DSTU2/resourcelist.html), [STU3](https://hl7.org/fhir/STU3/resourcelist.html), [R4](https://hl7.org/fhir/R4/resourcelist.html), [R5](https://hl7.org/fhir/R5/resourcelist.html)). Must match the resource type in the provided content. */
   type: string;
-  /** The HTTP Content-Type header value specifying the content type of the body. */
-  contentType?: string | undefined;
-  /** Application specific response metadata. Must be set in the first response for streaming APIs. */
-  extensions?: DocumentMapList | undefined;
-  /** The HTTP request/response body as raw binary. */
-  data?: string | undefined;
 }
-export interface ConfigureSearchProjectsLocationsDatasetsFhirStoresRequest {
-  /** Required. The name of the FHIR store to configure, in the format `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/fhirStores/{fhir_store_id}`. */
-  name: string;
+/** Request to configure the search parameters for the specified FHIR store. */
+export interface ConfigureSearchRequest {
   /** If `validate_only` is set to true, the method will compile all the search parameters without actually setting the search config for the store and triggering the reindex. */
   validateOnly?: boolean | undefined;
   /** The canonical URLs of the search parameters that are intended to be used for the FHIR store. See https://www.hl7.org/fhir/references.html#canonical for explanation on FHIR canonical urls */
   canonicalUrls?: StringList | undefined;
 }
+export interface ConfigureSearchProjectsLocationsDatasetsFhirStoresRequest extends ConfigureSearchRequest {
+  /** Required. The name of the FHIR store to configure, in the format `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/fhirStores/{fhir_store_id}`. */
+  name: string;
+}
 export interface Consent_enforcement_statusProjectsLocationsDatasetsFhirStoresFhirRequest {
   /** Required. The name of the consent resource to find enforcement status, in the format `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/fhirStores/{fhir_store_id}/fhir/Consent/{consent_id}` */
   name: string;
 }
-export interface CreateBinaryProjectsLocationsDatasetsFhirStoresFhirRequest {
+export interface CreateBinaryProjectsLocationsDatasetsFhirStoresFhirRequest extends HttpBody {
   /** Required. The name of the FHIR store this resource belongs to. */
   parent: string;
-  /** The HTTP Content-Type header value specifying the content type of the body. */
-  contentType?: string | undefined;
-  /** Application specific response metadata. Must be set in the first response for streaming APIs. */
-  extensions?: DocumentMapList | undefined;
-  /** The HTTP request/response body as raw binary. */
-  data?: string | undefined;
 }
 /** Represents a customer-managed encryption key spec that can be applied to a resource. */
 export interface EncryptionSpec {
   /** Required. The resource name of customer-managed encryption key that is used to secure a resource and its sub-resources. Only the key in the same location as this dataset is allowed to be used for encryption. Format is: `projects/{project}/locations/{location}/keyRings/{keyRing}/cryptoKeys/{key}` */
   kmsKeyName?: string | undefined;
 }
-export interface CreateProjectsLocationsDatasetsRequest {
-  /** Required. The name of the project where the server creates the dataset. For example, `projects/{project_id}/locations/{location_id}`. */
-  parent: string;
-  /** Required. The ID of the dataset that is being created. The string must match the following regex: `[\p{L}\p{N}_\-\.]{1,256}`. */
-  datasetId?: string | undefined;
+/** A message representing a health dataset. A health dataset represents a collection of healthcare data pertaining to one or more patients. This may include multiple modalities of healthcare data, such as electronic medical records or medical imaging data. */
+export interface Dataset {
   /** Output only. Whether the dataset satisfies zone separation. */
   satisfiesPzs?: boolean | undefined;
   /** Identifier. Resource name of the dataset, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}`. */
@@ -610,19 +604,11 @@ export interface CreateProjectsLocationsDatasetsRequest {
   /** The default timezone used by this dataset. Must be a either a valid IANA time zone name such as "America/New_York" or empty, which defaults to UTC. This is used for parsing times in resources, such as HL7 messages, where no explicit timezone is specified. */
   timeZone?: string | undefined;
 }
-export interface CreateProjectsLocationsDatasetsConsentStoresRequest {
-  /** Required. The name of the dataset this consent store belongs to. */
+export interface CreateProjectsLocationsDatasetsRequest extends Dataset {
+  /** Required. The name of the project where the server creates the dataset. For example, `projects/{project_id}/locations/{location_id}`. */
   parent: string;
-  /** Required. The ID of the consent store to create. The string must match the following regex: `[\p{L}\p{N}_\-\.]{1,256}`. Cannot be changed after creation. */
-  consentStoreId?: string | undefined;
-  /** Optional. If `true`, UpdateConsent creates the Consent if it does not already exist. If unspecified, defaults to `false`. */
-  enableConsentCreateOnUpdate?: boolean | undefined;
-  /** Optional. Default time to live for Consents created in this store. Must be at least 24 hours. Updating this field will not affect the expiration time of existing consents. */
-  defaultConsentTtl?: string | undefined;
-  /** Resource name of the consent store, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/consentStores/{consent_store_id}`. Cannot be changed after creation. */
-  name?: string | undefined;
-  /** Optional. User-supplied key-value pairs used to organize consent stores. Label keys must be between 1 and 63 characters long, have a UTF-8 encoding of maximum 128 bytes, and must conform to the following PCRE regular expression: \p{Ll}\p{Lo}{0,62}. Label values must be between 1 and 63 characters long, have a UTF-8 encoding of maximum 128 bytes, and must conform to the following PCRE regular expression: [\p{Ll}\p{Lo}\p{N}_-]{0,63}. No more than 64 labels can be associated with a given store. For more information: https://cloud.google.com/healthcare/docs/how-tos/labeling-resources */
-  labels?: StringMap | undefined;
+  /** Required. The ID of the dataset that is being created. The string must match the following regex: `[\p{L}\p{N}_\-\.]{1,256}`. */
+  datasetId?: string | undefined;
 }
 /** Represents a consent store. */
 export interface ConsentStore {
@@ -635,12 +621,15 @@ export interface ConsentStore {
   /** Optional. User-supplied key-value pairs used to organize consent stores. Label keys must be between 1 and 63 characters long, have a UTF-8 encoding of maximum 128 bytes, and must conform to the following PCRE regular expression: \p{Ll}\p{Lo}{0,62}. Label values must be between 1 and 63 characters long, have a UTF-8 encoding of maximum 128 bytes, and must conform to the following PCRE regular expression: [\p{Ll}\p{Lo}\p{N}_-]{0,63}. No more than 64 labels can be associated with a given store. For more information: https://cloud.google.com/healthcare/docs/how-tos/labeling-resources */
   labels?: StringMap | undefined;
 }
-export type AttributeDefinitionCategoryEnum = "CATEGORY_UNSPECIFIED" | "RESOURCE" | "REQUEST";
-export interface CreateProjectsLocationsDatasetsConsentStoresAttributeDefinitionsRequest {
-  /** Required. The name of the consent store that this Attribute definition belongs to. */
+export interface CreateProjectsLocationsDatasetsConsentStoresRequest extends ConsentStore {
+  /** Required. The name of the dataset this consent store belongs to. */
   parent: string;
-  /** Required. The ID of the Attribute definition to create. The string must match the following regex: `_a-zA-Z{0,255}` and must not be a reserved keyword within the Common Expression Language as listed on https://github.com/google/cel-spec/blob/master/doc/langdef.md. */
-  attributeDefinitionId?: string | undefined;
+  /** Required. The ID of the consent store to create. The string must match the following regex: `[\p{L}\p{N}_\-\.]{1,256}`. Cannot be changed after creation. */
+  consentStoreId?: string | undefined;
+}
+export type AttributeDefinitionCategoryEnum = "CATEGORY_UNSPECIFIED" | "RESOURCE" | "REQUEST";
+/** A client-defined consent attribute. */
+export interface AttributeDefinition {
   /** Required. Possible values for the attribute. The number of allowed values must not exceed 500. An empty list is invalid. The list can only be expanded after creation. */
   allowedValues?: StringList | undefined;
   /** Optional. Default values of the attribute in Consents. If no default values are specified, it defaults to an empty value. */
@@ -654,20 +643,11 @@ export interface CreateProjectsLocationsDatasetsConsentStoresAttributeDefinition
   /** Optional. Default value of the attribute in User data mappings. If no default value is specified, it defaults to an empty value. This field is only applicable to attributes of the category `RESOURCE`. */
   dataMappingDefaultValue?: string | undefined;
 }
-/** A client-defined consent attribute. */
-export interface AttributeDefinition {
-  /** Required. Possible values for the attribute. The number of allowed values must not exceed 500. An empty list is invalid. The list can only be expanded after creation. */
-  allowedValues?: StringList | undefined;
-  /** Optional. Default values of the attribute in Consents. If no default values are specified, it defaults to an empty value. */
-  consentDefaultValues?: StringList | undefined;
-  /** Optional. A description of the attribute. */
-  description?: string | undefined;
-  /** Identifier. Resource name of the Attribute definition, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/consentStores/{consent_store_id}/attributeDefinitions/{attribute_definition_id}`. Cannot be changed after creation. */
-  name?: string | undefined;
-  /** Required. The category of the attribute. The value of this field cannot be changed after creation. */
-  category?: AttributeDefinitionCategoryEnum | undefined;
-  /** Optional. Default value of the attribute in User data mappings. If no default value is specified, it defaults to an empty value. This field is only applicable to attributes of the category `RESOURCE`. */
-  dataMappingDefaultValue?: string | undefined;
+export interface CreateProjectsLocationsDatasetsConsentStoresAttributeDefinitionsRequest extends AttributeDefinition {
+  /** Required. The name of the consent store that this Attribute definition belongs to. */
+  parent: string;
+  /** Required. The ID of the Attribute definition to create. The string must match the following regex: `_a-zA-Z{0,255}` and must not be a reserved keyword within the Common Expression Language as listed on https://github.com/google/cel-spec/blob/master/doc/langdef.md. */
+  attributeDefinitionId?: string | undefined;
 }
 /** Raw bytes representing consent artifact content. */
 export interface Image {
@@ -688,26 +668,6 @@ export interface Signature {
   /** Optional. An image of the user's signature. */
   image?: Image | undefined;
 }
-export interface CreateProjectsLocationsDatasetsConsentStoresConsentArtifactsRequest {
-  /** Required. The name of the consent store this Consent artifact belongs to. */
-  parent: string;
-  /** Optional. Screenshots, PDFs, or other binary information documenting the user's consent. */
-  consentContentScreenshots?: ImageList | undefined;
-  /** Required. User's UUID provided by the client. */
-  userId?: string | undefined;
-  /** Optional. Metadata associated with the Consent artifact. For example, the consent locale or user agent version. */
-  metadata?: StringMap | undefined;
-  /** Optional. An string indicating the version of the consent information shown to the user. */
-  consentContentVersion?: string | undefined;
-  /** Optional. User's signature. */
-  userSignature?: Signature | undefined;
-  /** Identifier. Resource name of the Consent artifact, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/consentStores/{consent_store_id}/consentArtifacts/{consent_artifact_id}`. Cannot be changed after creation. */
-  name?: string | undefined;
-  /** Optional. A signature from a witness. */
-  witnessSignature?: Signature | undefined;
-  /** Optional. A signature from a guardian. */
-  guardianSignature?: Signature | undefined;
-}
 /** Documentation of a user's consent. */
 export interface ConsentArtifact {
   /** Optional. Screenshots, PDFs, or other binary information documenting the user's consent. */
@@ -727,45 +687,13 @@ export interface ConsentArtifact {
   /** Optional. A signature from a guardian. */
   guardianSignature?: Signature | undefined;
 }
-export interface CreateProjectsLocationsDatasetsConsentStoresConsentsRequest {
-  /** Required. Name of the consent store. */
+export interface CreateProjectsLocationsDatasetsConsentStoresConsentArtifactsRequest extends ConsentArtifact {
+  /** Required. The name of the consent store this Consent artifact belongs to. */
   parent: string;
-  /** Identifier. Resource name of the Consent, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/consentStores/{consent_store_id}/consents/{consent_id}`. Cannot be changed after creation. */
-  name?: string | undefined;
-  /** Required. Indicates the current state of this Consent. */
-  state?: ConsentStateEnum | (string & {}) | undefined;
-  /** Required. The resource name of the Consent artifact that contains proof of the end user's consent, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/consentStores/{consent_store_id}/consentArtifacts/{consent_artifact_id}`. */
-  consentArtifact?: string | undefined;
-  /** Output only. The timestamp that the revision was created. */
-  revisionCreateTime?: string | undefined;
-  /** Required. User's UUID provided by the client. */
-  userId?: string | undefined;
-  /** Optional. User-supplied key-value pairs used to organize Consent resources. Metadata keys must: - be between 1 and 63 characters long - have a UTF-8 encoding of maximum 128 bytes - begin with a letter - consist of up to 63 characters including lowercase letters, numeric characters, underscores, and dashes Metadata values must be: - be between 1 and 63 characters long - have a UTF-8 encoding of maximum 128 bytes - consist of up to 63 characters including lowercase letters, numeric characters, underscores, and dashes No more than 64 metadata entries can be associated with a given consent. */
-  metadata?: StringMap | undefined;
-  /** Optional. Represents a user's consent in terms of the resources that can be accessed and under what conditions. */
-  policies?: GoogleCloudHealthcareV1beta1ConsentPolicyList | undefined;
-  /** Output only. The revision ID of the Consent. The format is an 8-character hexadecimal string. Refer to a specific revision of a Consent by appending `@{revision_id}` to the Consent's resource name. */
-  revisionId?: string | undefined;
-  /** Input only. The time to live for this Consent from when it is created. */
-  ttl?: string | undefined;
-  /** Timestamp in UTC of when this Consent is considered expired. */
-  expireTime?: string | undefined;
 }
-export interface CreateProjectsLocationsDatasetsConsentStoresUserDataMappingsRequest {
+export interface CreateProjectsLocationsDatasetsConsentStoresConsentsRequest extends Consent {
   /** Required. Name of the consent store. */
   parent: string;
-  /** Output only. Indicates whether this mapping is archived. */
-  archived?: boolean | undefined;
-  /** Attributes of the resource. Only explicitly set attributes are displayed here. Attribute definitions with defaults set implicitly apply to these User data mappings. Attributes listed here must be single valued, that is, exactly one value is specified for the field "values" in each Attribute. */
-  resourceAttributes?: AttributeList | undefined;
-  /** Required. A unique identifier for the mapped resource. */
-  dataId?: string | undefined;
-  /** Required. User's UUID provided by the client. */
-  userId?: string | undefined;
-  /** Output only. Indicates the time when this mapping was archived. */
-  archiveTime?: string | undefined;
-  /** Resource name of the User data mapping, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/consentStores/{consent_store_id}/userDataMappings/{user_data_mapping_id}`. */
-  name?: string | undefined;
 }
 /** Maps a resource to the associated user and Attributes. */
 export interface UserDataMapping {
@@ -781,6 +709,10 @@ export interface UserDataMapping {
   archiveTime?: string | undefined;
   /** Resource name of the User data mapping, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/consentStores/{consent_store_id}/userDataMappings/{user_data_mapping_id}`. */
   name?: string | undefined;
+}
+export interface CreateProjectsLocationsDatasetsConsentStoresUserDataMappingsRequest extends UserDataMapping {
+  /** Required. Name of the consent store. */
+  parent: string;
 }
 /** Contains the configuration for DICOM notifications. */
 export interface DicomNotificationConfig {
@@ -834,22 +766,6 @@ export interface NotificationConfig {
   /** Indicates whether or not to send Pub/Sub notifications on bulk import. Only supported for DICOM imports. */
   sendForBulkImport?: boolean | undefined;
 }
-export interface CreateProjectsLocationsDatasetsDicomStoresRequest {
-  /** Required. The name of the dataset this DICOM store belongs to. */
-  parent: string;
-  /** Required. The ID of the DICOM store that is being created. Any string value up to 256 characters in length. */
-  dicomStoreId?: string | undefined;
-  /** Optional. Specifies where and whether to send notifications upon changes to a DICOM store. */
-  notificationConfigs?: DicomNotificationConfigList | undefined;
-  /** User-supplied key-value pairs used to organize DICOM stores. Label keys must be between 1 and 63 characters long, have a UTF-8 encoding of maximum 128 bytes, and must conform to the following PCRE regular expression: \p{Ll}\p{Lo}{0,62} Label values are optional, must be between 1 and 63 characters long, have a UTF-8 encoding of maximum 128 bytes, and must conform to the following PCRE regular expression: [\p{Ll}\p{Lo}\p{N}_-]{0,63} No more than 64 labels can be associated with a given store. */
-  labels?: StringMap | undefined;
-  /** Optional. A list of streaming configs used to configure the destination of streaming exports for every DICOM instance insertion in this DICOM store. After a new config is added to `stream_configs`, DICOM instance insertions are streamed to the new destination. When a config is removed from `stream_configs`, the server stops streaming to that destination. Each config must contain a unique destination. */
-  streamConfigs?: GoogleCloudHealthcareV1beta1DicomStreamConfigList | undefined;
-  /** Identifier. Resource name of the DICOM store, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}`. */
-  name?: string | undefined;
-  /** Notification destination for new DICOM instances. Supplied by the client. */
-  notificationConfig?: NotificationConfig | undefined;
-}
 /** Represents a DICOM store. */
 export interface DicomStore {
   /** Optional. Specifies where and whether to send notifications upon changes to a DICOM store. */
@@ -862,6 +778,12 @@ export interface DicomStore {
   name?: string | undefined;
   /** Notification destination for new DICOM instances. Supplied by the client. */
   notificationConfig?: NotificationConfig | undefined;
+}
+export interface CreateProjectsLocationsDatasetsDicomStoresRequest extends DicomStore {
+  /** Required. The name of the dataset this DICOM store belongs to. */
+  parent: string;
+  /** Required. The ID of the DICOM store that is being created. Any string value up to 256 characters in length. */
+  dicomStoreId?: string | undefined;
 }
 export type FhirStoreVersionEnum = "VERSION_UNSPECIFIED" | "DSTU2" | "STU3" | "R4" | "R5";
 export type GoogleCloudHealthcareV1beta1FhirChangeDataCaptureConfigHistoryModeEnum =
@@ -1301,11 +1223,8 @@ export interface ValidationConfig {
   /** Whether to disable required fields validation for incoming resources. The default value is false. Set this to true to disable checking incoming resources for conformance against required fields requirement defined in the FHIR specification. This property only affects resource types that do not have profiles configured for them, any rules in enabled implementation guides will still be enforced. */
   disableRequiredFieldValidation?: boolean | undefined;
 }
-export interface CreateProjectsLocationsDatasetsFhirStoresRequest {
-  /** Required. The ID of the FHIR store that is being created. The string must match the following regex: `[\p{L}\p{N}_\-\.]{1,256}`. */
-  fhirStoreId?: string | undefined;
-  /** Required. The name of the dataset this FHIR store belongs to. */
-  parent: string;
+/** Represents a FHIR store. */
+export interface FhirStore {
   /** Optional. Whether to allow the [ImportResourcesHistory] and [ExecuteBundle] APIs to accept history bundles, and directly insert and overwrite historical resource versions into the FHIR store. Changing resource histories creates resource interactions that have occurred in the past which clients might not allow. If set to false, [ImportResourcesHistory] and [ExecuteBundle] requests will return errors. */
   enableHistoryModifications?: boolean | undefined;
   /** Immutable. Whether to disable resource versioning for this FHIR store. This field can not be changed after the creation of FHIR store. If set to false, all write operations cause historical versions to be recorded automatically. The historical versions can be fetched through the history APIs, but cannot be updated. If set to true, no historical versions are kept. The server sends errors for attempts to read the historical versions. Defaults to false. */
@@ -1342,52 +1261,17 @@ export interface CreateProjectsLocationsDatasetsFhirStoresRequest {
   /** Configuration for how to validate incoming FHIR resources against configured profiles. */
   validationConfig?: ValidationConfig | undefined;
 }
-/** Represents a FHIR store. */
-export interface FhirStore {
-  /** Optional. Whether to allow the [ImportResourcesHistory] and [ExecuteBundle] APIs to accept history bundles, and directly insert and overwrite historical resource versions into the FHIR store. Changing resource histories creates resource interactions that have occurred in the past which clients might not allow. If set to false, [ImportResourcesHistory] and [ExecuteBundle] requests will return errors. */
-  enableHistoryModifications?: boolean | undefined;
-  /** Immutable. Whether to disable resource versioning for this FHIR store. This field can not be changed after the creation of FHIR store. If set to false, all write operations cause historical versions to be recorded automatically. The historical versions can be fetched through the history APIs, but cannot be updated. If set to true, no historical versions are kept. The server sends errors for attempts to read the historical versions. Defaults to false. */
-  disableResourceVersioning?: boolean | undefined;
-  /** User-supplied key-value pairs used to organize FHIR stores. Label keys must be between 1 and 63 characters long, have a UTF-8 encoding of maximum 128 bytes, and must conform to the following PCRE regular expression: \p{Ll}\p{Lo}{0,62} Label values are optional, must be between 1 and 63 characters long, have a UTF-8 encoding of maximum 128 bytes, and must conform to the following PCRE regular expression: [\p{Ll}\p{Lo}\p{N}_-]{0,63} No more than 64 labels can be associated with a given store. */
-  labels?: StringMap | undefined;
-  /** Deprecated. Use `notification_configs` instead. If non-empty, publish all resource modifications of this FHIR store to this destination. The Pub/Sub message attributes contain a map with a string describing the action that has triggered the notification. For example, "action":"CreateResource". Not supported in R5. Use `notification_configs` instead. */
-  notificationConfig?: NotificationConfig | undefined;
-  /** Required. Immutable. The FHIR specification version that this FHIR store supports natively. This field is immutable after store creation. Requests are rejected if they contain FHIR resources of a different version. Version is required for every FHIR store. */
-  version?: FhirStoreVersionEnum | undefined;
-  /** If true, overrides the default search behavior for this FHIR store to `handling=strict` which returns an error for unrecognized search parameters. If false, uses the FHIR specification default `handling=lenient` which ignores unrecognized search parameters. The handling can always be changed from the default on an individual API call by setting the HTTP header `Prefer: handling=strict` or `Prefer: handling=lenient`. Defaults to false. */
-  defaultSearchHandlingStrict?: boolean | undefined;
-  /** A list of streaming configs that configure the destinations of streaming export for every resource mutation in this FHIR store. Each store is allowed to have up to 10 streaming configs. After a new config is added, the next resource mutation is streamed to the new location in addition to the existing ones. When a location is removed from the list, the server stops streaming to that location. Before adding a new config, you must add the required [`bigquery.dataEditor`](https://cloud.google.com/bigquery/docs/access-control#bigquery.dataEditor) role to your project's **Cloud Healthcare Service Agent** [service account](https://cloud.google.com/iam/docs/service-accounts). Some lag (typically on the order of dozens of seconds) is expected before the results show up in the streaming destination. */
-  streamConfigs?: StreamConfigList | undefined;
-  /** Specifies where and whether to send notifications upon changes to a Fhir store. */
-  notificationConfigs?: FhirNotificationConfigList | undefined;
-  /** Whether this FHIR store has the [updateCreate capability](https://www.hl7.org/fhir/capabilitystatement-definitions.html#CapabilityStatement.rest.resource.updateCreate). This determines if the client can use an Update operation to create a new resource with a client-specified ID. If false, all IDs are server-assigned through the Create operation and attempts to update a non-existent resource return errors. It is strongly advised not to include or encode any sensitive data such as patient identifiers in client-specified resource IDs. Those IDs are part of the FHIR resource path recorded in Cloud audit logs and Pub/Sub notifications. Those IDs can also be contained in reference fields within other resources. Defaults to false. */
-  enableUpdateCreate?: boolean | undefined;
-  /** Immutable. Whether to disable referential integrity in this FHIR store. This field is immutable after FHIR store creation. The default value is false, meaning that the API enforces referential integrity and fails the requests that result in inconsistent state in the FHIR store. When this field is set to true, the API skips referential integrity checks. Consequently, operations that rely on references, such as GetPatientEverything, do not return all the results if broken references exist. */
-  disableReferentialIntegrity?: boolean | undefined;
-  /** Configuration for how FHIR resources can be searched. */
-  searchConfig?: SearchConfig | undefined;
-  /** Output only. Identifier. Resource name of the FHIR store, of the form `projects/{project_id}/locations/{location}/datasets/{dataset_id}/fhirStores/{fhir_store_id}`. */
-  name?: string | undefined;
-  /** Enable parsing of references within complex FHIR data types such as Extensions. If this value is set to ENABLED, then features like referential integrity and Bundle reference rewriting apply to all references. If this flag has not been specified the behavior of the FHIR store will not change, references in complex data types will not be parsed. New stores will have this value set to ENABLED after a notification period. Warning: turning on this flag causes processing existing resources to fail if they contain references to non-existent resources. Cannot be disabled in R5. */
-  complexDataTypeReferenceParsing?: FhirStoreComplexDataTypeReferenceParsingEnum | undefined;
-  /** Optional. Specifies whether this store has consent enforcement. Not available for DSTU2 FHIR version due to absence of Consent resources. Not supported for R5 FHIR version. */
-  consentConfig?: ConsentConfig | undefined;
-  /** Optional. FHIR bulk export exports resources to the specified Cloud Storage destination. A Cloud Storage destination is a URI for a Cloud Storage directory where result files will be written. Only used in the spec-defined bulk $export methods. The Cloud Healthcare Service Agent requires the `roles/storage.objectAdmin` Cloud IAM role on the destination. */
-  bulkExportGcsDestination?: BulkExportGcsDestination | undefined;
-  /** Configuration for how to validate incoming FHIR resources against configured profiles. */
-  validationConfig?: ValidationConfig | undefined;
+export interface CreateProjectsLocationsDatasetsFhirStoresRequest extends FhirStore {
+  /** Required. The ID of the FHIR store that is being created. The string must match the following regex: `[\p{L}\p{N}_\-\.]{1,256}`. */
+  fhirStoreId?: string | undefined;
+  /** Required. The name of the dataset this FHIR store belongs to. */
+  parent: string;
 }
-export interface CreateProjectsLocationsDatasetsFhirStoresFhirRequest {
+export interface CreateProjectsLocationsDatasetsFhirStoresFhirRequest extends HttpBody {
   /** Required. The name of the FHIR store this resource belongs to. */
   parent: string;
   /** Required. The FHIR resource type to create, such as Patient or Observation. For a complete list, see the FHIR Resource Index ([DSTU2](https://hl7.org/fhir/DSTU2/resourcelist.html), [STU3](https://hl7.org/fhir/STU3/resourcelist.html), [R4](https://hl7.org/fhir/R4/resourcelist.html), [R5](https://hl7.org/fhir/R5/resourcelist.html)). Must match the resource type in the provided content. */
   type: string;
-  /** The HTTP Content-Type header value specifying the content type of the body. */
-  contentType?: string | undefined;
-  /** Application specific response metadata. Must be set in the first response for streaming APIs. */
-  extensions?: DocumentMapList | undefined;
-  /** The HTTP request/response body as raw binary. */
-  data?: string | undefined;
 }
 /** Specifies where and whether to send notifications upon changes to a data store. */
 export interface Hl7V2NotificationConfig {
@@ -1512,24 +1396,6 @@ export interface ParserConfig {
   /** Immutable. Determines the version of both the default parser to be used when `schema` is not given, as well as the schematized parser used when `schema` is specified. This field is immutable after HL7v2 store creation. */
   version?: ParserConfigVersionEnum | (string & {}) | undefined;
 }
-export interface CreateProjectsLocationsDatasetsHl7V2StoresRequest {
-  /** Required. The name of the dataset this HL7v2 store belongs to. */
-  parent: string;
-  /** Required. The ID of the HL7v2 store that is being created. The string must match the following regex: `[\p{L}\p{N}_\-\.]{1,256}`. */
-  hl7V2StoreId?: string | undefined;
-  /** A list of notification configs. Each configuration uses a filter to determine whether to publish a message (both Ingest & Create) on the corresponding notification destination. Only the message name is sent as part of the notification. Supplied by the client. */
-  notificationConfigs?: Hl7V2NotificationConfigList | undefined;
-  /** The configuration for the parser. It determines how the server parses the messages. */
-  parserConfig?: ParserConfig | undefined;
-  /** User-supplied key-value pairs used to organize HL7v2 stores. Label keys must be between 1 and 63 characters long, have a UTF-8 encoding of maximum 128 bytes, and must conform to the following PCRE regular expression: \p{Ll}\p{Lo}{0,62} Label values are optional, must be between 1 and 63 characters long, have a UTF-8 encoding of maximum 128 bytes, and must conform to the following PCRE regular expression: [\p{Ll}\p{Lo}\p{N}_-]{0,63} No more than 64 labels can be associated with a given store. */
-  labels?: StringMap | undefined;
-  /** Determines whether to reject duplicate messages. A duplicate message is a message with the same raw bytes as a message that has already been ingested/created in this HL7v2 store. The default value is false, meaning that the store accepts the duplicate messages and it also returns the same ACK message in the IngestMessageResponse as has been returned previously. Note that only one resource is created in the store. When this field is set to true, CreateMessage/IngestMessage requests with a duplicate message will be rejected by the store, and IngestMessageErrorDetail returns a NACK message upon rejection. */
-  rejectDuplicateMessage?: boolean | undefined;
-  /** Identifier. Resource name of the HL7v2 store, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/hl7V2Stores/{hl7v2_store_id}`. */
-  name?: string | undefined;
-  /** The notification destination all messages (both Ingest & Create) are published on. Only the message name is sent as part of the notification. If this is unset, no notifications are sent. Supplied by the client. */
-  notificationConfig?: NotificationConfig | undefined;
-}
 /** Represents an HL7v2 store. */
 export interface Hl7V2Store {
   /** A list of notification configs. Each configuration uses a filter to determine whether to publish a message (both Ingest & Create) on the corresponding notification destination. Only the message name is sent as part of the notification. Supplied by the client. */
@@ -1545,15 +1411,23 @@ export interface Hl7V2Store {
   /** The notification destination all messages (both Ingest & Create) are published on. Only the message name is sent as part of the notification. If this is unset, no notifications are sent. Supplied by the client. */
   notificationConfig?: NotificationConfig | undefined;
 }
-export interface CreateProjectsLocationsDatasetsHl7V2StoresMessagesRequest {
-  /** Required. The name of the HL7v2 store this message belongs to. */
+export interface CreateProjectsLocationsDatasetsHl7V2StoresRequest extends Hl7V2Store {
+  /** Required. The name of the dataset this HL7v2 store belongs to. */
   parent: string;
+  /** Required. The ID of the HL7v2 store that is being created. The string must match the following regex: `[\p{L}\p{N}_\-\.]{1,256}`. */
+  hl7V2StoreId?: string | undefined;
+}
+/** Creates a new message. */
+export interface CreateMessageRequest {
   /** Required. HL7v2 message. */
   message?: Message | undefined;
 }
-export interface DeidentifyProjectsLocationsDatasetsRequest {
-  /** Required. Source dataset resource name. For example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}`. R5 FHIR stores are not supported and will be skipped. */
-  sourceDataset: string;
+export interface CreateProjectsLocationsDatasetsHl7V2StoresMessagesRequest extends CreateMessageRequest {
+  /** Required. The name of the HL7v2 store this message belongs to. */
+  parent: string;
+}
+/** Redacts identifying information from the specified dataset. */
+export interface DeidentifyDatasetRequest {
   /** Deidentify configuration. Only one of `config` and `gcs_config_uri` can be specified. */
   config?: DeidentifyConfig | undefined;
   /** Required. The name of the dataset resource to create and write the redacted data to. * The destination dataset must not exist. * The destination dataset must be in the same location as the source dataset. De-identifying data across multiple locations is not supported. */
@@ -1561,14 +1435,17 @@ export interface DeidentifyProjectsLocationsDatasetsRequest {
   /** Cloud Storage location to read the JSON cloud.healthcare.deidentify.DeidentifyConfig from, overriding the default config. Must be of the form `gs://{bucket_id}/path/to/object`. The Cloud Storage location must grant the Cloud IAM role `roles/storage.objectViewer` to the project's Cloud Healthcare Service Agent service account. Only one of `config` and `gcs_config_uri` can be specified. */
   gcsConfigUri?: string | undefined;
 }
+export interface DeidentifyProjectsLocationsDatasetsRequest extends DeidentifyDatasetRequest {
+  /** Required. Source dataset resource name. For example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}`. R5 FHIR stores are not supported and will be skipped. */
+  sourceDataset: string;
+}
 /** Specifies the filter configuration for DICOM resources. */
 export interface DicomFilterConfig {
   /** The Cloud Storage location of the filter configuration file. The `gcs_uri` must be in the format `gs://bucket/path/to/object`. The filter configuration file must contain a list of resource paths separated by newline characters (\n or \r\n). Each resource path must be in the format "/studies/{studyUID}[/series/{seriesUID}[/instances/{instanceUID}]]" The Cloud Healthcare API service account must have the `roles/storage.objectViewer` Cloud IAM role for this Cloud Storage location. */
   resourcePathsGcsUri?: string | undefined;
 }
-export interface DeidentifyProjectsLocationsDatasetsDicomStoresRequest {
-  /** Required. Source DICOM store resource name. For example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}`. */
-  sourceStore: string;
+/** Creates a new DICOM store with sensitive information de-identified. */
+export interface DeidentifyDicomStoreRequest {
   /** Filter configuration. */
   filterConfig?: DicomFilterConfig | undefined;
   /** Deidentify configuration. Only one of `config` and `gcs_config_uri` can be specified. */
@@ -1577,6 +1454,10 @@ export interface DeidentifyProjectsLocationsDatasetsDicomStoresRequest {
   destinationStore?: string | undefined;
   /** Cloud Storage location to read the JSON cloud.healthcare.deidentify.DeidentifyConfig from, overriding the default config. Must be of the form `gs://{bucket_id}/path/to/object`. The Cloud Storage location must grant the Cloud IAM role `roles/storage.objectViewer` to the project's Cloud Healthcare Service Agent service account. Only one of `config` and `gcs_config_uri` can be specified. */
   gcsConfigUri?: string | undefined;
+}
+export interface DeidentifyProjectsLocationsDatasetsDicomStoresRequest extends DeidentifyDicomStoreRequest {
+  /** Required. Source DICOM store resource name. For example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}`. */
+  sourceStore: string;
 }
 /** A list of FHIR resources. */
 export interface Resources {
@@ -1588,9 +1469,8 @@ export interface FhirFilter {
   /** List of resources to include in the output. If this list is empty or not specified, all resources are included in the output. */
   resources?: Resources | undefined;
 }
-export interface DeidentifyProjectsLocationsDatasetsFhirStoresRequest {
-  /** Required. Source FHIR store resource name. For example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/fhirStores/{fhir_store_id}`. R5 stores are not supported. */
-  sourceStore: string;
+/** Creates a new FHIR store with sensitive information de-identified. */
+export interface DeidentifyFhirStoreRequest {
   /** Cloud Storage location to read the JSON cloud.healthcare.deidentify.DeidentifyConfig from, overriding the default config. Must be of the form `gs://{bucket_id}/path/to/object`. The Cloud Storage location must grant the Cloud IAM role `roles/storage.objectViewer` to the project's Cloud Healthcare Service Agent service account. Only one of `config` and `gcs_config_uri` can be specified. */
   gcsConfigUri?: string | undefined;
   /** Required. The name of the FHIR store to write the redacted data to. For example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/fhirStores/{fhir_store_id}`. * The destination dataset and FHIR store must exist. * The source dataset and destination dataset must both reside in the same location. De-identifying data across multiple locations is not supported. * The caller must have the healthcare.fhirResources.update permission to write to the destination FHIR store. */
@@ -1601,6 +1481,10 @@ export interface DeidentifyProjectsLocationsDatasetsFhirStoresRequest {
   resourceFilter?: FhirFilter | undefined;
   /** If true, skips resources that are created or modified after the de-identify operation is created. */
   skipModifiedResources?: boolean | undefined;
+}
+export interface DeidentifyProjectsLocationsDatasetsFhirStoresRequest extends DeidentifyFhirStoreRequest {
+  /** Required. Source FHIR store resource name. For example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/fhirStores/{fhir_store_id}`. R5 stores are not supported. */
+  sourceStore: string;
 }
 export interface DeleteFhirOperationProjectsLocationsDatasetsFhirStoresOperationsRequest {
   /** Required. Name of the operation to be deleted, in the format `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/fhirStores/{fhir_store_id}/operations/{operation_id}`. */
@@ -1687,9 +1571,8 @@ export type EvaluateUserConsentsRequestResponseViewEnum =
   | "RESPONSE_VIEW_UNSPECIFIED"
   | "BASIC"
   | "FULL";
-export interface EvaluateUserConsentsProjectsLocationsDatasetsConsentStoresRequest {
-  /** Required. Name of the consent store to retrieve User data mappings from. */
-  consentStore: string;
+/** Evaluate a user's Consents for all matching User data mappings. Note: User data mappings are indexed asynchronously, causing slight delays between the time mappings are created or updated and when they are included in EvaluateUserConsents results. */
+export interface EvaluateUserConsentsRequest {
   /** Required. User ID to evaluate consents for. */
   userId?: string | undefined;
   /** Required. The values of request attributes associated with this access request. */
@@ -1704,6 +1587,10 @@ export interface EvaluateUserConsentsProjectsLocationsDatasetsConsentStoresReque
   pageSize?: number | undefined;
   /** Optional. The view for EvaluateUserConsentsResponse. If unspecified, defaults to `BASIC` and returns `consented` as `TRUE` or `FALSE`. */
   responseView?: EvaluateUserConsentsRequestResponseViewEnum | (string & {}) | undefined;
+}
+export interface EvaluateUserConsentsProjectsLocationsDatasetsConsentStoresRequest extends EvaluateUserConsentsRequest {
+  /** Required. Name of the consent store to retrieve User data mappings from. */
+  consentStore: string;
 }
 /** The consent evaluation result for a single `data_id`. */
 export interface Result {
@@ -1721,15 +1608,9 @@ export interface EvaluateUserConsentsResponse {
   /** Token to retrieve the next page of results, or empty if there are no more results in the list. This token is valid for 72 hours after it is created. */
   nextPageToken?: string | undefined;
 }
-export interface ExecuteBundleProjectsLocationsDatasetsFhirStoresFhirRequest {
+export interface ExecuteBundleProjectsLocationsDatasetsFhirStoresFhirRequest extends HttpBody {
   /** Required. Name of the FHIR store in which this bundle will be executed. */
   parent: string;
-  /** The HTTP Content-Type header value specifying the content type of the body. */
-  contentType?: string | undefined;
-  /** Application specific response metadata. Must be set in the first response for streaming APIs. */
-  extensions?: DocumentMapList | undefined;
-  /** The HTTP request/response body as raw binary. */
-  data?: string | undefined;
 }
 /** A FHIRPath expression. */
 export interface Expression {
@@ -1746,9 +1627,8 @@ export interface FHIRPathQuery {
   /** Required. List of FHIRPath expressions used for filtering the data. */
   expressions?: ExpressionList | undefined;
 }
-export interface ExecuteCohortProjectsLocationsDatasetsFhirStoresRequest {
-  /** Required. The name of the FHIR store to query, in the format `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/fhirStores/{fhir_store_id}`. */
-  name: string;
+/** Request to execute a cohort definition from a FHIR store based on provided queries and sending the resulting subset of data to a specified sink. */
+export interface ExecuteCohortRequest {
   /** Return resources that match the specified FHIRPath expressions. */
   fhirpathQuery?: FHIRPathQuery | undefined;
   /** The Cloud Storage output destination. The Healthcare Service Agent account requires the `roles/storage.objectAdmin` role on the Cloud Storage location. The exported outputs are organized by FHIR resource types. The server creates one or more objects per resource type depending on the volume of the resources exported. When there is only one object per resource type, the object name is in the form of `{operation_id}_{resource_type}`. When there are multiple objects for a given resource type, the object names are in the form of `{operation_id}_{resource_type}-{index}-of-{total}`. Each object contains newline delimited JSON, and each line is a FHIR resource. */
@@ -1757,6 +1637,10 @@ export interface ExecuteCohortProjectsLocationsDatasetsFhirStoresRequest {
   validateOnly?: boolean | undefined;
   /** Optional. If provided, the queried resources will represent the state of the FHIR store at the given past timestamp. Runs the operation against the state of the store at this timestamp. State of the store is represented by the resource versions that were the current versions during the time specified or the resources that have not been updated since. Only works if the store has history enabled. Although users should be able to use this field to reproduce previous runs of the operation and get consistent results, there are a few cases where the past state of the store can be altered, thus resulting in no guarantee of reproducibility. For example, resource versions can be deleted using the purge method, or modified using ImportResourcesHistory. */
   _at?: string | undefined;
+}
+export interface ExecuteCohortProjectsLocationsDatasetsFhirStoresRequest extends ExecuteCohortRequest {
+  /** Required. The name of the FHIR store to query, in the format `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/fhirStores/{fhir_store_id}`. */
+  name: string;
 }
 export interface ExplainDataAccessProjectsLocationsDatasetsFhirStoresRequest {
   /** Required. The name of the FHIR store to enforce, in the format `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/fhirStores/{fhir_store_id}`. */
@@ -1825,9 +1709,8 @@ export interface ExplainDataAccessResponse {
   /** Warnings associated with this response. It inform user with exceeded scope limit errors. */
   warning?: string | undefined;
 }
-export interface ExportHistoryProjectsLocationsDatasetsFhirStoresRequest {
-  /** Required. The name of the FHIR store to export resource from, in the format `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/fhirStores/{fhir_store_id}`. */
-  name: string;
+/** Request to export the history of resources. */
+export interface ExportResourcesHistoryRequest {
   /** String of comma-delimited FHIR resource types. If provided, only resources of the specified resource type(s) are exported. */
   _type?: string | undefined;
   /** The Cloud Storage output destination. The Healthcare Service Agent account requires the `roles/storage.objectAdmin` role on the Cloud Storage location. The exported outputs are organized by FHIR resource types. The server creates one or more objects per resource type depending on the volume of the resources exported. When there is only one object per resource type, the object name is in the form of `{operation_id})_history_{resource_type}`. When there are multiple objects for a given resource type, the object names are in the form of `{operation_id}_history_{resource_type}-{index}-of-{total}`. Each object contains newline delimited JSON, and each line is a FHIR history bundle containing the history for a single resource. */
@@ -1837,6 +1720,10 @@ export interface ExportHistoryProjectsLocationsDatasetsFhirStoresRequest {
   /** If provided and non-zero, places a limit on the number of resource versions that are returned for a given resource. For example, if the limit is `100` and a resource has over 100 versions, only the 100 most recent versions will be returned. Must be positive. */
   maxResourceVersions?: string | undefined;
 }
+export interface ExportHistoryProjectsLocationsDatasetsFhirStoresRequest extends ExportResourcesHistoryRequest {
+  /** Required. The name of the FHIR store to export resource from, in the format `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/fhirStores/{fhir_store_id}`. */
+  name: string;
+}
 /** The Cloud Storage location where the server writes the output and the export configuration. */
 export interface GoogleCloudHealthcareV1beta1DicomGcsDestination {
   /** The Cloud Storage destination to export to. URI for a Cloud Storage directory where the server writes the result files, in the format `gs://{bucket-id}/{path/to/destination/dir}`). If there is no trailing slash, the service appends one when composing the object path. The user is responsible for creating the Cloud Storage bucket referenced in `uri_prefix`. */
@@ -1844,9 +1731,8 @@ export interface GoogleCloudHealthcareV1beta1DicomGcsDestination {
   /** MIME types supported by DICOM spec. Each file is written in the following format: `.../{study_id}/{series_id}/{instance_id}[/{frame_number}].{extension}` The frame_number component exists only for multi-frame instances. Supported MIME types are consistent with supported formats in DICOMweb: https://cloud.google.com/healthcare/docs/dicom#retrieve_transaction. Specifically, the following are supported: - application/dicom; transfer-syntax=1.2.840.10008.1.2 (DICOM Implicit VR Little Endian) - application/dicom; transfer-syntax=1.2.840.10008.1.2.1 (DICOM Explicit VR Little Endian) - application/dicom; transfer-syntax=1.2.840.10008.1.2.1.99 (DICOM Deflated Explicit VR Little Endian) - application/dicom; transfer-syntax=1.2.840.10008.1.2.4.50 (DICOM with embedded JPEG Baseline) - application/dicom; transfer-syntax=1.2.840.10008.1.2.4.51 (DICOM with embedded JPEG Extended) - application/dicom; transfer-syntax=1.2.840.10008.1.2.4.57 (DICOM with embedded JPEG Lossless) - application/dicom; transfer-syntax=1.2.840.10008.1.2.4.70 (DICOM with embedded JPEG Lossless First-Order Prediction) - application/dicom; transfer-syntax=1.2.840.10008.1.2.4.80 (DICOM with embedded JPEG-LS Lossless) - application/dicom; transfer-syntax=1.2.840.10008.1.2.4.81 (DICOM with embedded JPEG-LS Lossy (Near-Lossless)) - application/dicom; transfer-syntax=1.2.840.10008.1.2.4.90 (DICOM with embedded JPEG 2000 Lossless Only) - application/dicom; transfer-syntax=1.2.840.10008.1.2.4.91 (DICOM with embedded JPEG 2000) - application/dicom; transfer-syntax=1.2.840.10008.1.2.4.110 (DICOM with embedded JPEG XL Lossless) - application/dicom; transfer-syntax=1.2.840.10008.1.2.4.111 (DICOM with embedded JPEG XL JPEG Recompression) - application/dicom; transfer-syntax=1.2.840.10008.1.2.4.112 (DICOM with embedded JPEG XL) - application/dicom; transfer-syntax=1.2.840.10008.1.2.4.201 (DICOM with embedded High-Throughput JPEG 2000 Lossless) - application/dicom; transfer-syntax=1.2.840.10008.1.2.4.202 (DICOM with embedded High-Throughput JPEG 2000 with RPCL Options Lossless) - application/dicom; transfer-syntax=1.2.840.10008.1.2.4.203 (DICOM with embedded High-Throughput JPEG 2000) - application/dicom; transfer-syntax=1.2.840.10008.1.2.5 (DICOM with embedded RLE Lossless) - application/dicom; transfer-syntax=1.2.840.10008.1.2.8.1 (DICOM with embedded Deflated Image Frame Compression) - application/dicom; transfer-syntax=* (DICOM with no transcoding) - application/octet-stream; transfer-syntax=1.2.840.10008.1.2.1 (raw uncompressed PixelData) - application/octet-stream; transfer-syntax=* (raw PixelData in whatever format it was uploaded in) - image/jpeg; transfer-syntax=1.2.840.10008.1.2.4.50 (Consumer JPEG) - image/png The following extensions are used for output files: - application/dicom -> .dcm - image/jpeg -> .jpg - image/png -> .png - application/octet-stream -> no extension If unspecified, the instances are exported in the original DICOM format they were uploaded in. */
   mimeType?: string | undefined;
 }
-export interface ExportProjectsLocationsDatasetsDicomStoresRequest {
-  /** Required. The DICOM store resource name from which to export the data. For example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}`. */
-  name: string;
+/** Exports data from the specified DICOM store. If a given resource, such as a DICOM object with the same SOPInstance UID, already exists in the output, it is overwritten with the version in the source dataset. Exported DICOM data persists when the DICOM store from which it was exported is deleted. */
+export interface ExportDicomDataRequest {
   /** The Cloud Storage output destination. The Cloud Healthcare Service Agent requires the `roles/storage.objectAdmin` Cloud IAM roles on the Cloud Storage location. */
   gcsDestination?: GoogleCloudHealthcareV1beta1DicomGcsDestination | undefined;
   /** Specifies the filter configuration. */
@@ -1854,9 +1740,12 @@ export interface ExportProjectsLocationsDatasetsDicomStoresRequest {
   /** The BigQuery output destination. You can only export to a BigQuery dataset that's in the same project as the DICOM store you're exporting from. The Cloud Healthcare Service Agent requires two IAM roles on the BigQuery location: `roles/bigquery.dataEditor` and `roles/bigquery.jobUser`. */
   bigqueryDestination?: GoogleCloudHealthcareV1beta1DicomBigQueryDestination | undefined;
 }
-export interface ExportProjectsLocationsDatasetsFhirStoresRequest {
-  /** Required. The name of the FHIR store to export resource from, in the format of `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/fhirStores/{fhir_store_id}`. */
+export interface ExportProjectsLocationsDatasetsDicomStoresRequest extends ExportDicomDataRequest {
+  /** Required. The DICOM store resource name from which to export the data. For example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}`. */
   name: string;
+}
+/** Request to export resources. */
+export interface ExportResourcesRequest {
   /** String of comma-delimited FHIR resource types. If provided, only resources of the specified resource type(s) are exported. */
   _type?: string | undefined;
   /** The BigQuery output destination. The Cloud Healthcare Service Agent requires two IAM roles on the BigQuery location: `roles/bigquery.dataEditor` and `roles/bigquery.jobUser`. The output is one BigQuery table per resource type. Unlike when setting `BigQueryDestination` for `StreamConfig`, `ExportResources` does not create BigQuery views. */
@@ -1865,6 +1754,10 @@ export interface ExportProjectsLocationsDatasetsFhirStoresRequest {
   gcsDestination?: GoogleCloudHealthcareV1beta1FhirGcsDestination | undefined;
   /** If provided, only resources updated after this time are exported. The time uses the format YYYY-MM-DDThh:mm:ss.sss+zz:zz. For example, `2015-02-07T13:28:17.239+02:00` or `2017-01-01T00:00:00Z`. The time must be specified to the second and include a time zone. */
   _since?: string | undefined;
+}
+export interface ExportProjectsLocationsDatasetsFhirStoresRequest extends ExportResourcesRequest {
+  /** Required. The name of the FHIR store to export resource from, in the format of `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/fhirStores/{fhir_store_id}`. */
+  name: string;
 }
 /** The Pub/Sub output destination. The Cloud Healthcare Service Agent requires the `roles/pubsub.publisher` Cloud IAM role on the Pub/Sub topic. */
 export interface PubsubDestination {
@@ -1888,9 +1781,8 @@ export interface GcsDestination {
   /** URI of an existing Cloud Storage directory where the server writes result files, in the format `gs://{bucket-id}/{path/to/destination/dir}`. If there is no trailing slash, the service appends one when composing the object path. */
   uriPrefix?: string | undefined;
 }
-export interface ExportProjectsLocationsDatasetsHl7V2StoresRequest {
-  /** Required. The name of the source HL7v2 store, in the format `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/hl7v2Stores/{hl7v2_store_id}` */
-  name: string;
+/** Request to schedule an export. */
+export interface ExportMessagesRequest {
   /** Export messages to a Pub/Sub topic. */
   pubsubDestination?: PubsubDestination | undefined;
   /** Restricts messages exported to those matching a filter, only applicable to PubsubDestination and GcsDestination. The following syntax is available: * A string field value can be written as text inside quotation marks, for example `"query text"`. The only valid relational operation for text fields is equality (`=`), where text is searched within the field, rather than having the field be equal to the text. For example, `"Comment = great"` returns messages with `great` in the comment field. * A number field value can be written as an integer, a decimal, or an exponential. The valid relational operators for number fields are the equality operator (`=`), along with the less than/greater than operators (`<`, `<=`, `>`, `>=`). Note that there is no inequality (`!=`) operator. You can prepend the `NOT` operator to an expression to negate it. * A date field value must be written in the `yyyy-mm-dd` format. Fields with date and time use the RFC3339 time format. Leading zeros are required for one-digit months and days. The valid relational operators for date fields are the equality operator (`=`) , along with the less than/greater than operators (`<`, `<=`, `>`, `>=`). Note that there is no inequality (`!=`) operator. You can prepend the `NOT` operator to an expression to negate it. * Multiple field query expressions can be combined in one query by adding `AND` or `OR` operators between the expressions. If a boolean operator appears within a quoted string, it is not treated as special, and is just another part of the character string to be matched. You can prepend the `NOT` operator to an expression to negate it. The following fields and functions are available for filtering: * `message_type`, from the MSH-9.1 field. For example, `NOT message_type = "ADT"`. * `send_date` or `sendDate`, the YYYY-MM-DD date the message was sent in the dataset's time_zone, from the MSH-7 segment. For example, `send_date < "2017-01-02"`. * `send_time`, the timestamp when the message was sent, using the RFC3339 time format for comparisons, from the MSH-7 segment. For example, `send_time < "2017-01-02T00:00:00-05:00"`. * `create_time`, the timestamp when the message was created in the HL7v2 store. Use the RFC3339 time format for comparisons. For example, `create_time < "2017-01-02T00:00:00-05:00"`. * `send_facility`, the care center that the message came from, from the MSH-4 segment. For example, `send_facility = "ABC"`. Note: The filter will be applied to every message in the HL7v2 store whose `send_time` lies in the range defined by the `start_time` and the `end_time`. Even if the filter only matches a small set of messages, the export operation can still take a long time to finish when a lot of messages are between the specified `start_time` and `end_time` range. */
@@ -1901,6 +1793,10 @@ export interface ExportProjectsLocationsDatasetsHl7V2StoresRequest {
   gcsDestination?: GcsDestination | undefined;
   /** The end of the range in `send_time` (MSH.7, https://www.hl7.org/documentcenter/public_temp_2E58C1F9-1C23-BA17-0C6126475344DA9D/wg/conf/HL7MSH.htm) to process. If not specified, the time when the export is scheduled is used. This value has to come after the `start_time` defined below. Only messages whose `send_time` lies in the range `start_time` (inclusive) to `end_time` (exclusive) are exported. */
   endTime?: string | undefined;
+}
+export interface ExportProjectsLocationsDatasetsHl7V2StoresRequest extends ExportMessagesRequest {
+  /** Required. The name of the source HL7v2 store, in the format `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/hl7v2Stores/{hl7v2_store_id}` */
+  name: string;
 }
 export interface GetBulkdataProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesBulkdataRequest {
   /** Required. The name of the DICOM store that is being accessed. For example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}`. */
@@ -2104,19 +2000,6 @@ export interface GetProjectsLocationsDatasetsRequest {
   /** Required. The name of the dataset to read. For example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}`. */
   name: string;
 }
-/** A message representing a health dataset. A health dataset represents a collection of healthcare data pertaining to one or more patients. This may include multiple modalities of healthcare data, such as electronic medical records or medical imaging data. */
-export interface Dataset {
-  /** Output only. Whether the dataset satisfies zone separation. */
-  satisfiesPzs?: boolean | undefined;
-  /** Identifier. Resource name of the dataset, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}`. */
-  name?: string | undefined;
-  /** Output only. Whether the dataset satisfies zone isolation. */
-  satisfiesPzi?: boolean | undefined;
-  /** Customer-managed encryption key spec for a Dataset. If set, this Dataset and all of its sub-resources will be secured by this key. If empty, the Dataset is secured by the default Google encryption key. */
-  encryptionSpec?: EncryptionSpec | undefined;
-  /** The default timezone used by this dataset. Must be a either a valid IANA time zone name such as "America/New_York" or empty, which defaults to UTC. This is used for parsing times in resources, such as HL7 messages, where no explicit timezone is specified. */
-  timeZone?: string | undefined;
-}
 export interface GetProjectsLocationsDatasetsConsentStoresRequest {
   /** Required. The resource name of the consent store to get. */
   name: string;
@@ -2277,15 +2160,18 @@ export type ImportResourcesHistoryRequestContentStructureEnum =
   | "RESOURCE"
   | "BUNDLE_PRETTY"
   | "RESOURCE_PRETTY";
-export interface ImportHistoryProjectsLocationsDatasetsFhirStoresRequest {
-  /** Required. The name of the FHIR store to import FHIR resources to, in the format of `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/fhirStores/{fhir_store_id}`. */
-  name: string;
+/** Request to import the history of resources. */
+export interface ImportResourcesHistoryRequest {
   /** The maximum number of errors before the server cancels the operation. If not specified or set to 0, defaults to 100. -1 means no maximum, the server tries to process all input. Since the server executes the operation in parallel, it might not stop the operation after exactly this number of errors occur. */
   maxErrorCount?: string | undefined;
   /** Cloud Storage source data location and import configuration. The Cloud Healthcare Service Agent requires the `roles/storage.objectAdmin` Cloud IAM roles on the Cloud Storage location. The Healthcare Service Agent Each Cloud Storage object should be a text file that contains the format specified in ContentStructure. */
   gcsSource?: GoogleCloudHealthcareV1beta1FhirGcsSource | undefined;
   /** The content structure in the source location. If not specified, the server treats the input source files as BUNDLE. */
   contentStructure?: ImportResourcesHistoryRequestContentStructureEnum | (string & {}) | undefined;
+}
+export interface ImportHistoryProjectsLocationsDatasetsFhirStoresRequest extends ImportResourcesHistoryRequest {
+  /** Required. The name of the FHIR store to import FHIR resources to, in the format of `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/fhirStores/{fhir_store_id}`. */
+  name: string;
 }
 export type BlobStorageSettingsBlobStorageClassEnum =
   | "BLOB_STORAGE_CLASS_UNSPECIFIED"
@@ -2303,13 +2189,16 @@ export interface GoogleCloudHealthcareV1beta1DicomGcsSource {
   /** Points to a Cloud Storage URI containing file(s) with content only. The URI must be in the following format: `gs://{bucket_id}/{object_id}`. The URI can include wildcards in `object_id` and thus identify multiple files. Supported wildcards: * '*' to match 0 or more non-separator characters * '**' to match 0 or more characters (including separators). Must be used at the end of a path and with no other wildcards in the path. Can also be used with a file extension (such as .dcm), which imports all files with the extension in the specified directory and its sub-directories. For example, `gs://my-bucket/my-directory/**.dcm` imports all files with .dcm extensions in `my-directory/` and its sub-directories. * '?' to match 1 character. All other URI formats are invalid. Files matching the wildcard are expected to contain content only, no metadata. */
   uri?: string | undefined;
 }
-export interface ImportProjectsLocationsDatasetsDicomStoresRequest {
-  /** Required. The name of the DICOM store resource into which the data is imported. For example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}`. */
-  name: string;
+/** Imports data into the specified DICOM store. Returns an error if any of the files to import are not DICOM files. This API accepts duplicate DICOM instances by ignoring the newly-pushed instance. It does not overwrite. */
+export interface ImportDicomDataRequest {
   /** Optional. The blob storage settings for the data imported by this operation. */
   blobStorageSettings?: BlobStorageSettings | undefined;
   /** Cloud Storage source data location and import configuration. The Cloud Healthcare Service Agent requires the `roles/storage.objectViewer` Cloud IAM roles on the Cloud Storage location. */
   gcsSource?: GoogleCloudHealthcareV1beta1DicomGcsSource | undefined;
+}
+export interface ImportProjectsLocationsDatasetsDicomStoresRequest extends ImportDicomDataRequest {
+  /** Required. The name of the DICOM store resource into which the data is imported. For example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}`. */
+  name: string;
 }
 export type ImportResourcesRequestContentStructureEnum =
   | "CONTENT_STRUCTURE_UNSPECIFIED"
@@ -2317,30 +2206,39 @@ export type ImportResourcesRequestContentStructureEnum =
   | "RESOURCE"
   | "BUNDLE_PRETTY"
   | "RESOURCE_PRETTY";
-export interface ImportProjectsLocationsDatasetsFhirStoresRequest {
-  /** Required. The name of the FHIR store to import FHIR resources to, in the format of `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/fhirStores/{fhir_store_id}`. */
-  name: string;
+/** Request to import resources. */
+export interface ImportResourcesRequest {
   /** Cloud Storage source data location and import configuration. The Cloud Healthcare Service Agent requires the `roles/storage.objectViewer` Cloud IAM roles on the Cloud Storage location. The Healthcare Service Agent Each Cloud Storage object should be a text file that contains the format specified in ContentStructure. */
   gcsSource?: GoogleCloudHealthcareV1beta1FhirGcsSource | undefined;
   /** The content structure in the source location. If not specified, the server treats the input source files as BUNDLE. */
   contentStructure?: ImportResourcesRequestContentStructureEnum | (string & {}) | undefined;
+}
+export interface ImportProjectsLocationsDatasetsFhirStoresRequest extends ImportResourcesRequest {
+  /** Required. The name of the FHIR store to import FHIR resources to, in the format of `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/fhirStores/{fhir_store_id}`. */
+  name: string;
 }
 /** Specifies the configuration for importing data from Cloud Storage. */
 export interface GcsSource {
   /** Points to a Cloud Storage URI containing file(s) to import. The URI must be in the following format: `gs://{bucket_id}/{object_id}`. The URI can include wildcards in `object_id` and thus identify multiple files. Supported wildcards: * `*` to match 0 or more non-separator characters * `**` to match 0 or more characters (including separators). Must be used at the end of a path and with no other wildcards in the path. Can also be used with a file extension (such as .ndjson), which imports all files with the extension in the specified directory and its sub-directories. For example, `gs://my-bucket/my-directory/**.ndjson` imports all files with `.ndjson` extensions in `my-directory/` and its sub-directories. * `?` to match 1 character Files matching the wildcard are expected to contain content only, no metadata. */
   uri?: string | undefined;
 }
-export interface ImportProjectsLocationsDatasetsHl7V2StoresRequest {
-  /** Required. The name of the target HL7v2 store, in the format `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/hl7v2Stores/{hl7v2_store_id}` */
-  name: string;
+/** Request to import messages. */
+export interface ImportMessagesRequest {
   /** Cloud Storage source data location and import configuration. The Cloud Healthcare Service Agent requires the `roles/storage.objectViewer` Cloud IAM roles on the Cloud Storage location. */
   gcsSource?: GcsSource | undefined;
 }
-export interface IngestProjectsLocationsDatasetsHl7V2StoresMessagesRequest {
-  /** Required. The name of the HL7v2 store this message belongs to. */
-  parent: string;
+export interface ImportProjectsLocationsDatasetsHl7V2StoresRequest extends ImportMessagesRequest {
+  /** Required. The name of the target HL7v2 store, in the format `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/hl7v2Stores/{hl7v2_store_id}` */
+  name: string;
+}
+/** Ingests a message into the specified HL7v2 store. */
+export interface IngestMessageRequest {
   /** Required. HL7v2 message to ingest. */
   message?: Message | undefined;
+}
+export interface IngestProjectsLocationsDatasetsHl7V2StoresMessagesRequest extends IngestMessageRequest {
+  /** Required. The name of the HL7v2 store this message belongs to. */
+  parent: string;
 }
 /** Acknowledges that a message has been ingested into the specified HL7v2 store. */
 export interface IngestMessageResponse {
@@ -2594,190 +2492,78 @@ export interface Observation_lastnProjectsLocationsDatasetsFhirStoresFhirRequest
   /** Required. Name of the FHIR store to retrieve resources from. */
   parent: string;
 }
-export interface PatchProjectsLocationsDatasetsRequest {
+export interface PatchProjectsLocationsDatasetsRequest extends Omit<Dataset, "name"> {
   /** Identifier. Resource name of the dataset, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}`. */
   name: string;
   /** Required. The update mask applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask */
   updateMask?: string | undefined;
-  /** Output only. Whether the dataset satisfies zone separation. */
-  satisfiesPzs?: boolean | undefined;
-  /** Output only. Whether the dataset satisfies zone isolation. */
-  satisfiesPzi?: boolean | undefined;
-  /** Customer-managed encryption key spec for a Dataset. If set, this Dataset and all of its sub-resources will be secured by this key. If empty, the Dataset is secured by the default Google encryption key. */
-  encryptionSpec?: EncryptionSpec | undefined;
-  /** The default timezone used by this dataset. Must be a either a valid IANA time zone name such as "America/New_York" or empty, which defaults to UTC. This is used for parsing times in resources, such as HL7 messages, where no explicit timezone is specified. */
-  timeZone?: string | undefined;
 }
-export interface PatchProjectsLocationsDatasetsConsentStoresRequest {
+export interface PatchProjectsLocationsDatasetsConsentStoresRequest extends Omit<
+  ConsentStore,
+  "name"
+> {
   /** Required. The update mask that applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask. Only the `labels`, `default_consent_ttl`, and `enable_consent_create_on_update` fields are allowed to be updated. */
   updateMask?: string | undefined;
   /** Resource name of the consent store, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/consentStores/{consent_store_id}`. Cannot be changed after creation. */
   name: string;
-  /** Optional. If `true`, UpdateConsent creates the Consent if it does not already exist. If unspecified, defaults to `false`. */
-  enableConsentCreateOnUpdate?: boolean | undefined;
-  /** Optional. Default time to live for Consents created in this store. Must be at least 24 hours. Updating this field will not affect the expiration time of existing consents. */
-  defaultConsentTtl?: string | undefined;
-  /** Optional. User-supplied key-value pairs used to organize consent stores. Label keys must be between 1 and 63 characters long, have a UTF-8 encoding of maximum 128 bytes, and must conform to the following PCRE regular expression: \p{Ll}\p{Lo}{0,62}. Label values must be between 1 and 63 characters long, have a UTF-8 encoding of maximum 128 bytes, and must conform to the following PCRE regular expression: [\p{Ll}\p{Lo}\p{N}_-]{0,63}. No more than 64 labels can be associated with a given store. For more information: https://cloud.google.com/healthcare/docs/how-tos/labeling-resources */
-  labels?: StringMap | undefined;
 }
-export interface PatchProjectsLocationsDatasetsConsentStoresAttributeDefinitionsRequest {
+export interface PatchProjectsLocationsDatasetsConsentStoresAttributeDefinitionsRequest extends Omit<
+  AttributeDefinition,
+  "name"
+> {
   /** Identifier. Resource name of the Attribute definition, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/consentStores/{consent_store_id}/attributeDefinitions/{attribute_definition_id}`. Cannot be changed after creation. */
   name: string;
   /** Required. The update mask that applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask. Only the `description`, `allowed_values`, `consent_default_values` and `data_mapping_default_value` fields can be updated. The updated `allowed_values` must contain all values from the previous `allowed_values`. */
   updateMask?: string | undefined;
-  /** Required. Possible values for the attribute. The number of allowed values must not exceed 500. An empty list is invalid. The list can only be expanded after creation. */
-  allowedValues?: StringList | undefined;
-  /** Optional. Default values of the attribute in Consents. If no default values are specified, it defaults to an empty value. */
-  consentDefaultValues?: StringList | undefined;
-  /** Optional. A description of the attribute. */
-  description?: string | undefined;
-  /** Required. The category of the attribute. The value of this field cannot be changed after creation. */
-  category?: AttributeDefinitionCategoryEnum | (string & {}) | undefined;
-  /** Optional. Default value of the attribute in User data mappings. If no default value is specified, it defaults to an empty value. This field is only applicable to attributes of the category `RESOURCE`. */
-  dataMappingDefaultValue?: string | undefined;
 }
-export interface PatchProjectsLocationsDatasetsConsentStoresConsentsRequest {
+export interface PatchProjectsLocationsDatasetsConsentStoresConsentsRequest extends Omit<
+  Consent,
+  "name"
+> {
   /** Required. The update mask to apply to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask. Only the `user_id`, `policies`, `consent_artifact`, and `metadata` fields can be updated. */
   updateMask?: string | undefined;
   /** Identifier. Resource name of the Consent, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/consentStores/{consent_store_id}/consents/{consent_id}`. Cannot be changed after creation. */
   name: string;
-  /** Required. Indicates the current state of this Consent. */
-  state?: ConsentStateEnum | (string & {}) | undefined;
-  /** Required. The resource name of the Consent artifact that contains proof of the end user's consent, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/consentStores/{consent_store_id}/consentArtifacts/{consent_artifact_id}`. */
-  consentArtifact?: string | undefined;
-  /** Output only. The timestamp that the revision was created. */
-  revisionCreateTime?: string | undefined;
-  /** Required. User's UUID provided by the client. */
-  userId?: string | undefined;
-  /** Optional. User-supplied key-value pairs used to organize Consent resources. Metadata keys must: - be between 1 and 63 characters long - have a UTF-8 encoding of maximum 128 bytes - begin with a letter - consist of up to 63 characters including lowercase letters, numeric characters, underscores, and dashes Metadata values must be: - be between 1 and 63 characters long - have a UTF-8 encoding of maximum 128 bytes - consist of up to 63 characters including lowercase letters, numeric characters, underscores, and dashes No more than 64 metadata entries can be associated with a given consent. */
-  metadata?: StringMap | undefined;
-  /** Optional. Represents a user's consent in terms of the resources that can be accessed and under what conditions. */
-  policies?: GoogleCloudHealthcareV1beta1ConsentPolicyList | undefined;
-  /** Output only. The revision ID of the Consent. The format is an 8-character hexadecimal string. Refer to a specific revision of a Consent by appending `@{revision_id}` to the Consent's resource name. */
-  revisionId?: string | undefined;
-  /** Input only. The time to live for this Consent from when it is created. */
-  ttl?: string | undefined;
-  /** Timestamp in UTC of when this Consent is considered expired. */
-  expireTime?: string | undefined;
 }
-export interface PatchProjectsLocationsDatasetsConsentStoresUserDataMappingsRequest {
+export interface PatchProjectsLocationsDatasetsConsentStoresUserDataMappingsRequest extends Omit<
+  UserDataMapping,
+  "name"
+> {
   /** Required. The update mask that applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask. Only the `data_id`, `user_id` and `resource_attributes` fields can be updated. */
   updateMask?: string | undefined;
   /** Resource name of the User data mapping, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/consentStores/{consent_store_id}/userDataMappings/{user_data_mapping_id}`. */
   name: string;
-  /** Output only. Indicates whether this mapping is archived. */
-  archived?: boolean | undefined;
-  /** Attributes of the resource. Only explicitly set attributes are displayed here. Attribute definitions with defaults set implicitly apply to these User data mappings. Attributes listed here must be single valued, that is, exactly one value is specified for the field "values" in each Attribute. */
-  resourceAttributes?: AttributeList | undefined;
-  /** Required. A unique identifier for the mapped resource. */
-  dataId?: string | undefined;
-  /** Required. User's UUID provided by the client. */
-  userId?: string | undefined;
-  /** Output only. Indicates the time when this mapping was archived. */
-  archiveTime?: string | undefined;
 }
-export interface PatchProjectsLocationsDatasetsDicomStoresRequest {
+export interface PatchProjectsLocationsDatasetsDicomStoresRequest extends Omit<DicomStore, "name"> {
   /** Identifier. Resource name of the DICOM store, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}`. */
   name: string;
   /** The update mask applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask */
   updateMask?: string | undefined;
-  /** Optional. Specifies where and whether to send notifications upon changes to a DICOM store. */
-  notificationConfigs?: DicomNotificationConfigList | undefined;
-  /** User-supplied key-value pairs used to organize DICOM stores. Label keys must be between 1 and 63 characters long, have a UTF-8 encoding of maximum 128 bytes, and must conform to the following PCRE regular expression: \p{Ll}\p{Lo}{0,62} Label values are optional, must be between 1 and 63 characters long, have a UTF-8 encoding of maximum 128 bytes, and must conform to the following PCRE regular expression: [\p{Ll}\p{Lo}\p{N}_-]{0,63} No more than 64 labels can be associated with a given store. */
-  labels?: StringMap | undefined;
-  /** Optional. A list of streaming configs used to configure the destination of streaming exports for every DICOM instance insertion in this DICOM store. After a new config is added to `stream_configs`, DICOM instance insertions are streamed to the new destination. When a config is removed from `stream_configs`, the server stops streaming to that destination. Each config must contain a unique destination. */
-  streamConfigs?: GoogleCloudHealthcareV1beta1DicomStreamConfigList | undefined;
-  /** Notification destination for new DICOM instances. Supplied by the client. */
-  notificationConfig?: NotificationConfig | undefined;
 }
-export interface PatchProjectsLocationsDatasetsFhirStoresRequest {
+export interface PatchProjectsLocationsDatasetsFhirStoresRequest extends Omit<FhirStore, "name"> {
   /** Required. The update mask applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask */
   updateMask?: string | undefined;
   /** Output only. Identifier. Resource name of the FHIR store, of the form `projects/{project_id}/locations/{location}/datasets/{dataset_id}/fhirStores/{fhir_store_id}`. */
   name: string;
-  /** Optional. Whether to allow the [ImportResourcesHistory] and [ExecuteBundle] APIs to accept history bundles, and directly insert and overwrite historical resource versions into the FHIR store. Changing resource histories creates resource interactions that have occurred in the past which clients might not allow. If set to false, [ImportResourcesHistory] and [ExecuteBundle] requests will return errors. */
-  enableHistoryModifications?: boolean | undefined;
-  /** Immutable. Whether to disable resource versioning for this FHIR store. This field can not be changed after the creation of FHIR store. If set to false, all write operations cause historical versions to be recorded automatically. The historical versions can be fetched through the history APIs, but cannot be updated. If set to true, no historical versions are kept. The server sends errors for attempts to read the historical versions. Defaults to false. */
-  disableResourceVersioning?: boolean | undefined;
-  /** User-supplied key-value pairs used to organize FHIR stores. Label keys must be between 1 and 63 characters long, have a UTF-8 encoding of maximum 128 bytes, and must conform to the following PCRE regular expression: \p{Ll}\p{Lo}{0,62} Label values are optional, must be between 1 and 63 characters long, have a UTF-8 encoding of maximum 128 bytes, and must conform to the following PCRE regular expression: [\p{Ll}\p{Lo}\p{N}_-]{0,63} No more than 64 labels can be associated with a given store. */
-  labels?: StringMap | undefined;
-  /** Deprecated. Use `notification_configs` instead. If non-empty, publish all resource modifications of this FHIR store to this destination. The Pub/Sub message attributes contain a map with a string describing the action that has triggered the notification. For example, "action":"CreateResource". Not supported in R5. Use `notification_configs` instead. */
-  notificationConfig?: NotificationConfig | undefined;
-  /** Required. Immutable. The FHIR specification version that this FHIR store supports natively. This field is immutable after store creation. Requests are rejected if they contain FHIR resources of a different version. Version is required for every FHIR store. */
-  version?: FhirStoreVersionEnum | (string & {}) | undefined;
-  /** If true, overrides the default search behavior for this FHIR store to `handling=strict` which returns an error for unrecognized search parameters. If false, uses the FHIR specification default `handling=lenient` which ignores unrecognized search parameters. The handling can always be changed from the default on an individual API call by setting the HTTP header `Prefer: handling=strict` or `Prefer: handling=lenient`. Defaults to false. */
-  defaultSearchHandlingStrict?: boolean | undefined;
-  /** A list of streaming configs that configure the destinations of streaming export for every resource mutation in this FHIR store. Each store is allowed to have up to 10 streaming configs. After a new config is added, the next resource mutation is streamed to the new location in addition to the existing ones. When a location is removed from the list, the server stops streaming to that location. Before adding a new config, you must add the required [`bigquery.dataEditor`](https://cloud.google.com/bigquery/docs/access-control#bigquery.dataEditor) role to your project's **Cloud Healthcare Service Agent** [service account](https://cloud.google.com/iam/docs/service-accounts). Some lag (typically on the order of dozens of seconds) is expected before the results show up in the streaming destination. */
-  streamConfigs?: StreamConfigList | undefined;
-  /** Specifies where and whether to send notifications upon changes to a Fhir store. */
-  notificationConfigs?: FhirNotificationConfigList | undefined;
-  /** Whether this FHIR store has the [updateCreate capability](https://www.hl7.org/fhir/capabilitystatement-definitions.html#CapabilityStatement.rest.resource.updateCreate). This determines if the client can use an Update operation to create a new resource with a client-specified ID. If false, all IDs are server-assigned through the Create operation and attempts to update a non-existent resource return errors. It is strongly advised not to include or encode any sensitive data such as patient identifiers in client-specified resource IDs. Those IDs are part of the FHIR resource path recorded in Cloud audit logs and Pub/Sub notifications. Those IDs can also be contained in reference fields within other resources. Defaults to false. */
-  enableUpdateCreate?: boolean | undefined;
-  /** Immutable. Whether to disable referential integrity in this FHIR store. This field is immutable after FHIR store creation. The default value is false, meaning that the API enforces referential integrity and fails the requests that result in inconsistent state in the FHIR store. When this field is set to true, the API skips referential integrity checks. Consequently, operations that rely on references, such as GetPatientEverything, do not return all the results if broken references exist. */
-  disableReferentialIntegrity?: boolean | undefined;
-  /** Configuration for how FHIR resources can be searched. */
-  searchConfig?: SearchConfig | undefined;
-  /** Enable parsing of references within complex FHIR data types such as Extensions. If this value is set to ENABLED, then features like referential integrity and Bundle reference rewriting apply to all references. If this flag has not been specified the behavior of the FHIR store will not change, references in complex data types will not be parsed. New stores will have this value set to ENABLED after a notification period. Warning: turning on this flag causes processing existing resources to fail if they contain references to non-existent resources. Cannot be disabled in R5. */
-  complexDataTypeReferenceParsing?:
-    | FhirStoreComplexDataTypeReferenceParsingEnum
-    | (string & {})
-    | undefined;
-  /** Optional. Specifies whether this store has consent enforcement. Not available for DSTU2 FHIR version due to absence of Consent resources. Not supported for R5 FHIR version. */
-  consentConfig?: ConsentConfig | undefined;
-  /** Optional. FHIR bulk export exports resources to the specified Cloud Storage destination. A Cloud Storage destination is a URI for a Cloud Storage directory where result files will be written. Only used in the spec-defined bulk $export methods. The Cloud Healthcare Service Agent requires the `roles/storage.objectAdmin` Cloud IAM role on the destination. */
-  bulkExportGcsDestination?: BulkExportGcsDestination | undefined;
-  /** Configuration for how to validate incoming FHIR resources against configured profiles. */
-  validationConfig?: ValidationConfig | undefined;
 }
-export interface PatchProjectsLocationsDatasetsFhirStoresFhirRequest {
+export interface PatchProjectsLocationsDatasetsFhirStoresFhirRequest extends HttpBody {
   /** Required. The name of the resource to update. */
   name: string;
-  /** The HTTP Content-Type header value specifying the content type of the body. */
-  contentType?: string | undefined;
-  /** Application specific response metadata. Must be set in the first response for streaming APIs. */
-  extensions?: DocumentMapList | undefined;
-  /** The HTTP request/response body as raw binary. */
-  data?: string | undefined;
 }
-export interface PatchProjectsLocationsDatasetsHl7V2StoresRequest {
+export interface PatchProjectsLocationsDatasetsHl7V2StoresRequest extends Omit<Hl7V2Store, "name"> {
   /** Identifier. Resource name of the HL7v2 store, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/hl7V2Stores/{hl7v2_store_id}`. */
   name: string;
   /** Required. The update mask applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask */
   updateMask?: string | undefined;
-  /** A list of notification configs. Each configuration uses a filter to determine whether to publish a message (both Ingest & Create) on the corresponding notification destination. Only the message name is sent as part of the notification. Supplied by the client. */
-  notificationConfigs?: Hl7V2NotificationConfigList | undefined;
-  /** The configuration for the parser. It determines how the server parses the messages. */
-  parserConfig?: ParserConfig | undefined;
-  /** User-supplied key-value pairs used to organize HL7v2 stores. Label keys must be between 1 and 63 characters long, have a UTF-8 encoding of maximum 128 bytes, and must conform to the following PCRE regular expression: \p{Ll}\p{Lo}{0,62} Label values are optional, must be between 1 and 63 characters long, have a UTF-8 encoding of maximum 128 bytes, and must conform to the following PCRE regular expression: [\p{Ll}\p{Lo}\p{N}_-]{0,63} No more than 64 labels can be associated with a given store. */
-  labels?: StringMap | undefined;
-  /** Determines whether to reject duplicate messages. A duplicate message is a message with the same raw bytes as a message that has already been ingested/created in this HL7v2 store. The default value is false, meaning that the store accepts the duplicate messages and it also returns the same ACK message in the IngestMessageResponse as has been returned previously. Note that only one resource is created in the store. When this field is set to true, CreateMessage/IngestMessage requests with a duplicate message will be rejected by the store, and IngestMessageErrorDetail returns a NACK message upon rejection. */
-  rejectDuplicateMessage?: boolean | undefined;
-  /** The notification destination all messages (both Ingest & Create) are published on. Only the message name is sent as part of the notification. If this is unset, no notifications are sent. Supplied by the client. */
-  notificationConfig?: NotificationConfig | undefined;
 }
-export interface PatchProjectsLocationsDatasetsHl7V2StoresMessagesRequest {
+export interface PatchProjectsLocationsDatasetsHl7V2StoresMessagesRequest extends Omit<
+  Message,
+  "name"
+> {
   /** Required. The update mask applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask */
   updateMask?: string | undefined;
   /** Output only. Resource name of the Message, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/hl7V2Stores/{hl7_v2_store_id}/messages/{message_id}`. Assigned by the server. */
   name: string;
-  /** The hospital that this message came from. MSH-4. */
-  sendFacility?: string | undefined;
-  /** The datetime the sending application sent this message. MSH-7. */
-  sendTime?: string | undefined;
-  /** The parsed version of the raw message data schematized according to this store's schemas and type definitions. */
-  schematizedData?: SchematizedData | undefined;
-  /** Output only. The parsed version of the raw message data. */
-  parsedData?: ParsedData | undefined;
-  /** The message type for this message. MSH-9.1. */
-  messageType?: string | undefined;
-  /** All patient IDs listed in the PID-2, PID-3, and PID-4 segments of this message. */
-  patientIds?: PatientIdList | undefined;
-  /** User-supplied key-value pairs used to organize HL7v2 stores. Label keys must be between 1 and 63 characters long, have a UTF-8 encoding of maximum 128 bytes, and must conform to the following PCRE regular expression: \p{Ll}\p{Lo}{0,62} Label values are optional, must be between 1 and 63 characters long, have a UTF-8 encoding of maximum 128 bytes, and must conform to the following PCRE regular expression: [\p{Ll}\p{Lo}\p{N}_-]{0,63} No more than 64 labels can be associated with a given store. */
-  labels?: StringMap | undefined;
-  /** Required. Raw message bytes. */
-  data?: string | undefined;
-  /** Output only. The datetime when the message was created. Set by the server. */
-  createTime?: string | undefined;
 }
 export interface Patient_consent_enforcement_statusProjectsLocationsDatasetsFhirStoresFhirRequest {
   /** Optional. The maximum number of results on a page. If not specified, 100 is used. May not be larger than 1000. */
@@ -2812,15 +2598,18 @@ export interface GoogleCloudHealthcareV1beta1ConsentGcsDestination {
   /** URI for a Cloud Storage directory where the server writes result files, in the format `gs://{bucket-id}/{path/to/destination/dir}`. If there is no trailing slash, the service appends one when composing the object path. The user is responsible for creating the Cloud Storage bucket and directory referenced in `uri_prefix`. */
   uriPrefix?: string | undefined;
 }
-export interface QueryAccessibleDataProjectsLocationsDatasetsConsentStoresRequest {
-  /** Required. Name of the consent store to retrieve User data mappings from. */
-  consentStore: string;
+/** Queries all data_ids that are consented for a given use in the given consent store and writes them to a specified destination. The returned Operation includes a progress counter for the number of User data mappings processed. Errors are logged to Cloud Logging (see [Viewing error logs in Cloud Logging] (https://cloud.google.com/healthcare/docs/how-tos/logging) and [QueryAccessibleData] for a sample log entry). */
+export interface QueryAccessibleDataRequest {
   /** The Cloud Storage destination. The Cloud Healthcare API service account must have the `roles/storage.objectAdmin` Cloud IAM role for this Cloud Storage location. The object name is in the following format: query-accessible-data-result-{operation_id}.txt where each line contains a single data_id. */
   gcsDestination?: GoogleCloudHealthcareV1beta1ConsentGcsDestination | undefined;
   /** The values of request attributes associated with this access request. */
   requestAttributes?: StringMap | undefined;
   /** Optional. The values of resource attributes associated with the type of resources being requested. If no values are specified, then all resource types are included in the output. */
   resourceAttributes?: StringMap | undefined;
+}
+export interface QueryAccessibleDataProjectsLocationsDatasetsConsentStoresRequest extends QueryAccessibleDataRequest {
+  /** Required. Name of the consent store to retrieve User data mappings from. */
+  consentStore: string;
 }
 export interface ReadBinaryProjectsLocationsDatasetsFhirStoresFhirRequest {
   /** Required. The name of the Binary resource to retrieve. */
@@ -2830,11 +2619,14 @@ export interface ReadProjectsLocationsDatasetsFhirStoresFhirRequest {
   /** Required. The name of the resource to retrieve. */
   name: string;
 }
-export interface RejectProjectsLocationsDatasetsConsentStoresConsentsRequest {
-  /** Required. The resource name of the Consent to reject, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/consentStores/{consent_store_id}/consents/{consent_id}`. An INVALID_ARGUMENT error occurs if `revision_id` is specified in the name. */
-  name: string;
+/** Rejects the latest revision of the specified Consent by committing a new revision with `state` updated to `REJECTED`. If the latest revision of the given Consent is in the `REJECTED` state, no new revision is committed. */
+export interface RejectConsentRequest {
   /** Optional. The resource name of the Consent artifact that contains documentation of the user's rejection of the draft Consent, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/consentStores/{consent_store_id}/consentArtifacts/{consent_artifact_id}`. If the draft Consent had a Consent artifact, this Consent artifact overwrites it. */
   consentArtifact?: string | undefined;
+}
+export interface RejectProjectsLocationsDatasetsConsentStoresConsentsRequest extends RejectConsentRequest {
+  /** Required. The resource name of the Consent to reject, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/consentStores/{consent_store_id}/consents/{consent_id}`. An INVALID_ARGUMENT error occurs if `revision_id` is specified in the name. */
+  name: string;
 }
 export interface Resource_incoming_referencesProjectsLocationsDatasetsFhirStoresFhirRequest {
   /** Required. The name of the FHIR store that holds the target resource. */
@@ -2850,11 +2642,14 @@ export interface Resource_incoming_referencesProjectsLocationsDatasetsFhirStores
   /** Used to retrieve the next page of results when using pagination. Set `_page_token` to the value of _page_token set in next page links' url. Next page are returned in the response bundle's links field, where `link.relation` is "next". Omit `_page_token` if no previous request has been made. */
   _page_token?: string | undefined;
 }
-export interface RevokeProjectsLocationsDatasetsConsentStoresConsentsRequest {
-  /** Required. The resource name of the Consent to revoke, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/consentStores/{consent_store_id}/consents/{consent_id}`. An INVALID_ARGUMENT error occurs if `revision_id` is specified in the name. */
-  name: string;
+/** Revokes the latest revision of the specified Consent by committing a new revision with `state` updated to `REVOKED`. If the latest revision of the given Consent is in the `REVOKED` state, no new revision is committed. */
+export interface RevokeConsentRequest {
   /** Optional. The resource name of the Consent artifact that contains proof of the user's revocation of the Consent, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/consentStores/{consent_store_id}/consentArtifacts/{consent_artifact_id}`. */
   consentArtifact?: string | undefined;
+}
+export interface RevokeProjectsLocationsDatasetsConsentStoresConsentsRequest extends RevokeConsentRequest {
+  /** Required. The resource name of the Consent to revoke, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/consentStores/{consent_store_id}/consents/{consent_id}`. An INVALID_ARGUMENT error occurs if `revision_id` is specified in the name. */
+  name: string;
 }
 /** Filters to select resources that need to be rolled back. */
 export interface RollbackFhirResourceFilteringFields {
@@ -2869,9 +2664,8 @@ export type RollbackFhirResourcesRequestChangeTypeEnum =
   | "CREATE"
   | "UPDATE"
   | "DELETE";
-export interface RollbackProjectsLocationsDatasetsFhirStoresRequest {
-  /** Required. The name of the FHIR store to rollback, in the format of "projects/{project_id}/locations/{location_id}/datasets/{dataset_id} /fhirStores/{fhir_store_id}". */
-  name: string;
+/** Request to roll back resources. */
+export interface RollbackFhirResourcesRequest {
   /** Optional. Cloud Storage object containing list of {resourceType}/{resourceId} lines, identifying resources to be reverted */
   inputGcsObject?: string | undefined;
   /** Optional. When enabled, changes will be reverted without explicit confirmation */
@@ -2889,6 +2683,10 @@ export interface RollbackProjectsLocationsDatasetsFhirStoresRequest {
   /** Optional. CREATE/UPDATE/DELETE/ALL for reverting all txns of a certain type. */
   changeType?: RollbackFhirResourcesRequestChangeTypeEnum | (string & {}) | undefined;
 }
+export interface RollbackProjectsLocationsDatasetsFhirStoresRequest extends RollbackFhirResourcesRequest {
+  /** Required. The name of the FHIR store to rollback, in the format of "projects/{project_id}/locations/{location_id}/datasets/{dataset_id} /fhirStores/{fhir_store_id}". */
+  name: string;
+}
 export type RollbackHl7V2MessagesRequestChangeTypeEnum =
   | "CHANGE_TYPE_UNSPECIFIED"
   | "ALL"
@@ -2900,9 +2698,8 @@ export interface RollbackHL7MessagesFilteringFields {
   /** Optional. A list of operation IDs to roll back. */
   operationIds?: StringList | undefined;
 }
-export interface RollbackProjectsLocationsDatasetsHl7V2StoresRequest {
-  /** Required. The name of the HL7v2 store to rollback, in the format of "projects/{project_id}/locations/{location_id}/datasets/{dataset_id} /hl7V2Stores/{hl7v2_store_id}". */
-  name: string;
+/** Point in time recovery rollback request. */
+export interface RollbackHl7V2MessagesRequest {
   /** Required. Times point to rollback to. */
   rollbackTime?: string | undefined;
   /** Optional. Specifies whether to exclude earlier rollbacks. */
@@ -2917,6 +2714,10 @@ export interface RollbackProjectsLocationsDatasetsHl7V2StoresRequest {
   inputGcsObject?: string | undefined;
   /** Optional. Parameters for filtering. */
   filteringFields?: RollbackHL7MessagesFilteringFields | undefined;
+}
+export interface RollbackProjectsLocationsDatasetsHl7V2StoresRequest extends RollbackHl7V2MessagesRequest {
+  /** Required. The name of the HL7v2 store to rollback, in the format of "projects/{project_id}/locations/{location_id}/datasets/{dataset_id} /hl7V2Stores/{hl7v2_store_id}". */
+  name: string;
 }
 export interface SearchConceptMapTranslateProjectsLocationsDatasetsFhirStoresFhirRequest {
   /** The canonical url of the concept map to use. If unset, the source and target is used to search for concept maps. */
@@ -2970,252 +2771,155 @@ export interface SearchForStudiesProjectsLocationsDatasetsDicomStoresRequest {
   /** Required. The path of the SearchForStudies DICOMweb request. For example, `studies`. */
   dicomWebPath: string;
 }
-export interface SearchProjectsLocationsDatasetsFhirStoresFhirRequest {
+export interface SearchProjectsLocationsDatasetsFhirStoresFhirRequest extends HttpBody {
   /** Required. Name of the FHIR store to retrieve resources from. */
   parent: string;
   /** Optional. The FHIR resource type to search, such as Patient or Observation. For a complete list, see the FHIR Resource Index ([DSTU2](https://hl7.org/fhir/DSTU2/resourcelist.html), [STU3](https://hl7.org/fhir/STU3/resourcelist.html), [R4](https://hl7.org/fhir/R4/resourcelist.html), [R5](https://hl7.org/fhir/R5/resourcelist.html)). */
   resourceType?: string | undefined;
-  /** The HTTP Content-Type header value specifying the content type of the body. */
-  contentType?: string | undefined;
-  /** Application specific response metadata. Must be set in the first response for streaming APIs. */
-  extensions?: DocumentMapList | undefined;
-  /** The HTTP request/response body as raw binary. */
-  data?: string | undefined;
 }
-export interface SearchTypeProjectsLocationsDatasetsFhirStoresFhirRequest {
+export interface SearchTypeProjectsLocationsDatasetsFhirStoresFhirRequest extends HttpBody {
   /** Optional. The FHIR resource type to search, such as Patient or Observation. For a complete list, see the FHIR Resource Index ([DSTU2](https://hl7.org/fhir/DSTU2/resourcelist.html), [STU3](https://hl7.org/fhir/STU3/resourcelist.html), [R4](https://hl7.org/fhir/R4/resourcelist.html), [R5](https://hl7.org/fhir/R5/resourcelist.html)). */
   resourceType: string;
   /** Required. Name of the FHIR store to retrieve resources from. */
   parent: string;
-  /** The HTTP Content-Type header value specifying the content type of the body. */
-  contentType?: string | undefined;
-  /** Application specific response metadata. Must be set in the first response for streaming APIs. */
-  extensions?: DocumentMapList | undefined;
-  /** The HTTP request/response body as raw binary. */
-  data?: string | undefined;
 }
-export interface SetBlobStorageSettingsProjectsLocationsDatasetsDicomStoresRequest {
-  /** Required. The path of the resource to update the blob storage settings in the format of `projects/{projectID}/locations/{locationID}/datasets/{datasetID}/dicomStores/{dicomStoreID}/dicomWeb/studies/{studyUID}`, `projects/{projectID}/locations/{locationID}/datasets/{datasetID}/dicomStores/{dicomStoreID}/dicomWeb/studies/{studyUID}/series/{seriesUID}/`, or `projects/{projectID}/locations/{locationID}/datasets/{datasetID}/dicomStores/{dicomStoreID}/dicomWeb/studies/{studyUID}/series/{seriesUID}/instances/{instanceUID}`. If `filter_config` is specified, set the value of `resource` to the resource name of a DICOM store in the format `projects/{projectID}/locations/{locationID}/datasets/{datasetID}/dicomStores/{dicomStoreID}`. */
-  resource: string;
+/** Request message for `SetBlobStorageSettings` method. */
+export interface SetBlobStorageSettingsRequest {
   /** Optional. A filter configuration. If `filter_config` is specified, set the value of `resource` to the resource name of a DICOM store in the format `projects/{projectID}/locations/{locationID}/datasets/{datasetID}/dicomStores/{dicomStoreID}`. */
   filterConfig?: DicomFilterConfig | undefined;
   /** The blob storage settings to update for the specified resources. Only fields listed in `update_mask` are applied. */
   blobStorageSettings?: BlobStorageSettings | undefined;
 }
-export interface SetBlobStorageSettingsProjectsLocationsDatasetsDicomStoresDicomWebStudiesRequest {
+export interface SetBlobStorageSettingsProjectsLocationsDatasetsDicomStoresRequest extends SetBlobStorageSettingsRequest {
   /** Required. The path of the resource to update the blob storage settings in the format of `projects/{projectID}/locations/{locationID}/datasets/{datasetID}/dicomStores/{dicomStoreID}/dicomWeb/studies/{studyUID}`, `projects/{projectID}/locations/{locationID}/datasets/{datasetID}/dicomStores/{dicomStoreID}/dicomWeb/studies/{studyUID}/series/{seriesUID}/`, or `projects/{projectID}/locations/{locationID}/datasets/{datasetID}/dicomStores/{dicomStoreID}/dicomWeb/studies/{studyUID}/series/{seriesUID}/instances/{instanceUID}`. If `filter_config` is specified, set the value of `resource` to the resource name of a DICOM store in the format `projects/{projectID}/locations/{locationID}/datasets/{datasetID}/dicomStores/{dicomStoreID}`. */
   resource: string;
-  /** Optional. A filter configuration. If `filter_config` is specified, set the value of `resource` to the resource name of a DICOM store in the format `projects/{projectID}/locations/{locationID}/datasets/{datasetID}/dicomStores/{dicomStoreID}`. */
-  filterConfig?: DicomFilterConfig | undefined;
-  /** The blob storage settings to update for the specified resources. Only fields listed in `update_mask` are applied. */
-  blobStorageSettings?: BlobStorageSettings | undefined;
 }
-export interface SetIamPolicyProjectsLocationsDatasetsRequest {
-  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+export interface SetBlobStorageSettingsProjectsLocationsDatasetsDicomStoresDicomWebStudiesRequest extends SetBlobStorageSettingsRequest {
+  /** Required. The path of the resource to update the blob storage settings in the format of `projects/{projectID}/locations/{locationID}/datasets/{datasetID}/dicomStores/{dicomStoreID}/dicomWeb/studies/{studyUID}`, `projects/{projectID}/locations/{locationID}/datasets/{datasetID}/dicomStores/{dicomStoreID}/dicomWeb/studies/{studyUID}/series/{seriesUID}/`, or `projects/{projectID}/locations/{locationID}/datasets/{datasetID}/dicomStores/{dicomStoreID}/dicomWeb/studies/{studyUID}/series/{seriesUID}/instances/{instanceUID}`. If `filter_config` is specified, set the value of `resource` to the resource name of a DICOM store in the format `projects/{projectID}/locations/{locationID}/datasets/{datasetID}/dicomStores/{dicomStoreID}`. */
   resource: string;
+}
+/** Request message for `SetIamPolicy` method. */
+export interface SetIamPolicyRequest {
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
   policy?: Policy | undefined;
   /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
   updateMask?: string | undefined;
 }
-export interface SetIamPolicyProjectsLocationsDatasetsConsentStoresRequest {
+export interface SetIamPolicyProjectsLocationsDatasetsRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
-  policy?: Policy | undefined;
-  /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
-  updateMask?: string | undefined;
 }
-export interface SetIamPolicyProjectsLocationsDatasetsDataMapperWorkspacesRequest {
+export interface SetIamPolicyProjectsLocationsDatasetsConsentStoresRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
-  policy?: Policy | undefined;
-  /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
-  updateMask?: string | undefined;
 }
-export interface SetIamPolicyProjectsLocationsDatasetsDicomStoresRequest {
+export interface SetIamPolicyProjectsLocationsDatasetsDataMapperWorkspacesRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
-  policy?: Policy | undefined;
-  /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
-  updateMask?: string | undefined;
 }
-export interface SetIamPolicyProjectsLocationsDatasetsFhirStoresRequest {
+export interface SetIamPolicyProjectsLocationsDatasetsDicomStoresRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
-  policy?: Policy | undefined;
-  /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
-  updateMask?: string | undefined;
 }
-export interface SetIamPolicyProjectsLocationsDatasetsHl7V2StoresRequest {
+export interface SetIamPolicyProjectsLocationsDatasetsFhirStoresRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
-  policy?: Policy | undefined;
-  /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
-  updateMask?: string | undefined;
 }
-export interface StoreInstancesProjectsLocationsDatasetsDicomStoresRequest {
+export interface SetIamPolicyProjectsLocationsDatasetsHl7V2StoresRequest extends SetIamPolicyRequest {
+  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
+}
+export interface StoreInstancesProjectsLocationsDatasetsDicomStoresRequest extends HttpBody {
   /** Required. The name of the DICOM store that is being accessed. For example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}`. */
   parent: string;
   /** Required. The path of the StoreInstances DICOMweb request. For example, `studies/[{study_uid}]`. Note that the `study_uid` is optional. */
   dicomWebPath: string;
-  /** The HTTP Content-Type header value specifying the content type of the body. */
-  contentType?: string | undefined;
-  /** Application specific response metadata. Must be set in the first response for streaming APIs. */
-  extensions?: DocumentMapList | undefined;
-  /** The HTTP request/response body as raw binary. */
-  data?: string | undefined;
 }
-export interface StoreInstancesProjectsLocationsDatasetsDicomStoresStudiesRequest {
+export interface StoreInstancesProjectsLocationsDatasetsDicomStoresStudiesRequest extends HttpBody {
   /** Required. The name of the DICOM store that is being accessed. For example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}`. */
   parent: string;
   /** Required. The path of the StoreInstances DICOMweb request. For example, `studies/[{study_uid}]`. Note that the `study_uid` is optional. */
   dicomWebPath: string;
-  /** The HTTP Content-Type header value specifying the content type of the body. */
-  contentType?: string | undefined;
-  /** Application specific response metadata. Must be set in the first response for streaming APIs. */
-  extensions?: DocumentMapList | undefined;
-  /** The HTTP request/response body as raw binary. */
-  data?: string | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsDatasetsRequest {
-  /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
+/** Request message for `TestIamPermissions` method. */
+export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: StringList | undefined;
+}
+export interface TestIamPermissionsProjectsLocationsDatasetsRequest extends TestIamPermissionsRequest {
+  /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsDatasetsConsentStoresRequest {
+export interface TestIamPermissionsProjectsLocationsDatasetsConsentStoresRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
-  permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsDatasetsDataMapperWorkspacesRequest {
+export interface TestIamPermissionsProjectsLocationsDatasetsDataMapperWorkspacesRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
-  permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsDatasetsDicomStoresRequest {
+export interface TestIamPermissionsProjectsLocationsDatasetsDicomStoresRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
-  permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsDatasetsFhirStoresRequest {
+export interface TestIamPermissionsProjectsLocationsDatasetsFhirStoresRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
-  permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsDatasetsHl7V2StoresRequest {
+export interface TestIamPermissionsProjectsLocationsDatasetsHl7V2StoresRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
-  permissions?: StringList | undefined;
 }
-export interface UpdateBinaryProjectsLocationsDatasetsFhirStoresFhirRequest {
+export interface UpdateBinaryProjectsLocationsDatasetsFhirStoresFhirRequest extends HttpBody {
   /** Required. The name of the resource to update. */
   name: string;
-  /** The HTTP Content-Type header value specifying the content type of the body. */
-  contentType?: string | undefined;
-  /** Application specific response metadata. Must be set in the first response for streaming APIs. */
-  extensions?: DocumentMapList | undefined;
-  /** The HTTP request/response body as raw binary. */
-  data?: string | undefined;
 }
-export interface UpdateInstancesProjectsLocationsDatasetsDicomStoresRequest {
+export interface UpdateInstancesProjectsLocationsDatasetsDicomStoresRequest extends HttpBody {
   /** Required. The name of the DICOM store that is being accessed. For example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}`. */
   parent: string;
   /** Required. The path of the UpdateInstances DICOMweb request. For example, `studies/[{study_uid}]`. Note that the `study_uid` is optional. */
   dicomWebPath: string;
-  /** The HTTP Content-Type header value specifying the content type of the body. */
-  contentType?: string | undefined;
-  /** Application specific response metadata. Must be set in the first response for streaming APIs. */
-  extensions?: DocumentMapList | undefined;
-  /** The HTTP request/response body as raw binary. */
-  data?: string | undefined;
 }
-export interface UpdateInstancesProjectsLocationsDatasetsDicomStoresStudiesRequest {
+export interface UpdateInstancesProjectsLocationsDatasetsDicomStoresStudiesRequest extends HttpBody {
   /** Required. The path of the UpdateInstances DICOMweb request. For example, `studies/[{study_uid}]`. Note that the `study_uid` is optional. */
   dicomWebPath: string;
   /** Required. The name of the DICOM store that is being accessed. For example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}`. */
   parent: string;
-  /** The HTTP Content-Type header value specifying the content type of the body. */
-  contentType?: string | undefined;
-  /** Application specific response metadata. Must be set in the first response for streaming APIs. */
-  extensions?: DocumentMapList | undefined;
-  /** The HTTP request/response body as raw binary. */
-  data?: string | undefined;
 }
-export interface UpdateMetadataProjectsLocationsDatasetsDicomStoresStudiesRequest {
+export interface UpdateMetadataProjectsLocationsDatasetsDicomStoresStudiesRequest extends HttpBody {
   /** Required. The path of the UpdateStudyMetadata request (for example, `studies/{study_uid}`). */
   dicomWebPath: string;
   /** Required. The name of the DICOM store that is being accessed (for example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}`). */
   parent: string;
-  /** The HTTP Content-Type header value specifying the content type of the body. */
-  contentType?: string | undefined;
-  /** Application specific response metadata. Must be set in the first response for streaming APIs. */
-  extensions?: DocumentMapList | undefined;
-  /** The HTTP request/response body as raw binary. */
-  data?: string | undefined;
 }
-export interface UpdateMetadataProjectsLocationsDatasetsDicomStoresStudiesSeriesRequest {
+export interface UpdateMetadataProjectsLocationsDatasetsDicomStoresStudiesSeriesRequest extends HttpBody {
   /** Required. The name of the DICOM store that is being accessed (for example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}`). */
   parent: string;
   /** Required. The path of the UpdateSeriesMetadata request (for example, `studies/{study_uid}/series/{series_uid}`). */
   dicomWebPath: string;
-  /** The HTTP Content-Type header value specifying the content type of the body. */
-  contentType?: string | undefined;
-  /** Application specific response metadata. Must be set in the first response for streaming APIs. */
-  extensions?: DocumentMapList | undefined;
-  /** The HTTP request/response body as raw binary. */
-  data?: string | undefined;
 }
-export interface UpdateMetadataProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesRequest {
+export interface UpdateMetadataProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesRequest extends HttpBody {
   /** Required. The name of the DICOM store that is being accessed (for example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}`). */
   parent: string;
   /** Required. The path of the UpdateInstanceMetadata request (for example, `studies/{study_uid}/series/{series_uid}/instances/{instance_uid}`). */
   dicomWebPath: string;
-  /** The HTTP Content-Type header value specifying the content type of the body. */
-  contentType?: string | undefined;
-  /** Application specific response metadata. Must be set in the first response for streaming APIs. */
-  extensions?: DocumentMapList | undefined;
-  /** The HTTP request/response body as raw binary. */
-  data?: string | undefined;
 }
-export interface UpdateProjectsLocationsDatasetsFhirStoresFhirRequest {
+export interface UpdateProjectsLocationsDatasetsFhirStoresFhirRequest extends HttpBody {
   /** Required. The name of the resource to update. */
   name: string;
-  /** The HTTP Content-Type header value specifying the content type of the body. */
-  contentType?: string | undefined;
-  /** Application specific response metadata. Must be set in the first response for streaming APIs. */
-  extensions?: DocumentMapList | undefined;
-  /** The HTTP request/response body as raw binary. */
-  data?: string | undefined;
 }
-export interface ValidateResourceProjectsLocationsDatasetsFhirStoresFhirRequest {
+export interface ValidateResourceProjectsLocationsDatasetsFhirStoresFhirRequest extends HttpBody {
   /** Optional. The canonical URL of a profile that this resource should be validated against. For example, to validate a Patient resource against the US Core Patient profile this parameter would be `http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient`. A StructureDefinition with this canonical URL must exist in the FHIR store. */
   profile?: string | undefined;
   /** Required. The name of the FHIR store that holds the profiles being used for validation. */
   parent: string;
   /** Required. The FHIR resource type of the resource being validated. For a complete list, see the FHIR Resource Index ([DSTU2](https://hl7.org/fhir/DSTU2/resourcelist.html), [STU3](https://hl7.org/fhir/STU3/resourcelist.html), [R4](https://hl7.org/fhir/R4/resourcelist.html), or [R5](https://hl7.org/fhir/R5/resourcelist.html)). Must match the resource type in the provided content. */
   type: string;
-  /** The HTTP Content-Type header value specifying the content type of the body. */
-  contentType?: string | undefined;
-  /** Application specific response metadata. Must be set in the first response for streaming APIs. */
-  extensions?: DocumentMapList | undefined;
-  /** The HTTP request/response body as raw binary. */
-  data?: string | undefined;
 }
 export interface VreadProjectsLocationsDatasetsFhirStoresFhirRequest {
   /** Required. The name of the resource version to retrieve. */
@@ -3235,11 +2939,11 @@ export const activateProjectsLocationsDatasetsConsentStoresConsents: API.Operati
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4000,
-    __c125,
-    0,
+    4129,
+    __c129,
+    1,
   ) as any as S.Schema<ActivateProjectsLocationsDatasetsConsentStoresConsentsRequest>,
-  output: __S(4098, __c128, 2) as any as S.Schema<Consent>,
+  output: __S(4226, __c132, 2) as any as S.Schema<Consent>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3261,11 +2965,11 @@ export const analyzeEntitiesProjectsLocationsServicesNlp: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4512,
-    __c141,
-    0,
+    4641,
+    __c145,
+    1,
   ) as any as S.Schema<AnalyzeEntitiesProjectsLocationsServicesNlpRequest>,
-  output: __S(4524, __c141, 12) as any as S.Schema<AnalyzeEntitiesResponse>,
+  output: __S(4653, __c145, 13) as any as S.Schema<AnalyzeEntitiesResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3287,11 +2991,11 @@ export const applyAdminConsentsProjectsLocationsDatasetsFhirStores: API.Operatio
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4897,
-    __c153,
-    1,
+    5026,
+    __c157,
+    2,
   ) as any as S.Schema<ApplyAdminConsentsProjectsLocationsDatasetsFhirStoresRequest>,
-  output: __S(4993, __c156, 1) as any as S.Schema<Operation>,
+  output: __S(5121, __c160, 1) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3313,11 +3017,11 @@ export const applyConsentsProjectsLocationsDatasetsFhirStores: API.OperationMeth
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5346,
-    __c167,
-    2,
+    5475,
+    __c171,
+    3,
   ) as any as S.Schema<ApplyConsentsProjectsLocationsDatasetsFhirStoresRequest>,
-  output: __S(4993, __c156, 1) as any as S.Schema<Operation>,
+  output: __S(5121, __c160, 1) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3339,11 +3043,11 @@ export const archiveProjectsLocationsDatasetsConsentStoresUserDataMappings: API.
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5728,
-    __c179,
+    5856,
+    __c183,
     0,
   ) as any as S.Schema<ArchiveProjectsLocationsDatasetsConsentStoresUserDataMappingsRequest>,
-  output: __S(5760, __c180, 0) as any as S.Schema<ArchiveUserDataMappingResponse>,
+  output: __S(5888, __c184, 0) as any as S.Schema<ArchiveUserDataMappingResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3363,11 +3067,11 @@ export const batchGetProjectsLocationsDatasetsHl7V2StoresMessages: API.Operation
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    6176,
-    __c193,
+    6272,
+    __c196,
     0,
   ) as any as S.Schema<BatchGetProjectsLocationsDatasetsHl7V2StoresMessagesRequest>,
-  output: __S(6177, __c193, 1) as any as S.Schema<BatchGetMessagesResponse>,
+  output: __S(6273, __c196, 1) as any as S.Schema<BatchGetMessagesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3413,11 +3117,11 @@ export const bulkDeleteProjectsLocationsDatasetsFhirStores: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    416,
+    417,
     __c13,
-    0,
+    1,
   ) as any as S.Schema<BulkDeleteProjectsLocationsDatasetsFhirStoresRequest>,
-  output: __S(4993, __c156, 1) as any as S.Schema<Operation>,
+  output: __S(5121, __c160, 1) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3487,8 +3191,8 @@ export const bulkExportProjectsLocationsDatasetsFhirStoresFhir: API.OperationMet
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1568,
-    __c49,
+    1600,
+    __c50,
     0,
   ) as any as S.Schema<BulkExportProjectsLocationsDatasetsFhirStoresFhirRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<HttpBody>,
@@ -3512,8 +3216,8 @@ export const cancelProjectsLocationsDatasetsOperations: API.OperationMethod<
   CancelProjectsLocationsDatasetsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1920, __c60, 0) as any as S.Schema<CancelProjectsLocationsDatasetsOperationsRequest>,
-  output: __S(5760, __c180, 0) as any as S.Schema<Empty>,
+  input: __S(1984, __c62, 0) as any as S.Schema<CancelProjectsLocationsDatasetsOperationsRequest>,
+  output: __S(5888, __c184, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3533,8 +3237,8 @@ export const capabilitiesProjectsLocationsDatasetsFhirStoresFhir: API.OperationM
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2304,
-    __c72,
+    2400,
+    __c75,
     0,
   ) as any as S.Schema<CapabilitiesProjectsLocationsDatasetsFhirStoresFhirRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<HttpBody>,
@@ -3559,11 +3263,11 @@ export const checkDataAccessProjectsLocationsDatasetsConsentStores: API.Operatio
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2656,
-    __c83,
-    0,
+    2753,
+    __c86,
+    1,
   ) as any as S.Schema<CheckDataAccessProjectsLocationsDatasetsConsentStoresRequest>,
-  output: __S(2657, __c83, 1) as any as S.Schema<CheckDataAccessResponse>,
+  output: __S(2754, __c86, 2) as any as S.Schema<CheckDataAccessResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3583,8 +3287,8 @@ export const conceptMap_translateProjectsLocationsDatasetsFhirStoresFhir: API.Op
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2848,
-    __c89,
+    2944,
+    __c92,
     0,
   ) as any as S.Schema<ConceptMap_translateProjectsLocationsDatasetsFhirStoresFhirRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<HttpBody>,
@@ -3609,11 +3313,11 @@ export const conditionalDeleteProjectsLocationsDatasetsFhirStoresFhir: API.Opera
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2880,
-    __c90,
+    2976,
+    __c93,
     0,
   ) as any as S.Schema<ConditionalDeleteProjectsLocationsDatasetsFhirStoresFhirRequest>,
-  output: __S(5760, __c180, 0) as any as S.Schema<Empty>,
+  output: __S(5888, __c184, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3635,8 +3339,8 @@ export const conditionalPatchProjectsLocationsDatasetsFhirStoresFhir: API.Operat
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2912,
-    __c91,
+    3008,
+    __c94,
     0,
   ) as any as S.Schema<ConditionalPatchProjectsLocationsDatasetsFhirStoresFhirRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<HttpBody>,
@@ -3661,8 +3365,8 @@ export const conditionalUpdateProjectsLocationsDatasetsFhirStoresFhir: API.Opera
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2944,
-    __c92,
+    3040,
+    __c95,
     0,
   ) as any as S.Schema<ConditionalUpdateProjectsLocationsDatasetsFhirStoresFhirRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<HttpBody>,
@@ -3687,11 +3391,11 @@ export const configureSearchProjectsLocationsDatasetsFhirStores: API.OperationMe
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2976,
-    __c93,
-    0,
+    3073,
+    __c96,
+    1,
   ) as any as S.Schema<ConfigureSearchProjectsLocationsDatasetsFhirStoresRequest>,
-  output: __S(4993, __c156, 1) as any as S.Schema<Operation>,
+  output: __S(5121, __c160, 1) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3711,8 +3415,8 @@ export const consent_enforcement_statusProjectsLocationsDatasetsFhirStoresFhir: 
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3008,
-    __c94,
+    3104,
+    __c97,
     0,
   ) as any as S.Schema<Consent_enforcement_statusProjectsLocationsDatasetsFhirStoresFhirRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<HttpBody>,
@@ -3737,8 +3441,8 @@ export const createBinaryProjectsLocationsDatasetsFhirStoresFhir: API.OperationM
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3040,
-    __c95,
+    3136,
+    __c98,
     0,
   ) as any as S.Schema<CreateBinaryProjectsLocationsDatasetsFhirStoresFhirRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<HttpBody>,
@@ -3762,8 +3466,8 @@ export const createProjectsLocationsDatasets: API.OperationMethod<
   CreateProjectsLocationsDatasetsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3072, __c96, 0) as any as S.Schema<CreateProjectsLocationsDatasetsRequest>,
-  output: __S(4993, __c156, 1) as any as S.Schema<Operation>,
+  input: __S(3168, __c99, 0) as any as S.Schema<CreateProjectsLocationsDatasetsRequest>,
+  output: __S(5121, __c160, 1) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3785,11 +3489,11 @@ export const createProjectsLocationsDatasetsConsentStores: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3136,
-    __c98,
+    3232,
+    __c101,
     0,
   ) as any as S.Schema<CreateProjectsLocationsDatasetsConsentStoresRequest>,
-  output: __S(3168, __c99, 0) as any as S.Schema<ConsentStore>,
+  output: __S(3264, __c102, 0) as any as S.Schema<ConsentStore>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3811,11 +3515,11 @@ export const createProjectsLocationsDatasetsConsentStoresAttributeDefinitions: A
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3200,
-    __c100,
+    3296,
+    __c103,
     0,
   ) as any as S.Schema<CreateProjectsLocationsDatasetsConsentStoresAttributeDefinitionsRequest>,
-  output: __S(3232, __c101, 0) as any as S.Schema<AttributeDefinition>,
+  output: __S(3328, __c104, 0) as any as S.Schema<AttributeDefinition>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3837,11 +3541,11 @@ export const createProjectsLocationsDatasetsConsentStoresConsentArtifacts: API.O
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3264,
-    __c102,
+    3360,
+    __c105,
     0,
   ) as any as S.Schema<CreateProjectsLocationsDatasetsConsentStoresConsentArtifactsRequest>,
-  output: __S(3299, __c103, 3) as any as S.Schema<ConsentArtifact>,
+  output: __S(3395, __c106, 3) as any as S.Schema<ConsentArtifact>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3863,11 +3567,11 @@ export const createProjectsLocationsDatasetsConsentStoresConsents: API.Operation
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3328,
-    __c104,
+    3424,
+    __c107,
     0,
   ) as any as S.Schema<CreateProjectsLocationsDatasetsConsentStoresConsentsRequest>,
-  output: __S(4098, __c128, 2) as any as S.Schema<Consent>,
+  output: __S(4226, __c132, 2) as any as S.Schema<Consent>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3889,11 +3593,11 @@ export const createProjectsLocationsDatasetsConsentStoresUserDataMappings: API.O
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3360,
-    __c105,
+    3456,
+    __c108,
     0,
   ) as any as S.Schema<CreateProjectsLocationsDatasetsConsentStoresUserDataMappingsRequest>,
-  output: __S(3392, __c106, 0) as any as S.Schema<UserDataMapping>,
+  output: __S(3488, __c109, 0) as any as S.Schema<UserDataMapping>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3914,8 +3618,8 @@ export const createProjectsLocationsDatasetsDicomStores: API.OperationMethod<
   CreateProjectsLocationsDatasetsDicomStoresError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3424, __c107, 0) as any as S.Schema<CreateProjectsLocationsDatasetsDicomStoresRequest>,
-  output: __S(3555, __c111, 3) as any as S.Schema<DicomStore>,
+  input: __S(3520, __c110, 0) as any as S.Schema<CreateProjectsLocationsDatasetsDicomStoresRequest>,
+  output: __S(3651, __c114, 3) as any as S.Schema<DicomStore>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3936,8 +3640,8 @@ export const createProjectsLocationsDatasetsFhirStores: API.OperationMethod<
   CreateProjectsLocationsDatasetsFhirStoresError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3584, __c112, 0) as any as S.Schema<CreateProjectsLocationsDatasetsFhirStoresRequest>,
-  output: __S(3692, __c115, 12) as any as S.Schema<FhirStore>,
+  input: __S(3680, __c115, 0) as any as S.Schema<CreateProjectsLocationsDatasetsFhirStoresRequest>,
+  output: __S(3788, __c118, 12) as any as S.Schema<FhirStore>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3959,8 +3663,8 @@ export const createProjectsLocationsDatasetsFhirStoresFhir: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3712,
-    __c116,
+    3808,
+    __c119,
     0,
   ) as any as S.Schema<CreateProjectsLocationsDatasetsFhirStoresFhirRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<HttpBody>,
@@ -3984,8 +3688,8 @@ export const createProjectsLocationsDatasetsHl7V2Stores: API.OperationMethod<
   CreateProjectsLocationsDatasetsHl7V2StoresError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3744, __c117, 0) as any as S.Schema<CreateProjectsLocationsDatasetsHl7V2StoresRequest>,
-  output: __S(3795, __c118, 19) as any as S.Schema<Hl7V2Store>,
+  input: __S(3840, __c120, 0) as any as S.Schema<CreateProjectsLocationsDatasetsHl7V2StoresRequest>,
+  output: __S(3891, __c121, 19) as any as S.Schema<Hl7V2Store>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4007,11 +3711,11 @@ export const createProjectsLocationsDatasetsHl7V2StoresMessages: API.OperationMe
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3808,
-    __c119,
+    3904,
+    __c122,
     0,
   ) as any as S.Schema<CreateProjectsLocationsDatasetsHl7V2StoresMessagesRequest>,
-  output: __S(6246, __c195, 6) as any as S.Schema<Message>,
+  output: __S(6342, __c198, 6) as any as S.Schema<Message>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4032,8 +3736,8 @@ export const deidentifyProjectsLocationsDatasets: API.OperationMethod<
   DeidentifyProjectsLocationsDatasetsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3840, __c120, 0) as any as S.Schema<DeidentifyProjectsLocationsDatasetsRequest>,
-  output: __S(4993, __c156, 1) as any as S.Schema<Operation>,
+  input: __S(3969, __c124, 1) as any as S.Schema<DeidentifyProjectsLocationsDatasetsRequest>,
+  output: __S(5121, __c160, 1) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4055,11 +3759,11 @@ export const deidentifyProjectsLocationsDatasetsDicomStores: API.OperationMethod
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3872,
-    __c121,
-    0,
+    4001,
+    __c125,
+    1,
   ) as any as S.Schema<DeidentifyProjectsLocationsDatasetsDicomStoresRequest>,
-  output: __S(4993, __c156, 1) as any as S.Schema<Operation>,
+  output: __S(5121, __c160, 1) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4081,11 +3785,11 @@ export const deidentifyProjectsLocationsDatasetsFhirStores: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3938,
-    __c123,
-    2,
+    4067,
+    __c127,
+    3,
   ) as any as S.Schema<DeidentifyProjectsLocationsDatasetsFhirStoresRequest>,
-  output: __S(4993, __c156, 1) as any as S.Schema<Operation>,
+  output: __S(5121, __c160, 1) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4107,8 +3811,8 @@ export const deleteFhirOperationProjectsLocationsDatasetsFhirStoresOperations: A
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3968,
-    __c124,
+    4096,
+    __c128,
     0,
   ) as any as S.Schema<DeleteFhirOperationProjectsLocationsDatasetsFhirStoresOperationsRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<HttpBody>,
@@ -4132,8 +3836,8 @@ export const deleteProjectsLocationsDatasets: API.OperationMethod<
   DeleteProjectsLocationsDatasetsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4192, __c131, 0) as any as S.Schema<DeleteProjectsLocationsDatasetsRequest>,
-  output: __S(5760, __c180, 0) as any as S.Schema<Empty>,
+  input: __S(4320, __c135, 0) as any as S.Schema<DeleteProjectsLocationsDatasetsRequest>,
+  output: __S(5888, __c184, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4155,11 +3859,11 @@ export const deleteProjectsLocationsDatasetsConsentStores: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4224,
-    __c132,
+    4352,
+    __c136,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsDatasetsConsentStoresRequest>,
-  output: __S(5760, __c180, 0) as any as S.Schema<Empty>,
+  output: __S(5888, __c184, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4181,11 +3885,11 @@ export const deleteProjectsLocationsDatasetsConsentStoresAttributeDefinitions: A
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4256,
-    __c133,
+    4384,
+    __c137,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsDatasetsConsentStoresAttributeDefinitionsRequest>,
-  output: __S(5760, __c180, 0) as any as S.Schema<Empty>,
+  output: __S(5888, __c184, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4207,11 +3911,11 @@ export const deleteProjectsLocationsDatasetsConsentStoresConsentArtifacts: API.O
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4288,
-    __c134,
+    4416,
+    __c138,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsDatasetsConsentStoresConsentArtifactsRequest>,
-  output: __S(5760, __c180, 0) as any as S.Schema<Empty>,
+  output: __S(5888, __c184, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4233,11 +3937,11 @@ export const deleteProjectsLocationsDatasetsConsentStoresConsents: API.Operation
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4320,
-    __c135,
+    4448,
+    __c139,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsDatasetsConsentStoresConsentsRequest>,
-  output: __S(5760, __c180, 0) as any as S.Schema<Empty>,
+  output: __S(5888, __c184, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4259,11 +3963,11 @@ export const deleteProjectsLocationsDatasetsConsentStoresUserDataMappings: API.O
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4352,
-    __c136,
+    4480,
+    __c140,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsDatasetsConsentStoresUserDataMappingsRequest>,
-  output: __S(5760, __c180, 0) as any as S.Schema<Empty>,
+  output: __S(5888, __c184, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4284,8 +3988,8 @@ export const deleteProjectsLocationsDatasetsDicomStores: API.OperationMethod<
   DeleteProjectsLocationsDatasetsDicomStoresError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4384, __c137, 0) as any as S.Schema<DeleteProjectsLocationsDatasetsDicomStoresRequest>,
-  output: __S(5760, __c180, 0) as any as S.Schema<Empty>,
+  input: __S(4512, __c141, 0) as any as S.Schema<DeleteProjectsLocationsDatasetsDicomStoresRequest>,
+  output: __S(5888, __c184, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4307,11 +4011,11 @@ export const deleteProjectsLocationsDatasetsDicomStoresStudies: API.OperationMet
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4416,
-    __c138,
+    4544,
+    __c142,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsDatasetsDicomStoresStudiesRequest>,
-  output: __S(4993, __c156, 1) as any as S.Schema<Operation>,
+  output: __S(5121, __c160, 1) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4333,11 +4037,11 @@ export const deleteProjectsLocationsDatasetsDicomStoresStudiesSeries: API.Operat
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4448,
-    __c139,
+    4576,
+    __c143,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsDatasetsDicomStoresStudiesSeriesRequest>,
-  output: __S(4993, __c156, 1) as any as S.Schema<Operation>,
+  output: __S(5121, __c160, 1) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4359,11 +4063,11 @@ export const deleteProjectsLocationsDatasetsDicomStoresStudiesSeriesInstances: A
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4480,
-    __c140,
+    4608,
+    __c144,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesRequest>,
-  output: __S(5760, __c180, 0) as any as S.Schema<Empty>,
+  output: __S(5888, __c184, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4384,8 +4088,8 @@ export const deleteProjectsLocationsDatasetsFhirStores: API.OperationMethod<
   DeleteProjectsLocationsDatasetsFhirStoresError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4576, __c143, 0) as any as S.Schema<DeleteProjectsLocationsDatasetsFhirStoresRequest>,
-  output: __S(5760, __c180, 0) as any as S.Schema<Empty>,
+  input: __S(4704, __c147, 0) as any as S.Schema<DeleteProjectsLocationsDatasetsFhirStoresRequest>,
+  output: __S(5888, __c184, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4407,8 +4111,8 @@ export const deleteProjectsLocationsDatasetsFhirStoresFhir: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4608,
-    __c144,
+    4736,
+    __c148,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsDatasetsFhirStoresFhirRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<HttpBody>,
@@ -4432,8 +4136,8 @@ export const deleteProjectsLocationsDatasetsHl7V2Stores: API.OperationMethod<
   DeleteProjectsLocationsDatasetsHl7V2StoresError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4640, __c145, 0) as any as S.Schema<DeleteProjectsLocationsDatasetsHl7V2StoresRequest>,
-  output: __S(5760, __c180, 0) as any as S.Schema<Empty>,
+  input: __S(4768, __c149, 0) as any as S.Schema<DeleteProjectsLocationsDatasetsHl7V2StoresRequest>,
+  output: __S(5888, __c184, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4455,11 +4159,11 @@ export const deleteProjectsLocationsDatasetsHl7V2StoresMessages: API.OperationMe
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4672,
-    __c146,
+    4800,
+    __c150,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsDatasetsHl7V2StoresMessagesRequest>,
-  output: __S(5760, __c180, 0) as any as S.Schema<Empty>,
+  output: __S(5888, __c184, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4481,11 +4185,11 @@ export const deleteRevisionProjectsLocationsDatasetsConsentStoresConsents: API.O
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4704,
-    __c147,
+    4832,
+    __c151,
     0,
   ) as any as S.Schema<DeleteRevisionProjectsLocationsDatasetsConsentStoresConsentsRequest>,
-  output: __S(5760, __c180, 0) as any as S.Schema<Empty>,
+  output: __S(5888, __c184, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4505,8 +4209,8 @@ export const encounter_everythingProjectsLocationsDatasetsFhirStoresFhir: API.Op
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4736,
-    __c148,
+    4864,
+    __c152,
     0,
   ) as any as S.Schema<Encounter_everythingProjectsLocationsDatasetsFhirStoresFhirRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<HttpBody>,
@@ -4531,11 +4235,11 @@ export const evaluateUserConsentsProjectsLocationsDatasetsConsentStores: API.Ope
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4768,
-    __c149,
-    0,
+    4897,
+    __c153,
+    1,
   ) as any as S.Schema<EvaluateUserConsentsProjectsLocationsDatasetsConsentStoresRequest>,
-  output: __S(4771, __c149, 3) as any as S.Schema<EvaluateUserConsentsResponse>,
+  output: __S(4900, __c153, 4) as any as S.Schema<EvaluateUserConsentsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4557,8 +4261,8 @@ export const executeBundleProjectsLocationsDatasetsFhirStoresFhir: API.Operation
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4800,
-    __c150,
+    4928,
+    __c154,
     0,
   ) as any as S.Schema<ExecuteBundleProjectsLocationsDatasetsFhirStoresFhirRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<HttpBody>,
@@ -4583,11 +4287,11 @@ export const executeCohortProjectsLocationsDatasetsFhirStores: API.OperationMeth
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4835,
-    __c151,
-    3,
+    4964,
+    __c155,
+    4,
   ) as any as S.Schema<ExecuteCohortProjectsLocationsDatasetsFhirStoresRequest>,
-  output: __S(4993, __c156, 1) as any as S.Schema<Operation>,
+  output: __S(5121, __c160, 1) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4607,11 +4311,11 @@ export const explainDataAccessProjectsLocationsDatasetsFhirStores: API.Operation
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4864,
-    __c152,
+    4992,
+    __c156,
     0,
   ) as any as S.Schema<ExplainDataAccessProjectsLocationsDatasetsFhirStoresRequest>,
-  output: __S(4871, __c152, 7) as any as S.Schema<ExplainDataAccessResponse>,
+  output: __S(4999, __c156, 7) as any as S.Schema<ExplainDataAccessResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4633,11 +4337,11 @@ export const exportHistoryProjectsLocationsDatasetsFhirStores: API.OperationMeth
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5024,
-    __c157,
-    0,
+    5153,
+    __c161,
+    1,
   ) as any as S.Schema<ExportHistoryProjectsLocationsDatasetsFhirStoresRequest>,
-  output: __S(4993, __c156, 1) as any as S.Schema<Operation>,
+  output: __S(5121, __c160, 1) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4658,8 +4362,8 @@ export const exportProjectsLocationsDatasetsDicomStores: API.OperationMethod<
   ExportProjectsLocationsDatasetsDicomStoresError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5057, __c158, 1) as any as S.Schema<ExportProjectsLocationsDatasetsDicomStoresRequest>,
-  output: __S(4993, __c156, 1) as any as S.Schema<Operation>,
+  input: __S(5186, __c162, 2) as any as S.Schema<ExportProjectsLocationsDatasetsDicomStoresRequest>,
+  output: __S(5121, __c160, 1) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4680,8 +4384,8 @@ export const exportProjectsLocationsDatasetsFhirStores: API.OperationMethod<
   ExportProjectsLocationsDatasetsFhirStoresError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5088, __c159, 0) as any as S.Schema<ExportProjectsLocationsDatasetsFhirStoresRequest>,
-  output: __S(4993, __c156, 1) as any as S.Schema<Operation>,
+  input: __S(5217, __c163, 1) as any as S.Schema<ExportProjectsLocationsDatasetsFhirStoresRequest>,
+  output: __S(5121, __c160, 1) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4702,8 +4406,8 @@ export const exportProjectsLocationsDatasetsHl7V2Stores: API.OperationMethod<
   ExportProjectsLocationsDatasetsHl7V2StoresError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5121, __c160, 1) as any as S.Schema<ExportProjectsLocationsDatasetsHl7V2StoresRequest>,
-  output: __S(4993, __c156, 1) as any as S.Schema<Operation>,
+  input: __S(5250, __c164, 2) as any as S.Schema<ExportProjectsLocationsDatasetsHl7V2StoresRequest>,
+  output: __S(5121, __c160, 1) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4723,8 +4427,8 @@ export const getBulkdataProjectsLocationsDatasetsDicomStoresStudiesSeriesInstanc
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5152,
-    __c161,
+    5280,
+    __c165,
     0,
   ) as any as S.Schema<GetBulkdataProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesBulkdataRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<HttpBody>,
@@ -4747,11 +4451,11 @@ export const getDICOMStoreMetricsProjectsLocationsDatasetsDicomStores: API.Opera
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5184,
-    __c162,
+    5312,
+    __c166,
     0,
   ) as any as S.Schema<GetDICOMStoreMetricsProjectsLocationsDatasetsDicomStoresRequest>,
-  output: __S(5185, __c162, 1) as any as S.Schema<DicomStoreMetrics>,
+  output: __S(5313, __c166, 1) as any as S.Schema<DicomStoreMetrics>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4771,8 +4475,8 @@ export const getFhirOperationStatusProjectsLocationsDatasetsFhirStoresOperations
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5216,
-    __c163,
+    5344,
+    __c167,
     0,
   ) as any as S.Schema<GetFhirOperationStatusProjectsLocationsDatasetsFhirStoresOperationsRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<HttpBody>,
@@ -4795,11 +4499,11 @@ export const getFHIRStoreMetricsProjectsLocationsDatasetsFhirStores: API.Operati
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5248,
-    __c164,
+    5376,
+    __c168,
     0,
   ) as any as S.Schema<GetFHIRStoreMetricsProjectsLocationsDatasetsFhirStoresRequest>,
-  output: __S(5251, __c164, 3) as any as S.Schema<FhirStoreMetrics>,
+  output: __S(5379, __c168, 3) as any as S.Schema<FhirStoreMetrics>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4819,8 +4523,8 @@ export const getFramesProjectsLocationsDatasetsDicomStoresStudiesSeriesInstances
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5280,
-    __c165,
+    5408,
+    __c169,
     0,
   ) as any as S.Schema<GetFramesProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesFramesRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<HttpBody>,
@@ -4843,11 +4547,11 @@ export const getHL7v2StoreMetricsProjectsLocationsDatasetsHl7V2Stores: API.Opera
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5312,
-    __c166,
+    5440,
+    __c170,
     0,
   ) as any as S.Schema<GetHL7v2StoreMetricsProjectsLocationsDatasetsHl7V2StoresRequest>,
-  output: __S(5315, __c166, 3) as any as S.Schema<Hl7V2StoreMetrics>,
+  output: __S(5443, __c170, 3) as any as S.Schema<Hl7V2StoreMetrics>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4863,8 +4567,8 @@ export const getIamPolicyProjectsLocationsDatasets: API.OperationMethod<
   GetIamPolicyProjectsLocationsDatasetsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5376, __c168, 0) as any as S.Schema<GetIamPolicyProjectsLocationsDatasetsRequest>,
-  output: __S(5414, __c169, 6) as any as S.Schema<Policy>,
+  input: __S(5504, __c172, 0) as any as S.Schema<GetIamPolicyProjectsLocationsDatasetsRequest>,
+  output: __S(5542, __c173, 6) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4884,11 +4588,11 @@ export const getIamPolicyProjectsLocationsDatasetsConsentStores: API.OperationMe
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5440,
-    __c170,
+    5568,
+    __c174,
     0,
   ) as any as S.Schema<GetIamPolicyProjectsLocationsDatasetsConsentStoresRequest>,
-  output: __S(5414, __c169, 6) as any as S.Schema<Policy>,
+  output: __S(5542, __c173, 6) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4908,11 +4612,11 @@ export const getIamPolicyProjectsLocationsDatasetsDataMapperWorkspaces: API.Oper
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5472,
-    __c171,
+    5600,
+    __c175,
     0,
   ) as any as S.Schema<GetIamPolicyProjectsLocationsDatasetsDataMapperWorkspacesRequest>,
-  output: __S(5414, __c169, 6) as any as S.Schema<Policy>,
+  output: __S(5542, __c173, 6) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4932,11 +4636,11 @@ export const getIamPolicyProjectsLocationsDatasetsDicomStores: API.OperationMeth
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5504,
-    __c172,
+    5632,
+    __c176,
     0,
   ) as any as S.Schema<GetIamPolicyProjectsLocationsDatasetsDicomStoresRequest>,
-  output: __S(5414, __c169, 6) as any as S.Schema<Policy>,
+  output: __S(5542, __c173, 6) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4956,11 +4660,11 @@ export const getIamPolicyProjectsLocationsDatasetsFhirStores: API.OperationMetho
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5536,
-    __c173,
+    5664,
+    __c177,
     0,
   ) as any as S.Schema<GetIamPolicyProjectsLocationsDatasetsFhirStoresRequest>,
-  output: __S(5414, __c169, 6) as any as S.Schema<Policy>,
+  output: __S(5542, __c173, 6) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4980,11 +4684,11 @@ export const getIamPolicyProjectsLocationsDatasetsHl7V2Stores: API.OperationMeth
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5568,
-    __c174,
+    5696,
+    __c178,
     0,
   ) as any as S.Schema<GetIamPolicyProjectsLocationsDatasetsHl7V2StoresRequest>,
-  output: __S(5414, __c169, 6) as any as S.Schema<Policy>,
+  output: __S(5542, __c173, 6) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5004,8 +4708,8 @@ export const getInstanceProjectsLocationsDatasetsDicomStoresStudiesSeriesInstanc
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5600,
-    __c175,
+    5728,
+    __c179,
     0,
   ) as any as S.Schema<GetInstanceProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<HttpBody>,
@@ -5028,8 +4732,8 @@ export const getMetadataProjectsLocationsDatasetsDicomStoresStudies: API.Operati
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5632,
-    __c176,
+    5760,
+    __c180,
     0,
   ) as any as S.Schema<GetMetadataProjectsLocationsDatasetsDicomStoresStudiesRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<HttpBody>,
@@ -5052,8 +4756,8 @@ export const getMetadataProjectsLocationsDatasetsDicomStoresStudiesSeries: API.O
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5664,
-    __c177,
+    5792,
+    __c181,
     0,
   ) as any as S.Schema<GetMetadataProjectsLocationsDatasetsDicomStoresStudiesSeriesRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<HttpBody>,
@@ -5076,8 +4780,8 @@ export const getMetadataProjectsLocationsDatasetsDicomStoresStudiesSeriesInstanc
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5696,
-    __c178,
+    5824,
+    __c182,
     0,
   ) as any as S.Schema<GetMetadataProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<HttpBody>,
@@ -5096,8 +4800,8 @@ export const getProjectsLocations: API.OperationMethod<
   GetProjectsLocationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5792, __c181, 0) as any as S.Schema<GetProjectsLocationsRequest>,
-  output: __S(5824, __c182, 0) as any as S.Schema<Location>,
+  input: __S(5920, __c185, 0) as any as S.Schema<GetProjectsLocationsRequest>,
+  output: __S(5952, __c186, 0) as any as S.Schema<Location>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5113,8 +4817,8 @@ export const getProjectsLocationsDatasets: API.OperationMethod<
   GetProjectsLocationsDatasetsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5856, __c183, 0) as any as S.Schema<GetProjectsLocationsDatasetsRequest>,
-  output: __S(5888, __c184, 0) as any as S.Schema<Dataset>,
+  input: __S(5984, __c187, 0) as any as S.Schema<GetProjectsLocationsDatasetsRequest>,
+  output: __S(3201, __c100, 1) as any as S.Schema<Dataset>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5130,8 +4834,8 @@ export const getProjectsLocationsDatasetsConsentStores: API.OperationMethod<
   GetProjectsLocationsDatasetsConsentStoresError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5920, __c185, 0) as any as S.Schema<GetProjectsLocationsDatasetsConsentStoresRequest>,
-  output: __S(3168, __c99, 0) as any as S.Schema<ConsentStore>,
+  input: __S(6016, __c188, 0) as any as S.Schema<GetProjectsLocationsDatasetsConsentStoresRequest>,
+  output: __S(3264, __c102, 0) as any as S.Schema<ConsentStore>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5151,11 +4855,11 @@ export const getProjectsLocationsDatasetsConsentStoresAttributeDefinitions: API.
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5952,
-    __c186,
+    6048,
+    __c189,
     0,
   ) as any as S.Schema<GetProjectsLocationsDatasetsConsentStoresAttributeDefinitionsRequest>,
-  output: __S(3232, __c101, 0) as any as S.Schema<AttributeDefinition>,
+  output: __S(3328, __c104, 0) as any as S.Schema<AttributeDefinition>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5175,11 +4879,11 @@ export const getProjectsLocationsDatasetsConsentStoresConsentArtifacts: API.Oper
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5984,
-    __c187,
+    6080,
+    __c190,
     0,
   ) as any as S.Schema<GetProjectsLocationsDatasetsConsentStoresConsentArtifactsRequest>,
-  output: __S(3299, __c103, 3) as any as S.Schema<ConsentArtifact>,
+  output: __S(3395, __c106, 3) as any as S.Schema<ConsentArtifact>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5199,11 +4903,11 @@ export const getProjectsLocationsDatasetsConsentStoresConsents: API.OperationMet
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    6016,
-    __c188,
+    6112,
+    __c191,
     0,
   ) as any as S.Schema<GetProjectsLocationsDatasetsConsentStoresConsentsRequest>,
-  output: __S(4098, __c128, 2) as any as S.Schema<Consent>,
+  output: __S(4226, __c132, 2) as any as S.Schema<Consent>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5223,11 +4927,11 @@ export const getProjectsLocationsDatasetsConsentStoresUserDataMappings: API.Oper
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    6048,
-    __c189,
+    6144,
+    __c192,
     0,
   ) as any as S.Schema<GetProjectsLocationsDatasetsConsentStoresUserDataMappingsRequest>,
-  output: __S(3392, __c106, 0) as any as S.Schema<UserDataMapping>,
+  output: __S(3488, __c109, 0) as any as S.Schema<UserDataMapping>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5243,8 +4947,8 @@ export const getProjectsLocationsDatasetsDicomStores: API.OperationMethod<
   GetProjectsLocationsDatasetsDicomStoresError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6080, __c190, 0) as any as S.Schema<GetProjectsLocationsDatasetsDicomStoresRequest>,
-  output: __S(3555, __c111, 3) as any as S.Schema<DicomStore>,
+  input: __S(6176, __c193, 0) as any as S.Schema<GetProjectsLocationsDatasetsDicomStoresRequest>,
+  output: __S(3651, __c114, 3) as any as S.Schema<DicomStore>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5260,8 +4964,8 @@ export const getProjectsLocationsDatasetsFhirStores: API.OperationMethod<
   GetProjectsLocationsDatasetsFhirStoresError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6112, __c191, 0) as any as S.Schema<GetProjectsLocationsDatasetsFhirStoresRequest>,
-  output: __S(3692, __c115, 12) as any as S.Schema<FhirStore>,
+  input: __S(6208, __c194, 0) as any as S.Schema<GetProjectsLocationsDatasetsFhirStoresRequest>,
+  output: __S(3788, __c118, 12) as any as S.Schema<FhirStore>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5277,8 +4981,8 @@ export const getProjectsLocationsDatasetsHl7V2Stores: API.OperationMethod<
   GetProjectsLocationsDatasetsHl7V2StoresError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6144, __c192, 0) as any as S.Schema<GetProjectsLocationsDatasetsHl7V2StoresRequest>,
-  output: __S(3795, __c118, 19) as any as S.Schema<Hl7V2Store>,
+  input: __S(6240, __c195, 0) as any as S.Schema<GetProjectsLocationsDatasetsHl7V2StoresRequest>,
+  output: __S(3891, __c121, 19) as any as S.Schema<Hl7V2Store>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5298,11 +5002,11 @@ export const getProjectsLocationsDatasetsHl7V2StoresMessages: API.OperationMetho
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    6272,
-    __c196,
+    6368,
+    __c199,
     0,
   ) as any as S.Schema<GetProjectsLocationsDatasetsHl7V2StoresMessagesRequest>,
-  output: __S(6246, __c195, 6) as any as S.Schema<Message>,
+  output: __S(6342, __c198, 6) as any as S.Schema<Message>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5318,8 +5022,8 @@ export const getProjectsLocationsDatasetsOperations: API.OperationMethod<
   GetProjectsLocationsDatasetsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6304, __c197, 0) as any as S.Schema<GetProjectsLocationsDatasetsOperationsRequest>,
-  output: __S(4993, __c156, 1) as any as S.Schema<Operation>,
+  input: __S(6400, __c200, 0) as any as S.Schema<GetProjectsLocationsDatasetsOperationsRequest>,
+  output: __S(5121, __c160, 1) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5339,8 +5043,8 @@ export const getRenderedProjectsLocationsDatasetsDicomStoresStudiesSeriesInstanc
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    6336,
-    __c198,
+    6432,
+    __c201,
     0,
   ) as any as S.Schema<GetRenderedProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<HttpBody>,
@@ -5363,8 +5067,8 @@ export const getRenderedProjectsLocationsDatasetsDicomStoresStudiesSeriesInstanc
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    6368,
-    __c199,
+    6464,
+    __c202,
     0,
   ) as any as S.Schema<GetRenderedProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesFramesRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<HttpBody>,
@@ -5387,11 +5091,11 @@ export const getSeriesMetricsProjectsLocationsDatasetsDicomStoresDicomWebStudies
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    6400,
-    __c200,
+    6496,
+    __c203,
     0,
   ) as any as S.Schema<GetSeriesMetricsProjectsLocationsDatasetsDicomStoresDicomWebStudiesSeriesRequest>,
-  output: __S(6401, __c200, 1) as any as S.Schema<SeriesMetrics>,
+  output: __S(6497, __c203, 1) as any as S.Schema<SeriesMetrics>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5411,8 +5115,8 @@ export const getSeriesProjectsLocationsDatasetsDicomStoresStudiesSeries: API.Ope
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    6432,
-    __c201,
+    6528,
+    __c204,
     0,
   ) as any as S.Schema<GetSeriesProjectsLocationsDatasetsDicomStoresStudiesSeriesRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<HttpBody>,
@@ -5435,11 +5139,11 @@ export const getStorageInfoProjectsLocationsDatasetsDicomStoresDicomWebStudiesSe
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    6464,
-    __c202,
+    6560,
+    __c205,
     0,
   ) as any as S.Schema<GetStorageInfoProjectsLocationsDatasetsDicomStoresDicomWebStudiesSeriesInstancesRequest>,
-  output: __S(6467, __c202, 3) as any as S.Schema<StorageInfo>,
+  output: __S(6563, __c205, 3) as any as S.Schema<StorageInfo>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5459,11 +5163,11 @@ export const getStudyMetricsProjectsLocationsDatasetsDicomStoresDicomWebStudies:
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    6496,
-    __c203,
+    6592,
+    __c206,
     0,
   ) as any as S.Schema<GetStudyMetricsProjectsLocationsDatasetsDicomStoresDicomWebStudiesRequest>,
-  output: __S(6497, __c203, 1) as any as S.Schema<StudyMetrics>,
+  output: __S(6593, __c206, 1) as any as S.Schema<StudyMetrics>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5483,8 +5187,8 @@ export const getStudyProjectsLocationsDatasetsDicomStoresStudies: API.OperationM
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    6528,
-    __c204,
+    6624,
+    __c207,
     0,
   ) as any as S.Schema<GetStudyProjectsLocationsDatasetsDicomStoresStudiesRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<HttpBody>,
@@ -5504,8 +5208,8 @@ export const historyProjectsLocationsDatasetsFhirStoresFhir: API.OperationMethod
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    6560,
-    __c205,
+    6656,
+    __c208,
     0,
   ) as any as S.Schema<HistoryProjectsLocationsDatasetsFhirStoresFhirRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<HttpBody>,
@@ -5530,11 +5234,11 @@ export const importHistoryProjectsLocationsDatasetsFhirStores: API.OperationMeth
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    64,
+    65,
     __c2,
-    0,
+    1,
   ) as any as S.Schema<ImportHistoryProjectsLocationsDatasetsFhirStoresRequest>,
-  output: __S(4993, __c156, 1) as any as S.Schema<Operation>,
+  output: __S(5121, __c160, 1) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5555,8 +5259,8 @@ export const importProjectsLocationsDatasetsDicomStores: API.OperationMethod<
   ImportProjectsLocationsDatasetsDicomStoresError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c3, 0) as any as S.Schema<ImportProjectsLocationsDatasetsDicomStoresRequest>,
-  output: __S(4993, __c156, 1) as any as S.Schema<Operation>,
+  input: __S(97, __c3, 1) as any as S.Schema<ImportProjectsLocationsDatasetsDicomStoresRequest>,
+  output: __S(5121, __c160, 1) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5577,8 +5281,8 @@ export const importProjectsLocationsDatasetsFhirStores: API.OperationMethod<
   ImportProjectsLocationsDatasetsFhirStoresError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c5, 0) as any as S.Schema<ImportProjectsLocationsDatasetsFhirStoresRequest>,
-  output: __S(4993, __c156, 1) as any as S.Schema<Operation>,
+  input: __S(161, __c5, 1) as any as S.Schema<ImportProjectsLocationsDatasetsFhirStoresRequest>,
+  output: __S(5121, __c160, 1) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5599,8 +5303,8 @@ export const importProjectsLocationsDatasetsHl7V2Stores: API.OperationMethod<
   ImportProjectsLocationsDatasetsHl7V2StoresError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c6, 0) as any as S.Schema<ImportProjectsLocationsDatasetsHl7V2StoresRequest>,
-  output: __S(4993, __c156, 1) as any as S.Schema<Operation>,
+  input: __S(193, __c6, 1) as any as S.Schema<ImportProjectsLocationsDatasetsHl7V2StoresRequest>,
+  output: __S(5121, __c160, 1) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5961,7 +5665,7 @@ export const patchProjectsLocationsDatasets: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(832, __c26, 0) as any as S.Schema<PatchProjectsLocationsDatasetsRequest>,
-  output: __S(5888, __c184, 0) as any as S.Schema<Dataset>,
+  output: __S(3201, __c100, 1) as any as S.Schema<Dataset>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5983,7 +5687,7 @@ export const patchProjectsLocationsDatasetsConsentStores: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(896, __c28, 0) as any as S.Schema<PatchProjectsLocationsDatasetsConsentStoresRequest>,
-  output: __S(3168, __c99, 0) as any as S.Schema<ConsentStore>,
+  output: __S(3264, __c102, 0) as any as S.Schema<ConsentStore>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6009,7 +5713,7 @@ export const patchProjectsLocationsDatasetsConsentStoresAttributeDefinitions: AP
     __c29,
     0,
   ) as any as S.Schema<PatchProjectsLocationsDatasetsConsentStoresAttributeDefinitionsRequest>,
-  output: __S(3232, __c101, 0) as any as S.Schema<AttributeDefinition>,
+  output: __S(3328, __c104, 0) as any as S.Schema<AttributeDefinition>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6035,7 +5739,7 @@ export const patchProjectsLocationsDatasetsConsentStoresConsents: API.OperationM
     __c30,
     0,
   ) as any as S.Schema<PatchProjectsLocationsDatasetsConsentStoresConsentsRequest>,
-  output: __S(4098, __c128, 2) as any as S.Schema<Consent>,
+  output: __S(4226, __c132, 2) as any as S.Schema<Consent>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6061,7 +5765,7 @@ export const patchProjectsLocationsDatasetsConsentStoresUserDataMappings: API.Op
     __c31,
     0,
   ) as any as S.Schema<PatchProjectsLocationsDatasetsConsentStoresUserDataMappingsRequest>,
-  output: __S(3392, __c106, 0) as any as S.Schema<UserDataMapping>,
+  output: __S(3488, __c109, 0) as any as S.Schema<UserDataMapping>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6083,7 +5787,7 @@ export const patchProjectsLocationsDatasetsDicomStores: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1024, __c32, 0) as any as S.Schema<PatchProjectsLocationsDatasetsDicomStoresRequest>,
-  output: __S(3555, __c111, 3) as any as S.Schema<DicomStore>,
+  output: __S(3651, __c114, 3) as any as S.Schema<DicomStore>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6105,7 +5809,7 @@ export const patchProjectsLocationsDatasetsFhirStores: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1056, __c33, 0) as any as S.Schema<PatchProjectsLocationsDatasetsFhirStoresRequest>,
-  output: __S(3692, __c115, 12) as any as S.Schema<FhirStore>,
+  output: __S(3788, __c118, 12) as any as S.Schema<FhirStore>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6153,7 +5857,7 @@ export const patchProjectsLocationsDatasetsHl7V2Stores: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1120, __c35, 0) as any as S.Schema<PatchProjectsLocationsDatasetsHl7V2StoresRequest>,
-  output: __S(3795, __c118, 19) as any as S.Schema<Hl7V2Store>,
+  output: __S(3891, __c121, 19) as any as S.Schema<Hl7V2Store>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6179,7 +5883,7 @@ export const patchProjectsLocationsDatasetsHl7V2StoresMessages: API.OperationMet
     __c36,
     0,
   ) as any as S.Schema<PatchProjectsLocationsDatasetsHl7V2StoresMessagesRequest>,
-  output: __S(6246, __c195, 6) as any as S.Schema<Message>,
+  output: __S(6342, __c198, 6) as any as S.Schema<Message>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6253,7 +5957,7 @@ export const purgeResourceProjectsLocationsDatasetsFhirStoresFhir: API.Operation
     __c40,
     0,
   ) as any as S.Schema<PurgeResourceProjectsLocationsDatasetsFhirStoresFhirRequest>,
-  output: __S(5760, __c180, 0) as any as S.Schema<Empty>,
+  output: __S(5888, __c184, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6275,11 +5979,11 @@ export const queryAccessibleDataProjectsLocationsDatasetsConsentStores: API.Oper
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1312,
+    1313,
     __c41,
-    0,
+    1,
   ) as any as S.Schema<QueryAccessibleDataProjectsLocationsDatasetsConsentStoresRequest>,
-  output: __S(4993, __c156, 1) as any as S.Schema<Operation>,
+  output: __S(5121, __c160, 1) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6346,7 +6050,7 @@ export const rejectProjectsLocationsDatasetsConsentStoresConsents: API.Operation
     __c44,
     0,
   ) as any as S.Schema<RejectProjectsLocationsDatasetsConsentStoresConsentsRequest>,
-  output: __S(4098, __c128, 2) as any as S.Schema<Consent>,
+  output: __S(4226, __c132, 2) as any as S.Schema<Consent>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6366,8 +6070,8 @@ export const resource_incoming_referencesProjectsLocationsDatasetsFhirStoresFhir
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1440,
-    __c45,
+    1472,
+    __c46,
     0,
   ) as any as S.Schema<Resource_incoming_referencesProjectsLocationsDatasetsFhirStoresFhirRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<HttpBody>,
@@ -6392,11 +6096,11 @@ export const revokeProjectsLocationsDatasetsConsentStoresConsents: API.Operation
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1472,
-    __c46,
+    1504,
+    __c47,
     0,
   ) as any as S.Schema<RevokeProjectsLocationsDatasetsConsentStoresConsentsRequest>,
-  output: __S(4098, __c128, 2) as any as S.Schema<Consent>,
+  output: __S(4226, __c132, 2) as any as S.Schema<Consent>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6417,8 +6121,8 @@ export const rollbackProjectsLocationsDatasetsFhirStores: API.OperationMethod<
   RollbackProjectsLocationsDatasetsFhirStoresError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1505, __c47, 1) as any as S.Schema<RollbackProjectsLocationsDatasetsFhirStoresRequest>,
-  output: __S(4993, __c156, 1) as any as S.Schema<Operation>,
+  input: __S(1538, __c48, 2) as any as S.Schema<RollbackProjectsLocationsDatasetsFhirStoresRequest>,
+  output: __S(5121, __c160, 1) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6440,11 +6144,11 @@ export const rollbackProjectsLocationsDatasetsHl7V2Stores: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1537,
-    __c48,
-    1,
+    1570,
+    __c49,
+    2,
   ) as any as S.Schema<RollbackProjectsLocationsDatasetsHl7V2StoresRequest>,
-  output: __S(4993, __c156, 1) as any as S.Schema<Operation>,
+  output: __S(5121, __c160, 1) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6464,8 +6168,8 @@ export const searchConceptMapTranslateProjectsLocationsDatasetsFhirStoresFhir: A
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1600,
-    __c50,
+    1632,
+    __c51,
     0,
   ) as any as S.Schema<SearchConceptMapTranslateProjectsLocationsDatasetsFhirStoresFhirRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<HttpBody>,
@@ -6488,8 +6192,8 @@ export const searchForInstancesProjectsLocationsDatasetsDicomStores: API.Operati
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1632,
-    __c51,
+    1664,
+    __c52,
     0,
   ) as any as S.Schema<SearchForInstancesProjectsLocationsDatasetsDicomStoresRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<HttpBody>,
@@ -6512,8 +6216,8 @@ export const searchForInstancesProjectsLocationsDatasetsDicomStoresStudies: API.
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1664,
-    __c52,
+    1696,
+    __c53,
     0,
   ) as any as S.Schema<SearchForInstancesProjectsLocationsDatasetsDicomStoresStudiesRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<HttpBody>,
@@ -6536,8 +6240,8 @@ export const searchForInstancesProjectsLocationsDatasetsDicomStoresStudiesSeries
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1696,
-    __c53,
+    1728,
+    __c54,
     0,
   ) as any as S.Schema<SearchForInstancesProjectsLocationsDatasetsDicomStoresStudiesSeriesRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<HttpBody>,
@@ -6560,8 +6264,8 @@ export const searchForSeriesProjectsLocationsDatasetsDicomStores: API.OperationM
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1728,
-    __c54,
+    1760,
+    __c55,
     0,
   ) as any as S.Schema<SearchForSeriesProjectsLocationsDatasetsDicomStoresRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<HttpBody>,
@@ -6584,8 +6288,8 @@ export const searchForSeriesProjectsLocationsDatasetsDicomStoresStudies: API.Ope
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1760,
-    __c55,
+    1792,
+    __c56,
     0,
   ) as any as S.Schema<SearchForSeriesProjectsLocationsDatasetsDicomStoresStudiesRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<HttpBody>,
@@ -6608,8 +6312,8 @@ export const searchForStudiesProjectsLocationsDatasetsDicomStores: API.Operation
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1792,
-    __c56,
+    1824,
+    __c57,
     0,
   ) as any as S.Schema<SearchForStudiesProjectsLocationsDatasetsDicomStoresRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<HttpBody>,
@@ -6634,8 +6338,8 @@ export const searchProjectsLocationsDatasetsFhirStoresFhir: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1824,
-    __c57,
+    1856,
+    __c58,
     0,
   ) as any as S.Schema<SearchProjectsLocationsDatasetsFhirStoresFhirRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<HttpBody>,
@@ -6660,8 +6364,8 @@ export const searchTypeProjectsLocationsDatasetsFhirStoresFhir: API.OperationMet
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1856,
-    __c58,
+    1888,
+    __c59,
     0,
   ) as any as S.Schema<SearchTypeProjectsLocationsDatasetsFhirStoresFhirRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<HttpBody>,
@@ -6686,11 +6390,11 @@ export const setBlobStorageSettingsProjectsLocationsDatasetsDicomStores: API.Ope
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1888,
-    __c59,
+    1920,
+    __c60,
     0,
   ) as any as S.Schema<SetBlobStorageSettingsProjectsLocationsDatasetsDicomStoresRequest>,
-  output: __S(4993, __c156, 1) as any as S.Schema<Operation>,
+  output: __S(5121, __c160, 1) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6712,11 +6416,11 @@ export const setBlobStorageSettingsProjectsLocationsDatasetsDicomStoresDicomWebS
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1952,
-    __c61,
+    2016,
+    __c63,
     0,
   ) as any as S.Schema<SetBlobStorageSettingsProjectsLocationsDatasetsDicomStoresDicomWebStudiesRequest>,
-  output: __S(4993, __c156, 1) as any as S.Schema<Operation>,
+  output: __S(5121, __c160, 1) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6737,8 +6441,8 @@ export const setIamPolicyProjectsLocationsDatasets: API.OperationMethod<
   SetIamPolicyProjectsLocationsDatasetsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1984, __c62, 0) as any as S.Schema<SetIamPolicyProjectsLocationsDatasetsRequest>,
-  output: __S(5414, __c169, 6) as any as S.Schema<Policy>,
+  input: __S(2048, __c64, 0) as any as S.Schema<SetIamPolicyProjectsLocationsDatasetsRequest>,
+  output: __S(5542, __c173, 6) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6760,11 +6464,11 @@ export const setIamPolicyProjectsLocationsDatasetsConsentStores: API.OperationMe
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2016,
-    __c63,
+    2112,
+    __c66,
     0,
   ) as any as S.Schema<SetIamPolicyProjectsLocationsDatasetsConsentStoresRequest>,
-  output: __S(5414, __c169, 6) as any as S.Schema<Policy>,
+  output: __S(5542, __c173, 6) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6786,11 +6490,11 @@ export const setIamPolicyProjectsLocationsDatasetsDataMapperWorkspaces: API.Oper
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2048,
-    __c64,
+    2144,
+    __c67,
     0,
   ) as any as S.Schema<SetIamPolicyProjectsLocationsDatasetsDataMapperWorkspacesRequest>,
-  output: __S(5414, __c169, 6) as any as S.Schema<Policy>,
+  output: __S(5542, __c173, 6) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6812,11 +6516,11 @@ export const setIamPolicyProjectsLocationsDatasetsDicomStores: API.OperationMeth
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2080,
-    __c65,
+    2176,
+    __c68,
     0,
   ) as any as S.Schema<SetIamPolicyProjectsLocationsDatasetsDicomStoresRequest>,
-  output: __S(5414, __c169, 6) as any as S.Schema<Policy>,
+  output: __S(5542, __c173, 6) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6838,11 +6542,11 @@ export const setIamPolicyProjectsLocationsDatasetsFhirStores: API.OperationMetho
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2112,
-    __c66,
+    2208,
+    __c69,
     0,
   ) as any as S.Schema<SetIamPolicyProjectsLocationsDatasetsFhirStoresRequest>,
-  output: __S(5414, __c169, 6) as any as S.Schema<Policy>,
+  output: __S(5542, __c173, 6) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6864,11 +6568,11 @@ export const setIamPolicyProjectsLocationsDatasetsHl7V2Stores: API.OperationMeth
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2144,
-    __c67,
+    2240,
+    __c70,
     0,
   ) as any as S.Schema<SetIamPolicyProjectsLocationsDatasetsHl7V2StoresRequest>,
-  output: __S(5414, __c169, 6) as any as S.Schema<Policy>,
+  output: __S(5542, __c173, 6) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6890,8 +6594,8 @@ export const storeInstancesProjectsLocationsDatasetsDicomStores: API.OperationMe
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2176,
-    __c68,
+    2272,
+    __c71,
     0,
   ) as any as S.Schema<StoreInstancesProjectsLocationsDatasetsDicomStoresRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<HttpBody>,
@@ -6916,8 +6620,8 @@ export const storeInstancesProjectsLocationsDatasetsDicomStoresStudies: API.Oper
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2208,
-    __c69,
+    2304,
+    __c72,
     0,
   ) as any as S.Schema<StoreInstancesProjectsLocationsDatasetsDicomStoresStudiesRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<HttpBody>,
@@ -6941,8 +6645,8 @@ export const testIamPermissionsProjectsLocationsDatasets: API.OperationMethod<
   TestIamPermissionsProjectsLocationsDatasetsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2240, __c70, 0) as any as S.Schema<TestIamPermissionsProjectsLocationsDatasetsRequest>,
-  output: __S(2272, __c71, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  input: __S(2336, __c73, 0) as any as S.Schema<TestIamPermissionsProjectsLocationsDatasetsRequest>,
+  output: __S(2368, __c74, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6964,11 +6668,11 @@ export const testIamPermissionsProjectsLocationsDatasetsConsentStores: API.Opera
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2336,
-    __c73,
+    2432,
+    __c76,
     0,
   ) as any as S.Schema<TestIamPermissionsProjectsLocationsDatasetsConsentStoresRequest>,
-  output: __S(2272, __c71, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  output: __S(2368, __c74, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6990,11 +6694,11 @@ export const testIamPermissionsProjectsLocationsDatasetsDataMapperWorkspaces: AP
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2368,
-    __c74,
+    2464,
+    __c77,
     0,
   ) as any as S.Schema<TestIamPermissionsProjectsLocationsDatasetsDataMapperWorkspacesRequest>,
-  output: __S(2272, __c71, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  output: __S(2368, __c74, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -7016,11 +6720,11 @@ export const testIamPermissionsProjectsLocationsDatasetsDicomStores: API.Operati
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2400,
-    __c75,
+    2496,
+    __c78,
     0,
   ) as any as S.Schema<TestIamPermissionsProjectsLocationsDatasetsDicomStoresRequest>,
-  output: __S(2272, __c71, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  output: __S(2368, __c74, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -7042,11 +6746,11 @@ export const testIamPermissionsProjectsLocationsDatasetsFhirStores: API.Operatio
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2432,
-    __c76,
+    2528,
+    __c79,
     0,
   ) as any as S.Schema<TestIamPermissionsProjectsLocationsDatasetsFhirStoresRequest>,
-  output: __S(2272, __c71, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  output: __S(2368, __c74, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -7068,11 +6772,11 @@ export const testIamPermissionsProjectsLocationsDatasetsHl7V2Stores: API.Operati
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2464,
-    __c77,
+    2560,
+    __c80,
     0,
   ) as any as S.Schema<TestIamPermissionsProjectsLocationsDatasetsHl7V2StoresRequest>,
-  output: __S(2272, __c71, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  output: __S(2368, __c74, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -7094,8 +6798,8 @@ export const updateBinaryProjectsLocationsDatasetsFhirStoresFhir: API.OperationM
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2496,
-    __c78,
+    2592,
+    __c81,
     0,
   ) as any as S.Schema<UpdateBinaryProjectsLocationsDatasetsFhirStoresFhirRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<HttpBody>,
@@ -7120,8 +6824,8 @@ export const updateInstancesProjectsLocationsDatasetsDicomStores: API.OperationM
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2528,
-    __c79,
+    2624,
+    __c82,
     0,
   ) as any as S.Schema<UpdateInstancesProjectsLocationsDatasetsDicomStoresRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<HttpBody>,
@@ -7146,8 +6850,8 @@ export const updateInstancesProjectsLocationsDatasetsDicomStoresStudies: API.Ope
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2560,
-    __c80,
+    2656,
+    __c83,
     0,
   ) as any as S.Schema<UpdateInstancesProjectsLocationsDatasetsDicomStoresStudiesRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<HttpBody>,
@@ -7172,11 +6876,11 @@ export const updateMetadataProjectsLocationsDatasetsDicomStoresStudies: API.Oper
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2592,
-    __c81,
+    2688,
+    __c84,
     0,
   ) as any as S.Schema<UpdateMetadataProjectsLocationsDatasetsDicomStoresStudiesRequest>,
-  output: __S(4993, __c156, 1) as any as S.Schema<Operation>,
+  output: __S(5121, __c160, 1) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -7198,11 +6902,11 @@ export const updateMetadataProjectsLocationsDatasetsDicomStoresStudiesSeries: AP
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2624,
-    __c82,
+    2720,
+    __c85,
     0,
   ) as any as S.Schema<UpdateMetadataProjectsLocationsDatasetsDicomStoresStudiesSeriesRequest>,
-  output: __S(4993, __c156, 1) as any as S.Schema<Operation>,
+  output: __S(5121, __c160, 1) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -7224,8 +6928,8 @@ export const updateMetadataProjectsLocationsDatasetsDicomStoresStudiesSeriesInst
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2720,
-    __c85,
+    2816,
+    __c88,
     0,
   ) as any as S.Schema<UpdateMetadataProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<HttpBody>,
@@ -7250,8 +6954,8 @@ export const updateProjectsLocationsDatasetsFhirStoresFhir: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2752,
-    __c86,
+    2848,
+    __c89,
     0,
   ) as any as S.Schema<UpdateProjectsLocationsDatasetsFhirStoresFhirRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<HttpBody>,
@@ -7276,8 +6980,8 @@ export const validateResourceProjectsLocationsDatasetsFhirStoresFhir: API.Operat
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2784,
-    __c87,
+    2880,
+    __c90,
     0,
   ) as any as S.Schema<ValidateResourceProjectsLocationsDatasetsFhirStoresFhirRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<HttpBody>,
@@ -7297,8 +7001,8 @@ export const vreadProjectsLocationsDatasetsFhirStoresFhir: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2816,
-    __c88,
+    2912,
+    __c91,
     0,
   ) as any as S.Schema<VreadProjectsLocationsDatasetsFhirStoresFhirRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<HttpBody>,
@@ -7332,7 +7036,7 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           contentType: S.optional(S.String),
-          extensions: S.optional(__S(4960, __c155, 0)),
+          extensions: S.optional(__S(5088, __c159, 0)),
           data: S.optional(S.String),
         }),
       ).annotate({ identifier: "HttpBody" });
@@ -7343,11 +7047,19 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           maxErrorCount: S.optional(S.String),
           gcsSource: S.optional(__S(448, __c14, 0)),
           contentStructure: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "ImportResourcesHistoryRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(64, __c2, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:importHistory",
@@ -7362,10 +7074,18 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           blobStorageSettings: S.optional(__S(128, __c4, 0)),
           gcsSource: S.optional(__S(448, __c14, 0)),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "ImportDicomDataRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(96, __c3, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:import",
@@ -7390,10 +7110,18 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           gcsSource: S.optional(__S(448, __c14, 0)),
           contentStructure: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "ImportResourcesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(160, __c5, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:import",
@@ -7408,9 +7136,17 @@ function __c6(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           gcsSource: S.optional(__S(448, __c14, 0)),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "ImportMessagesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(192, __c6, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:import",
@@ -7424,10 +7160,12 @@ function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          message: S.optional(__S(6246, __c195, 6)),
-        }).pipe(
+        S.Extend(
+          __S(3936, __c123, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/messages:ingest",
@@ -7438,7 +7176,7 @@ function __c7(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          message: S.optional(__S(6246, __c195, 6)),
+          message: S.optional(__S(6342, __c198, 6)),
           hl7Ack: S.optional(S.String),
         }),
       ).annotate({ identifier: "IngestMessageResponse" });
@@ -7452,7 +7190,7 @@ function __c8(j: number): any {
           pageSize: S.optional(S.Number.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
-          extraLocationTypes: S.optional(__S(4128, __c129, 0).pipe(T.Query())),
+          extraLocationTypes: S.optional(__S(4256, __c133, 0).pipe(T.Query())),
           name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -7463,7 +7201,7 @@ function __c8(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsRequest" });
     case 1:
-      return S.Array(__S(5824, __c182, 0));
+      return S.Array(__S(5952, __c186, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -7490,7 +7228,7 @@ function __c9(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsDatasetsRequest" });
     case 1:
-      return S.Array(__S(5888, __c184, 0));
+      return S.Array(__S(3201, __c100, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -7518,7 +7256,7 @@ function __c10(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsDatasetsConsentStoresRequest" });
     case 1:
-      return S.Array(__S(3168, __c99, 0));
+      return S.Array(__S(3264, __c102, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -7548,7 +7286,7 @@ function __c11(j: number): any {
         identifier: "ListProjectsLocationsDatasetsConsentStoresAttributeDefinitionsRequest",
       });
     case 1:
-      return S.Array(__S(3232, __c101, 0));
+      return S.Array(__S(3328, __c104, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -7578,7 +7316,7 @@ function __c12(j: number): any {
         identifier: "ListProjectsLocationsDatasetsConsentStoresConsentArtifactsRequest",
       });
     case 1:
-      return S.Array(__S(3299, __c103, 3));
+      return S.Array(__S(3395, __c106, 3));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -7593,14 +7331,22 @@ function __c13(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           until: S.optional(S.String),
           gcsSource: S.optional(__S(448, __c14, 0)),
           type: S.optional(S.String),
           gcsDestination: S.optional(__S(480, __c15, 0)),
           validateOnly: S.optional(S.Boolean),
           versionConfig: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "BulkDeleteResourcesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(416, __c13, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:bulkDelete",
@@ -7652,7 +7398,7 @@ function __c16(j: number): any {
 function __c17(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(4098, __c128, 2));
+      return S.Array(__S(4226, __c132, 2));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -7682,7 +7428,7 @@ function __c18(j: number): any {
         identifier: "ListProjectsLocationsDatasetsConsentStoresUserDataMappingsRequest",
       });
     case 1:
-      return S.Array(__S(3392, __c106, 0));
+      return S.Array(__S(3488, __c109, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -7710,7 +7456,7 @@ function __c19(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsDatasetsDicomStoresRequest" });
     case 1:
-      return S.Array(__S(3555, __c111, 3));
+      return S.Array(__S(3651, __c114, 3));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -7738,7 +7484,7 @@ function __c20(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsDatasetsFhirStoresRequest" });
     case 1:
-      return S.Array(__S(3692, __c115, 12));
+      return S.Array(__S(3788, __c118, 12));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -7766,7 +7512,7 @@ function __c21(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsDatasetsHl7V2StoresRequest" });
     case 1:
-      return S.Array(__S(3795, __c118, 19));
+      return S.Array(__S(3891, __c121, 19));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -7798,7 +7544,7 @@ function __c22(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          hl7V2Messages: S.optional(__S(6208, __c194, 0)),
+          hl7V2Messages: S.optional(__S(6304, __c197, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListMessagesResponse" });
@@ -7823,13 +7569,13 @@ function __c23(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsDatasetsOperationsRequest" });
     case 1:
-      return S.Array(__S(4993, __c156, 1));
+      return S.Array(__S(5121, __c160, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
           operations: S.optional(__S(737, __c23, 1)),
-          unreachable: S.optional(__S(4128, __c129, 0)),
+          unreachable: S.optional(__S(4256, __c133, 0)),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
   }
@@ -7875,14 +7621,13 @@ function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          satisfiesPzs: S.optional(S.Boolean),
-          satisfiesPzi: S.optional(S.Boolean),
-          encryptionSpec: S.optional(__S(3104, __c97, 0)),
-          timeZone: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(3201, __c100, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -7896,16 +7641,16 @@ function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          _type: S.optional(S.String.pipe(T.Query())),
-          _since: S.optional(S.String.pipe(T.Query())),
-          outputFormat: S.optional(S.String.pipe(T.Query())),
-          organizeOutputBy: S.optional(S.String.pipe(T.Query())),
-          contentType: S.optional(S.String),
-          extensions: S.optional(__S(4960, __c155, 0)),
-          data: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(32, __c1, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            _type: S.optional(S.String.pipe(T.Query())),
+            _since: S.optional(S.String.pipe(T.Query())),
+            outputFormat: S.optional(S.String.pipe(T.Query())),
+            organizeOutputBy: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}/$export",
@@ -7919,13 +7664,13 @@ function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          enableConsentCreateOnUpdate: S.optional(S.Boolean),
-          defaultConsentTtl: S.optional(S.String),
-          labels: S.optional(__S(4160, __c130, 0)),
-        }).pipe(
+        S.Extend(
+          __S(3264, __c102, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -7939,15 +7684,13 @@ function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          allowedValues: S.optional(__S(4128, __c129, 0)),
-          consentDefaultValues: S.optional(__S(4128, __c129, 0)),
-          description: S.optional(S.String),
-          category: S.optional(S.String),
-          dataMappingDefaultValue: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(3328, __c104, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -7963,19 +7706,13 @@ function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          state: S.optional(S.String),
-          consentArtifact: S.optional(S.String),
-          revisionCreateTime: S.optional(S.String),
-          userId: S.optional(S.String),
-          metadata: S.optional(__S(4160, __c130, 0)),
-          policies: S.optional(__S(4097, __c128, 1)),
-          revisionId: S.optional(S.String),
-          ttl: S.optional(S.String),
-          expireTime: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(4226, __c132, 2),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -7989,15 +7726,13 @@ function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          archived: S.optional(S.Boolean),
-          resourceAttributes: S.optional(__S(4033, __c126, 1)),
-          dataId: S.optional(S.String),
-          userId: S.optional(S.String),
-          archiveTime: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(3488, __c109, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -8013,14 +7748,13 @@ function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          notificationConfigs: S.optional(__S(3552, __c111, 0)),
-          labels: S.optional(__S(4160, __c130, 0)),
-          streamConfigs: S.optional(__S(3554, __c111, 2)),
-          notificationConfig: S.optional(__S(3456, __c108, 0)),
-        }).pipe(
+        S.Extend(
+          __S(3651, __c114, 3),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -8034,25 +7768,13 @@ function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          enableHistoryModifications: S.optional(S.Boolean),
-          disableResourceVersioning: S.optional(S.Boolean),
-          labels: S.optional(__S(4160, __c130, 0)),
-          notificationConfig: S.optional(__S(3456, __c108, 0)),
-          version: S.optional(S.String),
-          defaultSearchHandlingStrict: S.optional(S.Boolean),
-          streamConfigs: S.optional(__S(3682, __c115, 2)),
-          notificationConfigs: S.optional(__S(3684, __c115, 4)),
-          enableUpdateCreate: S.optional(S.Boolean),
-          disableReferentialIntegrity: S.optional(S.Boolean),
-          searchConfig: S.optional(__S(3687, __c115, 7)),
-          complexDataTypeReferenceParsing: S.optional(S.String),
-          consentConfig: S.optional(__S(3690, __c115, 10)),
-          bulkExportGcsDestination: S.optional(__S(480, __c15, 0)),
-          validationConfig: S.optional(__S(3691, __c115, 11)),
-        }).pipe(
+        S.Extend(
+          __S(3788, __c118, 12),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -8066,12 +7788,12 @@ function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          contentType: S.optional(S.String),
-          extensions: S.optional(__S(4960, __c155, 0)),
-          data: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(32, __c1, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -8085,15 +7807,13 @@ function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          notificationConfigs: S.optional(__S(3777, __c118, 1)),
-          parserConfig: S.optional(__S(3794, __c118, 18)),
-          labels: S.optional(__S(4160, __c130, 0)),
-          rejectDuplicateMessage: S.optional(S.Boolean),
-          notificationConfig: S.optional(__S(3456, __c108, 0)),
-        }).pipe(
+        S.Extend(
+          __S(3891, __c121, 19),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -8107,19 +7827,13 @@ function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          sendFacility: S.optional(S.String),
-          sendTime: S.optional(S.String),
-          schematizedData: S.optional(__S(6240, __c195, 0)),
-          parsedData: S.optional(__S(6243, __c195, 3)),
-          messageType: S.optional(S.String),
-          patientIds: S.optional(__S(6245, __c195, 5)),
-          labels: S.optional(__S(4160, __c130, 0)),
-          data: S.optional(S.String),
-          createTime: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(6342, __c198, 6),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -8215,11 +7929,19 @@ function __c41(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          consentStore: S.String.pipe(T.Label()),
           gcsDestination: S.optional(__S(480, __c15, 0)),
-          requestAttributes: S.optional(__S(4160, __c130, 0)),
-          resourceAttributes: S.optional(__S(4160, __c130, 0)),
-        }).pipe(
+          requestAttributes: S.optional(__S(4288, __c134, 0)),
+          resourceAttributes: S.optional(__S(4288, __c134, 0)),
+        }),
+      ).annotate({ identifier: "QueryAccessibleDataRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(1312, __c41, 0),
+          S.Struct({
+            consentStore: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+consentStore}:queryAccessibleData",
@@ -8267,10 +7989,12 @@ function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          consentArtifact: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1440, __c45, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:reject",
@@ -8281,6 +8005,16 @@ function __c44(j: number): any {
   }
 }
 function __c45(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          consentArtifact: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RejectConsentRequest" });
+  }
+}
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8303,14 +8037,16 @@ function __c45(j: number): any {
       });
   }
 }
-function __c46(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          consentArtifact: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1440, __c45, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:revoke",
@@ -8320,28 +8056,36 @@ function __c46(j: number): any {
       ).annotate({ identifier: "RevokeProjectsLocationsDatasetsConsentStoresConsentsRequest" });
   }
 }
-function __c47(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          operationIds: S.optional(__S(4128, __c129, 0)),
+          operationIds: S.optional(__S(4256, __c133, 0)),
           metadataFilter: S.optional(S.String),
         }),
       ).annotate({ identifier: "RollbackFhirResourceFilteringFields" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           inputGcsObject: S.optional(S.String),
           force: S.optional(S.Boolean),
           excludeRollbacks: S.optional(S.Boolean),
-          type: S.optional(__S(4128, __c129, 0)),
-          filteringFields: S.optional(__S(1504, __c47, 0)),
+          type: S.optional(__S(4256, __c133, 0)),
+          filteringFields: S.optional(__S(1536, __c48, 0)),
           rollbackTime: S.optional(S.String),
           resultGcsBucket: S.optional(S.String),
           changeType: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "RollbackFhirResourcesRequest" });
+    case 2:
+      return S.suspend(() =>
+        S.Extend(
+          __S(1537, __c48, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:rollback",
@@ -8351,26 +8095,34 @@ function __c47(j: number): any {
       ).annotate({ identifier: "RollbackProjectsLocationsDatasetsFhirStoresRequest" });
   }
 }
-function __c48(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          operationIds: S.optional(__S(4128, __c129, 0)),
+          operationIds: S.optional(__S(4256, __c133, 0)),
         }),
       ).annotate({ identifier: "RollbackHL7MessagesFilteringFields" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           rollbackTime: S.optional(S.String),
           excludeRollbacks: S.optional(S.Boolean),
           force: S.optional(S.Boolean),
           resultGcsBucket: S.optional(S.String),
           changeType: S.optional(S.String),
           inputGcsObject: S.optional(S.String),
-          filteringFields: S.optional(__S(1536, __c48, 0)),
-        }).pipe(
+          filteringFields: S.optional(__S(1568, __c49, 0)),
+        }),
+      ).annotate({ identifier: "RollbackHl7V2MessagesRequest" });
+    case 2:
+      return S.suspend(() =>
+        S.Extend(
+          __S(1569, __c49, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:rollback",
@@ -8380,7 +8132,7 @@ function __c48(j: number): any {
       ).annotate({ identifier: "RollbackProjectsLocationsDatasetsHl7V2StoresRequest" });
   }
 }
-function __c49(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8399,7 +8151,7 @@ function __c49(j: number): any {
       ).annotate({ identifier: "BulkExportProjectsLocationsDatasetsFhirStoresFhirRequest" });
   }
 }
-function __c50(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8423,7 +8175,7 @@ function __c50(j: number): any {
       });
   }
 }
-function __c51(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8440,7 +8192,7 @@ function __c51(j: number): any {
       ).annotate({ identifier: "SearchForInstancesProjectsLocationsDatasetsDicomStoresRequest" });
   }
 }
-function __c52(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8459,7 +8211,7 @@ function __c52(j: number): any {
       });
   }
 }
-function __c53(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8478,7 +8230,7 @@ function __c53(j: number): any {
       });
   }
 }
-function __c54(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8495,7 +8247,7 @@ function __c54(j: number): any {
       ).annotate({ identifier: "SearchForSeriesProjectsLocationsDatasetsDicomStoresRequest" });
   }
 }
-function __c55(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8514,7 +8266,7 @@ function __c55(j: number): any {
       });
   }
 }
-function __c56(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8531,17 +8283,17 @@ function __c56(j: number): any {
       ).annotate({ identifier: "SearchForStudiesProjectsLocationsDatasetsDicomStoresRequest" });
   }
 }
-function __c57(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          resourceType: S.optional(S.String.pipe(T.Query())),
-          contentType: S.optional(S.String),
-          extensions: S.optional(__S(4960, __c155, 0)),
-          data: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(32, __c1, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            resourceType: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/fhir/_search",
@@ -8551,17 +8303,17 @@ function __c57(j: number): any {
       ).annotate({ identifier: "SearchProjectsLocationsDatasetsFhirStoresFhirRequest" });
   }
 }
-function __c58(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resourceType: S.String.pipe(T.Label()),
-          parent: S.String.pipe(T.Label()),
-          contentType: S.optional(S.String),
-          extensions: S.optional(__S(4960, __c155, 0)),
-          data: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(32, __c1, 0),
+          S.Struct({
+            resourceType: S.String.pipe(T.Label()),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/fhir/{resourceType}/_search",
@@ -8571,15 +8323,16 @@ function __c58(j: number): any {
       ).annotate({ identifier: "SearchTypeProjectsLocationsDatasetsFhirStoresFhirRequest" });
   }
 }
-function __c59(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          filterConfig: S.optional(__S(3904, __c122, 0)),
-          blobStorageSettings: S.optional(__S(128, __c4, 0)),
-        }).pipe(
+        S.Extend(
+          __S(1952, __c61, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+resource}:setBlobStorageSettings",
@@ -8591,13 +8344,24 @@ function __c59(j: number): any {
       });
   }
 }
-function __c60(j: number): any {
+function __c61(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          filterConfig: S.optional(__S(4032, __c126, 0)),
+          blobStorageSettings: S.optional(__S(128, __c4, 0)),
+        }),
+      ).annotate({ identifier: "SetBlobStorageSettingsRequest" });
+  }
+}
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(5760, __c180, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(5888, __c184, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -8608,15 +8372,16 @@ function __c60(j: number): any {
       ).annotate({ identifier: "CancelProjectsLocationsDatasetsOperationsRequest" });
   }
 }
-function __c61(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          filterConfig: S.optional(__S(3904, __c122, 0)),
-          blobStorageSettings: S.optional(__S(128, __c4, 0)),
-        }).pipe(
+        S.Extend(
+          __S(1952, __c61, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+resource}:setBlobStorageSettings",
@@ -8629,15 +8394,16 @@ function __c61(j: number): any {
       });
   }
 }
-function __c62(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          policy: S.optional(__S(5414, __c169, 6)),
-          updateMask: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(2080, __c65, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+resource}:setIamPolicy",
@@ -8647,15 +8413,27 @@ function __c62(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsLocationsDatasetsRequest" });
   }
 }
-function __c63(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          resource: S.String.pipe(T.Label()),
-          policy: S.optional(__S(5414, __c169, 6)),
+          policy: S.optional(__S(5542, __c173, 6)),
           updateMask: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "SetIamPolicyRequest" });
+  }
+}
+function __c66(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(2080, __c65, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+resource}:setIamPolicy",
@@ -8665,15 +8443,16 @@ function __c63(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsLocationsDatasetsConsentStoresRequest" });
   }
 }
-function __c64(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          policy: S.optional(__S(5414, __c169, 6)),
-          updateMask: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(2080, __c65, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+resource}:setIamPolicy",
@@ -8685,15 +8464,16 @@ function __c64(j: number): any {
       });
   }
 }
-function __c65(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          policy: S.optional(__S(5414, __c169, 6)),
-          updateMask: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(2080, __c65, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+resource}:setIamPolicy",
@@ -8703,15 +8483,16 @@ function __c65(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsLocationsDatasetsDicomStoresRequest" });
   }
 }
-function __c66(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          policy: S.optional(__S(5414, __c169, 6)),
-          updateMask: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(2080, __c65, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+resource}:setIamPolicy",
@@ -8721,15 +8502,16 @@ function __c66(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsLocationsDatasetsFhirStoresRequest" });
   }
 }
-function __c67(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          policy: S.optional(__S(5414, __c169, 6)),
-          updateMask: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(2080, __c65, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+resource}:setIamPolicy",
@@ -8739,17 +8521,17 @@ function __c67(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsLocationsDatasetsHl7V2StoresRequest" });
   }
 }
-function __c68(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          dicomWebPath: S.String.pipe(T.Label()),
-          contentType: S.optional(S.String),
-          extensions: S.optional(__S(4960, __c155, 0)),
-          data: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(32, __c1, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            dicomWebPath: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/dicomWeb/{+dicomWebPath}",
@@ -8759,17 +8541,17 @@ function __c68(j: number): any {
       ).annotate({ identifier: "StoreInstancesProjectsLocationsDatasetsDicomStoresRequest" });
   }
 }
-function __c69(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          dicomWebPath: S.String.pipe(T.Label()),
-          contentType: S.optional(S.String),
-          extensions: S.optional(__S(4960, __c155, 0)),
-          data: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(32, __c1, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            dicomWebPath: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/dicomWeb/{+dicomWebPath}",
@@ -8781,14 +8563,16 @@ function __c69(j: number): any {
       });
   }
 }
-function __c70(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          permissions: S.optional(__S(4128, __c129, 0)),
-        }).pipe(
+        S.Extend(
+          __S(2368, __c74, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+resource}:testIamPermissions",
@@ -8798,17 +8582,17 @@ function __c70(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsLocationsDatasetsRequest" });
   }
 }
-function __c71(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          permissions: S.optional(__S(4128, __c129, 0)),
+          permissions: S.optional(__S(4256, __c133, 0)),
         }),
-      ).annotate({ identifier: "TestIamPermissionsResponse" });
+      ).annotate({ identifier: "TestIamPermissionsRequest" });
   }
 }
-function __c72(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8824,14 +8608,16 @@ function __c72(j: number): any {
       ).annotate({ identifier: "CapabilitiesProjectsLocationsDatasetsFhirStoresFhirRequest" });
   }
 }
-function __c73(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          permissions: S.optional(__S(4128, __c129, 0)),
-        }).pipe(
+        S.Extend(
+          __S(2368, __c74, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+resource}:testIamPermissions",
@@ -8841,14 +8627,16 @@ function __c73(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsLocationsDatasetsConsentStoresRequest" });
   }
 }
-function __c74(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          permissions: S.optional(__S(4128, __c129, 0)),
-        }).pipe(
+        S.Extend(
+          __S(2368, __c74, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+resource}:testIamPermissions",
@@ -8860,14 +8648,16 @@ function __c74(j: number): any {
       });
   }
 }
-function __c75(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          permissions: S.optional(__S(4128, __c129, 0)),
-        }).pipe(
+        S.Extend(
+          __S(2368, __c74, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+resource}:testIamPermissions",
@@ -8877,14 +8667,16 @@ function __c75(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsLocationsDatasetsDicomStoresRequest" });
   }
 }
-function __c76(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          permissions: S.optional(__S(4128, __c129, 0)),
-        }).pipe(
+        S.Extend(
+          __S(2368, __c74, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+resource}:testIamPermissions",
@@ -8894,14 +8686,16 @@ function __c76(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsLocationsDatasetsFhirStoresRequest" });
   }
 }
-function __c77(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          permissions: S.optional(__S(4128, __c129, 0)),
-        }).pipe(
+        S.Extend(
+          __S(2368, __c74, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+resource}:testIamPermissions",
@@ -8911,16 +8705,16 @@ function __c77(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsLocationsDatasetsHl7V2StoresRequest" });
   }
 }
-function __c78(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          contentType: S.optional(S.String),
-          extensions: S.optional(__S(4960, __c155, 0)),
-          data: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(32, __c1, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "v1beta1/{+name}",
@@ -8930,17 +8724,17 @@ function __c78(j: number): any {
       ).annotate({ identifier: "UpdateBinaryProjectsLocationsDatasetsFhirStoresFhirRequest" });
   }
 }
-function __c79(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          dicomWebPath: S.String.pipe(T.Label()),
-          contentType: S.optional(S.String),
-          extensions: S.optional(__S(4960, __c155, 0)),
-          data: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(32, __c1, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            dicomWebPath: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "v1beta1/{+parent}/dicomWeb/{+dicomWebPath}",
@@ -8950,17 +8744,17 @@ function __c79(j: number): any {
       ).annotate({ identifier: "UpdateInstancesProjectsLocationsDatasetsDicomStoresRequest" });
   }
 }
-function __c80(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          dicomWebPath: S.String.pipe(T.Label()),
-          parent: S.String.pipe(T.Label()),
-          contentType: S.optional(S.String),
-          extensions: S.optional(__S(4960, __c155, 0)),
-          data: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(32, __c1, 0),
+          S.Struct({
+            dicomWebPath: S.String.pipe(T.Label()),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "v1beta1/{+parent}/dicomWeb/{+dicomWebPath}",
@@ -8972,17 +8766,17 @@ function __c80(j: number): any {
       });
   }
 }
-function __c81(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          dicomWebPath: S.String.pipe(T.Label()),
-          parent: S.String.pipe(T.Label()),
-          contentType: S.optional(S.String),
-          extensions: S.optional(__S(4960, __c155, 0)),
-          data: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(32, __c1, 0),
+          S.Struct({
+            dicomWebPath: S.String.pipe(T.Label()),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+parent}/dicomWeb/{+dicomWebPath}/metadata",
@@ -8994,17 +8788,17 @@ function __c81(j: number): any {
       });
   }
 }
-function __c82(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          dicomWebPath: S.String.pipe(T.Label()),
-          contentType: S.optional(S.String),
-          extensions: S.optional(__S(4960, __c155, 0)),
-          data: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(32, __c1, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            dicomWebPath: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+parent}/dicomWeb/{+dicomWebPath}/metadata",
@@ -9016,17 +8810,25 @@ function __c82(j: number): any {
       });
   }
 }
-function __c83(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          consentStore: S.String.pipe(T.Label()),
-          consentList: S.optional(__S(2688, __c84, 0)),
-          requestAttributes: S.optional(__S(4160, __c130, 0)),
+          consentList: S.optional(__S(2784, __c87, 0)),
+          requestAttributes: S.optional(__S(4288, __c134, 0)),
           dataId: S.optional(S.String),
           responseView: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "CheckDataAccessRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(2752, __c86, 0),
+          S.Struct({
+            consentStore: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+consentStore}:checkDataAccess",
@@ -9034,21 +8836,21 @@ function __c83(j: number): any {
           }),
         ),
       ).annotate({ identifier: "CheckDataAccessProjectsLocationsDatasetsConsentStoresRequest" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
-          consentDetails: S.optional(__S(2690, __c84, 2)),
+          consentDetails: S.optional(__S(2786, __c87, 2)),
           consented: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "CheckDataAccessResponse" });
   }
 }
-function __c84(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          consents: S.optional(__S(4128, __c129, 0)),
+          consents: S.optional(__S(4256, __c133, 0)),
         }),
       ).annotate({ identifier: "ConsentList" });
     case 1:
@@ -9058,20 +8860,20 @@ function __c84(j: number): any {
         }),
       ).annotate({ identifier: "ConsentEvaluation" });
     case 2:
-      return S.Record(S.String, __S(2689, __c84, 1));
+      return S.Record(S.String, __S(2785, __c87, 1));
   }
 }
-function __c85(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          dicomWebPath: S.String.pipe(T.Label()),
-          contentType: S.optional(S.String),
-          extensions: S.optional(__S(4960, __c155, 0)),
-          data: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(32, __c1, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            dicomWebPath: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+parent}/dicomWeb/{+dicomWebPath}/metadata",
@@ -9084,16 +8886,16 @@ function __c85(j: number): any {
       });
   }
 }
-function __c86(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          contentType: S.optional(S.String),
-          extensions: S.optional(__S(4960, __c155, 0)),
-          data: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(32, __c1, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "v1beta1/{+name}",
@@ -9103,18 +8905,18 @@ function __c86(j: number): any {
       ).annotate({ identifier: "UpdateProjectsLocationsDatasetsFhirStoresFhirRequest" });
   }
 }
-function __c87(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profile: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          type: S.String.pipe(T.Label()),
-          contentType: S.optional(S.String),
-          extensions: S.optional(__S(4960, __c155, 0)),
-          data: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(32, __c1, 0),
+          S.Struct({
+            profile: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            type: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/fhir/{+type}/$validate",
@@ -9124,7 +8926,7 @@ function __c87(j: number): any {
       ).annotate({ identifier: "ValidateResourceProjectsLocationsDatasetsFhirStoresFhirRequest" });
   }
 }
-function __c88(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9140,7 +8942,7 @@ function __c88(j: number): any {
       ).annotate({ identifier: "VreadProjectsLocationsDatasetsFhirStoresFhirRequest" });
   }
 }
-function __c89(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9161,7 +8963,7 @@ function __c89(j: number): any {
       });
   }
 }
-function __c90(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9178,17 +8980,17 @@ function __c90(j: number): any {
       ).annotate({ identifier: "ConditionalDeleteProjectsLocationsDatasetsFhirStoresFhirRequest" });
   }
 }
-function __c91(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          type: S.String.pipe(T.Label()),
-          contentType: S.optional(S.String),
-          extensions: S.optional(__S(4960, __c155, 0)),
-          data: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(32, __c1, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            type: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+parent}/fhir/{+type}",
@@ -9198,17 +9000,17 @@ function __c91(j: number): any {
       ).annotate({ identifier: "ConditionalPatchProjectsLocationsDatasetsFhirStoresFhirRequest" });
   }
 }
-function __c92(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          type: S.String.pipe(T.Label()),
-          contentType: S.optional(S.String),
-          extensions: S.optional(__S(4960, __c155, 0)),
-          data: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(32, __c1, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            type: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "v1beta1/{+parent}/fhir/{+type}",
@@ -9218,15 +9020,23 @@ function __c92(j: number): any {
       ).annotate({ identifier: "ConditionalUpdateProjectsLocationsDatasetsFhirStoresFhirRequest" });
   }
 }
-function __c93(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           validateOnly: S.optional(S.Boolean),
-          canonicalUrls: S.optional(__S(4128, __c129, 0)),
-        }).pipe(
+          canonicalUrls: S.optional(__S(4256, __c133, 0)),
+        }),
+      ).annotate({ identifier: "ConfigureSearchRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(3072, __c96, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:configureSearch",
@@ -9236,7 +9046,7 @@ function __c93(j: number): any {
       ).annotate({ identifier: "ConfigureSearchProjectsLocationsDatasetsFhirStoresRequest" });
   }
 }
-function __c94(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9254,16 +9064,16 @@ function __c94(j: number): any {
       });
   }
 }
-function __c95(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          contentType: S.optional(S.String),
-          extensions: S.optional(__S(4960, __c155, 0)),
-          data: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(32, __c1, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/fhir/Binary",
@@ -9273,19 +9083,17 @@ function __c95(j: number): any {
       ).annotate({ identifier: "CreateBinaryProjectsLocationsDatasetsFhirStoresFhirRequest" });
   }
 }
-function __c96(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          datasetId: S.optional(S.String.pipe(T.Query())),
-          satisfiesPzs: S.optional(S.Boolean),
-          name: S.optional(S.String),
-          satisfiesPzi: S.optional(S.Boolean),
-          encryptionSpec: S.optional(__S(3104, __c97, 0)),
-          timeZone: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(3201, __c100, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            datasetId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/datasets",
@@ -9295,7 +9103,7 @@ function __c96(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsDatasetsRequest" });
   }
 }
-function __c97(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9303,20 +9111,29 @@ function __c97(j: number): any {
           kmsKeyName: S.optional(S.String),
         }),
       ).annotate({ identifier: "EncryptionSpec" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          satisfiesPzs: S.optional(S.Boolean),
+          name: S.optional(S.String),
+          satisfiesPzi: S.optional(S.Boolean),
+          encryptionSpec: S.optional(__S(3200, __c100, 0)),
+          timeZone: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Dataset" });
   }
 }
-function __c98(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          consentStoreId: S.optional(S.String.pipe(T.Query())),
-          enableConsentCreateOnUpdate: S.optional(S.Boolean),
-          defaultConsentTtl: S.optional(S.String),
-          name: S.optional(S.String),
-          labels: S.optional(__S(4160, __c130, 0)),
-        }).pipe(
+        S.Extend(
+          __S(3264, __c102, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            consentStoreId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/consentStores",
@@ -9326,7 +9143,7 @@ function __c98(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsDatasetsConsentStoresRequest" });
   }
 }
-function __c99(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9334,25 +9151,22 @@ function __c99(j: number): any {
           enableConsentCreateOnUpdate: S.optional(S.Boolean),
           defaultConsentTtl: S.optional(S.String),
           name: S.optional(S.String),
-          labels: S.optional(__S(4160, __c130, 0)),
+          labels: S.optional(__S(4288, __c134, 0)),
         }),
       ).annotate({ identifier: "ConsentStore" });
   }
 }
-function __c100(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          attributeDefinitionId: S.optional(S.String.pipe(T.Query())),
-          allowedValues: S.optional(__S(4128, __c129, 0)),
-          consentDefaultValues: S.optional(__S(4128, __c129, 0)),
-          description: S.optional(S.String),
-          name: S.optional(S.String),
-          category: S.optional(S.String),
-          dataMappingDefaultValue: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(3328, __c104, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            attributeDefinitionId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/attributeDefinitions",
@@ -9364,13 +9178,13 @@ function __c100(j: number): any {
       });
   }
 }
-function __c101(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          allowedValues: S.optional(__S(4128, __c129, 0)),
-          consentDefaultValues: S.optional(__S(4128, __c129, 0)),
+          allowedValues: S.optional(__S(4256, __c133, 0)),
+          consentDefaultValues: S.optional(__S(4256, __c133, 0)),
           description: S.optional(S.String),
           name: S.optional(S.String),
           category: S.optional(S.String),
@@ -9379,21 +9193,16 @@ function __c101(j: number): any {
       ).annotate({ identifier: "AttributeDefinition" });
   }
 }
-function __c102(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          consentContentScreenshots: S.optional(__S(3297, __c103, 1)),
-          userId: S.optional(S.String),
-          metadata: S.optional(__S(4160, __c130, 0)),
-          consentContentVersion: S.optional(S.String),
-          userSignature: S.optional(__S(3298, __c103, 2)),
-          name: S.optional(S.String),
-          witnessSignature: S.optional(__S(3298, __c103, 2)),
-          guardianSignature: S.optional(__S(3298, __c103, 2)),
-        }).pipe(
+        S.Extend(
+          __S(3395, __c106, 3),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/consentArtifacts",
@@ -9405,7 +9214,7 @@ function __c102(j: number): any {
       });
   }
 }
-function __c103(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9415,48 +9224,41 @@ function __c103(j: number): any {
         }),
       ).annotate({ identifier: "Image" });
     case 1:
-      return S.Array(__S(3296, __c103, 0));
+      return S.Array(__S(3392, __c106, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           userId: S.optional(S.String),
-          metadata: S.optional(__S(4160, __c130, 0)),
+          metadata: S.optional(__S(4288, __c134, 0)),
           signatureTime: S.optional(S.String),
-          image: S.optional(__S(3296, __c103, 0)),
+          image: S.optional(__S(3392, __c106, 0)),
         }),
       ).annotate({ identifier: "Signature" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          consentContentScreenshots: S.optional(__S(3297, __c103, 1)),
+          consentContentScreenshots: S.optional(__S(3393, __c106, 1)),
           userId: S.optional(S.String),
-          metadata: S.optional(__S(4160, __c130, 0)),
+          metadata: S.optional(__S(4288, __c134, 0)),
           consentContentVersion: S.optional(S.String),
-          userSignature: S.optional(__S(3298, __c103, 2)),
+          userSignature: S.optional(__S(3394, __c106, 2)),
           name: S.optional(S.String),
-          witnessSignature: S.optional(__S(3298, __c103, 2)),
-          guardianSignature: S.optional(__S(3298, __c103, 2)),
+          witnessSignature: S.optional(__S(3394, __c106, 2)),
+          guardianSignature: S.optional(__S(3394, __c106, 2)),
         }),
       ).annotate({ identifier: "ConsentArtifact" });
   }
 }
-function __c104(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          name: S.optional(S.String),
-          state: S.optional(S.String),
-          consentArtifact: S.optional(S.String),
-          revisionCreateTime: S.optional(S.String),
-          userId: S.optional(S.String),
-          metadata: S.optional(__S(4160, __c130, 0)),
-          policies: S.optional(__S(4097, __c128, 1)),
-          revisionId: S.optional(S.String),
-          ttl: S.optional(S.String),
-          expireTime: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(4226, __c132, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/consents",
@@ -9466,19 +9268,16 @@ function __c104(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsDatasetsConsentStoresConsentsRequest" });
   }
 }
-function __c105(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          archived: S.optional(S.Boolean),
-          resourceAttributes: S.optional(__S(4033, __c126, 1)),
-          dataId: S.optional(S.String),
-          userId: S.optional(S.String),
-          archiveTime: S.optional(S.String),
-          name: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(3488, __c109, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/userDataMappings",
@@ -9490,13 +9289,13 @@ function __c105(j: number): any {
       });
   }
 }
-function __c106(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           archived: S.optional(S.Boolean),
-          resourceAttributes: S.optional(__S(4033, __c126, 1)),
+          resourceAttributes: S.optional(__S(4161, __c130, 1)),
           dataId: S.optional(S.String),
           userId: S.optional(S.String),
           archiveTime: S.optional(S.String),
@@ -9505,19 +9304,17 @@ function __c106(j: number): any {
       ).annotate({ identifier: "UserDataMapping" });
   }
 }
-function __c107(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          dicomStoreId: S.optional(S.String.pipe(T.Query())),
-          notificationConfigs: S.optional(__S(3552, __c111, 0)),
-          labels: S.optional(__S(4160, __c130, 0)),
-          streamConfigs: S.optional(__S(3554, __c111, 2)),
-          name: S.optional(S.String),
-          notificationConfig: S.optional(__S(3456, __c108, 0)),
-        }).pipe(
+        S.Extend(
+          __S(3651, __c114, 3),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            dicomStoreId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/dicomStores",
@@ -9527,7 +9324,7 @@ function __c107(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsDatasetsDicomStoresRequest" });
   }
 }
-function __c108(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9538,15 +9335,15 @@ function __c108(j: number): any {
       ).annotate({ identifier: "NotificationConfig" });
   }
 }
-function __c109(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           force: S.optional(S.Boolean),
-          schemaJson: S.optional(__S(5760, __c180, 0)),
-          changeDataCaptureConfig: S.optional(__S(5760, __c180, 0)),
-          schemaFlattened: S.optional(__S(5760, __c180, 0)),
+          schemaJson: S.optional(__S(5888, __c184, 0)),
+          changeDataCaptureConfig: S.optional(__S(5888, __c184, 0)),
+          schemaFlattened: S.optional(__S(5888, __c184, 0)),
           writeDisposition: S.optional(S.String),
           includeSourceStore: S.optional(S.Boolean),
           tableUri: S.optional(S.String),
@@ -9554,7 +9351,7 @@ function __c109(j: number): any {
       ).annotate({ identifier: "GoogleCloudHealthcareV1beta1DicomBigQueryDestination" });
   }
 }
-function __c110(j: number): any {
+function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9564,54 +9361,41 @@ function __c110(j: number): any {
       ).annotate({ identifier: "DicomNotificationConfig" });
   }
 }
-function __c111(j: number): any {
+function __c114(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(3520, __c110, 0));
+      return S.Array(__S(3616, __c113, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          bigqueryDestination: S.optional(__S(3488, __c109, 0)),
+          bigqueryDestination: S.optional(__S(3584, __c112, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudHealthcareV1beta1DicomStreamConfig" });
     case 2:
-      return S.Array(__S(3553, __c111, 1));
+      return S.Array(__S(3649, __c114, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          notificationConfigs: S.optional(__S(3552, __c111, 0)),
-          labels: S.optional(__S(4160, __c130, 0)),
-          streamConfigs: S.optional(__S(3554, __c111, 2)),
+          notificationConfigs: S.optional(__S(3648, __c114, 0)),
+          labels: S.optional(__S(4288, __c134, 0)),
+          streamConfigs: S.optional(__S(3650, __c114, 2)),
           name: S.optional(S.String),
-          notificationConfig: S.optional(__S(3456, __c108, 0)),
+          notificationConfig: S.optional(__S(3552, __c111, 0)),
         }),
       ).annotate({ identifier: "DicomStore" });
   }
 }
-function __c112(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          fhirStoreId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          enableHistoryModifications: S.optional(S.Boolean),
-          disableResourceVersioning: S.optional(S.Boolean),
-          labels: S.optional(__S(4160, __c130, 0)),
-          notificationConfig: S.optional(__S(3456, __c108, 0)),
-          version: S.optional(S.String),
-          defaultSearchHandlingStrict: S.optional(S.Boolean),
-          streamConfigs: S.optional(__S(3682, __c115, 2)),
-          notificationConfigs: S.optional(__S(3684, __c115, 4)),
-          enableUpdateCreate: S.optional(S.Boolean),
-          disableReferentialIntegrity: S.optional(S.Boolean),
-          searchConfig: S.optional(__S(3687, __c115, 7)),
-          name: S.optional(S.String),
-          complexDataTypeReferenceParsing: S.optional(S.String),
-          consentConfig: S.optional(__S(3690, __c115, 10)),
-          bulkExportGcsDestination: S.optional(__S(480, __c15, 0)),
-          validationConfig: S.optional(__S(3691, __c115, 11)),
-        }).pipe(
+        S.Extend(
+          __S(3788, __c118, 12),
+          S.Struct({
+            fhirStoreId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/fhirStores",
@@ -9621,89 +9405,89 @@ function __c112(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsDatasetsFhirStoresRequest" });
   }
 }
-function __c113(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Number);
     case 1:
       return S.suspend(() =>
         S.Struct({
-          groupIndexes: S.optional(__S(3616, __c113, 0)),
+          groupIndexes: S.optional(__S(3712, __c116, 0)),
           pattern: S.optional(S.String),
         }),
       ).annotate({ identifier: "CustomRegex" });
     case 2:
-      return S.Array(__S(3617, __c113, 1));
+      return S.Array(__S(3713, __c116, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           textRedactionMode: S.optional(S.String),
-          additionalInfoTypes: S.optional(__S(4128, __c129, 0)),
-          customRegexes: S.optional(__S(3618, __c113, 2)),
-          excludeInfoTypes: S.optional(__S(4128, __c129, 0)),
+          additionalInfoTypes: S.optional(__S(4256, __c133, 0)),
+          customRegexes: S.optional(__S(3714, __c116, 2)),
+          excludeInfoTypes: S.optional(__S(4256, __c133, 0)),
         }),
       ).annotate({ identifier: "ImageConfig" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          cleanImage: S.optional(__S(3619, __c113, 3)),
-          cleanDescriptors: S.optional(__S(5760, __c180, 0)),
+          cleanImage: S.optional(__S(3715, __c116, 3)),
+          cleanDescriptors: S.optional(__S(5888, __c184, 0)),
           primaryIds: S.optional(S.String),
         }),
       ).annotate({ identifier: "Options" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          recurseTag: S.optional(__S(5760, __c180, 0)),
-          cleanTextTag: S.optional(__S(5760, __c180, 0)),
-          cleanImageTag: S.optional(__S(3619, __c113, 3)),
-          removeTag: S.optional(__S(5760, __c180, 0)),
-          queries: S.optional(__S(4128, __c129, 0)),
-          deleteTag: S.optional(__S(5760, __c180, 0)),
-          regenUidTag: S.optional(__S(5760, __c180, 0)),
-          resetTag: S.optional(__S(5760, __c180, 0)),
-          keepTag: S.optional(__S(5760, __c180, 0)),
+          recurseTag: S.optional(__S(5888, __c184, 0)),
+          cleanTextTag: S.optional(__S(5888, __c184, 0)),
+          cleanImageTag: S.optional(__S(3715, __c116, 3)),
+          removeTag: S.optional(__S(5888, __c184, 0)),
+          queries: S.optional(__S(4256, __c133, 0)),
+          deleteTag: S.optional(__S(5888, __c184, 0)),
+          regenUidTag: S.optional(__S(5888, __c184, 0)),
+          resetTag: S.optional(__S(5888, __c184, 0)),
+          keepTag: S.optional(__S(5888, __c184, 0)),
         }),
       ).annotate({ identifier: "Action" });
     case 6:
-      return S.Array(__S(3621, __c113, 5));
+      return S.Array(__S(3717, __c116, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          options: S.optional(__S(3620, __c113, 4)),
+          options: S.optional(__S(3716, __c116, 4)),
           profileType: S.optional(S.String),
-          actions: S.optional(__S(3622, __c113, 6)),
+          actions: S.optional(__S(3718, __c116, 6)),
         }),
       ).annotate({ identifier: "DicomTagConfig" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          paths: S.optional(__S(4128, __c129, 0)),
+          paths: S.optional(__S(4256, __c133, 0)),
           action: S.optional(S.String),
         }),
       ).annotate({ identifier: "FieldMetadata" });
     case 9:
-      return S.Array(__S(3624, __c113, 8));
+      return S.Array(__S(3720, __c116, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
-          fieldMetadataList: S.optional(__S(3625, __c113, 9)),
+          fieldMetadataList: S.optional(__S(3721, __c116, 9)),
           defaultKeepExtensions: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "FhirConfig" });
     case 11:
       return S.suspend(() =>
         S.Struct({
-          tags: S.optional(__S(4128, __c129, 0)),
+          tags: S.optional(__S(4256, __c133, 0)),
         }),
       ).annotate({ identifier: "TagFilterList" });
     case 12:
       return S.suspend(() =>
         S.Struct({
           skipIdRedaction: S.optional(S.Boolean),
-          keepList: S.optional(__S(3627, __c113, 11)),
+          keepList: S.optional(__S(3723, __c116, 11)),
           filterProfile: S.optional(S.String),
-          removeList: S.optional(__S(3627, __c113, 11)),
+          removeList: S.optional(__S(3723, __c116, 11)),
         }),
       ).annotate({ identifier: "DicomConfig" });
     case 13:
@@ -9717,7 +9501,7 @@ function __c113(j: number): any {
       return S.suspend(() =>
         S.Struct({
           cryptoKey: S.optional(S.String),
-          kmsWrapped: S.optional(__S(3629, __c113, 13)),
+          kmsWrapped: S.optional(__S(3725, __c116, 13)),
         }),
       ).annotate({ identifier: "DateShiftConfig" });
     case 15:
@@ -9729,23 +9513,23 @@ function __c113(j: number): any {
     case 16:
       return S.suspend(() =>
         S.Struct({
-          dateShiftConfig: S.optional(__S(3630, __c113, 14)),
-          characterMaskConfig: S.optional(__S(3631, __c113, 15)),
-          replaceWithInfoTypeConfig: S.optional(__S(5760, __c180, 0)),
-          cryptoHashConfig: S.optional(__S(3630, __c113, 14)),
-          redactConfig: S.optional(__S(5760, __c180, 0)),
-          infoTypes: S.optional(__S(4128, __c129, 0)),
+          dateShiftConfig: S.optional(__S(3726, __c116, 14)),
+          characterMaskConfig: S.optional(__S(3727, __c116, 15)),
+          replaceWithInfoTypeConfig: S.optional(__S(5888, __c184, 0)),
+          cryptoHashConfig: S.optional(__S(3726, __c116, 14)),
+          redactConfig: S.optional(__S(5888, __c184, 0)),
+          infoTypes: S.optional(__S(4256, __c133, 0)),
         }),
       ).annotate({ identifier: "InfoTypeTransformation" });
     case 17:
-      return S.Array(__S(3632, __c113, 16));
+      return S.Array(__S(3728, __c116, 16));
     case 18:
       return S.suspend(() =>
         S.Struct({
-          transformations: S.optional(__S(3633, __c113, 17)),
-          excludeInfoTypes: S.optional(__S(4128, __c129, 0)),
+          transformations: S.optional(__S(3729, __c116, 17)),
+          excludeInfoTypes: S.optional(__S(4256, __c133, 0)),
           profileType: S.optional(S.String),
-          additionalTransformations: S.optional(__S(3633, __c113, 17)),
+          additionalTransformations: S.optional(__S(3729, __c116, 17)),
         }),
       ).annotate({ identifier: "TextConfig" });
     case 19:
@@ -9757,57 +9541,57 @@ function __c113(j: number): any {
     case 20:
       return S.suspend(() =>
         S.Struct({
-          fhirOutput: S.optional(__S(3635, __c113, 19)),
+          fhirOutput: S.optional(__S(3731, __c116, 19)),
         }),
       ).annotate({ identifier: "DeidentifyOperationMetadata" });
     case 21:
       return S.suspend(() =>
         S.Struct({
-          keepExtensions: S.optional(__S(5760, __c180, 0)),
-          cryptoHashConfig: S.optional(__S(3630, __c113, 14)),
-          dateShiftConfig: S.optional(__S(3630, __c113, 14)),
-          characterMaskConfig: S.optional(__S(3631, __c113, 15)),
-          contextualDeid: S.optional(__S(5760, __c180, 0)),
+          keepExtensions: S.optional(__S(5888, __c184, 0)),
+          cryptoHashConfig: S.optional(__S(3726, __c116, 14)),
+          dateShiftConfig: S.optional(__S(3726, __c116, 14)),
+          characterMaskConfig: S.optional(__S(3727, __c116, 15)),
+          contextualDeid: S.optional(__S(5888, __c184, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudHealthcareV1beta1DeidentifyOptions" });
     case 22:
       return S.suspend(() =>
         S.Struct({
-          cryptoHashField: S.optional(__S(5760, __c180, 0)),
-          paths: S.optional(__S(4128, __c129, 0)),
-          dateShiftField: S.optional(__S(5760, __c180, 0)),
-          characterMaskField: S.optional(__S(5760, __c180, 0)),
-          removeField: S.optional(__S(5760, __c180, 0)),
-          cleanTextField: S.optional(__S(5760, __c180, 0)),
-          keepField: S.optional(__S(5760, __c180, 0)),
+          cryptoHashField: S.optional(__S(5888, __c184, 0)),
+          paths: S.optional(__S(4256, __c133, 0)),
+          dateShiftField: S.optional(__S(5888, __c184, 0)),
+          characterMaskField: S.optional(__S(5888, __c184, 0)),
+          removeField: S.optional(__S(5888, __c184, 0)),
+          cleanTextField: S.optional(__S(5888, __c184, 0)),
+          keepField: S.optional(__S(5888, __c184, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudHealthcareV1beta1DeidentifyFieldMetadata" });
     case 23:
-      return S.Array(__S(3638, __c113, 22));
+      return S.Array(__S(3734, __c116, 22));
     case 24:
       return S.suspend(() =>
         S.Struct({
-          options: S.optional(__S(3637, __c113, 21)),
+          options: S.optional(__S(3733, __c116, 21)),
           profileType: S.optional(S.String),
-          fieldMetadataList: S.optional(__S(3639, __c113, 23)),
+          fieldMetadataList: S.optional(__S(3735, __c116, 23)),
         }),
       ).annotate({ identifier: "FhirFieldConfig" });
     case 25:
       return S.suspend(() =>
         S.Struct({
-          image: S.optional(__S(3619, __c113, 3)),
-          dicomTagConfig: S.optional(__S(3623, __c113, 7)),
-          fhir: S.optional(__S(3626, __c113, 10)),
-          dicom: S.optional(__S(3628, __c113, 12)),
-          text: S.optional(__S(3634, __c113, 18)),
-          operationMetadata: S.optional(__S(3636, __c113, 20)),
+          image: S.optional(__S(3715, __c116, 3)),
+          dicomTagConfig: S.optional(__S(3719, __c116, 7)),
+          fhir: S.optional(__S(3722, __c116, 10)),
+          dicom: S.optional(__S(3724, __c116, 12)),
+          text: S.optional(__S(3730, __c116, 18)),
+          operationMetadata: S.optional(__S(3732, __c116, 20)),
           useRegionalDataProcessing: S.optional(S.Boolean),
-          fhirFieldConfig: S.optional(__S(3640, __c113, 24)),
+          fhirFieldConfig: S.optional(__S(3736, __c116, 24)),
         }),
       ).annotate({ identifier: "DeidentifyConfig" });
   }
 }
-function __c114(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9827,40 +9611,40 @@ function __c114(j: number): any {
         S.Struct({
           recursiveStructureDepth: S.optional(S.String),
           schemaType: S.optional(S.String),
-          lastUpdatedPartitionConfig: S.optional(__S(3649, __c114, 1)),
+          lastUpdatedPartitionConfig: S.optional(__S(3745, __c117, 1)),
         }),
       ).annotate({ identifier: "SchemaConfig" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          changeDataCaptureConfig: S.optional(__S(3648, __c114, 0)),
+          changeDataCaptureConfig: S.optional(__S(3744, __c117, 0)),
           force: S.optional(S.Boolean),
-          schemaConfig: S.optional(__S(3650, __c114, 2)),
+          schemaConfig: S.optional(__S(3746, __c117, 2)),
           writeDisposition: S.optional(S.String),
           datasetUri: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudHealthcareV1beta1FhirBigQueryDestination" });
   }
 }
-function __c115(j: number): any {
+function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          config: S.optional(__S(3641, __c113, 25)),
+          config: S.optional(__S(3737, __c116, 25)),
           store: S.optional(S.String),
         }),
       ).annotate({ identifier: "DeidentifiedStoreDestination" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          resourceTypes: S.optional(__S(4128, __c129, 0)),
-          bigqueryDestination: S.optional(__S(3651, __c114, 3)),
-          deidentifiedStoreDestination: S.optional(__S(3680, __c115, 0)),
+          resourceTypes: S.optional(__S(4256, __c133, 0)),
+          bigqueryDestination: S.optional(__S(3747, __c117, 3)),
+          deidentifiedStoreDestination: S.optional(__S(3776, __c118, 0)),
         }),
       ).annotate({ identifier: "StreamConfig" });
     case 2:
-      return S.Array(__S(3681, __c115, 1));
+      return S.Array(__S(3777, __c118, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -9870,7 +9654,7 @@ function __c115(j: number): any {
         }),
       ).annotate({ identifier: "FhirNotificationConfig" });
     case 4:
-      return S.Array(__S(3683, __c115, 3));
+      return S.Array(__S(3779, __c118, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -9879,11 +9663,11 @@ function __c115(j: number): any {
         }),
       ).annotate({ identifier: "SearchParameter" });
     case 6:
-      return S.Array(__S(3685, __c115, 5));
+      return S.Array(__S(3781, __c118, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          searchParameters: S.optional(__S(3686, __c115, 6)),
+          searchParameters: S.optional(__S(3782, __c118, 6)),
         }),
       ).annotate({ identifier: "SearchConfig" });
     case 8:
@@ -9901,17 +9685,17 @@ function __c115(j: number): any {
     case 10:
       return S.suspend(() =>
         S.Struct({
-          consentHeaderHandling: S.optional(__S(3688, __c115, 8)),
-          enforcedAdminConsents: S.optional(__S(4128, __c129, 0)),
+          consentHeaderHandling: S.optional(__S(3784, __c118, 8)),
+          enforcedAdminConsents: S.optional(__S(4256, __c133, 0)),
           version: S.optional(S.String),
-          accessDeterminationLogConfig: S.optional(__S(3689, __c115, 9)),
+          accessDeterminationLogConfig: S.optional(__S(3785, __c118, 9)),
           accessEnforced: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "ConsentConfig" });
     case 11:
       return S.suspend(() =>
         S.Struct({
-          enabledImplementationGuides: S.optional(__S(4128, __c129, 0)),
+          enabledImplementationGuides: S.optional(__S(4256, __c133, 0)),
           disableReferenceTypeValidation: S.optional(S.Boolean),
           disableProfileValidation: S.optional(S.Boolean),
           enableFhirpathProfileValidation: S.optional(S.Boolean),
@@ -9924,35 +9708,35 @@ function __c115(j: number): any {
         S.Struct({
           enableHistoryModifications: S.optional(S.Boolean),
           disableResourceVersioning: S.optional(S.Boolean),
-          labels: S.optional(__S(4160, __c130, 0)),
-          notificationConfig: S.optional(__S(3456, __c108, 0)),
+          labels: S.optional(__S(4288, __c134, 0)),
+          notificationConfig: S.optional(__S(3552, __c111, 0)),
           version: S.optional(S.String),
           defaultSearchHandlingStrict: S.optional(S.Boolean),
-          streamConfigs: S.optional(__S(3682, __c115, 2)),
-          notificationConfigs: S.optional(__S(3684, __c115, 4)),
+          streamConfigs: S.optional(__S(3778, __c118, 2)),
+          notificationConfigs: S.optional(__S(3780, __c118, 4)),
           enableUpdateCreate: S.optional(S.Boolean),
           disableReferentialIntegrity: S.optional(S.Boolean),
-          searchConfig: S.optional(__S(3687, __c115, 7)),
+          searchConfig: S.optional(__S(3783, __c118, 7)),
           name: S.optional(S.String),
           complexDataTypeReferenceParsing: S.optional(S.String),
-          consentConfig: S.optional(__S(3690, __c115, 10)),
+          consentConfig: S.optional(__S(3786, __c118, 10)),
           bulkExportGcsDestination: S.optional(__S(480, __c15, 0)),
-          validationConfig: S.optional(__S(3691, __c115, 11)),
+          validationConfig: S.optional(__S(3787, __c118, 11)),
         }),
       ).annotate({ identifier: "FhirStore" });
   }
 }
-function __c116(j: number): any {
+function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          type: S.String.pipe(T.Label()),
-          contentType: S.optional(S.String),
-          extensions: S.optional(__S(4960, __c155, 0)),
-          data: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(32, __c1, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            type: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/fhir/{+type}",
@@ -9962,20 +9746,17 @@ function __c116(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsDatasetsFhirStoresFhirRequest" });
   }
 }
-function __c117(j: number): any {
+function __c120(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          hl7V2StoreId: S.optional(S.String.pipe(T.Query())),
-          notificationConfigs: S.optional(__S(3777, __c118, 1)),
-          parserConfig: S.optional(__S(3794, __c118, 18)),
-          labels: S.optional(__S(4160, __c130, 0)),
-          rejectDuplicateMessage: S.optional(S.Boolean),
-          name: S.optional(S.String),
-          notificationConfig: S.optional(__S(3456, __c108, 0)),
-        }).pipe(
+        S.Extend(
+          __S(3891, __c121, 19),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            hl7V2StoreId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/hl7V2Stores",
@@ -9985,7 +9766,7 @@ function __c117(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsDatasetsHl7V2StoresRequest" });
   }
 }
-function __c118(j: number): any {
+function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9995,7 +9776,7 @@ function __c118(j: number): any {
         }),
       ).annotate({ identifier: "Hl7V2NotificationConfig" });
     case 1:
-      return S.Array(__S(3776, __c118, 0));
+      return S.Array(__S(3872, __c121, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -10004,7 +9785,7 @@ function __c118(j: number): any {
         }),
       ).annotate({ identifier: "VersionSource" });
     case 3:
-      return S.Array(__S(3778, __c118, 2));
+      return S.Array(__S(3874, __c121, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -10016,26 +9797,26 @@ function __c118(j: number): any {
         }),
       ).annotate({ identifier: "Field" });
     case 5:
-      return S.Array(__S(3780, __c118, 4));
+      return S.Array(__S(3876, __c121, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           primitive: S.optional(S.String),
           name: S.optional(S.String),
-          fields: S.optional(__S(3781, __c118, 5)),
+          fields: S.optional(__S(3877, __c121, 5)),
         }),
       ).annotate({ identifier: "Type" });
     case 7:
-      return S.Array(__S(3782, __c118, 6));
+      return S.Array(__S(3878, __c121, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          version: S.optional(__S(3779, __c118, 3)),
-          type: S.optional(__S(3783, __c118, 7)),
+          version: S.optional(__S(3875, __c121, 3)),
+          type: S.optional(__S(3879, __c121, 7)),
         }),
       ).annotate({ identifier: "Hl7TypesConfig" });
     case 9:
-      return S.Array(__S(3784, __c118, 8));
+      return S.Array(__S(3880, __c121, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
@@ -10047,39 +9828,39 @@ function __c118(j: number): any {
     case 11:
       return S.suspend(() =>
         S.Struct({
-          segment: S.optional(__S(3786, __c118, 10)),
-          group: S.optional(S.suspend(() => __S(3789, __c118, 13))),
+          segment: S.optional(__S(3882, __c121, 10)),
+          group: S.optional(S.suspend(() => __S(3885, __c121, 13))),
         }),
       ).annotate({ identifier: "GroupOrSegment" });
     case 12:
-      return S.Array(__S(3787, __c118, 11));
+      return S.Array(__S(3883, __c121, 11));
     case 13:
       return S.suspend(() =>
         S.Struct({
           minOccurs: S.optional(S.Number),
           choice: S.optional(S.Boolean),
-          members: S.optional(__S(3788, __c118, 12)),
+          members: S.optional(__S(3884, __c121, 12)),
           name: S.optional(S.String),
           maxOccurs: S.optional(S.Number),
         }),
       ).annotate({ identifier: "SchemaGroup" });
     case 14:
-      return S.Record(S.String, __S(3789, __c118, 13));
+      return S.Record(S.String, __S(3885, __c121, 13));
     case 15:
       return S.suspend(() =>
         S.Struct({
-          version: S.optional(__S(3779, __c118, 3)),
-          messageSchemaConfigs: S.optional(__S(3790, __c118, 14)),
+          version: S.optional(__S(3875, __c121, 3)),
+          messageSchemaConfigs: S.optional(__S(3886, __c121, 14)),
         }),
       ).annotate({ identifier: "Hl7SchemaConfig" });
     case 16:
-      return S.Array(__S(3791, __c118, 15));
+      return S.Array(__S(3887, __c121, 15));
     case 17:
       return S.suspend(() =>
         S.Struct({
-          types: S.optional(__S(3785, __c118, 9)),
+          types: S.optional(__S(3881, __c121, 9)),
           schematizedParsingType: S.optional(S.String),
-          schemas: S.optional(__S(3792, __c118, 16)),
+          schemas: S.optional(__S(3888, __c121, 16)),
           unexpectedSegmentHandling: S.optional(S.String),
           ignoreMinOccurs: S.optional(S.Boolean),
         }),
@@ -10088,7 +9869,7 @@ function __c118(j: number): any {
       return S.suspend(() =>
         S.Struct({
           allowNullHeader: S.optional(S.Boolean),
-          schema: S.optional(__S(3793, __c118, 17)),
+          schema: S.optional(__S(3889, __c121, 17)),
           segmentTerminator: S.optional(S.String),
           version: S.optional(S.String),
         }),
@@ -10096,24 +9877,26 @@ function __c118(j: number): any {
     case 19:
       return S.suspend(() =>
         S.Struct({
-          notificationConfigs: S.optional(__S(3777, __c118, 1)),
-          parserConfig: S.optional(__S(3794, __c118, 18)),
-          labels: S.optional(__S(4160, __c130, 0)),
+          notificationConfigs: S.optional(__S(3873, __c121, 1)),
+          parserConfig: S.optional(__S(3890, __c121, 18)),
+          labels: S.optional(__S(4288, __c134, 0)),
           rejectDuplicateMessage: S.optional(S.Boolean),
           name: S.optional(S.String),
-          notificationConfig: S.optional(__S(3456, __c108, 0)),
+          notificationConfig: S.optional(__S(3552, __c111, 0)),
         }),
       ).annotate({ identifier: "Hl7V2Store" });
   }
 }
-function __c119(j: number): any {
+function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          message: S.optional(__S(6246, __c195, 6)),
-        }).pipe(
+        S.Extend(
+          __S(3936, __c123, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/messages",
@@ -10123,16 +9906,34 @@ function __c119(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsDatasetsHl7V2StoresMessagesRequest" });
   }
 }
-function __c120(j: number): any {
+function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          sourceDataset: S.String.pipe(T.Label()),
-          config: S.optional(__S(3641, __c113, 25)),
+          message: S.optional(__S(6342, __c198, 6)),
+        }),
+      ).annotate({ identifier: "CreateMessageRequest" });
+  }
+}
+function __c124(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          config: S.optional(__S(3737, __c116, 25)),
           destinationDataset: S.optional(S.String),
           gcsConfigUri: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "DeidentifyDatasetRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(3968, __c124, 0),
+          S.Struct({
+            sourceDataset: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+sourceDataset}:deidentify",
@@ -10142,17 +9943,25 @@ function __c120(j: number): any {
       ).annotate({ identifier: "DeidentifyProjectsLocationsDatasetsRequest" });
   }
 }
-function __c121(j: number): any {
+function __c125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          sourceStore: S.String.pipe(T.Label()),
-          filterConfig: S.optional(__S(3904, __c122, 0)),
-          config: S.optional(__S(3641, __c113, 25)),
+          filterConfig: S.optional(__S(4032, __c126, 0)),
+          config: S.optional(__S(3737, __c116, 25)),
           destinationStore: S.optional(S.String),
           gcsConfigUri: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "DeidentifyDicomStoreRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(4000, __c125, 0),
+          S.Struct({
+            sourceStore: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+sourceStore}:deidentify",
@@ -10162,7 +9971,7 @@ function __c121(j: number): any {
       ).annotate({ identifier: "DeidentifyProjectsLocationsDatasetsDicomStoresRequest" });
   }
 }
-function __c122(j: number): any {
+function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10172,30 +9981,38 @@ function __c122(j: number): any {
       ).annotate({ identifier: "DicomFilterConfig" });
   }
 }
-function __c123(j: number): any {
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          resources: S.optional(__S(4128, __c129, 0)),
+          resources: S.optional(__S(4256, __c133, 0)),
         }),
       ).annotate({ identifier: "Resources" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          resources: S.optional(__S(3936, __c123, 0)),
+          resources: S.optional(__S(4064, __c127, 0)),
         }),
       ).annotate({ identifier: "FhirFilter" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          sourceStore: S.String.pipe(T.Label()),
           gcsConfigUri: S.optional(S.String),
           destinationStore: S.optional(S.String),
-          config: S.optional(__S(3641, __c113, 25)),
-          resourceFilter: S.optional(__S(3937, __c123, 1)),
+          config: S.optional(__S(3737, __c116, 25)),
+          resourceFilter: S.optional(__S(4065, __c127, 1)),
           skipModifiedResources: S.optional(S.Boolean),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "DeidentifyFhirStoreRequest" });
+    case 3:
+      return S.suspend(() =>
+        S.Extend(
+          __S(4066, __c127, 2),
+          S.Struct({
+            sourceStore: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+sourceStore}:deidentify",
@@ -10205,7 +10022,7 @@ function __c123(j: number): any {
       ).annotate({ identifier: "DeidentifyProjectsLocationsDatasetsFhirStoresRequest" });
   }
 }
-function __c124(j: number): any {
+function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10223,16 +10040,24 @@ function __c124(j: number): any {
       });
   }
 }
-function __c125(j: number): any {
+function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           ttl: S.optional(S.String),
           expireTime: S.optional(S.String),
           consentArtifact: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "ActivateConsentRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(4128, __c129, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:activate",
@@ -10242,20 +10067,20 @@ function __c125(j: number): any {
       ).annotate({ identifier: "ActivateProjectsLocationsDatasetsConsentStoresConsentsRequest" });
   }
 }
-function __c126(j: number): any {
+function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           attributeDefinitionId: S.optional(S.String),
-          values: S.optional(__S(4128, __c129, 0)),
+          values: S.optional(__S(4256, __c133, 0)),
         }),
       ).annotate({ identifier: "Attribute" });
     case 1:
-      return S.Array(__S(4032, __c126, 0));
+      return S.Array(__S(4160, __c130, 0));
   }
 }
-function __c127(j: number): any {
+function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10268,17 +10093,17 @@ function __c127(j: number): any {
       ).annotate({ identifier: "Expr" });
   }
 }
-function __c128(j: number): any {
+function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          authorizationRule: S.optional(__S(4064, __c127, 0)),
-          resourceAttributes: S.optional(__S(4033, __c126, 1)),
+          authorizationRule: S.optional(__S(4192, __c131, 0)),
+          resourceAttributes: S.optional(__S(4161, __c130, 1)),
         }),
       ).annotate({ identifier: "GoogleCloudHealthcareV1beta1ConsentPolicy" });
     case 1:
-      return S.Array(__S(4096, __c128, 0));
+      return S.Array(__S(4224, __c132, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -10287,8 +10112,8 @@ function __c128(j: number): any {
           consentArtifact: S.optional(S.String),
           revisionCreateTime: S.optional(S.String),
           userId: S.optional(S.String),
-          metadata: S.optional(__S(4160, __c130, 0)),
-          policies: S.optional(__S(4097, __c128, 1)),
+          metadata: S.optional(__S(4288, __c134, 0)),
+          policies: S.optional(__S(4225, __c132, 1)),
           revisionId: S.optional(S.String),
           ttl: S.optional(S.String),
           expireTime: S.optional(S.String),
@@ -10296,19 +10121,19 @@ function __c128(j: number): any {
       ).annotate({ identifier: "Consent" });
   }
 }
-function __c129(j: number): any {
+function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c130(j: number): any {
+function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
   }
 }
-function __c131(j: number): any {
+function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10324,7 +10149,7 @@ function __c131(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsDatasetsRequest" });
   }
 }
-function __c132(j: number): any {
+function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10340,7 +10165,7 @@ function __c132(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsDatasetsConsentStoresRequest" });
   }
 }
-function __c133(j: number): any {
+function __c137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10358,7 +10183,7 @@ function __c133(j: number): any {
       });
   }
 }
-function __c134(j: number): any {
+function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10376,7 +10201,7 @@ function __c134(j: number): any {
       });
   }
 }
-function __c135(j: number): any {
+function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10392,7 +10217,7 @@ function __c135(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsDatasetsConsentStoresConsentsRequest" });
   }
 }
-function __c136(j: number): any {
+function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10410,7 +10235,7 @@ function __c136(j: number): any {
       });
   }
 }
-function __c137(j: number): any {
+function __c141(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10426,7 +10251,7 @@ function __c137(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsDatasetsDicomStoresRequest" });
   }
 }
-function __c138(j: number): any {
+function __c142(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10443,7 +10268,7 @@ function __c138(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsDatasetsDicomStoresStudiesRequest" });
   }
 }
-function __c139(j: number): any {
+function __c143(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10460,7 +10285,7 @@ function __c139(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsDatasetsDicomStoresStudiesSeriesRequest" });
   }
 }
-function __c140(j: number): any {
+function __c144(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10479,16 +10304,24 @@ function __c140(j: number): any {
       });
   }
 }
-function __c141(j: number): any {
+function __c145(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          nlpService: S.String.pipe(T.Label()),
           alternativeOutputFormat: S.optional(S.String),
           documentContent: S.optional(S.String),
-          licensedVocabularies: S.optional(__S(4544, __c142, 0)),
-        }).pipe(
+          licensedVocabularies: S.optional(__S(4672, __c146, 0)),
+        }),
+      ).annotate({ identifier: "AnalyzeEntitiesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(4640, __c145, 0),
+          S.Struct({
+            nlpService: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+nlpService}:analyzeEntities",
@@ -10496,47 +10329,47 @@ function __c141(j: number): any {
           }),
         ),
       ).annotate({ identifier: "AnalyzeEntitiesProjectsLocationsServicesNlpRequest" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           entityId: S.optional(S.String),
         }),
       ).annotate({ identifier: "LinkedEntity" });
-    case 2:
-      return S.Array(__S(4513, __c141, 1));
     case 3:
+      return S.Array(__S(4642, __c145, 2));
+    case 4:
       return S.suspend(() =>
         S.Struct({
           confidence: S.optional(S.Number),
           value: S.optional(S.String),
         }),
       ).annotate({ identifier: "Feature" });
-    case 4:
-      return S.Array(__S(4515, __c141, 3));
     case 5:
+      return S.Array(__S(4644, __c145, 4));
+    case 6:
       return S.suspend(() =>
         S.Struct({
           beginOffset: S.optional(S.Number),
           content: S.optional(S.String),
         }),
       ).annotate({ identifier: "TextSpan" });
-    case 6:
+    case 7:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          linkedEntities: S.optional(__S(4514, __c141, 2)),
-          additionalInfo: S.optional(__S(4516, __c141, 4)),
-          certaintyAssessment: S.optional(__S(4515, __c141, 3)),
-          text: S.optional(__S(4517, __c141, 5)),
+          linkedEntities: S.optional(__S(4643, __c145, 3)),
+          additionalInfo: S.optional(__S(4645, __c145, 5)),
+          certaintyAssessment: S.optional(__S(4644, __c145, 4)),
+          text: S.optional(__S(4646, __c145, 6)),
           mentionId: S.optional(S.String),
-          temporalAssessment: S.optional(__S(4515, __c141, 3)),
+          temporalAssessment: S.optional(__S(4644, __c145, 4)),
           confidence: S.optional(S.Number),
-          subject: S.optional(__S(4515, __c141, 3)),
+          subject: S.optional(__S(4644, __c145, 4)),
         }),
       ).annotate({ identifier: "EntityMention" });
-    case 7:
-      return S.Array(__S(4518, __c141, 6));
     case 8:
+      return S.Array(__S(4647, __c145, 7));
+    case 9:
       return S.suspend(() =>
         S.Struct({
           subjectId: S.optional(S.String),
@@ -10544,36 +10377,36 @@ function __c141(j: number): any {
           objectId: S.optional(S.String),
         }),
       ).annotate({ identifier: "EntityMentionRelationship" });
-    case 9:
-      return S.Array(__S(4520, __c141, 8));
     case 10:
+      return S.Array(__S(4649, __c145, 9));
+    case 11:
       return S.suspend(() =>
         S.Struct({
           preferredTerm: S.optional(S.String),
-          vocabularyCodes: S.optional(__S(4128, __c129, 0)),
+          vocabularyCodes: S.optional(__S(4256, __c133, 0)),
           entityId: S.optional(S.String),
         }),
       ).annotate({ identifier: "Entity" });
-    case 11:
-      return S.Array(__S(4522, __c141, 10));
     case 12:
+      return S.Array(__S(4651, __c145, 11));
+    case 13:
       return S.suspend(() =>
         S.Struct({
-          entityMentions: S.optional(__S(4519, __c141, 7)),
-          relationships: S.optional(__S(4521, __c141, 9)),
-          entities: S.optional(__S(4523, __c141, 11)),
+          entityMentions: S.optional(__S(4648, __c145, 8)),
+          relationships: S.optional(__S(4650, __c145, 10)),
+          entities: S.optional(__S(4652, __c145, 12)),
           fhirBundle: S.optional(S.String),
         }),
       ).annotate({ identifier: "AnalyzeEntitiesResponse" });
   }
 }
-function __c142(j: number): any {
+function __c146(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c143(j: number): any {
+function __c147(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10589,7 +10422,7 @@ function __c143(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsDatasetsFhirStoresRequest" });
   }
 }
-function __c144(j: number): any {
+function __c148(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10605,7 +10438,7 @@ function __c144(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsDatasetsFhirStoresFhirRequest" });
   }
 }
-function __c145(j: number): any {
+function __c149(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10621,7 +10454,7 @@ function __c145(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsDatasetsHl7V2StoresRequest" });
   }
 }
-function __c146(j: number): any {
+function __c150(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10637,7 +10470,7 @@ function __c146(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsDatasetsHl7V2StoresMessagesRequest" });
   }
 }
-function __c147(j: number): any {
+function __c151(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10655,7 +10488,7 @@ function __c147(j: number): any {
       });
   }
 }
-function __c148(j: number): any {
+function __c152(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10677,20 +10510,28 @@ function __c148(j: number): any {
       });
   }
 }
-function __c149(j: number): any {
+function __c153(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          consentStore: S.String.pipe(T.Label()),
           userId: S.optional(S.String),
-          requestAttributes: S.optional(__S(4160, __c130, 0)),
-          consentList: S.optional(__S(2688, __c84, 0)),
-          resourceAttributes: S.optional(__S(4160, __c130, 0)),
+          requestAttributes: S.optional(__S(4288, __c134, 0)),
+          consentList: S.optional(__S(2784, __c87, 0)),
+          resourceAttributes: S.optional(__S(4288, __c134, 0)),
           pageToken: S.optional(S.String),
           pageSize: S.optional(S.Number),
           responseView: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "EvaluateUserConsentsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(4896, __c153, 0),
+          S.Struct({
+            consentStore: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+consentStore}:evaluateUserConsents",
@@ -10700,35 +10541,35 @@ function __c149(j: number): any {
       ).annotate({
         identifier: "EvaluateUserConsentsProjectsLocationsDatasetsConsentStoresRequest",
       });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           consented: S.optional(S.Boolean),
           dataId: S.optional(S.String),
-          consentDetails: S.optional(__S(2690, __c84, 2)),
+          consentDetails: S.optional(__S(2786, __c87, 2)),
         }),
       ).annotate({ identifier: "Result" });
-    case 2:
-      return S.Array(__S(4769, __c149, 1));
     case 3:
+      return S.Array(__S(4898, __c153, 2));
+    case 4:
       return S.suspend(() =>
         S.Struct({
-          results: S.optional(__S(4770, __c149, 2)),
+          results: S.optional(__S(4899, __c153, 3)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "EvaluateUserConsentsResponse" });
   }
 }
-function __c150(j: number): any {
+function __c154(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          contentType: S.optional(S.String),
-          extensions: S.optional(__S(4960, __c155, 0)),
-          data: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(32, __c1, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/fhir",
@@ -10738,7 +10579,7 @@ function __c150(j: number): any {
       ).annotate({ identifier: "ExecuteBundleProjectsLocationsDatasetsFhirStoresFhirRequest" });
   }
 }
-function __c151(j: number): any {
+function __c155(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10748,23 +10589,31 @@ function __c151(j: number): any {
         }),
       ).annotate({ identifier: "Expression" });
     case 1:
-      return S.Array(__S(4832, __c151, 0));
+      return S.Array(__S(4960, __c155, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           engineVersion: S.optional(S.String),
-          expressions: S.optional(__S(4833, __c151, 1)),
+          expressions: S.optional(__S(4961, __c155, 1)),
         }),
       ).annotate({ identifier: "FHIRPathQuery" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
-          fhirpathQuery: S.optional(__S(4834, __c151, 2)),
+          fhirpathQuery: S.optional(__S(4962, __c155, 2)),
           gcsDestination: S.optional(__S(480, __c15, 0)),
           validateOnly: S.optional(S.Boolean),
           _at: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "ExecuteCohortRequest" });
+    case 4:
+      return S.suspend(() =>
+        S.Extend(
+          __S(4963, __c155, 3),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:executeCohort",
@@ -10774,7 +10623,7 @@ function __c151(j: number): any {
       ).annotate({ identifier: "ExecuteCohortProjectsLocationsDatasetsFhirStoresRequest" });
   }
 }
-function __c152(j: number): any {
+function __c156(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10798,13 +10647,13 @@ function __c152(j: number): any {
         }),
       ).annotate({ identifier: "ConsentAccessorScope" });
     case 2:
-      return S.Array(__S(4865, __c152, 1));
+      return S.Array(__S(4993, __c156, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          variants: S.optional(__S(4544, __c142, 0)),
-          matchingAccessorScopes: S.optional(__S(4866, __c152, 2)),
-          cascadeOrigins: S.optional(__S(4128, __c129, 0)),
+          variants: S.optional(__S(4672, __c146, 0)),
+          matchingAccessorScopes: S.optional(__S(4994, __c156, 2)),
+          cascadeOrigins: S.optional(__S(4256, __c133, 0)),
           patientConsentOwner: S.optional(S.String),
           consentResource: S.optional(S.String),
           enforcementTime: S.optional(S.String),
@@ -10812,42 +10661,50 @@ function __c152(j: number): any {
         }),
       ).annotate({ identifier: "ExplainDataAccessConsentInfo" });
     case 4:
-      return S.Array(__S(4867, __c152, 3));
+      return S.Array(__S(4995, __c156, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           decision: S.optional(S.String),
-          exceptions: S.optional(S.suspend(() => __S(4870, __c152, 6))),
-          accessorScope: S.optional(__S(4865, __c152, 1)),
-          enforcingConsents: S.optional(__S(4868, __c152, 4)),
+          exceptions: S.optional(S.suspend(() => __S(4998, __c156, 6))),
+          accessorScope: S.optional(__S(4993, __c156, 1)),
+          enforcingConsents: S.optional(__S(4996, __c156, 4)),
         }),
       ).annotate({ identifier: "ExplainDataAccessConsentScope" });
     case 6:
-      return S.Array(__S(4869, __c152, 5));
+      return S.Array(__S(4997, __c156, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          consentScopes: S.optional(__S(4870, __c152, 6)),
+          consentScopes: S.optional(__S(4998, __c156, 6)),
           warning: S.optional(S.String),
         }),
       ).annotate({ identifier: "ExplainDataAccessResponse" });
   }
 }
-function __c153(j: number): any {
+function __c157(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          names: S.optional(__S(4128, __c129, 0)),
+          names: S.optional(__S(4256, __c133, 0)),
         }),
       ).annotate({ identifier: "AdminConsents" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           validateOnly: S.optional(S.Boolean),
-          newConsentsList: S.optional(__S(4896, __c153, 0)),
-        }).pipe(
+          newConsentsList: S.optional(__S(5024, __c157, 0)),
+        }),
+      ).annotate({ identifier: "ApplyAdminConsentsRequest" });
+    case 2:
+      return S.suspend(() =>
+        S.Extend(
+          __S(5025, __c157, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:applyAdminConsents",
@@ -10857,51 +10714,59 @@ function __c153(j: number): any {
       ).annotate({ identifier: "ApplyAdminConsentsProjectsLocationsDatasetsFhirStoresRequest" });
   }
 }
-function __c154(j: number): any {
+function __c158(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c155(j: number): any {
+function __c159(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(4928, __c154, 0));
+      return S.Array(__S(5056, __c158, 0));
   }
 }
-function __c156(j: number): any {
+function __c160(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           message: S.optional(S.String),
-          details: S.optional(__S(4960, __c155, 0)),
+          details: S.optional(__S(5088, __c159, 0)),
           code: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Status" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          error: S.optional(__S(4992, __c156, 0)),
-          metadata: S.optional(__S(4928, __c154, 0)),
-          response: S.optional(__S(4928, __c154, 0)),
+          error: S.optional(__S(5120, __c160, 0)),
+          metadata: S.optional(__S(5056, __c158, 0)),
+          response: S.optional(__S(5056, __c158, 0)),
           name: S.optional(S.String),
           done: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "Operation" });
   }
 }
-function __c157(j: number): any {
+function __c161(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           _type: S.optional(S.String),
           gcsDestination: S.optional(__S(480, __c15, 0)),
           _since: S.optional(S.String),
           maxResourceVersions: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "ExportResourcesHistoryRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(5152, __c161, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:exportHistory",
@@ -10911,7 +10776,7 @@ function __c157(j: number): any {
       ).annotate({ identifier: "ExportHistoryProjectsLocationsDatasetsFhirStoresRequest" });
   }
 }
-function __c158(j: number): any {
+function __c162(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10923,11 +10788,19 @@ function __c158(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
-          gcsDestination: S.optional(__S(5056, __c158, 0)),
-          filterConfig: S.optional(__S(3904, __c122, 0)),
-          bigqueryDestination: S.optional(__S(3488, __c109, 0)),
-        }).pipe(
+          gcsDestination: S.optional(__S(5184, __c162, 0)),
+          filterConfig: S.optional(__S(4032, __c126, 0)),
+          bigqueryDestination: S.optional(__S(3584, __c112, 0)),
+        }),
+      ).annotate({ identifier: "ExportDicomDataRequest" });
+    case 2:
+      return S.suspend(() =>
+        S.Extend(
+          __S(5185, __c162, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:export",
@@ -10937,17 +10810,25 @@ function __c158(j: number): any {
       ).annotate({ identifier: "ExportProjectsLocationsDatasetsDicomStoresRequest" });
   }
 }
-function __c159(j: number): any {
+function __c163(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           _type: S.optional(S.String),
-          bigqueryDestination: S.optional(__S(3651, __c114, 3)),
+          bigqueryDestination: S.optional(__S(3747, __c117, 3)),
           gcsDestination: S.optional(__S(480, __c15, 0)),
           _since: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "ExportResourcesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(5216, __c163, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:export",
@@ -10957,7 +10838,7 @@ function __c159(j: number): any {
       ).annotate({ identifier: "ExportProjectsLocationsDatasetsFhirStoresRequest" });
   }
 }
-function __c160(j: number): any {
+function __c164(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10970,13 +10851,21 @@ function __c160(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
-          pubsubDestination: S.optional(__S(3520, __c110, 0)),
+          pubsubDestination: S.optional(__S(3616, __c113, 0)),
           filter: S.optional(S.String),
           startTime: S.optional(S.String),
-          gcsDestination: S.optional(__S(5120, __c160, 0)),
+          gcsDestination: S.optional(__S(5248, __c164, 0)),
           endTime: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "ExportMessagesRequest" });
+    case 2:
+      return S.suspend(() =>
+        S.Extend(
+          __S(5249, __c164, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:export",
@@ -10986,7 +10875,7 @@ function __c160(j: number): any {
       ).annotate({ identifier: "ExportProjectsLocationsDatasetsHl7V2StoresRequest" });
   }
 }
-function __c161(j: number): any {
+function __c165(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11006,7 +10895,7 @@ function __c161(j: number): any {
       });
   }
 }
-function __c162(j: number): any {
+function __c166(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11033,7 +10922,7 @@ function __c162(j: number): any {
       ).annotate({ identifier: "DicomStoreMetrics" });
   }
 }
-function __c163(j: number): any {
+function __c167(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11051,7 +10940,7 @@ function __c163(j: number): any {
       });
   }
 }
-function __c164(j: number): any {
+function __c168(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11075,17 +10964,17 @@ function __c164(j: number): any {
         }),
       ).annotate({ identifier: "FhirStoreMetric" });
     case 2:
-      return S.Array(__S(5249, __c164, 1));
+      return S.Array(__S(5377, __c168, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          metrics: S.optional(__S(5250, __c164, 2)),
+          metrics: S.optional(__S(5378, __c168, 2)),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "FhirStoreMetrics" });
   }
 }
-function __c165(j: number): any {
+function __c169(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11105,7 +10994,7 @@ function __c165(j: number): any {
       });
   }
 }
-function __c166(j: number): any {
+function __c170(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11128,22 +11017,22 @@ function __c166(j: number): any {
         }),
       ).annotate({ identifier: "Hl7V2StoreMetric" });
     case 2:
-      return S.Array(__S(5313, __c166, 1));
+      return S.Array(__S(5441, __c170, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          metrics: S.optional(__S(5314, __c166, 2)),
+          metrics: S.optional(__S(5442, __c170, 2)),
         }),
       ).annotate({ identifier: "Hl7V2StoreMetrics" });
   }
 }
-function __c167(j: number): any {
+function __c171(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          patientIds: S.optional(__S(4128, __c129, 0)),
+          patientIds: S.optional(__S(4256, __c133, 0)),
         }),
       ).annotate({ identifier: "PatientScope" });
     case 1:
@@ -11156,11 +11045,19 @@ function __c167(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           validateOnly: S.optional(S.Boolean),
-          patientScope: S.optional(__S(5344, __c167, 0)),
-          timeRange: S.optional(__S(5345, __c167, 1)),
-        }).pipe(
+          patientScope: S.optional(__S(5472, __c171, 0)),
+          timeRange: S.optional(__S(5473, __c171, 1)),
+        }),
+      ).annotate({ identifier: "ApplyConsentsRequest" });
+    case 3:
+      return S.suspend(() =>
+        S.Extend(
+          __S(5474, __c171, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:applyConsents",
@@ -11170,7 +11067,7 @@ function __c167(j: number): any {
       ).annotate({ identifier: "ApplyConsentsProjectsLocationsDatasetsFhirStoresRequest" });
   }
 }
-function __c168(j: number): any {
+function __c172(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11187,48 +11084,48 @@ function __c168(j: number): any {
       ).annotate({ identifier: "GetIamPolicyProjectsLocationsDatasetsRequest" });
   }
 }
-function __c169(j: number): any {
+function __c173(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          exemptedMembers: S.optional(__S(4128, __c129, 0)),
+          exemptedMembers: S.optional(__S(4256, __c133, 0)),
           logType: S.optional(S.String),
         }),
       ).annotate({ identifier: "AuditLogConfig" });
     case 1:
-      return S.Array(__S(5408, __c169, 0));
+      return S.Array(__S(5536, __c173, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           service: S.optional(S.String),
-          auditLogConfigs: S.optional(__S(5409, __c169, 1)),
+          auditLogConfigs: S.optional(__S(5537, __c173, 1)),
         }),
       ).annotate({ identifier: "AuditConfig" });
     case 3:
-      return S.Array(__S(5410, __c169, 2));
+      return S.Array(__S(5538, __c173, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          condition: S.optional(__S(4064, __c127, 0)),
+          condition: S.optional(__S(4192, __c131, 0)),
           role: S.optional(S.String),
-          members: S.optional(__S(4128, __c129, 0)),
+          members: S.optional(__S(4256, __c133, 0)),
         }),
       ).annotate({ identifier: "Binding" });
     case 5:
-      return S.Array(__S(5412, __c169, 4));
+      return S.Array(__S(5540, __c173, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           etag: S.optional(S.String),
-          auditConfigs: S.optional(__S(5411, __c169, 3)),
-          bindings: S.optional(__S(5413, __c169, 5)),
+          auditConfigs: S.optional(__S(5539, __c173, 3)),
+          bindings: S.optional(__S(5541, __c173, 5)),
           version: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Policy" });
   }
 }
-function __c170(j: number): any {
+function __c174(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11245,7 +11142,7 @@ function __c170(j: number): any {
       ).annotate({ identifier: "GetIamPolicyProjectsLocationsDatasetsConsentStoresRequest" });
   }
 }
-function __c171(j: number): any {
+function __c175(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11264,7 +11161,7 @@ function __c171(j: number): any {
       });
   }
 }
-function __c172(j: number): any {
+function __c176(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11281,7 +11178,7 @@ function __c172(j: number): any {
       ).annotate({ identifier: "GetIamPolicyProjectsLocationsDatasetsDicomStoresRequest" });
   }
 }
-function __c173(j: number): any {
+function __c177(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11298,7 +11195,7 @@ function __c173(j: number): any {
       ).annotate({ identifier: "GetIamPolicyProjectsLocationsDatasetsFhirStoresRequest" });
   }
 }
-function __c174(j: number): any {
+function __c178(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11315,7 +11212,7 @@ function __c174(j: number): any {
       ).annotate({ identifier: "GetIamPolicyProjectsLocationsDatasetsHl7V2StoresRequest" });
   }
 }
-function __c175(j: number): any {
+function __c179(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11334,7 +11231,7 @@ function __c175(j: number): any {
       });
   }
 }
-function __c176(j: number): any {
+function __c180(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11351,7 +11248,7 @@ function __c176(j: number): any {
       ).annotate({ identifier: "GetMetadataProjectsLocationsDatasetsDicomStoresStudiesRequest" });
   }
 }
-function __c177(j: number): any {
+function __c181(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11370,7 +11267,7 @@ function __c177(j: number): any {
       });
   }
 }
-function __c178(j: number): any {
+function __c182(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11389,13 +11286,13 @@ function __c178(j: number): any {
       });
   }
 }
-function __c179(j: number): any {
+function __c183(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(5760, __c180, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(5888, __c184, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -11408,72 +11305,12 @@ function __c179(j: number): any {
       });
   }
 }
-function __c180(j: number): any {
+function __c184(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({
         identifier: "ArchiveUserDataMappingRequest",
       });
-  }
-}
-function __c181(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v1beta1/{+name}",
-            baseUrl: "https://healthcare.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "GetProjectsLocationsRequest" });
-  }
-}
-function __c182(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          locationId: S.optional(S.String),
-          displayName: S.optional(S.String),
-          metadata: S.optional(__S(4928, __c154, 0)),
-          labels: S.optional(__S(4160, __c130, 0)),
-          name: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Location" });
-  }
-}
-function __c183(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v1beta1/{+name}",
-            baseUrl: "https://healthcare.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "GetProjectsLocationsDatasetsRequest" });
-  }
-}
-function __c184(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          satisfiesPzs: S.optional(S.Boolean),
-          name: S.optional(S.String),
-          satisfiesPzi: S.optional(S.Boolean),
-          encryptionSpec: S.optional(__S(3104, __c97, 0)),
-          timeZone: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Dataset" });
   }
 }
 function __c185(j: number): any {
@@ -11489,10 +11326,56 @@ function __c185(j: number): any {
             baseUrl: "https://healthcare.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsDatasetsConsentStoresRequest" });
+      ).annotate({ identifier: "GetProjectsLocationsRequest" });
   }
 }
 function __c186(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          locationId: S.optional(S.String),
+          displayName: S.optional(S.String),
+          metadata: S.optional(__S(5056, __c158, 0)),
+          labels: S.optional(__S(4288, __c134, 0)),
+          name: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Location" });
+  }
+}
+function __c187(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1beta1/{+name}",
+            baseUrl: "https://healthcare.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "GetProjectsLocationsDatasetsRequest" });
+  }
+}
+function __c188(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1beta1/{+name}",
+            baseUrl: "https://healthcare.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "GetProjectsLocationsDatasetsConsentStoresRequest" });
+  }
+}
+function __c189(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11510,7 +11393,7 @@ function __c186(j: number): any {
       });
   }
 }
-function __c187(j: number): any {
+function __c190(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11528,7 +11411,7 @@ function __c187(j: number): any {
       });
   }
 }
-function __c188(j: number): any {
+function __c191(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11544,7 +11427,7 @@ function __c188(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsDatasetsConsentStoresConsentsRequest" });
   }
 }
-function __c189(j: number): any {
+function __c192(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11562,7 +11445,7 @@ function __c189(j: number): any {
       });
   }
 }
-function __c190(j: number): any {
+function __c193(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11578,7 +11461,7 @@ function __c190(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsDatasetsDicomStoresRequest" });
   }
 }
-function __c191(j: number): any {
+function __c194(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11594,7 +11477,7 @@ function __c191(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsDatasetsFhirStoresRequest" });
   }
 }
-function __c192(j: number): any {
+function __c195(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11610,12 +11493,12 @@ function __c192(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsDatasetsHl7V2StoresRequest" });
   }
 }
-function __c193(j: number): any {
+function __c196(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          ids: S.optional(__S(4128, __c129, 0).pipe(T.Query())),
+          ids: S.optional(__S(4256, __c133, 0).pipe(T.Query())),
           view: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
         }).pipe(
@@ -11629,18 +11512,18 @@ function __c193(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          messages: S.optional(__S(6208, __c194, 0)),
+          messages: S.optional(__S(6304, __c197, 0)),
         }),
       ).annotate({ identifier: "BatchGetMessagesResponse" });
   }
 }
-function __c194(j: number): any {
+function __c197(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(6246, __c195, 6));
+      return S.Array(__S(6342, __c198, 6));
   }
 }
-function __c195(j: number): any {
+function __c198(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11654,15 +11537,15 @@ function __c195(j: number): any {
         S.Struct({
           segmentId: S.optional(S.String),
           setId: S.optional(S.String),
-          fields: S.optional(__S(4160, __c130, 0)),
+          fields: S.optional(__S(4288, __c134, 0)),
         }),
       ).annotate({ identifier: "Segment" });
     case 2:
-      return S.Array(__S(6241, __c195, 1));
+      return S.Array(__S(6337, __c198, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          segments: S.optional(__S(6242, __c195, 2)),
+          segments: S.optional(__S(6338, __c198, 2)),
         }),
       ).annotate({ identifier: "ParsedData" });
     case 4:
@@ -11673,25 +11556,25 @@ function __c195(j: number): any {
         }),
       ).annotate({ identifier: "PatientId" });
     case 5:
-      return S.Array(__S(6244, __c195, 4));
+      return S.Array(__S(6340, __c198, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           sendFacility: S.optional(S.String),
           sendTime: S.optional(S.String),
-          schematizedData: S.optional(__S(6240, __c195, 0)),
-          parsedData: S.optional(__S(6243, __c195, 3)),
+          schematizedData: S.optional(__S(6336, __c198, 0)),
+          parsedData: S.optional(__S(6339, __c198, 3)),
           messageType: S.optional(S.String),
-          patientIds: S.optional(__S(6245, __c195, 5)),
+          patientIds: S.optional(__S(6341, __c198, 5)),
           name: S.optional(S.String),
-          labels: S.optional(__S(4160, __c130, 0)),
+          labels: S.optional(__S(4288, __c134, 0)),
           data: S.optional(S.String),
           createTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "Message" });
   }
 }
-function __c196(j: number): any {
+function __c199(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11708,7 +11591,7 @@ function __c196(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsDatasetsHl7V2StoresMessagesRequest" });
   }
 }
-function __c197(j: number): any {
+function __c200(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11724,7 +11607,7 @@ function __c197(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsDatasetsOperationsRequest" });
   }
 }
-function __c198(j: number): any {
+function __c201(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11744,7 +11627,7 @@ function __c198(j: number): any {
       });
   }
 }
-function __c199(j: number): any {
+function __c202(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11765,7 +11648,7 @@ function __c199(j: number): any {
       });
   }
 }
-function __c200(j: number): any {
+function __c203(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11793,7 +11676,7 @@ function __c200(j: number): any {
       ).annotate({ identifier: "SeriesMetrics" });
   }
 }
-function __c201(j: number): any {
+function __c204(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11812,7 +11695,7 @@ function __c201(j: number): any {
       });
   }
 }
-function __c202(j: number): any {
+function __c205(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11846,14 +11729,14 @@ function __c202(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          blobStorageInfo: S.optional(__S(6465, __c202, 1)),
-          structuredStorageInfo: S.optional(__S(6466, __c202, 2)),
+          blobStorageInfo: S.optional(__S(6561, __c205, 1)),
+          structuredStorageInfo: S.optional(__S(6562, __c205, 2)),
           referencedResource: S.optional(S.String),
         }),
       ).annotate({ identifier: "StorageInfo" });
   }
 }
-function __c203(j: number): any {
+function __c206(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11881,7 +11764,7 @@ function __c203(j: number): any {
       ).annotate({ identifier: "StudyMetrics" });
   }
 }
-function __c204(j: number): any {
+function __c207(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11898,7 +11781,7 @@ function __c204(j: number): any {
       ).annotate({ identifier: "GetStudyProjectsLocationsDatasetsDicomStoresStudiesRequest" });
   }
 }
-function __c205(j: number): any {
+function __c208(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

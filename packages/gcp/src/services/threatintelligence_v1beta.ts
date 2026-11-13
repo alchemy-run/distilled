@@ -603,11 +603,14 @@ export interface Alert {
   /** Output only. High-Precision Relevance Analysis verdict for the alert. */
   relevanceAnalysis?: RelevanceAnalysis | undefined;
 }
-export interface DuplicateProjectsAlertsRequest {
-  /** Required. Name of the alert to mark as a duplicate. Format: projects/{project}/alerts/{alert} */
-  name: string;
+/** Request message for MarkAlertAsDuplicate. */
+export interface MarkAlertAsDuplicateRequest {
   /** Optional. Name of the alert to mark as a duplicate of. Format: projects/{project}/alerts/{alert} */
   duplicateOf?: string | undefined;
+}
+export interface DuplicateProjectsAlertsRequest extends MarkAlertAsDuplicateRequest {
+  /** Required. Name of the alert to mark as a duplicate. Format: projects/{project}/alerts/{alert} */
+  name: string;
 }
 export interface EnumerateFacetsProjectsAlertsRequest {
   /** Required. Parent of the alerts. */
@@ -660,13 +663,16 @@ export interface FalsePositiveProjectsAlertsRequest {
   /** Request body */
   body?: MarkAlertAsBenignRequest | undefined;
 }
-export interface GenerateOrgProfileProjectsRequest {
-  /** Required. The name of the project to generate the profile for. Format: projects/{project} */
-  name: string;
+/** Request message for GenerateOrgProfileConfiguration. */
+export interface GenerateOrgProfileConfigurationRequest {
   /** Required. The display name of the organization to generate the profile for. */
   displayName?: string | undefined;
   /** Required. The domain of the organization to generate the profile for. */
   domain?: string | undefined;
+}
+export interface GenerateOrgProfileProjectsRequest extends GenerateOrgProfileConfigurationRequest {
+  /** Required. The name of the project to generate the profile for. Format: projects/{project} */
+  name: string;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -1103,7 +1109,7 @@ export interface Configuration {
   /** Output only. Audit information for the configuration. */
   audit?: Audit | undefined;
   /** Optional. State of the configuration. */
-  state?: ConfigurationStateEnum | undefined;
+  state?: ConfigurationStateEnum | (string & {}) | undefined;
   /** Required. Name of the service that provides the configuration. */
   provider?: string | undefined;
   /** Optional. A user-manipulatable version. Does not adhere to a specific format */
@@ -1389,29 +1395,11 @@ export interface TriageProjectsAlertsRequest {
   /** Request body */
   body?: MarkAlertAsBenignRequest | undefined;
 }
-export interface UpsertProjectsConfigurationsRequest {
+export interface UpsertProjectsConfigurationsRequest extends Configuration {
   /** Required. Parent of the configuration. */
   parent: string;
   /** Optional. Time that the configuration should be considered to have been published. This is an advanced feature used when onboarding and bulk loading data from other systems. Do not set this field without consulting with the API team. */
   publishTime?: string | undefined;
-  /** If included when updating a configuration, this should be set to the current etag of the configuration. If the etags do not match, the update will be rejected and an ABORTED error will be returned. */
-  etag?: string | undefined;
-  /** Output only. Human readable name for the configuration. */
-  displayName?: string | undefined;
-  /** Output only. Audit information for the configuration. */
-  audit?: Audit | undefined;
-  /** Optional. State of the configuration. */
-  state?: ConfigurationStateEnum | (string & {}) | undefined;
-  /** Required. Name of the service that provides the configuration. */
-  provider?: string | undefined;
-  /** Optional. A user-manipulatable version. Does not adhere to a specific format */
-  version?: string | undefined;
-  /** Optional. A description of the configuration. */
-  description?: string | undefined;
-  /** Identifier. Server generated name for the configuration. format is projects/{project}/configurations/{configuration} */
-  name?: string | undefined;
-  /** Required. Domain specific details for the configuration. */
-  detail?: ConfigurationDetail | undefined;
 }
 /** Response message for UpsertConfiguration. */
 export interface UpsertConfigurationResponse {
@@ -1426,8 +1414,8 @@ export const benignProjectsAlerts: API.OperationMethod<
   BenignProjectsAlertsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c21, 0) as any as S.Schema<BenignProjectsAlertsRequest>,
-  output: __S(807, __c25, 7) as any as S.Schema<Alert>,
+  input: __S(640, __c20, 0) as any as S.Schema<BenignProjectsAlertsRequest>,
+  output: __S(775, __c24, 7) as any as S.Schema<Alert>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1448,8 +1436,8 @@ export const duplicateProjectsAlerts: API.OperationMethod<
   DuplicateProjectsAlertsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c27, 0) as any as S.Schema<DuplicateProjectsAlertsRequest>,
-  output: __S(807, __c25, 7) as any as S.Schema<Alert>,
+  input: __S(833, __c26, 1) as any as S.Schema<DuplicateProjectsAlertsRequest>,
+  output: __S(775, __c24, 7) as any as S.Schema<Alert>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1465,8 +1453,8 @@ export const enumerateFacetsProjectsAlerts: API.OperationMethod<
   EnumerateFacetsProjectsAlertsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c28, 0) as any as S.Schema<EnumerateFacetsProjectsAlertsRequest>,
-  output: __S(901, __c28, 5) as any as S.Schema<EnumerateAlertFacetsResponse>,
+  input: __S(864, __c27, 0) as any as S.Schema<EnumerateFacetsProjectsAlertsRequest>,
+  output: __S(869, __c27, 5) as any as S.Schema<EnumerateAlertFacetsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1482,8 +1470,8 @@ export const escalateProjectsAlerts: API.OperationMethod<
   EscalateProjectsAlertsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c29, 0) as any as S.Schema<EscalateProjectsAlertsRequest>,
-  output: __S(807, __c25, 7) as any as S.Schema<Alert>,
+  input: __S(896, __c28, 0) as any as S.Schema<EscalateProjectsAlertsRequest>,
+  output: __S(775, __c24, 7) as any as S.Schema<Alert>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1504,8 +1492,8 @@ export const falsePositiveProjectsAlerts: API.OperationMethod<
   FalsePositiveProjectsAlertsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c30, 0) as any as S.Schema<FalsePositiveProjectsAlertsRequest>,
-  output: __S(807, __c25, 7) as any as S.Schema<Alert>,
+  input: __S(928, __c29, 0) as any as S.Schema<FalsePositiveProjectsAlertsRequest>,
+  output: __S(775, __c24, 7) as any as S.Schema<Alert>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1526,8 +1514,8 @@ export const generateOrgProfileProjects: API.OperationMethod<
   GenerateOrgProfileProjectsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c31, 0) as any as S.Schema<GenerateOrgProfileProjectsRequest>,
-  output: __S(996, __c31, 4) as any as S.Schema<Operation>,
+  input: __S(961, __c30, 1) as any as S.Schema<GenerateOrgProfileProjectsRequest>,
+  output: __S(965, __c30, 5) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1561,7 +1549,7 @@ export const getProjectsAlerts: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c1, 0) as any as S.Schema<GetProjectsAlertsRequest>,
-  output: __S(807, __c25, 7) as any as S.Schema<Alert>,
+  output: __S(775, __c24, 7) as any as S.Schema<Alert>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1595,7 +1583,7 @@ export const getProjectsConfigurations: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c3, 0) as any as S.Schema<GetProjectsConfigurationsRequest>,
-  output: __S(128, __c4, 0) as any as S.Schema<Configuration>,
+  output: __S(164, __c5, 4) as any as S.Schema<Configuration>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1611,8 +1599,8 @@ export const getProjectsFindings: API.OperationMethod<
   GetProjectsFindingsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c7, 0) as any as S.Schema<GetProjectsFindingsRequest>,
-  output: __S(261, __c8, 5) as any as S.Schema<Finding>,
+  input: __S(192, __c6, 0) as any as S.Schema<GetProjectsFindingsRequest>,
+  output: __S(229, __c7, 5) as any as S.Schema<Finding>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1629,8 +1617,8 @@ export const listProjectsAlerts: API.PaginatedOperationMethod<
   GcpOpContext,
   ListAlertsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(288, __c9, 0) as any as S.Schema<ListProjectsAlertsRequest>,
-  output: __S(290, __c9, 2) as any as S.Schema<ListAlertsResponse>,
+  input: __S(256, __c8, 0) as any as S.Schema<ListProjectsAlertsRequest>,
+  output: __S(258, __c8, 2) as any as S.Schema<ListAlertsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1648,8 +1636,8 @@ export const listProjectsConfigurations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListConfigurationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(320, __c10, 0) as any as S.Schema<ListProjectsConfigurationsRequest>,
-  output: __S(322, __c10, 2) as any as S.Schema<ListConfigurationsResponse>,
+  input: __S(288, __c9, 0) as any as S.Schema<ListProjectsConfigurationsRequest>,
+  output: __S(290, __c9, 2) as any as S.Schema<ListConfigurationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1667,8 +1655,8 @@ export const listProjectsConfigurationsRevisions: API.PaginatedOperationMethod<
   GcpOpContext,
   ListConfigurationRevisionsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(352, __c11, 0) as any as S.Schema<ListProjectsConfigurationsRevisionsRequest>,
-  output: __S(355, __c11, 3) as any as S.Schema<ListConfigurationRevisionsResponse>,
+  input: __S(320, __c10, 0) as any as S.Schema<ListProjectsConfigurationsRevisionsRequest>,
+  output: __S(323, __c10, 3) as any as S.Schema<ListConfigurationRevisionsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1686,8 +1674,8 @@ export const listProjectsFindings: API.PaginatedOperationMethod<
   GcpOpContext,
   ListFindingsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(384, __c12, 0) as any as S.Schema<ListProjectsFindingsRequest>,
-  output: __S(417, __c13, 1) as any as S.Schema<ListFindingsResponse>,
+  input: __S(352, __c11, 0) as any as S.Schema<ListProjectsFindingsRequest>,
+  output: __S(385, __c12, 1) as any as S.Schema<ListFindingsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1709,8 +1697,8 @@ export const notActionableProjectsAlerts: API.OperationMethod<
   NotActionableProjectsAlertsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c14, 0) as any as S.Schema<NotActionableProjectsAlertsRequest>,
-  output: __S(807, __c25, 7) as any as S.Schema<Alert>,
+  input: __S(416, __c13, 0) as any as S.Schema<NotActionableProjectsAlertsRequest>,
+  output: __S(775, __c24, 7) as any as S.Schema<Alert>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1726,8 +1714,8 @@ export const readProjectsAlerts: API.OperationMethod<
   ReadProjectsAlertsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c15, 0) as any as S.Schema<ReadProjectsAlertsRequest>,
-  output: __S(807, __c25, 7) as any as S.Schema<Alert>,
+  input: __S(448, __c14, 0) as any as S.Schema<ReadProjectsAlertsRequest>,
+  output: __S(775, __c24, 7) as any as S.Schema<Alert>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1743,8 +1731,8 @@ export const resolveProjectsAlerts: API.OperationMethod<
   ResolveProjectsAlertsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c16, 0) as any as S.Schema<ResolveProjectsAlertsRequest>,
-  output: __S(807, __c25, 7) as any as S.Schema<Alert>,
+  input: __S(480, __c15, 0) as any as S.Schema<ResolveProjectsAlertsRequest>,
+  output: __S(775, __c24, 7) as any as S.Schema<Alert>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1761,8 +1749,8 @@ export const searchProjectsFindings: API.PaginatedOperationMethod<
   GcpOpContext,
   SearchFindingsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(544, __c17, 0) as any as S.Schema<SearchProjectsFindingsRequest>,
-  output: __S(417, __c13, 1) as any as S.Schema<SearchFindingsResponse>,
+  input: __S(512, __c16, 0) as any as S.Schema<SearchProjectsFindingsRequest>,
+  output: __S(385, __c12, 1) as any as S.Schema<SearchFindingsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1784,8 +1772,8 @@ export const trackExternallyProjectsAlerts: API.OperationMethod<
   TrackExternallyProjectsAlertsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c18, 0) as any as S.Schema<TrackExternallyProjectsAlertsRequest>,
-  output: __S(807, __c25, 7) as any as S.Schema<Alert>,
+  input: __S(544, __c17, 0) as any as S.Schema<TrackExternallyProjectsAlertsRequest>,
+  output: __S(775, __c24, 7) as any as S.Schema<Alert>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1801,8 +1789,8 @@ export const triageProjectsAlerts: API.OperationMethod<
   TriageProjectsAlertsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c19, 0) as any as S.Schema<TriageProjectsAlertsRequest>,
-  output: __S(807, __c25, 7) as any as S.Schema<Alert>,
+  input: __S(576, __c18, 0) as any as S.Schema<TriageProjectsAlertsRequest>,
+  output: __S(775, __c24, 7) as any as S.Schema<Alert>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1823,8 +1811,8 @@ export const upsertProjectsConfigurations: API.OperationMethod<
   UpsertProjectsConfigurationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c20, 0) as any as S.Schema<UpsertProjectsConfigurationsRequest>,
-  output: __S(641, __c20, 1) as any as S.Schema<UpsertConfigurationResponse>,
+  input: __S(608, __c19, 0) as any as S.Schema<UpsertProjectsConfigurationsRequest>,
+  output: __S(609, __c19, 1) as any as S.Schema<UpsertConfigurationResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1905,7 +1893,7 @@ function __c2(j: number): any {
           createTime: S.optional(S.String),
           ingestTime: S.optional(S.String),
           translation: S.optional(__S(65, __c2, 1)),
-          communicationContext: S.optional(__S(704, __c22, 0)),
+          communicationContext: S.optional(__S(672, __c21, 0)),
           author: S.optional(S.String),
           name: S.optional(S.String),
           languageCode: S.optional(S.String),
@@ -1934,27 +1922,9 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          etag: S.optional(S.String),
-          displayName: S.optional(S.String),
-          audit: S.optional(__S(737, __c23, 1)),
-          state: S.optional(S.String),
-          provider: S.optional(S.String),
-          version: S.optional(S.String),
-          description: S.optional(S.String),
-          name: S.optional(S.String),
-          detail: S.optional(__S(195, __c6, 3)),
-        }),
-      ).annotate({ identifier: "Configuration" });
-  }
-}
-function __c5(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
           epssScoreMinimum: S.optional(S.Number),
           priorityMinimum: S.optional(S.String),
-          exploitationStates: S.optional(__S(739, __c23, 3)),
+          exploitationStates: S.optional(__S(707, __c22, 3)),
           cvssScoreMinimum: S.optional(S.Number),
           riskRatingMinimum: S.optional(S.String),
         }),
@@ -1962,19 +1932,19 @@ function __c5(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          technologies: S.optional(__S(736, __c23, 0)),
-          alertThreshold: S.optional(__S(160, __c5, 0)),
+          technologies: S.optional(__S(704, __c22, 0)),
+          alertThreshold: S.optional(__S(128, __c4, 0)),
         }),
       ).annotate({ identifier: "TechnologyWatchListConfig" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          citationIds: S.optional(__S(736, __c23, 0)),
+          citationIds: S.optional(__S(704, __c22, 0)),
           domain: S.optional(S.String),
         }),
       ).annotate({ identifier: "CustomerProfileWebPresence" });
     case 3:
-      return S.Array(__S(162, __c5, 2));
+      return S.Array(__S(130, __c4, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -1986,137 +1956,137 @@ function __c5(j: number): any {
         }),
       ).annotate({ identifier: "CustomerProfileCitation" });
     case 5:
-      return S.Array(__S(164, __c5, 4));
+      return S.Array(__S(132, __c4, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           industry: S.optional(S.String),
-          citationIds: S.optional(__S(736, __c23, 0)),
+          citationIds: S.optional(__S(704, __c22, 0)),
         }),
       ).annotate({ identifier: "CustomerProfileIndustry" });
     case 7:
-      return S.Array(__S(166, __c5, 6));
+      return S.Array(__S(134, __c4, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
           note: S.optional(S.String),
-          considerations: S.optional(__S(736, __c23, 0)),
+          considerations: S.optional(__S(704, __c22, 0)),
         }),
       ).annotate({ identifier: "CustomerProfileSecurityConsiderations" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          citationIds: S.optional(__S(736, __c23, 0)),
+          citationIds: S.optional(__S(704, __c22, 0)),
           technology: S.optional(S.String),
         }),
       ).annotate({ identifier: "CustomerProfileTechnology" });
     case 10:
-      return S.Array(__S(169, __c5, 9));
+      return S.Array(__S(137, __c4, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
           company: S.optional(S.String),
-          citationIds: S.optional(__S(736, __c23, 0)),
+          citationIds: S.optional(__S(704, __c22, 0)),
         }),
       ).annotate({ identifier: "CustomerProfileCompany" });
     case 12:
-      return S.Array(__S(171, __c5, 11));
+      return S.Array(__S(139, __c4, 11));
     case 13:
       return S.suspend(() =>
         S.Struct({
           address: S.optional(S.String),
-          citationIds: S.optional(__S(736, __c23, 0)),
+          citationIds: S.optional(__S(704, __c22, 0)),
           brand: S.optional(S.String),
           facilityType: S.optional(S.String),
         }),
       ).annotate({ identifier: "CustomerProfileLocation" });
     case 14:
-      return S.Array(__S(173, __c5, 13));
+      return S.Array(__S(141, __c4, 13));
     case 15:
       return S.suspend(() =>
         S.Struct({
           address: S.optional(S.String),
           phone: S.optional(S.String),
-          citationIds: S.optional(__S(736, __c23, 0)),
+          citationIds: S.optional(__S(704, __c22, 0)),
           email: S.optional(S.String),
           other: S.optional(S.String),
           label: S.optional(S.String),
         }),
       ).annotate({ identifier: "CustomerProfileContactInfo" });
     case 16:
-      return S.Array(__S(175, __c5, 15));
+      return S.Array(__S(143, __c4, 15));
     case 17:
       return S.suspend(() =>
         S.Struct({
-          citationIds: S.optional(__S(736, __c23, 0)),
+          citationIds: S.optional(__S(704, __c22, 0)),
           value: S.optional(S.String),
         }),
       ).annotate({ identifier: "CustomerProfileCitedString" });
     case 18:
       return S.suspend(() =>
         S.Struct({
-          title: S.optional(__S(177, __c5, 17)),
-          productsSummary: S.optional(__S(177, __c5, 17)),
-          headquarters: S.optional(__S(177, __c5, 17)),
-          primaryWebsite: S.optional(__S(177, __c5, 17)),
-          brands: S.optional(__S(177, __c5, 17)),
-          entityType: S.optional(__S(177, __c5, 17)),
-          parentCompany: S.optional(__S(177, __c5, 17)),
-          keyPeopleSummary: S.optional(__S(177, __c5, 17)),
-          founded: S.optional(__S(177, __c5, 17)),
-          areaServed: S.optional(__S(177, __c5, 17)),
-          industry: S.optional(__S(177, __c5, 17)),
-          servicesSummary: S.optional(__S(177, __c5, 17)),
+          title: S.optional(__S(145, __c4, 17)),
+          productsSummary: S.optional(__S(145, __c4, 17)),
+          headquarters: S.optional(__S(145, __c4, 17)),
+          primaryWebsite: S.optional(__S(145, __c4, 17)),
+          brands: S.optional(__S(145, __c4, 17)),
+          entityType: S.optional(__S(145, __c4, 17)),
+          parentCompany: S.optional(__S(145, __c4, 17)),
+          keyPeopleSummary: S.optional(__S(145, __c4, 17)),
+          founded: S.optional(__S(145, __c4, 17)),
+          areaServed: S.optional(__S(145, __c4, 17)),
+          industry: S.optional(__S(145, __c4, 17)),
+          servicesSummary: S.optional(__S(145, __c4, 17)),
         }),
       ).annotate({ identifier: "CustomerProfileSummary" });
     case 19:
       return S.suspend(() =>
         S.Struct({
-          citationIds: S.optional(__S(736, __c23, 0)),
+          citationIds: S.optional(__S(704, __c22, 0)),
           product: S.optional(S.String),
           brand: S.optional(S.String),
         }),
       ).annotate({ identifier: "CustomerProfileProduct" });
     case 20:
-      return S.Array(__S(179, __c5, 19));
+      return S.Array(__S(147, __c4, 19));
     case 21:
       return S.suspend(() =>
         S.Struct({
-          citationIds: S.optional(__S(736, __c23, 0)),
+          citationIds: S.optional(__S(704, __c22, 0)),
           brand: S.optional(S.String),
           id: S.optional(S.String),
         }),
       ).annotate({ identifier: "CustomerProfileBrand" });
     case 22:
-      return S.Array(__S(181, __c5, 21));
+      return S.Array(__S(149, __c4, 21));
     case 23:
       return S.suspend(() =>
         S.Struct({
-          citationIds: S.optional(__S(736, __c23, 0)),
+          citationIds: S.optional(__S(704, __c22, 0)),
           name: S.optional(S.String),
           title: S.optional(S.String),
         }),
       ).annotate({ identifier: "CustomerProfilePerson" });
     case 24:
-      return S.Array(__S(183, __c5, 23));
+      return S.Array(__S(151, __c4, 23));
     case 25:
       return S.suspend(() =>
         S.Struct({
           orgSummary: S.optional(S.String),
-          webPresences: S.optional(__S(163, __c5, 3)),
+          webPresences: S.optional(__S(131, __c4, 3)),
           technologyPresence: S.optional(S.String),
-          citations: S.optional(__S(165, __c5, 5)),
-          industries: S.optional(__S(167, __c5, 7)),
-          securityConsiderations: S.optional(__S(168, __c5, 8)),
-          technologies: S.optional(__S(170, __c5, 10)),
-          parentCompanies: S.optional(__S(172, __c5, 12)),
-          locations: S.optional(__S(174, __c5, 14)),
+          citations: S.optional(__S(133, __c4, 5)),
+          industries: S.optional(__S(135, __c4, 7)),
+          securityConsiderations: S.optional(__S(136, __c4, 8)),
+          technologies: S.optional(__S(138, __c4, 10)),
+          parentCompanies: S.optional(__S(140, __c4, 12)),
+          locations: S.optional(__S(142, __c4, 14)),
           org: S.optional(S.String),
-          contactInfo: S.optional(__S(176, __c5, 16)),
-          summary: S.optional(__S(178, __c5, 18)),
-          products: S.optional(__S(180, __c5, 20)),
-          brands: S.optional(__S(182, __c5, 22)),
-          executives: S.optional(__S(184, __c5, 24)),
+          contactInfo: S.optional(__S(144, __c4, 16)),
+          summary: S.optional(__S(146, __c4, 18)),
+          products: S.optional(__S(148, __c4, 20)),
+          brands: S.optional(__S(150, __c4, 22)),
+          executives: S.optional(__S(152, __c4, 24)),
         }),
       ).annotate({ identifier: "CustomerProfileConfig" });
     case 26:
@@ -2129,16 +2099,16 @@ function __c5(j: number): any {
       return S.suspend(() =>
         S.Struct({
           domain: S.optional(S.String),
-          domainMonitoringConfig: S.optional(__S(186, __c5, 26)),
+          domainMonitoringConfig: S.optional(__S(154, __c4, 26)),
           state: S.optional(S.String),
         }),
       ).annotate({ identifier: "DomainSetting" });
     case 28:
-      return S.Array(__S(187, __c5, 27));
+      return S.Array(__S(155, __c4, 27));
     case 29:
       return S.suspend(() =>
         S.Struct({
-          domainSettings: S.optional(__S(188, __c5, 28)),
+          domainSettings: S.optional(__S(156, __c4, 28)),
         }),
       ).annotate({ identifier: "DomainConfiguration" });
     case 30:
@@ -2171,40 +2141,54 @@ function __c5(j: number): any {
       ).annotate({ identifier: "LegacyMetadata" });
   }
 }
-function __c6(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          documentQuery: S.optional(__S(190, __c5, 30)),
+          documentQuery: S.optional(__S(158, __c4, 30)),
           compiledLuceneQuery: S.optional(S.String),
           scenarioType: S.optional(S.String),
-          legacyMonitorMetadata: S.optional(__S(191, __c5, 31)),
+          legacyMonitorMetadata: S.optional(__S(159, __c4, 31)),
           documentCondition: S.optional(S.String),
         }),
       ).annotate({ identifier: "CustomThreatScenarioConfig" });
     case 1:
-      return S.Array(__S(738, __c23, 2));
+      return S.Array(__S(706, __c22, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          domains: S.optional(__S(193, __c6, 1)),
+          domains: S.optional(__S(161, __c5, 1)),
         }),
       ).annotate({ identifier: "DomainMonitoringConfig" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          technologyWatchlist: S.optional(__S(161, __c5, 1)),
-          customerProfile: S.optional(__S(185, __c5, 25)),
-          domainConfiguration: S.optional(__S(189, __c5, 29)),
-          customThreatScenario: S.optional(__S(192, __c6, 0)),
-          domainMonitoring: S.optional(__S(194, __c6, 2)),
+          technologyWatchlist: S.optional(__S(129, __c4, 1)),
+          customerProfile: S.optional(__S(153, __c4, 25)),
+          domainConfiguration: S.optional(__S(157, __c4, 29)),
+          customThreatScenario: S.optional(__S(160, __c5, 0)),
+          domainMonitoring: S.optional(__S(162, __c5, 2)),
           detailType: S.optional(S.String),
         }),
       ).annotate({ identifier: "ConfigurationDetail" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          etag: S.optional(S.String),
+          displayName: S.optional(S.String),
+          audit: S.optional(__S(705, __c22, 1)),
+          state: S.optional(S.String),
+          provider: S.optional(S.String),
+          version: S.optional(S.String),
+          description: S.optional(S.String),
+          name: S.optional(S.String),
+          detail: S.optional(__S(163, __c5, 3)),
+        }),
+      ).annotate({ identifier: "Configuration" });
   }
 }
-function __c7(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2220,13 +2204,13 @@ function __c7(j: number): any {
       ).annotate({ identifier: "GetProjectsFindingsRequest" });
   }
 }
-function __c8(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           severity: S.optional(S.String),
-          discoveryDocument: S.optional(__S(769, __c24, 1)),
+          discoveryDocument: S.optional(__S(737, __c23, 1)),
           matchScore: S.optional(S.Number),
           documentId: S.optional(S.String),
         }),
@@ -2237,24 +2221,24 @@ function __c8(j: number): any {
           matchScore: S.optional(S.Number),
           documentId: S.optional(S.String),
           severity: S.optional(S.String),
-          discoveryDocument: S.optional(__S(769, __c24, 1)),
+          discoveryDocument: S.optional(__S(737, __c23, 1)),
         }),
       ).annotate({ identifier: "InitialAccessBrokerFindingDetail" });
     case 2:
       return S.suspend(() =>
         S.Struct({
           protectedBrand: S.optional(S.String),
-          domainDetails: S.optional(__S(738, __c23, 2)),
-          relationships: S.optional(__S(777, __c24, 9)),
-          dnsDetails: S.optional(__S(772, __c24, 4)),
+          domainDetails: S.optional(__S(706, __c22, 2)),
+          relationships: S.optional(__S(745, __c23, 9)),
+          dnsDetails: S.optional(__S(740, __c23, 4)),
           matchedDomain: S.optional(S.String),
-          registrationDetails: S.optional(__S(781, __c24, 13)),
-          urlDetails: S.optional(__S(778, __c24, 10)),
-          gtiDetails: S.optional(__S(776, __c24, 8)),
-          threatAttributionDetails: S.optional(__S(780, __c24, 12)),
-          whoisDetails: S.optional(__S(779, __c24, 11)),
-          protectedDomain: S.optional(__S(738, __c23, 2)),
-          infrastructure: S.optional(__S(774, __c24, 6)),
+          registrationDetails: S.optional(__S(749, __c23, 13)),
+          urlDetails: S.optional(__S(746, __c23, 10)),
+          gtiDetails: S.optional(__S(744, __c23, 8)),
+          threatAttributionDetails: S.optional(__S(748, __c23, 12)),
+          whoisDetails: S.optional(__S(747, __c23, 11)),
+          protectedDomain: S.optional(__S(706, __c22, 2)),
+          infrastructure: S.optional(__S(742, __c23, 6)),
         }),
       ).annotate({ identifier: "DomainMonitoringFindingDetail" });
     case 3:
@@ -2263,40 +2247,40 @@ function __c8(j: number): any {
           severity: S.optional(S.String),
           documentId: S.optional(S.String),
           matchScore: S.optional(S.Number),
-          discoveryDocument: S.optional(__S(769, __c24, 1)),
+          discoveryDocument: S.optional(__S(737, __c23, 1)),
         }),
       ).annotate({ identifier: "DataLeakFindingDetail" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          insiderThreat: S.optional(__S(256, __c8, 0)),
-          targetTechnology: S.optional(__S(789, __c24, 21)),
-          initialAccessBroker: S.optional(__S(257, __c8, 1)),
+          insiderThreat: S.optional(__S(224, __c7, 0)),
+          targetTechnology: S.optional(__S(757, __c23, 21)),
+          initialAccessBroker: S.optional(__S(225, __c7, 1)),
           detailType: S.optional(S.String),
-          domainMonitoring: S.optional(__S(258, __c8, 2)),
-          dataLeak: S.optional(__S(259, __c8, 3)),
+          domainMonitoring: S.optional(__S(226, __c7, 2)),
+          dataLeak: S.optional(__S(227, __c7, 3)),
         }),
       ).annotate({ identifier: "FindingDetail" });
     case 5:
       return S.suspend(() =>
         S.Struct({
           displayName: S.optional(S.String),
-          detail: S.optional(__S(260, __c8, 4)),
+          detail: S.optional(__S(228, __c7, 4)),
           alert: S.optional(S.String),
-          audit: S.optional(__S(737, __c23, 1)),
-          configurations: S.optional(__S(736, __c23, 0)),
-          reoccurrenceTimes: S.optional(__S(736, __c23, 0)),
+          audit: S.optional(__S(705, __c22, 1)),
+          configurations: S.optional(__S(704, __c22, 0)),
+          reoccurrenceTimes: S.optional(__S(704, __c22, 0)),
           aiSummary: S.optional(S.String),
           severity: S.optional(S.Number),
-          relevanceAnalysis: S.optional(__S(791, __c24, 23)),
-          severityAnalysis: S.optional(__S(768, __c24, 0)),
+          relevanceAnalysis: S.optional(__S(759, __c23, 23)),
+          severityAnalysis: S.optional(__S(736, __c23, 0)),
           name: S.optional(S.String),
           provider: S.optional(S.String),
         }),
       ).annotate({ identifier: "Finding" });
   }
 }
-function __c9(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2315,17 +2299,17 @@ function __c9(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsAlertsRequest" });
     case 1:
-      return S.Array(__S(807, __c25, 7));
+      return S.Array(__S(775, __c24, 7));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          alerts: S.optional(__S(289, __c9, 1)),
+          alerts: S.optional(__S(257, __c8, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListAlertsResponse" });
   }
 }
-function __c10(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2344,17 +2328,17 @@ function __c10(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsConfigurationsRequest" });
     case 1:
-      return S.Array(__S(128, __c4, 0));
+      return S.Array(__S(164, __c5, 4));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          configurations: S.optional(__S(321, __c10, 1)),
+          configurations: S.optional(__S(289, __c9, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListConfigurationsResponse" });
   }
 }
-function __c11(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2375,23 +2359,23 @@ function __c11(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          snapshot: S.optional(__S(128, __c4, 0)),
+          snapshot: S.optional(__S(164, __c5, 4)),
           createTime: S.optional(S.String),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "ConfigurationRevision" });
     case 2:
-      return S.Array(__S(353, __c11, 1));
+      return S.Array(__S(321, __c10, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          revisions: S.optional(__S(354, __c11, 2)),
+          revisions: S.optional(__S(322, __c10, 2)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListConfigurationRevisionsResponse" });
   }
 }
-function __c12(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2411,26 +2395,26 @@ function __c12(j: number): any {
       ).annotate({ identifier: "ListProjectsFindingsRequest" });
   }
 }
-function __c13(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(261, __c8, 5));
+      return S.Array(__S(229, __c7, 5));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          findings: S.optional(__S(416, __c13, 0)),
+          findings: S.optional(__S(384, __c12, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListFindingsResponse" });
   }
 }
-function __c14(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(832, __c26, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(800, __c25, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2441,13 +2425,13 @@ function __c14(j: number): any {
       ).annotate({ identifier: "NotActionableProjectsAlertsRequest" });
   }
 }
-function __c15(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(832, __c26, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(800, __c25, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2458,13 +2442,13 @@ function __c15(j: number): any {
       ).annotate({ identifier: "ReadProjectsAlertsRequest" });
   }
 }
-function __c16(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(832, __c26, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(800, __c25, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2475,7 +2459,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "ResolveProjectsAlertsRequest" });
   }
 }
-function __c17(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2495,13 +2479,13 @@ function __c17(j: number): any {
       ).annotate({ identifier: "SearchProjectsFindingsRequest" });
   }
 }
-function __c18(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(832, __c26, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(800, __c25, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2512,13 +2496,13 @@ function __c18(j: number): any {
       ).annotate({ identifier: "TrackExternallyProjectsAlertsRequest" });
   }
 }
-function __c19(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(832, __c26, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(800, __c25, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2529,23 +2513,17 @@ function __c19(j: number): any {
       ).annotate({ identifier: "TriageProjectsAlertsRequest" });
   }
 }
-function __c20(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          publishTime: S.optional(S.String.pipe(T.Query())),
-          etag: S.optional(S.String),
-          displayName: S.optional(S.String),
-          audit: S.optional(__S(737, __c23, 1)),
-          state: S.optional(S.String),
-          provider: S.optional(S.String),
-          version: S.optional(S.String),
-          description: S.optional(S.String),
-          name: S.optional(S.String),
-          detail: S.optional(__S(195, __c6, 3)),
-        }).pipe(
+        S.Extend(
+          __S(164, __c5, 4),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            publishTime: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+parent}/configurations:upsert",
@@ -2561,13 +2539,13 @@ function __c20(j: number): any {
       ).annotate({ identifier: "UpsertConfigurationResponse" });
   }
 }
-function __c21(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(832, __c26, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(800, __c25, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2578,7 +2556,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "BenignProjectsAlertsRequest" });
   }
 }
-function __c22(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2594,7 +2572,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "CommunicationContext" });
   }
 }
-function __c23(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
@@ -2617,7 +2595,7 @@ function __c23(j: number): any {
       return S.Array(S.String);
   }
 }
-function __c24(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2630,7 +2608,7 @@ function __c24(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          communicationContext: S.optional(__S(704, __c22, 0)),
+          communicationContext: S.optional(__S(672, __c21, 0)),
           documentId: S.optional(S.String),
           documentType: S.optional(S.String),
         }),
@@ -2648,18 +2626,18 @@ function __c24(j: number): any {
         }),
       ).annotate({ identifier: "DomainMonitoringDnsRecord" });
     case 3:
-      return S.Array(__S(770, __c24, 2));
+      return S.Array(__S(738, __c23, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          dnsRecords: S.optional(__S(771, __c24, 3)),
+          dnsRecords: S.optional(__S(739, __c23, 3)),
           retrievalTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "DomainMonitoringDnsDetails" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          subjectAlternativeNames: S.optional(__S(736, __c23, 0)),
+          subjectAlternativeNames: S.optional(__S(704, __c22, 0)),
           issuer: S.optional(S.String),
         }),
       ).annotate({ identifier: "CertificateDetails" });
@@ -2667,7 +2645,7 @@ function __c24(j: number): any {
       return S.suspend(() =>
         S.Struct({
           urlResponse: S.optional(S.String),
-          certificateDetails: S.optional(__S(773, __c24, 5)),
+          certificateDetails: S.optional(__S(741, __c23, 5)),
         }),
       ).annotate({ identifier: "Infrastructure" });
     case 7:
@@ -2680,7 +2658,7 @@ function __c24(j: number): any {
     case 8:
       return S.suspend(() =>
         S.Struct({
-          avDetections: S.optional(__S(775, __c24, 7)),
+          avDetections: S.optional(__S(743, __c23, 7)),
           threatClassification: S.optional(S.String),
           verdict: S.optional(S.String),
           gtiDomainUri: S.optional(S.String),
@@ -2691,9 +2669,9 @@ function __c24(j: number): any {
     case 9:
       return S.suspend(() =>
         S.Struct({
-          subdomains: S.optional(__S(736, __c23, 0)),
-          siblingDomains: S.optional(__S(736, __c23, 0)),
-          relatedUrls: S.optional(__S(736, __c23, 0)),
+          subdomains: S.optional(__S(704, __c22, 0)),
+          siblingDomains: S.optional(__S(704, __c22, 0)),
+          relatedUrls: S.optional(__S(704, __c22, 0)),
         }),
       ).annotate({ identifier: "Relationships" });
     case 10:
@@ -2712,9 +2690,9 @@ function __c24(j: number): any {
     case 12:
       return S.suspend(() =>
         S.Struct({
-          collections: S.optional(__S(736, __c23, 0)),
-          actors: S.optional(__S(736, __c23, 0)),
-          malware: S.optional(__S(736, __c23, 0)),
+          collections: S.optional(__S(704, __c22, 0)),
+          actors: S.optional(__S(704, __c22, 0)),
+          malware: S.optional(__S(704, __c22, 0)),
         }),
       ).annotate({ identifier: "ThreatAttributionDetails" });
     case 13:
@@ -2737,7 +2715,7 @@ function __c24(j: number): any {
         }),
       ).annotate({ identifier: "ProductFix" });
     case 15:
-      return S.Array(__S(782, __c24, 14));
+      return S.Array(__S(750, __c23, 14));
     case 16:
       return S.suspend(() =>
         S.Struct({
@@ -2746,7 +2724,7 @@ function __c24(j: number): any {
         }),
       ).annotate({ identifier: "Association" });
     case 17:
-      return S.Array(__S(784, __c24, 16));
+      return S.Array(__S(752, __c23, 16));
     case 18:
       return S.suspend(() =>
         S.Struct({
@@ -2759,46 +2737,46 @@ function __c24(j: number): any {
         }),
       ).annotate({ identifier: "PublicExploit" });
     case 19:
-      return S.Array(__S(786, __c24, 18));
+      return S.Array(__S(754, __c23, 18));
     case 20:
       return S.suspend(() =>
         S.Struct({
           cvss3Score: S.optional(S.Number),
-          matchedTechnologies: S.optional(__S(736, __c23, 0)),
+          matchedTechnologies: S.optional(__S(704, __c22, 0)),
           disclosureTime: S.optional(S.String),
           priority: S.optional(S.String),
-          exploitationConsequences: S.optional(__S(739, __c23, 3)),
+          exploitationConsequences: S.optional(__S(707, __c22, 3)),
           publiclyAvailableExploit: S.optional(S.Boolean),
-          productFixes: S.optional(__S(783, __c24, 15)),
+          productFixes: S.optional(__S(751, __c23, 15)),
           cveId: S.optional(S.String),
-          associations: S.optional(__S(785, __c24, 17)),
+          associations: S.optional(__S(753, __c23, 17)),
           exploitationState: S.optional(S.String),
           epssScore: S.optional(S.Number),
           riskRating: S.optional(S.String),
           collectionId: S.optional(S.String),
-          exploitationVectors: S.optional(__S(739, __c23, 3)),
-          publicExploits: S.optional(__S(787, __c24, 19)),
-          technologies: S.optional(__S(736, __c23, 0)),
+          exploitationVectors: S.optional(__S(707, __c22, 3)),
+          publicExploits: S.optional(__S(755, __c23, 19)),
+          technologies: S.optional(__S(704, __c22, 0)),
           description: S.optional(S.String),
         }),
       ).annotate({ identifier: "VulnerabilityMatch" });
     case 21:
       return S.suspend(() =>
         S.Struct({
-          vulnerabilityMatch: S.optional(__S(788, __c24, 20)),
+          vulnerabilityMatch: S.optional(__S(756, __c23, 20)),
         }),
       ).annotate({ identifier: "TargetTechnologyAlertDetail" });
     case 22:
       return S.suspend(() =>
         S.Struct({
-          distinctThemes: S.optional(__S(736, __c23, 0)),
-          commonThemes: S.optional(__S(736, __c23, 0)),
+          distinctThemes: S.optional(__S(704, __c22, 0)),
+          commonThemes: S.optional(__S(704, __c22, 0)),
         }),
       ).annotate({ identifier: "Evidence" });
     case 23:
       return S.suspend(() =>
         S.Struct({
-          evidence: S.optional(__S(790, __c24, 22)),
+          evidence: S.optional(__S(758, __c23, 22)),
           confidence: S.optional(S.String),
           reasoning: S.optional(S.String),
           relevant: S.optional(S.Boolean),
@@ -2807,7 +2785,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "RelevanceAnalysis" });
   }
 }
-function __c25(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2818,97 +2796,105 @@ function __c25(j: number): any {
         }),
       ).annotate({ identifier: "PriorityAnalysis" });
     case 1:
-      return S.Array(__S(769, __c24, 1));
+      return S.Array(__S(737, __c23, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
           severity: S.optional(S.String),
-          discoveryDocuments: S.optional(__S(801, __c25, 1)),
-          discoveryDocumentIds: S.optional(__S(736, __c23, 0)),
+          discoveryDocuments: S.optional(__S(769, __c24, 1)),
+          discoveryDocumentIds: S.optional(__S(704, __c22, 0)),
         }),
       ).annotate({ identifier: "InsiderThreatAlertDetail" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          discoveryDocuments: S.optional(__S(801, __c25, 1)),
-          discoveryDocumentIds: S.optional(__S(736, __c23, 0)),
+          discoveryDocuments: S.optional(__S(769, __c24, 1)),
+          discoveryDocumentIds: S.optional(__S(704, __c22, 0)),
           severity: S.optional(S.String),
         }),
       ).annotate({ identifier: "DataLeakAlertDetail" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          dnsDetails: S.optional(__S(772, __c24, 4)),
-          infrastructure: S.optional(__S(774, __c24, 6)),
-          gtiDetails: S.optional(__S(776, __c24, 8)),
-          domainDetails: S.optional(__S(738, __c23, 2)),
-          relationships: S.optional(__S(777, __c24, 9)),
-          protectedDomain: S.optional(__S(738, __c23, 2)),
-          urlDetails: S.optional(__S(778, __c24, 10)),
+          dnsDetails: S.optional(__S(740, __c23, 4)),
+          infrastructure: S.optional(__S(742, __c23, 6)),
+          gtiDetails: S.optional(__S(744, __c23, 8)),
+          domainDetails: S.optional(__S(706, __c22, 2)),
+          relationships: S.optional(__S(745, __c23, 9)),
+          protectedDomain: S.optional(__S(706, __c22, 2)),
+          urlDetails: S.optional(__S(746, __c23, 10)),
           matchedDomain: S.optional(S.String),
           protectedBrand: S.optional(S.String),
-          whoisDetails: S.optional(__S(779, __c24, 11)),
-          threatAttributionDetails: S.optional(__S(780, __c24, 12)),
-          registrationDetails: S.optional(__S(781, __c24, 13)),
+          whoisDetails: S.optional(__S(747, __c23, 11)),
+          threatAttributionDetails: S.optional(__S(748, __c23, 12)),
+          registrationDetails: S.optional(__S(749, __c23, 13)),
         }),
       ).annotate({ identifier: "DomainMonitoringAlertDetail" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          discoveryDocumentIds: S.optional(__S(736, __c23, 0)),
-          discoveryDocuments: S.optional(__S(801, __c25, 1)),
+          discoveryDocumentIds: S.optional(__S(704, __c22, 0)),
+          discoveryDocuments: S.optional(__S(769, __c24, 1)),
           severity: S.optional(S.String),
         }),
       ).annotate({ identifier: "InitialAccessBrokerAlertDetail" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          insiderThreat: S.optional(__S(802, __c25, 2)),
-          dataLeak: S.optional(__S(803, __c25, 3)),
-          domainMonitoring: S.optional(__S(804, __c25, 4)),
+          insiderThreat: S.optional(__S(770, __c24, 2)),
+          dataLeak: S.optional(__S(771, __c24, 3)),
+          domainMonitoring: S.optional(__S(772, __c24, 4)),
           detailType: S.optional(S.String),
-          targetTechnology: S.optional(__S(789, __c24, 21)),
-          initialAccessBroker: S.optional(__S(805, __c25, 5)),
+          targetTechnology: S.optional(__S(757, __c23, 21)),
+          initialAccessBroker: S.optional(__S(773, __c24, 5)),
         }),
       ).annotate({ identifier: "AlertDetail" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          configurations: S.optional(__S(736, __c23, 0)),
-          priorityAnalysis: S.optional(__S(800, __c25, 0)),
+          configurations: S.optional(__S(704, __c22, 0)),
+          priorityAnalysis: S.optional(__S(768, __c24, 0)),
           duplicateOf: S.optional(S.String),
-          severityAnalysis: S.optional(__S(768, __c24, 0)),
+          severityAnalysis: S.optional(__S(736, __c23, 0)),
           displayName: S.optional(S.String),
           externalId: S.optional(S.String),
-          findings: S.optional(__S(736, __c23, 0)),
+          findings: S.optional(__S(704, __c22, 0)),
           aiSummary: S.optional(S.String),
           findingCount: S.optional(S.String),
           etag: S.optional(S.String),
-          audit: S.optional(__S(737, __c23, 1)),
+          audit: S.optional(__S(705, __c22, 1)),
           state: S.optional(S.String),
-          detail: S.optional(__S(806, __c25, 6)),
-          duplicatedBy: S.optional(__S(736, __c23, 0)),
+          detail: S.optional(__S(774, __c24, 6)),
+          duplicatedBy: S.optional(__S(704, __c22, 0)),
           name: S.optional(S.String),
-          tags: S.optional(__S(739, __c23, 3)),
-          relevanceAnalysis: S.optional(__S(791, __c24, 23)),
+          tags: S.optional(__S(707, __c22, 3)),
+          relevanceAnalysis: S.optional(__S(759, __c23, 23)),
         }),
       ).annotate({ identifier: "Alert" });
   }
 }
-function __c26(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "MarkAlertAsBenignRequest" });
   }
 }
-function __c27(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           duplicateOf: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "MarkAlertAsDuplicateRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(832, __c26, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+name}:duplicate",
@@ -2918,7 +2904,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "DuplicateProjectsAlertsRequest" });
   }
 }
-function __c28(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2941,7 +2927,7 @@ function __c28(j: number): any {
         }),
       ).annotate({ identifier: "FacetCount" });
     case 2:
-      return S.Array(__S(897, __c28, 1));
+      return S.Array(__S(865, __c27, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -2950,26 +2936,26 @@ function __c28(j: number): any {
           maxValue: S.optional(S.String),
           totalCount: S.optional(S.String),
           minValue: S.optional(S.String),
-          facetCounts: S.optional(__S(898, __c28, 2)),
+          facetCounts: S.optional(__S(866, __c27, 2)),
         }),
       ).annotate({ identifier: "Facet" });
     case 4:
-      return S.Array(__S(899, __c28, 3));
+      return S.Array(__S(867, __c27, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          facets: S.optional(__S(900, __c28, 4)),
+          facets: S.optional(__S(868, __c27, 4)),
         }),
       ).annotate({ identifier: "EnumerateAlertFacetsResponse" });
   }
 }
-function __c29(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(832, __c26, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(800, __c25, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2980,13 +2966,13 @@ function __c29(j: number): any {
       ).annotate({ identifier: "EscalateProjectsAlertsRequest" });
   }
 }
-function __c30(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(832, __c26, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(800, __c25, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2997,15 +2983,23 @@ function __c30(j: number): any {
       ).annotate({ identifier: "FalsePositiveProjectsAlertsRequest" });
   }
 }
-function __c31(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           displayName: S.optional(S.String),
           domain: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "GenerateOrgProfileConfigurationRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(960, __c30, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+name}:generateOrgProfile",
@@ -3013,26 +3007,26 @@ function __c31(j: number): any {
           }),
         ),
       ).annotate({ identifier: "GenerateOrgProfileProjectsRequest" });
-    case 1:
-      return S.Record(S.String, S.Unknown);
     case 2:
-      return S.Array(__S(993, __c31, 1));
+      return S.Record(S.String, S.Unknown);
     case 3:
-      return S.suspend(() =>
-        S.Struct({
-          message: S.optional(S.String),
-          details: S.optional(__S(994, __c31, 2)),
-          code: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "Status" });
+      return S.Array(__S(962, __c30, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
+          message: S.optional(S.String),
+          details: S.optional(__S(963, __c30, 3)),
+          code: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "Status" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
           name: S.optional(S.String),
-          error: S.optional(__S(995, __c31, 3)),
-          metadata: S.optional(__S(993, __c31, 1)),
+          error: S.optional(__S(964, __c30, 4)),
+          metadata: S.optional(__S(962, __c30, 2)),
           done: S.optional(S.Boolean),
-          response: S.optional(__S(993, __c31, 1)),
+          response: S.optional(__S(962, __c30, 2)),
         }),
       ).annotate({ identifier: "Operation" });
   }

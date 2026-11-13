@@ -92,15 +92,18 @@ export interface GoogleDatastoreAdminV1beta1EntityFilter {
   namespaceIds?: StringList | undefined;
 }
 export type StringMap = { [key: string]: string | undefined };
-export interface ExportProjectsRequest {
-  /** Project ID against which to make the request. */
-  projectId: string;
+/** The request for google.datastore.admin.v1beta1.DatastoreAdmin.ExportEntities. */
+export interface GoogleDatastoreAdminV1beta1ExportEntitiesRequest {
   /** Description of what data from the project is included in the export. */
   entityFilter?: GoogleDatastoreAdminV1beta1EntityFilter | undefined;
   /** Location for the export metadata and data files. The full resource URL of the external storage location. Currently, only Google Cloud Storage is supported. So output_url_prefix should be of the form: `gs://BUCKET_NAME[/NAMESPACE_PATH]`, where `BUCKET_NAME` is the name of the Cloud Storage bucket and `NAMESPACE_PATH` is an optional Cloud Storage namespace path (this is not a Cloud Datastore namespace). For more information about Cloud Storage namespace paths, see [Object name considerations](https://cloud.google.com/storage/docs/naming#object-considerations). The resulting files will be nested deeper than the specified URL prefix. The final output URL will be provided in the google.datastore.admin.v1beta1.ExportEntitiesResponse.output_url field. That value should be used for subsequent ImportEntities operations. By nesting the data files deeper, the same Cloud Storage bucket can be used in multiple ExportEntities operations without conflict. */
   outputUrlPrefix?: string | undefined;
   /** Client-assigned labels. */
   labels?: StringMap | undefined;
+}
+export interface ExportProjectsRequest extends GoogleDatastoreAdminV1beta1ExportEntitiesRequest {
+  /** Project ID against which to make the request. */
+  projectId: string;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -126,15 +129,18 @@ export interface GoogleLongrunningOperation {
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
   done?: boolean | undefined;
 }
-export interface ImportProjectsRequest {
-  /** Project ID against which to make the request. */
-  projectId: string;
+/** The request for google.datastore.admin.v1beta1.DatastoreAdmin.ImportEntities. */
+export interface GoogleDatastoreAdminV1beta1ImportEntitiesRequest {
   /** The full resource URL of the external storage location. Currently, only Google Cloud Storage is supported. So input_url should be of the form: `gs://BUCKET_NAME[/NAMESPACE_PATH]/OVERALL_EXPORT_METADATA_FILE`, where `BUCKET_NAME` is the name of the Cloud Storage bucket, `NAMESPACE_PATH` is an optional Cloud Storage namespace path (this is not a Cloud Datastore namespace), and `OVERALL_EXPORT_METADATA_FILE` is the metadata file written by the ExportEntities operation. For more information about Cloud Storage namespace paths, see [Object name considerations](https://cloud.google.com/storage/docs/naming#object-considerations). For more information, see google.datastore.admin.v1beta1.ExportEntitiesResponse.output_url. */
   inputUrl?: string | undefined;
   /** Optionally specify which kinds/namespaces are to be imported. If provided, the list must be a subset of the EntityFilter used in creating the export, otherwise a FAILED_PRECONDITION error will be returned. If no filter is specified then all entities from the export are imported. */
   entityFilter?: GoogleDatastoreAdminV1beta1EntityFilter | undefined;
   /** Client-assigned labels. */
   labels?: StringMap | undefined;
+}
+export interface ImportProjectsRequest extends GoogleDatastoreAdminV1beta1ImportEntitiesRequest {
+  /** Project ID against which to make the request. */
+  projectId: string;
 }
 export type ExportProjectsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
 /** Exports a copy of all or a subset of entities from Google Cloud Datastore to another storage system, such as Google Cloud Storage. Recent updates to entities may not be reflected in the export. The export occurs in the background and its progress can be monitored and managed via the Operation resource that is created. The output of an export may only be used once the associated operation is done. If an export operation is cancelled before completion it may leave partial data behind in Google Cloud Storage. */
@@ -144,7 +150,7 @@ export const exportProjects: API.OperationMethod<
   ExportProjectsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<ExportProjectsRequest>,
+  input: __S(1, __c0, 1) as any as S.Schema<ExportProjectsRequest>,
   output: __S(14, __c1, 6) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -161,7 +167,7 @@ export const importProjects: API.OperationMethod<
   ImportProjectsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c2, 0) as any as S.Schema<ImportProjectsRequest>,
+  input: __S(17, __c2, 1) as any as S.Schema<ImportProjectsRequest>,
   output: __S(14, __c1, 6) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -176,11 +182,19 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          projectId: S.String.pipe(T.Label()),
           entityFilter: S.optional(__S(9, __c1, 1)),
           outputUrlPrefix: S.optional(S.String),
           labels: S.optional(__S(10, __c1, 2)),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "GoogleDatastoreAdminV1beta1ExportEntitiesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(0, __c0, 0),
+          S.Struct({
+            projectId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/projects/{projectId}:export",
@@ -232,11 +246,19 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          projectId: S.String.pipe(T.Label()),
           inputUrl: S.optional(S.String),
           entityFilter: S.optional(__S(9, __c1, 1)),
           labels: S.optional(__S(10, __c1, 2)),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "GoogleDatastoreAdminV1beta1ImportEntitiesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(16, __c2, 0),
+          S.Struct({
+            projectId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/projects/{projectId}:import",

@@ -626,7 +626,7 @@ export interface Setting {
   /** Value of the user setting. The format of the value depends on the ID of the setting. It must always be a UTF-8 string of length up to 1024 characters. */
   value?: string | undefined;
 }
-export interface ImportEventsRequest {
+export interface ImportEventsRequest extends Event {
   /** Calendar identifier. To retrieve calendar IDs call the calendarList.list method. If you want to access the primary calendar of the currently logged in user, use the "primary" keyword. */
   calendarId: string;
   /** Whether API client performing operation supports event attachments. Optional. The default is False. */
@@ -635,185 +635,20 @@ export interface ImportEventsRequest {
   conferenceDataVersion?: number | undefined;
   /** Version number of the event label feature supported by the API client. Version 0 assumes no event label support and processes the colorId field for color management. Version 1 enables support for event labels, and processes the eventLabelId in the event's body. In this case, the colorId field is ignored. The default is 0. */
   eventLabelVersion?: number | undefined;
-  /** Last modification time of the main event data (as a RFC3339 timestamp). Updating event reminders will not cause this to change. Read-only. */
-  updated?: string | undefined;
-  /** File attachments for the event. In order to modify attachments the supportsAttachments request parameter should be set to true. There can be at most 25 attachments per event, */
-  attachments?: EventAttachmentList | undefined;
-  /** Whether the end time is actually unspecified. An end time is still provided for compatibility reasons, even if this attribute is set to True. The default is False. */
-  endTimeUnspecified?: boolean | undefined;
-  /** Working location event data. */
-  workingLocationProperties?: EventWorkingLocationProperties | undefined;
-  /** Title of the event. */
-  summary?: string | undefined;
-  /** Whether attendees may have been omitted from the event's representation. When retrieving an event, this may be due to a restriction specified by the maxAttendee query parameter. When updating an event, this can be used to only update the participant's response. Optional. The default is False. */
-  attendeesOmitted?: boolean | undefined;
-  /** Birthday or special event data. Used if eventType is "birthday". Immutable. */
-  birthdayProperties?: EventBirthdayProperties | undefined;
-  /** The ID of the event label assigned to the event. Optional. This refers to the ID of an entry in the labelProperties.eventLabels property of the calendar (see the Calendars.get endpoint.) This property supersedes the index-based colorId property. To set or change this property, you need to specify eventLabelVersion=1 in the parameters of the insert, import, update, and patch methods. Setting an empty string, or not setting this field at all, will remove the existing label from the event. */
-  eventLabelId?: string | undefined;
-  /** The attendees of the event. See the Events with attendees guide for more information on scheduling events with other calendar users. Service accounts need to use domain-wide delegation of authority to populate the attendee list. */
-  attendees?: EventAttendeeList | undefined;
-  /** The color of the event. This is an ID referring to an entry in the event section of the colors definition (see the colors endpoint). Optional. */
-  colorId?: string | undefined;
-  /** For an instance of a recurring event, this is the id of the recurring event to which this instance belongs. Immutable. */
-  recurringEventId?: string | undefined;
-  /** For an instance of a recurring event, this is the time at which this event would start according to the recurrence data in the recurring event identified by recurringEventId. It uniquely identifies the instance within the recurring event series even if the instance was moved to a different time. Immutable. */
-  originalStartTime?: EventDateTime | undefined;
-  /** Sequence number as per iCalendar. */
-  sequence?: number | undefined;
-  /** The organizer of the event. If the organizer is also an attendee, this is indicated with a separate entry in attendees with the organizer field set to True. To change the organizer, use the move operation. Read-only, except when importing an event. */
-  organizer?: EventOrganizer | undefined;
-  /** Description of the event. Can contain HTML. Optional. */
-  description?: string | undefined;
-  /** An absolute link to the Google Hangout associated with this event. Read-only. */
-  hangoutLink?: string | undefined;
-  /** Opaque identifier of the event. When creating new single or recurring events, you can specify their IDs. Provided IDs must follow these rules: - characters allowed in the ID are those used in base32hex encoding, i.e. lowercase letters a-v and digits 0-9, see section 3.1.2 in RFC2938 - the length of the ID must be between 5 and 1024 characters - the ID must be unique per calendar Due to the globally distributed nature of the system, we cannot guarantee that ID collisions will be detected at event creation time. To minimize the risk of collisions we recommend using an established UUID algorithm such as one described in RFC4122. If you do not specify an ID, it will be automatically generated by the server. Note that the icalUID and the id are not identical and only one of them should be supplied at event creation time. One difference in their semantics is that in recurring events, all occurrences of one event have different ids while they all share the same icalUIDs. */
-  id?: string | undefined;
-  /** If set to True, Event propagation is disabled. Note that it is not the same thing as Private event properties. Optional. Immutable. The default is False. */
-  privateCopy?: boolean | undefined;
-  /** List of RRULE, EXRULE, RDATE and EXDATE lines for a recurring event, as specified in RFC5545. Note that DTSTART and DTEND lines are not allowed in this field; event start and end times are specified in the start and end fields. This field is omitted for single events or instances of recurring events. */
-  recurrence?: StringList | undefined;
-  /** Out of office event data. Used if eventType is outOfOffice. */
-  outOfOfficeProperties?: EventOutOfOfficeProperties | undefined;
-  /** The (inclusive) start time of the event. For a recurring event, this is the start time of the first instance. */
-  start?: EventDateTime | undefined;
-  /** Visibility of the event. Optional. Possible values are: - "default" - Uses the default visibility for events on the calendar. This is the default value. - "public" - The event is public and event details are visible to all readers of the calendar. - "private" - The event is private and only event attendees may view event details. - "confidential" - The event is private. This value is provided for compatibility reasons. Note on recurring events: Changing the visibility of a single instance of a recurring event can affect all instances of the series. If the new setting is more restrictive (e.g. from public to private), it is applied to all instances. If the new setting is less restrictive (e.g. from private to public), the change is ignored. To make a recurring event less restrictive, you must update the parent recurring event. */
-  visibility?: string | undefined;
-  /** The conference-related information, such as details of a Google Meet conference. To create new conference details use the createRequest field. To persist your changes, remember to set the conferenceDataVersion request parameter to 1 for all event modification requests. Warning: Reusing Google Meet conference data across different events can cause access issues and expose meeting details to unintended users. To help ensure meeting privacy, always generate a unique conference for each event by using the createRequest field. */
-  conferenceData?: ConferenceData | undefined;
-  /** Focus Time event data. Used if eventType is focusTime. */
-  focusTimeProperties?: EventFocusTimeProperties | undefined;
-  /** Whether attendees other than the organizer can see who the event's attendees are. Optional. The default is True. */
-  guestsCanSeeOtherGuests?: boolean | undefined;
-  /** Whether this is a locked event copy where no changes can be made to the main event fields "summary", "description", "location", "start", "end" or "recurrence". The default is False. Read-Only. */
-  locked?: boolean | undefined;
-  /** Information about the event's reminders for the authenticated user. Note that changing reminders does not also change the updated property of the enclosing event. */
-  reminders?: EventReminders | undefined;
-  /** Whether attendees other than the organizer can modify the event. Optional. The default is False. */
-  guestsCanModify?: boolean | undefined;
-  /** The creator of the event. Read-only. */
-  creator?: EventCreator | undefined;
-  /** Specific type of the event. This cannot be modified after the event is created. Possible values are: - "birthday" - A special all-day event with an annual recurrence. - "default" - A regular event or not further specified. - "focusTime" - A focus-time event. - "fromGmail" - An event from Gmail. This type of event cannot be created. - "outOfOffice" - An out-of-office event. - "workingLocation" - A working location event. */
-  eventType?: string | undefined;
-  /** Extended properties of the event. */
-  extendedProperties?: EventExtendedProperties | undefined;
-  /** Whether attendees other than the organizer can invite others to the event. Optional. The default is True. */
-  guestsCanInviteOthers?: boolean | undefined;
-  /** Type of the resource ("calendar#event"). */
-  kind?: string | undefined;
-  /** Status of the event. Optional. Possible values are: - "confirmed" - The event is confirmed. This is the default status. - "tentative" - The event is tentatively confirmed. - "cancelled" - The event is cancelled (deleted). The list method returns cancelled events only on incremental sync (when syncToken or updatedMin are specified) or if the showDeleted flag is set to true. The get method always returns them. A cancelled status represents two different states depending on the event type: - Cancelled exceptions of an uncancelled recurring event indicate that this instance should no longer be presented to the user. Clients should store these events for the lifetime of the parent recurring event. Cancelled exceptions are only guaranteed to have values for the id, recurringEventId and originalStartTime fields populated. The other fields might be empty. - All other cancelled events represent deleted events. Clients should remove their locally synced copies. Such cancelled events will eventually disappear, so do not rely on them being available indefinitely. Deleted events are only guaranteed to have the id field populated. On the organizer's calendar, cancelled events continue to expose event details (summary, location, etc.) so that they can be restored (undeleted). Similarly, the events to which the user was invited and that they manually removed continue to provide details. However, incremental sync requests with showDeleted set to false will not return these details. If an event changes its organizer (for example via the move operation) and the original organizer is not on the attendee list, it will leave behind a cancelled event where only the id field is guaranteed to be populated. */
-  status?: string | undefined;
-  /** Source from which the event was created. For example, a web page, an email message or any document identifiable by an URL with HTTP or HTTPS scheme. Can only be seen or modified by the creator of the event. */
-  source?: EventSource | undefined;
-  /** The (exclusive) end time of the event. For a recurring event, this is the end time of the first instance. */
-  end?: EventDateTime | undefined;
-  /** ETag of the resource. */
-  etag?: string | undefined;
-  /** Creation time of the event (as a RFC3339 timestamp). Read-only. */
-  created?: string | undefined;
-  /** Event unique identifier as defined in RFC5545. It is used to uniquely identify events accross calendaring systems and must be supplied when importing events via the import method. Note that the iCalUID and the id are not identical and only one of them should be supplied at event creation time. One difference in their semantics is that in recurring events, all occurrences of one event have different ids while they all share the same iCalUIDs. To retrieve an event using its iCalUID, call the events.list method using the iCalUID parameter. To retrieve an event using its id, call the events.get method. */
-  iCalUID?: string | undefined;
-  /** A gadget that extends this event. Gadgets are deprecated; this structure is instead only used for returning birthday calendar metadata. */
-  gadget?: EventGadget | undefined;
-  /** Whether anyone can invite themselves to the event (deprecated). Optional. The default is False. */
-  anyoneCanAddSelf?: boolean | undefined;
-  /** An absolute link to this event in the Google Calendar Web UI. Read-only. */
-  htmlLink?: string | undefined;
-  /** Geographic location of the event as free-form text. Optional. */
-  location?: string | undefined;
-  /** Whether the event blocks time on the calendar. Optional. Possible values are: - "opaque" - Default value. The event does block time on the calendar. This is equivalent to setting Show me as to Busy in the Calendar UI. - "transparent" - The event does not block time on the calendar. This is equivalent to setting Show me as to Available in the Calendar UI. */
-  transparency?: string | undefined;
 }
-export interface InsertAclRequest {
+export interface InsertAclRequest extends AclRule {
   /** Calendar identifier. To retrieve calendar IDs call the calendarList.list method. If you want to access the primary calendar of the currently logged in user, use the "primary" keyword. */
   calendarId: string;
   /** Whether to send notifications about the calendar sharing change. Optional. The default is True. */
   sendNotifications?: boolean | undefined;
-  /** Identifier of the Access Control List (ACL) rule. See Sharing calendars. */
-  id?: string | undefined;
-  /** ETag of the resource. */
-  etag?: string | undefined;
-  /** The extent to which calendar access is granted by this ACL rule. */
-  scope?: AclRuleScope | undefined;
-  /** Type of the resource ("calendar#aclRule"). */
-  kind?: string | undefined;
-  /** The role assigned to the scope. Possible values are: - "none" - Provides no access. - "freeBusyReader" - Provides read access to free/busy information. - "reader" - Provides read access to the calendar. Private events will appear to users with reader access, but event details will be hidden. - "writerWithoutPrivateAccess" - Provides read and write access to the calendar. Private events will appear to users with writerWithoutPrivateAccess access, but event details will be hidden. - "writer" - Provides read and write access to the calendar. Private events will appear to users with writer access, and event details will be visible. Provides read access to the calendar's ACLs. - "owner" - Provides manager access to the calendar. This role has all of the permissions of the writer role with the additional ability to modify access levels of other users. Important: the owner role is different from the calendar's data owner. A calendar has a single data owner, but can have multiple users with owner role. */
-  role?: string | undefined;
 }
-export interface InsertCalendarListRequest {
+export interface InsertCalendarListRequest extends CalendarListEntry {
   /** Whether to use the foregroundColor and backgroundColor fields to write the calendar colors (RGB). If this feature is used, the index-based colorId field will be set to the best matching option automatically. Optional. The default is False. */
   colorRgbFormat?: boolean | undefined;
-  /** Whether the calendar is the primary calendar of the authenticated user. Read-only. Optional. The default is False. */
-  primary?: boolean | undefined;
-  /** Type of the resource ("calendar#calendarListEntry"). */
-  kind?: string | undefined;
-  /** Whether the calendar has been hidden from the list. Optional. The attribute is only returned when the calendar is hidden, in which case the value is true. */
-  hidden?: boolean | undefined;
-  /** The color of the calendar. This is an ID referring to an entry in the calendar section of the colors definition (see the colors endpoint). This property is superseded by the backgroundColor and foregroundColor properties and can be ignored when using these properties. Optional. */
-  colorId?: string | undefined;
-  /** ETag of the resource. */
-  etag?: string | undefined;
-  /** Description of the calendar. Optional. Read-only. */
-  description?: string | undefined;
-  /** Whether this calendar automatically accepts invitations. Only valid for resource calendars. Read-only. */
-  autoAcceptInvitations?: boolean | undefined;
-  /** Title of the calendar. Read-only. */
-  summary?: string | undefined;
-  /** The notifications that the authenticated user is receiving for this calendar. */
-  notificationSettings?: CalendarListEntryNotificationSettings | undefined;
-  /** The effective access role that the authenticated user has on the calendar. Read-only. Possible values are: - "freeBusyReader" - Provides read access to free/busy information. - "reader" - Provides read access to the calendar. Private events will appear to users with reader access, but event details will be hidden. - "writerWithoutPrivateAccess" - Provides read and write access to the calendar. Private events will appear to users with writerWithoutPrivateAccess access, but event details will be hidden. - "writer" - Provides read and write access to the calendar. Private events will appear to users with writer access, and event details will be visible. - "owner" - Provides manager access to the calendar. This role has all of the permissions of the writer role with the additional ability to see and modify access levels of other users. Important: the owner role is different from the calendar's data owner. A calendar has a single data owner, but can have multiple users with owner role. */
-  accessRole?: string | undefined;
-  /** The time zone of the calendar. Optional. Read-only. */
-  timeZone?: string | undefined;
-  /** The main color of the calendar in the hexadecimal format "#0088aa". This property supersedes the index-based colorId property. To set or change this property, you need to specify colorRgbFormat=true in the parameters of the insert, update and patch methods. Optional. */
-  backgroundColor?: string | undefined;
-  /** Whether this calendar list entry has been deleted from the calendar list. Read-only. Optional. The default is False. */
-  deleted?: boolean | undefined;
-  /** Whether the calendar content shows up in the calendar UI. Optional. The default is False. */
-  selected?: boolean | undefined;
-  /** Identifier of the calendar. */
-  id?: string | undefined;
-  /** Geographic location of the calendar as free-form text. Optional. Read-only. */
-  location?: string | undefined;
-  /** The foreground color of the calendar in the hexadecimal format "#ffffff". This property supersedes the index-based colorId property. To set or change this property, you need to specify colorRgbFormat=true in the parameters of the insert, update and patch methods. Optional. */
-  foregroundColor?: string | undefined;
-  /** The default reminders that the authenticated user has for this calendar. */
-  defaultReminders?: EventReminderList | undefined;
-  /** Conferencing properties for this calendar, for example what types of conferences are allowed. */
-  conferenceProperties?: ConferenceProperties | undefined;
-  /** The summary that the authenticated user has set for this calendar. Optional. */
-  summaryOverride?: string | undefined;
-  /** The email of the owner of the calendar. Set only for secondary calendars. Read-only. */
-  dataOwner?: string | undefined;
 }
-export interface InsertCalendarsRequest {
-  /** The time zone of the calendar. (Formatted as an IANA Time Zone Database name, e.g. "Europe/Zurich".) Optional. */
-  timeZone?: string | undefined;
-  /** Identifier of the calendar. To retrieve IDs call the calendarList.list() method. */
-  id?: string | undefined;
-  /** Whether this calendar automatically accepts invitations. Only valid for resource calendars. */
-  autoAcceptInvitations?: boolean | undefined;
-  /** ETag of the resource. */
-  etag?: string | undefined;
-  /** The email of the owner of the calendar. Set only for secondary calendars. Read-only. */
-  dataOwner?: string | undefined;
-  /** Description of the calendar. Optional. */
-  description?: string | undefined;
-  /** Label properties defined on this calendar. If specified, overwrites the existing label properties. If not specified, the label properties remain unchanged. */
-  labelProperties?: LabelProperties | undefined;
-  /** Represents the information about the user's working hours. Only available for primary calendars of Google Workspace users. To update the working hours, the entire working hours object must be passed. If not specified (or passed as null or an empty object), the existing working hours remain unchanged. To disable working hours or clear the schedule, set workingHoursEnabled to false (and omit availableTimes or pass an empty list). */
-  workingHours?: CalendarWorkingHours | undefined;
-  /** Type of the resource ("calendar#calendar"). */
-  kind?: string | undefined;
-  /** Conferencing properties for this calendar, for example what types of conferences are allowed. */
-  conferenceProperties?: ConferenceProperties | undefined;
-  /** Title of the calendar. */
-  summary?: string | undefined;
-  /** Geographic location of the calendar as free-form text. Optional. */
-  location?: string | undefined;
-}
+export interface InsertCalendarsRequest extends Calendar {}
 export type InsertEventsSendUpdatesEnum = "all" | "externalOnly" | "none";
-export interface InsertEventsRequest {
+export interface InsertEventsRequest extends Event {
   /** Version number of conference data supported by the API client. Version 0 assumes no conference data support and ignores conference data in the event's body. Version 1 enables support for copying of ConferenceData as well as for creating new conferences using the createRequest field of conferenceData. The default is 0. */
   conferenceDataVersion?: number | undefined;
   /** Deprecated. Please use sendUpdates instead. Whether to send notifications about the creation of the new event. Note that some emails might still be sent even if you set the value to false. The default is false. */
@@ -828,94 +663,6 @@ export interface InsertEventsRequest {
   maxAttendees?: number | undefined;
   /** Calendar identifier. To retrieve calendar IDs call the calendarList.list method. If you want to access the primary calendar of the currently logged in user, use the "primary" keyword. */
   calendarId: string;
-  /** Last modification time of the main event data (as a RFC3339 timestamp). Updating event reminders will not cause this to change. Read-only. */
-  updated?: string | undefined;
-  /** File attachments for the event. In order to modify attachments the supportsAttachments request parameter should be set to true. There can be at most 25 attachments per event, */
-  attachments?: EventAttachmentList | undefined;
-  /** Whether the end time is actually unspecified. An end time is still provided for compatibility reasons, even if this attribute is set to True. The default is False. */
-  endTimeUnspecified?: boolean | undefined;
-  /** Working location event data. */
-  workingLocationProperties?: EventWorkingLocationProperties | undefined;
-  /** Title of the event. */
-  summary?: string | undefined;
-  /** Whether attendees may have been omitted from the event's representation. When retrieving an event, this may be due to a restriction specified by the maxAttendee query parameter. When updating an event, this can be used to only update the participant's response. Optional. The default is False. */
-  attendeesOmitted?: boolean | undefined;
-  /** Birthday or special event data. Used if eventType is "birthday". Immutable. */
-  birthdayProperties?: EventBirthdayProperties | undefined;
-  /** The ID of the event label assigned to the event. Optional. This refers to the ID of an entry in the labelProperties.eventLabels property of the calendar (see the Calendars.get endpoint.) This property supersedes the index-based colorId property. To set or change this property, you need to specify eventLabelVersion=1 in the parameters of the insert, import, update, and patch methods. Setting an empty string, or not setting this field at all, will remove the existing label from the event. */
-  eventLabelId?: string | undefined;
-  /** The attendees of the event. See the Events with attendees guide for more information on scheduling events with other calendar users. Service accounts need to use domain-wide delegation of authority to populate the attendee list. */
-  attendees?: EventAttendeeList | undefined;
-  /** The color of the event. This is an ID referring to an entry in the event section of the colors definition (see the colors endpoint). Optional. */
-  colorId?: string | undefined;
-  /** For an instance of a recurring event, this is the id of the recurring event to which this instance belongs. Immutable. */
-  recurringEventId?: string | undefined;
-  /** For an instance of a recurring event, this is the time at which this event would start according to the recurrence data in the recurring event identified by recurringEventId. It uniquely identifies the instance within the recurring event series even if the instance was moved to a different time. Immutable. */
-  originalStartTime?: EventDateTime | undefined;
-  /** Sequence number as per iCalendar. */
-  sequence?: number | undefined;
-  /** The organizer of the event. If the organizer is also an attendee, this is indicated with a separate entry in attendees with the organizer field set to True. To change the organizer, use the move operation. Read-only, except when importing an event. */
-  organizer?: EventOrganizer | undefined;
-  /** Description of the event. Can contain HTML. Optional. */
-  description?: string | undefined;
-  /** An absolute link to the Google Hangout associated with this event. Read-only. */
-  hangoutLink?: string | undefined;
-  /** Opaque identifier of the event. When creating new single or recurring events, you can specify their IDs. Provided IDs must follow these rules: - characters allowed in the ID are those used in base32hex encoding, i.e. lowercase letters a-v and digits 0-9, see section 3.1.2 in RFC2938 - the length of the ID must be between 5 and 1024 characters - the ID must be unique per calendar Due to the globally distributed nature of the system, we cannot guarantee that ID collisions will be detected at event creation time. To minimize the risk of collisions we recommend using an established UUID algorithm such as one described in RFC4122. If you do not specify an ID, it will be automatically generated by the server. Note that the icalUID and the id are not identical and only one of them should be supplied at event creation time. One difference in their semantics is that in recurring events, all occurrences of one event have different ids while they all share the same icalUIDs. */
-  id?: string | undefined;
-  /** If set to True, Event propagation is disabled. Note that it is not the same thing as Private event properties. Optional. Immutable. The default is False. */
-  privateCopy?: boolean | undefined;
-  /** List of RRULE, EXRULE, RDATE and EXDATE lines for a recurring event, as specified in RFC5545. Note that DTSTART and DTEND lines are not allowed in this field; event start and end times are specified in the start and end fields. This field is omitted for single events or instances of recurring events. */
-  recurrence?: StringList | undefined;
-  /** Out of office event data. Used if eventType is outOfOffice. */
-  outOfOfficeProperties?: EventOutOfOfficeProperties | undefined;
-  /** The (inclusive) start time of the event. For a recurring event, this is the start time of the first instance. */
-  start?: EventDateTime | undefined;
-  /** Visibility of the event. Optional. Possible values are: - "default" - Uses the default visibility for events on the calendar. This is the default value. - "public" - The event is public and event details are visible to all readers of the calendar. - "private" - The event is private and only event attendees may view event details. - "confidential" - The event is private. This value is provided for compatibility reasons. Note on recurring events: Changing the visibility of a single instance of a recurring event can affect all instances of the series. If the new setting is more restrictive (e.g. from public to private), it is applied to all instances. If the new setting is less restrictive (e.g. from private to public), the change is ignored. To make a recurring event less restrictive, you must update the parent recurring event. */
-  visibility?: string | undefined;
-  /** The conference-related information, such as details of a Google Meet conference. To create new conference details use the createRequest field. To persist your changes, remember to set the conferenceDataVersion request parameter to 1 for all event modification requests. Warning: Reusing Google Meet conference data across different events can cause access issues and expose meeting details to unintended users. To help ensure meeting privacy, always generate a unique conference for each event by using the createRequest field. */
-  conferenceData?: ConferenceData | undefined;
-  /** Focus Time event data. Used if eventType is focusTime. */
-  focusTimeProperties?: EventFocusTimeProperties | undefined;
-  /** Whether attendees other than the organizer can see who the event's attendees are. Optional. The default is True. */
-  guestsCanSeeOtherGuests?: boolean | undefined;
-  /** Whether this is a locked event copy where no changes can be made to the main event fields "summary", "description", "location", "start", "end" or "recurrence". The default is False. Read-Only. */
-  locked?: boolean | undefined;
-  /** Information about the event's reminders for the authenticated user. Note that changing reminders does not also change the updated property of the enclosing event. */
-  reminders?: EventReminders | undefined;
-  /** Whether attendees other than the organizer can modify the event. Optional. The default is False. */
-  guestsCanModify?: boolean | undefined;
-  /** The creator of the event. Read-only. */
-  creator?: EventCreator | undefined;
-  /** Specific type of the event. This cannot be modified after the event is created. Possible values are: - "birthday" - A special all-day event with an annual recurrence. - "default" - A regular event or not further specified. - "focusTime" - A focus-time event. - "fromGmail" - An event from Gmail. This type of event cannot be created. - "outOfOffice" - An out-of-office event. - "workingLocation" - A working location event. */
-  eventType?: string | undefined;
-  /** Extended properties of the event. */
-  extendedProperties?: EventExtendedProperties | undefined;
-  /** Whether attendees other than the organizer can invite others to the event. Optional. The default is True. */
-  guestsCanInviteOthers?: boolean | undefined;
-  /** Type of the resource ("calendar#event"). */
-  kind?: string | undefined;
-  /** Status of the event. Optional. Possible values are: - "confirmed" - The event is confirmed. This is the default status. - "tentative" - The event is tentatively confirmed. - "cancelled" - The event is cancelled (deleted). The list method returns cancelled events only on incremental sync (when syncToken or updatedMin are specified) or if the showDeleted flag is set to true. The get method always returns them. A cancelled status represents two different states depending on the event type: - Cancelled exceptions of an uncancelled recurring event indicate that this instance should no longer be presented to the user. Clients should store these events for the lifetime of the parent recurring event. Cancelled exceptions are only guaranteed to have values for the id, recurringEventId and originalStartTime fields populated. The other fields might be empty. - All other cancelled events represent deleted events. Clients should remove their locally synced copies. Such cancelled events will eventually disappear, so do not rely on them being available indefinitely. Deleted events are only guaranteed to have the id field populated. On the organizer's calendar, cancelled events continue to expose event details (summary, location, etc.) so that they can be restored (undeleted). Similarly, the events to which the user was invited and that they manually removed continue to provide details. However, incremental sync requests with showDeleted set to false will not return these details. If an event changes its organizer (for example via the move operation) and the original organizer is not on the attendee list, it will leave behind a cancelled event where only the id field is guaranteed to be populated. */
-  status?: string | undefined;
-  /** Source from which the event was created. For example, a web page, an email message or any document identifiable by an URL with HTTP or HTTPS scheme. Can only be seen or modified by the creator of the event. */
-  source?: EventSource | undefined;
-  /** The (exclusive) end time of the event. For a recurring event, this is the end time of the first instance. */
-  end?: EventDateTime | undefined;
-  /** ETag of the resource. */
-  etag?: string | undefined;
-  /** Creation time of the event (as a RFC3339 timestamp). Read-only. */
-  created?: string | undefined;
-  /** Event unique identifier as defined in RFC5545. It is used to uniquely identify events accross calendaring systems and must be supplied when importing events via the import method. Note that the iCalUID and the id are not identical and only one of them should be supplied at event creation time. One difference in their semantics is that in recurring events, all occurrences of one event have different ids while they all share the same iCalUIDs. To retrieve an event using its iCalUID, call the events.list method using the iCalUID parameter. To retrieve an event using its id, call the events.get method. */
-  iCalUID?: string | undefined;
-  /** A gadget that extends this event. Gadgets are deprecated; this structure is instead only used for returning birthday calendar metadata. */
-  gadget?: EventGadget | undefined;
-  /** Whether anyone can invite themselves to the event (deprecated). Optional. The default is False. */
-  anyoneCanAddSelf?: boolean | undefined;
-  /** An absolute link to this event in the Google Calendar Web UI. Read-only. */
-  htmlLink?: string | undefined;
-  /** Geographic location of the event as free-form text. Optional. */
-  location?: string | undefined;
-  /** Whether the event blocks time on the calendar. Optional. Possible values are: - "opaque" - Default value. The event does block time on the calendar. This is equivalent to setting Show me as to Busy in the Calendar UI. - "transparent" - The event does not block time on the calendar. This is equivalent to setting Show me as to Available in the Calendar UI. */
-  transparency?: string | undefined;
 }
 export interface InstancesEventsRequest {
   /** Lower bound (inclusive) for an event's end time to filter by. Optional. The default is not to filter by end time. Must be an RFC3339 timestamp with mandatory time zone offset. */
@@ -1109,102 +856,26 @@ export interface MoveEventsRequest {
   /** Calendar identifier of the target calendar where the event is to be moved to. */
   destination: string;
 }
-export interface PatchAclRequest {
+export interface PatchAclRequest extends AclRule {
   /** Calendar identifier. To retrieve calendar IDs call the calendarList.list method. If you want to access the primary calendar of the currently logged in user, use the "primary" keyword. */
   calendarId: string;
   /** Whether to send notifications about the calendar sharing change. Note that there are no notifications on access removal. Optional. The default is True. */
   sendNotifications?: boolean | undefined;
   /** ACL rule identifier. */
   ruleId: string;
-  /** Identifier of the Access Control List (ACL) rule. See Sharing calendars. */
-  id?: string | undefined;
-  /** ETag of the resource. */
-  etag?: string | undefined;
-  /** The extent to which calendar access is granted by this ACL rule. */
-  scope?: AclRuleScope | undefined;
-  /** Type of the resource ("calendar#aclRule"). */
-  kind?: string | undefined;
-  /** The role assigned to the scope. Possible values are: - "none" - Provides no access. - "freeBusyReader" - Provides read access to free/busy information. - "reader" - Provides read access to the calendar. Private events will appear to users with reader access, but event details will be hidden. - "writerWithoutPrivateAccess" - Provides read and write access to the calendar. Private events will appear to users with writerWithoutPrivateAccess access, but event details will be hidden. - "writer" - Provides read and write access to the calendar. Private events will appear to users with writer access, and event details will be visible. Provides read access to the calendar's ACLs. - "owner" - Provides manager access to the calendar. This role has all of the permissions of the writer role with the additional ability to modify access levels of other users. Important: the owner role is different from the calendar's data owner. A calendar has a single data owner, but can have multiple users with owner role. */
-  role?: string | undefined;
 }
-export interface PatchCalendarListRequest {
+export interface PatchCalendarListRequest extends CalendarListEntry {
   /** Whether to use the foregroundColor and backgroundColor fields to write the calendar colors (RGB). If this feature is used, the index-based colorId field will be set to the best matching option automatically. Optional. The default is False. */
   colorRgbFormat?: boolean | undefined;
   /** Calendar identifier. To retrieve calendar IDs call the calendarList.list method. If you want to access the primary calendar of the currently logged in user, use the "primary" keyword. */
   calendarId: string;
-  /** Whether the calendar is the primary calendar of the authenticated user. Read-only. Optional. The default is False. */
-  primary?: boolean | undefined;
-  /** Type of the resource ("calendar#calendarListEntry"). */
-  kind?: string | undefined;
-  /** Whether the calendar has been hidden from the list. Optional. The attribute is only returned when the calendar is hidden, in which case the value is true. */
-  hidden?: boolean | undefined;
-  /** The color of the calendar. This is an ID referring to an entry in the calendar section of the colors definition (see the colors endpoint). This property is superseded by the backgroundColor and foregroundColor properties and can be ignored when using these properties. Optional. */
-  colorId?: string | undefined;
-  /** ETag of the resource. */
-  etag?: string | undefined;
-  /** Description of the calendar. Optional. Read-only. */
-  description?: string | undefined;
-  /** Whether this calendar automatically accepts invitations. Only valid for resource calendars. Read-only. */
-  autoAcceptInvitations?: boolean | undefined;
-  /** Title of the calendar. Read-only. */
-  summary?: string | undefined;
-  /** The notifications that the authenticated user is receiving for this calendar. */
-  notificationSettings?: CalendarListEntryNotificationSettings | undefined;
-  /** The effective access role that the authenticated user has on the calendar. Read-only. Possible values are: - "freeBusyReader" - Provides read access to free/busy information. - "reader" - Provides read access to the calendar. Private events will appear to users with reader access, but event details will be hidden. - "writerWithoutPrivateAccess" - Provides read and write access to the calendar. Private events will appear to users with writerWithoutPrivateAccess access, but event details will be hidden. - "writer" - Provides read and write access to the calendar. Private events will appear to users with writer access, and event details will be visible. - "owner" - Provides manager access to the calendar. This role has all of the permissions of the writer role with the additional ability to see and modify access levels of other users. Important: the owner role is different from the calendar's data owner. A calendar has a single data owner, but can have multiple users with owner role. */
-  accessRole?: string | undefined;
-  /** The time zone of the calendar. Optional. Read-only. */
-  timeZone?: string | undefined;
-  /** The main color of the calendar in the hexadecimal format "#0088aa". This property supersedes the index-based colorId property. To set or change this property, you need to specify colorRgbFormat=true in the parameters of the insert, update and patch methods. Optional. */
-  backgroundColor?: string | undefined;
-  /** Whether this calendar list entry has been deleted from the calendar list. Read-only. Optional. The default is False. */
-  deleted?: boolean | undefined;
-  /** Whether the calendar content shows up in the calendar UI. Optional. The default is False. */
-  selected?: boolean | undefined;
-  /** Identifier of the calendar. */
-  id?: string | undefined;
-  /** Geographic location of the calendar as free-form text. Optional. Read-only. */
-  location?: string | undefined;
-  /** The foreground color of the calendar in the hexadecimal format "#ffffff". This property supersedes the index-based colorId property. To set or change this property, you need to specify colorRgbFormat=true in the parameters of the insert, update and patch methods. Optional. */
-  foregroundColor?: string | undefined;
-  /** The default reminders that the authenticated user has for this calendar. */
-  defaultReminders?: EventReminderList | undefined;
-  /** Conferencing properties for this calendar, for example what types of conferences are allowed. */
-  conferenceProperties?: ConferenceProperties | undefined;
-  /** The summary that the authenticated user has set for this calendar. Optional. */
-  summaryOverride?: string | undefined;
-  /** The email of the owner of the calendar. Set only for secondary calendars. Read-only. */
-  dataOwner?: string | undefined;
 }
-export interface PatchCalendarsRequest {
+export interface PatchCalendarsRequest extends Calendar {
   /** Calendar identifier. To retrieve calendar IDs call the calendarList.list method. If you want to access the primary calendar of the currently logged in user, use the "primary" keyword. */
   calendarId: string;
-  /** The time zone of the calendar. (Formatted as an IANA Time Zone Database name, e.g. "Europe/Zurich".) Optional. */
-  timeZone?: string | undefined;
-  /** Identifier of the calendar. To retrieve IDs call the calendarList.list() method. */
-  id?: string | undefined;
-  /** Whether this calendar automatically accepts invitations. Only valid for resource calendars. */
-  autoAcceptInvitations?: boolean | undefined;
-  /** ETag of the resource. */
-  etag?: string | undefined;
-  /** The email of the owner of the calendar. Set only for secondary calendars. Read-only. */
-  dataOwner?: string | undefined;
-  /** Description of the calendar. Optional. */
-  description?: string | undefined;
-  /** Label properties defined on this calendar. If specified, overwrites the existing label properties. If not specified, the label properties remain unchanged. */
-  labelProperties?: LabelProperties | undefined;
-  /** Represents the information about the user's working hours. Only available for primary calendars of Google Workspace users. To update the working hours, the entire working hours object must be passed. If not specified (or passed as null or an empty object), the existing working hours remain unchanged. To disable working hours or clear the schedule, set workingHoursEnabled to false (and omit availableTimes or pass an empty list). */
-  workingHours?: CalendarWorkingHours | undefined;
-  /** Type of the resource ("calendar#calendar"). */
-  kind?: string | undefined;
-  /** Conferencing properties for this calendar, for example what types of conferences are allowed. */
-  conferenceProperties?: ConferenceProperties | undefined;
-  /** Title of the calendar. */
-  summary?: string | undefined;
-  /** Geographic location of the calendar as free-form text. Optional. */
-  location?: string | undefined;
 }
 export type PatchEventsSendUpdatesEnum = "all" | "externalOnly" | "none";
-export interface PatchEventsRequest {
+export interface PatchEventsRequest extends Event {
   /** Whether API client performing operation supports event attachments. Optional. The default is False. */
   supportsAttachments?: boolean | undefined;
   /** Version number of the event label feature supported by the API client. Version 0 assumes no event label support and processes the colorId field for color management. Version 1 enables support for event labels, and processes the eventLabelId in the event's body. In this case, the colorId field is ignored. The default is 0. */
@@ -1223,101 +894,13 @@ export interface PatchEventsRequest {
   sendNotifications?: boolean | undefined;
   /** Guests who should receive notifications about the event update (for example, title changes, etc.). */
   sendUpdates?: PatchEventsSendUpdatesEnum | (string & {}) | undefined;
-  /** Last modification time of the main event data (as a RFC3339 timestamp). Updating event reminders will not cause this to change. Read-only. */
-  updated?: string | undefined;
-  /** File attachments for the event. In order to modify attachments the supportsAttachments request parameter should be set to true. There can be at most 25 attachments per event, */
-  attachments?: EventAttachmentList | undefined;
-  /** Whether the end time is actually unspecified. An end time is still provided for compatibility reasons, even if this attribute is set to True. The default is False. */
-  endTimeUnspecified?: boolean | undefined;
-  /** Working location event data. */
-  workingLocationProperties?: EventWorkingLocationProperties | undefined;
-  /** Title of the event. */
-  summary?: string | undefined;
-  /** Whether attendees may have been omitted from the event's representation. When retrieving an event, this may be due to a restriction specified by the maxAttendee query parameter. When updating an event, this can be used to only update the participant's response. Optional. The default is False. */
-  attendeesOmitted?: boolean | undefined;
-  /** Birthday or special event data. Used if eventType is "birthday". Immutable. */
-  birthdayProperties?: EventBirthdayProperties | undefined;
-  /** The ID of the event label assigned to the event. Optional. This refers to the ID of an entry in the labelProperties.eventLabels property of the calendar (see the Calendars.get endpoint.) This property supersedes the index-based colorId property. To set or change this property, you need to specify eventLabelVersion=1 in the parameters of the insert, import, update, and patch methods. Setting an empty string, or not setting this field at all, will remove the existing label from the event. */
-  eventLabelId?: string | undefined;
-  /** The attendees of the event. See the Events with attendees guide for more information on scheduling events with other calendar users. Service accounts need to use domain-wide delegation of authority to populate the attendee list. */
-  attendees?: EventAttendeeList | undefined;
-  /** The color of the event. This is an ID referring to an entry in the event section of the colors definition (see the colors endpoint). Optional. */
-  colorId?: string | undefined;
-  /** For an instance of a recurring event, this is the id of the recurring event to which this instance belongs. Immutable. */
-  recurringEventId?: string | undefined;
-  /** For an instance of a recurring event, this is the time at which this event would start according to the recurrence data in the recurring event identified by recurringEventId. It uniquely identifies the instance within the recurring event series even if the instance was moved to a different time. Immutable. */
-  originalStartTime?: EventDateTime | undefined;
-  /** Sequence number as per iCalendar. */
-  sequence?: number | undefined;
-  /** The organizer of the event. If the organizer is also an attendee, this is indicated with a separate entry in attendees with the organizer field set to True. To change the organizer, use the move operation. Read-only, except when importing an event. */
-  organizer?: EventOrganizer | undefined;
-  /** Description of the event. Can contain HTML. Optional. */
-  description?: string | undefined;
-  /** An absolute link to the Google Hangout associated with this event. Read-only. */
-  hangoutLink?: string | undefined;
-  /** Opaque identifier of the event. When creating new single or recurring events, you can specify their IDs. Provided IDs must follow these rules: - characters allowed in the ID are those used in base32hex encoding, i.e. lowercase letters a-v and digits 0-9, see section 3.1.2 in RFC2938 - the length of the ID must be between 5 and 1024 characters - the ID must be unique per calendar Due to the globally distributed nature of the system, we cannot guarantee that ID collisions will be detected at event creation time. To minimize the risk of collisions we recommend using an established UUID algorithm such as one described in RFC4122. If you do not specify an ID, it will be automatically generated by the server. Note that the icalUID and the id are not identical and only one of them should be supplied at event creation time. One difference in their semantics is that in recurring events, all occurrences of one event have different ids while they all share the same icalUIDs. */
-  id?: string | undefined;
-  /** If set to True, Event propagation is disabled. Note that it is not the same thing as Private event properties. Optional. Immutable. The default is False. */
-  privateCopy?: boolean | undefined;
-  /** List of RRULE, EXRULE, RDATE and EXDATE lines for a recurring event, as specified in RFC5545. Note that DTSTART and DTEND lines are not allowed in this field; event start and end times are specified in the start and end fields. This field is omitted for single events or instances of recurring events. */
-  recurrence?: StringList | undefined;
-  /** Out of office event data. Used if eventType is outOfOffice. */
-  outOfOfficeProperties?: EventOutOfOfficeProperties | undefined;
-  /** The (inclusive) start time of the event. For a recurring event, this is the start time of the first instance. */
-  start?: EventDateTime | undefined;
-  /** Visibility of the event. Optional. Possible values are: - "default" - Uses the default visibility for events on the calendar. This is the default value. - "public" - The event is public and event details are visible to all readers of the calendar. - "private" - The event is private and only event attendees may view event details. - "confidential" - The event is private. This value is provided for compatibility reasons. Note on recurring events: Changing the visibility of a single instance of a recurring event can affect all instances of the series. If the new setting is more restrictive (e.g. from public to private), it is applied to all instances. If the new setting is less restrictive (e.g. from private to public), the change is ignored. To make a recurring event less restrictive, you must update the parent recurring event. */
-  visibility?: string | undefined;
-  /** The conference-related information, such as details of a Google Meet conference. To create new conference details use the createRequest field. To persist your changes, remember to set the conferenceDataVersion request parameter to 1 for all event modification requests. Warning: Reusing Google Meet conference data across different events can cause access issues and expose meeting details to unintended users. To help ensure meeting privacy, always generate a unique conference for each event by using the createRequest field. */
-  conferenceData?: ConferenceData | undefined;
-  /** Focus Time event data. Used if eventType is focusTime. */
-  focusTimeProperties?: EventFocusTimeProperties | undefined;
-  /** Whether attendees other than the organizer can see who the event's attendees are. Optional. The default is True. */
-  guestsCanSeeOtherGuests?: boolean | undefined;
-  /** Whether this is a locked event copy where no changes can be made to the main event fields "summary", "description", "location", "start", "end" or "recurrence". The default is False. Read-Only. */
-  locked?: boolean | undefined;
-  /** Information about the event's reminders for the authenticated user. Note that changing reminders does not also change the updated property of the enclosing event. */
-  reminders?: EventReminders | undefined;
-  /** Whether attendees other than the organizer can modify the event. Optional. The default is False. */
-  guestsCanModify?: boolean | undefined;
-  /** The creator of the event. Read-only. */
-  creator?: EventCreator | undefined;
-  /** Specific type of the event. This cannot be modified after the event is created. Possible values are: - "birthday" - A special all-day event with an annual recurrence. - "default" - A regular event or not further specified. - "focusTime" - A focus-time event. - "fromGmail" - An event from Gmail. This type of event cannot be created. - "outOfOffice" - An out-of-office event. - "workingLocation" - A working location event. */
-  eventType?: string | undefined;
-  /** Extended properties of the event. */
-  extendedProperties?: EventExtendedProperties | undefined;
-  /** Whether attendees other than the organizer can invite others to the event. Optional. The default is True. */
-  guestsCanInviteOthers?: boolean | undefined;
-  /** Type of the resource ("calendar#event"). */
-  kind?: string | undefined;
-  /** Status of the event. Optional. Possible values are: - "confirmed" - The event is confirmed. This is the default status. - "tentative" - The event is tentatively confirmed. - "cancelled" - The event is cancelled (deleted). The list method returns cancelled events only on incremental sync (when syncToken or updatedMin are specified) or if the showDeleted flag is set to true. The get method always returns them. A cancelled status represents two different states depending on the event type: - Cancelled exceptions of an uncancelled recurring event indicate that this instance should no longer be presented to the user. Clients should store these events for the lifetime of the parent recurring event. Cancelled exceptions are only guaranteed to have values for the id, recurringEventId and originalStartTime fields populated. The other fields might be empty. - All other cancelled events represent deleted events. Clients should remove their locally synced copies. Such cancelled events will eventually disappear, so do not rely on them being available indefinitely. Deleted events are only guaranteed to have the id field populated. On the organizer's calendar, cancelled events continue to expose event details (summary, location, etc.) so that they can be restored (undeleted). Similarly, the events to which the user was invited and that they manually removed continue to provide details. However, incremental sync requests with showDeleted set to false will not return these details. If an event changes its organizer (for example via the move operation) and the original organizer is not on the attendee list, it will leave behind a cancelled event where only the id field is guaranteed to be populated. */
-  status?: string | undefined;
-  /** Source from which the event was created. For example, a web page, an email message or any document identifiable by an URL with HTTP or HTTPS scheme. Can only be seen or modified by the creator of the event. */
-  source?: EventSource | undefined;
-  /** The (exclusive) end time of the event. For a recurring event, this is the end time of the first instance. */
-  end?: EventDateTime | undefined;
-  /** ETag of the resource. */
-  etag?: string | undefined;
-  /** Creation time of the event (as a RFC3339 timestamp). Read-only. */
-  created?: string | undefined;
-  /** Event unique identifier as defined in RFC5545. It is used to uniquely identify events accross calendaring systems and must be supplied when importing events via the import method. Note that the iCalUID and the id are not identical and only one of them should be supplied at event creation time. One difference in their semantics is that in recurring events, all occurrences of one event have different ids while they all share the same iCalUIDs. To retrieve an event using its iCalUID, call the events.list method using the iCalUID parameter. To retrieve an event using its id, call the events.get method. */
-  iCalUID?: string | undefined;
-  /** A gadget that extends this event. Gadgets are deprecated; this structure is instead only used for returning birthday calendar metadata. */
-  gadget?: EventGadget | undefined;
-  /** Whether anyone can invite themselves to the event (deprecated). Optional. The default is False. */
-  anyoneCanAddSelf?: boolean | undefined;
-  /** An absolute link to this event in the Google Calendar Web UI. Read-only. */
-  htmlLink?: string | undefined;
-  /** Geographic location of the event as free-form text. Optional. */
-  location?: string | undefined;
-  /** Whether the event blocks time on the calendar. Optional. Possible values are: - "opaque" - Default value. The event does block time on the calendar. This is equivalent to setting Show me as to Busy in the Calendar UI. - "transparent" - The event does not block time on the calendar. This is equivalent to setting Show me as to Available in the Calendar UI. */
-  transparency?: string | undefined;
 }
 export interface FreeBusyRequestItem {
   /** The identifier of a calendar or a group. */
   id?: string | undefined;
 }
 export type FreeBusyRequestItemList = Array<FreeBusyRequestItem>;
-export interface QueryFreebusyRequest {
+export interface FreeBusyRequest {
   /** Time zone used in the response. Optional. The default is UTC. */
   timeZone?: string | undefined;
   /** The end of the interval for the query formatted as per RFC3339. */
@@ -1331,6 +914,7 @@ export interface QueryFreebusyRequest {
   /** The start of the interval for the query formatted as per RFC3339. */
   timeMin?: string | undefined;
 }
+export interface QueryFreebusyRequest extends FreeBusyRequest {}
 export interface Calendar_Error {
   /** Domain, or broad category, of the error. */
   domain?: string | undefined;
@@ -1382,273 +966,6 @@ export interface QuickAddEventsRequest {
   /** Calendar identifier. To retrieve calendar IDs call the calendarList.list method. If you want to access the primary calendar of the currently logged in user, use the "primary" keyword. */
   calendarId: string;
 }
-export interface StopChannelsRequest {
-  /** The address where notifications are delivered for this channel. */
-  address?: string | undefined;
-  /** Date and time of notification channel expiration, expressed as a Unix timestamp, in milliseconds. Optional. */
-  expiration?: string | undefined;
-  /** A version-specific identifier for the watched resource. */
-  resourceUri?: string | undefined;
-  /** Identifies this as a notification channel used to watch for changes to a resource, which is "api#channel". */
-  kind?: string | undefined;
-  /** An opaque ID that identifies the resource being watched on this channel. Stable across different API versions. */
-  resourceId?: string | undefined;
-  /** The type of delivery mechanism used for this channel. Valid values are "web_hook" (or "webhook"). Both values refer to a channel where Http requests are used to deliver messages. */
-  type?: string | undefined;
-  /** Additional parameters controlling delivery channel behavior. Optional. */
-  params?: StringMap | undefined;
-  /** A UUID or similar unique string that identifies this channel. */
-  id?: string | undefined;
-  /** An arbitrary string delivered to the target address with each notification delivered over this channel. Optional. */
-  token?: string | undefined;
-  /** A Boolean value to indicate whether payload is wanted. Optional. */
-  payload?: boolean | undefined;
-}
-export interface StopChannelsResponse {}
-export interface TransferOwnershipCalendarsRequest {
-  /** Calendar identifier. To retrieve calendar IDs, call the calendarList.list method. */
-  calendarId: string;
-  /** When true, the method runs using the user's Google Workspace administrator privileges. The calling user must be a Google Workspace administrator with the Manage Calendars privilege. This method currently only supports admin access, thus only true is accepted for this field. */
-  useAdminAccess: boolean;
-  /** The email address of a user who will become the data owner of the calendar. */
-  newDataOwner: string;
-}
-export interface TransferOwnershipCalendarsResponse {}
-export interface UpdateAclRequest {
-  /** Whether to send notifications about the calendar sharing change. Note that there are no notifications on access removal. Optional. The default is True. */
-  sendNotifications?: boolean | undefined;
-  /** ACL rule identifier. */
-  ruleId: string;
-  /** Calendar identifier. To retrieve calendar IDs call the calendarList.list method. If you want to access the primary calendar of the currently logged in user, use the "primary" keyword. */
-  calendarId: string;
-  /** Identifier of the Access Control List (ACL) rule. See Sharing calendars. */
-  id?: string | undefined;
-  /** ETag of the resource. */
-  etag?: string | undefined;
-  /** The extent to which calendar access is granted by this ACL rule. */
-  scope?: AclRuleScope | undefined;
-  /** Type of the resource ("calendar#aclRule"). */
-  kind?: string | undefined;
-  /** The role assigned to the scope. Possible values are: - "none" - Provides no access. - "freeBusyReader" - Provides read access to free/busy information. - "reader" - Provides read access to the calendar. Private events will appear to users with reader access, but event details will be hidden. - "writerWithoutPrivateAccess" - Provides read and write access to the calendar. Private events will appear to users with writerWithoutPrivateAccess access, but event details will be hidden. - "writer" - Provides read and write access to the calendar. Private events will appear to users with writer access, and event details will be visible. Provides read access to the calendar's ACLs. - "owner" - Provides manager access to the calendar. This role has all of the permissions of the writer role with the additional ability to modify access levels of other users. Important: the owner role is different from the calendar's data owner. A calendar has a single data owner, but can have multiple users with owner role. */
-  role?: string | undefined;
-}
-export interface UpdateCalendarListRequest {
-  /** Calendar identifier. To retrieve calendar IDs call the calendarList.list method. If you want to access the primary calendar of the currently logged in user, use the "primary" keyword. */
-  calendarId: string;
-  /** Whether to use the foregroundColor and backgroundColor fields to write the calendar colors (RGB). If this feature is used, the index-based colorId field will be set to the best matching option automatically. Optional. The default is False. */
-  colorRgbFormat?: boolean | undefined;
-  /** Whether the calendar is the primary calendar of the authenticated user. Read-only. Optional. The default is False. */
-  primary?: boolean | undefined;
-  /** Type of the resource ("calendar#calendarListEntry"). */
-  kind?: string | undefined;
-  /** Whether the calendar has been hidden from the list. Optional. The attribute is only returned when the calendar is hidden, in which case the value is true. */
-  hidden?: boolean | undefined;
-  /** The color of the calendar. This is an ID referring to an entry in the calendar section of the colors definition (see the colors endpoint). This property is superseded by the backgroundColor and foregroundColor properties and can be ignored when using these properties. Optional. */
-  colorId?: string | undefined;
-  /** ETag of the resource. */
-  etag?: string | undefined;
-  /** Description of the calendar. Optional. Read-only. */
-  description?: string | undefined;
-  /** Whether this calendar automatically accepts invitations. Only valid for resource calendars. Read-only. */
-  autoAcceptInvitations?: boolean | undefined;
-  /** Title of the calendar. Read-only. */
-  summary?: string | undefined;
-  /** The notifications that the authenticated user is receiving for this calendar. */
-  notificationSettings?: CalendarListEntryNotificationSettings | undefined;
-  /** The effective access role that the authenticated user has on the calendar. Read-only. Possible values are: - "freeBusyReader" - Provides read access to free/busy information. - "reader" - Provides read access to the calendar. Private events will appear to users with reader access, but event details will be hidden. - "writerWithoutPrivateAccess" - Provides read and write access to the calendar. Private events will appear to users with writerWithoutPrivateAccess access, but event details will be hidden. - "writer" - Provides read and write access to the calendar. Private events will appear to users with writer access, and event details will be visible. - "owner" - Provides manager access to the calendar. This role has all of the permissions of the writer role with the additional ability to see and modify access levels of other users. Important: the owner role is different from the calendar's data owner. A calendar has a single data owner, but can have multiple users with owner role. */
-  accessRole?: string | undefined;
-  /** The time zone of the calendar. Optional. Read-only. */
-  timeZone?: string | undefined;
-  /** The main color of the calendar in the hexadecimal format "#0088aa". This property supersedes the index-based colorId property. To set or change this property, you need to specify colorRgbFormat=true in the parameters of the insert, update and patch methods. Optional. */
-  backgroundColor?: string | undefined;
-  /** Whether this calendar list entry has been deleted from the calendar list. Read-only. Optional. The default is False. */
-  deleted?: boolean | undefined;
-  /** Whether the calendar content shows up in the calendar UI. Optional. The default is False. */
-  selected?: boolean | undefined;
-  /** Identifier of the calendar. */
-  id?: string | undefined;
-  /** Geographic location of the calendar as free-form text. Optional. Read-only. */
-  location?: string | undefined;
-  /** The foreground color of the calendar in the hexadecimal format "#ffffff". This property supersedes the index-based colorId property. To set or change this property, you need to specify colorRgbFormat=true in the parameters of the insert, update and patch methods. Optional. */
-  foregroundColor?: string | undefined;
-  /** The default reminders that the authenticated user has for this calendar. */
-  defaultReminders?: EventReminderList | undefined;
-  /** Conferencing properties for this calendar, for example what types of conferences are allowed. */
-  conferenceProperties?: ConferenceProperties | undefined;
-  /** The summary that the authenticated user has set for this calendar. Optional. */
-  summaryOverride?: string | undefined;
-  /** The email of the owner of the calendar. Set only for secondary calendars. Read-only. */
-  dataOwner?: string | undefined;
-}
-export interface UpdateCalendarsRequest {
-  /** Calendar identifier. To retrieve calendar IDs call the calendarList.list method. If you want to access the primary calendar of the currently logged in user, use the "primary" keyword. */
-  calendarId: string;
-  /** The time zone of the calendar. (Formatted as an IANA Time Zone Database name, e.g. "Europe/Zurich".) Optional. */
-  timeZone?: string | undefined;
-  /** Identifier of the calendar. To retrieve IDs call the calendarList.list() method. */
-  id?: string | undefined;
-  /** Whether this calendar automatically accepts invitations. Only valid for resource calendars. */
-  autoAcceptInvitations?: boolean | undefined;
-  /** ETag of the resource. */
-  etag?: string | undefined;
-  /** The email of the owner of the calendar. Set only for secondary calendars. Read-only. */
-  dataOwner?: string | undefined;
-  /** Description of the calendar. Optional. */
-  description?: string | undefined;
-  /** Label properties defined on this calendar. If specified, overwrites the existing label properties. If not specified, the label properties remain unchanged. */
-  labelProperties?: LabelProperties | undefined;
-  /** Represents the information about the user's working hours. Only available for primary calendars of Google Workspace users. To update the working hours, the entire working hours object must be passed. If not specified (or passed as null or an empty object), the existing working hours remain unchanged. To disable working hours or clear the schedule, set workingHoursEnabled to false (and omit availableTimes or pass an empty list). */
-  workingHours?: CalendarWorkingHours | undefined;
-  /** Type of the resource ("calendar#calendar"). */
-  kind?: string | undefined;
-  /** Conferencing properties for this calendar, for example what types of conferences are allowed. */
-  conferenceProperties?: ConferenceProperties | undefined;
-  /** Title of the calendar. */
-  summary?: string | undefined;
-  /** Geographic location of the calendar as free-form text. Optional. */
-  location?: string | undefined;
-}
-export type UpdateEventsSendUpdatesEnum = "all" | "externalOnly" | "none";
-export interface UpdateEventsRequest {
-  /** The maximum number of attendees to include in the response. If there are more than the specified number of attendees, only the participant is returned. Optional. */
-  maxAttendees?: number | undefined;
-  /** Event identifier. */
-  eventId: string;
-  /** Deprecated. Please use sendUpdates instead. Whether to send notifications about the event update (for example, description changes, etc.). Note that some emails might still be sent even if you set the value to false. The default is false. */
-  sendNotifications?: boolean | undefined;
-  /** Calendar identifier. To retrieve calendar IDs call the calendarList.list method. If you want to access the primary calendar of the currently logged in user, use the "primary" keyword. */
-  calendarId: string;
-  /** Deprecated and ignored. A value will always be returned in the email field for the organizer, creator and attendees, even if no real email address is available (i.e. a generated, non-working value will be provided). */
-  alwaysIncludeEmail?: boolean | undefined;
-  /** Version number of conference data supported by the API client. Version 0 assumes no conference data support and ignores conference data in the event's body. Version 1 enables support for copying of ConferenceData as well as for creating new conferences using the createRequest field of conferenceData. The default is 0. */
-  conferenceDataVersion?: number | undefined;
-  /** Guests who should receive notifications about the event update (for example, title changes, etc.). */
-  sendUpdates?: UpdateEventsSendUpdatesEnum | (string & {}) | undefined;
-  /** Whether API client performing operation supports event attachments. Optional. The default is False. */
-  supportsAttachments?: boolean | undefined;
-  /** Version number of the event label feature supported by the API client. Version 0 assumes no event label support and processes the colorId field for color management. Version 1 enables support for event labels, and processes the eventLabelId in the event's body. In this case, the colorId field is ignored. The default is 0. */
-  eventLabelVersion?: number | undefined;
-  /** Last modification time of the main event data (as a RFC3339 timestamp). Updating event reminders will not cause this to change. Read-only. */
-  updated?: string | undefined;
-  /** File attachments for the event. In order to modify attachments the supportsAttachments request parameter should be set to true. There can be at most 25 attachments per event, */
-  attachments?: EventAttachmentList | undefined;
-  /** Whether the end time is actually unspecified. An end time is still provided for compatibility reasons, even if this attribute is set to True. The default is False. */
-  endTimeUnspecified?: boolean | undefined;
-  /** Working location event data. */
-  workingLocationProperties?: EventWorkingLocationProperties | undefined;
-  /** Title of the event. */
-  summary?: string | undefined;
-  /** Whether attendees may have been omitted from the event's representation. When retrieving an event, this may be due to a restriction specified by the maxAttendee query parameter. When updating an event, this can be used to only update the participant's response. Optional. The default is False. */
-  attendeesOmitted?: boolean | undefined;
-  /** Birthday or special event data. Used if eventType is "birthday". Immutable. */
-  birthdayProperties?: EventBirthdayProperties | undefined;
-  /** The ID of the event label assigned to the event. Optional. This refers to the ID of an entry in the labelProperties.eventLabels property of the calendar (see the Calendars.get endpoint.) This property supersedes the index-based colorId property. To set or change this property, you need to specify eventLabelVersion=1 in the parameters of the insert, import, update, and patch methods. Setting an empty string, or not setting this field at all, will remove the existing label from the event. */
-  eventLabelId?: string | undefined;
-  /** The attendees of the event. See the Events with attendees guide for more information on scheduling events with other calendar users. Service accounts need to use domain-wide delegation of authority to populate the attendee list. */
-  attendees?: EventAttendeeList | undefined;
-  /** The color of the event. This is an ID referring to an entry in the event section of the colors definition (see the colors endpoint). Optional. */
-  colorId?: string | undefined;
-  /** For an instance of a recurring event, this is the id of the recurring event to which this instance belongs. Immutable. */
-  recurringEventId?: string | undefined;
-  /** For an instance of a recurring event, this is the time at which this event would start according to the recurrence data in the recurring event identified by recurringEventId. It uniquely identifies the instance within the recurring event series even if the instance was moved to a different time. Immutable. */
-  originalStartTime?: EventDateTime | undefined;
-  /** Sequence number as per iCalendar. */
-  sequence?: number | undefined;
-  /** The organizer of the event. If the organizer is also an attendee, this is indicated with a separate entry in attendees with the organizer field set to True. To change the organizer, use the move operation. Read-only, except when importing an event. */
-  organizer?: EventOrganizer | undefined;
-  /** Description of the event. Can contain HTML. Optional. */
-  description?: string | undefined;
-  /** An absolute link to the Google Hangout associated with this event. Read-only. */
-  hangoutLink?: string | undefined;
-  /** Opaque identifier of the event. When creating new single or recurring events, you can specify their IDs. Provided IDs must follow these rules: - characters allowed in the ID are those used in base32hex encoding, i.e. lowercase letters a-v and digits 0-9, see section 3.1.2 in RFC2938 - the length of the ID must be between 5 and 1024 characters - the ID must be unique per calendar Due to the globally distributed nature of the system, we cannot guarantee that ID collisions will be detected at event creation time. To minimize the risk of collisions we recommend using an established UUID algorithm such as one described in RFC4122. If you do not specify an ID, it will be automatically generated by the server. Note that the icalUID and the id are not identical and only one of them should be supplied at event creation time. One difference in their semantics is that in recurring events, all occurrences of one event have different ids while they all share the same icalUIDs. */
-  id?: string | undefined;
-  /** If set to True, Event propagation is disabled. Note that it is not the same thing as Private event properties. Optional. Immutable. The default is False. */
-  privateCopy?: boolean | undefined;
-  /** List of RRULE, EXRULE, RDATE and EXDATE lines for a recurring event, as specified in RFC5545. Note that DTSTART and DTEND lines are not allowed in this field; event start and end times are specified in the start and end fields. This field is omitted for single events or instances of recurring events. */
-  recurrence?: StringList | undefined;
-  /** Out of office event data. Used if eventType is outOfOffice. */
-  outOfOfficeProperties?: EventOutOfOfficeProperties | undefined;
-  /** The (inclusive) start time of the event. For a recurring event, this is the start time of the first instance. */
-  start?: EventDateTime | undefined;
-  /** Visibility of the event. Optional. Possible values are: - "default" - Uses the default visibility for events on the calendar. This is the default value. - "public" - The event is public and event details are visible to all readers of the calendar. - "private" - The event is private and only event attendees may view event details. - "confidential" - The event is private. This value is provided for compatibility reasons. Note on recurring events: Changing the visibility of a single instance of a recurring event can affect all instances of the series. If the new setting is more restrictive (e.g. from public to private), it is applied to all instances. If the new setting is less restrictive (e.g. from private to public), the change is ignored. To make a recurring event less restrictive, you must update the parent recurring event. */
-  visibility?: string | undefined;
-  /** The conference-related information, such as details of a Google Meet conference. To create new conference details use the createRequest field. To persist your changes, remember to set the conferenceDataVersion request parameter to 1 for all event modification requests. Warning: Reusing Google Meet conference data across different events can cause access issues and expose meeting details to unintended users. To help ensure meeting privacy, always generate a unique conference for each event by using the createRequest field. */
-  conferenceData?: ConferenceData | undefined;
-  /** Focus Time event data. Used if eventType is focusTime. */
-  focusTimeProperties?: EventFocusTimeProperties | undefined;
-  /** Whether attendees other than the organizer can see who the event's attendees are. Optional. The default is True. */
-  guestsCanSeeOtherGuests?: boolean | undefined;
-  /** Whether this is a locked event copy where no changes can be made to the main event fields "summary", "description", "location", "start", "end" or "recurrence". The default is False. Read-Only. */
-  locked?: boolean | undefined;
-  /** Information about the event's reminders for the authenticated user. Note that changing reminders does not also change the updated property of the enclosing event. */
-  reminders?: EventReminders | undefined;
-  /** Whether attendees other than the organizer can modify the event. Optional. The default is False. */
-  guestsCanModify?: boolean | undefined;
-  /** The creator of the event. Read-only. */
-  creator?: EventCreator | undefined;
-  /** Specific type of the event. This cannot be modified after the event is created. Possible values are: - "birthday" - A special all-day event with an annual recurrence. - "default" - A regular event or not further specified. - "focusTime" - A focus-time event. - "fromGmail" - An event from Gmail. This type of event cannot be created. - "outOfOffice" - An out-of-office event. - "workingLocation" - A working location event. */
-  eventType?: string | undefined;
-  /** Extended properties of the event. */
-  extendedProperties?: EventExtendedProperties | undefined;
-  /** Whether attendees other than the organizer can invite others to the event. Optional. The default is True. */
-  guestsCanInviteOthers?: boolean | undefined;
-  /** Type of the resource ("calendar#event"). */
-  kind?: string | undefined;
-  /** Status of the event. Optional. Possible values are: - "confirmed" - The event is confirmed. This is the default status. - "tentative" - The event is tentatively confirmed. - "cancelled" - The event is cancelled (deleted). The list method returns cancelled events only on incremental sync (when syncToken or updatedMin are specified) or if the showDeleted flag is set to true. The get method always returns them. A cancelled status represents two different states depending on the event type: - Cancelled exceptions of an uncancelled recurring event indicate that this instance should no longer be presented to the user. Clients should store these events for the lifetime of the parent recurring event. Cancelled exceptions are only guaranteed to have values for the id, recurringEventId and originalStartTime fields populated. The other fields might be empty. - All other cancelled events represent deleted events. Clients should remove their locally synced copies. Such cancelled events will eventually disappear, so do not rely on them being available indefinitely. Deleted events are only guaranteed to have the id field populated. On the organizer's calendar, cancelled events continue to expose event details (summary, location, etc.) so that they can be restored (undeleted). Similarly, the events to which the user was invited and that they manually removed continue to provide details. However, incremental sync requests with showDeleted set to false will not return these details. If an event changes its organizer (for example via the move operation) and the original organizer is not on the attendee list, it will leave behind a cancelled event where only the id field is guaranteed to be populated. */
-  status?: string | undefined;
-  /** Source from which the event was created. For example, a web page, an email message or any document identifiable by an URL with HTTP or HTTPS scheme. Can only be seen or modified by the creator of the event. */
-  source?: EventSource | undefined;
-  /** The (exclusive) end time of the event. For a recurring event, this is the end time of the first instance. */
-  end?: EventDateTime | undefined;
-  /** ETag of the resource. */
-  etag?: string | undefined;
-  /** Creation time of the event (as a RFC3339 timestamp). Read-only. */
-  created?: string | undefined;
-  /** Event unique identifier as defined in RFC5545. It is used to uniquely identify events accross calendaring systems and must be supplied when importing events via the import method. Note that the iCalUID and the id are not identical and only one of them should be supplied at event creation time. One difference in their semantics is that in recurring events, all occurrences of one event have different ids while they all share the same iCalUIDs. To retrieve an event using its iCalUID, call the events.list method using the iCalUID parameter. To retrieve an event using its id, call the events.get method. */
-  iCalUID?: string | undefined;
-  /** A gadget that extends this event. Gadgets are deprecated; this structure is instead only used for returning birthday calendar metadata. */
-  gadget?: EventGadget | undefined;
-  /** Whether anyone can invite themselves to the event (deprecated). Optional. The default is False. */
-  anyoneCanAddSelf?: boolean | undefined;
-  /** An absolute link to this event in the Google Calendar Web UI. Read-only. */
-  htmlLink?: string | undefined;
-  /** Geographic location of the event as free-form text. Optional. */
-  location?: string | undefined;
-  /** Whether the event blocks time on the calendar. Optional. Possible values are: - "opaque" - Default value. The event does block time on the calendar. This is equivalent to setting Show me as to Busy in the Calendar UI. - "transparent" - The event does not block time on the calendar. This is equivalent to setting Show me as to Available in the Calendar UI. */
-  transparency?: string | undefined;
-}
-export interface WatchAclRequest {
-  /** Maximum number of entries returned on one result page. By default the value is 100 entries. The page size can never be larger than 250 entries. Optional. */
-  maxResults?: number | undefined;
-  /** Token specifying which result page to return. Optional. */
-  pageToken?: string | undefined;
-  /** Calendar identifier. To retrieve calendar IDs call the calendarList.list method. If you want to access the primary calendar of the currently logged in user, use the "primary" keyword. */
-  calendarId: string;
-  /** Token obtained from the nextSyncToken field returned on the last page of results from the previous list request. It makes the result of this list request contain only entries that have changed since then. All entries deleted since the previous list request will always be in the result set and it is not allowed to set showDeleted to False. If the syncToken expires, the server will respond with a 410 GONE response code and the client should clear its storage and perform a full synchronization without any syncToken. Learn more about incremental synchronization. Optional. The default is to return all entries. */
-  syncToken?: string | undefined;
-  /** Whether to include deleted ACLs in the result. Deleted ACLs are represented by role equal to "none". Deleted ACLs will always be included if syncToken is provided. Optional. The default is False. */
-  showDeleted?: boolean | undefined;
-  /** The address where notifications are delivered for this channel. */
-  address?: string | undefined;
-  /** Date and time of notification channel expiration, expressed as a Unix timestamp, in milliseconds. Optional. */
-  expiration?: string | undefined;
-  /** A version-specific identifier for the watched resource. */
-  resourceUri?: string | undefined;
-  /** Identifies this as a notification channel used to watch for changes to a resource, which is "api#channel". */
-  kind?: string | undefined;
-  /** An opaque ID that identifies the resource being watched on this channel. Stable across different API versions. */
-  resourceId?: string | undefined;
-  /** The type of delivery mechanism used for this channel. Valid values are "web_hook" (or "webhook"). Both values refer to a channel where Http requests are used to deliver messages. */
-  type?: string | undefined;
-  /** Additional parameters controlling delivery channel behavior. Optional. */
-  params?: StringMap | undefined;
-  /** A UUID or similar unique string that identifies this channel. */
-  id?: string | undefined;
-  /** An arbitrary string delivered to the target address with each notification delivered over this channel. Optional. */
-  token?: string | undefined;
-  /** A Boolean value to indicate whether payload is wanted. Optional. */
-  payload?: boolean | undefined;
-}
 export interface Channel {
   /** The address where notifications are delivered for this channel. */
   address?: string | undefined;
@@ -1671,13 +988,75 @@ export interface Channel {
   /** A Boolean value to indicate whether payload is wanted. Optional. */
   payload?: boolean | undefined;
 }
+export interface StopChannelsRequest extends Channel {}
+export interface StopChannelsResponse {}
+export interface TransferOwnershipCalendarsRequest {
+  /** Calendar identifier. To retrieve calendar IDs, call the calendarList.list method. */
+  calendarId: string;
+  /** When true, the method runs using the user's Google Workspace administrator privileges. The calling user must be a Google Workspace administrator with the Manage Calendars privilege. This method currently only supports admin access, thus only true is accepted for this field. */
+  useAdminAccess: boolean;
+  /** The email address of a user who will become the data owner of the calendar. */
+  newDataOwner: string;
+}
+export interface TransferOwnershipCalendarsResponse {}
+export interface UpdateAclRequest extends AclRule {
+  /** Whether to send notifications about the calendar sharing change. Note that there are no notifications on access removal. Optional. The default is True. */
+  sendNotifications?: boolean | undefined;
+  /** ACL rule identifier. */
+  ruleId: string;
+  /** Calendar identifier. To retrieve calendar IDs call the calendarList.list method. If you want to access the primary calendar of the currently logged in user, use the "primary" keyword. */
+  calendarId: string;
+}
+export interface UpdateCalendarListRequest extends CalendarListEntry {
+  /** Calendar identifier. To retrieve calendar IDs call the calendarList.list method. If you want to access the primary calendar of the currently logged in user, use the "primary" keyword. */
+  calendarId: string;
+  /** Whether to use the foregroundColor and backgroundColor fields to write the calendar colors (RGB). If this feature is used, the index-based colorId field will be set to the best matching option automatically. Optional. The default is False. */
+  colorRgbFormat?: boolean | undefined;
+}
+export interface UpdateCalendarsRequest extends Calendar {
+  /** Calendar identifier. To retrieve calendar IDs call the calendarList.list method. If you want to access the primary calendar of the currently logged in user, use the "primary" keyword. */
+  calendarId: string;
+}
+export type UpdateEventsSendUpdatesEnum = "all" | "externalOnly" | "none";
+export interface UpdateEventsRequest extends Event {
+  /** The maximum number of attendees to include in the response. If there are more than the specified number of attendees, only the participant is returned. Optional. */
+  maxAttendees?: number | undefined;
+  /** Event identifier. */
+  eventId: string;
+  /** Deprecated. Please use sendUpdates instead. Whether to send notifications about the event update (for example, description changes, etc.). Note that some emails might still be sent even if you set the value to false. The default is false. */
+  sendNotifications?: boolean | undefined;
+  /** Calendar identifier. To retrieve calendar IDs call the calendarList.list method. If you want to access the primary calendar of the currently logged in user, use the "primary" keyword. */
+  calendarId: string;
+  /** Deprecated and ignored. A value will always be returned in the email field for the organizer, creator and attendees, even if no real email address is available (i.e. a generated, non-working value will be provided). */
+  alwaysIncludeEmail?: boolean | undefined;
+  /** Version number of conference data supported by the API client. Version 0 assumes no conference data support and ignores conference data in the event's body. Version 1 enables support for copying of ConferenceData as well as for creating new conferences using the createRequest field of conferenceData. The default is 0. */
+  conferenceDataVersion?: number | undefined;
+  /** Guests who should receive notifications about the event update (for example, title changes, etc.). */
+  sendUpdates?: UpdateEventsSendUpdatesEnum | (string & {}) | undefined;
+  /** Whether API client performing operation supports event attachments. Optional. The default is False. */
+  supportsAttachments?: boolean | undefined;
+  /** Version number of the event label feature supported by the API client. Version 0 assumes no event label support and processes the colorId field for color management. Version 1 enables support for event labels, and processes the eventLabelId in the event's body. In this case, the colorId field is ignored. The default is 0. */
+  eventLabelVersion?: number | undefined;
+}
+export interface WatchAclRequest extends Channel {
+  /** Maximum number of entries returned on one result page. By default the value is 100 entries. The page size can never be larger than 250 entries. Optional. */
+  maxResults?: number | undefined;
+  /** Token specifying which result page to return. Optional. */
+  pageToken?: string | undefined;
+  /** Calendar identifier. To retrieve calendar IDs call the calendarList.list method. If you want to access the primary calendar of the currently logged in user, use the "primary" keyword. */
+  calendarId: string;
+  /** Token obtained from the nextSyncToken field returned on the last page of results from the previous list request. It makes the result of this list request contain only entries that have changed since then. All entries deleted since the previous list request will always be in the result set and it is not allowed to set showDeleted to False. If the syncToken expires, the server will respond with a 410 GONE response code and the client should clear its storage and perform a full synchronization without any syncToken. Learn more about incremental synchronization. Optional. The default is to return all entries. */
+  syncToken?: string | undefined;
+  /** Whether to include deleted ACLs in the result. Deleted ACLs are represented by role equal to "none". Deleted ACLs will always be included if syncToken is provided. Optional. The default is False. */
+  showDeleted?: boolean | undefined;
+}
 export type WatchCalendarListMinAccessRoleEnum =
   | "freeBusyReader"
   | "owner"
   | "reader"
   | "writer"
   | "writerWithoutPrivateAccess";
-export interface WatchCalendarListRequest {
+export interface WatchCalendarListRequest extends Channel {
   /** The minimum access role for the user in the returned entries. Optional. The default is no restriction. */
   minAccessRole?: WatchCalendarListMinAccessRoleEnum | (string & {}) | undefined;
   /** Token specifying which result page to return. Optional. */
@@ -1692,26 +1071,6 @@ export interface WatchCalendarListRequest {
   showHidden?: boolean | undefined;
   /** Maximum number of entries returned on one result page. By default the value is 100 entries. The page size can never be larger than 250 entries. Optional. */
   maxResults?: number | undefined;
-  /** The address where notifications are delivered for this channel. */
-  address?: string | undefined;
-  /** Date and time of notification channel expiration, expressed as a Unix timestamp, in milliseconds. Optional. */
-  expiration?: string | undefined;
-  /** A version-specific identifier for the watched resource. */
-  resourceUri?: string | undefined;
-  /** Identifies this as a notification channel used to watch for changes to a resource, which is "api#channel". */
-  kind?: string | undefined;
-  /** An opaque ID that identifies the resource being watched on this channel. Stable across different API versions. */
-  resourceId?: string | undefined;
-  /** The type of delivery mechanism used for this channel. Valid values are "web_hook" (or "webhook"). Both values refer to a channel where Http requests are used to deliver messages. */
-  type?: string | undefined;
-  /** Additional parameters controlling delivery channel behavior. Optional. */
-  params?: StringMap | undefined;
-  /** A UUID or similar unique string that identifies this channel. */
-  id?: string | undefined;
-  /** An arbitrary string delivered to the target address with each notification delivered over this channel. Optional. */
-  token?: string | undefined;
-  /** A Boolean value to indicate whether payload is wanted. Optional. */
-  payload?: boolean | undefined;
 }
 export type WatchEventsEventTypesEnum =
   | "birthday"
@@ -1722,7 +1081,7 @@ export type WatchEventsEventTypesEnum =
   | "workingLocation";
 export type WatchEventsEventTypesEnumList = Array<WatchEventsEventTypesEnum | (string & {})>;
 export type WatchEventsOrderByEnum = "startTime" | "updated";
-export interface WatchEventsRequest {
+export interface WatchEventsRequest extends Channel {
   /** Event types to return. Optional. This parameter can be repeated multiple times to return events of different types. If unset, returns all event types. */
   eventTypes?: WatchEventsEventTypesEnumList | undefined;
   /** The order of the events returned in the result. Optional. The default is an unspecified, stable order. */
@@ -1761,54 +1120,14 @@ export interface WatchEventsRequest {
   timeMax?: string | undefined;
   /** Free text search terms to find events that match these terms in the following fields: - summary - description - location - attendee's displayName - attendee's email - organizer's displayName - organizer's email - workingLocationProperties.officeLocation.buildingId - workingLocationProperties.officeLocation.deskId - workingLocationProperties.officeLocation.label - workingLocationProperties.customLocation.label These search terms also match predefined keywords against all display title translations of working location, out-of-office, and focus-time events. For example, searching for "Office" or "Bureau" returns working location events of type officeLocation, whereas searching for "Out of office" or "Abwesend" returns out-of-office events. Optional. */
   q?: string | undefined;
-  /** The address where notifications are delivered for this channel. */
-  address?: string | undefined;
-  /** Date and time of notification channel expiration, expressed as a Unix timestamp, in milliseconds. Optional. */
-  expiration?: string | undefined;
-  /** A version-specific identifier for the watched resource. */
-  resourceUri?: string | undefined;
-  /** Identifies this as a notification channel used to watch for changes to a resource, which is "api#channel". */
-  kind?: string | undefined;
-  /** An opaque ID that identifies the resource being watched on this channel. Stable across different API versions. */
-  resourceId?: string | undefined;
-  /** The type of delivery mechanism used for this channel. Valid values are "web_hook" (or "webhook"). Both values refer to a channel where Http requests are used to deliver messages. */
-  type?: string | undefined;
-  /** Additional parameters controlling delivery channel behavior. Optional. */
-  params?: StringMap | undefined;
-  /** A UUID or similar unique string that identifies this channel. */
-  id?: string | undefined;
-  /** An arbitrary string delivered to the target address with each notification delivered over this channel. Optional. */
-  token?: string | undefined;
-  /** A Boolean value to indicate whether payload is wanted. Optional. */
-  payload?: boolean | undefined;
 }
-export interface WatchSettingsRequest {
+export interface WatchSettingsRequest extends Channel {
   /** Token obtained from the nextSyncToken field returned on the last page of results from the previous list request. It makes the result of this list request contain only entries that have changed since then. If the syncToken expires, the server will respond with a 410 GONE response code and the client should clear its storage and perform a full synchronization without any syncToken. Learn more about incremental synchronization. Optional. The default is to return all entries. */
   syncToken?: string | undefined;
   /** Maximum number of entries returned on one result page. By default the value is 100 entries. The page size can never be larger than 250 entries. Optional. */
   maxResults?: number | undefined;
   /** Token specifying which result page to return. Optional. */
   pageToken?: string | undefined;
-  /** The address where notifications are delivered for this channel. */
-  address?: string | undefined;
-  /** Date and time of notification channel expiration, expressed as a Unix timestamp, in milliseconds. Optional. */
-  expiration?: string | undefined;
-  /** A version-specific identifier for the watched resource. */
-  resourceUri?: string | undefined;
-  /** Identifies this as a notification channel used to watch for changes to a resource, which is "api#channel". */
-  kind?: string | undefined;
-  /** An opaque ID that identifies the resource being watched on this channel. Stable across different API versions. */
-  resourceId?: string | undefined;
-  /** The type of delivery mechanism used for this channel. Valid values are "web_hook" (or "webhook"). Both values refer to a channel where Http requests are used to deliver messages. */
-  type?: string | undefined;
-  /** Additional parameters controlling delivery channel behavior. Optional. */
-  params?: StringMap | undefined;
-  /** A UUID or similar unique string that identifies this channel. */
-  id?: string | undefined;
-  /** An arbitrary string delivered to the target address with each notification delivered over this channel. Optional. */
-  token?: string | undefined;
-  /** A Boolean value to indicate whether payload is wanted. Optional. */
-  payload?: boolean | undefined;
 }
 export type ClearCalendarsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
 /** Clears a primary calendar. This operation deletes all events associated with the primary calendar of an account. */
@@ -2258,8 +1577,8 @@ export const queryFreebusy: API.OperationMethod<
   QueryFreebusyError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(962, __c30, 2) as any as S.Schema<QueryFreebusyRequest>,
-  output: __S(971, __c30, 11) as any as S.Schema<FreeBusyResponse>,
+  input: __S(963, __c30, 3) as any as S.Schema<QueryFreebusyRequest>,
+  output: __S(972, __c30, 12) as any as S.Schema<FreeBusyResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2314,7 +1633,7 @@ export const transferOwnershipCalendars: API.OperationMethod<
   TransferOwnershipCalendarsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c33, 0) as any as S.Schema<TransferOwnershipCalendarsRequest>,
+  input: __S(1088, __c34, 0) as any as S.Schema<TransferOwnershipCalendarsRequest>,
   output: __S(1344, __c42, 0) as any as S.Schema<TransferOwnershipCalendarsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -2331,7 +1650,7 @@ export const updateAcl: API.OperationMethod<
   UpdateAclError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c34, 0) as any as S.Schema<UpdateAclRequest>,
+  input: __S(1120, __c35, 0) as any as S.Schema<UpdateAclRequest>,
   output: __S(1601, __c50, 1) as any as S.Schema<AclRule>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -2348,7 +1667,7 @@ export const updateCalendarList: API.OperationMethod<
   UpdateCalendarListError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c35, 0) as any as S.Schema<UpdateCalendarListRequest>,
+  input: __S(1152, __c36, 0) as any as S.Schema<UpdateCalendarListRequest>,
   output: __S(131, __c4, 3) as any as S.Schema<CalendarListEntry>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -2365,7 +1684,7 @@ export const updateCalendars: API.OperationMethod<
   UpdateCalendarsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c36, 0) as any as S.Schema<UpdateCalendarsRequest>,
+  input: __S(1184, __c37, 0) as any as S.Schema<UpdateCalendarsRequest>,
   output: __S(198, __c6, 6) as any as S.Schema<Calendar>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -2382,7 +1701,7 @@ export const updateEvents: API.OperationMethod<
   UpdateEventsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1184, __c37, 0) as any as S.Schema<UpdateEventsRequest>,
+  input: __S(1216, __c38, 0) as any as S.Schema<UpdateEventsRequest>,
   output: __S(346, __c10, 26) as any as S.Schema<Event>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -2395,8 +1714,8 @@ export type WatchAclError = NotFound | Forbidden | BadRequest | Conflict | GcpOp
 /** Watch for changes to ACL resources. */
 export const watchAcl: API.OperationMethod<WatchAclRequest, Channel, WatchAclError, GcpOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(1216, __c38, 0) as any as S.Schema<WatchAclRequest>,
-    output: __S(1248, __c39, 0) as any as S.Schema<Channel>,
+    input: __S(1248, __c39, 0) as any as S.Schema<WatchAclRequest>,
+    output: __S(1056, __c33, 0) as any as S.Schema<Channel>,
     errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
     protocol: GcpProtocol,
     retry: Retry.Retry,
@@ -2413,7 +1732,7 @@ export const watchCalendarList: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1280, __c40, 0) as any as S.Schema<WatchCalendarListRequest>,
-  output: __S(1248, __c39, 0) as any as S.Schema<Channel>,
+  output: __S(1056, __c33, 0) as any as S.Schema<Channel>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2430,7 +1749,7 @@ export const watchEvents: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1376, __c43, 0) as any as S.Schema<WatchEventsRequest>,
-  output: __S(1248, __c39, 0) as any as S.Schema<Channel>,
+  output: __S(1056, __c33, 0) as any as S.Schema<Channel>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2447,7 +1766,7 @@ export const watchSettings: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1408, __c44, 0) as any as S.Schema<WatchSettingsRequest>,
-  output: __S(1248, __c39, 0) as any as S.Schema<Channel>,
+  output: __S(1056, __c33, 0) as any as S.Schema<Channel>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2967,56 +2286,15 @@ function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          calendarId: S.String.pipe(T.Label()),
-          supportsAttachments: S.optional(S.Boolean.pipe(T.Query())),
-          conferenceDataVersion: S.optional(S.Number.pipe(T.Query())),
-          eventLabelVersion: S.optional(S.Number.pipe(T.Query())),
-          updated: S.optional(S.String),
-          attachments: S.optional(__S(321, __c10, 1)),
-          endTimeUnspecified: S.optional(S.Boolean),
-          workingLocationProperties: S.optional(__S(324, __c10, 4)),
-          summary: S.optional(S.String),
-          attendeesOmitted: S.optional(S.Boolean),
-          birthdayProperties: S.optional(__S(325, __c10, 5)),
-          eventLabelId: S.optional(S.String),
-          attendees: S.optional(__S(327, __c10, 7)),
-          colorId: S.optional(S.String),
-          recurringEventId: S.optional(S.String),
-          originalStartTime: S.optional(__S(328, __c10, 8)),
-          sequence: S.optional(S.Number),
-          organizer: S.optional(__S(329, __c10, 9)),
-          description: S.optional(S.String),
-          hangoutLink: S.optional(S.String),
-          id: S.optional(S.String),
-          privateCopy: S.optional(S.Boolean),
-          recurrence: S.optional(__S(32, __c1, 0)),
-          outOfOfficeProperties: S.optional(__S(330, __c10, 10)),
-          start: S.optional(__S(328, __c10, 8)),
-          visibility: S.optional(S.String),
-          conferenceData: S.optional(__S(339, __c10, 19)),
-          focusTimeProperties: S.optional(__S(340, __c10, 20)),
-          guestsCanSeeOtherGuests: S.optional(S.Boolean),
-          locked: S.optional(S.Boolean),
-          reminders: S.optional(__S(341, __c10, 21)),
-          guestsCanModify: S.optional(S.Boolean),
-          creator: S.optional(__S(342, __c10, 22)),
-          eventType: S.optional(S.String),
-          extendedProperties: S.optional(__S(343, __c10, 23)),
-          guestsCanInviteOthers: S.optional(S.Boolean),
-          kind: S.optional(S.String),
-          status: S.optional(S.String),
-          source: S.optional(__S(344, __c10, 24)),
-          end: S.optional(__S(328, __c10, 8)),
-          etag: S.optional(S.String),
-          created: S.optional(S.String),
-          iCalUID: S.optional(S.String),
-          gadget: S.optional(__S(345, __c10, 25)),
-          anyoneCanAddSelf: S.optional(S.Boolean),
-          htmlLink: S.optional(S.String),
-          location: S.optional(S.String),
-          transparency: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(346, __c10, 26),
+          S.Struct({
+            calendarId: S.String.pipe(T.Label()),
+            supportsAttachments: S.optional(S.Boolean.pipe(T.Query())),
+            conferenceDataVersion: S.optional(S.Number.pipe(T.Query())),
+            eventLabelVersion: S.optional(S.Number.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "calendars/{calendarId}/events/import",
@@ -3030,15 +2308,13 @@ function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          calendarId: S.String.pipe(T.Label()),
-          sendNotifications: S.optional(S.Boolean.pipe(T.Query())),
-          id: S.optional(S.String),
-          etag: S.optional(S.String),
-          scope: S.optional(__S(1600, __c50, 0)),
-          kind: S.optional(S.String),
-          role: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1601, __c50, 1),
+          S.Struct({
+            calendarId: S.String.pipe(T.Label()),
+            sendNotifications: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "calendars/{calendarId}/acl",
@@ -3052,30 +2328,12 @@ function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          colorRgbFormat: S.optional(S.Boolean.pipe(T.Query())),
-          primary: S.optional(S.Boolean),
-          kind: S.optional(S.String),
-          hidden: S.optional(S.Boolean),
-          colorId: S.optional(S.String),
-          etag: S.optional(S.String),
-          description: S.optional(S.String),
-          autoAcceptInvitations: S.optional(S.Boolean),
-          summary: S.optional(S.String),
-          notificationSettings: S.optional(__S(130, __c4, 2)),
-          accessRole: S.optional(S.String),
-          timeZone: S.optional(S.String),
-          backgroundColor: S.optional(S.String),
-          deleted: S.optional(S.Boolean),
-          selected: S.optional(S.Boolean),
-          id: S.optional(S.String),
-          location: S.optional(S.String),
-          foregroundColor: S.optional(S.String),
-          defaultReminders: S.optional(__S(97, __c3, 1)),
-          conferenceProperties: S.optional(__S(64, __c2, 0)),
-          summaryOverride: S.optional(S.String),
-          dataOwner: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(131, __c4, 3),
+          S.Struct({
+            colorRgbFormat: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "users/me/calendarList",
@@ -3089,20 +2347,7 @@ function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          timeZone: S.optional(S.String),
-          id: S.optional(S.String),
-          autoAcceptInvitations: S.optional(S.Boolean),
-          etag: S.optional(S.String),
-          dataOwner: S.optional(S.String),
-          description: S.optional(S.String),
-          labelProperties: S.optional(__S(194, __c6, 2)),
-          workingHours: S.optional(__S(197, __c6, 5)),
-          kind: S.optional(S.String),
-          conferenceProperties: S.optional(__S(64, __c2, 0)),
-          summary: S.optional(S.String),
-          location: S.optional(S.String),
-        }).pipe(
+        S.Extend(__S(198, __c6, 6), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "calendars",
@@ -3116,59 +2361,18 @@ function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          conferenceDataVersion: S.optional(S.Number.pipe(T.Query())),
-          sendNotifications: S.optional(S.Boolean.pipe(T.Query())),
-          supportsAttachments: S.optional(S.Boolean.pipe(T.Query())),
-          eventLabelVersion: S.optional(S.Number.pipe(T.Query())),
-          sendUpdates: S.optional(S.String.pipe(T.Query())),
-          maxAttendees: S.optional(S.Number.pipe(T.Query())),
-          calendarId: S.String.pipe(T.Label()),
-          updated: S.optional(S.String),
-          attachments: S.optional(__S(321, __c10, 1)),
-          endTimeUnspecified: S.optional(S.Boolean),
-          workingLocationProperties: S.optional(__S(324, __c10, 4)),
-          summary: S.optional(S.String),
-          attendeesOmitted: S.optional(S.Boolean),
-          birthdayProperties: S.optional(__S(325, __c10, 5)),
-          eventLabelId: S.optional(S.String),
-          attendees: S.optional(__S(327, __c10, 7)),
-          colorId: S.optional(S.String),
-          recurringEventId: S.optional(S.String),
-          originalStartTime: S.optional(__S(328, __c10, 8)),
-          sequence: S.optional(S.Number),
-          organizer: S.optional(__S(329, __c10, 9)),
-          description: S.optional(S.String),
-          hangoutLink: S.optional(S.String),
-          id: S.optional(S.String),
-          privateCopy: S.optional(S.Boolean),
-          recurrence: S.optional(__S(32, __c1, 0)),
-          outOfOfficeProperties: S.optional(__S(330, __c10, 10)),
-          start: S.optional(__S(328, __c10, 8)),
-          visibility: S.optional(S.String),
-          conferenceData: S.optional(__S(339, __c10, 19)),
-          focusTimeProperties: S.optional(__S(340, __c10, 20)),
-          guestsCanSeeOtherGuests: S.optional(S.Boolean),
-          locked: S.optional(S.Boolean),
-          reminders: S.optional(__S(341, __c10, 21)),
-          guestsCanModify: S.optional(S.Boolean),
-          creator: S.optional(__S(342, __c10, 22)),
-          eventType: S.optional(S.String),
-          extendedProperties: S.optional(__S(343, __c10, 23)),
-          guestsCanInviteOthers: S.optional(S.Boolean),
-          kind: S.optional(S.String),
-          status: S.optional(S.String),
-          source: S.optional(__S(344, __c10, 24)),
-          end: S.optional(__S(328, __c10, 8)),
-          etag: S.optional(S.String),
-          created: S.optional(S.String),
-          iCalUID: S.optional(S.String),
-          gadget: S.optional(__S(345, __c10, 25)),
-          anyoneCanAddSelf: S.optional(S.Boolean),
-          htmlLink: S.optional(S.String),
-          location: S.optional(S.String),
-          transparency: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(346, __c10, 26),
+          S.Struct({
+            conferenceDataVersion: S.optional(S.Number.pipe(T.Query())),
+            sendNotifications: S.optional(S.Boolean.pipe(T.Query())),
+            supportsAttachments: S.optional(S.Boolean.pipe(T.Query())),
+            eventLabelVersion: S.optional(S.Number.pipe(T.Query())),
+            sendUpdates: S.optional(S.String.pipe(T.Query())),
+            maxAttendees: S.optional(S.Number.pipe(T.Query())),
+            calendarId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "calendars/{calendarId}/events",
@@ -3386,16 +2590,14 @@ function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          calendarId: S.String.pipe(T.Label()),
-          sendNotifications: S.optional(S.Boolean.pipe(T.Query())),
-          ruleId: S.String.pipe(T.Label()),
-          id: S.optional(S.String),
-          etag: S.optional(S.String),
-          scope: S.optional(__S(1600, __c50, 0)),
-          kind: S.optional(S.String),
-          role: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1601, __c50, 1),
+          S.Struct({
+            calendarId: S.String.pipe(T.Label()),
+            sendNotifications: S.optional(S.Boolean.pipe(T.Query())),
+            ruleId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "calendars/{calendarId}/acl/{ruleId}",
@@ -3409,31 +2611,13 @@ function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          colorRgbFormat: S.optional(S.Boolean.pipe(T.Query())),
-          calendarId: S.String.pipe(T.Label()),
-          primary: S.optional(S.Boolean),
-          kind: S.optional(S.String),
-          hidden: S.optional(S.Boolean),
-          colorId: S.optional(S.String),
-          etag: S.optional(S.String),
-          description: S.optional(S.String),
-          autoAcceptInvitations: S.optional(S.Boolean),
-          summary: S.optional(S.String),
-          notificationSettings: S.optional(__S(130, __c4, 2)),
-          accessRole: S.optional(S.String),
-          timeZone: S.optional(S.String),
-          backgroundColor: S.optional(S.String),
-          deleted: S.optional(S.Boolean),
-          selected: S.optional(S.Boolean),
-          id: S.optional(S.String),
-          location: S.optional(S.String),
-          foregroundColor: S.optional(S.String),
-          defaultReminders: S.optional(__S(97, __c3, 1)),
-          conferenceProperties: S.optional(__S(64, __c2, 0)),
-          summaryOverride: S.optional(S.String),
-          dataOwner: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(131, __c4, 3),
+          S.Struct({
+            colorRgbFormat: S.optional(S.Boolean.pipe(T.Query())),
+            calendarId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "users/me/calendarList/{calendarId}",
@@ -3447,21 +2631,12 @@ function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          calendarId: S.String.pipe(T.Label()),
-          timeZone: S.optional(S.String),
-          id: S.optional(S.String),
-          autoAcceptInvitations: S.optional(S.Boolean),
-          etag: S.optional(S.String),
-          dataOwner: S.optional(S.String),
-          description: S.optional(S.String),
-          labelProperties: S.optional(__S(194, __c6, 2)),
-          workingHours: S.optional(__S(197, __c6, 5)),
-          kind: S.optional(S.String),
-          conferenceProperties: S.optional(__S(64, __c2, 0)),
-          summary: S.optional(S.String),
-          location: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(198, __c6, 6),
+          S.Struct({
+            calendarId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "calendars/{calendarId}",
@@ -3475,61 +2650,20 @@ function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          supportsAttachments: S.optional(S.Boolean.pipe(T.Query())),
-          eventLabelVersion: S.optional(S.Number.pipe(T.Query())),
-          conferenceDataVersion: S.optional(S.Number.pipe(T.Query())),
-          maxAttendees: S.optional(S.Number.pipe(T.Query())),
-          eventId: S.String.pipe(T.Label()),
-          alwaysIncludeEmail: S.optional(S.Boolean.pipe(T.Query())),
-          calendarId: S.String.pipe(T.Label()),
-          sendNotifications: S.optional(S.Boolean.pipe(T.Query())),
-          sendUpdates: S.optional(S.String.pipe(T.Query())),
-          updated: S.optional(S.String),
-          attachments: S.optional(__S(321, __c10, 1)),
-          endTimeUnspecified: S.optional(S.Boolean),
-          workingLocationProperties: S.optional(__S(324, __c10, 4)),
-          summary: S.optional(S.String),
-          attendeesOmitted: S.optional(S.Boolean),
-          birthdayProperties: S.optional(__S(325, __c10, 5)),
-          eventLabelId: S.optional(S.String),
-          attendees: S.optional(__S(327, __c10, 7)),
-          colorId: S.optional(S.String),
-          recurringEventId: S.optional(S.String),
-          originalStartTime: S.optional(__S(328, __c10, 8)),
-          sequence: S.optional(S.Number),
-          organizer: S.optional(__S(329, __c10, 9)),
-          description: S.optional(S.String),
-          hangoutLink: S.optional(S.String),
-          id: S.optional(S.String),
-          privateCopy: S.optional(S.Boolean),
-          recurrence: S.optional(__S(32, __c1, 0)),
-          outOfOfficeProperties: S.optional(__S(330, __c10, 10)),
-          start: S.optional(__S(328, __c10, 8)),
-          visibility: S.optional(S.String),
-          conferenceData: S.optional(__S(339, __c10, 19)),
-          focusTimeProperties: S.optional(__S(340, __c10, 20)),
-          guestsCanSeeOtherGuests: S.optional(S.Boolean),
-          locked: S.optional(S.Boolean),
-          reminders: S.optional(__S(341, __c10, 21)),
-          guestsCanModify: S.optional(S.Boolean),
-          creator: S.optional(__S(342, __c10, 22)),
-          eventType: S.optional(S.String),
-          extendedProperties: S.optional(__S(343, __c10, 23)),
-          guestsCanInviteOthers: S.optional(S.Boolean),
-          kind: S.optional(S.String),
-          status: S.optional(S.String),
-          source: S.optional(__S(344, __c10, 24)),
-          end: S.optional(__S(328, __c10, 8)),
-          etag: S.optional(S.String),
-          created: S.optional(S.String),
-          iCalUID: S.optional(S.String),
-          gadget: S.optional(__S(345, __c10, 25)),
-          anyoneCanAddSelf: S.optional(S.Boolean),
-          htmlLink: S.optional(S.String),
-          location: S.optional(S.String),
-          transparency: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(346, __c10, 26),
+          S.Struct({
+            supportsAttachments: S.optional(S.Boolean.pipe(T.Query())),
+            eventLabelVersion: S.optional(S.Number.pipe(T.Query())),
+            conferenceDataVersion: S.optional(S.Number.pipe(T.Query())),
+            maxAttendees: S.optional(S.Number.pipe(T.Query())),
+            eventId: S.String.pipe(T.Label()),
+            alwaysIncludeEmail: S.optional(S.Boolean.pipe(T.Query())),
+            calendarId: S.String.pipe(T.Label()),
+            sendNotifications: S.optional(S.Boolean.pipe(T.Query())),
+            sendUpdates: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "calendars/{calendarId}/events/{eventId}",
@@ -3558,7 +2692,11 @@ function __c30(j: number): any {
           calendarExpansionMax: S.optional(S.Number),
           groupExpansionMax: S.optional(S.Number),
           timeMin: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "FreeBusyRequest" });
+    case 3:
+      return S.suspend(() =>
+        S.Extend(__S(962, __c30, 2), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "freeBusy",
@@ -3566,48 +2704,48 @@ function __c30(j: number): any {
           }),
         ),
       ).annotate({ identifier: "QueryFreebusyRequest" });
-    case 3:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           domain: S.optional(S.String),
           reason: S.optional(S.String),
         }),
       ).annotate({ identifier: "Calendar_Error" });
-    case 4:
-      return S.Array(__S(963, __c30, 3));
     case 5:
+      return S.Array(__S(964, __c30, 4));
+    case 6:
       return S.suspend(() =>
         S.Struct({
-          errors: S.optional(__S(964, __c30, 4)),
+          errors: S.optional(__S(965, __c30, 5)),
           calendars: S.optional(__S(32, __c1, 0)),
         }),
       ).annotate({ identifier: "FreeBusyGroup" });
-    case 6:
-      return S.Record(S.String, __S(965, __c30, 5));
     case 7:
+      return S.Record(S.String, __S(966, __c30, 6));
+    case 8:
       return S.suspend(() =>
         S.Struct({
           start: S.optional(S.String),
           end: S.optional(S.String),
         }),
       ).annotate({ identifier: "TimePeriod" });
-    case 8:
-      return S.Array(__S(967, __c30, 7));
     case 9:
+      return S.Array(__S(968, __c30, 8));
+    case 10:
       return S.suspend(() =>
         S.Struct({
-          errors: S.optional(__S(964, __c30, 4)),
-          busy: S.optional(__S(968, __c30, 8)),
+          errors: S.optional(__S(965, __c30, 5)),
+          busy: S.optional(__S(969, __c30, 9)),
         }),
       ).annotate({ identifier: "FreeBusyCalendar" });
-    case 10:
-      return S.Record(S.String, __S(969, __c30, 9));
     case 11:
+      return S.Record(S.String, __S(970, __c30, 10));
+    case 12:
       return S.suspend(() =>
         S.Struct({
-          groups: S.optional(__S(966, __c30, 6)),
+          groups: S.optional(__S(967, __c30, 7)),
           timeMin: S.optional(S.String),
-          calendars: S.optional(__S(970, __c30, 10)),
+          calendars: S.optional(__S(971, __c30, 11)),
           kind: S.optional(S.String),
           timeMax: S.optional(S.String),
         }),
@@ -3637,18 +2775,7 @@ function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          address: S.optional(S.String),
-          expiration: S.optional(S.String),
-          resourceUri: S.optional(S.String),
-          kind: S.optional(S.String),
-          resourceId: S.optional(S.String),
-          type: S.optional(S.String),
-          params: S.optional(__S(288, __c9, 0)),
-          id: S.optional(S.String),
-          token: S.optional(S.String),
-          payload: S.optional(S.Boolean),
-        }).pipe(
+        S.Extend(__S(1056, __c33, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "channels/stop",
@@ -3659,211 +2786,6 @@ function __c32(j: number): any {
   }
 }
 function __c33(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          calendarId: S.String.pipe(T.Label()),
-          useAdminAccess: S.Boolean.pipe(T.Query()),
-          newDataOwner: S.String.pipe(T.Query()),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "calendars/{calendarId}/transferOwnership",
-            baseUrl: "https://www.googleapis.com/calendar/v3/",
-          }),
-        ),
-      ).annotate({ identifier: "TransferOwnershipCalendarsRequest" });
-  }
-}
-function __c34(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          sendNotifications: S.optional(S.Boolean.pipe(T.Query())),
-          ruleId: S.String.pipe(T.Label()),
-          calendarId: S.String.pipe(T.Label()),
-          id: S.optional(S.String),
-          etag: S.optional(S.String),
-          scope: S.optional(__S(1600, __c50, 0)),
-          kind: S.optional(S.String),
-          role: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "PUT",
-            uri: "calendars/{calendarId}/acl/{ruleId}",
-            baseUrl: "https://www.googleapis.com/calendar/v3/",
-          }),
-        ),
-      ).annotate({ identifier: "UpdateAclRequest" });
-  }
-}
-function __c35(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          calendarId: S.String.pipe(T.Label()),
-          colorRgbFormat: S.optional(S.Boolean.pipe(T.Query())),
-          primary: S.optional(S.Boolean),
-          kind: S.optional(S.String),
-          hidden: S.optional(S.Boolean),
-          colorId: S.optional(S.String),
-          etag: S.optional(S.String),
-          description: S.optional(S.String),
-          autoAcceptInvitations: S.optional(S.Boolean),
-          summary: S.optional(S.String),
-          notificationSettings: S.optional(__S(130, __c4, 2)),
-          accessRole: S.optional(S.String),
-          timeZone: S.optional(S.String),
-          backgroundColor: S.optional(S.String),
-          deleted: S.optional(S.Boolean),
-          selected: S.optional(S.Boolean),
-          id: S.optional(S.String),
-          location: S.optional(S.String),
-          foregroundColor: S.optional(S.String),
-          defaultReminders: S.optional(__S(97, __c3, 1)),
-          conferenceProperties: S.optional(__S(64, __c2, 0)),
-          summaryOverride: S.optional(S.String),
-          dataOwner: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "PUT",
-            uri: "users/me/calendarList/{calendarId}",
-            baseUrl: "https://www.googleapis.com/calendar/v3/",
-          }),
-        ),
-      ).annotate({ identifier: "UpdateCalendarListRequest" });
-  }
-}
-function __c36(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          calendarId: S.String.pipe(T.Label()),
-          timeZone: S.optional(S.String),
-          id: S.optional(S.String),
-          autoAcceptInvitations: S.optional(S.Boolean),
-          etag: S.optional(S.String),
-          dataOwner: S.optional(S.String),
-          description: S.optional(S.String),
-          labelProperties: S.optional(__S(194, __c6, 2)),
-          workingHours: S.optional(__S(197, __c6, 5)),
-          kind: S.optional(S.String),
-          conferenceProperties: S.optional(__S(64, __c2, 0)),
-          summary: S.optional(S.String),
-          location: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "PUT",
-            uri: "calendars/{calendarId}",
-            baseUrl: "https://www.googleapis.com/calendar/v3/",
-          }),
-        ),
-      ).annotate({ identifier: "UpdateCalendarsRequest" });
-  }
-}
-function __c37(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          maxAttendees: S.optional(S.Number.pipe(T.Query())),
-          eventId: S.String.pipe(T.Label()),
-          sendNotifications: S.optional(S.Boolean.pipe(T.Query())),
-          calendarId: S.String.pipe(T.Label()),
-          alwaysIncludeEmail: S.optional(S.Boolean.pipe(T.Query())),
-          conferenceDataVersion: S.optional(S.Number.pipe(T.Query())),
-          sendUpdates: S.optional(S.String.pipe(T.Query())),
-          supportsAttachments: S.optional(S.Boolean.pipe(T.Query())),
-          eventLabelVersion: S.optional(S.Number.pipe(T.Query())),
-          updated: S.optional(S.String),
-          attachments: S.optional(__S(321, __c10, 1)),
-          endTimeUnspecified: S.optional(S.Boolean),
-          workingLocationProperties: S.optional(__S(324, __c10, 4)),
-          summary: S.optional(S.String),
-          attendeesOmitted: S.optional(S.Boolean),
-          birthdayProperties: S.optional(__S(325, __c10, 5)),
-          eventLabelId: S.optional(S.String),
-          attendees: S.optional(__S(327, __c10, 7)),
-          colorId: S.optional(S.String),
-          recurringEventId: S.optional(S.String),
-          originalStartTime: S.optional(__S(328, __c10, 8)),
-          sequence: S.optional(S.Number),
-          organizer: S.optional(__S(329, __c10, 9)),
-          description: S.optional(S.String),
-          hangoutLink: S.optional(S.String),
-          id: S.optional(S.String),
-          privateCopy: S.optional(S.Boolean),
-          recurrence: S.optional(__S(32, __c1, 0)),
-          outOfOfficeProperties: S.optional(__S(330, __c10, 10)),
-          start: S.optional(__S(328, __c10, 8)),
-          visibility: S.optional(S.String),
-          conferenceData: S.optional(__S(339, __c10, 19)),
-          focusTimeProperties: S.optional(__S(340, __c10, 20)),
-          guestsCanSeeOtherGuests: S.optional(S.Boolean),
-          locked: S.optional(S.Boolean),
-          reminders: S.optional(__S(341, __c10, 21)),
-          guestsCanModify: S.optional(S.Boolean),
-          creator: S.optional(__S(342, __c10, 22)),
-          eventType: S.optional(S.String),
-          extendedProperties: S.optional(__S(343, __c10, 23)),
-          guestsCanInviteOthers: S.optional(S.Boolean),
-          kind: S.optional(S.String),
-          status: S.optional(S.String),
-          source: S.optional(__S(344, __c10, 24)),
-          end: S.optional(__S(328, __c10, 8)),
-          etag: S.optional(S.String),
-          created: S.optional(S.String),
-          iCalUID: S.optional(S.String),
-          gadget: S.optional(__S(345, __c10, 25)),
-          anyoneCanAddSelf: S.optional(S.Boolean),
-          htmlLink: S.optional(S.String),
-          location: S.optional(S.String),
-          transparency: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "PUT",
-            uri: "calendars/{calendarId}/events/{eventId}",
-            baseUrl: "https://www.googleapis.com/calendar/v3/",
-          }),
-        ),
-      ).annotate({ identifier: "UpdateEventsRequest" });
-  }
-}
-function __c38(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          maxResults: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          calendarId: S.String.pipe(T.Label()),
-          syncToken: S.optional(S.String.pipe(T.Query())),
-          showDeleted: S.optional(S.Boolean.pipe(T.Query())),
-          address: S.optional(S.String),
-          expiration: S.optional(S.String),
-          resourceUri: S.optional(S.String),
-          kind: S.optional(S.String),
-          resourceId: S.optional(S.String),
-          type: S.optional(S.String),
-          params: S.optional(__S(288, __c9, 0)),
-          id: S.optional(S.String),
-          token: S.optional(S.String),
-          payload: S.optional(S.Boolean),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "calendars/{calendarId}/acl/watch",
-            baseUrl: "https://www.googleapis.com/calendar/v3/",
-          }),
-        ),
-      ).annotate({ identifier: "WatchAclRequest" });
-  }
-}
-function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3882,29 +2804,150 @@ function __c39(j: number): any {
       ).annotate({ identifier: "Channel" });
   }
 }
-function __c40(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          minAccessRole: S.optional(S.String.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          syncToken: S.optional(S.String.pipe(T.Query())),
-          showDeleted: S.optional(S.Boolean.pipe(T.Query())),
-          showOwnOrganizationOnly: S.optional(S.Boolean.pipe(T.Query())),
-          showHidden: S.optional(S.Boolean.pipe(T.Query())),
-          maxResults: S.optional(S.Number.pipe(T.Query())),
-          address: S.optional(S.String),
-          expiration: S.optional(S.String),
-          resourceUri: S.optional(S.String),
-          kind: S.optional(S.String),
-          resourceId: S.optional(S.String),
-          type: S.optional(S.String),
-          params: S.optional(__S(288, __c9, 0)),
-          id: S.optional(S.String),
-          token: S.optional(S.String),
-          payload: S.optional(S.Boolean),
+          calendarId: S.String.pipe(T.Label()),
+          useAdminAccess: S.Boolean.pipe(T.Query()),
+          newDataOwner: S.String.pipe(T.Query()),
         }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "calendars/{calendarId}/transferOwnership",
+            baseUrl: "https://www.googleapis.com/calendar/v3/",
+          }),
+        ),
+      ).annotate({ identifier: "TransferOwnershipCalendarsRequest" });
+  }
+}
+function __c35(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(1601, __c50, 1),
+          S.Struct({
+            sendNotifications: S.optional(S.Boolean.pipe(T.Query())),
+            ruleId: S.String.pipe(T.Label()),
+            calendarId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "calendars/{calendarId}/acl/{ruleId}",
+            baseUrl: "https://www.googleapis.com/calendar/v3/",
+          }),
+        ),
+      ).annotate({ identifier: "UpdateAclRequest" });
+  }
+}
+function __c36(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(131, __c4, 3),
+          S.Struct({
+            calendarId: S.String.pipe(T.Label()),
+            colorRgbFormat: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "users/me/calendarList/{calendarId}",
+            baseUrl: "https://www.googleapis.com/calendar/v3/",
+          }),
+        ),
+      ).annotate({ identifier: "UpdateCalendarListRequest" });
+  }
+}
+function __c37(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(198, __c6, 6),
+          S.Struct({
+            calendarId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "calendars/{calendarId}",
+            baseUrl: "https://www.googleapis.com/calendar/v3/",
+          }),
+        ),
+      ).annotate({ identifier: "UpdateCalendarsRequest" });
+  }
+}
+function __c38(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(346, __c10, 26),
+          S.Struct({
+            maxAttendees: S.optional(S.Number.pipe(T.Query())),
+            eventId: S.String.pipe(T.Label()),
+            sendNotifications: S.optional(S.Boolean.pipe(T.Query())),
+            calendarId: S.String.pipe(T.Label()),
+            alwaysIncludeEmail: S.optional(S.Boolean.pipe(T.Query())),
+            conferenceDataVersion: S.optional(S.Number.pipe(T.Query())),
+            sendUpdates: S.optional(S.String.pipe(T.Query())),
+            supportsAttachments: S.optional(S.Boolean.pipe(T.Query())),
+            eventLabelVersion: S.optional(S.Number.pipe(T.Query())),
+          }),
+        ).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "calendars/{calendarId}/events/{eventId}",
+            baseUrl: "https://www.googleapis.com/calendar/v3/",
+          }),
+        ),
+      ).annotate({ identifier: "UpdateEventsRequest" });
+  }
+}
+function __c39(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(1056, __c33, 0),
+          S.Struct({
+            maxResults: S.optional(S.Number.pipe(T.Query())),
+            pageToken: S.optional(S.String.pipe(T.Query())),
+            calendarId: S.String.pipe(T.Label()),
+            syncToken: S.optional(S.String.pipe(T.Query())),
+            showDeleted: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
+          T.Http({
+            method: "POST",
+            uri: "calendars/{calendarId}/acl/watch",
+            baseUrl: "https://www.googleapis.com/calendar/v3/",
+          }),
+        ),
+      ).annotate({ identifier: "WatchAclRequest" });
+  }
+}
+function __c40(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(1056, __c33, 0),
+          S.Struct({
+            minAccessRole: S.optional(S.String.pipe(T.Query())),
+            pageToken: S.optional(S.String.pipe(T.Query())),
+            syncToken: S.optional(S.String.pipe(T.Query())),
+            showDeleted: S.optional(S.Boolean.pipe(T.Query())),
+            showOwnOrganizationOnly: S.optional(S.Boolean.pipe(T.Query())),
+            showHidden: S.optional(S.Boolean.pipe(T.Query())),
+            maxResults: S.optional(S.Number.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "users/me/calendarList/watch",
@@ -3940,37 +2983,30 @@ function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          eventTypes: S.optional(__S(736, __c23, 0).pipe(T.Query())),
-          orderBy: S.optional(S.String.pipe(T.Query())),
-          showHiddenInvitations: S.optional(S.Boolean.pipe(T.Query())),
-          calendarId: S.String.pipe(T.Label()),
-          iCalUID: S.optional(S.String.pipe(T.Query())),
-          updatedMin: S.optional(S.String.pipe(T.Query())),
-          privateExtendedProperty: S.optional(__S(32, __c1, 0).pipe(T.Query())),
-          showDeleted: S.optional(S.Boolean.pipe(T.Query())),
-          sharedExtendedProperty: S.optional(__S(32, __c1, 0).pipe(T.Query())),
-          timeMin: S.optional(S.String.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          alwaysIncludeEmail: S.optional(S.Boolean.pipe(T.Query())),
-          syncToken: S.optional(S.String.pipe(T.Query())),
-          timeZone: S.optional(S.String.pipe(T.Query())),
-          singleEvents: S.optional(S.Boolean.pipe(T.Query())),
-          maxAttendees: S.optional(S.Number.pipe(T.Query())),
-          maxResults: S.optional(S.Number.pipe(T.Query())),
-          timeMax: S.optional(S.String.pipe(T.Query())),
-          q: S.optional(S.String.pipe(T.Query())),
-          address: S.optional(S.String),
-          expiration: S.optional(S.String),
-          resourceUri: S.optional(S.String),
-          kind: S.optional(S.String),
-          resourceId: S.optional(S.String),
-          type: S.optional(S.String),
-          params: S.optional(__S(288, __c9, 0)),
-          id: S.optional(S.String),
-          token: S.optional(S.String),
-          payload: S.optional(S.Boolean),
-        }).pipe(
+        S.Extend(
+          __S(1056, __c33, 0),
+          S.Struct({
+            eventTypes: S.optional(__S(736, __c23, 0).pipe(T.Query())),
+            orderBy: S.optional(S.String.pipe(T.Query())),
+            showHiddenInvitations: S.optional(S.Boolean.pipe(T.Query())),
+            calendarId: S.String.pipe(T.Label()),
+            iCalUID: S.optional(S.String.pipe(T.Query())),
+            updatedMin: S.optional(S.String.pipe(T.Query())),
+            privateExtendedProperty: S.optional(__S(32, __c1, 0).pipe(T.Query())),
+            showDeleted: S.optional(S.Boolean.pipe(T.Query())),
+            sharedExtendedProperty: S.optional(__S(32, __c1, 0).pipe(T.Query())),
+            timeMin: S.optional(S.String.pipe(T.Query())),
+            pageToken: S.optional(S.String.pipe(T.Query())),
+            alwaysIncludeEmail: S.optional(S.Boolean.pipe(T.Query())),
+            syncToken: S.optional(S.String.pipe(T.Query())),
+            timeZone: S.optional(S.String.pipe(T.Query())),
+            singleEvents: S.optional(S.Boolean.pipe(T.Query())),
+            maxAttendees: S.optional(S.Number.pipe(T.Query())),
+            maxResults: S.optional(S.Number.pipe(T.Query())),
+            timeMax: S.optional(S.String.pipe(T.Query())),
+            q: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "calendars/{calendarId}/events/watch",
@@ -3984,21 +3020,14 @@ function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          syncToken: S.optional(S.String.pipe(T.Query())),
-          maxResults: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          address: S.optional(S.String),
-          expiration: S.optional(S.String),
-          resourceUri: S.optional(S.String),
-          kind: S.optional(S.String),
-          resourceId: S.optional(S.String),
-          type: S.optional(S.String),
-          params: S.optional(__S(288, __c9, 0)),
-          id: S.optional(S.String),
-          token: S.optional(S.String),
-          payload: S.optional(S.Boolean),
-        }).pipe(
+        S.Extend(
+          __S(1056, __c33, 0),
+          S.Struct({
+            syncToken: S.optional(S.String.pipe(T.Query())),
+            maxResults: S.optional(S.Number.pipe(T.Query())),
+            pageToken: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "users/me/settings/watch",

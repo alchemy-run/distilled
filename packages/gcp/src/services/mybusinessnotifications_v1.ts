@@ -112,15 +112,14 @@ export interface NotificationSetting {
   /** Optional. The Google Pub/Sub topic that will receive notifications when locations managed by this account are updated. If unset, no notifications will be posted. The account mybusiness-api-pubsub@system.gserviceaccount.com must have at least Publish permissions on the Pub/Sub topic. */
   pubsubTopic?: string | undefined;
 }
-export interface UpdateNotificationSettingAccountsRequest {
+export interface UpdateNotificationSettingAccountsRequest extends Omit<
+  NotificationSetting,
+  "name"
+> {
   /** Required. The resource name this setting is for. This is of the form `accounts/{account_id}/notificationSetting`. */
   name: string;
   /** Required. The specific fields that should be updated. The only editable field is notification_setting. */
   updateMask?: string | undefined;
-  /** The types of notifications that will be sent to the Pub/Sub topic. To stop receiving notifications entirely, use NotificationSettings.UpdateNotificationSetting with an empty notification_types or set the pubsub_topic to an empty string. */
-  notificationTypes?: NotificationSettingNotificationTypesItemEnumList | undefined;
-  /** Optional. The Google Pub/Sub topic that will receive notifications when locations managed by this account are updated. If unset, no notifications will be posted. The account mybusiness-api-pubsub@system.gserviceaccount.com must have at least Publish permissions on the Pub/Sub topic. */
-  pubsubTopic?: string | undefined;
 }
 export type GetNotificationSettingAccountsError = NotFound | Forbidden | GcpOpError;
 /** Returns the pubsub notification settings for the account. */
@@ -196,12 +195,13 @@ function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          notificationTypes: S.optional(__S(2, __c1, 0)),
-          pubsubTopic: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(3, __c1, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",

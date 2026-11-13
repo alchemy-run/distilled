@@ -99,13 +99,16 @@ export interface UpdateMemberRequest {
   updateMask?: string | undefined;
 }
 export type UpdateMemberRequestList = Array<UpdateMemberRequest>;
-export interface BatchUpdateSpacesMembersRequest {
-  /** Required. The parent resource shared by all Members being updated. Format: spaces/{space} */
-  parent: string;
+/** Request to update members of one space within a batch. */
+export interface BatchUpdateMembersRequest {
   /** Required. The request message specifying the resources to update. A maximum of 500 members can be modified in a batch. */
   requests?: UpdateMemberRequestList | undefined;
   /** Optional. Top-level field mask used to specify the fields to be updated in the member for all UpdateMemberRequests. There are 4 possible scenarios for top-level and child field mask: 1. top-level and child field mask is absent: All fields provided in the requests are updated, including deleting fields not set in the requests. 2. top-level field mask is present but child field mask is absent: The fields specified in the top-level field mask are updated. 3. top-level and child field mask is present: The child field mask must be the same as the top-level field mask. 4. top-level field mask is absent but child field mask is present: It isn't supported and will return an error. */
   updateMask?: string | undefined;
+}
+export interface BatchUpdateSpacesMembersRequest extends BatchUpdateMembersRequest {
+  /** Required. The parent resource shared by all Members being updated. Format: spaces/{space} */
+  parent: string;
 }
 export type MemberList = Array<Member>;
 /** Response of batch update members. */
@@ -242,22 +245,6 @@ export interface GatewaySipAccess {
   sipAccessCode?: string | undefined;
 }
 export type GatewaySipAccessList = Array<GatewaySipAccess>;
-export interface CreateSpacesRequest {
-  /** Output only. URI used to join meetings consisting of `https://meet.google.com/` followed by the `meeting_code`. For example, `https://meet.google.com/abc-mnop-xyz`. */
-  meetingUri?: string | undefined;
-  /** Immutable. Resource name of the space. Format: `spaces/{space}`. `{space}` is the resource identifier for the space. It's a unique, server-generated ID and is case sensitive. For example, `jQCFfuBOdN5z`. For more information, see [How Meet identifies a meeting space](https://developers.google.com/workspace/meet/api/guides/meeting-spaces#identify-meeting-space). */
-  name?: string | undefined;
-  /** Output only. All regional phone access methods for this meeting space. Can be empty. */
-  phoneAccess?: PhoneAccessList | undefined;
-  /** Active conference, if it exists. */
-  activeConference?: ActiveConference | undefined;
-  /** Configuration pertaining to the meeting space. */
-  config?: SpaceConfig | undefined;
-  /** Output only. Type friendly unique string used to join the meeting. Format: `[a-z]+-[a-z]+-[a-z]+`. For example, `abc-mnop-xyz`. The maximum length is 128 characters. Can only be used as an alias of the space name to get the space. */
-  meetingCode?: string | undefined;
-  /** Output only. The SIP-based access methods that can be used to join the conference. Can be empty. */
-  gatewaySipAccess?: GatewaySipAccessList | undefined;
-}
 /** Virtual place where conferences are held. Only one active conference can be held in one space at any given time. */
 export interface Space {
   /** Output only. URI used to join meetings consisting of `https://meet.google.com/` followed by the `meeting_code`. For example, `https://meet.google.com/abc-mnop-xyz`. */
@@ -275,15 +262,10 @@ export interface Space {
   /** Output only. The SIP-based access methods that can be used to join the conference. Can be empty. */
   gatewaySipAccess?: GatewaySipAccessList | undefined;
 }
-export interface CreateSpacesMembersRequest {
+export interface CreateSpacesRequest extends Space {}
+export interface CreateSpacesMembersRequest extends Member {
   /** Required. Format: spaces/{space} */
   parent: string;
-  /** Identifier. Resource name of the member. Format: `spaces/{space}/members/{member}` */
-  name?: string | undefined;
-  /** Email for the member. This is required for creating the member. */
-  email?: string | undefined;
-  /** The meeting role assigned to the member. */
-  role?: MemberRoleEnum | (string & {}) | undefined;
 }
 export interface DeleteSpacesMembersRequest {
   /** Required. Format: "spaces/{space}/members/{member}" */
@@ -593,33 +575,17 @@ export interface ListMembersResponse {
   /** Token to be circulated back for further list call if current list doesn't include all the members. Unset if all members are returned. */
   nextPageToken?: string | undefined;
 }
-export interface PatchSpacesRequest {
+export interface PatchSpacesRequest extends Omit<Space, "name"> {
   /** Immutable. Resource name of the space. Format: `spaces/{space}`. `{space}` is the resource identifier for the space. It's a unique, server-generated ID and is case sensitive. For example, `jQCFfuBOdN5z`. For more information, see [How Meet identifies a meeting space](https://developers.google.com/workspace/meet/api/guides/meeting-spaces#identify-meeting-space). */
   name: string;
   /** Optional. Field mask used to specify the fields to be updated in the space. If update_mask isn't provided(not set, set with empty paths, or only has "" as paths), it defaults to update all fields provided with values in the request. Using "*" as update_mask will update all fields, including deleting fields not set in the request. */
   updateMask?: string | undefined;
-  /** Output only. URI used to join meetings consisting of `https://meet.google.com/` followed by the `meeting_code`. For example, `https://meet.google.com/abc-mnop-xyz`. */
-  meetingUri?: string | undefined;
-  /** Output only. All regional phone access methods for this meeting space. Can be empty. */
-  phoneAccess?: PhoneAccessList | undefined;
-  /** Active conference, if it exists. */
-  activeConference?: ActiveConference | undefined;
-  /** Configuration pertaining to the meeting space. */
-  config?: SpaceConfig | undefined;
-  /** Output only. Type friendly unique string used to join the meeting. Format: `[a-z]+-[a-z]+-[a-z]+`. For example, `abc-mnop-xyz`. The maximum length is 128 characters. Can only be used as an alias of the space name to get the space. */
-  meetingCode?: string | undefined;
-  /** Output only. The SIP-based access methods that can be used to join the conference. Can be empty. */
-  gatewaySipAccess?: GatewaySipAccessList | undefined;
 }
-export interface PatchSpacesMembersRequest {
+export interface PatchSpacesMembersRequest extends Omit<Member, "name"> {
   /** Identifier. Resource name of the member. Format: `spaces/{space}/members/{member}` */
   name: string;
   /** Optional. Field mask used to specify the fields to be updated in the member. If update_mask isn't provided(not set, set with empty paths, or only has "" as paths), it defaults to update all fields provided with values in the request. Using "*" as update_mask will update all fields, including deleting fields not set in the request. In case of BatchUpdate, it must be absent or the same as the update_mask in BatchUpdateMembersRequest when UpdateMemberRequest is built as a child request of BatchUpdateMembersRequest. */
   updateMask?: string | undefined;
-  /** Email for the member. This is required for creating the member. */
-  email?: string | undefined;
-  /** The meeting role assigned to the member. */
-  role?: MemberRoleEnum | (string & {}) | undefined;
 }
 export type BatchUpdateSpacesMembersError =
   | NotFound
@@ -634,8 +600,8 @@ export const batchUpdateSpacesMembers: API.OperationMethod<
   BatchUpdateSpacesMembersError,
   GoogleWorkspaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(402, __c25, 2) as any as S.Schema<BatchUpdateSpacesMembersRequest>,
-  output: __S(403, __c25, 3) as any as S.Schema<BatchUpdateMembersResponse>,
+  input: __S(403, __c25, 3) as any as S.Schema<BatchUpdateSpacesMembersRequest>,
+  output: __S(404, __c25, 4) as any as S.Schema<BatchUpdateMembersResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
@@ -1533,16 +1499,13 @@ function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          meetingUri: S.optional(S.String),
-          phoneAccess: S.optional(__S(465, __c29, 1)),
-          activeConference: S.optional(__S(466, __c29, 2)),
-          config: S.optional(__S(472, __c29, 8)),
-          meetingCode: S.optional(S.String),
-          gatewaySipAccess: S.optional(__S(474, __c29, 10)),
-        }).pipe(
+        S.Extend(
+          __S(475, __c29, 11),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v2/{+name}", baseUrl: "https://meet.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchSpacesRequest" });
@@ -1552,12 +1515,13 @@ function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          email: S.optional(S.String),
-          role: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(432, __c27, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v2/{+name}", baseUrl: "https://meet.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchSpacesMembersRequest" });
@@ -1577,10 +1541,18 @@ function __c25(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
           requests: S.optional(__S(401, __c25, 1)),
           updateMask: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "BatchUpdateMembersRequest" });
+    case 3:
+      return S.suspend(() =>
+        S.Extend(
+          __S(402, __c25, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/members:batchUpdate",
@@ -1588,7 +1560,7 @@ function __c25(j: number): any {
           }),
         ),
       ).annotate({ identifier: "BatchUpdateSpacesMembersRequest" });
-    case 3:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           members: S.optional(__S(416, __c26, 0)),
@@ -1618,15 +1590,7 @@ function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          meetingUri: S.optional(S.String),
-          name: S.optional(S.String),
-          phoneAccess: S.optional(__S(465, __c29, 1)),
-          activeConference: S.optional(__S(466, __c29, 2)),
-          config: S.optional(__S(472, __c29, 8)),
-          meetingCode: S.optional(S.String),
-          gatewaySipAccess: S.optional(__S(474, __c29, 10)),
-        }).pipe(
+        S.Extend(__S(475, __c29, 11), S.Struct({})).pipe(
           T.Http({ method: "POST", uri: "v2/spaces", baseUrl: "https://meet.googleapis.com/" }),
         ),
       ).annotate({ identifier: "CreateSpacesRequest" });
@@ -1724,12 +1688,12 @@ function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          name: S.optional(S.String),
-          email: S.optional(S.String),
-          role: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(432, __c27, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/members",

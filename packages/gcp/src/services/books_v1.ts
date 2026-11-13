@@ -1084,49 +1084,6 @@ export interface AnnotationLayerSummary {
   /** Maximum allowed characters on this layer, especially for the "copy" layer. */
   allowedCharacterCount?: number | undefined;
 }
-export interface InsertMylibraryAnnotationsRequest {
-  /** Requests that only the summary of the specified layer be provided in the response. */
-  showOnlySummaryInResponse?: boolean | undefined;
-  /** The ID for the annotation to insert. */
-  annotationId?: string | undefined;
-  /** ISO-3166-1 code to override the IP-based location. */
-  country?: string | undefined;
-  /** String to identify the originator of this request. */
-  source?: string | undefined;
-  /** Anchor text after excerpt. For requests, if the user bookmarked a screen that has no flowing text on it, then this field should be empty. */
-  afterSelectedText?: string | undefined;
-  /** URL to this resource. */
-  selfLink?: string | undefined;
-  /** Pages that this annotation spans. */
-  pageIds?: StringList | undefined;
-  /** Anchor text before excerpt. For requests, if the user bookmarked a screen that has no flowing text on it, then this field should be empty. */
-  beforeSelectedText?: string | undefined;
-  /** Selection ranges sent from the client. */
-  clientVersionRanges?: AnnotationClientVersionRanges | undefined;
-  /** Indicates that this annotation is deleted. */
-  deleted?: boolean | undefined;
-  /** The highlight style for this annotation. */
-  highlightStyle?: string | undefined;
-  /** Excerpt from the volume. */
-  selectedText?: string | undefined;
-  /** Selection ranges for the most recent content version. */
-  currentVersionRanges?: AnnotationCurrentVersionRanges | undefined;
-  /** The layer this annotation is for. */
-  layerId?: string | undefined;
-  layerSummary?: AnnotationLayerSummary | undefined;
-  /** Timestamp for the created time of this annotation. */
-  created?: string | undefined;
-  /** Id of this annotation, in the form of a GUID. */
-  id?: string | undefined;
-  /** Resource type. */
-  kind?: string | undefined;
-  /** The volume that this annotation belongs to. */
-  volumeId?: string | undefined;
-  /** User-created data for this annotation. */
-  data?: string | undefined;
-  /** Timestamp for the last time this annotation was modified. */
-  updated?: string | undefined;
-}
 export interface Annotation {
   /** Anchor text after excerpt. For requests, if the user bookmarked a screen that has no flowing text on it, then this field should be empty. */
   afterSelectedText?: string | undefined;
@@ -1161,6 +1118,16 @@ export interface Annotation {
   data?: string | undefined;
   /** Timestamp for the last time this annotation was modified. */
   updated?: string | undefined;
+}
+export interface InsertMylibraryAnnotationsRequest extends Annotation {
+  /** Requests that only the summary of the specified layer be provided in the response. */
+  showOnlySummaryInResponse?: boolean | undefined;
+  /** The ID for the annotation to insert. */
+  annotationId?: string | undefined;
+  /** ISO-3166-1 code to override the IP-based location. */
+  country?: string | undefined;
+  /** String to identify the originator of this request. */
+  source?: string | undefined;
 }
 export interface ListBookshelvesRequest {
   /** ID of user for whom to retrieve bookshelves. */
@@ -1820,58 +1787,14 @@ export interface UnshareFamilysharingRequest {
   /** String to identify the originator of this request. */
   source?: string | undefined;
 }
-export interface UpdateBookCloudloadingRequest {
-  author?: string | undefined;
-  volumeId?: string | undefined;
-  processingState?: string | undefined;
-  title?: string | undefined;
-}
-export interface UpdateMylibraryAnnotationsRequest {
+export interface UpdateBookCloudloadingRequest extends BooksCloudloadingResource {}
+export interface UpdateMylibraryAnnotationsRequest extends Annotation {
   /** The ID for the annotation to update. */
   annotationId: string;
   /** String to identify the originator of this request. */
   source?: string | undefined;
-  /** Anchor text after excerpt. For requests, if the user bookmarked a screen that has no flowing text on it, then this field should be empty. */
-  afterSelectedText?: string | undefined;
-  /** URL to this resource. */
-  selfLink?: string | undefined;
-  /** Pages that this annotation spans. */
-  pageIds?: StringList | undefined;
-  /** Anchor text before excerpt. For requests, if the user bookmarked a screen that has no flowing text on it, then this field should be empty. */
-  beforeSelectedText?: string | undefined;
-  /** Selection ranges sent from the client. */
-  clientVersionRanges?: AnnotationClientVersionRanges | undefined;
-  /** Indicates that this annotation is deleted. */
-  deleted?: boolean | undefined;
-  /** The highlight style for this annotation. */
-  highlightStyle?: string | undefined;
-  /** Excerpt from the volume. */
-  selectedText?: string | undefined;
-  /** Selection ranges for the most recent content version. */
-  currentVersionRanges?: AnnotationCurrentVersionRanges | undefined;
-  /** The layer this annotation is for. */
-  layerId?: string | undefined;
-  layerSummary?: AnnotationLayerSummary | undefined;
-  /** Timestamp for the created time of this annotation. */
-  created?: string | undefined;
-  /** Id of this annotation, in the form of a GUID. */
-  id?: string | undefined;
-  /** Resource type. */
-  kind?: string | undefined;
-  /** The volume that this annotation belongs to. */
-  volumeId?: string | undefined;
-  /** User-created data for this annotation. */
-  data?: string | undefined;
-  /** Timestamp for the last time this annotation was modified. */
-  updated?: string | undefined;
 }
-export interface UpdateUserSettingsMyconfigRequest {
-  notification?: UsersettingsNotification | undefined;
-  /** Resource type. */
-  kind?: string | undefined;
-  /** User settings in sub-objects, each for different purposes. */
-  notesExport?: UsersettingsNotesExport | undefined;
-}
+export interface UpdateUserSettingsMyconfigRequest extends Usersettings {}
 export type AcceptPromoofferError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
 /** Accepts the promo offer. */
 export const acceptPromooffer: API.OperationMethod<
@@ -3869,29 +3792,15 @@ function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          showOnlySummaryInResponse: S.optional(S.Boolean.pipe(T.Query())),
-          annotationId: S.optional(S.String.pipe(T.Query())),
-          country: S.optional(S.String.pipe(T.Query())),
-          source: S.optional(S.String.pipe(T.Query())),
-          afterSelectedText: S.optional(S.String),
-          selfLink: S.optional(S.String),
-          pageIds: S.optional(__S(160, __c5, 0)),
-          beforeSelectedText: S.optional(S.String),
-          clientVersionRanges: S.optional(__S(864, __c27, 0)),
-          deleted: S.optional(S.Boolean),
-          highlightStyle: S.optional(S.String),
-          selectedText: S.optional(S.String),
-          currentVersionRanges: S.optional(__S(865, __c27, 1)),
-          layerId: S.optional(S.String),
-          layerSummary: S.optional(__S(866, __c27, 2)),
-          created: S.optional(S.String),
-          id: S.optional(S.String),
-          kind: S.optional(S.String),
-          volumeId: S.optional(S.String),
-          data: S.optional(S.String),
-          updated: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(867, __c27, 3),
+          S.Struct({
+            showOnlySummaryInResponse: S.optional(S.Boolean.pipe(T.Query())),
+            annotationId: S.optional(S.String.pipe(T.Query())),
+            country: S.optional(S.String.pipe(T.Query())),
+            source: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "books/v1/mylibrary/annotations",
@@ -4801,12 +4710,7 @@ function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          author: S.optional(S.String),
-          volumeId: S.optional(S.String),
-          processingState: S.optional(S.String),
-          title: S.optional(S.String),
-        }).pipe(
+        S.Extend(__S(1856, __c58, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "books/v1/cloudloading/updateBook",
@@ -4820,27 +4724,13 @@ function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          annotationId: S.String.pipe(T.Label()),
-          source: S.optional(S.String.pipe(T.Query())),
-          afterSelectedText: S.optional(S.String),
-          selfLink: S.optional(S.String),
-          pageIds: S.optional(__S(160, __c5, 0)),
-          beforeSelectedText: S.optional(S.String),
-          clientVersionRanges: S.optional(__S(864, __c27, 0)),
-          deleted: S.optional(S.Boolean),
-          highlightStyle: S.optional(S.String),
-          selectedText: S.optional(S.String),
-          currentVersionRanges: S.optional(__S(865, __c27, 1)),
-          layerId: S.optional(S.String),
-          layerSummary: S.optional(__S(866, __c27, 2)),
-          created: S.optional(S.String),
-          id: S.optional(S.String),
-          kind: S.optional(S.String),
-          volumeId: S.optional(S.String),
-          data: S.optional(S.String),
-          updated: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(867, __c27, 3),
+          S.Struct({
+            annotationId: S.String.pipe(T.Label()),
+            source: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "books/v1/mylibrary/annotations/{annotationId}",
@@ -4854,11 +4744,7 @@ function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          notification: S.optional(__S(769, __c24, 1)),
-          kind: S.optional(S.String),
-          notesExport: S.optional(__S(770, __c24, 2)),
-        }).pipe(
+        S.Extend(__S(771, __c24, 3), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "books/v1/myconfig/updateUserSettings",

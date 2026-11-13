@@ -849,13 +849,8 @@ export type NoteKindEnum =
   | "SBOM_REFERENCE"
   | "SECRET"
   | "AI_SKILL_ANALYSIS";
-export interface CreateProjectsNotesRequest {
-  /** The name of the project. Should be of the form "providers/{provider_id}". @Deprecated */
-  name?: string | undefined;
-  /** The ID to use for this note. */
-  noteId?: string | undefined;
-  /** This field contains the project Id for example: "projects/{project_id} */
-  parent: string;
+/** Provides a detailed description of a `Note`. */
+export interface Note {
   /** A note describing something that can be deployed. */
   deployable?: Deployable | undefined;
   /** A note describing a compliance check. */
@@ -904,63 +899,18 @@ export interface CreateProjectsNotesRequest {
   kind?: NoteKindEnum | (string & {}) | undefined;
   /** A detailed description of this `Note`. */
   longDescription?: string | undefined;
-  /** A one sentence description of this `Note`. */
-  shortDescription?: string | undefined;
-}
-/** Provides a detailed description of a `Note`. */
-export interface Note {
-  /** A note describing something that can be deployed. */
-  deployable?: Deployable | undefined;
-  /** A note describing a compliance check. */
-  compliance?: ComplianceNote | undefined;
-  /** A note describing a base image. */
-  baseImage?: Basis | undefined;
-  /** A note describing a software bill of materials. */
-  sbom?: DocumentNote | undefined;
-  /** A note describing an SPDX File. */
-  spdxFile?: FileNote | undefined;
-  /** A note describing a vulnerability assessment. */
-  vulnerabilityAssessment?: VulnerabilityAssessmentNote | undefined;
-  /** A note describing a package hosted by various package managers. */
-  package?: Package | undefined;
-  /** A note describing a provider/analysis type. */
-  discovery?: Discovery | undefined;
-  /** A note describing a dsse attestation note. */
-  dsseAttestation?: DSSEAttestationNote | undefined;
-  /** A package vulnerability type of note. */
-  vulnerabilityType?: VulnerabilityType | undefined;
-  /** A note describing an attestation role. */
-  attestationAuthority?: AttestationAuthority | undefined;
-  /** Time of expiration for this note, null if note does not expire. */
-  expirationTime?: string | undefined;
-  /** Output only. The time this note was created. This field can be used as a filter in list requests. */
-  createTime?: string | undefined;
-  /** A note describing a relationship between SPDX elements. */
-  spdxRelationship?: RelationshipNote | undefined;
-  /** A note describing an upgrade. */
-  upgrade?: UpgradeNote | undefined;
-  /** A note describing a secret. */
-  secret?: SecretNote | undefined;
-  /** A note describing an SPDX Package. */
-  spdxPackage?: PackageInfoNote | undefined;
-  /** Build provenance type for a verifiable build. */
-  buildType?: BuildType | undefined;
-  /** A note describing an AI skill analysis. */
-  aiSkillAnalysis?: SecretNote | undefined;
-  /** Output only. The time this note was last updated. This field can be used as a filter in list requests. */
-  updateTime?: string | undefined;
-  /** A note describing a reference to an SBOM. */
-  sbomReference?: SBOMReferenceNote | undefined;
-  /** URLs associated with this note */
-  relatedUrl?: RelatedUrlList | undefined;
-  /** Output only. This explicitly denotes which kind of note is specified. This field can be used as a filter in list requests. */
-  kind?: NoteKindEnum | undefined;
-  /** A detailed description of this `Note`. */
-  longDescription?: string | undefined;
   /** The name of the note in the form "projects/{provider_project_id}/notes/{NOTE_ID}" */
   name?: string | undefined;
   /** A one sentence description of this `Note`. */
   shortDescription?: string | undefined;
+}
+export interface CreateProjectsNotesRequest extends Omit<Note, "name"> {
+  /** The name of the project. Should be of the form "providers/{provider_id}". @Deprecated */
+  name?: string | undefined;
+  /** The ID to use for this note. */
+  noteId?: string | undefined;
+  /** This field contains the project Id for example: "projects/{project_id} */
+  parent: string;
 }
 export type HashTypeEnum = "NONE" | "SHA256" | "GO_MODULE_H1" | "DIRSUM_SHA256";
 /** Container message for hash values. */
@@ -2109,62 +2059,6 @@ export interface FileOccurrence {
   /** Identify the copyright holder of the file, as well as any dates present */
   copyright?: string | undefined;
 }
-export interface CreateProjectsOccurrencesRequest {
-  /** This field contains the project Id for example: "projects/{project_id}" */
-  parent: string;
-  /** The name of the project. Should be of the form "projects/{project_id}". @Deprecated */
-  name?: string | undefined;
-  /** The resource for which the `Occurrence` applies. */
-  resource?: Resource | undefined;
-  /** An analysis note associated with this image, in the form "providers/{provider_id}/notes/{NOTE_ID}" This field can be used as a filter in list requests. */
-  noteName?: string | undefined;
-  /** Output only. The time this `Occurrence` was created. */
-  createTime?: string | undefined;
-  /** Describes the initial scan status for this resource. */
-  discovered?: Discovered | undefined;
-  /** Details of a security vulnerability note. */
-  vulnerabilityDetails?: VulnerabilityDetails | undefined;
-  /** Describes a specific relationship between SPDX elements. */
-  spdxRelationship?: RelationshipOccurrence | undefined;
-  /** Describes the deployment of an artifact on a runtime. */
-  deployment?: Deployment | undefined;
-  /** https://github.com/secure-systems-lab/dsse */
-  envelope?: Envelope | undefined;
-  /** Describes a specific SPDX Package. */
-  spdxPackage?: PackageInfoOccurrence | undefined;
-  /** Describes how this resource derives from the basis in the associated note. */
-  derivedImage?: Derived | undefined;
-  /** Describes an upgrade. */
-  upgrade?: UpgradeOccurrence | undefined;
-  /** Output only. The time this `Occurrence` was last updated. */
-  updateTime?: string | undefined;
-  /** This represents an AI skill analysis occurrence */
-  aiSkillAnalysis?: AISkillAnalysisOccurrence | undefined;
-  /** Describes a specific software bill of materials document. */
-  sbom?: DocumentOccurrence | undefined;
-  /** This represents a secret occurrence */
-  secret?: SecretOccurrence | undefined;
-  /** Describes the installation of a package on the linked resource. */
-  installation?: Installation | undefined;
-  /** The unique URL of the image or the container for which the `Occurrence` applies. For example, https://gcr.io/project/image@sha256:foo This field can be used as a filter in list requests. */
-  resourceUrl?: string | undefined;
-  /** Describes whether or not a resource passes compliance checks. */
-  compliance?: ComplianceOccurrence | undefined;
-  /** This represents an SBOM reference occurrence */
-  sbomReference?: SBOMReferenceOccurrence | undefined;
-  /** A description of actions that can be taken to remedy the `Note` */
-  remediation?: string | undefined;
-  /** Build details for a verifiable build. */
-  buildDetails?: BuildDetails | undefined;
-  /** This represents a DSSE attestation occurrence */
-  dsseAttestation?: DSSEAttestationOccurrence | undefined;
-  /** Describes an attestation of an artifact. */
-  attestation?: Attestation | undefined;
-  /** Output only. This explicitly denotes which of the `Occurrence` details are specified. This field can be used as a filter in list requests. */
-  kind?: OccurrenceKindEnum | (string & {}) | undefined;
-  /** Describes a specific SPDX File. */
-  spdxFile?: FileOccurrence | undefined;
-}
 /** `Occurrence` includes information about analysis occurrences for an image. */
 export interface Occurrence {
   /** The resource for which the `Occurrence` applies. */
@@ -2216,75 +2110,34 @@ export interface Occurrence {
   /** Describes an attestation of an artifact. */
   attestation?: Attestation | undefined;
   /** Output only. This explicitly denotes which of the `Occurrence` details are specified. This field can be used as a filter in list requests. */
-  kind?: OccurrenceKindEnum | undefined;
+  kind?: OccurrenceKindEnum | (string & {}) | undefined;
   /** Describes a specific SPDX File. */
   spdxFile?: FileOccurrence | undefined;
 }
-export interface CreateProjectsOperationsRequest {
-  /** The project Id that this operation should be created under. */
+export interface CreateProjectsOccurrencesRequest extends Omit<Occurrence, "name"> {
+  /** This field contains the project Id for example: "projects/{project_id}" */
   parent: string;
+  /** The name of the project. Should be of the form "projects/{project_id}". @Deprecated */
+  name?: string | undefined;
+}
+/** Request for creating an operation */
+export interface CreateOperationRequest {
   /** The ID to use for this operation. */
   operationId?: string | undefined;
   /** The operation to create. */
   operation?: Operation | undefined;
 }
-export interface CreateProvidersNotesRequest {
+export interface CreateProjectsOperationsRequest extends CreateOperationRequest {
+  /** The project Id that this operation should be created under. */
+  parent: string;
+}
+export interface CreateProvidersNotesRequest extends Omit<Note, "name"> {
   /** This field contains the project Id for example: "projects/{project_id} */
   parent?: string | undefined;
   /** The name of the project. Should be of the form "providers/{provider_id}". @Deprecated */
   name: string;
   /** The ID to use for this note. */
   noteId?: string | undefined;
-  /** A note describing something that can be deployed. */
-  deployable?: Deployable | undefined;
-  /** A note describing a compliance check. */
-  compliance?: ComplianceNote | undefined;
-  /** A note describing a base image. */
-  baseImage?: Basis | undefined;
-  /** A note describing a software bill of materials. */
-  sbom?: DocumentNote | undefined;
-  /** A note describing an SPDX File. */
-  spdxFile?: FileNote | undefined;
-  /** A note describing a vulnerability assessment. */
-  vulnerabilityAssessment?: VulnerabilityAssessmentNote | undefined;
-  /** A note describing a package hosted by various package managers. */
-  package?: Package | undefined;
-  /** A note describing a provider/analysis type. */
-  discovery?: Discovery | undefined;
-  /** A note describing a dsse attestation note. */
-  dsseAttestation?: DSSEAttestationNote | undefined;
-  /** A package vulnerability type of note. */
-  vulnerabilityType?: VulnerabilityType | undefined;
-  /** A note describing an attestation role. */
-  attestationAuthority?: AttestationAuthority | undefined;
-  /** Time of expiration for this note, null if note does not expire. */
-  expirationTime?: string | undefined;
-  /** Output only. The time this note was created. This field can be used as a filter in list requests. */
-  createTime?: string | undefined;
-  /** A note describing a relationship between SPDX elements. */
-  spdxRelationship?: RelationshipNote | undefined;
-  /** A note describing an upgrade. */
-  upgrade?: UpgradeNote | undefined;
-  /** A note describing a secret. */
-  secret?: SecretNote | undefined;
-  /** A note describing an SPDX Package. */
-  spdxPackage?: PackageInfoNote | undefined;
-  /** Build provenance type for a verifiable build. */
-  buildType?: BuildType | undefined;
-  /** A note describing an AI skill analysis. */
-  aiSkillAnalysis?: SecretNote | undefined;
-  /** Output only. The time this note was last updated. This field can be used as a filter in list requests. */
-  updateTime?: string | undefined;
-  /** A note describing a reference to an SBOM. */
-  sbomReference?: SBOMReferenceNote | undefined;
-  /** URLs associated with this note */
-  relatedUrl?: RelatedUrlList | undefined;
-  /** Output only. This explicitly denotes which kind of note is specified. This field can be used as a filter in list requests. */
-  kind?: NoteKindEnum | (string & {}) | undefined;
-  /** A detailed description of this `Note`. */
-  longDescription?: string | undefined;
-  /** A one sentence description of this `Note`. */
-  shortDescription?: string | undefined;
 }
 export interface DeleteProjectsNotesRequest {
   /** The name of the note in the form of "providers/{provider_id}/notes/{NOTE_ID}" */
@@ -2305,11 +2158,14 @@ export interface GetPolicyOptions {
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   requestedPolicyVersion?: number | undefined;
 }
-export interface GetIamPolicyProjectsNotesRequest {
-  /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
+/** Request message for `GetIamPolicy` method. */
+export interface GetIamPolicyRequest {
   /** OPTIONAL: A `GetPolicyOptions` object for specifying options to `GetIamPolicy`. */
   options?: GetPolicyOptions | undefined;
+}
+export interface GetIamPolicyProjectsNotesRequest extends GetIamPolicyRequest {
+  /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
 }
 /** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
 export interface Expr {
@@ -2341,17 +2197,13 @@ export interface Policy {
   /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   version?: number | undefined;
 }
-export interface GetIamPolicyProjectsOccurrencesRequest {
+export interface GetIamPolicyProjectsOccurrencesRequest extends GetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** OPTIONAL: A `GetPolicyOptions` object for specifying options to `GetIamPolicy`. */
-  options?: GetPolicyOptions | undefined;
 }
-export interface GetIamPolicyProvidersNotesRequest {
+export interface GetIamPolicyProvidersNotesRequest extends GetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** OPTIONAL: A `GetPolicyOptions` object for specifying options to `GetIamPolicy`. */
-  options?: GetPolicyOptions | undefined;
 }
 export interface GetNotesProjectsOccurrencesRequest {
   /** The name of the occurrence in the form "projects/{project_id}/occurrences/{OCCURRENCE_ID}" */
@@ -2531,236 +2383,79 @@ export interface ListProvidersNotesOccurrencesRequest {
   /** The name field will contain the note name for example: "provider/{provider_id}/notes/{note_id}" */
   name: string;
 }
-export interface PatchProjectsNotesRequest {
+export interface PatchProjectsNotesRequest extends Omit<Note, "name"> {
   /** The name of the note. Should be of the form "projects/{provider_id}/notes/{note_id}". */
   name: string;
   /** The fields to update. */
   updateMask?: string | undefined;
-  /** A note describing something that can be deployed. */
-  deployable?: Deployable | undefined;
-  /** A note describing a compliance check. */
-  compliance?: ComplianceNote | undefined;
-  /** A note describing a base image. */
-  baseImage?: Basis | undefined;
-  /** A note describing a software bill of materials. */
-  sbom?: DocumentNote | undefined;
-  /** A note describing an SPDX File. */
-  spdxFile?: FileNote | undefined;
-  /** A note describing a vulnerability assessment. */
-  vulnerabilityAssessment?: VulnerabilityAssessmentNote | undefined;
-  /** A note describing a package hosted by various package managers. */
-  package?: Package | undefined;
-  /** A note describing a provider/analysis type. */
-  discovery?: Discovery | undefined;
-  /** A note describing a dsse attestation note. */
-  dsseAttestation?: DSSEAttestationNote | undefined;
-  /** A package vulnerability type of note. */
-  vulnerabilityType?: VulnerabilityType | undefined;
-  /** A note describing an attestation role. */
-  attestationAuthority?: AttestationAuthority | undefined;
-  /** Time of expiration for this note, null if note does not expire. */
-  expirationTime?: string | undefined;
-  /** Output only. The time this note was created. This field can be used as a filter in list requests. */
-  createTime?: string | undefined;
-  /** A note describing a relationship between SPDX elements. */
-  spdxRelationship?: RelationshipNote | undefined;
-  /** A note describing an upgrade. */
-  upgrade?: UpgradeNote | undefined;
-  /** A note describing a secret. */
-  secret?: SecretNote | undefined;
-  /** A note describing an SPDX Package. */
-  spdxPackage?: PackageInfoNote | undefined;
-  /** Build provenance type for a verifiable build. */
-  buildType?: BuildType | undefined;
-  /** A note describing an AI skill analysis. */
-  aiSkillAnalysis?: SecretNote | undefined;
-  /** Output only. The time this note was last updated. This field can be used as a filter in list requests. */
-  updateTime?: string | undefined;
-  /** A note describing a reference to an SBOM. */
-  sbomReference?: SBOMReferenceNote | undefined;
-  /** URLs associated with this note */
-  relatedUrl?: RelatedUrlList | undefined;
-  /** Output only. This explicitly denotes which kind of note is specified. This field can be used as a filter in list requests. */
-  kind?: NoteKindEnum | (string & {}) | undefined;
-  /** A detailed description of this `Note`. */
-  longDescription?: string | undefined;
-  /** A one sentence description of this `Note`. */
-  shortDescription?: string | undefined;
 }
-export interface PatchProjectsOccurrencesRequest {
+export interface PatchProjectsOccurrencesRequest extends Omit<Occurrence, "name"> {
   /** The name of the occurrence. Should be of the form "projects/{project_id}/occurrences/{OCCURRENCE_ID}". */
   name: string;
   /** The fields to update. */
   updateMask?: string | undefined;
-  /** The resource for which the `Occurrence` applies. */
-  resource?: Resource | undefined;
-  /** An analysis note associated with this image, in the form "providers/{provider_id}/notes/{NOTE_ID}" This field can be used as a filter in list requests. */
-  noteName?: string | undefined;
-  /** Output only. The time this `Occurrence` was created. */
-  createTime?: string | undefined;
-  /** Describes the initial scan status for this resource. */
-  discovered?: Discovered | undefined;
-  /** Details of a security vulnerability note. */
-  vulnerabilityDetails?: VulnerabilityDetails | undefined;
-  /** Describes a specific relationship between SPDX elements. */
-  spdxRelationship?: RelationshipOccurrence | undefined;
-  /** Describes the deployment of an artifact on a runtime. */
-  deployment?: Deployment | undefined;
-  /** https://github.com/secure-systems-lab/dsse */
-  envelope?: Envelope | undefined;
-  /** Describes a specific SPDX Package. */
-  spdxPackage?: PackageInfoOccurrence | undefined;
-  /** Describes how this resource derives from the basis in the associated note. */
-  derivedImage?: Derived | undefined;
-  /** Describes an upgrade. */
-  upgrade?: UpgradeOccurrence | undefined;
-  /** Output only. The time this `Occurrence` was last updated. */
-  updateTime?: string | undefined;
-  /** This represents an AI skill analysis occurrence */
-  aiSkillAnalysis?: AISkillAnalysisOccurrence | undefined;
-  /** Describes a specific software bill of materials document. */
-  sbom?: DocumentOccurrence | undefined;
-  /** This represents a secret occurrence */
-  secret?: SecretOccurrence | undefined;
-  /** Describes the installation of a package on the linked resource. */
-  installation?: Installation | undefined;
-  /** The unique URL of the image or the container for which the `Occurrence` applies. For example, https://gcr.io/project/image@sha256:foo This field can be used as a filter in list requests. */
-  resourceUrl?: string | undefined;
-  /** Describes whether or not a resource passes compliance checks. */
-  compliance?: ComplianceOccurrence | undefined;
-  /** This represents an SBOM reference occurrence */
-  sbomReference?: SBOMReferenceOccurrence | undefined;
-  /** A description of actions that can be taken to remedy the `Note` */
-  remediation?: string | undefined;
-  /** Build details for a verifiable build. */
-  buildDetails?: BuildDetails | undefined;
-  /** This represents a DSSE attestation occurrence */
-  dsseAttestation?: DSSEAttestationOccurrence | undefined;
-  /** Describes an attestation of an artifact. */
-  attestation?: Attestation | undefined;
-  /** Output only. This explicitly denotes which of the `Occurrence` details are specified. This field can be used as a filter in list requests. */
-  kind?: OccurrenceKindEnum | (string & {}) | undefined;
-  /** Describes a specific SPDX File. */
-  spdxFile?: FileOccurrence | undefined;
 }
-export interface PatchProjectsOperationsRequest {
-  /** The name of the Operation. Should be of the form "projects/{provider_id}/operations/{operation_id}". */
-  name: string;
+/** Request for updating an existing operation */
+export interface UpdateOperationRequest {
   /** The operation to create. */
   operation?: Operation | undefined;
   /** The fields to update. */
   updateMask?: string | undefined;
 }
-export interface PatchProjectsScanConfigsRequest {
+export interface PatchProjectsOperationsRequest extends UpdateOperationRequest {
+  /** The name of the Operation. Should be of the form "projects/{provider_id}/operations/{operation_id}". */
+  name: string;
+}
+export interface PatchProjectsScanConfigsRequest extends Omit<ScanConfig, "name"> {
   /** The scan config to update of the form projects/{project_id}/scanConfigs/{scan_config_id}. */
   name: string;
   /** The fields to update. */
   updateMask?: string | undefined;
-  /** Output only. A human-readable description of what the `ScanConfig` does. */
-  description?: string | undefined;
-  /** Output only. The time this scan config was last updated. */
-  updateTime?: string | undefined;
-  /** Output only. The time this scan config was created. */
-  createTime?: string | undefined;
-  /** Indicates whether the Scan is enabled. */
-  enabled?: boolean | undefined;
 }
-export interface PatchProvidersNotesRequest {
+export interface PatchProvidersNotesRequest extends Omit<Note, "name"> {
   /** The fields to update. */
   updateMask?: string | undefined;
   /** The name of the note. Should be of the form "projects/{provider_id}/notes/{note_id}". */
   name: string;
-  /** A note describing something that can be deployed. */
-  deployable?: Deployable | undefined;
-  /** A note describing a compliance check. */
-  compliance?: ComplianceNote | undefined;
-  /** A note describing a base image. */
-  baseImage?: Basis | undefined;
-  /** A note describing a software bill of materials. */
-  sbom?: DocumentNote | undefined;
-  /** A note describing an SPDX File. */
-  spdxFile?: FileNote | undefined;
-  /** A note describing a vulnerability assessment. */
-  vulnerabilityAssessment?: VulnerabilityAssessmentNote | undefined;
-  /** A note describing a package hosted by various package managers. */
-  package?: Package | undefined;
-  /** A note describing a provider/analysis type. */
-  discovery?: Discovery | undefined;
-  /** A note describing a dsse attestation note. */
-  dsseAttestation?: DSSEAttestationNote | undefined;
-  /** A package vulnerability type of note. */
-  vulnerabilityType?: VulnerabilityType | undefined;
-  /** A note describing an attestation role. */
-  attestationAuthority?: AttestationAuthority | undefined;
-  /** Time of expiration for this note, null if note does not expire. */
-  expirationTime?: string | undefined;
-  /** Output only. The time this note was created. This field can be used as a filter in list requests. */
-  createTime?: string | undefined;
-  /** A note describing a relationship between SPDX elements. */
-  spdxRelationship?: RelationshipNote | undefined;
-  /** A note describing an upgrade. */
-  upgrade?: UpgradeNote | undefined;
-  /** A note describing a secret. */
-  secret?: SecretNote | undefined;
-  /** A note describing an SPDX Package. */
-  spdxPackage?: PackageInfoNote | undefined;
-  /** Build provenance type for a verifiable build. */
-  buildType?: BuildType | undefined;
-  /** A note describing an AI skill analysis. */
-  aiSkillAnalysis?: SecretNote | undefined;
-  /** Output only. The time this note was last updated. This field can be used as a filter in list requests. */
-  updateTime?: string | undefined;
-  /** A note describing a reference to an SBOM. */
-  sbomReference?: SBOMReferenceNote | undefined;
-  /** URLs associated with this note */
-  relatedUrl?: RelatedUrlList | undefined;
-  /** Output only. This explicitly denotes which kind of note is specified. This field can be used as a filter in list requests. */
-  kind?: NoteKindEnum | (string & {}) | undefined;
-  /** A detailed description of this `Note`. */
-  longDescription?: string | undefined;
-  /** A one sentence description of this `Note`. */
-  shortDescription?: string | undefined;
 }
-export interface SetIamPolicyProjectsNotesRequest {
-  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
+/** Request message for `SetIamPolicy` method. */
+export interface SetIamPolicyRequest {
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
   policy?: Policy | undefined;
 }
-export interface SetIamPolicyProjectsOccurrencesRequest {
+export interface SetIamPolicyProjectsNotesRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
-  policy?: Policy | undefined;
 }
-export interface SetIamPolicyProvidersNotesRequest {
+export interface SetIamPolicyProjectsOccurrencesRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
-  policy?: Policy | undefined;
 }
-export interface TestIamPermissionsProjectsNotesRequest {
-  /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+export interface SetIamPolicyProvidersNotesRequest extends SetIamPolicyRequest {
+  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
+}
+/** Request message for `TestIamPermissions` method. */
+export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: StringList | undefined;
+}
+export interface TestIamPermissionsProjectsNotesRequest extends TestIamPermissionsRequest {
+  /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsOccurrencesRequest {
+export interface TestIamPermissionsProjectsOccurrencesRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
-  permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProvidersNotesRequest {
+export interface TestIamPermissionsProvidersNotesRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
-  permissions?: StringList | undefined;
 }
 export type CreateProjectsNotesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
 /** Creates a new `Note`. */
@@ -2770,8 +2465,8 @@ export const createProjectsNotes: API.OperationMethod<
   CreateProjectsNotesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c33, 0) as any as S.Schema<CreateProjectsNotesRequest>,
-  output: __S(1186, __c37, 2) as any as S.Schema<Note>,
+  input: __S(1088, __c34, 0) as any as S.Schema<CreateProjectsNotesRequest>,
+  output: __S(1218, __c38, 2) as any as S.Schema<Note>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2792,8 +2487,8 @@ export const createProjectsOccurrences: API.OperationMethod<
   CreateProjectsOccurrencesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c39, 0) as any as S.Schema<CreateProjectsOccurrencesRequest>,
-  output: __S(1385, __c43, 9) as any as S.Schema<Occurrence>,
+  input: __S(1280, __c40, 0) as any as S.Schema<CreateProjectsOccurrencesRequest>,
+  output: __S(1417, __c44, 9) as any as S.Schema<Occurrence>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2814,8 +2509,8 @@ export const createProjectsOperations: API.OperationMethod<
   CreateProjectsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1440, __c45, 0) as any as S.Schema<CreateProjectsOperationsRequest>,
-  output: __S(1411, __c44, 3) as any as S.Schema<Operation>,
+  input: __S(1473, __c46, 1) as any as S.Schema<CreateProjectsOperationsRequest>,
+  output: __S(1443, __c45, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2831,8 +2526,8 @@ export const createProvidersNotes: API.OperationMethod<
   CreateProvidersNotesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c46, 0) as any as S.Schema<CreateProvidersNotesRequest>,
-  output: __S(1186, __c37, 2) as any as S.Schema<Note>,
+  input: __S(1504, __c47, 0) as any as S.Schema<CreateProvidersNotesRequest>,
+  output: __S(1218, __c38, 2) as any as S.Schema<Note>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2848,8 +2543,8 @@ export const deleteProjectsNotes: API.OperationMethod<
   DeleteProjectsNotesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c47, 0) as any as S.Schema<DeleteProjectsNotesRequest>,
-  output: __S(1216, __c38, 0) as any as S.Schema<Empty>,
+  input: __S(1536, __c48, 0) as any as S.Schema<DeleteProjectsNotesRequest>,
+  output: __S(1248, __c39, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2870,8 +2565,8 @@ export const deleteProjectsOccurrences: API.OperationMethod<
   DeleteProjectsOccurrencesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1536, __c48, 0) as any as S.Schema<DeleteProjectsOccurrencesRequest>,
-  output: __S(1216, __c38, 0) as any as S.Schema<Empty>,
+  input: __S(1568, __c49, 0) as any as S.Schema<DeleteProjectsOccurrencesRequest>,
+  output: __S(1248, __c39, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2888,7 +2583,7 @@ export const deleteProvidersNotes: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<DeleteProvidersNotesRequest>,
-  output: __S(1216, __c38, 0) as any as S.Schema<Empty>,
+  output: __S(1248, __c39, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2971,7 +2666,7 @@ export const getNotesProjectsOccurrences: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c6, 0) as any as S.Schema<GetNotesProjectsOccurrencesRequest>,
-  output: __S(1186, __c37, 2) as any as S.Schema<Note>,
+  output: __S(1218, __c38, 2) as any as S.Schema<Note>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2988,7 +2683,7 @@ export const getProjectsNotes: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c7, 0) as any as S.Schema<GetProjectsNotesRequest>,
-  output: __S(1186, __c37, 2) as any as S.Schema<Note>,
+  output: __S(1218, __c38, 2) as any as S.Schema<Note>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3005,7 +2700,7 @@ export const getProjectsOccurrences: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c8, 0) as any as S.Schema<GetProjectsOccurrencesRequest>,
-  output: __S(1385, __c43, 9) as any as S.Schema<Occurrence>,
+  output: __S(1417, __c44, 9) as any as S.Schema<Occurrence>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3039,7 +2734,7 @@ export const getProvidersNotes: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c11, 0) as any as S.Schema<GetProvidersNotesRequest>,
-  output: __S(1186, __c37, 2) as any as S.Schema<Note>,
+  output: __S(1218, __c38, 2) as any as S.Schema<Note>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3187,7 +2882,7 @@ export const patchProjectsNotes: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c21, 0) as any as S.Schema<PatchProjectsNotesRequest>,
-  output: __S(1186, __c37, 2) as any as S.Schema<Note>,
+  output: __S(1218, __c38, 2) as any as S.Schema<Note>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3209,7 +2904,7 @@ export const patchProjectsOccurrences: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(704, __c22, 0) as any as S.Schema<PatchProjectsOccurrencesRequest>,
-  output: __S(1385, __c43, 9) as any as S.Schema<Occurrence>,
+  output: __S(1417, __c44, 9) as any as S.Schema<Occurrence>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3230,8 +2925,8 @@ export const patchProjectsOperations: API.OperationMethod<
   PatchProjectsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c23, 0) as any as S.Schema<PatchProjectsOperationsRequest>,
-  output: __S(1411, __c44, 3) as any as S.Schema<Operation>,
+  input: __S(737, __c23, 1) as any as S.Schema<PatchProjectsOperationsRequest>,
+  output: __S(1443, __c45, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3270,7 +2965,7 @@ export const patchProvidersNotes: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(800, __c25, 0) as any as S.Schema<PatchProvidersNotesRequest>,
-  output: __S(1186, __c37, 2) as any as S.Schema<Note>,
+  output: __S(1218, __c38, 2) as any as S.Schema<Note>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3313,7 +3008,7 @@ export const setIamPolicyProjectsOccurrences: API.OperationMethod<
   SetIamPolicyProjectsOccurrencesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c27, 0) as any as S.Schema<SetIamPolicyProjectsOccurrencesRequest>,
+  input: __S(896, __c28, 0) as any as S.Schema<SetIamPolicyProjectsOccurrencesRequest>,
   output: __S(99, __c3, 3) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -3335,7 +3030,7 @@ export const setIamPolicyProvidersNotes: API.OperationMethod<
   SetIamPolicyProvidersNotesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c28, 0) as any as S.Schema<SetIamPolicyProvidersNotesRequest>,
+  input: __S(928, __c29, 0) as any as S.Schema<SetIamPolicyProvidersNotesRequest>,
   output: __S(99, __c3, 3) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -3357,8 +3052,8 @@ export const testIamPermissionsProjectsNotes: API.OperationMethod<
   TestIamPermissionsProjectsNotesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c29, 0) as any as S.Schema<TestIamPermissionsProjectsNotesRequest>,
-  output: __S(960, __c30, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  input: __S(960, __c30, 0) as any as S.Schema<TestIamPermissionsProjectsNotesRequest>,
+  output: __S(992, __c31, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3379,8 +3074,8 @@ export const testIamPermissionsProjectsOccurrences: API.OperationMethod<
   TestIamPermissionsProjectsOccurrencesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c31, 0) as any as S.Schema<TestIamPermissionsProjectsOccurrencesRequest>,
-  output: __S(960, __c30, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  input: __S(1024, __c32, 0) as any as S.Schema<TestIamPermissionsProjectsOccurrencesRequest>,
+  output: __S(992, __c31, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3401,8 +3096,8 @@ export const testIamPermissionsProvidersNotes: API.OperationMethod<
   TestIamPermissionsProvidersNotesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c32, 0) as any as S.Schema<TestIamPermissionsProvidersNotesRequest>,
-  output: __S(960, __c30, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  input: __S(1056, __c33, 0) as any as S.Schema<TestIamPermissionsProvidersNotesRequest>,
+  output: __S(992, __c31, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3431,10 +3126,12 @@ function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          options: S.optional(__S(64, __c2, 0)),
-        }).pipe(
+        S.Extend(
+          __S(65, __c2, 1),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+resource}:getIamPolicy",
@@ -3452,6 +3149,12 @@ function __c2(j: number): any {
           requestedPolicyVersion: S.optional(S.Number),
         }),
       ).annotate({ identifier: "GetPolicyOptions" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          options: S.optional(__S(64, __c2, 0)),
+        }),
+      ).annotate({ identifier: "GetIamPolicyRequest" });
   }
 }
 function __c3(j: number): any {
@@ -3469,7 +3172,7 @@ function __c3(j: number): any {
       return S.suspend(() =>
         S.Struct({
           condition: S.optional(__S(96, __c3, 0)),
-          members: S.optional(__S(1088, __c34, 0)),
+          members: S.optional(__S(1120, __c35, 0)),
           role: S.optional(S.String),
         }),
       ).annotate({ identifier: "Binding" });
@@ -3489,10 +3192,12 @@ function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          options: S.optional(__S(64, __c2, 0)),
-        }).pipe(
+        S.Extend(
+          __S(65, __c2, 1),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+resource}:getIamPolicy",
@@ -3506,10 +3211,12 @@ function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          options: S.optional(__S(64, __c2, 0)),
-        }).pipe(
+        S.Extend(
+          __S(65, __c2, 1),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+resource}:getIamPolicy",
@@ -3668,7 +3375,7 @@ function __c13(j: number): any {
 function __c14(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1186, __c37, 2));
+      return S.Array(__S(1218, __c38, 2));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -3700,7 +3407,7 @@ function __c15(j: number): any {
 function __c16(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1385, __c43, 9));
+      return S.Array(__S(1417, __c44, 9));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -3802,35 +3509,13 @@ function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          deployable: S.optional(__S(1152, __c36, 0)),
-          compliance: S.optional(__S(1155, __c36, 3)),
-          baseImage: S.optional(__S(1156, __c36, 4)),
-          sbom: S.optional(__S(1157, __c36, 5)),
-          spdxFile: S.optional(__S(1158, __c36, 6)),
-          vulnerabilityAssessment: S.optional(__S(1163, __c36, 11)),
-          package: S.optional(__S(1168, __c36, 16)),
-          discovery: S.optional(__S(1169, __c36, 17)),
-          dsseAttestation: S.optional(__S(1171, __c36, 19)),
-          vulnerabilityType: S.optional(__S(1174, __c36, 22)),
-          attestationAuthority: S.optional(__S(1171, __c36, 19)),
-          expirationTime: S.optional(S.String),
-          createTime: S.optional(S.String),
-          spdxRelationship: S.optional(__S(1175, __c36, 23)),
-          upgrade: S.optional(__S(1177, __c36, 25)),
-          secret: S.optional(__S(1216, __c38, 0)),
-          spdxPackage: S.optional(__S(1180, __c36, 28)),
-          buildType: S.optional(__S(1182, __c36, 30)),
-          aiSkillAnalysis: S.optional(__S(1216, __c38, 0)),
-          updateTime: S.optional(S.String),
-          sbomReference: S.optional(__S(1183, __c36, 31)),
-          relatedUrl: S.optional(__S(1185, __c37, 1)),
-          kind: S.optional(S.String),
-          longDescription: S.optional(S.String),
-          shortDescription: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1218, __c38, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha1/{+name}",
@@ -3844,35 +3529,13 @@ function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          resource: S.optional(__S(1281, __c40, 1)),
-          noteName: S.optional(S.String),
-          createTime: S.optional(S.String),
-          discovered: S.optional(__S(1289, __c40, 9)),
-          vulnerabilityDetails: S.optional(__S(1296, __c40, 16)),
-          spdxRelationship: S.optional(__S(1297, __c40, 17)),
-          deployment: S.optional(__S(1298, __c40, 18)),
-          envelope: S.optional(__S(1301, __c40, 21)),
-          spdxPackage: S.optional(__S(1302, __c40, 22)),
-          derivedImage: S.optional(__S(1305, __c40, 25)),
-          upgrade: S.optional(__S(1306, __c40, 26)),
-          updateTime: S.optional(S.String),
-          aiSkillAnalysis: S.optional(__S(1316, __c41, 4)),
-          sbom: S.optional(__S(1317, __c41, 5)),
-          secret: S.optional(__S(1322, __c41, 10)),
-          installation: S.optional(__S(1325, __c41, 13)),
-          resourceUrl: S.optional(S.String),
-          compliance: S.optional(__S(1328, __c41, 16)),
-          sbomReference: S.optional(__S(1333, __c41, 21)),
-          remediation: S.optional(S.String),
-          buildDetails: S.optional(__S(1380, __c43, 4)),
-          dsseAttestation: S.optional(__S(1381, __c43, 5)),
-          attestation: S.optional(__S(1383, __c43, 7)),
-          kind: S.optional(S.String),
-          spdxFile: S.optional(__S(1384, __c43, 8)),
-        }).pipe(
+        S.Extend(
+          __S(1417, __c44, 9),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha1/{+name}",
@@ -3887,10 +3550,18 @@ function __c23(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
-          operation: S.optional(__S(1411, __c44, 3)),
+          operation: S.optional(__S(1443, __c45, 3)),
           updateMask: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "UpdateOperationRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(736, __c23, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha1/{+name}",
@@ -3904,14 +3575,13 @@ function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          description: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          createTime: S.optional(S.String),
-          enabled: S.optional(S.Boolean),
-        }).pipe(
+        S.Extend(
+          __S(320, __c10, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha1/{+name}",
@@ -3925,35 +3595,13 @@ function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          deployable: S.optional(__S(1152, __c36, 0)),
-          compliance: S.optional(__S(1155, __c36, 3)),
-          baseImage: S.optional(__S(1156, __c36, 4)),
-          sbom: S.optional(__S(1157, __c36, 5)),
-          spdxFile: S.optional(__S(1158, __c36, 6)),
-          vulnerabilityAssessment: S.optional(__S(1163, __c36, 11)),
-          package: S.optional(__S(1168, __c36, 16)),
-          discovery: S.optional(__S(1169, __c36, 17)),
-          dsseAttestation: S.optional(__S(1171, __c36, 19)),
-          vulnerabilityType: S.optional(__S(1174, __c36, 22)),
-          attestationAuthority: S.optional(__S(1171, __c36, 19)),
-          expirationTime: S.optional(S.String),
-          createTime: S.optional(S.String),
-          spdxRelationship: S.optional(__S(1175, __c36, 23)),
-          upgrade: S.optional(__S(1177, __c36, 25)),
-          secret: S.optional(__S(1216, __c38, 0)),
-          spdxPackage: S.optional(__S(1180, __c36, 28)),
-          buildType: S.optional(__S(1182, __c36, 30)),
-          aiSkillAnalysis: S.optional(__S(1216, __c38, 0)),
-          updateTime: S.optional(S.String),
-          sbomReference: S.optional(__S(1183, __c36, 31)),
-          relatedUrl: S.optional(__S(1185, __c37, 1)),
-          kind: S.optional(S.String),
-          longDescription: S.optional(S.String),
-          shortDescription: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1218, __c38, 2),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha1/{+name}",
@@ -3967,10 +3615,12 @@ function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          policy: S.optional(__S(99, __c3, 3)),
-        }).pipe(
+        S.Extend(
+          __S(864, __c27, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+resource}:setIamPolicy",
@@ -3985,9 +3635,21 @@ function __c27(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          resource: S.String.pipe(T.Label()),
           policy: S.optional(__S(99, __c3, 3)),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "SetIamPolicyRequest" });
+  }
+}
+function __c28(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(864, __c27, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+resource}:setIamPolicy",
@@ -3997,14 +3659,16 @@ function __c27(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsOccurrencesRequest" });
   }
 }
-function __c28(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          policy: S.optional(__S(99, __c3, 3)),
-        }).pipe(
+        S.Extend(
+          __S(864, __c27, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+resource}:setIamPolicy",
@@ -4014,14 +3678,16 @@ function __c28(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProvidersNotesRequest" });
   }
 }
-function __c29(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          permissions: S.optional(__S(1088, __c34, 0)),
-        }).pipe(
+        S.Extend(
+          __S(992, __c31, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+resource}:testIamPermissions",
@@ -4031,24 +3697,26 @@ function __c29(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsNotesRequest" });
   }
 }
-function __c30(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          permissions: S.optional(__S(1088, __c34, 0)),
-        }),
-      ).annotate({ identifier: "TestIamPermissionsResponse" });
-  }
-}
 function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          resource: S.String.pipe(T.Label()),
-          permissions: S.optional(__S(1088, __c34, 0)),
-        }).pipe(
+          permissions: S.optional(__S(1120, __c35, 0)),
+        }),
+      ).annotate({ identifier: "TestIamPermissionsRequest" });
+  }
+}
+function __c32(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(992, __c31, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+resource}:testIamPermissions",
@@ -4058,14 +3726,16 @@ function __c31(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsOccurrencesRequest" });
   }
 }
-function __c32(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          permissions: S.optional(__S(1088, __c34, 0)),
-        }).pipe(
+        S.Extend(
+          __S(992, __c31, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+resource}:testIamPermissions",
@@ -4075,40 +3745,18 @@ function __c32(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProvidersNotesRequest" });
   }
 }
-function __c33(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String.pipe(T.Query())),
-          noteId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          deployable: S.optional(__S(1152, __c36, 0)),
-          compliance: S.optional(__S(1155, __c36, 3)),
-          baseImage: S.optional(__S(1156, __c36, 4)),
-          sbom: S.optional(__S(1157, __c36, 5)),
-          spdxFile: S.optional(__S(1158, __c36, 6)),
-          vulnerabilityAssessment: S.optional(__S(1163, __c36, 11)),
-          package: S.optional(__S(1168, __c36, 16)),
-          discovery: S.optional(__S(1169, __c36, 17)),
-          dsseAttestation: S.optional(__S(1171, __c36, 19)),
-          vulnerabilityType: S.optional(__S(1174, __c36, 22)),
-          attestationAuthority: S.optional(__S(1171, __c36, 19)),
-          expirationTime: S.optional(S.String),
-          createTime: S.optional(S.String),
-          spdxRelationship: S.optional(__S(1175, __c36, 23)),
-          upgrade: S.optional(__S(1177, __c36, 25)),
-          secret: S.optional(__S(1216, __c38, 0)),
-          spdxPackage: S.optional(__S(1180, __c36, 28)),
-          buildType: S.optional(__S(1182, __c36, 30)),
-          aiSkillAnalysis: S.optional(__S(1216, __c38, 0)),
-          updateTime: S.optional(S.String),
-          sbomReference: S.optional(__S(1183, __c36, 31)),
-          relatedUrl: S.optional(__S(1185, __c37, 1)),
-          kind: S.optional(S.String),
-          longDescription: S.optional(S.String),
-          shortDescription: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1218, __c38, 2),
+          S.Struct({
+            name: S.optional(S.String.pipe(T.Query())),
+            noteId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+parent}/notes",
@@ -4118,13 +3766,13 @@ function __c33(j: number): any {
       ).annotate({ identifier: "CreateProjectsNotesRequest" });
   }
 }
-function __c34(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c35(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4139,7 +3787,7 @@ function __c35(j: number): any {
         S.Struct({
           v2Name: S.optional(S.String),
           v1Name: S.optional(S.String),
-          v2Blob: S.optional(__S(1088, __c34, 0)),
+          v2Blob: S.optional(__S(1120, __c35, 0)),
         }),
       ).annotate({ identifier: "Fingerprint" });
     case 2:
@@ -4150,7 +3798,7 @@ function __c35(j: number): any {
         }),
       ).annotate({ identifier: "URI" });
     case 3:
-      return S.Array(__S(1122, __c35, 2));
+      return S.Array(__S(1154, __c36, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -4161,13 +3809,13 @@ function __c35(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          remediationUri: S.optional(__S(1122, __c35, 2)),
+          remediationUri: S.optional(__S(1154, __c36, 2)),
           details: S.optional(S.String),
           remediationType: S.optional(S.String),
         }),
       ).annotate({ identifier: "Remediation" });
     case 6:
-      return S.Array(__S(1125, __c35, 5));
+      return S.Array(__S(1157, __c36, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -4220,7 +3868,7 @@ function __c35(j: number): any {
         }),
       ).annotate({ identifier: "BaseImage" });
     case 11:
-      return S.Array(__S(1130, __c35, 10));
+      return S.Array(__S(1162, __c36, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
@@ -4228,25 +3876,25 @@ function __c35(j: number): any {
           diffId: S.optional(S.String),
           chainId: S.optional(S.String),
           command: S.optional(S.String),
-          baseImages: S.optional(__S(1131, __c35, 11)),
+          baseImages: S.optional(__S(1163, __c36, 11)),
         }),
       ).annotate({ identifier: "LayerDetails" });
     case 13:
       return S.suspend(() =>
         S.Struct({
-          layerDetails: S.optional(__S(1132, __c35, 12)),
+          layerDetails: S.optional(__S(1164, __c36, 12)),
           lineNumber: S.optional(S.Number),
           filePath: S.optional(S.String),
         }),
       ).annotate({ identifier: "FileLocation" });
     case 14:
-      return S.Array(__S(1133, __c35, 13));
+      return S.Array(__S(1165, __c36, 13));
     case 15:
       return S.suspend(() =>
         S.Struct({
-          fileLocation: S.optional(__S(1134, __c35, 14)),
+          fileLocation: S.optional(__S(1166, __c36, 14)),
           package: S.optional(S.String),
-          version: S.optional(__S(1127, __c35, 7)),
+          version: S.optional(__S(1159, __c36, 7)),
           cpeUri: S.optional(S.String),
         }),
       ).annotate({ identifier: "VulnerabilityLocation" });
@@ -4254,19 +3902,19 @@ function __c35(j: number): any {
       return S.suspend(() =>
         S.Struct({
           cpeUri: S.optional(S.String),
-          cve: S.optional(__S(1088, __c34, 0)),
+          cve: S.optional(__S(1120, __c35, 0)),
           severity: S.optional(S.String),
           classification: S.optional(S.String),
         }),
       ).annotate({ identifier: "UpgradeDistribution" });
   }
 }
-function __c36(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          resourceUri: S.optional(__S(1088, __c34, 0)),
+          resourceUri: S.optional(__S(1120, __c35, 0)),
         }),
       ).annotate({ identifier: "Deployable" });
     case 1:
@@ -4277,15 +3925,15 @@ function __c36(j: number): any {
         }),
       ).annotate({ identifier: "CisBenchmark" });
     case 2:
-      return S.Array(__S(1120, __c35, 0));
+      return S.Array(__S(1152, __c36, 0));
     case 3:
       return S.suspend(() =>
         S.Struct({
           rationale: S.optional(S.String),
           description: S.optional(S.String),
-          cisBenchmark: S.optional(__S(1153, __c36, 1)),
+          cisBenchmark: S.optional(__S(1185, __c37, 1)),
           title: S.optional(S.String),
-          version: S.optional(__S(1154, __c36, 2)),
+          version: S.optional(__S(1186, __c37, 2)),
           impact: S.optional(S.String),
           scanInstructions: S.optional(S.String),
           remediation: S.optional(S.String),
@@ -4294,7 +3942,7 @@ function __c36(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          fingerprint: S.optional(__S(1121, __c35, 1)),
+          fingerprint: S.optional(__S(1153, __c36, 1)),
           resourceUrl: S.optional(S.String),
         }),
       ).annotate({ identifier: "Basis" });
@@ -4309,21 +3957,21 @@ function __c36(j: number): any {
       return S.suspend(() =>
         S.Struct({
           fileType: S.optional(S.String),
-          checksum: S.optional(__S(1088, __c34, 0)),
+          checksum: S.optional(__S(1120, __c35, 0)),
           title: S.optional(S.String),
         }),
       ).annotate({ identifier: "FileNote" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          relatedUris: S.optional(__S(1123, __c35, 3)),
+          relatedUris: S.optional(__S(1155, __c36, 3)),
           vulnerabilityId: S.optional(S.String),
           longDescription: S.optional(S.String),
           state: S.optional(S.String),
-          justification: S.optional(__S(1124, __c35, 4)),
-          impacts: S.optional(__S(1088, __c34, 0)),
+          justification: S.optional(__S(1156, __c36, 4)),
+          impacts: S.optional(__S(1120, __c35, 0)),
           cve: S.optional(S.String),
-          remediations: S.optional(__S(1126, __c35, 6)),
+          remediations: S.optional(__S(1158, __c36, 6)),
           shortDescription: S.optional(S.String),
         }),
       ).annotate({ identifier: "Assessment" });
@@ -4338,7 +3986,7 @@ function __c36(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          identifierHelper: S.optional(__S(1160, __c36, 8)),
+          identifierHelper: S.optional(__S(1192, __c37, 8)),
           id: S.optional(S.String),
         }),
       ).annotate({ identifier: "Product" });
@@ -4353,12 +4001,12 @@ function __c36(j: number): any {
     case 11:
       return S.suspend(() =>
         S.Struct({
-          assessment: S.optional(__S(1159, __c36, 7)),
+          assessment: S.optional(__S(1191, __c37, 7)),
           longDescription: S.optional(S.String),
           shortDescription: S.optional(S.String),
-          product: S.optional(__S(1161, __c36, 9)),
+          product: S.optional(__S(1193, __c37, 9)),
           languageCode: S.optional(S.String),
-          publisher: S.optional(__S(1162, __c36, 10)),
+          publisher: S.optional(__S(1194, __c37, 10)),
           title: S.optional(S.String),
         }),
       ).annotate({ identifier: "VulnerabilityAssessmentNote" });
@@ -4366,7 +4014,7 @@ function __c36(j: number): any {
       return S.suspend(() =>
         S.Struct({
           url: S.optional(S.String),
-          latestVersion: S.optional(__S(1127, __c35, 7)),
+          latestVersion: S.optional(__S(1159, __c36, 7)),
           architecture: S.optional(S.String),
           description: S.optional(S.String),
           maintainer: S.optional(S.String),
@@ -4374,7 +4022,7 @@ function __c36(j: number): any {
         }),
       ).annotate({ identifier: "Distribution" });
     case 13:
-      return S.Array(__S(1164, __c36, 12));
+      return S.Array(__S(1196, __c37, 12));
     case 14:
       return S.suspend(() =>
         S.Struct({
@@ -4383,17 +4031,17 @@ function __c36(j: number): any {
         }),
       ).annotate({ identifier: "Digest" });
     case 15:
-      return S.Array(__S(1166, __c36, 14));
+      return S.Array(__S(1198, __c37, 14));
     case 16:
       return S.suspend(() =>
         S.Struct({
-          distribution: S.optional(__S(1165, __c36, 13)),
+          distribution: S.optional(__S(1197, __c37, 13)),
           url: S.optional(S.String),
           description: S.optional(S.String),
-          license: S.optional(__S(1128, __c35, 8)),
-          digest: S.optional(__S(1167, __c36, 15)),
+          license: S.optional(__S(1160, __c36, 8)),
+          digest: S.optional(__S(1199, __c37, 15)),
           cpeUri: S.optional(S.String),
-          version: S.optional(__S(1127, __c35, 7)),
+          version: S.optional(__S(1159, __c36, 7)),
           name: S.optional(S.String),
           architecture: S.optional(S.String),
           packageType: S.optional(S.String),
@@ -4415,7 +4063,7 @@ function __c36(j: number): any {
     case 19:
       return S.suspend(() =>
         S.Struct({
-          hint: S.optional(__S(1170, __c36, 18)),
+          hint: S.optional(__S(1202, __c37, 18)),
         }),
       ).annotate({ identifier: "DSSEAttestationNote" });
     case 20:
@@ -4424,28 +4072,28 @@ function __c36(j: number): any {
           isObsolete: S.optional(S.Boolean),
           source: S.optional(S.String),
           packageType: S.optional(S.String),
-          maxAffectedVersion: S.optional(__S(1127, __c35, 7)),
+          maxAffectedVersion: S.optional(__S(1159, __c36, 7)),
           cpeUri: S.optional(S.String),
           vendor: S.optional(S.String),
           description: S.optional(S.String),
-          minAffectedVersion: S.optional(__S(1127, __c35, 7)),
-          fixedLocation: S.optional(__S(1135, __c35, 15)),
+          minAffectedVersion: S.optional(__S(1159, __c36, 7)),
+          fixedLocation: S.optional(__S(1167, __c36, 15)),
           package: S.optional(S.String),
           severityName: S.optional(S.String),
         }),
       ).annotate({ identifier: "Detail" });
     case 21:
-      return S.Array(__S(1172, __c36, 20));
+      return S.Array(__S(1204, __c37, 20));
     case 22:
       return S.suspend(() =>
         S.Struct({
-          cvssV4: S.optional(__S(1129, __c35, 9)),
-          cwe: S.optional(__S(1088, __c34, 0)),
+          cvssV4: S.optional(__S(1161, __c36, 9)),
+          cwe: S.optional(__S(1120, __c35, 0)),
           cvssVersion: S.optional(S.String),
           severity: S.optional(S.String),
           advisoryPublishTime: S.optional(S.String),
-          cvssV2: S.optional(__S(1129, __c35, 9)),
-          details: S.optional(__S(1173, __c36, 21)),
+          cvssV2: S.optional(__S(1161, __c36, 9)),
+          details: S.optional(__S(1205, __c37, 21)),
           cvssScore: S.optional(S.Number),
         }),
       ).annotate({ identifier: "VulnerabilityType" });
@@ -4456,13 +4104,13 @@ function __c36(j: number): any {
         }),
       ).annotate({ identifier: "RelationshipNote" });
     case 24:
-      return S.Array(__S(1136, __c35, 16));
+      return S.Array(__S(1168, __c36, 16));
     case 25:
       return S.suspend(() =>
         S.Struct({
-          distributions: S.optional(__S(1176, __c36, 24)),
+          distributions: S.optional(__S(1208, __c37, 24)),
           package: S.optional(S.String),
-          version: S.optional(__S(1127, __c35, 7)),
+          version: S.optional(__S(1159, __c36, 7)),
         }),
       ).annotate({ identifier: "UpgradeNote" });
     case 26:
@@ -4475,11 +4123,11 @@ function __c36(j: number): any {
         }),
       ).annotate({ identifier: "ExternalRef" });
     case 27:
-      return S.Array(__S(1178, __c36, 26));
+      return S.Array(__S(1210, __c37, 26));
     case 28:
       return S.suspend(() =>
         S.Struct({
-          licenseDeclared: S.optional(__S(1128, __c35, 8)),
+          licenseDeclared: S.optional(__S(1160, __c36, 8)),
           supplier: S.optional(S.String),
           version: S.optional(S.String),
           summaryDescription: S.optional(S.String),
@@ -4488,14 +4136,14 @@ function __c36(j: number): any {
           downloadLocation: S.optional(S.String),
           verificationCode: S.optional(S.String),
           detailedDescription: S.optional(S.String),
-          externalRefs: S.optional(__S(1179, __c36, 27)),
+          externalRefs: S.optional(__S(1211, __c37, 27)),
           copyright: S.optional(S.String),
           title: S.optional(S.String),
           attribution: S.optional(S.String),
           packageType: S.optional(S.String),
           analyzed: S.optional(S.Boolean),
           originator: S.optional(S.String),
-          filesLicenseInfo: S.optional(__S(1088, __c34, 0)),
+          filesLicenseInfo: S.optional(__S(1120, __c35, 0)),
         }),
       ).annotate({ identifier: "PackageInfoNote" });
     case 29:
@@ -4510,7 +4158,7 @@ function __c36(j: number): any {
     case 30:
       return S.suspend(() =>
         S.Struct({
-          signature: S.optional(__S(1181, __c36, 29)),
+          signature: S.optional(__S(1213, __c37, 29)),
           builderVersion: S.optional(S.String),
         }),
       ).annotate({ identifier: "BuildType" });
@@ -4523,7 +4171,7 @@ function __c36(j: number): any {
       ).annotate({ identifier: "SBOMReferenceNote" });
   }
 }
-function __c37(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4533,32 +4181,32 @@ function __c37(j: number): any {
         }),
       ).annotate({ identifier: "RelatedUrl" });
     case 1:
-      return S.Array(__S(1184, __c37, 0));
+      return S.Array(__S(1216, __c38, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          deployable: S.optional(__S(1152, __c36, 0)),
-          compliance: S.optional(__S(1155, __c36, 3)),
-          baseImage: S.optional(__S(1156, __c36, 4)),
-          sbom: S.optional(__S(1157, __c36, 5)),
-          spdxFile: S.optional(__S(1158, __c36, 6)),
-          vulnerabilityAssessment: S.optional(__S(1163, __c36, 11)),
-          package: S.optional(__S(1168, __c36, 16)),
-          discovery: S.optional(__S(1169, __c36, 17)),
-          dsseAttestation: S.optional(__S(1171, __c36, 19)),
-          vulnerabilityType: S.optional(__S(1174, __c36, 22)),
-          attestationAuthority: S.optional(__S(1171, __c36, 19)),
+          deployable: S.optional(__S(1184, __c37, 0)),
+          compliance: S.optional(__S(1187, __c37, 3)),
+          baseImage: S.optional(__S(1188, __c37, 4)),
+          sbom: S.optional(__S(1189, __c37, 5)),
+          spdxFile: S.optional(__S(1190, __c37, 6)),
+          vulnerabilityAssessment: S.optional(__S(1195, __c37, 11)),
+          package: S.optional(__S(1200, __c37, 16)),
+          discovery: S.optional(__S(1201, __c37, 17)),
+          dsseAttestation: S.optional(__S(1203, __c37, 19)),
+          vulnerabilityType: S.optional(__S(1206, __c37, 22)),
+          attestationAuthority: S.optional(__S(1203, __c37, 19)),
           expirationTime: S.optional(S.String),
           createTime: S.optional(S.String),
-          spdxRelationship: S.optional(__S(1175, __c36, 23)),
-          upgrade: S.optional(__S(1177, __c36, 25)),
-          secret: S.optional(__S(1216, __c38, 0)),
-          spdxPackage: S.optional(__S(1180, __c36, 28)),
-          buildType: S.optional(__S(1182, __c36, 30)),
-          aiSkillAnalysis: S.optional(__S(1216, __c38, 0)),
+          spdxRelationship: S.optional(__S(1207, __c37, 23)),
+          upgrade: S.optional(__S(1209, __c37, 25)),
+          secret: S.optional(__S(1248, __c39, 0)),
+          spdxPackage: S.optional(__S(1212, __c37, 28)),
+          buildType: S.optional(__S(1214, __c37, 30)),
+          aiSkillAnalysis: S.optional(__S(1248, __c39, 0)),
           updateTime: S.optional(S.String),
-          sbomReference: S.optional(__S(1183, __c36, 31)),
-          relatedUrl: S.optional(__S(1185, __c37, 1)),
+          sbomReference: S.optional(__S(1215, __c37, 31)),
+          relatedUrl: S.optional(__S(1217, __c38, 1)),
           kind: S.optional(S.String),
           longDescription: S.optional(S.String),
           name: S.optional(S.String),
@@ -4567,45 +4215,23 @@ function __c37(j: number): any {
       ).annotate({ identifier: "Note" });
   }
 }
-function __c38(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "SecretNote" });
   }
 }
-function __c39(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          name: S.optional(S.String.pipe(T.Query())),
-          resource: S.optional(__S(1281, __c40, 1)),
-          noteName: S.optional(S.String),
-          createTime: S.optional(S.String),
-          discovered: S.optional(__S(1289, __c40, 9)),
-          vulnerabilityDetails: S.optional(__S(1296, __c40, 16)),
-          spdxRelationship: S.optional(__S(1297, __c40, 17)),
-          deployment: S.optional(__S(1298, __c40, 18)),
-          envelope: S.optional(__S(1301, __c40, 21)),
-          spdxPackage: S.optional(__S(1302, __c40, 22)),
-          derivedImage: S.optional(__S(1305, __c40, 25)),
-          upgrade: S.optional(__S(1306, __c40, 26)),
-          updateTime: S.optional(S.String),
-          aiSkillAnalysis: S.optional(__S(1316, __c41, 4)),
-          sbom: S.optional(__S(1317, __c41, 5)),
-          secret: S.optional(__S(1322, __c41, 10)),
-          installation: S.optional(__S(1325, __c41, 13)),
-          resourceUrl: S.optional(S.String),
-          compliance: S.optional(__S(1328, __c41, 16)),
-          sbomReference: S.optional(__S(1333, __c41, 21)),
-          remediation: S.optional(S.String),
-          buildDetails: S.optional(__S(1380, __c43, 4)),
-          dsseAttestation: S.optional(__S(1381, __c43, 5)),
-          attestation: S.optional(__S(1383, __c43, 7)),
-          kind: S.optional(S.String),
-          spdxFile: S.optional(__S(1384, __c43, 8)),
-        }).pipe(
+        S.Extend(
+          __S(1417, __c44, 9),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            name: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+parent}/occurrences",
@@ -4615,7 +4241,7 @@ function __c39(j: number): any {
       ).annotate({ identifier: "CreateProjectsOccurrencesRequest" });
   }
 }
-function __c40(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4629,7 +4255,7 @@ function __c40(j: number): any {
         S.Struct({
           uri: S.optional(S.String),
           name: S.optional(S.String),
-          contentHash: S.optional(__S(1280, __c40, 0)),
+          contentHash: S.optional(__S(1312, __c41, 0)),
         }),
       ).annotate({ identifier: "Resource" });
     case 2:
@@ -4640,7 +4266,7 @@ function __c40(j: number): any {
         }),
       ).annotate({ identifier: "SBOMStatus" });
     case 3:
-      return S.Array(__S(1410, __c44, 2));
+      return S.Array(__S(1442, __c45, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -4652,7 +4278,7 @@ function __c40(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          analysisType: S.optional(__S(1088, __c34, 0)),
+          analysisType: S.optional(__S(1120, __c35, 0)),
         }),
       ).annotate({ identifier: "AnalysisCompleted" });
     case 6:
@@ -4660,28 +4286,28 @@ function __c40(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          digest: S.optional(__S(1286, __c40, 6)),
+          digest: S.optional(__S(1318, __c41, 6)),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "File" });
     case 8:
-      return S.Array(__S(1287, __c40, 7));
+      return S.Array(__S(1319, __c41, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
-          analysisStatusError: S.optional(__S(1410, __c44, 2)),
+          analysisStatusError: S.optional(__S(1442, __c45, 2)),
           lastScanTime: S.optional(S.String),
-          sbomStatus: S.optional(__S(1282, __c40, 2)),
+          sbomStatus: S.optional(__S(1314, __c41, 2)),
           analysisStatus: S.optional(S.String),
-          operation: S.optional(__S(1411, __c44, 3)),
-          analysisError: S.optional(__S(1283, __c40, 3)),
-          vulnerabilityAttestation: S.optional(__S(1284, __c40, 4)),
+          operation: S.optional(__S(1443, __c45, 3)),
+          analysisError: S.optional(__S(1315, __c41, 3)),
+          vulnerabilityAttestation: S.optional(__S(1316, __c41, 4)),
           continuousAnalysis: S.optional(S.String),
           lastVulnerabilityUpdateTime: S.optional(S.String),
-          analysisCompleted: S.optional(__S(1285, __c40, 5)),
+          analysisCompleted: S.optional(__S(1317, __c41, 5)),
           cpe: S.optional(S.String),
           archiveTime: S.optional(S.String),
-          files: S.optional(__S(1288, __c40, 8)),
+          files: S.optional(__S(1320, __c41, 8)),
         }),
       ).annotate({ identifier: "Discovered" });
     case 10:
@@ -4689,11 +4315,11 @@ function __c40(j: number): any {
         S.Struct({
           cve: S.optional(S.String),
           state: S.optional(S.String),
-          relatedUris: S.optional(__S(1123, __c35, 3)),
-          justification: S.optional(__S(1124, __c35, 4)),
-          remediations: S.optional(__S(1126, __c35, 6)),
+          relatedUris: S.optional(__S(1155, __c36, 3)),
+          justification: S.optional(__S(1156, __c36, 4)),
+          remediations: S.optional(__S(1158, __c36, 6)),
           noteName: S.optional(S.String),
-          impacts: S.optional(__S(1088, __c34, 0)),
+          impacts: S.optional(__S(1120, __c35, 0)),
           vulnerabilityId: S.optional(S.String),
         }),
       ).annotate({ identifier: "VexAssessment" });
@@ -4713,36 +4339,36 @@ function __c40(j: number): any {
     case 13:
       return S.suspend(() =>
         S.Struct({
-          cisaKev: S.optional(__S(1291, __c40, 11)),
-          epss: S.optional(__S(1292, __c40, 12)),
+          cisaKev: S.optional(__S(1323, __c41, 11)),
+          epss: S.optional(__S(1324, __c41, 12)),
         }),
       ).annotate({ identifier: "Risk" });
     case 14:
       return S.suspend(() =>
         S.Struct({
-          affectedLocation: S.optional(__S(1135, __c35, 15)),
+          affectedLocation: S.optional(__S(1167, __c36, 15)),
           packageType: S.optional(S.String),
           severityName: S.optional(S.String),
-          fixedLocation: S.optional(__S(1135, __c35, 15)),
+          fixedLocation: S.optional(__S(1167, __c36, 15)),
           effectiveSeverity: S.optional(S.String),
         }),
       ).annotate({ identifier: "PackageIssue" });
     case 15:
-      return S.Array(__S(1294, __c40, 14));
+      return S.Array(__S(1326, __c41, 14));
     case 16:
       return S.suspend(() =>
         S.Struct({
           cvssVersion: S.optional(S.String),
-          vexAssessment: S.optional(__S(1290, __c40, 10)),
+          vexAssessment: S.optional(__S(1322, __c41, 10)),
           type: S.optional(S.String),
-          risk: S.optional(__S(1293, __c40, 13)),
+          risk: S.optional(__S(1325, __c41, 13)),
           effectiveSeverity: S.optional(S.String),
           extraDetails: S.optional(S.String),
-          cvssV4: S.optional(__S(1129, __c35, 9)),
+          cvssV4: S.optional(__S(1161, __c36, 9)),
           severity: S.optional(S.String),
-          packageIssue: S.optional(__S(1295, __c40, 15)),
-          cvssV3: S.optional(__S(1129, __c35, 9)),
-          cvssV2: S.optional(__S(1129, __c35, 9)),
+          packageIssue: S.optional(__S(1327, __c41, 15)),
+          cvssV3: S.optional(__S(1161, __c36, 9)),
+          cvssV2: S.optional(__S(1161, __c36, 9)),
           cvssScore: S.optional(S.Number),
         }),
       ).annotate({ identifier: "VulnerabilityDetails" });
@@ -4762,7 +4388,7 @@ function __c40(j: number): any {
           deployTime: S.optional(S.String),
           undeployTime: S.optional(S.String),
           config: S.optional(S.String),
-          resourceUri: S.optional(__S(1088, __c34, 0)),
+          resourceUri: S.optional(__S(1120, __c35, 0)),
           userEmail: S.optional(S.String),
           address: S.optional(S.String),
         }),
@@ -4775,12 +4401,12 @@ function __c40(j: number): any {
         }),
       ).annotate({ identifier: "EnvelopeSignature" });
     case 20:
-      return S.Array(__S(1299, __c40, 19));
+      return S.Array(__S(1331, __c41, 19));
     case 21:
       return S.suspend(() =>
         S.Struct({
           payloadType: S.optional(S.String),
-          signatures: S.optional(__S(1300, __c40, 20)),
+          signatures: S.optional(__S(1332, __c41, 20)),
           payload: S.optional(S.String),
         }),
       ).annotate({ identifier: "Envelope" });
@@ -4794,7 +4420,7 @@ function __c40(j: number): any {
           sourceInfo: S.optional(S.String),
           filename: S.optional(S.String),
           title: S.optional(S.String),
-          licenseConcluded: S.optional(__S(1128, __c35, 8)),
+          licenseConcluded: S.optional(__S(1160, __c36, 8)),
           homePage: S.optional(S.String),
           summaryDescription: S.optional(S.String),
         }),
@@ -4807,22 +4433,22 @@ function __c40(j: number): any {
         }),
       ).annotate({ identifier: "Layer" });
     case 24:
-      return S.Array(__S(1303, __c40, 23));
+      return S.Array(__S(1335, __c41, 23));
     case 25:
       return S.suspend(() =>
         S.Struct({
-          fingerprint: S.optional(__S(1121, __c35, 1)),
+          fingerprint: S.optional(__S(1153, __c36, 1)),
           baseResourceUrl: S.optional(S.String),
           distance: S.optional(S.Number),
-          layerInfo: S.optional(__S(1304, __c40, 24)),
+          layerInfo: S.optional(__S(1336, __c41, 24)),
         }),
       ).annotate({ identifier: "Derived" });
     case 26:
       return S.suspend(() =>
         S.Struct({
           package: S.optional(S.String),
-          parsedVersion: S.optional(__S(1127, __c35, 7)),
-          distribution: S.optional(__S(1136, __c35, 16)),
+          parsedVersion: S.optional(__S(1159, __c36, 7)),
+          distribution: S.optional(__S(1168, __c36, 16)),
         }),
       ).annotate({ identifier: "UpgradeOccurrence" });
     case 27:
@@ -4838,12 +4464,12 @@ function __c40(j: number): any {
           category: S.optional(S.String),
           severity: S.optional(S.String),
           scanner: S.optional(S.String),
-          location: S.optional(__S(1307, __c40, 27)),
+          location: S.optional(__S(1339, __c41, 27)),
           details: S.optional(S.String),
         }),
       ).annotate({ identifier: "Finding" });
     case 29:
-      return S.Array(__S(1308, __c40, 28));
+      return S.Array(__S(1340, __c41, 28));
     case 30:
       return S.suspend(() =>
         S.Struct({
@@ -4863,14 +4489,14 @@ function __c40(j: number): any {
       ).annotate({ identifier: "TokenUsage" });
   }
 }
-function __c41(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           modelId: S.optional(S.String),
           scanState: S.optional(S.String),
-          tokenUsage: S.optional(__S(1311, __c40, 31)),
+          tokenUsage: S.optional(__S(1343, __c41, 31)),
           maxSeverity: S.optional(S.String),
         }),
       ).annotate({ identifier: "MaliciousContentLLMResult" });
@@ -4891,29 +4517,29 @@ function __c41(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          malwareScan: S.optional(__S(1310, __c40, 30)),
-          maliciousContentLlmResult: S.optional(__S(1312, __c41, 0)),
-          maliciousContentStaticResult: S.optional(__S(1313, __c41, 1)),
-          workspacePolicy: S.optional(__S(1314, __c41, 2)),
+          malwareScan: S.optional(__S(1342, __c41, 30)),
+          maliciousContentLlmResult: S.optional(__S(1344, __c42, 0)),
+          maliciousContentStaticResult: S.optional(__S(1345, __c42, 1)),
+          workspacePolicy: S.optional(__S(1346, __c42, 2)),
         }),
       ).annotate({ identifier: "PerScannerVerdict" });
     case 4:
       return S.suspend(() =>
         S.Struct({
           skillName: S.optional(S.String),
-          findings: S.optional(__S(1309, __c40, 29)),
+          findings: S.optional(__S(1341, __c41, 29)),
           maxSeverity: S.optional(S.String),
-          perScannerVerdict: S.optional(__S(1315, __c41, 3)),
+          perScannerVerdict: S.optional(__S(1347, __c42, 3)),
         }),
       ).annotate({ identifier: "AISkillAnalysisOccurrence" });
     case 5:
       return S.suspend(() =>
         S.Struct({
           licenseListVersion: S.optional(S.String),
-          externalDocumentRefs: S.optional(__S(1088, __c34, 0)),
+          externalDocumentRefs: S.optional(__S(1120, __c35, 0)),
           namespace: S.optional(S.String),
           title: S.optional(S.String),
-          creators: S.optional(__S(1088, __c34, 0)),
+          creators: S.optional(__S(1120, __c35, 0)),
           id: S.optional(S.String),
           creatorComment: S.optional(S.String),
           createTime: S.optional(S.String),
@@ -4923,11 +4549,11 @@ function __c41(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          fileLocation: S.optional(__S(1133, __c35, 13)),
+          fileLocation: S.optional(__S(1165, __c36, 13)),
         }),
       ).annotate({ identifier: "SecretLocation" });
     case 7:
-      return S.Array(__S(1318, __c41, 6));
+      return S.Array(__S(1350, __c42, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
@@ -4937,34 +4563,34 @@ function __c41(j: number): any {
         }),
       ).annotate({ identifier: "SecretStatus" });
     case 9:
-      return S.Array(__S(1320, __c41, 8));
+      return S.Array(__S(1352, __c42, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
           kind: S.optional(S.String),
-          locations: S.optional(__S(1319, __c41, 7)),
-          statuses: S.optional(__S(1321, __c41, 9)),
+          locations: S.optional(__S(1351, __c42, 7)),
+          statuses: S.optional(__S(1353, __c42, 9)),
         }),
       ).annotate({ identifier: "SecretOccurrence" });
     case 11:
       return S.suspend(() =>
         S.Struct({
-          version: S.optional(__S(1127, __c35, 7)),
+          version: S.optional(__S(1159, __c36, 7)),
           path: S.optional(S.String),
           cpeUri: S.optional(S.String),
         }),
       ).annotate({ identifier: "Location" });
     case 12:
-      return S.Array(__S(1323, __c41, 11));
+      return S.Array(__S(1355, __c42, 11));
     case 13:
       return S.suspend(() =>
         S.Struct({
-          license: S.optional(__S(1128, __c35, 8)),
+          license: S.optional(__S(1160, __c36, 8)),
           name: S.optional(S.String),
-          location: S.optional(__S(1324, __c41, 12)),
+          location: S.optional(__S(1356, __c42, 12)),
           cpeUri: S.optional(S.String),
           architecture: S.optional(S.String),
-          version: S.optional(__S(1127, __c35, 7)),
+          version: S.optional(__S(1159, __c36, 7)),
           packageType: S.optional(S.String),
         }),
       ).annotate({ identifier: "Installation" });
@@ -4977,20 +4603,20 @@ function __c41(j: number): any {
         }),
       ).annotate({ identifier: "NonCompliantFile" });
     case 15:
-      return S.Array(__S(1326, __c41, 14));
+      return S.Array(__S(1358, __c42, 14));
     case 16:
       return S.suspend(() =>
         S.Struct({
           nonComplianceReason: S.optional(S.String),
-          version: S.optional(__S(1120, __c35, 0)),
-          nonCompliantFiles: S.optional(__S(1327, __c41, 15)),
+          version: S.optional(__S(1152, __c36, 0)),
+          nonCompliantFiles: S.optional(__S(1359, __c42, 15)),
         }),
       ).annotate({ identifier: "ComplianceOccurrence" });
     case 17:
       return S.suspend(() =>
         S.Struct({
           referrerId: S.optional(S.String),
-          digest: S.optional(__S(1286, __c40, 6)),
+          digest: S.optional(__S(1318, __c41, 6)),
           location: S.optional(S.String),
           mimeType: S.optional(S.String),
         }),
@@ -4999,16 +4625,16 @@ function __c41(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          digest: S.optional(__S(1286, __c40, 6)),
+          digest: S.optional(__S(1318, __c41, 6)),
         }),
       ).annotate({ identifier: "Subject" });
     case 19:
-      return S.Array(__S(1330, __c41, 18));
+      return S.Array(__S(1362, __c42, 18));
     case 20:
       return S.suspend(() =>
         S.Struct({
-          predicate: S.optional(__S(1329, __c41, 17)),
-          subject: S.optional(__S(1331, __c41, 19)),
+          predicate: S.optional(__S(1361, __c42, 17)),
+          subject: S.optional(__S(1363, __c42, 19)),
           _type: S.optional(S.String),
           predicateType: S.optional(S.String),
         }),
@@ -5017,19 +4643,19 @@ function __c41(j: number): any {
       return S.suspend(() =>
         S.Struct({
           payloadType: S.optional(S.String),
-          payload: S.optional(__S(1332, __c41, 20)),
-          signatures: S.optional(__S(1300, __c40, 20)),
+          payload: S.optional(__S(1364, __c42, 20)),
+          signatures: S.optional(__S(1332, __c41, 20)),
         }),
       ).annotate({ identifier: "SBOMReferenceOccurrence" });
     case 22:
       return S.suspend(() =>
         S.Struct({
           uri: S.optional(S.String),
-          digest: S.optional(__S(1286, __c40, 6)),
+          digest: S.optional(__S(1318, __c41, 6)),
         }),
       ).annotate({ identifier: "Material" });
     case 23:
-      return S.Array(__S(1334, __c41, 22));
+      return S.Array(__S(1366, __c42, 22));
     case 24:
       return S.suspend(() =>
         S.Struct({
@@ -5041,7 +4667,7 @@ function __c41(j: number): any {
     case 25:
       return S.suspend(() =>
         S.Struct({
-          completeness: S.optional(__S(1336, __c41, 24)),
+          completeness: S.optional(__S(1368, __c42, 24)),
           buildFinishedOn: S.optional(S.String),
           buildInvocationId: S.optional(S.String),
           buildStartedOn: S.optional(S.String),
@@ -5057,30 +4683,30 @@ function __c41(j: number): any {
     case 27:
       return S.suspend(() =>
         S.Struct({
-          environment: S.optional(__S(1408, __c44, 0)),
+          environment: S.optional(__S(1440, __c45, 0)),
           type: S.optional(S.String),
           definedInMaterial: S.optional(S.String),
           entryPoint: S.optional(S.String),
-          arguments: S.optional(__S(1408, __c44, 0)),
+          arguments: S.optional(__S(1440, __c45, 0)),
         }),
       ).annotate({ identifier: "SlsaRecipe" });
     case 28:
       return S.suspend(() =>
         S.Struct({
-          materials: S.optional(__S(1335, __c41, 23)),
-          metadata: S.optional(__S(1337, __c41, 25)),
-          builder: S.optional(__S(1338, __c41, 26)),
-          recipe: S.optional(__S(1339, __c41, 27)),
+          materials: S.optional(__S(1367, __c42, 23)),
+          metadata: S.optional(__S(1369, __c42, 25)),
+          builder: S.optional(__S(1370, __c42, 26)),
+          recipe: S.optional(__S(1371, __c42, 27)),
         }),
       ).annotate({ identifier: "SlsaProvenance" });
     case 29:
       return S.suspend(() =>
         S.Struct({
-          arguments: S.optional(__S(1409, __c44, 1)),
+          arguments: S.optional(__S(1441, __c45, 1)),
           type: S.optional(S.String),
           definedInMaterial: S.optional(S.String),
           entryPoint: S.optional(S.String),
-          environment: S.optional(__S(1409, __c44, 1)),
+          environment: S.optional(__S(1441, __c45, 1)),
         }),
       ).annotate({ identifier: "Recipe" });
     case 30:
@@ -5097,21 +4723,21 @@ function __c41(j: number): any {
           reproducible: S.optional(S.Boolean),
           buildStartedOn: S.optional(S.String),
           buildFinishedOn: S.optional(S.String),
-          completeness: S.optional(__S(1342, __c41, 30)),
+          completeness: S.optional(__S(1374, __c42, 30)),
           buildInvocationId: S.optional(S.String),
         }),
       ).annotate({ identifier: "Metadata" });
   }
 }
-function __c42(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          recipe: S.optional(__S(1341, __c41, 29)),
-          metadata: S.optional(__S(1343, __c41, 31)),
-          builderConfig: S.optional(__S(1338, __c41, 26)),
-          materials: S.optional(__S(1088, __c34, 0)),
+          recipe: S.optional(__S(1373, __c42, 29)),
+          metadata: S.optional(__S(1375, __c42, 31)),
+          builderConfig: S.optional(__S(1370, __c42, 26)),
+          materials: S.optional(__S(1120, __c35, 0)),
         }),
       ).annotate({ identifier: "InTotoProvenance" });
     case 1:
@@ -5127,7 +4753,7 @@ function __c42(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          completeness: S.optional(__S(1345, __c42, 1)),
+          completeness: S.optional(__S(1377, __c43, 1)),
           buildInvocationId: S.optional(S.String),
           buildFinishedOn: S.optional(S.String),
           buildStartedOn: S.optional(S.String),
@@ -5139,18 +4765,18 @@ function __c42(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          digest: S.optional(__S(1286, __c40, 6)),
+          digest: S.optional(__S(1318, __c41, 6)),
           uri: S.optional(S.String),
         }),
       ).annotate({
         identifier: "GoogleDevtoolsContaineranalysisV1alpha1SlsaProvenanceZeroTwoSlsaMaterial",
       });
     case 4:
-      return S.Array(__S(1347, __c42, 3));
+      return S.Array(__S(1379, __c43, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          digest: S.optional(__S(1286, __c40, 6)),
+          digest: S.optional(__S(1318, __c41, 6)),
           entryPoint: S.optional(S.String),
           uri: S.optional(S.String),
         }),
@@ -5160,9 +4786,9 @@ function __c42(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          parameters: S.optional(__S(1408, __c44, 0)),
-          environment: S.optional(__S(1408, __c44, 0)),
-          configSource: S.optional(__S(1349, __c42, 5)),
+          parameters: S.optional(__S(1440, __c45, 0)),
+          environment: S.optional(__S(1440, __c45, 0)),
+          configSource: S.optional(__S(1381, __c43, 5)),
         }),
       ).annotate({
         identifier: "GoogleDevtoolsContaineranalysisV1alpha1SlsaProvenanceZeroTwoSlsaInvocation",
@@ -5170,30 +4796,30 @@ function __c42(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          buildConfig: S.optional(__S(1408, __c44, 0)),
+          buildConfig: S.optional(__S(1440, __c45, 0)),
           buildType: S.optional(S.String),
-          metadata: S.optional(__S(1346, __c42, 2)),
-          materials: S.optional(__S(1348, __c42, 4)),
-          builder: S.optional(__S(1338, __c41, 26)),
-          invocation: S.optional(__S(1350, __c42, 6)),
+          metadata: S.optional(__S(1378, __c43, 2)),
+          materials: S.optional(__S(1380, __c43, 4)),
+          builder: S.optional(__S(1370, __c42, 26)),
+          invocation: S.optional(__S(1382, __c43, 6)),
         }),
       ).annotate({ identifier: "SlsaProvenanceZeroTwo" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          slsaProvenance: S.optional(__S(1340, __c41, 28)),
+          slsaProvenance: S.optional(__S(1372, __c42, 28)),
           _type: S.optional(S.String),
-          provenance: S.optional(__S(1344, __c42, 0)),
+          provenance: S.optional(__S(1376, __c43, 0)),
           predicateType: S.optional(S.String),
-          subject: S.optional(__S(1331, __c41, 19)),
-          slsaProvenanceZeroTwo: S.optional(__S(1351, __c42, 7)),
+          subject: S.optional(__S(1363, __c42, 19)),
+          slsaProvenanceZeroTwo: S.optional(__S(1383, __c43, 7)),
         }),
       ).annotate({ identifier: "InTotoStatement" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          annotations: S.optional(__S(1408, __c44, 0)),
-          digest: S.optional(__S(1286, __c40, 6)),
+          annotations: S.optional(__S(1440, __c45, 0)),
+          digest: S.optional(__S(1318, __c41, 6)),
           name: S.optional(S.String),
           downloadLocation: S.optional(S.String),
           uri: S.optional(S.String),
@@ -5202,22 +4828,22 @@ function __c42(j: number): any {
         }),
       ).annotate({ identifier: "ResourceDescriptor" });
     case 10:
-      return S.Array(__S(1353, __c42, 9));
+      return S.Array(__S(1385, __c43, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
           buildType: S.optional(S.String),
-          externalParameters: S.optional(__S(1408, __c44, 0)),
-          internalParameters: S.optional(__S(1408, __c44, 0)),
-          resolvedDependencies: S.optional(__S(1354, __c42, 10)),
+          externalParameters: S.optional(__S(1440, __c45, 0)),
+          internalParameters: S.optional(__S(1440, __c45, 0)),
+          resolvedDependencies: S.optional(__S(1386, __c43, 10)),
         }),
       ).annotate({ identifier: "BuildDefinition" });
     case 12:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
-          builderDependencies: S.optional(__S(1354, __c42, 10)),
-          version: S.optional(__S(1286, __c40, 6)),
+          builderDependencies: S.optional(__S(1386, __c43, 10)),
+          version: S.optional(__S(1318, __c41, 6)),
         }),
       ).annotate({ identifier: "ProvenanceBuilder" });
     case 13:
@@ -5231,25 +4857,25 @@ function __c42(j: number): any {
     case 14:
       return S.suspend(() =>
         S.Struct({
-          builder: S.optional(__S(1356, __c42, 12)),
-          metadata: S.optional(__S(1357, __c42, 13)),
-          byproducts: S.optional(__S(1354, __c42, 10)),
+          builder: S.optional(__S(1388, __c43, 12)),
+          metadata: S.optional(__S(1389, __c43, 13)),
+          byproducts: S.optional(__S(1386, __c43, 10)),
         }),
       ).annotate({ identifier: "RunDetails" });
     case 15:
       return S.suspend(() =>
         S.Struct({
-          buildDefinition: S.optional(__S(1355, __c42, 11)),
-          runDetails: S.optional(__S(1358, __c42, 14)),
+          buildDefinition: S.optional(__S(1387, __c43, 11)),
+          runDetails: S.optional(__S(1390, __c43, 14)),
         }),
       ).annotate({ identifier: "SlsaProvenanceV1" });
     case 16:
       return S.suspend(() =>
         S.Struct({
           _type: S.optional(S.String),
-          predicate: S.optional(__S(1359, __c42, 15)),
+          predicate: S.optional(__S(1391, __c43, 15)),
           predicateType: S.optional(S.String),
-          subject: S.optional(__S(1331, __c41, 19)),
+          subject: S.optional(__S(1363, __c42, 19)),
         }),
       ).annotate({ identifier: "InTotoSlsaProvenanceV1" });
     case 17:
@@ -5258,21 +4884,21 @@ function __c42(j: number): any {
           checksum: S.optional(S.String),
           name: S.optional(S.String),
           id: S.optional(S.String),
-          names: S.optional(__S(1088, __c34, 0)),
+          names: S.optional(__S(1120, __c35, 0)),
         }),
       ).annotate({ identifier: "Artifact" });
     case 18:
-      return S.Array(__S(1361, __c42, 17));
+      return S.Array(__S(1393, __c43, 17));
     case 19:
-      return S.Array(__S(1280, __c40, 0));
+      return S.Array(__S(1312, __c41, 0));
     case 20:
       return S.suspend(() =>
         S.Struct({
-          fileHash: S.optional(__S(1363, __c42, 19)),
+          fileHash: S.optional(__S(1395, __c43, 19)),
         }),
       ).annotate({ identifier: "FileHashes" });
     case 21:
-      return S.Record(S.String, __S(1364, __c42, 20));
+      return S.Record(S.String, __S(1396, __c43, 20));
     case 22:
       return S.suspend(() =>
         S.Struct({
@@ -5293,7 +4919,7 @@ function __c42(j: number): any {
     case 24:
       return S.suspend(() =>
         S.Struct({
-          projectRepoId: S.optional(__S(1367, __c42, 23)),
+          projectRepoId: S.optional(__S(1399, __c43, 23)),
           uid: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleDevtoolsContaineranalysisV1alpha1RepoId" });
@@ -5307,8 +4933,8 @@ function __c42(j: number): any {
     case 26:
       return S.suspend(() =>
         S.Struct({
-          repoId: S.optional(__S(1368, __c42, 24)),
-          aliasContext: S.optional(__S(1369, __c42, 25)),
+          repoId: S.optional(__S(1400, __c43, 24)),
+          aliasContext: S.optional(__S(1401, __c43, 25)),
           revisionId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleDevtoolsContaineranalysisV1alpha1CloudRepoSourceContext" });
@@ -5316,7 +4942,7 @@ function __c42(j: number): any {
       return S.suspend(() =>
         S.Struct({
           hostUri: S.optional(S.String),
-          aliasContext: S.optional(__S(1369, __c42, 25)),
+          aliasContext: S.optional(__S(1401, __c43, 25)),
           revisionId: S.optional(S.String),
           gerritProject: S.optional(S.String),
         }),
@@ -5331,10 +4957,10 @@ function __c42(j: number): any {
     case 29:
       return S.suspend(() =>
         S.Struct({
-          cloudRepo: S.optional(__S(1370, __c42, 26)),
-          labels: S.optional(__S(1286, __c40, 6)),
-          gerrit: S.optional(__S(1371, __c42, 27)),
-          git: S.optional(__S(1372, __c42, 28)),
+          cloudRepo: S.optional(__S(1402, __c43, 26)),
+          labels: S.optional(__S(1318, __c41, 6)),
+          gerrit: S.optional(__S(1403, __c43, 27)),
+          git: S.optional(__S(1404, __c43, 28)),
         }),
       ).annotate({ identifier: "GoogleDevtoolsContaineranalysisV1alpha1SourceContext" });
     case 30:
@@ -5346,68 +4972,68 @@ function __c42(j: number): any {
         }),
       ).annotate({ identifier: "StorageSource" });
     case 31:
-      return S.Array(__S(1373, __c42, 29));
+      return S.Array(__S(1405, __c43, 29));
   }
 }
-function __c43(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          fileHashes: S.optional(__S(1365, __c42, 21)),
-          repoSource: S.optional(__S(1366, __c42, 22)),
-          context: S.optional(__S(1373, __c42, 29)),
-          artifactStorageSource: S.optional(__S(1374, __c42, 30)),
-          additionalContexts: S.optional(__S(1375, __c42, 31)),
-          storageSource: S.optional(__S(1374, __c42, 30)),
+          fileHashes: S.optional(__S(1397, __c43, 21)),
+          repoSource: S.optional(__S(1398, __c43, 22)),
+          context: S.optional(__S(1405, __c43, 29)),
+          artifactStorageSource: S.optional(__S(1406, __c43, 30)),
+          additionalContexts: S.optional(__S(1407, __c43, 31)),
+          storageSource: S.optional(__S(1406, __c43, 30)),
         }),
       ).annotate({ identifier: "Source" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
-          waitFor: S.optional(__S(1088, __c34, 0)),
-          args: S.optional(__S(1088, __c34, 0)),
+          waitFor: S.optional(__S(1120, __c35, 0)),
+          args: S.optional(__S(1120, __c35, 0)),
           name: S.optional(S.String),
-          env: S.optional(__S(1088, __c34, 0)),
+          env: S.optional(__S(1120, __c35, 0)),
           dir: S.optional(S.String),
         }),
       ).annotate({ identifier: "Command" });
     case 2:
-      return S.Array(__S(1377, __c43, 1));
+      return S.Array(__S(1409, __c44, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          buildOptions: S.optional(__S(1286, __c40, 6)),
+          buildOptions: S.optional(__S(1318, __c41, 6)),
           finishTime: S.optional(S.String),
-          builtArtifacts: S.optional(__S(1362, __c42, 18)),
+          builtArtifacts: S.optional(__S(1394, __c43, 18)),
           projectId: S.optional(S.String),
           triggerId: S.optional(S.String),
-          sourceProvenance: S.optional(__S(1376, __c43, 0)),
+          sourceProvenance: S.optional(__S(1408, __c44, 0)),
           creator: S.optional(S.String),
           builderVersion: S.optional(S.String),
           createTime: S.optional(S.String),
           startTime: S.optional(S.String),
           id: S.optional(S.String),
-          commands: S.optional(__S(1378, __c43, 2)),
+          commands: S.optional(__S(1410, __c44, 2)),
           logsBucket: S.optional(S.String),
         }),
       ).annotate({ identifier: "BuildProvenance" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          intotoStatement: S.optional(__S(1352, __c42, 8)),
-          inTotoSlsaProvenanceV1: S.optional(__S(1360, __c42, 16)),
+          intotoStatement: S.optional(__S(1384, __c43, 8)),
+          inTotoSlsaProvenanceV1: S.optional(__S(1392, __c43, 16)),
           provenanceBytes: S.optional(S.String),
-          intotoProvenance: S.optional(__S(1344, __c42, 0)),
-          provenance: S.optional(__S(1379, __c43, 3)),
+          intotoProvenance: S.optional(__S(1376, __c43, 0)),
+          provenance: S.optional(__S(1411, __c44, 3)),
         }),
       ).annotate({ identifier: "BuildDetails" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          statement: S.optional(__S(1352, __c42, 8)),
-          envelope: S.optional(__S(1301, __c40, 21)),
+          statement: S.optional(__S(1384, __c43, 8)),
+          envelope: S.optional(__S(1333, __c41, 21)),
         }),
       ).annotate({ identifier: "DSSEAttestationOccurrence" });
     case 6:
@@ -5421,90 +5047,98 @@ function __c43(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          pgpSignedAttestation: S.optional(__S(1382, __c43, 6)),
+          pgpSignedAttestation: S.optional(__S(1414, __c44, 6)),
         }),
       ).annotate({ identifier: "Attestation" });
     case 8:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
-          filesLicenseInfo: S.optional(__S(1088, __c34, 0)),
-          contributors: S.optional(__S(1088, __c34, 0)),
-          licenseConcluded: S.optional(__S(1128, __c35, 8)),
+          filesLicenseInfo: S.optional(__S(1120, __c35, 0)),
+          contributors: S.optional(__S(1120, __c35, 0)),
+          licenseConcluded: S.optional(__S(1160, __c36, 8)),
           notice: S.optional(S.String),
           comment: S.optional(S.String),
-          attributions: S.optional(__S(1088, __c34, 0)),
+          attributions: S.optional(__S(1120, __c35, 0)),
           copyright: S.optional(S.String),
         }),
       ).annotate({ identifier: "FileOccurrence" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          resource: S.optional(__S(1281, __c40, 1)),
+          resource: S.optional(__S(1313, __c41, 1)),
           noteName: S.optional(S.String),
           createTime: S.optional(S.String),
-          discovered: S.optional(__S(1289, __c40, 9)),
-          vulnerabilityDetails: S.optional(__S(1296, __c40, 16)),
-          spdxRelationship: S.optional(__S(1297, __c40, 17)),
-          deployment: S.optional(__S(1298, __c40, 18)),
-          envelope: S.optional(__S(1301, __c40, 21)),
-          spdxPackage: S.optional(__S(1302, __c40, 22)),
-          derivedImage: S.optional(__S(1305, __c40, 25)),
-          upgrade: S.optional(__S(1306, __c40, 26)),
+          discovered: S.optional(__S(1321, __c41, 9)),
+          vulnerabilityDetails: S.optional(__S(1328, __c41, 16)),
+          spdxRelationship: S.optional(__S(1329, __c41, 17)),
+          deployment: S.optional(__S(1330, __c41, 18)),
+          envelope: S.optional(__S(1333, __c41, 21)),
+          spdxPackage: S.optional(__S(1334, __c41, 22)),
+          derivedImage: S.optional(__S(1337, __c41, 25)),
+          upgrade: S.optional(__S(1338, __c41, 26)),
           updateTime: S.optional(S.String),
-          aiSkillAnalysis: S.optional(__S(1316, __c41, 4)),
-          sbom: S.optional(__S(1317, __c41, 5)),
-          secret: S.optional(__S(1322, __c41, 10)),
-          installation: S.optional(__S(1325, __c41, 13)),
+          aiSkillAnalysis: S.optional(__S(1348, __c42, 4)),
+          sbom: S.optional(__S(1349, __c42, 5)),
+          secret: S.optional(__S(1354, __c42, 10)),
+          installation: S.optional(__S(1357, __c42, 13)),
           resourceUrl: S.optional(S.String),
-          compliance: S.optional(__S(1328, __c41, 16)),
-          sbomReference: S.optional(__S(1333, __c41, 21)),
+          compliance: S.optional(__S(1360, __c42, 16)),
+          sbomReference: S.optional(__S(1365, __c42, 21)),
           remediation: S.optional(S.String),
-          buildDetails: S.optional(__S(1380, __c43, 4)),
+          buildDetails: S.optional(__S(1412, __c44, 4)),
           name: S.optional(S.String),
-          dsseAttestation: S.optional(__S(1381, __c43, 5)),
-          attestation: S.optional(__S(1383, __c43, 7)),
+          dsseAttestation: S.optional(__S(1413, __c44, 5)),
+          attestation: S.optional(__S(1415, __c44, 7)),
           kind: S.optional(S.String),
-          spdxFile: S.optional(__S(1384, __c43, 8)),
+          spdxFile: S.optional(__S(1416, __c44, 8)),
         }),
       ).annotate({ identifier: "Occurrence" });
   }
 }
-function __c44(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
     case 1:
-      return S.Array(__S(1408, __c44, 0));
+      return S.Array(__S(1440, __c45, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           message: S.optional(S.String),
           code: S.optional(S.Number),
-          details: S.optional(__S(1409, __c44, 1)),
+          details: S.optional(__S(1441, __c45, 1)),
         }),
       ).annotate({ identifier: "Status" });
     case 3:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          metadata: S.optional(__S(1408, __c44, 0)),
-          error: S.optional(__S(1410, __c44, 2)),
-          response: S.optional(__S(1408, __c44, 0)),
+          metadata: S.optional(__S(1440, __c45, 0)),
+          error: S.optional(__S(1442, __c45, 2)),
+          response: S.optional(__S(1440, __c45, 0)),
           done: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "Operation" });
   }
 }
-function __c45(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
           operationId: S.optional(S.String),
-          operation: S.optional(__S(1411, __c44, 3)),
-        }).pipe(
+          operation: S.optional(__S(1443, __c45, 3)),
+        }),
+      ).annotate({ identifier: "CreateOperationRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(1472, __c46, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+parent}/operations",
@@ -5514,40 +5148,18 @@ function __c45(j: number): any {
       ).annotate({ identifier: "CreateProjectsOperationsRequest" });
   }
 }
-function __c46(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          noteId: S.optional(S.String.pipe(T.Query())),
-          deployable: S.optional(__S(1152, __c36, 0)),
-          compliance: S.optional(__S(1155, __c36, 3)),
-          baseImage: S.optional(__S(1156, __c36, 4)),
-          sbom: S.optional(__S(1157, __c36, 5)),
-          spdxFile: S.optional(__S(1158, __c36, 6)),
-          vulnerabilityAssessment: S.optional(__S(1163, __c36, 11)),
-          package: S.optional(__S(1168, __c36, 16)),
-          discovery: S.optional(__S(1169, __c36, 17)),
-          dsseAttestation: S.optional(__S(1171, __c36, 19)),
-          vulnerabilityType: S.optional(__S(1174, __c36, 22)),
-          attestationAuthority: S.optional(__S(1171, __c36, 19)),
-          expirationTime: S.optional(S.String),
-          createTime: S.optional(S.String),
-          spdxRelationship: S.optional(__S(1175, __c36, 23)),
-          upgrade: S.optional(__S(1177, __c36, 25)),
-          secret: S.optional(__S(1216, __c38, 0)),
-          spdxPackage: S.optional(__S(1180, __c36, 28)),
-          buildType: S.optional(__S(1182, __c36, 30)),
-          aiSkillAnalysis: S.optional(__S(1216, __c38, 0)),
-          updateTime: S.optional(S.String),
-          sbomReference: S.optional(__S(1183, __c36, 31)),
-          relatedUrl: S.optional(__S(1185, __c37, 1)),
-          kind: S.optional(S.String),
-          longDescription: S.optional(S.String),
-          shortDescription: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1218, __c38, 2),
+          S.Struct({
+            parent: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            noteId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+name}/notes",
@@ -5557,7 +5169,7 @@ function __c46(j: number): any {
       ).annotate({ identifier: "CreateProvidersNotesRequest" });
   }
 }
-function __c47(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5573,7 +5185,7 @@ function __c47(j: number): any {
       ).annotate({ identifier: "DeleteProjectsNotesRequest" });
   }
 }
-function __c48(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

@@ -168,42 +168,6 @@ export interface Execution {
   /** Output only. The error which caused the execution to finish prematurely. The value is only present if the execution's state is `FAILED` or `CANCELLED`. */
   error?: Workflowexecutions_Error | undefined;
   /** The call logging level associated to this execution. */
-  callLogLevel?: ExecutionCallLogLevelEnum | undefined;
-  /** Optional. Describes the execution history level to apply to this execution. If not specified, the execution history level is determined by its workflow's execution history level. If the levels are different, the executionHistoryLevel overrides the workflow's execution history level for this execution. */
-  executionHistoryLevel?: ExecutionExecutionHistoryLevelEnum | undefined;
-  /** Input parameters of the execution represented as a JSON string. The size limit is 32KB. *Note*: If you are using the REST API directly to run your workflow, you must escape any JSON string value of `argument`. Example: `'{"argument":"{\"firstName\":\"FIRST\",\"lastName\":\"LAST\"}"}'` */
-  argument?: string | undefined;
-  /** Output only. Revision of the workflow this execution is using. */
-  workflowRevisionId?: string | undefined;
-  /** Output only. Output of the execution represented as a JSON string. The value can only be present if the execution's state is `SUCCEEDED`. */
-  result?: string | undefined;
-  /** Optional. If set to true, the execution will not be backlogged when the concurrency quota is exhausted. The backlog execution starts when the concurrency quota becomes available. */
-  disableConcurrencyQuotaOverflowBuffering?: boolean | undefined;
-  /** Output only. Error regarding the state of the Execution resource. For example, this field will have error details if the execution data is unavailable due to revoked KMS key permissions. */
-  stateError?: StateError | undefined;
-  /** Output only. Status tracks the current steps and progress data of this execution. */
-  status?: Status | undefined;
-  /** Output only. Current state of the execution. */
-  state?: ExecutionStateEnum | undefined;
-  /** Labels associated with this execution. Labels can contain at most 64 entries. Keys and values can be no longer than 63 characters and can only contain lowercase letters, numeric characters, underscores, and dashes. Label keys must start with a letter. International characters are allowed. By default, labels are inherited from the workflow but are overridden by any labels associated with the execution. */
-  labels?: StringMap | undefined;
-  /** Output only. Marks the creation of the execution. */
-  createTime?: string | undefined;
-  /** Output only. The resource name of the execution. Format: projects/{project}/locations/{location}/workflows/{workflow}/executions/{execution} */
-  name?: string | undefined;
-  /** Output only. Marks the end of execution, successful or not. */
-  endTime?: string | undefined;
-  /** Output only. Marks the beginning of execution. Note that this will be the same as `createTime` for executions that start immediately. */
-  startTime?: string | undefined;
-  /** Output only. Measures the duration of the execution. */
-  duration?: string | undefined;
-}
-export interface CreateProjectsLocationsWorkflowsExecutionsRequest {
-  /** Required. Name of the workflow for which an execution should be created. Format: projects/{project}/locations/{location}/workflows/{workflow} The latest revision of the workflow will be used. */
-  parent: string;
-  /** Output only. The error which caused the execution to finish prematurely. The value is only present if the execution's state is `FAILED` or `CANCELLED`. */
-  error?: Workflowexecutions_Error | undefined;
-  /** The call logging level associated to this execution. */
   callLogLevel?: ExecutionCallLogLevelEnum | (string & {}) | undefined;
   /** Optional. Describes the execution history level to apply to this execution. If not specified, the execution history level is determined by its workflow's execution history level. If the levels are different, the executionHistoryLevel overrides the workflow's execution history level for this execution. */
   executionHistoryLevel?: ExecutionExecutionHistoryLevelEnum | (string & {}) | undefined;
@@ -233,6 +197,10 @@ export interface CreateProjectsLocationsWorkflowsExecutionsRequest {
   startTime?: string | undefined;
   /** Output only. Measures the duration of the execution. */
   duration?: string | undefined;
+}
+export interface CreateProjectsLocationsWorkflowsExecutionsRequest extends Execution {
+  /** Required. Name of the workflow for which an execution should be created. Format: projects/{project}/locations/{location}/workflows/{workflow} The latest revision of the workflow will be used. */
+  parent: string;
 }
 /** Request for the DeleteExecutionHistory method. */
 export type DeleteExecutionHistoryRequest = CancelExecutionRequest;
@@ -464,9 +432,8 @@ export interface PubsubMessage {
   /** ID of this message, assigned by the server when the message is published. Guaranteed to be unique within the topic. This value may be read by a subscriber that receives a `PubsubMessage` via a `Pull` call or a push delivery. It must not be populated by the publisher in a `Publish` call. */
   messageId?: string | undefined;
 }
-export interface TriggerPubsubExecutionProjectsLocationsWorkflowsRequest {
-  /** Required. Name of the workflow for which an execution should be created. Format: projects/{project}/locations/{location}/workflows/{workflow} */
-  workflow: string;
+/** Request for the TriggerPubsubExecution method. */
+export interface TriggerPubsubExecutionRequest {
   /** Required. The message of the Pub/Sub push notification. */
   message?: PubsubMessage | undefined;
   /** The number of attempts that have been made to deliver this message. This is set by Pub/Sub for subscriptions that have the "dead letter" feature enabled, and hence provided here for compatibility, but is ignored by Workflows. */
@@ -475,6 +442,10 @@ export interface TriggerPubsubExecutionProjectsLocationsWorkflowsRequest {
   subscription?: string | undefined;
   /** Required. LINT: LEGACY_NAMES The query parameter value for __GCP_CloudEventsMode, set by the Eventarc service when configuring triggers. */
   GCPCloudEventsMode?: string | undefined;
+}
+export interface TriggerPubsubExecutionProjectsLocationsWorkflowsRequest extends TriggerPubsubExecutionRequest {
+  /** Required. Name of the workflow for which an execution should be created. Format: projects/{project}/locations/{location}/workflows/{workflow} */
+  workflow: string;
 }
 export type CancelProjectsLocationsWorkflowsExecutionsError =
   | NotFound
@@ -693,9 +664,9 @@ export const triggerPubsubExecutionProjectsLocationsWorkflows: API.OperationMeth
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    49,
+    50,
     __c3,
-    1,
+    2,
   ) as any as S.Schema<TriggerPubsubExecutionProjectsLocationsWorkflowsRequest>,
   output: __S(90, __c5, 10) as any as S.Schema<Execution>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
@@ -819,12 +790,20 @@ function __c3(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          workflow: S.String.pipe(T.Label()),
           message: S.optional(__S(48, __c3, 0)),
           deliveryAttempt: S.optional(S.Number),
           subscription: S.optional(S.String),
           GCPCloudEventsMode: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "TriggerPubsubExecutionRequest" });
+    case 2:
+      return S.suspend(() =>
+        S.Extend(
+          __S(49, __c3, 1),
+          S.Struct({
+            workflow: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+workflow}:triggerPubsubExecution",
@@ -942,25 +921,12 @@ function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          error: S.optional(__S(84, __c5, 4)),
-          callLogLevel: S.optional(S.String),
-          executionHistoryLevel: S.optional(S.String),
-          argument: S.optional(S.String),
-          workflowRevisionId: S.optional(S.String),
-          result: S.optional(S.String),
-          disableConcurrencyQuotaOverflowBuffering: S.optional(S.Boolean),
-          stateError: S.optional(__S(85, __c5, 5)),
-          status: S.optional(__S(88, __c5, 8)),
-          state: S.optional(S.String),
-          labels: S.optional(__S(89, __c5, 9)),
-          createTime: S.optional(S.String),
-          name: S.optional(S.String),
-          endTime: S.optional(S.String),
-          startTime: S.optional(S.String),
-          duration: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(90, __c5, 10),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/executions",

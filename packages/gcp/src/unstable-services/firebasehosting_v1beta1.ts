@@ -89,9 +89,7 @@ export interface PathFilter {
   /** An array of RegEx values by which to filter. */
   regexes?: StringList | undefined;
 }
-export interface CloneProjectsSitesVersionsRequest {
-  /** Required. The target site for the cloned version, in the format: sites/ SITE_ID */
-  parent: string;
+export interface CloneVersionRequest {
   /** Required. The unique identifier for the version to be cloned, in the format: sites/SITE_ID/versions/VERSION_ID */
   sourceVersion?: string | undefined;
   /** If provided, only paths that match one or more RegEx values in this list will be included in the new version. */
@@ -100,6 +98,10 @@ export interface CloneProjectsSitesVersionsRequest {
   exclude?: PathFilter | undefined;
   /** If true, the call to `CloneVersion` immediately finalizes the version after cloning is complete. If false, the cloned version will have a status of `CREATED`. Use [`UpdateVersion`](patch) to set the status of the version to `FINALIZED`. */
   finalize?: boolean | undefined;
+}
+export interface CloneProjectsSitesVersionsRequest extends CloneVersionRequest {
+  /** Required. The target site for the cloned version, in the format: sites/ SITE_ID */
+  parent: string;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -125,27 +127,14 @@ export interface Operation {
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
   done?: boolean | undefined;
 }
-export interface CloneSitesVersionsRequest {
+export interface CloneSitesVersionsRequest extends CloneVersionRequest {
   /** Required. The target site for the cloned version, in the format: sites/ SITE_ID */
   parent: string;
-  /** Required. The unique identifier for the version to be cloned, in the format: sites/SITE_ID/versions/VERSION_ID */
-  sourceVersion?: string | undefined;
-  /** If provided, only paths that match one or more RegEx values in this list will be included in the new version. */
-  include?: PathFilter | undefined;
-  /** If provided, only paths that do not match any of the RegEx values in this list will be included in the new version. */
-  exclude?: PathFilter | undefined;
-  /** If true, the call to `CloneVersion` immediately finalizes the version after cloning is complete. If false, the cloned version will have a status of `CREATED`. Use [`UpdateVersion`](patch) to set the status of the version to `FINALIZED`. */
-  finalize?: boolean | undefined;
 }
 export type SiteTypeEnum = "TYPE_UNSPECIFIED" | "DEFAULT_SITE" | "USER_SITE";
 export type StringMap = { [key: string]: string | undefined };
-export interface CreateProjectsSitesRequest {
-  /** Required. The Firebase project in which to create a Hosting site, in the format: projects/PROJECT_IDENTIFIER Refer to the `Site` [`name`](../projects#Site.FIELDS.name) field for details about PROJECT_IDENTIFIER values. */
-  parent: string;
-  /** Required. Immutable. A globally unique identifier for the Hosting site. This identifier is used to construct the Firebase-provisioned subdomains for the site, so it must also be a valid domain name label. */
-  siteId?: string | undefined;
-  /** Optional. If set, validates that the site_id is available and that the request would succeed, returning the expected resulting site or error. */
-  validateOnly?: boolean | undefined;
+/** A `Site` represents a Firebase Hosting site. */
+export interface Site {
   /** Output only. The type of Hosting site. Every Firebase project has a `DEFAULT_SITE`, which is created when Hosting is provisioned for the project. All additional sites are `USER_SITE`. */
   type?: SiteTypeEnum | (string & {}) | undefined;
   /** Optional. The [ID of a Web App](https://firebase.google.com/docs/reference/firebase-management/rest/v1beta1/projects.webApps#WebApp.FIELDS.app_id) associated with the Hosting site. */
@@ -157,18 +146,13 @@ export interface CreateProjectsSitesRequest {
   /** Optional. User-specified labels for the Hosting site. */
   labels?: StringMap | undefined;
 }
-/** A `Site` represents a Firebase Hosting site. */
-export interface Site {
-  /** Output only. The type of Hosting site. Every Firebase project has a `DEFAULT_SITE`, which is created when Hosting is provisioned for the project. All additional sites are `USER_SITE`. */
-  type?: SiteTypeEnum | undefined;
-  /** Optional. The [ID of a Web App](https://firebase.google.com/docs/reference/firebase-management/rest/v1beta1/projects.webApps#WebApp.FIELDS.app_id) associated with the Hosting site. */
-  appId?: string | undefined;
-  /** Output only. The fully-qualified resource name of the Hosting site, in the format: projects/PROJECT_IDENTIFIER/sites/SITE_ID PROJECT_IDENTIFIER: the Firebase project's [`ProjectNumber`](https://firebase.google.com/docs/reference/firebase-management/rest/v1beta1/projects#FirebaseProject.FIELDS.project_number) ***(recommended)*** or its [`ProjectId`](https://firebase.google.com/docs/reference/firebase-management/rest/v1beta1/projects#FirebaseProject.FIELDS.project_id). Learn more about using project identifiers in Google's [AIP 2510 standard](https://google.aip.dev/cloud/2510). */
-  name?: string | undefined;
-  /** Output only. The default URL for the Hosting site. */
-  defaultUrl?: string | undefined;
-  /** Optional. User-specified labels for the Hosting site. */
-  labels?: StringMap | undefined;
+export interface CreateProjectsSitesRequest extends Site {
+  /** Required. The Firebase project in which to create a Hosting site, in the format: projects/PROJECT_IDENTIFIER Refer to the `Site` [`name`](../projects#Site.FIELDS.name) field for details about PROJECT_IDENTIFIER values. */
+  parent: string;
+  /** Required. Immutable. A globally unique identifier for the Hosting site. This identifier is used to construct the Firebase-provisioned subdomains for the site, so it must also be a valid domain name label. */
+  siteId?: string | undefined;
+  /** Optional. If set, validates that the site_id is available and that the request would succeed, returning the expected resulting site or error. */
+  validateOnly?: boolean | undefined;
 }
 /** Contains metadata about the user who performed an action, such as creating a release or finalizing a version. */
 export interface ActingUser {
@@ -304,30 +288,6 @@ export interface Release {
   /** Explains the reason for the release. Specify a value for this field only when creating a `SITE_DISABLE` type release. */
   type?: ReleaseTypeEnum | (string & {}) | undefined;
 }
-export interface CreateProjectsSitesChannelsRequest {
-  /** Required. Immutable. A unique ID within the site that identifies the channel. */
-  channelId?: string | undefined;
-  /** Required. The site in which to create this channel, in the format: sites/ SITE_ID */
-  parent: string;
-  /** Output only. The time at which the channel was last updated. */
-  updateTime?: string | undefined;
-  /** The time at which the channel will be automatically deleted. If null, the channel will not be automatically deleted. This field is present in the output whether it's set directly or via the `ttl` field. */
-  expireTime?: string | undefined;
-  /** Output only. The URL at which the content of this channel's current release can be viewed. This URL is a Firebase-provided subdomain of `web.app`. The content of this channel's current release can also be viewed at the Firebase-provided subdomain of `firebaseapp.com`. If this channel is the `live` channel for the Hosting site, then the content of this channel's current release can also be viewed at any connected custom domains. */
-  url?: string | undefined;
-  /** The number of previous releases to retain on the channel for rollback or other purposes. Must be a number between 1-100. Defaults to 10 for new channels. */
-  retainedReleaseCount?: number | undefined;
-  /** Input only. A time-to-live for this channel. Sets `expire_time` to the provided duration past the time of the request. */
-  ttl?: string | undefined;
-  /** Output only. The time at which the channel was created. */
-  createTime?: string | undefined;
-  /** Output only. The current release for the channel, if any. */
-  release?: Release | undefined;
-  /** Text labels used for extra metadata and/or filtering. */
-  labels?: StringMap | undefined;
-  /** The fully-qualified resource name for the channel, in the format: sites/ SITE_ID/channels/CHANNEL_ID */
-  name?: string | undefined;
-}
 /** A `Channel` represents a stream of releases for a site. All sites have a default `live` channel that serves content to the Firebase-provided subdomains and any connected custom domains. */
 export interface Channel {
   /** Output only. The time at which the channel was last updated. */
@@ -349,23 +309,17 @@ export interface Channel {
   /** The fully-qualified resource name for the channel, in the format: sites/ SITE_ID/channels/CHANNEL_ID */
   name?: string | undefined;
 }
-export interface CreateProjectsSitesChannelsReleasesRequest {
+export interface CreateProjectsSitesChannelsRequest extends Channel {
+  /** Required. Immutable. A unique ID within the site that identifies the channel. */
+  channelId?: string | undefined;
+  /** Required. The site in which to create this channel, in the format: sites/ SITE_ID */
+  parent: string;
+}
+export interface CreateProjectsSitesChannelsReleasesRequest extends Release {
   /** Required. The site or channel to which the release belongs, in either of the following formats: - sites/SITE_ID - sites/SITE_ID/channels/CHANNEL_ID */
   parent: string;
   /** The unique identifier for a version, in the format: sites/SITE_ID/versions/ VERSION_ID The SITE_ID in this version identifier must match the SITE_ID in the `parent` parameter. This query parameter must be empty if the `type` field in the request body is `SITE_DISABLE`. */
   versionName?: string | undefined;
-  /** Output only. The unique identifier for the release, in either of the following formats: - sites/SITE_ID/releases/RELEASE_ID - sites/SITE_ID/channels/CHANNEL_ID/releases/RELEASE_ID This name is provided in the response body when you call [`releases.create`](sites.releases/create) or [`channels.releases.create`](sites.channels.releases/create). */
-  name?: string | undefined;
-  /** The deploy description when the release was created. The value can be up to 512 characters. */
-  message?: string | undefined;
-  /** Output only. Identifies the user who created the release. */
-  releaseUser?: ActingUser | undefined;
-  /** Output only. The time at which the version is set to be public. */
-  releaseTime?: string | undefined;
-  /** Output only. The configuration and content that was released. */
-  version?: Version | undefined;
-  /** Explains the reason for the release. Specify a value for this field only when creating a `SITE_DISABLE` type release. */
-  type?: ReleaseTypeEnum | (string & {}) | undefined;
 }
 export type StatusList = Array<Status>;
 export type CustomDomainOwnershipStateEnum =
@@ -471,13 +425,8 @@ export type CustomDomainCertPreferenceEnum =
   | "GROUPED"
   | "PROJECT_GROUPED"
   | "DEDICATED";
-export interface CreateProjectsSitesCustomDomainsRequest {
-  /** Required. The custom domain's parent, specifically a Firebase Hosting `Site`. */
-  parent: string;
-  /** If true, Hosting validates that it's possible to complete your request but doesn't actually create a new `CustomDomain`. */
-  validateOnly?: boolean | undefined;
-  /** Required. The ID of the `CustomDomain`, which is the domain name you'd like to use with Firebase Hosting. */
-  customDomainId?: string | undefined;
+/** A `CustomDomain` is an entity that links a domain name to a Firebase Hosting site. Add a `CustomDomain` to your site to allow Hosting to serve the site's content in response to requests against your domain name. */
+export interface CustomDomain {
   /** Output only. A field that, if true, indicates that Hosting's systems are attmepting to make the custom domain's state match your preferred state. This is most frequently `true` when initially provisioning a `CustomDomain` after a `CreateCustomDomain` request or when creating a new SSL certificate to match an updated `cert_preference` after an `UpdateCustomDomain` request. */
   reconciling?: boolean | undefined;
   /** Output only. The minimum time before a soft-deleted `CustomDomain` is completely removed from Hosting; null for custom domains that haven't been deleted. */
@@ -510,6 +459,14 @@ export interface CreateProjectsSitesCustomDomainsRequest {
   deleteTime?: string | undefined;
   /** A field that lets you specify which SSL certificate type Hosting creates for your domain name. Spark plan custom domains only have access to the `GROUPED` cert type, while Blaze plan domains can select any option. */
   certPreference?: CustomDomainCertPreferenceEnum | (string & {}) | undefined;
+}
+export interface CreateProjectsSitesCustomDomainsRequest extends CustomDomain {
+  /** Required. The custom domain's parent, specifically a Firebase Hosting `Site`. */
+  parent: string;
+  /** If true, Hosting validates that it's possible to complete your request but doesn't actually create a new `CustomDomain`. */
+  validateOnly?: boolean | undefined;
+  /** Required. The ID of the `CustomDomain`, which is the domain name you'd like to use with Firebase Hosting. */
+  customDomainId?: string | undefined;
 }
 /** Represents a DNS certificate challenge. */
 export interface CertDnsChallenge {
@@ -573,22 +530,6 @@ export type DomainStatusEnum =
   | "DOMAIN_ACTIVE"
   | "DOMAIN_VERIFICATION_REQUIRED"
   | "DOMAIN_VERIFICATION_LOST";
-export interface CreateProjectsSitesDomainsRequest {
-  /** Required. The parent to create the domain association for, in the format: sites/site-name */
-  parent: string;
-  /** Output only. Information about the provisioning of certificates and the health of the DNS resolution for the domain. */
-  provisioning?: DomainProvisioning | undefined;
-  /** Required. The domain name of the association. */
-  domainName?: string | undefined;
-  /** If set, the domain should redirect with the provided parameters. */
-  domainRedirect?: DomainRedirect | undefined;
-  /** Required. The site name of the association. */
-  site?: string | undefined;
-  /** Output only. Additional status of the domain association. */
-  status?: DomainStatusEnum | (string & {}) | undefined;
-  /** Output only. The time at which the domain was last updated. */
-  updateTime?: string | undefined;
-}
 /** The intended behavior and status information of a domain. */
 export interface Domain {
   /** Output only. Information about the provisioning of certificates and the health of the DNS resolution for the domain. */
@@ -600,167 +541,57 @@ export interface Domain {
   /** Required. The site name of the association. */
   site?: string | undefined;
   /** Output only. Additional status of the domain association. */
-  status?: DomainStatusEnum | undefined;
-  /** Output only. The time at which the domain was last updated. */
-  updateTime?: string | undefined;
-}
-export interface CreateProjectsSitesReleasesRequest {
-  /** Required. The site or channel to which the release belongs, in either of the following formats: - sites/SITE_ID - sites/SITE_ID/channels/CHANNEL_ID */
-  parent: string;
-  /** The unique identifier for a version, in the format: sites/SITE_ID/versions/ VERSION_ID The SITE_ID in this version identifier must match the SITE_ID in the `parent` parameter. This query parameter must be empty if the `type` field in the request body is `SITE_DISABLE`. */
-  versionName?: string | undefined;
-  /** Output only. The unique identifier for the release, in either of the following formats: - sites/SITE_ID/releases/RELEASE_ID - sites/SITE_ID/channels/CHANNEL_ID/releases/RELEASE_ID This name is provided in the response body when you call [`releases.create`](sites.releases/create) or [`channels.releases.create`](sites.channels.releases/create). */
-  name?: string | undefined;
-  /** The deploy description when the release was created. The value can be up to 512 characters. */
-  message?: string | undefined;
-  /** Output only. Identifies the user who created the release. */
-  releaseUser?: ActingUser | undefined;
-  /** Output only. The time at which the version is set to be public. */
-  releaseTime?: string | undefined;
-  /** Output only. The configuration and content that was released. */
-  version?: Version | undefined;
-  /** Explains the reason for the release. Specify a value for this field only when creating a `SITE_DISABLE` type release. */
-  type?: ReleaseTypeEnum | (string & {}) | undefined;
-}
-export interface CreateProjectsSitesVersionsRequest {
-  /** The self-reported size of the version. This value is used for a pre-emptive quota check for legacy version uploads. */
-  sizeBytes?: string | undefined;
-  /** A unique id for the new version. This is was only specified for legacy version creations, and should be blank. */
-  versionId?: string | undefined;
-  /** Required. The site in which to create the version, in the format: sites/ SITE_ID */
-  parent: string;
-  /** The fully-qualified resource name for the version, in the format: sites/ SITE_ID/versions/VERSION_ID This name is provided in the response body when you call [`CreateVersion`](sites.versions/create). */
-  name?: string | undefined;
-  /** Output only. Identifies the user who created the version. */
-  createUser?: ActingUser | undefined;
-  /** Output only. Identifies the user who `DELETED` the version. */
-  deleteUser?: ActingUser | undefined;
-  /** Output only. Identifies the user who `FINALIZED` the version. */
-  finalizeUser?: ActingUser | undefined;
-  /** The configuration for the behavior of the site. This configuration exists in the [`firebase.json`](https://firebase.google.com/docs/cli/#the_firebasejson_file) file. */
-  config?: ServingConfig | undefined;
-  /** The labels used for extra metadata and/or filtering. */
-  labels?: StringMap | undefined;
-  /** Output only. The time at which the version was `DELETED`. */
-  deleteTime?: string | undefined;
-  /** Output only. The time at which the version was `FINALIZED`. */
-  finalizeTime?: string | undefined;
-  /** Output only. The time at which the version was created. */
-  createTime?: string | undefined;
-  /** The deploy status of the version. For a successful deploy, call [`CreateVersion`](sites.versions/create) to make a new version (`CREATED` status), [upload all desired files](sites.versions/populateFiles) to the version, then [update](sites.versions/patch) the version to the `FINALIZED` status. Note that if you leave the version in the `CREATED` state for more than 12 hours, the system will automatically mark the version as `ABANDONED`. You can also change the status of a version to `DELETED` by calling [`DeleteVersion`](sites.versions/delete). */
-  status?: VersionStatusEnum | (string & {}) | undefined;
-  /** Output only. The total number of files associated with the version. This value is calculated after a version is `FINALIZED`. */
-  fileCount?: string | undefined;
-  /** Output only. The total stored bytesize of the version. This value is calculated after a version is `FINALIZED`. */
-  versionBytes?: string | undefined;
-}
-export interface CreateSitesChannelsRequest {
-  /** Required. The site in which to create this channel, in the format: sites/ SITE_ID */
-  parent: string;
-  /** Required. Immutable. A unique ID within the site that identifies the channel. */
-  channelId?: string | undefined;
-  /** Output only. The time at which the channel was last updated. */
-  updateTime?: string | undefined;
-  /** The time at which the channel will be automatically deleted. If null, the channel will not be automatically deleted. This field is present in the output whether it's set directly or via the `ttl` field. */
-  expireTime?: string | undefined;
-  /** Output only. The URL at which the content of this channel's current release can be viewed. This URL is a Firebase-provided subdomain of `web.app`. The content of this channel's current release can also be viewed at the Firebase-provided subdomain of `firebaseapp.com`. If this channel is the `live` channel for the Hosting site, then the content of this channel's current release can also be viewed at any connected custom domains. */
-  url?: string | undefined;
-  /** The number of previous releases to retain on the channel for rollback or other purposes. Must be a number between 1-100. Defaults to 10 for new channels. */
-  retainedReleaseCount?: number | undefined;
-  /** Input only. A time-to-live for this channel. Sets `expire_time` to the provided duration past the time of the request. */
-  ttl?: string | undefined;
-  /** Output only. The time at which the channel was created. */
-  createTime?: string | undefined;
-  /** Output only. The current release for the channel, if any. */
-  release?: Release | undefined;
-  /** Text labels used for extra metadata and/or filtering. */
-  labels?: StringMap | undefined;
-  /** The fully-qualified resource name for the channel, in the format: sites/ SITE_ID/channels/CHANNEL_ID */
-  name?: string | undefined;
-}
-export interface CreateSitesChannelsReleasesRequest {
-  /** The unique identifier for a version, in the format: sites/SITE_ID/versions/ VERSION_ID The SITE_ID in this version identifier must match the SITE_ID in the `parent` parameter. This query parameter must be empty if the `type` field in the request body is `SITE_DISABLE`. */
-  versionName?: string | undefined;
-  /** Required. The site or channel to which the release belongs, in either of the following formats: - sites/SITE_ID - sites/SITE_ID/channels/CHANNEL_ID */
-  parent: string;
-  /** Output only. The unique identifier for the release, in either of the following formats: - sites/SITE_ID/releases/RELEASE_ID - sites/SITE_ID/channels/CHANNEL_ID/releases/RELEASE_ID This name is provided in the response body when you call [`releases.create`](sites.releases/create) or [`channels.releases.create`](sites.channels.releases/create). */
-  name?: string | undefined;
-  /** The deploy description when the release was created. The value can be up to 512 characters. */
-  message?: string | undefined;
-  /** Output only. Identifies the user who created the release. */
-  releaseUser?: ActingUser | undefined;
-  /** Output only. The time at which the version is set to be public. */
-  releaseTime?: string | undefined;
-  /** Output only. The configuration and content that was released. */
-  version?: Version | undefined;
-  /** Explains the reason for the release. Specify a value for this field only when creating a `SITE_DISABLE` type release. */
-  type?: ReleaseTypeEnum | (string & {}) | undefined;
-}
-export interface CreateSitesDomainsRequest {
-  /** Required. The parent to create the domain association for, in the format: sites/site-name */
-  parent: string;
-  /** Output only. Information about the provisioning of certificates and the health of the DNS resolution for the domain. */
-  provisioning?: DomainProvisioning | undefined;
-  /** Required. The domain name of the association. */
-  domainName?: string | undefined;
-  /** If set, the domain should redirect with the provided parameters. */
-  domainRedirect?: DomainRedirect | undefined;
-  /** Required. The site name of the association. */
-  site?: string | undefined;
-  /** Output only. Additional status of the domain association. */
   status?: DomainStatusEnum | (string & {}) | undefined;
   /** Output only. The time at which the domain was last updated. */
   updateTime?: string | undefined;
 }
-export interface CreateSitesReleasesRequest {
-  /** The unique identifier for a version, in the format: sites/SITE_ID/versions/ VERSION_ID The SITE_ID in this version identifier must match the SITE_ID in the `parent` parameter. This query parameter must be empty if the `type` field in the request body is `SITE_DISABLE`. */
-  versionName?: string | undefined;
+export interface CreateProjectsSitesDomainsRequest extends Domain {
+  /** Required. The parent to create the domain association for, in the format: sites/site-name */
+  parent: string;
+}
+export interface CreateProjectsSitesReleasesRequest extends Release {
   /** Required. The site or channel to which the release belongs, in either of the following formats: - sites/SITE_ID - sites/SITE_ID/channels/CHANNEL_ID */
   parent: string;
-  /** Output only. The unique identifier for the release, in either of the following formats: - sites/SITE_ID/releases/RELEASE_ID - sites/SITE_ID/channels/CHANNEL_ID/releases/RELEASE_ID This name is provided in the response body when you call [`releases.create`](sites.releases/create) or [`channels.releases.create`](sites.channels.releases/create). */
-  name?: string | undefined;
-  /** The deploy description when the release was created. The value can be up to 512 characters. */
-  message?: string | undefined;
-  /** Output only. Identifies the user who created the release. */
-  releaseUser?: ActingUser | undefined;
-  /** Output only. The time at which the version is set to be public. */
-  releaseTime?: string | undefined;
-  /** Output only. The configuration and content that was released. */
-  version?: Version | undefined;
-  /** Explains the reason for the release. Specify a value for this field only when creating a `SITE_DISABLE` type release. */
-  type?: ReleaseTypeEnum | (string & {}) | undefined;
+  /** The unique identifier for a version, in the format: sites/SITE_ID/versions/ VERSION_ID The SITE_ID in this version identifier must match the SITE_ID in the `parent` parameter. This query parameter must be empty if the `type` field in the request body is `SITE_DISABLE`. */
+  versionName?: string | undefined;
 }
-export interface CreateSitesVersionsRequest {
+export interface CreateProjectsSitesVersionsRequest extends Version {
   /** The self-reported size of the version. This value is used for a pre-emptive quota check for legacy version uploads. */
   sizeBytes?: string | undefined;
   /** A unique id for the new version. This is was only specified for legacy version creations, and should be blank. */
   versionId?: string | undefined;
   /** Required. The site in which to create the version, in the format: sites/ SITE_ID */
   parent: string;
-  /** The fully-qualified resource name for the version, in the format: sites/ SITE_ID/versions/VERSION_ID This name is provided in the response body when you call [`CreateVersion`](sites.versions/create). */
-  name?: string | undefined;
-  /** Output only. Identifies the user who created the version. */
-  createUser?: ActingUser | undefined;
-  /** Output only. Identifies the user who `DELETED` the version. */
-  deleteUser?: ActingUser | undefined;
-  /** Output only. Identifies the user who `FINALIZED` the version. */
-  finalizeUser?: ActingUser | undefined;
-  /** The configuration for the behavior of the site. This configuration exists in the [`firebase.json`](https://firebase.google.com/docs/cli/#the_firebasejson_file) file. */
-  config?: ServingConfig | undefined;
-  /** The labels used for extra metadata and/or filtering. */
-  labels?: StringMap | undefined;
-  /** Output only. The time at which the version was `DELETED`. */
-  deleteTime?: string | undefined;
-  /** Output only. The time at which the version was `FINALIZED`. */
-  finalizeTime?: string | undefined;
-  /** Output only. The time at which the version was created. */
-  createTime?: string | undefined;
-  /** The deploy status of the version. For a successful deploy, call [`CreateVersion`](sites.versions/create) to make a new version (`CREATED` status), [upload all desired files](sites.versions/populateFiles) to the version, then [update](sites.versions/patch) the version to the `FINALIZED` status. Note that if you leave the version in the `CREATED` state for more than 12 hours, the system will automatically mark the version as `ABANDONED`. You can also change the status of a version to `DELETED` by calling [`DeleteVersion`](sites.versions/delete). */
-  status?: VersionStatusEnum | (string & {}) | undefined;
-  /** Output only. The total number of files associated with the version. This value is calculated after a version is `FINALIZED`. */
-  fileCount?: string | undefined;
-  /** Output only. The total stored bytesize of the version. This value is calculated after a version is `FINALIZED`. */
-  versionBytes?: string | undefined;
+}
+export interface CreateSitesChannelsRequest extends Channel {
+  /** Required. The site in which to create this channel, in the format: sites/ SITE_ID */
+  parent: string;
+  /** Required. Immutable. A unique ID within the site that identifies the channel. */
+  channelId?: string | undefined;
+}
+export interface CreateSitesChannelsReleasesRequest extends Release {
+  /** The unique identifier for a version, in the format: sites/SITE_ID/versions/ VERSION_ID The SITE_ID in this version identifier must match the SITE_ID in the `parent` parameter. This query parameter must be empty if the `type` field in the request body is `SITE_DISABLE`. */
+  versionName?: string | undefined;
+  /** Required. The site or channel to which the release belongs, in either of the following formats: - sites/SITE_ID - sites/SITE_ID/channels/CHANNEL_ID */
+  parent: string;
+}
+export interface CreateSitesDomainsRequest extends Domain {
+  /** Required. The parent to create the domain association for, in the format: sites/site-name */
+  parent: string;
+}
+export interface CreateSitesReleasesRequest extends Release {
+  /** The unique identifier for a version, in the format: sites/SITE_ID/versions/ VERSION_ID The SITE_ID in this version identifier must match the SITE_ID in the `parent` parameter. This query parameter must be empty if the `type` field in the request body is `SITE_DISABLE`. */
+  versionName?: string | undefined;
+  /** Required. The site or channel to which the release belongs, in either of the following formats: - sites/SITE_ID - sites/SITE_ID/channels/CHANNEL_ID */
+  parent: string;
+}
+export interface CreateSitesVersionsRequest extends Version {
+  /** The self-reported size of the version. This value is used for a pre-emptive quota check for legacy version uploads. */
+  sizeBytes?: string | undefined;
+  /** A unique id for the new version. This is was only specified for legacy version creations, and should be blank. */
+  versionId?: string | undefined;
+  /** Required. The site in which to create the version, in the format: sites/ SITE_ID */
+  parent: string;
 }
 export interface DeleteProjectsSitesRequest {
   /** Required. The fully-qualified resource name for the Hosting site, in the format: projects/PROJECT_IDENTIFIER/sites/SITE_ID Refer to the `Site` [`name`](../projects#Site.FIELDS.name) field for details about PROJECT_IDENTIFIER values. */
@@ -836,41 +667,6 @@ export interface GetProjectsSitesChannelsReleasesRequest {
 export interface GetProjectsSitesCustomDomainsRequest {
   /** Required. The name of the `CustomDomain` to get. */
   name: string;
-}
-/** A `CustomDomain` is an entity that links a domain name to a Firebase Hosting site. Add a `CustomDomain` to your site to allow Hosting to serve the site's content in response to requests against your domain name. */
-export interface CustomDomain {
-  /** Output only. A field that, if true, indicates that Hosting's systems are attmepting to make the custom domain's state match your preferred state. This is most frequently `true` when initially provisioning a `CustomDomain` after a `CreateCustomDomain` request or when creating a new SSL certificate to match an updated `cert_preference` after an `UpdateCustomDomain` request. */
-  reconciling?: boolean | undefined;
-  /** Output only. The minimum time before a soft-deleted `CustomDomain` is completely removed from Hosting; null for custom domains that haven't been deleted. */
-  expireTime?: string | undefined;
-  /** Output only. A string that represents the current state of the `CustomDomain` and allows you to confirm its initial state in requests that would modify it. Use the tag to ensure consistency when making `UpdateCustomDomain`, `DeleteCustomDomain`, and `UndeleteCustomDomain` requests. */
-  etag?: string | undefined;
-  /** Output only. A set of errors Hosting systems encountered when trying to establish Hosting's ability to serve secure content for your domain name. Resolve these issues to ensure your `CustomDomain` behaves properly. */
-  issues?: StatusList | undefined;
-  /** Labels used for extra metadata and/or filtering. */
-  labels?: StringMap | undefined;
-  /** Output only. The `OwnershipState` of the domain name this `CustomDomain` refers to. */
-  ownershipState?: CustomDomainOwnershipStateEnum | undefined;
-  /** Identifier. The fully-qualified name of the `CustomDomain`. */
-  name?: string | undefined;
-  /** Output only. The SSL certificate Hosting has for this custom domain's domain name. For new custom domains, this often represents Hosting's intent to create a certificate, rather than an actual cert. Check the `state` field for more. */
-  cert?: Certificate | undefined;
-  /** Output only. The `HostState` of the domain name this `CustomDomain` refers to. */
-  hostState?: CustomDomainHostStateEnum | undefined;
-  /** Output only. A set of updates you should make to the domain name's DNS records to let Hosting serve secure content on its behalf. */
-  requiredDnsUpdates?: DnsUpdates | undefined;
-  /** Output only. The custom domain's create time. */
-  createTime?: string | undefined;
-  /** Annotations you can add to leave both human- and machine-readable metadata about your `CustomDomain`. */
-  annotations?: StringMap | undefined;
-  /** Output only. The last time the `CustomDomain` was updated. */
-  updateTime?: string | undefined;
-  /** A domain name that this `CustomDomain` should direct traffic towards. If specified, Hosting will respond to requests against this custom domain with an HTTP 301 code, and route traffic to the specified `redirect_target` instead. */
-  redirectTarget?: string | undefined;
-  /** Output only. The time the `CustomDomain` was deleted; null for custom domains that haven't been deleted. Deleted custom domains persist for approximately 30 days, after which time Hosting removes them completely. To restore a deleted custom domain, make an `UndeleteCustomDomain` request. */
-  deleteTime?: string | undefined;
-  /** A field that lets you specify which SSL certificate type Hosting creates for your domain name. Spark plan custom domains only have access to the `GROUPED` cert type, while Blaze plan domains can select any option. */
-  certPreference?: CustomDomainCertPreferenceEnum | undefined;
 }
 export interface GetProjectsSitesCustomDomainsOperationsRequest {
   /** The name of the operation resource. */
@@ -1115,43 +911,19 @@ export interface ListSitesVersionsFilesRequest {
   /** A token from a previous call to `ListVersionFiles` that tells the server where to resume listing. */
   pageToken?: string | undefined;
 }
-export interface PatchProjectsSitesRequest {
+export interface PatchProjectsSitesRequest extends Omit<Site, "name"> {
   /** Output only. The fully-qualified resource name of the Hosting site, in the format: projects/PROJECT_IDENTIFIER/sites/SITE_ID PROJECT_IDENTIFIER: the Firebase project's [`ProjectNumber`](https://firebase.google.com/docs/reference/firebase-management/rest/v1beta1/projects#FirebaseProject.FIELDS.project_number) ***(recommended)*** or its [`ProjectId`](https://firebase.google.com/docs/reference/firebase-management/rest/v1beta1/projects#FirebaseProject.FIELDS.project_id). Learn more about using project identifiers in Google's [AIP 2510 standard](https://google.aip.dev/cloud/2510). */
   name: string;
   /** A set of field names from your Site that you want to update. */
   updateMask?: string | undefined;
-  /** Output only. The type of Hosting site. Every Firebase project has a `DEFAULT_SITE`, which is created when Hosting is provisioned for the project. All additional sites are `USER_SITE`. */
-  type?: SiteTypeEnum | (string & {}) | undefined;
-  /** Optional. The [ID of a Web App](https://firebase.google.com/docs/reference/firebase-management/rest/v1beta1/projects.webApps#WebApp.FIELDS.app_id) associated with the Hosting site. */
-  appId?: string | undefined;
-  /** Output only. The default URL for the Hosting site. */
-  defaultUrl?: string | undefined;
-  /** Optional. User-specified labels for the Hosting site. */
-  labels?: StringMap | undefined;
 }
-export interface PatchProjectsSitesChannelsRequest {
+export interface PatchProjectsSitesChannelsRequest extends Omit<Channel, "name"> {
   /** The fully-qualified resource name for the channel, in the format: sites/ SITE_ID/channels/CHANNEL_ID */
   name: string;
   /** A comma-separated list of fields to be updated in this request. */
   updateMask?: string | undefined;
-  /** Output only. The time at which the channel was last updated. */
-  updateTime?: string | undefined;
-  /** The time at which the channel will be automatically deleted. If null, the channel will not be automatically deleted. This field is present in the output whether it's set directly or via the `ttl` field. */
-  expireTime?: string | undefined;
-  /** Output only. The URL at which the content of this channel's current release can be viewed. This URL is a Firebase-provided subdomain of `web.app`. The content of this channel's current release can also be viewed at the Firebase-provided subdomain of `firebaseapp.com`. If this channel is the `live` channel for the Hosting site, then the content of this channel's current release can also be viewed at any connected custom domains. */
-  url?: string | undefined;
-  /** The number of previous releases to retain on the channel for rollback or other purposes. Must be a number between 1-100. Defaults to 10 for new channels. */
-  retainedReleaseCount?: number | undefined;
-  /** Input only. A time-to-live for this channel. Sets `expire_time` to the provided duration past the time of the request. */
-  ttl?: string | undefined;
-  /** Output only. The time at which the channel was created. */
-  createTime?: string | undefined;
-  /** Output only. The current release for the channel, if any. */
-  release?: Release | undefined;
-  /** Text labels used for extra metadata and/or filtering. */
-  labels?: StringMap | undefined;
 }
-export interface PatchProjectsSitesCustomDomainsRequest {
+export interface PatchProjectsSitesCustomDomainsRequest extends Omit<CustomDomain, "name"> {
   /** If true, Hosting creates the `CustomDomain` if it doesn't already exist. */
   allowMissing?: boolean | undefined;
   /** Identifier. The fully-qualified name of the `CustomDomain`. */
@@ -1160,120 +932,32 @@ export interface PatchProjectsSitesCustomDomainsRequest {
   updateMask?: string | undefined;
   /** If true, Hosting validates that it's possible to complete your request but doesn't actually create or update the `CustomDomain`. */
   validateOnly?: boolean | undefined;
-  /** Output only. A field that, if true, indicates that Hosting's systems are attmepting to make the custom domain's state match your preferred state. This is most frequently `true` when initially provisioning a `CustomDomain` after a `CreateCustomDomain` request or when creating a new SSL certificate to match an updated `cert_preference` after an `UpdateCustomDomain` request. */
-  reconciling?: boolean | undefined;
-  /** Output only. The minimum time before a soft-deleted `CustomDomain` is completely removed from Hosting; null for custom domains that haven't been deleted. */
-  expireTime?: string | undefined;
-  /** Output only. A string that represents the current state of the `CustomDomain` and allows you to confirm its initial state in requests that would modify it. Use the tag to ensure consistency when making `UpdateCustomDomain`, `DeleteCustomDomain`, and `UndeleteCustomDomain` requests. */
-  etag?: string | undefined;
-  /** Output only. A set of errors Hosting systems encountered when trying to establish Hosting's ability to serve secure content for your domain name. Resolve these issues to ensure your `CustomDomain` behaves properly. */
-  issues?: StatusList | undefined;
-  /** Labels used for extra metadata and/or filtering. */
-  labels?: StringMap | undefined;
-  /** Output only. The `OwnershipState` of the domain name this `CustomDomain` refers to. */
-  ownershipState?: CustomDomainOwnershipStateEnum | (string & {}) | undefined;
-  /** Output only. The SSL certificate Hosting has for this custom domain's domain name. For new custom domains, this often represents Hosting's intent to create a certificate, rather than an actual cert. Check the `state` field for more. */
-  cert?: Certificate | undefined;
-  /** Output only. The `HostState` of the domain name this `CustomDomain` refers to. */
-  hostState?: CustomDomainHostStateEnum | (string & {}) | undefined;
-  /** Output only. A set of updates you should make to the domain name's DNS records to let Hosting serve secure content on its behalf. */
-  requiredDnsUpdates?: DnsUpdates | undefined;
-  /** Output only. The custom domain's create time. */
-  createTime?: string | undefined;
-  /** Annotations you can add to leave both human- and machine-readable metadata about your `CustomDomain`. */
-  annotations?: StringMap | undefined;
-  /** Output only. The last time the `CustomDomain` was updated. */
-  updateTime?: string | undefined;
-  /** A domain name that this `CustomDomain` should direct traffic towards. If specified, Hosting will respond to requests against this custom domain with an HTTP 301 code, and route traffic to the specified `redirect_target` instead. */
-  redirectTarget?: string | undefined;
-  /** Output only. The time the `CustomDomain` was deleted; null for custom domains that haven't been deleted. Deleted custom domains persist for approximately 30 days, after which time Hosting removes them completely. To restore a deleted custom domain, make an `UndeleteCustomDomain` request. */
-  deleteTime?: string | undefined;
-  /** A field that lets you specify which SSL certificate type Hosting creates for your domain name. Spark plan custom domains only have access to the `GROUPED` cert type, while Blaze plan domains can select any option. */
-  certPreference?: CustomDomainCertPreferenceEnum | (string & {}) | undefined;
 }
-export interface PatchProjectsSitesVersionsRequest {
+export interface PatchProjectsSitesVersionsRequest extends Omit<Version, "name"> {
   /** The fully-qualified resource name for the version, in the format: sites/ SITE_ID/versions/VERSION_ID This name is provided in the response body when you call [`CreateVersion`](sites.versions/create). */
   name: string;
   /** A set of field names from your [version](../sites.versions) that you want to update. A field will be overwritten if, and only if, it's in the mask. If a mask is not provided then a default mask of only [`status`](../sites.versions#Version.FIELDS.status) will be used. */
   updateMask?: string | undefined;
-  /** Output only. Identifies the user who created the version. */
-  createUser?: ActingUser | undefined;
-  /** Output only. Identifies the user who `DELETED` the version. */
-  deleteUser?: ActingUser | undefined;
-  /** Output only. Identifies the user who `FINALIZED` the version. */
-  finalizeUser?: ActingUser | undefined;
-  /** The configuration for the behavior of the site. This configuration exists in the [`firebase.json`](https://firebase.google.com/docs/cli/#the_firebasejson_file) file. */
-  config?: ServingConfig | undefined;
-  /** The labels used for extra metadata and/or filtering. */
-  labels?: StringMap | undefined;
-  /** Output only. The time at which the version was `DELETED`. */
-  deleteTime?: string | undefined;
-  /** Output only. The time at which the version was `FINALIZED`. */
-  finalizeTime?: string | undefined;
-  /** Output only. The time at which the version was created. */
-  createTime?: string | undefined;
-  /** The deploy status of the version. For a successful deploy, call [`CreateVersion`](sites.versions/create) to make a new version (`CREATED` status), [upload all desired files](sites.versions/populateFiles) to the version, then [update](sites.versions/patch) the version to the `FINALIZED` status. Note that if you leave the version in the `CREATED` state for more than 12 hours, the system will automatically mark the version as `ABANDONED`. You can also change the status of a version to `DELETED` by calling [`DeleteVersion`](sites.versions/delete). */
-  status?: VersionStatusEnum | (string & {}) | undefined;
-  /** Output only. The total number of files associated with the version. This value is calculated after a version is `FINALIZED`. */
-  fileCount?: string | undefined;
-  /** Output only. The total stored bytesize of the version. This value is calculated after a version is `FINALIZED`. */
-  versionBytes?: string | undefined;
 }
-export interface PatchSitesChannelsRequest {
+export interface PatchSitesChannelsRequest extends Omit<Channel, "name"> {
   /** The fully-qualified resource name for the channel, in the format: sites/ SITE_ID/channels/CHANNEL_ID */
   name: string;
   /** A comma-separated list of fields to be updated in this request. */
   updateMask?: string | undefined;
-  /** Output only. The time at which the channel was last updated. */
-  updateTime?: string | undefined;
-  /** The time at which the channel will be automatically deleted. If null, the channel will not be automatically deleted. This field is present in the output whether it's set directly or via the `ttl` field. */
-  expireTime?: string | undefined;
-  /** Output only. The URL at which the content of this channel's current release can be viewed. This URL is a Firebase-provided subdomain of `web.app`. The content of this channel's current release can also be viewed at the Firebase-provided subdomain of `firebaseapp.com`. If this channel is the `live` channel for the Hosting site, then the content of this channel's current release can also be viewed at any connected custom domains. */
-  url?: string | undefined;
-  /** The number of previous releases to retain on the channel for rollback or other purposes. Must be a number between 1-100. Defaults to 10 for new channels. */
-  retainedReleaseCount?: number | undefined;
-  /** Input only. A time-to-live for this channel. Sets `expire_time` to the provided duration past the time of the request. */
-  ttl?: string | undefined;
-  /** Output only. The time at which the channel was created. */
-  createTime?: string | undefined;
-  /** Output only. The current release for the channel, if any. */
-  release?: Release | undefined;
-  /** Text labels used for extra metadata and/or filtering. */
-  labels?: StringMap | undefined;
 }
-export interface PatchSitesVersionsRequest {
+export interface PatchSitesVersionsRequest extends Omit<Version, "name"> {
   /** A set of field names from your [version](../sites.versions) that you want to update. A field will be overwritten if, and only if, it's in the mask. If a mask is not provided then a default mask of only [`status`](../sites.versions#Version.FIELDS.status) will be used. */
   updateMask?: string | undefined;
   /** The fully-qualified resource name for the version, in the format: sites/ SITE_ID/versions/VERSION_ID This name is provided in the response body when you call [`CreateVersion`](sites.versions/create). */
   name: string;
-  /** Output only. Identifies the user who created the version. */
-  createUser?: ActingUser | undefined;
-  /** Output only. Identifies the user who `DELETED` the version. */
-  deleteUser?: ActingUser | undefined;
-  /** Output only. Identifies the user who `FINALIZED` the version. */
-  finalizeUser?: ActingUser | undefined;
-  /** The configuration for the behavior of the site. This configuration exists in the [`firebase.json`](https://firebase.google.com/docs/cli/#the_firebasejson_file) file. */
-  config?: ServingConfig | undefined;
-  /** The labels used for extra metadata and/or filtering. */
-  labels?: StringMap | undefined;
-  /** Output only. The time at which the version was `DELETED`. */
-  deleteTime?: string | undefined;
-  /** Output only. The time at which the version was `FINALIZED`. */
-  finalizeTime?: string | undefined;
-  /** Output only. The time at which the version was created. */
-  createTime?: string | undefined;
-  /** The deploy status of the version. For a successful deploy, call [`CreateVersion`](sites.versions/create) to make a new version (`CREATED` status), [upload all desired files](sites.versions/populateFiles) to the version, then [update](sites.versions/patch) the version to the `FINALIZED` status. Note that if you leave the version in the `CREATED` state for more than 12 hours, the system will automatically mark the version as `ABANDONED`. You can also change the status of a version to `DELETED` by calling [`DeleteVersion`](sites.versions/delete). */
-  status?: VersionStatusEnum | (string & {}) | undefined;
-  /** Output only. The total number of files associated with the version. This value is calculated after a version is `FINALIZED`. */
-  fileCount?: string | undefined;
-  /** Output only. The total stored bytesize of the version. This value is calculated after a version is `FINALIZED`. */
-  versionBytes?: string | undefined;
 }
-export interface PopulateFilesProjectsSitesVersionsRequest {
-  /** Required. The version to which to add files, in the format: sites/SITE_ID /versions/VERSION_ID */
-  parent: string;
+export interface PopulateVersionFilesRequest {
   /** A set of file paths to the hashes corresponding to assets that should be added to the version. A file path to an empty hash will remove the path from the version. Calculate a hash by Gzipping the file then taking the SHA256 hash of the newly compressed file. */
   files?: StringMap | undefined;
+}
+export interface PopulateFilesProjectsSitesVersionsRequest extends PopulateVersionFilesRequest {
+  /** Required. The version to which to add files, in the format: sites/SITE_ID /versions/VERSION_ID */
+  parent: string;
 }
 export interface PopulateVersionFilesResponse {
   /** The content hashes of the specified files that need to be uploaded to the specified URL. */
@@ -1281,71 +965,40 @@ export interface PopulateVersionFilesResponse {
   /** The URL to which the files should be uploaded, in the format: "https://upload-firebasehosting.googleapis.com/upload/sites/SITE_ID /versions/VERSION_ID/files" Perform a multipart `POST` of the Gzipped file contents to the URL using a forward slash and the hash of the file appended to the end. */
   uploadUrl?: string | undefined;
 }
-export interface PopulateFilesSitesVersionsRequest {
+export interface PopulateFilesSitesVersionsRequest extends PopulateVersionFilesRequest {
   /** Required. The version to which to add files, in the format: sites/SITE_ID /versions/VERSION_ID */
   parent: string;
-  /** A set of file paths to the hashes corresponding to assets that should be added to the version. A file path to an empty hash will remove the path from the version. Calculate a hash by Gzipping the file then taking the SHA256 hash of the newly compressed file. */
-  files?: StringMap | undefined;
 }
-export interface UndeleteProjectsSitesCustomDomainsRequest {
-  /** Required. The name of the `CustomDomain` to delete. */
-  name: string;
+/** The request sent to `UndeleteCustomDomain`. */
+export interface UndeleteCustomDomainRequest {
   /** A tag that represents the state of the `CustomDomain` as you know it. If present, the supplied tag must match the current value on your `CustomDomain`, or the request fails. */
   etag?: string | undefined;
   /** If true, Hosting validates that it's possible to complete your request but doesn't actually delete the `CustomDomain`. */
   validateOnly?: boolean | undefined;
 }
-export interface UpdateConfigProjectsSitesRequest {
+export interface UndeleteProjectsSitesCustomDomainsRequest extends UndeleteCustomDomainRequest {
+  /** Required. The name of the `CustomDomain` to delete. */
+  name: string;
+}
+export interface UpdateConfigProjectsSitesRequest extends SiteConfig {
   /** Required. The site for which to update the SiteConfig, in the format: sites/ site-name/config */
   name: string;
   /** A set of field names from your [site configuration](../sites.SiteConfig) that you want to update. A field will be overwritten if, and only if, it's in the mask. If a mask is not provided then a default mask of only [`max_versions`](../sites.SiteConfig.max_versions) will be used. */
   updateMask?: string | undefined;
-  /** Whether or not web requests made by site visitors are logged via Cloud Logging. */
-  cloudLoggingEnabled?: boolean | undefined;
-  /** The number of FINALIZED versions that will be held for a site before automatic deletion. When a new version is deployed, content for versions in storage in excess of this number will be deleted, and will no longer be billed for storage usage. Oldest versions will be deleted first; sites are created with an unlimited number of max_versions by default. */
-  maxVersions?: string | undefined;
 }
-export interface UpdateConfigSitesRequest {
+export interface UpdateConfigSitesRequest extends SiteConfig {
   /** Required. The site for which to update the SiteConfig, in the format: sites/ site-name/config */
   name: string;
   /** A set of field names from your [site configuration](../sites.SiteConfig) that you want to update. A field will be overwritten if, and only if, it's in the mask. If a mask is not provided then a default mask of only [`max_versions`](../sites.SiteConfig.max_versions) will be used. */
   updateMask?: string | undefined;
-  /** Whether or not web requests made by site visitors are logged via Cloud Logging. */
-  cloudLoggingEnabled?: boolean | undefined;
-  /** The number of FINALIZED versions that will be held for a site before automatic deletion. When a new version is deployed, content for versions in storage in excess of this number will be deleted, and will no longer be billed for storage usage. Oldest versions will be deleted first; sites are created with an unlimited number of max_versions by default. */
-  maxVersions?: string | undefined;
 }
-export interface UpdateProjectsSitesDomainsRequest {
+export interface UpdateProjectsSitesDomainsRequest extends Domain {
   /** Required. The name of the domain association to update or create, if an association doesn't already exist. */
   name: string;
-  /** Output only. Information about the provisioning of certificates and the health of the DNS resolution for the domain. */
-  provisioning?: DomainProvisioning | undefined;
-  /** Required. The domain name of the association. */
-  domainName?: string | undefined;
-  /** If set, the domain should redirect with the provided parameters. */
-  domainRedirect?: DomainRedirect | undefined;
-  /** Required. The site name of the association. */
-  site?: string | undefined;
-  /** Output only. Additional status of the domain association. */
-  status?: DomainStatusEnum | (string & {}) | undefined;
-  /** Output only. The time at which the domain was last updated. */
-  updateTime?: string | undefined;
 }
-export interface UpdateSitesDomainsRequest {
+export interface UpdateSitesDomainsRequest extends Domain {
   /** Required. The name of the domain association to update or create, if an association doesn't already exist. */
   name: string;
-  /** Output only. Information about the provisioning of certificates and the health of the DNS resolution for the domain. */
-  provisioning?: DomainProvisioning | undefined;
-  /** Required. The domain name of the association. */
-  domainName?: string | undefined;
-  /** If set, the domain should redirect with the provided parameters. */
-  domainRedirect?: DomainRedirect | undefined;
-  /** Required. The site name of the association. */
-  site?: string | undefined;
-  /** Output only. Additional status of the domain association. */
-  status?: DomainStatusEnum | (string & {}) | undefined;
-  /** Output only. The time at which the domain was last updated. */
-  updateTime?: string | undefined;
 }
 export type CloneProjectsSitesVersionsError =
   | NotFound
@@ -1360,8 +1013,8 @@ export const cloneProjectsSitesVersions: API.OperationMethod<
   CloneProjectsSitesVersionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c34, 0) as any as S.Schema<CloneProjectsSitesVersionsRequest>,
-  output: __S(608, __c38, 0) as any as S.Schema<Operation>,
+  input: __S(528, __c33, 0) as any as S.Schema<CloneProjectsSitesVersionsRequest>,
+  output: __S(592, __c37, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1377,8 +1030,8 @@ export const cloneSitesVersions: API.OperationMethod<
   CloneSitesVersionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(848, __c53, 0) as any as S.Schema<CloneSitesVersionsRequest>,
-  output: __S(608, __c38, 0) as any as S.Schema<Operation>,
+  input: __S(832, __c52, 0) as any as S.Schema<CloneSitesVersionsRequest>,
+  output: __S(592, __c37, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1394,8 +1047,8 @@ export const createProjectsSites: API.OperationMethod<
   CreateProjectsSitesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1040, __c65, 0) as any as S.Schema<CreateProjectsSitesRequest>,
-  output: __S(1056, __c66, 0) as any as S.Schema<Site>,
+  input: __S(1024, __c64, 0) as any as S.Schema<CreateProjectsSitesRequest>,
+  output: __S(1040, __c65, 0) as any as S.Schema<Site>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1416,8 +1069,8 @@ export const createProjectsSitesChannels: API.OperationMethod<
   CreateProjectsSitesChannelsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1264, __c79, 0) as any as S.Schema<CreateProjectsSitesChannelsRequest>,
-  output: __S(1280, __c80, 0) as any as S.Schema<Channel>,
+  input: __S(1248, __c78, 0) as any as S.Schema<CreateProjectsSitesChannelsRequest>,
+  output: __S(1264, __c79, 0) as any as S.Schema<Channel>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1438,8 +1091,8 @@ export const createProjectsSitesChannelsReleases: API.OperationMethod<
   CreateProjectsSitesChannelsReleasesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1328, __c83, 0) as any as S.Schema<CreateProjectsSitesChannelsReleasesRequest>,
-  output: __S(1312, __c82, 0) as any as S.Schema<Release>,
+  input: __S(1312, __c82, 0) as any as S.Schema<CreateProjectsSitesChannelsReleasesRequest>,
+  output: __S(1296, __c81, 0) as any as S.Schema<Release>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1460,8 +1113,8 @@ export const createProjectsSitesCustomDomains: API.OperationMethod<
   CreateProjectsSitesCustomDomainsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1344, __c84, 0) as any as S.Schema<CreateProjectsSitesCustomDomainsRequest>,
-  output: __S(608, __c38, 0) as any as S.Schema<Operation>,
+  input: __S(1328, __c83, 0) as any as S.Schema<CreateProjectsSitesCustomDomainsRequest>,
+  output: __S(592, __c37, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1505,7 +1158,7 @@ export const createProjectsSitesReleases: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c2, 0) as any as S.Schema<CreateProjectsSitesReleasesRequest>,
-  output: __S(1312, __c82, 0) as any as S.Schema<Release>,
+  output: __S(1296, __c81, 0) as any as S.Schema<Release>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1527,7 +1180,7 @@ export const createProjectsSitesVersions: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c3, 0) as any as S.Schema<CreateProjectsSitesVersionsRequest>,
-  output: __S(1306, __c81, 10) as any as S.Schema<Version>,
+  output: __S(1290, __c80, 10) as any as S.Schema<Version>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1544,7 +1197,7 @@ export const createSitesChannels: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c4, 0) as any as S.Schema<CreateSitesChannelsRequest>,
-  output: __S(1280, __c80, 0) as any as S.Schema<Channel>,
+  output: __S(1264, __c79, 0) as any as S.Schema<Channel>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1566,7 +1219,7 @@ export const createSitesChannelsReleases: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c5, 0) as any as S.Schema<CreateSitesChannelsReleasesRequest>,
-  output: __S(1312, __c82, 0) as any as S.Schema<Release>,
+  output: __S(1296, __c81, 0) as any as S.Schema<Release>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1600,7 +1253,7 @@ export const createSitesReleases: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c7, 0) as any as S.Schema<CreateSitesReleasesRequest>,
-  output: __S(1312, __c82, 0) as any as S.Schema<Release>,
+  output: __S(1296, __c81, 0) as any as S.Schema<Release>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1617,7 +1270,7 @@ export const createSitesVersions: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c8, 0) as any as S.Schema<CreateSitesVersionsRequest>,
-  output: __S(1306, __c81, 10) as any as S.Schema<Version>,
+  output: __S(1290, __c80, 10) as any as S.Schema<Version>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1678,7 +1331,7 @@ export const deleteProjectsSitesCustomDomains: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c12, 0) as any as S.Schema<DeleteProjectsSitesCustomDomainsRequest>,
-  output: __S(608, __c38, 0) as any as S.Schema<Operation>,
+  output: __S(592, __c37, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1824,7 +1477,7 @@ export const getProjectsOperations: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(336, __c21, 0) as any as S.Schema<GetProjectsOperationsRequest>,
-  output: __S(608, __c38, 0) as any as S.Schema<Operation>,
+  output: __S(592, __c37, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1841,7 +1494,7 @@ export const getProjectsSites: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c22, 0) as any as S.Schema<GetProjectsSitesRequest>,
-  output: __S(1056, __c66, 0) as any as S.Schema<Site>,
+  output: __S(1040, __c65, 0) as any as S.Schema<Site>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1858,7 +1511,7 @@ export const getProjectsSitesChannels: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(368, __c23, 0) as any as S.Schema<GetProjectsSitesChannelsRequest>,
-  output: __S(1280, __c80, 0) as any as S.Schema<Channel>,
+  output: __S(1264, __c79, 0) as any as S.Schema<Channel>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1875,7 +1528,7 @@ export const getProjectsSitesChannelsReleases: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c24, 0) as any as S.Schema<GetProjectsSitesChannelsReleasesRequest>,
-  output: __S(1312, __c82, 0) as any as S.Schema<Release>,
+  output: __S(1296, __c81, 0) as any as S.Schema<Release>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1892,7 +1545,7 @@ export const getProjectsSitesCustomDomains: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(400, __c25, 0) as any as S.Schema<GetProjectsSitesCustomDomainsRequest>,
-  output: __S(416, __c26, 0) as any as S.Schema<CustomDomain>,
+  output: __S(1353, __c84, 9) as any as S.Schema<CustomDomain>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1908,8 +1561,8 @@ export const getProjectsSitesCustomDomainsOperations: API.OperationMethod<
   GetProjectsSitesCustomDomainsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(432, __c27, 0) as any as S.Schema<GetProjectsSitesCustomDomainsOperationsRequest>,
-  output: __S(608, __c38, 0) as any as S.Schema<Operation>,
+  input: __S(416, __c26, 0) as any as S.Schema<GetProjectsSitesCustomDomainsOperationsRequest>,
+  output: __S(592, __c37, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1925,7 +1578,7 @@ export const getProjectsSitesDomains: API.OperationMethod<
   GetProjectsSitesDomainsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c28, 0) as any as S.Schema<GetProjectsSitesDomainsRequest>,
+  input: __S(432, __c27, 0) as any as S.Schema<GetProjectsSitesDomainsRequest>,
   output: __S(20, __c1, 4) as any as S.Schema<Domain>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
@@ -1942,8 +1595,8 @@ export const getProjectsSitesReleases: API.OperationMethod<
   GetProjectsSitesReleasesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(464, __c29, 0) as any as S.Schema<GetProjectsSitesReleasesRequest>,
-  output: __S(1312, __c82, 0) as any as S.Schema<Release>,
+  input: __S(448, __c28, 0) as any as S.Schema<GetProjectsSitesReleasesRequest>,
+  output: __S(1296, __c81, 0) as any as S.Schema<Release>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1959,8 +1612,8 @@ export const getProjectsSitesVersions: API.OperationMethod<
   GetProjectsSitesVersionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c30, 0) as any as S.Schema<GetProjectsSitesVersionsRequest>,
-  output: __S(1306, __c81, 10) as any as S.Schema<Version>,
+  input: __S(464, __c29, 0) as any as S.Schema<GetProjectsSitesVersionsRequest>,
+  output: __S(1290, __c80, 10) as any as S.Schema<Version>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1976,8 +1629,8 @@ export const getSitesChannels: API.OperationMethod<
   GetSitesChannelsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(496, __c31, 0) as any as S.Schema<GetSitesChannelsRequest>,
-  output: __S(1280, __c80, 0) as any as S.Schema<Channel>,
+  input: __S(480, __c30, 0) as any as S.Schema<GetSitesChannelsRequest>,
+  output: __S(1264, __c79, 0) as any as S.Schema<Channel>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1993,8 +1646,8 @@ export const getSitesChannelsReleases: API.OperationMethod<
   GetSitesChannelsReleasesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c32, 0) as any as S.Schema<GetSitesChannelsReleasesRequest>,
-  output: __S(1312, __c82, 0) as any as S.Schema<Release>,
+  input: __S(496, __c31, 0) as any as S.Schema<GetSitesChannelsReleasesRequest>,
+  output: __S(1296, __c81, 0) as any as S.Schema<Release>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2010,7 +1663,7 @@ export const getSitesDomains: API.OperationMethod<
   GetSitesDomainsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(528, __c33, 0) as any as S.Schema<GetSitesDomainsRequest>,
+  input: __S(512, __c32, 0) as any as S.Schema<GetSitesDomainsRequest>,
   output: __S(20, __c1, 4) as any as S.Schema<Domain>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
@@ -2027,8 +1680,8 @@ export const getSitesReleases: API.OperationMethod<
   GetSitesReleasesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(624, __c39, 0) as any as S.Schema<GetSitesReleasesRequest>,
-  output: __S(1312, __c82, 0) as any as S.Schema<Release>,
+  input: __S(608, __c38, 0) as any as S.Schema<GetSitesReleasesRequest>,
+  output: __S(1296, __c81, 0) as any as S.Schema<Release>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2044,8 +1697,8 @@ export const getSitesVersions: API.OperationMethod<
   GetSitesVersionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c40, 0) as any as S.Schema<GetSitesVersionsRequest>,
-  output: __S(1306, __c81, 10) as any as S.Schema<Version>,
+  input: __S(624, __c39, 0) as any as S.Schema<GetSitesVersionsRequest>,
+  output: __S(1290, __c80, 10) as any as S.Schema<Version>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2062,8 +1715,8 @@ export const listProjectsSites: API.PaginatedOperationMethod<
   GcpOpContext,
   ListSitesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(656, __c41, 0) as any as S.Schema<ListProjectsSitesRequest>,
-  output: __S(658, __c41, 2) as any as S.Schema<ListSitesResponse>,
+  input: __S(640, __c40, 0) as any as S.Schema<ListProjectsSitesRequest>,
+  output: __S(642, __c40, 2) as any as S.Schema<ListSitesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2081,8 +1734,8 @@ export const listProjectsSitesChannels: API.PaginatedOperationMethod<
   GcpOpContext,
   ListChannelsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(672, __c42, 0) as any as S.Schema<ListProjectsSitesChannelsRequest>,
-  output: __S(689, __c43, 1) as any as S.Schema<ListChannelsResponse>,
+  input: __S(656, __c41, 0) as any as S.Schema<ListProjectsSitesChannelsRequest>,
+  output: __S(673, __c42, 1) as any as S.Schema<ListChannelsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2100,8 +1753,8 @@ export const listProjectsSitesChannelsReleases: API.PaginatedOperationMethod<
   GcpOpContext,
   ListReleasesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(704, __c44, 0) as any as S.Schema<ListProjectsSitesChannelsReleasesRequest>,
-  output: __S(721, __c45, 1) as any as S.Schema<ListReleasesResponse>,
+  input: __S(688, __c43, 0) as any as S.Schema<ListProjectsSitesChannelsReleasesRequest>,
+  output: __S(705, __c44, 1) as any as S.Schema<ListReleasesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2119,8 +1772,8 @@ export const listProjectsSitesCustomDomains: API.PaginatedOperationMethod<
   GcpOpContext,
   ListCustomDomainsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(736, __c46, 0) as any as S.Schema<ListProjectsSitesCustomDomainsRequest>,
-  output: __S(738, __c46, 2) as any as S.Schema<ListCustomDomainsResponse>,
+  input: __S(720, __c45, 0) as any as S.Schema<ListProjectsSitesCustomDomainsRequest>,
+  output: __S(722, __c45, 2) as any as S.Schema<ListCustomDomainsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2138,8 +1791,8 @@ export const listProjectsSitesCustomDomainsOperations: API.PaginatedOperationMet
   GcpOpContext,
   ListOperationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(752, __c47, 0) as any as S.Schema<ListProjectsSitesCustomDomainsOperationsRequest>,
-  output: __S(754, __c47, 2) as any as S.Schema<ListOperationsResponse>,
+  input: __S(736, __c46, 0) as any as S.Schema<ListProjectsSitesCustomDomainsOperationsRequest>,
+  output: __S(738, __c46, 2) as any as S.Schema<ListOperationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2157,8 +1810,8 @@ export const listProjectsSitesDomains: API.PaginatedOperationMethod<
   GcpOpContext,
   ListDomainsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(768, __c48, 0) as any as S.Schema<ListProjectsSitesDomainsRequest>,
-  output: __S(785, __c49, 1) as any as S.Schema<ListDomainsResponse>,
+  input: __S(752, __c47, 0) as any as S.Schema<ListProjectsSitesDomainsRequest>,
+  output: __S(769, __c48, 1) as any as S.Schema<ListDomainsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2176,8 +1829,8 @@ export const listProjectsSitesReleases: API.PaginatedOperationMethod<
   GcpOpContext,
   ListReleasesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(800, __c50, 0) as any as S.Schema<ListProjectsSitesReleasesRequest>,
-  output: __S(721, __c45, 1) as any as S.Schema<ListReleasesResponse>,
+  input: __S(784, __c49, 0) as any as S.Schema<ListProjectsSitesReleasesRequest>,
+  output: __S(705, __c44, 1) as any as S.Schema<ListReleasesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2195,8 +1848,8 @@ export const listProjectsSitesVersions: API.PaginatedOperationMethod<
   GcpOpContext,
   ListVersionsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(816, __c51, 0) as any as S.Schema<ListProjectsSitesVersionsRequest>,
-  output: __S(833, __c52, 1) as any as S.Schema<ListVersionsResponse>,
+  input: __S(800, __c50, 0) as any as S.Schema<ListProjectsSitesVersionsRequest>,
+  output: __S(817, __c51, 1) as any as S.Schema<ListVersionsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2214,8 +1867,8 @@ export const listProjectsSitesVersionsFiles: API.PaginatedOperationMethod<
   GcpOpContext,
   ListVersionFilesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(864, __c54, 0) as any as S.Schema<ListProjectsSitesVersionsFilesRequest>,
-  output: __S(882, __c55, 2) as any as S.Schema<ListVersionFilesResponse>,
+  input: __S(848, __c53, 0) as any as S.Schema<ListProjectsSitesVersionsFilesRequest>,
+  output: __S(866, __c54, 2) as any as S.Schema<ListVersionFilesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2233,8 +1886,8 @@ export const listSitesChannels: API.PaginatedOperationMethod<
   GcpOpContext,
   ListChannelsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(896, __c56, 0) as any as S.Schema<ListSitesChannelsRequest>,
-  output: __S(689, __c43, 1) as any as S.Schema<ListChannelsResponse>,
+  input: __S(880, __c55, 0) as any as S.Schema<ListSitesChannelsRequest>,
+  output: __S(673, __c42, 1) as any as S.Schema<ListChannelsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2252,8 +1905,8 @@ export const listSitesChannelsReleases: API.PaginatedOperationMethod<
   GcpOpContext,
   ListReleasesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(912, __c57, 0) as any as S.Schema<ListSitesChannelsReleasesRequest>,
-  output: __S(721, __c45, 1) as any as S.Schema<ListReleasesResponse>,
+  input: __S(896, __c56, 0) as any as S.Schema<ListSitesChannelsReleasesRequest>,
+  output: __S(705, __c44, 1) as any as S.Schema<ListReleasesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2271,8 +1924,8 @@ export const listSitesDomains: API.PaginatedOperationMethod<
   GcpOpContext,
   ListDomainsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(928, __c58, 0) as any as S.Schema<ListSitesDomainsRequest>,
-  output: __S(785, __c49, 1) as any as S.Schema<ListDomainsResponse>,
+  input: __S(912, __c57, 0) as any as S.Schema<ListSitesDomainsRequest>,
+  output: __S(769, __c48, 1) as any as S.Schema<ListDomainsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2290,8 +1943,8 @@ export const listSitesReleases: API.PaginatedOperationMethod<
   GcpOpContext,
   ListReleasesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(944, __c59, 0) as any as S.Schema<ListSitesReleasesRequest>,
-  output: __S(721, __c45, 1) as any as S.Schema<ListReleasesResponse>,
+  input: __S(928, __c58, 0) as any as S.Schema<ListSitesReleasesRequest>,
+  output: __S(705, __c44, 1) as any as S.Schema<ListReleasesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2309,8 +1962,8 @@ export const listSitesVersions: API.PaginatedOperationMethod<
   GcpOpContext,
   ListVersionsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(960, __c60, 0) as any as S.Schema<ListSitesVersionsRequest>,
-  output: __S(833, __c52, 1) as any as S.Schema<ListVersionsResponse>,
+  input: __S(944, __c59, 0) as any as S.Schema<ListSitesVersionsRequest>,
+  output: __S(817, __c51, 1) as any as S.Schema<ListVersionsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2328,8 +1981,8 @@ export const listSitesVersionsFiles: API.PaginatedOperationMethod<
   GcpOpContext,
   ListVersionFilesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(976, __c61, 0) as any as S.Schema<ListSitesVersionsFilesRequest>,
-  output: __S(882, __c55, 2) as any as S.Schema<ListVersionFilesResponse>,
+  input: __S(960, __c60, 0) as any as S.Schema<ListSitesVersionsFilesRequest>,
+  output: __S(866, __c54, 2) as any as S.Schema<ListVersionFilesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2346,8 +1999,8 @@ export const patchProjectsSites: API.OperationMethod<
   PatchProjectsSitesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c62, 0) as any as S.Schema<PatchProjectsSitesRequest>,
-  output: __S(1056, __c66, 0) as any as S.Schema<Site>,
+  input: __S(976, __c61, 0) as any as S.Schema<PatchProjectsSitesRequest>,
+  output: __S(1040, __c65, 0) as any as S.Schema<Site>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2368,8 +2021,8 @@ export const patchProjectsSitesChannels: API.OperationMethod<
   PatchProjectsSitesChannelsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1008, __c63, 0) as any as S.Schema<PatchProjectsSitesChannelsRequest>,
-  output: __S(1280, __c80, 0) as any as S.Schema<Channel>,
+  input: __S(992, __c62, 0) as any as S.Schema<PatchProjectsSitesChannelsRequest>,
+  output: __S(1264, __c79, 0) as any as S.Schema<Channel>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2390,8 +2043,8 @@ export const patchProjectsSitesCustomDomains: API.OperationMethod<
   PatchProjectsSitesCustomDomainsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c64, 0) as any as S.Schema<PatchProjectsSitesCustomDomainsRequest>,
-  output: __S(608, __c38, 0) as any as S.Schema<Operation>,
+  input: __S(1008, __c63, 0) as any as S.Schema<PatchProjectsSitesCustomDomainsRequest>,
+  output: __S(592, __c37, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2412,8 +2065,8 @@ export const patchProjectsSitesVersions: API.OperationMethod<
   PatchProjectsSitesVersionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c68, 0) as any as S.Schema<PatchProjectsSitesVersionsRequest>,
-  output: __S(1306, __c81, 10) as any as S.Schema<Version>,
+  input: __S(1072, __c67, 0) as any as S.Schema<PatchProjectsSitesVersionsRequest>,
+  output: __S(1290, __c80, 10) as any as S.Schema<Version>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2429,8 +2082,8 @@ export const patchSitesChannels: API.OperationMethod<
   PatchSitesChannelsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1104, __c69, 0) as any as S.Schema<PatchSitesChannelsRequest>,
-  output: __S(1280, __c80, 0) as any as S.Schema<Channel>,
+  input: __S(1088, __c68, 0) as any as S.Schema<PatchSitesChannelsRequest>,
+  output: __S(1264, __c79, 0) as any as S.Schema<Channel>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2446,8 +2099,8 @@ export const patchSitesVersions: API.OperationMethod<
   PatchSitesVersionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c70, 0) as any as S.Schema<PatchSitesVersionsRequest>,
-  output: __S(1306, __c81, 10) as any as S.Schema<Version>,
+  input: __S(1104, __c69, 0) as any as S.Schema<PatchSitesVersionsRequest>,
+  output: __S(1290, __c80, 10) as any as S.Schema<Version>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2468,8 +2121,8 @@ export const populateFilesProjectsSitesVersions: API.OperationMethod<
   PopulateFilesProjectsSitesVersionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1136, __c71, 0) as any as S.Schema<PopulateFilesProjectsSitesVersionsRequest>,
-  output: __S(1152, __c72, 0) as any as S.Schema<PopulateVersionFilesResponse>,
+  input: __S(1120, __c70, 0) as any as S.Schema<PopulateFilesProjectsSitesVersionsRequest>,
+  output: __S(1137, __c71, 1) as any as S.Schema<PopulateVersionFilesResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2490,8 +2143,8 @@ export const populateFilesSitesVersions: API.OperationMethod<
   PopulateFilesSitesVersionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1168, __c73, 0) as any as S.Schema<PopulateFilesSitesVersionsRequest>,
-  output: __S(1152, __c72, 0) as any as S.Schema<PopulateVersionFilesResponse>,
+  input: __S(1152, __c72, 0) as any as S.Schema<PopulateFilesSitesVersionsRequest>,
+  output: __S(1137, __c71, 1) as any as S.Schema<PopulateVersionFilesResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2512,8 +2165,8 @@ export const undeleteProjectsSitesCustomDomains: API.OperationMethod<
   UndeleteProjectsSitesCustomDomainsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1184, __c74, 0) as any as S.Schema<UndeleteProjectsSitesCustomDomainsRequest>,
-  output: __S(608, __c38, 0) as any as S.Schema<Operation>,
+  input: __S(1169, __c73, 1) as any as S.Schema<UndeleteProjectsSitesCustomDomainsRequest>,
+  output: __S(592, __c37, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2534,7 +2187,7 @@ export const updateConfigProjectsSites: API.OperationMethod<
   UpdateConfigProjectsSitesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1200, __c75, 0) as any as S.Schema<UpdateConfigProjectsSitesRequest>,
+  input: __S(1184, __c74, 0) as any as S.Schema<UpdateConfigProjectsSitesRequest>,
   output: __S(304, __c19, 0) as any as S.Schema<SiteConfig>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -2551,7 +2204,7 @@ export const updateConfigSites: API.OperationMethod<
   UpdateConfigSitesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1216, __c76, 0) as any as S.Schema<UpdateConfigSitesRequest>,
+  input: __S(1200, __c75, 0) as any as S.Schema<UpdateConfigSitesRequest>,
   output: __S(304, __c19, 0) as any as S.Schema<SiteConfig>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -2573,7 +2226,7 @@ export const updateProjectsSitesDomains: API.OperationMethod<
   UpdateProjectsSitesDomainsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1232, __c77, 0) as any as S.Schema<UpdateProjectsSitesDomainsRequest>,
+  input: __S(1216, __c76, 0) as any as S.Schema<UpdateProjectsSitesDomainsRequest>,
   output: __S(20, __c1, 4) as any as S.Schema<Domain>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -2590,7 +2243,7 @@ export const updateSitesDomains: API.OperationMethod<
   UpdateSitesDomainsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c78, 0) as any as S.Schema<UpdateSitesDomainsRequest>,
+  input: __S(1232, __c77, 0) as any as S.Schema<UpdateSitesDomainsRequest>,
   output: __S(20, __c1, 4) as any as S.Schema<Domain>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -2604,15 +2257,12 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          provisioning: S.optional(__S(18, __c1, 2)),
-          domainName: S.optional(S.String),
-          domainRedirect: S.optional(__S(19, __c1, 3)),
-          site: S.optional(S.String),
-          status: S.optional(S.String),
-          updateTime: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(20, __c1, 4),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/domains",
@@ -2642,9 +2292,9 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           dnsFetchTime: S.optional(S.String),
-          certChallengeDiscoveredTxt: S.optional(__S(576, __c36, 0)),
-          discoveredIps: S.optional(__S(576, __c36, 0)),
-          expectedIps: S.optional(__S(576, __c36, 0)),
+          certChallengeDiscoveredTxt: S.optional(__S(560, __c35, 0)),
+          discoveredIps: S.optional(__S(560, __c35, 0)),
+          expectedIps: S.optional(__S(560, __c35, 0)),
           certChallengeDns: S.optional(__S(16, __c1, 0)),
           certChallengeHttp: S.optional(__S(17, __c1, 1)),
           dnsStatus: S.optional(S.String),
@@ -2675,16 +2325,13 @@ function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          versionName: S.optional(S.String.pipe(T.Query())),
-          name: S.optional(S.String),
-          message: S.optional(S.String),
-          releaseUser: S.optional(__S(1296, __c81, 0)),
-          releaseTime: S.optional(S.String),
-          version: S.optional(__S(1306, __c81, 10)),
-          type: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1296, __c81, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            versionName: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/releases",
@@ -2698,23 +2345,14 @@ function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          sizeBytes: S.optional(S.String.pipe(T.Query())),
-          versionId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          name: S.optional(S.String),
-          createUser: S.optional(__S(1296, __c81, 0)),
-          deleteUser: S.optional(__S(1296, __c81, 0)),
-          finalizeUser: S.optional(__S(1296, __c81, 0)),
-          config: S.optional(__S(1305, __c81, 9)),
-          labels: S.optional(__S(1072, __c67, 0)),
-          deleteTime: S.optional(S.String),
-          finalizeTime: S.optional(S.String),
-          createTime: S.optional(S.String),
-          status: S.optional(S.String),
-          fileCount: S.optional(S.String),
-          versionBytes: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1290, __c80, 10),
+          S.Struct({
+            sizeBytes: S.optional(S.String.pipe(T.Query())),
+            versionId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/versions",
@@ -2728,19 +2366,13 @@ function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          channelId: S.optional(S.String.pipe(T.Query())),
-          updateTime: S.optional(S.String),
-          expireTime: S.optional(S.String),
-          url: S.optional(S.String),
-          retainedReleaseCount: S.optional(S.Number),
-          ttl: S.optional(S.String),
-          createTime: S.optional(S.String),
-          release: S.optional(__S(1312, __c82, 0)),
-          labels: S.optional(__S(1072, __c67, 0)),
-          name: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1264, __c79, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            channelId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/channels",
@@ -2754,16 +2386,13 @@ function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          versionName: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          name: S.optional(S.String),
-          message: S.optional(S.String),
-          releaseUser: S.optional(__S(1296, __c81, 0)),
-          releaseTime: S.optional(S.String),
-          version: S.optional(__S(1306, __c81, 10)),
-          type: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1296, __c81, 0),
+          S.Struct({
+            versionName: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/releases",
@@ -2777,15 +2406,12 @@ function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          provisioning: S.optional(__S(18, __c1, 2)),
-          domainName: S.optional(S.String),
-          domainRedirect: S.optional(__S(19, __c1, 3)),
-          site: S.optional(S.String),
-          status: S.optional(S.String),
-          updateTime: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(20, __c1, 4),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/domains",
@@ -2799,16 +2425,13 @@ function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          versionName: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          name: S.optional(S.String),
-          message: S.optional(S.String),
-          releaseUser: S.optional(__S(1296, __c81, 0)),
-          releaseTime: S.optional(S.String),
-          version: S.optional(__S(1306, __c81, 10)),
-          type: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1296, __c81, 0),
+          S.Struct({
+            versionName: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/releases",
@@ -2822,23 +2445,14 @@ function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          sizeBytes: S.optional(S.String.pipe(T.Query())),
-          versionId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          name: S.optional(S.String),
-          createUser: S.optional(__S(1296, __c81, 0)),
-          deleteUser: S.optional(__S(1296, __c81, 0)),
-          finalizeUser: S.optional(__S(1296, __c81, 0)),
-          config: S.optional(__S(1305, __c81, 9)),
-          labels: S.optional(__S(1072, __c67, 0)),
-          deleteTime: S.optional(S.String),
-          finalizeTime: S.optional(S.String),
-          createTime: S.optional(S.String),
-          status: S.optional(S.String),
-          fileCount: S.optional(S.String),
-          versionBytes: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1290, __c80, 10),
+          S.Struct({
+            sizeBytes: S.optional(S.String.pipe(T.Query())),
+            versionId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/versions",
@@ -3113,24 +2727,15 @@ function __c26(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          reconciling: S.optional(S.Boolean),
-          expireTime: S.optional(S.String),
-          etag: S.optional(S.String),
-          issues: S.optional(__S(1360, __c85, 0)),
-          labels: S.optional(__S(1072, __c67, 0)),
-          ownershipState: S.optional(S.String),
-          name: S.optional(S.String),
-          cert: S.optional(__S(1368, __c85, 8)),
-          hostState: S.optional(S.String),
-          requiredDnsUpdates: S.optional(__S(1365, __c85, 5)),
-          createTime: S.optional(S.String),
-          annotations: S.optional(__S(1072, __c67, 0)),
-          updateTime: S.optional(S.String),
-          redirectTarget: S.optional(S.String),
-          deleteTime: S.optional(S.String),
-          certPreference: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CustomDomain" });
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1beta1/{+name}",
+            baseUrl: "https://firebasehosting.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "GetProjectsSitesCustomDomainsOperationsRequest" });
   }
 }
 function __c27(j: number): any {
@@ -3146,7 +2751,7 @@ function __c27(j: number): any {
             baseUrl: "https://firebasehosting.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetProjectsSitesCustomDomainsOperationsRequest" });
+      ).annotate({ identifier: "GetProjectsSitesDomainsRequest" });
   }
 }
 function __c28(j: number): any {
@@ -3162,7 +2767,7 @@ function __c28(j: number): any {
             baseUrl: "https://firebasehosting.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetProjectsSitesDomainsRequest" });
+      ).annotate({ identifier: "GetProjectsSitesReleasesRequest" });
   }
 }
 function __c29(j: number): any {
@@ -3178,7 +2783,7 @@ function __c29(j: number): any {
             baseUrl: "https://firebasehosting.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetProjectsSitesReleasesRequest" });
+      ).annotate({ identifier: "GetProjectsSitesVersionsRequest" });
   }
 }
 function __c30(j: number): any {
@@ -3194,7 +2799,7 @@ function __c30(j: number): any {
             baseUrl: "https://firebasehosting.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetProjectsSitesVersionsRequest" });
+      ).annotate({ identifier: "GetSitesChannelsRequest" });
   }
 }
 function __c31(j: number): any {
@@ -3210,7 +2815,7 @@ function __c31(j: number): any {
             baseUrl: "https://firebasehosting.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetSitesChannelsRequest" });
+      ).annotate({ identifier: "GetSitesChannelsReleasesRequest" });
   }
 }
 function __c32(j: number): any {
@@ -3226,36 +2831,19 @@ function __c32(j: number): any {
             baseUrl: "https://firebasehosting.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetSitesChannelsReleasesRequest" });
+      ).annotate({ identifier: "GetSitesDomainsRequest" });
   }
 }
 function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v1beta1/{+name}",
-            baseUrl: "https://firebasehosting.googleapis.com/",
+        S.Extend(
+          __S(545, __c34, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
           }),
-        ),
-      ).annotate({ identifier: "GetSitesDomainsRequest" });
-  }
-}
-function __c34(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          sourceVersion: S.optional(S.String),
-          include: S.optional(__S(560, __c35, 0)),
-          exclude: S.optional(__S(560, __c35, 0)),
-          finalize: S.optional(S.Boolean),
-        }).pipe(
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/versions:clone",
@@ -3265,53 +2853,62 @@ function __c34(j: number): any {
       ).annotate({ identifier: "CloneProjectsSitesVersionsRequest" });
   }
 }
-function __c35(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          regexes: S.optional(__S(576, __c36, 0)),
+          regexes: S.optional(__S(560, __c35, 0)),
         }),
       ).annotate({ identifier: "PathFilter" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          sourceVersion: S.optional(S.String),
+          include: S.optional(__S(544, __c34, 0)),
+          exclude: S.optional(__S(544, __c34, 0)),
+          finalize: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "CloneVersionRequest" });
   }
 }
-function __c36(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c37(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
     case 1:
-      return S.Array(__S(592, __c37, 0));
+      return S.Array(__S(576, __c36, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           message: S.optional(S.String),
-          details: S.optional(__S(593, __c37, 1)),
+          details: S.optional(__S(577, __c36, 1)),
           code: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Status" });
   }
 }
-function __c38(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          response: S.optional(__S(592, __c37, 0)),
+          response: S.optional(__S(576, __c36, 0)),
           name: S.optional(S.String),
-          metadata: S.optional(__S(592, __c37, 0)),
-          error: S.optional(__S(594, __c37, 2)),
+          metadata: S.optional(__S(576, __c36, 0)),
+          error: S.optional(__S(578, __c36, 2)),
           done: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "Operation" });
   }
 }
-function __c39(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3327,7 +2924,7 @@ function __c39(j: number): any {
       ).annotate({ identifier: "GetSitesReleasesRequest" });
   }
 }
-function __c40(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3343,7 +2940,7 @@ function __c40(j: number): any {
       ).annotate({ identifier: "GetSitesVersionsRequest" });
   }
 }
-function __c41(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3360,17 +2957,17 @@ function __c41(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsSitesRequest" });
     case 1:
-      return S.Array(__S(1056, __c66, 0));
+      return S.Array(__S(1040, __c65, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          sites: S.optional(__S(657, __c41, 1)),
+          sites: S.optional(__S(641, __c40, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListSitesResponse" });
   }
 }
-function __c42(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3388,20 +2985,20 @@ function __c42(j: number): any {
       ).annotate({ identifier: "ListProjectsSitesChannelsRequest" });
   }
 }
-function __c43(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1280, __c80, 0));
+      return S.Array(__S(1264, __c79, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          channels: S.optional(__S(688, __c43, 0)),
+          channels: S.optional(__S(672, __c42, 0)),
         }),
       ).annotate({ identifier: "ListChannelsResponse" });
   }
 }
-function __c44(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3419,20 +3016,20 @@ function __c44(j: number): any {
       ).annotate({ identifier: "ListProjectsSitesChannelsReleasesRequest" });
   }
 }
-function __c45(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1312, __c82, 0));
+      return S.Array(__S(1296, __c81, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          releases: S.optional(__S(720, __c45, 0)),
+          releases: S.optional(__S(704, __c44, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListReleasesResponse" });
   }
 }
-function __c46(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3450,17 +3047,17 @@ function __c46(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsSitesCustomDomainsRequest" });
     case 1:
-      return S.Array(__S(416, __c26, 0));
+      return S.Array(__S(1353, __c84, 9));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          customDomains: S.optional(__S(737, __c46, 1)),
+          customDomains: S.optional(__S(721, __c45, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListCustomDomainsResponse" });
   }
 }
-function __c47(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3479,18 +3076,18 @@ function __c47(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsSitesCustomDomainsOperationsRequest" });
     case 1:
-      return S.Array(__S(608, __c38, 0));
+      return S.Array(__S(592, __c37, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(576, __c36, 0)),
+          unreachable: S.optional(__S(560, __c35, 0)),
           nextPageToken: S.optional(S.String),
-          operations: S.optional(__S(753, __c47, 1)),
+          operations: S.optional(__S(737, __c46, 1)),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
   }
 }
-function __c48(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3508,20 +3105,20 @@ function __c48(j: number): any {
       ).annotate({ identifier: "ListProjectsSitesDomainsRequest" });
   }
 }
-function __c49(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(20, __c1, 4));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          domains: S.optional(__S(784, __c49, 0)),
+          domains: S.optional(__S(768, __c48, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListDomainsResponse" });
   }
 }
-function __c50(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3539,7 +3136,7 @@ function __c50(j: number): any {
       ).annotate({ identifier: "ListProjectsSitesReleasesRequest" });
   }
 }
-function __c51(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3558,30 +3155,29 @@ function __c51(j: number): any {
       ).annotate({ identifier: "ListProjectsSitesVersionsRequest" });
   }
 }
-function __c52(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1306, __c81, 10));
+      return S.Array(__S(1290, __c80, 10));
     case 1:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          versions: S.optional(__S(832, __c52, 0)),
+          versions: S.optional(__S(816, __c51, 0)),
         }),
       ).annotate({ identifier: "ListVersionsResponse" });
   }
 }
-function __c53(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          sourceVersion: S.optional(S.String),
-          include: S.optional(__S(560, __c35, 0)),
-          exclude: S.optional(__S(560, __c35, 0)),
-          finalize: S.optional(S.Boolean),
-        }).pipe(
+        S.Extend(
+          __S(545, __c34, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/versions:clone",
@@ -3591,7 +3187,7 @@ function __c53(j: number): any {
       ).annotate({ identifier: "CloneSitesVersionsRequest" });
   }
 }
-function __c54(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3610,7 +3206,7 @@ function __c54(j: number): any {
       ).annotate({ identifier: "ListProjectsSitesVersionsFilesRequest" });
   }
 }
-function __c55(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3621,17 +3217,17 @@ function __c55(j: number): any {
         }),
       ).annotate({ identifier: "VersionFile" });
     case 1:
-      return S.Array(__S(880, __c55, 0));
+      return S.Array(__S(864, __c54, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          files: S.optional(__S(881, __c55, 1)),
+          files: S.optional(__S(865, __c54, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListVersionFilesResponse" });
   }
 }
-function __c56(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3649,7 +3245,7 @@ function __c56(j: number): any {
       ).annotate({ identifier: "ListSitesChannelsRequest" });
   }
 }
-function __c57(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3667,7 +3263,7 @@ function __c57(j: number): any {
       ).annotate({ identifier: "ListSitesChannelsReleasesRequest" });
   }
 }
-function __c58(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3685,7 +3281,7 @@ function __c58(j: number): any {
       ).annotate({ identifier: "ListSitesDomainsRequest" });
   }
 }
-function __c59(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3703,7 +3299,7 @@ function __c59(j: number): any {
       ).annotate({ identifier: "ListSitesReleasesRequest" });
   }
 }
-function __c60(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3722,7 +3318,7 @@ function __c60(j: number): any {
       ).annotate({ identifier: "ListSitesVersionsRequest" });
   }
 }
-function __c61(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3741,18 +3337,17 @@ function __c61(j: number): any {
       ).annotate({ identifier: "ListSitesVersionsFilesRequest" });
   }
 }
-function __c62(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          type: S.optional(S.String),
-          appId: S.optional(S.String),
-          defaultUrl: S.optional(S.String),
-          labels: S.optional(__S(1072, __c67, 0)),
-        }).pipe(
+        S.Extend(
+          __S(1040, __c65, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -3762,22 +3357,17 @@ function __c62(j: number): any {
       ).annotate({ identifier: "PatchProjectsSitesRequest" });
   }
 }
-function __c63(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          updateTime: S.optional(S.String),
-          expireTime: S.optional(S.String),
-          url: S.optional(S.String),
-          retainedReleaseCount: S.optional(S.Number),
-          ttl: S.optional(S.String),
-          createTime: S.optional(S.String),
-          release: S.optional(__S(1312, __c82, 0)),
-          labels: S.optional(__S(1072, __c67, 0)),
-        }).pipe(
+        S.Extend(
+          __S(1264, __c79, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -3787,31 +3377,19 @@ function __c63(j: number): any {
       ).annotate({ identifier: "PatchProjectsSitesChannelsRequest" });
   }
 }
-function __c64(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          reconciling: S.optional(S.Boolean),
-          expireTime: S.optional(S.String),
-          etag: S.optional(S.String),
-          issues: S.optional(__S(1360, __c85, 0)),
-          labels: S.optional(__S(1072, __c67, 0)),
-          ownershipState: S.optional(S.String),
-          cert: S.optional(__S(1368, __c85, 8)),
-          hostState: S.optional(S.String),
-          requiredDnsUpdates: S.optional(__S(1365, __c85, 5)),
-          createTime: S.optional(S.String),
-          annotations: S.optional(__S(1072, __c67, 0)),
-          updateTime: S.optional(S.String),
-          redirectTarget: S.optional(S.String),
-          deleteTime: S.optional(S.String),
-          certPreference: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1353, __c84, 9),
+          S.Struct({
+            allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -3821,20 +3399,18 @@ function __c64(j: number): any {
       ).annotate({ identifier: "PatchProjectsSitesCustomDomainsRequest" });
   }
 }
-function __c65(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          siteId: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          type: S.optional(S.String),
-          appId: S.optional(S.String),
-          name: S.optional(S.String),
-          defaultUrl: S.optional(S.String),
-          labels: S.optional(__S(1072, __c67, 0)),
-        }).pipe(
+        S.Extend(
+          __S(1040, __c65, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            siteId: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/sites",
@@ -3844,7 +3420,7 @@ function __c65(j: number): any {
       ).annotate({ identifier: "CreateProjectsSitesRequest" });
   }
 }
-function __c66(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3853,36 +3429,28 @@ function __c66(j: number): any {
           appId: S.optional(S.String),
           name: S.optional(S.String),
           defaultUrl: S.optional(S.String),
-          labels: S.optional(__S(1072, __c67, 0)),
+          labels: S.optional(__S(1056, __c66, 0)),
         }),
       ).annotate({ identifier: "Site" });
   }
 }
-function __c67(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
   }
 }
-function __c68(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          createUser: S.optional(__S(1296, __c81, 0)),
-          deleteUser: S.optional(__S(1296, __c81, 0)),
-          finalizeUser: S.optional(__S(1296, __c81, 0)),
-          config: S.optional(__S(1305, __c81, 9)),
-          labels: S.optional(__S(1072, __c67, 0)),
-          deleteTime: S.optional(S.String),
-          finalizeTime: S.optional(S.String),
-          createTime: S.optional(S.String),
-          status: S.optional(S.String),
-          fileCount: S.optional(S.String),
-          versionBytes: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1290, __c80, 10),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -3892,22 +3460,17 @@ function __c68(j: number): any {
       ).annotate({ identifier: "PatchProjectsSitesVersionsRequest" });
   }
 }
-function __c69(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          updateTime: S.optional(S.String),
-          expireTime: S.optional(S.String),
-          url: S.optional(S.String),
-          retainedReleaseCount: S.optional(S.Number),
-          ttl: S.optional(S.String),
-          createTime: S.optional(S.String),
-          release: S.optional(__S(1312, __c82, 0)),
-          labels: S.optional(__S(1072, __c67, 0)),
-        }).pipe(
+        S.Extend(
+          __S(1264, __c79, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -3917,25 +3480,17 @@ function __c69(j: number): any {
       ).annotate({ identifier: "PatchSitesChannelsRequest" });
   }
 }
-function __c70(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          createUser: S.optional(__S(1296, __c81, 0)),
-          deleteUser: S.optional(__S(1296, __c81, 0)),
-          finalizeUser: S.optional(__S(1296, __c81, 0)),
-          config: S.optional(__S(1305, __c81, 9)),
-          labels: S.optional(__S(1072, __c67, 0)),
-          deleteTime: S.optional(S.String),
-          finalizeTime: S.optional(S.String),
-          createTime: S.optional(S.String),
-          status: S.optional(S.String),
-          fileCount: S.optional(S.String),
-          versionBytes: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1290, __c80, 10),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -3945,14 +3500,16 @@ function __c70(j: number): any {
       ).annotate({ identifier: "PatchSitesVersionsRequest" });
   }
 }
-function __c71(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          files: S.optional(__S(1072, __c67, 0)),
-        }).pipe(
+        S.Extend(
+          __S(1136, __c71, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}:populateFiles",
@@ -3962,25 +3519,33 @@ function __c71(j: number): any {
       ).annotate({ identifier: "PopulateFilesProjectsSitesVersionsRequest" });
   }
 }
-function __c72(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          uploadRequiredHashes: S.optional(__S(576, __c36, 0)),
+          files: S.optional(__S(1056, __c66, 0)),
+        }),
+      ).annotate({ identifier: "PopulateVersionFilesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          uploadRequiredHashes: S.optional(__S(560, __c35, 0)),
           uploadUrl: S.optional(S.String),
         }),
       ).annotate({ identifier: "PopulateVersionFilesResponse" });
   }
 }
-function __c73(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          files: S.optional(__S(1072, __c67, 0)),
-        }).pipe(
+        S.Extend(
+          __S(1136, __c71, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}:populateFiles",
@@ -3990,15 +3555,23 @@ function __c73(j: number): any {
       ).annotate({ identifier: "PopulateFilesSitesVersionsRequest" });
   }
 }
-function __c74(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           etag: S.optional(S.String),
           validateOnly: S.optional(S.Boolean),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "UndeleteCustomDomainRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(1168, __c73, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:undelete",
@@ -4008,16 +3581,17 @@ function __c74(j: number): any {
       ).annotate({ identifier: "UndeleteProjectsSitesCustomDomainsRequest" });
   }
 }
-function __c75(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          cloudLoggingEnabled: S.optional(S.Boolean),
-          maxVersions: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(304, __c19, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -4027,16 +3601,17 @@ function __c75(j: number): any {
       ).annotate({ identifier: "UpdateConfigProjectsSitesRequest" });
   }
 }
-function __c76(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          cloudLoggingEnabled: S.optional(S.Boolean),
-          maxVersions: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(304, __c19, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -4046,19 +3621,16 @@ function __c76(j: number): any {
       ).annotate({ identifier: "UpdateConfigSitesRequest" });
   }
 }
-function __c77(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          provisioning: S.optional(__S(18, __c1, 2)),
-          domainName: S.optional(S.String),
-          domainRedirect: S.optional(__S(19, __c1, 3)),
-          site: S.optional(S.String),
-          status: S.optional(S.String),
-          updateTime: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(20, __c1, 4),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "v1beta1/{+name}",
@@ -4068,19 +3640,16 @@ function __c77(j: number): any {
       ).annotate({ identifier: "UpdateProjectsSitesDomainsRequest" });
   }
 }
-function __c78(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          provisioning: S.optional(__S(18, __c1, 2)),
-          domainName: S.optional(S.String),
-          domainRedirect: S.optional(__S(19, __c1, 3)),
-          site: S.optional(S.String),
-          status: S.optional(S.String),
-          updateTime: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(20, __c1, 4),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "v1beta1/{+name}",
@@ -4090,23 +3659,17 @@ function __c78(j: number): any {
       ).annotate({ identifier: "UpdateSitesDomainsRequest" });
   }
 }
-function __c79(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          channelId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          updateTime: S.optional(S.String),
-          expireTime: S.optional(S.String),
-          url: S.optional(S.String),
-          retainedReleaseCount: S.optional(S.Number),
-          ttl: S.optional(S.String),
-          createTime: S.optional(S.String),
-          release: S.optional(__S(1312, __c82, 0)),
-          labels: S.optional(__S(1072, __c67, 0)),
-          name: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1264, __c79, 0),
+          S.Struct({
+            channelId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/channels",
@@ -4116,7 +3679,7 @@ function __c79(j: number): any {
       ).annotate({ identifier: "CreateProjectsSitesChannelsRequest" });
   }
 }
-function __c80(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4127,14 +3690,14 @@ function __c80(j: number): any {
           retainedReleaseCount: S.optional(S.Number),
           ttl: S.optional(S.String),
           createTime: S.optional(S.String),
-          release: S.optional(__S(1312, __c82, 0)),
-          labels: S.optional(__S(1072, __c67, 0)),
+          release: S.optional(__S(1296, __c81, 0)),
+          labels: S.optional(__S(1056, __c66, 0)),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "Channel" });
   }
 }
-function __c81(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4153,17 +3716,17 @@ function __c81(j: number): any {
         }),
       ).annotate({ identifier: "Redirect" });
     case 2:
-      return S.Array(__S(1297, __c81, 1));
+      return S.Array(__S(1281, __c80, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           glob: S.optional(S.String),
-          headers: S.optional(__S(1072, __c67, 0)),
+          headers: S.optional(__S(1056, __c66, 0)),
           regex: S.optional(S.String),
         }),
       ).annotate({ identifier: "Header" });
     case 4:
-      return S.Array(__S(1299, __c81, 3));
+      return S.Array(__S(1283, __c80, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -4184,23 +3747,23 @@ function __c81(j: number): any {
           path: S.optional(S.String),
           functionRegion: S.optional(S.String),
           regex: S.optional(S.String),
-          run: S.optional(__S(1302, __c81, 6)),
+          run: S.optional(__S(1286, __c80, 6)),
           dynamicLinks: S.optional(S.Boolean),
           glob: S.optional(S.String),
           function: S.optional(S.String),
         }),
       ).annotate({ identifier: "Rewrite" });
     case 8:
-      return S.Array(__S(1303, __c81, 7));
+      return S.Array(__S(1287, __c80, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
-          redirects: S.optional(__S(1298, __c81, 2)),
-          headers: S.optional(__S(1300, __c81, 4)),
-          i18n: S.optional(__S(1301, __c81, 5)),
+          redirects: S.optional(__S(1282, __c80, 2)),
+          headers: S.optional(__S(1284, __c80, 4)),
+          i18n: S.optional(__S(1285, __c80, 5)),
           appAssociation: S.optional(S.String),
           cleanUrls: S.optional(S.Boolean),
-          rewrites: S.optional(__S(1304, __c81, 8)),
+          rewrites: S.optional(__S(1288, __c80, 8)),
           trailingSlashBehavior: S.optional(S.String),
         }),
       ).annotate({ identifier: "ServingConfig" });
@@ -4208,11 +3771,11 @@ function __c81(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          createUser: S.optional(__S(1296, __c81, 0)),
-          deleteUser: S.optional(__S(1296, __c81, 0)),
-          finalizeUser: S.optional(__S(1296, __c81, 0)),
-          config: S.optional(__S(1305, __c81, 9)),
-          labels: S.optional(__S(1072, __c67, 0)),
+          createUser: S.optional(__S(1280, __c80, 0)),
+          deleteUser: S.optional(__S(1280, __c80, 0)),
+          finalizeUser: S.optional(__S(1280, __c80, 0)),
+          config: S.optional(__S(1289, __c80, 9)),
+          labels: S.optional(__S(1056, __c66, 0)),
           deleteTime: S.optional(S.String),
           finalizeTime: S.optional(S.String),
           createTime: S.optional(S.String),
@@ -4223,35 +3786,32 @@ function __c81(j: number): any {
       ).annotate({ identifier: "Version" });
   }
 }
-function __c82(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
           message: S.optional(S.String),
-          releaseUser: S.optional(__S(1296, __c81, 0)),
+          releaseUser: S.optional(__S(1280, __c80, 0)),
           releaseTime: S.optional(S.String),
-          version: S.optional(__S(1306, __c81, 10)),
+          version: S.optional(__S(1290, __c80, 10)),
           type: S.optional(S.String),
         }),
       ).annotate({ identifier: "Release" });
   }
 }
-function __c83(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          versionName: S.optional(S.String.pipe(T.Query())),
-          name: S.optional(S.String),
-          message: S.optional(S.String),
-          releaseUser: S.optional(__S(1296, __c81, 0)),
-          releaseTime: S.optional(S.String),
-          version: S.optional(__S(1306, __c81, 10)),
-          type: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1296, __c81, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            versionName: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/releases",
@@ -4261,31 +3821,18 @@ function __c83(j: number): any {
       ).annotate({ identifier: "CreateProjectsSitesChannelsReleasesRequest" });
   }
 }
-function __c84(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          customDomainId: S.optional(S.String.pipe(T.Query())),
-          reconciling: S.optional(S.Boolean),
-          expireTime: S.optional(S.String),
-          etag: S.optional(S.String),
-          issues: S.optional(__S(1360, __c85, 0)),
-          labels: S.optional(__S(1072, __c67, 0)),
-          ownershipState: S.optional(S.String),
-          name: S.optional(S.String),
-          cert: S.optional(__S(1368, __c85, 8)),
-          hostState: S.optional(S.String),
-          requiredDnsUpdates: S.optional(__S(1365, __c85, 5)),
-          createTime: S.optional(S.String),
-          annotations: S.optional(__S(1072, __c67, 0)),
-          updateTime: S.optional(S.String),
-          redirectTarget: S.optional(S.String),
-          deleteTime: S.optional(S.String),
-          certPreference: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1353, __c84, 9),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            customDomainId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/customDomains",
@@ -4295,10 +3842,10 @@ function __c84(j: number): any {
       ).annotate({ identifier: "CreateProjectsSitesCustomDomainsRequest" });
   }
 }
-function __c85(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(594, __c37, 2));
+      return S.Array(__S(578, __c36, 2));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -4309,22 +3856,22 @@ function __c85(j: number): any {
         }),
       ).annotate({ identifier: "DnsRecord" });
     case 2:
-      return S.Array(__S(1361, __c85, 1));
+      return S.Array(__S(1345, __c84, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          records: S.optional(__S(1362, __c85, 2)),
+          records: S.optional(__S(1346, __c84, 2)),
           domainName: S.optional(S.String),
-          checkError: S.optional(__S(594, __c37, 2)),
+          checkError: S.optional(__S(578, __c36, 2)),
         }),
       ).annotate({ identifier: "DnsRecordSet" });
     case 4:
-      return S.Array(__S(1363, __c85, 3));
+      return S.Array(__S(1347, __c84, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          desired: S.optional(__S(1364, __c85, 4)),
-          discovered: S.optional(__S(1364, __c85, 4)),
+          desired: S.optional(__S(1348, __c84, 4)),
+          discovered: S.optional(__S(1348, __c84, 4)),
           checkTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "DnsUpdates" });
@@ -4332,7 +3879,7 @@ function __c85(j: number): any {
       return S.suspend(() =>
         S.Struct({
           desired: S.optional(S.String),
-          checkError: S.optional(__S(594, __c37, 2)),
+          checkError: S.optional(__S(578, __c36, 2)),
           path: S.optional(S.String),
           lastCheckTime: S.optional(S.String),
           discovered: S.optional(S.String),
@@ -4341,21 +3888,42 @@ function __c85(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          dns: S.optional(__S(1365, __c85, 5)),
-          http: S.optional(__S(1366, __c85, 6)),
+          dns: S.optional(__S(1349, __c84, 5)),
+          http: S.optional(__S(1350, __c84, 6)),
         }),
       ).annotate({ identifier: "CertVerification" });
     case 8:
       return S.suspend(() =>
         S.Struct({
           state: S.optional(S.String),
-          issues: S.optional(__S(1360, __c85, 0)),
+          issues: S.optional(__S(1344, __c84, 0)),
           type: S.optional(S.String),
           expireTime: S.optional(S.String),
           createTime: S.optional(S.String),
-          verification: S.optional(__S(1367, __c85, 7)),
+          verification: S.optional(__S(1351, __c84, 7)),
         }),
       ).annotate({ identifier: "Certificate" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          reconciling: S.optional(S.Boolean),
+          expireTime: S.optional(S.String),
+          etag: S.optional(S.String),
+          issues: S.optional(__S(1344, __c84, 0)),
+          labels: S.optional(__S(1056, __c66, 0)),
+          ownershipState: S.optional(S.String),
+          name: S.optional(S.String),
+          cert: S.optional(__S(1352, __c84, 8)),
+          hostState: S.optional(S.String),
+          requiredDnsUpdates: S.optional(__S(1349, __c84, 5)),
+          createTime: S.optional(S.String),
+          annotations: S.optional(__S(1056, __c66, 0)),
+          updateTime: S.optional(S.String),
+          redirectTarget: S.optional(S.String),
+          deleteTime: S.optional(S.String),
+          certPreference: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CustomDomain" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

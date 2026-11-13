@@ -125,9 +125,8 @@ export interface TfLiteModel {
   automlModel?: string | undefined;
 }
 export type StringList = Array<string>;
-export interface CreateProjectsModelsRequest {
-  /** Required. The parent project resource where the model is to be created. The parent must have the form `projects/{project_id}` */
-  parent: string;
+/** An ML model hosted in Firebase ML */
+export interface Model {
   /** Output only. Timestamp when this model was updated in Firebase ML. */
   updateTime?: string | undefined;
   /** State common to all model types. Includes publishing and validation information. */
@@ -148,6 +147,10 @@ export interface CreateProjectsModelsRequest {
   name?: string | undefined;
   /** User defined tags which can be used to group/filter models during listing */
   tags?: StringList | undefined;
+}
+export interface CreateProjectsModelsRequest extends Model {
+  /** Required. The parent project resource where the model is to be created. The parent must have the form `projects/{project_id}` */
+  parent: string;
 }
 export interface DeleteProjectsModelsRequest {
   /** Required. The name of the model to delete. The name must have the form `projects/{project_id}/models/{model_id}` */
@@ -175,29 +178,6 @@ export interface GetProjectsModelsRequest {
   /** Required. The name of the model to get. The name must have the form `projects/{project_id}/models/{model_id}` */
   name: string;
 }
-/** An ML model hosted in Firebase ML */
-export interface Model {
-  /** Output only. Timestamp when this model was updated in Firebase ML. */
-  updateTime?: string | undefined;
-  /** State common to all model types. Includes publishing and validation information. */
-  state?: ModelState | undefined;
-  /** Output only. The model_hash will change if a new file is available for download. */
-  modelHash?: string | undefined;
-  /** Output only. Lists operation ids associated with this model whose status is NOT done. */
-  activeOperations?: OperationList | undefined;
-  /** Output only. See RFC7232 https://tools.ietf.org/html/rfc7232#section-2.3 */
-  etag?: string | undefined;
-  /** Output only. Timestamp when this model was created in Firebase ML. */
-  createTime?: string | undefined;
-  /** Required. The name of the model to create. The name can be up to 32 characters long and can consist only of ASCII Latin letters A-Z and a-z, underscores(_) and ASCII digits 0-9. It must start with a letter. */
-  displayName?: string | undefined;
-  /** A TFLite Model */
-  tfliteModel?: TfLiteModel | undefined;
-  /** The resource name of the Model. Model names have the form `projects/{project_id}/models/{model_id}` The name is ignored when creating a model. */
-  name?: string | undefined;
-  /** User defined tags which can be used to group/filter models during listing */
-  tags?: StringList | undefined;
-}
 export interface GetProjectsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -220,29 +200,11 @@ export interface ListModelsResponse {
   /** Token to retrieve the next page of results, or empty if there are no more results in the list. */
   nextPageToken?: string | undefined;
 }
-export interface PatchProjectsModelsRequest {
+export interface PatchProjectsModelsRequest extends Omit<Model, "name"> {
   /** The resource name of the Model. Model names have the form `projects/{project_id}/models/{model_id}` The name is ignored when creating a model. */
   name: string;
   /** The update mask */
   updateMask?: string | undefined;
-  /** Output only. Timestamp when this model was updated in Firebase ML. */
-  updateTime?: string | undefined;
-  /** State common to all model types. Includes publishing and validation information. */
-  state?: ModelState | undefined;
-  /** Output only. The model_hash will change if a new file is available for download. */
-  modelHash?: string | undefined;
-  /** Output only. Lists operation ids associated with this model whose status is NOT done. */
-  activeOperations?: OperationList | undefined;
-  /** Output only. See RFC7232 https://tools.ietf.org/html/rfc7232#section-2.3 */
-  etag?: string | undefined;
-  /** Output only. Timestamp when this model was created in Firebase ML. */
-  createTime?: string | undefined;
-  /** Required. The name of the model to create. The name can be up to 32 characters long and can consist only of ASCII Latin letters A-Z and a-z, underscores(_) and ASCII digits 0-9. It must start with a letter. */
-  displayName?: string | undefined;
-  /** A TFLite Model */
-  tfliteModel?: TfLiteModel | undefined;
-  /** User defined tags which can be used to group/filter models during listing */
-  tags?: StringList | undefined;
 }
 export type CreateProjectsModelsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
 /** Creates a model in Firebase ML. The longrunning operation will eventually return a Model */
@@ -252,8 +214,8 @@ export const createProjectsModels: API.OperationMethod<
   CreateProjectsModelsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4, __c1, 0) as any as S.Schema<CreateProjectsModelsRequest>,
-  output: __S(11, __c2, 3) as any as S.Schema<Operation>,
+  input: __S(8, __c1, 0) as any as S.Schema<CreateProjectsModelsRequest>,
+  output: __S(19, __c2, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -269,8 +231,8 @@ export const deleteProjectsModels: API.OperationMethod<
   DeleteProjectsModelsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c4, 0) as any as S.Schema<DeleteProjectsModelsRequest>,
-  output: __S(17, __c4, 1) as any as S.Schema<Empty>,
+  input: __S(32, __c4, 0) as any as S.Schema<DeleteProjectsModelsRequest>,
+  output: __S(33, __c4, 1) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -286,8 +248,8 @@ export const downloadProjectsModels: API.OperationMethod<
   DownloadProjectsModelsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20, __c5, 0) as any as S.Schema<DownloadProjectsModelsRequest>,
-  output: __S(21, __c5, 1) as any as S.Schema<DownloadModelResponse>,
+  input: __S(40, __c5, 0) as any as S.Schema<DownloadProjectsModelsRequest>,
+  output: __S(41, __c5, 1) as any as S.Schema<DownloadModelResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -303,8 +265,8 @@ export const getProjectsModels: API.OperationMethod<
   GetProjectsModelsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c6, 0) as any as S.Schema<GetProjectsModelsRequest>,
-  output: __S(28, __c7, 0) as any as S.Schema<Model>,
+  input: __S(48, __c6, 0) as any as S.Schema<GetProjectsModelsRequest>,
+  output: __S(28, __c3, 4) as any as S.Schema<Model>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -320,8 +282,8 @@ export const getProjectsOperations: API.OperationMethod<
   GetProjectsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c8, 0) as any as S.Schema<GetProjectsOperationsRequest>,
-  output: __S(11, __c2, 3) as any as S.Schema<Operation>,
+  input: __S(56, __c7, 0) as any as S.Schema<GetProjectsOperationsRequest>,
+  output: __S(19, __c2, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -338,8 +300,8 @@ export const listProjectsModels: API.PaginatedOperationMethod<
   GcpOpContext,
   ListModelsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(36, __c9, 0) as any as S.Schema<ListProjectsModelsRequest>,
-  output: __S(38, __c9, 2) as any as S.Schema<ListModelsResponse>,
+  input: __S(64, __c8, 0) as any as S.Schema<ListProjectsModelsRequest>,
+  output: __S(66, __c8, 2) as any as S.Schema<ListModelsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -357,7 +319,7 @@ export const patchProjectsModels: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<PatchProjectsModelsRequest>,
-  output: __S(11, __c2, 3) as any as S.Schema<Operation>,
+  output: __S(19, __c2, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -370,19 +332,13 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          updateTime: S.optional(S.String),
-          state: S.optional(__S(12, __c3, 0)),
-          modelHash: S.optional(S.String),
-          activeOperations: S.optional(__S(13, __c3, 1)),
-          etag: S.optional(S.String),
-          createTime: S.optional(S.String),
-          displayName: S.optional(S.String),
-          tfliteModel: S.optional(__S(14, __c3, 2)),
-          tags: S.optional(__S(15, __c3, 3)),
-        }).pipe(
+        S.Extend(
+          __S(28, __c3, 4),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta2/{+name}",
@@ -396,19 +352,12 @@ function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          updateTime: S.optional(S.String),
-          state: S.optional(__S(12, __c3, 0)),
-          modelHash: S.optional(S.String),
-          activeOperations: S.optional(__S(13, __c3, 1)),
-          etag: S.optional(S.String),
-          createTime: S.optional(S.String),
-          displayName: S.optional(S.String),
-          tfliteModel: S.optional(__S(14, __c3, 2)),
-          name: S.optional(S.String),
-          tags: S.optional(__S(15, __c3, 3)),
-        }).pipe(
+        S.Extend(
+          __S(28, __c3, 4),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta2/{+parent}/models",
@@ -423,11 +372,11 @@ function __c2(j: number): any {
     case 0:
       return S.Record(S.String, S.Unknown);
     case 1:
-      return S.Array(__S(8, __c2, 0));
+      return S.Array(__S(16, __c2, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          details: S.optional(__S(9, __c2, 1)),
+          details: S.optional(__S(17, __c2, 1)),
           code: S.optional(S.Number),
           message: S.optional(S.String),
         }),
@@ -435,11 +384,11 @@ function __c2(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          metadata: S.optional(__S(8, __c2, 0)),
+          metadata: S.optional(__S(16, __c2, 0)),
           done: S.optional(S.Boolean),
-          response: S.optional(__S(8, __c2, 0)),
+          response: S.optional(__S(16, __c2, 0)),
           name: S.optional(S.String),
-          error: S.optional(__S(10, __c2, 2)),
+          error: S.optional(__S(18, __c2, 2)),
         }),
       ).annotate({ identifier: "Operation" });
   }
@@ -450,11 +399,11 @@ function __c3(j: number): any {
       return S.suspend(() =>
         S.Struct({
           published: S.optional(S.Boolean),
-          validationError: S.optional(__S(10, __c2, 2)),
+          validationError: S.optional(__S(18, __c2, 2)),
         }),
       ).annotate({ identifier: "ModelState" });
     case 1:
-      return S.Array(__S(11, __c2, 3));
+      return S.Array(__S(19, __c2, 3));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -465,6 +414,21 @@ function __c3(j: number): any {
       ).annotate({ identifier: "TfLiteModel" });
     case 3:
       return S.Array(S.String);
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          updateTime: S.optional(S.String),
+          state: S.optional(__S(24, __c3, 0)),
+          modelHash: S.optional(S.String),
+          activeOperations: S.optional(__S(25, __c3, 1)),
+          etag: S.optional(S.String),
+          createTime: S.optional(S.String),
+          displayName: S.optional(S.String),
+          tfliteModel: S.optional(__S(26, __c3, 2)),
+          name: S.optional(S.String),
+          tags: S.optional(__S(27, __c3, 3)),
+        }),
+      ).annotate({ identifier: "Model" });
   }
 }
 function __c4(j: number): any {
@@ -531,25 +495,6 @@ function __c7(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          updateTime: S.optional(S.String),
-          state: S.optional(__S(12, __c3, 0)),
-          modelHash: S.optional(S.String),
-          activeOperations: S.optional(__S(13, __c3, 1)),
-          etag: S.optional(S.String),
-          createTime: S.optional(S.String),
-          displayName: S.optional(S.String),
-          tfliteModel: S.optional(__S(14, __c3, 2)),
-          name: S.optional(S.String),
-          tags: S.optional(__S(15, __c3, 3)),
-        }),
-      ).annotate({ identifier: "Model" });
-  }
-}
-function __c8(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
           name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -561,7 +506,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "GetProjectsOperationsRequest" });
   }
 }
-function __c9(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -579,11 +524,11 @@ function __c9(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsModelsRequest" });
     case 1:
-      return S.Array(__S(28, __c7, 0));
+      return S.Array(__S(28, __c3, 4));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          models: S.optional(__S(37, __c9, 1)),
+          models: S.optional(__S(65, __c8, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListModelsResponse" });

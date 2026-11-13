@@ -93,7 +93,7 @@ export type UrlNotificationTypeEnum =
 /** `UrlNotification` is the resource used in all Indexing API calls. It describes one event in the life cycle of a Web Document. */
 export interface UrlNotification {
   /** The URL life cycle event that Google is being notified about. */
-  type?: UrlNotificationTypeEnum | undefined;
+  type?: UrlNotificationTypeEnum | (string & {}) | undefined;
   /** Creation timestamp for this notification. Users should _not_ specify it, the field is ignored at the request time. */
   notifyTime?: string | undefined;
   /** The object of this notification. The URL must be owned by the publisher of this notification and, in case of `URL_UPDATED` notifications, it _must_ be crawlable by Google. */
@@ -108,14 +108,7 @@ export interface UrlNotificationMetadata {
   /** Latest notification received with type `URL_UPDATED`. */
   latestUpdate?: UrlNotification | undefined;
 }
-export interface PublishUrlNotificationsRequest {
-  /** The URL life cycle event that Google is being notified about. */
-  type?: UrlNotificationTypeEnum | (string & {}) | undefined;
-  /** Creation timestamp for this notification. Users should _not_ specify it, the field is ignored at the request time. */
-  notifyTime?: string | undefined;
-  /** The object of this notification. The URL must be owned by the publisher of this notification and, in case of `URL_UPDATED` notifications, it _must_ be crawlable by Google. */
-  url?: string | undefined;
-}
+export interface PublishUrlNotificationsRequest extends UrlNotification {}
 /** Output for PublishUrlNotification */
 export interface PublishUrlNotificationResponse {
   /** Description of the notification events received for this URL. */
@@ -201,11 +194,7 @@ function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          type: S.optional(S.String),
-          notifyTime: S.optional(S.String),
-          url: S.optional(S.String),
-        }).pipe(
+        S.Extend(__S(2, __c1, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v3/urlNotifications:publish",

@@ -29,6 +29,7 @@ import {
   type RestProtocolOptions,
 } from "../src/protocol-rest.ts";
 import * as ResponseValidation from "../src/response-validation.ts";
+import * as L from "../src/schema-lite.ts";
 import * as S from "../src/schema.ts";
 import * as T from "../src/trait.ts";
 
@@ -418,6 +419,32 @@ describe("makeRestProtocol raw request bodies", () => {
     expect(await merge.text()).toBe('{"spec":{"replicas":3}}');
     const plain = await send(patch({ body: { spec: { replicas: 3 } } }));
     expect(plain.headers.get("content-type")).toBe("application/json");
+  });
+
+  test("an Extend input sends the base struct's fields as the body", async () => {
+    // Shaped like a flattened GCP request: the body struct, extended with the
+    // path and query members. A shadowed body field keeps its member binding.
+    const Firewall = L.suspend(() =>
+      L.Struct({ name: L.optional(L.String), sourceRanges: L.optional(L.Array(L.String)) }),
+    );
+    const patch = op(
+      L.suspend(() =>
+        L.Extend(
+          Firewall,
+          L.Struct({
+            project: L.String.pipe(T.Label()),
+            name: L.String.pipe(T.Label()),
+            requestId: L.optional(L.String.pipe(T.Query())),
+          }),
+        ).pipe(T.Http({ method: "PATCH", uri: "/projects/{project}/firewalls/{name}" })),
+      ),
+    );
+    const request = await send(
+      patch({ project: "p", name: "fw", requestId: "r", sourceRanges: ["10.0.0.0/8"] }),
+    );
+    expect(new URL(request.url).pathname).toBe("/projects/p/firewalls/fw");
+    expect(new URL(request.url).searchParams.get("requestId")).toBe("r");
+    expect(await request.text()).toBe('{"sourceRanges":["10.0.0.0/8"]}');
   });
 
   test("body fields go out under the Content-Type member; a set payload wins", async () => {

@@ -83,11 +83,14 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
-export interface CancelProjectsLocationsIntegrationsExecutionsRequest {
-  /** Required. The execution resource name. Format: projects/{gcp_project_id}/locations/{location}/products/{product}/integrations/{integration_id}/executions/{execution_id} */
-  name: string;
+/** Request for cancelling an execution. */
+export interface GoogleCloudIntegrationsV1alphaCancelExecutionRequest {
   /** Required. Reason for cancelling the execution. This is provided by the client requesting the cancellation, and is not used by the Platform. */
   cancelReason?: string | undefined;
+}
+export interface CancelProjectsLocationsIntegrationsExecutionsRequest extends GoogleCloudIntegrationsV1alphaCancelExecutionRequest {
+  /** Required. The execution resource name. Format: projects/{gcp_project_id}/locations/{location}/products/{product}/integrations/{integration_id}/executions/{execution_id} */
+  name: string;
 }
 /** Response for cancelling an execution. */
 export interface GoogleCloudIntegrationsV1alphaCancelExecutionResponse {
@@ -122,26 +125,32 @@ export interface GoogleCloudIntegrationsV1alphaCustomerConfig {
   /** Optional. Cloud KMS config for Auth Module to encrypt/decrypt credentials. */
   cloudKmsConfig?: GoogleCloudIntegrationsV1alphaCloudKmsConfig | undefined;
 }
-export interface ChangeConfigProjectsLocationsClientsRequest {
-  /** Required. Required: Format - projects/{project}/locations/{location} */
-  parent: string;
+/** Request for the ChangeCustomerConfig rpc */
+export interface GoogleCloudIntegrationsV1alphaChangeCustomerConfigRequest {
   /** Optional. The customer configuration to be updated. */
   customerConfig?: GoogleCloudIntegrationsV1alphaCustomerConfig | undefined;
   /** Required. Field mask specifying the fields in the customer config that have been modified and must be updated. If absent or empty, no fields are updated. */
   updateMask?: string | undefined;
+}
+export interface ChangeConfigProjectsLocationsClientsRequest extends GoogleCloudIntegrationsV1alphaChangeCustomerConfigRequest {
+  /** Required. Required: Format - projects/{project}/locations/{location} */
+  parent: string;
 }
 /** Response for the ChangeCustomerConfig rpc */
 export interface GoogleCloudIntegrationsV1alphaChangeCustomerConfigResponse {
   /** Required. The updated customer configuration. */
   customerConfig?: GoogleCloudIntegrationsV1alphaCustomerConfig | undefined;
 }
-export interface CreateProjectsLocationsAppsScriptProjectsRequest {
-  /** Required. The project that the executed integration belongs to. */
-  parent: string;
+/** Request for CreateAppsScriptProject rpc call. */
+export interface GoogleCloudIntegrationsV1alphaCreateAppsScriptProjectRequest {
   /** The name of the Apps Script project to be created. */
   appsScriptProject?: string | undefined;
   /** The auth config id necessary to fetch the necessary credentials to create the project for external clients */
   authConfigId?: string | undefined;
+}
+export interface CreateProjectsLocationsAppsScriptProjectsRequest extends GoogleCloudIntegrationsV1alphaCreateAppsScriptProjectRequest {
+  /** Required. The project that the executed integration belongs to. */
+  parent: string;
 }
 /** Response for CreateAppsScriptProject rpc call. */
 export interface GoogleCloudIntegrationsV1alphaCreateAppsScriptProjectResponse {
@@ -462,15 +471,8 @@ export interface GoogleCloudIntegrationsV1alphaCredential {
   /** Auth token credential */
   authToken?: GoogleCloudIntegrationsV1alphaAuthToken | undefined;
 }
-export interface CreateProjectsLocationsAuthConfigsRequest {
-  /** Required. "projects/{project}/locations/{location}" format. */
-  parent: string;
-  /** The ssl certificate encoded in PEM format. This string must include the begin header and end footer lines. For example, -----BEGIN CERTIFICATE----- MIICTTCCAbagAwIBAgIJAPT0tSKNxan/MA0GCSqGSIb3DQEBCwUAMCoxFzAVBgNV BAoTDkdvb2dsZSBURVNUSU5HMQ8wDQYDVQQDEwZ0ZXN0Q0EwHhcNMTUwMTAxMDAw MDAwWhcNMjUwMTAxMDAwMDAwWjAuMRcwFQYDVQQKEw5Hb29nbGUgVEVTVElORzET MBEGA1UEAwwKam9lQGJhbmFuYTCBnzANBgkqhkiG9w0BAQEFAAOBjQAwgYkCgYEA vDYFgMgxi5W488d9J7UpCInl0NXmZQpJDEHE4hvkaRlH7pnC71H0DLt0/3zATRP1 JzY2+eqBmbGl4/sgZKYv8UrLnNyQNUTsNx1iZAfPUflf5FwgVsai8BM0pUciq1NB xD429VFcrGZNucvFLh72RuRFIKH8WUpiK/iZNFkWhZ0CAwEAAaN3MHUwDgYDVR0P AQH/BAQDAgWgMB0GA1UdJQQWMBQGCCsGAQUFBwMBBggrBgEFBQcDAjAMBgNVHRMB Af8EAjAAMBkGA1UdDgQSBBCVgnFBCWgL/iwCqnGrhTPQMBsGA1UdIwQUMBKAEKey Um2o4k2WiEVA0ldQvNYwDQYJKoZIhvcNAQELBQADgYEAYK986R4E3L1v+Q6esBtW JrUwA9UmJRSQr0N5w3o9XzarU37/bkjOP0Fw0k/A6Vv1n3vlciYfBFaBIam1qRHr 5dMsYf4CZS6w50r7hyzqyrwDoyNxkLnd2PdcHT/sym1QmflsjEs7pejtnohO6N2H wQW6M0H7Zt8claGRla4fKkg= -----END CERTIFICATE----- */
-  "clientCertificate.encryptedPrivateKey"?: string | undefined;
-  /** The ssl certificate encoded in PEM format. This string must include the begin header and end footer lines. For example, -----BEGIN CERTIFICATE----- MIICTTCCAbagAwIBAgIJAPT0tSKNxan/MA0GCSqGSIb3DQEBCwUAMCoxFzAVBgNV BAoTDkdvb2dsZSBURVNUSU5HMQ8wDQYDVQQDEwZ0ZXN0Q0EwHhcNMTUwMTAxMDAw MDAwWhcNMjUwMTAxMDAwMDAwWjAuMRcwFQYDVQQKEw5Hb29nbGUgVEVTVElORzET MBEGA1UEAwwKam9lQGJhbmFuYTCBnzANBgkqhkiG9w0BAQEFAAOBjQAwgYkCgYEA vDYFgMgxi5W488d9J7UpCInl0NXmZQpJDEHE4hvkaRlH7pnC71H0DLt0/3zATRP1 JzY2+eqBmbGl4/sgZKYv8UrLnNyQNUTsNx1iZAfPUflf5FwgVsai8BM0pUciq1NB xD429VFcrGZNucvFLh72RuRFIKH8WUpiK/iZNFkWhZ0CAwEAAaN3MHUwDgYDVR0P AQH/BAQDAgWgMB0GA1UdJQQWMBQGCCsGAQUFBwMBBggrBgEFBQcDAjAMBgNVHRMB Af8EAjAAMBkGA1UdDgQSBBCVgnFBCWgL/iwCqnGrhTPQMBsGA1UdIwQUMBKAEKey Um2o4k2WiEVA0ldQvNYwDQYJKoZIhvcNAQELBQADgYEAYK986R4E3L1v+Q6esBtW JrUwA9UmJRSQr0N5w3o9XzarU37/bkjOP0Fw0k/A6Vv1n3vlciYfBFaBIam1qRHr 5dMsYf4CZS6w50r7hyzqyrwDoyNxkLnd2PdcHT/sym1QmflsjEs7pejtnohO6N2H wQW6M0H7Zt8claGRla4fKkg= -----END CERTIFICATE----- */
-  "clientCertificate.sslCertificate"?: string | undefined;
-  /** 'passphrase' should be left unset if private key is not encrypted. Note that 'passphrase' is not the password for web server, but an extra layer of security to protected private key. */
-  "clientCertificate.passphrase"?: string | undefined;
+/** The AuthConfig resource use to hold channels and connection config data. */
+export interface GoogleCloudIntegrationsV1alphaAuthConfig {
   /** Resource name of the auth config. For more information, see Manage authentication profiles. projects/{project}/locations/{location}/authConfigs/{authConfig}. */
   name?: string | undefined;
   /** Optional. The visibility of the auth config. */
@@ -509,42 +511,15 @@ export interface CreateProjectsLocationsAuthConfigsRequest {
   /** Raw auth credentials. */
   decryptedCredential?: GoogleCloudIntegrationsV1alphaCredential | undefined;
 }
-/** The AuthConfig resource use to hold channels and connection config data. */
-export interface GoogleCloudIntegrationsV1alphaAuthConfig {
-  /** Resource name of the auth config. For more information, see Manage authentication profiles. projects/{project}/locations/{location}/authConfigs/{authConfig}. */
-  name?: string | undefined;
-  /** Optional. The visibility of the auth config. */
-  visibility?: GoogleCloudIntegrationsV1alphaAuthConfigVisibilityEnum | undefined;
-  /** Required. The name of the auth config. */
-  displayName?: string | undefined;
-  /** Optional. A description of the auth config. */
-  description?: string | undefined;
-  /** Output only. The timestamp when the auth config is created. */
-  createTime?: string | undefined;
-  /** Optional. User can define the time to receive notification after which the auth config becomes invalid. Support up to 30 days. Support granularity in hours. */
-  expiryNotificationDuration?: StringList | undefined;
-  /** Required. Credential type of the encrypted credential. */
-  credentialType?: GoogleCloudIntegrationsV1alphaAuthConfigCredentialTypeEnum | undefined;
-  /** Optional. User provided expiry time to override. For the example of Salesforce, username/password credentials can be valid for 6 months depending on the instance settings. */
-  overrideValidTime?: string | undefined;
-  /** Auth credential encrypted by Cloud KMS. Can be decrypted as Credential with proper KMS key. */
-  encryptedCredential?: string | undefined;
-  /** Output only. The reason / details of the current status. */
-  reason?: string | undefined;
-  /** Certificate id for client certificate */
-  certificateId?: string | undefined;
-  /** Output only. The status of the auth config. */
-  state?: GoogleCloudIntegrationsV1alphaAuthConfigStateEnum | undefined;
-  /** Optional. The time until the auth config is valid. Empty or max value is considered the auth config won't expire. */
-  validTime?: string | undefined;
-  /** The creator's email address. Generated based on the End User Credentials/LOAS role of the user making the call. */
-  creatorEmail?: string | undefined;
-  /** The last modifier's email address. Generated based on the End User Credentials/LOAS role of the user making the call. */
-  lastModifierEmail?: string | undefined;
-  /** Output only. The timestamp when the auth config is modified. */
-  updateTime?: string | undefined;
-  /** Raw auth credentials. */
-  decryptedCredential?: GoogleCloudIntegrationsV1alphaCredential | undefined;
+export interface CreateProjectsLocationsAuthConfigsRequest extends GoogleCloudIntegrationsV1alphaAuthConfig {
+  /** Required. "projects/{project}/locations/{location}" format. */
+  parent: string;
+  /** The ssl certificate encoded in PEM format. This string must include the begin header and end footer lines. For example, -----BEGIN CERTIFICATE----- MIICTTCCAbagAwIBAgIJAPT0tSKNxan/MA0GCSqGSIb3DQEBCwUAMCoxFzAVBgNV BAoTDkdvb2dsZSBURVNUSU5HMQ8wDQYDVQQDEwZ0ZXN0Q0EwHhcNMTUwMTAxMDAw MDAwWhcNMjUwMTAxMDAwMDAwWjAuMRcwFQYDVQQKEw5Hb29nbGUgVEVTVElORzET MBEGA1UEAwwKam9lQGJhbmFuYTCBnzANBgkqhkiG9w0BAQEFAAOBjQAwgYkCgYEA vDYFgMgxi5W488d9J7UpCInl0NXmZQpJDEHE4hvkaRlH7pnC71H0DLt0/3zATRP1 JzY2+eqBmbGl4/sgZKYv8UrLnNyQNUTsNx1iZAfPUflf5FwgVsai8BM0pUciq1NB xD429VFcrGZNucvFLh72RuRFIKH8WUpiK/iZNFkWhZ0CAwEAAaN3MHUwDgYDVR0P AQH/BAQDAgWgMB0GA1UdJQQWMBQGCCsGAQUFBwMBBggrBgEFBQcDAjAMBgNVHRMB Af8EAjAAMBkGA1UdDgQSBBCVgnFBCWgL/iwCqnGrhTPQMBsGA1UdIwQUMBKAEKey Um2o4k2WiEVA0ldQvNYwDQYJKoZIhvcNAQELBQADgYEAYK986R4E3L1v+Q6esBtW JrUwA9UmJRSQr0N5w3o9XzarU37/bkjOP0Fw0k/A6Vv1n3vlciYfBFaBIam1qRHr 5dMsYf4CZS6w50r7hyzqyrwDoyNxkLnd2PdcHT/sym1QmflsjEs7pejtnohO6N2H wQW6M0H7Zt8claGRla4fKkg= -----END CERTIFICATE----- */
+  "clientCertificate.encryptedPrivateKey"?: string | undefined;
+  /** The ssl certificate encoded in PEM format. This string must include the begin header and end footer lines. For example, -----BEGIN CERTIFICATE----- MIICTTCCAbagAwIBAgIJAPT0tSKNxan/MA0GCSqGSIb3DQEBCwUAMCoxFzAVBgNV BAoTDkdvb2dsZSBURVNUSU5HMQ8wDQYDVQQDEwZ0ZXN0Q0EwHhcNMTUwMTAxMDAw MDAwWhcNMjUwMTAxMDAwMDAwWjAuMRcwFQYDVQQKEw5Hb29nbGUgVEVTVElORzET MBEGA1UEAwwKam9lQGJhbmFuYTCBnzANBgkqhkiG9w0BAQEFAAOBjQAwgYkCgYEA vDYFgMgxi5W488d9J7UpCInl0NXmZQpJDEHE4hvkaRlH7pnC71H0DLt0/3zATRP1 JzY2+eqBmbGl4/sgZKYv8UrLnNyQNUTsNx1iZAfPUflf5FwgVsai8BM0pUciq1NB xD429VFcrGZNucvFLh72RuRFIKH8WUpiK/iZNFkWhZ0CAwEAAaN3MHUwDgYDVR0P AQH/BAQDAgWgMB0GA1UdJQQWMBQGCCsGAQUFBwMBBggrBgEFBQcDAjAMBgNVHRMB Af8EAjAAMBkGA1UdDgQSBBCVgnFBCWgL/iwCqnGrhTPQMBsGA1UdIwQUMBKAEKey Um2o4k2WiEVA0ldQvNYwDQYJKoZIhvcNAQELBQADgYEAYK986R4E3L1v+Q6esBtW JrUwA9UmJRSQr0N5w3o9XzarU37/bkjOP0Fw0k/A6Vv1n3vlciYfBFaBIam1qRHr 5dMsYf4CZS6w50r7hyzqyrwDoyNxkLnd2PdcHT/sym1QmflsjEs7pejtnohO6N2H wQW6M0H7Zt8claGRla4fKkg= -----END CERTIFICATE----- */
+  "clientCertificate.sslCertificate"?: string | undefined;
+  /** 'passphrase' should be left unset if private key is not encrypted. Note that 'passphrase' is not the password for web server, but an extra layer of security to protected private key. */
+  "clientCertificate.passphrase"?: string | undefined;
 }
 /** Contains client certificate information */
 export interface GoogleCloudIntegrationsV1alphaClientCertificate {
@@ -559,9 +534,8 @@ export type GoogleCloudIntegrationsV1alphaCertificateCertificateStatusEnum =
   | "STATE_UNSPECIFIED"
   | "ACTIVE"
   | "EXPIRED";
-export interface CreateProjectsLocationsCertificatesRequest {
-  /** Required. "projects/{project}/locations/{location}" format. */
-  parent: string;
+/** The certificate definition */
+export interface GoogleCloudIntegrationsV1alphaCertificate {
   /** Output only. The timestamp after which certificate will be valid */
   validStartTime?: string | undefined;
   /** Immutable. Credential id that will be used to register with trawler */
@@ -584,34 +558,16 @@ export interface CreateProjectsLocationsCertificatesRequest {
     | (string & {})
     | undefined;
 }
-/** The certificate definition */
-export interface GoogleCloudIntegrationsV1alphaCertificate {
-  /** Output only. The timestamp after which certificate will be valid */
-  validStartTime?: string | undefined;
-  /** Immutable. Credential id that will be used to register with trawler */
-  credentialId?: string | undefined;
-  /** Output only. The timestamp after which certificate will expire */
-  validEndTime?: string | undefined;
-  /** Output only. Auto generated primary key */
-  name?: string | undefined;
-  /** Required. Name of the certificate */
-  displayName?: string | undefined;
-  /** Description of the certificate */
-  description?: string | undefined;
-  /** Input only. Raw client certificate which would be registered with trawler */
-  rawCertificate?: GoogleCloudIntegrationsV1alphaClientCertificate | undefined;
-  /** Immutable. Requestor ID to be used to register certificate with trawler */
-  requestorId?: string | undefined;
-  /** Status of the certificate */
-  certificateStatus?: GoogleCloudIntegrationsV1alphaCertificateCertificateStatusEnum | undefined;
+export interface CreateProjectsLocationsCertificatesRequest extends GoogleCloudIntegrationsV1alphaCertificate {
+  /** Required. "projects/{project}/locations/{location}" format. */
+  parent: string;
 }
 export type GoogleCloudIntegrationsV1alphaCreateCloudFunctionRequestGcfApiVersionEnum =
   | "GCF_API_VERSION_UNSPECIFIED"
   | "API_VERSION_V1"
   | "API_VERSION_V2";
-export interface CreateProjectsLocationsCloudFunctionsRequest {
-  /** Required. The project that the executed integration belongs to. */
-  parent: string;
+/** Request for Creating Cloud Function rpc call. */
+export interface GoogleCloudIntegrationsV1alphaCreateCloudFunctionRequest {
   /** Indicates the id of the GCP project that the function will be created in. */
   projectId?: string | undefined;
   /** The function region of CF to be created */
@@ -623,6 +579,10 @@ export interface CreateProjectsLocationsCloudFunctionsRequest {
     | GoogleCloudIntegrationsV1alphaCreateCloudFunctionRequestGcfApiVersionEnum
     | (string & {})
     | undefined;
+}
+export interface CreateProjectsLocationsCloudFunctionsRequest extends GoogleCloudIntegrationsV1alphaCreateCloudFunctionRequest {
+  /** Required. The project that the executed integration belongs to. */
+  parent: string;
 }
 /** Response for Creating Cloud Function rpc call. */
 export interface GoogleCloudIntegrationsV1alphaCreateCloudFunctionResponse {
@@ -2033,78 +1993,6 @@ export type GoogleCloudIntegrationsV1alphaIntegrationConfigParameterList =
   Array<GoogleCloudIntegrationsV1alphaIntegrationConfigParameter>;
 export type GoogleCloudIntegrationsV1alphaIntegrationParameterList =
   Array<GoogleCloudIntegrationsV1alphaIntegrationParameter>;
-export interface CreateProjectsLocationsIntegrationsVersionsRequest {
-  /** Set this flag to true, if draft version is to be created for a brand new integration. False, if the request is for an existing integration. For backward compatibility reasons, even if this flag is set to `false` and no existing integration is found, a new draft integration will still be created. */
-  newIntegration?: boolean | undefined;
-  /** Optional. Optional. Indicates if sample workflow should be created. */
-  createSampleIntegrations?: boolean | undefined;
-  /** Required. The parent resource where this version will be created. Format: projects/{project}/locations/{location}/integrations/{integration} */
-  parent: string;
-  /** Output only. The EUC hardening disposition of this version. Set by the service when the integration is first created and inherited unchanged by every later version, so all versions of an integration report the same value. */
-  eucHardeningDisposition?:
-    | GoogleCloudIntegrationsV1alphaIntegrationVersionEucHardeningDispositionEnum
-    | (string & {})
-    | undefined;
-  /** Optional. Error Catch Task configuration for the integration. It's optional. */
-  errorCatcherConfigs?: GoogleCloudIntegrationsV1alphaErrorCatcherConfigList | undefined;
-  /** Optional. True if variable masking feature should be turned on for this version */
-  enableVariableMasking?: boolean | undefined;
-  /** Optional. The id of the template which was used to create this integration_version. */
-  parentTemplateId?: string | undefined;
-  /** Optional. Trigger configurations. */
-  triggerConfigs?: GoogleCloudIntegrationsV1alphaTriggerConfigList | undefined;
-  /** Optional. Task configuration for the integration. It's optional, but the integration doesn't do anything without task_configs. */
-  taskConfigs?: GoogleCloudIntegrationsV1alphaTaskConfigList | undefined;
-  /** Optional. Deprecated: Use `task_configs` instead. Task configuration for the integration. It's optional, but the integration doesn't do anything without task_configs. */
-  taskConfigsInternal?: EnterpriseCrmFrontendsEventbusProtoTaskConfigList | undefined;
-  /** Optional. The last modifier's email address. Generated based on the End User Credentials/LOAS role of the user making the call. */
-  lastModifierEmail?: string | undefined;
-  /** Output only. Generated by eventbus. User should not set it as an input. */
-  status?: GoogleCloudIntegrationsV1alphaIntegrationVersionStatusEnum | (string & {}) | undefined;
-  /** Output only. Auto-generated primary key. */
-  name?: string | undefined;
-  /** Optional. Optional. The resource name of the template from which the integration is created. */
-  createdFromTemplate?: string | undefined;
-  /** Output only. Auto-generated. */
-  updateTime?: string | undefined;
-  /** Optional. Cloud Logging details for the integration version */
-  cloudLoggingDetails?: GoogleCloudIntegrationsV1alphaCloudLoggingDetails | undefined;
-  /** Optional. The edit lock holder's email address. Generated based on the End User Credentials/LOAS role of the user making the call. */
-  lockHolder?: string | undefined;
-  /** Optional. The origin that indicates where this integration is coming from. */
-  origin?: GoogleCloudIntegrationsV1alphaIntegrationVersionOriginEnum | (string & {}) | undefined;
-  /** Optional. Flag to disable database persistence for execution data, including event execution info, execution export info, execution metadata index and execution param index. */
-  databasePersistencePolicy?:
-    | GoogleCloudIntegrationsV1alphaIntegrationVersionDatabasePersistencePolicyEnum
-    | (string & {})
-    | undefined;
-  /** Optional. Deprecated: Use `trigger_configs` instead. Trigger configurations. */
-  triggerConfigsInternal?: EnterpriseCrmFrontendsEventbusProtoTriggerConfigList | undefined;
-  /** Output only. User should not set it as an input. */
-  state?: GoogleCloudIntegrationsV1alphaIntegrationVersionStateEnum | (string & {}) | undefined;
-  /** Output only. Auto-generated. */
-  createTime?: string | undefined;
-  /** Optional. Contains a graph of tasks that will be executed before putting the event in a terminal state (SUCCEEDED/FAILED/FATAL), regardless of success or failure, similar to "finally" in code. */
-  teardown?: EnterpriseCrmEventbusProtoTeardown | undefined;
-  /** Optional. Deprecated: Use `integration_parameters` instead. Parameters that are expected to be passed to the integration when an event is triggered. This consists of all the parameters that are expected in the integration execution. This gives the user the ability to provide default values, add information like PII and also provide data types of each parameter. */
-  integrationParametersInternal?: EnterpriseCrmFrontendsEventbusProtoWorkflowParameters | undefined;
-  /** Optional. A user-defined label that annotates an integration version. Typically, this is only set when the integration version is created. */
-  userLabel?: string | undefined;
-  /** Output only. An increasing sequence that is set when a new snapshot is created. The last created snapshot can be identified by [workflow_name, org_id latest(snapshot_number)]. However, last created snapshot need not be same as the HEAD. So users should always use "HEAD" tag to identify the head. */
-  snapshotNumber?: string | undefined;
-  /** Optional. Config Parameters that are expected to be passed to the integration when an integration is published. This consists of all the parameters that are expected to provide configuration in the integration execution. This gives the user the ability to provide default values, value, add information like connection url, project based configuration value and also provide data types of each parameter. */
-  integrationConfigParameters?:
-    | GoogleCloudIntegrationsV1alphaIntegrationConfigParameterList
-    | undefined;
-  /** Optional. Parameters that are expected to be passed to the integration when an event is triggered. This consists of all the parameters that are expected in the integration execution. This gives the user the ability to provide default values, add information like PII and also provide data types of each parameter. */
-  integrationParameters?: GoogleCloudIntegrationsV1alphaIntegrationParameterList | undefined;
-  /** Optional. The integration description. */
-  description?: string | undefined;
-  /** Optional. The run-as service account email, if set and auth config is not configured, that will be used to generate auth token to be used in Connector task, Rest caller task and Cloud function task. */
-  runAsServiceAccount?: string | undefined;
-  /** Optional. Cloud KMS resource name for the CMEK encryption key. */
-  cloudKmsKey?: string | undefined;
-}
 /** The integration version definition. */
 export interface GoogleCloudIntegrationsV1alphaIntegrationVersion {
   /** Output only. The EUC hardening disposition of this version. Set by the service when the integration is first created and inherited unchanged by every later version, so all versions of an integration report the same value. */
@@ -2172,6 +2060,14 @@ export interface GoogleCloudIntegrationsV1alphaIntegrationVersion {
   /** Optional. Cloud KMS resource name for the CMEK encryption key. */
   cloudKmsKey?: string | undefined;
 }
+export interface CreateProjectsLocationsIntegrationsVersionsRequest extends GoogleCloudIntegrationsV1alphaIntegrationVersion {
+  /** Set this flag to true, if draft version is to be created for a brand new integration. False, if the request is for an existing integration. For backward compatibility reasons, even if this flag is set to `false` and no existing integration is found, a new draft integration will still be created. */
+  newIntegration?: boolean | undefined;
+  /** Optional. Optional. Indicates if sample workflow should be created. */
+  createSampleIntegrations?: boolean | undefined;
+  /** Required. The parent resource where this version will be created. Format: projects/{project}/locations/{location}/integrations/{integration} */
+  parent: string;
+}
 export type GoogleCloudIntegrationsV1alphaEventParameterList =
   Array<GoogleCloudIntegrationsV1alphaEventParameter>;
 export type GoogleCloudIntegrationsV1alphaMockConfigMockStrategyEnum =
@@ -2236,41 +2132,6 @@ export type GoogleCloudIntegrationsV1alphaTestCaseDatabasePersistencePolicyEnum 
   | "DATABASE_PERSISTENCE_POLICY_UNSPECIFIED"
   | "DATABASE_PERSISTENCE_DISABLED"
   | "DATABASE_PERSISTENCE_ASYNC";
-export interface CreateProjectsLocationsIntegrationsVersionsTestCasesRequest {
-  /** Required. Required */
-  testCaseId?: string | undefined;
-  /** Required. The parent resource where this test case will be created. Format: projects/{project}/locations/{location}/integrations/{integration}/versions/{integration_version} */
-  parent: string;
-  /** Auto-generated. */
-  createTime?: string | undefined;
-  /** The last modifier's email address. Generated based on the End User Credentials/LOAS role of the user making the call. */
-  lastModifierEmail?: string | undefined;
-  /** Output only. Auto-generated primary key. */
-  name?: string | undefined;
-  /** Optional. However, the test case doesn't mock or assert anything without test_task_configs. */
-  testTaskConfigs?: GoogleCloudIntegrationsV1alphaTestTaskConfigList | undefined;
-  /** Optional. Various policies for how to persist the test execution info including execution info, execution export info, execution metadata index and execution param index.. */
-  databasePersistencePolicy?:
-    | GoogleCloudIntegrationsV1alphaTestCaseDatabasePersistencePolicyEnum
-    | (string & {})
-    | undefined;
-  /** Optional. Parameters that are expected to be passed to the test case when the test case is triggered. This gives the user the ability to provide default values. This should include all the output variables of the trigger as input variables. */
-  testInputParameters?: GoogleCloudIntegrationsV1alphaIntegrationParameterList | undefined;
-  /** Optional. The edit lock holder's email address. Generated based on the End User Credentials/LOAS role of the user making the call. */
-  lockHolderEmail?: string | undefined;
-  /** Required. The display name of test case. */
-  displayName?: string | undefined;
-  /** Optional. Description of the test case. */
-  description?: string | undefined;
-  /** Required. This defines the trigger ID in workflow which is considered to be executed as starting point of the test case */
-  triggerId?: string | undefined;
-  /** Optional. Auto-generated. */
-  triggerConfig?: GoogleCloudIntegrationsV1alphaTriggerConfig | undefined;
-  /** Auto-generated. */
-  updateTime?: string | undefined;
-  /** Optional. The creator's email address. Generated based on the End User Credentials/LOAS role of the user making the call. */
-  creatorEmail?: string | undefined;
-}
 /** Defines the functional test case for Application Integration. Next available id: 15 */
 export interface GoogleCloudIntegrationsV1alphaTestCase {
   /** Auto-generated. */
@@ -2284,6 +2145,7 @@ export interface GoogleCloudIntegrationsV1alphaTestCase {
   /** Optional. Various policies for how to persist the test execution info including execution info, execution export info, execution metadata index and execution param index.. */
   databasePersistencePolicy?:
     | GoogleCloudIntegrationsV1alphaTestCaseDatabasePersistencePolicyEnum
+    | (string & {})
     | undefined;
   /** Optional. Parameters that are expected to be passed to the test case when the test case is triggered. This gives the user the ability to provide default values. This should include all the output variables of the trigger as input variables. */
   testInputParameters?: GoogleCloudIntegrationsV1alphaIntegrationParameterList | undefined;
@@ -2302,7 +2164,13 @@ export interface GoogleCloudIntegrationsV1alphaTestCase {
   /** Optional. The creator's email address. Generated based on the End User Credentials/LOAS role of the user making the call. */
   creatorEmail?: string | undefined;
 }
-export interface CreateProjectsLocationsProductsAuthConfigsRequest {
+export interface CreateProjectsLocationsIntegrationsVersionsTestCasesRequest extends GoogleCloudIntegrationsV1alphaTestCase {
+  /** Required. Required */
+  testCaseId?: string | undefined;
+  /** Required. The parent resource where this test case will be created. Format: projects/{project}/locations/{location}/integrations/{integration}/versions/{integration_version} */
+  parent: string;
+}
+export interface CreateProjectsLocationsProductsAuthConfigsRequest extends GoogleCloudIntegrationsV1alphaAuthConfig {
   /** 'passphrase' should be left unset if private key is not encrypted. Note that 'passphrase' is not the password for web server, but an extra layer of security to protected private key. */
   "clientCertificate.passphrase"?: string | undefined;
   /** Required. "projects/{project}/locations/{location}" format. */
@@ -2311,177 +2179,22 @@ export interface CreateProjectsLocationsProductsAuthConfigsRequest {
   "clientCertificate.sslCertificate"?: string | undefined;
   /** The ssl certificate encoded in PEM format. This string must include the begin header and end footer lines. For example, -----BEGIN CERTIFICATE----- MIICTTCCAbagAwIBAgIJAPT0tSKNxan/MA0GCSqGSIb3DQEBCwUAMCoxFzAVBgNV BAoTDkdvb2dsZSBURVNUSU5HMQ8wDQYDVQQDEwZ0ZXN0Q0EwHhcNMTUwMTAxMDAw MDAwWhcNMjUwMTAxMDAwMDAwWjAuMRcwFQYDVQQKEw5Hb29nbGUgVEVTVElORzET MBEGA1UEAwwKam9lQGJhbmFuYTCBnzANBgkqhkiG9w0BAQEFAAOBjQAwgYkCgYEA vDYFgMgxi5W488d9J7UpCInl0NXmZQpJDEHE4hvkaRlH7pnC71H0DLt0/3zATRP1 JzY2+eqBmbGl4/sgZKYv8UrLnNyQNUTsNx1iZAfPUflf5FwgVsai8BM0pUciq1NB xD429VFcrGZNucvFLh72RuRFIKH8WUpiK/iZNFkWhZ0CAwEAAaN3MHUwDgYDVR0P AQH/BAQDAgWgMB0GA1UdJQQWMBQGCCsGAQUFBwMBBggrBgEFBQcDAjAMBgNVHRMB Af8EAjAAMBkGA1UdDgQSBBCVgnFBCWgL/iwCqnGrhTPQMBsGA1UdIwQUMBKAEKey Um2o4k2WiEVA0ldQvNYwDQYJKoZIhvcNAQELBQADgYEAYK986R4E3L1v+Q6esBtW JrUwA9UmJRSQr0N5w3o9XzarU37/bkjOP0Fw0k/A6Vv1n3vlciYfBFaBIam1qRHr 5dMsYf4CZS6w50r7hyzqyrwDoyNxkLnd2PdcHT/sym1QmflsjEs7pejtnohO6N2H wQW6M0H7Zt8claGRla4fKkg= -----END CERTIFICATE----- */
   "clientCertificate.encryptedPrivateKey"?: string | undefined;
-  /** Resource name of the auth config. For more information, see Manage authentication profiles. projects/{project}/locations/{location}/authConfigs/{authConfig}. */
-  name?: string | undefined;
-  /** Optional. The visibility of the auth config. */
-  visibility?: GoogleCloudIntegrationsV1alphaAuthConfigVisibilityEnum | (string & {}) | undefined;
-  /** Required. The name of the auth config. */
-  displayName?: string | undefined;
-  /** Optional. A description of the auth config. */
-  description?: string | undefined;
-  /** Output only. The timestamp when the auth config is created. */
-  createTime?: string | undefined;
-  /** Optional. User can define the time to receive notification after which the auth config becomes invalid. Support up to 30 days. Support granularity in hours. */
-  expiryNotificationDuration?: StringList | undefined;
-  /** Required. Credential type of the encrypted credential. */
-  credentialType?:
-    | GoogleCloudIntegrationsV1alphaAuthConfigCredentialTypeEnum
-    | (string & {})
-    | undefined;
-  /** Optional. User provided expiry time to override. For the example of Salesforce, username/password credentials can be valid for 6 months depending on the instance settings. */
-  overrideValidTime?: string | undefined;
-  /** Auth credential encrypted by Cloud KMS. Can be decrypted as Credential with proper KMS key. */
-  encryptedCredential?: string | undefined;
-  /** Output only. The reason / details of the current status. */
-  reason?: string | undefined;
-  /** Certificate id for client certificate */
-  certificateId?: string | undefined;
-  /** Output only. The status of the auth config. */
-  state?: GoogleCloudIntegrationsV1alphaAuthConfigStateEnum | (string & {}) | undefined;
-  /** Optional. The time until the auth config is valid. Empty or max value is considered the auth config won't expire. */
-  validTime?: string | undefined;
-  /** The creator's email address. Generated based on the End User Credentials/LOAS role of the user making the call. */
-  creatorEmail?: string | undefined;
-  /** The last modifier's email address. Generated based on the End User Credentials/LOAS role of the user making the call. */
-  lastModifierEmail?: string | undefined;
-  /** Output only. The timestamp when the auth config is modified. */
-  updateTime?: string | undefined;
-  /** Raw auth credentials. */
-  decryptedCredential?: GoogleCloudIntegrationsV1alphaCredential | undefined;
 }
-export interface CreateProjectsLocationsProductsCertificatesRequest {
+export interface CreateProjectsLocationsProductsCertificatesRequest extends GoogleCloudIntegrationsV1alphaCertificate {
   /** Required. "projects/{project}/locations/{location}" format. */
   parent: string;
-  /** Output only. The timestamp after which certificate will be valid */
-  validStartTime?: string | undefined;
-  /** Immutable. Credential id that will be used to register with trawler */
-  credentialId?: string | undefined;
-  /** Output only. The timestamp after which certificate will expire */
-  validEndTime?: string | undefined;
-  /** Output only. Auto generated primary key */
-  name?: string | undefined;
-  /** Required. Name of the certificate */
-  displayName?: string | undefined;
-  /** Description of the certificate */
-  description?: string | undefined;
-  /** Input only. Raw client certificate which would be registered with trawler */
-  rawCertificate?: GoogleCloudIntegrationsV1alphaClientCertificate | undefined;
-  /** Immutable. Requestor ID to be used to register certificate with trawler */
-  requestorId?: string | undefined;
-  /** Status of the certificate */
-  certificateStatus?:
-    | GoogleCloudIntegrationsV1alphaCertificateCertificateStatusEnum
-    | (string & {})
-    | undefined;
 }
-export interface CreateProjectsLocationsProductsCloudFunctionsRequest {
+export interface CreateProjectsLocationsProductsCloudFunctionsRequest extends GoogleCloudIntegrationsV1alphaCreateCloudFunctionRequest {
   /** Required. The project that the executed integration belongs to. */
   parent: string;
-  /** Indicates the id of the GCP project that the function will be created in. */
-  projectId?: string | undefined;
-  /** The function region of CF to be created */
-  functionRegion?: string | undefined;
-  /** The function name of CF to be created */
-  functionName?: string | undefined;
-  /** Optional. The api version of CF to be created */
-  gcfApiVersion?:
-    | GoogleCloudIntegrationsV1alphaCreateCloudFunctionRequestGcfApiVersionEnum
-    | (string & {})
-    | undefined;
 }
-export interface CreateProjectsLocationsProductsIntegrationsVersionsRequest {
+export interface CreateProjectsLocationsProductsIntegrationsVersionsRequest extends GoogleCloudIntegrationsV1alphaIntegrationVersion {
   /** Optional. Optional. Indicates if sample workflow should be created. */
   createSampleIntegrations?: boolean | undefined;
   /** Set this flag to true, if draft version is to be created for a brand new integration. False, if the request is for an existing integration. For backward compatibility reasons, even if this flag is set to `false` and no existing integration is found, a new draft integration will still be created. */
   newIntegration?: boolean | undefined;
   /** Required. The parent resource where this version will be created. Format: projects/{project}/locations/{location}/integrations/{integration} */
   parent: string;
-  /** Output only. The EUC hardening disposition of this version. Set by the service when the integration is first created and inherited unchanged by every later version, so all versions of an integration report the same value. */
-  eucHardeningDisposition?:
-    | GoogleCloudIntegrationsV1alphaIntegrationVersionEucHardeningDispositionEnum
-    | (string & {})
-    | undefined;
-  /** Optional. Error Catch Task configuration for the integration. It's optional. */
-  errorCatcherConfigs?: GoogleCloudIntegrationsV1alphaErrorCatcherConfigList | undefined;
-  /** Optional. True if variable masking feature should be turned on for this version */
-  enableVariableMasking?: boolean | undefined;
-  /** Optional. The id of the template which was used to create this integration_version. */
-  parentTemplateId?: string | undefined;
-  /** Optional. Trigger configurations. */
-  triggerConfigs?: GoogleCloudIntegrationsV1alphaTriggerConfigList | undefined;
-  /** Optional. Task configuration for the integration. It's optional, but the integration doesn't do anything without task_configs. */
-  taskConfigs?: GoogleCloudIntegrationsV1alphaTaskConfigList | undefined;
-  /** Optional. Deprecated: Use `task_configs` instead. Task configuration for the integration. It's optional, but the integration doesn't do anything without task_configs. */
-  taskConfigsInternal?: EnterpriseCrmFrontendsEventbusProtoTaskConfigList | undefined;
-  /** Optional. The last modifier's email address. Generated based on the End User Credentials/LOAS role of the user making the call. */
-  lastModifierEmail?: string | undefined;
-  /** Output only. Generated by eventbus. User should not set it as an input. */
-  status?: GoogleCloudIntegrationsV1alphaIntegrationVersionStatusEnum | (string & {}) | undefined;
-  /** Output only. Auto-generated primary key. */
-  name?: string | undefined;
-  /** Optional. Optional. The resource name of the template from which the integration is created. */
-  createdFromTemplate?: string | undefined;
-  /** Output only. Auto-generated. */
-  updateTime?: string | undefined;
-  /** Optional. Cloud Logging details for the integration version */
-  cloudLoggingDetails?: GoogleCloudIntegrationsV1alphaCloudLoggingDetails | undefined;
-  /** Optional. The edit lock holder's email address. Generated based on the End User Credentials/LOAS role of the user making the call. */
-  lockHolder?: string | undefined;
-  /** Optional. The origin that indicates where this integration is coming from. */
-  origin?: GoogleCloudIntegrationsV1alphaIntegrationVersionOriginEnum | (string & {}) | undefined;
-  /** Optional. Flag to disable database persistence for execution data, including event execution info, execution export info, execution metadata index and execution param index. */
-  databasePersistencePolicy?:
-    | GoogleCloudIntegrationsV1alphaIntegrationVersionDatabasePersistencePolicyEnum
-    | (string & {})
-    | undefined;
-  /** Optional. Deprecated: Use `trigger_configs` instead. Trigger configurations. */
-  triggerConfigsInternal?: EnterpriseCrmFrontendsEventbusProtoTriggerConfigList | undefined;
-  /** Output only. User should not set it as an input. */
-  state?: GoogleCloudIntegrationsV1alphaIntegrationVersionStateEnum | (string & {}) | undefined;
-  /** Output only. Auto-generated. */
-  createTime?: string | undefined;
-  /** Optional. Contains a graph of tasks that will be executed before putting the event in a terminal state (SUCCEEDED/FAILED/FATAL), regardless of success or failure, similar to "finally" in code. */
-  teardown?: EnterpriseCrmEventbusProtoTeardown | undefined;
-  /** Optional. Deprecated: Use `integration_parameters` instead. Parameters that are expected to be passed to the integration when an event is triggered. This consists of all the parameters that are expected in the integration execution. This gives the user the ability to provide default values, add information like PII and also provide data types of each parameter. */
-  integrationParametersInternal?: EnterpriseCrmFrontendsEventbusProtoWorkflowParameters | undefined;
-  /** Optional. A user-defined label that annotates an integration version. Typically, this is only set when the integration version is created. */
-  userLabel?: string | undefined;
-  /** Output only. An increasing sequence that is set when a new snapshot is created. The last created snapshot can be identified by [workflow_name, org_id latest(snapshot_number)]. However, last created snapshot need not be same as the HEAD. So users should always use "HEAD" tag to identify the head. */
-  snapshotNumber?: string | undefined;
-  /** Optional. Config Parameters that are expected to be passed to the integration when an integration is published. This consists of all the parameters that are expected to provide configuration in the integration execution. This gives the user the ability to provide default values, value, add information like connection url, project based configuration value and also provide data types of each parameter. */
-  integrationConfigParameters?:
-    | GoogleCloudIntegrationsV1alphaIntegrationConfigParameterList
-    | undefined;
-  /** Optional. Parameters that are expected to be passed to the integration when an event is triggered. This consists of all the parameters that are expected in the integration execution. This gives the user the ability to provide default values, add information like PII and also provide data types of each parameter. */
-  integrationParameters?: GoogleCloudIntegrationsV1alphaIntegrationParameterList | undefined;
-  /** Optional. The integration description. */
-  description?: string | undefined;
-  /** Optional. The run-as service account email, if set and auth config is not configured, that will be used to generate auth token to be used in Connector task, Rest caller task and Cloud function task. */
-  runAsServiceAccount?: string | undefined;
-  /** Optional. Cloud KMS resource name for the CMEK encryption key. */
-  cloudKmsKey?: string | undefined;
-}
-export interface CreateProjectsLocationsProductsSfdcInstancesRequest {
-  /** Required. "projects/{project}/locations/{location}" format. */
-  parent: string;
-  /** A list of AuthConfigs that can be tried to open the channel to SFDC */
-  authConfigId?: StringList | undefined;
-  /** Resource name of the SFDC instance projects/{project}/locations/{location}/sfdcInstances/{sfdcInstance}. */
-  name?: string | undefined;
-  /** Output only. Time when the instance was deleted. Empty if not deleted. */
-  deleteTime?: string | undefined;
-  /** Optional. User selected unique name/alias to easily reference an instance. */
-  displayName?: string | undefined;
-  /** Optional. A description of the sfdc instance. */
-  description?: string | undefined;
-  /** Output only. Time when the instance was last updated */
-  updateTime?: string | undefined;
-  /** Optional. URL used for API calls after authentication (the login authority is configured within the referenced AuthConfig). */
-  serviceAuthority?: string | undefined;
-  /** The SFDC Org Id. This is defined in salesforce. */
-  sfdcOrgId?: string | undefined;
-  /** Output only. Time when the instance is created */
-  createTime?: string | undefined;
 }
 /** The SfdcInstance resource use to hold channels and connection config data. */
 export interface GoogleCloudIntegrationsV1alphaSfdcInstance {
@@ -2504,27 +2217,9 @@ export interface GoogleCloudIntegrationsV1alphaSfdcInstance {
   /** Output only. Time when the instance is created */
   createTime?: string | undefined;
 }
-export interface CreateProjectsLocationsProductsSfdcInstancesSfdcChannelsRequest {
+export interface CreateProjectsLocationsProductsSfdcInstancesRequest extends GoogleCloudIntegrationsV1alphaSfdcInstance {
   /** Required. "projects/{project}/locations/{location}" format. */
   parent: string;
-  /** Output only. Last sfdc messsage replay id for channel */
-  lastReplayId?: string | undefined;
-  /** Output only. Time when the channel was deleted. Empty if not deleted. */
-  deleteTime?: string | undefined;
-  /** Output only. Time when the channel was last updated */
-  updateTime?: string | undefined;
-  /** Optional. Client level unique name/alias to easily reference a channel. */
-  displayName?: string | undefined;
-  /** Optional. The description for this channel */
-  description?: string | undefined;
-  /** Required. The Channel topic defined by salesforce once an channel is opened */
-  channelTopic?: string | undefined;
-  /** Output only. Time when the channel is created */
-  createTime?: string | undefined;
-  /** Output only. Indicated if a channel has any active integrations referencing it. Set to false when the channel is created, and set to true if there is any integration published with the channel configured in it. */
-  isActive?: boolean | undefined;
-  /** Resource name of the SFDC channel projects/{project}/locations/{location}/sfdcInstances/{sfdc_instance}/sfdcChannels/{sfdc_channel}. */
-  name?: string | undefined;
 }
 /** The SfdcChannel that points to a CDC or Platform Event Channel. */
 export interface GoogleCloudIntegrationsV1alphaSfdcChannel {
@@ -2547,49 +2242,17 @@ export interface GoogleCloudIntegrationsV1alphaSfdcChannel {
   /** Resource name of the SFDC channel projects/{project}/locations/{location}/sfdcInstances/{sfdc_instance}/sfdcChannels/{sfdc_channel}. */
   name?: string | undefined;
 }
-export interface CreateProjectsLocationsSfdcInstancesRequest {
+export interface CreateProjectsLocationsProductsSfdcInstancesSfdcChannelsRequest extends GoogleCloudIntegrationsV1alphaSfdcChannel {
   /** Required. "projects/{project}/locations/{location}" format. */
   parent: string;
-  /** A list of AuthConfigs that can be tried to open the channel to SFDC */
-  authConfigId?: StringList | undefined;
-  /** Resource name of the SFDC instance projects/{project}/locations/{location}/sfdcInstances/{sfdcInstance}. */
-  name?: string | undefined;
-  /** Output only. Time when the instance was deleted. Empty if not deleted. */
-  deleteTime?: string | undefined;
-  /** Optional. User selected unique name/alias to easily reference an instance. */
-  displayName?: string | undefined;
-  /** Optional. A description of the sfdc instance. */
-  description?: string | undefined;
-  /** Output only. Time when the instance was last updated */
-  updateTime?: string | undefined;
-  /** Optional. URL used for API calls after authentication (the login authority is configured within the referenced AuthConfig). */
-  serviceAuthority?: string | undefined;
-  /** The SFDC Org Id. This is defined in salesforce. */
-  sfdcOrgId?: string | undefined;
-  /** Output only. Time when the instance is created */
-  createTime?: string | undefined;
 }
-export interface CreateProjectsLocationsSfdcInstancesSfdcChannelsRequest {
+export interface CreateProjectsLocationsSfdcInstancesRequest extends GoogleCloudIntegrationsV1alphaSfdcInstance {
   /** Required. "projects/{project}/locations/{location}" format. */
   parent: string;
-  /** Output only. Last sfdc messsage replay id for channel */
-  lastReplayId?: string | undefined;
-  /** Output only. Time when the channel was deleted. Empty if not deleted. */
-  deleteTime?: string | undefined;
-  /** Output only. Time when the channel was last updated */
-  updateTime?: string | undefined;
-  /** Optional. Client level unique name/alias to easily reference a channel. */
-  displayName?: string | undefined;
-  /** Optional. The description for this channel */
-  description?: string | undefined;
-  /** Required. The Channel topic defined by salesforce once an channel is opened */
-  channelTopic?: string | undefined;
-  /** Output only. Time when the channel is created */
-  createTime?: string | undefined;
-  /** Output only. Indicated if a channel has any active integrations referencing it. Set to false when the channel is created, and set to true if there is any integration published with the channel configured in it. */
-  isActive?: boolean | undefined;
-  /** Resource name of the SFDC channel projects/{project}/locations/{location}/sfdcInstances/{sfdc_instance}/sfdcChannels/{sfdc_channel}. */
-  name?: string | undefined;
+}
+export interface CreateProjectsLocationsSfdcInstancesSfdcChannelsRequest extends GoogleCloudIntegrationsV1alphaSfdcChannel {
+  /** Required. "projects/{project}/locations/{location}" format. */
+  parent: string;
 }
 /** Define the template of IntegrationVersion. */
 export interface GoogleCloudIntegrationsV1alphaIntegrationVersionTemplate {
@@ -2649,9 +2312,8 @@ export type GoogleCloudIntegrationsV1alphaTemplateCategoriesItemEnum =
 export type GoogleCloudIntegrationsV1alphaTemplateCategoriesItemEnumList = Array<
   GoogleCloudIntegrationsV1alphaTemplateCategoriesItemEnum | (string & {})
 >;
-export interface CreateProjectsLocationsTemplatesRequest {
-  /** Required. "projects/{project}/locations/{location}" format. */
-  parent: string;
+/** Defines the template for Application Integration */
+export interface GoogleCloudIntegrationsV1alphaTemplate {
   /** Optional. Link to template documentation. */
   docLink?: string | undefined;
   /** Optional. Time the template was last used. */
@@ -2685,40 +2347,9 @@ export interface CreateProjectsLocationsTemplatesRequest {
   /** Optional. Information on how to use the template. This should contain detailed information about usage of the template. */
   usageInfo?: string | undefined;
 }
-/** Defines the template for Application Integration */
-export interface GoogleCloudIntegrationsV1alphaTemplate {
-  /** Optional. Link to template documentation. */
-  docLink?: string | undefined;
-  /** Optional. Time the template was last used. */
-  lastUsedTime?: string | undefined;
-  /** Required. Bundle which is part of the templates. The template entities in the bundle would be converted to an actual entity. */
-  templateBundle?: GoogleCloudIntegrationsV1alphaTemplateBundle | undefined;
-  /** Optional. Number of template usages. */
-  usageCount?: string | undefined;
-  /** Identifier. Resource name of the template. */
-  name?: string | undefined;
-  /** Output only. Auto-generated */
-  updateTime?: string | undefined;
-  /** Required. Resource names with which the template is shared for example ProjectNumber/Ord id */
-  sharedWith?: StringList | undefined;
-  /** Required. Tags which are used to identify templates. These tags could be for business use case, connectors etc. */
-  tags?: StringList | undefined;
-  /** Optional. Components being used in the template. This could be used to categorize and filter. */
-  components?: GoogleCloudIntegrationsV1alphaTemplateComponentList | undefined;
-  /** Required. Visibility of the template. */
-  visibility?: GoogleCloudIntegrationsV1alphaTemplateVisibilityEnum | undefined;
-  /** Output only. Auto-generated. */
-  createTime?: string | undefined;
-  /** Required. The name of the template */
-  displayName?: string | undefined;
-  /** Optional. Description of the template. The length should not be more than 255 characters */
-  description?: string | undefined;
-  /** Optional. Creator of the template. */
-  author?: string | undefined;
-  /** Required. Categories associated with the Template. The categories listed below will be utilized for the Template listing. */
-  categories?: GoogleCloudIntegrationsV1alphaTemplateCategoriesItemEnumList | undefined;
-  /** Optional. Information on how to use the template. This should contain detailed information about usage of the template. */
-  usageInfo?: string | undefined;
+export interface CreateProjectsLocationsTemplatesRequest extends GoogleCloudIntegrationsV1alphaTemplate {
+  /** Required. "projects/{project}/locations/{location}" format. */
+  parent: string;
 }
 export interface DeleteProjectsLocationsAuthConfigsRequest {
   /** Required. The name that is associated with the AuthConfig. */
@@ -2948,9 +2579,8 @@ export interface GoogleCloudIntegrationsV1alphaExecuteEventResponse {
 export type GoogleCloudIntegrationsV1alphaValueTypeMap = {
   [key: string]: GoogleCloudIntegrationsV1alphaValueType | undefined;
 };
-export interface ExecuteProjectsLocationsIntegrationsRequest {
-  /** Required. The integration resource name. */
-  name: string;
+/** The request for executing an integration. */
+export interface GoogleCloudIntegrationsV1alphaExecuteIntegrationsRequest {
   /** Optional. This is used to de-dup incoming request: if the duplicate request was detected, the response from the previous execution is returned. */
   requestId?: string | undefined;
   /** Optional. Parameters are a part of Event and can be used to communicate between different tasks that are part of the same integration execution. */
@@ -2965,6 +2595,10 @@ export interface ExecuteProjectsLocationsIntegrationsRequest {
   doNotPropagateError?: boolean | undefined;
   /** Optional. The id of the ON_HOLD execution to be resumed. */
   executionId?: string | undefined;
+}
+export interface ExecuteProjectsLocationsIntegrationsRequest extends GoogleCloudIntegrationsV1alphaExecuteIntegrationsRequest {
+  /** Required. The integration resource name. */
+  name: string;
 }
 /** The response for executing an integration. */
 export interface GoogleCloudIntegrationsV1alphaExecuteIntegrationsResponse {
@@ -3033,29 +2667,18 @@ export interface GoogleCloudIntegrationsV1alphaExecuteTestCasesResponse {
   /** Results of each execution of test cases in an integration version. */
   executeTestCaseResponses?: GoogleCloudIntegrationsV1alphaExecuteTestCaseResponseList | undefined;
 }
-export interface ExecuteProjectsLocationsProductsIntegrationsRequest {
+export interface ExecuteProjectsLocationsProductsIntegrationsRequest extends GoogleCloudIntegrationsV1alphaExecuteIntegrationsRequest {
   /** Required. The integration resource name. */
   name: string;
-  /** Optional. This is used to de-dup incoming request: if the duplicate request was detected, the response from the previous execution is returned. */
-  requestId?: string | undefined;
-  /** Optional. Parameters are a part of Event and can be used to communicate between different tasks that are part of the same integration execution. */
-  parameterEntries?: EnterpriseCrmFrontendsEventbusProtoParameterEntryList | undefined;
-  /** Optional. Passed in as parameters to each integration execution. Redacted */
-  parameters?: EnterpriseCrmFrontendsEventbusProtoEventParameters | undefined;
-  /** Optional. Input parameters used by integration execution. */
-  inputParameters?: GoogleCloudIntegrationsV1alphaValueTypeMap | undefined;
-  /** Required. Matched against all {@link TriggerConfig}s across all integrations. i.e. TriggerConfig.trigger_id.equals(trigger_id). The trigger_id is in the format of `api_trigger/TRIGGER_NAME`. */
-  triggerId?: string | undefined;
-  /** Optional. Flag to determine how to should propagate errors. If this flag is set to be true, it will not throw an exception. Instead, it will return a {@link ExecuteIntegrationsResponse} with an execution id and error messages as PostWithTriggerIdExecutionException in {@link EventParameters}. The flag is set to be false by default. */
-  doNotPropagateError?: boolean | undefined;
-  /** Optional. The id of the ON_HOLD execution to be resumed. */
-  executionId?: string | undefined;
 }
-export interface ExecuteTestProjectsLocationsIntegrationsVersionsTestCasesRequest {
-  /** Required. Test case resource name */
-  testCaseName: string;
+/** The request for executing a functional test. */
+export interface GoogleCloudIntegrationsV1alphaExecuteTestCaseRequest {
   /** Optional. Input parameters used by test case execution. */
   inputParameters?: GoogleCloudIntegrationsV1alphaValueTypeMap | undefined;
+}
+export interface ExecuteTestProjectsLocationsIntegrationsVersionsTestCasesRequest extends GoogleCloudIntegrationsV1alphaExecuteTestCaseRequest {
+  /** Required. Test case resource name */
+  testCaseName: string;
 }
 export type GoogleCloudIntegrationsV1alphaGenerateOpenApiSpecRequestFileFormatEnum =
   | "FILE_FORMAT_UNSPECIFIED"
@@ -3071,9 +2694,8 @@ export interface GoogleCloudIntegrationsV1alphaApiTriggerResource {
 }
 export type GoogleCloudIntegrationsV1alphaApiTriggerResourceList =
   Array<GoogleCloudIntegrationsV1alphaApiTriggerResource>;
-export interface GenerateOpenApiSpecProjectsLocationsRequest {
-  /** Required. Project and location from which the integrations should be fetched. Format: projects/{project}/location/{location} */
-  name: string;
+/** Request for GenerateOpenApiSpec. */
+export interface GoogleCloudIntegrationsV1alphaGenerateOpenApiSpecRequest {
   /** Required. File format for generated spec. */
   fileFormat?:
     | GoogleCloudIntegrationsV1alphaGenerateOpenApiSpecRequestFileFormatEnum
@@ -3081,6 +2703,10 @@ export interface GenerateOpenApiSpecProjectsLocationsRequest {
     | undefined;
   /** Required. List of api triggers */
   apiTriggerResources?: GoogleCloudIntegrationsV1alphaApiTriggerResourceList | undefined;
+}
+export interface GenerateOpenApiSpecProjectsLocationsRequest extends GoogleCloudIntegrationsV1alphaGenerateOpenApiSpecRequest {
+  /** Required. Project and location from which the integrations should be fetched. Format: projects/{project}/location/{location} */
+  name: string;
 }
 /** Response of the GenerateOpenApiSpec API. */
 export interface GoogleCloudIntegrationsV1alphaGenerateOpenApiSpecResponse {
@@ -3558,15 +3184,18 @@ export interface GoogleCloudIntegrationsV1alphaUseTemplateRequestIntegrationDeta
 export type GoogleCloudIntegrationsV1alphaUseTemplateRequestIntegrationDetailsMap = {
   [key: string]: GoogleCloudIntegrationsV1alphaUseTemplateRequestIntegrationDetails | undefined;
 };
-export interface ImportProjectsLocationsTemplatesRequest {
-  /** Required. The name that is associated with the Template. */
-  name: string;
+/** Request to Import template */
+export interface GoogleCloudIntegrationsV1alphaImportTemplateRequest {
   /** Optional. Sub Integration which would be created via templates. */
   subIntegrations?:
     | GoogleCloudIntegrationsV1alphaUseTemplateRequestIntegrationDetailsMap
     | undefined;
   /** Required. Resource Name of the integration where template needs to be imported/inserted. */
   integration?: string | undefined;
+}
+export interface ImportProjectsLocationsTemplatesRequest extends GoogleCloudIntegrationsV1alphaImportTemplateRequest {
+  /** Required. The name that is associated with the Template. */
+  name: string;
 }
 export type GoogleCloudIntegrationsV1alphaIntegrationVersionList =
   Array<GoogleCloudIntegrationsV1alphaIntegrationVersion>;
@@ -3577,28 +3206,32 @@ export interface GoogleCloudIntegrationsV1alphaImportTemplateResponse {
   /** IntegrationVersion after the import. */
   integrationVersion?: GoogleCloudIntegrationsV1alphaIntegrationVersion | undefined;
 }
-export interface LiftProjectsLocationsIntegrationsExecutionsSuspensionsRequest {
-  /** Required. The resource that the suspension belongs to. "projects/{project}/locations/{location}/products/{product}/integrations/{integration}/executions/{execution}/suspensions/{suspenion}" format. */
-  name: string;
+/** Request for lift Suspension */
+export interface GoogleCloudIntegrationsV1alphaLiftSuspensionRequest {
   /** User passed in suspension result and will be used to control workflow execution branching behavior by setting up corresponnding edge condition with suspension result. For example, if you want to lift the suspension, you can pass "Approved", or if you want to reject the suspension and terminate workfloe execution, you can pass "Rejected" and terminate the workflow execution with configuring the edge condition. */
   suspensionResult?: string | undefined;
+}
+export interface LiftProjectsLocationsIntegrationsExecutionsSuspensionsRequest extends GoogleCloudIntegrationsV1alphaLiftSuspensionRequest {
+  /** Required. The resource that the suspension belongs to. "projects/{project}/locations/{location}/products/{product}/integrations/{integration}/executions/{execution}/suspensions/{suspenion}" format. */
+  name: string;
 }
 /** Response of lift Suspense */
 export interface GoogleCloudIntegrationsV1alphaLiftSuspensionResponse {
   /** Execution Id that will be returned */
   eventExecutionInfoId?: string | undefined;
 }
-export interface LiftProjectsLocationsProductsIntegrationsExecutionsSuspensionsRequest {
+export interface LiftProjectsLocationsProductsIntegrationsExecutionsSuspensionsRequest extends GoogleCloudIntegrationsV1alphaLiftSuspensionRequest {
   /** Required. The resource that the suspension belongs to. "projects/{project}/locations/{location}/products/{product}/integrations/{integration}/executions/{execution}/suspensions/{suspenion}" format. */
   name: string;
-  /** User passed in suspension result and will be used to control workflow execution branching behavior by setting up corresponnding edge condition with suspension result. For example, if you want to lift the suspension, you can pass "Approved", or if you want to reject the suspension and terminate workfloe execution, you can pass "Rejected" and terminate the workflow execution with configuring the edge condition. */
-  suspensionResult?: string | undefined;
 }
-export interface LinkProjectsLocationsAppsScriptProjectsRequest {
-  /** Required. The project that the executed integration belongs to. */
-  parent: string;
+/** Request for LinkAppsScriptProject rpc call. */
+export interface GoogleCloudIntegrationsV1alphaLinkAppsScriptProjectRequest {
   /** The id of the Apps Script project to be linked. */
   scriptId?: string | undefined;
+}
+export interface LinkProjectsLocationsAppsScriptProjectsRequest extends GoogleCloudIntegrationsV1alphaLinkAppsScriptProjectRequest {
+  /** Required. The project that the executed integration belongs to. */
+  parent: string;
 }
 /** Response for LinkAppsScriptProject rpc call. */
 export interface GoogleCloudIntegrationsV1alphaLinkAppsScriptProjectResponse {
@@ -5001,7 +4634,10 @@ export interface GoogleCloudIntegrationsV1alphaListTemplatesResponse {
   /** List of templates retrieved. */
   templates?: GoogleCloudIntegrationsV1alphaTemplateList | undefined;
 }
-export interface PatchProjectsLocationsAuthConfigsRequest {
+export interface PatchProjectsLocationsAuthConfigsRequest extends Omit<
+  GoogleCloudIntegrationsV1alphaAuthConfig,
+  "name"
+> {
   /** 'passphrase' should be left unset if private key is not encrypted. Note that 'passphrase' is not the password for web server, but an extra layer of security to protected private key. */
   "clientCertificate.passphrase"?: string | undefined;
   /** Resource name of the auth config. For more information, see Manage authentication profiles. projects/{project}/locations/{location}/authConfigs/{authConfig}. */
@@ -5012,169 +4648,38 @@ export interface PatchProjectsLocationsAuthConfigsRequest {
   "clientCertificate.sslCertificate"?: string | undefined;
   /** Field mask specifying the fields in the above AuthConfig that have been modified and need to be updated. */
   updateMask?: string | undefined;
-  /** Optional. The visibility of the auth config. */
-  visibility?: GoogleCloudIntegrationsV1alphaAuthConfigVisibilityEnum | (string & {}) | undefined;
-  /** Required. The name of the auth config. */
-  displayName?: string | undefined;
-  /** Optional. A description of the auth config. */
-  description?: string | undefined;
-  /** Output only. The timestamp when the auth config is created. */
-  createTime?: string | undefined;
-  /** Optional. User can define the time to receive notification after which the auth config becomes invalid. Support up to 30 days. Support granularity in hours. */
-  expiryNotificationDuration?: StringList | undefined;
-  /** Required. Credential type of the encrypted credential. */
-  credentialType?:
-    | GoogleCloudIntegrationsV1alphaAuthConfigCredentialTypeEnum
-    | (string & {})
-    | undefined;
-  /** Optional. User provided expiry time to override. For the example of Salesforce, username/password credentials can be valid for 6 months depending on the instance settings. */
-  overrideValidTime?: string | undefined;
-  /** Auth credential encrypted by Cloud KMS. Can be decrypted as Credential with proper KMS key. */
-  encryptedCredential?: string | undefined;
-  /** Output only. The reason / details of the current status. */
-  reason?: string | undefined;
-  /** Certificate id for client certificate */
-  certificateId?: string | undefined;
-  /** Output only. The status of the auth config. */
-  state?: GoogleCloudIntegrationsV1alphaAuthConfigStateEnum | (string & {}) | undefined;
-  /** Optional. The time until the auth config is valid. Empty or max value is considered the auth config won't expire. */
-  validTime?: string | undefined;
-  /** The creator's email address. Generated based on the End User Credentials/LOAS role of the user making the call. */
-  creatorEmail?: string | undefined;
-  /** The last modifier's email address. Generated based on the End User Credentials/LOAS role of the user making the call. */
-  lastModifierEmail?: string | undefined;
-  /** Output only. The timestamp when the auth config is modified. */
-  updateTime?: string | undefined;
-  /** Raw auth credentials. */
-  decryptedCredential?: GoogleCloudIntegrationsV1alphaCredential | undefined;
 }
-export interface PatchProjectsLocationsCertificatesRequest {
+export interface PatchProjectsLocationsCertificatesRequest extends Omit<
+  GoogleCloudIntegrationsV1alphaCertificate,
+  "name"
+> {
   /** Output only. Auto generated primary key */
   name: string;
   /** Field mask specifying the fields in the above Certificate that have been modified and need to be updated. */
   updateMask?: string | undefined;
-  /** Output only. The timestamp after which certificate will be valid */
-  validStartTime?: string | undefined;
-  /** Immutable. Credential id that will be used to register with trawler */
-  credentialId?: string | undefined;
-  /** Output only. The timestamp after which certificate will expire */
-  validEndTime?: string | undefined;
-  /** Required. Name of the certificate */
-  displayName?: string | undefined;
-  /** Description of the certificate */
-  description?: string | undefined;
-  /** Input only. Raw client certificate which would be registered with trawler */
-  rawCertificate?: GoogleCloudIntegrationsV1alphaClientCertificate | undefined;
-  /** Immutable. Requestor ID to be used to register certificate with trawler */
-  requestorId?: string | undefined;
-  /** Status of the certificate */
-  certificateStatus?:
-    | GoogleCloudIntegrationsV1alphaCertificateCertificateStatusEnum
-    | (string & {})
-    | undefined;
 }
-export interface PatchProjectsLocationsIntegrationsVersionsRequest {
+export interface PatchProjectsLocationsIntegrationsVersionsRequest extends Omit<
+  GoogleCloudIntegrationsV1alphaIntegrationVersion,
+  "name"
+> {
   /** Output only. Auto-generated primary key. */
   name: string;
   /** Field mask specifying the fields in the above integration that have been modified and need to be updated. */
   updateMask?: string | undefined;
-  /** Output only. The EUC hardening disposition of this version. Set by the service when the integration is first created and inherited unchanged by every later version, so all versions of an integration report the same value. */
-  eucHardeningDisposition?:
-    | GoogleCloudIntegrationsV1alphaIntegrationVersionEucHardeningDispositionEnum
-    | (string & {})
-    | undefined;
-  /** Optional. Error Catch Task configuration for the integration. It's optional. */
-  errorCatcherConfigs?: GoogleCloudIntegrationsV1alphaErrorCatcherConfigList | undefined;
-  /** Optional. True if variable masking feature should be turned on for this version */
-  enableVariableMasking?: boolean | undefined;
-  /** Optional. The id of the template which was used to create this integration_version. */
-  parentTemplateId?: string | undefined;
-  /** Optional. Trigger configurations. */
-  triggerConfigs?: GoogleCloudIntegrationsV1alphaTriggerConfigList | undefined;
-  /** Optional. Task configuration for the integration. It's optional, but the integration doesn't do anything without task_configs. */
-  taskConfigs?: GoogleCloudIntegrationsV1alphaTaskConfigList | undefined;
-  /** Optional. Deprecated: Use `task_configs` instead. Task configuration for the integration. It's optional, but the integration doesn't do anything without task_configs. */
-  taskConfigsInternal?: EnterpriseCrmFrontendsEventbusProtoTaskConfigList | undefined;
-  /** Optional. The last modifier's email address. Generated based on the End User Credentials/LOAS role of the user making the call. */
-  lastModifierEmail?: string | undefined;
-  /** Output only. Generated by eventbus. User should not set it as an input. */
-  status?: GoogleCloudIntegrationsV1alphaIntegrationVersionStatusEnum | (string & {}) | undefined;
-  /** Optional. Optional. The resource name of the template from which the integration is created. */
-  createdFromTemplate?: string | undefined;
-  /** Output only. Auto-generated. */
-  updateTime?: string | undefined;
-  /** Optional. Cloud Logging details for the integration version */
-  cloudLoggingDetails?: GoogleCloudIntegrationsV1alphaCloudLoggingDetails | undefined;
-  /** Optional. The edit lock holder's email address. Generated based on the End User Credentials/LOAS role of the user making the call. */
-  lockHolder?: string | undefined;
-  /** Optional. The origin that indicates where this integration is coming from. */
-  origin?: GoogleCloudIntegrationsV1alphaIntegrationVersionOriginEnum | (string & {}) | undefined;
-  /** Optional. Flag to disable database persistence for execution data, including event execution info, execution export info, execution metadata index and execution param index. */
-  databasePersistencePolicy?:
-    | GoogleCloudIntegrationsV1alphaIntegrationVersionDatabasePersistencePolicyEnum
-    | (string & {})
-    | undefined;
-  /** Optional. Deprecated: Use `trigger_configs` instead. Trigger configurations. */
-  triggerConfigsInternal?: EnterpriseCrmFrontendsEventbusProtoTriggerConfigList | undefined;
-  /** Output only. User should not set it as an input. */
-  state?: GoogleCloudIntegrationsV1alphaIntegrationVersionStateEnum | (string & {}) | undefined;
-  /** Output only. Auto-generated. */
-  createTime?: string | undefined;
-  /** Optional. Contains a graph of tasks that will be executed before putting the event in a terminal state (SUCCEEDED/FAILED/FATAL), regardless of success or failure, similar to "finally" in code. */
-  teardown?: EnterpriseCrmEventbusProtoTeardown | undefined;
-  /** Optional. Deprecated: Use `integration_parameters` instead. Parameters that are expected to be passed to the integration when an event is triggered. This consists of all the parameters that are expected in the integration execution. This gives the user the ability to provide default values, add information like PII and also provide data types of each parameter. */
-  integrationParametersInternal?: EnterpriseCrmFrontendsEventbusProtoWorkflowParameters | undefined;
-  /** Optional. A user-defined label that annotates an integration version. Typically, this is only set when the integration version is created. */
-  userLabel?: string | undefined;
-  /** Output only. An increasing sequence that is set when a new snapshot is created. The last created snapshot can be identified by [workflow_name, org_id latest(snapshot_number)]. However, last created snapshot need not be same as the HEAD. So users should always use "HEAD" tag to identify the head. */
-  snapshotNumber?: string | undefined;
-  /** Optional. Config Parameters that are expected to be passed to the integration when an integration is published. This consists of all the parameters that are expected to provide configuration in the integration execution. This gives the user the ability to provide default values, value, add information like connection url, project based configuration value and also provide data types of each parameter. */
-  integrationConfigParameters?:
-    | GoogleCloudIntegrationsV1alphaIntegrationConfigParameterList
-    | undefined;
-  /** Optional. Parameters that are expected to be passed to the integration when an event is triggered. This consists of all the parameters that are expected in the integration execution. This gives the user the ability to provide default values, add information like PII and also provide data types of each parameter. */
-  integrationParameters?: GoogleCloudIntegrationsV1alphaIntegrationParameterList | undefined;
-  /** Optional. The integration description. */
-  description?: string | undefined;
-  /** Optional. The run-as service account email, if set and auth config is not configured, that will be used to generate auth token to be used in Connector task, Rest caller task and Cloud function task. */
-  runAsServiceAccount?: string | undefined;
-  /** Optional. Cloud KMS resource name for the CMEK encryption key. */
-  cloudKmsKey?: string | undefined;
 }
-export interface PatchProjectsLocationsIntegrationsVersionsTestCasesRequest {
+export interface PatchProjectsLocationsIntegrationsVersionsTestCasesRequest extends Omit<
+  GoogleCloudIntegrationsV1alphaTestCase,
+  "name"
+> {
   /** Output only. Auto-generated primary key. */
   name: string;
   /** Optional. Field mask specifying the fields in the above integration that have been modified and need to be updated. */
   updateMask?: string | undefined;
-  /** Auto-generated. */
-  createTime?: string | undefined;
-  /** The last modifier's email address. Generated based on the End User Credentials/LOAS role of the user making the call. */
-  lastModifierEmail?: string | undefined;
-  /** Optional. However, the test case doesn't mock or assert anything without test_task_configs. */
-  testTaskConfigs?: GoogleCloudIntegrationsV1alphaTestTaskConfigList | undefined;
-  /** Optional. Various policies for how to persist the test execution info including execution info, execution export info, execution metadata index and execution param index.. */
-  databasePersistencePolicy?:
-    | GoogleCloudIntegrationsV1alphaTestCaseDatabasePersistencePolicyEnum
-    | (string & {})
-    | undefined;
-  /** Optional. Parameters that are expected to be passed to the test case when the test case is triggered. This gives the user the ability to provide default values. This should include all the output variables of the trigger as input variables. */
-  testInputParameters?: GoogleCloudIntegrationsV1alphaIntegrationParameterList | undefined;
-  /** Optional. The edit lock holder's email address. Generated based on the End User Credentials/LOAS role of the user making the call. */
-  lockHolderEmail?: string | undefined;
-  /** Required. The display name of test case. */
-  displayName?: string | undefined;
-  /** Optional. Description of the test case. */
-  description?: string | undefined;
-  /** Required. This defines the trigger ID in workflow which is considered to be executed as starting point of the test case */
-  triggerId?: string | undefined;
-  /** Optional. Auto-generated. */
-  triggerConfig?: GoogleCloudIntegrationsV1alphaTriggerConfig | undefined;
-  /** Auto-generated. */
-  updateTime?: string | undefined;
-  /** Optional. The creator's email address. Generated based on the End User Credentials/LOAS role of the user making the call. */
-  creatorEmail?: string | undefined;
 }
-export interface PatchProjectsLocationsProductsAuthConfigsRequest {
+export interface PatchProjectsLocationsProductsAuthConfigsRequest extends Omit<
+  GoogleCloudIntegrationsV1alphaAuthConfig,
+  "name"
+> {
   /** The ssl certificate encoded in PEM format. This string must include the begin header and end footer lines. For example, -----BEGIN CERTIFICATE----- MIICTTCCAbagAwIBAgIJAPT0tSKNxan/MA0GCSqGSIb3DQEBCwUAMCoxFzAVBgNV BAoTDkdvb2dsZSBURVNUSU5HMQ8wDQYDVQQDEwZ0ZXN0Q0EwHhcNMTUwMTAxMDAw MDAwWhcNMjUwMTAxMDAwMDAwWjAuMRcwFQYDVQQKEw5Hb29nbGUgVEVTVElORzET MBEGA1UEAwwKam9lQGJhbmFuYTCBnzANBgkqhkiG9w0BAQEFAAOBjQAwgYkCgYEA vDYFgMgxi5W488d9J7UpCInl0NXmZQpJDEHE4hvkaRlH7pnC71H0DLt0/3zATRP1 JzY2+eqBmbGl4/sgZKYv8UrLnNyQNUTsNx1iZAfPUflf5FwgVsai8BM0pUciq1NB xD429VFcrGZNucvFLh72RuRFIKH8WUpiK/iZNFkWhZ0CAwEAAaN3MHUwDgYDVR0P AQH/BAQDAgWgMB0GA1UdJQQWMBQGCCsGAQUFBwMBBggrBgEFBQcDAjAMBgNVHRMB Af8EAjAAMBkGA1UdDgQSBBCVgnFBCWgL/iwCqnGrhTPQMBsGA1UdIwQUMBKAEKey Um2o4k2WiEVA0ldQvNYwDQYJKoZIhvcNAQELBQADgYEAYK986R4E3L1v+Q6esBtW JrUwA9UmJRSQr0N5w3o9XzarU37/bkjOP0Fw0k/A6Vv1n3vlciYfBFaBIam1qRHr 5dMsYf4CZS6w50r7hyzqyrwDoyNxkLnd2PdcHT/sym1QmflsjEs7pejtnohO6N2H wQW6M0H7Zt8claGRla4fKkg= -----END CERTIFICATE----- */
   "clientCertificate.sslCertificate"?: string | undefined;
   /** 'passphrase' should be left unset if private key is not encrypted. Note that 'passphrase' is not the password for web server, but an extra layer of security to protected private key. */
@@ -5185,258 +4690,69 @@ export interface PatchProjectsLocationsProductsAuthConfigsRequest {
   updateMask?: string | undefined;
   /** Resource name of the auth config. For more information, see Manage authentication profiles. projects/{project}/locations/{location}/authConfigs/{authConfig}. */
   name: string;
-  /** Optional. The visibility of the auth config. */
-  visibility?: GoogleCloudIntegrationsV1alphaAuthConfigVisibilityEnum | (string & {}) | undefined;
-  /** Required. The name of the auth config. */
-  displayName?: string | undefined;
-  /** Optional. A description of the auth config. */
-  description?: string | undefined;
-  /** Output only. The timestamp when the auth config is created. */
-  createTime?: string | undefined;
-  /** Optional. User can define the time to receive notification after which the auth config becomes invalid. Support up to 30 days. Support granularity in hours. */
-  expiryNotificationDuration?: StringList | undefined;
-  /** Required. Credential type of the encrypted credential. */
-  credentialType?:
-    | GoogleCloudIntegrationsV1alphaAuthConfigCredentialTypeEnum
-    | (string & {})
-    | undefined;
-  /** Optional. User provided expiry time to override. For the example of Salesforce, username/password credentials can be valid for 6 months depending on the instance settings. */
-  overrideValidTime?: string | undefined;
-  /** Auth credential encrypted by Cloud KMS. Can be decrypted as Credential with proper KMS key. */
-  encryptedCredential?: string | undefined;
-  /** Output only. The reason / details of the current status. */
-  reason?: string | undefined;
-  /** Certificate id for client certificate */
-  certificateId?: string | undefined;
-  /** Output only. The status of the auth config. */
-  state?: GoogleCloudIntegrationsV1alphaAuthConfigStateEnum | (string & {}) | undefined;
-  /** Optional. The time until the auth config is valid. Empty or max value is considered the auth config won't expire. */
-  validTime?: string | undefined;
-  /** The creator's email address. Generated based on the End User Credentials/LOAS role of the user making the call. */
-  creatorEmail?: string | undefined;
-  /** The last modifier's email address. Generated based on the End User Credentials/LOAS role of the user making the call. */
-  lastModifierEmail?: string | undefined;
-  /** Output only. The timestamp when the auth config is modified. */
-  updateTime?: string | undefined;
-  /** Raw auth credentials. */
-  decryptedCredential?: GoogleCloudIntegrationsV1alphaCredential | undefined;
 }
-export interface PatchProjectsLocationsProductsCertificatesRequest {
+export interface PatchProjectsLocationsProductsCertificatesRequest extends Omit<
+  GoogleCloudIntegrationsV1alphaCertificate,
+  "name"
+> {
   /** Output only. Auto generated primary key */
   name: string;
   /** Field mask specifying the fields in the above Certificate that have been modified and need to be updated. */
   updateMask?: string | undefined;
-  /** Output only. The timestamp after which certificate will be valid */
-  validStartTime?: string | undefined;
-  /** Immutable. Credential id that will be used to register with trawler */
-  credentialId?: string | undefined;
-  /** Output only. The timestamp after which certificate will expire */
-  validEndTime?: string | undefined;
-  /** Required. Name of the certificate */
-  displayName?: string | undefined;
-  /** Description of the certificate */
-  description?: string | undefined;
-  /** Input only. Raw client certificate which would be registered with trawler */
-  rawCertificate?: GoogleCloudIntegrationsV1alphaClientCertificate | undefined;
-  /** Immutable. Requestor ID to be used to register certificate with trawler */
-  requestorId?: string | undefined;
-  /** Status of the certificate */
-  certificateStatus?:
-    | GoogleCloudIntegrationsV1alphaCertificateCertificateStatusEnum
-    | (string & {})
-    | undefined;
 }
-export interface PatchProjectsLocationsProductsIntegrationsVersionsRequest {
+export interface PatchProjectsLocationsProductsIntegrationsVersionsRequest extends Omit<
+  GoogleCloudIntegrationsV1alphaIntegrationVersion,
+  "name"
+> {
   /** Field mask specifying the fields in the above integration that have been modified and need to be updated. */
   updateMask?: string | undefined;
   /** Output only. Auto-generated primary key. */
   name: string;
-  /** Output only. The EUC hardening disposition of this version. Set by the service when the integration is first created and inherited unchanged by every later version, so all versions of an integration report the same value. */
-  eucHardeningDisposition?:
-    | GoogleCloudIntegrationsV1alphaIntegrationVersionEucHardeningDispositionEnum
-    | (string & {})
-    | undefined;
-  /** Optional. Error Catch Task configuration for the integration. It's optional. */
-  errorCatcherConfigs?: GoogleCloudIntegrationsV1alphaErrorCatcherConfigList | undefined;
-  /** Optional. True if variable masking feature should be turned on for this version */
-  enableVariableMasking?: boolean | undefined;
-  /** Optional. The id of the template which was used to create this integration_version. */
-  parentTemplateId?: string | undefined;
-  /** Optional. Trigger configurations. */
-  triggerConfigs?: GoogleCloudIntegrationsV1alphaTriggerConfigList | undefined;
-  /** Optional. Task configuration for the integration. It's optional, but the integration doesn't do anything without task_configs. */
-  taskConfigs?: GoogleCloudIntegrationsV1alphaTaskConfigList | undefined;
-  /** Optional. Deprecated: Use `task_configs` instead. Task configuration for the integration. It's optional, but the integration doesn't do anything without task_configs. */
-  taskConfigsInternal?: EnterpriseCrmFrontendsEventbusProtoTaskConfigList | undefined;
-  /** Optional. The last modifier's email address. Generated based on the End User Credentials/LOAS role of the user making the call. */
-  lastModifierEmail?: string | undefined;
-  /** Output only. Generated by eventbus. User should not set it as an input. */
-  status?: GoogleCloudIntegrationsV1alphaIntegrationVersionStatusEnum | (string & {}) | undefined;
-  /** Optional. Optional. The resource name of the template from which the integration is created. */
-  createdFromTemplate?: string | undefined;
-  /** Output only. Auto-generated. */
-  updateTime?: string | undefined;
-  /** Optional. Cloud Logging details for the integration version */
-  cloudLoggingDetails?: GoogleCloudIntegrationsV1alphaCloudLoggingDetails | undefined;
-  /** Optional. The edit lock holder's email address. Generated based on the End User Credentials/LOAS role of the user making the call. */
-  lockHolder?: string | undefined;
-  /** Optional. The origin that indicates where this integration is coming from. */
-  origin?: GoogleCloudIntegrationsV1alphaIntegrationVersionOriginEnum | (string & {}) | undefined;
-  /** Optional. Flag to disable database persistence for execution data, including event execution info, execution export info, execution metadata index and execution param index. */
-  databasePersistencePolicy?:
-    | GoogleCloudIntegrationsV1alphaIntegrationVersionDatabasePersistencePolicyEnum
-    | (string & {})
-    | undefined;
-  /** Optional. Deprecated: Use `trigger_configs` instead. Trigger configurations. */
-  triggerConfigsInternal?: EnterpriseCrmFrontendsEventbusProtoTriggerConfigList | undefined;
-  /** Output only. User should not set it as an input. */
-  state?: GoogleCloudIntegrationsV1alphaIntegrationVersionStateEnum | (string & {}) | undefined;
-  /** Output only. Auto-generated. */
-  createTime?: string | undefined;
-  /** Optional. Contains a graph of tasks that will be executed before putting the event in a terminal state (SUCCEEDED/FAILED/FATAL), regardless of success or failure, similar to "finally" in code. */
-  teardown?: EnterpriseCrmEventbusProtoTeardown | undefined;
-  /** Optional. Deprecated: Use `integration_parameters` instead. Parameters that are expected to be passed to the integration when an event is triggered. This consists of all the parameters that are expected in the integration execution. This gives the user the ability to provide default values, add information like PII and also provide data types of each parameter. */
-  integrationParametersInternal?: EnterpriseCrmFrontendsEventbusProtoWorkflowParameters | undefined;
-  /** Optional. A user-defined label that annotates an integration version. Typically, this is only set when the integration version is created. */
-  userLabel?: string | undefined;
-  /** Output only. An increasing sequence that is set when a new snapshot is created. The last created snapshot can be identified by [workflow_name, org_id latest(snapshot_number)]. However, last created snapshot need not be same as the HEAD. So users should always use "HEAD" tag to identify the head. */
-  snapshotNumber?: string | undefined;
-  /** Optional. Config Parameters that are expected to be passed to the integration when an integration is published. This consists of all the parameters that are expected to provide configuration in the integration execution. This gives the user the ability to provide default values, value, add information like connection url, project based configuration value and also provide data types of each parameter. */
-  integrationConfigParameters?:
-    | GoogleCloudIntegrationsV1alphaIntegrationConfigParameterList
-    | undefined;
-  /** Optional. Parameters that are expected to be passed to the integration when an event is triggered. This consists of all the parameters that are expected in the integration execution. This gives the user the ability to provide default values, add information like PII and also provide data types of each parameter. */
-  integrationParameters?: GoogleCloudIntegrationsV1alphaIntegrationParameterList | undefined;
-  /** Optional. The integration description. */
-  description?: string | undefined;
-  /** Optional. The run-as service account email, if set and auth config is not configured, that will be used to generate auth token to be used in Connector task, Rest caller task and Cloud function task. */
-  runAsServiceAccount?: string | undefined;
-  /** Optional. Cloud KMS resource name for the CMEK encryption key. */
-  cloudKmsKey?: string | undefined;
 }
-export interface PatchProjectsLocationsProductsSfdcInstancesRequest {
+export interface PatchProjectsLocationsProductsSfdcInstancesRequest extends Omit<
+  GoogleCloudIntegrationsV1alphaSfdcInstance,
+  "name"
+> {
   /** Field mask specifying the fields in the above SfdcInstance that have been modified and need to be updated. */
   updateMask?: string | undefined;
   /** Resource name of the SFDC instance projects/{project}/locations/{location}/sfdcInstances/{sfdcInstance}. */
   name: string;
-  /** A list of AuthConfigs that can be tried to open the channel to SFDC */
-  authConfigId?: StringList | undefined;
-  /** Output only. Time when the instance was deleted. Empty if not deleted. */
-  deleteTime?: string | undefined;
-  /** Optional. User selected unique name/alias to easily reference an instance. */
-  displayName?: string | undefined;
-  /** Optional. A description of the sfdc instance. */
-  description?: string | undefined;
-  /** Output only. Time when the instance was last updated */
-  updateTime?: string | undefined;
-  /** Optional. URL used for API calls after authentication (the login authority is configured within the referenced AuthConfig). */
-  serviceAuthority?: string | undefined;
-  /** The SFDC Org Id. This is defined in salesforce. */
-  sfdcOrgId?: string | undefined;
-  /** Output only. Time when the instance is created */
-  createTime?: string | undefined;
 }
-export interface PatchProjectsLocationsProductsSfdcInstancesSfdcChannelsRequest {
+export interface PatchProjectsLocationsProductsSfdcInstancesSfdcChannelsRequest extends Omit<
+  GoogleCloudIntegrationsV1alphaSfdcChannel,
+  "name"
+> {
   /** Field mask specifying the fields in the above SfdcChannel that have been modified and need to be updated. */
   updateMask?: string | undefined;
   /** Resource name of the SFDC channel projects/{project}/locations/{location}/sfdcInstances/{sfdc_instance}/sfdcChannels/{sfdc_channel}. */
   name: string;
-  /** Output only. Last sfdc messsage replay id for channel */
-  lastReplayId?: string | undefined;
-  /** Output only. Time when the channel was deleted. Empty if not deleted. */
-  deleteTime?: string | undefined;
-  /** Output only. Time when the channel was last updated */
-  updateTime?: string | undefined;
-  /** Optional. Client level unique name/alias to easily reference a channel. */
-  displayName?: string | undefined;
-  /** Optional. The description for this channel */
-  description?: string | undefined;
-  /** Required. The Channel topic defined by salesforce once an channel is opened */
-  channelTopic?: string | undefined;
-  /** Output only. Time when the channel is created */
-  createTime?: string | undefined;
-  /** Output only. Indicated if a channel has any active integrations referencing it. Set to false when the channel is created, and set to true if there is any integration published with the channel configured in it. */
-  isActive?: boolean | undefined;
 }
-export interface PatchProjectsLocationsSfdcInstancesRequest {
+export interface PatchProjectsLocationsSfdcInstancesRequest extends Omit<
+  GoogleCloudIntegrationsV1alphaSfdcInstance,
+  "name"
+> {
   /** Field mask specifying the fields in the above SfdcInstance that have been modified and need to be updated. */
   updateMask?: string | undefined;
   /** Resource name of the SFDC instance projects/{project}/locations/{location}/sfdcInstances/{sfdcInstance}. */
   name: string;
-  /** A list of AuthConfigs that can be tried to open the channel to SFDC */
-  authConfigId?: StringList | undefined;
-  /** Output only. Time when the instance was deleted. Empty if not deleted. */
-  deleteTime?: string | undefined;
-  /** Optional. User selected unique name/alias to easily reference an instance. */
-  displayName?: string | undefined;
-  /** Optional. A description of the sfdc instance. */
-  description?: string | undefined;
-  /** Output only. Time when the instance was last updated */
-  updateTime?: string | undefined;
-  /** Optional. URL used for API calls after authentication (the login authority is configured within the referenced AuthConfig). */
-  serviceAuthority?: string | undefined;
-  /** The SFDC Org Id. This is defined in salesforce. */
-  sfdcOrgId?: string | undefined;
-  /** Output only. Time when the instance is created */
-  createTime?: string | undefined;
 }
-export interface PatchProjectsLocationsSfdcInstancesSfdcChannelsRequest {
+export interface PatchProjectsLocationsSfdcInstancesSfdcChannelsRequest extends Omit<
+  GoogleCloudIntegrationsV1alphaSfdcChannel,
+  "name"
+> {
   /** Resource name of the SFDC channel projects/{project}/locations/{location}/sfdcInstances/{sfdc_instance}/sfdcChannels/{sfdc_channel}. */
   name: string;
   /** Field mask specifying the fields in the above SfdcChannel that have been modified and need to be updated. */
   updateMask?: string | undefined;
-  /** Output only. Last sfdc messsage replay id for channel */
-  lastReplayId?: string | undefined;
-  /** Output only. Time when the channel was deleted. Empty if not deleted. */
-  deleteTime?: string | undefined;
-  /** Output only. Time when the channel was last updated */
-  updateTime?: string | undefined;
-  /** Optional. Client level unique name/alias to easily reference a channel. */
-  displayName?: string | undefined;
-  /** Optional. The description for this channel */
-  description?: string | undefined;
-  /** Required. The Channel topic defined by salesforce once an channel is opened */
-  channelTopic?: string | undefined;
-  /** Output only. Time when the channel is created */
-  createTime?: string | undefined;
-  /** Output only. Indicated if a channel has any active integrations referencing it. Set to false when the channel is created, and set to true if there is any integration published with the channel configured in it. */
-  isActive?: boolean | undefined;
 }
-export interface PatchProjectsLocationsTemplatesRequest {
+export interface PatchProjectsLocationsTemplatesRequest extends Omit<
+  GoogleCloudIntegrationsV1alphaTemplate,
+  "name"
+> {
   /** Identifier. Resource name of the template. */
   name: string;
   /** Required. Field mask specifying the fields in the above template that have been modified and must be updated. */
   updateMask?: string | undefined;
-  /** Optional. Link to template documentation. */
-  docLink?: string | undefined;
-  /** Optional. Time the template was last used. */
-  lastUsedTime?: string | undefined;
-  /** Required. Bundle which is part of the templates. The template entities in the bundle would be converted to an actual entity. */
-  templateBundle?: GoogleCloudIntegrationsV1alphaTemplateBundle | undefined;
-  /** Optional. Number of template usages. */
-  usageCount?: string | undefined;
-  /** Output only. Auto-generated */
-  updateTime?: string | undefined;
-  /** Required. Resource names with which the template is shared for example ProjectNumber/Ord id */
-  sharedWith?: StringList | undefined;
-  /** Required. Tags which are used to identify templates. These tags could be for business use case, connectors etc. */
-  tags?: StringList | undefined;
-  /** Optional. Components being used in the template. This could be used to categorize and filter. */
-  components?: GoogleCloudIntegrationsV1alphaTemplateComponentList | undefined;
-  /** Required. Visibility of the template. */
-  visibility?: GoogleCloudIntegrationsV1alphaTemplateVisibilityEnum | (string & {}) | undefined;
-  /** Output only. Auto-generated. */
-  createTime?: string | undefined;
-  /** Required. The name of the template */
-  displayName?: string | undefined;
-  /** Optional. Description of the template. The length should not be more than 255 characters */
-  description?: string | undefined;
-  /** Optional. Creator of the template. */
-  author?: string | undefined;
-  /** Required. Categories associated with the Template. The categories listed below will be utilized for the Template listing. */
-  categories?: GoogleCloudIntegrationsV1alphaTemplateCategoriesItemEnumList | undefined;
-  /** Optional. Information on how to use the template. This should contain detailed information about usage of the template. */
-  usageInfo?: string | undefined;
 }
 export type GoogleCloudIntegrationsV1alphaProvisionClientPostProcessorRequestWorkflowsItemEnum =
   | "SAMPLE_INTEGRATIONS_UNSPECIFIED"
@@ -5447,19 +4763,21 @@ export type GoogleCloudIntegrationsV1alphaProvisionClientPostProcessorRequestWor
     | GoogleCloudIntegrationsV1alphaProvisionClientPostProcessorRequestWorkflowsItemEnum
     | (string & {})
   >;
-export interface ProvisionClientPostProcessorProjectsLocationsClientsRequest {
-  /** Required. Required: The ID of the GCP Project to be provisioned. */
-  parent: string;
+/** Request for PostProvisioning rpc call. */
+export interface GoogleCloudIntegrationsV1alphaProvisionClientPostProcessorRequest {
   /** Optional. Indicate which workflows to create */
   workflows?:
     | GoogleCloudIntegrationsV1alphaProvisionClientPostProcessorRequestWorkflowsItemEnumList
     | undefined;
 }
-/** Response for PostProvisioning rpc call. */
-export interface GoogleCloudIntegrationsV1alphaProvisionClientPostProcessorResponse {}
-export interface ProvisionProjectsLocationsClientsRequest {
+export interface ProvisionClientPostProcessorProjectsLocationsClientsRequest extends GoogleCloudIntegrationsV1alphaProvisionClientPostProcessorRequest {
   /** Required. Required: The ID of the GCP Project to be provisioned. */
   parent: string;
+}
+/** Response for PostProvisioning rpc call. */
+export interface GoogleCloudIntegrationsV1alphaProvisionClientPostProcessorResponse {}
+/** Request for the Provision rpc */
+export interface GoogleCloudIntegrationsV1alphaProvisionClientRequest {
   /** Optional. Indicates if sample workflow should be created along with provisioning */
   createSampleWorkflows?: boolean | undefined;
   /** Optional. Deprecated. Indicates provision with GMEK or CMEK. This field is deprecated and the provision would always be GMEK if cloud_kms_config is not present in the request. */
@@ -5475,37 +4793,42 @@ export interface ProvisionProjectsLocationsClientsRequest {
   /** Optional. Indicates if skip CP provision or not */
   skipCpProvision?: boolean | undefined;
 }
-export interface PublishProjectsLocationsIntegrationsVersionsRequest {
-  /** Required. The version to publish. Format: projects/{project}/locations/{location}/integrations/{integration}/versions/{version} */
-  name: string;
+export interface ProvisionProjectsLocationsClientsRequest extends GoogleCloudIntegrationsV1alphaProvisionClientRequest {
+  /** Required. Required: The ID of the GCP Project to be provisioned. */
+  parent: string;
+}
+/** Request for PublishIntegrationVersion. */
+export interface GoogleCloudIntegrationsV1alphaPublishIntegrationVersionRequest {
   /** Optional. If set, validates the integration version's configuration and returns without publishing it. The version's state, edit lock, and active version do not change. */
   validateOnly?: boolean | undefined;
   /** Optional. Config parameters used during integration execution. */
   configParameters?: DocumentMap | undefined;
+}
+export interface PublishProjectsLocationsIntegrationsVersionsRequest extends GoogleCloudIntegrationsV1alphaPublishIntegrationVersionRequest {
+  /** Required. The version to publish. Format: projects/{project}/locations/{location}/integrations/{integration}/versions/{version} */
+  name: string;
 }
 /** Response for PublishIntegrationVersion. */
 export interface GoogleCloudIntegrationsV1alphaPublishIntegrationVersionResponse {}
-export interface PublishProjectsLocationsProductsIntegrationsVersionsRequest {
+export interface PublishProjectsLocationsProductsIntegrationsVersionsRequest extends GoogleCloudIntegrationsV1alphaPublishIntegrationVersionRequest {
   /** Required. The version to publish. Format: projects/{project}/locations/{location}/integrations/{integration}/versions/{version} */
   name: string;
-  /** Optional. If set, validates the integration version's configuration and returns without publishing it. The version's state, edit lock, and active version do not change. */
-  validateOnly?: boolean | undefined;
-  /** Optional. Config parameters used during integration execution. */
-  configParameters?: DocumentMap | undefined;
 }
-export interface ReplaceProjectsLocationsClientsRequest {
-  /** Required. Required: The ID of the GCP Project to be provisioned. */
-  parent: string;
+/** Request for the ReplaceServiceAccount rpc */
+export interface GoogleCloudIntegrationsV1alphaReplaceServiceAccountRequest {
   /** Required. REQUIRED: Run-as service account to be updated */
   runAsServiceAccount?: string | undefined;
+}
+export interface ReplaceProjectsLocationsClientsRequest extends GoogleCloudIntegrationsV1alphaReplaceServiceAccountRequest {
+  /** Required. Required: The ID of the GCP Project to be provisioned. */
+  parent: string;
 }
 export type GoogleCloudIntegrationsV1alphaReplayExecutionRequestReplayModeEnum =
   | "REPLAY_MODE_UNSPECIFIED"
   | "REPLAY_MODE_FROM_BEGINNING"
   | "REPLAY_MODE_POINT_OF_FAILURE";
-export interface ReplayProjectsLocationsIntegrationsExecutionsRequest {
-  /** Required. Next ID: 6 The execution resource name. Format: projects/{gcp_project_id}/locations/{location}/integrations/{integration}/executions/{execution_id} */
-  name: string;
+/** Request for replaying an execution. */
+export interface GoogleCloudIntegrationsV1alphaReplayExecutionRequest {
   /** Optional. The modified input parameters for replay. - Provide values for all the fields in the 'update_mask'. Any field not present in the 'update_mask' will be ignored and its value will be taken from the original execution. - If the 'update_mask' is not specified, all the parameters from original execution will be ignored and only the `modified_parameters` will be used. */
   modifiedParameters?: GoogleCloudIntegrationsV1alphaValueTypeMap | undefined;
   /** Required. The user provided reason for replaying the execution. */
@@ -5518,6 +4841,10 @@ export interface ReplayProjectsLocationsIntegrationsExecutionsRequest {
     | (string & {})
     | undefined;
 }
+export interface ReplayProjectsLocationsIntegrationsExecutionsRequest extends GoogleCloudIntegrationsV1alphaReplayExecutionRequest {
+  /** Required. Next ID: 6 The execution resource name. Format: projects/{gcp_project_id}/locations/{location}/integrations/{integration}/executions/{execution_id} */
+  name: string;
+}
 /** Response for replaying an execution. */
 export interface GoogleCloudIntegrationsV1alphaReplayExecutionResponse {
   /** OUTPUT parameters in format of Map. Where Key is the name of the parameter. The parameters would only be present in case of synchrounous execution. Note: Name of the system generated parameters are wrapped by backtick(`) to distinguish them from the user defined parameters. */
@@ -5527,23 +4854,23 @@ export interface GoogleCloudIntegrationsV1alphaReplayExecutionResponse {
   /** Next ID: 4 The id of the execution corresponding to this run of the integration. */
   executionId?: string | undefined;
 }
-export interface ResolveProjectsLocationsIntegrationsExecutionsSuspensionsRequest {
-  /** Required. projects/{gcp_project_id}/locations/{location}/products/{product}/integrations/{integration_name}/executions/{execution_name}/suspensions/{suspension_id} */
-  name: string;
+/** Request for [Suspensions.ResolveSuspensions]. */
+export interface GoogleCloudIntegrationsV1alphaResolveSuspensionRequest {
   /** Suspension, containing the event_execution_info_id, task_id, and state to set on the corresponding suspension record. */
   suspension?: GoogleCloudIntegrationsV1alphaSuspension | undefined;
+}
+export interface ResolveProjectsLocationsIntegrationsExecutionsSuspensionsRequest extends GoogleCloudIntegrationsV1alphaResolveSuspensionRequest {
+  /** Required. projects/{gcp_project_id}/locations/{location}/products/{product}/integrations/{integration_name}/executions/{execution_name}/suspensions/{suspension_id} */
+  name: string;
 }
 /** Response for Suspensions.ResolveSuspensions. */
 export interface GoogleCloudIntegrationsV1alphaResolveSuspensionResponse {}
-export interface ResolveProjectsLocationsProductsIntegrationsExecutionsSuspensionsRequest {
+export interface ResolveProjectsLocationsProductsIntegrationsExecutionsSuspensionsRequest extends GoogleCloudIntegrationsV1alphaResolveSuspensionRequest {
   /** Required. projects/{gcp_project_id}/locations/{location}/products/{product}/integrations/{integration_name}/executions/{execution_name}/suspensions/{suspension_id} */
   name: string;
-  /** Suspension, containing the event_execution_info_id, task_id, and state to set on the corresponding suspension record. */
-  suspension?: GoogleCloudIntegrationsV1alphaSuspension | undefined;
 }
-export interface ScheduleProjectsLocationsIntegrationsRequest {
-  /** The integration resource name. */
-  name: string;
+/** The request for scheduling an integration. */
+export interface GoogleCloudIntegrationsV1alphaScheduleIntegrationsRequest {
   /** Optional. Input parameters used by integration execution. */
   inputParameters?: GoogleCloudIntegrationsV1alphaValueTypeMap | undefined;
   /** Parameters are a part of Event and can be used to communicate between different tasks that are part of the same integration execution. */
@@ -5558,29 +4885,19 @@ export interface ScheduleProjectsLocationsIntegrationsRequest {
   triggerId?: string | undefined;
   /** Passed in as parameters to each integration execution. */
   parameters?: EnterpriseCrmEventbusProtoEventParameters | undefined;
+}
+export interface ScheduleProjectsLocationsIntegrationsRequest extends GoogleCloudIntegrationsV1alphaScheduleIntegrationsRequest {
+  /** The integration resource name. */
+  name: string;
 }
 /** The response for executing an integration. */
 export interface GoogleCloudIntegrationsV1alphaScheduleIntegrationsResponse {
   /** The execution info id for the executed integrations. */
   executionInfoIds?: StringList | undefined;
 }
-export interface ScheduleProjectsLocationsProductsIntegrationsRequest {
+export interface ScheduleProjectsLocationsProductsIntegrationsRequest extends GoogleCloudIntegrationsV1alphaScheduleIntegrationsRequest {
   /** The integration resource name. */
   name: string;
-  /** Optional. Input parameters used by integration execution. */
-  inputParameters?: GoogleCloudIntegrationsV1alphaValueTypeMap | undefined;
-  /** Parameters are a part of Event and can be used to communicate between different tasks that are part of the same integration execution. */
-  parameterEntries?: EnterpriseCrmFrontendsEventbusProtoParameterEntryList | undefined;
-  /** The time that the integration should be executed. If the time is less or equal to the current time, the integration is executed immediately. */
-  scheduleTime?: string | undefined;
-  /** This is used to de-dup incoming request: if the duplicate request was detected, the response from the previous execution is returned. */
-  requestId?: string | undefined;
-  /** Optional. This is a unique id provided by the method caller. If provided this will be used as the execution_id when a new execution info is created. This is a string representation of a UUID. Must have no more than 36 characters and contain only alphanumeric characters and hyphens. */
-  userGeneratedExecutionId?: string | undefined;
-  /** Required. Matched against all {@link TriggerConfig}s across all integrations. i.e. TriggerConfig.trigger_id.equals(trigger_id) */
-  triggerId?: string | undefined;
-  /** Passed in as parameters to each integration execution. */
-  parameters?: EnterpriseCrmEventbusProtoEventParameters | undefined;
 }
 export interface SearchProjectsLocationsIntegrationsRequest {
   /** Required. The user query */
@@ -5659,23 +4976,32 @@ export interface GoogleCloudIntegrationsV1alphaSearchTemplatesResponse {
   /** The token used to retrieve the next page results. */
   nextPageToken?: string | undefined;
 }
-export interface ShareProjectsLocationsTemplatesRequest {
-  /** Required. The name that is associated with the Template. */
-  name: string;
+/** Request to Share template */
+export interface GoogleCloudIntegrationsV1alphaShareTemplateRequest {
   /** Optional. Project name resources to share the template. The project names is expected in resource format Ex: projects/{project-number} or organization/{org-id} */
   resourceNames?: StringList | undefined;
 }
-export interface SwitchProjectsLocationsClientsRequest {
-  /** Required. Required: The ID of the GCP Project to be provisioned. */
-  parent: string;
+export interface ShareProjectsLocationsTemplatesRequest extends GoogleCloudIntegrationsV1alphaShareTemplateRequest {
+  /** Required. The name that is associated with the Template. */
+  name: string;
+}
+/** Request for the SwitchEncryption rpc */
+export interface GoogleCloudIntegrationsV1alphaSwitchEncryptionRequest {
   /** Required. REQUIRED: Cloud KMS config for AuthModule to encrypt/decrypt credentials. */
   cloudKmsConfig?: GoogleCloudIntegrationsV1alphaCloudKmsConfig | undefined;
 }
-export interface SwitchVariableMaskingProjectsLocationsClientsRequest {
+export interface SwitchProjectsLocationsClientsRequest extends GoogleCloudIntegrationsV1alphaSwitchEncryptionRequest {
   /** Required. Required: The ID of the GCP Project to be provisioned. */
   parent: string;
+}
+/** Request to enable/disable variable masking for a provisioned client */
+export interface GoogleCloudIntegrationsV1alphaSwitchVariableMaskingRequest {
   /** Required. REQUIRED: True if variable masking feature should be turned on for this region */
   enableVariableMasking?: boolean | undefined;
+}
+export interface SwitchVariableMaskingProjectsLocationsClientsRequest extends GoogleCloudIntegrationsV1alphaSwitchVariableMaskingRequest {
+  /** Required. Required: The ID of the GCP Project to be provisioned. */
+  parent: string;
 }
 /** Request for TakeoverTestCaseEditLock. */
 export type GoogleCloudIntegrationsV1alphaTakeoverTestCaseEditLockRequest =
@@ -5704,9 +5030,8 @@ export type GoogleCloudIntegrationsV1alphaTestIntegrationsRequestCredentialModeE
   | "CREDENTIAL_MODE_UNSPECIFIED"
   | "CREDENTIAL_MODE_CURRENT"
   | "CREDENTIAL_MODE_HARDENED";
-export interface TestProjectsLocationsIntegrationsRequest {
-  /** Output only. Auto-generated primary key. */
-  name: string;
+/** The request for testing an integration. */
+export interface GoogleCloudIntegrationsV1alphaTestIntegrationsRequest {
   /** Required. The trigger id of the integration trigger config. If both trigger_id and client_id is present, the integration is executed from the start tasks provided by the matching trigger config otherwise it is executed from the default start tasks. */
   triggerId?: string | undefined;
   /** Required. This is used to identify the client on whose behalf the event will be executed. */
@@ -5730,6 +5055,10 @@ export interface TestProjectsLocationsIntegrationsRequest {
   inputParameters?: GoogleCloudIntegrationsV1alphaValueTypeMap | undefined;
   /** Optional. Runs the test asynchronously, by enqueueing it through the real execution queue under `trigger_id` instead of running the task graph inline. Default `false`, which preserves the existing synchronous behavior. The enqueued request carries no caller identity, so it is drained under the integration's run-as service account, exactly as a real Cloud Scheduler, cron, Pub/Sub, Salesforce or connector fire would be. That is the only way to verify the credential path an asynchronous trigger actually takes; a synchronous test always carries the caller's own credential and so exercises the opposite branch. When `true`: * The version named by `integration_version.name` runs. A name ending in `/versions/{version}` runs that exact version, published or draft; a name without one runs the published (`ACTIVE`) version on the trigger. Either way the integration is resolved from storage, so `integration_version` must carry only `name`; supplying any other field is rejected, rather than silently running something other than what was passed. * A draft is validated before it is enqueued, including the check that the caller may act as the integration's run-as service account. Testing a draft therefore fails fast on a configuration a publish would reject. * The response carries `execution_id` only. `execution_failed`, `event_parameters`, `parameters` and `parameter_entries` describe a finished run and are left unset, because nothing has run yet. In particular, do not read `execution_failed` as a pass signal. * The run is real, with real side effects, quota and concurrency. No actual Pub/Sub push or Cloud Scheduler tick occurs; only the enqueue is simulated, which does not change the credential path. */
   asyncExecution?: boolean | undefined;
+}
+export interface TestProjectsLocationsIntegrationsRequest extends GoogleCloudIntegrationsV1alphaTestIntegrationsRequest {
+  /** Output only. Auto-generated primary key. */
+  name: string;
 }
 export type GoogleCloudIntegrationsV1alphaTestIntegrationsResponseHardenedPathsItemEnum =
   | "HARDENED_PATH_UNSPECIFIED"
@@ -5771,65 +5100,22 @@ export interface GoogleCloudIntegrationsV1alphaTestIntegrationsResponse {
   /** Optional. Parameters are a part of Event and can be used to communicate between different tasks that are part of the same integration execution. */
   parameters?: GoogleCloudIntegrationsV1alphaValueTypeMap | undefined;
 }
-export interface TestProjectsLocationsIntegrationsVersionsRequest {
+export interface TestProjectsLocationsIntegrationsVersionsRequest extends GoogleCloudIntegrationsV1alphaTestIntegrationsRequest {
   /** Output only. Auto-generated primary key. */
   name: string;
-  /** Required. The trigger id of the integration trigger config. If both trigger_id and client_id is present, the integration is executed from the start tasks provided by the matching trigger config otherwise it is executed from the default start tasks. */
-  triggerId?: string | undefined;
-  /** Required. This is used to identify the client on whose behalf the event will be executed. */
-  clientId?: string | undefined;
-  /** Required. integration config to execute the workflow */
-  integrationVersion?: GoogleCloudIntegrationsV1alphaIntegrationVersion | undefined;
-  /** Optional. Passed in as parameters to each integration execution. */
-  parameters?: EnterpriseCrmFrontendsEventbusProtoEventParameters | undefined;
-  /** Optional. Config parameters used during integration execution. */
-  configParameters?: DocumentMap | undefined;
-  /** Optional. Can be specified in the event request, otherwise false (default). If true, enables tasks with condition "test_mode = true". If false, disables tasks with condition "test_mode = true" if global test mode (set by platform) is also false {@link EventBusConfig}. */
-  testMode?: boolean | undefined;
-  /** Optional. The credential flow to run the test under. Applies to synchronous tests only. When unset, the default depends on when the test runs: before the EUC hardening cutover it is `CREDENTIAL_MODE_CURRENT`; from the cutover on it is `CREDENTIAL_MODE_HARDENED`, whatever the integration's stored disposition. Where the hardened flow cannot be evaluated, an unset mode runs `CREDENTIAL_MODE_CURRENT` instead of failing. The response's `credential_mode` reports the mode that ran. */
-  credentialMode?:
-    | GoogleCloudIntegrationsV1alphaTestIntegrationsRequestCredentialModeEnum
-    | (string & {})
-    | undefined;
-  /** Optional. custom deadline of the rpc */
-  deadlineSecondsTime?: string | undefined;
-  /** Optional. Input parameters used during integration execution. */
-  inputParameters?: GoogleCloudIntegrationsV1alphaValueTypeMap | undefined;
-  /** Optional. Runs the test asynchronously, by enqueueing it through the real execution queue under `trigger_id` instead of running the task graph inline. Default `false`, which preserves the existing synchronous behavior. The enqueued request carries no caller identity, so it is drained under the integration's run-as service account, exactly as a real Cloud Scheduler, cron, Pub/Sub, Salesforce or connector fire would be. That is the only way to verify the credential path an asynchronous trigger actually takes; a synchronous test always carries the caller's own credential and so exercises the opposite branch. When `true`: * The version named by `integration_version.name` runs. A name ending in `/versions/{version}` runs that exact version, published or draft; a name without one runs the published (`ACTIVE`) version on the trigger. Either way the integration is resolved from storage, so `integration_version` must carry only `name`; supplying any other field is rejected, rather than silently running something other than what was passed. * A draft is validated before it is enqueued, including the check that the caller may act as the integration's run-as service account. Testing a draft therefore fails fast on a configuration a publish would reject. * The response carries `execution_id` only. `execution_failed`, `event_parameters`, `parameters` and `parameter_entries` describe a finished run and are left unset, because nothing has run yet. In particular, do not read `execution_failed` as a pass signal. * The run is real, with real side effects, quota and concurrency. No actual Pub/Sub push or Cloud Scheduler tick occurs; only the enqueue is simulated, which does not change the credential path. */
-  asyncExecution?: boolean | undefined;
 }
-export interface TestProjectsLocationsProductsIntegrationsRequest {
+export interface TestProjectsLocationsProductsIntegrationsRequest extends GoogleCloudIntegrationsV1alphaTestIntegrationsRequest {
   /** Output only. Auto-generated primary key. */
   name: string;
-  /** Required. The trigger id of the integration trigger config. If both trigger_id and client_id is present, the integration is executed from the start tasks provided by the matching trigger config otherwise it is executed from the default start tasks. */
-  triggerId?: string | undefined;
-  /** Required. This is used to identify the client on whose behalf the event will be executed. */
-  clientId?: string | undefined;
-  /** Required. integration config to execute the workflow */
-  integrationVersion?: GoogleCloudIntegrationsV1alphaIntegrationVersion | undefined;
-  /** Optional. Passed in as parameters to each integration execution. */
-  parameters?: EnterpriseCrmFrontendsEventbusProtoEventParameters | undefined;
-  /** Optional. Config parameters used during integration execution. */
-  configParameters?: DocumentMap | undefined;
-  /** Optional. Can be specified in the event request, otherwise false (default). If true, enables tasks with condition "test_mode = true". If false, disables tasks with condition "test_mode = true" if global test mode (set by platform) is also false {@link EventBusConfig}. */
-  testMode?: boolean | undefined;
-  /** Optional. The credential flow to run the test under. Applies to synchronous tests only. When unset, the default depends on when the test runs: before the EUC hardening cutover it is `CREDENTIAL_MODE_CURRENT`; from the cutover on it is `CREDENTIAL_MODE_HARDENED`, whatever the integration's stored disposition. Where the hardened flow cannot be evaluated, an unset mode runs `CREDENTIAL_MODE_CURRENT` instead of failing. The response's `credential_mode` reports the mode that ran. */
-  credentialMode?:
-    | GoogleCloudIntegrationsV1alphaTestIntegrationsRequestCredentialModeEnum
-    | (string & {})
-    | undefined;
-  /** Optional. custom deadline of the rpc */
-  deadlineSecondsTime?: string | undefined;
-  /** Optional. Input parameters used during integration execution. */
-  inputParameters?: GoogleCloudIntegrationsV1alphaValueTypeMap | undefined;
-  /** Optional. Runs the test asynchronously, by enqueueing it through the real execution queue under `trigger_id` instead of running the task graph inline. Default `false`, which preserves the existing synchronous behavior. The enqueued request carries no caller identity, so it is drained under the integration's run-as service account, exactly as a real Cloud Scheduler, cron, Pub/Sub, Salesforce or connector fire would be. That is the only way to verify the credential path an asynchronous trigger actually takes; a synchronous test always carries the caller's own credential and so exercises the opposite branch. When `true`: * The version named by `integration_version.name` runs. A name ending in `/versions/{version}` runs that exact version, published or draft; a name without one runs the published (`ACTIVE`) version on the trigger. Either way the integration is resolved from storage, so `integration_version` must carry only `name`; supplying any other field is rejected, rather than silently running something other than what was passed. * A draft is validated before it is enqueued, including the check that the caller may act as the integration's run-as service account. Testing a draft therefore fails fast on a configuration a publish would reject. * The response carries `execution_id` only. `execution_failed`, `event_parameters`, `parameters` and `parameter_entries` describe a finished run and are left unset, because nothing has run yet. In particular, do not read `execution_failed` as a pass signal. * The run is real, with real side effects, quota and concurrency. No actual Pub/Sub push or Cloud Scheduler tick occurs; only the enqueue is simulated, which does not change the credential path. */
-  asyncExecution?: boolean | undefined;
 }
-export interface ToggleHttpProjectsLocationsClientsRequest {
-  /** Required. Required: The ID of the GCP Project to be provisioned. */
-  parent: string;
+/** Request to enable/disable http call for a provisioned client */
+export interface GoogleCloudIntegrationsV1alphaToggleHttpRequest {
   /** Required. REQUIRED: True if http call feature should be turned on for this region */
   enableHttpCall?: boolean | undefined;
+}
+export interface ToggleHttpProjectsLocationsClientsRequest extends GoogleCloudIntegrationsV1alphaToggleHttpRequest {
+  /** Required. Required: The ID of the GCP Project to be provisioned. */
+  parent: string;
 }
 /** Request for UnpublishIntegrationVersion. */
 export type GoogleCloudIntegrationsV1alphaUnpublishIntegrationVersionRequest =
@@ -5846,20 +5132,22 @@ export interface UnpublishProjectsLocationsProductsIntegrationsVersionsRequest {
   /** Request body */
   body?: GoogleCloudIntegrationsV1alphaDeprovisionClientRequest | undefined;
 }
-export interface UnshareProjectsLocationsTemplatesRequest {
-  /** Required. The name that is associated with the Template. */
-  name: string;
+/** Request to Unshare template */
+export interface GoogleCloudIntegrationsV1alphaUnshareTemplateRequest {
   /** Optional. Project name resources to unshare the template. The project names is expected in resource format Ex: projects/{project-number} */
   resourceNames?: StringList | undefined;
+}
+export interface UnshareProjectsLocationsTemplatesRequest extends GoogleCloudIntegrationsV1alphaUnshareTemplateRequest {
+  /** Required. The name that is associated with the Template. */
+  name: string;
 }
 export type GoogleCloudIntegrationsV1alphaUploadIntegrationVersionRequestFileFormatEnum =
   | "FILE_FORMAT_UNSPECIFIED"
   | "JSON"
   | "YAML"
   | "WORKFLOW_TEXTPROTO";
-export interface UploadProjectsLocationsIntegrationsVersionsRequest {
-  /** Required. The version to upload. Format: projects/{project}/locations/{location}/integrations/{integration} */
-  parent: string;
+/** Request for UploadIntegrationVersion. */
+export interface GoogleCloudIntegrationsV1alphaUploadIntegrationVersionRequest {
   /** Optional. The textproto of the IntegrationVersion. */
   content?: string | undefined;
   /** File format for upload request. */
@@ -5867,6 +5155,10 @@ export interface UploadProjectsLocationsIntegrationsVersionsRequest {
     | GoogleCloudIntegrationsV1alphaUploadIntegrationVersionRequestFileFormatEnum
     | (string & {})
     | undefined;
+}
+export interface UploadProjectsLocationsIntegrationsVersionsRequest extends GoogleCloudIntegrationsV1alphaUploadIntegrationVersionRequest {
+  /** Required. The version to upload. Format: projects/{project}/locations/{location}/integrations/{integration} */
+  parent: string;
 }
 /** Response for UploadIntegrationVersion. */
 export interface GoogleCloudIntegrationsV1alphaUploadIntegrationVersionResponse {
@@ -5878,9 +5170,8 @@ export type GoogleCloudIntegrationsV1alphaUploadTestCaseRequestFileFormatEnum =
   | "JSON"
   | "YAML"
   | "WORKFLOW_TEXTPROTO";
-export interface UploadProjectsLocationsIntegrationsVersionsTestCasesRequest {
-  /** Required. The test case to upload. Format: projects/{project}/locations/{location}/integrations/{integration}/versions/{integration_version} */
-  parent: string;
+/** Request for UploadTestCase. */
+export interface GoogleCloudIntegrationsV1alphaUploadTestCaseRequest {
   /** The textproto of the test case. */
   content?: string | undefined;
   /** File format for upload request. */
@@ -5889,30 +5180,26 @@ export interface UploadProjectsLocationsIntegrationsVersionsTestCasesRequest {
     | (string & {})
     | undefined;
 }
+export interface UploadProjectsLocationsIntegrationsVersionsTestCasesRequest extends GoogleCloudIntegrationsV1alphaUploadTestCaseRequest {
+  /** Required. The test case to upload. Format: projects/{project}/locations/{location}/integrations/{integration}/versions/{integration_version} */
+  parent: string;
+}
 /** Response for UploadTestCase. */
 export interface GoogleCloudIntegrationsV1alphaUploadTestCaseResponse {
   /** The uploaded TestCase */
   testCase?: GoogleCloudIntegrationsV1alphaTestCase | undefined;
 }
-export interface UploadProjectsLocationsProductsIntegrationsVersionsRequest {
+export interface UploadProjectsLocationsProductsIntegrationsVersionsRequest extends GoogleCloudIntegrationsV1alphaUploadIntegrationVersionRequest {
   /** Required. The version to upload. Format: projects/{project}/locations/{location}/integrations/{integration} */
   parent: string;
-  /** Optional. The textproto of the IntegrationVersion. */
-  content?: string | undefined;
-  /** File format for upload request. */
-  fileFormat?:
-    | GoogleCloudIntegrationsV1alphaUploadIntegrationVersionRequestFileFormatEnum
-    | (string & {})
-    | undefined;
 }
 export type GoogleCloudIntegrationsV1alphaUploadTemplateRequestFileFormatEnum =
   | "FILE_FORMAT_UNSPECIFIED"
   | "JSON"
   | "YAML"
   | "WORKFLOW_TEXTPROTO";
-export interface UploadProjectsLocationsTemplatesRequest {
-  /** Required. The template to upload. Format: projects/{project}/locations/{location} */
-  parent: string;
+/** Request for UploadTemplate. */
+export interface GoogleCloudIntegrationsV1alphaUploadTemplateRequest {
   /** Required. The textproto of the template. */
   content?: string | undefined;
   /** Required. File format for upload request. */
@@ -5921,14 +5208,17 @@ export interface UploadProjectsLocationsTemplatesRequest {
     | (string & {})
     | undefined;
 }
+export interface UploadProjectsLocationsTemplatesRequest extends GoogleCloudIntegrationsV1alphaUploadTemplateRequest {
+  /** Required. The template to upload. Format: projects/{project}/locations/{location} */
+  parent: string;
+}
 /** Response for UploadTemplate. */
 export interface GoogleCloudIntegrationsV1alphaUploadTemplateResponse {
   /** The uploaded Template */
   template?: GoogleCloudIntegrationsV1alphaTemplate | undefined;
 }
-export interface UseProjectsLocationsTemplatesRequest {
-  /** Required. The name that is associated with the Template. */
-  name: string;
+/** Request to Use template */
+export interface GoogleCloudIntegrationsV1alphaUseTemplateRequest {
   /** Required. Integration details which would be created via templates. */
   integrationDetails?:
     | GoogleCloudIntegrationsV1alphaUseTemplateRequestIntegrationDetails
@@ -5939,6 +5229,10 @@ export interface UseProjectsLocationsTemplatesRequest {
     | undefined;
   /** Required. The region of the Integration to be created. */
   integrationRegion?: string | undefined;
+}
+export interface UseProjectsLocationsTemplatesRequest extends GoogleCloudIntegrationsV1alphaUseTemplateRequest {
+  /** Required. The name that is associated with the Template. */
+  name: string;
 }
 /** Response for use template */
 export interface GoogleCloudIntegrationsV1alphaUseTemplateResponse {
@@ -5961,14 +5255,14 @@ export const cancelProjectsLocationsIntegrationsExecutions: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2752,
-    __c86,
-    0,
+    2881,
+    __c90,
+    1,
   ) as any as S.Schema<CancelProjectsLocationsIntegrationsExecutionsRequest>,
   output: __S(
-    2753,
-    __c86,
-    1,
+    2882,
+    __c90,
+    2,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaCancelExecutionResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -5990,11 +5284,11 @@ export const changeConfigProjectsLocationsClients: API.OperationMethod<
   ChangeConfigProjectsLocationsClientsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3200, __c100, 0) as any as S.Schema<ChangeConfigProjectsLocationsClientsRequest>,
+  input: __S(3329, __c104, 1) as any as S.Schema<ChangeConfigProjectsLocationsClientsRequest>,
   output: __S(
-    3201,
-    __c100,
-    1,
+    3330,
+    __c104,
+    2,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaChangeCustomerConfigResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -6016,11 +5310,11 @@ export const createProjectsLocationsAppsScriptProjects: API.OperationMethod<
   CreateProjectsLocationsAppsScriptProjectsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3648, __c114, 0) as any as S.Schema<CreateProjectsLocationsAppsScriptProjectsRequest>,
+  input: __S(3777, __c118, 1) as any as S.Schema<CreateProjectsLocationsAppsScriptProjectsRequest>,
   output: __S(
-    3649,
-    __c114,
-    1,
+    3778,
+    __c118,
+    2,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaCreateAppsScriptProjectResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -6042,8 +5336,8 @@ export const createProjectsLocationsAuthConfigs: API.OperationMethod<
   CreateProjectsLocationsAuthConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4096, __c128, 0) as any as S.Schema<CreateProjectsLocationsAuthConfigsRequest>,
-  output: __S(4238, __c132, 14) as any as S.Schema<GoogleCloudIntegrationsV1alphaAuthConfig>,
+  input: __S(4224, __c132, 0) as any as S.Schema<CreateProjectsLocationsAuthConfigsRequest>,
+  output: __S(4366, __c136, 14) as any as S.Schema<GoogleCloudIntegrationsV1alphaAuthConfig>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6064,8 +5358,8 @@ export const createProjectsLocationsCertificates: API.OperationMethod<
   CreateProjectsLocationsCertificatesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4832, __c151, 0) as any as S.Schema<CreateProjectsLocationsCertificatesRequest>,
-  output: __S(4865, __c152, 1) as any as S.Schema<GoogleCloudIntegrationsV1alphaCertificate>,
+  input: __S(4960, __c155, 0) as any as S.Schema<CreateProjectsLocationsCertificatesRequest>,
+  output: __S(4993, __c156, 1) as any as S.Schema<GoogleCloudIntegrationsV1alphaCertificate>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6086,11 +5380,11 @@ export const createProjectsLocationsCloudFunctions: API.OperationMethod<
   CreateProjectsLocationsCloudFunctionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5280, __c165, 0) as any as S.Schema<CreateProjectsLocationsCloudFunctionsRequest>,
+  input: __S(5408, __c169, 0) as any as S.Schema<CreateProjectsLocationsCloudFunctionsRequest>,
   output: __S(
-    5312,
-    __c166,
-    0,
+    5441,
+    __c170,
+    1,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaCreateCloudFunctionResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -6135,11 +5429,11 @@ export const createProjectsLocationsIntegrationsVersionsTestCases: API.Operation
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    704,
-    __c22,
+    736,
+    __c23,
     0,
   ) as any as S.Schema<CreateProjectsLocationsIntegrationsVersionsTestCasesRequest>,
-  output: __S(773, __c24, 5) as any as S.Schema<GoogleCloudIntegrationsV1alphaTestCase>,
+  output: __S(805, __c25, 5) as any as S.Schema<GoogleCloudIntegrationsV1alphaTestCase>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6160,8 +5454,8 @@ export const createProjectsLocationsProductsAuthConfigs: API.OperationMethod<
   CreateProjectsLocationsProductsAuthConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c36, 0) as any as S.Schema<CreateProjectsLocationsProductsAuthConfigsRequest>,
-  output: __S(4238, __c132, 14) as any as S.Schema<GoogleCloudIntegrationsV1alphaAuthConfig>,
+  input: __S(1248, __c39, 0) as any as S.Schema<CreateProjectsLocationsProductsAuthConfigsRequest>,
+  output: __S(4366, __c136, 14) as any as S.Schema<GoogleCloudIntegrationsV1alphaAuthConfig>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6182,8 +5476,8 @@ export const createProjectsLocationsProductsCertificates: API.OperationMethod<
   CreateProjectsLocationsProductsCertificatesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1568, __c49, 0) as any as S.Schema<CreateProjectsLocationsProductsCertificatesRequest>,
-  output: __S(4865, __c152, 1) as any as S.Schema<GoogleCloudIntegrationsV1alphaCertificate>,
+  input: __S(1696, __c53, 0) as any as S.Schema<CreateProjectsLocationsProductsCertificatesRequest>,
+  output: __S(4993, __c156, 1) as any as S.Schema<GoogleCloudIntegrationsV1alphaCertificate>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6205,14 +5499,14 @@ export const createProjectsLocationsProductsCloudFunctions: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1696,
-    __c53,
+    1824,
+    __c57,
     0,
   ) as any as S.Schema<CreateProjectsLocationsProductsCloudFunctionsRequest>,
   output: __S(
-    5312,
-    __c166,
-    0,
+    5441,
+    __c170,
+    1,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaCreateCloudFunctionResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -6235,8 +5529,8 @@ export const createProjectsLocationsProductsIntegrationsVersions: API.OperationM
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1728,
-    __c54,
+    1856,
+    __c58,
     0,
   ) as any as S.Schema<CreateProjectsLocationsProductsIntegrationsVersionsRequest>,
   output: __S(383, __c11, 31) as any as S.Schema<GoogleCloudIntegrationsV1alphaIntegrationVersion>,
@@ -6261,11 +5555,11 @@ export const createProjectsLocationsProductsSfdcInstances: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1760,
-    __c55,
+    1888,
+    __c59,
     0,
   ) as any as S.Schema<CreateProjectsLocationsProductsSfdcInstancesRequest>,
-  output: __S(1792, __c56, 0) as any as S.Schema<GoogleCloudIntegrationsV1alphaSfdcInstance>,
+  output: __S(1920, __c60, 0) as any as S.Schema<GoogleCloudIntegrationsV1alphaSfdcInstance>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6287,11 +5581,11 @@ export const createProjectsLocationsProductsSfdcInstancesSfdcChannels: API.Opera
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1824,
-    __c57,
+    1952,
+    __c61,
     0,
   ) as any as S.Schema<CreateProjectsLocationsProductsSfdcInstancesSfdcChannelsRequest>,
-  output: __S(1856, __c58, 0) as any as S.Schema<GoogleCloudIntegrationsV1alphaSfdcChannel>,
+  output: __S(1984, __c62, 0) as any as S.Schema<GoogleCloudIntegrationsV1alphaSfdcChannel>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6312,8 +5606,8 @@ export const createProjectsLocationsSfdcInstances: API.OperationMethod<
   CreateProjectsLocationsSfdcInstancesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1888, __c59, 0) as any as S.Schema<CreateProjectsLocationsSfdcInstancesRequest>,
-  output: __S(1792, __c56, 0) as any as S.Schema<GoogleCloudIntegrationsV1alphaSfdcInstance>,
+  input: __S(2016, __c63, 0) as any as S.Schema<CreateProjectsLocationsSfdcInstancesRequest>,
+  output: __S(1920, __c60, 0) as any as S.Schema<GoogleCloudIntegrationsV1alphaSfdcInstance>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6335,11 +5629,11 @@ export const createProjectsLocationsSfdcInstancesSfdcChannels: API.OperationMeth
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1920,
-    __c60,
+    2048,
+    __c64,
     0,
   ) as any as S.Schema<CreateProjectsLocationsSfdcInstancesSfdcChannelsRequest>,
-  output: __S(1856, __c58, 0) as any as S.Schema<GoogleCloudIntegrationsV1alphaSfdcChannel>,
+  output: __S(1984, __c62, 0) as any as S.Schema<GoogleCloudIntegrationsV1alphaSfdcChannel>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6360,8 +5654,8 @@ export const createProjectsLocationsTemplates: API.OperationMethod<
   CreateProjectsLocationsTemplatesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1952, __c61, 0) as any as S.Schema<CreateProjectsLocationsTemplatesRequest>,
-  output: __S(2021, __c63, 5) as any as S.Schema<GoogleCloudIntegrationsV1alphaTemplate>,
+  input: __S(2080, __c65, 0) as any as S.Schema<CreateProjectsLocationsTemplatesRequest>,
+  output: __S(2149, __c67, 5) as any as S.Schema<GoogleCloudIntegrationsV1alphaTemplate>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6382,8 +5676,8 @@ export const deleteProjectsLocationsAuthConfigs: API.OperationMethod<
   DeleteProjectsLocationsAuthConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2048, __c64, 0) as any as S.Schema<DeleteProjectsLocationsAuthConfigsRequest>,
-  output: __S(2080, __c65, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  input: __S(2176, __c68, 0) as any as S.Schema<DeleteProjectsLocationsAuthConfigsRequest>,
+  output: __S(2208, __c69, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6404,8 +5698,8 @@ export const deleteProjectsLocationsCertificates: API.OperationMethod<
   DeleteProjectsLocationsCertificatesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2112, __c66, 0) as any as S.Schema<DeleteProjectsLocationsCertificatesRequest>,
-  output: __S(2080, __c65, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  input: __S(2240, __c70, 0) as any as S.Schema<DeleteProjectsLocationsCertificatesRequest>,
+  output: __S(2208, __c69, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6426,8 +5720,8 @@ export const deleteProjectsLocationsIntegrations: API.OperationMethod<
   DeleteProjectsLocationsIntegrationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2144, __c67, 0) as any as S.Schema<DeleteProjectsLocationsIntegrationsRequest>,
-  output: __S(2080, __c65, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  input: __S(2272, __c71, 0) as any as S.Schema<DeleteProjectsLocationsIntegrationsRequest>,
+  output: __S(2208, __c69, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6448,8 +5742,8 @@ export const deleteProjectsLocationsIntegrationsVersions: API.OperationMethod<
   DeleteProjectsLocationsIntegrationsVersionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2176, __c68, 0) as any as S.Schema<DeleteProjectsLocationsIntegrationsVersionsRequest>,
-  output: __S(2080, __c65, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  input: __S(2304, __c72, 0) as any as S.Schema<DeleteProjectsLocationsIntegrationsVersionsRequest>,
+  output: __S(2208, __c69, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6471,11 +5765,11 @@ export const deleteProjectsLocationsIntegrationsVersionsTestCases: API.Operation
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2208,
-    __c69,
+    2336,
+    __c73,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsIntegrationsVersionsTestCasesRequest>,
-  output: __S(2080, __c65, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  output: __S(2208, __c69, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6496,8 +5790,8 @@ export const deleteProjectsLocationsProductsAuthConfigs: API.OperationMethod<
   DeleteProjectsLocationsProductsAuthConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2240, __c70, 0) as any as S.Schema<DeleteProjectsLocationsProductsAuthConfigsRequest>,
-  output: __S(2080, __c65, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  input: __S(2368, __c74, 0) as any as S.Schema<DeleteProjectsLocationsProductsAuthConfigsRequest>,
+  output: __S(2208, __c69, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6518,8 +5812,8 @@ export const deleteProjectsLocationsProductsCertificates: API.OperationMethod<
   DeleteProjectsLocationsProductsCertificatesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2272, __c71, 0) as any as S.Schema<DeleteProjectsLocationsProductsCertificatesRequest>,
-  output: __S(2080, __c65, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  input: __S(2400, __c75, 0) as any as S.Schema<DeleteProjectsLocationsProductsCertificatesRequest>,
+  output: __S(2208, __c69, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6541,11 +5835,11 @@ export const deleteProjectsLocationsProductsIntegrationsVersions: API.OperationM
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2304,
-    __c72,
+    2432,
+    __c76,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsProductsIntegrationsVersionsRequest>,
-  output: __S(2080, __c65, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  output: __S(2208, __c69, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6567,11 +5861,11 @@ export const deleteProjectsLocationsProductsSfdcInstances: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2336,
-    __c73,
+    2464,
+    __c77,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsProductsSfdcInstancesRequest>,
-  output: __S(2080, __c65, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  output: __S(2208, __c69, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6593,11 +5887,11 @@ export const deleteProjectsLocationsProductsSfdcInstancesSfdcChannels: API.Opera
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2368,
-    __c74,
+    2496,
+    __c78,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsProductsSfdcInstancesSfdcChannelsRequest>,
-  output: __S(2080, __c65, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  output: __S(2208, __c69, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6618,8 +5912,8 @@ export const deleteProjectsLocationsSfdcInstances: API.OperationMethod<
   DeleteProjectsLocationsSfdcInstancesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2400, __c75, 0) as any as S.Schema<DeleteProjectsLocationsSfdcInstancesRequest>,
-  output: __S(2080, __c65, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  input: __S(2528, __c79, 0) as any as S.Schema<DeleteProjectsLocationsSfdcInstancesRequest>,
+  output: __S(2208, __c69, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6641,11 +5935,11 @@ export const deleteProjectsLocationsSfdcInstancesSfdcChannels: API.OperationMeth
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2432,
-    __c76,
+    2560,
+    __c80,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsSfdcInstancesSfdcChannelsRequest>,
-  output: __S(2080, __c65, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  output: __S(2208, __c69, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6666,8 +5960,8 @@ export const deleteProjectsLocationsTemplates: API.OperationMethod<
   DeleteProjectsLocationsTemplatesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2464, __c77, 0) as any as S.Schema<DeleteProjectsLocationsTemplatesRequest>,
-  output: __S(2080, __c65, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  input: __S(2592, __c81, 0) as any as S.Schema<DeleteProjectsLocationsTemplatesRequest>,
+  output: __S(2208, __c69, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6688,8 +5982,8 @@ export const deprovisionProjectsLocationsClients: API.OperationMethod<
   DeprovisionProjectsLocationsClientsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2496, __c78, 0) as any as S.Schema<DeprovisionProjectsLocationsClientsRequest>,
-  output: __S(2080, __c65, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  input: __S(2624, __c82, 0) as any as S.Schema<DeprovisionProjectsLocationsClientsRequest>,
+  output: __S(2208, __c69, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6709,13 +6003,13 @@ export const downloadJsonPackageProjectsLocationsIntegrationsVersions: API.Opera
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2528,
-    __c79,
+    2656,
+    __c83,
     0,
   ) as any as S.Schema<DownloadJsonPackageProjectsLocationsIntegrationsVersionsRequest>,
   output: __S(
-    2531,
-    __c79,
+    2659,
+    __c83,
     3,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaDownloadJsonPackageResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -6737,13 +6031,13 @@ export const downloadProjectsLocationsIntegrationsExecutions: API.OperationMetho
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2560,
-    __c80,
+    2688,
+    __c84,
     0,
   ) as any as S.Schema<DownloadProjectsLocationsIntegrationsExecutionsRequest>,
   output: __S(
-    2592,
-    __c81,
+    2720,
+    __c85,
     0,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaDownloadExecutionResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -6762,13 +6056,13 @@ export const downloadProjectsLocationsIntegrationsVersions: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2624,
-    __c82,
+    2752,
+    __c86,
     0,
   ) as any as S.Schema<DownloadProjectsLocationsIntegrationsVersionsRequest>,
   output: __S(
-    2658,
-    __c83,
+    2786,
+    __c87,
     2,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaDownloadIntegrationVersionResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -6790,13 +6084,13 @@ export const downloadProjectsLocationsIntegrationsVersionsTestCases: API.Operati
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2688,
-    __c84,
+    2816,
+    __c88,
     0,
   ) as any as S.Schema<DownloadProjectsLocationsIntegrationsVersionsTestCasesRequest>,
   output: __S(
-    2592,
-    __c81,
+    2720,
+    __c85,
     0,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaDownloadTestCaseResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -6818,13 +6112,13 @@ export const downloadProjectsLocationsProductsIntegrationsExecutions: API.Operat
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2720,
-    __c85,
+    2848,
+    __c89,
     0,
   ) as any as S.Schema<DownloadProjectsLocationsProductsIntegrationsExecutionsRequest>,
   output: __S(
-    2592,
-    __c81,
+    2720,
+    __c85,
     0,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaDownloadExecutionResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -6846,13 +6140,13 @@ export const downloadProjectsLocationsProductsIntegrationsVersions: API.Operatio
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2784,
-    __c87,
+    2912,
+    __c91,
     0,
   ) as any as S.Schema<DownloadProjectsLocationsProductsIntegrationsVersionsRequest>,
   output: __S(
-    2658,
-    __c83,
+    2786,
+    __c87,
     2,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaDownloadIntegrationVersionResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -6870,10 +6164,10 @@ export const downloadProjectsLocationsTemplates: API.OperationMethod<
   DownloadProjectsLocationsTemplatesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2816, __c88, 0) as any as S.Schema<DownloadProjectsLocationsTemplatesRequest>,
+  input: __S(2944, __c92, 0) as any as S.Schema<DownloadProjectsLocationsTemplatesRequest>,
   output: __S(
-    2592,
-    __c81,
+    2720,
+    __c85,
     0,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaDownloadTemplateResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -6891,10 +6185,10 @@ export const enumerateConnectorPlatformRegions: API.OperationMethod<
   EnumerateConnectorPlatformRegionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2848, __c89, 0) as any as S.Schema<EnumerateConnectorPlatformRegionsRequest>,
+  input: __S(2976, __c93, 0) as any as S.Schema<EnumerateConnectorPlatformRegionsRequest>,
   output: __S(
-    2849,
-    __c89,
+    2977,
+    __c93,
     1,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaEnumerateConnectorPlatformRegionsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -6917,10 +6211,10 @@ export const executeEventProjectsLocationsIntegrations: API.OperationMethod<
   ExecuteEventProjectsLocationsIntegrationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2880, __c90, 0) as any as S.Schema<ExecuteEventProjectsLocationsIntegrationsRequest>,
+  input: __S(3008, __c94, 0) as any as S.Schema<ExecuteEventProjectsLocationsIntegrationsRequest>,
   output: __S(
-    2881,
-    __c90,
+    3009,
+    __c94,
     1,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaExecuteEventResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
@@ -6943,11 +6237,11 @@ export const executeProjectsLocationsIntegrations: API.OperationMethod<
   ExecuteProjectsLocationsIntegrationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2912, __c91, 0) as any as S.Schema<ExecuteProjectsLocationsIntegrationsRequest>,
+  input: __S(3040, __c95, 0) as any as S.Schema<ExecuteProjectsLocationsIntegrationsRequest>,
   output: __S(
-    2944,
-    __c92,
-    0,
+    3073,
+    __c96,
+    1,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaExecuteIntegrationsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -6970,13 +6264,13 @@ export const executeProjectsLocationsIntegrationsVersionsTestCases: API.Operatio
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3008,
-    __c94,
+    3136,
+    __c98,
     0,
   ) as any as S.Schema<ExecuteProjectsLocationsIntegrationsVersionsTestCasesRequest>,
   output: __S(
-    3010,
-    __c94,
+    3138,
+    __c98,
     2,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaExecuteTestCasesResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
@@ -7000,14 +6294,14 @@ export const executeProjectsLocationsProductsIntegrations: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3072,
-    __c96,
+    3200,
+    __c100,
     0,
   ) as any as S.Schema<ExecuteProjectsLocationsProductsIntegrationsRequest>,
   output: __S(
-    2944,
-    __c92,
-    0,
+    3073,
+    __c96,
+    1,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaExecuteIntegrationsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -7030,13 +6324,13 @@ export const executeTestProjectsLocationsIntegrationsVersionsTestCases: API.Oper
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3104,
-    __c97,
-    0,
+    3233,
+    __c101,
+    1,
   ) as any as S.Schema<ExecuteTestProjectsLocationsIntegrationsVersionsTestCasesRequest>,
   output: __S(
-    3042,
-    __c95,
+    3170,
+    __c99,
     2,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaExecuteTestCaseResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
@@ -7059,11 +6353,11 @@ export const generateOpenApiSpecProjectsLocations: API.OperationMethod<
   GenerateOpenApiSpecProjectsLocationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3138, __c98, 2) as any as S.Schema<GenerateOpenApiSpecProjectsLocationsRequest>,
+  input: __S(3267, __c102, 3) as any as S.Schema<GenerateOpenApiSpecProjectsLocationsRequest>,
   output: __S(
-    3139,
-    __c98,
-    3,
+    3268,
+    __c102,
+    4,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaGenerateOpenApiSpecResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -7080,10 +6374,10 @@ export const generateTokenCallback: API.OperationMethod<
   GenerateTokenCallbackError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3168, __c99, 0) as any as S.Schema<GenerateTokenCallbackRequest>,
+  input: __S(3296, __c103, 0) as any as S.Schema<GenerateTokenCallbackRequest>,
   output: __S(
-    3169,
-    __c99,
+    3297,
+    __c103,
     1,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaGenerateTokenResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -7101,10 +6395,10 @@ export const getClientmetadataProjects: API.OperationMethod<
   GetClientmetadataProjectsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3296, __c103, 0) as any as S.Schema<GetClientmetadataProjectsRequest>,
+  input: __S(3424, __c107, 0) as any as S.Schema<GetClientmetadataProjectsRequest>,
   output: __S(
-    3298,
-    __c103,
+    3426,
+    __c107,
     2,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaGetClientMetadataResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -7122,8 +6416,8 @@ export const getClientsProjectsLocations: API.OperationMethod<
   GetClientsProjectsLocationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3328, __c104, 0) as any as S.Schema<GetClientsProjectsLocationsRequest>,
-  output: __S(3330, __c104, 2) as any as S.Schema<GoogleCloudIntegrationsV1alphaGetClientResponse>,
+  input: __S(3456, __c108, 0) as any as S.Schema<GetClientsProjectsLocationsRequest>,
+  output: __S(3458, __c108, 2) as any as S.Schema<GoogleCloudIntegrationsV1alphaGetClientResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -7143,13 +6437,13 @@ export const getConnectionSchemaMetadataProjectsLocationsConnections: API.Operat
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3360,
-    __c105,
+    3488,
+    __c109,
     0,
   ) as any as S.Schema<GetConnectionSchemaMetadataProjectsLocationsConnectionsRequest>,
   output: __S(
-    3361,
-    __c105,
+    3489,
+    __c109,
     1,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaConnectionSchemaMetadata>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -7167,8 +6461,8 @@ export const getProjectsLocationsAuthConfigs: API.OperationMethod<
   GetProjectsLocationsAuthConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3392, __c106, 0) as any as S.Schema<GetProjectsLocationsAuthConfigsRequest>,
-  output: __S(4238, __c132, 14) as any as S.Schema<GoogleCloudIntegrationsV1alphaAuthConfig>,
+  input: __S(3520, __c110, 0) as any as S.Schema<GetProjectsLocationsAuthConfigsRequest>,
+  output: __S(4366, __c136, 14) as any as S.Schema<GoogleCloudIntegrationsV1alphaAuthConfig>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -7184,8 +6478,8 @@ export const getProjectsLocationsCertificates: API.OperationMethod<
   GetProjectsLocationsCertificatesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3424, __c107, 0) as any as S.Schema<GetProjectsLocationsCertificatesRequest>,
-  output: __S(4865, __c152, 1) as any as S.Schema<GoogleCloudIntegrationsV1alphaCertificate>,
+  input: __S(3552, __c111, 0) as any as S.Schema<GetProjectsLocationsCertificatesRequest>,
+  output: __S(4993, __c156, 1) as any as S.Schema<GoogleCloudIntegrationsV1alphaCertificate>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -7201,8 +6495,8 @@ export const getProjectsLocationsIntegrationsExecutions: API.OperationMethod<
   GetProjectsLocationsIntegrationsExecutionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3456, __c108, 0) as any as S.Schema<GetProjectsLocationsIntegrationsExecutionsRequest>,
-  output: __S(3508, __c109, 20) as any as S.Schema<GoogleCloudIntegrationsV1alphaExecution>,
+  input: __S(3584, __c112, 0) as any as S.Schema<GetProjectsLocationsIntegrationsExecutionsRequest>,
+  output: __S(3636, __c113, 20) as any as S.Schema<GoogleCloudIntegrationsV1alphaExecution>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -7218,7 +6512,7 @@ export const getProjectsLocationsIntegrationsVersions: API.OperationMethod<
   GetProjectsLocationsIntegrationsVersionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3520, __c110, 0) as any as S.Schema<GetProjectsLocationsIntegrationsVersionsRequest>,
+  input: __S(3648, __c114, 0) as any as S.Schema<GetProjectsLocationsIntegrationsVersionsRequest>,
   output: __S(383, __c11, 31) as any as S.Schema<GoogleCloudIntegrationsV1alphaIntegrationVersion>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
@@ -7239,11 +6533,11 @@ export const getProjectsLocationsIntegrationsVersionsTestCases: API.OperationMet
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3552,
-    __c111,
+    3680,
+    __c115,
     0,
   ) as any as S.Schema<GetProjectsLocationsIntegrationsVersionsTestCasesRequest>,
-  output: __S(773, __c24, 5) as any as S.Schema<GoogleCloudIntegrationsV1alphaTestCase>,
+  output: __S(805, __c25, 5) as any as S.Schema<GoogleCloudIntegrationsV1alphaTestCase>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -7259,8 +6553,8 @@ export const getProjectsLocationsProductsAuthConfigs: API.OperationMethod<
   GetProjectsLocationsProductsAuthConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3584, __c112, 0) as any as S.Schema<GetProjectsLocationsProductsAuthConfigsRequest>,
-  output: __S(4238, __c132, 14) as any as S.Schema<GoogleCloudIntegrationsV1alphaAuthConfig>,
+  input: __S(3712, __c116, 0) as any as S.Schema<GetProjectsLocationsProductsAuthConfigsRequest>,
+  output: __S(4366, __c136, 14) as any as S.Schema<GoogleCloudIntegrationsV1alphaAuthConfig>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -7276,8 +6570,8 @@ export const getProjectsLocationsProductsCertificates: API.OperationMethod<
   GetProjectsLocationsProductsCertificatesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3616, __c113, 0) as any as S.Schema<GetProjectsLocationsProductsCertificatesRequest>,
-  output: __S(4865, __c152, 1) as any as S.Schema<GoogleCloudIntegrationsV1alphaCertificate>,
+  input: __S(3744, __c117, 0) as any as S.Schema<GetProjectsLocationsProductsCertificatesRequest>,
+  output: __S(4993, __c156, 1) as any as S.Schema<GoogleCloudIntegrationsV1alphaCertificate>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -7297,11 +6591,11 @@ export const getProjectsLocationsProductsIntegrationsExecutions: API.OperationMe
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3680,
-    __c115,
+    3808,
+    __c119,
     0,
   ) as any as S.Schema<GetProjectsLocationsProductsIntegrationsExecutionsRequest>,
-  output: __S(3508, __c109, 20) as any as S.Schema<GoogleCloudIntegrationsV1alphaExecution>,
+  output: __S(3636, __c113, 20) as any as S.Schema<GoogleCloudIntegrationsV1alphaExecution>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -7321,8 +6615,8 @@ export const getProjectsLocationsProductsIntegrationsVersions: API.OperationMeth
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3712,
-    __c116,
+    3840,
+    __c120,
     0,
   ) as any as S.Schema<GetProjectsLocationsProductsIntegrationsVersionsRequest>,
   output: __S(383, __c11, 31) as any as S.Schema<GoogleCloudIntegrationsV1alphaIntegrationVersion>,
@@ -7341,8 +6635,8 @@ export const getProjectsLocationsProductsSfdcInstances: API.OperationMethod<
   GetProjectsLocationsProductsSfdcInstancesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3744, __c117, 0) as any as S.Schema<GetProjectsLocationsProductsSfdcInstancesRequest>,
-  output: __S(1792, __c56, 0) as any as S.Schema<GoogleCloudIntegrationsV1alphaSfdcInstance>,
+  input: __S(3872, __c121, 0) as any as S.Schema<GetProjectsLocationsProductsSfdcInstancesRequest>,
+  output: __S(1920, __c60, 0) as any as S.Schema<GoogleCloudIntegrationsV1alphaSfdcInstance>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -7362,11 +6656,11 @@ export const getProjectsLocationsProductsSfdcInstancesSfdcChannels: API.Operatio
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3776,
-    __c118,
+    3904,
+    __c122,
     0,
   ) as any as S.Schema<GetProjectsLocationsProductsSfdcInstancesSfdcChannelsRequest>,
-  output: __S(1856, __c58, 0) as any as S.Schema<GoogleCloudIntegrationsV1alphaSfdcChannel>,
+  output: __S(1984, __c62, 0) as any as S.Schema<GoogleCloudIntegrationsV1alphaSfdcChannel>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -7382,8 +6676,8 @@ export const getProjectsLocationsSfdcInstances: API.OperationMethod<
   GetProjectsLocationsSfdcInstancesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3808, __c119, 0) as any as S.Schema<GetProjectsLocationsSfdcInstancesRequest>,
-  output: __S(1792, __c56, 0) as any as S.Schema<GoogleCloudIntegrationsV1alphaSfdcInstance>,
+  input: __S(3936, __c123, 0) as any as S.Schema<GetProjectsLocationsSfdcInstancesRequest>,
+  output: __S(1920, __c60, 0) as any as S.Schema<GoogleCloudIntegrationsV1alphaSfdcInstance>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -7400,11 +6694,11 @@ export const getProjectsLocationsSfdcInstancesSfdcChannels: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3840,
-    __c120,
+    3968,
+    __c124,
     0,
   ) as any as S.Schema<GetProjectsLocationsSfdcInstancesSfdcChannelsRequest>,
-  output: __S(1856, __c58, 0) as any as S.Schema<GoogleCloudIntegrationsV1alphaSfdcChannel>,
+  output: __S(1984, __c62, 0) as any as S.Schema<GoogleCloudIntegrationsV1alphaSfdcChannel>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -7420,8 +6714,8 @@ export const getProjectsLocationsTemplates: API.OperationMethod<
   GetProjectsLocationsTemplatesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3872, __c121, 0) as any as S.Schema<GetProjectsLocationsTemplatesRequest>,
-  output: __S(2021, __c63, 5) as any as S.Schema<GoogleCloudIntegrationsV1alphaTemplate>,
+  input: __S(4000, __c125, 0) as any as S.Schema<GetProjectsLocationsTemplatesRequest>,
+  output: __S(2149, __c67, 5) as any as S.Schema<GoogleCloudIntegrationsV1alphaTemplate>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -7442,10 +6736,10 @@ export const importProjectsLocationsTemplates: API.OperationMethod<
   ImportProjectsLocationsTemplatesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3904, __c122, 0) as any as S.Schema<ImportProjectsLocationsTemplatesRequest>,
+  input: __S(4033, __c126, 1) as any as S.Schema<ImportProjectsLocationsTemplatesRequest>,
   output: __S(
-    3938,
-    __c123,
+    4066,
+    __c127,
     2,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaImportTemplateResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
@@ -7469,14 +6763,14 @@ export const liftProjectsLocationsIntegrationsExecutionsSuspensions: API.Operati
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4000,
-    __c125,
+    4128,
+    __c129,
     0,
   ) as any as S.Schema<LiftProjectsLocationsIntegrationsExecutionsSuspensionsRequest>,
   output: __S(
-    4032,
-    __c126,
-    0,
+    4161,
+    __c130,
+    1,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaLiftSuspensionResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -7499,14 +6793,14 @@ export const liftProjectsLocationsProductsIntegrationsExecutionsSuspensions: API
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4064,
-    __c127,
+    4192,
+    __c131,
     0,
   ) as any as S.Schema<LiftProjectsLocationsProductsIntegrationsExecutionsSuspensionsRequest>,
   output: __S(
-    4032,
-    __c126,
-    0,
+    4161,
+    __c130,
+    1,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaLiftSuspensionResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -7528,11 +6822,11 @@ export const linkProjectsLocationsAppsScriptProjects: API.OperationMethod<
   LinkProjectsLocationsAppsScriptProjectsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4256, __c133, 0) as any as S.Schema<LinkProjectsLocationsAppsScriptProjectsRequest>,
+  input: __S(4385, __c137, 1) as any as S.Schema<LinkProjectsLocationsAppsScriptProjectsRequest>,
   output: __S(
-    4257,
-    __c133,
-    1,
+    4384,
+    __c137,
+    0,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaLinkAppsScriptProjectResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -7550,10 +6844,10 @@ export const listProjectsLocationsAuthConfigs: API.PaginatedOperationMethod<
   GcpOpContext,
   GoogleCloudIntegrationsV1alphaListAuthConfigsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4288, __c134, 0) as any as S.Schema<ListProjectsLocationsAuthConfigsRequest>,
+  input: __S(4416, __c138, 0) as any as S.Schema<ListProjectsLocationsAuthConfigsRequest>,
   output: __S(
-    4321,
-    __c135,
+    4449,
+    __c139,
     1,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaListAuthConfigsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -7573,10 +6867,10 @@ export const listProjectsLocationsCertificates: API.PaginatedOperationMethod<
   GcpOpContext,
   GoogleCloudIntegrationsV1alphaListCertificatesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4352, __c136, 0) as any as S.Schema<ListProjectsLocationsCertificatesRequest>,
+  input: __S(4480, __c140, 0) as any as S.Schema<ListProjectsLocationsCertificatesRequest>,
   output: __S(
-    4385,
-    __c137,
+    4513,
+    __c141,
     1,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaListCertificatesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -7596,10 +6890,10 @@ export const listProjectsLocationsConnections: API.PaginatedOperationMethod<
   GcpOpContext,
   GoogleCloudIntegrationsV1alphaListConnectionsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4416, __c138, 0) as any as S.Schema<ListProjectsLocationsConnectionsRequest>,
+  input: __S(4544, __c142, 0) as any as S.Schema<ListProjectsLocationsConnectionsRequest>,
   output: __S(
-    4457,
-    __c139,
+    4585,
+    __c143,
     9,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaListConnectionsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -7623,13 +6917,13 @@ export const listProjectsLocationsConnectionsRuntimeActionSchemas: API.Paginated
   GoogleCloudIntegrationsV1alphaListRuntimeActionSchemasResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    4480,
-    __c140,
+    4608,
+    __c144,
     0,
   ) as any as S.Schema<ListProjectsLocationsConnectionsRuntimeActionSchemasRequest>,
   output: __S(
-    4483,
-    __c140,
+    4611,
+    __c144,
     3,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaListRuntimeActionSchemasResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -7653,13 +6947,13 @@ export const listProjectsLocationsConnectionsRuntimeEntitySchemas: API.Paginated
   GoogleCloudIntegrationsV1alphaListRuntimeEntitySchemasResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    4512,
-    __c141,
+    4640,
+    __c145,
     0,
   ) as any as S.Schema<ListProjectsLocationsConnectionsRuntimeEntitySchemasRequest>,
   output: __S(
-    4515,
-    __c141,
+    4643,
+    __c145,
     3,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaListRuntimeEntitySchemasResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -7679,10 +6973,10 @@ export const listProjectsLocationsIntegrations: API.PaginatedOperationMethod<
   GcpOpContext,
   GoogleCloudIntegrationsV1alphaListIntegrationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4544, __c142, 0) as any as S.Schema<ListProjectsLocationsIntegrationsRequest>,
+  input: __S(4672, __c146, 0) as any as S.Schema<ListProjectsLocationsIntegrationsRequest>,
   output: __S(
-    4578,
-    __c143,
+    4706,
+    __c147,
     2,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaListIntegrationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -7703,13 +6997,13 @@ export const listProjectsLocationsIntegrationsExecutions: API.PaginatedOperation
   GoogleCloudIntegrationsV1alphaListExecutionsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    4608,
-    __c144,
+    4736,
+    __c148,
     0,
   ) as any as S.Schema<ListProjectsLocationsIntegrationsExecutionsRequest>,
   output: __S(
-    4651,
-    __c145,
+    4779,
+    __c149,
     11,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaListExecutionsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -7733,13 +7027,13 @@ export const listProjectsLocationsIntegrationsExecutionsSuspensions: API.Paginat
   GoogleCloudIntegrationsV1alphaListSuspensionsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    4672,
-    __c146,
+    4800,
+    __c150,
     0,
   ) as any as S.Schema<ListProjectsLocationsIntegrationsExecutionsSuspensionsRequest>,
   output: __S(
-    4705,
-    __c147,
+    4833,
+    __c151,
     1,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaListSuspensionsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -7759,10 +7053,10 @@ export const listProjectsLocationsIntegrationsVersions: API.PaginatedOperationMe
   GcpOpContext,
   GoogleCloudIntegrationsV1alphaListIntegrationVersionsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4768, __c149, 0) as any as S.Schema<ListProjectsLocationsIntegrationsVersionsRequest>,
+  input: __S(4896, __c153, 0) as any as S.Schema<ListProjectsLocationsIntegrationsVersionsRequest>,
   output: __S(
-    4800,
-    __c150,
+    4928,
+    __c154,
     0,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaListIntegrationVersionsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -7786,13 +7080,13 @@ export const listProjectsLocationsIntegrationsVersionsTestCases: API.PaginatedOp
   GoogleCloudIntegrationsV1alphaListTestCasesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    4896,
-    __c153,
+    5024,
+    __c157,
     0,
   ) as any as S.Schema<ListProjectsLocationsIntegrationsVersionsTestCasesRequest>,
   output: __S(
-    4898,
-    __c153,
+    5026,
+    __c157,
     2,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaListTestCasesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -7812,10 +7106,10 @@ export const listProjectsLocationsProductsAuthConfigs: API.PaginatedOperationMet
   GcpOpContext,
   GoogleCloudIntegrationsV1alphaListAuthConfigsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4928, __c154, 0) as any as S.Schema<ListProjectsLocationsProductsAuthConfigsRequest>,
+  input: __S(5056, __c158, 0) as any as S.Schema<ListProjectsLocationsProductsAuthConfigsRequest>,
   output: __S(
-    4321,
-    __c135,
+    4449,
+    __c139,
     1,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaListAuthConfigsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -7835,10 +7129,10 @@ export const listProjectsLocationsProductsCertificates: API.PaginatedOperationMe
   GcpOpContext,
   GoogleCloudIntegrationsV1alphaListCertificatesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4960, __c155, 0) as any as S.Schema<ListProjectsLocationsProductsCertificatesRequest>,
+  input: __S(5088, __c159, 0) as any as S.Schema<ListProjectsLocationsProductsCertificatesRequest>,
   output: __S(
-    4385,
-    __c137,
+    4513,
+    __c141,
     1,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaListCertificatesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -7858,10 +7152,10 @@ export const listProjectsLocationsProductsIntegrations: API.PaginatedOperationMe
   GcpOpContext,
   GoogleCloudIntegrationsV1alphaListIntegrationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4992, __c156, 0) as any as S.Schema<ListProjectsLocationsProductsIntegrationsRequest>,
+  input: __S(5120, __c160, 0) as any as S.Schema<ListProjectsLocationsProductsIntegrationsRequest>,
   output: __S(
-    4578,
-    __c143,
+    4706,
+    __c147,
     2,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaListIntegrationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -7885,13 +7179,13 @@ export const listProjectsLocationsProductsIntegrationsExecutions: API.PaginatedO
   GoogleCloudIntegrationsV1alphaListExecutionsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    5024,
-    __c157,
+    5152,
+    __c161,
     0,
   ) as any as S.Schema<ListProjectsLocationsProductsIntegrationsExecutionsRequest>,
   output: __S(
-    4651,
-    __c145,
+    4779,
+    __c149,
     11,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaListExecutionsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -7915,13 +7209,13 @@ export const listProjectsLocationsProductsIntegrationsExecutionsSuspensions: API
   GoogleCloudIntegrationsV1alphaListSuspensionsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    5056,
-    __c158,
+    5184,
+    __c162,
     0,
   ) as any as S.Schema<ListProjectsLocationsProductsIntegrationsExecutionsSuspensionsRequest>,
   output: __S(
-    4705,
-    __c147,
+    4833,
+    __c151,
     1,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaListSuspensionsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -7945,13 +7239,13 @@ export const listProjectsLocationsProductsIntegrationsVersions: API.PaginatedOpe
   GoogleCloudIntegrationsV1alphaListIntegrationVersionsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    5088,
-    __c159,
+    5216,
+    __c163,
     0,
   ) as any as S.Schema<ListProjectsLocationsProductsIntegrationsVersionsRequest>,
   output: __S(
-    4800,
-    __c150,
+    4928,
+    __c154,
     0,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaListIntegrationVersionsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -7971,10 +7265,10 @@ export const listProjectsLocationsProductsSfdcInstances: API.PaginatedOperationM
   GcpOpContext,
   GoogleCloudIntegrationsV1alphaListSfdcInstancesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(5120, __c160, 0) as any as S.Schema<ListProjectsLocationsProductsSfdcInstancesRequest>,
+  input: __S(5248, __c164, 0) as any as S.Schema<ListProjectsLocationsProductsSfdcInstancesRequest>,
   output: __S(
-    5153,
-    __c161,
+    5281,
+    __c165,
     1,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaListSfdcInstancesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -7998,13 +7292,13 @@ export const listProjectsLocationsProductsSfdcInstancesSfdcChannels: API.Paginat
   GoogleCloudIntegrationsV1alphaListSfdcChannelsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    5184,
-    __c162,
+    5312,
+    __c166,
     0,
   ) as any as S.Schema<ListProjectsLocationsProductsSfdcInstancesSfdcChannelsRequest>,
   output: __S(
-    5217,
-    __c163,
+    5345,
+    __c167,
     1,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaListSfdcChannelsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -8024,10 +7318,10 @@ export const listProjectsLocationsSfdcInstances: API.PaginatedOperationMethod<
   GcpOpContext,
   GoogleCloudIntegrationsV1alphaListSfdcInstancesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(5248, __c164, 0) as any as S.Schema<ListProjectsLocationsSfdcInstancesRequest>,
+  input: __S(5376, __c168, 0) as any as S.Schema<ListProjectsLocationsSfdcInstancesRequest>,
   output: __S(
-    5153,
-    __c161,
+    5281,
+    __c165,
     1,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaListSfdcInstancesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -8048,13 +7342,13 @@ export const listProjectsLocationsSfdcInstancesSfdcChannels: API.PaginatedOperat
   GoogleCloudIntegrationsV1alphaListSfdcChannelsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    5344,
-    __c167,
+    5472,
+    __c171,
     0,
   ) as any as S.Schema<ListProjectsLocationsSfdcInstancesSfdcChannelsRequest>,
   output: __S(
-    5217,
-    __c163,
+    5345,
+    __c167,
     1,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaListSfdcChannelsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -8074,10 +7368,10 @@ export const listProjectsLocationsTemplates: API.PaginatedOperationMethod<
   GcpOpContext,
   GoogleCloudIntegrationsV1alphaListTemplatesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(5376, __c168, 0) as any as S.Schema<ListProjectsLocationsTemplatesRequest>,
+  input: __S(5504, __c172, 0) as any as S.Schema<ListProjectsLocationsTemplatesRequest>,
   output: __S(
-    5377,
-    __c168,
+    5505,
+    __c172,
     1,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaListTemplatesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -8101,8 +7395,8 @@ export const patchProjectsLocationsAuthConfigs: API.OperationMethod<
   PatchProjectsLocationsAuthConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5440, __c170, 0) as any as S.Schema<PatchProjectsLocationsAuthConfigsRequest>,
-  output: __S(4238, __c132, 14) as any as S.Schema<GoogleCloudIntegrationsV1alphaAuthConfig>,
+  input: __S(5568, __c174, 0) as any as S.Schema<PatchProjectsLocationsAuthConfigsRequest>,
+  output: __S(4366, __c136, 14) as any as S.Schema<GoogleCloudIntegrationsV1alphaAuthConfig>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -8123,8 +7417,8 @@ export const patchProjectsLocationsCertificates: API.OperationMethod<
   PatchProjectsLocationsCertificatesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5472, __c171, 0) as any as S.Schema<PatchProjectsLocationsCertificatesRequest>,
-  output: __S(4865, __c152, 1) as any as S.Schema<GoogleCloudIntegrationsV1alphaCertificate>,
+  input: __S(5600, __c175, 0) as any as S.Schema<PatchProjectsLocationsCertificatesRequest>,
+  output: __S(4993, __c156, 1) as any as S.Schema<GoogleCloudIntegrationsV1alphaCertificate>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -8145,7 +7439,7 @@ export const patchProjectsLocationsIntegrationsVersions: API.OperationMethod<
   PatchProjectsLocationsIntegrationsVersionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5504, __c172, 0) as any as S.Schema<PatchProjectsLocationsIntegrationsVersionsRequest>,
+  input: __S(5632, __c176, 0) as any as S.Schema<PatchProjectsLocationsIntegrationsVersionsRequest>,
   output: __S(383, __c11, 31) as any as S.Schema<GoogleCloudIntegrationsV1alphaIntegrationVersion>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -8168,11 +7462,11 @@ export const patchProjectsLocationsIntegrationsVersionsTestCases: API.OperationM
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5536,
-    __c173,
+    5664,
+    __c177,
     0,
   ) as any as S.Schema<PatchProjectsLocationsIntegrationsVersionsTestCasesRequest>,
-  output: __S(773, __c24, 5) as any as S.Schema<GoogleCloudIntegrationsV1alphaTestCase>,
+  output: __S(805, __c25, 5) as any as S.Schema<GoogleCloudIntegrationsV1alphaTestCase>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -8193,8 +7487,8 @@ export const patchProjectsLocationsProductsAuthConfigs: API.OperationMethod<
   PatchProjectsLocationsProductsAuthConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5568, __c174, 0) as any as S.Schema<PatchProjectsLocationsProductsAuthConfigsRequest>,
-  output: __S(4238, __c132, 14) as any as S.Schema<GoogleCloudIntegrationsV1alphaAuthConfig>,
+  input: __S(5696, __c178, 0) as any as S.Schema<PatchProjectsLocationsProductsAuthConfigsRequest>,
+  output: __S(4366, __c136, 14) as any as S.Schema<GoogleCloudIntegrationsV1alphaAuthConfig>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -8215,8 +7509,8 @@ export const patchProjectsLocationsProductsCertificates: API.OperationMethod<
   PatchProjectsLocationsProductsCertificatesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5600, __c175, 0) as any as S.Schema<PatchProjectsLocationsProductsCertificatesRequest>,
-  output: __S(4865, __c152, 1) as any as S.Schema<GoogleCloudIntegrationsV1alphaCertificate>,
+  input: __S(5728, __c179, 0) as any as S.Schema<PatchProjectsLocationsProductsCertificatesRequest>,
+  output: __S(4993, __c156, 1) as any as S.Schema<GoogleCloudIntegrationsV1alphaCertificate>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -8238,8 +7532,8 @@ export const patchProjectsLocationsProductsIntegrationsVersions: API.OperationMe
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5632,
-    __c176,
+    5760,
+    __c180,
     0,
   ) as any as S.Schema<PatchProjectsLocationsProductsIntegrationsVersionsRequest>,
   output: __S(383, __c11, 31) as any as S.Schema<GoogleCloudIntegrationsV1alphaIntegrationVersion>,
@@ -8264,11 +7558,11 @@ export const patchProjectsLocationsProductsSfdcInstances: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5664,
-    __c177,
+    5792,
+    __c181,
     0,
   ) as any as S.Schema<PatchProjectsLocationsProductsSfdcInstancesRequest>,
-  output: __S(1792, __c56, 0) as any as S.Schema<GoogleCloudIntegrationsV1alphaSfdcInstance>,
+  output: __S(1920, __c60, 0) as any as S.Schema<GoogleCloudIntegrationsV1alphaSfdcInstance>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -8294,7 +7588,7 @@ export const patchProjectsLocationsProductsSfdcInstancesSfdcChannels: API.Operat
     __c12,
     0,
   ) as any as S.Schema<PatchProjectsLocationsProductsSfdcInstancesSfdcChannelsRequest>,
-  output: __S(1856, __c58, 0) as any as S.Schema<GoogleCloudIntegrationsV1alphaSfdcChannel>,
+  output: __S(1984, __c62, 0) as any as S.Schema<GoogleCloudIntegrationsV1alphaSfdcChannel>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -8316,7 +7610,7 @@ export const patchProjectsLocationsSfdcInstances: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c13, 0) as any as S.Schema<PatchProjectsLocationsSfdcInstancesRequest>,
-  output: __S(1792, __c56, 0) as any as S.Schema<GoogleCloudIntegrationsV1alphaSfdcInstance>,
+  output: __S(1920, __c60, 0) as any as S.Schema<GoogleCloudIntegrationsV1alphaSfdcInstance>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -8342,7 +7636,7 @@ export const patchProjectsLocationsSfdcInstancesSfdcChannels: API.OperationMetho
     __c14,
     0,
   ) as any as S.Schema<PatchProjectsLocationsSfdcInstancesSfdcChannelsRequest>,
-  output: __S(1856, __c58, 0) as any as S.Schema<GoogleCloudIntegrationsV1alphaSfdcChannel>,
+  output: __S(1984, __c62, 0) as any as S.Schema<GoogleCloudIntegrationsV1alphaSfdcChannel>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -8364,7 +7658,7 @@ export const patchProjectsLocationsTemplates: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c15, 0) as any as S.Schema<PatchProjectsLocationsTemplatesRequest>,
-  output: __S(2021, __c63, 5) as any as S.Schema<GoogleCloudIntegrationsV1alphaTemplate>,
+  output: __S(2149, __c67, 5) as any as S.Schema<GoogleCloudIntegrationsV1alphaTemplate>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -8386,13 +7680,13 @@ export const provisionClientPostProcessorProjectsLocationsClients: API.Operation
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    512,
+    513,
     __c16,
-    0,
+    1,
   ) as any as S.Schema<ProvisionClientPostProcessorProjectsLocationsClientsRequest>,
   output: __S(
-    2080,
-    __c65,
+    2208,
+    __c69,
     0,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaProvisionClientPostProcessorResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
@@ -8415,8 +7709,8 @@ export const provisionProjectsLocationsClients: API.OperationMethod<
   ProvisionProjectsLocationsClientsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c17, 0) as any as S.Schema<ProvisionProjectsLocationsClientsRequest>,
-  output: __S(2080, __c65, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  input: __S(545, __c17, 1) as any as S.Schema<ProvisionProjectsLocationsClientsRequest>,
+  output: __S(2208, __c69, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -8439,8 +7733,8 @@ export const publishProjectsLocationsIntegrationsVersions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c18, 0) as any as S.Schema<PublishProjectsLocationsIntegrationsVersionsRequest>,
   output: __S(
-    2080,
-    __c65,
+    2208,
+    __c69,
     0,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaPublishIntegrationVersionResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
@@ -8464,13 +7758,13 @@ export const publishProjectsLocationsProductsIntegrationsVersions: API.Operation
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    608,
-    __c19,
+    640,
+    __c20,
     0,
   ) as any as S.Schema<PublishProjectsLocationsProductsIntegrationsVersionsRequest>,
   output: __S(
-    2080,
-    __c65,
+    2208,
+    __c69,
     0,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaPublishIntegrationVersionResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
@@ -8493,8 +7787,8 @@ export const replaceProjectsLocationsClients: API.OperationMethod<
   ReplaceProjectsLocationsClientsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c20, 0) as any as S.Schema<ReplaceProjectsLocationsClientsRequest>,
-  output: __S(2080, __c65, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  input: __S(673, __c21, 1) as any as S.Schema<ReplaceProjectsLocationsClientsRequest>,
+  output: __S(2208, __c69, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -8516,14 +7810,14 @@ export const replayProjectsLocationsIntegrationsExecutions: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    672,
-    __c21,
-    0,
+    705,
+    __c22,
+    1,
   ) as any as S.Schema<ReplayProjectsLocationsIntegrationsExecutionsRequest>,
   output: __S(
-    673,
-    __c21,
-    1,
+    706,
+    __c22,
+    2,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaReplayExecutionResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -8546,13 +7840,13 @@ export const resolveProjectsLocationsIntegrationsExecutionsSuspensions: API.Oper
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    800,
-    __c25,
+    832,
+    __c26,
     0,
   ) as any as S.Schema<ResolveProjectsLocationsIntegrationsExecutionsSuspensionsRequest>,
   output: __S(
-    2080,
-    __c65,
+    2208,
+    __c69,
     0,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaResolveSuspensionResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
@@ -8576,13 +7870,13 @@ export const resolveProjectsLocationsProductsIntegrationsExecutionsSuspensions: 
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    832,
-    __c26,
+    896,
+    __c28,
     0,
   ) as any as S.Schema<ResolveProjectsLocationsProductsIntegrationsExecutionsSuspensionsRequest>,
   output: __S(
-    2080,
-    __c65,
+    2208,
+    __c69,
     0,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaResolveSuspensionResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
@@ -8605,11 +7899,11 @@ export const scheduleProjectsLocationsIntegrations: API.OperationMethod<
   ScheduleProjectsLocationsIntegrationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c27, 0) as any as S.Schema<ScheduleProjectsLocationsIntegrationsRequest>,
+  input: __S(928, __c29, 0) as any as S.Schema<ScheduleProjectsLocationsIntegrationsRequest>,
   output: __S(
-    896,
-    __c28,
-    0,
+    961,
+    __c30,
+    1,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaScheduleIntegrationsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -8632,14 +7926,14 @@ export const scheduleProjectsLocationsProductsIntegrations: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    928,
-    __c29,
+    992,
+    __c31,
     0,
   ) as any as S.Schema<ScheduleProjectsLocationsProductsIntegrationsRequest>,
   output: __S(
-    896,
-    __c28,
-    0,
+    961,
+    __c30,
+    1,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaScheduleIntegrationsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -8657,10 +7951,10 @@ export const searchProjectsLocationsIntegrations: API.PaginatedOperationMethod<
   GcpOpContext,
   GoogleCloudIntegrationsV1alphaSearchIntegrationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(960, __c30, 0) as any as S.Schema<SearchProjectsLocationsIntegrationsRequest>,
+  input: __S(1024, __c32, 0) as any as S.Schema<SearchProjectsLocationsIntegrationsRequest>,
   output: __S(
-    963,
-    __c30,
+    1027,
+    __c32,
     3,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaSearchIntegrationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -8680,10 +7974,10 @@ export const searchProjectsLocationsTemplates: API.PaginatedOperationMethod<
   GcpOpContext,
   GoogleCloudIntegrationsV1alphaSearchTemplatesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(992, __c31, 0) as any as S.Schema<SearchProjectsLocationsTemplatesRequest>,
+  input: __S(1056, __c33, 0) as any as S.Schema<SearchProjectsLocationsTemplatesRequest>,
   output: __S(
-    993,
-    __c31,
+    1057,
+    __c33,
     1,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaSearchTemplatesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -8707,8 +8001,8 @@ export const shareProjectsLocationsTemplates: API.OperationMethod<
   ShareProjectsLocationsTemplatesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c32, 0) as any as S.Schema<ShareProjectsLocationsTemplatesRequest>,
-  output: __S(2080, __c65, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  input: __S(1088, __c34, 0) as any as S.Schema<ShareProjectsLocationsTemplatesRequest>,
+  output: __S(2208, __c69, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -8729,8 +8023,8 @@ export const switchProjectsLocationsClients: API.OperationMethod<
   SwitchProjectsLocationsClientsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c33, 0) as any as S.Schema<SwitchProjectsLocationsClientsRequest>,
-  output: __S(2080, __c65, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  input: __S(1153, __c36, 1) as any as S.Schema<SwitchProjectsLocationsClientsRequest>,
+  output: __S(2208, __c69, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -8752,11 +8046,11 @@ export const switchVariableMaskingProjectsLocationsClients: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1088,
-    __c34,
-    0,
+    1185,
+    __c37,
+    1,
   ) as any as S.Schema<SwitchVariableMaskingProjectsLocationsClientsRequest>,
-  output: __S(2080, __c65, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  output: __S(2208, __c69, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -8778,11 +8072,11 @@ export const takeoverEditLockProjectsLocationsIntegrationsVersionsTestCases: API
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1120,
-    __c35,
+    1216,
+    __c38,
     0,
   ) as any as S.Schema<TakeoverEditLockProjectsLocationsIntegrationsVersionsTestCasesRequest>,
-  output: __S(773, __c24, 5) as any as S.Schema<GoogleCloudIntegrationsV1alphaTestCase>,
+  output: __S(805, __c25, 5) as any as S.Schema<GoogleCloudIntegrationsV1alphaTestCase>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -8804,13 +8098,13 @@ export const takeoverEditLockProjectsLocationsProductsIntegrationsVersions: API.
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1184,
-    __c37,
+    1280,
+    __c40,
     0,
   ) as any as S.Schema<TakeoverEditLockProjectsLocationsProductsIntegrationsVersionsRequest>,
   output: __S(
-    1216,
-    __c38,
+    1312,
+    __c41,
     0,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaTakeoverEditLockResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
@@ -8833,11 +8127,11 @@ export const testProjectsLocationsIntegrations: API.OperationMethod<
   TestProjectsLocationsIntegrationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c39, 0) as any as S.Schema<TestProjectsLocationsIntegrationsRequest>,
+  input: __S(1344, __c42, 0) as any as S.Schema<TestProjectsLocationsIntegrationsRequest>,
   output: __S(
-    1280,
-    __c40,
-    0,
+    1377,
+    __c43,
+    1,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaTestIntegrationsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -8859,11 +8153,11 @@ export const testProjectsLocationsIntegrationsVersions: API.OperationMethod<
   TestProjectsLocationsIntegrationsVersionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1312, __c41, 0) as any as S.Schema<TestProjectsLocationsIntegrationsVersionsRequest>,
+  input: __S(1408, __c44, 0) as any as S.Schema<TestProjectsLocationsIntegrationsVersionsRequest>,
   output: __S(
-    1280,
-    __c40,
-    0,
+    1377,
+    __c43,
+    1,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaTestIntegrationsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -8885,11 +8179,11 @@ export const testProjectsLocationsProductsIntegrations: API.OperationMethod<
   TestProjectsLocationsProductsIntegrationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1344, __c42, 0) as any as S.Schema<TestProjectsLocationsProductsIntegrationsRequest>,
+  input: __S(1440, __c45, 0) as any as S.Schema<TestProjectsLocationsProductsIntegrationsRequest>,
   output: __S(
-    1280,
-    __c40,
-    0,
+    1377,
+    __c43,
+    1,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaTestIntegrationsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -8911,8 +8205,8 @@ export const toggleHttpProjectsLocationsClients: API.OperationMethod<
   ToggleHttpProjectsLocationsClientsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c43, 0) as any as S.Schema<ToggleHttpProjectsLocationsClientsRequest>,
-  output: __S(2080, __c65, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  input: __S(1473, __c46, 1) as any as S.Schema<ToggleHttpProjectsLocationsClientsRequest>,
+  output: __S(2208, __c69, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -8934,11 +8228,11 @@ export const unpublishProjectsLocationsIntegrationsVersions: API.OperationMethod
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1408,
-    __c44,
+    1504,
+    __c47,
     0,
   ) as any as S.Schema<UnpublishProjectsLocationsIntegrationsVersionsRequest>,
-  output: __S(2080, __c65, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  output: __S(2208, __c69, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -8960,11 +8254,11 @@ export const unpublishProjectsLocationsProductsIntegrationsVersions: API.Operati
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1440,
-    __c45,
+    1536,
+    __c48,
     0,
   ) as any as S.Schema<UnpublishProjectsLocationsProductsIntegrationsVersionsRequest>,
-  output: __S(2080, __c65, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  output: __S(2208, __c69, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -8985,8 +8279,8 @@ export const unshareProjectsLocationsTemplates: API.OperationMethod<
   UnshareProjectsLocationsTemplatesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c46, 0) as any as S.Schema<UnshareProjectsLocationsTemplatesRequest>,
-  output: __S(2080, __c65, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  input: __S(1568, __c49, 0) as any as S.Schema<UnshareProjectsLocationsTemplatesRequest>,
+  output: __S(2208, __c69, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -9007,10 +8301,10 @@ export const uploadProjectsLocationsIntegrationsVersions: API.OperationMethod<
   UploadProjectsLocationsIntegrationsVersionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c47, 0) as any as S.Schema<UploadProjectsLocationsIntegrationsVersionsRequest>,
+  input: __S(1600, __c50, 0) as any as S.Schema<UploadProjectsLocationsIntegrationsVersionsRequest>,
   output: __S(
-    1216,
-    __c38,
+    1312,
+    __c41,
     0,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaUploadIntegrationVersionResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
@@ -9034,13 +8328,13 @@ export const uploadProjectsLocationsIntegrationsVersionsTestCases: API.Operation
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1536,
-    __c48,
+    1664,
+    __c52,
     0,
   ) as any as S.Schema<UploadProjectsLocationsIntegrationsVersionsTestCasesRequest>,
   output: __S(
-    1537,
-    __c48,
+    1665,
+    __c52,
     1,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaUploadTestCaseResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
@@ -9064,13 +8358,13 @@ export const uploadProjectsLocationsProductsIntegrationsVersions: API.OperationM
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1600,
-    __c50,
+    1728,
+    __c54,
     0,
   ) as any as S.Schema<UploadProjectsLocationsProductsIntegrationsVersionsRequest>,
   output: __S(
-    1216,
-    __c38,
+    1312,
+    __c41,
     0,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaUploadIntegrationVersionResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
@@ -9093,10 +8387,10 @@ export const uploadProjectsLocationsTemplates: API.OperationMethod<
   UploadProjectsLocationsTemplatesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1632, __c51, 0) as any as S.Schema<UploadProjectsLocationsTemplatesRequest>,
+  input: __S(1760, __c55, 0) as any as S.Schema<UploadProjectsLocationsTemplatesRequest>,
   output: __S(
-    1633,
-    __c51,
+    1761,
+    __c55,
     1,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaUploadTemplateResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
@@ -9119,10 +8413,10 @@ export const useProjectsLocationsTemplates: API.OperationMethod<
   UseProjectsLocationsTemplatesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c52, 0) as any as S.Schema<UseProjectsLocationsTemplatesRequest>,
+  input: __S(1793, __c56, 1) as any as S.Schema<UseProjectsLocationsTemplatesRequest>,
   output: __S(
-    3938,
-    __c123,
+    4066,
+    __c127,
     2,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaUseTemplateResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
@@ -9137,39 +8431,14 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          newIntegration: S.optional(S.Boolean.pipe(T.Query())),
-          createSampleIntegrations: S.optional(S.Boolean.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          eucHardeningDisposition: S.optional(S.String),
-          errorCatcherConfigs: S.optional(__S(321, __c10, 1)),
-          enableVariableMasking: S.optional(S.Boolean),
-          parentTemplateId: S.optional(S.String),
-          triggerConfigs: S.optional(__S(322, __c10, 2)),
-          taskConfigs: S.optional(__S(323, __c10, 3)),
-          taskConfigsInternal: S.optional(__S(361, __c11, 9)),
-          lastModifierEmail: S.optional(S.String),
-          status: S.optional(S.String),
-          name: S.optional(S.String),
-          createdFromTemplate: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          cloudLoggingDetails: S.optional(__S(288, __c9, 0)),
-          lockHolder: S.optional(S.String),
-          origin: S.optional(S.String),
-          databasePersistencePolicy: S.optional(S.String),
-          triggerConfigsInternal: S.optional(__S(367, __c11, 15)),
-          state: S.optional(S.String),
-          createTime: S.optional(S.String),
-          teardown: S.optional(__S(374, __c11, 22)),
-          integrationParametersInternal: S.optional(__S(380, __c11, 28)),
-          userLabel: S.optional(S.String),
-          snapshotNumber: S.optional(S.String),
-          integrationConfigParameters: S.optional(__S(382, __c11, 30)),
-          integrationParameters: S.optional(__S(112, __c3, 16)),
-          description: S.optional(S.String),
-          runAsServiceAccount: S.optional(S.String),
-          cloudKmsKey: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(383, __c11, 31),
+          S.Struct({
+            newIntegration: S.optional(S.Boolean.pipe(T.Query())),
+            createSampleIntegrations: S.optional(S.Boolean.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/versions",
@@ -9185,7 +8454,7 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           key: S.optional(S.String),
-          value: S.optional(__S(4192, __c131, 0)),
+          value: S.optional(__S(4320, __c135, 0)),
           masked: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaEventParameter" });
@@ -9221,7 +8490,7 @@ function __c3(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          names: S.optional(__S(4128, __c129, 0)),
+          names: S.optional(__S(4256, __c133, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaTriggerConfigVariables" });
     case 4:
@@ -9330,7 +8599,7 @@ function __c3(j: number): any {
       return S.suspend(() =>
         S.Struct({
           searchable: S.optional(S.Boolean),
-          defaultValue: S.optional(__S(4192, __c131, 0)),
+          defaultValue: S.optional(__S(4320, __c135, 0)),
           masked: S.optional(S.Boolean),
           inputOutputType: S.optional(S.String),
           containsLargeData: S.optional(S.Boolean),
@@ -9378,15 +8647,15 @@ function __c6(j: number): any {
         S.Struct({
           intValue: S.optional(S.String),
           protoValue: S.optional(__S(128, __c4, 0)),
-          booleanArray: S.optional(__S(4164, __c130, 4)),
-          doubleArray: S.optional(__S(4161, __c130, 1)),
+          booleanArray: S.optional(__S(4292, __c134, 4)),
+          doubleArray: S.optional(__S(4289, __c134, 1)),
           protoArray: S.optional(__S(161, __c5, 1)),
           jsonValue: S.optional(S.String),
           doubleValue: S.optional(S.Number),
           booleanValue: S.optional(S.Boolean),
           stringValue: S.optional(S.String),
-          stringArray: S.optional(__S(4165, __c130, 5)),
-          intArray: S.optional(__S(4162, __c130, 2)),
+          stringArray: S.optional(__S(4293, __c134, 5)),
+          intArray: S.optional(__S(4290, __c134, 2)),
           serializedObjectValue: S.optional(__S(162, __c5, 2)),
         }),
       ).annotate({ identifier: "EnterpriseCrmFrontendsEventbusProtoParameterValueType" });
@@ -9418,15 +8687,15 @@ function __c8(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          intArray: S.optional(__S(4162, __c130, 2)),
+          intArray: S.optional(__S(4290, __c134, 2)),
           booleanValue: S.optional(S.Boolean),
-          doubleArray: S.optional(__S(4161, __c130, 1)),
+          doubleArray: S.optional(__S(4289, __c134, 1)),
           serializedObjectValue: S.optional(__S(162, __c5, 2)),
           protoArray: S.optional(__S(161, __c5, 1)),
-          stringArray: S.optional(__S(4165, __c130, 5)),
+          stringArray: S.optional(__S(4293, __c134, 5)),
           stringValue: S.optional(S.String),
           doubleValue: S.optional(S.Number),
-          booleanArray: S.optional(__S(4164, __c130, 4)),
+          booleanArray: S.optional(__S(4292, __c134, 4)),
           intValue: S.optional(S.String),
           protoValue: S.optional(__S(128, __c4, 0)),
         }),
@@ -9502,13 +8771,13 @@ function __c10(j: number): any {
     case 8:
       return S.suspend(() =>
         S.Struct({
-          values: S.optional(__S(4128, __c129, 0)),
+          values: S.optional(__S(4256, __c133, 0)),
         }),
       ).annotate({ identifier: "EnterpriseCrmEventbusProtoStringArray" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          values: S.optional(__S(4160, __c130, 0)),
+          values: S.optional(__S(4288, __c134, 0)),
         }),
       ).annotate({ identifier: "EnterpriseCrmEventbusProtoDoubleArray" });
     case 10:
@@ -9559,7 +8828,7 @@ function __c10(j: number): any {
       return S.suspend(() =>
         S.Struct({
           filterType: S.optional(S.String),
-          enumStrings: S.optional(__S(4128, __c129, 0)),
+          enumStrings: S.optional(__S(4256, __c133, 0)),
         }),
       ).annotate({ identifier: "EnterpriseCrmEventbusProtoBaseAlertConfigErrorEnumList" });
     case 18:
@@ -9594,7 +8863,7 @@ function __c10(j: number): any {
         S.Struct({
           rollbackTaskImplementationClassName: S.optional(S.String),
           parameters: S.optional(__S(224, __c7, 0)),
-          taskNumbersToRollback: S.optional(__S(4128, __c129, 0)),
+          taskNumbersToRollback: S.optional(__S(4256, __c133, 0)),
         }),
       ).annotate({ identifier: "EnterpriseCrmFrontendsEventbusProtoRollbackStrategy" });
     case 22:
@@ -9644,7 +8913,7 @@ function __c10(j: number): any {
           externalCategory: S.optional(S.String),
           system: S.optional(S.String),
           g3DocLink: S.optional(S.String),
-          tags: S.optional(__S(4128, __c129, 0)),
+          tags: S.optional(__S(4256, __c133, 0)),
         }),
       ).annotate({ identifier: "EnterpriseCrmEventbusProtoTaskMetadata" });
     case 28:
@@ -9845,7 +9114,7 @@ function __c11(j: number): any {
           cloudSchedulerConfig: S.optional(__S(362, __c11, 10)),
           position: S.optional(__S(98, __c3, 2)),
           triggerName: S.optional(S.String),
-          enabledClients: S.optional(__S(4128, __c129, 0)),
+          enabledClients: S.optional(__S(4256, __c133, 0)),
           triggerId: S.optional(S.String),
           triggerCriteria: S.optional(__S(363, __c11, 11)),
           label: S.optional(S.String),
@@ -9927,7 +9196,7 @@ function __c11(j: number): any {
           isSearchable: S.optional(S.Boolean),
           masked: S.optional(S.Boolean),
           logSettings: S.optional(__S(376, __c11, 24)),
-          taskVisibility: S.optional(__S(4128, __c129, 0)),
+          taskVisibility: S.optional(__S(4256, __c133, 0)),
           isRequired: S.optional(S.Boolean),
           searchable: S.optional(S.String),
           defaultValue: S.optional(__S(330, __c10, 10)),
@@ -9966,7 +9235,7 @@ function __c11(j: number): any {
       return S.suspend(() =>
         S.Struct({
           parameter: S.optional(__S(111, __c3, 15)),
-          value: S.optional(__S(4192, __c131, 0)),
+          value: S.optional(__S(4320, __c135, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaIntegrationConfigParameter" });
     case 30:
@@ -10010,18 +9279,13 @@ function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          lastReplayId: S.optional(S.String),
-          deleteTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          displayName: S.optional(S.String),
-          description: S.optional(S.String),
-          channelTopic: S.optional(S.String),
-          createTime: S.optional(S.String),
-          isActive: S.optional(S.Boolean),
-        }).pipe(
+        S.Extend(
+          __S(1984, __c62, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -10035,18 +9299,13 @@ function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          authConfigId: S.optional(__S(4128, __c129, 0)),
-          deleteTime: S.optional(S.String),
-          displayName: S.optional(S.String),
-          description: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          serviceAuthority: S.optional(S.String),
-          sfdcOrgId: S.optional(S.String),
-          createTime: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1920, __c60, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -10060,18 +9319,13 @@ function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          lastReplayId: S.optional(S.String),
-          deleteTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          displayName: S.optional(S.String),
-          description: S.optional(S.String),
-          channelTopic: S.optional(S.String),
-          createTime: S.optional(S.String),
-          isActive: S.optional(S.Boolean),
-        }).pipe(
+        S.Extend(
+          __S(1984, __c62, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -10085,25 +9339,13 @@ function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          docLink: S.optional(S.String),
-          lastUsedTime: S.optional(S.String),
-          templateBundle: S.optional(__S(2018, __c63, 2)),
-          usageCount: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          sharedWith: S.optional(__S(4128, __c129, 0)),
-          tags: S.optional(__S(4128, __c129, 0)),
-          components: S.optional(__S(2020, __c63, 4)),
-          visibility: S.optional(S.String),
-          createTime: S.optional(S.String),
-          displayName: S.optional(S.String),
-          description: S.optional(S.String),
-          author: S.optional(S.String),
-          categories: S.optional(__S(1984, __c62, 0)),
-          usageInfo: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(2149, __c67, 5),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -10118,9 +9360,19 @@ function __c16(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
-          workflows: S.optional(__S(1984, __c62, 0)),
-        }).pipe(
+          workflows: S.optional(__S(2112, __c66, 0)),
+        }),
+      ).annotate({
+        identifier: "GoogleCloudIntegrationsV1alphaProvisionClientPostProcessorRequest",
+      });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(512, __c16, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/clients:provisionClientPostProcessor",
@@ -10135,15 +9387,23 @@ function __c17(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
           createSampleWorkflows: S.optional(S.Boolean),
           provisionGmek: S.optional(S.Boolean),
           runAsServiceAccount: S.optional(S.String),
           enableManagedAiFeatures: S.optional(S.Boolean),
-          cloudKmsConfig: S.optional(__S(3264, __c102, 0)),
+          cloudKmsConfig: S.optional(__S(3392, __c106, 0)),
           enableHttpCall: S.optional(S.Boolean),
           skipCpProvision: S.optional(S.Boolean),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaProvisionClientRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(544, __c17, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/clients:provision",
@@ -10157,11 +9417,12 @@ function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          validateOnly: S.optional(S.Boolean),
-          configParameters: S.optional(__S(128, __c4, 0)),
-        }).pipe(
+        S.Extend(
+          __S(608, __c19, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:publish",
@@ -10176,10 +9437,22 @@ function __c19(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           validateOnly: S.optional(S.Boolean),
           configParameters: S.optional(__S(128, __c4, 0)),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaPublishIntegrationVersionRequest" });
+  }
+}
+function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(608, __c19, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:publish",
@@ -10189,14 +9462,22 @@ function __c19(j: number): any {
       ).annotate({ identifier: "PublishProjectsLocationsProductsIntegrationsVersionsRequest" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
           runAsServiceAccount: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaReplaceServiceAccountRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(672, __c21, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/clients:replace",
@@ -10206,17 +9487,25 @@ function __c20(j: number): any {
       ).annotate({ identifier: "ReplaceProjectsLocationsClientsRequest" });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
-          modifiedParameters: S.optional(__S(2976, __c93, 0)),
+          modifiedParameters: S.optional(__S(3104, __c97, 0)),
           replayReason: S.optional(S.String),
           updateMask: S.optional(S.String),
           replayMode: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaReplayExecutionRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(704, __c22, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:replay",
@@ -10224,7 +9513,7 @@ function __c21(j: number): any {
           }),
         ),
       ).annotate({ identifier: "ReplayProjectsLocationsIntegrationsExecutionsRequest" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           outputParameters: S.optional(__S(128, __c4, 0)),
@@ -10234,27 +9523,17 @@ function __c21(j: number): any {
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaReplayExecutionResponse" });
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          testCaseId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          createTime: S.optional(S.String),
-          lastModifierEmail: S.optional(S.String),
-          name: S.optional(S.String),
-          testTaskConfigs: S.optional(__S(772, __c24, 4)),
-          databasePersistencePolicy: S.optional(S.String),
-          testInputParameters: S.optional(__S(112, __c3, 16)),
-          lockHolderEmail: S.optional(S.String),
-          displayName: S.optional(S.String),
-          description: S.optional(S.String),
-          triggerId: S.optional(S.String),
-          triggerConfig: S.optional(__S(104, __c3, 8)),
-          updateTime: S.optional(S.String),
-          creatorEmail: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(805, __c25, 5),
+          S.Struct({
+            testCaseId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/testCases",
@@ -10264,7 +9543,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsIntegrationsVersionsTestCasesRequest" });
   }
 }
-function __c23(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10277,7 +9556,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaAssertion" });
   }
 }
-function __c24(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(32, __c1, 0));
@@ -10285,31 +9564,31 @@ function __c24(j: number): any {
       return S.suspend(() =>
         S.Struct({
           failedExecutions: S.optional(S.String),
-          parameters: S.optional(__S(768, __c24, 0)),
+          parameters: S.optional(__S(800, __c25, 0)),
           mockStrategy: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaMockConfig" });
     case 2:
-      return S.Array(__S(736, __c23, 0));
+      return S.Array(__S(768, __c24, 0));
     case 3:
       return S.suspend(() =>
         S.Struct({
           task: S.optional(S.String),
           taskNumber: S.optional(S.String),
           taskConfig: S.optional(__S(110, __c3, 14)),
-          mockConfig: S.optional(__S(769, __c24, 1)),
-          assertions: S.optional(__S(770, __c24, 2)),
+          mockConfig: S.optional(__S(801, __c25, 1)),
+          assertions: S.optional(__S(802, __c25, 2)),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaTestTaskConfig" });
     case 4:
-      return S.Array(__S(771, __c24, 3));
+      return S.Array(__S(803, __c25, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           createTime: S.optional(S.String),
           lastModifierEmail: S.optional(S.String),
           name: S.optional(S.String),
-          testTaskConfigs: S.optional(__S(772, __c24, 4)),
+          testTaskConfigs: S.optional(__S(804, __c25, 4)),
           databasePersistencePolicy: S.optional(S.String),
           testInputParameters: S.optional(__S(112, __c3, 16)),
           lockHolderEmail: S.optional(S.String),
@@ -10323,14 +9602,16 @@ function __c24(j: number): any {
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaTestCase" });
   }
 }
-function __c25(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          suspension: S.optional(__S(4752, __c148, 16)),
-        }).pipe(
+        S.Extend(
+          __S(864, __c27, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:resolve",
@@ -10342,14 +9623,26 @@ function __c25(j: number): any {
       });
   }
 }
-function __c26(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
-          suspension: S.optional(__S(4752, __c148, 16)),
-        }).pipe(
+          suspension: S.optional(__S(4880, __c152, 16)),
+        }),
+      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaResolveSuspensionRequest" });
+  }
+}
+function __c28(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(864, __c27, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:resolve",
@@ -10361,20 +9654,16 @@ function __c26(j: number): any {
       });
   }
 }
-function __c27(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          inputParameters: S.optional(__S(2976, __c93, 0)),
-          parameterEntries: S.optional(__S(194, __c6, 2)),
-          scheduleTime: S.optional(S.String),
-          requestId: S.optional(S.String),
-          userGeneratedExecutionId: S.optional(S.String),
-          triggerId: S.optional(S.String),
-          parameters: S.optional(__S(259, __c8, 3)),
-        }).pipe(
+        S.Extend(
+          __S(960, __c30, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:schedule",
@@ -10384,30 +9673,38 @@ function __c27(j: number): any {
       ).annotate({ identifier: "ScheduleProjectsLocationsIntegrationsRequest" });
   }
 }
-function __c28(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          executionInfoIds: S.optional(__S(4128, __c129, 0)),
-        }),
-      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaScheduleIntegrationsResponse" });
-  }
-}
-function __c29(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          inputParameters: S.optional(__S(2976, __c93, 0)),
+          inputParameters: S.optional(__S(3104, __c97, 0)),
           parameterEntries: S.optional(__S(194, __c6, 2)),
           scheduleTime: S.optional(S.String),
           requestId: S.optional(S.String),
           userGeneratedExecutionId: S.optional(S.String),
           triggerId: S.optional(S.String),
           parameters: S.optional(__S(259, __c8, 3)),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaScheduleIntegrationsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          executionInfoIds: S.optional(__S(4256, __c133, 0)),
+        }),
+      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaScheduleIntegrationsResponse" });
+  }
+}
+function __c31(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(960, __c30, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:schedule",
@@ -10417,7 +9714,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "ScheduleProjectsLocationsProductsIntegrationsRequest" });
   }
 }
-function __c30(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10453,17 +9750,17 @@ function __c30(j: number): any {
           "GoogleCloudIntegrationsV1alphaSearchIntegrationsResponseIntegrationSearchResult",
       });
     case 2:
-      return S.Array(__S(961, __c30, 1));
+      return S.Array(__S(1025, __c32, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          integrations: S.optional(__S(962, __c30, 2)),
+          integrations: S.optional(__S(1026, __c32, 2)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaSearchIntegrationsResponse" });
   }
 }
-function __c31(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10487,20 +9784,22 @@ function __c31(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          templates: S.optional(__S(5408, __c169, 0)),
+          templates: S.optional(__S(5536, __c173, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaSearchTemplatesResponse" });
   }
 }
-function __c32(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          resourceNames: S.optional(__S(4128, __c129, 0)),
-        }).pipe(
+        S.Extend(
+          __S(1120, __c35, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:share",
@@ -10510,14 +9809,32 @@ function __c32(j: number): any {
       ).annotate({ identifier: "ShareProjectsLocationsTemplatesRequest" });
   }
 }
-function __c33(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
-          cloudKmsConfig: S.optional(__S(3264, __c102, 0)),
-        }).pipe(
+          resourceNames: S.optional(__S(4256, __c133, 0)),
+        }),
+      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaShareTemplateRequest" });
+  }
+}
+function __c36(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          cloudKmsConfig: S.optional(__S(3392, __c106, 0)),
+        }),
+      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaSwitchEncryptionRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(1152, __c36, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/clients:switch",
@@ -10527,14 +9844,22 @@ function __c33(j: number): any {
       ).annotate({ identifier: "SwitchProjectsLocationsClientsRequest" });
   }
 }
-function __c34(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
           enableVariableMasking: S.optional(S.Boolean),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaSwitchVariableMaskingRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(1184, __c37, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/clients:switchVariableMasking",
@@ -10544,13 +9869,13 @@ function __c34(j: number): any {
       ).annotate({ identifier: "SwitchVariableMaskingProjectsLocationsClientsRequest" });
   }
 }
-function __c35(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2080, __c65, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(2208, __c69, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -10563,33 +9888,19 @@ function __c35(j: number): any {
       });
   }
 }
-function __c36(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          "clientCertificate.passphrase": S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          "clientCertificate.sslCertificate": S.optional(S.String.pipe(T.Query())),
-          "clientCertificate.encryptedPrivateKey": S.optional(S.String.pipe(T.Query())),
-          name: S.optional(S.String),
-          visibility: S.optional(S.String),
-          displayName: S.optional(S.String),
-          description: S.optional(S.String),
-          createTime: S.optional(S.String),
-          expiryNotificationDuration: S.optional(__S(4128, __c129, 0)),
-          credentialType: S.optional(S.String),
-          overrideValidTime: S.optional(S.String),
-          encryptedCredential: S.optional(S.String),
-          reason: S.optional(S.String),
-          certificateId: S.optional(S.String),
-          state: S.optional(S.String),
-          validTime: S.optional(S.String),
-          creatorEmail: S.optional(S.String),
-          lastModifierEmail: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          decryptedCredential: S.optional(__S(4237, __c132, 13)),
-        }).pipe(
+        S.Extend(
+          __S(4366, __c136, 14),
+          S.Struct({
+            "clientCertificate.passphrase": S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            "clientCertificate.sslCertificate": S.optional(S.String.pipe(T.Query())),
+            "clientCertificate.encryptedPrivateKey": S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/authConfigs",
@@ -10599,13 +9910,13 @@ function __c36(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsProductsAuthConfigsRequest" });
   }
 }
-function __c37(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           integrationVersion: S.String.pipe(T.Label()),
-          body: S.optional(__S(2080, __c65, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(2208, __c69, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -10618,7 +9929,7 @@ function __c37(j: number): any {
       });
   }
 }
-function __c38(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10628,23 +9939,16 @@ function __c38(j: number): any {
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaTakeoverEditLockResponse" });
   }
 }
-function __c39(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          triggerId: S.optional(S.String),
-          clientId: S.optional(S.String),
-          integrationVersion: S.optional(__S(383, __c11, 31)),
-          parameters: S.optional(__S(224, __c7, 0)),
-          configParameters: S.optional(__S(128, __c4, 0)),
-          testMode: S.optional(S.Boolean),
-          credentialMode: S.optional(S.String),
-          deadlineSecondsTime: S.optional(S.String),
-          inputParameters: S.optional(__S(2976, __c93, 0)),
-          asyncExecution: S.optional(S.Boolean),
-        }).pipe(
+        S.Extend(
+          __S(1376, __c43, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:test",
@@ -10654,29 +9958,11 @@ function __c39(j: number): any {
       ).annotate({ identifier: "TestProjectsLocationsIntegrationsRequest" });
   }
 }
-function __c40(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          hardenedPaths: S.optional(__S(1984, __c62, 0)),
-          eventParameters: S.optional(__S(224, __c7, 0)),
-          executionId: S.optional(S.String),
-          credentialMode: S.optional(S.String),
-          executionFailed: S.optional(S.Boolean),
-          eucHardeningDisposition: S.optional(S.String),
-          parameterEntries: S.optional(__S(194, __c6, 2)),
-          parameters: S.optional(__S(2976, __c93, 0)),
-        }),
-      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaTestIntegrationsResponse" });
-  }
-}
-function __c41(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
           triggerId: S.optional(S.String),
           clientId: S.optional(S.String),
           integrationVersion: S.optional(__S(383, __c11, 31)),
@@ -10685,9 +9971,35 @@ function __c41(j: number): any {
           testMode: S.optional(S.Boolean),
           credentialMode: S.optional(S.String),
           deadlineSecondsTime: S.optional(S.String),
-          inputParameters: S.optional(__S(2976, __c93, 0)),
+          inputParameters: S.optional(__S(3104, __c97, 0)),
           asyncExecution: S.optional(S.Boolean),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaTestIntegrationsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          hardenedPaths: S.optional(__S(2112, __c66, 0)),
+          eventParameters: S.optional(__S(224, __c7, 0)),
+          executionId: S.optional(S.String),
+          credentialMode: S.optional(S.String),
+          executionFailed: S.optional(S.Boolean),
+          eucHardeningDisposition: S.optional(S.String),
+          parameterEntries: S.optional(__S(194, __c6, 2)),
+          parameters: S.optional(__S(3104, __c97, 0)),
+        }),
+      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaTestIntegrationsResponse" });
+  }
+}
+function __c44(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(1376, __c43, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:test",
@@ -10697,23 +10009,16 @@ function __c41(j: number): any {
       ).annotate({ identifier: "TestProjectsLocationsIntegrationsVersionsRequest" });
   }
 }
-function __c42(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          triggerId: S.optional(S.String),
-          clientId: S.optional(S.String),
-          integrationVersion: S.optional(__S(383, __c11, 31)),
-          parameters: S.optional(__S(224, __c7, 0)),
-          configParameters: S.optional(__S(128, __c4, 0)),
-          testMode: S.optional(S.Boolean),
-          credentialMode: S.optional(S.String),
-          deadlineSecondsTime: S.optional(S.String),
-          inputParameters: S.optional(__S(2976, __c93, 0)),
-          asyncExecution: S.optional(S.Boolean),
-        }).pipe(
+        S.Extend(
+          __S(1376, __c43, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:test",
@@ -10723,14 +10028,22 @@ function __c42(j: number): any {
       ).annotate({ identifier: "TestProjectsLocationsProductsIntegrationsRequest" });
   }
 }
-function __c43(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
           enableHttpCall: S.optional(S.Boolean),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaToggleHttpRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(1472, __c46, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/clients:toggleHttp",
@@ -10740,13 +10053,13 @@ function __c43(j: number): any {
       ).annotate({ identifier: "ToggleHttpProjectsLocationsClientsRequest" });
   }
 }
-function __c44(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2080, __c65, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(2208, __c69, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -10757,13 +10070,13 @@ function __c44(j: number): any {
       ).annotate({ identifier: "UnpublishProjectsLocationsIntegrationsVersionsRequest" });
   }
 }
-function __c45(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2080, __c65, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(2208, __c69, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -10774,14 +10087,16 @@ function __c45(j: number): any {
       ).annotate({ identifier: "UnpublishProjectsLocationsProductsIntegrationsVersionsRequest" });
   }
 }
-function __c46(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          resourceNames: S.optional(__S(4128, __c129, 0)),
-        }).pipe(
+        S.Extend(
+          __S(1120, __c35, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:unshare",
@@ -10791,15 +10106,16 @@ function __c46(j: number): any {
       ).annotate({ identifier: "UnshareProjectsLocationsTemplatesRequest" });
   }
 }
-function __c47(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          content: S.optional(S.String),
-          fileFormat: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1632, __c51, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/versions:upload",
@@ -10809,15 +10125,27 @@ function __c47(j: number): any {
       ).annotate({ identifier: "UploadProjectsLocationsIntegrationsVersionsRequest" });
   }
 }
-function __c48(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
           content: S.optional(S.String),
           fileFormat: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaUploadIntegrationVersionRequest" });
+  }
+}
+function __c52(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(1632, __c51, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/testCases:upload",
@@ -10828,27 +10156,21 @@ function __c48(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          testCase: S.optional(__S(773, __c24, 5)),
+          testCase: S.optional(__S(805, __c25, 5)),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaUploadTestCaseResponse" });
   }
 }
-function __c49(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          validStartTime: S.optional(S.String),
-          credentialId: S.optional(S.String),
-          validEndTime: S.optional(S.String),
-          name: S.optional(S.String),
-          displayName: S.optional(S.String),
-          description: S.optional(S.String),
-          rawCertificate: S.optional(__S(4864, __c152, 0)),
-          requestorId: S.optional(S.String),
-          certificateStatus: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(4993, __c156, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/certificates",
@@ -10858,15 +10180,16 @@ function __c49(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsProductsCertificatesRequest" });
   }
 }
-function __c50(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          content: S.optional(S.String),
-          fileFormat: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1632, __c51, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/versions:upload",
@@ -10876,15 +10199,16 @@ function __c50(j: number): any {
       ).annotate({ identifier: "UploadProjectsLocationsProductsIntegrationsVersionsRequest" });
   }
 }
-function __c51(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          content: S.optional(S.String),
-          fileFormat: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1632, __c51, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/templates:upload",
@@ -10895,21 +10219,29 @@ function __c51(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          template: S.optional(__S(2021, __c63, 5)),
+          template: S.optional(__S(2149, __c67, 5)),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaUploadTemplateResponse" });
   }
 }
-function __c52(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
-          integrationDetails: S.optional(__S(3936, __c123, 0)),
-          subIntegrations: S.optional(__S(3937, __c123, 1)),
+          integrationDetails: S.optional(__S(4064, __c127, 0)),
+          subIntegrations: S.optional(__S(4065, __c127, 1)),
           integrationRegion: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaUseTemplateRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(1792, __c56, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:use",
@@ -10919,17 +10251,16 @@ function __c52(j: number): any {
       ).annotate({ identifier: "UseProjectsLocationsTemplatesRequest" });
   }
 }
-function __c53(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          projectId: S.optional(S.String),
-          functionRegion: S.optional(S.String),
-          functionName: S.optional(S.String),
-          gcfApiVersion: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(5440, __c170, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/cloudFunctions",
@@ -10939,43 +10270,18 @@ function __c53(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsProductsCloudFunctionsRequest" });
   }
 }
-function __c54(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          createSampleIntegrations: S.optional(S.Boolean.pipe(T.Query())),
-          newIntegration: S.optional(S.Boolean.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          eucHardeningDisposition: S.optional(S.String),
-          errorCatcherConfigs: S.optional(__S(321, __c10, 1)),
-          enableVariableMasking: S.optional(S.Boolean),
-          parentTemplateId: S.optional(S.String),
-          triggerConfigs: S.optional(__S(322, __c10, 2)),
-          taskConfigs: S.optional(__S(323, __c10, 3)),
-          taskConfigsInternal: S.optional(__S(361, __c11, 9)),
-          lastModifierEmail: S.optional(S.String),
-          status: S.optional(S.String),
-          name: S.optional(S.String),
-          createdFromTemplate: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          cloudLoggingDetails: S.optional(__S(288, __c9, 0)),
-          lockHolder: S.optional(S.String),
-          origin: S.optional(S.String),
-          databasePersistencePolicy: S.optional(S.String),
-          triggerConfigsInternal: S.optional(__S(367, __c11, 15)),
-          state: S.optional(S.String),
-          createTime: S.optional(S.String),
-          teardown: S.optional(__S(374, __c11, 22)),
-          integrationParametersInternal: S.optional(__S(380, __c11, 28)),
-          userLabel: S.optional(S.String),
-          snapshotNumber: S.optional(S.String),
-          integrationConfigParameters: S.optional(__S(382, __c11, 30)),
-          integrationParameters: S.optional(__S(112, __c3, 16)),
-          description: S.optional(S.String),
-          runAsServiceAccount: S.optional(S.String),
-          cloudKmsKey: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(383, __c11, 31),
+          S.Struct({
+            createSampleIntegrations: S.optional(S.Boolean.pipe(T.Query())),
+            newIntegration: S.optional(S.Boolean.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/versions",
@@ -10985,22 +10291,16 @@ function __c54(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsProductsIntegrationsVersionsRequest" });
   }
 }
-function __c55(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          authConfigId: S.optional(__S(4128, __c129, 0)),
-          name: S.optional(S.String),
-          deleteTime: S.optional(S.String),
-          displayName: S.optional(S.String),
-          description: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          serviceAuthority: S.optional(S.String),
-          sfdcOrgId: S.optional(S.String),
-          createTime: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1920, __c60, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/sfdcInstances",
@@ -11010,12 +10310,12 @@ function __c55(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsProductsSfdcInstancesRequest" });
   }
 }
-function __c56(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          authConfigId: S.optional(__S(4128, __c129, 0)),
+          authConfigId: S.optional(__S(4256, __c133, 0)),
           name: S.optional(S.String),
           deleteTime: S.optional(S.String),
           displayName: S.optional(S.String),
@@ -11028,22 +10328,16 @@ function __c56(j: number): any {
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaSfdcInstance" });
   }
 }
-function __c57(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          lastReplayId: S.optional(S.String),
-          deleteTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          displayName: S.optional(S.String),
-          description: S.optional(S.String),
-          channelTopic: S.optional(S.String),
-          createTime: S.optional(S.String),
-          isActive: S.optional(S.Boolean),
-          name: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1984, __c62, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/sfdcChannels",
@@ -11053,7 +10347,7 @@ function __c57(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsProductsSfdcInstancesSfdcChannelsRequest" });
   }
 }
-function __c58(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11071,22 +10365,16 @@ function __c58(j: number): any {
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaSfdcChannel" });
   }
 }
-function __c59(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          authConfigId: S.optional(__S(4128, __c129, 0)),
-          name: S.optional(S.String),
-          deleteTime: S.optional(S.String),
-          displayName: S.optional(S.String),
-          description: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          serviceAuthority: S.optional(S.String),
-          sfdcOrgId: S.optional(S.String),
-          createTime: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1920, __c60, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/sfdcInstances",
@@ -11096,22 +10384,16 @@ function __c59(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsSfdcInstancesRequest" });
   }
 }
-function __c60(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          lastReplayId: S.optional(S.String),
-          deleteTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          displayName: S.optional(S.String),
-          description: S.optional(S.String),
-          channelTopic: S.optional(S.String),
-          createTime: S.optional(S.String),
-          isActive: S.optional(S.Boolean),
-          name: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1984, __c62, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/sfdcChannels",
@@ -11121,29 +10403,16 @@ function __c60(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsSfdcInstancesSfdcChannelsRequest" });
   }
 }
-function __c61(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          docLink: S.optional(S.String),
-          lastUsedTime: S.optional(S.String),
-          templateBundle: S.optional(__S(2018, __c63, 2)),
-          usageCount: S.optional(S.String),
-          name: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          sharedWith: S.optional(__S(4128, __c129, 0)),
-          tags: S.optional(__S(4128, __c129, 0)),
-          components: S.optional(__S(2020, __c63, 4)),
-          visibility: S.optional(S.String),
-          createTime: S.optional(S.String),
-          displayName: S.optional(S.String),
-          description: S.optional(S.String),
-          author: S.optional(S.String),
-          categories: S.optional(__S(1984, __c62, 0)),
-          usageInfo: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(2149, __c67, 5),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/templates",
@@ -11153,13 +10422,13 @@ function __c61(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsTemplatesRequest" });
   }
 }
-function __c62(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c63(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11169,12 +10438,12 @@ function __c63(j: number): any {
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaIntegrationVersionTemplate" });
     case 1:
-      return S.Array(__S(2016, __c63, 0));
+      return S.Array(__S(2144, __c67, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          integrationVersionTemplate: S.optional(__S(2016, __c63, 0)),
-          subIntegrationVersionTemplates: S.optional(__S(2017, __c63, 1)),
+          integrationVersionTemplate: S.optional(__S(2144, __c67, 0)),
+          subIntegrationVersionTemplates: S.optional(__S(2145, __c67, 1)),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaTemplateBundle" });
     case 3:
@@ -11185,82 +10454,28 @@ function __c63(j: number): any {
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaTemplateComponent" });
     case 4:
-      return S.Array(__S(2019, __c63, 3));
+      return S.Array(__S(2147, __c67, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           docLink: S.optional(S.String),
           lastUsedTime: S.optional(S.String),
-          templateBundle: S.optional(__S(2018, __c63, 2)),
+          templateBundle: S.optional(__S(2146, __c67, 2)),
           usageCount: S.optional(S.String),
           name: S.optional(S.String),
           updateTime: S.optional(S.String),
-          sharedWith: S.optional(__S(4128, __c129, 0)),
-          tags: S.optional(__S(4128, __c129, 0)),
-          components: S.optional(__S(2020, __c63, 4)),
+          sharedWith: S.optional(__S(4256, __c133, 0)),
+          tags: S.optional(__S(4256, __c133, 0)),
+          components: S.optional(__S(2148, __c67, 4)),
           visibility: S.optional(S.String),
           createTime: S.optional(S.String),
           displayName: S.optional(S.String),
           description: S.optional(S.String),
           author: S.optional(S.String),
-          categories: S.optional(__S(1984, __c62, 0)),
+          categories: S.optional(__S(2112, __c66, 0)),
           usageInfo: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaTemplate" });
-  }
-}
-function __c64(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "v1/{+name}",
-            baseUrl: "https://integrations.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "DeleteProjectsLocationsAuthConfigsRequest" });
-  }
-}
-function __c65(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Struct({})).annotate({ identifier: "GoogleProtobufEmpty" });
-  }
-}
-function __c66(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "v1/{+name}",
-            baseUrl: "https://integrations.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "DeleteProjectsLocationsCertificatesRequest" });
-  }
-}
-function __c67(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "v1/{+name}",
-            baseUrl: "https://integrations.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "DeleteProjectsLocationsIntegrationsRequest" });
   }
 }
 function __c68(j: number): any {
@@ -11276,23 +10491,13 @@ function __c68(j: number): any {
             baseUrl: "https://integrations.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "DeleteProjectsLocationsIntegrationsVersionsRequest" });
+      ).annotate({ identifier: "DeleteProjectsLocationsAuthConfigsRequest" });
   }
 }
 function __c69(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "v1/{+name}",
-            baseUrl: "https://integrations.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "DeleteProjectsLocationsIntegrationsVersionsTestCasesRequest" });
+      return S.suspend(() => S.Struct({})).annotate({ identifier: "GoogleProtobufEmpty" });
   }
 }
 function __c70(j: number): any {
@@ -11308,7 +10513,7 @@ function __c70(j: number): any {
             baseUrl: "https://integrations.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "DeleteProjectsLocationsProductsAuthConfigsRequest" });
+      ).annotate({ identifier: "DeleteProjectsLocationsCertificatesRequest" });
   }
 }
 function __c71(j: number): any {
@@ -11324,7 +10529,7 @@ function __c71(j: number): any {
             baseUrl: "https://integrations.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "DeleteProjectsLocationsProductsCertificatesRequest" });
+      ).annotate({ identifier: "DeleteProjectsLocationsIntegrationsRequest" });
   }
 }
 function __c72(j: number): any {
@@ -11340,7 +10545,7 @@ function __c72(j: number): any {
             baseUrl: "https://integrations.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "DeleteProjectsLocationsProductsIntegrationsVersionsRequest" });
+      ).annotate({ identifier: "DeleteProjectsLocationsIntegrationsVersionsRequest" });
   }
 }
 function __c73(j: number): any {
@@ -11356,7 +10561,7 @@ function __c73(j: number): any {
             baseUrl: "https://integrations.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "DeleteProjectsLocationsProductsSfdcInstancesRequest" });
+      ).annotate({ identifier: "DeleteProjectsLocationsIntegrationsVersionsTestCasesRequest" });
   }
 }
 function __c74(j: number): any {
@@ -11372,7 +10577,7 @@ function __c74(j: number): any {
             baseUrl: "https://integrations.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "DeleteProjectsLocationsProductsSfdcInstancesSfdcChannelsRequest" });
+      ).annotate({ identifier: "DeleteProjectsLocationsProductsAuthConfigsRequest" });
   }
 }
 function __c75(j: number): any {
@@ -11388,7 +10593,7 @@ function __c75(j: number): any {
             baseUrl: "https://integrations.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "DeleteProjectsLocationsSfdcInstancesRequest" });
+      ).annotate({ identifier: "DeleteProjectsLocationsProductsCertificatesRequest" });
   }
 }
 function __c76(j: number): any {
@@ -11404,7 +10609,7 @@ function __c76(j: number): any {
             baseUrl: "https://integrations.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "DeleteProjectsLocationsSfdcInstancesSfdcChannelsRequest" });
+      ).annotate({ identifier: "DeleteProjectsLocationsProductsIntegrationsVersionsRequest" });
   }
 }
 function __c77(j: number): any {
@@ -11420,7 +10625,7 @@ function __c77(j: number): any {
             baseUrl: "https://integrations.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "DeleteProjectsLocationsTemplatesRequest" });
+      ).annotate({ identifier: "DeleteProjectsLocationsProductsSfdcInstancesRequest" });
   }
 }
 function __c78(j: number): any {
@@ -11428,8 +10633,72 @@ function __c78(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "v1/{+name}",
+            baseUrl: "https://integrations.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "DeleteProjectsLocationsProductsSfdcInstancesSfdcChannelsRequest" });
+  }
+}
+function __c79(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "v1/{+name}",
+            baseUrl: "https://integrations.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "DeleteProjectsLocationsSfdcInstancesRequest" });
+  }
+}
+function __c80(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "v1/{+name}",
+            baseUrl: "https://integrations.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "DeleteProjectsLocationsSfdcInstancesSfdcChannelsRequest" });
+  }
+}
+function __c81(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "v1/{+name}",
+            baseUrl: "https://integrations.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "DeleteProjectsLocationsTemplatesRequest" });
+  }
+}
+function __c82(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2080, __c65, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(2208, __c69, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -11440,13 +10709,13 @@ function __c78(j: number): any {
       ).annotate({ identifier: "DeprovisionProjectsLocationsClientsRequest" });
   }
 }
-function __c79(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          files: S.optional(__S(1984, __c62, 0).pipe(T.Query())),
+          files: S.optional(__S(2112, __c66, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -11464,16 +10733,16 @@ function __c79(j: number): any {
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaFile" });
     case 2:
-      return S.Array(__S(2529, __c79, 1));
+      return S.Array(__S(2657, __c83, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          files: S.optional(__S(2530, __c79, 2)),
+          files: S.optional(__S(2658, __c83, 2)),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaDownloadJsonPackageResponse" });
   }
 }
-function __c80(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11489,7 +10758,7 @@ function __c80(j: number): any {
       ).annotate({ identifier: "DownloadProjectsLocationsIntegrationsExecutionsRequest" });
   }
 }
-function __c81(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11499,13 +10768,13 @@ function __c81(j: number): any {
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaDownloadExecutionResponse" });
   }
 }
-function __c82(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           fileFormat: S.optional(S.String.pipe(T.Query())),
-          files: S.optional(__S(1984, __c62, 0).pipe(T.Query())),
+          files: S.optional(__S(2112, __c66, 0).pipe(T.Query())),
           name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -11517,7 +10786,7 @@ function __c82(j: number): any {
       ).annotate({ identifier: "DownloadProjectsLocationsIntegrationsVersionsRequest" });
   }
 }
-function __c83(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11527,19 +10796,19 @@ function __c83(j: number): any {
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaSerializedFile" });
     case 1:
-      return S.Array(__S(2656, __c83, 0));
+      return S.Array(__S(2784, __c87, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           content: S.optional(S.String),
-          files: S.optional(__S(2657, __c83, 1)),
+          files: S.optional(__S(2785, __c87, 1)),
         }),
       ).annotate({
         identifier: "GoogleCloudIntegrationsV1alphaDownloadIntegrationVersionResponse",
       });
   }
 }
-function __c84(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11556,7 +10825,7 @@ function __c84(j: number): any {
       ).annotate({ identifier: "DownloadProjectsLocationsIntegrationsVersionsTestCasesRequest" });
   }
 }
-function __c85(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11572,14 +10841,22 @@ function __c85(j: number): any {
       ).annotate({ identifier: "DownloadProjectsLocationsProductsIntegrationsExecutionsRequest" });
   }
 }
-function __c86(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           cancelReason: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaCancelExecutionRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(2880, __c90, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:cancel",
@@ -11587,7 +10864,7 @@ function __c86(j: number): any {
           }),
         ),
       ).annotate({ identifier: "CancelProjectsLocationsIntegrationsExecutionsRequest" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           isCanceled: S.optional(S.Boolean),
@@ -11595,14 +10872,14 @@ function __c86(j: number): any {
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaCancelExecutionResponse" });
   }
 }
-function __c87(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
           fileFormat: S.optional(S.String.pipe(T.Query())),
-          files: S.optional(__S(1984, __c62, 0).pipe(T.Query())),
+          files: S.optional(__S(2112, __c66, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -11613,7 +10890,7 @@ function __c87(j: number): any {
       ).annotate({ identifier: "DownloadProjectsLocationsProductsIntegrationsVersionsRequest" });
   }
 }
-function __c88(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11630,7 +10907,7 @@ function __c88(j: number): any {
       ).annotate({ identifier: "DownloadProjectsLocationsTemplatesRequest" });
   }
 }
-function __c89(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11645,14 +10922,14 @@ function __c89(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          regions: S.optional(__S(4128, __c129, 0)),
+          regions: S.optional(__S(4256, __c133, 0)),
         }),
       ).annotate({
         identifier: "GoogleCloudIntegrationsV1alphaEnumerateConnectorPlatformRegionsResponse",
       });
   }
 }
-function __c90(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11675,20 +10952,16 @@ function __c90(j: number): any {
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaExecuteEventResponse" });
   }
 }
-function __c91(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String),
-          parameterEntries: S.optional(__S(194, __c6, 2)),
-          parameters: S.optional(__S(224, __c7, 0)),
-          inputParameters: S.optional(__S(2976, __c93, 0)),
-          triggerId: S.optional(S.String),
-          doNotPropagateError: S.optional(S.Boolean),
-          executionId: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(3072, __c96, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:execute",
@@ -11698,12 +10971,24 @@ function __c91(j: number): any {
       ).annotate({ identifier: "ExecuteProjectsLocationsIntegrationsRequest" });
   }
 }
-function __c92(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parameters: S.optional(__S(2976, __c93, 0)),
+          requestId: S.optional(S.String),
+          parameterEntries: S.optional(__S(194, __c6, 2)),
+          parameters: S.optional(__S(224, __c7, 0)),
+          inputParameters: S.optional(__S(3104, __c97, 0)),
+          triggerId: S.optional(S.String),
+          doNotPropagateError: S.optional(S.Boolean),
+          executionId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaExecuteIntegrationsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          parameters: S.optional(__S(3104, __c97, 0)),
           eventParameters: S.optional(__S(224, __c7, 0)),
           executionId: S.optional(S.String),
           executionFailed: S.optional(S.Boolean),
@@ -11713,19 +10998,19 @@ function __c92(j: number): any {
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaExecuteIntegrationsResponse" });
   }
 }
-function __c93(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, __S(4192, __c131, 0));
+      return S.Record(S.String, __S(4320, __c135, 0));
   }
 }
-function __c94(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2080, __c65, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(2208, __c69, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -11735,21 +11020,21 @@ function __c94(j: number): any {
         ),
       ).annotate({ identifier: "ExecuteProjectsLocationsIntegrationsVersionsTestCasesRequest" });
     case 1:
-      return S.Array(__S(3042, __c95, 2));
+      return S.Array(__S(3170, __c99, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          executeTestCaseResponses: S.optional(__S(3009, __c94, 1)),
+          executeTestCaseResponses: S.optional(__S(3137, __c98, 1)),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaExecuteTestCasesResponse" });
   }
 }
-function __c95(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          assertion: S.optional(__S(736, __c23, 0)),
+          assertion: S.optional(__S(768, __c24, 0)),
           taskNumber: S.optional(S.String),
           failureMessage: S.optional(S.String),
           taskName: S.optional(S.String),
@@ -11757,11 +11042,11 @@ function __c95(j: number): any {
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaAssertionResult" });
     case 1:
-      return S.Array(__S(3040, __c95, 0));
+      return S.Array(__S(3168, __c99, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          assertionResults: S.optional(__S(3041, __c95, 1)),
+          assertionResults: S.optional(__S(3169, __c99, 1)),
           outputParameters: S.optional(__S(128, __c4, 0)),
           testExecutionState: S.optional(S.String),
           executionId: S.optional(S.String),
@@ -11769,20 +11054,16 @@ function __c95(j: number): any {
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaExecuteTestCaseResponse" });
   }
 }
-function __c96(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String),
-          parameterEntries: S.optional(__S(194, __c6, 2)),
-          parameters: S.optional(__S(224, __c7, 0)),
-          inputParameters: S.optional(__S(2976, __c93, 0)),
-          triggerId: S.optional(S.String),
-          doNotPropagateError: S.optional(S.Boolean),
-          executionId: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(3072, __c96, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:execute",
@@ -11792,14 +11073,22 @@ function __c96(j: number): any {
       ).annotate({ identifier: "ExecuteProjectsLocationsProductsIntegrationsRequest" });
   }
 }
-function __c97(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          testCaseName: S.String.pipe(T.Label()),
-          inputParameters: S.optional(__S(2976, __c93, 0)),
-        }).pipe(
+          inputParameters: S.optional(__S(3104, __c97, 0)),
+        }),
+      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaExecuteTestCaseRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(3232, __c101, 0),
+          S.Struct({
+            testCaseName: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+testCaseName}:executeTest",
@@ -11811,24 +11100,32 @@ function __c97(j: number): any {
       });
   }
 }
-function __c98(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          triggerId: S.optional(__S(4128, __c129, 0)),
+          triggerId: S.optional(__S(4256, __c133, 0)),
           integrationResource: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaApiTriggerResource" });
     case 1:
-      return S.Array(__S(3136, __c98, 0));
+      return S.Array(__S(3264, __c102, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           fileFormat: S.optional(S.String),
-          apiTriggerResources: S.optional(__S(3137, __c98, 1)),
-        }).pipe(
+          apiTriggerResources: S.optional(__S(3265, __c102, 1)),
+        }),
+      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaGenerateOpenApiSpecRequest" });
+    case 3:
+      return S.suspend(() =>
+        S.Extend(
+          __S(3266, __c102, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:generateOpenApiSpec",
@@ -11836,7 +11133,7 @@ function __c98(j: number): any {
           }),
         ),
       ).annotate({ identifier: "GenerateOpenApiSpecProjectsLocationsRequest" });
-    case 3:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           openApiSpec: S.optional(S.String),
@@ -11844,7 +11141,7 @@ function __c98(j: number): any {
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaGenerateOpenApiSpecResponse" });
   }
 }
-function __c99(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11870,15 +11167,23 @@ function __c99(j: number): any {
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaGenerateTokenResponse" });
   }
 }
-function __c100(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
-          customerConfig: S.optional(__S(3232, __c101, 0)),
+          customerConfig: S.optional(__S(3360, __c105, 0)),
           updateMask: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaChangeCustomerConfigRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(3328, __c104, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/clients:changeConfig",
@@ -11886,15 +11191,15 @@ function __c100(j: number): any {
           }),
         ),
       ).annotate({ identifier: "ChangeConfigProjectsLocationsClientsRequest" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
-          customerConfig: S.optional(__S(3232, __c101, 0)),
+          customerConfig: S.optional(__S(3360, __c105, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaChangeCustomerConfigResponse" });
   }
 }
-function __c101(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11904,12 +11209,12 @@ function __c101(j: number): any {
           enableEucHardenedFlow: S.optional(S.Boolean),
           enableManagedAiFeatures: S.optional(S.Boolean),
           enableVariableMasking: S.optional(S.Boolean),
-          cloudKmsConfig: S.optional(__S(3264, __c102, 0)),
+          cloudKmsConfig: S.optional(__S(3392, __c106, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaCustomerConfig" });
   }
 }
-function __c102(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11923,7 +11228,7 @@ function __c102(j: number): any {
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaCloudKmsConfig" });
   }
 }
-function __c103(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11941,19 +11246,19 @@ function __c103(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ipEnablementState: S.optional(S.String),
-          provisionedRegions: S.optional(__S(4128, __c129, 0)),
+          provisionedRegions: S.optional(__S(4256, __c133, 0)),
           billingType: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaProjectProperties" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          properties: S.optional(__S(3297, __c103, 1)),
+          properties: S.optional(__S(3425, __c107, 1)),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaGetClientMetadataResponse" });
   }
 }
-function __c104(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11971,8 +11276,8 @@ function __c104(j: number): any {
       return S.suspend(() =>
         S.Struct({
           clientState: S.optional(S.String),
-          customerConfig: S.optional(__S(3232, __c101, 0)),
-          cloudKmsConfig: S.optional(__S(3264, __c102, 0)),
+          customerConfig: S.optional(__S(3360, __c105, 0)),
+          cloudKmsConfig: S.optional(__S(3392, __c106, 0)),
           billingType: S.optional(S.String),
           enableInternalIp: S.optional(S.Boolean),
           p4ServiceAccount: S.optional(S.String),
@@ -11991,12 +11296,12 @@ function __c104(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          client: S.optional(__S(3329, __c104, 1)),
+          client: S.optional(__S(3457, __c108, 1)),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaGetClientResponse" });
   }
 }
-function __c105(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12013,232 +11318,10 @@ function __c105(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          entities: S.optional(__S(4128, __c129, 0)),
-          actions: S.optional(__S(4128, __c129, 0)),
+          entities: S.optional(__S(4256, __c133, 0)),
+          actions: S.optional(__S(4256, __c133, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaConnectionSchemaMetadata" });
-  }
-}
-function __c106(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v1/{+name}",
-            baseUrl: "https://integrations.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "GetProjectsLocationsAuthConfigsRequest" });
-  }
-}
-function __c107(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v1/{+name}",
-            baseUrl: "https://integrations.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "GetProjectsLocationsCertificatesRequest" });
-  }
-}
-function __c108(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v1/{+name}",
-            baseUrl: "https://integrations.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "GetProjectsLocationsIntegrationsExecutionsRequest" });
-  }
-}
-function __c109(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          replayMode: S.optional(S.String),
-          originalExecutionInfoId: S.optional(S.String),
-          replayedExecutionInfoIds: S.optional(__S(4128, __c129, 0)),
-          replayReason: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaExecutionReplayInfo" });
-    case 1:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(3508, __c109, 20)));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          endTime: S.optional(S.String),
-          startTime: S.optional(S.String),
-        }),
-      ).annotate({
-        identifier: "EnterpriseCrmEventbusProtoEventExecutionDetailsEventAttemptStats",
-      });
-    case 3:
-      return S.Array(__S(3490, __c109, 2));
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          nextTaskNumber: S.optional(S.String),
-          result: S.optional(S.Boolean),
-          currentTaskNumber: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "EnterpriseCrmEventbusProtoConditionResult" });
-    case 5:
-      return S.Array(__S(3492, __c109, 4));
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          startTime: S.optional(S.String),
-          endTime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "EnterpriseCrmEventbusProtoTaskExecutionDetailsTaskAttemptStats" });
-    case 7:
-      return S.Array(__S(3494, __c109, 6));
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          taskNumber: S.optional(S.String),
-          taskExecutionState: S.optional(S.String),
-          taskAttemptStats: S.optional(__S(3495, __c109, 7)),
-          skippedOnFailure: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "EnterpriseCrmEventbusProtoTaskExecutionDetails" });
-    case 9:
-      return S.Array(__S(3496, __c109, 8));
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
-          ancestorIterationNumbers: S.optional(__S(4128, __c129, 0)),
-          ancestorTaskNumbers: S.optional(__S(4128, __c129, 0)),
-          taskNumber: S.optional(S.String),
-          taskName: S.optional(S.String),
-          eventAttemptNum: S.optional(S.Number),
-          integrationName: S.optional(S.String),
-          taskLabel: S.optional(S.String),
-          taskAttemptNum: S.optional(S.Number),
-        }),
-      ).annotate({
-        identifier:
-          "EnterpriseCrmEventbusProtoEventExecutionSnapshotEventExecutionSnapshotMetadata",
-      });
-    case 11:
-      return S.suspend(() =>
-        S.Struct({
-          conditionResults: S.optional(__S(3493, __c109, 5)),
-          eventParams: S.optional(__S(259, __c8, 3)),
-          diffParams: S.optional(__S(259, __c8, 3)),
-          exceedMaxSize: S.optional(S.Boolean),
-          taskExecutionDetails: S.optional(__S(3497, __c109, 9)),
-          taskName: S.optional(S.String),
-          eventExecutionSnapshotId: S.optional(S.String),
-          workflowName: S.optional(S.String),
-          clientId: S.optional(S.String),
-          eventExecutionInfoId: S.optional(S.String),
-          checkpointTaskNumber: S.optional(S.String),
-          eventExecutionSnapshotMetadata: S.optional(__S(3498, __c109, 10)),
-          snapshotTime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "EnterpriseCrmEventbusProtoEventExecutionSnapshot" });
-    case 12:
-      return S.Array(__S(3499, __c109, 11));
-    case 13:
-      return S.suspend(() =>
-        S.Struct({
-          logFilePath: S.optional(S.String),
-          ryeLockUnheldCount: S.optional(S.Number),
-          eventExecutionState: S.optional(S.String),
-          eventRetriesFromBeginningCount: S.optional(S.Number),
-          networkAddress: S.optional(S.String),
-          eventExecutionSnapshotsSize: S.optional(S.String),
-          eventAttemptStats: S.optional(__S(3491, __c109, 3)),
-          nextExecutionTime: S.optional(S.String),
-          cancelReason: S.optional(S.String),
-          eventExecutionSnapshot: S.optional(__S(3500, __c109, 12)),
-        }),
-      ).annotate({ identifier: "EnterpriseCrmEventbusProtoEventExecutionDetails" });
-    case 14:
-      return S.suspend(() =>
-        S.Struct({
-          taskAttemptStats: S.optional(__S(3495, __c109, 7)),
-          taskNumber: S.optional(S.String),
-          taskExecutionState: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaTaskExecutionDetails" });
-    case 15:
-      return S.Array(__S(3502, __c109, 14));
-    case 16:
-      return S.suspend(() =>
-        S.Struct({
-          taskAttempt: S.optional(S.Number),
-          ancestorTaskNumbers: S.optional(__S(4128, __c129, 0)),
-          taskNumber: S.optional(S.String),
-          executionAttempt: S.optional(S.Number),
-          task: S.optional(S.String),
-          taskLabel: S.optional(S.String),
-          ancestorIterationNumbers: S.optional(__S(4128, __c129, 0)),
-          integrationName: S.optional(S.String),
-        }),
-      ).annotate({
-        identifier: "GoogleCloudIntegrationsV1alphaExecutionSnapshotExecutionSnapshotMetadata",
-      });
-    case 17:
-      return S.suspend(() =>
-        S.Struct({
-          params: S.optional(__S(2976, __c93, 0)),
-          taskExecutionDetails: S.optional(__S(3503, __c109, 15)),
-          checkpointTaskNumber: S.optional(S.String),
-          executionSnapshotMetadata: S.optional(__S(3504, __c109, 16)),
-        }),
-      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaExecutionSnapshot" });
-    case 18:
-      return S.Array(__S(3505, __c109, 17));
-    case 19:
-      return S.suspend(() =>
-        S.Struct({
-          state: S.optional(S.String),
-          executionSnapshots: S.optional(__S(3506, __c109, 18)),
-          eventExecutionSnapshotsSize: S.optional(S.String),
-          attemptStats: S.optional(__S(3495, __c109, 7)),
-        }),
-      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaExecutionDetails" });
-    case 20:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          snapshotNumber: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          responseParameters: S.optional(__S(2976, __c93, 0)),
-          replayInfo: S.optional(__S(3488, __c109, 0)),
-          requestParameters: S.optional(__S(2976, __c93, 0)),
-          integrationVersionState: S.optional(S.String),
-          executionMethod: S.optional(S.String),
-          cloudKmsKey: S.optional(S.String),
-          directSubExecutions: S.optional(__S(3489, __c109, 1)),
-          eventExecutionDetails: S.optional(__S(3501, __c109, 13)),
-          executionDetails: S.optional(__S(3507, __c109, 19)),
-          cloudLoggingDetails: S.optional(__S(288, __c9, 0)),
-          requestParams: S.optional(__S(194, __c6, 2)),
-          responseParams: S.optional(__S(194, __c6, 2)),
-          createTime: S.optional(S.String),
-          triggerId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaExecution" });
   }
 }
 function __c110(j: number): any {
@@ -12254,7 +11337,7 @@ function __c110(j: number): any {
             baseUrl: "https://integrations.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsIntegrationsVersionsRequest" });
+      ).annotate({ identifier: "GetProjectsLocationsAuthConfigsRequest" });
   }
 }
 function __c111(j: number): any {
@@ -12270,7 +11353,7 @@ function __c111(j: number): any {
             baseUrl: "https://integrations.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsIntegrationsVersionsTestCasesRequest" });
+      ).annotate({ identifier: "GetProjectsLocationsCertificatesRequest" });
   }
 }
 function __c112(j: number): any {
@@ -12286,10 +11369,184 @@ function __c112(j: number): any {
             baseUrl: "https://integrations.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsProductsAuthConfigsRequest" });
+      ).annotate({ identifier: "GetProjectsLocationsIntegrationsExecutionsRequest" });
   }
 }
 function __c113(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          replayMode: S.optional(S.String),
+          originalExecutionInfoId: S.optional(S.String),
+          replayedExecutionInfoIds: S.optional(__S(4256, __c133, 0)),
+          replayReason: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaExecutionReplayInfo" });
+    case 1:
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(3636, __c113, 20)));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          endTime: S.optional(S.String),
+          startTime: S.optional(S.String),
+        }),
+      ).annotate({
+        identifier: "EnterpriseCrmEventbusProtoEventExecutionDetailsEventAttemptStats",
+      });
+    case 3:
+      return S.Array(__S(3618, __c113, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          nextTaskNumber: S.optional(S.String),
+          result: S.optional(S.Boolean),
+          currentTaskNumber: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "EnterpriseCrmEventbusProtoConditionResult" });
+    case 5:
+      return S.Array(__S(3620, __c113, 4));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          startTime: S.optional(S.String),
+          endTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "EnterpriseCrmEventbusProtoTaskExecutionDetailsTaskAttemptStats" });
+    case 7:
+      return S.Array(__S(3622, __c113, 6));
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          taskNumber: S.optional(S.String),
+          taskExecutionState: S.optional(S.String),
+          taskAttemptStats: S.optional(__S(3623, __c113, 7)),
+          skippedOnFailure: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "EnterpriseCrmEventbusProtoTaskExecutionDetails" });
+    case 9:
+      return S.Array(__S(3624, __c113, 8));
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          ancestorIterationNumbers: S.optional(__S(4256, __c133, 0)),
+          ancestorTaskNumbers: S.optional(__S(4256, __c133, 0)),
+          taskNumber: S.optional(S.String),
+          taskName: S.optional(S.String),
+          eventAttemptNum: S.optional(S.Number),
+          integrationName: S.optional(S.String),
+          taskLabel: S.optional(S.String),
+          taskAttemptNum: S.optional(S.Number),
+        }),
+      ).annotate({
+        identifier:
+          "EnterpriseCrmEventbusProtoEventExecutionSnapshotEventExecutionSnapshotMetadata",
+      });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          conditionResults: S.optional(__S(3621, __c113, 5)),
+          eventParams: S.optional(__S(259, __c8, 3)),
+          diffParams: S.optional(__S(259, __c8, 3)),
+          exceedMaxSize: S.optional(S.Boolean),
+          taskExecutionDetails: S.optional(__S(3625, __c113, 9)),
+          taskName: S.optional(S.String),
+          eventExecutionSnapshotId: S.optional(S.String),
+          workflowName: S.optional(S.String),
+          clientId: S.optional(S.String),
+          eventExecutionInfoId: S.optional(S.String),
+          checkpointTaskNumber: S.optional(S.String),
+          eventExecutionSnapshotMetadata: S.optional(__S(3626, __c113, 10)),
+          snapshotTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "EnterpriseCrmEventbusProtoEventExecutionSnapshot" });
+    case 12:
+      return S.Array(__S(3627, __c113, 11));
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          logFilePath: S.optional(S.String),
+          ryeLockUnheldCount: S.optional(S.Number),
+          eventExecutionState: S.optional(S.String),
+          eventRetriesFromBeginningCount: S.optional(S.Number),
+          networkAddress: S.optional(S.String),
+          eventExecutionSnapshotsSize: S.optional(S.String),
+          eventAttemptStats: S.optional(__S(3619, __c113, 3)),
+          nextExecutionTime: S.optional(S.String),
+          cancelReason: S.optional(S.String),
+          eventExecutionSnapshot: S.optional(__S(3628, __c113, 12)),
+        }),
+      ).annotate({ identifier: "EnterpriseCrmEventbusProtoEventExecutionDetails" });
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          taskAttemptStats: S.optional(__S(3623, __c113, 7)),
+          taskNumber: S.optional(S.String),
+          taskExecutionState: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaTaskExecutionDetails" });
+    case 15:
+      return S.Array(__S(3630, __c113, 14));
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          taskAttempt: S.optional(S.Number),
+          ancestorTaskNumbers: S.optional(__S(4256, __c133, 0)),
+          taskNumber: S.optional(S.String),
+          executionAttempt: S.optional(S.Number),
+          task: S.optional(S.String),
+          taskLabel: S.optional(S.String),
+          ancestorIterationNumbers: S.optional(__S(4256, __c133, 0)),
+          integrationName: S.optional(S.String),
+        }),
+      ).annotate({
+        identifier: "GoogleCloudIntegrationsV1alphaExecutionSnapshotExecutionSnapshotMetadata",
+      });
+    case 17:
+      return S.suspend(() =>
+        S.Struct({
+          params: S.optional(__S(3104, __c97, 0)),
+          taskExecutionDetails: S.optional(__S(3631, __c113, 15)),
+          checkpointTaskNumber: S.optional(S.String),
+          executionSnapshotMetadata: S.optional(__S(3632, __c113, 16)),
+        }),
+      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaExecutionSnapshot" });
+    case 18:
+      return S.Array(__S(3633, __c113, 17));
+    case 19:
+      return S.suspend(() =>
+        S.Struct({
+          state: S.optional(S.String),
+          executionSnapshots: S.optional(__S(3634, __c113, 18)),
+          eventExecutionSnapshotsSize: S.optional(S.String),
+          attemptStats: S.optional(__S(3623, __c113, 7)),
+        }),
+      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaExecutionDetails" });
+    case 20:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          snapshotNumber: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          responseParameters: S.optional(__S(3104, __c97, 0)),
+          replayInfo: S.optional(__S(3616, __c113, 0)),
+          requestParameters: S.optional(__S(3104, __c97, 0)),
+          integrationVersionState: S.optional(S.String),
+          executionMethod: S.optional(S.String),
+          cloudKmsKey: S.optional(S.String),
+          directSubExecutions: S.optional(__S(3617, __c113, 1)),
+          eventExecutionDetails: S.optional(__S(3629, __c113, 13)),
+          executionDetails: S.optional(__S(3635, __c113, 19)),
+          cloudLoggingDetails: S.optional(__S(288, __c9, 0)),
+          requestParams: S.optional(__S(194, __c6, 2)),
+          responseParams: S.optional(__S(194, __c6, 2)),
+          createTime: S.optional(S.String),
+          triggerId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaExecution" });
+  }
+}
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12302,31 +11559,7 @@ function __c113(j: number): any {
             baseUrl: "https://integrations.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsProductsCertificatesRequest" });
-  }
-}
-function __c114(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          appsScriptProject: S.optional(S.String),
-          authConfigId: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "v1/{+parent}/appsScriptProjects",
-            baseUrl: "https://integrations.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "CreateProjectsLocationsAppsScriptProjectsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          projectId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaCreateAppsScriptProjectResponse" });
+      ).annotate({ identifier: "GetProjectsLocationsIntegrationsVersionsRequest" });
   }
 }
 function __c115(j: number): any {
@@ -12342,7 +11575,7 @@ function __c115(j: number): any {
             baseUrl: "https://integrations.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsProductsIntegrationsExecutionsRequest" });
+      ).annotate({ identifier: "GetProjectsLocationsIntegrationsVersionsTestCasesRequest" });
   }
 }
 function __c116(j: number): any {
@@ -12358,7 +11591,7 @@ function __c116(j: number): any {
             baseUrl: "https://integrations.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsProductsIntegrationsVersionsRequest" });
+      ).annotate({ identifier: "GetProjectsLocationsProductsAuthConfigsRequest" });
   }
 }
 function __c117(j: number): any {
@@ -12374,7 +11607,7 @@ function __c117(j: number): any {
             baseUrl: "https://integrations.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsProductsSfdcInstancesRequest" });
+      ).annotate({ identifier: "GetProjectsLocationsProductsCertificatesRequest" });
   }
 }
 function __c118(j: number): any {
@@ -12382,15 +11615,31 @@ function __c118(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
+          appsScriptProject: S.optional(S.String),
+          authConfigId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaCreateAppsScriptProjectRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(3776, __c118, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
-            method: "GET",
-            uri: "v1/{+name}",
+            method: "POST",
+            uri: "v1/{+parent}/appsScriptProjects",
             baseUrl: "https://integrations.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsProductsSfdcInstancesSfdcChannelsRequest" });
+      ).annotate({ identifier: "CreateProjectsLocationsAppsScriptProjectsRequest" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          projectId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaCreateAppsScriptProjectResponse" });
   }
 }
 function __c119(j: number): any {
@@ -12406,7 +11655,7 @@ function __c119(j: number): any {
             baseUrl: "https://integrations.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsSfdcInstancesRequest" });
+      ).annotate({ identifier: "GetProjectsLocationsProductsIntegrationsExecutionsRequest" });
   }
 }
 function __c120(j: number): any {
@@ -12422,7 +11671,7 @@ function __c120(j: number): any {
             baseUrl: "https://integrations.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsSfdcInstancesSfdcChannelsRequest" });
+      ).annotate({ identifier: "GetProjectsLocationsProductsIntegrationsVersionsRequest" });
   }
 }
 function __c121(j: number): any {
@@ -12438,7 +11687,7 @@ function __c121(j: number): any {
             baseUrl: "https://integrations.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsTemplatesRequest" });
+      ).annotate({ identifier: "GetProjectsLocationsProductsSfdcInstancesRequest" });
   }
 }
 function __c122(j: number): any {
@@ -12447,9 +11696,81 @@ function __c122(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          subIntegrations: S.optional(__S(3937, __c123, 1)),
-          integration: S.optional(S.String),
         }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1/{+name}",
+            baseUrl: "https://integrations.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "GetProjectsLocationsProductsSfdcInstancesSfdcChannelsRequest" });
+  }
+}
+function __c123(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1/{+name}",
+            baseUrl: "https://integrations.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "GetProjectsLocationsSfdcInstancesRequest" });
+  }
+}
+function __c124(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1/{+name}",
+            baseUrl: "https://integrations.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "GetProjectsLocationsSfdcInstancesSfdcChannelsRequest" });
+  }
+}
+function __c125(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1/{+name}",
+            baseUrl: "https://integrations.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "GetProjectsLocationsTemplatesRequest" });
+  }
+}
+function __c126(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subIntegrations: S.optional(__S(4065, __c127, 1)),
+          integration: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaImportTemplateRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(4032, __c126, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:import",
@@ -12459,7 +11780,7 @@ function __c122(j: number): any {
       ).annotate({ identifier: "ImportProjectsLocationsTemplatesRequest" });
   }
 }
-function __c123(j: number): any {
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12471,30 +11792,32 @@ function __c123(j: number): any {
         identifier: "GoogleCloudIntegrationsV1alphaUseTemplateRequestIntegrationDetails",
       });
     case 1:
-      return S.Record(S.String, __S(3936, __c123, 0));
+      return S.Record(S.String, __S(4064, __c127, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          subIntegrationVersions: S.optional(__S(3968, __c124, 0)),
+          subIntegrationVersions: S.optional(__S(4096, __c128, 0)),
           integrationVersion: S.optional(__S(383, __c11, 31)),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaImportTemplateResponse" });
   }
 }
-function __c124(j: number): any {
+function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(383, __c11, 31));
   }
 }
-function __c125(j: number): any {
+function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          suspensionResult: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(4160, __c130, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:lift",
@@ -12504,9 +11827,15 @@ function __c125(j: number): any {
       ).annotate({ identifier: "LiftProjectsLocationsIntegrationsExecutionsSuspensionsRequest" });
   }
 }
-function __c126(j: number): any {
+function __c130(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({
+          suspensionResult: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaLiftSuspensionRequest" });
+    case 1:
       return S.suspend(() =>
         S.Struct({
           eventExecutionInfoId: S.optional(S.String),
@@ -12514,14 +11843,16 @@ function __c126(j: number): any {
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaLiftSuspensionResponse" });
   }
 }
-function __c127(j: number): any {
+function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          suspensionResult: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(4160, __c130, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:lift",
@@ -12533,33 +11864,19 @@ function __c127(j: number): any {
       });
   }
 }
-function __c128(j: number): any {
+function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          "clientCertificate.encryptedPrivateKey": S.optional(S.String.pipe(T.Query())),
-          "clientCertificate.sslCertificate": S.optional(S.String.pipe(T.Query())),
-          "clientCertificate.passphrase": S.optional(S.String.pipe(T.Query())),
-          name: S.optional(S.String),
-          visibility: S.optional(S.String),
-          displayName: S.optional(S.String),
-          description: S.optional(S.String),
-          createTime: S.optional(S.String),
-          expiryNotificationDuration: S.optional(__S(4128, __c129, 0)),
-          credentialType: S.optional(S.String),
-          overrideValidTime: S.optional(S.String),
-          encryptedCredential: S.optional(S.String),
-          reason: S.optional(S.String),
-          certificateId: S.optional(S.String),
-          state: S.optional(S.String),
-          validTime: S.optional(S.String),
-          creatorEmail: S.optional(S.String),
-          lastModifierEmail: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          decryptedCredential: S.optional(__S(4237, __c132, 13)),
-        }).pipe(
+        S.Extend(
+          __S(4366, __c136, 14),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            "clientCertificate.encryptedPrivateKey": S.optional(S.String.pipe(T.Query())),
+            "clientCertificate.sslCertificate": S.optional(S.String.pipe(T.Query())),
+            "clientCertificate.passphrase": S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/authConfigs",
@@ -12569,26 +11886,26 @@ function __c128(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsAuthConfigsRequest" });
   }
 }
-function __c129(j: number): any {
+function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c130(j: number): any {
+function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Number);
     case 1:
       return S.suspend(() =>
         S.Struct({
-          doubleValues: S.optional(__S(4160, __c130, 0)),
+          doubleValues: S.optional(__S(4288, __c134, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaDoubleParameterArray" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          intValues: S.optional(__S(4128, __c129, 0)),
+          intValues: S.optional(__S(4256, __c133, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaIntParameterArray" });
     case 3:
@@ -12596,59 +11913,59 @@ function __c130(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          booleanValues: S.optional(__S(4163, __c130, 3)),
+          booleanValues: S.optional(__S(4291, __c134, 3)),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaBooleanParameterArray" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          stringValues: S.optional(__S(4128, __c129, 0)),
+          stringValues: S.optional(__S(4256, __c133, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaStringParameterArray" });
   }
 }
-function __c131(j: number): any {
+function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           booleanValue: S.optional(S.Boolean),
-          doubleArray: S.optional(__S(4161, __c130, 1)),
+          doubleArray: S.optional(__S(4289, __c134, 1)),
           intValue: S.optional(S.String),
           jsonValue: S.optional(S.String),
-          intArray: S.optional(__S(4162, __c130, 2)),
+          intArray: S.optional(__S(4290, __c134, 2)),
           doubleValue: S.optional(S.Number),
-          booleanArray: S.optional(__S(4164, __c130, 4)),
+          booleanArray: S.optional(__S(4292, __c134, 4)),
           stringValue: S.optional(S.String),
-          stringArray: S.optional(__S(4165, __c130, 5)),
+          stringArray: S.optional(__S(4293, __c134, 5)),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaValueType" });
   }
 }
-function __c132(j: number): any {
+function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           referenceKey: S.optional(S.String),
-          literalValue: S.optional(__S(4192, __c131, 0)),
+          literalValue: S.optional(__S(4320, __c135, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaParameterMapField" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          key: S.optional(__S(4224, __c132, 0)),
-          value: S.optional(__S(4224, __c132, 0)),
+          key: S.optional(__S(4352, __c136, 0)),
+          value: S.optional(__S(4352, __c136, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaParameterMapEntry" });
     case 2:
-      return S.Array(__S(4225, __c132, 1));
+      return S.Array(__S(4353, __c136, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           keyType: S.optional(S.String),
           valueType: S.optional(S.String),
-          entries: S.optional(__S(4226, __c132, 2)),
+          entries: S.optional(__S(4354, __c136, 2)),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaParameterMap" });
     case 4:
@@ -12669,9 +11986,9 @@ function __c132(j: number): any {
           clientId: S.optional(S.String),
           clientSecret: S.optional(S.String),
           tokenEndpoint: S.optional(S.String),
-          tokenParams: S.optional(__S(4227, __c132, 3)),
+          tokenParams: S.optional(__S(4355, __c136, 3)),
           username: S.optional(S.String),
-          accessToken: S.optional(__S(4228, __c132, 4)),
+          accessToken: S.optional(__S(4356, __c136, 4)),
           requestType: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaOAuth2ResourceOwnerCredentials" });
@@ -12691,8 +12008,8 @@ function __c132(j: number): any {
           clientSecret: S.optional(S.String),
           requestType: S.optional(S.String),
           clientId: S.optional(S.String),
-          tokenParams: S.optional(__S(4227, __c132, 3)),
-          accessToken: S.optional(__S(4228, __c132, 4)),
+          tokenParams: S.optional(__S(4355, __c136, 3)),
+          accessToken: S.optional(__S(4356, __c136, 4)),
           tokenEndpoint: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaOAuth2ClientCredentials" });
@@ -12725,12 +12042,12 @@ function __c132(j: number): any {
           clientId: S.optional(S.String),
           requestType: S.optional(S.String),
           scope: S.optional(S.String),
-          accessToken: S.optional(__S(4228, __c132, 4)),
-          tokenParams: S.optional(__S(4227, __c132, 3)),
+          accessToken: S.optional(__S(4356, __c136, 4)),
+          tokenParams: S.optional(__S(4355, __c136, 3)),
           applyReauthPolicy: S.optional(S.Boolean),
           clientSecret: S.optional(S.String),
           authCode: S.optional(S.String),
-          authParams: S.optional(__S(4227, __c132, 3)),
+          authParams: S.optional(__S(4355, __c136, 3)),
           tokenEndpoint: S.optional(S.String),
           authEndpoint: S.optional(S.String),
         }),
@@ -12745,15 +12062,15 @@ function __c132(j: number): any {
     case 13:
       return S.suspend(() =>
         S.Struct({
-          oauth2ResourceOwnerCredentials: S.optional(__S(4229, __c132, 5)),
-          jwt: S.optional(__S(4230, __c132, 6)),
+          oauth2ResourceOwnerCredentials: S.optional(__S(4357, __c136, 5)),
+          jwt: S.optional(__S(4358, __c136, 6)),
           credentialType: S.optional(S.String),
-          oauth2ClientCredentials: S.optional(__S(4231, __c132, 7)),
-          usernameAndPassword: S.optional(__S(4232, __c132, 8)),
-          oidcToken: S.optional(__S(4233, __c132, 9)),
-          serviceAccountCredentials: S.optional(__S(4234, __c132, 10)),
-          oauth2AuthorizationCode: S.optional(__S(4235, __c132, 11)),
-          authToken: S.optional(__S(4236, __c132, 12)),
+          oauth2ClientCredentials: S.optional(__S(4359, __c136, 7)),
+          usernameAndPassword: S.optional(__S(4360, __c136, 8)),
+          oidcToken: S.optional(__S(4361, __c136, 9)),
+          serviceAccountCredentials: S.optional(__S(4362, __c136, 10)),
+          oauth2AuthorizationCode: S.optional(__S(4363, __c136, 11)),
+          authToken: S.optional(__S(4364, __c136, 12)),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaCredential" });
     case 14:
@@ -12764,7 +12081,7 @@ function __c132(j: number): any {
           displayName: S.optional(S.String),
           description: S.optional(S.String),
           createTime: S.optional(S.String),
-          expiryNotificationDuration: S.optional(__S(4128, __c129, 0)),
+          expiryNotificationDuration: S.optional(__S(4256, __c133, 0)),
           credentialType: S.optional(S.String),
           overrideValidTime: S.optional(S.String),
           encryptedCredential: S.optional(S.String),
@@ -12775,19 +12092,27 @@ function __c132(j: number): any {
           creatorEmail: S.optional(S.String),
           lastModifierEmail: S.optional(S.String),
           updateTime: S.optional(S.String),
-          decryptedCredential: S.optional(__S(4237, __c132, 13)),
+          decryptedCredential: S.optional(__S(4365, __c136, 13)),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaAuthConfig" });
   }
 }
-function __c133(j: number): any {
+function __c137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
           scriptId: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaLinkAppsScriptProjectRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(4384, __c137, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/appsScriptProjects:link",
@@ -12795,15 +12120,9 @@ function __c133(j: number): any {
           }),
         ),
       ).annotate({ identifier: "LinkProjectsLocationsAppsScriptProjectsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          scriptId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaLinkAppsScriptProjectResponse" });
   }
 }
-function __c134(j: number): any {
+function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12823,20 +12142,20 @@ function __c134(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsAuthConfigsRequest" });
   }
 }
-function __c135(j: number): any {
+function __c139(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(4238, __c132, 14));
+      return S.Array(__S(4366, __c136, 14));
     case 1:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          authConfigs: S.optional(__S(4320, __c135, 0)),
+          authConfigs: S.optional(__S(4448, __c139, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaListAuthConfigsResponse" });
   }
 }
-function __c136(j: number): any {
+function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12856,20 +12175,20 @@ function __c136(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsCertificatesRequest" });
   }
 }
-function __c137(j: number): any {
+function __c141(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(4865, __c152, 1));
+      return S.Array(__S(4993, __c156, 1));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          certificates: S.optional(__S(4384, __c137, 0)),
+          certificates: S.optional(__S(4512, __c141, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaListCertificatesResponse" });
   }
 }
-function __c138(j: number): any {
+function __c142(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12907,11 +12226,11 @@ function __c138(j: number): any {
           deploymentModel: S.optional(S.String),
           internalclientRatelimitThreshold: S.optional(S.String),
           connectionRatelimitWindowSeconds: S.optional(S.String),
-          resourceRequests: S.optional(__S(4417, __c138, 1)),
-          hpaConfig: S.optional(__S(4418, __c138, 2)),
+          resourceRequests: S.optional(__S(4545, __c142, 1)),
+          hpaConfig: S.optional(__S(4546, __c142, 2)),
           sharedDeployment: S.optional(S.String),
           deploymentModelMigrationState: S.optional(S.String),
-          resourceLimits: S.optional(__S(4417, __c138, 1)),
+          resourceLimits: S.optional(__S(4545, __c142, 1)),
           maxInstanceRequestConcurrency: S.optional(S.Number),
           tlsMigrationState: S.optional(S.String),
           ratelimitThreshold: S.optional(S.String),
@@ -12927,8 +12246,8 @@ function __c138(j: number): any {
       return S.suspend(() =>
         S.Struct({
           certType: S.optional(S.String),
-          sshClientCert: S.optional(__S(4420, __c138, 4)),
-          sshClientCertPass: S.optional(__S(4420, __c138, 4)),
+          sshClientCert: S.optional(__S(4548, __c142, 4)),
+          sshClientCertPass: S.optional(__S(4548, __c142, 4)),
           username: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudConnectorsV1AuthConfigSshPublicKey" });
@@ -12937,7 +12256,7 @@ function __c138(j: number): any {
         S.Struct({
           authCode: S.optional(S.String),
           redirectUri: S.optional(S.String),
-          scopes: S.optional(__S(4128, __c129, 0)),
+          scopes: S.optional(__S(4256, __c133, 0)),
         }),
       ).annotate({
         identifier: "GoogleCloudConnectorsV1AuthConfigOauth2AuthCodeFlowGoogleManaged",
@@ -12945,7 +12264,7 @@ function __c138(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          password: S.optional(__S(4420, __c138, 4)),
+          password: S.optional(__S(4548, __c142, 4)),
           username: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudConnectorsV1AuthConfigUserPassword" });
@@ -12953,15 +12272,15 @@ function __c138(j: number): any {
       return S.suspend(() =>
         S.Struct({
           clientId: S.optional(S.String),
-          clientSecret: S.optional(__S(4420, __c138, 4)),
+          clientSecret: S.optional(__S(4548, __c142, 4)),
         }),
       ).annotate({ identifier: "GoogleCloudConnectorsV1AuthConfigOauth2ClientCredentials" });
     case 9:
       return S.suspend(() =>
         S.Struct({
           redirectUri: S.optional(S.String),
-          scopes: S.optional(__S(4128, __c129, 0)),
-          clientSecret: S.optional(__S(4420, __c138, 4)),
+          scopes: S.optional(__S(4256, __c133, 0)),
+          clientSecret: S.optional(__S(4548, __c142, 4)),
           authCode: S.optional(S.String),
           authUri: S.optional(S.String),
           clientId: S.optional(S.String),
@@ -12980,8 +12299,8 @@ function __c138(j: number): any {
     case 11:
       return S.suspend(() =>
         S.Struct({
-          clientKey: S.optional(__S(4420, __c138, 4)),
-          jwtClaims: S.optional(__S(4426, __c138, 10)),
+          clientKey: S.optional(__S(4548, __c142, 4)),
+          jwtClaims: S.optional(__S(4554, __c142, 10)),
         }),
       ).annotate({ identifier: "GoogleCloudConnectorsV1AuthConfigOauth2JwtBearer" });
     case 12:
@@ -12996,26 +12315,26 @@ function __c138(j: number): any {
         S.Struct({
           boolValue: S.optional(S.Boolean),
           stringValue: S.optional(S.String),
-          secretValue: S.optional(__S(4420, __c138, 4)),
+          secretValue: S.optional(__S(4548, __c142, 4)),
           intValue: S.optional(S.String),
           key: S.optional(S.String),
-          encryptionKeyValue: S.optional(__S(4428, __c138, 12)),
+          encryptionKeyValue: S.optional(__S(4556, __c142, 12)),
         }),
       ).annotate({ identifier: "GoogleCloudConnectorsV1ConfigVariable" });
     case 14:
-      return S.Array(__S(4429, __c138, 13));
+      return S.Array(__S(4557, __c142, 13));
     case 15:
       return S.suspend(() =>
         S.Struct({
-          sshPublicKey: S.optional(__S(4421, __c138, 5)),
-          oauth2AuthCodeFlowGoogleManaged: S.optional(__S(4422, __c138, 6)),
-          userPassword: S.optional(__S(4423, __c138, 7)),
-          oauth2ClientCredentials: S.optional(__S(4424, __c138, 8)),
+          sshPublicKey: S.optional(__S(4549, __c142, 5)),
+          oauth2AuthCodeFlowGoogleManaged: S.optional(__S(4550, __c142, 6)),
+          userPassword: S.optional(__S(4551, __c142, 7)),
+          oauth2ClientCredentials: S.optional(__S(4552, __c142, 8)),
           authKey: S.optional(S.String),
           authType: S.optional(S.String),
-          oauth2AuthCodeFlow: S.optional(__S(4425, __c138, 9)),
-          oauth2JwtBearer: S.optional(__S(4427, __c138, 11)),
-          additionalVariables: S.optional(__S(4430, __c138, 14)),
+          oauth2AuthCodeFlow: S.optional(__S(4553, __c142, 9)),
+          oauth2JwtBearer: S.optional(__S(4555, __c142, 11)),
+          additionalVariables: S.optional(__S(4558, __c142, 14)),
         }),
       ).annotate({ identifier: "GoogleCloudConnectorsV1AuthConfig" });
     case 16:
@@ -13026,7 +12345,7 @@ function __c138(j: number): any {
         }),
       ).annotate({ identifier: "GoogleCloudConnectorsV1TrafficShapingConfig" });
     case 17:
-      return S.Array(__S(4432, __c138, 16));
+      return S.Array(__S(4560, __c142, 16));
     case 18:
       return S.suspend(() =>
         S.Struct({
@@ -13042,29 +12361,29 @@ function __c138(j: number): any {
         }),
       ).annotate({ identifier: "GoogleCloudConnectorsV1Destination" });
     case 20:
-      return S.Array(__S(4435, __c138, 19));
+      return S.Array(__S(4563, __c142, 19));
     case 21:
       return S.suspend(() =>
         S.Struct({
           key: S.optional(S.String),
-          destinations: S.optional(__S(4436, __c138, 20)),
+          destinations: S.optional(__S(4564, __c142, 20)),
         }),
       ).annotate({ identifier: "GoogleCloudConnectorsV1DestinationConfig" });
     case 22:
-      return S.Array(__S(4437, __c138, 21));
+      return S.Array(__S(4565, __c142, 21));
     case 23:
       return S.suspend(() =>
         S.Struct({
           serverCertType: S.optional(S.String),
           trustModel: S.optional(S.String),
           clientCertType: S.optional(S.String),
-          clientCertificate: S.optional(__S(4420, __c138, 4)),
-          clientPrivateKeyPass: S.optional(__S(4420, __c138, 4)),
-          privateServerCertificate: S.optional(__S(4420, __c138, 4)),
+          clientCertificate: S.optional(__S(4548, __c142, 4)),
+          clientPrivateKeyPass: S.optional(__S(4548, __c142, 4)),
+          privateServerCertificate: S.optional(__S(4548, __c142, 4)),
           type: S.optional(S.String),
           useSsl: S.optional(S.Boolean),
-          clientPrivateKey: S.optional(__S(4420, __c138, 4)),
-          additionalVariables: S.optional(__S(4430, __c138, 14)),
+          clientPrivateKey: S.optional(__S(4548, __c142, 4)),
+          additionalVariables: S.optional(__S(4558, __c142, 14)),
         }),
       ).annotate({ identifier: "GoogleCloudConnectorsV1SslConfig" });
     case 24:
@@ -13083,20 +12402,20 @@ function __c138(j: number): any {
     case 26:
       return S.suspend(() =>
         S.Struct({
-          authConfig: S.optional(__S(4431, __c138, 15)),
-          listenerAuthConfig: S.optional(__S(4431, __c138, 15)),
+          authConfig: S.optional(__S(4559, __c142, 15)),
+          listenerAuthConfig: S.optional(__S(4559, __c142, 15)),
           privateConnectivityEnabled: S.optional(S.Boolean),
-          proxyDestinationConfig: S.optional(__S(4437, __c138, 21)),
-          additionalVariables: S.optional(__S(4430, __c138, 14)),
+          proxyDestinationConfig: S.optional(__S(4565, __c142, 21)),
+          additionalVariables: S.optional(__S(4558, __c142, 14)),
           globalEventFilter: S.optional(S.String),
-          registrationDestinationConfig: S.optional(__S(4437, __c138, 21)),
+          registrationDestinationConfig: S.optional(__S(4565, __c142, 21)),
           eventsListenerIngressEndpoint: S.optional(S.String),
-          privateConnectivityAllowlistedProjects: S.optional(__S(4128, __c129, 0)),
+          privateConnectivityAllowlistedProjects: S.optional(__S(4256, __c133, 0)),
           enrichmentEnabled: S.optional(S.Boolean),
-          sslConfig: S.optional(__S(4439, __c138, 23)),
-          allowedEventTypes: S.optional(__S(4128, __c129, 0)),
-          enrichmentConfig: S.optional(__S(4440, __c138, 24)),
-          deadLetterConfig: S.optional(__S(4441, __c138, 25)),
+          sslConfig: S.optional(__S(4567, __c142, 23)),
+          allowedEventTypes: S.optional(__S(4256, __c133, 0)),
+          enrichmentConfig: S.optional(__S(4568, __c142, 24)),
+          deadLetterConfig: S.optional(__S(4569, __c142, 25)),
         }),
       ).annotate({ identifier: "GoogleCloudConnectorsV1EventingConfig" });
     case 27:
@@ -13124,14 +12443,14 @@ function __c138(j: number): any {
     case 30:
       return S.suspend(() =>
         S.Struct({
-          listValues: S.optional(__S(4128, __c129, 0)),
+          listValues: S.optional(__S(4256, __c133, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudConnectorsV1AdminFiltersStringListValues" });
     case 31:
       return S.suspend(() =>
         S.Struct({
           stringValue: S.optional(S.String),
-          stringListValues: S.optional(__S(4446, __c138, 30)),
+          stringListValues: S.optional(__S(4574, __c142, 30)),
           filterKey: S.optional(S.String),
           filterType: S.optional(S.String),
           intValue: S.optional(S.String),
@@ -13139,10 +12458,10 @@ function __c138(j: number): any {
       ).annotate({ identifier: "GoogleCloudConnectorsV1AdminFilters" });
   }
 }
-function __c139(j: number): any {
+function __c143(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(4447, __c138, 31));
+      return S.Array(__S(4575, __c142, 31));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -13153,22 +12472,22 @@ function __c139(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          eventSubscriptions: S.optional(__S(4128, __c129, 0)),
-          eventTypes: S.optional(__S(4128, __c129, 0)),
+          eventSubscriptions: S.optional(__S(4256, __c133, 0)),
+          eventTypes: S.optional(__S(4256, __c133, 0)),
           id: S.optional(S.String),
           createTime: S.optional(S.String),
-          additionalVariables: S.optional(__S(4430, __c138, 14)),
+          additionalVariables: S.optional(__S(4558, __c142, 14)),
           nextRefreshTime: S.optional(S.String),
           updateTime: S.optional(S.String),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudConnectorsV1EventingRuntimeDataWebhookData" });
     case 3:
-      return S.Array(__S(4450, __c139, 2));
+      return S.Array(__S(4578, __c143, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          webhookData: S.optional(__S(4451, __c139, 3)),
+          webhookData: S.optional(__S(4579, __c143, 3)),
         }),
       ).annotate({ identifier: "GoogleCloudConnectorsV1EventingRuntimeDataWebhookSubscriptions" });
     case 5:
@@ -13181,11 +12500,11 @@ function __c139(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          webhookSubscriptions: S.optional(__S(4452, __c139, 4)),
+          webhookSubscriptions: S.optional(__S(4580, __c143, 4)),
           eventsListenerPscSa: S.optional(S.String),
           eventsListenerEndpoint: S.optional(S.String),
-          status: S.optional(__S(4453, __c139, 5)),
-          webhookData: S.optional(__S(4450, __c139, 2)),
+          status: S.optional(__S(4581, __c143, 5)),
+          webhookData: S.optional(__S(4578, __c143, 2)),
         }),
       ).annotate({ identifier: "GoogleCloudConnectorsV1EventingRuntimeData" });
     case 7:
@@ -13196,51 +12515,51 @@ function __c139(j: number): any {
           host: S.optional(S.String),
           eventingEnablementType: S.optional(S.String),
           serviceDirectory: S.optional(S.String),
-          connectorVersionInfraConfig: S.optional(__S(4419, __c138, 3)),
-          euaOauthAuthConfig: S.optional(__S(4431, __c138, 15)),
-          trafficShapingConfigs: S.optional(__S(4433, __c138, 17)),
-          billingConfig: S.optional(__S(4434, __c138, 18)),
-          destinationConfigs: S.optional(__S(4438, __c138, 22)),
-          eventingConfig: S.optional(__S(4442, __c138, 26)),
+          connectorVersionInfraConfig: S.optional(__S(4547, __c142, 3)),
+          euaOauthAuthConfig: S.optional(__S(4559, __c142, 15)),
+          trafficShapingConfigs: S.optional(__S(4561, __c142, 17)),
+          billingConfig: S.optional(__S(4562, __c142, 18)),
+          destinationConfigs: S.optional(__S(4566, __c142, 22)),
+          eventingConfig: S.optional(__S(4570, __c142, 26)),
           fallbackOnAdminCredentials: S.optional(S.Boolean),
           subscriptionType: S.optional(S.String),
-          configVariables: S.optional(__S(4430, __c138, 14)),
-          status: S.optional(__S(4443, __c138, 27)),
-          logConfig: S.optional(__S(4444, __c138, 28)),
-          lockConfig: S.optional(__S(4445, __c138, 29)),
+          configVariables: S.optional(__S(4558, __c142, 14)),
+          status: S.optional(__S(4571, __c142, 27)),
+          logConfig: S.optional(__S(4572, __c142, 28)),
+          lockConfig: S.optional(__S(4573, __c142, 29)),
           tlsServiceDirectory: S.optional(S.String),
           authOverrideEnabled: S.optional(S.Boolean),
-          sslConfig: S.optional(__S(4439, __c138, 23)),
+          sslConfig: S.optional(__S(4567, __c142, 23)),
           envoyImageLocation: S.optional(S.String),
           suspended: S.optional(S.Boolean),
           asyncOperationsEnabled: S.optional(S.Boolean),
-          adminFilters: S.optional(__S(4448, __c139, 0)),
+          adminFilters: S.optional(__S(4576, __c143, 0)),
           connectorVersion: S.optional(S.String),
           name: S.optional(S.String),
           connectorVersionLaunchStage: S.optional(S.String),
           description: S.optional(S.String),
-          nodeConfig: S.optional(__S(4449, __c139, 1)),
+          nodeConfig: S.optional(__S(4577, __c143, 1)),
           connectionRevision: S.optional(S.String),
           serviceAccount: S.optional(S.String),
           isTrustedTester: S.optional(S.Boolean),
-          eventingRuntimeData: S.optional(__S(4454, __c139, 6)),
-          authConfig: S.optional(__S(4431, __c138, 15)),
+          eventingRuntimeData: S.optional(__S(4582, __c143, 6)),
+          authConfig: S.optional(__S(4559, __c142, 15)),
           labels: S.optional(__S(64, __c2, 0)),
           createTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudConnectorsV1Connection" });
     case 8:
-      return S.Array(__S(4455, __c139, 7));
+      return S.Array(__S(4583, __c143, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          connections: S.optional(__S(4456, __c139, 8)),
+          connections: S.optional(__S(4584, __c143, 8)),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaListConnectionsResponse" });
   }
 }
-function __c140(j: number): any {
+function __c144(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13266,17 +12585,17 @@ function __c140(j: number): any {
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaRuntimeActionSchema" });
     case 2:
-      return S.Array(__S(4481, __c140, 1));
+      return S.Array(__S(4609, __c144, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          runtimeActionSchemas: S.optional(__S(4482, __c140, 2)),
+          runtimeActionSchemas: S.optional(__S(4610, __c144, 2)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaListRuntimeActionSchemasResponse" });
   }
 }
-function __c141(j: number): any {
+function __c145(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13302,17 +12621,17 @@ function __c141(j: number): any {
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaRuntimeEntitySchema" });
     case 2:
-      return S.Array(__S(4513, __c141, 1));
+      return S.Array(__S(4641, __c145, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          runtimeEntitySchemas: S.optional(__S(4514, __c141, 2)),
+          runtimeEntitySchemas: S.optional(__S(4642, __c145, 2)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaListRuntimeEntitySchemasResponse" });
   }
 }
-function __c142(j: number): any {
+function __c146(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13332,7 +12651,7 @@ function __c142(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsIntegrationsRequest" });
   }
 }
-function __c143(j: number): any {
+function __c147(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13347,30 +12666,30 @@ function __c143(j: number): any {
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaIntegration" });
     case 1:
-      return S.Array(__S(4576, __c143, 0));
+      return S.Array(__S(4704, __c147, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          integrations: S.optional(__S(4577, __c143, 1)),
+          integrations: S.optional(__S(4705, __c147, 1)),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaListIntegrationsResponse" });
   }
 }
-function __c144(j: number): any {
+function __c148(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           "filterParams.parameterType": S.optional(S.String.pipe(T.Query())),
-          "filterParams.eventStatuses": S.optional(__S(4128, __c129, 0).pipe(T.Query())),
+          "filterParams.eventStatuses": S.optional(__S(4256, __c133, 0).pipe(T.Query())),
           orderBy: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           readMask: S.optional(S.String.pipe(T.Query())),
           "filterParams.parameterPairValue": S.optional(S.String.pipe(T.Query())),
           "filterParams.executionId": S.optional(S.String.pipe(T.Query())),
           "filterParams.startTime": S.optional(S.String.pipe(T.Query())),
-          "filterParams.taskStatuses": S.optional(__S(4128, __c129, 0).pipe(T.Query())),
+          "filterParams.taskStatuses": S.optional(__S(4256, __c133, 0).pipe(T.Query())),
           "filterParams.parameterPairKey": S.optional(S.String.pipe(T.Query())),
           snapshotMetadataWithoutParams: S.optional(S.Boolean.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
@@ -13393,7 +12712,7 @@ function __c144(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsIntegrationsExecutionsRequest" });
   }
 }
-function __c145(j: number): any {
+function __c149(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13419,19 +12738,19 @@ function __c145(j: number): any {
       return S.suspend(() =>
         S.Struct({
           eventParams: S.optional(__S(224, __c7, 0)),
-          taskExecutionDetails: S.optional(__S(3497, __c109, 9)),
+          taskExecutionDetails: S.optional(__S(3625, __c113, 9)),
           taskName: S.optional(S.String),
           eventExecutionInfoId: S.optional(S.String),
           checkpointTaskNumber: S.optional(S.String),
-          conditionResults: S.optional(__S(3493, __c109, 5)),
+          conditionResults: S.optional(__S(3621, __c113, 5)),
           snapshotTime: S.optional(S.String),
           eventExecutionSnapshotId: S.optional(S.String),
-          eventExecutionSnapshotMetadata: S.optional(__S(3498, __c109, 10)),
+          eventExecutionSnapshotMetadata: S.optional(__S(3626, __c113, 10)),
           diffParams: S.optional(__S(224, __c7, 0)),
         }),
       ).annotate({ identifier: "EnterpriseCrmFrontendsEventbusProtoEventExecutionSnapshot" });
     case 4:
-      return S.Array(__S(4643, __c145, 3));
+      return S.Array(__S(4771, __c149, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -13442,15 +12761,15 @@ function __c145(j: number): any {
           networkAddress: S.optional(S.String),
           eventRetriesFromBeginningCount: S.optional(S.Number),
           eventExecutionState: S.optional(S.String),
-          eventAttemptStats: S.optional(__S(3491, __c109, 3)),
+          eventAttemptStats: S.optional(__S(3619, __c113, 3)),
           nextExecutionTime: S.optional(S.String),
-          eventExecutionSnapshot: S.optional(__S(4644, __c145, 4)),
+          eventExecutionSnapshot: S.optional(__S(4772, __c149, 4)),
         }),
       ).annotate({ identifier: "EnterpriseCrmFrontendsEventbusProtoEventExecutionDetails" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          replayedExecutionInfoIds: S.optional(__S(4128, __c129, 0)),
+          replayedExecutionInfoIds: S.optional(__S(4256, __c133, 0)),
           replayReason: S.optional(S.String),
           originalExecutionInfoId: S.optional(S.String),
           replayMode: S.optional(S.String),
@@ -13461,18 +12780,18 @@ function __c145(j: number): any {
         S.Struct({
           taskNumber: S.optional(S.Number),
           severity: S.optional(S.String),
-          errorCode: S.optional(__S(4641, __c145, 1)),
+          errorCode: S.optional(__S(4769, __c149, 1)),
           errorMessage: S.optional(S.String),
         }),
       ).annotate({ identifier: "EnterpriseCrmEventbusProtoErrorDetail" });
     case 8:
-      return S.Array(__S(4647, __c145, 7));
+      return S.Array(__S(4775, __c149, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
           product: S.optional(S.String),
-          cloudLoggingDetails: S.optional(__S(4640, __c145, 0)),
-          errorCode: S.optional(__S(4641, __c145, 1)),
+          cloudLoggingDetails: S.optional(__S(4768, __c149, 0)),
+          errorCode: S.optional(__S(4769, __c149, 1)),
           requestId: S.optional(S.String),
           lastModifiedTime: S.optional(S.String),
           postMethod: S.optional(S.String),
@@ -13486,27 +12805,27 @@ function __c145(j: number): any {
           workflowName: S.optional(S.String),
           snapshotNumber: S.optional(S.String),
           workflowId: S.optional(S.String),
-          executionTraceInfo: S.optional(__S(4642, __c145, 2)),
-          eventExecutionDetails: S.optional(__S(4645, __c145, 5)),
-          replayInfo: S.optional(__S(4646, __c145, 6)),
+          executionTraceInfo: S.optional(__S(4770, __c149, 2)),
+          eventExecutionDetails: S.optional(__S(4773, __c149, 5)),
+          replayInfo: S.optional(__S(4774, __c149, 6)),
           clientId: S.optional(S.String),
           requestParams: S.optional(__S(224, __c7, 0)),
-          errors: S.optional(__S(4648, __c145, 8)),
+          errors: S.optional(__S(4776, __c149, 8)),
         }),
       ).annotate({ identifier: "EnterpriseCrmFrontendsEventbusProtoEventExecutionInfo" });
     case 10:
-      return S.Array(__S(4649, __c145, 9));
+      return S.Array(__S(4777, __c149, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          executionInfos: S.optional(__S(4650, __c145, 10)),
-          executions: S.optional(__S(3489, __c109, 1)),
+          executionInfos: S.optional(__S(4778, __c149, 10)),
+          executions: S.optional(__S(3617, __c113, 1)),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaListExecutionsResponse" });
   }
 }
-function __c146(j: number): any {
+function __c150(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13526,20 +12845,20 @@ function __c146(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsIntegrationsExecutionsSuspensionsRequest" });
   }
 }
-function __c147(j: number): any {
+function __c151(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(4752, __c148, 16));
+      return S.Array(__S(4880, __c152, 16));
     case 1:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          suspensions: S.optional(__S(4704, __c147, 0)),
+          suspensions: S.optional(__S(4832, __c151, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaListSuspensionsResponse" });
   }
 }
-function __c148(j: number): any {
+function __c152(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13549,12 +12868,12 @@ function __c148(j: number): any {
         }),
       ).annotate({ identifier: "EnterpriseCrmEventbusProtoToken" });
     case 1:
-      return S.Array(__S(4736, __c148, 0));
+      return S.Array(__S(4864, __c152, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           email: S.optional(S.String),
-          tokens: S.optional(__S(4737, __c148, 1)),
+          tokens: S.optional(__S(4865, __c152, 1)),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "EnterpriseCrmEventbusProtoAddress" });
@@ -13580,7 +12899,7 @@ function __c148(j: number): any {
       return S.suspend(() =>
         S.Struct({
           suspensionInfoEventParameterKey: S.optional(S.String),
-          postToQueueWithTriggerIdRequest: S.optional(__S(4739, __c148, 3)),
+          postToQueueWithTriggerIdRequest: S.optional(__S(4867, __c152, 3)),
         }),
       ).annotate({ identifier: "EnterpriseCrmEventbusProtoCustomSuspensionRequest" });
     case 5:
@@ -13595,15 +12914,15 @@ function __c148(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          emailAddress: S.optional(__S(4738, __c148, 2)),
-          request: S.optional(__S(4740, __c148, 4)),
+          emailAddress: S.optional(__S(4866, __c152, 2)),
+          request: S.optional(__S(4868, __c152, 4)),
           pubsubTopic: S.optional(S.String),
-          buganizerNotification: S.optional(__S(4741, __c148, 5)),
+          buganizerNotification: S.optional(__S(4869, __c152, 5)),
           escalatorQueue: S.optional(S.String),
         }),
       ).annotate({ identifier: "EnterpriseCrmEventbusProtoNotification" });
     case 7:
-      return S.Array(__S(4742, __c148, 6));
+      return S.Array(__S(4870, __c152, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
@@ -13622,20 +12941,20 @@ function __c148(j: number): any {
     case 10:
       return S.suspend(() =>
         S.Struct({
-          googleGroup: S.optional(__S(4745, __c148, 9)),
-          gaiaIdentity: S.optional(__S(4745, __c148, 9)),
+          googleGroup: S.optional(__S(4873, __c152, 9)),
+          gaiaIdentity: S.optional(__S(4873, __c152, 9)),
           mdbGroup: S.optional(S.String),
           loasRole: S.optional(S.String),
         }),
       ).annotate({ identifier: "EnterpriseCrmEventbusProtoSuspensionAuthPermissions" });
     case 11:
-      return S.Array(__S(4746, __c148, 10));
+      return S.Array(__S(4874, __c152, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
-          notifications: S.optional(__S(4743, __c148, 7)),
-          suspensionExpiration: S.optional(__S(4744, __c148, 8)),
-          whoMayResolve: S.optional(__S(4747, __c148, 11)),
+          notifications: S.optional(__S(4871, __c152, 7)),
+          suspensionExpiration: S.optional(__S(4872, __c152, 8)),
+          whoMayResolve: S.optional(__S(4875, __c152, 11)),
           customMessage: S.optional(S.String),
         }),
       ).annotate({ identifier: "EnterpriseCrmEventbusProtoSuspensionConfig" });
@@ -13657,8 +12976,8 @@ function __c148(j: number): any {
     case 15:
       return S.suspend(() =>
         S.Struct({
-          expiration: S.optional(__S(4750, __c148, 14)),
-          emailAddresses: S.optional(__S(4128, __c129, 0)),
+          expiration: S.optional(__S(4878, __c152, 14)),
+          emailAddresses: S.optional(__S(4256, __c133, 0)),
           customMessage: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaSuspensionApprovalConfig" });
@@ -13667,19 +12986,19 @@ function __c148(j: number): any {
         S.Struct({
           createTime: S.optional(S.String),
           taskId: S.optional(S.String),
-          suspensionConfig: S.optional(__S(4748, __c148, 12)),
-          audit: S.optional(__S(4749, __c148, 13)),
+          suspensionConfig: S.optional(__S(4876, __c152, 12)),
+          audit: S.optional(__S(4877, __c152, 13)),
           name: S.optional(S.String),
           eventExecutionInfoId: S.optional(S.String),
           lastModifyTime: S.optional(S.String),
-          approvalConfig: S.optional(__S(4751, __c148, 15)),
+          approvalConfig: S.optional(__S(4879, __c152, 15)),
           integration: S.optional(S.String),
           state: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaSuspension" });
   }
 }
-function __c149(j: number): any {
+function __c153(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13700,34 +13019,28 @@ function __c149(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsIntegrationsVersionsRequest" });
   }
 }
-function __c150(j: number): any {
+function __c154(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           noPermission: S.optional(S.Boolean),
-          integrationVersions: S.optional(__S(3968, __c124, 0)),
+          integrationVersions: S.optional(__S(4096, __c128, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaListIntegrationVersionsResponse" });
   }
 }
-function __c151(j: number): any {
+function __c155(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          validStartTime: S.optional(S.String),
-          credentialId: S.optional(S.String),
-          validEndTime: S.optional(S.String),
-          name: S.optional(S.String),
-          displayName: S.optional(S.String),
-          description: S.optional(S.String),
-          rawCertificate: S.optional(__S(4864, __c152, 0)),
-          requestorId: S.optional(S.String),
-          certificateStatus: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(4993, __c156, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/certificates",
@@ -13737,7 +13050,7 @@ function __c151(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsCertificatesRequest" });
   }
 }
-function __c152(j: number): any {
+function __c156(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13756,14 +13069,14 @@ function __c152(j: number): any {
           name: S.optional(S.String),
           displayName: S.optional(S.String),
           description: S.optional(S.String),
-          rawCertificate: S.optional(__S(4864, __c152, 0)),
+          rawCertificate: S.optional(__S(4992, __c156, 0)),
           requestorId: S.optional(S.String),
           certificateStatus: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaCertificate" });
   }
 }
-function __c153(j: number): any {
+function __c157(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13783,17 +13096,17 @@ function __c153(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsIntegrationsVersionsTestCasesRequest" });
     case 1:
-      return S.Array(__S(773, __c24, 5));
+      return S.Array(__S(805, __c25, 5));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          testCases: S.optional(__S(4897, __c153, 1)),
+          testCases: S.optional(__S(5025, __c157, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaListTestCasesResponse" });
   }
 }
-function __c154(j: number): any {
+function __c158(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13813,7 +13126,7 @@ function __c154(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsProductsAuthConfigsRequest" });
   }
 }
-function __c155(j: number): any {
+function __c159(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13833,7 +13146,7 @@ function __c155(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsProductsCertificatesRequest" });
   }
 }
-function __c156(j: number): any {
+function __c160(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13853,7 +13166,7 @@ function __c156(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsProductsIntegrationsRequest" });
   }
 }
-function __c157(j: number): any {
+function __c161(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13862,7 +13175,7 @@ function __c157(j: number): any {
           truncateParams: S.optional(S.Boolean.pipe(T.Query())),
           "filterParams.endTime": S.optional(S.String.pipe(T.Query())),
           snapshotMetadataWithoutParams: S.optional(S.Boolean.pipe(T.Query())),
-          "filterParams.taskStatuses": S.optional(__S(4128, __c129, 0).pipe(T.Query())),
+          "filterParams.taskStatuses": S.optional(__S(4256, __c133, 0).pipe(T.Query())),
           "filterParams.parameterPairKey": S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
@@ -13872,7 +13185,7 @@ function __c157(j: number): any {
           "filterParams.startTime": S.optional(S.String.pipe(T.Query())),
           "filterParams.workflowName": S.optional(S.String.pipe(T.Query())),
           "filterParams.parameterType": S.optional(S.String.pipe(T.Query())),
-          "filterParams.eventStatuses": S.optional(__S(4128, __c129, 0).pipe(T.Query())),
+          "filterParams.eventStatuses": S.optional(__S(4256, __c133, 0).pipe(T.Query())),
           "filterParams.executionId": S.optional(S.String.pipe(T.Query())),
           refreshAcl: S.optional(S.Boolean.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
@@ -13889,7 +13202,7 @@ function __c157(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsProductsIntegrationsExecutionsRequest" });
   }
 }
-function __c158(j: number): any {
+function __c162(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13911,7 +13224,7 @@ function __c158(j: number): any {
       });
   }
 }
-function __c159(j: number): any {
+function __c163(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13932,7 +13245,7 @@ function __c159(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsProductsIntegrationsVersionsRequest" });
   }
 }
-function __c160(j: number): any {
+function __c164(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13952,20 +13265,20 @@ function __c160(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsProductsSfdcInstancesRequest" });
   }
 }
-function __c161(j: number): any {
+function __c165(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1792, __c56, 0));
+      return S.Array(__S(1920, __c60, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          sfdcInstances: S.optional(__S(5152, __c161, 0)),
+          sfdcInstances: S.optional(__S(5280, __c165, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaListSfdcInstancesResponse" });
   }
 }
-function __c162(j: number): any {
+function __c166(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13985,20 +13298,20 @@ function __c162(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsProductsSfdcInstancesSfdcChannelsRequest" });
   }
 }
-function __c163(j: number): any {
+function __c167(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1856, __c58, 0));
+      return S.Array(__S(1984, __c62, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          sfdcChannels: S.optional(__S(5216, __c163, 0)),
+          sfdcChannels: S.optional(__S(5344, __c167, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaListSfdcChannelsResponse" });
   }
 }
-function __c164(j: number): any {
+function __c168(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14018,17 +13331,16 @@ function __c164(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsSfdcInstancesRequest" });
   }
 }
-function __c165(j: number): any {
+function __c169(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          projectId: S.optional(S.String),
-          functionRegion: S.optional(S.String),
-          functionName: S.optional(S.String),
-          gcfApiVersion: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(5440, __c170, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/cloudFunctions",
@@ -14038,9 +13350,18 @@ function __c165(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsCloudFunctionsRequest" });
   }
 }
-function __c166(j: number): any {
+function __c170(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({
+          projectId: S.optional(S.String),
+          functionRegion: S.optional(S.String),
+          functionName: S.optional(S.String),
+          gcfApiVersion: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaCreateCloudFunctionRequest" });
+    case 1:
       return S.suspend(() =>
         S.Struct({
           triggerUrl: S.optional(S.String),
@@ -14048,7 +13369,7 @@ function __c166(j: number): any {
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaCreateCloudFunctionResponse" });
   }
 }
-function __c167(j: number): any {
+function __c171(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14068,7 +13389,7 @@ function __c167(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsSfdcInstancesSfdcChannelsRequest" });
   }
 }
-function __c168(j: number): any {
+function __c172(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14091,44 +13412,31 @@ function __c168(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          templates: S.optional(__S(5408, __c169, 0)),
+          templates: S.optional(__S(5536, __c173, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaListTemplatesResponse" });
   }
 }
-function __c169(j: number): any {
+function __c173(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2021, __c63, 5));
+      return S.Array(__S(2149, __c67, 5));
   }
 }
-function __c170(j: number): any {
+function __c174(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          "clientCertificate.passphrase": S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          "clientCertificate.encryptedPrivateKey": S.optional(S.String.pipe(T.Query())),
-          "clientCertificate.sslCertificate": S.optional(S.String.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          visibility: S.optional(S.String),
-          displayName: S.optional(S.String),
-          description: S.optional(S.String),
-          createTime: S.optional(S.String),
-          expiryNotificationDuration: S.optional(__S(4128, __c129, 0)),
-          credentialType: S.optional(S.String),
-          overrideValidTime: S.optional(S.String),
-          encryptedCredential: S.optional(S.String),
-          reason: S.optional(S.String),
-          certificateId: S.optional(S.String),
-          state: S.optional(S.String),
-          validTime: S.optional(S.String),
-          creatorEmail: S.optional(S.String),
-          lastModifierEmail: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          decryptedCredential: S.optional(__S(4237, __c132, 13)),
-        }).pipe(
+        S.Extend(
+          __S(4366, __c136, 14),
+          S.Struct({
+            "clientCertificate.passphrase": S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            "clientCertificate.encryptedPrivateKey": S.optional(S.String.pipe(T.Query())),
+            "clientCertificate.sslCertificate": S.optional(S.String.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -14138,22 +13446,17 @@ function __c170(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsAuthConfigsRequest" });
   }
 }
-function __c171(j: number): any {
+function __c175(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          validStartTime: S.optional(S.String),
-          credentialId: S.optional(S.String),
-          validEndTime: S.optional(S.String),
-          displayName: S.optional(S.String),
-          description: S.optional(S.String),
-          rawCertificate: S.optional(__S(4864, __c152, 0)),
-          requestorId: S.optional(S.String),
-          certificateStatus: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(4993, __c156, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -14163,41 +13466,17 @@ function __c171(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsCertificatesRequest" });
   }
 }
-function __c172(j: number): any {
+function __c176(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          eucHardeningDisposition: S.optional(S.String),
-          errorCatcherConfigs: S.optional(__S(321, __c10, 1)),
-          enableVariableMasking: S.optional(S.Boolean),
-          parentTemplateId: S.optional(S.String),
-          triggerConfigs: S.optional(__S(322, __c10, 2)),
-          taskConfigs: S.optional(__S(323, __c10, 3)),
-          taskConfigsInternal: S.optional(__S(361, __c11, 9)),
-          lastModifierEmail: S.optional(S.String),
-          status: S.optional(S.String),
-          createdFromTemplate: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          cloudLoggingDetails: S.optional(__S(288, __c9, 0)),
-          lockHolder: S.optional(S.String),
-          origin: S.optional(S.String),
-          databasePersistencePolicy: S.optional(S.String),
-          triggerConfigsInternal: S.optional(__S(367, __c11, 15)),
-          state: S.optional(S.String),
-          createTime: S.optional(S.String),
-          teardown: S.optional(__S(374, __c11, 22)),
-          integrationParametersInternal: S.optional(__S(380, __c11, 28)),
-          userLabel: S.optional(S.String),
-          snapshotNumber: S.optional(S.String),
-          integrationConfigParameters: S.optional(__S(382, __c11, 30)),
-          integrationParameters: S.optional(__S(112, __c3, 16)),
-          description: S.optional(S.String),
-          runAsServiceAccount: S.optional(S.String),
-          cloudKmsKey: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(383, __c11, 31),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -14207,26 +13486,17 @@ function __c172(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsIntegrationsVersionsRequest" });
   }
 }
-function __c173(j: number): any {
+function __c177(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          createTime: S.optional(S.String),
-          lastModifierEmail: S.optional(S.String),
-          testTaskConfigs: S.optional(__S(772, __c24, 4)),
-          databasePersistencePolicy: S.optional(S.String),
-          testInputParameters: S.optional(__S(112, __c3, 16)),
-          lockHolderEmail: S.optional(S.String),
-          displayName: S.optional(S.String),
-          description: S.optional(S.String),
-          triggerId: S.optional(S.String),
-          triggerConfig: S.optional(__S(104, __c3, 8)),
-          updateTime: S.optional(S.String),
-          creatorEmail: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(805, __c25, 5),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -14236,33 +13506,20 @@ function __c173(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsIntegrationsVersionsTestCasesRequest" });
   }
 }
-function __c174(j: number): any {
+function __c178(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          "clientCertificate.sslCertificate": S.optional(S.String.pipe(T.Query())),
-          "clientCertificate.passphrase": S.optional(S.String.pipe(T.Query())),
-          "clientCertificate.encryptedPrivateKey": S.optional(S.String.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          visibility: S.optional(S.String),
-          displayName: S.optional(S.String),
-          description: S.optional(S.String),
-          createTime: S.optional(S.String),
-          expiryNotificationDuration: S.optional(__S(4128, __c129, 0)),
-          credentialType: S.optional(S.String),
-          overrideValidTime: S.optional(S.String),
-          encryptedCredential: S.optional(S.String),
-          reason: S.optional(S.String),
-          certificateId: S.optional(S.String),
-          state: S.optional(S.String),
-          validTime: S.optional(S.String),
-          creatorEmail: S.optional(S.String),
-          lastModifierEmail: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          decryptedCredential: S.optional(__S(4237, __c132, 13)),
-        }).pipe(
+        S.Extend(
+          __S(4366, __c136, 14),
+          S.Struct({
+            "clientCertificate.sslCertificate": S.optional(S.String.pipe(T.Query())),
+            "clientCertificate.passphrase": S.optional(S.String.pipe(T.Query())),
+            "clientCertificate.encryptedPrivateKey": S.optional(S.String.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -14272,22 +13529,17 @@ function __c174(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsProductsAuthConfigsRequest" });
   }
 }
-function __c175(j: number): any {
+function __c179(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          validStartTime: S.optional(S.String),
-          credentialId: S.optional(S.String),
-          validEndTime: S.optional(S.String),
-          displayName: S.optional(S.String),
-          description: S.optional(S.String),
-          rawCertificate: S.optional(__S(4864, __c152, 0)),
-          requestorId: S.optional(S.String),
-          certificateStatus: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(4993, __c156, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -14297,41 +13549,17 @@ function __c175(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsProductsCertificatesRequest" });
   }
 }
-function __c176(j: number): any {
+function __c180(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          eucHardeningDisposition: S.optional(S.String),
-          errorCatcherConfigs: S.optional(__S(321, __c10, 1)),
-          enableVariableMasking: S.optional(S.Boolean),
-          parentTemplateId: S.optional(S.String),
-          triggerConfigs: S.optional(__S(322, __c10, 2)),
-          taskConfigs: S.optional(__S(323, __c10, 3)),
-          taskConfigsInternal: S.optional(__S(361, __c11, 9)),
-          lastModifierEmail: S.optional(S.String),
-          status: S.optional(S.String),
-          createdFromTemplate: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          cloudLoggingDetails: S.optional(__S(288, __c9, 0)),
-          lockHolder: S.optional(S.String),
-          origin: S.optional(S.String),
-          databasePersistencePolicy: S.optional(S.String),
-          triggerConfigsInternal: S.optional(__S(367, __c11, 15)),
-          state: S.optional(S.String),
-          createTime: S.optional(S.String),
-          teardown: S.optional(__S(374, __c11, 22)),
-          integrationParametersInternal: S.optional(__S(380, __c11, 28)),
-          userLabel: S.optional(S.String),
-          snapshotNumber: S.optional(S.String),
-          integrationConfigParameters: S.optional(__S(382, __c11, 30)),
-          integrationParameters: S.optional(__S(112, __c3, 16)),
-          description: S.optional(S.String),
-          runAsServiceAccount: S.optional(S.String),
-          cloudKmsKey: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(383, __c11, 31),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -14341,22 +13569,17 @@ function __c176(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsProductsIntegrationsVersionsRequest" });
   }
 }
-function __c177(j: number): any {
+function __c181(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          authConfigId: S.optional(__S(4128, __c129, 0)),
-          deleteTime: S.optional(S.String),
-          displayName: S.optional(S.String),
-          description: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          serviceAuthority: S.optional(S.String),
-          sfdcOrgId: S.optional(S.String),
-          createTime: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1920, __c60, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",

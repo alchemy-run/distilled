@@ -239,9 +239,8 @@ export interface RegionalInventoryDataSource {
   /** Required. Immutable. The two-letter ISO 639-1 language of the items to which the regional inventory is provided. */
   contentLanguage?: string | undefined;
 }
-export interface CreateAccountsDataSourcesRequest {
-  /** Required. The account where this data source will be created. Format: `accounts/{account}` */
-  parent: string;
+/** The [data source](/merchant/api/guides/data-sources/overview) for the Merchant Center account. */
+export interface DataSource {
   /** The [product review](https://support.google.com/merchants/answer/7045996) data source. */
   productReviewDataSource?: ProductReviewDataSource | undefined;
   /** Output only. The data source id. */
@@ -267,32 +266,9 @@ export interface CreateAccountsDataSourcesRequest {
   /** The [regional inventory](https://support.google.com/merchants/answer/7439058) data source. */
   regionalInventoryDataSource?: RegionalInventoryDataSource | undefined;
 }
-/** The [data source](/merchant/api/guides/data-sources/overview) for the Merchant Center account. */
-export interface DataSource {
-  /** The [product review](https://support.google.com/merchants/answer/7045996) data source. */
-  productReviewDataSource?: ProductReviewDataSource | undefined;
-  /** Output only. The data source id. */
-  dataSourceId?: string | undefined;
-  /** Required. The displayed data source name in the Merchant Center UI. */
-  displayName?: string | undefined;
-  /** Output only. Determines the type of input to the data source. Based on the input some settings might not work. Only generic data sources can be created through the API. */
-  input?: DataSourceInputEnum | undefined;
-  /** Optional. The field is used only when data is managed through a file. */
-  fileInput?: FileInput | undefined;
-  /** The [local inventory](https://support.google.com/merchants/answer/7023001) data source. */
-  localInventoryDataSource?: LocalInventoryDataSource | undefined;
-  /** The [primary data source](https://support.google.com/merchants/answer/7439058) for local and online products. */
-  primaryProductDataSource?: PrimaryProductDataSource | undefined;
-  /** Required. Identifier. The name of the data source. Format: `accounts/{account}/dataSources/{datasource}` */
-  name?: string | undefined;
-  /** The [promotion](https://support.google.com/merchants/answer/2906014) data source. */
-  promotionDataSource?: PromotionDataSource | undefined;
-  /** The [supplemental data source](https://support.google.com/merchants/answer/7439058) for local and online products. */
-  supplementalProductDataSource?: SupplementalProductDataSource | undefined;
-  /** The [merchant review](https://support.google.com/merchants/answer/7045996) data source. */
-  merchantReviewDataSource?: ProductReviewDataSource | undefined;
-  /** The [regional inventory](https://support.google.com/merchants/answer/7439058) data source. */
-  regionalInventoryDataSource?: RegionalInventoryDataSource | undefined;
+export interface CreateAccountsDataSourcesRequest extends DataSource {
+  /** Required. The account where this data source will be created. Format: `accounts/{account}` */
+  parent: string;
 }
 export interface DeleteAccountsDataSourcesRequest {
   /** Required. The name of the data source to delete. Format: `accounts/{account}/dataSources/{datasource}` */
@@ -373,33 +349,11 @@ export interface ListDataSourcesResponse {
   /** The data sources from the specified account. */
   dataSources?: DataSourceList | undefined;
 }
-export interface PatchAccountsDataSourcesRequest {
+export interface PatchAccountsDataSourcesRequest extends Omit<DataSource, "name"> {
   /** Required. Identifier. The name of the data source. Format: `accounts/{account}/dataSources/{datasource}` */
   name: string;
   /** Required. The list of data source fields to be updated. Fields specified in the update mask without a value specified in the body will be deleted from the data source. Providing special "*" value for full data source replacement is not supported. For example, If you insert `updateMask=displayName` in the request, it will only update the `displayName` leaving all other fields untouched. */
   updateMask?: string | undefined;
-  /** The [product review](https://support.google.com/merchants/answer/7045996) data source. */
-  productReviewDataSource?: ProductReviewDataSource | undefined;
-  /** Output only. The data source id. */
-  dataSourceId?: string | undefined;
-  /** Required. The displayed data source name in the Merchant Center UI. */
-  displayName?: string | undefined;
-  /** Output only. Determines the type of input to the data source. Based on the input some settings might not work. Only generic data sources can be created through the API. */
-  input?: DataSourceInputEnum | (string & {}) | undefined;
-  /** Optional. The field is used only when data is managed through a file. */
-  fileInput?: FileInput | undefined;
-  /** The [local inventory](https://support.google.com/merchants/answer/7023001) data source. */
-  localInventoryDataSource?: LocalInventoryDataSource | undefined;
-  /** The [primary data source](https://support.google.com/merchants/answer/7439058) for local and online products. */
-  primaryProductDataSource?: PrimaryProductDataSource | undefined;
-  /** The [promotion](https://support.google.com/merchants/answer/2906014) data source. */
-  promotionDataSource?: PromotionDataSource | undefined;
-  /** The [supplemental data source](https://support.google.com/merchants/answer/7439058) for local and online products. */
-  supplementalProductDataSource?: SupplementalProductDataSource | undefined;
-  /** The [merchant review](https://support.google.com/merchants/answer/7045996) data source. */
-  merchantReviewDataSource?: ProductReviewDataSource | undefined;
-  /** The [regional inventory](https://support.google.com/merchants/answer/7439058) data source. */
-  regionalInventoryDataSource?: RegionalInventoryDataSource | undefined;
 }
 export type CreateAccountsDataSourcesError =
   | NotFound
@@ -547,21 +501,13 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          productReviewDataSource: S.optional(__S(32, __c2, 0)),
-          dataSourceId: S.optional(S.String),
-          displayName: S.optional(S.String),
-          input: S.optional(S.String),
-          fileInput: S.optional(__S(50, __c3, 2)),
-          localInventoryDataSource: S.optional(__S(51, __c3, 3)),
-          primaryProductDataSource: S.optional(__S(58, __c3, 10)),
-          promotionDataSource: S.optional(__S(59, __c3, 11)),
-          supplementalProductDataSource: S.optional(__S(60, __c3, 12)),
-          merchantReviewDataSource: S.optional(__S(32, __c2, 0)),
-          regionalInventoryDataSource: S.optional(__S(61, __c3, 13)),
-        }).pipe(
+        S.Extend(
+          __S(62, __c3, 14),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "datasources/v1/{+name}",
@@ -575,21 +521,12 @@ function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          productReviewDataSource: S.optional(__S(32, __c2, 0)),
-          dataSourceId: S.optional(S.String),
-          displayName: S.optional(S.String),
-          input: S.optional(S.String),
-          fileInput: S.optional(__S(50, __c3, 2)),
-          localInventoryDataSource: S.optional(__S(51, __c3, 3)),
-          primaryProductDataSource: S.optional(__S(58, __c3, 10)),
-          name: S.optional(S.String),
-          promotionDataSource: S.optional(__S(59, __c3, 11)),
-          supplementalProductDataSource: S.optional(__S(60, __c3, 12)),
-          merchantReviewDataSource: S.optional(__S(32, __c2, 0)),
-          regionalInventoryDataSource: S.optional(__S(61, __c3, 13)),
-        }).pipe(
+        S.Extend(
+          __S(62, __c3, 14),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "datasources/v1/{+parent}/dataSources",

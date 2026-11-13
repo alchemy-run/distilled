@@ -218,15 +218,8 @@ export interface Firebasedataconnect_Schema {
   uid?: string | undefined;
 }
 export type Firebasedataconnect_SchemaList = Array<Firebasedataconnect_Schema>;
-export interface CreateProjectsLocationsServicesRequest {
-  /** Required. Value of parent. */
-  parent: string;
-  /** Required. The ID to use for the service, which will become the final component of the service's resource name. */
-  serviceId?: string | undefined;
-  /** Optional. If set, validate the request and preview the Service, but do not actually create it. */
-  validateOnly?: boolean | undefined;
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
+/** A Firebase SQL Connect service. */
+export interface Service {
   /** Optional. Stores small amounts of arbitrary data. */
   annotations?: StringMap | undefined;
   /** Optional. Mutable human-readable name. 63 character limit. */
@@ -256,6 +249,16 @@ export interface CreateProjectsLocationsServicesRequest {
   /** Optional. Input only. The SQL source files like `*.sql` for deploying a PostgREST service. */
   sqlSource?: Source | undefined;
 }
+export interface CreateProjectsLocationsServicesRequest extends Service {
+  /** Required. Value of parent. */
+  parent: string;
+  /** Required. The ID to use for the service, which will become the final component of the service's resource name. */
+  serviceId?: string | undefined;
+  /** Optional. If set, validate the request and preview the Service, but do not actually create it. */
+  validateOnly?: boolean | undefined;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+}
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
@@ -280,7 +283,7 @@ export interface Operation {
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
   name?: string | undefined;
 }
-export interface CreateProjectsLocationsServicesConnectorsRequest {
+export interface CreateProjectsLocationsServicesConnectorsRequest extends Connector {
   /** Required. The ID to use for the connector, which will become the final component of the connector's resource name. */
   connectorId?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -289,30 +292,8 @@ export interface CreateProjectsLocationsServicesConnectorsRequest {
   parent: string;
   /** Optional. If set, validate the request and preview the Connector, but do not actually create it. */
   validateOnly?: boolean | undefined;
-  /** Optional. Stores small amounts of arbitrary data. */
-  annotations?: StringMap | undefined;
-  /** Optional. The client cache settings of the connector. */
-  clientCache?: ClientCache | undefined;
-  /** Identifier. The relative resource name of the connector, in the format: ``` projects/{project}/locations/{location}/services/{service}/connectors/{connector} ``` */
-  name?: string | undefined;
-  /** Output only. [Output only] Create time stamp. */
-  createTime?: string | undefined;
-  /** Optional. Mutable human-readable name. 63 character limit. */
-  displayName?: string | undefined;
-  /** Optional. Labels as key value pairs. */
-  labels?: StringMap | undefined;
-  /** Output only. [Output only] Update time stamp. */
-  updateTime?: string | undefined;
-  /** Output only. This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. [AIP-154](https://google.aip.dev/154) */
-  etag?: string | undefined;
-  /** Output only. A field that if true, indicates that the system is working to compile and deploy the connector. */
-  reconciling?: boolean | undefined;
-  /** Required. The source files that comprise the connector. */
-  source?: Source | undefined;
-  /** Output only. System-assigned, unique identifier. */
-  uid?: string | undefined;
 }
-export interface CreateProjectsLocationsServicesSchemasRequest {
+export interface CreateProjectsLocationsServicesSchemasRequest extends Firebasedataconnect_Schema {
   /** Required. The ID to use for the schema, which will become the final component of the schema's resource name. Currently, only `main` is supported and any other schema ID will result in an error. */
   schemaId?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -321,28 +302,6 @@ export interface CreateProjectsLocationsServicesSchemasRequest {
   parent: string;
   /** Optional. If set, validate the request and preview the Schema, but do not actually update it. */
   validateOnly?: boolean | undefined;
-  /** Output only. A field that if true, indicates that the system is working to compile and deploy the schema. */
-  reconciling?: boolean | undefined;
-  /** Output only. [Output only] Create time stamp. */
-  createTime?: string | undefined;
-  /** Identifier. The relative resource name of the schema, in the format: ``` projects/{project}/locations/{location}/services/{service}/schemas/{schema} ``` Right now, the only supported schema is "main". */
-  name?: string | undefined;
-  /** Required. The data sources linked in the schema. */
-  datasources?: DatasourceList | undefined;
-  /** Optional. Mutable human-readable name. 63 character limit. */
-  displayName?: string | undefined;
-  /** Output only. This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. [AIP-154](https://google.aip.dev/154) */
-  etag?: string | undefined;
-  /** Required. The source files that comprise the application schema. */
-  source?: Source | undefined;
-  /** Optional. Stores small amounts of arbitrary data. */
-  annotations?: StringMap | undefined;
-  /** Output only. [Output only] Update time stamp. */
-  updateTime?: string | undefined;
-  /** Optional. Labels as key value pairs. */
-  labels?: StringMap | undefined;
-  /** Output only. System-assigned, unique identifier. */
-  uid?: string | undefined;
 }
 export interface DeleteProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be deleted. */
@@ -404,9 +363,8 @@ export interface GraphqlRequestExtensions {
   /** Optional. If set, impersonate a request with given Firebase Auth context and evaluate the auth policies on the operation. If omitted, bypass any defined auth policies. */
   impersonate?: Impersonation | undefined;
 }
-export interface ExecuteGraphqlProjectsLocationsServicesRequest {
-  /** Required. The relative resource name of Firebase SQL Connect service, in the format: ``` projects/{project}/locations/{location}/services/{service} ``` */
-  name: string;
+/** The GraphQL request to Firebase SQL Connect. It strives to match the GraphQL over HTTP spec. https://github.com/graphql/graphql-over-http/blob/main/spec/GraphQLOverHTTP.md#post */
+export interface GraphqlRequest {
   /** Optional. The name of the GraphQL operation name. Required only if `query` contains multiple operations. See https://graphql.org/learn/queries/#operation-name. */
   operationName?: string | undefined;
   /** Optional. Values for GraphQL variables provided in this request. */
@@ -415,6 +373,10 @@ export interface ExecuteGraphqlProjectsLocationsServicesRequest {
   query?: string | undefined;
   /** Optional. Additional GraphQL request information. */
   extensions?: GraphqlRequestExtensions | undefined;
+}
+export interface ExecuteGraphqlProjectsLocationsServicesRequest extends GraphqlRequest {
+  /** Required. The relative resource name of Firebase SQL Connect service, in the format: ``` projects/{project}/locations/{location}/services/{service} ``` */
+  name: string;
 }
 export type GraphqlErrorExtensionsWarningLevelEnum =
   | "WARNING_LEVEL_UNKNOWN"
@@ -511,25 +473,20 @@ export interface GraphqlResponse {
   /** Additional response information. It conforms to https://spec.graphql.org/draft/#sec-Extensions . */
   extensions?: GraphqlResponseExtensions | undefined;
 }
-export interface ExecuteGraphqlReadProjectsLocationsServicesRequest {
+export interface ExecuteGraphqlReadProjectsLocationsServicesRequest extends GraphqlRequest {
   /** Required. The relative resource name of Firebase SQL Connect service, in the format: ``` projects/{project}/locations/{location}/services/{service} ``` */
   name: string;
-  /** Optional. The name of the GraphQL operation name. Required only if `query` contains multiple operations. See https://graphql.org/learn/queries/#operation-name. */
-  operationName?: string | undefined;
-  /** Optional. Values for GraphQL variables provided in this request. */
-  variables?: DocumentMap | undefined;
-  /** Required. The GraphQL query document source. */
-  query?: string | undefined;
-  /** Optional. Additional GraphQL request information. */
-  extensions?: GraphqlRequestExtensions | undefined;
 }
-export interface ExecuteMutationProjectsLocationsServicesConnectorsRequest {
-  /** Required. The resource name of the connector to find the predefined mutation, in the format: ``` projects/{project}/locations/{location}/services/{service}/connectors/{connector} ``` */
-  name: string;
+/** The ExecuteMutation request to Firebase SQL Connect. */
+export interface ExecuteMutationRequest {
   /** Optional. Values for GraphQL variables provided in this request. */
   variables?: DocumentMap | undefined;
   /** Required. The name of the GraphQL operation name. Required because all Connector operations must be named. See https://graphql.org/learn/queries/#operation-name. */
   operationName?: string | undefined;
+}
+export interface ExecuteMutationProjectsLocationsServicesConnectorsRequest extends ExecuteMutationRequest {
+  /** Required. The resource name of the connector to find the predefined mutation, in the format: ``` projects/{project}/locations/{location}/services/{service}/connectors/{connector} ``` */
+  name: string;
 }
 /** The ExecuteMutation response from Firebase SQL Connect. */
 export interface ExecuteMutationResponse {
@@ -540,13 +497,11 @@ export interface ExecuteMutationResponse {
   /** Errors of this response. */
   errors?: GraphqlErrorList | undefined;
 }
-export interface ExecuteQueryProjectsLocationsServicesConnectorsRequest {
+/** The ExecuteQuery request to Firebase SQL Connect. */
+export type ExecuteQueryRequest = ExecuteMutationRequest;
+export interface ExecuteQueryProjectsLocationsServicesConnectorsRequest extends ExecuteMutationRequest {
   /** Required. The resource name of the connector to find the predefined query, in the format: ``` projects/{project}/locations/{location}/services/{service}/connectors/{connector} ``` */
   name: string;
-  /** Optional. Values for GraphQL variables provided in this request. */
-  variables?: DocumentMap | undefined;
-  /** Required. The name of the GraphQL operation name. Required because all Connector operations must be named. See https://graphql.org/learn/queries/#operation-name. */
-  operationName?: string | undefined;
 }
 /** The ExecuteQuery response from Firebase SQL Connect. */
 export interface ExecuteQueryResponse {
@@ -557,13 +512,16 @@ export interface ExecuteQueryResponse {
   /** The result of executing the requested operation. */
   data?: DocumentMap | undefined;
 }
-export interface GenerateQueryProjectsLocationsServicesRequest {
-  /** Required. The resource name of the service in which to generate the query. Format: projects/{project}/locations/{location}/services/{service} */
-  name: string;
+/** Request message for GenerateQuery. */
+export interface GenerateQueryRequest {
   /** Optional. The user's locally defined FDC Schema(s). If not defined, the backend will fetch the user's deployed schema. */
   schemas?: Firebasedataconnect_SchemaList | undefined;
   /** Required. The natural language description of the desired query. Example: "Find all users who signed up in the last 7 days." */
   prompt?: string | undefined;
+}
+export interface GenerateQueryProjectsLocationsServicesRequest extends GenerateQueryRequest {
+  /** Required. The resource name of the service in which to generate the query. Format: projects/{project}/locations/{location}/services/{service} */
+  name: string;
 }
 export type GenerationStatusStateEnum =
   | "STATE_UNSPECIFIED"
@@ -603,11 +561,14 @@ export interface GenerateQueryResponse {
   /** Required. The content from the current conversational turn. */
   part?: Part | undefined;
 }
-export interface GenerateSchemaProjectsLocationsServicesRequest {
-  /** Required. The resource name of the service in which to generate the schema. Format: projects/{project}/locations/{location}/services/{service} */
-  name: string;
+/** Request message for GenerateSchema. */
+export interface GenerateSchemaRequest {
   /** Required. The natural language description of the data model to generate. Example: "A blog system with Users, Posts, and Comments. Users can have multiple posts." */
   prompt?: string | undefined;
+}
+export interface GenerateSchemaProjectsLocationsServicesRequest extends GenerateSchemaRequest {
+  /** Required. The resource name of the service in which to generate the schema. Format: projects/{project}/locations/{location}/services/{service} */
+  name: string;
 }
 /** Output for streaming generate schema requests */
 export interface GenerateSchemaResponse {
@@ -641,37 +602,6 @@ export interface GetProjectsLocationsServicesRequest {
   /** Required. The name of the service to retrieve, in the format: ``` projects/{project}/locations/{location}/services/{service} ``` */
   name: string;
 }
-/** A Firebase SQL Connect service. */
-export interface Service {
-  /** Optional. Stores small amounts of arbitrary data. */
-  annotations?: StringMap | undefined;
-  /** Optional. Mutable human-readable name. 63 character limit. */
-  displayName?: string | undefined;
-  /** Output only. This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. [AIP-154](https://google.aip.dev/154) */
-  etag?: string | undefined;
-  /** Optional. Labels as key value pairs. */
-  labels?: StringMap | undefined;
-  /** Output only. [Output only] Create time stamp. */
-  createTime?: string | undefined;
-  /** Identifier. The relative resource name of the Firebase SQL Connect service, in the format: ``` projects/{project}/locations/{location}/services/{service} ``` Note that the service ID is specific to Firebase SQL Connect and does not correspond to any of the instance IDs of the underlying data source connections. */
-  name?: string | undefined;
-  /** Optional. Input only. The GraphQL source files like `dataconnect.yaml` and `*.gql`. */
-  graphqlSource?: Source | undefined;
-  /** Output only. A field that if true, indicates that the system is working update the service. */
-  reconciling?: boolean | undefined;
-  /** Output only. The list of connectors in this service. Connectors returned in this collection are a summary view. Authoritative lifecycle metadata and entity tags are omitted from embedded representations. Call `GetConnector` to retrieve the complete resource. */
-  connectors?: ConnectorList | undefined;
-  /** Optional. Input only. Deprecated: Use `sql_source` or `graphql_source` instead. The source files for service, schemas, and connectors. */
-  source?: Source | undefined;
-  /** Optional. The list of schemas in this service. Schemas returned in this collection are a summary view. Authoritative lifecycle metadata and entity tags are omitted from embedded representations. Call `GetSchema` to retrieve the complete resource. */
-  schemas?: Firebasedataconnect_SchemaList | undefined;
-  /** Output only. System-assigned, unique identifier. */
-  uid?: string | undefined;
-  /** Output only. [Output only] Update time stamp. */
-  updateTime?: string | undefined;
-  /** Optional. Input only. The SQL source files like `*.sql` for deploying a PostgREST service. */
-  sqlSource?: Source | undefined;
-}
 export interface GetProjectsLocationsServicesConnectorsRequest {
   /** Required. The name of the connector to retrieve, in the format: ``` projects/{project}/locations/{location}/services/{service}/connectors/{connector} ``` */
   name: string;
@@ -680,9 +610,8 @@ export interface GetProjectsLocationsServicesSchemasRequest {
   /** Required. The name of the schema to retrieve, in the format: ``` projects/{project}/locations/{location}/services/{service}/schemas/{schema} ``` */
   name: string;
 }
-export interface ImpersonateMutationProjectsLocationsServicesConnectorsRequest {
-  /** Required. The resource name of the connector to find the predefined query/mutation, in the format: ``` projects/{project}/locations/{location}/services/{service}/connectors/{connector} ``` */
-  name: string;
+/** The Impersonate request to Firebase SQL Connect. */
+export interface ImpersonateRequest {
   /** Optional. Additional GraphQL request information. */
   extensions?: GraphqlRequestExtensions | undefined;
   /** Required. The name of the GraphQL operation name. Required because all Connector operations must be named. See https://graphql.org/learn/queries/#operation-name. */
@@ -690,27 +619,17 @@ export interface ImpersonateMutationProjectsLocationsServicesConnectorsRequest {
   /** Optional. Values for GraphQL variables provided in this request. */
   variables?: DocumentMap | undefined;
 }
-export interface ImpersonateQueryProjectsLocationsServicesConnectorsRequest {
+export interface ImpersonateMutationProjectsLocationsServicesConnectorsRequest extends ImpersonateRequest {
   /** Required. The resource name of the connector to find the predefined query/mutation, in the format: ``` projects/{project}/locations/{location}/services/{service}/connectors/{connector} ``` */
   name: string;
-  /** Optional. Additional GraphQL request information. */
-  extensions?: GraphqlRequestExtensions | undefined;
-  /** Required. The name of the GraphQL operation name. Required because all Connector operations must be named. See https://graphql.org/learn/queries/#operation-name. */
-  operationName?: string | undefined;
-  /** Optional. Values for GraphQL variables provided in this request. */
-  variables?: DocumentMap | undefined;
 }
-export interface IntrospectGraphqlProjectsLocationsServicesRequest {
+export interface ImpersonateQueryProjectsLocationsServicesConnectorsRequest extends ImpersonateRequest {
+  /** Required. The resource name of the connector to find the predefined query/mutation, in the format: ``` projects/{project}/locations/{location}/services/{service}/connectors/{connector} ``` */
+  name: string;
+}
+export interface IntrospectGraphqlProjectsLocationsServicesRequest extends GraphqlRequest {
   /** Required. The relative resource name of Firebase SQL Connect service, in the format: ``` projects/{project}/locations/{location}/services/{service} ``` */
   name: string;
-  /** Optional. The name of the GraphQL operation name. Required only if `query` contains multiple operations. See https://graphql.org/learn/queries/#operation-name. */
-  operationName?: string | undefined;
-  /** Optional. Values for GraphQL variables provided in this request. */
-  variables?: DocumentMap | undefined;
-  /** Required. The GraphQL query document source. */
-  query?: string | undefined;
-  /** Optional. Additional GraphQL request information. */
-  extensions?: GraphqlRequestExtensions | undefined;
 }
 export interface ListProjectsLocationsRequest {
   /** The maximum number of results to return. If not set, the service selects a default. */
@@ -833,9 +752,8 @@ export type MigrateSchemaRequestExecutionModeEnum =
   | "EXECUTE_AND_RECORD"
   | "EXECUTE_ONLY"
   | "RECORD_ONLY";
-export interface MigrateProjectsLocationsServicesSchemasRequest {
-  /** Required. Resource name of the target schema: projects/{project}/locations/{location}/services/{service}/schemas/{schema} Note: Only `schemas/main` is supported (singleton schema per service). */
-  name: string;
+/** Request message for `MigrateSchema`. Next tag: 7 */
+export interface MigrateSchemaRequest {
   /** Optional. When true, runs preflight validation (syntax, applied-step immutability, sequence ordering, CONCURRENTLY isolation, and SAVEPOINT catalog checks) without committing mutations to the database. */
   validateOnly?: boolean | undefined;
   /** Required. Ordered migration steps from `./sql/migrations/` (or a single ad-hoc step). Backend compares submitted versions against `firebasesql.schema_migrations`: already-applied steps are verified for SQL immutability and skipped, while unapplied steps (`version > MAX(applied_version)`) are executed. All unapplied transactional steps in a single request execute atomically within one database transaction (BEGIN ... COMMIT): either every unapplied step commits and is recorded in the ledger, or the entire request rolls back. An unapplied step containing CREATE INDEX CONCURRENTLY or DROP INDEX CONCURRENTLY cannot be mixed with other unapplied steps and must be the sole unapplied step executed in the request. */
@@ -843,7 +761,11 @@ export interface MigrateProjectsLocationsServicesSchemasRequest {
   /** Optional. Execution mode controlling DDL execution and ledger recording. Defaults to EXECUTE_AND_RECORD. */
   executionMode?: MigrateSchemaRequestExecutionModeEnum | (string & {}) | undefined;
 }
-export interface PatchProjectsLocationsServicesRequest {
+export interface MigrateProjectsLocationsServicesSchemasRequest extends MigrateSchemaRequest {
+  /** Required. Resource name of the target schema: projects/{project}/locations/{location}/services/{service}/schemas/{schema} Note: Only `schemas/main` is supported (singleton schema per service). */
+  name: string;
+}
+export interface PatchProjectsLocationsServicesRequest extends Omit<Service, "name"> {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Identifier. The relative resource name of the Firebase SQL Connect service, in the format: ``` projects/{project}/locations/{location}/services/{service} ``` Note that the service ID is specific to Firebase SQL Connect and does not correspond to any of the instance IDs of the underlying data source connections. */
@@ -854,34 +776,8 @@ export interface PatchProjectsLocationsServicesRequest {
   allowMissing?: boolean | undefined;
   /** Optional. If set, validate the request and preview the Service, but do not actually update it. */
   validateOnly?: boolean | undefined;
-  /** Optional. Stores small amounts of arbitrary data. */
-  annotations?: StringMap | undefined;
-  /** Optional. Mutable human-readable name. 63 character limit. */
-  displayName?: string | undefined;
-  /** Output only. This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. [AIP-154](https://google.aip.dev/154) */
-  etag?: string | undefined;
-  /** Optional. Labels as key value pairs. */
-  labels?: StringMap | undefined;
-  /** Output only. [Output only] Create time stamp. */
-  createTime?: string | undefined;
-  /** Optional. Input only. The GraphQL source files like `dataconnect.yaml` and `*.gql`. */
-  graphqlSource?: Source | undefined;
-  /** Output only. A field that if true, indicates that the system is working update the service. */
-  reconciling?: boolean | undefined;
-  /** Output only. The list of connectors in this service. Connectors returned in this collection are a summary view. Authoritative lifecycle metadata and entity tags are omitted from embedded representations. Call `GetConnector` to retrieve the complete resource. */
-  connectors?: ConnectorList | undefined;
-  /** Optional. Input only. Deprecated: Use `sql_source` or `graphql_source` instead. The source files for service, schemas, and connectors. */
-  source?: Source | undefined;
-  /** Optional. The list of schemas in this service. Schemas returned in this collection are a summary view. Authoritative lifecycle metadata and entity tags are omitted from embedded representations. Call `GetSchema` to retrieve the complete resource. */
-  schemas?: Firebasedataconnect_SchemaList | undefined;
-  /** Output only. System-assigned, unique identifier. */
-  uid?: string | undefined;
-  /** Output only. [Output only] Update time stamp. */
-  updateTime?: string | undefined;
-  /** Optional. Input only. The SQL source files like `*.sql` for deploying a PostgREST service. */
-  sqlSource?: Source | undefined;
 }
-export interface PatchProjectsLocationsServicesConnectorsRequest {
+export interface PatchProjectsLocationsServicesConnectorsRequest extends Omit<Connector, "name"> {
   /** Optional. Field mask is used to specify the fields to be overwritten in the Connector resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
   /** Identifier. The relative resource name of the connector, in the format: ``` projects/{project}/locations/{location}/services/{service}/connectors/{connector} ``` */
@@ -892,28 +788,11 @@ export interface PatchProjectsLocationsServicesConnectorsRequest {
   validateOnly?: boolean | undefined;
   /** Optional. If true and the Connector is not found, a new Connector will be created. In this case, `update_mask` is ignored. */
   allowMissing?: boolean | undefined;
-  /** Optional. Stores small amounts of arbitrary data. */
-  annotations?: StringMap | undefined;
-  /** Optional. The client cache settings of the connector. */
-  clientCache?: ClientCache | undefined;
-  /** Output only. [Output only] Create time stamp. */
-  createTime?: string | undefined;
-  /** Optional. Mutable human-readable name. 63 character limit. */
-  displayName?: string | undefined;
-  /** Optional. Labels as key value pairs. */
-  labels?: StringMap | undefined;
-  /** Output only. [Output only] Update time stamp. */
-  updateTime?: string | undefined;
-  /** Output only. This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. [AIP-154](https://google.aip.dev/154) */
-  etag?: string | undefined;
-  /** Output only. A field that if true, indicates that the system is working to compile and deploy the connector. */
-  reconciling?: boolean | undefined;
-  /** Required. The source files that comprise the connector. */
-  source?: Source | undefined;
-  /** Output only. System-assigned, unique identifier. */
-  uid?: string | undefined;
 }
-export interface PatchProjectsLocationsServicesSchemasRequest {
+export interface PatchProjectsLocationsServicesSchemasRequest extends Omit<
+  Firebasedataconnect_Schema,
+  "name"
+> {
   /** Optional. Field mask is used to specify the fields to be overwritten in the Schema resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -924,38 +803,6 @@ export interface PatchProjectsLocationsServicesSchemasRequest {
   allowMissing?: boolean | undefined;
   /** Identifier. The relative resource name of the schema, in the format: ``` projects/{project}/locations/{location}/services/{service}/schemas/{schema} ``` Right now, the only supported schema is "main". */
   name: string;
-  /** Output only. A field that if true, indicates that the system is working to compile and deploy the schema. */
-  reconciling?: boolean | undefined;
-  /** Output only. [Output only] Create time stamp. */
-  createTime?: string | undefined;
-  /** Required. The data sources linked in the schema. */
-  datasources?: DatasourceList | undefined;
-  /** Optional. Mutable human-readable name. 63 character limit. */
-  displayName?: string | undefined;
-  /** Output only. This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. [AIP-154](https://google.aip.dev/154) */
-  etag?: string | undefined;
-  /** Required. The source files that comprise the application schema. */
-  source?: Source | undefined;
-  /** Optional. Stores small amounts of arbitrary data. */
-  annotations?: StringMap | undefined;
-  /** Output only. [Output only] Update time stamp. */
-  updateTime?: string | undefined;
-  /** Optional. Labels as key value pairs. */
-  labels?: StringMap | undefined;
-  /** Output only. System-assigned, unique identifier. */
-  uid?: string | undefined;
-}
-export interface PostgrestCallFunctionProjectsLocationsServicesPostgrestRpcRequest {
-  /** Required. The resource name of the service, in the format: `projects/{project}/locations/{location}/services/{service}` */
-  firebasedataconnectService: string;
-  /** Required. The name of the database function. */
-  firebasedataconnectFunction: string;
-  /** Application specific response metadata. Must be set in the first response for streaming APIs. */
-  extensions?: DocumentMapList | undefined;
-  /** The HTTP request/response body as raw binary. */
-  data?: string | undefined;
-  /** The HTTP Content-Type header value specifying the content type of the body. */
-  contentType?: string | undefined;
 }
 /** Message that represents an arbitrary HTTP body. It should only be used for payload formats that can't be represented as JSON, such as raw binary or an HTML page. This message can be used both in streaming and non-streaming API methods in the request as well as the response. It can be used as a top-level request field, which is convenient if one wants to extract parameters from either the URL or HTTP template into the request fields and also want access to the raw HTTP body. Example: message GetResourceRequest { // A unique request id. string request_id = 1; // The raw HTTP body is bound to this field. google.api.HttpBody http_body = 2; } service ResourceService { rpc GetResource(GetResourceRequest) returns (google.api.HttpBody); rpc UpdateResource(google.api.HttpBody) returns (google.protobuf.Empty); } Example with streaming methods: service CaldavService { rpc GetCalendar(stream google.api.HttpBody) returns (stream google.api.HttpBody); rpc UpdateCalendar(stream google.api.HttpBody) returns (stream google.api.HttpBody); } Use of this type only changes how the request and response bodies are handled, all other features will continue to work unchanged. */
 export interface HttpBody {
@@ -966,23 +813,23 @@ export interface HttpBody {
   /** The HTTP Content-Type header value specifying the content type of the body. */
   contentType?: string | undefined;
 }
+export interface PostgrestCallFunctionProjectsLocationsServicesPostgrestRpcRequest extends HttpBody {
+  /** Required. The resource name of the service, in the format: `projects/{project}/locations/{location}/services/{service}` */
+  firebasedataconnectService: string;
+  /** Required. The name of the database function. */
+  firebasedataconnectFunction: string;
+}
 export interface PostgrestDeleteProjectsLocationsServicesPostgrestRequest {
   /** Required. The resource name of the service, in the format: `projects/{project}/locations/{location}/services/{service}` */
   firebasedataconnectService: string;
   /** Required. The name of the table to delete from. */
   firebasedataconnectTable: string;
 }
-export interface PostgrestInsertProjectsLocationsServicesPostgrestRequest {
+export interface PostgrestInsertProjectsLocationsServicesPostgrestRequest extends HttpBody {
   /** Required. The resource name of the service, in the format: `projects/{project}/locations/{location}/services/{service}` */
   firebasedataconnectService: string;
   /** Required. The name of the table to insert into. */
   firebasedataconnectTable: string;
-  /** Application specific response metadata. Must be set in the first response for streaming APIs. */
-  extensions?: DocumentMapList | undefined;
-  /** The HTTP request/response body as raw binary. */
-  data?: string | undefined;
-  /** The HTTP Content-Type header value specifying the content type of the body. */
-  contentType?: string | undefined;
 }
 export interface PostgrestQueryFunctionProjectsLocationsServicesPostgrestRpcRequest {
   /** Required. The name of the database function. */
@@ -996,29 +843,17 @@ export interface PostgrestSelectProjectsLocationsServicesPostgrestRequest {
   /** Required. The resource name of the service, in the format: `projects/{project}/locations/{location}/services/{service}` */
   firebasedataconnectService: string;
 }
-export interface PostgrestUpdateProjectsLocationsServicesPostgrestRequest {
+export interface PostgrestUpdateProjectsLocationsServicesPostgrestRequest extends HttpBody {
   /** Required. The name of the table to update. */
   firebasedataconnectTable: string;
   /** Required. The resource name of the service, in the format: `projects/{project}/locations/{location}/services/{service}` */
   firebasedataconnectService: string;
-  /** Application specific response metadata. Must be set in the first response for streaming APIs. */
-  extensions?: DocumentMapList | undefined;
-  /** The HTTP request/response body as raw binary. */
-  data?: string | undefined;
-  /** The HTTP Content-Type header value specifying the content type of the body. */
-  contentType?: string | undefined;
 }
-export interface PostgrestUpsertProjectsLocationsServicesPostgrestRequest {
+export interface PostgrestUpsertProjectsLocationsServicesPostgrestRequest extends HttpBody {
   /** Required. The name of the table to upsert into. */
   firebasedataconnectTable: string;
   /** Required. The resource name of the service, in the format: `projects/{project}/locations/{location}/services/{service}` */
   firebasedataconnectService: string;
-  /** Application specific response metadata. Must be set in the first response for streaming APIs. */
-  extensions?: DocumentMapList | undefined;
-  /** The HTTP request/response body as raw binary. */
-  data?: string | undefined;
-  /** The HTTP Content-Type header value specifying the content type of the body. */
-  contentType?: string | undefined;
 }
 export type CancelProjectsLocationsOperationsError =
   | NotFound
@@ -1033,8 +868,8 @@ export const cancelProjectsLocationsOperations: API.OperationMethod<
   CancelProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(592, __c37, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
-  output: __S(608, __c38, 0) as any as S.Schema<Empty>,
+  input: __S(624, __c39, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
+  output: __S(640, __c40, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1055,8 +890,8 @@ export const createProjectsLocationsServices: API.OperationMethod<
   CreateProjectsLocationsServicesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(656, __c41, 0) as any as S.Schema<CreateProjectsLocationsServicesRequest>,
-  output: __S(801, __c50, 1) as any as S.Schema<Operation>,
+  input: __S(688, __c43, 0) as any as S.Schema<CreateProjectsLocationsServicesRequest>,
+  output: __S(817, __c51, 1) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1077,8 +912,8 @@ export const createProjectsLocationsServicesConnectors: API.OperationMethod<
   CreateProjectsLocationsServicesConnectorsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(848, __c53, 0) as any as S.Schema<CreateProjectsLocationsServicesConnectorsRequest>,
-  output: __S(801, __c50, 1) as any as S.Schema<Operation>,
+  input: __S(864, __c54, 0) as any as S.Schema<CreateProjectsLocationsServicesConnectorsRequest>,
+  output: __S(817, __c51, 1) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1099,8 +934,8 @@ export const createProjectsLocationsServicesSchemas: API.OperationMethod<
   CreateProjectsLocationsServicesSchemasError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c54, 0) as any as S.Schema<CreateProjectsLocationsServicesSchemasRequest>,
-  output: __S(801, __c50, 1) as any as S.Schema<Operation>,
+  input: __S(880, __c55, 0) as any as S.Schema<CreateProjectsLocationsServicesSchemasRequest>,
+  output: __S(817, __c51, 1) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1121,8 +956,8 @@ export const deleteProjectsLocationsOperations: API.OperationMethod<
   DeleteProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(880, __c55, 0) as any as S.Schema<DeleteProjectsLocationsOperationsRequest>,
-  output: __S(608, __c38, 0) as any as S.Schema<Empty>,
+  input: __S(896, __c56, 0) as any as S.Schema<DeleteProjectsLocationsOperationsRequest>,
+  output: __S(640, __c40, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1143,8 +978,8 @@ export const deleteProjectsLocationsServices: API.OperationMethod<
   DeleteProjectsLocationsServicesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c56, 0) as any as S.Schema<DeleteProjectsLocationsServicesRequest>,
-  output: __S(801, __c50, 1) as any as S.Schema<Operation>,
+  input: __S(912, __c57, 0) as any as S.Schema<DeleteProjectsLocationsServicesRequest>,
+  output: __S(817, __c51, 1) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1166,7 +1001,7 @@ export const deleteProjectsLocationsServicesConnectors: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<DeleteProjectsLocationsServicesConnectorsRequest>,
-  output: __S(801, __c50, 1) as any as S.Schema<Operation>,
+  output: __S(817, __c51, 1) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1188,7 +1023,7 @@ export const deleteProjectsLocationsServicesSchemas: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c1, 0) as any as S.Schema<DeleteProjectsLocationsServicesSchemasRequest>,
-  output: __S(801, __c50, 1) as any as S.Schema<Operation>,
+  output: __S(817, __c51, 1) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1231,7 +1066,7 @@ export const executeGraphqlReadProjectsLocationsServices: API.OperationMethod<
   ExecuteGraphqlReadProjectsLocationsServicesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c6, 0) as any as S.Schema<ExecuteGraphqlReadProjectsLocationsServicesRequest>,
+  input: __S(112, __c7, 0) as any as S.Schema<ExecuteGraphqlReadProjectsLocationsServicesRequest>,
   output: __S(82, __c5, 2) as any as S.Schema<GraphqlResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -1254,11 +1089,11 @@ export const executeMutationProjectsLocationsServicesConnectors: API.OperationMe
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    112,
-    __c7,
+    128,
+    __c8,
     0,
   ) as any as S.Schema<ExecuteMutationProjectsLocationsServicesConnectorsRequest>,
-  output: __S(113, __c7, 1) as any as S.Schema<ExecuteMutationResponse>,
+  output: __S(129, __c8, 1) as any as S.Schema<ExecuteMutationResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1280,11 +1115,11 @@ export const executeQueryProjectsLocationsServicesConnectors: API.OperationMetho
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    128,
-    __c8,
+    160,
+    __c10,
     0,
   ) as any as S.Schema<ExecuteQueryProjectsLocationsServicesConnectorsRequest>,
-  output: __S(129, __c8, 1) as any as S.Schema<ExecuteQueryResponse>,
+  output: __S(161, __c10, 1) as any as S.Schema<ExecuteQueryResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1305,8 +1140,8 @@ export const generateQueryProjectsLocationsServices: API.OperationMethod<
   GenerateQueryProjectsLocationsServicesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c9, 0) as any as S.Schema<GenerateQueryProjectsLocationsServicesRequest>,
-  output: __S(164, __c10, 4) as any as S.Schema<GenerateQueryResponse>,
+  input: __S(177, __c11, 1) as any as S.Schema<GenerateQueryProjectsLocationsServicesRequest>,
+  output: __S(196, __c12, 4) as any as S.Schema<GenerateQueryResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1327,8 +1162,8 @@ export const generateSchemaProjectsLocationsServices: API.OperationMethod<
   GenerateSchemaProjectsLocationsServicesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c11, 0) as any as S.Schema<GenerateSchemaProjectsLocationsServicesRequest>,
-  output: __S(164, __c10, 4) as any as S.Schema<GenerateSchemaResponse>,
+  input: __S(209, __c13, 1) as any as S.Schema<GenerateSchemaProjectsLocationsServicesRequest>,
+  output: __S(196, __c12, 4) as any as S.Schema<GenerateSchemaResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1344,8 +1179,8 @@ export const getProjectsLocations: API.OperationMethod<
   GetProjectsLocationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c12, 0) as any as S.Schema<GetProjectsLocationsRequest>,
-  output: __S(208, __c13, 0) as any as S.Schema<Location>,
+  input: __S(224, __c14, 0) as any as S.Schema<GetProjectsLocationsRequest>,
+  output: __S(240, __c15, 0) as any as S.Schema<Location>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1361,8 +1196,8 @@ export const getProjectsLocationsOperations: API.OperationMethod<
   GetProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c14, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
-  output: __S(801, __c50, 1) as any as S.Schema<Operation>,
+  input: __S(256, __c16, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
+  output: __S(817, __c51, 1) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1378,8 +1213,8 @@ export const getProjectsLocationsServices: API.OperationMethod<
   GetProjectsLocationsServicesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c15, 0) as any as S.Schema<GetProjectsLocationsServicesRequest>,
-  output: __S(256, __c16, 0) as any as S.Schema<Service>,
+  input: __S(272, __c17, 0) as any as S.Schema<GetProjectsLocationsServicesRequest>,
+  output: __S(736, __c46, 0) as any as S.Schema<Service>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1395,8 +1230,8 @@ export const getProjectsLocationsServicesConnectors: API.OperationMethod<
   GetProjectsLocationsServicesConnectorsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c17, 0) as any as S.Schema<GetProjectsLocationsServicesConnectorsRequest>,
-  output: __S(704, __c44, 0) as any as S.Schema<Connector>,
+  input: __S(288, __c18, 0) as any as S.Schema<GetProjectsLocationsServicesConnectorsRequest>,
+  output: __S(753, __c47, 1) as any as S.Schema<Connector>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1412,8 +1247,8 @@ export const getProjectsLocationsServicesSchemas: API.OperationMethod<
   GetProjectsLocationsServicesSchemasError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c18, 0) as any as S.Schema<GetProjectsLocationsServicesSchemasRequest>,
-  output: __S(672, __c42, 0) as any as S.Schema<Firebasedataconnect_Schema>,
+  input: __S(304, __c19, 0) as any as S.Schema<GetProjectsLocationsServicesSchemasRequest>,
+  output: __S(853, __c53, 5) as any as S.Schema<Firebasedataconnect_Schema>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1435,8 +1270,8 @@ export const impersonateMutationProjectsLocationsServicesConnectors: API.Operati
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    304,
-    __c19,
+    320,
+    __c20,
     0,
   ) as any as S.Schema<ImpersonateMutationProjectsLocationsServicesConnectorsRequest>,
   output: __S(82, __c5, 2) as any as S.Schema<GraphqlResponse>,
@@ -1461,8 +1296,8 @@ export const impersonateQueryProjectsLocationsServicesConnectors: API.OperationM
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    320,
-    __c20,
+    352,
+    __c22,
     0,
   ) as any as S.Schema<ImpersonateQueryProjectsLocationsServicesConnectorsRequest>,
   output: __S(82, __c5, 2) as any as S.Schema<GraphqlResponse>,
@@ -1486,7 +1321,7 @@ export const introspectGraphqlProjectsLocationsServices: API.OperationMethod<
   IntrospectGraphqlProjectsLocationsServicesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c21, 0) as any as S.Schema<IntrospectGraphqlProjectsLocationsServicesRequest>,
+  input: __S(368, __c23, 0) as any as S.Schema<IntrospectGraphqlProjectsLocationsServicesRequest>,
   output: __S(82, __c5, 2) as any as S.Schema<GraphqlResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -1504,8 +1339,8 @@ export const listProjectsLocations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListLocationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(352, __c22, 0) as any as S.Schema<ListProjectsLocationsRequest>,
-  output: __S(354, __c22, 2) as any as S.Schema<ListLocationsResponse>,
+  input: __S(384, __c24, 0) as any as S.Schema<ListProjectsLocationsRequest>,
+  output: __S(386, __c24, 2) as any as S.Schema<ListLocationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1523,8 +1358,8 @@ export const listProjectsLocationsOperations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListOperationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(368, __c23, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
-  output: __S(370, __c23, 2) as any as S.Schema<ListOperationsResponse>,
+  input: __S(400, __c25, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
+  output: __S(402, __c25, 2) as any as S.Schema<ListOperationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1542,8 +1377,8 @@ export const listProjectsLocationsServices: API.PaginatedOperationMethod<
   GcpOpContext,
   ListServicesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(384, __c24, 0) as any as S.Schema<ListProjectsLocationsServicesRequest>,
-  output: __S(386, __c24, 2) as any as S.Schema<ListServicesResponse>,
+  input: __S(416, __c26, 0) as any as S.Schema<ListProjectsLocationsServicesRequest>,
+  output: __S(418, __c26, 2) as any as S.Schema<ListServicesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1561,8 +1396,8 @@ export const listProjectsLocationsServicesConnectors: API.PaginatedOperationMeth
   GcpOpContext,
   ListConnectorsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(400, __c25, 0) as any as S.Schema<ListProjectsLocationsServicesConnectorsRequest>,
-  output: __S(401, __c25, 1) as any as S.Schema<ListConnectorsResponse>,
+  input: __S(432, __c27, 0) as any as S.Schema<ListProjectsLocationsServicesConnectorsRequest>,
+  output: __S(433, __c27, 1) as any as S.Schema<ListConnectorsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1580,8 +1415,8 @@ export const listProjectsLocationsServicesSchemas: API.PaginatedOperationMethod<
   GcpOpContext,
   ListSchemasResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(416, __c26, 0) as any as S.Schema<ListProjectsLocationsServicesSchemasRequest>,
-  output: __S(417, __c26, 1) as any as S.Schema<ListSchemasResponse>,
+  input: __S(448, __c28, 0) as any as S.Schema<ListProjectsLocationsServicesSchemasRequest>,
+  output: __S(449, __c28, 1) as any as S.Schema<ListSchemasResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1603,8 +1438,8 @@ export const migrateProjectsLocationsServicesSchemas: API.OperationMethod<
   MigrateProjectsLocationsServicesSchemasError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(434, __c27, 2) as any as S.Schema<MigrateProjectsLocationsServicesSchemasRequest>,
-  output: __S(801, __c50, 1) as any as S.Schema<Operation>,
+  input: __S(467, __c29, 3) as any as S.Schema<MigrateProjectsLocationsServicesSchemasRequest>,
+  output: __S(817, __c51, 1) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1625,8 +1460,8 @@ export const patchProjectsLocationsServices: API.OperationMethod<
   PatchProjectsLocationsServicesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c28, 0) as any as S.Schema<PatchProjectsLocationsServicesRequest>,
-  output: __S(801, __c50, 1) as any as S.Schema<Operation>,
+  input: __S(480, __c30, 0) as any as S.Schema<PatchProjectsLocationsServicesRequest>,
+  output: __S(817, __c51, 1) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1647,8 +1482,8 @@ export const patchProjectsLocationsServicesConnectors: API.OperationMethod<
   PatchProjectsLocationsServicesConnectorsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(464, __c29, 0) as any as S.Schema<PatchProjectsLocationsServicesConnectorsRequest>,
-  output: __S(801, __c50, 1) as any as S.Schema<Operation>,
+  input: __S(496, __c31, 0) as any as S.Schema<PatchProjectsLocationsServicesConnectorsRequest>,
+  output: __S(817, __c51, 1) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1669,8 +1504,8 @@ export const patchProjectsLocationsServicesSchemas: API.OperationMethod<
   PatchProjectsLocationsServicesSchemasError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c30, 0) as any as S.Schema<PatchProjectsLocationsServicesSchemasRequest>,
-  output: __S(801, __c50, 1) as any as S.Schema<Operation>,
+  input: __S(512, __c32, 0) as any as S.Schema<PatchProjectsLocationsServicesSchemasRequest>,
+  output: __S(817, __c51, 1) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1692,11 +1527,11 @@ export const postgrestCallFunctionProjectsLocationsServicesPostgrestRpc: API.Ope
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    496,
-    __c31,
+    528,
+    __c33,
     0,
   ) as any as S.Schema<PostgrestCallFunctionProjectsLocationsServicesPostgrestRpcRequest>,
-  output: __S(512, __c32, 0) as any as S.Schema<HttpBody>,
+  output: __S(544, __c34, 0) as any as S.Schema<HttpBody>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1718,11 +1553,11 @@ export const postgrestDeleteProjectsLocationsServicesPostgrest: API.OperationMet
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    528,
-    __c33,
+    560,
+    __c35,
     0,
   ) as any as S.Schema<PostgrestDeleteProjectsLocationsServicesPostgrestRequest>,
-  output: __S(512, __c32, 0) as any as S.Schema<HttpBody>,
+  output: __S(544, __c34, 0) as any as S.Schema<HttpBody>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1744,11 +1579,11 @@ export const postgrestInsertProjectsLocationsServicesPostgrest: API.OperationMet
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    544,
-    __c34,
+    576,
+    __c36,
     0,
   ) as any as S.Schema<PostgrestInsertProjectsLocationsServicesPostgrestRequest>,
-  output: __S(512, __c32, 0) as any as S.Schema<HttpBody>,
+  output: __S(544, __c34, 0) as any as S.Schema<HttpBody>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1768,11 +1603,11 @@ export const postgrestQueryFunctionProjectsLocationsServicesPostgrestRpc: API.Op
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    560,
-    __c35,
+    592,
+    __c37,
     0,
   ) as any as S.Schema<PostgrestQueryFunctionProjectsLocationsServicesPostgrestRpcRequest>,
-  output: __S(512, __c32, 0) as any as S.Schema<HttpBody>,
+  output: __S(544, __c34, 0) as any as S.Schema<HttpBody>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1792,11 +1627,11 @@ export const postgrestSelectProjectsLocationsServicesPostgrest: API.OperationMet
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    576,
-    __c36,
+    608,
+    __c38,
     0,
   ) as any as S.Schema<PostgrestSelectProjectsLocationsServicesPostgrestRequest>,
-  output: __S(512, __c32, 0) as any as S.Schema<HttpBody>,
+  output: __S(544, __c34, 0) as any as S.Schema<HttpBody>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1818,11 +1653,11 @@ export const postgrestUpdateProjectsLocationsServicesPostgrest: API.OperationMet
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    624,
-    __c39,
+    656,
+    __c41,
     0,
   ) as any as S.Schema<PostgrestUpdateProjectsLocationsServicesPostgrestRequest>,
-  output: __S(512, __c32, 0) as any as S.Schema<HttpBody>,
+  output: __S(544, __c34, 0) as any as S.Schema<HttpBody>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1844,11 +1679,11 @@ export const postgrestUpsertProjectsLocationsServicesPostgrest: API.OperationMet
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    640,
-    __c40,
+    672,
+    __c42,
     0,
   ) as any as S.Schema<PostgrestUpsertProjectsLocationsServicesPostgrestRequest>,
-  output: __S(512, __c32, 0) as any as S.Schema<HttpBody>,
+  output: __S(544, __c34, 0) as any as S.Schema<HttpBody>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1903,13 +1738,12 @@ function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          operationName: S.optional(S.String),
-          variables: S.optional(__S(784, __c49, 0)),
-          query: S.optional(S.String),
-          extensions: S.optional(__S(81, __c5, 1)),
-        }).pipe(
+        S.Extend(
+          __S(96, __c6, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:executeGraphql",
@@ -1994,7 +1828,7 @@ function __c5(j: number): any {
       return S.suspend(() =>
         S.Struct({
           includeDebugDetails: S.optional(S.Boolean),
-          authClaims: S.optional(__S(784, __c49, 0)),
+          authClaims: S.optional(__S(800, __c50, 0)),
           unauthenticated: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "Impersonation" });
@@ -2008,7 +1842,7 @@ function __c5(j: number): any {
       return S.suspend(() =>
         S.Struct({
           errors: S.optional(__S(55, __c3, 7)),
-          data: S.optional(__S(784, __c49, 0)),
+          data: S.optional(__S(800, __c50, 0)),
           extensions: S.optional(__S(58, __c3, 10)),
         }),
       ).annotate({ identifier: "GraphqlResponse" });
@@ -2019,12 +1853,24 @@ function __c6(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           operationName: S.optional(S.String),
-          variables: S.optional(__S(784, __c49, 0)),
+          variables: S.optional(__S(800, __c50, 0)),
           query: S.optional(S.String),
           extensions: S.optional(__S(81, __c5, 1)),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "GraphqlRequest" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(96, __c6, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:executeGraphqlRead",
@@ -2034,15 +1880,16 @@ function __c6(j: number): any {
       ).annotate({ identifier: "ExecuteGraphqlReadProjectsLocationsServicesRequest" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          variables: S.optional(__S(784, __c49, 0)),
-          operationName: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(144, __c9, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:executeMutation",
@@ -2053,22 +1900,34 @@ function __c7(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(784, __c49, 0)),
+          data: S.optional(__S(800, __c50, 0)),
           extensions: S.optional(__S(58, __c3, 10)),
           errors: S.optional(__S(55, __c3, 7)),
         }),
       ).annotate({ identifier: "ExecuteMutationResponse" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
-          variables: S.optional(__S(784, __c49, 0)),
+          variables: S.optional(__S(800, __c50, 0)),
           operationName: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "ExecuteMutationRequest" });
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(144, __c9, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:executeQuery",
@@ -2081,20 +1940,28 @@ function __c8(j: number): any {
         S.Struct({
           extensions: S.optional(__S(58, __c3, 10)),
           errors: S.optional(__S(55, __c3, 7)),
-          data: S.optional(__S(784, __c49, 0)),
+          data: S.optional(__S(800, __c50, 0)),
         }),
       ).annotate({ identifier: "ExecuteQueryResponse" });
   }
 }
-function __c9(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
-          schemas: S.optional(__S(688, __c43, 0)),
+          schemas: S.optional(__S(704, __c44, 0)),
           prompt: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "GenerateQueryRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(176, __c11, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:generateQuery",
@@ -2104,7 +1971,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "GenerateQueryProjectsLocationsServicesRequest" });
   }
 }
-function __c10(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2129,50 +1996,17 @@ function __c10(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          textChunk: S.optional(__S(161, __c10, 1)),
-          codeChunk: S.optional(__S(162, __c10, 2)),
+          textChunk: S.optional(__S(193, __c12, 1)),
+          codeChunk: S.optional(__S(194, __c12, 2)),
         }),
       ).annotate({ identifier: "Part" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          status: S.optional(__S(160, __c10, 0)),
-          part: S.optional(__S(163, __c10, 3)),
+          status: S.optional(__S(192, __c12, 0)),
+          part: S.optional(__S(195, __c12, 3)),
         }),
       ).annotate({ identifier: "GenerateQueryResponse" });
-  }
-}
-function __c11(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          prompt: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "v1/{+name}:generateSchema",
-            baseUrl: "https://firebasedataconnect.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "GenerateSchemaProjectsLocationsServicesRequest" });
-  }
-}
-function __c12(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v1/{+name}",
-            baseUrl: "https://firebasedataconnect.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "GetProjectsLocationsRequest" });
   }
 }
 function __c13(j: number): any {
@@ -2180,13 +2014,24 @@ function __c13(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          labels: S.optional(__S(752, __c47, 0)),
-          name: S.optional(S.String),
-          locationId: S.optional(S.String),
-          metadata: S.optional(__S(784, __c49, 0)),
-          displayName: S.optional(S.String),
+          prompt: S.optional(S.String),
         }),
-      ).annotate({ identifier: "Location" });
+      ).annotate({ identifier: "GenerateSchemaRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(208, __c13, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
+          T.Http({
+            method: "POST",
+            uri: "v1/{+name}:generateSchema",
+            baseUrl: "https://firebasedataconnect.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "GenerateSchemaProjectsLocationsServicesRequest" });
   }
 }
 function __c14(j: number): any {
@@ -2202,10 +2047,24 @@ function __c14(j: number): any {
             baseUrl: "https://firebasedataconnect.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsOperationsRequest" });
+      ).annotate({ identifier: "GetProjectsLocationsRequest" });
   }
 }
 function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          labels: S.optional(__S(768, __c48, 0)),
+          name: S.optional(S.String),
+          locationId: S.optional(S.String),
+          metadata: S.optional(__S(800, __c50, 0)),
+          displayName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Location" });
+  }
+}
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2218,30 +2077,7 @@ function __c15(j: number): any {
             baseUrl: "https://firebasedataconnect.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsServicesRequest" });
-  }
-}
-function __c16(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          annotations: S.optional(__S(752, __c47, 0)),
-          displayName: S.optional(S.String),
-          etag: S.optional(S.String),
-          labels: S.optional(__S(752, __c47, 0)),
-          createTime: S.optional(S.String),
-          name: S.optional(S.String),
-          graphqlSource: S.optional(__S(770, __c48, 2)),
-          reconciling: S.optional(S.Boolean),
-          connectors: S.optional(__S(720, __c45, 0)),
-          source: S.optional(__S(770, __c48, 2)),
-          schemas: S.optional(__S(688, __c43, 0)),
-          uid: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          sqlSource: S.optional(__S(770, __c48, 2)),
-        }),
-      ).annotate({ identifier: "Service" });
+      ).annotate({ identifier: "GetProjectsLocationsOperationsRequest" });
   }
 }
 function __c17(j: number): any {
@@ -2257,7 +2093,7 @@ function __c17(j: number): any {
             baseUrl: "https://firebasedataconnect.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsServicesConnectorsRequest" });
+      ).annotate({ identifier: "GetProjectsLocationsServicesRequest" });
   }
 }
 function __c18(j: number): any {
@@ -2273,7 +2109,7 @@ function __c18(j: number): any {
             baseUrl: "https://firebasedataconnect.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsServicesSchemasRequest" });
+      ).annotate({ identifier: "GetProjectsLocationsServicesConnectorsRequest" });
   }
 }
 function __c19(j: number): any {
@@ -2282,10 +2118,26 @@ function __c19(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          extensions: S.optional(__S(81, __c5, 1)),
-          operationName: S.optional(S.String),
-          variables: S.optional(__S(784, __c49, 0)),
         }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1/{+name}",
+            baseUrl: "https://firebasedataconnect.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "GetProjectsLocationsServicesSchemasRequest" });
+  }
+}
+function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(336, __c21, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:impersonateMutation",
@@ -2295,16 +2147,28 @@ function __c19(j: number): any {
       ).annotate({ identifier: "ImpersonateMutationProjectsLocationsServicesConnectorsRequest" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           extensions: S.optional(__S(81, __c5, 1)),
           operationName: S.optional(S.String),
-          variables: S.optional(__S(784, __c49, 0)),
-        }).pipe(
+          variables: S.optional(__S(800, __c50, 0)),
+        }),
+      ).annotate({ identifier: "ImpersonateRequest" });
+  }
+}
+function __c22(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(336, __c21, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:impersonateQuery",
@@ -2314,17 +2178,16 @@ function __c20(j: number): any {
       ).annotate({ identifier: "ImpersonateQueryProjectsLocationsServicesConnectorsRequest" });
   }
 }
-function __c21(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          operationName: S.optional(S.String),
-          variables: S.optional(__S(784, __c49, 0)),
-          query: S.optional(S.String),
-          extensions: S.optional(__S(81, __c5, 1)),
-        }).pipe(
+        S.Extend(
+          __S(96, __c6, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:introspectGraphql",
@@ -2334,7 +2197,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "IntrospectGraphqlProjectsLocationsServicesRequest" });
   }
 }
-function __c22(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2353,17 +2216,17 @@ function __c22(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsRequest" });
     case 1:
-      return S.Array(__S(208, __c13, 0));
+      return S.Array(__S(240, __c15, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          locations: S.optional(__S(353, __c22, 1)),
+          locations: S.optional(__S(385, __c24, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListLocationsResponse" });
   }
 }
-function __c23(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2382,18 +2245,18 @@ function __c23(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsOperationsRequest" });
     case 1:
-      return S.Array(__S(801, __c50, 1));
+      return S.Array(__S(817, __c51, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          operations: S.optional(__S(369, __c23, 1)),
+          operations: S.optional(__S(401, __c25, 1)),
           unreachable: S.optional(__S(64, __c4, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
   }
 }
-function __c24(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2412,18 +2275,18 @@ function __c24(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsServicesRequest" });
     case 1:
-      return S.Array(__S(256, __c16, 0));
+      return S.Array(__S(736, __c46, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           unreachable: S.optional(__S(64, __c4, 0)),
-          services: S.optional(__S(385, __c24, 1)),
+          services: S.optional(__S(417, __c26, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListServicesResponse" });
   }
 }
-function __c25(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2451,7 +2314,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "ListConnectorsResponse" });
   }
 }
-function __c26(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2472,14 +2335,14 @@ function __c26(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          schemas: S.optional(__S(688, __c43, 0)),
+          schemas: S.optional(__S(704, __c44, 0)),
           nextPageToken: S.optional(S.String),
           unreachable: S.optional(__S(64, __c4, 0)),
         }),
       ).annotate({ identifier: "ListSchemasResponse" });
   }
 }
-function __c27(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2490,15 +2353,23 @@ function __c27(j: number): any {
         }),
       ).annotate({ identifier: "MigrationStep" });
     case 1:
-      return S.Array(__S(432, __c27, 0));
+      return S.Array(__S(464, __c29, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           validateOnly: S.optional(S.Boolean),
-          migrationSteps: S.optional(__S(433, __c27, 1)),
+          migrationSteps: S.optional(__S(465, __c29, 1)),
           executionMode: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "MigrateSchemaRequest" });
+    case 3:
+      return S.suspend(() =>
+        S.Extend(
+          __S(466, __c29, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:migrate",
@@ -2508,30 +2379,20 @@ function __c27(j: number): any {
       ).annotate({ identifier: "MigrateProjectsLocationsServicesSchemasRequest" });
   }
 }
-function __c28(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          annotations: S.optional(__S(752, __c47, 0)),
-          displayName: S.optional(S.String),
-          etag: S.optional(S.String),
-          labels: S.optional(__S(752, __c47, 0)),
-          createTime: S.optional(S.String),
-          graphqlSource: S.optional(__S(770, __c48, 2)),
-          reconciling: S.optional(S.Boolean),
-          connectors: S.optional(__S(720, __c45, 0)),
-          source: S.optional(__S(770, __c48, 2)),
-          schemas: S.optional(__S(688, __c43, 0)),
-          uid: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          sqlSource: S.optional(__S(770, __c48, 2)),
-        }).pipe(
+        S.Extend(
+          __S(736, __c46, 0),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -2541,27 +2402,20 @@ function __c28(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsServicesRequest" });
   }
 }
-function __c29(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-          annotations: S.optional(__S(752, __c47, 0)),
-          clientCache: S.optional(__S(736, __c46, 0)),
-          createTime: S.optional(S.String),
-          displayName: S.optional(S.String),
-          labels: S.optional(__S(752, __c47, 0)),
-          updateTime: S.optional(S.String),
-          etag: S.optional(S.String),
-          reconciling: S.optional(S.Boolean),
-          source: S.optional(__S(770, __c48, 2)),
-          uid: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(753, __c47, 1),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -2571,27 +2425,20 @@ function __c29(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsServicesConnectorsRequest" });
   }
 }
-function __c30(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          reconciling: S.optional(S.Boolean),
-          createTime: S.optional(S.String),
-          datasources: S.optional(__S(836, __c52, 4)),
-          displayName: S.optional(S.String),
-          etag: S.optional(S.String),
-          source: S.optional(__S(770, __c48, 2)),
-          annotations: S.optional(__S(752, __c47, 0)),
-          updateTime: S.optional(S.String),
-          labels: S.optional(__S(752, __c47, 0)),
-          uid: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(853, __c53, 5),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -2601,17 +2448,17 @@ function __c30(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsServicesSchemasRequest" });
   }
 }
-function __c31(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          firebasedataconnectService: S.String.pipe(T.Label()),
-          firebasedataconnectFunction: S.String.pipe(T.Label()),
-          extensions: S.optional(__S(816, __c51, 0)),
-          data: S.optional(S.String),
-          contentType: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(544, __c34, 0),
+          S.Struct({
+            firebasedataconnectService: S.String.pipe(T.Label()),
+            firebasedataconnectFunction: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+firebasedataconnectService}/postgrest/rpc/{+firebasedataconnectFunction}",
@@ -2623,19 +2470,19 @@ function __c31(j: number): any {
       });
   }
 }
-function __c32(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          extensions: S.optional(__S(816, __c51, 0)),
+          extensions: S.optional(__S(832, __c52, 0)),
           data: S.optional(S.String),
           contentType: S.optional(S.String),
         }),
       ).annotate({ identifier: "HttpBody" });
   }
 }
-function __c33(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2652,17 +2499,17 @@ function __c33(j: number): any {
       ).annotate({ identifier: "PostgrestDeleteProjectsLocationsServicesPostgrestRequest" });
   }
 }
-function __c34(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          firebasedataconnectService: S.String.pipe(T.Label()),
-          firebasedataconnectTable: S.String.pipe(T.Label()),
-          extensions: S.optional(__S(816, __c51, 0)),
-          data: S.optional(S.String),
-          contentType: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(544, __c34, 0),
+          S.Struct({
+            firebasedataconnectService: S.String.pipe(T.Label()),
+            firebasedataconnectTable: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+firebasedataconnectService}/postgrest/{+firebasedataconnectTable}",
@@ -2672,7 +2519,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "PostgrestInsertProjectsLocationsServicesPostgrestRequest" });
   }
 }
-function __c35(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2691,7 +2538,7 @@ function __c35(j: number): any {
       });
   }
 }
-function __c36(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2708,13 +2555,13 @@ function __c36(j: number): any {
       ).annotate({ identifier: "PostgrestSelectProjectsLocationsServicesPostgrestRequest" });
   }
 }
-function __c37(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(608, __c38, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(640, __c40, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2725,23 +2572,23 @@ function __c37(j: number): any {
       ).annotate({ identifier: "CancelProjectsLocationsOperationsRequest" });
   }
 }
-function __c38(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "CancelOperationRequest" });
   }
 }
-function __c39(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          firebasedataconnectTable: S.String.pipe(T.Label()),
-          firebasedataconnectService: S.String.pipe(T.Label()),
-          extensions: S.optional(__S(816, __c51, 0)),
-          data: S.optional(S.String),
-          contentType: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(544, __c34, 0),
+          S.Struct({
+            firebasedataconnectTable: S.String.pipe(T.Label()),
+            firebasedataconnectService: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+firebasedataconnectService}/postgrest/{+firebasedataconnectTable}",
@@ -2751,17 +2598,17 @@ function __c39(j: number): any {
       ).annotate({ identifier: "PostgrestUpdateProjectsLocationsServicesPostgrestRequest" });
   }
 }
-function __c40(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          firebasedataconnectTable: S.String.pipe(T.Label()),
-          firebasedataconnectService: S.String.pipe(T.Label()),
-          extensions: S.optional(__S(816, __c51, 0)),
-          data: S.optional(S.String),
-          contentType: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(544, __c34, 0),
+          S.Struct({
+            firebasedataconnectTable: S.String.pipe(T.Label()),
+            firebasedataconnectService: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "v1/{+firebasedataconnectService}/postgrest/{+firebasedataconnectTable}",
@@ -2771,30 +2618,19 @@ function __c40(j: number): any {
       ).annotate({ identifier: "PostgrestUpsertProjectsLocationsServicesPostgrestRequest" });
   }
 }
-function __c41(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          serviceId: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          annotations: S.optional(__S(752, __c47, 0)),
-          displayName: S.optional(S.String),
-          etag: S.optional(S.String),
-          labels: S.optional(__S(752, __c47, 0)),
-          createTime: S.optional(S.String),
-          name: S.optional(S.String),
-          graphqlSource: S.optional(__S(770, __c48, 2)),
-          reconciling: S.optional(S.Boolean),
-          connectors: S.optional(__S(720, __c45, 0)),
-          source: S.optional(__S(770, __c48, 2)),
-          schemas: S.optional(__S(688, __c43, 0)),
-          uid: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          sqlSource: S.optional(__S(770, __c48, 2)),
-        }).pipe(
+        S.Extend(
+          __S(736, __c46, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            serviceId: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/services",
@@ -2804,59 +2640,42 @@ function __c41(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsServicesRequest" });
   }
 }
-function __c42(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          reconciling: S.optional(S.Boolean),
-          createTime: S.optional(S.String),
-          name: S.optional(S.String),
-          datasources: S.optional(__S(836, __c52, 4)),
-          displayName: S.optional(S.String),
-          etag: S.optional(S.String),
-          source: S.optional(__S(770, __c48, 2)),
-          annotations: S.optional(__S(752, __c47, 0)),
-          updateTime: S.optional(S.String),
-          labels: S.optional(__S(752, __c47, 0)),
-          uid: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Firebasedataconnect_Schema" });
-  }
-}
-function __c43(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(672, __c42, 0));
-  }
-}
 function __c44(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          annotations: S.optional(__S(752, __c47, 0)),
-          clientCache: S.optional(__S(736, __c46, 0)),
-          name: S.optional(S.String),
-          createTime: S.optional(S.String),
-          displayName: S.optional(S.String),
-          labels: S.optional(__S(752, __c47, 0)),
-          updateTime: S.optional(S.String),
-          etag: S.optional(S.String),
-          reconciling: S.optional(S.Boolean),
-          source: S.optional(__S(770, __c48, 2)),
-          uid: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Connector" });
+      return S.Array(__S(853, __c53, 5));
   }
 }
 function __c45(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(704, __c44, 0));
+      return S.Array(__S(753, __c47, 1));
   }
 }
 function __c46(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          annotations: S.optional(__S(768, __c48, 0)),
+          displayName: S.optional(S.String),
+          etag: S.optional(S.String),
+          labels: S.optional(__S(768, __c48, 0)),
+          createTime: S.optional(S.String),
+          name: S.optional(S.String),
+          graphqlSource: S.optional(__S(786, __c49, 2)),
+          reconciling: S.optional(S.Boolean),
+          connectors: S.optional(__S(720, __c45, 0)),
+          source: S.optional(__S(786, __c49, 2)),
+          schemas: S.optional(__S(704, __c44, 0)),
+          uid: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          sqlSource: S.optional(__S(786, __c49, 2)),
+        }),
+      ).annotate({ identifier: "Service" });
+  }
+}
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2865,15 +2684,31 @@ function __c46(j: number): any {
           strictValidationEnabled: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "ClientCache" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          annotations: S.optional(__S(768, __c48, 0)),
+          clientCache: S.optional(__S(752, __c47, 0)),
+          name: S.optional(S.String),
+          createTime: S.optional(S.String),
+          displayName: S.optional(S.String),
+          labels: S.optional(__S(768, __c48, 0)),
+          updateTime: S.optional(S.String),
+          etag: S.optional(S.String),
+          reconciling: S.optional(S.Boolean),
+          source: S.optional(__S(786, __c49, 2)),
+          uid: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Connector" });
   }
 }
-function __c47(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
   }
 }
-function __c48(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2883,27 +2718,27 @@ function __c48(j: number): any {
         }),
       ).annotate({ identifier: "File" });
     case 1:
-      return S.Array(__S(768, __c48, 0));
+      return S.Array(__S(784, __c49, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          files: S.optional(__S(769, __c48, 1)),
+          files: S.optional(__S(785, __c49, 1)),
         }),
       ).annotate({ identifier: "Source" });
-  }
-}
-function __c49(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, S.Unknown);
   }
 }
 function __c50(j: number): any {
   switch (j) {
     case 0:
+      return S.Record(S.String, S.Unknown);
+  }
+}
+function __c51(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
-          details: S.optional(__S(816, __c51, 0)),
+          details: S.optional(__S(832, __c52, 0)),
           code: S.optional(S.Number),
           message: S.optional(S.String),
         }),
@@ -2911,22 +2746,22 @@ function __c50(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          response: S.optional(__S(784, __c49, 0)),
-          metadata: S.optional(__S(784, __c49, 0)),
+          response: S.optional(__S(800, __c50, 0)),
+          metadata: S.optional(__S(800, __c50, 0)),
           done: S.optional(S.Boolean),
-          error: S.optional(__S(800, __c50, 0)),
+          error: S.optional(__S(816, __c51, 0)),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "Operation" });
   }
 }
-function __c51(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(784, __c49, 0));
+      return S.Array(__S(800, __c50, 0));
   }
 }
-function __c52(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2946,7 +2781,7 @@ function __c52(j: number): any {
       return S.suspend(() =>
         S.Struct({
           database: S.optional(S.String),
-          cloudSql: S.optional(__S(833, __c52, 1)),
+          cloudSql: S.optional(__S(849, __c53, 1)),
           schemaValidation: S.optional(S.String),
           schemaMigration: S.optional(S.String),
           schema: S.optional(S.String),
@@ -2957,35 +2792,43 @@ function __c52(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          httpGraphql: S.optional(__S(832, __c52, 0)),
-          postgresql: S.optional(__S(834, __c52, 2)),
+          httpGraphql: S.optional(__S(848, __c53, 0)),
+          postgresql: S.optional(__S(850, __c53, 2)),
         }),
       ).annotate({ identifier: "Datasource" });
     case 4:
-      return S.Array(__S(835, __c52, 3));
+      return S.Array(__S(851, __c53, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          reconciling: S.optional(S.Boolean),
+          createTime: S.optional(S.String),
+          name: S.optional(S.String),
+          datasources: S.optional(__S(852, __c53, 4)),
+          displayName: S.optional(S.String),
+          etag: S.optional(S.String),
+          source: S.optional(__S(786, __c49, 2)),
+          annotations: S.optional(__S(768, __c48, 0)),
+          updateTime: S.optional(S.String),
+          labels: S.optional(__S(768, __c48, 0)),
+          uid: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Firebasedataconnect_Schema" });
   }
 }
-function __c53(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          connectorId: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          annotations: S.optional(__S(752, __c47, 0)),
-          clientCache: S.optional(__S(736, __c46, 0)),
-          name: S.optional(S.String),
-          createTime: S.optional(S.String),
-          displayName: S.optional(S.String),
-          labels: S.optional(__S(752, __c47, 0)),
-          updateTime: S.optional(S.String),
-          etag: S.optional(S.String),
-          reconciling: S.optional(S.Boolean),
-          source: S.optional(__S(770, __c48, 2)),
-          uid: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(753, __c47, 1),
+          S.Struct({
+            connectorId: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/connectors",
@@ -2995,27 +2838,19 @@ function __c53(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsServicesConnectorsRequest" });
   }
 }
-function __c54(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          schemaId: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          reconciling: S.optional(S.Boolean),
-          createTime: S.optional(S.String),
-          name: S.optional(S.String),
-          datasources: S.optional(__S(836, __c52, 4)),
-          displayName: S.optional(S.String),
-          etag: S.optional(S.String),
-          source: S.optional(__S(770, __c48, 2)),
-          annotations: S.optional(__S(752, __c47, 0)),
-          updateTime: S.optional(S.String),
-          labels: S.optional(__S(752, __c47, 0)),
-          uid: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(853, __c53, 5),
+          S.Struct({
+            schemaId: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/schemas",
@@ -3025,7 +2860,7 @@ function __c54(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsServicesSchemasRequest" });
   }
 }
-function __c55(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3041,7 +2876,7 @@ function __c55(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsOperationsRequest" });
   }
 }
-function __c56(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

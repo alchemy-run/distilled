@@ -180,10 +180,12 @@ export interface QueryDomainStatsRequest {
   pageToken?: string | undefined;
 }
 export type QueryDomainStatsRequestList = Array<QueryDomainStatsRequest>;
-export interface BatchQueryDomainStatsRequest_ {
+/** Request message for BatchQueryDomainStats. */
+export interface BatchQueryDomainStatsRequest {
   /** Required. A list of individual query requests. Each request can be for a different domain. A maximum of 100 requests can be included in a single batch. */
   requests?: QueryDomainStatsRequestList | undefined;
 }
+export interface BatchQueryDomainStatsRequest_ extends BatchQueryDomainStatsRequest {}
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
@@ -246,10 +248,12 @@ export interface BatchQueryDomainStatsResponse {
   /** A list of responses, one for each query in the BatchQueryDomainStatsRequest. The order of responses will correspond to the order of requests. */
   results?: BatchQueryDomainStatsResultList | undefined;
 }
-export interface CreateDomainsRequest {
+/** [Developer Preview](https://developers.google.com/workspace/preview): Request message for CreateDomain. */
+export interface CreateDomainRequest {
   /** Required. The domain to add. e.g., "example.com" */
   domainId?: string | undefined;
 }
+export interface CreateDomainsRequest extends CreateDomainRequest {}
 export type DomainPermissionEnum = "PERMISSION_UNSPECIFIED" | "READER" | "ADMIN" | "OWNER" | "NONE";
 export type DomainVerificationStateEnum =
   | "VERIFICATION_STATE_UNSPECIFIED"
@@ -274,13 +278,16 @@ export type CreateUserRequestPermissionEnum =
   | "ADMIN"
   | "OWNER"
   | "NONE";
-export interface CreateDomainsUsersRequest {
-  /** Required. The parent resource where this user will be created. Format: domains/{domain} */
-  parent: string;
+/** [Developer Preview](https://developers.google.com/workspace/preview): Request message for CreateUser. */
+export interface CreateUserRequest {
   /** Optional. Specifies the permission level to give the user for the specified domain. If not specified, the default value for this field is READER. */
   permission?: CreateUserRequestPermissionEnum | (string & {}) | undefined;
   /** Required. The user to create. */
   userId?: string | undefined;
+}
+export interface CreateDomainsUsersRequest extends CreateUserRequest {
+  /** Required. The parent resource where this user will be created. Format: domains/{domain} */
+  parent: string;
 }
 export type UserPermissionEnum = "PERMISSION_UNSPECIFIED" | "READER" | "ADMIN" | "OWNER" | "NONE";
 /** [Developer Preview](https://developers.google.com/workspace/preview): Information about a user's access to a domain. */
@@ -288,7 +295,7 @@ export interface User {
   /** Identifier. The resource name of the user. Format: users/{user} Note: {user} is the user's email address. */
   name?: string | undefined;
   /** The permission level that the user has for the specified domain. */
-  permission?: UserPermissionEnum | undefined;
+  permission?: UserPermissionEnum | (string & {}) | undefined;
   /** The user's email address. */
   user?: string | undefined;
   /** Output only. The user that added the current user. */
@@ -463,46 +470,28 @@ export interface ListUsersResponse {
   /** The users that have access to the domain. */
   users?: UserList | undefined;
 }
-export interface PatchDomainsUsersRequest {
+export interface PatchDomainsUsersRequest extends Omit<User, "name"> {
   /** Identifier. The resource name of the user. Format: users/{user} Note: {user} is the user's email address. */
   name: string;
   /** The list of fields to update. */
   updateMask?: string | undefined;
-  /** The permission level that the user has for the specified domain. */
-  permission?: UserPermissionEnum | (string & {}) | undefined;
-  /** The user's email address. */
-  user?: string | undefined;
-  /** Output only. The user that added the current user. */
-  accessGranter?: string | undefined;
-  /** Output only. The time the user was granted access. */
-  createTime?: string | undefined;
 }
-export interface QueryDomainsDomainStatsRequest {
+export interface QueryDomainsDomainStatsRequest extends Omit<QueryDomainStatsRequest, "parent"> {
   /** Required. The parent resource name where the stats are queried. Format: domains/{domain} */
   parent: string;
-  /** Required. The time range or specific dates for which to retrieve the metrics. */
-  timeQuery?: TimeQuery | undefined;
-  /** Required. The specific metrics to query. You can define a custom name for each metric, which will be used in the response. */
-  metricDefinitions?: MetricDefinitionList | undefined;
-  /** Optional. The maximum number of DomainStats resources to return in the response. The server may return fewer than this value. If unspecified, a default value of 10 will be used. The maximum value is 200. */
-  pageSize?: number | undefined;
-  /** Optional. The granularity at which to aggregate the statistics. If unspecified, defaults to DAILY. */
-  aggregationGranularity?:
-    | QueryDomainStatsRequestAggregationGranularityEnum
-    | (string & {})
-    | undefined;
-  /** Optional. The next_page_token value returned from a previous List request, if any. If the aggregation granularity is DAILY, the page token will be the encoded date + "/" + metric name. If the aggregation granularity is OVERALL, the page token will be the encoded metric name. */
-  pageToken?: string | undefined;
 }
 export type VerifyDomainRequestVerificationMethodEnum =
   | "DOMAIN_VERIFICATION_METHOD_UNSPECIFIED"
   | "TXT"
   | "CNAME";
-export interface VerifyDomainsRequest {
-  /** Required. The domain to verify. */
-  name: string;
+/** [Developer Preview](https://developers.google.com/workspace/preview): Request message for VerifyDomain. */
+export interface VerifyDomainRequest {
   /** Required. The verification method used. Must be specified, i.e. TXT or CNAME. */
   verificationMethod?: VerifyDomainRequestVerificationMethodEnum | (string & {}) | undefined;
+}
+export interface VerifyDomainsRequest extends VerifyDomainRequest {
+  /** Required. The domain to verify. */
+  name: string;
 }
 /** [Developer Preview](https://developers.google.com/workspace/preview): Response message for VerifyDomain. */
 export interface VerifyDomainResponse {}
@@ -520,8 +509,8 @@ export const batchQueryDomainStats: API.OperationMethod<
   BatchQueryDomainStatsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(146, __c9, 2) as any as S.Schema<BatchQueryDomainStatsRequest_>,
-  output: __S(152, __c9, 8) as any as S.Schema<BatchQueryDomainStatsResponse>,
+  input: __S(290, __c9, 2) as any as S.Schema<BatchQueryDomainStatsRequest_>,
+  output: __S(296, __c9, 8) as any as S.Schema<BatchQueryDomainStatsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -543,8 +532,8 @@ export const createDomains: API.OperationMethod<
   CreateDomainsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c11, 0) as any as S.Schema<CreateDomainsRequest>,
-  output: __S(192, __c12, 0) as any as S.Schema<Domain>,
+  input: __S(353, __c11, 1) as any as S.Schema<CreateDomainsRequest>,
+  output: __S(384, __c12, 0) as any as S.Schema<Domain>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -566,8 +555,8 @@ export const createDomainsUsers: API.OperationMethod<
   CreateDomainsUsersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c13, 0) as any as S.Schema<CreateDomainsUsersRequest>,
-  output: __S(224, __c14, 0) as any as S.Schema<User>,
+  input: __S(417, __c13, 1) as any as S.Schema<CreateDomainsUsersRequest>,
+  output: __S(448, __c14, 0) as any as S.Schema<User>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -589,8 +578,8 @@ export const deleteDomains: API.OperationMethod<
   DeleteDomainsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c15, 0) as any as S.Schema<DeleteDomainsRequest>,
-  output: __S(256, __c16, 0) as any as S.Schema<Empty>,
+  input: __S(480, __c15, 0) as any as S.Schema<DeleteDomainsRequest>,
+  output: __S(512, __c16, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -612,8 +601,8 @@ export const deleteDomainsUsers: API.OperationMethod<
   DeleteDomainsUsersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c17, 0) as any as S.Schema<DeleteDomainsUsersRequest>,
-  output: __S(256, __c16, 0) as any as S.Schema<Empty>,
+  input: __S(544, __c17, 0) as any as S.Schema<DeleteDomainsUsersRequest>,
+  output: __S(512, __c16, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -650,8 +639,8 @@ export const getDomains: API.OperationMethod<
   GetDomainsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c1, 0) as any as S.Schema<GetDomainsRequest>,
-  output: __S(192, __c12, 0) as any as S.Schema<Domain>,
+  input: __S(32, __c1, 0) as any as S.Schema<GetDomainsRequest>,
+  output: __S(384, __c12, 0) as any as S.Schema<Domain>,
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -667,8 +656,8 @@ export const getDomainsUsers: API.OperationMethod<
   GetDomainsUsersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c2, 0) as any as S.Schema<GetDomainsUsersRequest>,
-  output: __S(224, __c14, 0) as any as S.Schema<User>,
+  input: __S(64, __c2, 0) as any as S.Schema<GetDomainsUsersRequest>,
+  output: __S(448, __c14, 0) as any as S.Schema<User>,
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -688,8 +677,8 @@ export const getVerificationTokenDomains: API.OperationMethod<
   GetVerificationTokenDomainsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c3, 0) as any as S.Schema<GetVerificationTokenDomainsRequest>,
-  output: __S(49, __c3, 1) as any as S.Schema<DomainVerificationToken>,
+  input: __S(96, __c3, 0) as any as S.Schema<GetVerificationTokenDomainsRequest>,
+  output: __S(97, __c3, 1) as any as S.Schema<DomainVerificationToken>,
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -706,8 +695,8 @@ export const listDomains: API.PaginatedOperationMethod<
   GcpOpContext,
   ListDomainsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(64, __c4, 0) as any as S.Schema<ListDomainsRequest>,
-  output: __S(66, __c4, 2) as any as S.Schema<ListDomainsResponse>,
+  input: __S(128, __c4, 0) as any as S.Schema<ListDomainsRequest>,
+  output: __S(130, __c4, 2) as any as S.Schema<ListDomainsResponse>,
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -725,8 +714,8 @@ export const listDomainsUsers: API.PaginatedOperationMethod<
   GcpOpContext,
   ListUsersResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(80, __c5, 0) as any as S.Schema<ListDomainsUsersRequest>,
-  output: __S(82, __c5, 2) as any as S.Schema<ListUsersResponse>,
+  input: __S(160, __c5, 0) as any as S.Schema<ListDomainsUsersRequest>,
+  output: __S(162, __c5, 2) as any as S.Schema<ListUsersResponse>,
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -749,8 +738,8 @@ export const patchDomainsUsers: API.OperationMethod<
   PatchDomainsUsersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c6, 0) as any as S.Schema<PatchDomainsUsersRequest>,
-  output: __S(224, __c14, 0) as any as S.Schema<User>,
+  input: __S(192, __c6, 0) as any as S.Schema<PatchDomainsUsersRequest>,
+  output: __S(448, __c14, 0) as any as S.Schema<User>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -772,8 +761,8 @@ export const queryDomainsDomainStats: API.OperationMethod<
   QueryDomainsDomainStatsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c7, 0) as any as S.Schema<QueryDomainsDomainStatsRequest>,
-  output: __S(175, __c10, 15) as any as S.Schema<QueryDomainStatsResponse>,
+  input: __S(224, __c7, 0) as any as S.Schema<QueryDomainsDomainStatsRequest>,
+  output: __S(336, __c10, 16) as any as S.Schema<QueryDomainStatsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -795,8 +784,8 @@ export const verifyDomains: API.OperationMethod<
   VerifyDomainsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c8, 0) as any as S.Schema<VerifyDomainsRequest>,
-  output: __S(256, __c16, 0) as any as S.Schema<VerifyDomainResponse>,
+  input: __S(257, __c8, 1) as any as S.Schema<VerifyDomainsRequest>,
+  output: __S(512, __c16, 0) as any as S.Schema<VerifyDomainResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -941,11 +930,11 @@ function __c4(j: number): any {
         ),
       ).annotate({ identifier: "ListDomainsRequest" });
     case 1:
-      return S.Array(__S(192, __c12, 0));
+      return S.Array(__S(384, __c12, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          domains: S.optional(__S(65, __c4, 1)),
+          domains: S.optional(__S(129, __c4, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListDomainsResponse" });
@@ -968,12 +957,12 @@ function __c5(j: number): any {
         ),
       ).annotate({ identifier: "ListDomainsUsersRequest" });
     case 1:
-      return S.Array(__S(224, __c14, 0));
+      return S.Array(__S(448, __c14, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          users: S.optional(__S(81, __c5, 1)),
+          users: S.optional(__S(161, __c5, 1)),
         }),
       ).annotate({ identifier: "ListUsersResponse" });
   }
@@ -982,14 +971,13 @@ function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          permission: S.optional(S.String),
-          user: S.optional(S.String),
-          accessGranter: S.optional(S.String),
-          createTime: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(448, __c14, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -1003,14 +991,12 @@ function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          timeQuery: S.optional(__S(166, __c10, 6)),
-          metricDefinitions: S.optional(__S(169, __c10, 9)),
-          pageSize: S.optional(S.Number),
-          aggregationGranularity: S.optional(S.String),
-          pageToken: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(330, __c10, 10),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/domainStats:query",
@@ -1025,9 +1011,17 @@ function __c8(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           verificationMethod: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "VerifyDomainRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(256, __c8, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+name}:verify",
@@ -1040,23 +1034,16 @@ function __c8(j: number): any {
 function __c9(j: number): any {
   switch (j) {
     case 0:
+      return S.Array(__S(330, __c10, 10));
+    case 1:
       return S.suspend(() =>
         S.Struct({
-          timeQuery: S.optional(__S(166, __c10, 6)),
-          metricDefinitions: S.optional(__S(169, __c10, 9)),
-          pageSize: S.optional(S.Number),
-          aggregationGranularity: S.optional(S.String),
-          parent: S.optional(S.String),
-          pageToken: S.optional(S.String),
+          requests: S.optional(__S(288, __c9, 0)),
         }),
-      ).annotate({ identifier: "QueryDomainStatsRequest" });
-    case 1:
-      return S.Array(__S(144, __c9, 0));
+      ).annotate({ identifier: "BatchQueryDomainStatsRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          requests: S.optional(__S(145, __c9, 1)),
-        }).pipe(
+        S.Extend(__S(289, __c9, 1), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v2/domainStats:batchQuery",
@@ -1067,28 +1054,28 @@ function __c9(j: number): any {
     case 3:
       return S.Record(S.String, S.Unknown);
     case 4:
-      return S.Array(__S(147, __c9, 3));
+      return S.Array(__S(291, __c9, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           message: S.optional(S.String),
-          details: S.optional(__S(148, __c9, 4)),
+          details: S.optional(__S(292, __c9, 4)),
           code: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Status" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          error: S.optional(__S(149, __c9, 5)),
-          response: S.optional(__S(175, __c10, 15)),
+          error: S.optional(__S(293, __c9, 5)),
+          response: S.optional(__S(336, __c10, 16)),
         }),
       ).annotate({ identifier: "BatchQueryDomainStatsResult" });
     case 7:
-      return S.Array(__S(150, __c9, 6));
+      return S.Array(__S(294, __c9, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          results: S.optional(__S(151, __c9, 7)),
+          results: S.optional(__S(295, __c9, 7)),
         }),
       ).annotate({ identifier: "BatchQueryDomainStatsResponse" });
   }
@@ -1106,31 +1093,31 @@ function __c10(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          start: S.optional(__S(160, __c10, 0)),
-          end: S.optional(__S(160, __c10, 0)),
+          start: S.optional(__S(320, __c10, 0)),
+          end: S.optional(__S(320, __c10, 0)),
         }),
       ).annotate({ identifier: "DateRange" });
     case 2:
-      return S.Array(__S(161, __c10, 1));
+      return S.Array(__S(321, __c10, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          dateRanges: S.optional(__S(162, __c10, 2)),
+          dateRanges: S.optional(__S(322, __c10, 2)),
         }),
       ).annotate({ identifier: "DateRanges" });
     case 4:
-      return S.Array(__S(160, __c10, 0));
+      return S.Array(__S(320, __c10, 0));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          dates: S.optional(__S(164, __c10, 4)),
+          dates: S.optional(__S(324, __c10, 4)),
         }),
       ).annotate({ identifier: "DateList" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          dateRanges: S.optional(__S(163, __c10, 3)),
-          dateList: S.optional(__S(165, __c10, 5)),
+          dateRanges: S.optional(__S(323, __c10, 3)),
+          dateList: S.optional(__S(325, __c10, 5)),
         }),
       ).annotate({ identifier: "TimeQuery" });
     case 7:
@@ -1142,46 +1129,57 @@ function __c10(j: number): any {
     case 8:
       return S.suspend(() =>
         S.Struct({
-          baseMetric: S.optional(__S(167, __c10, 7)),
+          baseMetric: S.optional(__S(327, __c10, 7)),
           name: S.optional(S.String),
           filter: S.optional(S.String),
         }),
       ).annotate({ identifier: "MetricDefinition" });
     case 9:
-      return S.Array(__S(168, __c10, 8));
+      return S.Array(__S(328, __c10, 8));
     case 10:
-      return S.Array(S.String);
-    case 11:
       return S.suspend(() =>
         S.Struct({
-          values: S.optional(__S(170, __c10, 10)),
+          timeQuery: S.optional(__S(326, __c10, 6)),
+          metricDefinitions: S.optional(__S(329, __c10, 9)),
+          pageSize: S.optional(S.Number),
+          aggregationGranularity: S.optional(S.String),
+          parent: S.optional(S.String),
+          pageToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "QueryDomainStatsRequest" });
+    case 11:
+      return S.Array(S.String);
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          values: S.optional(__S(331, __c10, 11)),
         }),
       ).annotate({ identifier: "StringList" });
-    case 12:
+    case 13:
       return S.suspend(() =>
         S.Struct({
           floatValue: S.optional(S.Number),
           intValue: S.optional(S.String),
           stringValue: S.optional(S.String),
           doubleValue: S.optional(S.Number),
-          stringList: S.optional(__S(171, __c10, 11)),
+          stringList: S.optional(__S(332, __c10, 12)),
         }),
       ).annotate({ identifier: "StatisticValue" });
-    case 13:
+    case 14:
       return S.suspend(() =>
         S.Struct({
           metric: S.optional(S.String),
-          value: S.optional(__S(172, __c10, 12)),
-          date: S.optional(__S(160, __c10, 0)),
+          value: S.optional(__S(333, __c10, 13)),
+          date: S.optional(__S(320, __c10, 0)),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "DomainStat" });
-    case 14:
-      return S.Array(__S(173, __c10, 13));
     case 15:
+      return S.Array(__S(334, __c10, 14));
+    case 16:
       return S.suspend(() =>
         S.Struct({
-          domainStats: S.optional(__S(174, __c10, 14)),
+          domainStats: S.optional(__S(335, __c10, 15)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "QueryDomainStatsResponse" });
@@ -1193,7 +1191,11 @@ function __c11(j: number): any {
       return S.suspend(() =>
         S.Struct({
           domainId: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "CreateDomainRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(__S(352, __c11, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v2/domains",
@@ -1222,10 +1224,18 @@ function __c13(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
           permission: S.optional(S.String),
           userId: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "CreateUserRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(416, __c13, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/users",

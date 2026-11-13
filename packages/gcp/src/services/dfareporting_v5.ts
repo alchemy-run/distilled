@@ -331,15 +331,18 @@ export interface EncryptionInfo {
   /** The encryption entity ID. This should match the encryption configuration for ad serving or Data Transfer. */
   encryptionEntityId?: string | undefined;
 }
-export interface BatchinsertConversionsRequest {
-  /** User profile ID associated with this request. */
-  profileId: string;
+/** Insert Conversions Request. */
+export interface ConversionsBatchInsertRequest {
   /** The set of conversions to insert. */
   conversions?: ConversionList | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#conversionsBatchInsertRequest". */
   kind?: string | undefined;
   /** Describes how encryptedUserId or encryptedUserIdCandidates[] is encrypted. This is a required field if encryptedUserId or encryptedUserIdCandidates[] is used. */
   encryptionInfo?: EncryptionInfo | undefined;
+}
+export interface BatchinsertConversionsRequest extends ConversionsBatchInsertRequest {
+  /** User profile ID associated with this request. */
+  profileId: string;
 }
 export type ConversionErrorCodeEnum =
   | "INVALID_ARGUMENT"
@@ -375,15 +378,18 @@ export interface ConversionsBatchInsertResponse {
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#conversionsBatchInsertResponse". */
   kind?: string | undefined;
 }
-export interface BatchupdateConversionsRequest {
-  /** User profile ID associated with this request. */
-  profileId: string;
+/** Update Conversions Request. */
+export interface ConversionsBatchUpdateRequest {
   /** Describes how encryptedUserId is encrypted. This is a required field if encryptedUserId is used. */
   encryptionInfo?: EncryptionInfo | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#conversionsBatchUpdateRequest". */
   kind?: string | undefined;
   /** The set of conversions to update. */
   conversions?: ConversionList | undefined;
+}
+export interface BatchupdateConversionsRequest extends ConversionsBatchUpdateRequest {
+  /** User profile ID associated with this request. */
+  profileId: string;
 }
 /** Update Conversions Response. */
 export interface ConversionsBatchUpdateResponse {
@@ -696,9 +702,9 @@ export interface Account {
   /** Account permissions assigned to this account. */
   accountPermissionIds?: StringList | undefined;
   /** Maximum number of active ads allowed for this account. */
-  activeAdsLimitTier?: AccountActiveAdsLimitTierEnum | undefined;
+  activeAdsLimitTier?: AccountActiveAdsLimitTierEnum | (string & {}) | undefined;
   /** Profile for this account. This is a read-only field that can be left blank. */
-  accountProfile?: AccountAccountProfileEnum | undefined;
+  accountProfile?: AccountAccountProfileEnum | (string & {}) | undefined;
   /** ID of the country associated with this account. */
   countryId?: string | undefined;
   /** Whether this account is active. */
@@ -770,7 +776,7 @@ export interface AccountUserProfile {
   /** Filter that describes which campaigns are visible to the user profile. */
   campaignFilter?: ObjectFilter | undefined;
   /** User type of the user profile. This is a read-only field that can be left blank. */
-  userAccessType?: AccountUserProfileUserAccessTypeEnum | undefined;
+  userAccessType?: AccountUserProfileUserAccessTypeEnum | (string & {}) | undefined;
   /** Filter that describes which sites are visible to the user profile. */
   siteFilter?: ObjectFilter | undefined;
   /** Whether this user profile is active. This defaults to false, and must be set true on insert for the user profile to be usable. */
@@ -780,7 +786,7 @@ export interface AccountUserProfile {
   /** Filter that describes which advertisers are visible to the user profile. */
   advertiserFilter?: ObjectFilter | undefined;
   /** Trafficker type of this user profile. This is a read-only field. */
-  traffickerType?: AccountUserProfileTraffickerTypeEnum | undefined;
+  traffickerType?: AccountUserProfileTraffickerTypeEnum | (string & {}) | undefined;
   /** ID of the user profile. This is a read-only, auto-generated field. */
   id?: string | undefined;
   /** Account ID of the user profile. This is a read-only field that can be left blank. */
@@ -1293,7 +1299,7 @@ export interface Ad {
   /** Targeting template ID, used to apply preconfigured targeting information to this ad. This cannot be set while any of dayPartTargeting, geoTargeting, keyValueTargetingExpression, languageTargeting, remarketingListExpression, or technologyTargeting are set. Applicable when type is AD_SERVING_STANDARD_AD. */
   targetingTemplateId?: string | undefined;
   /** Compatibility of this ad. Applicable when type is AD_SERVING_DEFAULT_AD. DISPLAY and DISPLAY_INTERSTITIAL refer to either rendering on desktop or on mobile devices or in mobile apps for regular or interstitial ads, respectively. APP and APP_INTERSTITIAL are only used for existing default ads. New mobile placements must be assigned DISPLAY or DISPLAY_INTERSTITIAL and default ads created for those placements will be limited to those compatibility types. IN_STREAM_VIDEO refers to rendering in-stream video ads developed with the VAST standard. */
-  compatibility?: AdCompatibilityEnum | undefined;
+  compatibility?: AdCompatibilityEnum | (string & {}) | undefined;
   /** Whether this ad is archived. When true, active must be false. */
   archived?: boolean | undefined;
   /** Remarketing list targeting expression for this ad. This field must be left blank if the ad is using a targeting template. Applicable when type is AD_SERVING_STANDARD_AD. */
@@ -1313,7 +1319,7 @@ export interface Ad {
   /** Dimension value for the ID of the campaign. This is a read-only, auto-generated field. */
   campaignIdDimensionValue?: DimensionValue | undefined;
   /** Type of ad. This is a required field on insertion. Note that default ads ( AD_SERVING_DEFAULT_AD) cannot be created directly (see Creative resource). */
-  type?: AdTypeEnum | undefined;
+  type?: AdTypeEnum | (string & {}) | undefined;
   /** Audience segment ID that is being targeted for this ad. Applicable when type is AD_SERVING_STANDARD_AD. */
   audienceSegmentId?: string | undefined;
   /** Placement assignments for this ad. */
@@ -1481,7 +1487,7 @@ export interface Advertiser {
   /** ID of this advertiser. This is a read-only, auto-generated field. */
   id?: string | undefined;
   /** Optional. Whether the advertiser plans to serve EU political ads. */
-  euPoliticalAdsDeclaration?: AdvertiserEuPoliticalAdsDeclarationEnum | undefined;
+  euPoliticalAdsDeclaration?: AdvertiserEuPoliticalAdsDeclarationEnum | (string & {}) | undefined;
   /** Account ID of this advertiser.This is a read-only field that can be left blank. */
   accountId?: string | undefined;
   /** Name of this advertiser. This is a required field and must be less than 256 characters long and unique among advertisers of the same account. */
@@ -1495,7 +1501,7 @@ export interface Advertiser {
   /** ID of the advertiser group this advertiser belongs to. You can group advertisers for reporting purposes, allowing you to see aggregated information for all advertisers in each group. */
   advertiserGroupId?: string | undefined;
   /** Status of this advertiser. */
-  status?: AdvertiserStatusEnum | undefined;
+  status?: AdvertiserStatusEnum | (string & {}) | undefined;
   /** Dimension value for the ID of the floodlight configuration. This is a read-only, auto-generated field. */
   floodlightConfigurationIdDimensionValue?: DimensionValue | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#advertiser". */
@@ -1523,11 +1529,11 @@ export type BillingProfileInvoiceLevelEnum =
 /** Contains properties of a Campaign Manager Billing Profile. */
 export interface BillingProfile {
   /** Status of this billing profile.This is a read-only field. */
-  status?: BillingProfileStatusEnum | undefined;
+  status?: BillingProfileStatusEnum | (string & {}) | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#billingProfile". */
   kind?: string | undefined;
   /** Invoice level for this billing profile. Used to group fees into separate invoices by account, advertiser, or campaign. */
-  invoiceLevel?: BillingProfileInvoiceLevelEnum | undefined;
+  invoiceLevel?: BillingProfileInvoiceLevelEnum | (string & {}) | undefined;
   /** True if the billing profile is the account default profile. This is a read-only field. */
   isDefault?: boolean | undefined;
   /** ID of this billing profile. This is a read-only, auto-generated field. */
@@ -1657,7 +1663,7 @@ export interface Campaign {
   /** Billing invoice code included in the Campaign Manager client billing invoices associated with the campaign. */
   billingInvoiceCode?: string | undefined;
   /** Optional. Whether the campaign has EU political ads. Campaign Manager 360 doesn't allow campaigns with EU political ads to serve in the EU. They can still serve in other regions. */
-  euPoliticalAdsDeclaration?: CampaignEuPoliticalAdsDeclarationEnum | undefined;
+  euPoliticalAdsDeclaration?: CampaignEuPoliticalAdsDeclarationEnum | (string & {}) | undefined;
   /** The default landing page ID for this campaign. */
   defaultLandingPageId?: string | undefined;
   /** Creative optimization configuration for the campaign. */
@@ -2420,7 +2426,7 @@ export interface Creative {
   /** Account ID of this creative. This field, if left unset, will be auto-generated for both insert and update operations. Applicable to all creative types. */
   accountId?: string | undefined;
   /** Type of artwork used for the creative. This is a read-only field. Applicable to the following creative types: all RICH_MEDIA, and all VPAID. */
-  artworkType?: CreativeArtworkTypeEnum | undefined;
+  artworkType?: CreativeArtworkTypeEnum | (string & {}) | undefined;
   /** List of companion creatives assigned to an in-Stream video creative. Acceptable values include IDs of existing flash and image creatives. Applicable to the following creative types: all VPAID, all INSTREAM_AUDIO and all INSTREAM_VIDEO with dynamicAssetSelection set to false. */
   companionCreatives?: StringList | undefined;
   /** Size associated with this creative. When inserting or updating a creative either the size ID field or size width and height fields can be used. This is a required field when applicable; however for IMAGE, FLASH_INPAGE creatives, and for DISPLAY creatives with a primary asset of type HTML_IMAGE, if left blank, this field will be automatically set using the actual size of the associated image assets. Applicable to the following creative types: DISPLAY, DISPLAY_IMAGE_GALLERY, FLASH_INPAGE, HTML5_BANNER, IMAGE, and all RICH_MEDIA. */
@@ -2436,7 +2442,7 @@ export interface Creative {
   /** The minimum required Flash plugin version for this creative. For example, 11.2.202.235. This is a read-only field. Applicable to the following creative types: all RICH_MEDIA, and all VPAID. */
   requiredFlashPluginVersion?: string | undefined;
   /** Required. Type of this creative. Applicable to all creative types. *Note:* FLASH_INPAGE, HTML5_BANNER, and IMAGE are only used for existing creatives. New creatives should use DISPLAY as a replacement for these types. */
-  type?: CreativeTypeEnum | undefined;
+  type?: CreativeTypeEnum | (string & {}) | undefined;
   /** A Universal Ad ID as per the VAST 4.0 spec. Applicable to the following creative types: INSTREAM_AUDIO and INSTREAM_VIDEO and VPAID. */
   universalAdId?: UniversalAdId | undefined;
   /** List of counter events configured for the creative. For DISPLAY_IMAGE_GALLERY creatives, these are read-only and auto-generated from clickTags. Applicable to the following creative types: DISPLAY_IMAGE_GALLERY, all RICH_MEDIA, and all VPAID. */
@@ -2466,13 +2472,16 @@ export interface Creative {
   /** Override CSS value for rich media creatives. Applicable to the following creative types: all RICH_MEDIA. */
   overrideCss?: string | undefined;
   /** Authoring tool for HTML5 banner creatives. This is a read-only field. Applicable to the following creative types: HTML5_BANNER. */
-  authoringTool?: CreativeAuthoringToolEnum | undefined;
+  authoringTool?: CreativeAuthoringToolEnum | (string & {}) | undefined;
   /** Whether Flash assets associated with the creative need to be automatically converted to HTML5. This flag is enabled by default and users can choose to disable it if they don't want the system to generate and use HTML5 asset for this creative. Applicable to the following creative type: FLASH_INPAGE. Applicable to DISPLAY when the primary asset type is not HTML_IMAGE. */
   convertFlashToHtml5?: boolean | undefined;
   /** The version number helps you keep track of multiple versions of your creative in your reports. The version number will always be auto-generated during insert operations to start at 1. For tracking creatives the version cannot be incremented and will always remain at 1. For all other creative types the version can be incremented only by 1 during update operations. In addition, the version will be automatically incremented by 1 when undergoing Rich Media creative merging. Applicable to all creative types. */
   version?: number | undefined;
   /** Optional. Whether to add a label to the creative as created or edited using AI when served in regions with local AI labeling regulations. [Learn more about labeling requirements in AI regulations.](https://support.google.com/campaignmanager/answer/17232030) */
-  syntheticContentAttestationStatus?: CreativeSyntheticContentAttestationStatusEnum | undefined;
+  syntheticContentAttestationStatus?:
+    | CreativeSyntheticContentAttestationStatusEnum
+    | (string & {})
+    | undefined;
   /** Reporting label used for HTML5 banner backup image. Applicable to the following creative types: DISPLAY when the primary asset type is not HTML_IMAGE. */
   backupImageReportingLabel?: string | undefined;
   /** Latest Studio trafficked creative ID associated with rich media and VPAID creatives. This is a read-only field. Applicable to the following creative types: all RICH_MEDIA, and all VPAID. */
@@ -2484,7 +2493,7 @@ export interface Creative {
   /** Third-party URLs for tracking in-stream creative events. Applicable to the following creative types: all INSTREAM_VIDEO, all INSTREAM_AUDIO, and all VPAID. */
   thirdPartyUrls?: ThirdPartyTrackingUrlList | undefined;
   /** Source application where creative was authored. Presently, only DBM authored creatives will have this field set. Applicable to all creative types. */
-  authoringSource?: CreativeAuthoringSourceEnum | undefined;
+  authoringSource?: CreativeAuthoringSourceEnum | (string & {}) | undefined;
   /** Required. Advertiser ID of this creative. This is a required field. Applicable to all creative types. */
   advertiserId?: string | undefined;
   /** The 6-character HTML color code, beginning with #, for the background of the window area where the Flash file is displayed. Default is white. Applicable to the following creative types: FLASH_INPAGE. */
@@ -3018,7 +3027,7 @@ export interface DynamicProfile {
   /** Optional. Draft version of the dynamic profile. */
   draft?: DynamicProfileVersion | undefined;
   /** Optional. Archive status of this dynamic profile. */
-  archiveStatus?: DynamicProfileArchiveStatusEnum | undefined;
+  archiveStatus?: DynamicProfileArchiveStatusEnum | (string & {}) | undefined;
   /** Output only. Unique ID of this dynamic profile. This is a read-only, auto-generated field. */
   dynamicProfileId?: string | undefined;
   /** Required. Identifier. Name of this dynamic profile. This is a required field and must be less than 256 characters long. */
@@ -3028,7 +3037,7 @@ export interface DynamicProfile {
   /** Optional. Description of this dynamic profile. */
   description?: string | undefined;
   /** Optional. Status of this dynamic profile. */
-  status?: DynamicProfileStatusEnum | undefined;
+  status?: DynamicProfileStatusEnum | (string & {}) | undefined;
   /** Required. Advertiser ID of this dynamic profile. This is a required field on insertion. */
   studioAdvertiserId?: string | undefined;
   /** Output only. The creation timestamp of the dynamic profile. This is a read-only field. */
@@ -3073,17 +3082,17 @@ export interface EventTag {
   /** Dimension value for the ID of the campaign. This is a read-only, auto-generated field. */
   campaignIdDimensionValue?: DimensionValue | undefined;
   /** Status of this event tag. Must be ENABLED for this event tag to fire. This is a required field. */
-  status?: EventTagStatusEnum | undefined;
+  status?: EventTagStatusEnum | (string & {}) | undefined;
   /** ID of this event tag. This is a read-only, auto-generated field. */
   id?: string | undefined;
   /** Event tag type. Can be used to specify whether to use a third-party pixel, a third-party JavaScript URL, or a third-party click-through URL for either impression or click tracking. This is a required field. */
-  type?: EventTagTypeEnum | undefined;
+  type?: EventTagTypeEnum | (string & {}) | undefined;
   /** Name of this event tag. This is a required field and must be less than 256 characters long. */
   name?: string | undefined;
   /** Filter list of site IDs associated with this event tag. The siteFilterType determines whether this is a allowlist or blocklist filter. */
   siteIds?: StringList | undefined;
   /** Site filter type for this event tag. If no type is specified then the event tag will be applied to all sites. */
-  siteFilterType?: EventTagSiteFilterTypeEnum | undefined;
+  siteFilterType?: EventTagSiteFilterTypeEnum | (string & {}) | undefined;
 }
 export interface GetFilesRequest {
   /** The ID of the report. */
@@ -3331,7 +3340,7 @@ export interface FloodlightActivity {
   /** ID of this floodlight activity. This is a read-only, auto-generated field. */
   id?: string | undefined;
   /** The status of the activity. This can only be set to ACTIVE or ARCHIVED_AND_DISABLED. The ARCHIVED status is no longer supported and cannot be set for Floodlight activities. The DISABLED_POLICY status indicates that a Floodlight activity is violating Google policy. Contact your account manager for more information. */
-  status?: FloodlightActivityStatusEnum | undefined;
+  status?: FloodlightActivityStatusEnum | (string & {}) | undefined;
   /** Floodlight configuration ID of this floodlight activity. If this field is left blank, the value will be copied over either from the activity group's floodlight configuration or from the existing activity's floodlight configuration. */
   floodlightConfigurationId?: string | undefined;
   /** General notes or implementation instructions for the tag. */
@@ -3345,13 +3354,16 @@ export interface FloodlightActivity {
   /** Dynamic floodlight tags. */
   defaultTags?: FloodlightActivityDynamicTagList | undefined;
   /** Required. The conversion category of the activity. */
-  conversionCategory?: FloodlightActivityConversionCategoryEnum | undefined;
+  conversionCategory?: FloodlightActivityConversionCategoryEnum | (string & {}) | undefined;
   /** Type of the associated floodlight activity group. This is a read-only field. */
-  floodlightActivityGroupType?: FloodlightActivityFloodlightActivityGroupTypeEnum | undefined;
+  floodlightActivityGroupType?:
+    | FloodlightActivityFloodlightActivityGroupTypeEnum
+    | (string & {})
+    | undefined;
   /** The type of Floodlight tag this activity will generate. This is a required field. */
-  floodlightTagType?: FloodlightActivityFloodlightTagTypeEnum | undefined;
+  floodlightTagType?: FloodlightActivityFloodlightTagTypeEnum | (string & {}) | undefined;
   /** Tag format type for the floodlight activity. If left blank, the tag format will default to HTML. */
-  tagFormat?: FloodlightActivityTagFormatEnum | undefined;
+  tagFormat?: FloodlightActivityTagFormatEnum | (string & {}) | undefined;
   /** List of the user-defined variables used by this conversion tag. These map to the "u[1-100]=" in the tags. Each of these can have a user defined type. Acceptable values are U1 to U100, inclusive. */
   userDefinedVariableTypes?: FloodlightActivityUserDefinedVariableTypesItemEnumList | undefined;
   /** Name of this floodlight activity. This is a required field. Must be less than 129 characters long and cannot contain quotes. */
@@ -3383,9 +3395,9 @@ export interface FloodlightActivity {
   /** Whether this floodlight activity must be SSL-compliant. */
   sslRequired?: boolean | undefined;
   /** Code type used for cache busting in the generated tag. Applicable only when floodlightActivityGroupType is COUNTER and countingMethod is STANDARD_COUNTING or UNIQUE_COUNTING. */
-  cacheBustingType?: FloodlightActivityCacheBustingTypeEnum | undefined;
+  cacheBustingType?: FloodlightActivityCacheBustingTypeEnum | (string & {}) | undefined;
   /** Counting method for conversions for this floodlight activity. This is a required field. */
-  countingMethod?: FloodlightActivityCountingMethodEnum | undefined;
+  countingMethod?: FloodlightActivityCountingMethodEnum | (string & {}) | undefined;
 }
 export interface GetFloodlightActivityGroupsRequest {
   /** User profile ID associated with this request. */
@@ -3407,7 +3419,7 @@ export interface FloodlightActivityGroup {
   /** Dimension value for the ID of this floodlight activity group. This is a read-only, auto-generated field. */
   idDimensionValue?: DimensionValue | undefined;
   /** Type of the floodlight activity group. This is a required field that is read-only after insertion. */
-  type?: FloodlightActivityGroupTypeEnum | undefined;
+  type?: FloodlightActivityGroupTypeEnum | (string & {}) | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#floodlightActivityGroup". */
   kind?: string | undefined;
   /** Dimension value for the ID of the floodlight configuration. This is a read-only, auto-generated field. */
@@ -3592,7 +3604,7 @@ export interface FloodlightConfiguration {
   advertiserIdDimensionValue?: DimensionValue | undefined;
   /** Dimension value for the ID of this floodlight configuration. This is a read-only, auto-generated field. */
   idDimensionValue?: DimensionValue | undefined;
-  firstDayOfWeek?: FloodlightConfigurationFirstDayOfWeekEnum | undefined;
+  firstDayOfWeek?: FloodlightConfigurationFirstDayOfWeekEnum | (string & {}) | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#floodlightConfiguration". */
   kind?: string | undefined;
   /** Advertiser ID of the parent advertiser of this floodlight configuration. */
@@ -3610,6 +3622,7 @@ export interface FloodlightConfiguration {
   /** Types of attribution options for natural search conversions. */
   naturalSearchConversionAttributionOption?:
     | FloodlightConfigurationNaturalSearchConversionAttributionOptionEnum
+    | (string & {})
     | undefined;
   /** Configuration settings for dynamic and image floodlight tags. */
   tagSettings?: TagSettings | undefined;
@@ -3707,7 +3720,7 @@ export interface PlacementGroup {
   /** Dimension value for the ID of this placement group. This is a read-only, auto-generated field. */
   idDimensionValue?: DimensionValue | undefined;
   /** Type of this placement group. A package is a simple group of placements that acts as a single pricing point for a group of tags. A roadblock is a group of placements that not only acts as a single pricing point, but also assumes that all the tags in it will be served at the same time. A roadblock requires one of its assigned placements to be marked as primary for reporting. This field is required on insertion. */
-  placementGroupType?: PlacementGroupPlacementGroupTypeEnum | undefined;
+  placementGroupType?: PlacementGroupPlacementGroupTypeEnum | (string & {}) | undefined;
   /** Dimension value for the ID of the advertiser. This is a read-only, auto-generated field. */
   advertiserIdDimensionValue?: DimensionValue | undefined;
   /** Subaccount ID of this placement group. This is a read-only field that can be left blank. */
@@ -3753,7 +3766,7 @@ export interface PlacementGroup {
   /** Name of this placement group. This is a required field and must be less than 256 characters long. */
   name?: string | undefined;
   /** Whether this placement group is active, inactive, archived or permanently archived. */
-  activeStatus?: PlacementGroupActiveStatusEnum | undefined;
+  activeStatus?: PlacementGroupActiveStatusEnum | (string & {}) | undefined;
   /** Site ID associated with this placement group. On insert, you must set either this field or the directorySiteId field to specify the site associated with this placement group. This is a required field that is read-only after insertion. */
   siteId?: string | undefined;
 }
@@ -4012,19 +4025,19 @@ export interface Placement {
   /** ID of this placement's group, if applicable. */
   placementGroupId?: string | undefined;
   /** Payment source for this placement. This is a required field that is read-only after insertion. */
-  paymentSource?: PlacementPaymentSourceEnum | undefined;
+  paymentSource?: PlacementPaymentSourceEnum | (string & {}) | undefined;
   /** Optional. Whether the placement is enabled for YouTube integration. */
   allowOnYoutube?: boolean | undefined;
   /** Optional. Whether the ads in the placement are served by another platform and CM is only used for tracking or they are served by CM. A false value indicates the ad is served by CM. */
   siteServed?: boolean | undefined;
   /** Placement compatibility. DISPLAY and DISPLAY_INTERSTITIAL refer to rendering on desktop, on mobile devices or in mobile apps for regular or interstitial ads respectively. APP and APP_INTERSTITIAL are no longer allowed for new placement insertions. Instead, use DISPLAY or DISPLAY_INTERSTITIAL. IN_STREAM_VIDEO refers to rendering in in-stream video ads developed with the VAST standard. This field is required on insertion. */
-  compatibility?: PlacementCompatibilityEnum | undefined;
+  compatibility?: PlacementCompatibilityEnum | (string & {}) | undefined;
   /** Whether this placement is active, inactive, archived or permanently archived. */
-  activeStatus?: PlacementActiveStatusEnum | undefined;
+  activeStatus?: PlacementActiveStatusEnum | (string & {}) | undefined;
   /** Dimension value for the ID of the placement group. This is a read-only, auto-generated field. */
   placementGroupIdDimensionValue?: DimensionValue | undefined;
   /** Third-party placement status. */
-  status?: PlacementStatusEnum | undefined;
+  status?: PlacementStatusEnum | (string & {}) | undefined;
   /** Whether payment was approved for this placement. This is a read-only field relevant only to publisher-paid placements. */
   paymentApproved?: boolean | undefined;
   /** Dimension value for the ID of the advertiser. This is a read-only, auto-generated field. */
@@ -4048,7 +4061,7 @@ export interface Placement {
   /** Dimension value for the ID of this placement. This is a read-only, auto-generated field. */
   idDimensionValue?: DimensionValue | undefined;
   /** VPAID adapter setting for this placement. Controls which VPAID format the measurement adapter will use for in-stream video creatives assigned to this placement. *Note:* Flash is no longer supported. This field now defaults to HTML5 when the following values are provided: FLASH, BOTH. */
-  vpaidAdapterChoice?: PlacementVpaidAdapterChoiceEnum | undefined;
+  vpaidAdapterChoice?: PlacementVpaidAdapterChoiceEnum | (string & {}) | undefined;
   /** Information about the creation of this placement. This is a read-only field. */
   createInfo?: LastModifiedInfo | undefined;
   /** ID of the placement strategy assigned to this placement. */
@@ -4181,7 +4194,7 @@ export interface RemarketingList {
   /** Account ID of this remarketing list. This is a read-only, auto-generated field that is only returned in GET requests. */
   accountId?: string | undefined;
   /** Product from which this remarketing list was originated. */
-  listSource?: RemarketingListListSourceEnum | undefined;
+  listSource?: RemarketingListListSourceEnum | (string & {}) | undefined;
   /** Whether this remarketing list is active. */
   active?: boolean | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#remarketingList". */
@@ -4412,7 +4425,7 @@ export interface Report {
   /** The report criteria for a report of type "PATH_TO_CONVERSION". */
   pathToConversionCriteria?: ReportPathToConversionCriteria | undefined;
   /** The type of the report. */
-  type?: ReportTypeEnum | undefined;
+  type?: ReportTypeEnum | (string & {}) | undefined;
   /** The name of the report. */
   name?: string | undefined;
   /** The filename used when generating report files for this report. */
@@ -4430,7 +4443,7 @@ export interface Report {
   /** The report's email delivery settings. */
   delivery?: ReportDelivery | undefined;
   /** The output format of the report. If not specified, default format is "CSV". Note that the actual format in the completed report file might differ if for instance the report's size exceeds the format's capabilities. "CSV" will then be the fallback format. */
-  format?: ReportFormatEnum | undefined;
+  format?: ReportFormatEnum | (string & {}) | undefined;
   /** The kind of resource this is, in this case dfareporting#report. */
   kind?: string | undefined;
   /** The subaccount ID to which this report belongs if applicable. */
@@ -4611,7 +4624,7 @@ export type StudioCreativeFormatEnum =
 /** *Beta:* This API resource is available only to a very limited number of customers. If you'd like to use this resource, please reach out to your Google sales representative. Contains studio creative information. */
 export interface StudioCreative {
   /** Output only. Status of this studio creative. It is a read-only field. */
-  status?: StudioCreativeStatusEnum | undefined;
+  status?: StudioCreativeStatusEnum | (string & {}) | undefined;
   /** Studio account ID of this creative. This field, if left unset, will be auto-populated. */
   studioAccountId?: string | undefined;
   /** Studio advertiser ID of this studio creative. This is a required field on insertion. */
@@ -4623,7 +4636,7 @@ export interface StudioCreative {
   /** Dimension of this studio creative. This is a required field on insertion if format is BANNER or EXPANDING. */
   dimension?: StudioCreativeDimension | undefined;
   /** Format of this studio creative. This is a required field on insertion. */
-  format?: StudioCreativeFormatEnum | undefined;
+  format?: StudioCreativeFormatEnum | (string & {}) | undefined;
   /** The timestamp when the studio creative was last modified. This is a read-only, auto-generated field. */
   lastModifiedInfo?: LastModifiedInfo | undefined;
   /** The timestamp when the studio creative was created. This is a read-only, auto-generated field. */
@@ -4897,207 +4910,25 @@ export interface VideoFormat {
   /** ID of the video format. */
   id?: number | undefined;
 }
-export interface InsertAccountUserProfilesRequest {
+export interface InsertAccountUserProfilesRequest extends AccountUserProfile {
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Subaccount ID of the user profile. This is a read-only field that can be left blank. */
-  subaccountId?: string | undefined;
-  /** Email of the user profile. The email address must be linked to a Google Account. This field is required on insertion and is read-only after insertion. */
-  email?: string | undefined;
-  /** Filter that describes which user roles are visible to the user profile. */
-  userRoleFilter?: ObjectFilter | undefined;
-  /** Name of the user profile. This is a required field. Must be less than 64 characters long, must be globally unique, and cannot contain whitespace or any of the following characters: "&;<>"#%,". */
-  name?: string | undefined;
-  /** Filter that describes which campaigns are visible to the user profile. */
-  campaignFilter?: ObjectFilter | undefined;
-  /** User type of the user profile. This is a read-only field that can be left blank. */
-  userAccessType?: AccountUserProfileUserAccessTypeEnum | (string & {}) | undefined;
-  /** Filter that describes which sites are visible to the user profile. */
-  siteFilter?: ObjectFilter | undefined;
-  /** Whether this user profile is active. This defaults to false, and must be set true on insert for the user profile to be usable. */
-  active?: boolean | undefined;
-  /** Comments for this user profile. */
-  comments?: string | undefined;
-  /** Filter that describes which advertisers are visible to the user profile. */
-  advertiserFilter?: ObjectFilter | undefined;
-  /** Trafficker type of this user profile. This is a read-only field. */
-  traffickerType?: AccountUserProfileTraffickerTypeEnum | (string & {}) | undefined;
-  /** ID of the user profile. This is a read-only, auto-generated field. */
-  id?: string | undefined;
-  /** Account ID of the user profile. This is a read-only field that can be left blank. */
-  accountId?: string | undefined;
-  /** Locale of the user profile. This is a required field. Acceptable values are: - "cs" (Czech) - "de" (German) - "en" (English) - "en-GB" (English United Kingdom) - "es" (Spanish) - "fr" (French) - "it" (Italian) - "ja" (Japanese) - "ko" (Korean) - "pl" (Polish) - "pt-BR" (Portuguese Brazil) - "ru" (Russian) - "sv" (Swedish) - "tr" (Turkish) - "zh-CN" (Chinese Simplified) - "zh-TW" (Chinese Traditional) */
-  locale?: string | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#accountUserProfile". */
-  kind?: string | undefined;
-  /** User role ID of the user profile. This is a required field. */
-  userRoleId?: string | undefined;
 }
-export interface InsertAdsRequest {
+export interface InsertAdsRequest extends Ad {
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Information about the most recent modification of this ad. This is a read-only field. */
-  lastModifiedInfo?: LastModifiedInfo | undefined;
-  startTime?: string | undefined;
-  /** Time and day targeting information for this ad. This field must be left blank if the ad is using a targeting template. Applicable when type is AD_SERVING_STANDARD_AD. */
-  dayPartTargeting?: DayPartTargeting | undefined;
-  /** Size of this ad. Applicable when type is AD_SERVING_DEFAULT_AD. */
-  size?: Size | undefined;
-  /** Whether this ad is active. When true, archived must be false. */
-  active?: boolean | undefined;
-  /** Click-through URL suffix properties for this ad. Applies to the URL in the ad or (if overriding ad properties) the URL in the creative. */
-  clickThroughUrlSuffixProperties?: ClickThroughUrlSuffixProperties | undefined;
-  /** Targeting template ID, used to apply preconfigured targeting information to this ad. This cannot be set while any of dayPartTargeting, geoTargeting, keyValueTargetingExpression, languageTargeting, remarketingListExpression, or technologyTargeting are set. Applicable when type is AD_SERVING_STANDARD_AD. */
-  targetingTemplateId?: string | undefined;
-  /** Compatibility of this ad. Applicable when type is AD_SERVING_DEFAULT_AD. DISPLAY and DISPLAY_INTERSTITIAL refer to either rendering on desktop or on mobile devices or in mobile apps for regular or interstitial ads, respectively. APP and APP_INTERSTITIAL are only used for existing default ads. New mobile placements must be assigned DISPLAY or DISPLAY_INTERSTITIAL and default ads created for those placements will be limited to those compatibility types. IN_STREAM_VIDEO refers to rendering in-stream video ads developed with the VAST standard. */
-  compatibility?: AdCompatibilityEnum | (string & {}) | undefined;
-  /** Whether this ad is archived. When true, active must be false. */
-  archived?: boolean | undefined;
-  /** Remarketing list targeting expression for this ad. This field must be left blank if the ad is using a targeting template. Applicable when type is AD_SERVING_STANDARD_AD. */
-  remarketingListExpression?: ListTargetingExpression | undefined;
-  /** Creative group assignments for this ad. Applicable when type is AD_SERVING_CLICK_TRACKER. Only one assignment per creative group number is allowed for a maximum of two assignments. */
-  creativeGroupAssignments?: CreativeGroupAssignmentList | undefined;
-  /** Optional. Contextual keyword targeting information for this ad. */
-  contextualKeywordTargeting?: ContextualKeywordTargeting | undefined;
-  /** Comments for this ad. */
-  comments?: string | undefined;
-  /** Name of this ad. This is a required field and must be less than 256 characters long. */
-  name?: string | undefined;
-  /** Dimension value for the ID of this ad. This is a read-only, auto-generated field. */
-  idDimensionValue?: DimensionValue | undefined;
-  /** Technology platform targeting information for this ad. This field must be left blank if the ad is using a targeting template. Applicable when type is AD_SERVING_STANDARD_AD. */
-  technologyTargeting?: TechnologyTargeting | undefined;
-  /** Dimension value for the ID of the campaign. This is a read-only, auto-generated field. */
-  campaignIdDimensionValue?: DimensionValue | undefined;
-  /** Type of ad. This is a required field on insertion. Note that default ads ( AD_SERVING_DEFAULT_AD) cannot be created directly (see Creative resource). */
-  type?: AdTypeEnum | (string & {}) | undefined;
-  /** Audience segment ID that is being targeted for this ad. Applicable when type is AD_SERVING_STANDARD_AD. */
-  audienceSegmentId?: string | undefined;
-  /** Placement assignments for this ad. */
-  placementAssignments?: PlacementAssignmentList | undefined;
-  /** Advertiser ID of this ad. This is a required field on insertion. */
-  advertiserId?: string | undefined;
-  /** Creative rotation for this ad. Applicable when type is AD_SERVING_DEFAULT_AD, AD_SERVING_STANDARD_AD, or AD_SERVING_TRACKING. When type is AD_SERVING_DEFAULT_AD, this field should have exactly one creativeAssignment . */
-  creativeRotation?: CreativeRotation | undefined;
-  /** Whether this ad is a dynamic click tracker. Applicable when type is AD_SERVING_CLICK_TRACKER. This is a required field on insert, and is read-only after insert. */
-  dynamicClickTracker?: boolean | undefined;
-  /** Information about the creation of this ad. This is a read-only field. */
-  createInfo?: LastModifiedInfo | undefined;
-  /** Language targeting information for this ad. This field must be left blank if the ad is using a targeting template. Applicable when type is AD_SERVING_STANDARD_AD. */
-  languageTargeting?: LanguageTargeting | undefined;
-  /** Whether this ad requires ssl. This is a read-only field that is auto-generated when the ad is inserted or updated. */
-  sslRequired?: boolean | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#ad". */
-  kind?: string | undefined;
-  /** Event tag overrides for this ad. */
-  eventTagOverrides?: EventTagOverrideList | undefined;
-  /** Account ID of this ad. This is a read-only field that can be left blank. */
-  accountId?: string | undefined;
-  /** Campaign ID of this ad. This is a required field on insertion. */
-  campaignId?: string | undefined;
-  /** ID of this ad. This is a read-only, auto-generated field. */
-  id?: string | undefined;
-  /** Default click-through event tag properties for this ad. */
-  defaultClickThroughEventTagProperties?: DefaultClickThroughEventTagProperties | undefined;
-  /** Whether this ad is ssl compliant. This is a read-only field that is auto-generated when the ad is inserted or updated. */
-  sslCompliant?: boolean | undefined;
-  /** Key-value targeting information for this ad. This field must be left blank if the ad is using a targeting template. Applicable when type is AD_SERVING_STANDARD_AD. */
-  keyValueTargetingExpression?: KeyValueTargetingExpression | undefined;
-  /** Delivery schedule information for this ad. Applicable when type is AD_SERVING_STANDARD_AD or AD_SERVING_TRACKING. This field along with subfields priority and impressionRatio are required on insertion when type is AD_SERVING_STANDARD_AD. */
-  deliverySchedule?: DeliverySchedule | undefined;
-  /** Dimension value for the ID of the advertiser. This is a read-only, auto-generated field. */
-  advertiserIdDimensionValue?: DimensionValue | undefined;
-  /** Click-through URL for this ad. This is a required field on insertion. Applicable when type is AD_SERVING_CLICK_TRACKER. */
-  clickThroughUrl?: ClickThroughUrl | undefined;
-  endTime?: string | undefined;
-  /** Subaccount ID of this ad. This is a read-only field that can be left blank. */
-  subaccountId?: string | undefined;
-  /** Geographical targeting information for this ad. This field must be left blank if the ad is using a targeting template. Applicable when type is AD_SERVING_STANDARD_AD. */
-  geoTargeting?: GeoTargeting | undefined;
 }
-export interface InsertAdvertiserGroupsRequest {
+export interface InsertAdvertiserGroupsRequest extends AdvertiserGroup {
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Name of this advertiser group. This is a required field and must be less than 256 characters long and unique among advertiser groups of the same account. */
-  name?: string | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#advertiserGroup". */
-  kind?: string | undefined;
-  /** ID of this advertiser group. This is a read-only, auto-generated field. */
-  id?: string | undefined;
-  /** Account ID of this advertiser group. This is a read-only field that can be left blank. */
-  accountId?: string | undefined;
 }
-export interface InsertAdvertiserLandingPagesRequest {
+export interface InsertAdvertiserLandingPagesRequest extends LandingPage {
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Whether this landing page has been archived. */
-  archived?: boolean | undefined;
-  /** Name of this landing page. This is a required field. It must be less than 256 characters long. */
-  name?: string | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#landingPage". */
-  kind?: string | undefined;
-  /** URL of this landing page. This is a required field. */
-  url?: string | undefined;
-  /** ID of this landing page. This is a read-only, auto-generated field. */
-  id?: string | undefined;
-  /** Advertiser ID of this landing page. This is a required field. */
-  advertiserId?: string | undefined;
-  /** Links that will direct the user to a mobile app, if installed. */
-  deepLinks?: DeepLinkList | undefined;
 }
-export interface InsertAdvertisersRequest {
+export interface InsertAdvertisersRequest extends Advertiser {
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Floodlight configuration ID of this advertiser. The floodlight configuration ID will be created automatically, so on insert this field should be left blank. This field can be set to another advertiser's floodlight configuration ID in order to share that advertiser's floodlight configuration with this advertiser, so long as: - This advertiser's original floodlight configuration is not already associated with floodlight activities or floodlight activity groups. - This advertiser's original floodlight configuration is not already shared with another advertiser. */
-  floodlightConfigurationId?: string | undefined;
-  /** Suffix added to click-through URL of ad creative associations under this advertiser. Must be less than 129 characters long. */
-  clickThroughUrlSuffix?: string | undefined;
-  /** ID of this advertiser. This is a read-only, auto-generated field. */
-  id?: string | undefined;
-  /** Optional. Whether the advertiser plans to serve EU political ads. */
-  euPoliticalAdsDeclaration?: AdvertiserEuPoliticalAdsDeclarationEnum | (string & {}) | undefined;
-  /** Account ID of this advertiser.This is a read-only field that can be left blank. */
-  accountId?: string | undefined;
-  /** Name of this advertiser. This is a required field and must be less than 256 characters long and unique among advertisers of the same account. */
-  name?: string | undefined;
-  /** Suspension status of this advertiser. */
-  suspended?: boolean | undefined;
-  /** Original floodlight configuration before any sharing occurred. Set the floodlightConfigurationId of this advertiser to originalFloodlightConfigurationId to unshare the advertiser's current floodlight configuration. You cannot unshare an advertiser's floodlight configuration if the shared configuration has activities associated with any campaign or placement. */
-  originalFloodlightConfigurationId?: string | undefined;
-  /** Measurement partner advertiser link for tag wrapping. */
-  measurementPartnerLink?: MeasurementPartnerAdvertiserLink | undefined;
-  /** ID of the advertiser group this advertiser belongs to. You can group advertisers for reporting purposes, allowing you to see aggregated information for all advertisers in each group. */
-  advertiserGroupId?: string | undefined;
-  /** Status of this advertiser. */
-  status?: AdvertiserStatusEnum | (string & {}) | undefined;
-  /** Dimension value for the ID of the floodlight configuration. This is a read-only, auto-generated field. */
-  floodlightConfigurationIdDimensionValue?: DimensionValue | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#advertiser". */
-  kind?: string | undefined;
-  /** Subaccount ID of this advertiser.This is a read-only field that can be left blank. */
-  subaccountId?: string | undefined;
-  /** ID of the click-through event tag to apply by default to the landing pages of this advertiser's campaigns. */
-  defaultClickThroughEventTagId?: string | undefined;
-  /** Default email address used in sender field for tag emails. */
-  defaultEmail?: string | undefined;
-  /** Dimension value for the ID of this advertiser. This is a read-only, auto-generated field. */
-  idDimensionValue?: DimensionValue | undefined;
-}
-export interface InsertBillingAssignmentsRequest {
-  /** User profile ID associated with this request. */
-  profileId: string;
-  /** Billing profile ID of this billing assignment. */
-  billingProfileId: string;
-  /** ID of the advertiser associated with the billing assignment.Wildcard (*) means this assignment is not limited to a single advertiser */
-  advertiserId?: string | undefined;
-  /** ID of the account associated with the billing assignment.This is a read-only, auto-generated field. */
-  accountId?: string | undefined;
-  /** ID of the subaccount associated with the billing assignment.Wildcard (*) means this assignment is not limited to a single subaccountThis is a read-only, auto-generated field. */
-  subaccountId?: string | undefined;
-  /** ID of the campaign associated with the billing assignment. Wildcard (*) means this assignment is not limited to a single campaign */
-  campaignId?: string | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#billingAssignment". */
-  kind?: string | undefined;
 }
 /** List account, subaccount, advertiser, and campaign associated with a given Billing Profile. */
 export interface BillingAssignment {
@@ -5112,15 +4943,11 @@ export interface BillingAssignment {
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#billingAssignment". */
   kind?: string | undefined;
 }
-export interface InsertCampaignCreativeAssociationsRequest {
+export interface InsertBillingAssignmentsRequest extends BillingAssignment {
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Campaign ID in this association. */
-  campaignId: string;
-  /** ID of the creative associated with the campaign. This is a required field. */
-  creativeId?: string | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#campaignCreativeAssociation". */
-  kind?: string | undefined;
+  /** Billing profile ID of this billing assignment. */
+  billingProfileId: string;
 }
 /** Identifies a creative which has been associated with a given campaign. */
 export interface CampaignCreativeAssociation {
@@ -5129,75 +4956,19 @@ export interface CampaignCreativeAssociation {
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#campaignCreativeAssociation". */
   kind?: string | undefined;
 }
-export interface InsertCampaignsRequest {
+export interface InsertCampaignCreativeAssociationsRequest extends CampaignCreativeAssociation {
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Click-through URL suffix override properties for this campaign. */
-  clickThroughUrlSuffixProperties?: ClickThroughUrlSuffixProperties | undefined;
-  /** Advertiser group ID of the associated advertiser. */
-  advertiserGroupId?: string | undefined;
-  /** Overrides that can be used to activate or deactivate advertiser event tags. */
-  eventTagOverrides?: EventTagOverrideList | undefined;
-  /** Arbitrary comments about this campaign. Must be less than 256 characters long. */
-  comment?: string | undefined;
-  /** Additional creative optimization configurations for the campaign. */
-  additionalCreativeOptimizationConfigurations?: CreativeOptimizationConfigurationList | undefined;
-  endDate?: string | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#campaign". */
-  kind?: string | undefined;
-  /** Billing invoice code included in the Campaign Manager client billing invoices associated with the campaign. */
-  billingInvoiceCode?: string | undefined;
-  /** Optional. Whether the campaign has EU political ads. Campaign Manager 360 doesn't allow campaigns with EU political ads to serve in the EU. They can still serve in other regions. */
-  euPoliticalAdsDeclaration?: CampaignEuPoliticalAdsDeclarationEnum | (string & {}) | undefined;
-  /** The default landing page ID for this campaign. */
-  defaultLandingPageId?: string | undefined;
-  /** Creative optimization configuration for the campaign. */
-  creativeOptimizationConfiguration?: CreativeOptimizationConfiguration | undefined;
-  /** Measurement partner campaign link for tag wrapping. */
-  measurementPartnerLink?: MeasurementPartnerCampaignLink | undefined;
-  /** Whether this campaign has been archived. */
-  archived?: boolean | undefined;
-  /** Subaccount ID of this campaign. This is a read-only field that can be left blank. */
-  subaccountId?: string | undefined;
-  /** Dimension value for the ID of this campaign. This is a read-only, auto-generated field. */
-  idDimensionValue?: DimensionValue | undefined;
-  /** Account ID of this campaign. This is a read-only field that can be left blank. */
-  accountId?: string | undefined;
-  /** ID of this campaign. This is a read-only auto-generated field. */
-  id?: string | undefined;
-  /** Audience segment groups assigned to this campaign. Cannot have more than 300 segment groups. */
-  audienceSegmentGroups?: AudienceSegmentGroupList | undefined;
-  /** Click-through event tag ID override properties for this campaign. */
-  defaultClickThroughEventTagProperties?: DefaultClickThroughEventTagProperties | undefined;
-  /** List of creative group IDs that are assigned to the campaign. */
-  creativeGroupIds?: StringList | undefined;
-  startDate?: string | undefined;
-  /** Name of this campaign. This is a required field and must be less than 512 characters long and unique among campaigns of the same advertiser. */
-  name?: string | undefined;
-  /** Information about the creation of this campaign. This is a read-only field. */
-  createInfo?: LastModifiedInfo | undefined;
-  /** Information about the most recent modification of this campaign. This is a read-only field. */
-  lastModifiedInfo?: LastModifiedInfo | undefined;
-  /** Advertiser ID of this campaign. This is a required field. */
-  advertiserId?: string | undefined;
-  /** Ad blocking settings for this campaign. */
-  adBlockingConfiguration?: AdBlockingConfiguration | undefined;
-  /** Dimension value for the advertiser ID of this campaign. This is a read-only, auto-generated field. */
-  advertiserIdDimensionValue?: DimensionValue | undefined;
-  /** External ID for this campaign. */
-  externalId?: string | undefined;
+  /** Campaign ID in this association. */
+  campaignId: string;
 }
-export interface InsertContentCategoriesRequest {
+export interface InsertCampaignsRequest extends Campaign {
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Account ID of this content category. This is a read-only field that can be left blank. */
-  accountId?: string | undefined;
-  /** ID of this content category. This is a read-only, auto-generated field. */
-  id?: string | undefined;
-  /** Name of this content category. This is a required field and must be less than 256 characters long and unique among content categories of the same account. */
-  name?: string | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#contentCategory". */
-  kind?: string | undefined;
+}
+export interface InsertContentCategoriesRequest extends ContentCategory {
+  /** User profile ID associated with this request. */
+  profileId: string;
 }
 export type CreativeAssetMetadataWarnedValidationRulesItemEnum =
   | "CLICK_TAG_NON_TOP_LEVEL"
@@ -5299,34 +5070,6 @@ export type CreativeAssetMetadataDetectedFeaturesItemEnum =
 export type CreativeAssetMetadataDetectedFeaturesItemEnumList = Array<
   CreativeAssetMetadataDetectedFeaturesItemEnum | (string & {})
 >;
-export interface InsertCreativeAssetsRequest {
-  /** Advertiser ID of this creative. This is a required field. */
-  advertiserId: string;
-  /** User profile ID associated with this request. */
-  profileId: string;
-  /** Rules validated during code generation that generated a warning. This is a read-only, auto-generated field. Possible values are: - "ADMOB_REFERENCED" - "ASSET_FORMAT_UNSUPPORTED_DCM" - "ASSET_INVALID" - "CLICK_TAG_HARD_CODED" - "CLICK_TAG_INVALID" - "CLICK_TAG_IN_GWD" - "CLICK_TAG_MISSING" - "CLICK_TAG_MORE_THAN_ONE" - "CLICK_TAG_NON_TOP_LEVEL" - "COMPONENT_UNSUPPORTED_DCM" - "ENABLER_UNSUPPORTED_METHOD_DCM" - "EXTERNAL_FILE_REFERENCED" - "FILE_DETAIL_EMPTY" - "FILE_TYPE_INVALID" - "GWD_PROPERTIES_INVALID" - "HTML5_FEATURE_UNSUPPORTED" - "LINKED_FILE_NOT_FOUND" - "MAX_FLASH_VERSION_11" - "MRAID_REFERENCED" - "NOT_SSL_COMPLIANT" - "ORPHANED_ASSET" - "PRIMARY_HTML_MISSING" - "SVG_INVALID" - "ZIP_INVALID" */
-  warnedValidationRules?: CreativeAssetMetadataWarnedValidationRulesItemEnumList | undefined;
-  /** List of counter events configured for the asset. This is a read-only, auto-generated field and only applicable to a rich media asset. */
-  counterCustomEvents?: CreativeCustomEventList | undefined;
-  /** Dimension value for the numeric ID of the asset. This is a read-only, auto-generated field. */
-  idDimensionValue?: DimensionValue | undefined;
-  /** List of feature dependencies for the creative asset that are detected by Campaign Manager. Feature dependencies are features that a browser must be able to support in order to render your HTML5 creative correctly. This is a read-only, auto-generated field. */
-  detectedFeatures?: CreativeAssetMetadataDetectedFeaturesItemEnumList | undefined;
-  /** List of exit events configured for the asset. This is a read-only, auto-generated field and only applicable to a rich media asset. */
-  exitCustomEvents?: CreativeCustomEventList | undefined;
-  /** Numeric ID of the asset. This is a read-only, auto-generated field. */
-  id?: string | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#creativeAssetMetadata". */
-  kind?: string | undefined;
-  /** List of timer events configured for the asset. This is a read-only, auto-generated field and only applicable to a rich media asset. */
-  timerCustomEvents?: CreativeCustomEventList | undefined;
-  /** True if the uploaded asset is a rich media asset. This is a read-only, auto-generated field. */
-  richMedia?: boolean | undefined;
-  /** List of detected click tags for assets. This is a read-only, auto-generated field. This field is empty for a rich media asset. */
-  clickTags?: ClickTagList | undefined;
-  /** ID of the creative asset. This is a required field. */
-  assetIdentifier?: CreativeAssetId | undefined;
-}
 /** CreativeAssets contains properties of a creative asset file which will be uploaded or has already been uploaded. Refer to the creative sample code for how to upload assets and insert a creative. */
 export interface CreativeAssetMetadata {
   /** Rules validated during code generation that generated a warning. This is a read-only, auto-generated field. Possible values are: - "ADMOB_REFERENCED" - "ASSET_FORMAT_UNSUPPORTED_DCM" - "ASSET_INVALID" - "CLICK_TAG_HARD_CODED" - "CLICK_TAG_INVALID" - "CLICK_TAG_IN_GWD" - "CLICK_TAG_MISSING" - "CLICK_TAG_MORE_THAN_ONE" - "CLICK_TAG_NON_TOP_LEVEL" - "COMPONENT_UNSUPPORTED_DCM" - "ENABLER_UNSUPPORTED_METHOD_DCM" - "EXTERNAL_FILE_REFERENCED" - "FILE_DETAIL_EMPTY" - "FILE_TYPE_INVALID" - "GWD_PROPERTIES_INVALID" - "HTML5_FEATURE_UNSUPPORTED" - "LINKED_FILE_NOT_FOUND" - "MAX_FLASH_VERSION_11" - "MRAID_REFERENCED" - "NOT_SSL_COMPLIANT" - "ORPHANED_ASSET" - "PRIMARY_HTML_MISSING" - "SVG_INVALID" - "ZIP_INVALID" */
@@ -5352,253 +5095,50 @@ export interface CreativeAssetMetadata {
   /** ID of the creative asset. This is a required field. */
   assetIdentifier?: CreativeAssetId | undefined;
 }
-export interface InsertCreativeFieldsRequest {
+export interface InsertCreativeAssetsRequest extends CreativeAssetMetadata {
+  /** Advertiser ID of this creative. This is a required field. */
+  advertiserId: string;
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Account ID of this creative field. This is a read-only field that can be left blank. */
-  accountId?: string | undefined;
-  /** Advertiser ID of this creative field. This is a required field on insertion. */
-  advertiserId?: string | undefined;
-  /** Dimension value for the ID of the advertiser. This is a read-only, auto-generated field. */
-  advertiserIdDimensionValue?: DimensionValue | undefined;
-  /** Name of this creative field. This is a required field and must be less than 256 characters long and unique among creative fields of the same advertiser. */
-  name?: string | undefined;
-  /** ID of this creative field. This is a read-only, auto-generated field. */
-  id?: string | undefined;
-  /** Subaccount ID of this creative field. This is a read-only field that can be left blank. */
-  subaccountId?: string | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#creativeField". */
-  kind?: string | undefined;
 }
-export interface InsertCreativeFieldValuesRequest {
+export interface InsertCreativeFieldsRequest extends CreativeField {
+  /** User profile ID associated with this request. */
+  profileId: string;
+}
+export interface InsertCreativeFieldValuesRequest extends CreativeFieldValue {
   /** Creative field ID for this creative field value. */
   creativeFieldId: string;
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Value of this creative field value. It needs to be less than 256 characters in length and unique per creative field. */
-  value?: string | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#creativeFieldValue". */
-  kind?: string | undefined;
-  /** ID of this creative field value. This is a read-only, auto-generated field. */
-  id?: string | undefined;
 }
-export interface InsertCreativeGroupsRequest {
+export interface InsertCreativeGroupsRequest extends CreativeGroup {
   /** User profile ID associated with this request. */
   profileId: string;
-  /** ID of this creative group. This is a read-only, auto-generated field. */
-  id?: string | undefined;
-  /** Subaccount ID of this creative group. This is a read-only field that can be left blank. */
-  subaccountId?: string | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#creativeGroup". */
-  kind?: string | undefined;
-  /** Name of this creative group. This is a required field and must be less than 256 characters long and unique among creative groups of the same advertiser. */
-  name?: string | undefined;
-  /** Subgroup of the creative group. Assign your creative groups to a subgroup in order to filter or manage them more easily. This field is required on insertion and is read-only after insertion. Acceptable values are 1 to 2, inclusive. */
-  groupNumber?: number | undefined;
-  /** Dimension value for the ID of the advertiser. This is a read-only, auto-generated field. */
-  advertiserIdDimensionValue?: DimensionValue | undefined;
-  /** Advertiser ID of this creative group. This is a required field on insertion. */
-  advertiserId?: string | undefined;
-  /** Account ID of this creative group. This is a read-only field that can be left blank. */
-  accountId?: string | undefined;
 }
-export interface InsertCreativesRequest {
+export interface InsertCreativesRequest extends Creative {
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Creative last modification information. This is a read-only field. Applicable to all creative types. */
-  lastModifiedInfo?: LastModifiedInfo | undefined;
-  /** Studio advertiser ID associated with rich media and VPAID creatives. This is a read-only field. Applicable to the following creative types: all RICH_MEDIA, and all VPAID. */
-  studioAdvertiserId?: string | undefined;
-  /** Combined size of all creative assets. This is a read-only field. Applicable to the following creative types: all RICH_MEDIA, and all VPAID. */
-  totalFileSize?: string | undefined;
-  /** Whether HTML code is generated by Campaign Manager or manually entered. Set to true to ignore changes to htmlCode. Applicable to the following creative types: FLASH_INPAGE and HTML5_BANNER. */
-  htmlCodeLocked?: boolean | undefined;
-  /** Account ID of this creative. This field, if left unset, will be auto-generated for both insert and update operations. Applicable to all creative types. */
-  accountId?: string | undefined;
-  /** Type of artwork used for the creative. This is a read-only field. Applicable to the following creative types: all RICH_MEDIA, and all VPAID. */
-  artworkType?: CreativeArtworkTypeEnum | (string & {}) | undefined;
-  /** List of companion creatives assigned to an in-Stream video creative. Acceptable values include IDs of existing flash and image creatives. Applicable to the following creative types: all VPAID, all INSTREAM_AUDIO and all INSTREAM_VIDEO with dynamicAssetSelection set to false. */
-  companionCreatives?: StringList | undefined;
-  /** Size associated with this creative. When inserting or updating a creative either the size ID field or size width and height fields can be used. This is a required field when applicable; however for IMAGE, FLASH_INPAGE creatives, and for DISPLAY creatives with a primary asset of type HTML_IMAGE, if left blank, this field will be automatically set using the actual size of the associated image assets. Applicable to the following creative types: DISPLAY, DISPLAY_IMAGE_GALLERY, FLASH_INPAGE, HTML5_BANNER, IMAGE, and all RICH_MEDIA. */
-  size?: Size | undefined;
-  /** OpenWindow FSCommand of this creative. This lets the SWF file communicate with either Flash Player or the program hosting Flash Player, such as a web browser. This is only triggered if allowScriptAccess field is true. Applicable to the following creative types: FLASH_INPAGE. */
-  fsCommand?: FsCommand | undefined;
-  /** URL of hosted image or hosted video or another ad tag. For INSTREAM_VIDEO_REDIRECT creatives this is the in-stream video redirect URL. The standard for a VAST (Video Ad Serving Template) ad response allows for a redirect link to another VAST 2.0 or 3.0 call. This is a required field when applicable. Applicable to the following creative types: DISPLAY_REDIRECT, INTERNAL_REDIRECT, INTERSTITIAL_INTERNAL_REDIRECT, and INSTREAM_VIDEO_REDIRECT */
-  redirectUrl?: string | undefined;
-  /** List of exit events configured for the creative. For DISPLAY and DISPLAY_IMAGE_GALLERY creatives, these are read-only and auto-generated from clickTags, For DISPLAY, an event is also created from the backupImageReportingLabel. Applicable to the following creative types: DISPLAY_IMAGE_GALLERY, all RICH_MEDIA, and all VPAID. Applicable to DISPLAY when the primary asset type is not HTML_IMAGE. */
-  exitCustomEvents?: CreativeCustomEventList | undefined;
-  /** ID of this creative. This is a read-only, auto-generated field. Applicable to all creative types. */
-  id?: string | undefined;
-  /** The minimum required Flash plugin version for this creative. For example, 11.2.202.235. This is a read-only field. Applicable to the following creative types: all RICH_MEDIA, and all VPAID. */
-  requiredFlashPluginVersion?: string | undefined;
-  /** Required. Type of this creative. Applicable to all creative types. *Note:* FLASH_INPAGE, HTML5_BANNER, and IMAGE are only used for existing creatives. New creatives should use DISPLAY as a replacement for these types. */
-  type?: CreativeTypeEnum | (string & {}) | undefined;
-  /** A Universal Ad ID as per the VAST 4.0 spec. Applicable to the following creative types: INSTREAM_AUDIO and INSTREAM_VIDEO and VPAID. */
-  universalAdId?: UniversalAdId | undefined;
-  /** List of counter events configured for the creative. For DISPLAY_IMAGE_GALLERY creatives, these are read-only and auto-generated from clickTags. Applicable to the following creative types: DISPLAY_IMAGE_GALLERY, all RICH_MEDIA, and all VPAID. */
-  counterCustomEvents?: CreativeCustomEventList | undefined;
-  /** Subaccount ID of this creative. This field, if left unset, will be auto-generated for both insert and update operations. Applicable to all creative types. */
-  subaccountId?: string | undefined;
-  /** Keywords for a Rich Media creative. Keywords let you customize the creative settings of a Rich Media ad running on your site without having to contact the advertiser. You can use keywords to dynamically change the look or functionality of a creative. Applicable to the following creative types: all RICH_MEDIA, and all VPAID. */
-  adTagKeys?: StringList | undefined;
-  /** Whether the user can choose to skip the creative. Applicable to the following creative types: all INSTREAM_VIDEO and all VPAID. */
-  skippable?: boolean | undefined;
-  /** Whether the creative is SSL-compliant. This is a read-only field. Applicable to all creative types. */
-  sslCompliant?: boolean | undefined;
-  /** Creative audio or video duration in seconds. This is a read-only field. Applicable to the following creative types: INSTREAM_VIDEO, INSTREAM_AUDIO, all RICH_MEDIA, and all VPAID. */
-  mediaDuration?: number | undefined;
-  /** Dimension value for the rendering ID of this creative. This is a read-only field. Applicable to all creative types. */
-  renderingIdDimensionValue?: DimensionValue | undefined;
-  /** The internal Flash version for this creative as calculated by Studio. This is a read-only field. Applicable to the following creative types: FLASH_INPAGE all RICH_MEDIA, and all VPAID. Applicable to DISPLAY when the primary asset type is not HTML_IMAGE. */
-  requiredFlashVersion?: number | undefined;
-  /** Target window for backup image. Applicable to the following creative types: FLASH_INPAGE and HTML5_BANNER. Applicable to DISPLAY when the primary asset type is not HTML_IMAGE. */
-  backupImageTargetWindow?: TargetWindow | undefined;
-  /** Studio trafficked creative ID associated with rich media and VPAID creatives. This is a read-only field. Applicable to the following creative types: all RICH_MEDIA, and all VPAID. */
-  studioTraffickedCreativeId?: string | undefined;
-  /** Amount of time to play the video before the skip button appears. Applicable to the following creative types: all INSTREAM_VIDEO. */
-  skipOffset?: VideoOffset | undefined;
-  /** Amount of time to play the video before counting a view. Applicable to the following creative types: all INSTREAM_VIDEO. */
-  progressOffset?: VideoOffset | undefined;
-  /** Override CSS value for rich media creatives. Applicable to the following creative types: all RICH_MEDIA. */
-  overrideCss?: string | undefined;
-  /** Authoring tool for HTML5 banner creatives. This is a read-only field. Applicable to the following creative types: HTML5_BANNER. */
-  authoringTool?: CreativeAuthoringToolEnum | (string & {}) | undefined;
-  /** Whether Flash assets associated with the creative need to be automatically converted to HTML5. This flag is enabled by default and users can choose to disable it if they don't want the system to generate and use HTML5 asset for this creative. Applicable to the following creative type: FLASH_INPAGE. Applicable to DISPLAY when the primary asset type is not HTML_IMAGE. */
-  convertFlashToHtml5?: boolean | undefined;
-  /** The version number helps you keep track of multiple versions of your creative in your reports. The version number will always be auto-generated during insert operations to start at 1. For tracking creatives the version cannot be incremented and will always remain at 1. For all other creative types the version can be incremented only by 1 during update operations. In addition, the version will be automatically incremented by 1 when undergoing Rich Media creative merging. Applicable to all creative types. */
-  version?: number | undefined;
-  /** Optional. Whether to add a label to the creative as created or edited using AI when served in regions with local AI labeling regulations. [Learn more about labeling requirements in AI regulations.](https://support.google.com/campaignmanager/answer/17232030) */
-  syntheticContentAttestationStatus?:
-    | CreativeSyntheticContentAttestationStatusEnum
-    | (string & {})
-    | undefined;
-  /** Reporting label used for HTML5 banner backup image. Applicable to the following creative types: DISPLAY when the primary asset type is not HTML_IMAGE. */
-  backupImageReportingLabel?: string | undefined;
-  /** Latest Studio trafficked creative ID associated with rich media and VPAID creatives. This is a read-only field. Applicable to the following creative types: all RICH_MEDIA, and all VPAID. */
-  latestTraffickedCreativeId?: string | undefined;
-  /** Additional sizes associated with a responsive creative. When inserting or updating a creative either the size ID field or size width and height fields can be used. Applicable to DISPLAY creatives when the primary asset type is HTML_IMAGE. */
-  additionalSizes?: SizeList | undefined;
-  /** Whether the creative is archived. Applicable to all creative types. */
-  archived?: boolean | undefined;
-  /** Third-party URLs for tracking in-stream creative events. Applicable to the following creative types: all INSTREAM_VIDEO, all INSTREAM_AUDIO, and all VPAID. */
-  thirdPartyUrls?: ThirdPartyTrackingUrlList | undefined;
-  /** Source application where creative was authored. Presently, only DBM authored creatives will have this field set. Applicable to all creative types. */
-  authoringSource?: CreativeAuthoringSourceEnum | (string & {}) | undefined;
-  /** Required. Advertiser ID of this creative. This is a required field. Applicable to all creative types. */
-  advertiserId?: string | undefined;
-  /** The 6-character HTML color code, beginning with #, for the background of the window area where the Flash file is displayed. Default is white. Applicable to the following creative types: FLASH_INPAGE. */
-  backgroundColor?: string | undefined;
-  /** Assets associated with a creative. Applicable to all but the following creative types: INTERNAL_REDIRECT, INTERSTITIAL_INTERNAL_REDIRECT, and REDIRECT */
-  creativeAssets?: CreativeAssetList | undefined;
-  /** Ad parameters user for VPAID creative. This is a read-only field. Applicable to the following creative types: all VPAID. */
-  adParameters?: string | undefined;
-  /** Creative field assignments for this creative. Applicable to all creative types. */
-  creativeFieldAssignments?: CreativeFieldAssignmentList | undefined;
-  /** Whether creative should be treated as SSL compliant even if the system scan shows it's not. Applicable to all creative types. */
-  sslOverride?: boolean | undefined;
-  /** List of feature dependencies that will cause a backup image to be served if the browser that serves the ad does not support them. Feature dependencies are features that a browser must be able to support in order to render your HTML5 creative asset correctly. This field is initially auto-generated to contain all features detected by Campaign Manager for all the assets of this creative and can then be modified by the client. To reset this field, copy over all the creativeAssets' detected features. Applicable to the following creative types: HTML5_BANNER. Applicable to DISPLAY when the primary asset type is not HTML_IMAGE. */
-  backupImageFeatures?: CreativeBackupImageFeaturesItemEnumList | undefined;
-  /** Whether the creative is active. Applicable to all creative types. */
-  active?: boolean | undefined;
-  /** Required. Name of the creative. This must be less than 256 characters long. Applicable to all creative types. */
-  name?: string | undefined;
-  /** Whether images are automatically advanced for image gallery creatives. Applicable to the following creative types: DISPLAY_IMAGE_GALLERY. */
-  autoAdvanceImages?: boolean | undefined;
-  /** Click tags of the creative. For DISPLAY, FLASH_INPAGE, and HTML5_BANNER creatives, this is a subset of detected click tags for the assets associated with this creative. After creating a flash asset, detected click tags will be returned in the creativeAssetMetadata. When inserting the creative, populate the creative clickTags field using the creativeAssetMetadata.clickTags field. For DISPLAY_IMAGE_GALLERY creatives, there should be exactly one entry in this list for each image creative asset. A click tag is matched with a corresponding creative asset by matching the clickTag.name field with the creativeAsset.assetIdentifier.name field. Applicable to the following creative types: DISPLAY_IMAGE_GALLERY, FLASH_INPAGE, HTML5_BANNER. Applicable to DISPLAY when the primary asset type is not HTML_IMAGE. */
-  clickTags?: ClickTagList | undefined;
-  /** Description of the audio or video ad. Applicable to the following creative types: all INSTREAM_VIDEO, INSTREAM_AUDIO, and all VPAID. */
-  mediaDescription?: string | undefined;
-  /** Dimension value for the ID of this creative. This is a read-only field. Applicable to all creative types. */
-  idDimensionValue?: DimensionValue | undefined;
-  /** List of timer events configured for the creative. For DISPLAY_IMAGE_GALLERY creatives, these are read-only and auto-generated from clickTags. Applicable to the following creative types: DISPLAY_IMAGE_GALLERY, all RICH_MEDIA, and all VPAID. Applicable to DISPLAY when the primary asset is not HTML_IMAGE. */
-  timerCustomEvents?: CreativeCustomEventList | undefined;
-  /** Studio creative ID associated with rich media and VPAID creatives. This is a read-only field. Applicable to the following creative types: all RICH_MEDIA, and all VPAID. */
-  studioCreativeId?: string | undefined;
-  /** ID of current rendering version. This is a read-only field. Applicable to all creative types. */
-  renderingId?: string | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#creative". */
-  kind?: string | undefined;
-  /** Industry standard ID assigned to creative for reach and frequency. Applicable to INSTREAM_VIDEO_REDIRECT creatives. */
-  commercialId?: string | undefined;
-  /** Online behavioral advertising icon to be added to the creative. Applicable to the following creative types: all INSTREAM_VIDEO. */
-  obaIcon?: ObaIcon | undefined;
-  /** Click-through URL for backup image. Applicable to ENHANCED_BANNER when the primary asset type is not HTML_IMAGE. */
-  backupImageClickThroughUrl?: CreativeClickThroughUrl | undefined;
-  /** Optional. Additional asset for the creative. This field captures additional assets that are associated with the creative and used in the context of the social/native and YouTube platforms. */
-  additionalAsset?: AdditionalAsset | undefined;
-  /** Whether script access is allowed for this creative. This is a read-only and deprecated field which will automatically be set to true on update. Applicable to the following creative types: FLASH_INPAGE. */
-  allowScriptAccess?: boolean | undefined;
-  /** Third-party URL used to record backup image impressions. Applicable to the following creative types: all RICH_MEDIA. */
-  thirdPartyBackupImageImpressionsUrl?: string | undefined;
-  /** Custom key-values for a Rich Media creative. Key-values let you customize the creative settings of a Rich Media ad running on your site without having to contact the advertiser. You can use key-values to dynamically change the look or functionality of a creative. Applicable to the following creative types: all RICH_MEDIA, and all VPAID. */
-  customKeyValues?: StringList | undefined;
-  /** Compatibilities associated with this creative. This is a read-only field. DISPLAY and DISPLAY_INTERSTITIAL refer to rendering either on desktop or on mobile devices or in mobile apps for regular or interstitial ads, respectively. APP and APP_INTERSTITIAL are for rendering in mobile apps. Only pre-existing creatives may have these compatibilities since new creatives will either be assigned DISPLAY or DISPLAY_INTERSTITIAL instead. IN_STREAM_VIDEO refers to rendering in in-stream video ads developed with the VAST standard. IN_STREAM_AUDIO refers to rendering in in-stream audio ads developed with the VAST standard. Applicable to all creative types. Acceptable values are: - "APP" - "APP_INTERSTITIAL" - "IN_STREAM_VIDEO" - "IN_STREAM_AUDIO" - "DISPLAY" - "DISPLAY_INTERSTITIAL" */
-  compatibility?: CreativeCompatibilityItemEnumList | undefined;
-  /** Third-party URL used to record rich media impressions. Applicable to the following creative types: all RICH_MEDIA. */
-  thirdPartyRichMediaImpressionsUrl?: string | undefined;
-  /** HTML code for the creative. This is a required field when applicable. This field is ignored if htmlCodeLocked is true. Applicable to the following creative types: all CUSTOM, FLASH_INPAGE, and HTML5_BANNER, and all RICH_MEDIA. */
-  htmlCode?: string | undefined;
 }
-export interface InsertDirectorySitesRequest {
+export interface InsertDirectorySitesRequest extends DirectorySite {
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Dimension value for the ID of this directory site. This is a read-only, auto-generated field. */
-  idDimensionValue?: DimensionValue | undefined;
-  /** ID of this directory site. This is a read-only, auto-generated field. */
-  id?: string | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#directorySite". */
-  kind?: string | undefined;
-  /** Name of this directory site. */
-  name?: string | undefined;
-  /** Output only. Default publisher specification ID of video placements under this directory site. Possible values are: * `1`, Hulu * `2`, NBC * `3`, CBS * `4`, CBS Desktop * `5`, Discovery * `6`, VEVO HD * `7`, VEVO Vertical * `8`, Fox * `9`, CW Network * `10`, Disney * `11`, IGN * `12`, NFL.com * `13`, Turner Broadcasting * `14`, Tubi on Fox * `15`, Hearst Corporation * `16`, Twitch Desktop * `17`, ABC * `18`, Univision * `19`, MLB.com * `20`, MLB.com Mobile * `21`, MLB.com OTT * `22`, Polsat * `23`, TVN * `24`, Mediaset * `25`, Antena 3 * `26`, Mediamond * `27`, Sky Italia * `28`, Tubi on CBS * `29`, Spotify * `30`, Paramount * `31`, Max */
-  publisherSpecificationId?: string | undefined;
-  /** Directory site settings. */
-  settings?: DirectorySiteSettings | undefined;
-  /** URL of this directory site. */
-  url?: string | undefined;
-  /** Tag types for regular placements. Acceptable values are: - "STANDARD" - "IFRAME_JAVASCRIPT_INPAGE" - "INTERNAL_REDIRECT_INPAGE" - "JAVASCRIPT_INPAGE" */
-  inpageTagFormats?: DirectorySiteInpageTagFormatsItemEnumList | undefined;
-  /** Tag types for interstitial placements. Acceptable values are: - "IFRAME_JAVASCRIPT_INTERSTITIAL" - "INTERNAL_REDIRECT_INTERSTITIAL" - "JAVASCRIPT_INTERSTITIAL" */
-  interstitialTagFormats?: DirectorySiteInterstitialTagFormatsItemEnumList | undefined;
 }
-export interface InsertDynamicFeedsRequest {
+/** Dynamic profile ID is required for dynamic feed insert as the current GPA API only can create a dynamic feed under profile context,even though the dynamic feed itself don't need the dynamic profile id. */
+export interface DynamicFeedsInsertRequest {
   /** Required. Dynamic feed to insert. */
   dynamicFeed?: DynamicFeed | undefined;
   /** Required. Dynamic profile ID of the inserted dynamic feed. */
   dynamicProfileId?: string | undefined;
 }
-export interface InsertDynamicProfilesRequest {
-  /** Output only. The last modified timestamp of the dynamic profile. This is a read-only field. */
-  lastModifiedInfo?: LastModifiedInfo | undefined;
-  /** Optional. Active version of the dynamic profile. */
-  active?: DynamicProfileVersion | undefined;
-  /** Optional. Draft version of the dynamic profile. */
-  draft?: DynamicProfileVersion | undefined;
-  /** Optional. Archive status of this dynamic profile. */
-  archiveStatus?: DynamicProfileArchiveStatusEnum | (string & {}) | undefined;
-  /** Output only. Unique ID of this dynamic profile. This is a read-only, auto-generated field. */
-  dynamicProfileId?: string | undefined;
-  /** Required. Identifier. Name of this dynamic profile. This is a required field and must be less than 256 characters long. */
-  name?: string | undefined;
-  /** Output only. Identifies what kind of resource this is. Value: the fixed string "dfareporting#dynamicProfile". */
-  kind?: string | undefined;
-  /** Optional. Description of this dynamic profile. */
-  description?: string | undefined;
-  /** Optional. Status of this dynamic profile. */
-  status?: DynamicProfileStatusEnum | (string & {}) | undefined;
-  /** Required. Advertiser ID of this dynamic profile. This is a required field on insertion. */
-  studioAdvertiserId?: string | undefined;
-  /** Output only. The creation timestamp of the dynamic profile. This is a read-only field. */
-  createInfo?: LastModifiedInfo | undefined;
-}
+export interface InsertDynamicFeedsRequest extends DynamicFeedsInsertRequest {}
+export interface InsertDynamicProfilesRequest extends DynamicProfile {}
 export type DynamicTargetingKeyObjectTypeEnum =
   | "OBJECT_ADVERTISER"
   | "OBJECT_AD"
   | "OBJECT_CREATIVE"
   | "OBJECT_PLACEMENT";
-export interface InsertDynamicTargetingKeysRequest {
-  /** User profile ID associated with this request. */
-  profileId: string;
+/** Contains properties of a dynamic targeting key. Dynamic targeting keys are unique, user-friendly labels, created at the advertiser level in DCM, that can be assigned to ads, creatives, and placements and used for targeting with Studio dynamic creatives. Use these labels instead of numeric Campaign Manager IDs (such as placement IDs) to save time and avoid errors in your dynamic feeds. */
+export interface DynamicTargetingKey {
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#dynamicTargetingKey". */
   kind?: string | undefined;
   /** Name of this dynamic targeting key. This is a required field. Must be less than 256 characters long and cannot contain commas. All characters are converted to lowercase. */
@@ -5608,437 +5148,52 @@ export interface InsertDynamicTargetingKeysRequest {
   /** ID of the object of this dynamic targeting key. This is a required field. */
   objectId?: string | undefined;
 }
-/** Contains properties of a dynamic targeting key. Dynamic targeting keys are unique, user-friendly labels, created at the advertiser level in DCM, that can be assigned to ads, creatives, and placements and used for targeting with Studio dynamic creatives. Use these labels instead of numeric Campaign Manager IDs (such as placement IDs) to save time and avoid errors in your dynamic feeds. */
-export interface DynamicTargetingKey {
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#dynamicTargetingKey". */
-  kind?: string | undefined;
-  /** Name of this dynamic targeting key. This is a required field. Must be less than 256 characters long and cannot contain commas. All characters are converted to lowercase. */
-  name?: string | undefined;
-  /** Type of the object of this dynamic targeting key. This is a required field. */
-  objectType?: DynamicTargetingKeyObjectTypeEnum | undefined;
-  /** ID of the object of this dynamic targeting key. This is a required field. */
-  objectId?: string | undefined;
-}
-export interface InsertEventTagsRequest {
+export interface InsertDynamicTargetingKeysRequest extends DynamicTargetingKey {
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Whether this tag is SSL-compliant or not. This is a read-only field. */
-  sslCompliant?: boolean | undefined;
-  /** Payload URL for this event tag. The URL on a click-through event tag should have a landing page URL appended to the end of it. This field is required on insertion. */
-  url?: string | undefined;
-  /** Whether this event tag should be automatically enabled for all of the advertiser's campaigns and ads. */
-  enabledByDefault?: boolean | undefined;
-  /** Dimension value for the ID of the advertiser. This is a read-only, auto-generated field. */
-  advertiserIdDimensionValue?: DimensionValue | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#eventTag". */
-  kind?: string | undefined;
-  /** Whether to remove this event tag from ads that are trafficked through Display & Video 360 to Ad Exchange. This may be useful if the event tag uses a pixel that is unapproved for Ad Exchange bids on one or more networks, such as the Google Display Network. */
-  excludeFromAdxRequests?: boolean | undefined;
-  /** Campaign ID of this event tag. This field or the advertiserId field is required on insertion. */
-  campaignId?: string | undefined;
-  /** Subaccount ID of this event tag. This is a read-only field that can be left blank. */
-  subaccountId?: string | undefined;
-  /** Account ID of this event tag. This is a read-only field that can be left blank. */
-  accountId?: string | undefined;
-  /** Number of times the landing page URL should be URL-escaped before being appended to the click-through event tag URL. Only applies to click-through event tags as specified by the event tag type. */
-  urlEscapeLevels?: number | undefined;
-  /** Advertiser ID of this event tag. This field or the campaignId field is required on insertion. */
-  advertiserId?: string | undefined;
-  /** Dimension value for the ID of the campaign. This is a read-only, auto-generated field. */
-  campaignIdDimensionValue?: DimensionValue | undefined;
-  /** Status of this event tag. Must be ENABLED for this event tag to fire. This is a required field. */
-  status?: EventTagStatusEnum | (string & {}) | undefined;
-  /** ID of this event tag. This is a read-only, auto-generated field. */
-  id?: string | undefined;
-  /** Event tag type. Can be used to specify whether to use a third-party pixel, a third-party JavaScript URL, or a third-party click-through URL for either impression or click tracking. This is a required field. */
-  type?: EventTagTypeEnum | (string & {}) | undefined;
-  /** Name of this event tag. This is a required field and must be less than 256 characters long. */
-  name?: string | undefined;
-  /** Filter list of site IDs associated with this event tag. The siteFilterType determines whether this is a allowlist or blocklist filter. */
-  siteIds?: StringList | undefined;
-  /** Site filter type for this event tag. If no type is specified then the event tag will be applied to all sites. */
-  siteFilterType?: EventTagSiteFilterTypeEnum | (string & {}) | undefined;
 }
-export interface InsertFloodlightActivitiesRequest {
+export interface InsertEventTagsRequest extends EventTag {
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Name of the associated floodlight activity group. This is a read-only field. */
-  floodlightActivityGroupName?: string | undefined;
-  /** ID of this floodlight activity. This is a read-only, auto-generated field. */
-  id?: string | undefined;
-  /** The status of the activity. This can only be set to ACTIVE or ARCHIVED_AND_DISABLED. The ARCHIVED status is no longer supported and cannot be set for Floodlight activities. The DISABLED_POLICY status indicates that a Floodlight activity is violating Google policy. Contact your account manager for more information. */
-  status?: FloodlightActivityStatusEnum | (string & {}) | undefined;
-  /** Floodlight configuration ID of this floodlight activity. If this field is left blank, the value will be copied over either from the activity group's floodlight configuration or from the existing activity's floodlight configuration. */
-  floodlightConfigurationId?: string | undefined;
-  /** General notes or implementation instructions for the tag. */
-  notes?: string | undefined;
-  /** Account ID of this floodlight activity. This is a read-only field that can be left blank. */
-  accountId?: string | undefined;
-  /** Publisher dynamic floodlight tags. */
-  publisherTags?: FloodlightActivityPublisherDynamicTagList | undefined;
-  /** Dimension value for the ID of the advertiser. This is a read-only, auto-generated field. */
-  advertiserIdDimensionValue?: DimensionValue | undefined;
-  /** Dynamic floodlight tags. */
-  defaultTags?: FloodlightActivityDynamicTagList | undefined;
-  /** Required. The conversion category of the activity. */
-  conversionCategory?: FloodlightActivityConversionCategoryEnum | (string & {}) | undefined;
-  /** Type of the associated floodlight activity group. This is a read-only field. */
-  floodlightActivityGroupType?:
-    | FloodlightActivityFloodlightActivityGroupTypeEnum
-    | (string & {})
-    | undefined;
-  /** The type of Floodlight tag this activity will generate. This is a required field. */
-  floodlightTagType?: FloodlightActivityFloodlightTagTypeEnum | (string & {}) | undefined;
-  /** Tag format type for the floodlight activity. If left blank, the tag format will default to HTML. */
-  tagFormat?: FloodlightActivityTagFormatEnum | (string & {}) | undefined;
-  /** List of the user-defined variables used by this conversion tag. These map to the "u[1-100]=" in the tags. Each of these can have a user defined type. Acceptable values are U1 to U100, inclusive. */
-  userDefinedVariableTypes?: FloodlightActivityUserDefinedVariableTypesItemEnumList | undefined;
-  /** Name of this floodlight activity. This is a required field. Must be less than 129 characters long and cannot contain quotes. */
-  name?: string | undefined;
-  /** Floodlight activity group ID of this floodlight activity. This is a required field. */
-  floodlightActivityGroupId?: string | undefined;
-  /** Whether the activity is enabled for attribution. */
-  attributionEnabled?: boolean | undefined;
-  /** Advertiser ID of this floodlight activity. If this field is left blank, the value will be copied over either from the activity group's advertiser or the existing activity's advertiser. */
-  advertiserId?: string | undefined;
-  /** Value of the cat= parameter in the floodlight tag, which the ad servers use to identify the activity. This is optional: if empty, a new tag string will be generated for you. This string must be 1 to 8 characters long, with valid characters being a-z0-9[ _ ]. This tag string must also be unique among activities of the same activity group. This field is read-only after insertion. */
-  tagString?: string | undefined;
-  /** Tag string of the associated floodlight activity group. This is a read-only field. */
-  floodlightActivityGroupTagString?: string | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#floodlightActivity". */
-  kind?: string | undefined;
-  /** Whether the floodlight activity is SSL-compliant. This is a read-only field, its value detected by the system from the floodlight tags. */
-  sslCompliant?: boolean | undefined;
-  /** Dimension value for the ID of this floodlight activity. This is a read-only, auto-generated field. */
-  idDimensionValue?: DimensionValue | undefined;
-  /** URL where this tag will be deployed. If specified, must be less than 256 characters long. */
-  expectedUrl?: string | undefined;
-  /** Dimension value for the ID of the floodlight configuration. This is a read-only, auto-generated field. */
-  floodlightConfigurationIdDimensionValue?: DimensionValue | undefined;
-  /** Whether this tag should use SSL. */
-  secure?: boolean | undefined;
-  /** Subaccount ID of this floodlight activity. This is a read-only field that can be left blank. */
-  subaccountId?: string | undefined;
-  /** Whether this floodlight activity must be SSL-compliant. */
-  sslRequired?: boolean | undefined;
-  /** Code type used for cache busting in the generated tag. Applicable only when floodlightActivityGroupType is COUNTER and countingMethod is STANDARD_COUNTING or UNIQUE_COUNTING. */
-  cacheBustingType?: FloodlightActivityCacheBustingTypeEnum | (string & {}) | undefined;
-  /** Counting method for conversions for this floodlight activity. This is a required field. */
-  countingMethod?: FloodlightActivityCountingMethodEnum | (string & {}) | undefined;
 }
-export interface InsertFloodlightActivityGroupsRequest {
+export interface InsertFloodlightActivitiesRequest extends FloodlightActivity {
   /** User profile ID associated with this request. */
   profileId: string;
-  /** ID of this floodlight activity group. This is a read-only, auto-generated field. */
-  id?: string | undefined;
-  /** Account ID of this floodlight activity group. This is a read-only field that can be left blank. */
-  accountId?: string | undefined;
-  /** Subaccount ID of this floodlight activity group. This is a read-only field that can be left blank. */
-  subaccountId?: string | undefined;
-  /** Floodlight configuration ID of this floodlight activity group. This is a required field. */
-  floodlightConfigurationId?: string | undefined;
-  /** Dimension value for the ID of this floodlight activity group. This is a read-only, auto-generated field. */
-  idDimensionValue?: DimensionValue | undefined;
-  /** Type of the floodlight activity group. This is a required field that is read-only after insertion. */
-  type?: FloodlightActivityGroupTypeEnum | (string & {}) | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#floodlightActivityGroup". */
-  kind?: string | undefined;
-  /** Dimension value for the ID of the floodlight configuration. This is a read-only, auto-generated field. */
-  floodlightConfigurationIdDimensionValue?: DimensionValue | undefined;
-  /** Advertiser ID of this floodlight activity group. If this field is left blank, the value will be copied over either from the floodlight configuration's advertiser or from the existing activity group's advertiser. */
-  advertiserId?: string | undefined;
-  /** Dimension value for the ID of the advertiser. This is a read-only, auto-generated field. */
-  advertiserIdDimensionValue?: DimensionValue | undefined;
-  /** Name of this floodlight activity group. This is a required field. Must be less than 65 characters long and cannot contain quotes. */
-  name?: string | undefined;
-  /** Value of the type= parameter in the floodlight tag, which the ad servers use to identify the activity group that the activity belongs to. This is optional: if empty, a new tag string will be generated for you. This string must be 1 to 8 characters long, with valid characters being a-z0-9[ _ ]. This tag string must also be unique among activity groups of the same floodlight configuration. This field is read-only after insertion. */
-  tagString?: string | undefined;
 }
-export interface InsertPlacementGroupsRequest {
+export interface InsertFloodlightActivityGroupsRequest extends FloodlightActivityGroup {
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Dimension value for the ID of this placement group. This is a read-only, auto-generated field. */
-  idDimensionValue?: DimensionValue | undefined;
-  /** Type of this placement group. A package is a simple group of placements that acts as a single pricing point for a group of tags. A roadblock is a group of placements that not only acts as a single pricing point, but also assumes that all the tags in it will be served at the same time. A roadblock requires one of its assigned placements to be marked as primary for reporting. This field is required on insertion. */
-  placementGroupType?: PlacementGroupPlacementGroupTypeEnum | (string & {}) | undefined;
-  /** Dimension value for the ID of the advertiser. This is a read-only, auto-generated field. */
-  advertiserIdDimensionValue?: DimensionValue | undefined;
-  /** Subaccount ID of this placement group. This is a read-only field that can be left blank. */
-  subaccountId?: string | undefined;
-  /** Directory site ID associated with this placement group. On insert, you must set either this field or the site_id field to specify the site associated with this placement group. This is a required field that is read-only after insertion. */
-  directorySiteId?: string | undefined;
-  /** ID of the placement strategy assigned to this placement group. */
-  placementStrategyId?: string | undefined;
-  /** ID of this placement group. This is a read-only, auto-generated field. */
-  id?: string | undefined;
-  /** Account ID of this placement group. This is a read-only field that can be left blank. */
-  accountId?: string | undefined;
-  /** ID of the content category assigned to this placement group. */
-  contentCategoryId?: string | undefined;
-  /** Dimension value for the ID of the site. This is a read-only, auto-generated field. */
-  siteIdDimensionValue?: DimensionValue | undefined;
-  /** Campaign ID of this placement group. This field is required on insertion. */
-  campaignId?: string | undefined;
-  /** External ID for this placement. */
-  externalId?: string | undefined;
-  /** IDs of placements which are assigned to this placement group. This is a read-only, auto-generated field. */
-  childPlacementIds?: StringList | undefined;
-  /** Information about the creation of this placement group. This is a read-only field. */
-  createInfo?: LastModifiedInfo | undefined;
-  /** Pricing schedule of this placement group. This field is required on insertion. */
-  pricingSchedule?: PricingSchedule | undefined;
-  /** Advertiser ID of this placement group. This is a required field on insertion. */
-  advertiserId?: string | undefined;
-  /** Dimension value for the ID of the directory site. This is a read-only, auto-generated field. */
-  directorySiteIdDimensionValue?: DimensionValue | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#placementGroup". */
-  kind?: string | undefined;
-  /** Information about the most recent modification of this placement group. This is a read-only field. */
-  lastModifiedInfo?: LastModifiedInfo | undefined;
-  /** Dimension value for the ID of the primary placement. This is a read-only, auto-generated field. */
-  primaryPlacementIdDimensionValue?: DimensionValue | undefined;
-  /** ID of the primary placement, used to calculate the media cost of a roadblock (placement group). Modifying this field will automatically modify the primary field on all affected roadblock child placements. */
-  primaryPlacementId?: string | undefined;
-  /** Dimension value for the ID of the campaign. This is a read-only, auto-generated field. */
-  campaignIdDimensionValue?: DimensionValue | undefined;
-  /** Comments for this placement group. */
-  comment?: string | undefined;
-  /** Name of this placement group. This is a required field and must be less than 256 characters long. */
-  name?: string | undefined;
-  /** Whether this placement group is active, inactive, archived or permanently archived. */
-  activeStatus?: PlacementGroupActiveStatusEnum | (string & {}) | undefined;
-  /** Site ID associated with this placement group. On insert, you must set either this field or the directorySiteId field to specify the site associated with this placement group. This is a required field that is read-only after insertion. */
-  siteId?: string | undefined;
 }
-export interface InsertPlacementsRequest {
+export interface InsertPlacementGroupsRequest extends PlacementGroup {
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Pricing schedule of this placement. This field is required on insertion, specifically subfields startDate, endDate and pricingType. */
-  pricingSchedule?: PricingSchedule | undefined;
-  /** Lookback window settings for this placement. */
-  lookbackConfiguration?: LookbackConfiguration | undefined;
-  /** Name of this placement.This is a required field and must be less than or equal to 512 characters long. */
-  name?: string | undefined;
-  /** Whether creatives assigned to this placement must be SSL-compliant. */
-  sslRequired?: boolean | undefined;
-  /** Information about the last publisher update. This is a read-only field. */
-  publisherUpdateInfo?: LastModifiedInfo | undefined;
-  /** ID of the content category assigned to this placement. */
-  contentCategoryId?: string | undefined;
-  /** Dimension value for the ID of the campaign. This is a read-only, auto-generated field. */
-  campaignIdDimensionValue?: DimensionValue | undefined;
-  /** Measurement partner provided settings for a wrapped placement. */
-  partnerWrappingData?: MeasurementPartnerWrappingData | undefined;
-  /** Optional. Ad serving platform ID to identify the ad serving platform used by the placement. Measurement partners can use this field to add ad-server specific macros. Possible values are: * `1`, Adelphic * `2`, Adform * `3`, Adobe * `4`, Amobee * `5`, Basis (Centro) * `6`, Beeswax * `7`, Amazon * `8`, DV360 (DBM) * `9`, Innovid * `10`, MediaMath * `11`, Roku OneView DSP * `12`, TabMo Hawk * `13`, The Trade Desk * `14`, Xandr Invest DSP * `15`, Yahoo DSP * `16`, Zeta Global * `17`, Scaleout * `18`, Bidtellect * `19`, Unicorn * `20`, Teads * `21`, Quantcast * `22`, Cognitiv * `23`, AdTheorent * `24`, DeepIntent * `25`, Pulsepoint */
-  adServingPlatformId?: string | undefined;
-  /** Dimension value for the ID of the site. This is a read-only, auto-generated field. */
-  siteIdDimensionValue?: DimensionValue | undefined;
-  /** Advertiser ID of this placement. This field can be left blank. */
-  advertiserId?: string | undefined;
-  /** Whether this placement is the primary placement of a roadblock (placement group). You cannot change this field from true to false. Setting this field to true will automatically set the primary field on the original primary placement of the roadblock to false, and it will automatically set the roadblock's primaryPlacementId field to the ID of this placement. */
-  primary?: boolean | undefined;
-  /** Account ID of this placement. This field can be left blank. */
-  accountId?: string | undefined;
-  /** Tag formats to generate for this placement. This field is required on insertion. Acceptable values are: - "PLACEMENT_TAG_STANDARD" - "PLACEMENT_TAG_IFRAME_JAVASCRIPT" - "PLACEMENT_TAG_IFRAME_ILAYER" - "PLACEMENT_TAG_INTERNAL_REDIRECT" - "PLACEMENT_TAG_JAVASCRIPT" - "PLACEMENT_TAG_INTERSTITIAL_IFRAME_JAVASCRIPT" - "PLACEMENT_TAG_INTERSTITIAL_INTERNAL_REDIRECT" - "PLACEMENT_TAG_INTERSTITIAL_JAVASCRIPT" - "PLACEMENT_TAG_CLICK_COMMANDS" - "PLACEMENT_TAG_INSTREAM_VIDEO_PREFETCH" - "PLACEMENT_TAG_INSTREAM_VIDEO_PREFETCH_VAST_3" - "PLACEMENT_TAG_INSTREAM_VIDEO_PREFETCH_VAST_4" - "PLACEMENT_TAG_TRACKING" - "PLACEMENT_TAG_TRACKING_IFRAME" - "PLACEMENT_TAG_TRACKING_JAVASCRIPT" */
-  tagFormats?: PlacementTagFormatsItemEnumList | undefined;
-  /** Site ID associated with this placement. On insert, you must set either this field or the directorySiteId field to specify the site associated with this placement. This is a required field that is read-only after insertion. */
-  siteId?: string | undefined;
-  /** Subaccount ID of this placement. This field can be left blank. */
-  subaccountId?: string | undefined;
-  /** Directory site ID of this placement. On insert, you must set either this field or the siteId field to specify the site associated with this placement. This is a required field that is read-only after insertion. */
-  directorySiteId?: string | undefined;
-  /** Size associated with this placement. When inserting or updating a placement, only the size ID field is used. This field is required on insertion. */
-  size?: Size | undefined;
-  /** ID of this placement's group, if applicable. */
-  placementGroupId?: string | undefined;
-  /** Payment source for this placement. This is a required field that is read-only after insertion. */
-  paymentSource?: PlacementPaymentSourceEnum | (string & {}) | undefined;
-  /** Optional. Whether the placement is enabled for YouTube integration. */
-  allowOnYoutube?: boolean | undefined;
-  /** Optional. Whether the ads in the placement are served by another platform and CM is only used for tracking or they are served by CM. A false value indicates the ad is served by CM. */
-  siteServed?: boolean | undefined;
-  /** Placement compatibility. DISPLAY and DISPLAY_INTERSTITIAL refer to rendering on desktop, on mobile devices or in mobile apps for regular or interstitial ads respectively. APP and APP_INTERSTITIAL are no longer allowed for new placement insertions. Instead, use DISPLAY or DISPLAY_INTERSTITIAL. IN_STREAM_VIDEO refers to rendering in in-stream video ads developed with the VAST standard. This field is required on insertion. */
-  compatibility?: PlacementCompatibilityEnum | (string & {}) | undefined;
-  /** Whether this placement is active, inactive, archived or permanently archived. */
-  activeStatus?: PlacementActiveStatusEnum | (string & {}) | undefined;
-  /** Dimension value for the ID of the placement group. This is a read-only, auto-generated field. */
-  placementGroupIdDimensionValue?: DimensionValue | undefined;
-  /** Third-party placement status. */
-  status?: PlacementStatusEnum | (string & {}) | undefined;
-  /** Whether payment was approved for this placement. This is a read-only field relevant only to publisher-paid placements. */
-  paymentApproved?: boolean | undefined;
-  /** Dimension value for the ID of the advertiser. This is a read-only, auto-generated field. */
-  advertiserIdDimensionValue?: DimensionValue | undefined;
-  /** Key name of this placement. This is a read-only, auto-generated field. */
-  keyName?: string | undefined;
-  /** Information about the most recent modification of this placement. This is a read-only field. */
-  lastModifiedInfo?: LastModifiedInfo | undefined;
-  /** Campaign ID of this placement. This field is a required field on insertion. */
-  campaignId?: string | undefined;
-  /** Optional. Conversion domain overrides for a placement. */
-  conversionDomainOverride?: PlacementConversionDomainOverride | undefined;
-  /** External ID for this placement. */
-  externalId?: string | undefined;
-  /** Comments for this placement. */
-  comment?: string | undefined;
-  /** Tag settings for this placement. */
-  tagSetting?: TagSetting | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#placement". */
-  kind?: string | undefined;
-  /** Dimension value for the ID of this placement. This is a read-only, auto-generated field. */
-  idDimensionValue?: DimensionValue | undefined;
-  /** VPAID adapter setting for this placement. Controls which VPAID format the measurement adapter will use for in-stream video creatives assigned to this placement. *Note:* Flash is no longer supported. This field now defaults to HTML5 when the following values are provided: FLASH, BOTH. */
-  vpaidAdapterChoice?: PlacementVpaidAdapterChoiceEnum | (string & {}) | undefined;
-  /** Information about the creation of this placement. This is a read-only field. */
-  createInfo?: LastModifiedInfo | undefined;
-  /** ID of the placement strategy assigned to this placement. */
-  placementStrategyId?: string | undefined;
-  /** Whether this placement opts out of tag wrapping. */
-  wrappingOptOut?: boolean | undefined;
-  /** Optional. YouTube settings for the placement. The placement must be enabled for YouTube to use this field. */
-  youtubeSettings?: YoutubeSettings | undefined;
-  /** A collection of settings which affect video creatives served through this placement. Applicable to placements with IN_STREAM_VIDEO compatibility. */
-  videoSettings?: VideoSettings | undefined;
-  /** Additional sizes associated with this placement. When inserting or updating a placement, only the size ID field is used. */
-  additionalSizes?: SizeList | undefined;
-  /** Whether this placement opts out of ad blocking. When true, ad blocking is disabled for this placement. When false, the campaign and site settings take effect. */
-  adBlockingOptOut?: boolean | undefined;
-  /** Whether Verification and ActiveView are disabled for in-stream video creatives for this placement. The same setting videoActiveViewOptOut exists on the site level -- the opt out occurs if either of these settings are true. These settings are distinct from DirectorySites.settings.activeViewOptOut or Sites.siteSettings.activeViewOptOut which only apply to display ads. However, Accounts.activeViewOptOut opts out both video traffic, as well as display ads, from Verification and ActiveView. */
-  videoActiveViewOptOut?: boolean | undefined;
-  /** Dimension value for the ID of the directory site. This is a read-only, auto-generated field. */
-  directorySiteIdDimensionValue?: DimensionValue | undefined;
-  /** ID of this placement. This is a read-only, auto-generated field. */
-  id?: string | undefined;
 }
-export interface InsertPlacementStrategiesRequest {
+export interface InsertPlacementsRequest extends Placement {
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Account ID of this placement strategy.This is a read-only field that can be left blank. */
-  accountId?: string | undefined;
-  /** ID of this placement strategy. This is a read-only, auto-generated field. */
-  id?: string | undefined;
-  /** Name of this placement strategy. This is a required field. It must be less than 256 characters long and unique among placement strategies of the same account. */
-  name?: string | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#placementStrategy". */
-  kind?: string | undefined;
 }
-export interface InsertRemarketingListsRequest {
+export interface InsertPlacementStrategiesRequest extends PlacementStrategy {
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Name of the remarketing list. This is a required field. Must be no greater than 128 characters long. */
-  name?: string | undefined;
-  /** Rule used to populate the remarketing list with users. */
-  listPopulationRule?: ListPopulationRule | undefined;
-  /** Dimension value for the advertiser ID that owns this remarketing list. This is a required field. */
-  advertiserId?: string | undefined;
-  /** Number of users currently in the list. This is a read-only field. */
-  listSize?: string | undefined;
-  /** Number of days that a user should remain in the remarketing list without an impression. Acceptable values are 1 to 540, inclusive. */
-  lifeSpan?: string | undefined;
-  /** Remarketing list ID. This is a read-only, auto-generated field. */
-  id?: string | undefined;
-  /** Account ID of this remarketing list. This is a read-only, auto-generated field that is only returned in GET requests. */
-  accountId?: string | undefined;
-  /** Product from which this remarketing list was originated. */
-  listSource?: RemarketingListListSourceEnum | (string & {}) | undefined;
-  /** Whether this remarketing list is active. */
-  active?: boolean | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#remarketingList". */
-  kind?: string | undefined;
-  /** Dimension value for the ID of the advertiser. This is a read-only, auto-generated field. */
-  advertiserIdDimensionValue?: DimensionValue | undefined;
-  /** Subaccount ID of this remarketing list. This is a read-only, auto-generated field that is only returned in GET requests. */
-  subaccountId?: string | undefined;
-  /** Remarketing list description. */
-  description?: string | undefined;
 }
-export interface InsertReportsRequest {
+export interface InsertRemarketingListsRequest extends RemarketingList {
+  /** User profile ID associated with this request. */
+  profileId: string;
+}
+export interface InsertReportsRequest extends Report {
   /** The Campaign Manager 360 user profile ID. */
   profileId: string;
-  /** The unique ID identifying this report resource. */
-  id?: string | undefined;
-  /** The report criteria for a report of type "PATH_TO_CONVERSION". */
-  pathToConversionCriteria?: ReportPathToConversionCriteria | undefined;
-  /** The type of the report. */
-  type?: ReportTypeEnum | (string & {}) | undefined;
-  /** The name of the report. */
-  name?: string | undefined;
-  /** The filename used when generating report files for this report. */
-  fileName?: string | undefined;
-  /** Optional. The report criteria for a report of type "CROSS_MEDIA_REACH". */
-  crossMediaReachCriteria?: ReportCrossMediaReachCriteria | undefined;
-  /** The account ID to which this report belongs. */
-  accountId?: string | undefined;
-  /** The user profile id of the owner of this report. */
-  ownerProfileId?: string | undefined;
-  /** The report criteria for a report of type "REACH". */
-  reachCriteria?: ReportReachCriteria | undefined;
-  /** The report's schedule. Can only be set if the report's 'dateRange' is a relative date range and the relative date range is not "TODAY". */
-  schedule?: ReportSchedule | undefined;
-  /** The report's email delivery settings. */
-  delivery?: ReportDelivery | undefined;
-  /** The output format of the report. If not specified, default format is "CSV". Note that the actual format in the completed report file might differ if for instance the report's size exceeds the format's capabilities. "CSV" will then be the fallback format. */
-  format?: ReportFormatEnum | (string & {}) | undefined;
-  /** The kind of resource this is, in this case dfareporting#report. */
-  kind?: string | undefined;
-  /** The subaccount ID to which this report belongs if applicable. */
-  subAccountId?: string | undefined;
-  /** The eTag of this response for caching purposes. */
-  etag?: string | undefined;
-  /** The timestamp (in milliseconds since epoch) of when this report was last modified. */
-  lastModifiedTime?: string | undefined;
-  /** The report criteria for a report of type "FLOODLIGHT". */
-  floodlightCriteria?: ReportFloodlightCriteria | undefined;
-  /** The report criteria for a report of type "STANDARD". */
-  criteria?: ReportCriteria | undefined;
 }
-export interface InsertSitesRequest {
+export interface InsertSitesRequest extends Site {
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Optional. Ad serving platform ID to identify the ad serving platform used by the site. Measurement partners can use this field to add ad-server specific macros. If set, this value acts as the default during placement creation. Possible values are: * `1`, Adelphic * `2`, Adform * `3`, Adobe * `4`, Amobee * `5`, Basis (Centro) * `6`, Beeswax * `7`, Amazon * `8`, DV360 (DBM) * `9`, Innovid * `10`, MediaMath * `11`, Roku OneView DSP * `12`, TabMo Hawk * `13`, The Trade Desk * `14`, Xandr Invest DSP * `15`, Yahoo DSP * `16`, Zeta Global * `17`, Scaleout * `18`, Bidtellect * `19`, Unicorn * `20`, Teads * `21`, Quantcast * `22`, Cognitiv * `23`, AdTheorent * `24`, DeepIntent * `25`, Pulsepoint */
-  adServingPlatformId?: string | undefined;
-  /** Site contacts. */
-  siteContacts?: SiteContactList | undefined;
-  /** Account ID of this site. This is a read-only field that can be left blank. */
-  accountId?: string | undefined;
-  /** Name of this site.This is a required field. Must be less than 128 characters long. If this site is under a subaccount, the name must be unique among sites of the same subaccount. Otherwise, this site is a top-level site, and the name must be unique among top-level sites of the same account. */
-  name?: string | undefined;
-  /** Key name of this site. This is a read-only, auto-generated field. */
-  keyName?: string | undefined;
-  /** Dimension value for the ID of the directory site. This is a read-only, auto-generated field. */
-  directorySiteIdDimensionValue?: DimensionValue | undefined;
-  /** Default video settings for new placements created under this site. This value will be used to populate the placements.videoSettings field, when no value is specified for the new placement. */
-  videoSettings?: SiteVideoSettings | undefined;
-  /** Subaccount ID of this site. This is a read-only field that can be left blank. */
-  subaccountId?: string | undefined;
-  /** Site-wide settings. */
-  siteSettings?: SiteSettings | undefined;
-  /** Whether this site is approved. */
-  approved?: boolean | undefined;
-  /** Directory site associated with this site. This is a required field that is read-only after insertion. */
-  directorySiteId?: string | undefined;
-  /** Dimension value for the ID of this site. This is a read-only, auto-generated field. */
-  idDimensionValue?: DimensionValue | undefined;
-  /** ID of this site. This is a read-only, auto-generated field. */
-  id?: string | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#site". */
-  kind?: string | undefined;
 }
-export interface InsertSizesRequest {
+export interface InsertSizesRequest extends Size {
   /** User profile ID associated with this request. */
   profileId: string;
-  /** IAB standard size. This is a read-only, auto-generated field. */
-  iab?: boolean | undefined;
-  /** Width of this size. Acceptable values are 0 to 32767, inclusive. */
-  width?: number | undefined;
-  /** Height of this size. Acceptable values are 0 to 32767, inclusive. */
-  height?: number | undefined;
-  /** ID of this size. This is a read-only, auto-generated field. */
-  id?: string | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#size". */
-  kind?: string | undefined;
 }
-export interface InsertStudioCreativeAssetsRequest {
+/** Request message for DfareportingStudioCreativeAssets.Insert. */
+export interface DfareportingStudioCreativeAssetsInsertRequest {
   /** Optional. Studio creative ID of the studio creative asset. It is a optional field. If it is set, the asset will be associated to the creative. */
   studioCreativeId?: string | undefined;
   /** Required. Studio advertiser ID of the studio creative asset. It is a required field on insertion. */
@@ -6046,6 +5201,7 @@ export interface InsertStudioCreativeAssetsRequest {
   /** Optional. Studio account ID of the studio creative asset. It is a optional. */
   studioAccountId?: string | undefined;
 }
+export interface InsertStudioCreativeAssetsRequest extends DfareportingStudioCreativeAssetsInsertRequest {}
 export type VideoProcessingDataProcessingStateEnum =
   | "UNKNOWN"
   | "PROCESSING"
@@ -6088,99 +5244,18 @@ export interface StudioCreativeAssetsResponse {
   /** The list of studio creative assets. */
   assets?: StudioCreativeAssetList | undefined;
 }
-export interface InsertStudioCreativesRequest {
-  /** Output only. Status of this studio creative. It is a read-only field. */
-  status?: StudioCreativeStatusEnum | (string & {}) | undefined;
-  /** Studio account ID of this creative. This field, if left unset, will be auto-populated. */
-  studioAccountId?: string | undefined;
-  /** Studio advertiser ID of this studio creative. This is a required field on insertion. */
-  studioAdvertiserId?: string | undefined;
-  /** List of assets associated with this studio creative. It is a required field on insertion. */
-  assetIds?: StringList | undefined;
-  /** Studio campaign ID of this studio creative. This is a required field on insertion. */
-  studioCampaignId?: string | undefined;
-  /** Dimension of this studio creative. This is a required field on insertion if format is BANNER or EXPANDING. */
-  dimension?: StudioCreativeDimension | undefined;
-  /** Format of this studio creative. This is a required field on insertion. */
-  format?: StudioCreativeFormatEnum | (string & {}) | undefined;
-  /** The timestamp when the studio creative was last modified. This is a read-only, auto-generated field. */
-  lastModifiedInfo?: LastModifiedInfo | undefined;
-  /** The timestamp when the studio creative was created. This is a read-only, auto-generated field. */
-  createdInfo?: LastModifiedInfo | undefined;
-  /** Identifier. Name of this studio creative. This is a required field on insertion. */
-  name?: string | undefined;
-  /** Backup image asset ID of this studio creative. It is a required field on insertion. */
-  backupImageAssetId?: string | undefined;
-  /** Output only. Unique ID of this studio creative. This is a read-only, auto-generated field. */
-  id?: string | undefined;
-  /** Dynamic profile ID of this studio creative. */
-  dynamicProfileId?: string | undefined;
-}
-export interface InsertSubaccountsRequest {
+export interface InsertStudioCreativesRequest extends StudioCreative {}
+export interface InsertSubaccountsRequest extends Subaccount {
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Name of this subaccount. This is a required field. Must be less than 128 characters long and be unique among subaccounts of the same account. */
-  name?: string | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#subaccount". */
-  kind?: string | undefined;
-  /** ID of the account that contains this subaccount. This is a read-only field that can be left blank. */
-  accountId?: string | undefined;
-  /** IDs of the available user role permissions for this subaccount. */
-  availablePermissionIds?: StringList | undefined;
-  /** ID of this subaccount. This is a read-only, auto-generated field. */
-  id?: string | undefined;
 }
-export interface InsertTargetingTemplatesRequest {
+export interface InsertTargetingTemplatesRequest extends TargetingTemplate {
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Language targeting criteria. */
-  languageTargeting?: LanguageTargeting | undefined;
-  /** Remarketing list targeting criteria. */
-  listTargetingExpression?: ListTargetingExpression | undefined;
-  /** Key-value targeting criteria. */
-  keyValueTargetingExpression?: KeyValueTargetingExpression | undefined;
-  /** Dimension value for the ID of the advertiser. This is a read-only, auto-generated field. */
-  advertiserIdDimensionValue?: DimensionValue | undefined;
-  /** Name of this targeting template. This field is required. It must be less than 256 characters long and unique within an advertiser. */
-  name?: string | undefined;
-  /** Optional. Contextual keyword targeting criteria. */
-  contextualKeywordTargeting?: ContextualKeywordTargeting | undefined;
-  /** Advertiser ID of this targeting template. This is a required field on insert and is read-only after insert. */
-  advertiserId?: string | undefined;
-  /** Technology platform targeting criteria. */
-  technologyTargeting?: TechnologyTargeting | undefined;
-  /** Subaccount ID of this targeting template. This field, if left unset, will be auto-generated on insert and is read-only after insert. */
-  subaccountId?: string | undefined;
-  /** Geographical targeting criteria. */
-  geoTargeting?: GeoTargeting | undefined;
-  /** Account ID of this targeting template. This field, if left unset, will be auto-generated on insert and is read-only after insert. */
-  accountId?: string | undefined;
-  /** ID of this targeting template. This is a read-only, auto-generated field. */
-  id?: string | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#targetingTemplate". */
-  kind?: string | undefined;
-  /** Time and day targeting criteria. */
-  dayPartTargeting?: DayPartTargeting | undefined;
 }
-export interface InsertUserRolesRequest {
+export interface InsertUserRolesRequest extends UserRole {
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Name of this user role. This is a required field. Must be less than 256 characters long. If this user role is under a subaccount, the name must be unique among sites of the same subaccount. Otherwise, this user role is a top-level user role, and the name must be unique among top-level user roles of the same account. */
-  name?: string | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#userRole". */
-  kind?: string | undefined;
-  /** Whether this is a default user role. Default user roles are created by the system for the account/subaccount and cannot be modified or deleted. Each default user role comes with a basic set of preassigned permissions. */
-  defaultUserRole?: boolean | undefined;
-  /** List of permissions associated with this user role. */
-  permissions?: UserRolePermissionList | undefined;
-  /** ID of this user role. This is a read-only, auto-generated field. */
-  id?: string | undefined;
-  /** Subaccount ID of this user role. This is a read-only field that can be left blank. */
-  subaccountId?: string | undefined;
-  /** ID of the user role that this user role is based on or copied from. This is a required field. */
-  parentUserRoleId?: string | undefined;
-  /** Account ID of this user role. This is a read-only field that can be left blank. */
-  accountId?: string | undefined;
 }
 export interface ListAccountPermissionGroupsRequest {
   /** User profile ID associated with this request. */
@@ -7986,977 +7061,157 @@ export interface VideoFormatsListResponse {
   /** Video format collection. */
   videoFormats?: VideoFormatList | undefined;
 }
-export interface PatchAccountsRequest {
+export interface PatchAccountsRequest extends Omit<Account, "id"> {
   /** Required. Account ID. */
   id: string;
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Account permissions assigned to this account. */
-  accountPermissionIds?: StringList | undefined;
-  /** Maximum number of active ads allowed for this account. */
-  activeAdsLimitTier?: AccountActiveAdsLimitTierEnum | (string & {}) | undefined;
-  /** Profile for this account. This is a read-only field that can be left blank. */
-  accountProfile?: AccountAccountProfileEnum | (string & {}) | undefined;
-  /** ID of the country associated with this account. */
-  countryId?: string | undefined;
-  /** Whether this account is active. */
-  active?: boolean | undefined;
-  /** Name of this account. This is a required field, and must be less than 128 characters long and be globally unique. */
-  name?: string | undefined;
-  /** Locale of this account. Acceptable values are: - "cs" (Czech) - "de" (German) - "en" (English) - "en-GB" (English United Kingdom) - "es" (Spanish) - "fr" (French) - "it" (Italian) - "ja" (Japanese) - "ko" (Korean) - "pl" (Polish) - "pt-BR" (Portuguese Brazil) - "ru" (Russian) - "sv" (Swedish) - "tr" (Turkish) - "zh-CN" (Chinese Simplified) - "zh-TW" (Chinese Traditional) */
-  locale?: string | undefined;
-  /** Default placement dimensions for this account. */
-  defaultCreativeSizeId?: string | undefined;
-  /** Whether campaigns created in this account will be enabled for Nielsen OCR reach ratings by default. */
-  nielsenOcrEnabled?: boolean | undefined;
-  /** Whether to serve creatives with Active View tags. If disabled, viewability data will not be available for any impressions. */
-  activeViewOptOut?: boolean | undefined;
-  /** User role permissions available to the user roles of this account. */
-  availablePermissionIds?: StringList | undefined;
-  /** ID of currency associated with this account. This is a required field. Acceptable values are: - "1" for USD - "2" for GBP - "3" for ESP - "4" for SEK - "5" for CAD - "6" for JPY - "7" for DEM - "8" for AUD - "9" for FRF - "10" for ITL - "11" for DKK - "12" for NOK - "13" for FIM - "14" for ZAR - "15" for IEP - "16" for NLG - "17" for EUR - "18" for KRW - "19" for TWD - "20" for SGD - "21" for CNY - "22" for HKD - "23" for NZD - "24" for MYR - "25" for BRL - "26" for PTE - "28" for CLP - "29" for TRY - "30" for ARS - "31" for PEN - "32" for ILS - "33" for CHF - "34" for VEF - "35" for COP - "36" for GTQ - "37" for PLN - "39" for INR - "40" for THB - "41" for IDR - "42" for CZK - "43" for RON - "44" for HUF - "45" for RUB - "46" for AED - "47" for BGN - "48" for HRK - "49" for MXN - "50" for NGN - "51" for EGP */
-  currencyId?: string | undefined;
-  /** Description of this account. */
-  description?: string | undefined;
-  /** Share Path to Conversion reports with Twitter. */
-  shareReportsWithTwitter?: boolean | undefined;
-  /** Reporting configuration of this account. */
-  reportsConfiguration?: ReportsConfiguration | undefined;
-  /** File size limit in kilobytes of Rich Media teaser creatives. Acceptable values are 1 to 10240, inclusive. */
-  teaserSizeLimit?: string | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#account". */
-  kind?: string | undefined;
-  /** Maximum image size allowed for this account, in kilobytes. Value must be greater than or equal to 1. */
-  maximumImageSize?: string | undefined;
 }
-export interface PatchAccountUserProfilesRequest {
+export interface PatchAccountUserProfilesRequest extends Omit<AccountUserProfile, "id"> {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Required. AccountUserProfile ID. */
   id: string;
-  /** Subaccount ID of the user profile. This is a read-only field that can be left blank. */
-  subaccountId?: string | undefined;
-  /** Email of the user profile. The email address must be linked to a Google Account. This field is required on insertion and is read-only after insertion. */
-  email?: string | undefined;
-  /** Filter that describes which user roles are visible to the user profile. */
-  userRoleFilter?: ObjectFilter | undefined;
-  /** Name of the user profile. This is a required field. Must be less than 64 characters long, must be globally unique, and cannot contain whitespace or any of the following characters: "&;<>"#%,". */
-  name?: string | undefined;
-  /** Filter that describes which campaigns are visible to the user profile. */
-  campaignFilter?: ObjectFilter | undefined;
-  /** User type of the user profile. This is a read-only field that can be left blank. */
-  userAccessType?: AccountUserProfileUserAccessTypeEnum | (string & {}) | undefined;
-  /** Filter that describes which sites are visible to the user profile. */
-  siteFilter?: ObjectFilter | undefined;
-  /** Whether this user profile is active. This defaults to false, and must be set true on insert for the user profile to be usable. */
-  active?: boolean | undefined;
-  /** Comments for this user profile. */
-  comments?: string | undefined;
-  /** Filter that describes which advertisers are visible to the user profile. */
-  advertiserFilter?: ObjectFilter | undefined;
-  /** Trafficker type of this user profile. This is a read-only field. */
-  traffickerType?: AccountUserProfileTraffickerTypeEnum | (string & {}) | undefined;
-  /** Account ID of the user profile. This is a read-only field that can be left blank. */
-  accountId?: string | undefined;
-  /** Locale of the user profile. This is a required field. Acceptable values are: - "cs" (Czech) - "de" (German) - "en" (English) - "en-GB" (English United Kingdom) - "es" (Spanish) - "fr" (French) - "it" (Italian) - "ja" (Japanese) - "ko" (Korean) - "pl" (Polish) - "pt-BR" (Portuguese Brazil) - "ru" (Russian) - "sv" (Swedish) - "tr" (Turkish) - "zh-CN" (Chinese Simplified) - "zh-TW" (Chinese Traditional) */
-  locale?: string | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#accountUserProfile". */
-  kind?: string | undefined;
-  /** User role ID of the user profile. This is a required field. */
-  userRoleId?: string | undefined;
 }
-export interface PatchAdsRequest {
+export interface PatchAdsRequest extends Omit<Ad, "id"> {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Required. RemarketingList ID. */
   id: string;
-  /** Information about the most recent modification of this ad. This is a read-only field. */
-  lastModifiedInfo?: LastModifiedInfo | undefined;
-  startTime?: string | undefined;
-  /** Time and day targeting information for this ad. This field must be left blank if the ad is using a targeting template. Applicable when type is AD_SERVING_STANDARD_AD. */
-  dayPartTargeting?: DayPartTargeting | undefined;
-  /** Size of this ad. Applicable when type is AD_SERVING_DEFAULT_AD. */
-  size?: Size | undefined;
-  /** Whether this ad is active. When true, archived must be false. */
-  active?: boolean | undefined;
-  /** Click-through URL suffix properties for this ad. Applies to the URL in the ad or (if overriding ad properties) the URL in the creative. */
-  clickThroughUrlSuffixProperties?: ClickThroughUrlSuffixProperties | undefined;
-  /** Targeting template ID, used to apply preconfigured targeting information to this ad. This cannot be set while any of dayPartTargeting, geoTargeting, keyValueTargetingExpression, languageTargeting, remarketingListExpression, or technologyTargeting are set. Applicable when type is AD_SERVING_STANDARD_AD. */
-  targetingTemplateId?: string | undefined;
-  /** Compatibility of this ad. Applicable when type is AD_SERVING_DEFAULT_AD. DISPLAY and DISPLAY_INTERSTITIAL refer to either rendering on desktop or on mobile devices or in mobile apps for regular or interstitial ads, respectively. APP and APP_INTERSTITIAL are only used for existing default ads. New mobile placements must be assigned DISPLAY or DISPLAY_INTERSTITIAL and default ads created for those placements will be limited to those compatibility types. IN_STREAM_VIDEO refers to rendering in-stream video ads developed with the VAST standard. */
-  compatibility?: AdCompatibilityEnum | (string & {}) | undefined;
-  /** Whether this ad is archived. When true, active must be false. */
-  archived?: boolean | undefined;
-  /** Remarketing list targeting expression for this ad. This field must be left blank if the ad is using a targeting template. Applicable when type is AD_SERVING_STANDARD_AD. */
-  remarketingListExpression?: ListTargetingExpression | undefined;
-  /** Creative group assignments for this ad. Applicable when type is AD_SERVING_CLICK_TRACKER. Only one assignment per creative group number is allowed for a maximum of two assignments. */
-  creativeGroupAssignments?: CreativeGroupAssignmentList | undefined;
-  /** Optional. Contextual keyword targeting information for this ad. */
-  contextualKeywordTargeting?: ContextualKeywordTargeting | undefined;
-  /** Comments for this ad. */
-  comments?: string | undefined;
-  /** Name of this ad. This is a required field and must be less than 256 characters long. */
-  name?: string | undefined;
-  /** Dimension value for the ID of this ad. This is a read-only, auto-generated field. */
-  idDimensionValue?: DimensionValue | undefined;
-  /** Technology platform targeting information for this ad. This field must be left blank if the ad is using a targeting template. Applicable when type is AD_SERVING_STANDARD_AD. */
-  technologyTargeting?: TechnologyTargeting | undefined;
-  /** Dimension value for the ID of the campaign. This is a read-only, auto-generated field. */
-  campaignIdDimensionValue?: DimensionValue | undefined;
-  /** Type of ad. This is a required field on insertion. Note that default ads ( AD_SERVING_DEFAULT_AD) cannot be created directly (see Creative resource). */
-  type?: AdTypeEnum | (string & {}) | undefined;
-  /** Audience segment ID that is being targeted for this ad. Applicable when type is AD_SERVING_STANDARD_AD. */
-  audienceSegmentId?: string | undefined;
-  /** Placement assignments for this ad. */
-  placementAssignments?: PlacementAssignmentList | undefined;
-  /** Advertiser ID of this ad. This is a required field on insertion. */
-  advertiserId?: string | undefined;
-  /** Creative rotation for this ad. Applicable when type is AD_SERVING_DEFAULT_AD, AD_SERVING_STANDARD_AD, or AD_SERVING_TRACKING. When type is AD_SERVING_DEFAULT_AD, this field should have exactly one creativeAssignment . */
-  creativeRotation?: CreativeRotation | undefined;
-  /** Whether this ad is a dynamic click tracker. Applicable when type is AD_SERVING_CLICK_TRACKER. This is a required field on insert, and is read-only after insert. */
-  dynamicClickTracker?: boolean | undefined;
-  /** Information about the creation of this ad. This is a read-only field. */
-  createInfo?: LastModifiedInfo | undefined;
-  /** Language targeting information for this ad. This field must be left blank if the ad is using a targeting template. Applicable when type is AD_SERVING_STANDARD_AD. */
-  languageTargeting?: LanguageTargeting | undefined;
-  /** Whether this ad requires ssl. This is a read-only field that is auto-generated when the ad is inserted or updated. */
-  sslRequired?: boolean | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#ad". */
-  kind?: string | undefined;
-  /** Event tag overrides for this ad. */
-  eventTagOverrides?: EventTagOverrideList | undefined;
-  /** Account ID of this ad. This is a read-only field that can be left blank. */
-  accountId?: string | undefined;
-  /** Campaign ID of this ad. This is a required field on insertion. */
-  campaignId?: string | undefined;
-  /** Default click-through event tag properties for this ad. */
-  defaultClickThroughEventTagProperties?: DefaultClickThroughEventTagProperties | undefined;
-  /** Whether this ad is ssl compliant. This is a read-only field that is auto-generated when the ad is inserted or updated. */
-  sslCompliant?: boolean | undefined;
-  /** Key-value targeting information for this ad. This field must be left blank if the ad is using a targeting template. Applicable when type is AD_SERVING_STANDARD_AD. */
-  keyValueTargetingExpression?: KeyValueTargetingExpression | undefined;
-  /** Delivery schedule information for this ad. Applicable when type is AD_SERVING_STANDARD_AD or AD_SERVING_TRACKING. This field along with subfields priority and impressionRatio are required on insertion when type is AD_SERVING_STANDARD_AD. */
-  deliverySchedule?: DeliverySchedule | undefined;
-  /** Dimension value for the ID of the advertiser. This is a read-only, auto-generated field. */
-  advertiserIdDimensionValue?: DimensionValue | undefined;
-  /** Click-through URL for this ad. This is a required field on insertion. Applicable when type is AD_SERVING_CLICK_TRACKER. */
-  clickThroughUrl?: ClickThroughUrl | undefined;
-  endTime?: string | undefined;
-  /** Subaccount ID of this ad. This is a read-only field that can be left blank. */
-  subaccountId?: string | undefined;
-  /** Geographical targeting information for this ad. This field must be left blank if the ad is using a targeting template. Applicable when type is AD_SERVING_STANDARD_AD. */
-  geoTargeting?: GeoTargeting | undefined;
 }
-export interface PatchAdvertiserGroupsRequest {
+export interface PatchAdvertiserGroupsRequest extends Omit<AdvertiserGroup, "id"> {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Required. Advertiser Group ID. */
   id: string;
-  /** Name of this advertiser group. This is a required field and must be less than 256 characters long and unique among advertiser groups of the same account. */
-  name?: string | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#advertiserGroup". */
-  kind?: string | undefined;
-  /** Account ID of this advertiser group. This is a read-only field that can be left blank. */
-  accountId?: string | undefined;
 }
-export interface PatchAdvertiserLandingPagesRequest {
+export interface PatchAdvertiserLandingPagesRequest extends Omit<LandingPage, "id"> {
   /** Required. Landing Page ID. */
   id: string;
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Whether this landing page has been archived. */
-  archived?: boolean | undefined;
-  /** Name of this landing page. This is a required field. It must be less than 256 characters long. */
-  name?: string | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#landingPage". */
-  kind?: string | undefined;
-  /** URL of this landing page. This is a required field. */
-  url?: string | undefined;
-  /** Advertiser ID of this landing page. This is a required field. */
-  advertiserId?: string | undefined;
-  /** Links that will direct the user to a mobile app, if installed. */
-  deepLinks?: DeepLinkList | undefined;
 }
-export interface PatchAdvertisersRequest {
+export interface PatchAdvertisersRequest extends Omit<Advertiser, "id"> {
   /** Required. Advertiser ID. */
   id: string;
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Floodlight configuration ID of this advertiser. The floodlight configuration ID will be created automatically, so on insert this field should be left blank. This field can be set to another advertiser's floodlight configuration ID in order to share that advertiser's floodlight configuration with this advertiser, so long as: - This advertiser's original floodlight configuration is not already associated with floodlight activities or floodlight activity groups. - This advertiser's original floodlight configuration is not already shared with another advertiser. */
-  floodlightConfigurationId?: string | undefined;
-  /** Suffix added to click-through URL of ad creative associations under this advertiser. Must be less than 129 characters long. */
-  clickThroughUrlSuffix?: string | undefined;
-  /** Optional. Whether the advertiser plans to serve EU political ads. */
-  euPoliticalAdsDeclaration?: AdvertiserEuPoliticalAdsDeclarationEnum | (string & {}) | undefined;
-  /** Account ID of this advertiser.This is a read-only field that can be left blank. */
-  accountId?: string | undefined;
-  /** Name of this advertiser. This is a required field and must be less than 256 characters long and unique among advertisers of the same account. */
-  name?: string | undefined;
-  /** Suspension status of this advertiser. */
-  suspended?: boolean | undefined;
-  /** Original floodlight configuration before any sharing occurred. Set the floodlightConfigurationId of this advertiser to originalFloodlightConfigurationId to unshare the advertiser's current floodlight configuration. You cannot unshare an advertiser's floodlight configuration if the shared configuration has activities associated with any campaign or placement. */
-  originalFloodlightConfigurationId?: string | undefined;
-  /** Measurement partner advertiser link for tag wrapping. */
-  measurementPartnerLink?: MeasurementPartnerAdvertiserLink | undefined;
-  /** ID of the advertiser group this advertiser belongs to. You can group advertisers for reporting purposes, allowing you to see aggregated information for all advertisers in each group. */
-  advertiserGroupId?: string | undefined;
-  /** Status of this advertiser. */
-  status?: AdvertiserStatusEnum | (string & {}) | undefined;
-  /** Dimension value for the ID of the floodlight configuration. This is a read-only, auto-generated field. */
-  floodlightConfigurationIdDimensionValue?: DimensionValue | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#advertiser". */
-  kind?: string | undefined;
-  /** Subaccount ID of this advertiser.This is a read-only field that can be left blank. */
-  subaccountId?: string | undefined;
-  /** ID of the click-through event tag to apply by default to the landing pages of this advertiser's campaigns. */
-  defaultClickThroughEventTagId?: string | undefined;
-  /** Default email address used in sender field for tag emails. */
-  defaultEmail?: string | undefined;
-  /** Dimension value for the ID of this advertiser. This is a read-only, auto-generated field. */
-  idDimensionValue?: DimensionValue | undefined;
 }
-export interface PatchCampaignsRequest {
+export interface PatchCampaignsRequest extends Omit<Campaign, "id"> {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Required. Campaign ID. */
   id: string;
-  /** Click-through URL suffix override properties for this campaign. */
-  clickThroughUrlSuffixProperties?: ClickThroughUrlSuffixProperties | undefined;
-  /** Advertiser group ID of the associated advertiser. */
-  advertiserGroupId?: string | undefined;
-  /** Overrides that can be used to activate or deactivate advertiser event tags. */
-  eventTagOverrides?: EventTagOverrideList | undefined;
-  /** Arbitrary comments about this campaign. Must be less than 256 characters long. */
-  comment?: string | undefined;
-  /** Additional creative optimization configurations for the campaign. */
-  additionalCreativeOptimizationConfigurations?: CreativeOptimizationConfigurationList | undefined;
-  endDate?: string | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#campaign". */
-  kind?: string | undefined;
-  /** Billing invoice code included in the Campaign Manager client billing invoices associated with the campaign. */
-  billingInvoiceCode?: string | undefined;
-  /** Optional. Whether the campaign has EU political ads. Campaign Manager 360 doesn't allow campaigns with EU political ads to serve in the EU. They can still serve in other regions. */
-  euPoliticalAdsDeclaration?: CampaignEuPoliticalAdsDeclarationEnum | (string & {}) | undefined;
-  /** The default landing page ID for this campaign. */
-  defaultLandingPageId?: string | undefined;
-  /** Creative optimization configuration for the campaign. */
-  creativeOptimizationConfiguration?: CreativeOptimizationConfiguration | undefined;
-  /** Measurement partner campaign link for tag wrapping. */
-  measurementPartnerLink?: MeasurementPartnerCampaignLink | undefined;
-  /** Whether this campaign has been archived. */
-  archived?: boolean | undefined;
-  /** Subaccount ID of this campaign. This is a read-only field that can be left blank. */
-  subaccountId?: string | undefined;
-  /** Dimension value for the ID of this campaign. This is a read-only, auto-generated field. */
-  idDimensionValue?: DimensionValue | undefined;
-  /** Account ID of this campaign. This is a read-only field that can be left blank. */
-  accountId?: string | undefined;
-  /** Audience segment groups assigned to this campaign. Cannot have more than 300 segment groups. */
-  audienceSegmentGroups?: AudienceSegmentGroupList | undefined;
-  /** Click-through event tag ID override properties for this campaign. */
-  defaultClickThroughEventTagProperties?: DefaultClickThroughEventTagProperties | undefined;
-  /** List of creative group IDs that are assigned to the campaign. */
-  creativeGroupIds?: StringList | undefined;
-  startDate?: string | undefined;
-  /** Name of this campaign. This is a required field and must be less than 512 characters long and unique among campaigns of the same advertiser. */
-  name?: string | undefined;
-  /** Information about the creation of this campaign. This is a read-only field. */
-  createInfo?: LastModifiedInfo | undefined;
-  /** Information about the most recent modification of this campaign. This is a read-only field. */
-  lastModifiedInfo?: LastModifiedInfo | undefined;
-  /** Advertiser ID of this campaign. This is a required field. */
-  advertiserId?: string | undefined;
-  /** Ad blocking settings for this campaign. */
-  adBlockingConfiguration?: AdBlockingConfiguration | undefined;
-  /** Dimension value for the advertiser ID of this campaign. This is a read-only, auto-generated field. */
-  advertiserIdDimensionValue?: DimensionValue | undefined;
-  /** External ID for this campaign. */
-  externalId?: string | undefined;
 }
-export interface PatchContentCategoriesRequest {
+export interface PatchContentCategoriesRequest extends Omit<ContentCategory, "id"> {
   /** Required. ContentCategory ID. */
   id: string;
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Account ID of this content category. This is a read-only field that can be left blank. */
-  accountId?: string | undefined;
-  /** Name of this content category. This is a required field and must be less than 256 characters long and unique among content categories of the same account. */
-  name?: string | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#contentCategory". */
-  kind?: string | undefined;
 }
-export interface PatchCreativeFieldsRequest {
+export interface PatchCreativeFieldsRequest extends Omit<CreativeField, "id"> {
   /** CreativeField ID. */
   id: string;
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Account ID of this creative field. This is a read-only field that can be left blank. */
-  accountId?: string | undefined;
-  /** Advertiser ID of this creative field. This is a required field on insertion. */
-  advertiserId?: string | undefined;
-  /** Dimension value for the ID of the advertiser. This is a read-only, auto-generated field. */
-  advertiserIdDimensionValue?: DimensionValue | undefined;
-  /** Name of this creative field. This is a required field and must be less than 256 characters long and unique among creative fields of the same advertiser. */
-  name?: string | undefined;
-  /** Subaccount ID of this creative field. This is a read-only field that can be left blank. */
-  subaccountId?: string | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#creativeField". */
-  kind?: string | undefined;
 }
-export interface PatchCreativeFieldValuesRequest {
+export interface PatchCreativeFieldValuesRequest extends Omit<CreativeFieldValue, "id"> {
   /** CreativeFieldValue ID. */
   id: string;
   /** User profile ID associated with this request. */
   profileId: string;
   /** CreativeField ID. */
   creativeFieldId: string;
-  /** Value of this creative field value. It needs to be less than 256 characters in length and unique per creative field. */
-  value?: string | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#creativeFieldValue". */
-  kind?: string | undefined;
 }
-export interface PatchCreativeGroupsRequest {
+export interface PatchCreativeGroupsRequest extends Omit<CreativeGroup, "id"> {
   /** Required. Creative Group ID. */
   id: string;
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Subaccount ID of this creative group. This is a read-only field that can be left blank. */
-  subaccountId?: string | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#creativeGroup". */
-  kind?: string | undefined;
-  /** Name of this creative group. This is a required field and must be less than 256 characters long and unique among creative groups of the same advertiser. */
-  name?: string | undefined;
-  /** Subgroup of the creative group. Assign your creative groups to a subgroup in order to filter or manage them more easily. This field is required on insertion and is read-only after insertion. Acceptable values are 1 to 2, inclusive. */
-  groupNumber?: number | undefined;
-  /** Dimension value for the ID of the advertiser. This is a read-only, auto-generated field. */
-  advertiserIdDimensionValue?: DimensionValue | undefined;
-  /** Advertiser ID of this creative group. This is a required field on insertion. */
-  advertiserId?: string | undefined;
-  /** Account ID of this creative group. This is a read-only field that can be left blank. */
-  accountId?: string | undefined;
 }
-export interface PatchCreativesRequest {
+export interface PatchCreativesRequest extends Omit<Creative, "id"> {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Required. Creative ID. */
   id: string;
-  /** Creative last modification information. This is a read-only field. Applicable to all creative types. */
-  lastModifiedInfo?: LastModifiedInfo | undefined;
-  /** Studio advertiser ID associated with rich media and VPAID creatives. This is a read-only field. Applicable to the following creative types: all RICH_MEDIA, and all VPAID. */
-  studioAdvertiserId?: string | undefined;
-  /** Combined size of all creative assets. This is a read-only field. Applicable to the following creative types: all RICH_MEDIA, and all VPAID. */
-  totalFileSize?: string | undefined;
-  /** Whether HTML code is generated by Campaign Manager or manually entered. Set to true to ignore changes to htmlCode. Applicable to the following creative types: FLASH_INPAGE and HTML5_BANNER. */
-  htmlCodeLocked?: boolean | undefined;
-  /** Account ID of this creative. This field, if left unset, will be auto-generated for both insert and update operations. Applicable to all creative types. */
-  accountId?: string | undefined;
-  /** Type of artwork used for the creative. This is a read-only field. Applicable to the following creative types: all RICH_MEDIA, and all VPAID. */
-  artworkType?: CreativeArtworkTypeEnum | (string & {}) | undefined;
-  /** List of companion creatives assigned to an in-Stream video creative. Acceptable values include IDs of existing flash and image creatives. Applicable to the following creative types: all VPAID, all INSTREAM_AUDIO and all INSTREAM_VIDEO with dynamicAssetSelection set to false. */
-  companionCreatives?: StringList | undefined;
-  /** Size associated with this creative. When inserting or updating a creative either the size ID field or size width and height fields can be used. This is a required field when applicable; however for IMAGE, FLASH_INPAGE creatives, and for DISPLAY creatives with a primary asset of type HTML_IMAGE, if left blank, this field will be automatically set using the actual size of the associated image assets. Applicable to the following creative types: DISPLAY, DISPLAY_IMAGE_GALLERY, FLASH_INPAGE, HTML5_BANNER, IMAGE, and all RICH_MEDIA. */
-  size?: Size | undefined;
-  /** OpenWindow FSCommand of this creative. This lets the SWF file communicate with either Flash Player or the program hosting Flash Player, such as a web browser. This is only triggered if allowScriptAccess field is true. Applicable to the following creative types: FLASH_INPAGE. */
-  fsCommand?: FsCommand | undefined;
-  /** URL of hosted image or hosted video or another ad tag. For INSTREAM_VIDEO_REDIRECT creatives this is the in-stream video redirect URL. The standard for a VAST (Video Ad Serving Template) ad response allows for a redirect link to another VAST 2.0 or 3.0 call. This is a required field when applicable. Applicable to the following creative types: DISPLAY_REDIRECT, INTERNAL_REDIRECT, INTERSTITIAL_INTERNAL_REDIRECT, and INSTREAM_VIDEO_REDIRECT */
-  redirectUrl?: string | undefined;
-  /** List of exit events configured for the creative. For DISPLAY and DISPLAY_IMAGE_GALLERY creatives, these are read-only and auto-generated from clickTags, For DISPLAY, an event is also created from the backupImageReportingLabel. Applicable to the following creative types: DISPLAY_IMAGE_GALLERY, all RICH_MEDIA, and all VPAID. Applicable to DISPLAY when the primary asset type is not HTML_IMAGE. */
-  exitCustomEvents?: CreativeCustomEventList | undefined;
-  /** The minimum required Flash plugin version for this creative. For example, 11.2.202.235. This is a read-only field. Applicable to the following creative types: all RICH_MEDIA, and all VPAID. */
-  requiredFlashPluginVersion?: string | undefined;
-  /** Required. Type of this creative. Applicable to all creative types. *Note:* FLASH_INPAGE, HTML5_BANNER, and IMAGE are only used for existing creatives. New creatives should use DISPLAY as a replacement for these types. */
-  type?: CreativeTypeEnum | (string & {}) | undefined;
-  /** A Universal Ad ID as per the VAST 4.0 spec. Applicable to the following creative types: INSTREAM_AUDIO and INSTREAM_VIDEO and VPAID. */
-  universalAdId?: UniversalAdId | undefined;
-  /** List of counter events configured for the creative. For DISPLAY_IMAGE_GALLERY creatives, these are read-only and auto-generated from clickTags. Applicable to the following creative types: DISPLAY_IMAGE_GALLERY, all RICH_MEDIA, and all VPAID. */
-  counterCustomEvents?: CreativeCustomEventList | undefined;
-  /** Subaccount ID of this creative. This field, if left unset, will be auto-generated for both insert and update operations. Applicable to all creative types. */
-  subaccountId?: string | undefined;
-  /** Keywords for a Rich Media creative. Keywords let you customize the creative settings of a Rich Media ad running on your site without having to contact the advertiser. You can use keywords to dynamically change the look or functionality of a creative. Applicable to the following creative types: all RICH_MEDIA, and all VPAID. */
-  adTagKeys?: StringList | undefined;
-  /** Whether the user can choose to skip the creative. Applicable to the following creative types: all INSTREAM_VIDEO and all VPAID. */
-  skippable?: boolean | undefined;
-  /** Whether the creative is SSL-compliant. This is a read-only field. Applicable to all creative types. */
-  sslCompliant?: boolean | undefined;
-  /** Creative audio or video duration in seconds. This is a read-only field. Applicable to the following creative types: INSTREAM_VIDEO, INSTREAM_AUDIO, all RICH_MEDIA, and all VPAID. */
-  mediaDuration?: number | undefined;
-  /** Dimension value for the rendering ID of this creative. This is a read-only field. Applicable to all creative types. */
-  renderingIdDimensionValue?: DimensionValue | undefined;
-  /** The internal Flash version for this creative as calculated by Studio. This is a read-only field. Applicable to the following creative types: FLASH_INPAGE all RICH_MEDIA, and all VPAID. Applicable to DISPLAY when the primary asset type is not HTML_IMAGE. */
-  requiredFlashVersion?: number | undefined;
-  /** Target window for backup image. Applicable to the following creative types: FLASH_INPAGE and HTML5_BANNER. Applicable to DISPLAY when the primary asset type is not HTML_IMAGE. */
-  backupImageTargetWindow?: TargetWindow | undefined;
-  /** Studio trafficked creative ID associated with rich media and VPAID creatives. This is a read-only field. Applicable to the following creative types: all RICH_MEDIA, and all VPAID. */
-  studioTraffickedCreativeId?: string | undefined;
-  /** Amount of time to play the video before the skip button appears. Applicable to the following creative types: all INSTREAM_VIDEO. */
-  skipOffset?: VideoOffset | undefined;
-  /** Amount of time to play the video before counting a view. Applicable to the following creative types: all INSTREAM_VIDEO. */
-  progressOffset?: VideoOffset | undefined;
-  /** Override CSS value for rich media creatives. Applicable to the following creative types: all RICH_MEDIA. */
-  overrideCss?: string | undefined;
-  /** Authoring tool for HTML5 banner creatives. This is a read-only field. Applicable to the following creative types: HTML5_BANNER. */
-  authoringTool?: CreativeAuthoringToolEnum | (string & {}) | undefined;
-  /** Whether Flash assets associated with the creative need to be automatically converted to HTML5. This flag is enabled by default and users can choose to disable it if they don't want the system to generate and use HTML5 asset for this creative. Applicable to the following creative type: FLASH_INPAGE. Applicable to DISPLAY when the primary asset type is not HTML_IMAGE. */
-  convertFlashToHtml5?: boolean | undefined;
-  /** The version number helps you keep track of multiple versions of your creative in your reports. The version number will always be auto-generated during insert operations to start at 1. For tracking creatives the version cannot be incremented and will always remain at 1. For all other creative types the version can be incremented only by 1 during update operations. In addition, the version will be automatically incremented by 1 when undergoing Rich Media creative merging. Applicable to all creative types. */
-  version?: number | undefined;
-  /** Optional. Whether to add a label to the creative as created or edited using AI when served in regions with local AI labeling regulations. [Learn more about labeling requirements in AI regulations.](https://support.google.com/campaignmanager/answer/17232030) */
-  syntheticContentAttestationStatus?:
-    | CreativeSyntheticContentAttestationStatusEnum
-    | (string & {})
-    | undefined;
-  /** Reporting label used for HTML5 banner backup image. Applicable to the following creative types: DISPLAY when the primary asset type is not HTML_IMAGE. */
-  backupImageReportingLabel?: string | undefined;
-  /** Latest Studio trafficked creative ID associated with rich media and VPAID creatives. This is a read-only field. Applicable to the following creative types: all RICH_MEDIA, and all VPAID. */
-  latestTraffickedCreativeId?: string | undefined;
-  /** Additional sizes associated with a responsive creative. When inserting or updating a creative either the size ID field or size width and height fields can be used. Applicable to DISPLAY creatives when the primary asset type is HTML_IMAGE. */
-  additionalSizes?: SizeList | undefined;
-  /** Whether the creative is archived. Applicable to all creative types. */
-  archived?: boolean | undefined;
-  /** Third-party URLs for tracking in-stream creative events. Applicable to the following creative types: all INSTREAM_VIDEO, all INSTREAM_AUDIO, and all VPAID. */
-  thirdPartyUrls?: ThirdPartyTrackingUrlList | undefined;
-  /** Source application where creative was authored. Presently, only DBM authored creatives will have this field set. Applicable to all creative types. */
-  authoringSource?: CreativeAuthoringSourceEnum | (string & {}) | undefined;
-  /** Required. Advertiser ID of this creative. This is a required field. Applicable to all creative types. */
-  advertiserId?: string | undefined;
-  /** The 6-character HTML color code, beginning with #, for the background of the window area where the Flash file is displayed. Default is white. Applicable to the following creative types: FLASH_INPAGE. */
-  backgroundColor?: string | undefined;
-  /** Assets associated with a creative. Applicable to all but the following creative types: INTERNAL_REDIRECT, INTERSTITIAL_INTERNAL_REDIRECT, and REDIRECT */
-  creativeAssets?: CreativeAssetList | undefined;
-  /** Ad parameters user for VPAID creative. This is a read-only field. Applicable to the following creative types: all VPAID. */
-  adParameters?: string | undefined;
-  /** Creative field assignments for this creative. Applicable to all creative types. */
-  creativeFieldAssignments?: CreativeFieldAssignmentList | undefined;
-  /** Whether creative should be treated as SSL compliant even if the system scan shows it's not. Applicable to all creative types. */
-  sslOverride?: boolean | undefined;
-  /** List of feature dependencies that will cause a backup image to be served if the browser that serves the ad does not support them. Feature dependencies are features that a browser must be able to support in order to render your HTML5 creative asset correctly. This field is initially auto-generated to contain all features detected by Campaign Manager for all the assets of this creative and can then be modified by the client. To reset this field, copy over all the creativeAssets' detected features. Applicable to the following creative types: HTML5_BANNER. Applicable to DISPLAY when the primary asset type is not HTML_IMAGE. */
-  backupImageFeatures?: CreativeBackupImageFeaturesItemEnumList | undefined;
-  /** Whether the creative is active. Applicable to all creative types. */
-  active?: boolean | undefined;
-  /** Required. Name of the creative. This must be less than 256 characters long. Applicable to all creative types. */
-  name?: string | undefined;
-  /** Whether images are automatically advanced for image gallery creatives. Applicable to the following creative types: DISPLAY_IMAGE_GALLERY. */
-  autoAdvanceImages?: boolean | undefined;
-  /** Click tags of the creative. For DISPLAY, FLASH_INPAGE, and HTML5_BANNER creatives, this is a subset of detected click tags for the assets associated with this creative. After creating a flash asset, detected click tags will be returned in the creativeAssetMetadata. When inserting the creative, populate the creative clickTags field using the creativeAssetMetadata.clickTags field. For DISPLAY_IMAGE_GALLERY creatives, there should be exactly one entry in this list for each image creative asset. A click tag is matched with a corresponding creative asset by matching the clickTag.name field with the creativeAsset.assetIdentifier.name field. Applicable to the following creative types: DISPLAY_IMAGE_GALLERY, FLASH_INPAGE, HTML5_BANNER. Applicable to DISPLAY when the primary asset type is not HTML_IMAGE. */
-  clickTags?: ClickTagList | undefined;
-  /** Description of the audio or video ad. Applicable to the following creative types: all INSTREAM_VIDEO, INSTREAM_AUDIO, and all VPAID. */
-  mediaDescription?: string | undefined;
-  /** Dimension value for the ID of this creative. This is a read-only field. Applicable to all creative types. */
-  idDimensionValue?: DimensionValue | undefined;
-  /** List of timer events configured for the creative. For DISPLAY_IMAGE_GALLERY creatives, these are read-only and auto-generated from clickTags. Applicable to the following creative types: DISPLAY_IMAGE_GALLERY, all RICH_MEDIA, and all VPAID. Applicable to DISPLAY when the primary asset is not HTML_IMAGE. */
-  timerCustomEvents?: CreativeCustomEventList | undefined;
-  /** Studio creative ID associated with rich media and VPAID creatives. This is a read-only field. Applicable to the following creative types: all RICH_MEDIA, and all VPAID. */
-  studioCreativeId?: string | undefined;
-  /** ID of current rendering version. This is a read-only field. Applicable to all creative types. */
-  renderingId?: string | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#creative". */
-  kind?: string | undefined;
-  /** Industry standard ID assigned to creative for reach and frequency. Applicable to INSTREAM_VIDEO_REDIRECT creatives. */
-  commercialId?: string | undefined;
-  /** Online behavioral advertising icon to be added to the creative. Applicable to the following creative types: all INSTREAM_VIDEO. */
-  obaIcon?: ObaIcon | undefined;
-  /** Click-through URL for backup image. Applicable to ENHANCED_BANNER when the primary asset type is not HTML_IMAGE. */
-  backupImageClickThroughUrl?: CreativeClickThroughUrl | undefined;
-  /** Optional. Additional asset for the creative. This field captures additional assets that are associated with the creative and used in the context of the social/native and YouTube platforms. */
-  additionalAsset?: AdditionalAsset | undefined;
-  /** Whether script access is allowed for this creative. This is a read-only and deprecated field which will automatically be set to true on update. Applicable to the following creative types: FLASH_INPAGE. */
-  allowScriptAccess?: boolean | undefined;
-  /** Third-party URL used to record backup image impressions. Applicable to the following creative types: all RICH_MEDIA. */
-  thirdPartyBackupImageImpressionsUrl?: string | undefined;
-  /** Custom key-values for a Rich Media creative. Key-values let you customize the creative settings of a Rich Media ad running on your site without having to contact the advertiser. You can use key-values to dynamically change the look or functionality of a creative. Applicable to the following creative types: all RICH_MEDIA, and all VPAID. */
-  customKeyValues?: StringList | undefined;
-  /** Compatibilities associated with this creative. This is a read-only field. DISPLAY and DISPLAY_INTERSTITIAL refer to rendering either on desktop or on mobile devices or in mobile apps for regular or interstitial ads, respectively. APP and APP_INTERSTITIAL are for rendering in mobile apps. Only pre-existing creatives may have these compatibilities since new creatives will either be assigned DISPLAY or DISPLAY_INTERSTITIAL instead. IN_STREAM_VIDEO refers to rendering in in-stream video ads developed with the VAST standard. IN_STREAM_AUDIO refers to rendering in in-stream audio ads developed with the VAST standard. Applicable to all creative types. Acceptable values are: - "APP" - "APP_INTERSTITIAL" - "IN_STREAM_VIDEO" - "IN_STREAM_AUDIO" - "DISPLAY" - "DISPLAY_INTERSTITIAL" */
-  compatibility?: CreativeCompatibilityItemEnumList | undefined;
-  /** Third-party URL used to record rich media impressions. Applicable to the following creative types: all RICH_MEDIA. */
-  thirdPartyRichMediaImpressionsUrl?: string | undefined;
-  /** HTML code for the creative. This is a required field when applicable. This field is ignored if htmlCodeLocked is true. Applicable to the following creative types: all CUSTOM, FLASH_INPAGE, and HTML5_BANNER, and all RICH_MEDIA. */
-  htmlCode?: string | undefined;
 }
-export interface PatchEventTagsRequest {
+export interface PatchEventTagsRequest extends Omit<EventTag, "id"> {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Required. EventTag ID. */
   id: string;
-  /** Whether this tag is SSL-compliant or not. This is a read-only field. */
-  sslCompliant?: boolean | undefined;
-  /** Payload URL for this event tag. The URL on a click-through event tag should have a landing page URL appended to the end of it. This field is required on insertion. */
-  url?: string | undefined;
-  /** Whether this event tag should be automatically enabled for all of the advertiser's campaigns and ads. */
-  enabledByDefault?: boolean | undefined;
-  /** Dimension value for the ID of the advertiser. This is a read-only, auto-generated field. */
-  advertiserIdDimensionValue?: DimensionValue | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#eventTag". */
-  kind?: string | undefined;
-  /** Whether to remove this event tag from ads that are trafficked through Display & Video 360 to Ad Exchange. This may be useful if the event tag uses a pixel that is unapproved for Ad Exchange bids on one or more networks, such as the Google Display Network. */
-  excludeFromAdxRequests?: boolean | undefined;
-  /** Campaign ID of this event tag. This field or the advertiserId field is required on insertion. */
-  campaignId?: string | undefined;
-  /** Subaccount ID of this event tag. This is a read-only field that can be left blank. */
-  subaccountId?: string | undefined;
-  /** Account ID of this event tag. This is a read-only field that can be left blank. */
-  accountId?: string | undefined;
-  /** Number of times the landing page URL should be URL-escaped before being appended to the click-through event tag URL. Only applies to click-through event tags as specified by the event tag type. */
-  urlEscapeLevels?: number | undefined;
-  /** Advertiser ID of this event tag. This field or the campaignId field is required on insertion. */
-  advertiserId?: string | undefined;
-  /** Dimension value for the ID of the campaign. This is a read-only, auto-generated field. */
-  campaignIdDimensionValue?: DimensionValue | undefined;
-  /** Status of this event tag. Must be ENABLED for this event tag to fire. This is a required field. */
-  status?: EventTagStatusEnum | (string & {}) | undefined;
-  /** Event tag type. Can be used to specify whether to use a third-party pixel, a third-party JavaScript URL, or a third-party click-through URL for either impression or click tracking. This is a required field. */
-  type?: EventTagTypeEnum | (string & {}) | undefined;
-  /** Name of this event tag. This is a required field and must be less than 256 characters long. */
-  name?: string | undefined;
-  /** Filter list of site IDs associated with this event tag. The siteFilterType determines whether this is a allowlist or blocklist filter. */
-  siteIds?: StringList | undefined;
-  /** Site filter type for this event tag. If no type is specified then the event tag will be applied to all sites. */
-  siteFilterType?: EventTagSiteFilterTypeEnum | (string & {}) | undefined;
 }
-export interface PatchFloodlightActivitiesRequest {
+export interface PatchFloodlightActivitiesRequest extends Omit<FloodlightActivity, "id"> {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Required. EventTag ID. */
   id: string;
-  /** Name of the associated floodlight activity group. This is a read-only field. */
-  floodlightActivityGroupName?: string | undefined;
-  /** The status of the activity. This can only be set to ACTIVE or ARCHIVED_AND_DISABLED. The ARCHIVED status is no longer supported and cannot be set for Floodlight activities. The DISABLED_POLICY status indicates that a Floodlight activity is violating Google policy. Contact your account manager for more information. */
-  status?: FloodlightActivityStatusEnum | (string & {}) | undefined;
-  /** Floodlight configuration ID of this floodlight activity. If this field is left blank, the value will be copied over either from the activity group's floodlight configuration or from the existing activity's floodlight configuration. */
-  floodlightConfigurationId?: string | undefined;
-  /** General notes or implementation instructions for the tag. */
-  notes?: string | undefined;
-  /** Account ID of this floodlight activity. This is a read-only field that can be left blank. */
-  accountId?: string | undefined;
-  /** Publisher dynamic floodlight tags. */
-  publisherTags?: FloodlightActivityPublisherDynamicTagList | undefined;
-  /** Dimension value for the ID of the advertiser. This is a read-only, auto-generated field. */
-  advertiserIdDimensionValue?: DimensionValue | undefined;
-  /** Dynamic floodlight tags. */
-  defaultTags?: FloodlightActivityDynamicTagList | undefined;
-  /** Required. The conversion category of the activity. */
-  conversionCategory?: FloodlightActivityConversionCategoryEnum | (string & {}) | undefined;
-  /** Type of the associated floodlight activity group. This is a read-only field. */
-  floodlightActivityGroupType?:
-    | FloodlightActivityFloodlightActivityGroupTypeEnum
-    | (string & {})
-    | undefined;
-  /** The type of Floodlight tag this activity will generate. This is a required field. */
-  floodlightTagType?: FloodlightActivityFloodlightTagTypeEnum | (string & {}) | undefined;
-  /** Tag format type for the floodlight activity. If left blank, the tag format will default to HTML. */
-  tagFormat?: FloodlightActivityTagFormatEnum | (string & {}) | undefined;
-  /** List of the user-defined variables used by this conversion tag. These map to the "u[1-100]=" in the tags. Each of these can have a user defined type. Acceptable values are U1 to U100, inclusive. */
-  userDefinedVariableTypes?: FloodlightActivityUserDefinedVariableTypesItemEnumList | undefined;
-  /** Name of this floodlight activity. This is a required field. Must be less than 129 characters long and cannot contain quotes. */
-  name?: string | undefined;
-  /** Floodlight activity group ID of this floodlight activity. This is a required field. */
-  floodlightActivityGroupId?: string | undefined;
-  /** Whether the activity is enabled for attribution. */
-  attributionEnabled?: boolean | undefined;
-  /** Advertiser ID of this floodlight activity. If this field is left blank, the value will be copied over either from the activity group's advertiser or the existing activity's advertiser. */
-  advertiserId?: string | undefined;
-  /** Value of the cat= parameter in the floodlight tag, which the ad servers use to identify the activity. This is optional: if empty, a new tag string will be generated for you. This string must be 1 to 8 characters long, with valid characters being a-z0-9[ _ ]. This tag string must also be unique among activities of the same activity group. This field is read-only after insertion. */
-  tagString?: string | undefined;
-  /** Tag string of the associated floodlight activity group. This is a read-only field. */
-  floodlightActivityGroupTagString?: string | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#floodlightActivity". */
-  kind?: string | undefined;
-  /** Whether the floodlight activity is SSL-compliant. This is a read-only field, its value detected by the system from the floodlight tags. */
-  sslCompliant?: boolean | undefined;
-  /** Dimension value for the ID of this floodlight activity. This is a read-only, auto-generated field. */
-  idDimensionValue?: DimensionValue | undefined;
-  /** URL where this tag will be deployed. If specified, must be less than 256 characters long. */
-  expectedUrl?: string | undefined;
-  /** Dimension value for the ID of the floodlight configuration. This is a read-only, auto-generated field. */
-  floodlightConfigurationIdDimensionValue?: DimensionValue | undefined;
-  /** Whether this tag should use SSL. */
-  secure?: boolean | undefined;
-  /** Subaccount ID of this floodlight activity. This is a read-only field that can be left blank. */
-  subaccountId?: string | undefined;
-  /** Whether this floodlight activity must be SSL-compliant. */
-  sslRequired?: boolean | undefined;
-  /** Code type used for cache busting in the generated tag. Applicable only when floodlightActivityGroupType is COUNTER and countingMethod is STANDARD_COUNTING or UNIQUE_COUNTING. */
-  cacheBustingType?: FloodlightActivityCacheBustingTypeEnum | (string & {}) | undefined;
-  /** Counting method for conversions for this floodlight activity. This is a required field. */
-  countingMethod?: FloodlightActivityCountingMethodEnum | (string & {}) | undefined;
 }
-export interface PatchFloodlightActivityGroupsRequest {
+export interface PatchFloodlightActivityGroupsRequest extends Omit<FloodlightActivityGroup, "id"> {
   /** Required. EventTag ID. */
   id: string;
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Account ID of this floodlight activity group. This is a read-only field that can be left blank. */
-  accountId?: string | undefined;
-  /** Subaccount ID of this floodlight activity group. This is a read-only field that can be left blank. */
-  subaccountId?: string | undefined;
-  /** Floodlight configuration ID of this floodlight activity group. This is a required field. */
-  floodlightConfigurationId?: string | undefined;
-  /** Dimension value for the ID of this floodlight activity group. This is a read-only, auto-generated field. */
-  idDimensionValue?: DimensionValue | undefined;
-  /** Type of the floodlight activity group. This is a required field that is read-only after insertion. */
-  type?: FloodlightActivityGroupTypeEnum | (string & {}) | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#floodlightActivityGroup". */
-  kind?: string | undefined;
-  /** Dimension value for the ID of the floodlight configuration. This is a read-only, auto-generated field. */
-  floodlightConfigurationIdDimensionValue?: DimensionValue | undefined;
-  /** Advertiser ID of this floodlight activity group. If this field is left blank, the value will be copied over either from the floodlight configuration's advertiser or from the existing activity group's advertiser. */
-  advertiserId?: string | undefined;
-  /** Dimension value for the ID of the advertiser. This is a read-only, auto-generated field. */
-  advertiserIdDimensionValue?: DimensionValue | undefined;
-  /** Name of this floodlight activity group. This is a required field. Must be less than 65 characters long and cannot contain quotes. */
-  name?: string | undefined;
-  /** Value of the type= parameter in the floodlight tag, which the ad servers use to identify the activity group that the activity belongs to. This is optional: if empty, a new tag string will be generated for you. This string must be 1 to 8 characters long, with valid characters being a-z0-9[ _ ]. This tag string must also be unique among activity groups of the same floodlight configuration. This field is read-only after insertion. */
-  tagString?: string | undefined;
 }
-export interface PatchFloodlightConfigurationsRequest {
+export interface PatchFloodlightConfigurationsRequest extends Omit<FloodlightConfiguration, "id"> {
   /** Required. EventTag ID. */
   id: string;
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Dimension value for the ID of the advertiser. This is a read-only, auto-generated field. */
-  advertiserIdDimensionValue?: DimensionValue | undefined;
-  /** Dimension value for the ID of this floodlight configuration. This is a read-only, auto-generated field. */
-  idDimensionValue?: DimensionValue | undefined;
-  firstDayOfWeek?: FloodlightConfigurationFirstDayOfWeekEnum | (string & {}) | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#floodlightConfiguration". */
-  kind?: string | undefined;
-  /** Advertiser ID of the parent advertiser of this floodlight configuration. */
-  advertiserId?: string | undefined;
-  /** Whether advertiser data is shared with Google Analytics. */
-  analyticsDataSharingEnabled?: boolean | undefined;
-  /** List of third-party authentication tokens enabled for this configuration. */
-  thirdPartyAuthenticationTokens?: ThirdPartyAuthenticationTokenList | undefined;
-  /** Whether in-app attribution tracking is enabled. */
-  inAppAttributionTrackingEnabled?: boolean | undefined;
-  /** Custom Viewability metric for the floodlight configuration. */
-  customViewabilityMetric?: CustomViewabilityMetric | undefined;
-  /** Lookback window settings for this floodlight configuration. */
-  lookbackConfiguration?: LookbackConfiguration | undefined;
-  /** Types of attribution options for natural search conversions. */
-  naturalSearchConversionAttributionOption?:
-    | FloodlightConfigurationNaturalSearchConversionAttributionOptionEnum
-    | (string & {})
-    | undefined;
-  /** Configuration settings for dynamic and image floodlight tags. */
-  tagSettings?: TagSettings | undefined;
-  /** Subaccount ID of this floodlight configuration. This is a read-only field that can be left blank. */
-  subaccountId?: string | undefined;
-  /** List of user defined variables enabled for this configuration. */
-  userDefinedVariableConfigurations?: UserDefinedVariableConfigurationList | undefined;
-  /** Account ID of this floodlight configuration. This is a read-only field that can be left blank. */
-  accountId?: string | undefined;
-  /** Settings for Campaign Manager Omniture integration. */
-  omnitureSettings?: OmnitureSettings | undefined;
-  /** Whether the exposure-to-conversion report is enabled. This report shows detailed pathway information on up to 10 of the most recent ad exposures seen by a user before converting. */
-  exposureToConversionEnabled?: boolean | undefined;
 }
-export interface PatchPlacementGroupsRequest {
+export interface PatchPlacementGroupsRequest extends Omit<PlacementGroup, "id"> {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Required. Placement ID. */
   id: string;
-  /** Dimension value for the ID of this placement group. This is a read-only, auto-generated field. */
-  idDimensionValue?: DimensionValue | undefined;
-  /** Type of this placement group. A package is a simple group of placements that acts as a single pricing point for a group of tags. A roadblock is a group of placements that not only acts as a single pricing point, but also assumes that all the tags in it will be served at the same time. A roadblock requires one of its assigned placements to be marked as primary for reporting. This field is required on insertion. */
-  placementGroupType?: PlacementGroupPlacementGroupTypeEnum | (string & {}) | undefined;
-  /** Dimension value for the ID of the advertiser. This is a read-only, auto-generated field. */
-  advertiserIdDimensionValue?: DimensionValue | undefined;
-  /** Subaccount ID of this placement group. This is a read-only field that can be left blank. */
-  subaccountId?: string | undefined;
-  /** Directory site ID associated with this placement group. On insert, you must set either this field or the site_id field to specify the site associated with this placement group. This is a required field that is read-only after insertion. */
-  directorySiteId?: string | undefined;
-  /** ID of the placement strategy assigned to this placement group. */
-  placementStrategyId?: string | undefined;
-  /** Account ID of this placement group. This is a read-only field that can be left blank. */
-  accountId?: string | undefined;
-  /** ID of the content category assigned to this placement group. */
-  contentCategoryId?: string | undefined;
-  /** Dimension value for the ID of the site. This is a read-only, auto-generated field. */
-  siteIdDimensionValue?: DimensionValue | undefined;
-  /** Campaign ID of this placement group. This field is required on insertion. */
-  campaignId?: string | undefined;
-  /** External ID for this placement. */
-  externalId?: string | undefined;
-  /** IDs of placements which are assigned to this placement group. This is a read-only, auto-generated field. */
-  childPlacementIds?: StringList | undefined;
-  /** Information about the creation of this placement group. This is a read-only field. */
-  createInfo?: LastModifiedInfo | undefined;
-  /** Pricing schedule of this placement group. This field is required on insertion. */
-  pricingSchedule?: PricingSchedule | undefined;
-  /** Advertiser ID of this placement group. This is a required field on insertion. */
-  advertiserId?: string | undefined;
-  /** Dimension value for the ID of the directory site. This is a read-only, auto-generated field. */
-  directorySiteIdDimensionValue?: DimensionValue | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#placementGroup". */
-  kind?: string | undefined;
-  /** Information about the most recent modification of this placement group. This is a read-only field. */
-  lastModifiedInfo?: LastModifiedInfo | undefined;
-  /** Dimension value for the ID of the primary placement. This is a read-only, auto-generated field. */
-  primaryPlacementIdDimensionValue?: DimensionValue | undefined;
-  /** ID of the primary placement, used to calculate the media cost of a roadblock (placement group). Modifying this field will automatically modify the primary field on all affected roadblock child placements. */
-  primaryPlacementId?: string | undefined;
-  /** Dimension value for the ID of the campaign. This is a read-only, auto-generated field. */
-  campaignIdDimensionValue?: DimensionValue | undefined;
-  /** Comments for this placement group. */
-  comment?: string | undefined;
-  /** Name of this placement group. This is a required field and must be less than 256 characters long. */
-  name?: string | undefined;
-  /** Whether this placement group is active, inactive, archived or permanently archived. */
-  activeStatus?: PlacementGroupActiveStatusEnum | (string & {}) | undefined;
-  /** Site ID associated with this placement group. On insert, you must set either this field or the directorySiteId field to specify the site associated with this placement group. This is a required field that is read-only after insertion. */
-  siteId?: string | undefined;
 }
-export interface PatchPlacementsRequest {
+export interface PatchPlacementsRequest extends Omit<Placement, "id"> {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Required. Placement ID. */
   id: string;
-  /** Pricing schedule of this placement. This field is required on insertion, specifically subfields startDate, endDate and pricingType. */
-  pricingSchedule?: PricingSchedule | undefined;
-  /** Lookback window settings for this placement. */
-  lookbackConfiguration?: LookbackConfiguration | undefined;
-  /** Name of this placement.This is a required field and must be less than or equal to 512 characters long. */
-  name?: string | undefined;
-  /** Whether creatives assigned to this placement must be SSL-compliant. */
-  sslRequired?: boolean | undefined;
-  /** Information about the last publisher update. This is a read-only field. */
-  publisherUpdateInfo?: LastModifiedInfo | undefined;
-  /** ID of the content category assigned to this placement. */
-  contentCategoryId?: string | undefined;
-  /** Dimension value for the ID of the campaign. This is a read-only, auto-generated field. */
-  campaignIdDimensionValue?: DimensionValue | undefined;
-  /** Measurement partner provided settings for a wrapped placement. */
-  partnerWrappingData?: MeasurementPartnerWrappingData | undefined;
-  /** Optional. Ad serving platform ID to identify the ad serving platform used by the placement. Measurement partners can use this field to add ad-server specific macros. Possible values are: * `1`, Adelphic * `2`, Adform * `3`, Adobe * `4`, Amobee * `5`, Basis (Centro) * `6`, Beeswax * `7`, Amazon * `8`, DV360 (DBM) * `9`, Innovid * `10`, MediaMath * `11`, Roku OneView DSP * `12`, TabMo Hawk * `13`, The Trade Desk * `14`, Xandr Invest DSP * `15`, Yahoo DSP * `16`, Zeta Global * `17`, Scaleout * `18`, Bidtellect * `19`, Unicorn * `20`, Teads * `21`, Quantcast * `22`, Cognitiv * `23`, AdTheorent * `24`, DeepIntent * `25`, Pulsepoint */
-  adServingPlatformId?: string | undefined;
-  /** Dimension value for the ID of the site. This is a read-only, auto-generated field. */
-  siteIdDimensionValue?: DimensionValue | undefined;
-  /** Advertiser ID of this placement. This field can be left blank. */
-  advertiserId?: string | undefined;
-  /** Whether this placement is the primary placement of a roadblock (placement group). You cannot change this field from true to false. Setting this field to true will automatically set the primary field on the original primary placement of the roadblock to false, and it will automatically set the roadblock's primaryPlacementId field to the ID of this placement. */
-  primary?: boolean | undefined;
-  /** Account ID of this placement. This field can be left blank. */
-  accountId?: string | undefined;
-  /** Tag formats to generate for this placement. This field is required on insertion. Acceptable values are: - "PLACEMENT_TAG_STANDARD" - "PLACEMENT_TAG_IFRAME_JAVASCRIPT" - "PLACEMENT_TAG_IFRAME_ILAYER" - "PLACEMENT_TAG_INTERNAL_REDIRECT" - "PLACEMENT_TAG_JAVASCRIPT" - "PLACEMENT_TAG_INTERSTITIAL_IFRAME_JAVASCRIPT" - "PLACEMENT_TAG_INTERSTITIAL_INTERNAL_REDIRECT" - "PLACEMENT_TAG_INTERSTITIAL_JAVASCRIPT" - "PLACEMENT_TAG_CLICK_COMMANDS" - "PLACEMENT_TAG_INSTREAM_VIDEO_PREFETCH" - "PLACEMENT_TAG_INSTREAM_VIDEO_PREFETCH_VAST_3" - "PLACEMENT_TAG_INSTREAM_VIDEO_PREFETCH_VAST_4" - "PLACEMENT_TAG_TRACKING" - "PLACEMENT_TAG_TRACKING_IFRAME" - "PLACEMENT_TAG_TRACKING_JAVASCRIPT" */
-  tagFormats?: PlacementTagFormatsItemEnumList | undefined;
-  /** Site ID associated with this placement. On insert, you must set either this field or the directorySiteId field to specify the site associated with this placement. This is a required field that is read-only after insertion. */
-  siteId?: string | undefined;
-  /** Subaccount ID of this placement. This field can be left blank. */
-  subaccountId?: string | undefined;
-  /** Directory site ID of this placement. On insert, you must set either this field or the siteId field to specify the site associated with this placement. This is a required field that is read-only after insertion. */
-  directorySiteId?: string | undefined;
-  /** Size associated with this placement. When inserting or updating a placement, only the size ID field is used. This field is required on insertion. */
-  size?: Size | undefined;
-  /** ID of this placement's group, if applicable. */
-  placementGroupId?: string | undefined;
-  /** Payment source for this placement. This is a required field that is read-only after insertion. */
-  paymentSource?: PlacementPaymentSourceEnum | (string & {}) | undefined;
-  /** Optional. Whether the placement is enabled for YouTube integration. */
-  allowOnYoutube?: boolean | undefined;
-  /** Optional. Whether the ads in the placement are served by another platform and CM is only used for tracking or they are served by CM. A false value indicates the ad is served by CM. */
-  siteServed?: boolean | undefined;
-  /** Placement compatibility. DISPLAY and DISPLAY_INTERSTITIAL refer to rendering on desktop, on mobile devices or in mobile apps for regular or interstitial ads respectively. APP and APP_INTERSTITIAL are no longer allowed for new placement insertions. Instead, use DISPLAY or DISPLAY_INTERSTITIAL. IN_STREAM_VIDEO refers to rendering in in-stream video ads developed with the VAST standard. This field is required on insertion. */
-  compatibility?: PlacementCompatibilityEnum | (string & {}) | undefined;
-  /** Whether this placement is active, inactive, archived or permanently archived. */
-  activeStatus?: PlacementActiveStatusEnum | (string & {}) | undefined;
-  /** Dimension value for the ID of the placement group. This is a read-only, auto-generated field. */
-  placementGroupIdDimensionValue?: DimensionValue | undefined;
-  /** Third-party placement status. */
-  status?: PlacementStatusEnum | (string & {}) | undefined;
-  /** Whether payment was approved for this placement. This is a read-only field relevant only to publisher-paid placements. */
-  paymentApproved?: boolean | undefined;
-  /** Dimension value for the ID of the advertiser. This is a read-only, auto-generated field. */
-  advertiserIdDimensionValue?: DimensionValue | undefined;
-  /** Key name of this placement. This is a read-only, auto-generated field. */
-  keyName?: string | undefined;
-  /** Information about the most recent modification of this placement. This is a read-only field. */
-  lastModifiedInfo?: LastModifiedInfo | undefined;
-  /** Campaign ID of this placement. This field is a required field on insertion. */
-  campaignId?: string | undefined;
-  /** Optional. Conversion domain overrides for a placement. */
-  conversionDomainOverride?: PlacementConversionDomainOverride | undefined;
-  /** External ID for this placement. */
-  externalId?: string | undefined;
-  /** Comments for this placement. */
-  comment?: string | undefined;
-  /** Tag settings for this placement. */
-  tagSetting?: TagSetting | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#placement". */
-  kind?: string | undefined;
-  /** Dimension value for the ID of this placement. This is a read-only, auto-generated field. */
-  idDimensionValue?: DimensionValue | undefined;
-  /** VPAID adapter setting for this placement. Controls which VPAID format the measurement adapter will use for in-stream video creatives assigned to this placement. *Note:* Flash is no longer supported. This field now defaults to HTML5 when the following values are provided: FLASH, BOTH. */
-  vpaidAdapterChoice?: PlacementVpaidAdapterChoiceEnum | (string & {}) | undefined;
-  /** Information about the creation of this placement. This is a read-only field. */
-  createInfo?: LastModifiedInfo | undefined;
-  /** ID of the placement strategy assigned to this placement. */
-  placementStrategyId?: string | undefined;
-  /** Whether this placement opts out of tag wrapping. */
-  wrappingOptOut?: boolean | undefined;
-  /** Optional. YouTube settings for the placement. The placement must be enabled for YouTube to use this field. */
-  youtubeSettings?: YoutubeSettings | undefined;
-  /** A collection of settings which affect video creatives served through this placement. Applicable to placements with IN_STREAM_VIDEO compatibility. */
-  videoSettings?: VideoSettings | undefined;
-  /** Additional sizes associated with this placement. When inserting or updating a placement, only the size ID field is used. */
-  additionalSizes?: SizeList | undefined;
-  /** Whether this placement opts out of ad blocking. When true, ad blocking is disabled for this placement. When false, the campaign and site settings take effect. */
-  adBlockingOptOut?: boolean | undefined;
-  /** Whether Verification and ActiveView are disabled for in-stream video creatives for this placement. The same setting videoActiveViewOptOut exists on the site level -- the opt out occurs if either of these settings are true. These settings are distinct from DirectorySites.settings.activeViewOptOut or Sites.siteSettings.activeViewOptOut which only apply to display ads. However, Accounts.activeViewOptOut opts out both video traffic, as well as display ads, from Verification and ActiveView. */
-  videoActiveViewOptOut?: boolean | undefined;
-  /** Dimension value for the ID of the directory site. This is a read-only, auto-generated field. */
-  directorySiteIdDimensionValue?: DimensionValue | undefined;
 }
-export interface PatchPlacementStrategiesRequest {
+export interface PatchPlacementStrategiesRequest extends Omit<PlacementStrategy, "id"> {
   /** Required. PlacementStrategy ID. */
   id: string;
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Account ID of this placement strategy.This is a read-only field that can be left blank. */
-  accountId?: string | undefined;
-  /** Name of this placement strategy. This is a required field. It must be less than 256 characters long and unique among placement strategies of the same account. */
-  name?: string | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#placementStrategy". */
-  kind?: string | undefined;
 }
-export interface PatchRemarketingListsRequest {
+export interface PatchRemarketingListsRequest extends Omit<RemarketingList, "id"> {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Required. RemarketingList ID. */
   id: string;
-  /** Name of the remarketing list. This is a required field. Must be no greater than 128 characters long. */
-  name?: string | undefined;
-  /** Rule used to populate the remarketing list with users. */
-  listPopulationRule?: ListPopulationRule | undefined;
-  /** Dimension value for the advertiser ID that owns this remarketing list. This is a required field. */
-  advertiserId?: string | undefined;
-  /** Number of users currently in the list. This is a read-only field. */
-  listSize?: string | undefined;
-  /** Number of days that a user should remain in the remarketing list without an impression. Acceptable values are 1 to 540, inclusive. */
-  lifeSpan?: string | undefined;
-  /** Account ID of this remarketing list. This is a read-only, auto-generated field that is only returned in GET requests. */
-  accountId?: string | undefined;
-  /** Product from which this remarketing list was originated. */
-  listSource?: RemarketingListListSourceEnum | (string & {}) | undefined;
-  /** Whether this remarketing list is active. */
-  active?: boolean | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#remarketingList". */
-  kind?: string | undefined;
-  /** Dimension value for the ID of the advertiser. This is a read-only, auto-generated field. */
-  advertiserIdDimensionValue?: DimensionValue | undefined;
-  /** Subaccount ID of this remarketing list. This is a read-only, auto-generated field that is only returned in GET requests. */
-  subaccountId?: string | undefined;
-  /** Remarketing list description. */
-  description?: string | undefined;
 }
-export interface PatchRemarketingListSharesRequest {
+export interface PatchRemarketingListSharesRequest extends RemarketingListShare {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Required. RemarketingList ID. */
   id: string;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#remarketingListShare". */
-  kind?: string | undefined;
-  /** Accounts that the remarketing list is shared with. */
-  sharedAccountIds?: StringList | undefined;
-  /** Remarketing list ID. This is a read-only, auto-generated field. */
-  remarketingListId?: string | undefined;
-  /** Advertisers that the remarketing list is shared with. */
-  sharedAdvertiserIds?: StringList | undefined;
 }
-export interface PatchSitesRequest {
+export interface PatchSitesRequest extends Omit<Site, "id"> {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Required. Site ID. */
   id: string;
-  /** Optional. Ad serving platform ID to identify the ad serving platform used by the site. Measurement partners can use this field to add ad-server specific macros. If set, this value acts as the default during placement creation. Possible values are: * `1`, Adelphic * `2`, Adform * `3`, Adobe * `4`, Amobee * `5`, Basis (Centro) * `6`, Beeswax * `7`, Amazon * `8`, DV360 (DBM) * `9`, Innovid * `10`, MediaMath * `11`, Roku OneView DSP * `12`, TabMo Hawk * `13`, The Trade Desk * `14`, Xandr Invest DSP * `15`, Yahoo DSP * `16`, Zeta Global * `17`, Scaleout * `18`, Bidtellect * `19`, Unicorn * `20`, Teads * `21`, Quantcast * `22`, Cognitiv * `23`, AdTheorent * `24`, DeepIntent * `25`, Pulsepoint */
-  adServingPlatformId?: string | undefined;
-  /** Site contacts. */
-  siteContacts?: SiteContactList | undefined;
-  /** Account ID of this site. This is a read-only field that can be left blank. */
-  accountId?: string | undefined;
-  /** Name of this site.This is a required field. Must be less than 128 characters long. If this site is under a subaccount, the name must be unique among sites of the same subaccount. Otherwise, this site is a top-level site, and the name must be unique among top-level sites of the same account. */
-  name?: string | undefined;
-  /** Key name of this site. This is a read-only, auto-generated field. */
-  keyName?: string | undefined;
-  /** Dimension value for the ID of the directory site. This is a read-only, auto-generated field. */
-  directorySiteIdDimensionValue?: DimensionValue | undefined;
-  /** Default video settings for new placements created under this site. This value will be used to populate the placements.videoSettings field, when no value is specified for the new placement. */
-  videoSettings?: SiteVideoSettings | undefined;
-  /** Subaccount ID of this site. This is a read-only field that can be left blank. */
-  subaccountId?: string | undefined;
-  /** Site-wide settings. */
-  siteSettings?: SiteSettings | undefined;
-  /** Whether this site is approved. */
-  approved?: boolean | undefined;
-  /** Directory site associated with this site. This is a required field that is read-only after insertion. */
-  directorySiteId?: string | undefined;
-  /** Dimension value for the ID of this site. This is a read-only, auto-generated field. */
-  idDimensionValue?: DimensionValue | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#site". */
-  kind?: string | undefined;
 }
-export interface PatchSubaccountsRequest {
+export interface PatchSubaccountsRequest extends Omit<Subaccount, "id"> {
   /** Required. Subaccount ID. */
   id: string;
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Name of this subaccount. This is a required field. Must be less than 128 characters long and be unique among subaccounts of the same account. */
-  name?: string | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#subaccount". */
-  kind?: string | undefined;
-  /** ID of the account that contains this subaccount. This is a read-only field that can be left blank. */
-  accountId?: string | undefined;
-  /** IDs of the available user role permissions for this subaccount. */
-  availablePermissionIds?: StringList | undefined;
 }
-export interface PatchTargetingTemplatesRequest {
+export interface PatchTargetingTemplatesRequest extends Omit<TargetingTemplate, "id"> {
   /** Required. RemarketingList ID. */
   id: string;
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Language targeting criteria. */
-  languageTargeting?: LanguageTargeting | undefined;
-  /** Remarketing list targeting criteria. */
-  listTargetingExpression?: ListTargetingExpression | undefined;
-  /** Key-value targeting criteria. */
-  keyValueTargetingExpression?: KeyValueTargetingExpression | undefined;
-  /** Dimension value for the ID of the advertiser. This is a read-only, auto-generated field. */
-  advertiserIdDimensionValue?: DimensionValue | undefined;
-  /** Name of this targeting template. This field is required. It must be less than 256 characters long and unique within an advertiser. */
-  name?: string | undefined;
-  /** Optional. Contextual keyword targeting criteria. */
-  contextualKeywordTargeting?: ContextualKeywordTargeting | undefined;
-  /** Advertiser ID of this targeting template. This is a required field on insert and is read-only after insert. */
-  advertiserId?: string | undefined;
-  /** Technology platform targeting criteria. */
-  technologyTargeting?: TechnologyTargeting | undefined;
-  /** Subaccount ID of this targeting template. This field, if left unset, will be auto-generated on insert and is read-only after insert. */
-  subaccountId?: string | undefined;
-  /** Geographical targeting criteria. */
-  geoTargeting?: GeoTargeting | undefined;
-  /** Account ID of this targeting template. This field, if left unset, will be auto-generated on insert and is read-only after insert. */
-  accountId?: string | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#targetingTemplate". */
-  kind?: string | undefined;
-  /** Time and day targeting criteria. */
-  dayPartTargeting?: DayPartTargeting | undefined;
 }
-export interface PatchUserRolesRequest {
+export interface PatchUserRolesRequest extends Omit<UserRole, "id"> {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Required. UserRole ID. */
   id: string;
-  /** Name of this user role. This is a required field. Must be less than 256 characters long. If this user role is under a subaccount, the name must be unique among sites of the same subaccount. Otherwise, this user role is a top-level user role, and the name must be unique among top-level user roles of the same account. */
-  name?: string | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#userRole". */
-  kind?: string | undefined;
-  /** Whether this is a default user role. Default user roles are created by the system for the account/subaccount and cannot be modified or deleted. Each default user role comes with a basic set of preassigned permissions. */
-  defaultUserRole?: boolean | undefined;
-  /** List of permissions associated with this user role. */
-  permissions?: UserRolePermissionList | undefined;
-  /** Subaccount ID of this user role. This is a read-only field that can be left blank. */
-  subaccountId?: string | undefined;
-  /** ID of the user role that this user role is based on or copied from. This is a required field. */
-  parentUserRoleId?: string | undefined;
-  /** Account ID of this user role. This is a read-only field that can be left blank. */
-  accountId?: string | undefined;
 }
 export interface PublishDynamicProfilesRequest {
   /** Required. Dynamic profile ID. */
@@ -8978,13 +7233,8 @@ export interface DimensionFilter {
   value?: string | undefined;
 }
 export type DimensionFilterList = Array<DimensionFilter>;
-export interface QueryDimensionValuesRequest {
-  /** The Campaign Manager 360 user profile ID. */
-  profileId: string;
-  /** Maximum number of results to return. */
-  maxResults?: number | undefined;
-  /** The value of the nextToken from the previous result page. */
-  pageToken?: string | undefined;
+/** Represents a DimensionValuesRequest. */
+export interface DimensionValueRequest {
   endDate?: string | undefined;
   /** The list of filters by which to filter values. The filters are ANDed. */
   filters?: DimensionFilterList | undefined;
@@ -8993,6 +7243,14 @@ export interface QueryDimensionValuesRequest {
   kind?: string | undefined;
   /** The name of the dimension for which values should be requested. */
   dimensionName?: string | undefined;
+}
+export interface QueryDimensionValuesRequest extends DimensionValueRequest {
+  /** The Campaign Manager 360 user profile ID. */
+  profileId: string;
+  /** Maximum number of results to return. */
+  maxResults?: number | undefined;
+  /** The value of the nextToken from the previous result page. */
+  pageToken?: string | undefined;
 }
 /** Represents the list of DimensionValue resources. */
 export interface DimensionValueList {
@@ -9014,9 +7272,8 @@ export interface SortBy {
   name?: string | undefined;
 }
 export type SortByList = Array<SortBy>;
-export interface QueryReportDataRequest {
-  /** Required. The Campaign Manager 360 user profile ID. */
-  profileId: string;
+/** The request body containing ad-hoc query parameters. */
+export interface ReportDataQueryRequest {
   /** Optional. Sort options across either requested dimensions or metrics. */
   sortBys?: SortByList | undefined;
   /** Optional. The list of dimension values on which report lines are filtered. Utilizes the existing legacy filter message `DimensionValue`. */
@@ -9031,6 +7288,10 @@ export interface QueryReportDataRequest {
   dateRange?: DateRange | undefined;
   /** Optional. Maximum number of result rows to return per page. The default value is 100. The maximum allowed value is 1000. Values above 1000 will be coerced (clamped) down to 1000. Negative values will be rejected. */
   maxResults?: number | undefined;
+}
+export interface QueryReportDataRequest extends ReportDataQueryRequest {
+  /** Required. The Campaign Manager 360 user profile ID. */
+  profileId: string;
 }
 export type ColumnHeaderTypeEnum = "COLUMN_TYPE_UNSPECIFIED" | "DIMENSION" | "METRIC";
 /** A column header in the report. */
@@ -9058,45 +7319,9 @@ export interface ReportDataResponse {
   /** Output only. Singular aggregate total row for the entire query matching the criteria. Column headers apply in the exact same order as data rows. In the total_row: - All dimension columns contain an empty string (""), as aggregation does not apply. - Non-summable metric columns (e.g. Reach metrics) contain an empty string (""), as grand total aggregation cannot be mathematically/logically computed for them. */
   totalRow?: ReportDataRow | undefined;
 }
-export interface QueryReportsCompatibleFieldsRequest {
+export interface QueryReportsCompatibleFieldsRequest extends Report {
   /** The Campaign Manager 360 user profile ID. */
   profileId: string;
-  /** The unique ID identifying this report resource. */
-  id?: string | undefined;
-  /** The report criteria for a report of type "PATH_TO_CONVERSION". */
-  pathToConversionCriteria?: ReportPathToConversionCriteria | undefined;
-  /** The type of the report. */
-  type?: ReportTypeEnum | (string & {}) | undefined;
-  /** The name of the report. */
-  name?: string | undefined;
-  /** The filename used when generating report files for this report. */
-  fileName?: string | undefined;
-  /** Optional. The report criteria for a report of type "CROSS_MEDIA_REACH". */
-  crossMediaReachCriteria?: ReportCrossMediaReachCriteria | undefined;
-  /** The account ID to which this report belongs. */
-  accountId?: string | undefined;
-  /** The user profile id of the owner of this report. */
-  ownerProfileId?: string | undefined;
-  /** The report criteria for a report of type "REACH". */
-  reachCriteria?: ReportReachCriteria | undefined;
-  /** The report's schedule. Can only be set if the report's 'dateRange' is a relative date range and the relative date range is not "TODAY". */
-  schedule?: ReportSchedule | undefined;
-  /** The report's email delivery settings. */
-  delivery?: ReportDelivery | undefined;
-  /** The output format of the report. If not specified, default format is "CSV". Note that the actual format in the completed report file might differ if for instance the report's size exceeds the format's capabilities. "CSV" will then be the fallback format. */
-  format?: ReportFormatEnum | (string & {}) | undefined;
-  /** The kind of resource this is, in this case dfareporting#report. */
-  kind?: string | undefined;
-  /** The subaccount ID to which this report belongs if applicable. */
-  subAccountId?: string | undefined;
-  /** The eTag of this response for caching purposes. */
-  etag?: string | undefined;
-  /** The timestamp (in milliseconds since epoch) of when this report was last modified. */
-  lastModifiedTime?: string | undefined;
-  /** The report criteria for a report of type "FLOODLIGHT". */
-  floodlightCriteria?: ReportFloodlightCriteria | undefined;
-  /** The report criteria for a report of type "STANDARD". */
-  criteria?: ReportCriteria | undefined;
 }
 /** Represents a dimension. */
 export interface Dimension {
@@ -9219,1095 +7444,119 @@ export interface RunReportsRequest {
   /** The Campaign Manager 360 user profile ID. */
   profileId: string;
 }
-export interface UpdateAccountsRequest {
+export interface UpdateAccountsRequest extends Account {
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Account permissions assigned to this account. */
-  accountPermissionIds?: StringList | undefined;
-  /** Maximum number of active ads allowed for this account. */
-  activeAdsLimitTier?: AccountActiveAdsLimitTierEnum | (string & {}) | undefined;
-  /** Profile for this account. This is a read-only field that can be left blank. */
-  accountProfile?: AccountAccountProfileEnum | (string & {}) | undefined;
-  /** ID of the country associated with this account. */
-  countryId?: string | undefined;
-  /** Whether this account is active. */
-  active?: boolean | undefined;
-  /** Name of this account. This is a required field, and must be less than 128 characters long and be globally unique. */
-  name?: string | undefined;
-  /** Locale of this account. Acceptable values are: - "cs" (Czech) - "de" (German) - "en" (English) - "en-GB" (English United Kingdom) - "es" (Spanish) - "fr" (French) - "it" (Italian) - "ja" (Japanese) - "ko" (Korean) - "pl" (Polish) - "pt-BR" (Portuguese Brazil) - "ru" (Russian) - "sv" (Swedish) - "tr" (Turkish) - "zh-CN" (Chinese Simplified) - "zh-TW" (Chinese Traditional) */
-  locale?: string | undefined;
-  /** Default placement dimensions for this account. */
-  defaultCreativeSizeId?: string | undefined;
-  /** Whether campaigns created in this account will be enabled for Nielsen OCR reach ratings by default. */
-  nielsenOcrEnabled?: boolean | undefined;
-  /** Whether to serve creatives with Active View tags. If disabled, viewability data will not be available for any impressions. */
-  activeViewOptOut?: boolean | undefined;
-  /** User role permissions available to the user roles of this account. */
-  availablePermissionIds?: StringList | undefined;
-  /** ID of currency associated with this account. This is a required field. Acceptable values are: - "1" for USD - "2" for GBP - "3" for ESP - "4" for SEK - "5" for CAD - "6" for JPY - "7" for DEM - "8" for AUD - "9" for FRF - "10" for ITL - "11" for DKK - "12" for NOK - "13" for FIM - "14" for ZAR - "15" for IEP - "16" for NLG - "17" for EUR - "18" for KRW - "19" for TWD - "20" for SGD - "21" for CNY - "22" for HKD - "23" for NZD - "24" for MYR - "25" for BRL - "26" for PTE - "28" for CLP - "29" for TRY - "30" for ARS - "31" for PEN - "32" for ILS - "33" for CHF - "34" for VEF - "35" for COP - "36" for GTQ - "37" for PLN - "39" for INR - "40" for THB - "41" for IDR - "42" for CZK - "43" for RON - "44" for HUF - "45" for RUB - "46" for AED - "47" for BGN - "48" for HRK - "49" for MXN - "50" for NGN - "51" for EGP */
-  currencyId?: string | undefined;
-  /** Description of this account. */
-  description?: string | undefined;
-  /** Share Path to Conversion reports with Twitter. */
-  shareReportsWithTwitter?: boolean | undefined;
-  /** Reporting configuration of this account. */
-  reportsConfiguration?: ReportsConfiguration | undefined;
-  /** File size limit in kilobytes of Rich Media teaser creatives. Acceptable values are 1 to 10240, inclusive. */
-  teaserSizeLimit?: string | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#account". */
-  kind?: string | undefined;
-  /** Maximum image size allowed for this account, in kilobytes. Value must be greater than or equal to 1. */
-  maximumImageSize?: string | undefined;
-  /** ID of this account. This is a read-only, auto-generated field. */
-  id?: string | undefined;
 }
-export interface UpdateAccountUserProfilesRequest {
+export interface UpdateAccountUserProfilesRequest extends AccountUserProfile {
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Subaccount ID of the user profile. This is a read-only field that can be left blank. */
-  subaccountId?: string | undefined;
-  /** Email of the user profile. The email address must be linked to a Google Account. This field is required on insertion and is read-only after insertion. */
-  email?: string | undefined;
-  /** Filter that describes which user roles are visible to the user profile. */
-  userRoleFilter?: ObjectFilter | undefined;
-  /** Name of the user profile. This is a required field. Must be less than 64 characters long, must be globally unique, and cannot contain whitespace or any of the following characters: "&;<>"#%,". */
-  name?: string | undefined;
-  /** Filter that describes which campaigns are visible to the user profile. */
-  campaignFilter?: ObjectFilter | undefined;
-  /** User type of the user profile. This is a read-only field that can be left blank. */
-  userAccessType?: AccountUserProfileUserAccessTypeEnum | (string & {}) | undefined;
-  /** Filter that describes which sites are visible to the user profile. */
-  siteFilter?: ObjectFilter | undefined;
-  /** Whether this user profile is active. This defaults to false, and must be set true on insert for the user profile to be usable. */
-  active?: boolean | undefined;
-  /** Comments for this user profile. */
-  comments?: string | undefined;
-  /** Filter that describes which advertisers are visible to the user profile. */
-  advertiserFilter?: ObjectFilter | undefined;
-  /** Trafficker type of this user profile. This is a read-only field. */
-  traffickerType?: AccountUserProfileTraffickerTypeEnum | (string & {}) | undefined;
-  /** ID of the user profile. This is a read-only, auto-generated field. */
-  id?: string | undefined;
-  /** Account ID of the user profile. This is a read-only field that can be left blank. */
-  accountId?: string | undefined;
-  /** Locale of the user profile. This is a required field. Acceptable values are: - "cs" (Czech) - "de" (German) - "en" (English) - "en-GB" (English United Kingdom) - "es" (Spanish) - "fr" (French) - "it" (Italian) - "ja" (Japanese) - "ko" (Korean) - "pl" (Polish) - "pt-BR" (Portuguese Brazil) - "ru" (Russian) - "sv" (Swedish) - "tr" (Turkish) - "zh-CN" (Chinese Simplified) - "zh-TW" (Chinese Traditional) */
-  locale?: string | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#accountUserProfile". */
-  kind?: string | undefined;
-  /** User role ID of the user profile. This is a required field. */
-  userRoleId?: string | undefined;
 }
-export interface UpdateAdsRequest {
+export interface UpdateAdsRequest extends Ad {
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Information about the most recent modification of this ad. This is a read-only field. */
-  lastModifiedInfo?: LastModifiedInfo | undefined;
-  startTime?: string | undefined;
-  /** Time and day targeting information for this ad. This field must be left blank if the ad is using a targeting template. Applicable when type is AD_SERVING_STANDARD_AD. */
-  dayPartTargeting?: DayPartTargeting | undefined;
-  /** Size of this ad. Applicable when type is AD_SERVING_DEFAULT_AD. */
-  size?: Size | undefined;
-  /** Whether this ad is active. When true, archived must be false. */
-  active?: boolean | undefined;
-  /** Click-through URL suffix properties for this ad. Applies to the URL in the ad or (if overriding ad properties) the URL in the creative. */
-  clickThroughUrlSuffixProperties?: ClickThroughUrlSuffixProperties | undefined;
-  /** Targeting template ID, used to apply preconfigured targeting information to this ad. This cannot be set while any of dayPartTargeting, geoTargeting, keyValueTargetingExpression, languageTargeting, remarketingListExpression, or technologyTargeting are set. Applicable when type is AD_SERVING_STANDARD_AD. */
-  targetingTemplateId?: string | undefined;
-  /** Compatibility of this ad. Applicable when type is AD_SERVING_DEFAULT_AD. DISPLAY and DISPLAY_INTERSTITIAL refer to either rendering on desktop or on mobile devices or in mobile apps for regular or interstitial ads, respectively. APP and APP_INTERSTITIAL are only used for existing default ads. New mobile placements must be assigned DISPLAY or DISPLAY_INTERSTITIAL and default ads created for those placements will be limited to those compatibility types. IN_STREAM_VIDEO refers to rendering in-stream video ads developed with the VAST standard. */
-  compatibility?: AdCompatibilityEnum | (string & {}) | undefined;
-  /** Whether this ad is archived. When true, active must be false. */
-  archived?: boolean | undefined;
-  /** Remarketing list targeting expression for this ad. This field must be left blank if the ad is using a targeting template. Applicable when type is AD_SERVING_STANDARD_AD. */
-  remarketingListExpression?: ListTargetingExpression | undefined;
-  /** Creative group assignments for this ad. Applicable when type is AD_SERVING_CLICK_TRACKER. Only one assignment per creative group number is allowed for a maximum of two assignments. */
-  creativeGroupAssignments?: CreativeGroupAssignmentList | undefined;
-  /** Optional. Contextual keyword targeting information for this ad. */
-  contextualKeywordTargeting?: ContextualKeywordTargeting | undefined;
-  /** Comments for this ad. */
-  comments?: string | undefined;
-  /** Name of this ad. This is a required field and must be less than 256 characters long. */
-  name?: string | undefined;
-  /** Dimension value for the ID of this ad. This is a read-only, auto-generated field. */
-  idDimensionValue?: DimensionValue | undefined;
-  /** Technology platform targeting information for this ad. This field must be left blank if the ad is using a targeting template. Applicable when type is AD_SERVING_STANDARD_AD. */
-  technologyTargeting?: TechnologyTargeting | undefined;
-  /** Dimension value for the ID of the campaign. This is a read-only, auto-generated field. */
-  campaignIdDimensionValue?: DimensionValue | undefined;
-  /** Type of ad. This is a required field on insertion. Note that default ads ( AD_SERVING_DEFAULT_AD) cannot be created directly (see Creative resource). */
-  type?: AdTypeEnum | (string & {}) | undefined;
-  /** Audience segment ID that is being targeted for this ad. Applicable when type is AD_SERVING_STANDARD_AD. */
-  audienceSegmentId?: string | undefined;
-  /** Placement assignments for this ad. */
-  placementAssignments?: PlacementAssignmentList | undefined;
-  /** Advertiser ID of this ad. This is a required field on insertion. */
-  advertiserId?: string | undefined;
-  /** Creative rotation for this ad. Applicable when type is AD_SERVING_DEFAULT_AD, AD_SERVING_STANDARD_AD, or AD_SERVING_TRACKING. When type is AD_SERVING_DEFAULT_AD, this field should have exactly one creativeAssignment . */
-  creativeRotation?: CreativeRotation | undefined;
-  /** Whether this ad is a dynamic click tracker. Applicable when type is AD_SERVING_CLICK_TRACKER. This is a required field on insert, and is read-only after insert. */
-  dynamicClickTracker?: boolean | undefined;
-  /** Information about the creation of this ad. This is a read-only field. */
-  createInfo?: LastModifiedInfo | undefined;
-  /** Language targeting information for this ad. This field must be left blank if the ad is using a targeting template. Applicable when type is AD_SERVING_STANDARD_AD. */
-  languageTargeting?: LanguageTargeting | undefined;
-  /** Whether this ad requires ssl. This is a read-only field that is auto-generated when the ad is inserted or updated. */
-  sslRequired?: boolean | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#ad". */
-  kind?: string | undefined;
-  /** Event tag overrides for this ad. */
-  eventTagOverrides?: EventTagOverrideList | undefined;
-  /** Account ID of this ad. This is a read-only field that can be left blank. */
-  accountId?: string | undefined;
-  /** Campaign ID of this ad. This is a required field on insertion. */
-  campaignId?: string | undefined;
-  /** ID of this ad. This is a read-only, auto-generated field. */
-  id?: string | undefined;
-  /** Default click-through event tag properties for this ad. */
-  defaultClickThroughEventTagProperties?: DefaultClickThroughEventTagProperties | undefined;
-  /** Whether this ad is ssl compliant. This is a read-only field that is auto-generated when the ad is inserted or updated. */
-  sslCompliant?: boolean | undefined;
-  /** Key-value targeting information for this ad. This field must be left blank if the ad is using a targeting template. Applicable when type is AD_SERVING_STANDARD_AD. */
-  keyValueTargetingExpression?: KeyValueTargetingExpression | undefined;
-  /** Delivery schedule information for this ad. Applicable when type is AD_SERVING_STANDARD_AD or AD_SERVING_TRACKING. This field along with subfields priority and impressionRatio are required on insertion when type is AD_SERVING_STANDARD_AD. */
-  deliverySchedule?: DeliverySchedule | undefined;
-  /** Dimension value for the ID of the advertiser. This is a read-only, auto-generated field. */
-  advertiserIdDimensionValue?: DimensionValue | undefined;
-  /** Click-through URL for this ad. This is a required field on insertion. Applicable when type is AD_SERVING_CLICK_TRACKER. */
-  clickThroughUrl?: ClickThroughUrl | undefined;
-  endTime?: string | undefined;
-  /** Subaccount ID of this ad. This is a read-only field that can be left blank. */
-  subaccountId?: string | undefined;
-  /** Geographical targeting information for this ad. This field must be left blank if the ad is using a targeting template. Applicable when type is AD_SERVING_STANDARD_AD. */
-  geoTargeting?: GeoTargeting | undefined;
 }
-export interface UpdateAdvertiserGroupsRequest {
+export interface UpdateAdvertiserGroupsRequest extends AdvertiserGroup {
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Name of this advertiser group. This is a required field and must be less than 256 characters long and unique among advertiser groups of the same account. */
-  name?: string | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#advertiserGroup". */
-  kind?: string | undefined;
-  /** ID of this advertiser group. This is a read-only, auto-generated field. */
-  id?: string | undefined;
-  /** Account ID of this advertiser group. This is a read-only field that can be left blank. */
-  accountId?: string | undefined;
 }
-export interface UpdateAdvertiserLandingPagesRequest {
+export interface UpdateAdvertiserLandingPagesRequest extends LandingPage {
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Whether this landing page has been archived. */
-  archived?: boolean | undefined;
-  /** Name of this landing page. This is a required field. It must be less than 256 characters long. */
-  name?: string | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#landingPage". */
-  kind?: string | undefined;
-  /** URL of this landing page. This is a required field. */
-  url?: string | undefined;
-  /** ID of this landing page. This is a read-only, auto-generated field. */
-  id?: string | undefined;
-  /** Advertiser ID of this landing page. This is a required field. */
-  advertiserId?: string | undefined;
-  /** Links that will direct the user to a mobile app, if installed. */
-  deepLinks?: DeepLinkList | undefined;
 }
-export interface UpdateAdvertisersRequest {
+export interface UpdateAdvertisersRequest extends Advertiser {
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Floodlight configuration ID of this advertiser. The floodlight configuration ID will be created automatically, so on insert this field should be left blank. This field can be set to another advertiser's floodlight configuration ID in order to share that advertiser's floodlight configuration with this advertiser, so long as: - This advertiser's original floodlight configuration is not already associated with floodlight activities or floodlight activity groups. - This advertiser's original floodlight configuration is not already shared with another advertiser. */
-  floodlightConfigurationId?: string | undefined;
-  /** Suffix added to click-through URL of ad creative associations under this advertiser. Must be less than 129 characters long. */
-  clickThroughUrlSuffix?: string | undefined;
-  /** ID of this advertiser. This is a read-only, auto-generated field. */
-  id?: string | undefined;
-  /** Optional. Whether the advertiser plans to serve EU political ads. */
-  euPoliticalAdsDeclaration?: AdvertiserEuPoliticalAdsDeclarationEnum | (string & {}) | undefined;
-  /** Account ID of this advertiser.This is a read-only field that can be left blank. */
-  accountId?: string | undefined;
-  /** Name of this advertiser. This is a required field and must be less than 256 characters long and unique among advertisers of the same account. */
-  name?: string | undefined;
-  /** Suspension status of this advertiser. */
-  suspended?: boolean | undefined;
-  /** Original floodlight configuration before any sharing occurred. Set the floodlightConfigurationId of this advertiser to originalFloodlightConfigurationId to unshare the advertiser's current floodlight configuration. You cannot unshare an advertiser's floodlight configuration if the shared configuration has activities associated with any campaign or placement. */
-  originalFloodlightConfigurationId?: string | undefined;
-  /** Measurement partner advertiser link for tag wrapping. */
-  measurementPartnerLink?: MeasurementPartnerAdvertiserLink | undefined;
-  /** ID of the advertiser group this advertiser belongs to. You can group advertisers for reporting purposes, allowing you to see aggregated information for all advertisers in each group. */
-  advertiserGroupId?: string | undefined;
-  /** Status of this advertiser. */
-  status?: AdvertiserStatusEnum | (string & {}) | undefined;
-  /** Dimension value for the ID of the floodlight configuration. This is a read-only, auto-generated field. */
-  floodlightConfigurationIdDimensionValue?: DimensionValue | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#advertiser". */
-  kind?: string | undefined;
-  /** Subaccount ID of this advertiser.This is a read-only field that can be left blank. */
-  subaccountId?: string | undefined;
-  /** ID of the click-through event tag to apply by default to the landing pages of this advertiser's campaigns. */
-  defaultClickThroughEventTagId?: string | undefined;
-  /** Default email address used in sender field for tag emails. */
-  defaultEmail?: string | undefined;
-  /** Dimension value for the ID of this advertiser. This is a read-only, auto-generated field. */
-  idDimensionValue?: DimensionValue | undefined;
 }
-export interface UpdateBillingProfilesRequest {
+export interface UpdateBillingProfilesRequest extends BillingProfile {
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Status of this billing profile.This is a read-only field. */
-  status?: BillingProfileStatusEnum | (string & {}) | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#billingProfile". */
-  kind?: string | undefined;
-  /** Invoice level for this billing profile. Used to group fees into separate invoices by account, advertiser, or campaign. */
-  invoiceLevel?: BillingProfileInvoiceLevelEnum | (string & {}) | undefined;
-  /** True if the billing profile is the account default profile. This is a read-only field. */
-  isDefault?: boolean | undefined;
-  /** ID of this billing profile. This is a read-only, auto-generated field. */
-  id?: string | undefined;
-  /** The ID of the payment account the billing profile belongs to. This is a read-only field. */
-  paymentsAccountId?: string | undefined;
-  /** The ID of the secondary payment customer the billing profile belongs to. This is a read-only field. */
-  secondaryPaymentsCustomerId?: string | undefined;
-  /** Billing currency code in ISO 4217 format.This is a read-only field. */
-  currencyCode?: string | undefined;
-  /** Name of this billing profile. This is a required field and must be less than 256 characters long and must be unique among billing profile in the same account. */
-  name?: string | undefined;
-  /** Country code of this billing profile.This is a read-only field. */
-  countryCode?: string | undefined;
-  /** The ID of the payment customer the billing profile belongs to. This is a read-only field. */
-  paymentsCustomerId?: string | undefined;
-  /** Purchase order (PO) for this billing profile. This PO number is used in the invoices for all of the advertisers in this billing profile. */
-  purchaseOrder?: string | undefined;
-  /** Consolidated invoice option for this billing profile. Used to get a single, consolidated invoice across the chosen invoice level. */
-  consolidatedInvoice?: boolean | undefined;
 }
-export interface UpdateCampaignsRequest {
+export interface UpdateCampaignsRequest extends Campaign {
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Click-through URL suffix override properties for this campaign. */
-  clickThroughUrlSuffixProperties?: ClickThroughUrlSuffixProperties | undefined;
-  /** Advertiser group ID of the associated advertiser. */
-  advertiserGroupId?: string | undefined;
-  /** Overrides that can be used to activate or deactivate advertiser event tags. */
-  eventTagOverrides?: EventTagOverrideList | undefined;
-  /** Arbitrary comments about this campaign. Must be less than 256 characters long. */
-  comment?: string | undefined;
-  /** Additional creative optimization configurations for the campaign. */
-  additionalCreativeOptimizationConfigurations?: CreativeOptimizationConfigurationList | undefined;
-  endDate?: string | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#campaign". */
-  kind?: string | undefined;
-  /** Billing invoice code included in the Campaign Manager client billing invoices associated with the campaign. */
-  billingInvoiceCode?: string | undefined;
-  /** Optional. Whether the campaign has EU political ads. Campaign Manager 360 doesn't allow campaigns with EU political ads to serve in the EU. They can still serve in other regions. */
-  euPoliticalAdsDeclaration?: CampaignEuPoliticalAdsDeclarationEnum | (string & {}) | undefined;
-  /** The default landing page ID for this campaign. */
-  defaultLandingPageId?: string | undefined;
-  /** Creative optimization configuration for the campaign. */
-  creativeOptimizationConfiguration?: CreativeOptimizationConfiguration | undefined;
-  /** Measurement partner campaign link for tag wrapping. */
-  measurementPartnerLink?: MeasurementPartnerCampaignLink | undefined;
-  /** Whether this campaign has been archived. */
-  archived?: boolean | undefined;
-  /** Subaccount ID of this campaign. This is a read-only field that can be left blank. */
-  subaccountId?: string | undefined;
-  /** Dimension value for the ID of this campaign. This is a read-only, auto-generated field. */
-  idDimensionValue?: DimensionValue | undefined;
-  /** Account ID of this campaign. This is a read-only field that can be left blank. */
-  accountId?: string | undefined;
-  /** ID of this campaign. This is a read-only auto-generated field. */
-  id?: string | undefined;
-  /** Audience segment groups assigned to this campaign. Cannot have more than 300 segment groups. */
-  audienceSegmentGroups?: AudienceSegmentGroupList | undefined;
-  /** Click-through event tag ID override properties for this campaign. */
-  defaultClickThroughEventTagProperties?: DefaultClickThroughEventTagProperties | undefined;
-  /** List of creative group IDs that are assigned to the campaign. */
-  creativeGroupIds?: StringList | undefined;
-  startDate?: string | undefined;
-  /** Name of this campaign. This is a required field and must be less than 512 characters long and unique among campaigns of the same advertiser. */
-  name?: string | undefined;
-  /** Information about the creation of this campaign. This is a read-only field. */
-  createInfo?: LastModifiedInfo | undefined;
-  /** Information about the most recent modification of this campaign. This is a read-only field. */
-  lastModifiedInfo?: LastModifiedInfo | undefined;
-  /** Advertiser ID of this campaign. This is a required field. */
-  advertiserId?: string | undefined;
-  /** Ad blocking settings for this campaign. */
-  adBlockingConfiguration?: AdBlockingConfiguration | undefined;
-  /** Dimension value for the advertiser ID of this campaign. This is a read-only, auto-generated field. */
-  advertiserIdDimensionValue?: DimensionValue | undefined;
-  /** External ID for this campaign. */
-  externalId?: string | undefined;
 }
-export interface UpdateContentCategoriesRequest {
+export interface UpdateContentCategoriesRequest extends ContentCategory {
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Account ID of this content category. This is a read-only field that can be left blank. */
-  accountId?: string | undefined;
-  /** ID of this content category. This is a read-only, auto-generated field. */
-  id?: string | undefined;
-  /** Name of this content category. This is a required field and must be less than 256 characters long and unique among content categories of the same account. */
-  name?: string | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#contentCategory". */
-  kind?: string | undefined;
 }
-export interface UpdateCreativeFieldsRequest {
+export interface UpdateCreativeFieldsRequest extends CreativeField {
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Account ID of this creative field. This is a read-only field that can be left blank. */
-  accountId?: string | undefined;
-  /** Advertiser ID of this creative field. This is a required field on insertion. */
-  advertiserId?: string | undefined;
-  /** Dimension value for the ID of the advertiser. This is a read-only, auto-generated field. */
-  advertiserIdDimensionValue?: DimensionValue | undefined;
-  /** Name of this creative field. This is a required field and must be less than 256 characters long and unique among creative fields of the same advertiser. */
-  name?: string | undefined;
-  /** ID of this creative field. This is a read-only, auto-generated field. */
-  id?: string | undefined;
-  /** Subaccount ID of this creative field. This is a read-only field that can be left blank. */
-  subaccountId?: string | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#creativeField". */
-  kind?: string | undefined;
 }
-export interface UpdateCreativeFieldValuesRequest {
+export interface UpdateCreativeFieldValuesRequest extends CreativeFieldValue {
   /** Creative field ID for this creative field value. */
   creativeFieldId: string;
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Value of this creative field value. It needs to be less than 256 characters in length and unique per creative field. */
-  value?: string | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#creativeFieldValue". */
-  kind?: string | undefined;
-  /** ID of this creative field value. This is a read-only, auto-generated field. */
-  id?: string | undefined;
 }
-export interface UpdateCreativeGroupsRequest {
+export interface UpdateCreativeGroupsRequest extends CreativeGroup {
   /** User profile ID associated with this request. */
   profileId: string;
-  /** ID of this creative group. This is a read-only, auto-generated field. */
-  id?: string | undefined;
-  /** Subaccount ID of this creative group. This is a read-only field that can be left blank. */
-  subaccountId?: string | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#creativeGroup". */
-  kind?: string | undefined;
-  /** Name of this creative group. This is a required field and must be less than 256 characters long and unique among creative groups of the same advertiser. */
-  name?: string | undefined;
-  /** Subgroup of the creative group. Assign your creative groups to a subgroup in order to filter or manage them more easily. This field is required on insertion and is read-only after insertion. Acceptable values are 1 to 2, inclusive. */
-  groupNumber?: number | undefined;
-  /** Dimension value for the ID of the advertiser. This is a read-only, auto-generated field. */
-  advertiserIdDimensionValue?: DimensionValue | undefined;
-  /** Advertiser ID of this creative group. This is a required field on insertion. */
-  advertiserId?: string | undefined;
-  /** Account ID of this creative group. This is a read-only field that can be left blank. */
-  accountId?: string | undefined;
 }
-export interface UpdateCreativesRequest {
+export interface UpdateCreativesRequest extends Creative {
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Creative last modification information. This is a read-only field. Applicable to all creative types. */
-  lastModifiedInfo?: LastModifiedInfo | undefined;
-  /** Studio advertiser ID associated with rich media and VPAID creatives. This is a read-only field. Applicable to the following creative types: all RICH_MEDIA, and all VPAID. */
-  studioAdvertiserId?: string | undefined;
-  /** Combined size of all creative assets. This is a read-only field. Applicable to the following creative types: all RICH_MEDIA, and all VPAID. */
-  totalFileSize?: string | undefined;
-  /** Whether HTML code is generated by Campaign Manager or manually entered. Set to true to ignore changes to htmlCode. Applicable to the following creative types: FLASH_INPAGE and HTML5_BANNER. */
-  htmlCodeLocked?: boolean | undefined;
-  /** Account ID of this creative. This field, if left unset, will be auto-generated for both insert and update operations. Applicable to all creative types. */
-  accountId?: string | undefined;
-  /** Type of artwork used for the creative. This is a read-only field. Applicable to the following creative types: all RICH_MEDIA, and all VPAID. */
-  artworkType?: CreativeArtworkTypeEnum | (string & {}) | undefined;
-  /** List of companion creatives assigned to an in-Stream video creative. Acceptable values include IDs of existing flash and image creatives. Applicable to the following creative types: all VPAID, all INSTREAM_AUDIO and all INSTREAM_VIDEO with dynamicAssetSelection set to false. */
-  companionCreatives?: StringList | undefined;
-  /** Size associated with this creative. When inserting or updating a creative either the size ID field or size width and height fields can be used. This is a required field when applicable; however for IMAGE, FLASH_INPAGE creatives, and for DISPLAY creatives with a primary asset of type HTML_IMAGE, if left blank, this field will be automatically set using the actual size of the associated image assets. Applicable to the following creative types: DISPLAY, DISPLAY_IMAGE_GALLERY, FLASH_INPAGE, HTML5_BANNER, IMAGE, and all RICH_MEDIA. */
-  size?: Size | undefined;
-  /** OpenWindow FSCommand of this creative. This lets the SWF file communicate with either Flash Player or the program hosting Flash Player, such as a web browser. This is only triggered if allowScriptAccess field is true. Applicable to the following creative types: FLASH_INPAGE. */
-  fsCommand?: FsCommand | undefined;
-  /** URL of hosted image or hosted video or another ad tag. For INSTREAM_VIDEO_REDIRECT creatives this is the in-stream video redirect URL. The standard for a VAST (Video Ad Serving Template) ad response allows for a redirect link to another VAST 2.0 or 3.0 call. This is a required field when applicable. Applicable to the following creative types: DISPLAY_REDIRECT, INTERNAL_REDIRECT, INTERSTITIAL_INTERNAL_REDIRECT, and INSTREAM_VIDEO_REDIRECT */
-  redirectUrl?: string | undefined;
-  /** List of exit events configured for the creative. For DISPLAY and DISPLAY_IMAGE_GALLERY creatives, these are read-only and auto-generated from clickTags, For DISPLAY, an event is also created from the backupImageReportingLabel. Applicable to the following creative types: DISPLAY_IMAGE_GALLERY, all RICH_MEDIA, and all VPAID. Applicable to DISPLAY when the primary asset type is not HTML_IMAGE. */
-  exitCustomEvents?: CreativeCustomEventList | undefined;
-  /** ID of this creative. This is a read-only, auto-generated field. Applicable to all creative types. */
-  id?: string | undefined;
-  /** The minimum required Flash plugin version for this creative. For example, 11.2.202.235. This is a read-only field. Applicable to the following creative types: all RICH_MEDIA, and all VPAID. */
-  requiredFlashPluginVersion?: string | undefined;
-  /** Required. Type of this creative. Applicable to all creative types. *Note:* FLASH_INPAGE, HTML5_BANNER, and IMAGE are only used for existing creatives. New creatives should use DISPLAY as a replacement for these types. */
-  type?: CreativeTypeEnum | (string & {}) | undefined;
-  /** A Universal Ad ID as per the VAST 4.0 spec. Applicable to the following creative types: INSTREAM_AUDIO and INSTREAM_VIDEO and VPAID. */
-  universalAdId?: UniversalAdId | undefined;
-  /** List of counter events configured for the creative. For DISPLAY_IMAGE_GALLERY creatives, these are read-only and auto-generated from clickTags. Applicable to the following creative types: DISPLAY_IMAGE_GALLERY, all RICH_MEDIA, and all VPAID. */
-  counterCustomEvents?: CreativeCustomEventList | undefined;
-  /** Subaccount ID of this creative. This field, if left unset, will be auto-generated for both insert and update operations. Applicable to all creative types. */
-  subaccountId?: string | undefined;
-  /** Keywords for a Rich Media creative. Keywords let you customize the creative settings of a Rich Media ad running on your site without having to contact the advertiser. You can use keywords to dynamically change the look or functionality of a creative. Applicable to the following creative types: all RICH_MEDIA, and all VPAID. */
-  adTagKeys?: StringList | undefined;
-  /** Whether the user can choose to skip the creative. Applicable to the following creative types: all INSTREAM_VIDEO and all VPAID. */
-  skippable?: boolean | undefined;
-  /** Whether the creative is SSL-compliant. This is a read-only field. Applicable to all creative types. */
-  sslCompliant?: boolean | undefined;
-  /** Creative audio or video duration in seconds. This is a read-only field. Applicable to the following creative types: INSTREAM_VIDEO, INSTREAM_AUDIO, all RICH_MEDIA, and all VPAID. */
-  mediaDuration?: number | undefined;
-  /** Dimension value for the rendering ID of this creative. This is a read-only field. Applicable to all creative types. */
-  renderingIdDimensionValue?: DimensionValue | undefined;
-  /** The internal Flash version for this creative as calculated by Studio. This is a read-only field. Applicable to the following creative types: FLASH_INPAGE all RICH_MEDIA, and all VPAID. Applicable to DISPLAY when the primary asset type is not HTML_IMAGE. */
-  requiredFlashVersion?: number | undefined;
-  /** Target window for backup image. Applicable to the following creative types: FLASH_INPAGE and HTML5_BANNER. Applicable to DISPLAY when the primary asset type is not HTML_IMAGE. */
-  backupImageTargetWindow?: TargetWindow | undefined;
-  /** Studio trafficked creative ID associated with rich media and VPAID creatives. This is a read-only field. Applicable to the following creative types: all RICH_MEDIA, and all VPAID. */
-  studioTraffickedCreativeId?: string | undefined;
-  /** Amount of time to play the video before the skip button appears. Applicable to the following creative types: all INSTREAM_VIDEO. */
-  skipOffset?: VideoOffset | undefined;
-  /** Amount of time to play the video before counting a view. Applicable to the following creative types: all INSTREAM_VIDEO. */
-  progressOffset?: VideoOffset | undefined;
-  /** Override CSS value for rich media creatives. Applicable to the following creative types: all RICH_MEDIA. */
-  overrideCss?: string | undefined;
-  /** Authoring tool for HTML5 banner creatives. This is a read-only field. Applicable to the following creative types: HTML5_BANNER. */
-  authoringTool?: CreativeAuthoringToolEnum | (string & {}) | undefined;
-  /** Whether Flash assets associated with the creative need to be automatically converted to HTML5. This flag is enabled by default and users can choose to disable it if they don't want the system to generate and use HTML5 asset for this creative. Applicable to the following creative type: FLASH_INPAGE. Applicable to DISPLAY when the primary asset type is not HTML_IMAGE. */
-  convertFlashToHtml5?: boolean | undefined;
-  /** The version number helps you keep track of multiple versions of your creative in your reports. The version number will always be auto-generated during insert operations to start at 1. For tracking creatives the version cannot be incremented and will always remain at 1. For all other creative types the version can be incremented only by 1 during update operations. In addition, the version will be automatically incremented by 1 when undergoing Rich Media creative merging. Applicable to all creative types. */
-  version?: number | undefined;
-  /** Optional. Whether to add a label to the creative as created or edited using AI when served in regions with local AI labeling regulations. [Learn more about labeling requirements in AI regulations.](https://support.google.com/campaignmanager/answer/17232030) */
-  syntheticContentAttestationStatus?:
-    | CreativeSyntheticContentAttestationStatusEnum
-    | (string & {})
-    | undefined;
-  /** Reporting label used for HTML5 banner backup image. Applicable to the following creative types: DISPLAY when the primary asset type is not HTML_IMAGE. */
-  backupImageReportingLabel?: string | undefined;
-  /** Latest Studio trafficked creative ID associated with rich media and VPAID creatives. This is a read-only field. Applicable to the following creative types: all RICH_MEDIA, and all VPAID. */
-  latestTraffickedCreativeId?: string | undefined;
-  /** Additional sizes associated with a responsive creative. When inserting or updating a creative either the size ID field or size width and height fields can be used. Applicable to DISPLAY creatives when the primary asset type is HTML_IMAGE. */
-  additionalSizes?: SizeList | undefined;
-  /** Whether the creative is archived. Applicable to all creative types. */
-  archived?: boolean | undefined;
-  /** Third-party URLs for tracking in-stream creative events. Applicable to the following creative types: all INSTREAM_VIDEO, all INSTREAM_AUDIO, and all VPAID. */
-  thirdPartyUrls?: ThirdPartyTrackingUrlList | undefined;
-  /** Source application where creative was authored. Presently, only DBM authored creatives will have this field set. Applicable to all creative types. */
-  authoringSource?: CreativeAuthoringSourceEnum | (string & {}) | undefined;
-  /** Required. Advertiser ID of this creative. This is a required field. Applicable to all creative types. */
-  advertiserId?: string | undefined;
-  /** The 6-character HTML color code, beginning with #, for the background of the window area where the Flash file is displayed. Default is white. Applicable to the following creative types: FLASH_INPAGE. */
-  backgroundColor?: string | undefined;
-  /** Assets associated with a creative. Applicable to all but the following creative types: INTERNAL_REDIRECT, INTERSTITIAL_INTERNAL_REDIRECT, and REDIRECT */
-  creativeAssets?: CreativeAssetList | undefined;
-  /** Ad parameters user for VPAID creative. This is a read-only field. Applicable to the following creative types: all VPAID. */
-  adParameters?: string | undefined;
-  /** Creative field assignments for this creative. Applicable to all creative types. */
-  creativeFieldAssignments?: CreativeFieldAssignmentList | undefined;
-  /** Whether creative should be treated as SSL compliant even if the system scan shows it's not. Applicable to all creative types. */
-  sslOverride?: boolean | undefined;
-  /** List of feature dependencies that will cause a backup image to be served if the browser that serves the ad does not support them. Feature dependencies are features that a browser must be able to support in order to render your HTML5 creative asset correctly. This field is initially auto-generated to contain all features detected by Campaign Manager for all the assets of this creative and can then be modified by the client. To reset this field, copy over all the creativeAssets' detected features. Applicable to the following creative types: HTML5_BANNER. Applicable to DISPLAY when the primary asset type is not HTML_IMAGE. */
-  backupImageFeatures?: CreativeBackupImageFeaturesItemEnumList | undefined;
-  /** Whether the creative is active. Applicable to all creative types. */
-  active?: boolean | undefined;
-  /** Required. Name of the creative. This must be less than 256 characters long. Applicable to all creative types. */
-  name?: string | undefined;
-  /** Whether images are automatically advanced for image gallery creatives. Applicable to the following creative types: DISPLAY_IMAGE_GALLERY. */
-  autoAdvanceImages?: boolean | undefined;
-  /** Click tags of the creative. For DISPLAY, FLASH_INPAGE, and HTML5_BANNER creatives, this is a subset of detected click tags for the assets associated with this creative. After creating a flash asset, detected click tags will be returned in the creativeAssetMetadata. When inserting the creative, populate the creative clickTags field using the creativeAssetMetadata.clickTags field. For DISPLAY_IMAGE_GALLERY creatives, there should be exactly one entry in this list for each image creative asset. A click tag is matched with a corresponding creative asset by matching the clickTag.name field with the creativeAsset.assetIdentifier.name field. Applicable to the following creative types: DISPLAY_IMAGE_GALLERY, FLASH_INPAGE, HTML5_BANNER. Applicable to DISPLAY when the primary asset type is not HTML_IMAGE. */
-  clickTags?: ClickTagList | undefined;
-  /** Description of the audio or video ad. Applicable to the following creative types: all INSTREAM_VIDEO, INSTREAM_AUDIO, and all VPAID. */
-  mediaDescription?: string | undefined;
-  /** Dimension value for the ID of this creative. This is a read-only field. Applicable to all creative types. */
-  idDimensionValue?: DimensionValue | undefined;
-  /** List of timer events configured for the creative. For DISPLAY_IMAGE_GALLERY creatives, these are read-only and auto-generated from clickTags. Applicable to the following creative types: DISPLAY_IMAGE_GALLERY, all RICH_MEDIA, and all VPAID. Applicable to DISPLAY when the primary asset is not HTML_IMAGE. */
-  timerCustomEvents?: CreativeCustomEventList | undefined;
-  /** Studio creative ID associated with rich media and VPAID creatives. This is a read-only field. Applicable to the following creative types: all RICH_MEDIA, and all VPAID. */
-  studioCreativeId?: string | undefined;
-  /** ID of current rendering version. This is a read-only field. Applicable to all creative types. */
-  renderingId?: string | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#creative". */
-  kind?: string | undefined;
-  /** Industry standard ID assigned to creative for reach and frequency. Applicable to INSTREAM_VIDEO_REDIRECT creatives. */
-  commercialId?: string | undefined;
-  /** Online behavioral advertising icon to be added to the creative. Applicable to the following creative types: all INSTREAM_VIDEO. */
-  obaIcon?: ObaIcon | undefined;
-  /** Click-through URL for backup image. Applicable to ENHANCED_BANNER when the primary asset type is not HTML_IMAGE. */
-  backupImageClickThroughUrl?: CreativeClickThroughUrl | undefined;
-  /** Optional. Additional asset for the creative. This field captures additional assets that are associated with the creative and used in the context of the social/native and YouTube platforms. */
-  additionalAsset?: AdditionalAsset | undefined;
-  /** Whether script access is allowed for this creative. This is a read-only and deprecated field which will automatically be set to true on update. Applicable to the following creative types: FLASH_INPAGE. */
-  allowScriptAccess?: boolean | undefined;
-  /** Third-party URL used to record backup image impressions. Applicable to the following creative types: all RICH_MEDIA. */
-  thirdPartyBackupImageImpressionsUrl?: string | undefined;
-  /** Custom key-values for a Rich Media creative. Key-values let you customize the creative settings of a Rich Media ad running on your site without having to contact the advertiser. You can use key-values to dynamically change the look or functionality of a creative. Applicable to the following creative types: all RICH_MEDIA, and all VPAID. */
-  customKeyValues?: StringList | undefined;
-  /** Compatibilities associated with this creative. This is a read-only field. DISPLAY and DISPLAY_INTERSTITIAL refer to rendering either on desktop or on mobile devices or in mobile apps for regular or interstitial ads, respectively. APP and APP_INTERSTITIAL are for rendering in mobile apps. Only pre-existing creatives may have these compatibilities since new creatives will either be assigned DISPLAY or DISPLAY_INTERSTITIAL instead. IN_STREAM_VIDEO refers to rendering in in-stream video ads developed with the VAST standard. IN_STREAM_AUDIO refers to rendering in in-stream audio ads developed with the VAST standard. Applicable to all creative types. Acceptable values are: - "APP" - "APP_INTERSTITIAL" - "IN_STREAM_VIDEO" - "IN_STREAM_AUDIO" - "DISPLAY" - "DISPLAY_INTERSTITIAL" */
-  compatibility?: CreativeCompatibilityItemEnumList | undefined;
-  /** Third-party URL used to record rich media impressions. Applicable to the following creative types: all RICH_MEDIA. */
-  thirdPartyRichMediaImpressionsUrl?: string | undefined;
-  /** HTML code for the creative. This is a required field when applicable. This field is ignored if htmlCodeLocked is true. Applicable to the following creative types: all CUSTOM, FLASH_INPAGE, and HTML5_BANNER, and all RICH_MEDIA. */
-  htmlCode?: string | undefined;
 }
-export interface UpdateDynamicFeedsRequest {
-  /** Optional. The schedule of the dynamic feed. It can be set if the feed is published. */
-  feedSchedule?: FeedSchedule | undefined;
-  /** Required. Advertiser ID of this dynamic feed. This is a required field. */
-  studioAdvertiserId?: string | undefined;
-  /** Output only. The ingestion status of the dynamic feed. This is a read-only field. */
-  feedIngestionStatus?: FeedIngestionStatus | undefined;
-  /** Output only. The last modified timestamp of the dynamic feed. This is a read-only field. */
-  lastModifiedInfo?: LastModifiedInfo | undefined;
-  /** Output only. The status of the feed. It is a read-only field that depends on the the feed ingestion status. The default value is INACTIVE, and it will be updated to ACTIVE once the feed is ingested successfully. */
-  status?: DynamicFeedStatusEnum | (string & {}) | undefined;
-  /** Output only. Unique ID of this dynamic feed. This is a read-only, auto-generated field. */
-  dynamicFeedId?: string | undefined;
-  /** Output only. Indicates whether the dynamic feed has a published version. This is a read-only field. */
-  hasPublished?: boolean | undefined;
-  /** Required. The element of the dynamic feed that is to specify the schema of the feed. This is a required field. */
-  element?: Element | undefined;
-  /** Output only. The creation timestamp of the dynamic feed. This is a read-only field. */
-  createInfo?: LastModifiedInfo | undefined;
-  /** Required. The content source of the dynamic feed. This is a required field. */
-  contentSource?: ContentSource | undefined;
-  /** Optional. Name of this dynamic feed. It is defaulted to content source file name if not provided. */
-  dynamicFeedName?: string | undefined;
-}
-export interface UpdateDynamicProfilesRequest {
-  /** Output only. The last modified timestamp of the dynamic profile. This is a read-only field. */
-  lastModifiedInfo?: LastModifiedInfo | undefined;
-  /** Optional. Active version of the dynamic profile. */
-  active?: DynamicProfileVersion | undefined;
-  /** Optional. Draft version of the dynamic profile. */
-  draft?: DynamicProfileVersion | undefined;
-  /** Optional. Archive status of this dynamic profile. */
-  archiveStatus?: DynamicProfileArchiveStatusEnum | (string & {}) | undefined;
-  /** Output only. Unique ID of this dynamic profile. This is a read-only, auto-generated field. */
-  dynamicProfileId?: string | undefined;
-  /** Required. Identifier. Name of this dynamic profile. This is a required field and must be less than 256 characters long. */
-  name?: string | undefined;
-  /** Output only. Identifies what kind of resource this is. Value: the fixed string "dfareporting#dynamicProfile". */
-  kind?: string | undefined;
-  /** Optional. Description of this dynamic profile. */
-  description?: string | undefined;
-  /** Optional. Status of this dynamic profile. */
-  status?: DynamicProfileStatusEnum | (string & {}) | undefined;
-  /** Required. Advertiser ID of this dynamic profile. This is a required field on insertion. */
-  studioAdvertiserId?: string | undefined;
-  /** Output only. The creation timestamp of the dynamic profile. This is a read-only field. */
-  createInfo?: LastModifiedInfo | undefined;
-}
-export interface UpdateEventTagsRequest {
+export interface UpdateDynamicFeedsRequest extends DynamicFeed {}
+export interface UpdateDynamicProfilesRequest extends DynamicProfile {}
+export interface UpdateEventTagsRequest extends EventTag {
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Whether this tag is SSL-compliant or not. This is a read-only field. */
-  sslCompliant?: boolean | undefined;
-  /** Payload URL for this event tag. The URL on a click-through event tag should have a landing page URL appended to the end of it. This field is required on insertion. */
-  url?: string | undefined;
-  /** Whether this event tag should be automatically enabled for all of the advertiser's campaigns and ads. */
-  enabledByDefault?: boolean | undefined;
-  /** Dimension value for the ID of the advertiser. This is a read-only, auto-generated field. */
-  advertiserIdDimensionValue?: DimensionValue | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#eventTag". */
-  kind?: string | undefined;
-  /** Whether to remove this event tag from ads that are trafficked through Display & Video 360 to Ad Exchange. This may be useful if the event tag uses a pixel that is unapproved for Ad Exchange bids on one or more networks, such as the Google Display Network. */
-  excludeFromAdxRequests?: boolean | undefined;
-  /** Campaign ID of this event tag. This field or the advertiserId field is required on insertion. */
-  campaignId?: string | undefined;
-  /** Subaccount ID of this event tag. This is a read-only field that can be left blank. */
-  subaccountId?: string | undefined;
-  /** Account ID of this event tag. This is a read-only field that can be left blank. */
-  accountId?: string | undefined;
-  /** Number of times the landing page URL should be URL-escaped before being appended to the click-through event tag URL. Only applies to click-through event tags as specified by the event tag type. */
-  urlEscapeLevels?: number | undefined;
-  /** Advertiser ID of this event tag. This field or the campaignId field is required on insertion. */
-  advertiserId?: string | undefined;
-  /** Dimension value for the ID of the campaign. This is a read-only, auto-generated field. */
-  campaignIdDimensionValue?: DimensionValue | undefined;
-  /** Status of this event tag. Must be ENABLED for this event tag to fire. This is a required field. */
-  status?: EventTagStatusEnum | (string & {}) | undefined;
-  /** ID of this event tag. This is a read-only, auto-generated field. */
-  id?: string | undefined;
-  /** Event tag type. Can be used to specify whether to use a third-party pixel, a third-party JavaScript URL, or a third-party click-through URL for either impression or click tracking. This is a required field. */
-  type?: EventTagTypeEnum | (string & {}) | undefined;
-  /** Name of this event tag. This is a required field and must be less than 256 characters long. */
-  name?: string | undefined;
-  /** Filter list of site IDs associated with this event tag. The siteFilterType determines whether this is a allowlist or blocklist filter. */
-  siteIds?: StringList | undefined;
-  /** Site filter type for this event tag. If no type is specified then the event tag will be applied to all sites. */
-  siteFilterType?: EventTagSiteFilterTypeEnum | (string & {}) | undefined;
 }
-export interface UpdateFloodlightActivitiesRequest {
+export interface UpdateFloodlightActivitiesRequest extends FloodlightActivity {
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Name of the associated floodlight activity group. This is a read-only field. */
-  floodlightActivityGroupName?: string | undefined;
-  /** ID of this floodlight activity. This is a read-only, auto-generated field. */
-  id?: string | undefined;
-  /** The status of the activity. This can only be set to ACTIVE or ARCHIVED_AND_DISABLED. The ARCHIVED status is no longer supported and cannot be set for Floodlight activities. The DISABLED_POLICY status indicates that a Floodlight activity is violating Google policy. Contact your account manager for more information. */
-  status?: FloodlightActivityStatusEnum | (string & {}) | undefined;
-  /** Floodlight configuration ID of this floodlight activity. If this field is left blank, the value will be copied over either from the activity group's floodlight configuration or from the existing activity's floodlight configuration. */
-  floodlightConfigurationId?: string | undefined;
-  /** General notes or implementation instructions for the tag. */
-  notes?: string | undefined;
-  /** Account ID of this floodlight activity. This is a read-only field that can be left blank. */
-  accountId?: string | undefined;
-  /** Publisher dynamic floodlight tags. */
-  publisherTags?: FloodlightActivityPublisherDynamicTagList | undefined;
-  /** Dimension value for the ID of the advertiser. This is a read-only, auto-generated field. */
-  advertiserIdDimensionValue?: DimensionValue | undefined;
-  /** Dynamic floodlight tags. */
-  defaultTags?: FloodlightActivityDynamicTagList | undefined;
-  /** Required. The conversion category of the activity. */
-  conversionCategory?: FloodlightActivityConversionCategoryEnum | (string & {}) | undefined;
-  /** Type of the associated floodlight activity group. This is a read-only field. */
-  floodlightActivityGroupType?:
-    | FloodlightActivityFloodlightActivityGroupTypeEnum
-    | (string & {})
-    | undefined;
-  /** The type of Floodlight tag this activity will generate. This is a required field. */
-  floodlightTagType?: FloodlightActivityFloodlightTagTypeEnum | (string & {}) | undefined;
-  /** Tag format type for the floodlight activity. If left blank, the tag format will default to HTML. */
-  tagFormat?: FloodlightActivityTagFormatEnum | (string & {}) | undefined;
-  /** List of the user-defined variables used by this conversion tag. These map to the "u[1-100]=" in the tags. Each of these can have a user defined type. Acceptable values are U1 to U100, inclusive. */
-  userDefinedVariableTypes?: FloodlightActivityUserDefinedVariableTypesItemEnumList | undefined;
-  /** Name of this floodlight activity. This is a required field. Must be less than 129 characters long and cannot contain quotes. */
-  name?: string | undefined;
-  /** Floodlight activity group ID of this floodlight activity. This is a required field. */
-  floodlightActivityGroupId?: string | undefined;
-  /** Whether the activity is enabled for attribution. */
-  attributionEnabled?: boolean | undefined;
-  /** Advertiser ID of this floodlight activity. If this field is left blank, the value will be copied over either from the activity group's advertiser or the existing activity's advertiser. */
-  advertiserId?: string | undefined;
-  /** Value of the cat= parameter in the floodlight tag, which the ad servers use to identify the activity. This is optional: if empty, a new tag string will be generated for you. This string must be 1 to 8 characters long, with valid characters being a-z0-9[ _ ]. This tag string must also be unique among activities of the same activity group. This field is read-only after insertion. */
-  tagString?: string | undefined;
-  /** Tag string of the associated floodlight activity group. This is a read-only field. */
-  floodlightActivityGroupTagString?: string | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#floodlightActivity". */
-  kind?: string | undefined;
-  /** Whether the floodlight activity is SSL-compliant. This is a read-only field, its value detected by the system from the floodlight tags. */
-  sslCompliant?: boolean | undefined;
-  /** Dimension value for the ID of this floodlight activity. This is a read-only, auto-generated field. */
-  idDimensionValue?: DimensionValue | undefined;
-  /** URL where this tag will be deployed. If specified, must be less than 256 characters long. */
-  expectedUrl?: string | undefined;
-  /** Dimension value for the ID of the floodlight configuration. This is a read-only, auto-generated field. */
-  floodlightConfigurationIdDimensionValue?: DimensionValue | undefined;
-  /** Whether this tag should use SSL. */
-  secure?: boolean | undefined;
-  /** Subaccount ID of this floodlight activity. This is a read-only field that can be left blank. */
-  subaccountId?: string | undefined;
-  /** Whether this floodlight activity must be SSL-compliant. */
-  sslRequired?: boolean | undefined;
-  /** Code type used for cache busting in the generated tag. Applicable only when floodlightActivityGroupType is COUNTER and countingMethod is STANDARD_COUNTING or UNIQUE_COUNTING. */
-  cacheBustingType?: FloodlightActivityCacheBustingTypeEnum | (string & {}) | undefined;
-  /** Counting method for conversions for this floodlight activity. This is a required field. */
-  countingMethod?: FloodlightActivityCountingMethodEnum | (string & {}) | undefined;
 }
-export interface UpdateFloodlightActivityGroupsRequest {
+export interface UpdateFloodlightActivityGroupsRequest extends FloodlightActivityGroup {
   /** User profile ID associated with this request. */
   profileId: string;
-  /** ID of this floodlight activity group. This is a read-only, auto-generated field. */
-  id?: string | undefined;
-  /** Account ID of this floodlight activity group. This is a read-only field that can be left blank. */
-  accountId?: string | undefined;
-  /** Subaccount ID of this floodlight activity group. This is a read-only field that can be left blank. */
-  subaccountId?: string | undefined;
-  /** Floodlight configuration ID of this floodlight activity group. This is a required field. */
-  floodlightConfigurationId?: string | undefined;
-  /** Dimension value for the ID of this floodlight activity group. This is a read-only, auto-generated field. */
-  idDimensionValue?: DimensionValue | undefined;
-  /** Type of the floodlight activity group. This is a required field that is read-only after insertion. */
-  type?: FloodlightActivityGroupTypeEnum | (string & {}) | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#floodlightActivityGroup". */
-  kind?: string | undefined;
-  /** Dimension value for the ID of the floodlight configuration. This is a read-only, auto-generated field. */
-  floodlightConfigurationIdDimensionValue?: DimensionValue | undefined;
-  /** Advertiser ID of this floodlight activity group. If this field is left blank, the value will be copied over either from the floodlight configuration's advertiser or from the existing activity group's advertiser. */
-  advertiserId?: string | undefined;
-  /** Dimension value for the ID of the advertiser. This is a read-only, auto-generated field. */
-  advertiserIdDimensionValue?: DimensionValue | undefined;
-  /** Name of this floodlight activity group. This is a required field. Must be less than 65 characters long and cannot contain quotes. */
-  name?: string | undefined;
-  /** Value of the type= parameter in the floodlight tag, which the ad servers use to identify the activity group that the activity belongs to. This is optional: if empty, a new tag string will be generated for you. This string must be 1 to 8 characters long, with valid characters being a-z0-9[ _ ]. This tag string must also be unique among activity groups of the same floodlight configuration. This field is read-only after insertion. */
-  tagString?: string | undefined;
 }
-export interface UpdateFloodlightConfigurationsRequest {
+export interface UpdateFloodlightConfigurationsRequest extends FloodlightConfiguration {
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Dimension value for the ID of the advertiser. This is a read-only, auto-generated field. */
-  advertiserIdDimensionValue?: DimensionValue | undefined;
-  /** Dimension value for the ID of this floodlight configuration. This is a read-only, auto-generated field. */
-  idDimensionValue?: DimensionValue | undefined;
-  firstDayOfWeek?: FloodlightConfigurationFirstDayOfWeekEnum | (string & {}) | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#floodlightConfiguration". */
-  kind?: string | undefined;
-  /** Advertiser ID of the parent advertiser of this floodlight configuration. */
-  advertiserId?: string | undefined;
-  /** Whether advertiser data is shared with Google Analytics. */
-  analyticsDataSharingEnabled?: boolean | undefined;
-  /** List of third-party authentication tokens enabled for this configuration. */
-  thirdPartyAuthenticationTokens?: ThirdPartyAuthenticationTokenList | undefined;
-  /** Whether in-app attribution tracking is enabled. */
-  inAppAttributionTrackingEnabled?: boolean | undefined;
-  /** Custom Viewability metric for the floodlight configuration. */
-  customViewabilityMetric?: CustomViewabilityMetric | undefined;
-  /** Lookback window settings for this floodlight configuration. */
-  lookbackConfiguration?: LookbackConfiguration | undefined;
-  /** Types of attribution options for natural search conversions. */
-  naturalSearchConversionAttributionOption?:
-    | FloodlightConfigurationNaturalSearchConversionAttributionOptionEnum
-    | (string & {})
-    | undefined;
-  /** Configuration settings for dynamic and image floodlight tags. */
-  tagSettings?: TagSettings | undefined;
-  /** Subaccount ID of this floodlight configuration. This is a read-only field that can be left blank. */
-  subaccountId?: string | undefined;
-  /** ID of this floodlight configuration. This is a read-only, auto-generated field. */
-  id?: string | undefined;
-  /** List of user defined variables enabled for this configuration. */
-  userDefinedVariableConfigurations?: UserDefinedVariableConfigurationList | undefined;
-  /** Account ID of this floodlight configuration. This is a read-only field that can be left blank. */
-  accountId?: string | undefined;
-  /** Settings for Campaign Manager Omniture integration. */
-  omnitureSettings?: OmnitureSettings | undefined;
-  /** Whether the exposure-to-conversion report is enabled. This report shows detailed pathway information on up to 10 of the most recent ad exposures seen by a user before converting. */
-  exposureToConversionEnabled?: boolean | undefined;
 }
-export interface UpdatePlacementGroupsRequest {
+export interface UpdatePlacementGroupsRequest extends PlacementGroup {
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Dimension value for the ID of this placement group. This is a read-only, auto-generated field. */
-  idDimensionValue?: DimensionValue | undefined;
-  /** Type of this placement group. A package is a simple group of placements that acts as a single pricing point for a group of tags. A roadblock is a group of placements that not only acts as a single pricing point, but also assumes that all the tags in it will be served at the same time. A roadblock requires one of its assigned placements to be marked as primary for reporting. This field is required on insertion. */
-  placementGroupType?: PlacementGroupPlacementGroupTypeEnum | (string & {}) | undefined;
-  /** Dimension value for the ID of the advertiser. This is a read-only, auto-generated field. */
-  advertiserIdDimensionValue?: DimensionValue | undefined;
-  /** Subaccount ID of this placement group. This is a read-only field that can be left blank. */
-  subaccountId?: string | undefined;
-  /** Directory site ID associated with this placement group. On insert, you must set either this field or the site_id field to specify the site associated with this placement group. This is a required field that is read-only after insertion. */
-  directorySiteId?: string | undefined;
-  /** ID of the placement strategy assigned to this placement group. */
-  placementStrategyId?: string | undefined;
-  /** ID of this placement group. This is a read-only, auto-generated field. */
-  id?: string | undefined;
-  /** Account ID of this placement group. This is a read-only field that can be left blank. */
-  accountId?: string | undefined;
-  /** ID of the content category assigned to this placement group. */
-  contentCategoryId?: string | undefined;
-  /** Dimension value for the ID of the site. This is a read-only, auto-generated field. */
-  siteIdDimensionValue?: DimensionValue | undefined;
-  /** Campaign ID of this placement group. This field is required on insertion. */
-  campaignId?: string | undefined;
-  /** External ID for this placement. */
-  externalId?: string | undefined;
-  /** IDs of placements which are assigned to this placement group. This is a read-only, auto-generated field. */
-  childPlacementIds?: StringList | undefined;
-  /** Information about the creation of this placement group. This is a read-only field. */
-  createInfo?: LastModifiedInfo | undefined;
-  /** Pricing schedule of this placement group. This field is required on insertion. */
-  pricingSchedule?: PricingSchedule | undefined;
-  /** Advertiser ID of this placement group. This is a required field on insertion. */
-  advertiserId?: string | undefined;
-  /** Dimension value for the ID of the directory site. This is a read-only, auto-generated field. */
-  directorySiteIdDimensionValue?: DimensionValue | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#placementGroup". */
-  kind?: string | undefined;
-  /** Information about the most recent modification of this placement group. This is a read-only field. */
-  lastModifiedInfo?: LastModifiedInfo | undefined;
-  /** Dimension value for the ID of the primary placement. This is a read-only, auto-generated field. */
-  primaryPlacementIdDimensionValue?: DimensionValue | undefined;
-  /** ID of the primary placement, used to calculate the media cost of a roadblock (placement group). Modifying this field will automatically modify the primary field on all affected roadblock child placements. */
-  primaryPlacementId?: string | undefined;
-  /** Dimension value for the ID of the campaign. This is a read-only, auto-generated field. */
-  campaignIdDimensionValue?: DimensionValue | undefined;
-  /** Comments for this placement group. */
-  comment?: string | undefined;
-  /** Name of this placement group. This is a required field and must be less than 256 characters long. */
-  name?: string | undefined;
-  /** Whether this placement group is active, inactive, archived or permanently archived. */
-  activeStatus?: PlacementGroupActiveStatusEnum | (string & {}) | undefined;
-  /** Site ID associated with this placement group. On insert, you must set either this field or the directorySiteId field to specify the site associated with this placement group. This is a required field that is read-only after insertion. */
-  siteId?: string | undefined;
 }
-export interface UpdatePlacementsRequest {
+export interface UpdatePlacementsRequest extends Placement {
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Pricing schedule of this placement. This field is required on insertion, specifically subfields startDate, endDate and pricingType. */
-  pricingSchedule?: PricingSchedule | undefined;
-  /** Lookback window settings for this placement. */
-  lookbackConfiguration?: LookbackConfiguration | undefined;
-  /** Name of this placement.This is a required field and must be less than or equal to 512 characters long. */
-  name?: string | undefined;
-  /** Whether creatives assigned to this placement must be SSL-compliant. */
-  sslRequired?: boolean | undefined;
-  /** Information about the last publisher update. This is a read-only field. */
-  publisherUpdateInfo?: LastModifiedInfo | undefined;
-  /** ID of the content category assigned to this placement. */
-  contentCategoryId?: string | undefined;
-  /** Dimension value for the ID of the campaign. This is a read-only, auto-generated field. */
-  campaignIdDimensionValue?: DimensionValue | undefined;
-  /** Measurement partner provided settings for a wrapped placement. */
-  partnerWrappingData?: MeasurementPartnerWrappingData | undefined;
-  /** Optional. Ad serving platform ID to identify the ad serving platform used by the placement. Measurement partners can use this field to add ad-server specific macros. Possible values are: * `1`, Adelphic * `2`, Adform * `3`, Adobe * `4`, Amobee * `5`, Basis (Centro) * `6`, Beeswax * `7`, Amazon * `8`, DV360 (DBM) * `9`, Innovid * `10`, MediaMath * `11`, Roku OneView DSP * `12`, TabMo Hawk * `13`, The Trade Desk * `14`, Xandr Invest DSP * `15`, Yahoo DSP * `16`, Zeta Global * `17`, Scaleout * `18`, Bidtellect * `19`, Unicorn * `20`, Teads * `21`, Quantcast * `22`, Cognitiv * `23`, AdTheorent * `24`, DeepIntent * `25`, Pulsepoint */
-  adServingPlatformId?: string | undefined;
-  /** Dimension value for the ID of the site. This is a read-only, auto-generated field. */
-  siteIdDimensionValue?: DimensionValue | undefined;
-  /** Advertiser ID of this placement. This field can be left blank. */
-  advertiserId?: string | undefined;
-  /** Whether this placement is the primary placement of a roadblock (placement group). You cannot change this field from true to false. Setting this field to true will automatically set the primary field on the original primary placement of the roadblock to false, and it will automatically set the roadblock's primaryPlacementId field to the ID of this placement. */
-  primary?: boolean | undefined;
-  /** Account ID of this placement. This field can be left blank. */
-  accountId?: string | undefined;
-  /** Tag formats to generate for this placement. This field is required on insertion. Acceptable values are: - "PLACEMENT_TAG_STANDARD" - "PLACEMENT_TAG_IFRAME_JAVASCRIPT" - "PLACEMENT_TAG_IFRAME_ILAYER" - "PLACEMENT_TAG_INTERNAL_REDIRECT" - "PLACEMENT_TAG_JAVASCRIPT" - "PLACEMENT_TAG_INTERSTITIAL_IFRAME_JAVASCRIPT" - "PLACEMENT_TAG_INTERSTITIAL_INTERNAL_REDIRECT" - "PLACEMENT_TAG_INTERSTITIAL_JAVASCRIPT" - "PLACEMENT_TAG_CLICK_COMMANDS" - "PLACEMENT_TAG_INSTREAM_VIDEO_PREFETCH" - "PLACEMENT_TAG_INSTREAM_VIDEO_PREFETCH_VAST_3" - "PLACEMENT_TAG_INSTREAM_VIDEO_PREFETCH_VAST_4" - "PLACEMENT_TAG_TRACKING" - "PLACEMENT_TAG_TRACKING_IFRAME" - "PLACEMENT_TAG_TRACKING_JAVASCRIPT" */
-  tagFormats?: PlacementTagFormatsItemEnumList | undefined;
-  /** Site ID associated with this placement. On insert, you must set either this field or the directorySiteId field to specify the site associated with this placement. This is a required field that is read-only after insertion. */
-  siteId?: string | undefined;
-  /** Subaccount ID of this placement. This field can be left blank. */
-  subaccountId?: string | undefined;
-  /** Directory site ID of this placement. On insert, you must set either this field or the siteId field to specify the site associated with this placement. This is a required field that is read-only after insertion. */
-  directorySiteId?: string | undefined;
-  /** Size associated with this placement. When inserting or updating a placement, only the size ID field is used. This field is required on insertion. */
-  size?: Size | undefined;
-  /** ID of this placement's group, if applicable. */
-  placementGroupId?: string | undefined;
-  /** Payment source for this placement. This is a required field that is read-only after insertion. */
-  paymentSource?: PlacementPaymentSourceEnum | (string & {}) | undefined;
-  /** Optional. Whether the placement is enabled for YouTube integration. */
-  allowOnYoutube?: boolean | undefined;
-  /** Optional. Whether the ads in the placement are served by another platform and CM is only used for tracking or they are served by CM. A false value indicates the ad is served by CM. */
-  siteServed?: boolean | undefined;
-  /** Placement compatibility. DISPLAY and DISPLAY_INTERSTITIAL refer to rendering on desktop, on mobile devices or in mobile apps for regular or interstitial ads respectively. APP and APP_INTERSTITIAL are no longer allowed for new placement insertions. Instead, use DISPLAY or DISPLAY_INTERSTITIAL. IN_STREAM_VIDEO refers to rendering in in-stream video ads developed with the VAST standard. This field is required on insertion. */
-  compatibility?: PlacementCompatibilityEnum | (string & {}) | undefined;
-  /** Whether this placement is active, inactive, archived or permanently archived. */
-  activeStatus?: PlacementActiveStatusEnum | (string & {}) | undefined;
-  /** Dimension value for the ID of the placement group. This is a read-only, auto-generated field. */
-  placementGroupIdDimensionValue?: DimensionValue | undefined;
-  /** Third-party placement status. */
-  status?: PlacementStatusEnum | (string & {}) | undefined;
-  /** Whether payment was approved for this placement. This is a read-only field relevant only to publisher-paid placements. */
-  paymentApproved?: boolean | undefined;
-  /** Dimension value for the ID of the advertiser. This is a read-only, auto-generated field. */
-  advertiserIdDimensionValue?: DimensionValue | undefined;
-  /** Key name of this placement. This is a read-only, auto-generated field. */
-  keyName?: string | undefined;
-  /** Information about the most recent modification of this placement. This is a read-only field. */
-  lastModifiedInfo?: LastModifiedInfo | undefined;
-  /** Campaign ID of this placement. This field is a required field on insertion. */
-  campaignId?: string | undefined;
-  /** Optional. Conversion domain overrides for a placement. */
-  conversionDomainOverride?: PlacementConversionDomainOverride | undefined;
-  /** External ID for this placement. */
-  externalId?: string | undefined;
-  /** Comments for this placement. */
-  comment?: string | undefined;
-  /** Tag settings for this placement. */
-  tagSetting?: TagSetting | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#placement". */
-  kind?: string | undefined;
-  /** Dimension value for the ID of this placement. This is a read-only, auto-generated field. */
-  idDimensionValue?: DimensionValue | undefined;
-  /** VPAID adapter setting for this placement. Controls which VPAID format the measurement adapter will use for in-stream video creatives assigned to this placement. *Note:* Flash is no longer supported. This field now defaults to HTML5 when the following values are provided: FLASH, BOTH. */
-  vpaidAdapterChoice?: PlacementVpaidAdapterChoiceEnum | (string & {}) | undefined;
-  /** Information about the creation of this placement. This is a read-only field. */
-  createInfo?: LastModifiedInfo | undefined;
-  /** ID of the placement strategy assigned to this placement. */
-  placementStrategyId?: string | undefined;
-  /** Whether this placement opts out of tag wrapping. */
-  wrappingOptOut?: boolean | undefined;
-  /** Optional. YouTube settings for the placement. The placement must be enabled for YouTube to use this field. */
-  youtubeSettings?: YoutubeSettings | undefined;
-  /** A collection of settings which affect video creatives served through this placement. Applicable to placements with IN_STREAM_VIDEO compatibility. */
-  videoSettings?: VideoSettings | undefined;
-  /** Additional sizes associated with this placement. When inserting or updating a placement, only the size ID field is used. */
-  additionalSizes?: SizeList | undefined;
-  /** Whether this placement opts out of ad blocking. When true, ad blocking is disabled for this placement. When false, the campaign and site settings take effect. */
-  adBlockingOptOut?: boolean | undefined;
-  /** Whether Verification and ActiveView are disabled for in-stream video creatives for this placement. The same setting videoActiveViewOptOut exists on the site level -- the opt out occurs if either of these settings are true. These settings are distinct from DirectorySites.settings.activeViewOptOut or Sites.siteSettings.activeViewOptOut which only apply to display ads. However, Accounts.activeViewOptOut opts out both video traffic, as well as display ads, from Verification and ActiveView. */
-  videoActiveViewOptOut?: boolean | undefined;
-  /** Dimension value for the ID of the directory site. This is a read-only, auto-generated field. */
-  directorySiteIdDimensionValue?: DimensionValue | undefined;
-  /** ID of this placement. This is a read-only, auto-generated field. */
-  id?: string | undefined;
 }
-export interface UpdatePlacementStrategiesRequest {
+export interface UpdatePlacementStrategiesRequest extends PlacementStrategy {
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Account ID of this placement strategy.This is a read-only field that can be left blank. */
-  accountId?: string | undefined;
-  /** ID of this placement strategy. This is a read-only, auto-generated field. */
-  id?: string | undefined;
-  /** Name of this placement strategy. This is a required field. It must be less than 256 characters long and unique among placement strategies of the same account. */
-  name?: string | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#placementStrategy". */
-  kind?: string | undefined;
 }
-export interface UpdateRemarketingListsRequest {
+export interface UpdateRemarketingListsRequest extends RemarketingList {
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Name of the remarketing list. This is a required field. Must be no greater than 128 characters long. */
-  name?: string | undefined;
-  /** Rule used to populate the remarketing list with users. */
-  listPopulationRule?: ListPopulationRule | undefined;
-  /** Dimension value for the advertiser ID that owns this remarketing list. This is a required field. */
-  advertiserId?: string | undefined;
-  /** Number of users currently in the list. This is a read-only field. */
-  listSize?: string | undefined;
-  /** Number of days that a user should remain in the remarketing list without an impression. Acceptable values are 1 to 540, inclusive. */
-  lifeSpan?: string | undefined;
-  /** Remarketing list ID. This is a read-only, auto-generated field. */
-  id?: string | undefined;
-  /** Account ID of this remarketing list. This is a read-only, auto-generated field that is only returned in GET requests. */
-  accountId?: string | undefined;
-  /** Product from which this remarketing list was originated. */
-  listSource?: RemarketingListListSourceEnum | (string & {}) | undefined;
-  /** Whether this remarketing list is active. */
-  active?: boolean | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#remarketingList". */
-  kind?: string | undefined;
-  /** Dimension value for the ID of the advertiser. This is a read-only, auto-generated field. */
-  advertiserIdDimensionValue?: DimensionValue | undefined;
-  /** Subaccount ID of this remarketing list. This is a read-only, auto-generated field that is only returned in GET requests. */
-  subaccountId?: string | undefined;
-  /** Remarketing list description. */
-  description?: string | undefined;
 }
-export interface UpdateRemarketingListSharesRequest {
+export interface UpdateRemarketingListSharesRequest extends RemarketingListShare {
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#remarketingListShare". */
-  kind?: string | undefined;
-  /** Accounts that the remarketing list is shared with. */
-  sharedAccountIds?: StringList | undefined;
-  /** Remarketing list ID. This is a read-only, auto-generated field. */
-  remarketingListId?: string | undefined;
-  /** Advertisers that the remarketing list is shared with. */
-  sharedAdvertiserIds?: StringList | undefined;
 }
-export interface UpdateReportsRequest {
+export interface UpdateReportsRequest extends Report {
   /** The Campaign Manager 360 user profile ID. */
   profileId: string;
   /** The ID of the report. */
   reportId: string;
-  /** The unique ID identifying this report resource. */
-  id?: string | undefined;
-  /** The report criteria for a report of type "PATH_TO_CONVERSION". */
-  pathToConversionCriteria?: ReportPathToConversionCriteria | undefined;
-  /** The type of the report. */
-  type?: ReportTypeEnum | (string & {}) | undefined;
-  /** The name of the report. */
-  name?: string | undefined;
-  /** The filename used when generating report files for this report. */
-  fileName?: string | undefined;
-  /** Optional. The report criteria for a report of type "CROSS_MEDIA_REACH". */
-  crossMediaReachCriteria?: ReportCrossMediaReachCriteria | undefined;
-  /** The account ID to which this report belongs. */
-  accountId?: string | undefined;
-  /** The user profile id of the owner of this report. */
-  ownerProfileId?: string | undefined;
-  /** The report criteria for a report of type "REACH". */
-  reachCriteria?: ReportReachCriteria | undefined;
-  /** The report's schedule. Can only be set if the report's 'dateRange' is a relative date range and the relative date range is not "TODAY". */
-  schedule?: ReportSchedule | undefined;
-  /** The report's email delivery settings. */
-  delivery?: ReportDelivery | undefined;
-  /** The output format of the report. If not specified, default format is "CSV". Note that the actual format in the completed report file might differ if for instance the report's size exceeds the format's capabilities. "CSV" will then be the fallback format. */
-  format?: ReportFormatEnum | (string & {}) | undefined;
-  /** The kind of resource this is, in this case dfareporting#report. */
-  kind?: string | undefined;
-  /** The subaccount ID to which this report belongs if applicable. */
-  subAccountId?: string | undefined;
-  /** The eTag of this response for caching purposes. */
-  etag?: string | undefined;
-  /** The timestamp (in milliseconds since epoch) of when this report was last modified. */
-  lastModifiedTime?: string | undefined;
-  /** The report criteria for a report of type "FLOODLIGHT". */
-  floodlightCriteria?: ReportFloodlightCriteria | undefined;
-  /** The report criteria for a report of type "STANDARD". */
-  criteria?: ReportCriteria | undefined;
 }
-export interface UpdateSitesRequest {
+export interface UpdateSitesRequest extends Site {
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Optional. Ad serving platform ID to identify the ad serving platform used by the site. Measurement partners can use this field to add ad-server specific macros. If set, this value acts as the default during placement creation. Possible values are: * `1`, Adelphic * `2`, Adform * `3`, Adobe * `4`, Amobee * `5`, Basis (Centro) * `6`, Beeswax * `7`, Amazon * `8`, DV360 (DBM) * `9`, Innovid * `10`, MediaMath * `11`, Roku OneView DSP * `12`, TabMo Hawk * `13`, The Trade Desk * `14`, Xandr Invest DSP * `15`, Yahoo DSP * `16`, Zeta Global * `17`, Scaleout * `18`, Bidtellect * `19`, Unicorn * `20`, Teads * `21`, Quantcast * `22`, Cognitiv * `23`, AdTheorent * `24`, DeepIntent * `25`, Pulsepoint */
-  adServingPlatformId?: string | undefined;
-  /** Site contacts. */
-  siteContacts?: SiteContactList | undefined;
-  /** Account ID of this site. This is a read-only field that can be left blank. */
-  accountId?: string | undefined;
-  /** Name of this site.This is a required field. Must be less than 128 characters long. If this site is under a subaccount, the name must be unique among sites of the same subaccount. Otherwise, this site is a top-level site, and the name must be unique among top-level sites of the same account. */
-  name?: string | undefined;
-  /** Key name of this site. This is a read-only, auto-generated field. */
-  keyName?: string | undefined;
-  /** Dimension value for the ID of the directory site. This is a read-only, auto-generated field. */
-  directorySiteIdDimensionValue?: DimensionValue | undefined;
-  /** Default video settings for new placements created under this site. This value will be used to populate the placements.videoSettings field, when no value is specified for the new placement. */
-  videoSettings?: SiteVideoSettings | undefined;
-  /** Subaccount ID of this site. This is a read-only field that can be left blank. */
-  subaccountId?: string | undefined;
-  /** Site-wide settings. */
-  siteSettings?: SiteSettings | undefined;
-  /** Whether this site is approved. */
-  approved?: boolean | undefined;
-  /** Directory site associated with this site. This is a required field that is read-only after insertion. */
-  directorySiteId?: string | undefined;
-  /** Dimension value for the ID of this site. This is a read-only, auto-generated field. */
-  idDimensionValue?: DimensionValue | undefined;
-  /** ID of this site. This is a read-only, auto-generated field. */
-  id?: string | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#site". */
-  kind?: string | undefined;
 }
-export interface UpdateSubaccountsRequest {
+export interface UpdateSubaccountsRequest extends Subaccount {
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Name of this subaccount. This is a required field. Must be less than 128 characters long and be unique among subaccounts of the same account. */
-  name?: string | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#subaccount". */
-  kind?: string | undefined;
-  /** ID of the account that contains this subaccount. This is a read-only field that can be left blank. */
-  accountId?: string | undefined;
-  /** IDs of the available user role permissions for this subaccount. */
-  availablePermissionIds?: StringList | undefined;
-  /** ID of this subaccount. This is a read-only, auto-generated field. */
-  id?: string | undefined;
 }
-export interface UpdateTargetingTemplatesRequest {
+export interface UpdateTargetingTemplatesRequest extends TargetingTemplate {
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Language targeting criteria. */
-  languageTargeting?: LanguageTargeting | undefined;
-  /** Remarketing list targeting criteria. */
-  listTargetingExpression?: ListTargetingExpression | undefined;
-  /** Key-value targeting criteria. */
-  keyValueTargetingExpression?: KeyValueTargetingExpression | undefined;
-  /** Dimension value for the ID of the advertiser. This is a read-only, auto-generated field. */
-  advertiserIdDimensionValue?: DimensionValue | undefined;
-  /** Name of this targeting template. This field is required. It must be less than 256 characters long and unique within an advertiser. */
-  name?: string | undefined;
-  /** Optional. Contextual keyword targeting criteria. */
-  contextualKeywordTargeting?: ContextualKeywordTargeting | undefined;
-  /** Advertiser ID of this targeting template. This is a required field on insert and is read-only after insert. */
-  advertiserId?: string | undefined;
-  /** Technology platform targeting criteria. */
-  technologyTargeting?: TechnologyTargeting | undefined;
-  /** Subaccount ID of this targeting template. This field, if left unset, will be auto-generated on insert and is read-only after insert. */
-  subaccountId?: string | undefined;
-  /** Geographical targeting criteria. */
-  geoTargeting?: GeoTargeting | undefined;
-  /** Account ID of this targeting template. This field, if left unset, will be auto-generated on insert and is read-only after insert. */
-  accountId?: string | undefined;
-  /** ID of this targeting template. This is a read-only, auto-generated field. */
-  id?: string | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#targetingTemplate". */
-  kind?: string | undefined;
-  /** Time and day targeting criteria. */
-  dayPartTargeting?: DayPartTargeting | undefined;
 }
-export interface UpdateUserRolesRequest {
+export interface UpdateUserRolesRequest extends UserRole {
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Name of this user role. This is a required field. Must be less than 256 characters long. If this user role is under a subaccount, the name must be unique among sites of the same subaccount. Otherwise, this user role is a top-level user role, and the name must be unique among top-level user roles of the same account. */
-  name?: string | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#userRole". */
-  kind?: string | undefined;
-  /** Whether this is a default user role. Default user roles are created by the system for the account/subaccount and cannot be modified or deleted. Each default user role comes with a basic set of preassigned permissions. */
-  defaultUserRole?: boolean | undefined;
-  /** List of permissions associated with this user role. */
-  permissions?: UserRolePermissionList | undefined;
-  /** ID of this user role. This is a read-only, auto-generated field. */
-  id?: string | undefined;
-  /** Subaccount ID of this user role. This is a read-only field that can be left blank. */
-  subaccountId?: string | undefined;
-  /** ID of the user role that this user role is based on or copied from. This is a required field. */
-  parentUserRoleId?: string | undefined;
-  /** Account ID of this user role. This is a read-only field that can be left blank. */
-  accountId?: string | undefined;
 }
 export type BatchinsertConversionsError =
   | NotFound
@@ -10323,8 +7572,8 @@ export const batchinsertConversions: API.OperationMethod<
   BatchinsertConversionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7072, __c221, 0) as any as S.Schema<BatchinsertConversionsRequest>,
-  output: __S(7073, __c221, 1) as any as S.Schema<ConversionsBatchInsertResponse>,
+  input: __S(7073, __c221, 1) as any as S.Schema<BatchinsertConversionsRequest>,
+  output: __S(7074, __c221, 2) as any as S.Schema<ConversionsBatchInsertResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -10346,8 +7595,8 @@ export const batchupdateConversions: API.OperationMethod<
   BatchupdateConversionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7776, __c243, 0) as any as S.Schema<BatchupdateConversionsRequest>,
-  output: __S(7777, __c243, 1) as any as S.Schema<ConversionsBatchUpdateResponse>,
+  input: __S(7745, __c242, 1) as any as S.Schema<BatchupdateConversionsRequest>,
+  output: __S(7746, __c242, 2) as any as S.Schema<ConversionsBatchUpdateResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -10369,8 +7618,8 @@ export const deleteAdvertiserGroups: API.OperationMethod<
   DeleteAdvertiserGroupsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8384, __c262, 0) as any as S.Schema<DeleteAdvertiserGroupsRequest>,
-  output: __S(8416, __c263, 0) as any as S.Schema<DeleteAdvertiserGroupsResponse>,
+  input: __S(8352, __c261, 0) as any as S.Schema<DeleteAdvertiserGroupsRequest>,
+  output: __S(8384, __c262, 0) as any as S.Schema<DeleteAdvertiserGroupsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -10392,8 +7641,8 @@ export const deleteContentCategories: API.OperationMethod<
   DeleteContentCategoriesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8928, __c279, 0) as any as S.Schema<DeleteContentCategoriesRequest>,
-  output: __S(8416, __c263, 0) as any as S.Schema<DeleteContentCategoriesResponse>,
+  input: __S(8896, __c278, 0) as any as S.Schema<DeleteContentCategoriesRequest>,
+  output: __S(8384, __c262, 0) as any as S.Schema<DeleteContentCategoriesResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -10415,8 +7664,8 @@ export const deleteCreativeFields: API.OperationMethod<
   DeleteCreativeFieldsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9312, __c291, 0) as any as S.Schema<DeleteCreativeFieldsRequest>,
-  output: __S(8416, __c263, 0) as any as S.Schema<DeleteCreativeFieldsResponse>,
+  input: __S(9280, __c290, 0) as any as S.Schema<DeleteCreativeFieldsRequest>,
+  output: __S(8384, __c262, 0) as any as S.Schema<DeleteCreativeFieldsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -10439,7 +7688,7 @@ export const deleteCreativeFieldValues: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<DeleteCreativeFieldValuesRequest>,
-  output: __S(8416, __c263, 0) as any as S.Schema<DeleteCreativeFieldValuesResponse>,
+  output: __S(8384, __c262, 0) as any as S.Schema<DeleteCreativeFieldValuesResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -10462,7 +7711,7 @@ export const deleteDynamicTargetingKeys: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c11, 0) as any as S.Schema<DeleteDynamicTargetingKeysRequest>,
-  output: __S(8416, __c263, 0) as any as S.Schema<DeleteDynamicTargetingKeysResponse>,
+  output: __S(8384, __c262, 0) as any as S.Schema<DeleteDynamicTargetingKeysResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -10485,7 +7734,7 @@ export const deleteEventTags: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(704, __c22, 0) as any as S.Schema<DeleteEventTagsRequest>,
-  output: __S(8416, __c263, 0) as any as S.Schema<DeleteEventTagsResponse>,
+  output: __S(8384, __c262, 0) as any as S.Schema<DeleteEventTagsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -10508,7 +7757,7 @@ export const deleteFloodlightActivities: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1088, __c34, 0) as any as S.Schema<DeleteFloodlightActivitiesRequest>,
-  output: __S(8416, __c263, 0) as any as S.Schema<DeleteFloodlightActivitiesResponse>,
+  output: __S(8384, __c262, 0) as any as S.Schema<DeleteFloodlightActivitiesResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -10531,7 +7780,7 @@ export const deletePlacementStrategies: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1472, __c46, 0) as any as S.Schema<DeletePlacementStrategiesRequest>,
-  output: __S(8416, __c263, 0) as any as S.Schema<DeletePlacementStrategiesResponse>,
+  output: __S(8384, __c262, 0) as any as S.Schema<DeletePlacementStrategiesResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -10554,7 +7803,7 @@ export const deleteReports: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1824, __c57, 0) as any as S.Schema<DeleteReportsRequest>,
-  output: __S(8416, __c263, 0) as any as S.Schema<DeleteReportsResponse>,
+  output: __S(8384, __c262, 0) as any as S.Schema<DeleteReportsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -10577,7 +7826,7 @@ export const deleteUserRoles: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2176, __c68, 0) as any as S.Schema<DeleteUserRolesRequest>,
-  output: __S(8416, __c263, 0) as any as S.Schema<DeleteUserRolesResponse>,
+  output: __S(8384, __c262, 0) as any as S.Schema<DeleteUserRolesResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -11319,7 +8568,7 @@ export const getReports: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7616, __c238, 0) as any as S.Schema<GetReportsRequest>,
-  output: __S(7712, __c241, 0) as any as S.Schema<Report>,
+  output: __S(7695, __c240, 15) as any as S.Schema<Report>,
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -11335,7 +8584,7 @@ export const getReportsFiles: API.OperationMethod<
   GetReportsFilesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7744, __c242, 0) as any as S.Schema<GetReportsFilesRequest>,
+  input: __S(7712, __c241, 0) as any as S.Schema<GetReportsFilesRequest>,
   output: __S(6753, __c211, 1) as any as S.Schema<File>,
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
@@ -11348,8 +8597,8 @@ export type GetSitesError = NotFound | Forbidden | InsufficientScopes | GcpOpErr
 /** Gets one site by ID. */
 export const getSites: API.OperationMethod<GetSitesRequest, Site, GetSitesError, GcpOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(7808, __c244, 0) as any as S.Schema<GetSitesRequest>,
-    output: __S(7847, __c245, 7) as any as S.Schema<Site>,
+    input: __S(7776, __c243, 0) as any as S.Schema<GetSitesRequest>,
+    output: __S(7815, __c244, 7) as any as S.Schema<Site>,
     errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
     protocol: GcpProtocol,
     retry: Retry.Retry,
@@ -11361,7 +8610,7 @@ export type GetSizesError = NotFound | Forbidden | InsufficientScopes | GcpOpErr
 /** Gets one size by ID. */
 export const getSizes: API.OperationMethod<GetSizesRequest, Size, GetSizesError, GcpOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(7872, __c246, 0) as any as S.Schema<GetSizesRequest>,
+    input: __S(7840, __c245, 0) as any as S.Schema<GetSizesRequest>,
     output: __S(4864, __c152, 0) as any as S.Schema<Size>,
     errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
     protocol: GcpProtocol,
@@ -11378,8 +8627,8 @@ export const getStudioCreatives: API.OperationMethod<
   GetStudioCreativesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7904, __c247, 0) as any as S.Schema<GetStudioCreativesRequest>,
-  output: __S(7937, __c248, 1) as any as S.Schema<StudioCreative>,
+  input: __S(7872, __c246, 0) as any as S.Schema<GetStudioCreativesRequest>,
+  output: __S(7905, __c247, 1) as any as S.Schema<StudioCreative>,
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -11395,8 +8644,8 @@ export const getSubaccounts: API.OperationMethod<
   GetSubaccountsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7968, __c249, 0) as any as S.Schema<GetSubaccountsRequest>,
-  output: __S(8000, __c250, 0) as any as S.Schema<Subaccount>,
+  input: __S(7936, __c248, 0) as any as S.Schema<GetSubaccountsRequest>,
+  output: __S(7968, __c249, 0) as any as S.Schema<Subaccount>,
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -11416,8 +8665,8 @@ export const getTargetableRemarketingLists: API.OperationMethod<
   GetTargetableRemarketingListsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8032, __c251, 0) as any as S.Schema<GetTargetableRemarketingListsRequest>,
-  output: __S(8064, __c252, 0) as any as S.Schema<TargetableRemarketingList>,
+  input: __S(8000, __c250, 0) as any as S.Schema<GetTargetableRemarketingListsRequest>,
+  output: __S(8032, __c251, 0) as any as S.Schema<TargetableRemarketingList>,
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -11433,8 +8682,8 @@ export const getTargetingTemplates: API.OperationMethod<
   GetTargetingTemplatesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8096, __c253, 0) as any as S.Schema<GetTargetingTemplatesRequest>,
-  output: __S(8128, __c254, 0) as any as S.Schema<TargetingTemplate>,
+  input: __S(8064, __c252, 0) as any as S.Schema<GetTargetingTemplatesRequest>,
+  output: __S(8096, __c253, 0) as any as S.Schema<TargetingTemplate>,
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -11450,8 +8699,8 @@ export const getTvCampaignDetails: API.OperationMethod<
   GetTvCampaignDetailsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8160, __c255, 0) as any as S.Schema<GetTvCampaignDetailsRequest>,
-  output: __S(8163, __c255, 3) as any as S.Schema<TvCampaignDetail>,
+  input: __S(8128, __c254, 0) as any as S.Schema<GetTvCampaignDetailsRequest>,
+  output: __S(8131, __c254, 3) as any as S.Schema<TvCampaignDetail>,
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -11467,8 +8716,8 @@ export const getUserProfiles: API.OperationMethod<
   GetUserProfilesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8192, __c256, 0) as any as S.Schema<GetUserProfilesRequest>,
-  output: __S(8224, __c257, 0) as any as S.Schema<UserProfile>,
+  input: __S(8160, __c255, 0) as any as S.Schema<GetUserProfilesRequest>,
+  output: __S(8192, __c256, 0) as any as S.Schema<UserProfile>,
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -11488,8 +8737,8 @@ export const getUserRolePermissionGroups: API.OperationMethod<
   GetUserRolePermissionGroupsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8256, __c258, 0) as any as S.Schema<GetUserRolePermissionGroupsRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<UserRolePermissionGroup>,
+  input: __S(8224, __c257, 0) as any as S.Schema<GetUserRolePermissionGroupsRequest>,
+  output: __S(8256, __c258, 0) as any as S.Schema<UserRolePermissionGroup>,
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -11505,8 +8754,8 @@ export const getUserRolePermissions: API.OperationMethod<
   GetUserRolePermissionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8320, __c260, 0) as any as S.Schema<GetUserRolePermissionsRequest>,
-  output: __S(8352, __c261, 0) as any as S.Schema<UserRolePermission>,
+  input: __S(8288, __c259, 0) as any as S.Schema<GetUserRolePermissionsRequest>,
+  output: __S(8320, __c260, 0) as any as S.Schema<UserRolePermission>,
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -11522,8 +8771,8 @@ export const getUserRoles: API.OperationMethod<
   GetUserRolesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8448, __c264, 0) as any as S.Schema<GetUserRolesRequest>,
-  output: __S(8512, __c266, 0) as any as S.Schema<UserRole>,
+  input: __S(8416, __c263, 0) as any as S.Schema<GetUserRolesRequest>,
+  output: __S(8480, __c265, 0) as any as S.Schema<UserRole>,
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -11539,8 +8788,8 @@ export const getVideoFormats: API.OperationMethod<
   GetVideoFormatsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8544, __c267, 0) as any as S.Schema<GetVideoFormatsRequest>,
-  output: __S(8576, __c268, 0) as any as S.Schema<VideoFormat>,
+  input: __S(8512, __c266, 0) as any as S.Schema<GetVideoFormatsRequest>,
+  output: __S(8544, __c267, 0) as any as S.Schema<VideoFormat>,
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -11562,7 +8811,7 @@ export const insertAccountUserProfiles: API.OperationMethod<
   InsertAccountUserProfilesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8608, __c269, 0) as any as S.Schema<InsertAccountUserProfilesRequest>,
+  input: __S(8576, __c268, 0) as any as S.Schema<InsertAccountUserProfilesRequest>,
   output: __S(4641, __c145, 1) as any as S.Schema<AccountUserProfile>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
@@ -11581,7 +8830,7 @@ export type InsertAdsError =
 /** Inserts a new ad. */
 export const insertAds: API.OperationMethod<InsertAdsRequest, Ad, InsertAdsError, GcpOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(8640, __c270, 0) as any as S.Schema<InsertAdsRequest>,
+    input: __S(8608, __c269, 0) as any as S.Schema<InsertAdsRequest>,
     output: __S(5518, __c172, 14) as any as S.Schema<Ad>,
     errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
     protocol: GcpProtocol,
@@ -11604,7 +8853,7 @@ export const insertAdvertiserGroups: API.OperationMethod<
   InsertAdvertiserGroupsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8672, __c271, 0) as any as S.Schema<InsertAdvertiserGroupsRequest>,
+  input: __S(8640, __c270, 0) as any as S.Schema<InsertAdvertiserGroupsRequest>,
   output: __S(5568, __c174, 0) as any as S.Schema<AdvertiserGroup>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
@@ -11627,7 +8876,7 @@ export const insertAdvertiserLandingPages: API.OperationMethod<
   InsertAdvertiserLandingPagesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8704, __c272, 0) as any as S.Schema<InsertAdvertiserLandingPagesRequest>,
+  input: __S(8672, __c271, 0) as any as S.Schema<InsertAdvertiserLandingPagesRequest>,
   output: __S(5666, __c177, 2) as any as S.Schema<LandingPage>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
@@ -11650,7 +8899,7 @@ export const insertAdvertisers: API.OperationMethod<
   InsertAdvertisersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8736, __c273, 0) as any as S.Schema<InsertAdvertisersRequest>,
+  input: __S(8704, __c272, 0) as any as S.Schema<InsertAdvertisersRequest>,
   output: __S(5729, __c179, 1) as any as S.Schema<Advertiser>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
@@ -11673,8 +8922,8 @@ export const insertBillingAssignments: API.OperationMethod<
   InsertBillingAssignmentsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8768, __c274, 0) as any as S.Schema<InsertBillingAssignmentsRequest>,
-  output: __S(8800, __c275, 0) as any as S.Schema<BillingAssignment>,
+  input: __S(8736, __c273, 0) as any as S.Schema<InsertBillingAssignmentsRequest>,
+  output: __S(8768, __c274, 0) as any as S.Schema<BillingAssignment>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -11696,8 +8945,8 @@ export const insertCampaignCreativeAssociations: API.OperationMethod<
   InsertCampaignCreativeAssociationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8832, __c276, 0) as any as S.Schema<InsertCampaignCreativeAssociationsRequest>,
-  output: __S(8864, __c277, 0) as any as S.Schema<CampaignCreativeAssociation>,
+  input: __S(8800, __c275, 0) as any as S.Schema<InsertCampaignCreativeAssociationsRequest>,
+  output: __S(8832, __c276, 0) as any as S.Schema<CampaignCreativeAssociation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -11719,7 +8968,7 @@ export const insertCampaigns: API.OperationMethod<
   InsertCampaignsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8896, __c278, 0) as any as S.Schema<InsertCampaignsRequest>,
+  input: __S(8864, __c277, 0) as any as S.Schema<InsertCampaignsRequest>,
   output: __S(5866, __c183, 10) as any as S.Schema<Campaign>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
@@ -11742,7 +8991,7 @@ export const insertContentCategories: API.OperationMethod<
   InsertContentCategoriesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8960, __c280, 0) as any as S.Schema<InsertContentCategoriesRequest>,
+  input: __S(8928, __c279, 0) as any as S.Schema<InsertContentCategoriesRequest>,
   output: __S(6016, __c188, 0) as any as S.Schema<ContentCategory>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
@@ -11765,8 +9014,8 @@ export const insertCreativeAssets: API.OperationMethod<
   InsertCreativeAssetsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8992, __c281, 0) as any as S.Schema<InsertCreativeAssetsRequest>,
-  output: __S(8993, __c281, 1) as any as S.Schema<CreativeAssetMetadata>,
+  input: __S(8961, __c280, 1) as any as S.Schema<InsertCreativeAssetsRequest>,
+  output: __S(8960, __c280, 0) as any as S.Schema<CreativeAssetMetadata>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -11788,7 +9037,7 @@ export const insertCreativeFields: API.OperationMethod<
   InsertCreativeFieldsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9024, __c282, 0) as any as S.Schema<InsertCreativeFieldsRequest>,
+  input: __S(8992, __c281, 0) as any as S.Schema<InsertCreativeFieldsRequest>,
   output: __S(6112, __c191, 0) as any as S.Schema<CreativeField>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
@@ -11811,7 +9060,7 @@ export const insertCreativeFieldValues: API.OperationMethod<
   InsertCreativeFieldValuesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9056, __c283, 0) as any as S.Schema<InsertCreativeFieldValuesRequest>,
+  input: __S(9024, __c282, 0) as any as S.Schema<InsertCreativeFieldValuesRequest>,
   output: __S(6176, __c193, 0) as any as S.Schema<CreativeFieldValue>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
@@ -11834,7 +9083,7 @@ export const insertCreativeGroups: API.OperationMethod<
   InsertCreativeGroupsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9088, __c284, 0) as any as S.Schema<InsertCreativeGroupsRequest>,
+  input: __S(9056, __c283, 0) as any as S.Schema<InsertCreativeGroupsRequest>,
   output: __S(6240, __c195, 0) as any as S.Schema<CreativeGroup>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
@@ -11857,7 +9106,7 @@ export const insertCreatives: API.OperationMethod<
   InsertCreativesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9120, __c285, 0) as any as S.Schema<InsertCreativesRequest>,
+  input: __S(9088, __c284, 0) as any as S.Schema<InsertCreativesRequest>,
   output: __S(6410, __c200, 10) as any as S.Schema<Creative>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
@@ -11880,7 +9129,7 @@ export const insertDirectorySites: API.OperationMethod<
   InsertDirectorySitesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9152, __c286, 0) as any as S.Schema<InsertDirectorySitesRequest>,
+  input: __S(9120, __c285, 0) as any as S.Schema<InsertDirectorySitesRequest>,
   output: __S(6466, __c202, 2) as any as S.Schema<DirectorySite>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
@@ -11903,7 +9152,7 @@ export const insertDynamicFeeds: API.OperationMethod<
   InsertDynamicFeedsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9184, __c287, 0) as any as S.Schema<InsertDynamicFeedsRequest>,
+  input: __S(9153, __c286, 1) as any as S.Schema<InsertDynamicFeedsRequest>,
   output: __S(6540, __c204, 12) as any as S.Schema<DynamicFeed>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
@@ -11926,7 +9175,7 @@ export const insertDynamicProfiles: API.OperationMethod<
   InsertDynamicProfilesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9216, __c288, 0) as any as S.Schema<InsertDynamicProfilesRequest>,
+  input: __S(9184, __c287, 0) as any as S.Schema<InsertDynamicProfilesRequest>,
   output: __S(6609, __c206, 17) as any as S.Schema<DynamicProfile>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
@@ -11949,8 +9198,8 @@ export const insertDynamicTargetingKeys: API.OperationMethod<
   InsertDynamicTargetingKeysError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9248, __c289, 0) as any as S.Schema<InsertDynamicTargetingKeysRequest>,
-  output: __S(9280, __c290, 0) as any as S.Schema<DynamicTargetingKey>,
+  input: __S(9216, __c288, 0) as any as S.Schema<InsertDynamicTargetingKeysRequest>,
+  output: __S(9248, __c289, 0) as any as S.Schema<DynamicTargetingKey>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -11972,7 +9221,7 @@ export const insertEventTags: API.OperationMethod<
   InsertEventTagsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9344, __c292, 0) as any as S.Schema<InsertEventTagsRequest>,
+  input: __S(9312, __c291, 0) as any as S.Schema<InsertEventTagsRequest>,
   output: __S(6656, __c208, 0) as any as S.Schema<EventTag>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
@@ -11995,7 +9244,7 @@ export const insertFloodlightActivities: API.OperationMethod<
   InsertFloodlightActivitiesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9376, __c293, 0) as any as S.Schema<InsertFloodlightActivitiesRequest>,
+  input: __S(9344, __c292, 0) as any as S.Schema<InsertFloodlightActivitiesRequest>,
   output: __S(6820, __c213, 4) as any as S.Schema<FloodlightActivity>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
@@ -12018,7 +9267,7 @@ export const insertFloodlightActivityGroups: API.OperationMethod<
   InsertFloodlightActivityGroupsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9408, __c294, 0) as any as S.Schema<InsertFloodlightActivityGroupsRequest>,
+  input: __S(9376, __c293, 0) as any as S.Schema<InsertFloodlightActivityGroupsRequest>,
   output: __S(6880, __c215, 0) as any as S.Schema<FloodlightActivityGroup>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
@@ -12041,7 +9290,7 @@ export const insertPlacementGroups: API.OperationMethod<
   InsertPlacementGroupsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9440, __c295, 0) as any as S.Schema<InsertPlacementGroupsRequest>,
+  input: __S(9408, __c294, 0) as any as S.Schema<InsertPlacementGroupsRequest>,
   output: __S(7264, __c227, 0) as any as S.Schema<PlacementGroup>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
@@ -12064,7 +9313,7 @@ export const insertPlacements: API.OperationMethod<
   InsertPlacementsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9472, __c296, 0) as any as S.Schema<InsertPlacementsRequest>,
+  input: __S(9440, __c295, 0) as any as S.Schema<InsertPlacementsRequest>,
   output: __S(7369, __c230, 9) as any as S.Schema<Placement>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
@@ -12087,7 +9336,7 @@ export const insertPlacementStrategies: API.OperationMethod<
   InsertPlacementStrategiesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9504, __c297, 0) as any as S.Schema<InsertPlacementStrategiesRequest>,
+  input: __S(9472, __c296, 0) as any as S.Schema<InsertPlacementStrategiesRequest>,
   output: __S(6016, __c188, 0) as any as S.Schema<PlacementStrategy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
@@ -12110,7 +9359,7 @@ export const insertRemarketingLists: API.OperationMethod<
   InsertRemarketingListsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9536, __c298, 0) as any as S.Schema<InsertRemarketingListsRequest>,
+  input: __S(9504, __c297, 0) as any as S.Schema<InsertRemarketingListsRequest>,
   output: __S(7525, __c235, 5) as any as S.Schema<RemarketingList>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
@@ -12133,8 +9382,8 @@ export const insertReports: API.OperationMethod<
   InsertReportsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9568, __c299, 0) as any as S.Schema<InsertReportsRequest>,
-  output: __S(7712, __c241, 0) as any as S.Schema<Report>,
+  input: __S(9536, __c298, 0) as any as S.Schema<InsertReportsRequest>,
+  output: __S(7695, __c240, 15) as any as S.Schema<Report>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -12156,8 +9405,8 @@ export const insertSites: API.OperationMethod<
   InsertSitesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9600, __c300, 0) as any as S.Schema<InsertSitesRequest>,
-  output: __S(7847, __c245, 7) as any as S.Schema<Site>,
+  input: __S(9568, __c299, 0) as any as S.Schema<InsertSitesRequest>,
+  output: __S(7815, __c244, 7) as any as S.Schema<Site>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -12179,7 +9428,7 @@ export const insertSizes: API.OperationMethod<
   InsertSizesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9632, __c301, 0) as any as S.Schema<InsertSizesRequest>,
+  input: __S(9600, __c300, 0) as any as S.Schema<InsertSizesRequest>,
   output: __S(4864, __c152, 0) as any as S.Schema<Size>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
@@ -12202,8 +9451,8 @@ export const insertStudioCreativeAssets: API.OperationMethod<
   InsertStudioCreativeAssetsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c1, 0) as any as S.Schema<InsertStudioCreativeAssetsRequest>,
-  output: __S(36, __c1, 4) as any as S.Schema<StudioCreativeAssetsResponse>,
+  input: __S(33, __c1, 1) as any as S.Schema<InsertStudioCreativeAssetsRequest>,
+  output: __S(37, __c1, 5) as any as S.Schema<StudioCreativeAssetsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -12226,7 +9475,7 @@ export const insertStudioCreatives: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c2, 0) as any as S.Schema<InsertStudioCreativesRequest>,
-  output: __S(7937, __c248, 1) as any as S.Schema<StudioCreative>,
+  output: __S(7905, __c247, 1) as any as S.Schema<StudioCreative>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -12249,7 +9498,7 @@ export const insertSubaccounts: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c3, 0) as any as S.Schema<InsertSubaccountsRequest>,
-  output: __S(8000, __c250, 0) as any as S.Schema<Subaccount>,
+  output: __S(7968, __c249, 0) as any as S.Schema<Subaccount>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -12272,7 +9521,7 @@ export const insertTargetingTemplates: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c4, 0) as any as S.Schema<InsertTargetingTemplatesRequest>,
-  output: __S(8128, __c254, 0) as any as S.Schema<TargetingTemplate>,
+  output: __S(8096, __c253, 0) as any as S.Schema<TargetingTemplate>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -12295,7 +9544,7 @@ export const insertUserRoles: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c5, 0) as any as S.Schema<InsertUserRolesRequest>,
-  output: __S(8512, __c266, 0) as any as S.Schema<UserRole>,
+  output: __S(8480, __c265, 0) as any as S.Schema<UserRole>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -13862,7 +11111,7 @@ export const patchSites: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3008, __c94, 0) as any as S.Schema<PatchSitesRequest>,
-  output: __S(7847, __c245, 7) as any as S.Schema<Site>,
+  output: __S(7815, __c244, 7) as any as S.Schema<Site>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -13885,7 +11134,7 @@ export const patchSubaccounts: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3040, __c95, 0) as any as S.Schema<PatchSubaccountsRequest>,
-  output: __S(8000, __c250, 0) as any as S.Schema<Subaccount>,
+  output: __S(7968, __c249, 0) as any as S.Schema<Subaccount>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -13908,7 +11157,7 @@ export const patchTargetingTemplates: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3072, __c96, 0) as any as S.Schema<PatchTargetingTemplatesRequest>,
-  output: __S(8128, __c254, 0) as any as S.Schema<TargetingTemplate>,
+  output: __S(8096, __c253, 0) as any as S.Schema<TargetingTemplate>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -13931,7 +11180,7 @@ export const patchUserRoles: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3104, __c97, 0) as any as S.Schema<PatchUserRolesRequest>,
-  output: __S(8512, __c266, 0) as any as S.Schema<UserRole>,
+  output: __S(8480, __c265, 0) as any as S.Schema<UserRole>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -13954,7 +11203,7 @@ export const publishDynamicProfiles: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3136, __c98, 0) as any as S.Schema<PublishDynamicProfilesRequest>,
-  output: __S(8416, __c263, 0) as any as S.Schema<PublishDynamicProfilesResponse>,
+  output: __S(8384, __c262, 0) as any as S.Schema<PublishDynamicProfilesResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -13977,7 +11226,7 @@ export const publishStudioCreatives: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3168, __c99, 0) as any as S.Schema<PublishStudioCreativesRequest>,
-  output: __S(8416, __c263, 0) as any as S.Schema<PublishStudioCreativesResponse>,
+  output: __S(8384, __c262, 0) as any as S.Schema<PublishStudioCreativesResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -14000,8 +11249,8 @@ export const queryDimensionValues: API.PaginatedOperationMethod<
   GcpOpContext,
   DimensionValue
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(3202, __c100, 2) as any as S.Schema<QueryDimensionValuesRequest>,
-  output: __S(3203, __c100, 3) as any as S.Schema<DimensionValueList>,
+  input: __S(3203, __c100, 3) as any as S.Schema<QueryDimensionValuesRequest>,
+  output: __S(3204, __c100, 4) as any as S.Schema<DimensionValueList>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -14024,8 +11273,8 @@ export const queryReportData: API.OperationMethod<
   QueryReportDataError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3298, __c103, 2) as any as S.Schema<QueryReportDataRequest>,
-  output: __S(3303, __c103, 7) as any as S.Schema<ReportDataResponse>,
+  input: __S(3299, __c103, 3) as any as S.Schema<QueryReportDataRequest>,
+  output: __S(3304, __c103, 8) as any as S.Schema<ReportDataResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -14665,7 +11914,7 @@ export const updateReports: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4288, __c134, 0) as any as S.Schema<UpdateReportsRequest>,
-  output: __S(7712, __c241, 0) as any as S.Schema<Report>,
+  output: __S(7695, __c240, 15) as any as S.Schema<Report>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -14688,7 +11937,7 @@ export const updateSites: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4320, __c135, 0) as any as S.Schema<UpdateSitesRequest>,
-  output: __S(7847, __c245, 7) as any as S.Schema<Site>,
+  output: __S(7815, __c244, 7) as any as S.Schema<Site>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -14711,7 +11960,7 @@ export const updateSubaccounts: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4416, __c138, 0) as any as S.Schema<UpdateSubaccountsRequest>,
-  output: __S(8000, __c250, 0) as any as S.Schema<Subaccount>,
+  output: __S(7968, __c249, 0) as any as S.Schema<Subaccount>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -14734,7 +11983,7 @@ export const updateTargetingTemplates: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4448, __c139, 0) as any as S.Schema<UpdateTargetingTemplatesRequest>,
-  output: __S(8128, __c254, 0) as any as S.Schema<TargetingTemplate>,
+  output: __S(8096, __c253, 0) as any as S.Schema<TargetingTemplate>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -14757,7 +12006,7 @@ export const updateUserRoles: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4480, __c140, 0) as any as S.Schema<UpdateUserRolesRequest>,
-  output: __S(8512, __c266, 0) as any as S.Schema<UserRole>,
+  output: __S(8480, __c265, 0) as any as S.Schema<UserRole>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -14792,7 +12041,11 @@ function __c1(j: number): any {
           studioCreativeId: S.optional(S.String),
           studioAdvertiserId: S.optional(S.String),
           studioAccountId: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "DfareportingStudioCreativeAssetsInsertRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(__S(32, __c1, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "studio/creativeAssets",
@@ -14800,21 +12053,21 @@ function __c1(j: number): any {
           }),
         ),
       ).annotate({ identifier: "InsertStudioCreativeAssetsRequest" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           processingState: S.optional(S.String),
           errorReason: S.optional(S.String),
         }),
       ).annotate({ identifier: "VideoProcessingData" });
-    case 2:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           studioCreativeId: S.optional(S.String),
           lastModifiedInfo: S.optional(__S(4736, __c148, 0)),
           createInfo: S.optional(__S(4736, __c148, 0)),
           filename: S.optional(S.String),
-          videoProcessingData: S.optional(__S(33, __c1, 1)),
+          videoProcessingData: S.optional(__S(34, __c1, 2)),
           filesize: S.optional(S.String),
           type: S.optional(S.String),
           id: S.optional(S.String),
@@ -14822,12 +12075,12 @@ function __c1(j: number): any {
           studioAdvertiserId: S.optional(S.String),
         }),
       ).annotate({ identifier: "StudioCreativeAsset" });
-    case 3:
-      return S.Array(__S(34, __c1, 2));
     case 4:
+      return S.Array(__S(35, __c1, 3));
+    case 5:
       return S.suspend(() =>
         S.Struct({
-          assets: S.optional(__S(35, __c1, 3)),
+          assets: S.optional(__S(36, __c1, 4)),
         }),
       ).annotate({ identifier: "StudioCreativeAssetsResponse" });
   }
@@ -14836,21 +12089,7 @@ function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          status: S.optional(S.String),
-          studioAccountId: S.optional(S.String),
-          studioAdvertiserId: S.optional(S.String),
-          assetIds: S.optional(__S(7136, __c223, 0)),
-          studioCampaignId: S.optional(S.String),
-          dimension: S.optional(__S(7936, __c248, 0)),
-          format: S.optional(S.String),
-          lastModifiedInfo: S.optional(__S(4736, __c148, 0)),
-          createdInfo: S.optional(__S(4736, __c148, 0)),
-          name: S.optional(S.String),
-          backupImageAssetId: S.optional(S.String),
-          id: S.optional(S.String),
-          dynamicProfileId: S.optional(S.String),
-        }).pipe(
+        S.Extend(__S(7905, __c247, 1), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "studio/creatives",
@@ -14864,14 +12103,12 @@ function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          name: S.optional(S.String),
-          kind: S.optional(S.String),
-          accountId: S.optional(S.String),
-          availablePermissionIds: S.optional(__S(7136, __c223, 0)),
-          id: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(7968, __c249, 0),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "userprofiles/{+profileId}/subaccounts",
@@ -14885,23 +12122,12 @@ function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          languageTargeting: S.optional(__S(5478, __c171, 6)),
-          listTargetingExpression: S.optional(__S(5473, __c171, 1)),
-          keyValueTargetingExpression: S.optional(__S(5473, __c171, 1)),
-          advertiserIdDimensionValue: S.optional(__S(4704, __c147, 0)),
-          name: S.optional(S.String),
-          contextualKeywordTargeting: S.optional(__S(5476, __c171, 4)),
-          advertiserId: S.optional(S.String),
-          technologyTargeting: S.optional(__S(5477, __c171, 5)),
-          subaccountId: S.optional(S.String),
-          geoTargeting: S.optional(__S(5479, __c171, 7)),
-          accountId: S.optional(S.String),
-          id: S.optional(S.String),
-          kind: S.optional(S.String),
-          dayPartTargeting: S.optional(__S(5472, __c171, 0)),
-        }).pipe(
+        S.Extend(
+          __S(8096, __c253, 0),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "userprofiles/{+profileId}/targetingTemplates",
@@ -14915,17 +12141,12 @@ function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          name: S.optional(S.String),
-          kind: S.optional(S.String),
-          defaultUserRole: S.optional(S.Boolean),
-          permissions: S.optional(__S(8480, __c265, 0)),
-          id: S.optional(S.String),
-          subaccountId: S.optional(S.String),
-          parentUserRoleId: S.optional(S.String),
-          accountId: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(8480, __c265, 0),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "userprofiles/{+profileId}/userRoles",
@@ -15308,7 +12529,7 @@ function __c16(j: number): any {
         ),
       ).annotate({ identifier: "ListBillingAssignmentsRequest" });
     case 1:
-      return S.Array(__S(8800, __c275, 0));
+      return S.Array(__S(8768, __c274, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -15447,7 +12668,7 @@ function __c20(j: number): any {
         ),
       ).annotate({ identifier: "ListCampaignCreativeAssociationsRequest" });
     case 1:
-      return S.Array(__S(8864, __c277, 0));
+      return S.Array(__S(8832, __c276, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -15874,7 +13095,7 @@ function __c35(j: number): any {
         ),
       ).annotate({ identifier: "ListDynamicTargetingKeysRequest" });
     case 1:
-      return S.Array(__S(9280, __c290, 0));
+      return S.Array(__S(9248, __c289, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -16464,7 +13685,7 @@ function __c56(j: number): any {
         ),
       ).annotate({ identifier: "ListReportsRequest" });
     case 1:
-      return S.Array(__S(7712, __c241, 0));
+      return S.Array(__S(7695, __c240, 15));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -16544,7 +13765,7 @@ function __c59(j: number): any {
         ),
       ).annotate({ identifier: "ListSitesRequest" });
     case 1:
-      return S.Array(__S(7847, __c245, 7));
+      return S.Array(__S(7815, __c244, 7));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -16603,7 +13824,7 @@ function __c61(j: number): any {
         ),
       ).annotate({ identifier: "ListSubaccountsRequest" });
     case 1:
-      return S.Array(__S(8000, __c250, 0));
+      return S.Array(__S(7968, __c249, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -16636,7 +13857,7 @@ function __c62(j: number): any {
         ),
       ).annotate({ identifier: "ListTargetableRemarketingListsRequest" });
     case 1:
-      return S.Array(__S(8064, __c252, 0));
+      return S.Array(__S(8032, __c251, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -16669,7 +13890,7 @@ function __c63(j: number): any {
         ),
       ).annotate({ identifier: "ListTargetingTemplatesRequest" });
     case 1:
-      return S.Array(__S(8128, __c254, 0));
+      return S.Array(__S(8096, __c253, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -16736,7 +13957,7 @@ function __c65(j: number): any {
         ),
       ).annotate({ identifier: "ListUserProfilesRequest" });
     case 1:
-      return S.Array(__S(8224, __c257, 0));
+      return S.Array(__S(8192, __c256, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -16762,7 +13983,7 @@ function __c66(j: number): any {
         ),
       ).annotate({ identifier: "ListUserRolePermissionGroupsRequest" });
     case 1:
-      return S.Array(__S(8288, __c259, 0));
+      return S.Array(__S(8256, __c258, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -16790,7 +14011,7 @@ function __c67(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          userRolePermissions: S.optional(__S(8480, __c265, 0)),
+          userRolePermissions: S.optional(__S(8448, __c264, 0)),
           kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "UserRolePermissionsListResponse" });
@@ -16836,7 +14057,7 @@ function __c69(j: number): any {
         ),
       ).annotate({ identifier: "ListUserRolesRequest" });
     case 1:
-      return S.Array(__S(8512, __c266, 0));
+      return S.Array(__S(8480, __c265, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -16862,7 +14083,7 @@ function __c70(j: number): any {
         ),
       ).annotate({ identifier: "ListVideoFormatsRequest" });
     case 1:
-      return S.Array(__S(8576, __c268, 0));
+      return S.Array(__S(8544, __c267, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -16876,28 +14097,13 @@ function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Query()),
-          profileId: S.String.pipe(T.Label()),
-          accountPermissionIds: S.optional(__S(7136, __c223, 0)),
-          activeAdsLimitTier: S.optional(S.String),
-          accountProfile: S.optional(S.String),
-          countryId: S.optional(S.String),
-          active: S.optional(S.Boolean),
-          name: S.optional(S.String),
-          locale: S.optional(S.String),
-          defaultCreativeSizeId: S.optional(S.String),
-          nielsenOcrEnabled: S.optional(S.Boolean),
-          activeViewOptOut: S.optional(S.Boolean),
-          availablePermissionIds: S.optional(__S(7136, __c223, 0)),
-          currencyId: S.optional(S.String),
-          description: S.optional(S.String),
-          shareReportsWithTwitter: S.optional(S.Boolean),
-          reportsConfiguration: S.optional(__S(4544, __c142, 0)),
-          teaserSizeLimit: S.optional(S.String),
-          kind: S.optional(S.String),
-          maximumImageSize: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(4545, __c142, 1),
+          S.Struct({
+            id: S.String.pipe(T.Query()),
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "userprofiles/{+profileId}/accounts",
@@ -16911,25 +14117,13 @@ function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Query()),
-          subaccountId: S.optional(S.String),
-          email: S.optional(S.String),
-          userRoleFilter: S.optional(__S(4640, __c145, 0)),
-          name: S.optional(S.String),
-          campaignFilter: S.optional(__S(4640, __c145, 0)),
-          userAccessType: S.optional(S.String),
-          siteFilter: S.optional(__S(4640, __c145, 0)),
-          active: S.optional(S.Boolean),
-          comments: S.optional(S.String),
-          advertiserFilter: S.optional(__S(4640, __c145, 0)),
-          traffickerType: S.optional(S.String),
-          accountId: S.optional(S.String),
-          locale: S.optional(S.String),
-          kind: S.optional(S.String),
-          userRoleId: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(4641, __c145, 1),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+            id: S.String.pipe(T.Query()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "userprofiles/{+profileId}/accountUserProfiles",
@@ -16943,49 +14137,13 @@ function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Query()),
-          lastModifiedInfo: S.optional(__S(4736, __c148, 0)),
-          startTime: S.optional(S.String),
-          dayPartTargeting: S.optional(__S(5472, __c171, 0)),
-          size: S.optional(__S(4864, __c152, 0)),
-          active: S.optional(S.Boolean),
-          clickThroughUrlSuffixProperties: S.optional(__S(4768, __c149, 0)),
-          targetingTemplateId: S.optional(S.String),
-          compatibility: S.optional(S.String),
-          archived: S.optional(S.Boolean),
-          remarketingListExpression: S.optional(__S(5473, __c171, 1)),
-          creativeGroupAssignments: S.optional(__S(5505, __c172, 1)),
-          contextualKeywordTargeting: S.optional(__S(5476, __c171, 4)),
-          comments: S.optional(S.String),
-          name: S.optional(S.String),
-          idDimensionValue: S.optional(__S(4704, __c147, 0)),
-          technologyTargeting: S.optional(__S(5477, __c171, 5)),
-          campaignIdDimensionValue: S.optional(__S(4704, __c147, 0)),
-          type: S.optional(S.String),
-          audienceSegmentId: S.optional(S.String),
-          placementAssignments: S.optional(__S(5507, __c172, 3)),
-          advertiserId: S.optional(S.String),
-          creativeRotation: S.optional(__S(5515, __c172, 11)),
-          dynamicClickTracker: S.optional(S.Boolean),
-          createInfo: S.optional(__S(4736, __c148, 0)),
-          languageTargeting: S.optional(__S(5478, __c171, 6)),
-          sslRequired: S.optional(S.Boolean),
-          kind: S.optional(S.String),
-          eventTagOverrides: S.optional(__S(4770, __c149, 2)),
-          accountId: S.optional(S.String),
-          campaignId: S.optional(S.String),
-          defaultClickThroughEventTagProperties: S.optional(__S(4771, __c149, 3)),
-          sslCompliant: S.optional(S.Boolean),
-          keyValueTargetingExpression: S.optional(__S(5473, __c171, 1)),
-          deliverySchedule: S.optional(__S(5517, __c172, 13)),
-          advertiserIdDimensionValue: S.optional(__S(4704, __c147, 0)),
-          clickThroughUrl: S.optional(__S(5508, __c172, 4)),
-          endTime: S.optional(S.String),
-          subaccountId: S.optional(S.String),
-          geoTargeting: S.optional(__S(5479, __c171, 7)),
-        }).pipe(
+        S.Extend(
+          __S(5518, __c172, 14),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+            id: S.String.pipe(T.Query()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "userprofiles/{+profileId}/ads",
@@ -16999,13 +14157,13 @@ function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Query()),
-          name: S.optional(S.String),
-          kind: S.optional(S.String),
-          accountId: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(5568, __c174, 0),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+            id: S.String.pipe(T.Query()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "userprofiles/{+profileId}/advertiserGroups",
@@ -17019,16 +14177,13 @@ function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Query()),
-          profileId: S.String.pipe(T.Label()),
-          archived: S.optional(S.Boolean),
-          name: S.optional(S.String),
-          kind: S.optional(S.String),
-          url: S.optional(S.String),
-          advertiserId: S.optional(S.String),
-          deepLinks: S.optional(__S(5665, __c177, 1)),
-        }).pipe(
+        S.Extend(
+          __S(5666, __c177, 2),
+          S.Struct({
+            id: S.String.pipe(T.Query()),
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "userprofiles/{+profileId}/advertiserLandingPages",
@@ -17042,26 +14197,13 @@ function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Query()),
-          profileId: S.String.pipe(T.Label()),
-          floodlightConfigurationId: S.optional(S.String),
-          clickThroughUrlSuffix: S.optional(S.String),
-          euPoliticalAdsDeclaration: S.optional(S.String),
-          accountId: S.optional(S.String),
-          name: S.optional(S.String),
-          suspended: S.optional(S.Boolean),
-          originalFloodlightConfigurationId: S.optional(S.String),
-          measurementPartnerLink: S.optional(__S(5728, __c179, 0)),
-          advertiserGroupId: S.optional(S.String),
-          status: S.optional(S.String),
-          floodlightConfigurationIdDimensionValue: S.optional(__S(4704, __c147, 0)),
-          kind: S.optional(S.String),
-          subaccountId: S.optional(S.String),
-          defaultClickThroughEventTagId: S.optional(S.String),
-          defaultEmail: S.optional(S.String),
-          idDimensionValue: S.optional(__S(4704, __c147, 0)),
-        }).pipe(
+        S.Extend(
+          __S(5729, __c179, 1),
+          S.Struct({
+            id: S.String.pipe(T.Query()),
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "userprofiles/{+profileId}/advertisers",
@@ -17075,37 +14217,13 @@ function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Query()),
-          clickThroughUrlSuffixProperties: S.optional(__S(4768, __c149, 0)),
-          advertiserGroupId: S.optional(S.String),
-          eventTagOverrides: S.optional(__S(4770, __c149, 2)),
-          comment: S.optional(S.String),
-          additionalCreativeOptimizationConfigurations: S.optional(__S(5859, __c183, 3)),
-          endDate: S.optional(S.String),
-          kind: S.optional(S.String),
-          billingInvoiceCode: S.optional(S.String),
-          euPoliticalAdsDeclaration: S.optional(S.String),
-          defaultLandingPageId: S.optional(S.String),
-          creativeOptimizationConfiguration: S.optional(__S(5858, __c183, 2)),
-          measurementPartnerLink: S.optional(__S(5860, __c183, 4)),
-          archived: S.optional(S.Boolean),
-          subaccountId: S.optional(S.String),
-          idDimensionValue: S.optional(__S(4704, __c147, 0)),
-          accountId: S.optional(S.String),
-          audienceSegmentGroups: S.optional(__S(5864, __c183, 8)),
-          defaultClickThroughEventTagProperties: S.optional(__S(4771, __c149, 3)),
-          creativeGroupIds: S.optional(__S(7136, __c223, 0)),
-          startDate: S.optional(S.String),
-          name: S.optional(S.String),
-          createInfo: S.optional(__S(4736, __c148, 0)),
-          lastModifiedInfo: S.optional(__S(4736, __c148, 0)),
-          advertiserId: S.optional(S.String),
-          adBlockingConfiguration: S.optional(__S(5865, __c183, 9)),
-          advertiserIdDimensionValue: S.optional(__S(4704, __c147, 0)),
-          externalId: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(5866, __c183, 10),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+            id: S.String.pipe(T.Query()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "userprofiles/{+profileId}/campaigns",
@@ -17119,13 +14237,13 @@ function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Query()),
-          profileId: S.String.pipe(T.Label()),
-          accountId: S.optional(S.String),
-          name: S.optional(S.String),
-          kind: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(6016, __c188, 0),
+          S.Struct({
+            id: S.String.pipe(T.Query()),
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "userprofiles/{+profileId}/contentCategories",
@@ -17161,16 +14279,13 @@ function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Query()),
-          profileId: S.String.pipe(T.Label()),
-          accountId: S.optional(S.String),
-          advertiserId: S.optional(S.String),
-          advertiserIdDimensionValue: S.optional(__S(4704, __c147, 0)),
-          name: S.optional(S.String),
-          subaccountId: S.optional(S.String),
-          kind: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(6112, __c191, 0),
+          S.Struct({
+            id: S.String.pipe(T.Query()),
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "userprofiles/{+profileId}/creativeFields",
@@ -17184,13 +14299,14 @@ function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Query()),
-          profileId: S.String.pipe(T.Label()),
-          creativeFieldId: S.String.pipe(T.Label()),
-          value: S.optional(S.String),
-          kind: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(6176, __c193, 0),
+          S.Struct({
+            id: S.String.pipe(T.Query()),
+            profileId: S.String.pipe(T.Label()),
+            creativeFieldId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "userprofiles/{+profileId}/creativeFields/{+creativeFieldId}/creativeFieldValues",
@@ -17204,17 +14320,13 @@ function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Query()),
-          profileId: S.String.pipe(T.Label()),
-          subaccountId: S.optional(S.String),
-          kind: S.optional(S.String),
-          name: S.optional(S.String),
-          groupNumber: S.optional(S.Number),
-          advertiserIdDimensionValue: S.optional(__S(4704, __c147, 0)),
-          advertiserId: S.optional(S.String),
-          accountId: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(6240, __c195, 0),
+          S.Struct({
+            id: S.String.pipe(T.Query()),
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "userprofiles/{+profileId}/creativeGroups",
@@ -17228,74 +14340,13 @@ function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Query()),
-          lastModifiedInfo: S.optional(__S(4736, __c148, 0)),
-          studioAdvertiserId: S.optional(S.String),
-          totalFileSize: S.optional(S.String),
-          htmlCodeLocked: S.optional(S.Boolean),
-          accountId: S.optional(S.String),
-          artworkType: S.optional(S.String),
-          companionCreatives: S.optional(__S(7136, __c223, 0)),
-          size: S.optional(__S(4864, __c152, 0)),
-          fsCommand: S.optional(__S(6400, __c200, 0)),
-          redirectUrl: S.optional(S.String),
-          exitCustomEvents: S.optional(__S(6372, __c199, 4)),
-          requiredFlashPluginVersion: S.optional(S.String),
-          type: S.optional(S.String),
-          universalAdId: S.optional(__S(6401, __c200, 1)),
-          counterCustomEvents: S.optional(__S(6372, __c199, 4)),
-          subaccountId: S.optional(S.String),
-          adTagKeys: S.optional(__S(7136, __c223, 0)),
-          skippable: S.optional(S.Boolean),
-          sslCompliant: S.optional(S.Boolean),
-          mediaDuration: S.optional(S.Number),
-          renderingIdDimensionValue: S.optional(__S(4704, __c147, 0)),
-          requiredFlashVersion: S.optional(S.Number),
-          backupImageTargetWindow: S.optional(__S(6402, __c200, 2)),
-          studioTraffickedCreativeId: S.optional(S.String),
-          skipOffset: S.optional(__S(6336, __c198, 0)),
-          progressOffset: S.optional(__S(6336, __c198, 0)),
-          overrideCss: S.optional(S.String),
-          authoringTool: S.optional(S.String),
-          convertFlashToHtml5: S.optional(S.Boolean),
-          version: S.optional(S.Number),
-          syntheticContentAttestationStatus: S.optional(S.String),
-          backupImageReportingLabel: S.optional(S.String),
-          latestTraffickedCreativeId: S.optional(S.String),
-          additionalSizes: S.optional(__S(6304, __c197, 0)),
-          archived: S.optional(S.Boolean),
-          thirdPartyUrls: S.optional(__S(6404, __c200, 4)),
-          authoringSource: S.optional(S.String),
-          advertiserId: S.optional(S.String),
-          backgroundColor: S.optional(S.String),
-          creativeAssets: S.optional(__S(6406, __c200, 6)),
-          adParameters: S.optional(S.String),
-          creativeFieldAssignments: S.optional(__S(6408, __c200, 8)),
-          sslOverride: S.optional(S.Boolean),
-          backupImageFeatures: S.optional(__S(3264, __c102, 0)),
-          active: S.optional(S.Boolean),
-          name: S.optional(S.String),
-          autoAdvanceImages: S.optional(S.Boolean),
-          clickTags: S.optional(__S(6375, __c199, 7)),
-          mediaDescription: S.optional(S.String),
-          idDimensionValue: S.optional(__S(4704, __c147, 0)),
-          timerCustomEvents: S.optional(__S(6372, __c199, 4)),
-          studioCreativeId: S.optional(S.String),
-          renderingId: S.optional(S.String),
-          kind: S.optional(S.String),
-          commercialId: S.optional(S.String),
-          obaIcon: S.optional(__S(6337, __c198, 1)),
-          backupImageClickThroughUrl: S.optional(__S(6368, __c199, 0)),
-          additionalAsset: S.optional(__S(6409, __c200, 9)),
-          allowScriptAccess: S.optional(S.Boolean),
-          thirdPartyBackupImageImpressionsUrl: S.optional(S.String),
-          customKeyValues: S.optional(__S(7136, __c223, 0)),
-          compatibility: S.optional(__S(3264, __c102, 0)),
-          thirdPartyRichMediaImpressionsUrl: S.optional(S.String),
-          htmlCode: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(6410, __c200, 10),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+            id: S.String.pipe(T.Query()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "userprofiles/{+profileId}/creatives",
@@ -17309,27 +14360,13 @@ function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Query()),
-          sslCompliant: S.optional(S.Boolean),
-          url: S.optional(S.String),
-          enabledByDefault: S.optional(S.Boolean),
-          advertiserIdDimensionValue: S.optional(__S(4704, __c147, 0)),
-          kind: S.optional(S.String),
-          excludeFromAdxRequests: S.optional(S.Boolean),
-          campaignId: S.optional(S.String),
-          subaccountId: S.optional(S.String),
-          accountId: S.optional(S.String),
-          urlEscapeLevels: S.optional(S.Number),
-          advertiserId: S.optional(S.String),
-          campaignIdDimensionValue: S.optional(__S(4704, __c147, 0)),
-          status: S.optional(S.String),
-          type: S.optional(S.String),
-          name: S.optional(S.String),
-          siteIds: S.optional(__S(7136, __c223, 0)),
-          siteFilterType: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(6656, __c208, 0),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+            id: S.String.pipe(T.Query()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "userprofiles/{+profileId}/eventTags",
@@ -17343,39 +14380,13 @@ function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Query()),
-          floodlightActivityGroupName: S.optional(S.String),
-          status: S.optional(S.String),
-          floodlightConfigurationId: S.optional(S.String),
-          notes: S.optional(S.String),
-          accountId: S.optional(S.String),
-          publisherTags: S.optional(__S(6818, __c213, 2)),
-          advertiserIdDimensionValue: S.optional(__S(4704, __c147, 0)),
-          defaultTags: S.optional(__S(6819, __c213, 3)),
-          conversionCategory: S.optional(S.String),
-          floodlightActivityGroupType: S.optional(S.String),
-          floodlightTagType: S.optional(S.String),
-          tagFormat: S.optional(S.String),
-          userDefinedVariableTypes: S.optional(__S(3264, __c102, 0)),
-          name: S.optional(S.String),
-          floodlightActivityGroupId: S.optional(S.String),
-          attributionEnabled: S.optional(S.Boolean),
-          advertiserId: S.optional(S.String),
-          tagString: S.optional(S.String),
-          floodlightActivityGroupTagString: S.optional(S.String),
-          kind: S.optional(S.String),
-          sslCompliant: S.optional(S.Boolean),
-          idDimensionValue: S.optional(__S(4704, __c147, 0)),
-          expectedUrl: S.optional(S.String),
-          floodlightConfigurationIdDimensionValue: S.optional(__S(4704, __c147, 0)),
-          secure: S.optional(S.Boolean),
-          subaccountId: S.optional(S.String),
-          sslRequired: S.optional(S.Boolean),
-          cacheBustingType: S.optional(S.String),
-          countingMethod: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(6820, __c213, 4),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+            id: S.String.pipe(T.Query()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "userprofiles/{+profileId}/floodlightActivities",
@@ -17389,21 +14400,13 @@ function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Query()),
-          profileId: S.String.pipe(T.Label()),
-          accountId: S.optional(S.String),
-          subaccountId: S.optional(S.String),
-          floodlightConfigurationId: S.optional(S.String),
-          idDimensionValue: S.optional(__S(4704, __c147, 0)),
-          type: S.optional(S.String),
-          kind: S.optional(S.String),
-          floodlightConfigurationIdDimensionValue: S.optional(__S(4704, __c147, 0)),
-          advertiserId: S.optional(S.String),
-          advertiserIdDimensionValue: S.optional(__S(4704, __c147, 0)),
-          name: S.optional(S.String),
-          tagString: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(6880, __c215, 0),
+          S.Struct({
+            id: S.String.pipe(T.Query()),
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "userprofiles/{+profileId}/floodlightActivityGroups",
@@ -17417,27 +14420,13 @@ function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Query()),
-          profileId: S.String.pipe(T.Label()),
-          advertiserIdDimensionValue: S.optional(__S(4704, __c147, 0)),
-          idDimensionValue: S.optional(__S(4704, __c147, 0)),
-          firstDayOfWeek: S.optional(S.String),
-          kind: S.optional(S.String),
-          advertiserId: S.optional(S.String),
-          analyticsDataSharingEnabled: S.optional(S.Boolean),
-          thirdPartyAuthenticationTokens: S.optional(__S(6945, __c217, 1)),
-          inAppAttributionTrackingEnabled: S.optional(S.Boolean),
-          customViewabilityMetric: S.optional(__S(6947, __c217, 3)),
-          lookbackConfiguration: S.optional(__S(4576, __c143, 0)),
-          naturalSearchConversionAttributionOption: S.optional(S.String),
-          tagSettings: S.optional(__S(6948, __c217, 4)),
-          subaccountId: S.optional(S.String),
-          userDefinedVariableConfigurations: S.optional(__S(6950, __c217, 6)),
-          accountId: S.optional(S.String),
-          omnitureSettings: S.optional(__S(6951, __c217, 7)),
-          exposureToConversionEnabled: S.optional(S.Boolean),
-        }).pipe(
+        S.Extend(
+          __S(6952, __c217, 8),
+          S.Struct({
+            id: S.String.pipe(T.Query()),
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "userprofiles/{+profileId}/floodlightConfigurations",
@@ -17451,35 +14440,13 @@ function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Query()),
-          idDimensionValue: S.optional(__S(4704, __c147, 0)),
-          placementGroupType: S.optional(S.String),
-          advertiserIdDimensionValue: S.optional(__S(4704, __c147, 0)),
-          subaccountId: S.optional(S.String),
-          directorySiteId: S.optional(S.String),
-          placementStrategyId: S.optional(S.String),
-          accountId: S.optional(S.String),
-          contentCategoryId: S.optional(S.String),
-          siteIdDimensionValue: S.optional(__S(4704, __c147, 0)),
-          campaignId: S.optional(S.String),
-          externalId: S.optional(S.String),
-          childPlacementIds: S.optional(__S(7136, __c223, 0)),
-          createInfo: S.optional(__S(4736, __c148, 0)),
-          pricingSchedule: S.optional(__S(7234, __c226, 2)),
-          advertiserId: S.optional(S.String),
-          directorySiteIdDimensionValue: S.optional(__S(4704, __c147, 0)),
-          kind: S.optional(S.String),
-          lastModifiedInfo: S.optional(__S(4736, __c148, 0)),
-          primaryPlacementIdDimensionValue: S.optional(__S(4704, __c147, 0)),
-          primaryPlacementId: S.optional(S.String),
-          campaignIdDimensionValue: S.optional(__S(4704, __c147, 0)),
-          comment: S.optional(S.String),
-          name: S.optional(S.String),
-          activeStatus: S.optional(S.String),
-          siteId: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(7264, __c227, 0),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+            id: S.String.pipe(T.Query()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "userprofiles/{+profileId}/placementGroups",
@@ -17493,57 +14460,13 @@ function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Query()),
-          pricingSchedule: S.optional(__S(7234, __c226, 2)),
-          lookbackConfiguration: S.optional(__S(4576, __c143, 0)),
-          name: S.optional(S.String),
-          sslRequired: S.optional(S.Boolean),
-          publisherUpdateInfo: S.optional(__S(4736, __c148, 0)),
-          contentCategoryId: S.optional(S.String),
-          campaignIdDimensionValue: S.optional(__S(4704, __c147, 0)),
-          partnerWrappingData: S.optional(__S(7360, __c230, 0)),
-          adServingPlatformId: S.optional(S.String),
-          siteIdDimensionValue: S.optional(__S(4704, __c147, 0)),
-          advertiserId: S.optional(S.String),
-          primary: S.optional(S.Boolean),
-          accountId: S.optional(S.String),
-          tagFormats: S.optional(__S(3264, __c102, 0)),
-          siteId: S.optional(S.String),
-          subaccountId: S.optional(S.String),
-          directorySiteId: S.optional(S.String),
-          size: S.optional(__S(4864, __c152, 0)),
-          placementGroupId: S.optional(S.String),
-          paymentSource: S.optional(S.String),
-          allowOnYoutube: S.optional(S.Boolean),
-          siteServed: S.optional(S.Boolean),
-          compatibility: S.optional(S.String),
-          activeStatus: S.optional(S.String),
-          placementGroupIdDimensionValue: S.optional(__S(4704, __c147, 0)),
-          status: S.optional(S.String),
-          paymentApproved: S.optional(S.Boolean),
-          advertiserIdDimensionValue: S.optional(__S(4704, __c147, 0)),
-          keyName: S.optional(S.String),
-          lastModifiedInfo: S.optional(__S(4736, __c148, 0)),
-          campaignId: S.optional(S.String),
-          conversionDomainOverride: S.optional(__S(7363, __c230, 3)),
-          externalId: S.optional(S.String),
-          comment: S.optional(S.String),
-          tagSetting: S.optional(__S(7328, __c229, 0)),
-          kind: S.optional(S.String),
-          idDimensionValue: S.optional(__S(4704, __c147, 0)),
-          vpaidAdapterChoice: S.optional(S.String),
-          createInfo: S.optional(__S(4736, __c148, 0)),
-          placementStrategyId: S.optional(S.String),
-          wrappingOptOut: S.optional(S.Boolean),
-          youtubeSettings: S.optional(__S(7364, __c230, 4)),
-          videoSettings: S.optional(__S(7368, __c230, 8)),
-          additionalSizes: S.optional(__S(6304, __c197, 0)),
-          adBlockingOptOut: S.optional(S.Boolean),
-          videoActiveViewOptOut: S.optional(S.Boolean),
-          directorySiteIdDimensionValue: S.optional(__S(4704, __c147, 0)),
-        }).pipe(
+        S.Extend(
+          __S(7369, __c230, 9),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+            id: S.String.pipe(T.Query()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "userprofiles/{+profileId}/placements",
@@ -17582,13 +14505,13 @@ function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Query()),
-          profileId: S.String.pipe(T.Label()),
-          accountId: S.optional(S.String),
-          name: S.optional(S.String),
-          kind: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(6016, __c188, 0),
+          S.Struct({
+            id: S.String.pipe(T.Query()),
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "userprofiles/{+profileId}/placementStrategies",
@@ -17602,22 +14525,13 @@ function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Query()),
-          name: S.optional(S.String),
-          listPopulationRule: S.optional(__S(7524, __c235, 4)),
-          advertiserId: S.optional(S.String),
-          listSize: S.optional(S.String),
-          lifeSpan: S.optional(S.String),
-          accountId: S.optional(S.String),
-          listSource: S.optional(S.String),
-          active: S.optional(S.Boolean),
-          kind: S.optional(S.String),
-          advertiserIdDimensionValue: S.optional(__S(4704, __c147, 0)),
-          subaccountId: S.optional(S.String),
-          description: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(7525, __c235, 5),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+            id: S.String.pipe(T.Query()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "userprofiles/{+profileId}/remarketingLists",
@@ -17631,14 +14545,13 @@ function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Query()),
-          kind: S.optional(S.String),
-          sharedAccountIds: S.optional(__S(7136, __c223, 0)),
-          remarketingListId: S.optional(S.String),
-          sharedAdvertiserIds: S.optional(__S(7136, __c223, 0)),
-        }).pipe(
+        S.Extend(
+          __S(7584, __c237, 0),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+            id: S.String.pipe(T.Query()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "userprofiles/{+profileId}/remarketingListShares",
@@ -17652,23 +14565,13 @@ function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Query()),
-          adServingPlatformId: S.optional(S.String),
-          siteContacts: S.optional(__S(7841, __c245, 1)),
-          accountId: S.optional(S.String),
-          name: S.optional(S.String),
-          keyName: S.optional(S.String),
-          directorySiteIdDimensionValue: S.optional(__S(4704, __c147, 0)),
-          videoSettings: S.optional(__S(7845, __c245, 5)),
-          subaccountId: S.optional(S.String),
-          siteSettings: S.optional(__S(7846, __c245, 6)),
-          approved: S.optional(S.Boolean),
-          directorySiteId: S.optional(S.String),
-          idDimensionValue: S.optional(__S(4704, __c147, 0)),
-          kind: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(7815, __c244, 7),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+            id: S.String.pipe(T.Query()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "userprofiles/{+profileId}/sites",
@@ -17682,14 +14585,13 @@ function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Query()),
-          profileId: S.String.pipe(T.Label()),
-          name: S.optional(S.String),
-          kind: S.optional(S.String),
-          accountId: S.optional(S.String),
-          availablePermissionIds: S.optional(__S(7136, __c223, 0)),
-        }).pipe(
+        S.Extend(
+          __S(7968, __c249, 0),
+          S.Struct({
+            id: S.String.pipe(T.Query()),
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "userprofiles/{+profileId}/subaccounts",
@@ -17703,23 +14605,13 @@ function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Query()),
-          profileId: S.String.pipe(T.Label()),
-          languageTargeting: S.optional(__S(5478, __c171, 6)),
-          listTargetingExpression: S.optional(__S(5473, __c171, 1)),
-          keyValueTargetingExpression: S.optional(__S(5473, __c171, 1)),
-          advertiserIdDimensionValue: S.optional(__S(4704, __c147, 0)),
-          name: S.optional(S.String),
-          contextualKeywordTargeting: S.optional(__S(5476, __c171, 4)),
-          advertiserId: S.optional(S.String),
-          technologyTargeting: S.optional(__S(5477, __c171, 5)),
-          subaccountId: S.optional(S.String),
-          geoTargeting: S.optional(__S(5479, __c171, 7)),
-          accountId: S.optional(S.String),
-          kind: S.optional(S.String),
-          dayPartTargeting: S.optional(__S(5472, __c171, 0)),
-        }).pipe(
+        S.Extend(
+          __S(8096, __c253, 0),
+          S.Struct({
+            id: S.String.pipe(T.Query()),
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "userprofiles/{+profileId}/targetingTemplates",
@@ -17733,17 +14625,13 @@ function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Query()),
-          name: S.optional(S.String),
-          kind: S.optional(S.String),
-          defaultUserRole: S.optional(S.Boolean),
-          permissions: S.optional(__S(8480, __c265, 0)),
-          subaccountId: S.optional(S.String),
-          parentUserRoleId: S.optional(S.String),
-          accountId: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(8480, __c265, 0),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+            id: S.String.pipe(T.Query()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "userprofiles/{+profileId}/userRoles",
@@ -17800,15 +14688,23 @@ function __c100(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          maxResults: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           endDate: S.optional(S.String),
           filters: S.optional(__S(3201, __c100, 1)),
           startDate: S.optional(S.String),
           kind: S.optional(S.String),
           dimensionName: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "DimensionValueRequest" });
+    case 3:
+      return S.suspend(() =>
+        S.Extend(
+          __S(3202, __c100, 2),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+            maxResults: S.optional(S.Number.pipe(T.Query())),
+            pageToken: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "userprofiles/{profileId}/dimensionvalues/query",
@@ -17816,7 +14712,7 @@ function __c100(j: number): any {
           }),
         ),
       ).annotate({ identifier: "QueryDimensionValuesRequest" });
-    case 3:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
@@ -17897,7 +14793,6 @@ function __c103(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          profileId: S.String.pipe(T.Label()),
           sortBys: S.optional(__S(3297, __c103, 1)),
           dimensionFilters: S.optional(__S(7648, __c239, 0)),
           metricNames: S.optional(__S(7136, __c223, 0)),
@@ -17905,7 +14800,16 @@ function __c103(j: number): any {
           dimensionNames: S.optional(__S(7136, __c223, 0)),
           dateRange: S.optional(__S(6720, __c210, 0)),
           maxResults: S.optional(S.Number),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "ReportDataQueryRequest" });
+    case 3:
+      return S.suspend(() =>
+        S.Extend(
+          __S(3298, __c103, 2),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "userprofiles/{profileId}/reportdata/query",
@@ -17913,30 +14817,30 @@ function __c103(j: number): any {
           }),
         ),
       ).annotate({ identifier: "QueryReportDataRequest" });
-    case 3:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
           type: S.optional(S.String),
         }),
       ).annotate({ identifier: "ColumnHeader" });
-    case 4:
-      return S.Array(__S(3299, __c103, 3));
     case 5:
+      return S.Array(__S(3300, __c103, 4));
+    case 6:
       return S.suspend(() =>
         S.Struct({
           values: S.optional(__S(7136, __c223, 0)),
         }),
       ).annotate({ identifier: "ReportDataRow" });
-    case 6:
-      return S.Array(__S(3301, __c103, 5));
     case 7:
+      return S.Array(__S(3302, __c103, 6));
+    case 8:
       return S.suspend(() =>
         S.Struct({
-          columnHeaders: S.optional(__S(3300, __c103, 4)),
-          rows: S.optional(__S(3302, __c103, 6)),
+          columnHeaders: S.optional(__S(3301, __c103, 5)),
+          rows: S.optional(__S(3303, __c103, 7)),
           nextPageToken: S.optional(S.String),
-          totalRow: S.optional(__S(3301, __c103, 5)),
+          totalRow: S.optional(__S(3302, __c103, 6)),
         }),
       ).annotate({ identifier: "ReportDataResponse" });
   }
@@ -17945,27 +14849,12 @@ function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          id: S.optional(S.String),
-          pathToConversionCriteria: S.optional(__S(7683, __c240, 3)),
-          type: S.optional(S.String),
-          name: S.optional(S.String),
-          fileName: S.optional(S.String),
-          crossMediaReachCriteria: S.optional(__S(7684, __c240, 4)),
-          accountId: S.optional(S.String),
-          ownerProfileId: S.optional(S.String),
-          reachCriteria: S.optional(__S(7687, __c240, 7)),
-          schedule: S.optional(__S(7688, __c240, 8)),
-          delivery: S.optional(__S(7691, __c240, 11)),
-          format: S.optional(S.String),
-          kind: S.optional(S.String),
-          subAccountId: S.optional(S.String),
-          etag: S.optional(S.String),
-          lastModifiedTime: S.optional(S.String),
-          floodlightCriteria: S.optional(__S(7693, __c240, 13)),
-          criteria: S.optional(__S(7694, __c240, 14)),
-        }).pipe(
+        S.Extend(
+          __S(7695, __c240, 15),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "userprofiles/{profileId}/reports/compatiblefields/query",
@@ -18102,28 +14991,12 @@ function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          accountPermissionIds: S.optional(__S(7136, __c223, 0)),
-          activeAdsLimitTier: S.optional(S.String),
-          accountProfile: S.optional(S.String),
-          countryId: S.optional(S.String),
-          active: S.optional(S.Boolean),
-          name: S.optional(S.String),
-          locale: S.optional(S.String),
-          defaultCreativeSizeId: S.optional(S.String),
-          nielsenOcrEnabled: S.optional(S.Boolean),
-          activeViewOptOut: S.optional(S.Boolean),
-          availablePermissionIds: S.optional(__S(7136, __c223, 0)),
-          currencyId: S.optional(S.String),
-          description: S.optional(S.String),
-          shareReportsWithTwitter: S.optional(S.Boolean),
-          reportsConfiguration: S.optional(__S(4544, __c142, 0)),
-          teaserSizeLimit: S.optional(S.String),
-          kind: S.optional(S.String),
-          maximumImageSize: S.optional(S.String),
-          id: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(4545, __c142, 1),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "userprofiles/{+profileId}/accounts",
@@ -18137,25 +15010,12 @@ function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          subaccountId: S.optional(S.String),
-          email: S.optional(S.String),
-          userRoleFilter: S.optional(__S(4640, __c145, 0)),
-          name: S.optional(S.String),
-          campaignFilter: S.optional(__S(4640, __c145, 0)),
-          userAccessType: S.optional(S.String),
-          siteFilter: S.optional(__S(4640, __c145, 0)),
-          active: S.optional(S.Boolean),
-          comments: S.optional(S.String),
-          advertiserFilter: S.optional(__S(4640, __c145, 0)),
-          traffickerType: S.optional(S.String),
-          id: S.optional(S.String),
-          accountId: S.optional(S.String),
-          locale: S.optional(S.String),
-          kind: S.optional(S.String),
-          userRoleId: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(4641, __c145, 1),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "userprofiles/{+profileId}/accountUserProfiles",
@@ -18169,49 +15029,12 @@ function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          lastModifiedInfo: S.optional(__S(4736, __c148, 0)),
-          startTime: S.optional(S.String),
-          dayPartTargeting: S.optional(__S(5472, __c171, 0)),
-          size: S.optional(__S(4864, __c152, 0)),
-          active: S.optional(S.Boolean),
-          clickThroughUrlSuffixProperties: S.optional(__S(4768, __c149, 0)),
-          targetingTemplateId: S.optional(S.String),
-          compatibility: S.optional(S.String),
-          archived: S.optional(S.Boolean),
-          remarketingListExpression: S.optional(__S(5473, __c171, 1)),
-          creativeGroupAssignments: S.optional(__S(5505, __c172, 1)),
-          contextualKeywordTargeting: S.optional(__S(5476, __c171, 4)),
-          comments: S.optional(S.String),
-          name: S.optional(S.String),
-          idDimensionValue: S.optional(__S(4704, __c147, 0)),
-          technologyTargeting: S.optional(__S(5477, __c171, 5)),
-          campaignIdDimensionValue: S.optional(__S(4704, __c147, 0)),
-          type: S.optional(S.String),
-          audienceSegmentId: S.optional(S.String),
-          placementAssignments: S.optional(__S(5507, __c172, 3)),
-          advertiserId: S.optional(S.String),
-          creativeRotation: S.optional(__S(5515, __c172, 11)),
-          dynamicClickTracker: S.optional(S.Boolean),
-          createInfo: S.optional(__S(4736, __c148, 0)),
-          languageTargeting: S.optional(__S(5478, __c171, 6)),
-          sslRequired: S.optional(S.Boolean),
-          kind: S.optional(S.String),
-          eventTagOverrides: S.optional(__S(4770, __c149, 2)),
-          accountId: S.optional(S.String),
-          campaignId: S.optional(S.String),
-          id: S.optional(S.String),
-          defaultClickThroughEventTagProperties: S.optional(__S(4771, __c149, 3)),
-          sslCompliant: S.optional(S.Boolean),
-          keyValueTargetingExpression: S.optional(__S(5473, __c171, 1)),
-          deliverySchedule: S.optional(__S(5517, __c172, 13)),
-          advertiserIdDimensionValue: S.optional(__S(4704, __c147, 0)),
-          clickThroughUrl: S.optional(__S(5508, __c172, 4)),
-          endTime: S.optional(S.String),
-          subaccountId: S.optional(S.String),
-          geoTargeting: S.optional(__S(5479, __c171, 7)),
-        }).pipe(
+        S.Extend(
+          __S(5518, __c172, 14),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "userprofiles/{+profileId}/ads",
@@ -18225,13 +15048,12 @@ function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          name: S.optional(S.String),
-          kind: S.optional(S.String),
-          id: S.optional(S.String),
-          accountId: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(5568, __c174, 0),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "userprofiles/{+profileId}/advertiserGroups",
@@ -18245,16 +15067,12 @@ function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          archived: S.optional(S.Boolean),
-          name: S.optional(S.String),
-          kind: S.optional(S.String),
-          url: S.optional(S.String),
-          id: S.optional(S.String),
-          advertiserId: S.optional(S.String),
-          deepLinks: S.optional(__S(5665, __c177, 1)),
-        }).pipe(
+        S.Extend(
+          __S(5666, __c177, 2),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "userprofiles/{+profileId}/advertiserLandingPages",
@@ -18268,26 +15086,12 @@ function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          floodlightConfigurationId: S.optional(S.String),
-          clickThroughUrlSuffix: S.optional(S.String),
-          id: S.optional(S.String),
-          euPoliticalAdsDeclaration: S.optional(S.String),
-          accountId: S.optional(S.String),
-          name: S.optional(S.String),
-          suspended: S.optional(S.Boolean),
-          originalFloodlightConfigurationId: S.optional(S.String),
-          measurementPartnerLink: S.optional(__S(5728, __c179, 0)),
-          advertiserGroupId: S.optional(S.String),
-          status: S.optional(S.String),
-          floodlightConfigurationIdDimensionValue: S.optional(__S(4704, __c147, 0)),
-          kind: S.optional(S.String),
-          subaccountId: S.optional(S.String),
-          defaultClickThroughEventTagId: S.optional(S.String),
-          defaultEmail: S.optional(S.String),
-          idDimensionValue: S.optional(__S(4704, __c147, 0)),
-        }).pipe(
+        S.Extend(
+          __S(5729, __c179, 1),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "userprofiles/{+profileId}/advertisers",
@@ -18328,22 +15132,12 @@ function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          status: S.optional(S.String),
-          kind: S.optional(S.String),
-          invoiceLevel: S.optional(S.String),
-          isDefault: S.optional(S.Boolean),
-          id: S.optional(S.String),
-          paymentsAccountId: S.optional(S.String),
-          secondaryPaymentsCustomerId: S.optional(S.String),
-          currencyCode: S.optional(S.String),
-          name: S.optional(S.String),
-          countryCode: S.optional(S.String),
-          paymentsCustomerId: S.optional(S.String),
-          purchaseOrder: S.optional(S.String),
-          consolidatedInvoice: S.optional(S.Boolean),
-        }).pipe(
+        S.Extend(
+          __S(5792, __c181, 0),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "userprofiles/{+profileId}/billingProfiles",
@@ -18357,37 +15151,12 @@ function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          clickThroughUrlSuffixProperties: S.optional(__S(4768, __c149, 0)),
-          advertiserGroupId: S.optional(S.String),
-          eventTagOverrides: S.optional(__S(4770, __c149, 2)),
-          comment: S.optional(S.String),
-          additionalCreativeOptimizationConfigurations: S.optional(__S(5859, __c183, 3)),
-          endDate: S.optional(S.String),
-          kind: S.optional(S.String),
-          billingInvoiceCode: S.optional(S.String),
-          euPoliticalAdsDeclaration: S.optional(S.String),
-          defaultLandingPageId: S.optional(S.String),
-          creativeOptimizationConfiguration: S.optional(__S(5858, __c183, 2)),
-          measurementPartnerLink: S.optional(__S(5860, __c183, 4)),
-          archived: S.optional(S.Boolean),
-          subaccountId: S.optional(S.String),
-          idDimensionValue: S.optional(__S(4704, __c147, 0)),
-          accountId: S.optional(S.String),
-          id: S.optional(S.String),
-          audienceSegmentGroups: S.optional(__S(5864, __c183, 8)),
-          defaultClickThroughEventTagProperties: S.optional(__S(4771, __c149, 3)),
-          creativeGroupIds: S.optional(__S(7136, __c223, 0)),
-          startDate: S.optional(S.String),
-          name: S.optional(S.String),
-          createInfo: S.optional(__S(4736, __c148, 0)),
-          lastModifiedInfo: S.optional(__S(4736, __c148, 0)),
-          advertiserId: S.optional(S.String),
-          adBlockingConfiguration: S.optional(__S(5865, __c183, 9)),
-          advertiserIdDimensionValue: S.optional(__S(4704, __c147, 0)),
-          externalId: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(5866, __c183, 10),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "userprofiles/{+profileId}/campaigns",
@@ -18401,13 +15170,12 @@ function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          accountId: S.optional(S.String),
-          id: S.optional(S.String),
-          name: S.optional(S.String),
-          kind: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(6016, __c188, 0),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "userprofiles/{+profileId}/contentCategories",
@@ -18421,16 +15189,12 @@ function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          accountId: S.optional(S.String),
-          advertiserId: S.optional(S.String),
-          advertiserIdDimensionValue: S.optional(__S(4704, __c147, 0)),
-          name: S.optional(S.String),
-          id: S.optional(S.String),
-          subaccountId: S.optional(S.String),
-          kind: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(6112, __c191, 0),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "userprofiles/{+profileId}/creativeFields",
@@ -18444,13 +15208,13 @@ function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          creativeFieldId: S.String.pipe(T.Label()),
-          profileId: S.String.pipe(T.Label()),
-          value: S.optional(S.String),
-          kind: S.optional(S.String),
-          id: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(6176, __c193, 0),
+          S.Struct({
+            creativeFieldId: S.String.pipe(T.Label()),
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "userprofiles/{+profileId}/creativeFields/{+creativeFieldId}/creativeFieldValues",
@@ -18464,17 +15228,12 @@ function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          id: S.optional(S.String),
-          subaccountId: S.optional(S.String),
-          kind: S.optional(S.String),
-          name: S.optional(S.String),
-          groupNumber: S.optional(S.Number),
-          advertiserIdDimensionValue: S.optional(__S(4704, __c147, 0)),
-          advertiserId: S.optional(S.String),
-          accountId: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(6240, __c195, 0),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "userprofiles/{+profileId}/creativeGroups",
@@ -18488,74 +15247,12 @@ function __c120(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          lastModifiedInfo: S.optional(__S(4736, __c148, 0)),
-          studioAdvertiserId: S.optional(S.String),
-          totalFileSize: S.optional(S.String),
-          htmlCodeLocked: S.optional(S.Boolean),
-          accountId: S.optional(S.String),
-          artworkType: S.optional(S.String),
-          companionCreatives: S.optional(__S(7136, __c223, 0)),
-          size: S.optional(__S(4864, __c152, 0)),
-          fsCommand: S.optional(__S(6400, __c200, 0)),
-          redirectUrl: S.optional(S.String),
-          exitCustomEvents: S.optional(__S(6372, __c199, 4)),
-          id: S.optional(S.String),
-          requiredFlashPluginVersion: S.optional(S.String),
-          type: S.optional(S.String),
-          universalAdId: S.optional(__S(6401, __c200, 1)),
-          counterCustomEvents: S.optional(__S(6372, __c199, 4)),
-          subaccountId: S.optional(S.String),
-          adTagKeys: S.optional(__S(7136, __c223, 0)),
-          skippable: S.optional(S.Boolean),
-          sslCompliant: S.optional(S.Boolean),
-          mediaDuration: S.optional(S.Number),
-          renderingIdDimensionValue: S.optional(__S(4704, __c147, 0)),
-          requiredFlashVersion: S.optional(S.Number),
-          backupImageTargetWindow: S.optional(__S(6402, __c200, 2)),
-          studioTraffickedCreativeId: S.optional(S.String),
-          skipOffset: S.optional(__S(6336, __c198, 0)),
-          progressOffset: S.optional(__S(6336, __c198, 0)),
-          overrideCss: S.optional(S.String),
-          authoringTool: S.optional(S.String),
-          convertFlashToHtml5: S.optional(S.Boolean),
-          version: S.optional(S.Number),
-          syntheticContentAttestationStatus: S.optional(S.String),
-          backupImageReportingLabel: S.optional(S.String),
-          latestTraffickedCreativeId: S.optional(S.String),
-          additionalSizes: S.optional(__S(6304, __c197, 0)),
-          archived: S.optional(S.Boolean),
-          thirdPartyUrls: S.optional(__S(6404, __c200, 4)),
-          authoringSource: S.optional(S.String),
-          advertiserId: S.optional(S.String),
-          backgroundColor: S.optional(S.String),
-          creativeAssets: S.optional(__S(6406, __c200, 6)),
-          adParameters: S.optional(S.String),
-          creativeFieldAssignments: S.optional(__S(6408, __c200, 8)),
-          sslOverride: S.optional(S.Boolean),
-          backupImageFeatures: S.optional(__S(3264, __c102, 0)),
-          active: S.optional(S.Boolean),
-          name: S.optional(S.String),
-          autoAdvanceImages: S.optional(S.Boolean),
-          clickTags: S.optional(__S(6375, __c199, 7)),
-          mediaDescription: S.optional(S.String),
-          idDimensionValue: S.optional(__S(4704, __c147, 0)),
-          timerCustomEvents: S.optional(__S(6372, __c199, 4)),
-          studioCreativeId: S.optional(S.String),
-          renderingId: S.optional(S.String),
-          kind: S.optional(S.String),
-          commercialId: S.optional(S.String),
-          obaIcon: S.optional(__S(6337, __c198, 1)),
-          backupImageClickThroughUrl: S.optional(__S(6368, __c199, 0)),
-          additionalAsset: S.optional(__S(6409, __c200, 9)),
-          allowScriptAccess: S.optional(S.Boolean),
-          thirdPartyBackupImageImpressionsUrl: S.optional(S.String),
-          customKeyValues: S.optional(__S(7136, __c223, 0)),
-          compatibility: S.optional(__S(3264, __c102, 0)),
-          thirdPartyRichMediaImpressionsUrl: S.optional(S.String),
-          htmlCode: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(6410, __c200, 10),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "userprofiles/{+profileId}/creatives",
@@ -18569,19 +15266,7 @@ function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          feedSchedule: S.optional(__S(6528, __c204, 0)),
-          studioAdvertiserId: S.optional(S.String),
-          feedIngestionStatus: S.optional(__S(6534, __c204, 6)),
-          lastModifiedInfo: S.optional(__S(4736, __c148, 0)),
-          status: S.optional(S.String),
-          dynamicFeedId: S.optional(S.String),
-          hasPublished: S.optional(S.Boolean),
-          element: S.optional(__S(6537, __c204, 9)),
-          createInfo: S.optional(__S(4736, __c148, 0)),
-          contentSource: S.optional(__S(6539, __c204, 11)),
-          dynamicFeedName: S.optional(S.String),
-        }).pipe(
+        S.Extend(__S(6540, __c204, 12), S.Struct({})).pipe(
           T.Http({
             method: "PUT",
             uri: "studio/dynamicFeeds",
@@ -18595,19 +15280,7 @@ function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          lastModifiedInfo: S.optional(__S(4736, __c148, 0)),
-          active: S.optional(__S(6608, __c206, 16)),
-          draft: S.optional(__S(6608, __c206, 16)),
-          archiveStatus: S.optional(S.String),
-          dynamicProfileId: S.optional(S.String),
-          name: S.optional(S.String),
-          kind: S.optional(S.String),
-          description: S.optional(S.String),
-          status: S.optional(S.String),
-          studioAdvertiserId: S.optional(S.String),
-          createInfo: S.optional(__S(4736, __c148, 0)),
-        }).pipe(
+        S.Extend(__S(6609, __c206, 17), S.Struct({})).pipe(
           T.Http({
             method: "PUT",
             uri: "studio/dynamicProfiles",
@@ -18621,27 +15294,12 @@ function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          sslCompliant: S.optional(S.Boolean),
-          url: S.optional(S.String),
-          enabledByDefault: S.optional(S.Boolean),
-          advertiserIdDimensionValue: S.optional(__S(4704, __c147, 0)),
-          kind: S.optional(S.String),
-          excludeFromAdxRequests: S.optional(S.Boolean),
-          campaignId: S.optional(S.String),
-          subaccountId: S.optional(S.String),
-          accountId: S.optional(S.String),
-          urlEscapeLevels: S.optional(S.Number),
-          advertiserId: S.optional(S.String),
-          campaignIdDimensionValue: S.optional(__S(4704, __c147, 0)),
-          status: S.optional(S.String),
-          id: S.optional(S.String),
-          type: S.optional(S.String),
-          name: S.optional(S.String),
-          siteIds: S.optional(__S(7136, __c223, 0)),
-          siteFilterType: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(6656, __c208, 0),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "userprofiles/{+profileId}/eventTags",
@@ -18684,39 +15342,12 @@ function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          floodlightActivityGroupName: S.optional(S.String),
-          id: S.optional(S.String),
-          status: S.optional(S.String),
-          floodlightConfigurationId: S.optional(S.String),
-          notes: S.optional(S.String),
-          accountId: S.optional(S.String),
-          publisherTags: S.optional(__S(6818, __c213, 2)),
-          advertiserIdDimensionValue: S.optional(__S(4704, __c147, 0)),
-          defaultTags: S.optional(__S(6819, __c213, 3)),
-          conversionCategory: S.optional(S.String),
-          floodlightActivityGroupType: S.optional(S.String),
-          floodlightTagType: S.optional(S.String),
-          tagFormat: S.optional(S.String),
-          userDefinedVariableTypes: S.optional(__S(3264, __c102, 0)),
-          name: S.optional(S.String),
-          floodlightActivityGroupId: S.optional(S.String),
-          attributionEnabled: S.optional(S.Boolean),
-          advertiserId: S.optional(S.String),
-          tagString: S.optional(S.String),
-          floodlightActivityGroupTagString: S.optional(S.String),
-          kind: S.optional(S.String),
-          sslCompliant: S.optional(S.Boolean),
-          idDimensionValue: S.optional(__S(4704, __c147, 0)),
-          expectedUrl: S.optional(S.String),
-          floodlightConfigurationIdDimensionValue: S.optional(__S(4704, __c147, 0)),
-          secure: S.optional(S.Boolean),
-          subaccountId: S.optional(S.String),
-          sslRequired: S.optional(S.Boolean),
-          cacheBustingType: S.optional(S.String),
-          countingMethod: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(6820, __c213, 4),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "userprofiles/{+profileId}/floodlightActivities",
@@ -18730,21 +15361,12 @@ function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          id: S.optional(S.String),
-          accountId: S.optional(S.String),
-          subaccountId: S.optional(S.String),
-          floodlightConfigurationId: S.optional(S.String),
-          idDimensionValue: S.optional(__S(4704, __c147, 0)),
-          type: S.optional(S.String),
-          kind: S.optional(S.String),
-          floodlightConfigurationIdDimensionValue: S.optional(__S(4704, __c147, 0)),
-          advertiserId: S.optional(S.String),
-          advertiserIdDimensionValue: S.optional(__S(4704, __c147, 0)),
-          name: S.optional(S.String),
-          tagString: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(6880, __c215, 0),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "userprofiles/{+profileId}/floodlightActivityGroups",
@@ -18758,27 +15380,12 @@ function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          advertiserIdDimensionValue: S.optional(__S(4704, __c147, 0)),
-          idDimensionValue: S.optional(__S(4704, __c147, 0)),
-          firstDayOfWeek: S.optional(S.String),
-          kind: S.optional(S.String),
-          advertiserId: S.optional(S.String),
-          analyticsDataSharingEnabled: S.optional(S.Boolean),
-          thirdPartyAuthenticationTokens: S.optional(__S(6945, __c217, 1)),
-          inAppAttributionTrackingEnabled: S.optional(S.Boolean),
-          customViewabilityMetric: S.optional(__S(6947, __c217, 3)),
-          lookbackConfiguration: S.optional(__S(4576, __c143, 0)),
-          naturalSearchConversionAttributionOption: S.optional(S.String),
-          tagSettings: S.optional(__S(6948, __c217, 4)),
-          subaccountId: S.optional(S.String),
-          id: S.optional(S.String),
-          userDefinedVariableConfigurations: S.optional(__S(6950, __c217, 6)),
-          accountId: S.optional(S.String),
-          omnitureSettings: S.optional(__S(6951, __c217, 7)),
-          exposureToConversionEnabled: S.optional(S.Boolean),
-        }).pipe(
+        S.Extend(
+          __S(6952, __c217, 8),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "userprofiles/{+profileId}/floodlightConfigurations",
@@ -18792,35 +15399,12 @@ function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          idDimensionValue: S.optional(__S(4704, __c147, 0)),
-          placementGroupType: S.optional(S.String),
-          advertiserIdDimensionValue: S.optional(__S(4704, __c147, 0)),
-          subaccountId: S.optional(S.String),
-          directorySiteId: S.optional(S.String),
-          placementStrategyId: S.optional(S.String),
-          id: S.optional(S.String),
-          accountId: S.optional(S.String),
-          contentCategoryId: S.optional(S.String),
-          siteIdDimensionValue: S.optional(__S(4704, __c147, 0)),
-          campaignId: S.optional(S.String),
-          externalId: S.optional(S.String),
-          childPlacementIds: S.optional(__S(7136, __c223, 0)),
-          createInfo: S.optional(__S(4736, __c148, 0)),
-          pricingSchedule: S.optional(__S(7234, __c226, 2)),
-          advertiserId: S.optional(S.String),
-          directorySiteIdDimensionValue: S.optional(__S(4704, __c147, 0)),
-          kind: S.optional(S.String),
-          lastModifiedInfo: S.optional(__S(4736, __c148, 0)),
-          primaryPlacementIdDimensionValue: S.optional(__S(4704, __c147, 0)),
-          primaryPlacementId: S.optional(S.String),
-          campaignIdDimensionValue: S.optional(__S(4704, __c147, 0)),
-          comment: S.optional(S.String),
-          name: S.optional(S.String),
-          activeStatus: S.optional(S.String),
-          siteId: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(7264, __c227, 0),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "userprofiles/{+profileId}/placementGroups",
@@ -18834,57 +15418,12 @@ function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          pricingSchedule: S.optional(__S(7234, __c226, 2)),
-          lookbackConfiguration: S.optional(__S(4576, __c143, 0)),
-          name: S.optional(S.String),
-          sslRequired: S.optional(S.Boolean),
-          publisherUpdateInfo: S.optional(__S(4736, __c148, 0)),
-          contentCategoryId: S.optional(S.String),
-          campaignIdDimensionValue: S.optional(__S(4704, __c147, 0)),
-          partnerWrappingData: S.optional(__S(7360, __c230, 0)),
-          adServingPlatformId: S.optional(S.String),
-          siteIdDimensionValue: S.optional(__S(4704, __c147, 0)),
-          advertiserId: S.optional(S.String),
-          primary: S.optional(S.Boolean),
-          accountId: S.optional(S.String),
-          tagFormats: S.optional(__S(3264, __c102, 0)),
-          siteId: S.optional(S.String),
-          subaccountId: S.optional(S.String),
-          directorySiteId: S.optional(S.String),
-          size: S.optional(__S(4864, __c152, 0)),
-          placementGroupId: S.optional(S.String),
-          paymentSource: S.optional(S.String),
-          allowOnYoutube: S.optional(S.Boolean),
-          siteServed: S.optional(S.Boolean),
-          compatibility: S.optional(S.String),
-          activeStatus: S.optional(S.String),
-          placementGroupIdDimensionValue: S.optional(__S(4704, __c147, 0)),
-          status: S.optional(S.String),
-          paymentApproved: S.optional(S.Boolean),
-          advertiserIdDimensionValue: S.optional(__S(4704, __c147, 0)),
-          keyName: S.optional(S.String),
-          lastModifiedInfo: S.optional(__S(4736, __c148, 0)),
-          campaignId: S.optional(S.String),
-          conversionDomainOverride: S.optional(__S(7363, __c230, 3)),
-          externalId: S.optional(S.String),
-          comment: S.optional(S.String),
-          tagSetting: S.optional(__S(7328, __c229, 0)),
-          kind: S.optional(S.String),
-          idDimensionValue: S.optional(__S(4704, __c147, 0)),
-          vpaidAdapterChoice: S.optional(S.String),
-          createInfo: S.optional(__S(4736, __c148, 0)),
-          placementStrategyId: S.optional(S.String),
-          wrappingOptOut: S.optional(S.Boolean),
-          youtubeSettings: S.optional(__S(7364, __c230, 4)),
-          videoSettings: S.optional(__S(7368, __c230, 8)),
-          additionalSizes: S.optional(__S(6304, __c197, 0)),
-          adBlockingOptOut: S.optional(S.Boolean),
-          videoActiveViewOptOut: S.optional(S.Boolean),
-          directorySiteIdDimensionValue: S.optional(__S(4704, __c147, 0)),
-          id: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(7369, __c230, 9),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "userprofiles/{+profileId}/placements",
@@ -18898,13 +15437,12 @@ function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          accountId: S.optional(S.String),
-          id: S.optional(S.String),
-          name: S.optional(S.String),
-          kind: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(6016, __c188, 0),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "userprofiles/{+profileId}/placementStrategies",
@@ -18918,22 +15456,12 @@ function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          name: S.optional(S.String),
-          listPopulationRule: S.optional(__S(7524, __c235, 4)),
-          advertiserId: S.optional(S.String),
-          listSize: S.optional(S.String),
-          lifeSpan: S.optional(S.String),
-          id: S.optional(S.String),
-          accountId: S.optional(S.String),
-          listSource: S.optional(S.String),
-          active: S.optional(S.Boolean),
-          kind: S.optional(S.String),
-          advertiserIdDimensionValue: S.optional(__S(4704, __c147, 0)),
-          subaccountId: S.optional(S.String),
-          description: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(7525, __c235, 5),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "userprofiles/{+profileId}/remarketingLists",
@@ -18947,13 +15475,12 @@ function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          kind: S.optional(S.String),
-          sharedAccountIds: S.optional(__S(7136, __c223, 0)),
-          remarketingListId: S.optional(S.String),
-          sharedAdvertiserIds: S.optional(__S(7136, __c223, 0)),
-        }).pipe(
+        S.Extend(
+          __S(7584, __c237, 0),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "userprofiles/{+profileId}/remarketingListShares",
@@ -18967,28 +15494,13 @@ function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          reportId: S.String.pipe(T.Label()),
-          id: S.optional(S.String),
-          pathToConversionCriteria: S.optional(__S(7683, __c240, 3)),
-          type: S.optional(S.String),
-          name: S.optional(S.String),
-          fileName: S.optional(S.String),
-          crossMediaReachCriteria: S.optional(__S(7684, __c240, 4)),
-          accountId: S.optional(S.String),
-          ownerProfileId: S.optional(S.String),
-          reachCriteria: S.optional(__S(7687, __c240, 7)),
-          schedule: S.optional(__S(7688, __c240, 8)),
-          delivery: S.optional(__S(7691, __c240, 11)),
-          format: S.optional(S.String),
-          kind: S.optional(S.String),
-          subAccountId: S.optional(S.String),
-          etag: S.optional(S.String),
-          lastModifiedTime: S.optional(S.String),
-          floodlightCriteria: S.optional(__S(7693, __c240, 13)),
-          criteria: S.optional(__S(7694, __c240, 14)),
-        }).pipe(
+        S.Extend(
+          __S(7695, __c240, 15),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+            reportId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "userprofiles/{profileId}/reports/{reportId}",
@@ -19002,23 +15514,12 @@ function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          adServingPlatformId: S.optional(S.String),
-          siteContacts: S.optional(__S(7841, __c245, 1)),
-          accountId: S.optional(S.String),
-          name: S.optional(S.String),
-          keyName: S.optional(S.String),
-          directorySiteIdDimensionValue: S.optional(__S(4704, __c147, 0)),
-          videoSettings: S.optional(__S(7845, __c245, 5)),
-          subaccountId: S.optional(S.String),
-          siteSettings: S.optional(__S(7846, __c245, 6)),
-          approved: S.optional(S.Boolean),
-          directorySiteId: S.optional(S.String),
-          idDimensionValue: S.optional(__S(4704, __c147, 0)),
-          id: S.optional(S.String),
-          kind: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(7815, __c244, 7),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "userprofiles/{+profileId}/sites",
@@ -19064,14 +15565,12 @@ function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          name: S.optional(S.String),
-          kind: S.optional(S.String),
-          accountId: S.optional(S.String),
-          availablePermissionIds: S.optional(__S(7136, __c223, 0)),
-          id: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(7968, __c249, 0),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "userprofiles/{+profileId}/subaccounts",
@@ -19085,23 +15584,12 @@ function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          languageTargeting: S.optional(__S(5478, __c171, 6)),
-          listTargetingExpression: S.optional(__S(5473, __c171, 1)),
-          keyValueTargetingExpression: S.optional(__S(5473, __c171, 1)),
-          advertiserIdDimensionValue: S.optional(__S(4704, __c147, 0)),
-          name: S.optional(S.String),
-          contextualKeywordTargeting: S.optional(__S(5476, __c171, 4)),
-          advertiserId: S.optional(S.String),
-          technologyTargeting: S.optional(__S(5477, __c171, 5)),
-          subaccountId: S.optional(S.String),
-          geoTargeting: S.optional(__S(5479, __c171, 7)),
-          accountId: S.optional(S.String),
-          id: S.optional(S.String),
-          kind: S.optional(S.String),
-          dayPartTargeting: S.optional(__S(5472, __c171, 0)),
-        }).pipe(
+        S.Extend(
+          __S(8096, __c253, 0),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "userprofiles/{+profileId}/targetingTemplates",
@@ -19115,17 +15603,12 @@ function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          name: S.optional(S.String),
-          kind: S.optional(S.String),
-          defaultUserRole: S.optional(S.Boolean),
-          permissions: S.optional(__S(8480, __c265, 0)),
-          id: S.optional(S.String),
-          subaccountId: S.optional(S.String),
-          parentUserRoleId: S.optional(S.String),
-          accountId: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(8480, __c265, 0),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "userprofiles/{+profileId}/userRoles",
@@ -21251,11 +17734,19 @@ function __c221(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          profileId: S.String.pipe(T.Label()),
           conversions: S.optional(__S(7113, __c222, 9)),
           kind: S.optional(S.String),
           encryptionInfo: S.optional(__S(7114, __c222, 10)),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "ConversionsBatchInsertRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(7072, __c221, 0),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "userprofiles/{profileId}/conversions/batchinsert",
@@ -21263,7 +17754,7 @@ function __c221(j: number): any {
           }),
         ),
       ).annotate({ identifier: "BatchinsertConversionsRequest" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           status: S.optional(__S(7118, __c222, 14)),
@@ -21966,11 +18457,7 @@ function __c240(j: number): any {
           dateRange: S.optional(__S(6720, __c210, 0)),
         }),
       ).annotate({ identifier: "ReportCriteria" });
-  }
-}
-function __c241(j: number): any {
-  switch (j) {
-    case 0:
+    case 15:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
@@ -21995,7 +18482,7 @@ function __c241(j: number): any {
       ).annotate({ identifier: "Report" });
   }
 }
-function __c242(j: number): any {
+function __c241(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22013,16 +18500,24 @@ function __c242(j: number): any {
       ).annotate({ identifier: "GetReportsFilesRequest" });
   }
 }
-function __c243(j: number): any {
+function __c242(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          profileId: S.String.pipe(T.Label()),
           encryptionInfo: S.optional(__S(7114, __c222, 10)),
           kind: S.optional(S.String),
           conversions: S.optional(__S(7113, __c222, 9)),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "ConversionsBatchUpdateRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(7744, __c242, 0),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "userprofiles/{profileId}/conversions/batchupdate",
@@ -22030,7 +18525,7 @@ function __c243(j: number): any {
           }),
         ),
       ).annotate({ identifier: "BatchupdateConversionsRequest" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           kind: S.optional(S.String),
@@ -22040,7 +18535,7 @@ function __c243(j: number): any {
       ).annotate({ identifier: "ConversionsBatchUpdateResponse" });
   }
 }
-function __c244(j: number): any {
+function __c243(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22057,7 +18552,7 @@ function __c244(j: number): any {
       ).annotate({ identifier: "GetSitesRequest" });
   }
 }
-function __c245(j: number): any {
+function __c244(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22073,7 +18568,7 @@ function __c245(j: number): any {
         }),
       ).annotate({ identifier: "SiteContact" });
     case 1:
-      return S.Array(__S(7840, __c245, 0));
+      return S.Array(__S(7808, __c244, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -22102,13 +18597,13 @@ function __c245(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          transcodeSettings: S.optional(__S(7842, __c245, 2)),
-          skippableSettings: S.optional(__S(7843, __c245, 3)),
+          transcodeSettings: S.optional(__S(7810, __c244, 2)),
+          skippableSettings: S.optional(__S(7811, __c244, 3)),
           orientation: S.optional(S.String),
           obaSettings: S.optional(__S(6337, __c198, 1)),
           obaEnabled: S.optional(S.Boolean),
           publisherSpecificationId: S.optional(S.String),
-          companionSettings: S.optional(__S(7844, __c245, 4)),
+          companionSettings: S.optional(__S(7812, __c244, 4)),
           kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "SiteVideoSettings" });
@@ -22127,14 +18622,14 @@ function __c245(j: number): any {
       return S.suspend(() =>
         S.Struct({
           adServingPlatformId: S.optional(S.String),
-          siteContacts: S.optional(__S(7841, __c245, 1)),
+          siteContacts: S.optional(__S(7809, __c244, 1)),
           accountId: S.optional(S.String),
           name: S.optional(S.String),
           keyName: S.optional(S.String),
           directorySiteIdDimensionValue: S.optional(__S(4704, __c147, 0)),
-          videoSettings: S.optional(__S(7845, __c245, 5)),
+          videoSettings: S.optional(__S(7813, __c244, 5)),
           subaccountId: S.optional(S.String),
-          siteSettings: S.optional(__S(7846, __c245, 6)),
+          siteSettings: S.optional(__S(7814, __c244, 6)),
           approved: S.optional(S.Boolean),
           directorySiteId: S.optional(S.String),
           idDimensionValue: S.optional(__S(4704, __c147, 0)),
@@ -22144,7 +18639,7 @@ function __c245(j: number): any {
       ).annotate({ identifier: "Site" });
   }
 }
-function __c246(j: number): any {
+function __c245(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22161,7 +18656,7 @@ function __c246(j: number): any {
       ).annotate({ identifier: "GetSizesRequest" });
   }
 }
-function __c247(j: number): any {
+function __c246(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22177,7 +18672,7 @@ function __c247(j: number): any {
       ).annotate({ identifier: "GetStudioCreativesRequest" });
   }
 }
-function __c248(j: number): any {
+function __c247(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22194,7 +18689,7 @@ function __c248(j: number): any {
           studioAdvertiserId: S.optional(S.String),
           assetIds: S.optional(__S(7136, __c223, 0)),
           studioCampaignId: S.optional(S.String),
-          dimension: S.optional(__S(7936, __c248, 0)),
+          dimension: S.optional(__S(7904, __c247, 0)),
           format: S.optional(S.String),
           lastModifiedInfo: S.optional(__S(4736, __c148, 0)),
           createdInfo: S.optional(__S(4736, __c148, 0)),
@@ -22206,7 +18701,7 @@ function __c248(j: number): any {
       ).annotate({ identifier: "StudioCreative" });
   }
 }
-function __c249(j: number): any {
+function __c248(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22223,7 +18718,7 @@ function __c249(j: number): any {
       ).annotate({ identifier: "GetSubaccountsRequest" });
   }
 }
-function __c250(j: number): any {
+function __c249(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22237,7 +18732,7 @@ function __c250(j: number): any {
       ).annotate({ identifier: "Subaccount" });
   }
 }
-function __c251(j: number): any {
+function __c250(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22254,7 +18749,7 @@ function __c251(j: number): any {
       ).annotate({ identifier: "GetTargetableRemarketingListsRequest" });
   }
 }
-function __c252(j: number): any {
+function __c251(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22275,7 +18770,7 @@ function __c252(j: number): any {
       ).annotate({ identifier: "TargetableRemarketingList" });
   }
 }
-function __c253(j: number): any {
+function __c252(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22292,7 +18787,7 @@ function __c253(j: number): any {
       ).annotate({ identifier: "GetTargetingTemplatesRequest" });
   }
 }
-function __c254(j: number): any {
+function __c253(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22315,7 +18810,7 @@ function __c254(j: number): any {
       ).annotate({ identifier: "TargetingTemplate" });
   }
 }
-function __c255(j: number): any {
+function __c254(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22342,18 +18837,18 @@ function __c255(j: number): any {
         }),
       ).annotate({ identifier: "TvCampaignTimepoint" });
     case 2:
-      return S.Array(__S(8161, __c255, 1));
+      return S.Array(__S(8129, __c254, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
-          timepoints: S.optional(__S(8162, __c255, 2)),
+          timepoints: S.optional(__S(8130, __c254, 2)),
           kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "TvCampaignDetail" });
   }
 }
-function __c256(j: number): any {
+function __c255(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22369,7 +18864,7 @@ function __c256(j: number): any {
       ).annotate({ identifier: "GetUserProfilesRequest" });
   }
 }
-function __c257(j: number): any {
+function __c256(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22386,7 +18881,7 @@ function __c257(j: number): any {
       ).annotate({ identifier: "UserProfile" });
   }
 }
-function __c258(j: number): any {
+function __c257(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22403,7 +18898,7 @@ function __c258(j: number): any {
       ).annotate({ identifier: "GetUserRolePermissionGroupsRequest" });
   }
 }
-function __c259(j: number): any {
+function __c258(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22415,7 +18910,7 @@ function __c259(j: number): any {
       ).annotate({ identifier: "UserRolePermissionGroup" });
   }
 }
-function __c260(j: number): any {
+function __c259(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22432,7 +18927,7 @@ function __c260(j: number): any {
       ).annotate({ identifier: "GetUserRolePermissionsRequest" });
   }
 }
-function __c261(j: number): any {
+function __c260(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22446,7 +18941,7 @@ function __c261(j: number): any {
       ).annotate({ identifier: "UserRolePermission" });
   }
 }
-function __c262(j: number): any {
+function __c261(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22463,7 +18958,7 @@ function __c262(j: number): any {
       ).annotate({ identifier: "DeleteAdvertiserGroupsRequest" });
   }
 }
-function __c263(j: number): any {
+function __c262(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({
@@ -22471,7 +18966,7 @@ function __c263(j: number): any {
       });
   }
 }
-function __c264(j: number): any {
+function __c263(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22488,13 +18983,13 @@ function __c264(j: number): any {
       ).annotate({ identifier: "GetUserRolesRequest" });
   }
 }
-function __c265(j: number): any {
+function __c264(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(8352, __c261, 0));
+      return S.Array(__S(8320, __c260, 0));
   }
 }
-function __c266(j: number): any {
+function __c265(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22502,7 +18997,7 @@ function __c266(j: number): any {
           name: S.optional(S.String),
           kind: S.optional(S.String),
           defaultUserRole: S.optional(S.Boolean),
-          permissions: S.optional(__S(8480, __c265, 0)),
+          permissions: S.optional(__S(8448, __c264, 0)),
           id: S.optional(S.String),
           subaccountId: S.optional(S.String),
           parentUserRoleId: S.optional(S.String),
@@ -22511,7 +19006,7 @@ function __c266(j: number): any {
       ).annotate({ identifier: "UserRole" });
   }
 }
-function __c267(j: number): any {
+function __c266(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22528,7 +19023,7 @@ function __c267(j: number): any {
       ).annotate({ identifier: "GetVideoFormatsRequest" });
   }
 }
-function __c268(j: number): any {
+function __c267(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22542,29 +19037,16 @@ function __c268(j: number): any {
       ).annotate({ identifier: "VideoFormat" });
   }
 }
-function __c269(j: number): any {
+function __c268(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          subaccountId: S.optional(S.String),
-          email: S.optional(S.String),
-          userRoleFilter: S.optional(__S(4640, __c145, 0)),
-          name: S.optional(S.String),
-          campaignFilter: S.optional(__S(4640, __c145, 0)),
-          userAccessType: S.optional(S.String),
-          siteFilter: S.optional(__S(4640, __c145, 0)),
-          active: S.optional(S.Boolean),
-          comments: S.optional(S.String),
-          advertiserFilter: S.optional(__S(4640, __c145, 0)),
-          traffickerType: S.optional(S.String),
-          id: S.optional(S.String),
-          accountId: S.optional(S.String),
-          locale: S.optional(S.String),
-          kind: S.optional(S.String),
-          userRoleId: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(4641, __c145, 1),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "userprofiles/{+profileId}/accountUserProfiles",
@@ -22574,53 +19056,16 @@ function __c269(j: number): any {
       ).annotate({ identifier: "InsertAccountUserProfilesRequest" });
   }
 }
-function __c270(j: number): any {
+function __c269(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          lastModifiedInfo: S.optional(__S(4736, __c148, 0)),
-          startTime: S.optional(S.String),
-          dayPartTargeting: S.optional(__S(5472, __c171, 0)),
-          size: S.optional(__S(4864, __c152, 0)),
-          active: S.optional(S.Boolean),
-          clickThroughUrlSuffixProperties: S.optional(__S(4768, __c149, 0)),
-          targetingTemplateId: S.optional(S.String),
-          compatibility: S.optional(S.String),
-          archived: S.optional(S.Boolean),
-          remarketingListExpression: S.optional(__S(5473, __c171, 1)),
-          creativeGroupAssignments: S.optional(__S(5505, __c172, 1)),
-          contextualKeywordTargeting: S.optional(__S(5476, __c171, 4)),
-          comments: S.optional(S.String),
-          name: S.optional(S.String),
-          idDimensionValue: S.optional(__S(4704, __c147, 0)),
-          technologyTargeting: S.optional(__S(5477, __c171, 5)),
-          campaignIdDimensionValue: S.optional(__S(4704, __c147, 0)),
-          type: S.optional(S.String),
-          audienceSegmentId: S.optional(S.String),
-          placementAssignments: S.optional(__S(5507, __c172, 3)),
-          advertiserId: S.optional(S.String),
-          creativeRotation: S.optional(__S(5515, __c172, 11)),
-          dynamicClickTracker: S.optional(S.Boolean),
-          createInfo: S.optional(__S(4736, __c148, 0)),
-          languageTargeting: S.optional(__S(5478, __c171, 6)),
-          sslRequired: S.optional(S.Boolean),
-          kind: S.optional(S.String),
-          eventTagOverrides: S.optional(__S(4770, __c149, 2)),
-          accountId: S.optional(S.String),
-          campaignId: S.optional(S.String),
-          id: S.optional(S.String),
-          defaultClickThroughEventTagProperties: S.optional(__S(4771, __c149, 3)),
-          sslCompliant: S.optional(S.Boolean),
-          keyValueTargetingExpression: S.optional(__S(5473, __c171, 1)),
-          deliverySchedule: S.optional(__S(5517, __c172, 13)),
-          advertiserIdDimensionValue: S.optional(__S(4704, __c147, 0)),
-          clickThroughUrl: S.optional(__S(5508, __c172, 4)),
-          endTime: S.optional(S.String),
-          subaccountId: S.optional(S.String),
-          geoTargeting: S.optional(__S(5479, __c171, 7)),
-        }).pipe(
+        S.Extend(
+          __S(5518, __c172, 14),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "userprofiles/{+profileId}/ads",
@@ -22630,17 +19075,16 @@ function __c270(j: number): any {
       ).annotate({ identifier: "InsertAdsRequest" });
   }
 }
-function __c271(j: number): any {
+function __c270(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          name: S.optional(S.String),
-          kind: S.optional(S.String),
-          id: S.optional(S.String),
-          accountId: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(5568, __c174, 0),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "userprofiles/{+profileId}/advertiserGroups",
@@ -22650,20 +19094,16 @@ function __c271(j: number): any {
       ).annotate({ identifier: "InsertAdvertiserGroupsRequest" });
   }
 }
-function __c272(j: number): any {
+function __c271(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          archived: S.optional(S.Boolean),
-          name: S.optional(S.String),
-          kind: S.optional(S.String),
-          url: S.optional(S.String),
-          id: S.optional(S.String),
-          advertiserId: S.optional(S.String),
-          deepLinks: S.optional(__S(5665, __c177, 1)),
-        }).pipe(
+        S.Extend(
+          __S(5666, __c177, 2),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "userprofiles/{+profileId}/advertiserLandingPages",
@@ -22673,30 +19113,16 @@ function __c272(j: number): any {
       ).annotate({ identifier: "InsertAdvertiserLandingPagesRequest" });
   }
 }
-function __c273(j: number): any {
+function __c272(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          floodlightConfigurationId: S.optional(S.String),
-          clickThroughUrlSuffix: S.optional(S.String),
-          id: S.optional(S.String),
-          euPoliticalAdsDeclaration: S.optional(S.String),
-          accountId: S.optional(S.String),
-          name: S.optional(S.String),
-          suspended: S.optional(S.Boolean),
-          originalFloodlightConfigurationId: S.optional(S.String),
-          measurementPartnerLink: S.optional(__S(5728, __c179, 0)),
-          advertiserGroupId: S.optional(S.String),
-          status: S.optional(S.String),
-          floodlightConfigurationIdDimensionValue: S.optional(__S(4704, __c147, 0)),
-          kind: S.optional(S.String),
-          subaccountId: S.optional(S.String),
-          defaultClickThroughEventTagId: S.optional(S.String),
-          defaultEmail: S.optional(S.String),
-          idDimensionValue: S.optional(__S(4704, __c147, 0)),
-        }).pipe(
+        S.Extend(
+          __S(5729, __c179, 1),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "userprofiles/{+profileId}/advertisers",
@@ -22706,19 +19132,17 @@ function __c273(j: number): any {
       ).annotate({ identifier: "InsertAdvertisersRequest" });
   }
 }
-function __c274(j: number): any {
+function __c273(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          billingProfileId: S.String.pipe(T.Label()),
-          advertiserId: S.optional(S.String),
-          accountId: S.optional(S.String),
-          subaccountId: S.optional(S.String),
-          campaignId: S.optional(S.String),
-          kind: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(8768, __c274, 0),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+            billingProfileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "userprofiles/{+profileId}/billingProfiles/{+billingProfileId}/billingAssignments",
@@ -22728,7 +19152,7 @@ function __c274(j: number): any {
       ).annotate({ identifier: "InsertBillingAssignmentsRequest" });
   }
 }
-function __c275(j: number): any {
+function __c274(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22742,16 +19166,17 @@ function __c275(j: number): any {
       ).annotate({ identifier: "BillingAssignment" });
   }
 }
-function __c276(j: number): any {
+function __c275(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          campaignId: S.String.pipe(T.Label()),
-          creativeId: S.optional(S.String),
-          kind: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(8832, __c276, 0),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+            campaignId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "userprofiles/{+profileId}/campaigns/{+campaignId}/campaignCreativeAssociations",
@@ -22761,7 +19186,7 @@ function __c276(j: number): any {
       ).annotate({ identifier: "InsertCampaignCreativeAssociationsRequest" });
   }
 }
-function __c277(j: number): any {
+function __c276(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22772,41 +19197,16 @@ function __c277(j: number): any {
       ).annotate({ identifier: "CampaignCreativeAssociation" });
   }
 }
-function __c278(j: number): any {
+function __c277(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          clickThroughUrlSuffixProperties: S.optional(__S(4768, __c149, 0)),
-          advertiserGroupId: S.optional(S.String),
-          eventTagOverrides: S.optional(__S(4770, __c149, 2)),
-          comment: S.optional(S.String),
-          additionalCreativeOptimizationConfigurations: S.optional(__S(5859, __c183, 3)),
-          endDate: S.optional(S.String),
-          kind: S.optional(S.String),
-          billingInvoiceCode: S.optional(S.String),
-          euPoliticalAdsDeclaration: S.optional(S.String),
-          defaultLandingPageId: S.optional(S.String),
-          creativeOptimizationConfiguration: S.optional(__S(5858, __c183, 2)),
-          measurementPartnerLink: S.optional(__S(5860, __c183, 4)),
-          archived: S.optional(S.Boolean),
-          subaccountId: S.optional(S.String),
-          idDimensionValue: S.optional(__S(4704, __c147, 0)),
-          accountId: S.optional(S.String),
-          id: S.optional(S.String),
-          audienceSegmentGroups: S.optional(__S(5864, __c183, 8)),
-          defaultClickThroughEventTagProperties: S.optional(__S(4771, __c149, 3)),
-          creativeGroupIds: S.optional(__S(7136, __c223, 0)),
-          startDate: S.optional(S.String),
-          name: S.optional(S.String),
-          createInfo: S.optional(__S(4736, __c148, 0)),
-          lastModifiedInfo: S.optional(__S(4736, __c148, 0)),
-          advertiserId: S.optional(S.String),
-          adBlockingConfiguration: S.optional(__S(5865, __c183, 9)),
-          advertiserIdDimensionValue: S.optional(__S(4704, __c147, 0)),
-          externalId: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(5866, __c183, 10),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "userprofiles/{+profileId}/campaigns",
@@ -22816,7 +19216,7 @@ function __c278(j: number): any {
       ).annotate({ identifier: "InsertCampaignsRequest" });
   }
 }
-function __c279(j: number): any {
+function __c278(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22833,17 +19233,16 @@ function __c279(j: number): any {
       ).annotate({ identifier: "DeleteContentCategoriesRequest" });
   }
 }
-function __c280(j: number): any {
+function __c279(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          accountId: S.optional(S.String),
-          id: S.optional(S.String),
-          name: S.optional(S.String),
-          kind: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(6016, __c188, 0),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "userprofiles/{+profileId}/contentCategories",
@@ -22853,33 +19252,9 @@ function __c280(j: number): any {
       ).annotate({ identifier: "InsertContentCategoriesRequest" });
   }
 }
-function __c281(j: number): any {
+function __c280(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          advertiserId: S.String.pipe(T.Label()),
-          profileId: S.String.pipe(T.Label()),
-          warnedValidationRules: S.optional(__S(3264, __c102, 0)),
-          counterCustomEvents: S.optional(__S(6372, __c199, 4)),
-          idDimensionValue: S.optional(__S(4704, __c147, 0)),
-          detectedFeatures: S.optional(__S(3264, __c102, 0)),
-          exitCustomEvents: S.optional(__S(6372, __c199, 4)),
-          id: S.optional(S.String),
-          kind: S.optional(S.String),
-          timerCustomEvents: S.optional(__S(6372, __c199, 4)),
-          richMedia: S.optional(S.Boolean),
-          clickTags: S.optional(__S(6375, __c199, 7)),
-          assetIdentifier: S.optional(__S(6373, __c199, 5)),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "userprofiles/{+profileId}/creativeAssets/{+advertiserId}/creativeAssets",
-            baseUrl: "https://dfareporting.googleapis.com/dfareporting/v5/",
-          }),
-        ),
-      ).annotate({ identifier: "InsertCreativeAssetsRequest" });
-    case 1:
       return S.suspend(() =>
         S.Struct({
           warnedValidationRules: S.optional(__S(3264, __c102, 0)),
@@ -22895,22 +19270,34 @@ function __c281(j: number): any {
           assetIdentifier: S.optional(__S(6373, __c199, 5)),
         }),
       ).annotate({ identifier: "CreativeAssetMetadata" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(8960, __c280, 0),
+          S.Struct({
+            advertiserId: S.String.pipe(T.Label()),
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
+          T.Http({
+            method: "POST",
+            uri: "userprofiles/{+profileId}/creativeAssets/{+advertiserId}/creativeAssets",
+            baseUrl: "https://dfareporting.googleapis.com/dfareporting/v5/",
+          }),
+        ),
+      ).annotate({ identifier: "InsertCreativeAssetsRequest" });
   }
 }
-function __c282(j: number): any {
+function __c281(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          accountId: S.optional(S.String),
-          advertiserId: S.optional(S.String),
-          advertiserIdDimensionValue: S.optional(__S(4704, __c147, 0)),
-          name: S.optional(S.String),
-          id: S.optional(S.String),
-          subaccountId: S.optional(S.String),
-          kind: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(6112, __c191, 0),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "userprofiles/{+profileId}/creativeFields",
@@ -22920,17 +19307,17 @@ function __c282(j: number): any {
       ).annotate({ identifier: "InsertCreativeFieldsRequest" });
   }
 }
-function __c283(j: number): any {
+function __c282(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          creativeFieldId: S.String.pipe(T.Label()),
-          profileId: S.String.pipe(T.Label()),
-          value: S.optional(S.String),
-          kind: S.optional(S.String),
-          id: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(6176, __c193, 0),
+          S.Struct({
+            creativeFieldId: S.String.pipe(T.Label()),
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "userprofiles/{+profileId}/creativeFields/{+creativeFieldId}/creativeFieldValues",
@@ -22940,21 +19327,16 @@ function __c283(j: number): any {
       ).annotate({ identifier: "InsertCreativeFieldValuesRequest" });
   }
 }
-function __c284(j: number): any {
+function __c283(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          id: S.optional(S.String),
-          subaccountId: S.optional(S.String),
-          kind: S.optional(S.String),
-          name: S.optional(S.String),
-          groupNumber: S.optional(S.Number),
-          advertiserIdDimensionValue: S.optional(__S(4704, __c147, 0)),
-          advertiserId: S.optional(S.String),
-          accountId: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(6240, __c195, 0),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "userprofiles/{+profileId}/creativeGroups",
@@ -22964,78 +19346,16 @@ function __c284(j: number): any {
       ).annotate({ identifier: "InsertCreativeGroupsRequest" });
   }
 }
-function __c285(j: number): any {
+function __c284(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          lastModifiedInfo: S.optional(__S(4736, __c148, 0)),
-          studioAdvertiserId: S.optional(S.String),
-          totalFileSize: S.optional(S.String),
-          htmlCodeLocked: S.optional(S.Boolean),
-          accountId: S.optional(S.String),
-          artworkType: S.optional(S.String),
-          companionCreatives: S.optional(__S(7136, __c223, 0)),
-          size: S.optional(__S(4864, __c152, 0)),
-          fsCommand: S.optional(__S(6400, __c200, 0)),
-          redirectUrl: S.optional(S.String),
-          exitCustomEvents: S.optional(__S(6372, __c199, 4)),
-          id: S.optional(S.String),
-          requiredFlashPluginVersion: S.optional(S.String),
-          type: S.optional(S.String),
-          universalAdId: S.optional(__S(6401, __c200, 1)),
-          counterCustomEvents: S.optional(__S(6372, __c199, 4)),
-          subaccountId: S.optional(S.String),
-          adTagKeys: S.optional(__S(7136, __c223, 0)),
-          skippable: S.optional(S.Boolean),
-          sslCompliant: S.optional(S.Boolean),
-          mediaDuration: S.optional(S.Number),
-          renderingIdDimensionValue: S.optional(__S(4704, __c147, 0)),
-          requiredFlashVersion: S.optional(S.Number),
-          backupImageTargetWindow: S.optional(__S(6402, __c200, 2)),
-          studioTraffickedCreativeId: S.optional(S.String),
-          skipOffset: S.optional(__S(6336, __c198, 0)),
-          progressOffset: S.optional(__S(6336, __c198, 0)),
-          overrideCss: S.optional(S.String),
-          authoringTool: S.optional(S.String),
-          convertFlashToHtml5: S.optional(S.Boolean),
-          version: S.optional(S.Number),
-          syntheticContentAttestationStatus: S.optional(S.String),
-          backupImageReportingLabel: S.optional(S.String),
-          latestTraffickedCreativeId: S.optional(S.String),
-          additionalSizes: S.optional(__S(6304, __c197, 0)),
-          archived: S.optional(S.Boolean),
-          thirdPartyUrls: S.optional(__S(6404, __c200, 4)),
-          authoringSource: S.optional(S.String),
-          advertiserId: S.optional(S.String),
-          backgroundColor: S.optional(S.String),
-          creativeAssets: S.optional(__S(6406, __c200, 6)),
-          adParameters: S.optional(S.String),
-          creativeFieldAssignments: S.optional(__S(6408, __c200, 8)),
-          sslOverride: S.optional(S.Boolean),
-          backupImageFeatures: S.optional(__S(3264, __c102, 0)),
-          active: S.optional(S.Boolean),
-          name: S.optional(S.String),
-          autoAdvanceImages: S.optional(S.Boolean),
-          clickTags: S.optional(__S(6375, __c199, 7)),
-          mediaDescription: S.optional(S.String),
-          idDimensionValue: S.optional(__S(4704, __c147, 0)),
-          timerCustomEvents: S.optional(__S(6372, __c199, 4)),
-          studioCreativeId: S.optional(S.String),
-          renderingId: S.optional(S.String),
-          kind: S.optional(S.String),
-          commercialId: S.optional(S.String),
-          obaIcon: S.optional(__S(6337, __c198, 1)),
-          backupImageClickThroughUrl: S.optional(__S(6368, __c199, 0)),
-          additionalAsset: S.optional(__S(6409, __c200, 9)),
-          allowScriptAccess: S.optional(S.Boolean),
-          thirdPartyBackupImageImpressionsUrl: S.optional(S.String),
-          customKeyValues: S.optional(__S(7136, __c223, 0)),
-          compatibility: S.optional(__S(3264, __c102, 0)),
-          thirdPartyRichMediaImpressionsUrl: S.optional(S.String),
-          htmlCode: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(6410, __c200, 10),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "userprofiles/{+profileId}/creatives",
@@ -23045,22 +19365,16 @@ function __c285(j: number): any {
       ).annotate({ identifier: "InsertCreativesRequest" });
   }
 }
-function __c286(j: number): any {
+function __c285(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          idDimensionValue: S.optional(__S(4704, __c147, 0)),
-          id: S.optional(S.String),
-          kind: S.optional(S.String),
-          name: S.optional(S.String),
-          publisherSpecificationId: S.optional(S.String),
-          settings: S.optional(__S(6465, __c202, 1)),
-          url: S.optional(S.String),
-          inpageTagFormats: S.optional(__S(3264, __c102, 0)),
-          interstitialTagFormats: S.optional(__S(3264, __c102, 0)),
-        }).pipe(
+        S.Extend(
+          __S(6466, __c202, 2),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "userprofiles/{+profileId}/directorySites",
@@ -23070,14 +19384,18 @@ function __c286(j: number): any {
       ).annotate({ identifier: "InsertDirectorySitesRequest" });
   }
 }
-function __c287(j: number): any {
+function __c286(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           dynamicFeed: S.optional(__S(6540, __c204, 12)),
           dynamicProfileId: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "DynamicFeedsInsertRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(__S(9152, __c286, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "studio/dynamicFeeds",
@@ -23087,23 +19405,11 @@ function __c287(j: number): any {
       ).annotate({ identifier: "InsertDynamicFeedsRequest" });
   }
 }
-function __c288(j: number): any {
+function __c287(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          lastModifiedInfo: S.optional(__S(4736, __c148, 0)),
-          active: S.optional(__S(6608, __c206, 16)),
-          draft: S.optional(__S(6608, __c206, 16)),
-          archiveStatus: S.optional(S.String),
-          dynamicProfileId: S.optional(S.String),
-          name: S.optional(S.String),
-          kind: S.optional(S.String),
-          description: S.optional(S.String),
-          status: S.optional(S.String),
-          studioAdvertiserId: S.optional(S.String),
-          createInfo: S.optional(__S(4736, __c148, 0)),
-        }).pipe(
+        S.Extend(__S(6609, __c206, 17), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "studio/dynamicProfiles",
@@ -23113,17 +19419,16 @@ function __c288(j: number): any {
       ).annotate({ identifier: "InsertDynamicProfilesRequest" });
   }
 }
-function __c289(j: number): any {
+function __c288(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          kind: S.optional(S.String),
-          name: S.optional(S.String),
-          objectType: S.optional(S.String),
-          objectId: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(9248, __c289, 0),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "userprofiles/{+profileId}/dynamicTargetingKeys",
@@ -23133,7 +19438,7 @@ function __c289(j: number): any {
       ).annotate({ identifier: "InsertDynamicTargetingKeysRequest" });
   }
 }
-function __c290(j: number): any {
+function __c289(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23146,7 +19451,7 @@ function __c290(j: number): any {
       ).annotate({ identifier: "DynamicTargetingKey" });
   }
 }
-function __c291(j: number): any {
+function __c290(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23163,31 +19468,16 @@ function __c291(j: number): any {
       ).annotate({ identifier: "DeleteCreativeFieldsRequest" });
   }
 }
-function __c292(j: number): any {
+function __c291(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          sslCompliant: S.optional(S.Boolean),
-          url: S.optional(S.String),
-          enabledByDefault: S.optional(S.Boolean),
-          advertiserIdDimensionValue: S.optional(__S(4704, __c147, 0)),
-          kind: S.optional(S.String),
-          excludeFromAdxRequests: S.optional(S.Boolean),
-          campaignId: S.optional(S.String),
-          subaccountId: S.optional(S.String),
-          accountId: S.optional(S.String),
-          urlEscapeLevels: S.optional(S.Number),
-          advertiserId: S.optional(S.String),
-          campaignIdDimensionValue: S.optional(__S(4704, __c147, 0)),
-          status: S.optional(S.String),
-          id: S.optional(S.String),
-          type: S.optional(S.String),
-          name: S.optional(S.String),
-          siteIds: S.optional(__S(7136, __c223, 0)),
-          siteFilterType: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(6656, __c208, 0),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "userprofiles/{+profileId}/eventTags",
@@ -23197,43 +19487,16 @@ function __c292(j: number): any {
       ).annotate({ identifier: "InsertEventTagsRequest" });
   }
 }
-function __c293(j: number): any {
+function __c292(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          floodlightActivityGroupName: S.optional(S.String),
-          id: S.optional(S.String),
-          status: S.optional(S.String),
-          floodlightConfigurationId: S.optional(S.String),
-          notes: S.optional(S.String),
-          accountId: S.optional(S.String),
-          publisherTags: S.optional(__S(6818, __c213, 2)),
-          advertiserIdDimensionValue: S.optional(__S(4704, __c147, 0)),
-          defaultTags: S.optional(__S(6819, __c213, 3)),
-          conversionCategory: S.optional(S.String),
-          floodlightActivityGroupType: S.optional(S.String),
-          floodlightTagType: S.optional(S.String),
-          tagFormat: S.optional(S.String),
-          userDefinedVariableTypes: S.optional(__S(3264, __c102, 0)),
-          name: S.optional(S.String),
-          floodlightActivityGroupId: S.optional(S.String),
-          attributionEnabled: S.optional(S.Boolean),
-          advertiserId: S.optional(S.String),
-          tagString: S.optional(S.String),
-          floodlightActivityGroupTagString: S.optional(S.String),
-          kind: S.optional(S.String),
-          sslCompliant: S.optional(S.Boolean),
-          idDimensionValue: S.optional(__S(4704, __c147, 0)),
-          expectedUrl: S.optional(S.String),
-          floodlightConfigurationIdDimensionValue: S.optional(__S(4704, __c147, 0)),
-          secure: S.optional(S.Boolean),
-          subaccountId: S.optional(S.String),
-          sslRequired: S.optional(S.Boolean),
-          cacheBustingType: S.optional(S.String),
-          countingMethod: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(6820, __c213, 4),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "userprofiles/{+profileId}/floodlightActivities",
@@ -23243,25 +19506,16 @@ function __c293(j: number): any {
       ).annotate({ identifier: "InsertFloodlightActivitiesRequest" });
   }
 }
-function __c294(j: number): any {
+function __c293(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          id: S.optional(S.String),
-          accountId: S.optional(S.String),
-          subaccountId: S.optional(S.String),
-          floodlightConfigurationId: S.optional(S.String),
-          idDimensionValue: S.optional(__S(4704, __c147, 0)),
-          type: S.optional(S.String),
-          kind: S.optional(S.String),
-          floodlightConfigurationIdDimensionValue: S.optional(__S(4704, __c147, 0)),
-          advertiserId: S.optional(S.String),
-          advertiserIdDimensionValue: S.optional(__S(4704, __c147, 0)),
-          name: S.optional(S.String),
-          tagString: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(6880, __c215, 0),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "userprofiles/{+profileId}/floodlightActivityGroups",
@@ -23271,39 +19525,16 @@ function __c294(j: number): any {
       ).annotate({ identifier: "InsertFloodlightActivityGroupsRequest" });
   }
 }
-function __c295(j: number): any {
+function __c294(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          idDimensionValue: S.optional(__S(4704, __c147, 0)),
-          placementGroupType: S.optional(S.String),
-          advertiserIdDimensionValue: S.optional(__S(4704, __c147, 0)),
-          subaccountId: S.optional(S.String),
-          directorySiteId: S.optional(S.String),
-          placementStrategyId: S.optional(S.String),
-          id: S.optional(S.String),
-          accountId: S.optional(S.String),
-          contentCategoryId: S.optional(S.String),
-          siteIdDimensionValue: S.optional(__S(4704, __c147, 0)),
-          campaignId: S.optional(S.String),
-          externalId: S.optional(S.String),
-          childPlacementIds: S.optional(__S(7136, __c223, 0)),
-          createInfo: S.optional(__S(4736, __c148, 0)),
-          pricingSchedule: S.optional(__S(7234, __c226, 2)),
-          advertiserId: S.optional(S.String),
-          directorySiteIdDimensionValue: S.optional(__S(4704, __c147, 0)),
-          kind: S.optional(S.String),
-          lastModifiedInfo: S.optional(__S(4736, __c148, 0)),
-          primaryPlacementIdDimensionValue: S.optional(__S(4704, __c147, 0)),
-          primaryPlacementId: S.optional(S.String),
-          campaignIdDimensionValue: S.optional(__S(4704, __c147, 0)),
-          comment: S.optional(S.String),
-          name: S.optional(S.String),
-          activeStatus: S.optional(S.String),
-          siteId: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(7264, __c227, 0),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "userprofiles/{+profileId}/placementGroups",
@@ -23313,61 +19544,16 @@ function __c295(j: number): any {
       ).annotate({ identifier: "InsertPlacementGroupsRequest" });
   }
 }
-function __c296(j: number): any {
+function __c295(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          pricingSchedule: S.optional(__S(7234, __c226, 2)),
-          lookbackConfiguration: S.optional(__S(4576, __c143, 0)),
-          name: S.optional(S.String),
-          sslRequired: S.optional(S.Boolean),
-          publisherUpdateInfo: S.optional(__S(4736, __c148, 0)),
-          contentCategoryId: S.optional(S.String),
-          campaignIdDimensionValue: S.optional(__S(4704, __c147, 0)),
-          partnerWrappingData: S.optional(__S(7360, __c230, 0)),
-          adServingPlatformId: S.optional(S.String),
-          siteIdDimensionValue: S.optional(__S(4704, __c147, 0)),
-          advertiserId: S.optional(S.String),
-          primary: S.optional(S.Boolean),
-          accountId: S.optional(S.String),
-          tagFormats: S.optional(__S(3264, __c102, 0)),
-          siteId: S.optional(S.String),
-          subaccountId: S.optional(S.String),
-          directorySiteId: S.optional(S.String),
-          size: S.optional(__S(4864, __c152, 0)),
-          placementGroupId: S.optional(S.String),
-          paymentSource: S.optional(S.String),
-          allowOnYoutube: S.optional(S.Boolean),
-          siteServed: S.optional(S.Boolean),
-          compatibility: S.optional(S.String),
-          activeStatus: S.optional(S.String),
-          placementGroupIdDimensionValue: S.optional(__S(4704, __c147, 0)),
-          status: S.optional(S.String),
-          paymentApproved: S.optional(S.Boolean),
-          advertiserIdDimensionValue: S.optional(__S(4704, __c147, 0)),
-          keyName: S.optional(S.String),
-          lastModifiedInfo: S.optional(__S(4736, __c148, 0)),
-          campaignId: S.optional(S.String),
-          conversionDomainOverride: S.optional(__S(7363, __c230, 3)),
-          externalId: S.optional(S.String),
-          comment: S.optional(S.String),
-          tagSetting: S.optional(__S(7328, __c229, 0)),
-          kind: S.optional(S.String),
-          idDimensionValue: S.optional(__S(4704, __c147, 0)),
-          vpaidAdapterChoice: S.optional(S.String),
-          createInfo: S.optional(__S(4736, __c148, 0)),
-          placementStrategyId: S.optional(S.String),
-          wrappingOptOut: S.optional(S.Boolean),
-          youtubeSettings: S.optional(__S(7364, __c230, 4)),
-          videoSettings: S.optional(__S(7368, __c230, 8)),
-          additionalSizes: S.optional(__S(6304, __c197, 0)),
-          adBlockingOptOut: S.optional(S.Boolean),
-          videoActiveViewOptOut: S.optional(S.Boolean),
-          directorySiteIdDimensionValue: S.optional(__S(4704, __c147, 0)),
-          id: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(7369, __c230, 9),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "userprofiles/{+profileId}/placements",
@@ -23377,17 +19563,16 @@ function __c296(j: number): any {
       ).annotate({ identifier: "InsertPlacementsRequest" });
   }
 }
-function __c297(j: number): any {
+function __c296(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          accountId: S.optional(S.String),
-          id: S.optional(S.String),
-          name: S.optional(S.String),
-          kind: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(6016, __c188, 0),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "userprofiles/{+profileId}/placementStrategies",
@@ -23397,26 +19582,16 @@ function __c297(j: number): any {
       ).annotate({ identifier: "InsertPlacementStrategiesRequest" });
   }
 }
-function __c298(j: number): any {
+function __c297(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          name: S.optional(S.String),
-          listPopulationRule: S.optional(__S(7524, __c235, 4)),
-          advertiserId: S.optional(S.String),
-          listSize: S.optional(S.String),
-          lifeSpan: S.optional(S.String),
-          id: S.optional(S.String),
-          accountId: S.optional(S.String),
-          listSource: S.optional(S.String),
-          active: S.optional(S.Boolean),
-          kind: S.optional(S.String),
-          advertiserIdDimensionValue: S.optional(__S(4704, __c147, 0)),
-          subaccountId: S.optional(S.String),
-          description: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(7525, __c235, 5),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "userprofiles/{+profileId}/remarketingLists",
@@ -23426,31 +19601,16 @@ function __c298(j: number): any {
       ).annotate({ identifier: "InsertRemarketingListsRequest" });
   }
 }
-function __c299(j: number): any {
+function __c298(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          id: S.optional(S.String),
-          pathToConversionCriteria: S.optional(__S(7683, __c240, 3)),
-          type: S.optional(S.String),
-          name: S.optional(S.String),
-          fileName: S.optional(S.String),
-          crossMediaReachCriteria: S.optional(__S(7684, __c240, 4)),
-          accountId: S.optional(S.String),
-          ownerProfileId: S.optional(S.String),
-          reachCriteria: S.optional(__S(7687, __c240, 7)),
-          schedule: S.optional(__S(7688, __c240, 8)),
-          delivery: S.optional(__S(7691, __c240, 11)),
-          format: S.optional(S.String),
-          kind: S.optional(S.String),
-          subAccountId: S.optional(S.String),
-          etag: S.optional(S.String),
-          lastModifiedTime: S.optional(S.String),
-          floodlightCriteria: S.optional(__S(7693, __c240, 13)),
-          criteria: S.optional(__S(7694, __c240, 14)),
-        }).pipe(
+        S.Extend(
+          __S(7695, __c240, 15),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "userprofiles/{profileId}/reports",
@@ -23460,27 +19620,16 @@ function __c299(j: number): any {
       ).annotate({ identifier: "InsertReportsRequest" });
   }
 }
-function __c300(j: number): any {
+function __c299(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          adServingPlatformId: S.optional(S.String),
-          siteContacts: S.optional(__S(7841, __c245, 1)),
-          accountId: S.optional(S.String),
-          name: S.optional(S.String),
-          keyName: S.optional(S.String),
-          directorySiteIdDimensionValue: S.optional(__S(4704, __c147, 0)),
-          videoSettings: S.optional(__S(7845, __c245, 5)),
-          subaccountId: S.optional(S.String),
-          siteSettings: S.optional(__S(7846, __c245, 6)),
-          approved: S.optional(S.Boolean),
-          directorySiteId: S.optional(S.String),
-          idDimensionValue: S.optional(__S(4704, __c147, 0)),
-          id: S.optional(S.String),
-          kind: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(7815, __c244, 7),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "userprofiles/{+profileId}/sites",
@@ -23490,18 +19639,16 @@ function __c300(j: number): any {
       ).annotate({ identifier: "InsertSitesRequest" });
   }
 }
-function __c301(j: number): any {
+function __c300(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          iab: S.optional(S.Boolean),
-          width: S.optional(S.Number),
-          height: S.optional(S.Number),
-          id: S.optional(S.String),
-          kind: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(4864, __c152, 0),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "userprofiles/{+profileId}/sizes",

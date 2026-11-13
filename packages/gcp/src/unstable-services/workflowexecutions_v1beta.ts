@@ -160,30 +160,6 @@ export interface Execution {
   /** Output only. Revision of the workflow this execution is using. */
   workflowRevisionId?: string | undefined;
   /** Output only. Current state of the execution. */
-  state?: ExecutionStateEnum | undefined;
-  /** Output only. The error which caused the execution to finish prematurely. The value is only present if the execution's state is `FAILED` or `CANCELLED`. */
-  error?: Workflowexecutions_Error | undefined;
-  /** Output only. Marks the end of execution, successful or not. */
-  endTime?: string | undefined;
-  /** Input parameters of the execution represented as a JSON string. The size limit is 32KB. *Note*: If you are using the REST API directly to run your workflow, you must escape any JSON string value of `argument`. Example: `'{"argument":"{\"firstName\":\"FIRST\",\"lastName\":\"LAST\"}"}'` */
-  argument?: string | undefined;
-  /** The call logging level associated to this execution. */
-  callLogLevel?: ExecutionCallLogLevelEnum | undefined;
-  /** Output only. The resource name of the execution. Format: projects/{project}/locations/{location}/workflows/{workflow}/executions/{execution} */
-  name?: string | undefined;
-}
-export interface CreateProjectsLocationsWorkflowsExecutionsRequest {
-  /** Required. Name of the workflow for which an execution should be created. Format: projects/{project}/locations/{location}/workflows/{workflow} The latest revision of the workflow will be used. */
-  parent: string;
-  /** Output only. Output of the execution represented as a JSON string. The value can only be present if the execution's state is `SUCCEEDED`. */
-  result?: string | undefined;
-  /** Output only. Status tracks the current steps and progress data of this execution. */
-  status?: Status | undefined;
-  /** Output only. Marks the beginning of execution. */
-  startTime?: string | undefined;
-  /** Output only. Revision of the workflow this execution is using. */
-  workflowRevisionId?: string | undefined;
-  /** Output only. Current state of the execution. */
   state?: ExecutionStateEnum | (string & {}) | undefined;
   /** Output only. The error which caused the execution to finish prematurely. The value is only present if the execution's state is `FAILED` or `CANCELLED`. */
   error?: Workflowexecutions_Error | undefined;
@@ -195,6 +171,10 @@ export interface CreateProjectsLocationsWorkflowsExecutionsRequest {
   callLogLevel?: ExecutionCallLogLevelEnum | (string & {}) | undefined;
   /** Output only. The resource name of the execution. Format: projects/{project}/locations/{location}/workflows/{workflow}/executions/{execution} */
   name?: string | undefined;
+}
+export interface CreateProjectsLocationsWorkflowsExecutionsRequest extends Execution {
+  /** Required. Name of the workflow for which an execution should be created. Format: projects/{project}/locations/{location}/workflows/{workflow} The latest revision of the workflow will be used. */
+  parent: string;
 }
 export type GetProjectsLocationsWorkflowsExecutionsViewEnum =
   | "EXECUTION_VIEW_UNSPECIFIED"
@@ -398,19 +378,12 @@ function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          result: S.optional(S.String),
-          status: S.optional(__S(18, __c1, 2)),
-          startTime: S.optional(S.String),
-          workflowRevisionId: S.optional(S.String),
-          state: S.optional(S.String),
-          error: S.optional(__S(23, __c1, 7)),
-          endTime: S.optional(S.String),
-          argument: S.optional(S.String),
-          callLogLevel: S.optional(S.String),
-          name: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(24, __c1, 8),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+parent}/executions",

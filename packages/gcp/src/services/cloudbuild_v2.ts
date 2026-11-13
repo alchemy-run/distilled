@@ -141,11 +141,14 @@ export interface CreateRepositoryRequest {
   repository?: Repository | undefined;
 }
 export type CreateRepositoryRequestList = Array<CreateRepositoryRequest>;
-export interface BatchCreateProjectsLocationsConnectionsRepositoriesRequest {
-  /** Required. The connection to contain all the repositories being created. Format: projects/*\/locations/*\/connections/* The parent field in the CreateRepositoryRequest messages must either be empty or match this field. */
-  parent: string;
+/** Message for creating repositoritories in batch. */
+export interface BatchCreateRepositoriesRequest {
   /** Required. The request messages specifying the repositories to create. */
   requests?: CreateRepositoryRequestList | undefined;
+}
+export interface BatchCreateProjectsLocationsConnectionsRepositoriesRequest extends BatchCreateRepositoriesRequest {
+  /** Required. The connection to contain all the repositories being created. Format: projects/*\/locations/*\/connections/* The parent field in the CreateRepositoryRequest messages must either be empty or match this field. */
+  parent: string;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -290,11 +293,8 @@ export interface GoogleDevtoolsCloudbuildV2GitLabConfig {
   /** Output only. Version of the GitLab Enterprise server running on the `host_uri`. */
   serverVersion?: string | undefined;
 }
-export interface CreateProjectsLocationsConnectionsRequest {
-  /** Required. Project and location where the connection will be created. Format: `projects/*\/locations/*`. */
-  parent: string;
-  /** Required. The ID to use for the Connection, which will become the final component of the Connection's resource name. Names must be unique per-project per-location. Allows alphanumeric characters and any of -._~%!$&'()*+,;=@. */
-  connectionId?: string | undefined;
+/** A connection to a SCM like GitHub, GitHub Enterprise, Bitbucket Data Center, Bitbucket Cloud or GitLab. */
+export interface Connection {
   /** Configuration for connections to Bitbucket Data Center. */
   bitbucketDataCenterConfig?: BitbucketDataCenterConfig | undefined;
   /** This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
@@ -322,25 +322,17 @@ export interface CreateProjectsLocationsConnectionsRequest {
   /** Configuration for connections to gitlab.com or an instance of GitLab Enterprise. */
   gitlabConfig?: GoogleDevtoolsCloudbuildV2GitLabConfig | undefined;
 }
-export interface CreateProjectsLocationsConnectionsRepositoriesRequest {
+export interface CreateProjectsLocationsConnectionsRequest extends Connection {
+  /** Required. Project and location where the connection will be created. Format: `projects/*\/locations/*`. */
+  parent: string;
+  /** Required. The ID to use for the Connection, which will become the final component of the Connection's resource name. Names must be unique per-project per-location. Allows alphanumeric characters and any of -._~%!$&'()*+,;=@. */
+  connectionId?: string | undefined;
+}
+export interface CreateProjectsLocationsConnectionsRepositoriesRequest extends Repository {
   /** Required. The ID to use for the repository, which will become the final component of the repository's resource name. This ID should be unique in the connection. Allows alphanumeric characters and any of -._~%!$&'()*+,;=@. */
   repositoryId?: string | undefined;
   /** Required. The connection to contain the repository. If the request is part of a BatchCreateRepositoriesRequest, this field should be empty or match the parent specified there. */
   parent: string;
-  /** Output only. External ID of the webhook created for the repository. */
-  webhookId?: string | undefined;
-  /** Optional. Allows clients to store small amounts of arbitrary data. */
-  annotations?: StringMap | undefined;
-  /** This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
-  etag?: string | undefined;
-  /** Required. Git Clone HTTPS URI. */
-  remoteUri?: string | undefined;
-  /** Output only. Server assigned timestamp for when the connection was updated. */
-  updateTime?: string | undefined;
-  /** Immutable. Resource name of the repository, in the format `projects/*\/locations/*\/connections/*\/repositories/*`. */
-  name?: string | undefined;
-  /** Output only. Server assigned timestamp for when the connection was created. */
-  createTime?: string | undefined;
 }
 export interface DeleteProjectsLocationsConnectionsRequest {
   /** Required. The name of the Connection to delete. Format: `projects/*\/locations/*\/connections/*`. */
@@ -479,35 +471,6 @@ export interface GetProjectsLocationsConnectionsRequest {
   /** Required. The name of the Connection to retrieve. Format: `projects/*\/locations/*\/connections/*`. */
   name: string;
 }
-/** A connection to a SCM like GitHub, GitHub Enterprise, Bitbucket Data Center, Bitbucket Cloud or GitLab. */
-export interface Connection {
-  /** Configuration for connections to Bitbucket Data Center. */
-  bitbucketDataCenterConfig?: BitbucketDataCenterConfig | undefined;
-  /** This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
-  etag?: string | undefined;
-  /** Optional. If disabled is set to true, functionality is disabled for this connection. Repository based API methods and webhooks processing for repositories in this connection will be disabled. */
-  disabled?: boolean | undefined;
-  /** Output only. Set to true when the connection is being set up or updated in the background. */
-  reconciling?: boolean | undefined;
-  /** Optional. Allows clients to store small amounts of arbitrary data. */
-  annotations?: StringMap | undefined;
-  /** Output only. Server assigned timestamp for when the connection was created. */
-  createTime?: string | undefined;
-  /** Configuration for connections to an instance of GitHub Enterprise. */
-  githubEnterpriseConfig?: GoogleDevtoolsCloudbuildV2GitHubEnterpriseConfig | undefined;
-  /** Immutable. The resource name of the connection, in the format `projects/{project}/locations/{location}/connections/{connection_id}`. */
-  name?: string | undefined;
-  /** Configuration for connections to github.com. */
-  githubConfig?: GitHubConfig | undefined;
-  /** Configuration for connections to Bitbucket Cloud. */
-  bitbucketCloudConfig?: BitbucketCloudConfig | undefined;
-  /** Output only. Installation state of the Connection. */
-  installationState?: InstallationState | undefined;
-  /** Output only. Server assigned timestamp for when the connection was updated. */
-  updateTime?: string | undefined;
-  /** Configuration for connections to gitlab.com or an instance of GitLab Enterprise. */
-  gitlabConfig?: GoogleDevtoolsCloudbuildV2GitLabConfig | undefined;
-}
 export interface GetProjectsLocationsConnectionsRepositoriesRequest {
   /** Required. The name of the Repository to retrieve. Format: `projects/*\/locations/*\/connections/*\/repositories/*`. */
   name: string;
@@ -577,7 +540,10 @@ export interface ListRepositoriesResponse {
   /** The list of Repositories. */
   repositories?: RepositoryList | undefined;
 }
-export interface PatchProjectsLocationsConnectionsRequest {
+export interface PatchProjectsLocationsConnectionsRequest extends Omit<
+  Connection,
+  "etag" | "name"
+> {
   /** Immutable. The resource name of the connection, in the format `projects/{project}/locations/{location}/connections/{connection_id}`. */
   name: string;
   /** The current etag of the connection. If an etag is provided and does not match the current etag of the connection, update will be blocked and an ABORTED error will be returned. */
@@ -586,34 +552,9 @@ export interface PatchProjectsLocationsConnectionsRequest {
   allowMissing?: boolean | undefined;
   /** The list of fields to be updated. */
   updateMask?: string | undefined;
-  /** Configuration for connections to Bitbucket Data Center. */
-  bitbucketDataCenterConfig?: BitbucketDataCenterConfig | undefined;
-  /** Optional. If disabled is set to true, functionality is disabled for this connection. Repository based API methods and webhooks processing for repositories in this connection will be disabled. */
-  disabled?: boolean | undefined;
-  /** Output only. Set to true when the connection is being set up or updated in the background. */
-  reconciling?: boolean | undefined;
-  /** Optional. Allows clients to store small amounts of arbitrary data. */
-  annotations?: StringMap | undefined;
-  /** Output only. Server assigned timestamp for when the connection was created. */
-  createTime?: string | undefined;
-  /** Configuration for connections to an instance of GitHub Enterprise. */
-  githubEnterpriseConfig?: GoogleDevtoolsCloudbuildV2GitHubEnterpriseConfig | undefined;
-  /** Configuration for connections to github.com. */
-  githubConfig?: GitHubConfig | undefined;
-  /** Configuration for connections to Bitbucket Cloud. */
-  bitbucketCloudConfig?: BitbucketCloudConfig | undefined;
-  /** Output only. Installation state of the Connection. */
-  installationState?: InstallationState | undefined;
-  /** Output only. Server assigned timestamp for when the connection was updated. */
-  updateTime?: string | undefined;
-  /** Configuration for connections to gitlab.com or an instance of GitLab Enterprise. */
-  gitlabConfig?: GoogleDevtoolsCloudbuildV2GitLabConfig | undefined;
 }
-export interface ProcessWebhookProjectsLocationsConnectionsRequest {
-  /** Arbitrary additional key to find the matching repository for a webhook event if needed. */
-  webhookKey?: string | undefined;
-  /** Required. Project and location where the webhook will be received. Format: `projects/*\/locations/*`. */
-  parent: string;
+/** Message that represents an arbitrary HTTP body. It should only be used for payload formats that can't be represented as JSON, such as raw binary or an HTML page. This message can be used both in streaming and non-streaming API methods in the request as well as the response. It can be used as a top-level request field, which is convenient if one wants to extract parameters from either the URL or HTTP template into the request fields and also want access to the raw HTTP body. Example: message GetResourceRequest { // A unique request id. string request_id = 1; // The raw HTTP body is bound to this field. google.api.HttpBody http_body = 2; } service ResourceService { rpc GetResource(GetResourceRequest) returns (google.api.HttpBody); rpc UpdateResource(google.api.HttpBody) returns (google.protobuf.Empty); } Example with streaming methods: service CaldavService { rpc GetCalendar(stream google.api.HttpBody) returns (stream google.api.HttpBody); rpc UpdateCalendar(stream google.api.HttpBody) returns (stream google.api.HttpBody); } Use of this type only changes how the request and response bodies are handled, all other features will continue to work unchanged. */
+export interface HttpBody {
   /** The HTTP Content-Type header value specifying the content type of the body. */
   contentType?: string | undefined;
   /** Application specific response metadata. Must be set in the first response for streaming APIs. */
@@ -621,19 +562,31 @@ export interface ProcessWebhookProjectsLocationsConnectionsRequest {
   /** The HTTP request/response body as raw binary. */
   data?: string | undefined;
 }
-export interface SetIamPolicyProjectsLocationsConnectionsRequest {
-  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
+export interface ProcessWebhookProjectsLocationsConnectionsRequest extends HttpBody {
+  /** Arbitrary additional key to find the matching repository for a webhook event if needed. */
+  webhookKey?: string | undefined;
+  /** Required. Project and location where the webhook will be received. Format: `projects/*\/locations/*`. */
+  parent: string;
+}
+/** Request message for `SetIamPolicy` method. */
+export interface SetIamPolicyRequest {
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
   policy?: Policy | undefined;
   /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
   updateMask?: string | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsConnectionsRequest {
-  /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+export interface SetIamPolicyProjectsLocationsConnectionsRequest extends SetIamPolicyRequest {
+  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
+}
+/** Request message for `TestIamPermissions` method. */
+export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: StringList | undefined;
+}
+export interface TestIamPermissionsProjectsLocationsConnectionsRequest extends TestIamPermissionsRequest {
+  /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
@@ -654,11 +607,11 @@ export const accessReadTokenProjectsLocationsConnectionsRepositories: API.Operat
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    336,
-    __c21,
+    320,
+    __c20,
     0,
   ) as any as S.Schema<AccessReadTokenProjectsLocationsConnectionsRepositoriesRequest>,
-  output: __S(352, __c22, 0) as any as S.Schema<FetchReadTokenResponse>,
+  output: __S(336, __c21, 0) as any as S.Schema<FetchReadTokenResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -680,11 +633,11 @@ export const accessReadWriteTokenProjectsLocationsConnectionsRepositories: API.O
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    384,
-    __c24,
+    368,
+    __c23,
     0,
   ) as any as S.Schema<AccessReadWriteTokenProjectsLocationsConnectionsRepositoriesRequest>,
-  output: __S(352, __c22, 0) as any as S.Schema<FetchReadWriteTokenResponse>,
+  output: __S(336, __c21, 0) as any as S.Schema<FetchReadWriteTokenResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -706,11 +659,11 @@ export const batchCreateProjectsLocationsConnectionsRepositories: API.OperationM
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    402,
-    __c25,
-    2,
+    387,
+    __c24,
+    3,
   ) as any as S.Schema<BatchCreateProjectsLocationsConnectionsRepositoriesRequest>,
-  output: __S(449, __c28, 1) as any as S.Schema<Operation>,
+  output: __S(417, __c26, 1) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -731,8 +684,8 @@ export const cancelProjectsLocationsOperations: API.OperationMethod<
   CancelProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(496, __c31, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
-  output: __S(368, __c23, 0) as any as S.Schema<Empty>,
+  input: __S(480, __c30, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
+  output: __S(352, __c22, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -753,8 +706,8 @@ export const createProjectsLocationsConnections: API.OperationMethod<
   CreateProjectsLocationsConnectionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c32, 0) as any as S.Schema<CreateProjectsLocationsConnectionsRequest>,
-  output: __S(449, __c28, 1) as any as S.Schema<Operation>,
+  input: __S(496, __c31, 0) as any as S.Schema<CreateProjectsLocationsConnectionsRequest>,
+  output: __S(417, __c26, 1) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -776,11 +729,11 @@ export const createProjectsLocationsConnectionsRepositories: API.OperationMethod
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    544,
-    __c34,
+    528,
+    __c33,
     0,
   ) as any as S.Schema<CreateProjectsLocationsConnectionsRepositoriesRequest>,
-  output: __S(449, __c28, 1) as any as S.Schema<Operation>,
+  output: __S(417, __c26, 1) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -802,7 +755,7 @@ export const deleteProjectsLocationsConnections: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<DeleteProjectsLocationsConnectionsRequest>,
-  output: __S(449, __c28, 1) as any as S.Schema<Operation>,
+  output: __S(417, __c26, 1) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -824,7 +777,7 @@ export const deleteProjectsLocationsConnectionsRepositories: API.OperationMethod
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c1, 0) as any as S.Schema<DeleteProjectsLocationsConnectionsRepositoriesRequest>,
-  output: __S(449, __c28, 1) as any as S.Schema<Operation>,
+  output: __S(417, __c26, 1) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -927,7 +880,7 @@ export const getProjectsLocationsConnections: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c10, 0) as any as S.Schema<GetProjectsLocationsConnectionsRequest>,
-  output: __S(176, __c11, 0) as any as S.Schema<Connection>,
+  output: __S(521, __c32, 9) as any as S.Schema<Connection>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -943,8 +896,8 @@ export const getProjectsLocationsConnectionsRepositories: API.OperationMethod<
   GetProjectsLocationsConnectionsRepositoriesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c12, 0) as any as S.Schema<GetProjectsLocationsConnectionsRepositoriesRequest>,
-  output: __S(416, __c26, 0) as any as S.Schema<Repository>,
+  input: __S(176, __c11, 0) as any as S.Schema<GetProjectsLocationsConnectionsRepositoriesRequest>,
+  output: __S(464, __c29, 0) as any as S.Schema<Repository>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -960,8 +913,8 @@ export const getProjectsLocationsOperations: API.OperationMethod<
   GetProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c13, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
-  output: __S(449, __c28, 1) as any as S.Schema<Operation>,
+  input: __S(192, __c12, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
+  output: __S(417, __c26, 1) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -978,8 +931,8 @@ export const listProjectsLocations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListLocationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(224, __c14, 0) as any as S.Schema<ListProjectsLocationsRequest>,
-  output: __S(226, __c14, 2) as any as S.Schema<ListLocationsResponse>,
+  input: __S(208, __c13, 0) as any as S.Schema<ListProjectsLocationsRequest>,
+  output: __S(210, __c13, 2) as any as S.Schema<ListLocationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -997,8 +950,8 @@ export const listProjectsLocationsConnections: API.PaginatedOperationMethod<
   GcpOpContext,
   ListConnectionsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(240, __c15, 0) as any as S.Schema<ListProjectsLocationsConnectionsRequest>,
-  output: __S(242, __c15, 2) as any as S.Schema<ListConnectionsResponse>,
+  input: __S(224, __c14, 0) as any as S.Schema<ListProjectsLocationsConnectionsRequest>,
+  output: __S(226, __c14, 2) as any as S.Schema<ListConnectionsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1016,8 +969,8 @@ export const listProjectsLocationsConnectionsRepositories: API.PaginatedOperatio
   GcpOpContext,
   ListRepositoriesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(256, __c16, 0) as any as S.Schema<ListProjectsLocationsConnectionsRepositoriesRequest>,
-  output: __S(257, __c16, 1) as any as S.Schema<ListRepositoriesResponse>,
+  input: __S(240, __c15, 0) as any as S.Schema<ListProjectsLocationsConnectionsRepositoriesRequest>,
+  output: __S(241, __c15, 1) as any as S.Schema<ListRepositoriesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1039,8 +992,8 @@ export const patchProjectsLocationsConnections: API.OperationMethod<
   PatchProjectsLocationsConnectionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c17, 0) as any as S.Schema<PatchProjectsLocationsConnectionsRequest>,
-  output: __S(449, __c28, 1) as any as S.Schema<Operation>,
+  input: __S(256, __c16, 0) as any as S.Schema<PatchProjectsLocationsConnectionsRequest>,
+  output: __S(417, __c26, 1) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1061,8 +1014,8 @@ export const processWebhookProjectsLocationsConnections: API.OperationMethod<
   ProcessWebhookProjectsLocationsConnectionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c18, 0) as any as S.Schema<ProcessWebhookProjectsLocationsConnectionsRequest>,
-  output: __S(368, __c23, 0) as any as S.Schema<Empty>,
+  input: __S(273, __c17, 1) as any as S.Schema<ProcessWebhookProjectsLocationsConnectionsRequest>,
+  output: __S(352, __c22, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1083,7 +1036,7 @@ export const setIamPolicyProjectsLocationsConnections: API.OperationMethod<
   SetIamPolicyProjectsLocationsConnectionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c19, 0) as any as S.Schema<SetIamPolicyProjectsLocationsConnectionsRequest>,
+  input: __S(289, __c18, 1) as any as S.Schema<SetIamPolicyProjectsLocationsConnectionsRequest>,
   output: __S(119, __c7, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -1106,11 +1059,11 @@ export const testIamPermissionsProjectsLocationsConnections: API.OperationMethod
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    320,
-    __c20,
-    0,
+    305,
+    __c19,
+    1,
   ) as any as S.Schema<TestIamPermissionsProjectsLocationsConnectionsRequest>,
-  output: __S(321, __c20, 1) as any as S.Schema<TestIamPermissionsResponse>,
+  output: __S(304, __c19, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1215,7 +1168,7 @@ function __c4(j: number): any {
 function __c5(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(416, __c26, 0));
+      return S.Array(__S(464, __c29, 0));
   }
 }
 function __c6(j: number): any {
@@ -1307,10 +1260,10 @@ function __c9(j: number): any {
       return S.suspend(() =>
         S.Struct({
           locationId: S.optional(S.String),
-          metadata: S.optional(__S(432, __c27, 0)),
+          metadata: S.optional(__S(400, __c25, 0)),
           name: S.optional(S.String),
           displayName: S.optional(S.String),
-          labels: S.optional(__S(480, __c30, 0)),
+          labels: S.optional(__S(448, __c28, 0)),
         }),
       ).annotate({ identifier: "Location" });
   }
@@ -1336,21 +1289,15 @@ function __c11(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          bitbucketDataCenterConfig: S.optional(__S(530, __c33, 2)),
-          etag: S.optional(S.String),
-          disabled: S.optional(S.Boolean),
-          reconciling: S.optional(S.Boolean),
-          annotations: S.optional(__S(480, __c30, 0)),
-          createTime: S.optional(S.String),
-          githubEnterpriseConfig: S.optional(__S(531, __c33, 3)),
-          name: S.optional(S.String),
-          githubConfig: S.optional(__S(533, __c33, 5)),
-          bitbucketCloudConfig: S.optional(__S(534, __c33, 6)),
-          installationState: S.optional(__S(535, __c33, 7)),
-          updateTime: S.optional(S.String),
-          gitlabConfig: S.optional(__S(536, __c33, 8)),
-        }),
-      ).annotate({ identifier: "Connection" });
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v2/{+name}",
+            baseUrl: "https://cloudbuild.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "GetProjectsLocationsConnectionsRepositoriesRequest" });
   }
 }
 function __c12(j: number): any {
@@ -1366,26 +1313,10 @@ function __c12(j: number): any {
             baseUrl: "https://cloudbuild.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsConnectionsRepositoriesRequest" });
-  }
-}
-function __c13(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v2/{+name}",
-            baseUrl: "https://cloudbuild.googleapis.com/",
-          }),
-        ),
       ).annotate({ identifier: "GetProjectsLocationsOperationsRequest" });
   }
 }
-function __c14(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1408,13 +1339,13 @@ function __c14(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          locations: S.optional(__S(225, __c14, 1)),
+          locations: S.optional(__S(209, __c13, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListLocationsResponse" });
   }
 }
-function __c15(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1432,18 +1363,18 @@ function __c15(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsConnectionsRequest" });
     case 1:
-      return S.Array(__S(176, __c11, 0));
+      return S.Array(__S(521, __c32, 9));
     case 2:
       return S.suspend(() =>
         S.Struct({
           unreachable: S.optional(__S(48, __c3, 0)),
-          connections: S.optional(__S(241, __c15, 1)),
+          connections: S.optional(__S(225, __c14, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListConnectionsResponse" });
   }
 }
-function __c16(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1471,27 +1402,19 @@ function __c16(j: number): any {
       ).annotate({ identifier: "ListRepositoriesResponse" });
   }
 }
-function __c17(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          etag: S.optional(S.String.pipe(T.Query())),
-          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          bitbucketDataCenterConfig: S.optional(__S(530, __c33, 2)),
-          disabled: S.optional(S.Boolean),
-          reconciling: S.optional(S.Boolean),
-          annotations: S.optional(__S(480, __c30, 0)),
-          createTime: S.optional(S.String),
-          githubEnterpriseConfig: S.optional(__S(531, __c33, 3)),
-          githubConfig: S.optional(__S(533, __c33, 5)),
-          bitbucketCloudConfig: S.optional(__S(534, __c33, 6)),
-          installationState: S.optional(__S(535, __c33, 7)),
-          updateTime: S.optional(S.String),
-          gitlabConfig: S.optional(__S(536, __c33, 8)),
-        }).pipe(
+        S.Extend(
+          __S(521, __c32, 9),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            etag: S.optional(S.String.pipe(T.Query())),
+            allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -1501,17 +1424,25 @@ function __c17(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsConnectionsRequest" });
   }
 }
-function __c18(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          webhookKey: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
           contentType: S.optional(S.String),
-          extensions: S.optional(__S(464, __c29, 0)),
+          extensions: S.optional(__S(432, __c27, 0)),
           data: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "HttpBody" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(272, __c17, 0),
+          S.Struct({
+            webhookKey: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/connections:processWebhook",
@@ -1521,15 +1452,23 @@ function __c18(j: number): any {
       ).annotate({ identifier: "ProcessWebhookProjectsLocationsConnectionsRequest" });
   }
 }
-function __c19(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          resource: S.String.pipe(T.Label()),
           policy: S.optional(__S(119, __c7, 7)),
           updateMask: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "SetIamPolicyRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(288, __c18, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:setIamPolicy",
@@ -1539,14 +1478,22 @@ function __c19(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsLocationsConnectionsRequest" });
   }
 }
-function __c20(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          resource: S.String.pipe(T.Label()),
           permissions: S.optional(__S(48, __c3, 0)),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "TestIamPermissionsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(304, __c19, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:testIamPermissions",
@@ -1554,21 +1501,15 @@ function __c20(j: number): any {
           }),
         ),
       ).annotate({ identifier: "TestIamPermissionsProjectsLocationsConnectionsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          permissions: S.optional(__S(48, __c3, 0)),
-        }),
-      ).annotate({ identifier: "TestIamPermissionsResponse" });
   }
 }
-function __c21(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           repository: S.String.pipe(T.Label()),
-          body: S.optional(__S(368, __c23, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(352, __c22, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1579,7 +1520,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "AccessReadTokenProjectsLocationsConnectionsRepositoriesRequest" });
   }
 }
-function __c22(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1590,19 +1531,19 @@ function __c22(j: number): any {
       ).annotate({ identifier: "FetchReadTokenResponse" });
   }
 }
-function __c23(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "FetchReadTokenRequest" });
   }
 }
-function __c24(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           repository: S.String.pipe(T.Label()),
-          body: S.optional(__S(368, __c23, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(352, __c22, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1615,24 +1556,32 @@ function __c24(j: number): any {
       });
   }
 }
-function __c25(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           repositoryId: S.optional(S.String),
           parent: S.optional(S.String),
-          repository: S.optional(__S(416, __c26, 0)),
+          repository: S.optional(__S(464, __c29, 0)),
         }),
       ).annotate({ identifier: "CreateRepositoryRequest" });
     case 1:
-      return S.Array(__S(400, __c25, 0));
+      return S.Array(__S(384, __c24, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
-          requests: S.optional(__S(401, __c25, 1)),
-        }).pipe(
+          requests: S.optional(__S(385, __c24, 1)),
+        }),
+      ).annotate({ identifier: "BatchCreateRepositoriesRequest" });
+    case 3:
+      return S.suspend(() =>
+        S.Extend(
+          __S(386, __c24, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/repositories:batchCreate",
@@ -1642,13 +1591,53 @@ function __c25(j: number): any {
       ).annotate({ identifier: "BatchCreateProjectsLocationsConnectionsRepositoriesRequest" });
   }
 }
+function __c25(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, S.Unknown);
+  }
+}
 function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          code: S.optional(S.Number),
+          message: S.optional(S.String),
+          details: S.optional(__S(432, __c27, 0)),
+        }),
+      ).annotate({ identifier: "Status" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          error: S.optional(__S(416, __c26, 0)),
+          done: S.optional(S.Boolean),
+          response: S.optional(__S(400, __c25, 0)),
+          metadata: S.optional(__S(400, __c25, 0)),
+        }),
+      ).annotate({ identifier: "Operation" });
+  }
+}
+function __c27(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(400, __c25, 0));
+  }
+}
+function __c28(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, S.String);
+  }
+}
+function __c29(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           webhookId: S.optional(S.String),
-          annotations: S.optional(__S(480, __c30, 0)),
+          annotations: S.optional(__S(448, __c28, 0)),
           etag: S.optional(S.String),
           remoteUri: S.optional(S.String),
           updateTime: S.optional(S.String),
@@ -1658,53 +1647,13 @@ function __c26(j: number): any {
       ).annotate({ identifier: "Repository" });
   }
 }
-function __c27(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, S.Unknown);
-  }
-}
-function __c28(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          code: S.optional(S.Number),
-          message: S.optional(S.String),
-          details: S.optional(__S(464, __c29, 0)),
-        }),
-      ).annotate({ identifier: "Status" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          error: S.optional(__S(448, __c28, 0)),
-          done: S.optional(S.Boolean),
-          response: S.optional(__S(432, __c27, 0)),
-          metadata: S.optional(__S(432, __c27, 0)),
-        }),
-      ).annotate({ identifier: "Operation" });
-  }
-}
-function __c29(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(432, __c27, 0));
-  }
-}
 function __c30(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, S.String);
-  }
-}
-function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(368, __c23, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(352, __c22, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1715,27 +1664,17 @@ function __c31(j: number): any {
       ).annotate({ identifier: "CancelProjectsLocationsOperationsRequest" });
   }
 }
-function __c32(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          connectionId: S.optional(S.String.pipe(T.Query())),
-          bitbucketDataCenterConfig: S.optional(__S(530, __c33, 2)),
-          etag: S.optional(S.String),
-          disabled: S.optional(S.Boolean),
-          reconciling: S.optional(S.Boolean),
-          annotations: S.optional(__S(480, __c30, 0)),
-          createTime: S.optional(S.String),
-          githubEnterpriseConfig: S.optional(__S(531, __c33, 3)),
-          name: S.optional(S.String),
-          githubConfig: S.optional(__S(533, __c33, 5)),
-          bitbucketCloudConfig: S.optional(__S(534, __c33, 6)),
-          installationState: S.optional(__S(535, __c33, 7)),
-          updateTime: S.optional(S.String),
-          gitlabConfig: S.optional(__S(536, __c33, 8)),
-        }).pipe(
+        S.Extend(
+          __S(521, __c32, 9),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            connectionId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/connections",
@@ -1745,7 +1684,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsConnectionsRequest" });
   }
 }
-function __c33(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1763,11 +1702,11 @@ function __c33(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          authorizerCredential: S.optional(__S(528, __c33, 0)),
-          readAuthorizerCredential: S.optional(__S(528, __c33, 0)),
+          authorizerCredential: S.optional(__S(512, __c32, 0)),
+          readAuthorizerCredential: S.optional(__S(512, __c32, 0)),
           sslCa: S.optional(S.String),
           hostUri: S.optional(S.String),
-          serviceDirectoryConfig: S.optional(__S(529, __c33, 1)),
+          serviceDirectoryConfig: S.optional(__S(513, __c32, 1)),
           serverVersion: S.optional(S.String),
           webhookSecretSecretVersion: S.optional(S.String),
         }),
@@ -1780,7 +1719,7 @@ function __c33(j: number): any {
           privateKeySecretVersion: S.optional(S.String),
           sslCa: S.optional(S.String),
           webhookSecretSecretVersion: S.optional(S.String),
-          serviceDirectoryConfig: S.optional(__S(529, __c33, 1)),
+          serviceDirectoryConfig: S.optional(__S(513, __c32, 1)),
           serverVersion: S.optional(S.String),
           appId: S.optional(S.String),
           appSlug: S.optional(S.String),
@@ -1797,7 +1736,7 @@ function __c33(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          authorizerCredential: S.optional(__S(532, __c33, 4)),
+          authorizerCredential: S.optional(__S(516, __c32, 4)),
           appInstallationId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GitHubConfig" });
@@ -1806,8 +1745,8 @@ function __c33(j: number): any {
         S.Struct({
           webhookSecretSecretVersion: S.optional(S.String),
           workspace: S.optional(S.String),
-          readAuthorizerCredential: S.optional(__S(528, __c33, 0)),
-          authorizerCredential: S.optional(__S(528, __c33, 0)),
+          readAuthorizerCredential: S.optional(__S(512, __c32, 0)),
+          authorizerCredential: S.optional(__S(512, __c32, 0)),
         }),
       ).annotate({ identifier: "BitbucketCloudConfig" });
     case 7:
@@ -1822,31 +1761,45 @@ function __c33(j: number): any {
       return S.suspend(() =>
         S.Struct({
           hostUri: S.optional(S.String),
-          readAuthorizerCredential: S.optional(__S(528, __c33, 0)),
+          readAuthorizerCredential: S.optional(__S(512, __c32, 0)),
           sslCa: S.optional(S.String),
           webhookSecretSecretVersion: S.optional(S.String),
-          authorizerCredential: S.optional(__S(528, __c33, 0)),
-          serviceDirectoryConfig: S.optional(__S(529, __c33, 1)),
+          authorizerCredential: S.optional(__S(512, __c32, 0)),
+          serviceDirectoryConfig: S.optional(__S(513, __c32, 1)),
           serverVersion: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleDevtoolsCloudbuildV2GitLabConfig" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          bitbucketDataCenterConfig: S.optional(__S(514, __c32, 2)),
+          etag: S.optional(S.String),
+          disabled: S.optional(S.Boolean),
+          reconciling: S.optional(S.Boolean),
+          annotations: S.optional(__S(448, __c28, 0)),
+          createTime: S.optional(S.String),
+          githubEnterpriseConfig: S.optional(__S(515, __c32, 3)),
+          name: S.optional(S.String),
+          githubConfig: S.optional(__S(517, __c32, 5)),
+          bitbucketCloudConfig: S.optional(__S(518, __c32, 6)),
+          installationState: S.optional(__S(519, __c32, 7)),
+          updateTime: S.optional(S.String),
+          gitlabConfig: S.optional(__S(520, __c32, 8)),
+        }),
+      ).annotate({ identifier: "Connection" });
   }
 }
-function __c34(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          repositoryId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          webhookId: S.optional(S.String),
-          annotations: S.optional(__S(480, __c30, 0)),
-          etag: S.optional(S.String),
-          remoteUri: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          name: S.optional(S.String),
-          createTime: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(464, __c29, 0),
+          S.Struct({
+            repositoryId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/repositories",

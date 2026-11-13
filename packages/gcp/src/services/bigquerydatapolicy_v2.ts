@@ -84,11 +84,14 @@ export class NotFound
   ) {}
 
 export type StringList = Array<string>;
-export interface AddGranteesProjectsLocationsDataPoliciesRequest {
-  /** Required. Resource name of this data policy, in the format of `projects/{project_number}/locations/{location_id}/dataPolicies/{data_policy_id}`. */
-  dataPolicy: string;
+/** Request message for the AddGrantees method. */
+export interface AddGranteesRequest {
   /** Required. IAM principal that should be granted Fine Grained Access to the underlying data goverened by the data policy. The target data policy is determined by the `data_policy` field. Uses the [IAM V2 principal syntax](https://cloud.google.com/iam/docs/principal-identifiers#v2). Supported principal types: * User * Group * Service account */
   grantees?: StringList | undefined;
+}
+export interface AddGranteesProjectsLocationsDataPoliciesRequest extends AddGranteesRequest {
+  /** Required. Resource name of this data policy, in the format of `projects/{project_number}/locations/{location_id}/dataPolicies/{data_policy_id}`. */
+  dataPolicy: string;
 }
 export type DataPolicyVersionEnum = "VERSION_UNSPECIFIED" | "V1" | "V2";
 export type DataMaskingPolicyPredefinedExpressionEnum =
@@ -143,13 +146,16 @@ export interface DataPolicy {
   /** Optional. Matching condition specified as a SQL expression string. Data Governance Tag matcher functions are: `COLUMN_HAS_TAG_KEY(keyName STRING) -> BOOL` `COLUMN_MATCH_TAG(keyName STRING, valueShortName STRING) -> BOOL` For example: `COLUMN_HAS_TAG_KEY('project-id/pii') AND COLUMN_MATCH_TAG('project-id/pii', 'ssn')` */
   matchingCondition?: string | undefined;
 }
-export interface CreateProjectsLocationsDataPoliciesRequest {
-  /** Required. Resource name of the project that the data policy will belong to. The format is `projects/{project_number}/locations/{location_id}`. */
-  parent: string;
+/** Request message for the CreateDataPolicy method. */
+export interface CreateDataPolicyRequest {
   /** Required. The data policy to create. The `name` field does not need to be provided for the data policy creation. */
   dataPolicy?: DataPolicy | undefined;
   /** Required. User-assigned (human readable) ID of the data policy that needs to be unique within a project. Used as {data_policy_id} in part of the resource name. */
   dataPolicyId?: string | undefined;
+}
+export interface CreateProjectsLocationsDataPoliciesRequest extends CreateDataPolicyRequest {
+  /** Required. Resource name of the project that the data policy will belong to. The format is `projects/{project_number}/locations/{location_id}`. */
+  parent: string;
 }
 export interface DeleteProjectsLocationsDataPoliciesRequest {
   /** Required. Resource name of the data policy to delete. Format is `projects/{project_number}/locations/{location_id}/dataPolicies/{id}`. */
@@ -162,11 +168,14 @@ export interface GetPolicyOptions {
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   requestedPolicyVersion?: number | undefined;
 }
-export interface GetIamPolicyProjectsLocationsDataPoliciesRequest {
-  /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
+/** Request message for `GetIamPolicy` method. */
+export interface GetIamPolicyRequest {
   /** OPTIONAL: A `GetPolicyOptions` object for specifying options to `GetIamPolicy`. */
   options?: GetPolicyOptions | undefined;
+}
+export interface GetIamPolicyProjectsLocationsDataPoliciesRequest extends GetIamPolicyRequest {
+  /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
 }
 /** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
 export interface Expr {
@@ -243,51 +252,42 @@ export interface ListDataPoliciesResponse {
   /** Data policies that belong to the requested project. */
   dataPolicies?: DataPolicyList | undefined;
 }
-export interface PatchProjectsLocationsDataPoliciesRequest {
+export interface PatchProjectsLocationsDataPoliciesRequest extends Omit<DataPolicy, "name"> {
   /** Identifier. Resource name of this data policy, in the format of `projects/{project_number}/locations/{location_id}/dataPolicies/{data_policy_id}`. */
   name: string;
   /** Optional. If set to true, and the data policy is not found, a new data policy will be created. In this situation, update_mask is ignored. */
   allowMissing?: boolean | undefined;
   /** Optional. The update mask applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask If not set, defaults to all of the fields that are allowed to update. Updates to the `name` and `dataPolicyId` fields are not allowed. */
   updateMask?: string | undefined;
-  /** Output only. The version of the Data Policy resource. */
-  version?: DataPolicyVersionEnum | (string & {}) | undefined;
-  /** Optional. The data masking policy that specifies the data masking rule to use. It must be set if the data policy type is DATA_MASKING_POLICY. */
-  dataMaskingPolicy?: DataMaskingPolicy | undefined;
-  /** Output only. User-assigned (human readable) ID of the data policy that needs to be unique within a project. Used as {data_policy_id} in part of the resource name. */
-  dataPolicyId?: string | undefined;
-  /** Optional. The list of IAM principals that have Fine Grained Access to the underlying data goverened by this data policy. Uses the [IAM V2 principal syntax](https://cloud.google.com/iam/docs/principal-identifiers#v2) Only supports principal types users, groups, serviceaccounts, cloudidentity. This field is supported in V2 Data Policy only. In case of V1 data policies (i.e. verion = 1 and policy_tag is set), this field is not populated. */
-  grantees?: StringList | undefined;
-  /** Output only. Policy tag resource name, in the format of `projects/{project_number}/locations/{location_id}/taxonomies/{taxonomy_id}/policyTags/{policyTag_id}`. policy_tag is supported only for V1 data policies. */
-  policyTag?: string | undefined;
-  /** The etag for this Data Policy. This field is used for UpdateDataPolicy calls. If Data Policy exists, this field is required and must match the server's etag. It will also be populated in the response of GetDataPolicy, CreateDataPolicy, and UpdateDataPolicy calls. */
-  etag?: string | undefined;
-  /** Required. Type of data policy. */
-  dataPolicyType?: DataPolicyDataPolicyTypeEnum | (string & {}) | undefined;
-  /** Optional. Data Governance tag bound to the Data Policy. */
-  dataGovernanceTag?: DataGovernanceTag | undefined;
-  /** Optional. Matching condition specified as a SQL expression string. Data Governance Tag matcher functions are: `COLUMN_HAS_TAG_KEY(keyName STRING) -> BOOL` `COLUMN_MATCH_TAG(keyName STRING, valueShortName STRING) -> BOOL` For example: `COLUMN_HAS_TAG_KEY('project-id/pii') AND COLUMN_MATCH_TAG('project-id/pii', 'ssn')` */
-  matchingCondition?: string | undefined;
 }
-export interface RemoveGranteesProjectsLocationsDataPoliciesRequest {
-  /** Required. Resource name of this data policy, in the format of `projects/{project_number}/locations/{location_id}/dataPolicies/{data_policy_id}`. */
-  dataPolicy: string;
+/** Request message for the RemoveGrantees method. */
+export interface RemoveGranteesRequest {
   /** Required. IAM principal that should be revoked from Fine Grained Access to the underlying data goverened by the data policy. The target data policy is determined by the `data_policy` field. Uses the [IAM V2 principal syntax](https://cloud.google.com/iam/docs/principal-identifiers#v2). Supported principal types: * User * Group * Service account */
   grantees?: StringList | undefined;
 }
-export interface SetIamPolicyProjectsLocationsDataPoliciesRequest {
-  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
+export interface RemoveGranteesProjectsLocationsDataPoliciesRequest extends RemoveGranteesRequest {
+  /** Required. Resource name of this data policy, in the format of `projects/{project_number}/locations/{location_id}/dataPolicies/{data_policy_id}`. */
+  dataPolicy: string;
+}
+/** Request message for `SetIamPolicy` method. */
+export interface SetIamPolicyRequest {
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
   policy?: Policy | undefined;
   /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
   updateMask?: string | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsDataPoliciesRequest {
-  /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+export interface SetIamPolicyProjectsLocationsDataPoliciesRequest extends SetIamPolicyRequest {
+  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
+}
+/** Request message for `TestIamPermissions` method. */
+export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: StringList | undefined;
+}
+export interface TestIamPermissionsProjectsLocationsDataPoliciesRequest extends TestIamPermissionsRequest {
+  /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
@@ -308,7 +308,7 @@ export const addGranteesProjectsLocationsDataPolicies: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c4, 0) as any as S.Schema<AddGranteesProjectsLocationsDataPoliciesRequest>,
-  output: __S(50, __c6, 2) as any as S.Schema<DataPolicy>,
+  output: __S(58, __c7, 2) as any as S.Schema<DataPolicy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -329,8 +329,8 @@ export const createProjectsLocationsDataPolicies: API.OperationMethod<
   CreateProjectsLocationsDataPoliciesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<CreateProjectsLocationsDataPoliciesRequest>,
-  output: __S(50, __c6, 2) as any as S.Schema<DataPolicy>,
+  input: __S(65, __c8, 1) as any as S.Schema<CreateProjectsLocationsDataPoliciesRequest>,
+  output: __S(58, __c7, 2) as any as S.Schema<DataPolicy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -351,8 +351,8 @@ export const deleteProjectsLocationsDataPolicies: API.OperationMethod<
   DeleteProjectsLocationsDataPoliciesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c8, 0) as any as S.Schema<DeleteProjectsLocationsDataPoliciesRequest>,
-  output: __S(65, __c8, 1) as any as S.Schema<Empty>,
+  input: __S(72, __c9, 0) as any as S.Schema<DeleteProjectsLocationsDataPoliciesRequest>,
+  output: __S(73, __c9, 1) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -373,8 +373,8 @@ export const getIamPolicyProjectsLocationsDataPolicies: API.OperationMethod<
   GetIamPolicyProjectsLocationsDataPoliciesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(73, __c9, 1) as any as S.Schema<GetIamPolicyProjectsLocationsDataPoliciesRequest>,
-  output: __S(87, __c10, 7) as any as S.Schema<Policy>,
+  input: __S(82, __c10, 2) as any as S.Schema<GetIamPolicyProjectsLocationsDataPoliciesRequest>,
+  output: __S(95, __c11, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -390,8 +390,8 @@ export const getProjectsLocationsDataPolicies: API.OperationMethod<
   GetProjectsLocationsDataPoliciesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c11, 0) as any as S.Schema<GetProjectsLocationsDataPoliciesRequest>,
-  output: __S(50, __c6, 2) as any as S.Schema<DataPolicy>,
+  input: __S(96, __c12, 0) as any as S.Schema<GetProjectsLocationsDataPoliciesRequest>,
+  output: __S(58, __c7, 2) as any as S.Schema<DataPolicy>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -408,8 +408,8 @@ export const listProjectsLocationsDataPolicies: API.PaginatedOperationMethod<
   GcpOpContext,
   ListDataPoliciesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(96, __c12, 0) as any as S.Schema<ListProjectsLocationsDataPoliciesRequest>,
-  output: __S(98, __c12, 2) as any as S.Schema<ListDataPoliciesResponse>,
+  input: __S(104, __c13, 0) as any as S.Schema<ListProjectsLocationsDataPoliciesRequest>,
+  output: __S(106, __c13, 2) as any as S.Schema<ListDataPoliciesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -432,7 +432,7 @@ export const patchProjectsLocationsDataPolicies: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<PatchProjectsLocationsDataPoliciesRequest>,
-  output: __S(50, __c6, 2) as any as S.Schema<DataPolicy>,
+  output: __S(58, __c7, 2) as any as S.Schema<DataPolicy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -454,7 +454,7 @@ export const removeGranteesProjectsLocationsDataPolicies: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8, __c1, 0) as any as S.Schema<RemoveGranteesProjectsLocationsDataPoliciesRequest>,
-  output: __S(50, __c6, 2) as any as S.Schema<DataPolicy>,
+  output: __S(58, __c7, 2) as any as S.Schema<DataPolicy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -475,8 +475,8 @@ export const setIamPolicyProjectsLocationsDataPolicies: API.OperationMethod<
   SetIamPolicyProjectsLocationsDataPoliciesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c2, 0) as any as S.Schema<SetIamPolicyProjectsLocationsDataPoliciesRequest>,
-  output: __S(87, __c10, 7) as any as S.Schema<Policy>,
+  input: __S(17, __c2, 1) as any as S.Schema<SetIamPolicyProjectsLocationsDataPoliciesRequest>,
+  output: __S(95, __c11, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -498,11 +498,11 @@ export const testIamPermissionsProjectsLocationsDataPolicies: API.OperationMetho
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    24,
+    25,
     __c3,
-    0,
+    1,
   ) as any as S.Schema<TestIamPermissionsProjectsLocationsDataPoliciesRequest>,
-  output: __S(25, __c3, 1) as any as S.Schema<TestIamPermissionsResponse>,
+  output: __S(24, __c3, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -515,20 +515,14 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          version: S.optional(S.String),
-          dataMaskingPolicy: S.optional(__S(48, __c6, 0)),
-          dataPolicyId: S.optional(S.String),
-          grantees: S.optional(__S(40, __c5, 0)),
-          policyTag: S.optional(S.String),
-          etag: S.optional(S.String),
-          dataPolicyType: S.optional(S.String),
-          dataGovernanceTag: S.optional(__S(49, __c6, 1)),
-          matchingCondition: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(58, __c7, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -542,10 +536,12 @@ function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          dataPolicy: S.String.pipe(T.Label()),
-          grantees: S.optional(__S(40, __c5, 0)),
-        }).pipe(
+        S.Extend(
+          __S(40, __c5, 0),
+          S.Struct({
+            dataPolicy: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+dataPolicy}:removeGrantees",
@@ -560,10 +556,18 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          resource: S.String.pipe(T.Label()),
-          policy: S.optional(__S(87, __c10, 7)),
+          policy: S.optional(__S(95, __c11, 7)),
           updateMask: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "SetIamPolicyRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(16, __c2, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:setIamPolicy",
@@ -578,9 +582,17 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          resource: S.String.pipe(T.Label()),
-          permissions: S.optional(__S(40, __c5, 0)),
-        }).pipe(
+          permissions: S.optional(__S(48, __c6, 0)),
+        }),
+      ).annotate({ identifier: "TestIamPermissionsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(24, __c3, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:testIamPermissions",
@@ -588,22 +600,18 @@ function __c3(j: number): any {
           }),
         ),
       ).annotate({ identifier: "TestIamPermissionsProjectsLocationsDataPoliciesRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          permissions: S.optional(__S(40, __c5, 0)),
-        }),
-      ).annotate({ identifier: "TestIamPermissionsResponse" });
   }
 }
 function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          dataPolicy: S.String.pipe(T.Label()),
-          grantees: S.optional(__S(40, __c5, 0)),
-        }).pipe(
+        S.Extend(
+          __S(40, __c5, 0),
+          S.Struct({
+            dataPolicy: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+dataPolicy}:addGrantees",
@@ -616,10 +624,20 @@ function __c4(j: number): any {
 function __c5(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(S.String);
+      return S.suspend(() =>
+        S.Struct({
+          grantees: S.optional(__S(48, __c6, 0)),
+        }),
+      ).annotate({ identifier: "AddGranteesRequest" });
   }
 }
 function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -640,27 +658,35 @@ function __c6(j: number): any {
         S.Struct({
           version: S.optional(S.String),
           name: S.optional(S.String),
-          dataMaskingPolicy: S.optional(__S(48, __c6, 0)),
+          dataMaskingPolicy: S.optional(__S(56, __c7, 0)),
           dataPolicyId: S.optional(S.String),
-          grantees: S.optional(__S(40, __c5, 0)),
+          grantees: S.optional(__S(48, __c6, 0)),
           policyTag: S.optional(S.String),
           etag: S.optional(S.String),
           dataPolicyType: S.optional(S.String),
-          dataGovernanceTag: S.optional(__S(49, __c6, 1)),
+          dataGovernanceTag: S.optional(__S(57, __c7, 1)),
           matchingCondition: S.optional(S.String),
         }),
       ).annotate({ identifier: "DataPolicy" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
-          dataPolicy: S.optional(__S(50, __c6, 2)),
+          dataPolicy: S.optional(__S(58, __c7, 2)),
           dataPolicyId: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "CreateDataPolicyRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(64, __c8, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/dataPolicies",
@@ -670,7 +696,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsDataPoliciesRequest" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -688,7 +714,7 @@ function __c8(j: number): any {
       return S.suspend(() => S.Struct({})).annotate({ identifier: "Empty" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -699,9 +725,17 @@ function __c9(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          resource: S.String.pipe(T.Label()),
-          options: S.optional(__S(72, __c9, 0)),
-        }).pipe(
+          options: S.optional(__S(80, __c10, 0)),
+        }),
+      ).annotate({ identifier: "GetIamPolicyRequest" });
+    case 2:
+      return S.suspend(() =>
+        S.Extend(
+          __S(81, __c10, 1),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:getIamPolicy",
@@ -711,7 +745,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "GetIamPolicyProjectsLocationsDataPoliciesRequest" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -725,43 +759,43 @@ function __c10(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          condition: S.optional(__S(80, __c10, 0)),
+          condition: S.optional(__S(88, __c11, 0)),
           role: S.optional(S.String),
-          members: S.optional(__S(40, __c5, 0)),
+          members: S.optional(__S(48, __c6, 0)),
         }),
       ).annotate({ identifier: "Binding" });
     case 2:
-      return S.Array(__S(81, __c10, 1));
+      return S.Array(__S(89, __c11, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          exemptedMembers: S.optional(__S(40, __c5, 0)),
+          exemptedMembers: S.optional(__S(48, __c6, 0)),
           logType: S.optional(S.String),
         }),
       ).annotate({ identifier: "AuditLogConfig" });
     case 4:
-      return S.Array(__S(83, __c10, 3));
+      return S.Array(__S(91, __c11, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           service: S.optional(S.String),
-          auditLogConfigs: S.optional(__S(84, __c10, 4)),
+          auditLogConfigs: S.optional(__S(92, __c11, 4)),
         }),
       ).annotate({ identifier: "AuditConfig" });
     case 6:
-      return S.Array(__S(85, __c10, 5));
+      return S.Array(__S(93, __c11, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          bindings: S.optional(__S(82, __c10, 2)),
+          bindings: S.optional(__S(90, __c11, 2)),
           etag: S.optional(S.String),
           version: S.optional(S.Number),
-          auditConfigs: S.optional(__S(86, __c10, 6)),
+          auditConfigs: S.optional(__S(94, __c11, 6)),
         }),
       ).annotate({ identifier: "Policy" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -777,7 +811,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsDataPoliciesRequest" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -795,12 +829,12 @@ function __c12(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsDataPoliciesRequest" });
     case 1:
-      return S.Array(__S(50, __c6, 2));
+      return S.Array(__S(58, __c7, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          dataPolicies: S.optional(__S(97, __c12, 1)),
+          dataPolicies: S.optional(__S(105, __c13, 1)),
         }),
       ).annotate({ identifier: "ListDataPoliciesResponse" });
   }

@@ -103,11 +103,8 @@ export type WorkflowExecutionHistoryLevelEnum =
   | "EXECUTION_HISTORY_BASIC"
   | "EXECUTION_HISTORY_DETAILED";
 export type WorkflowStateEnum = "STATE_UNSPECIFIED" | "ACTIVE" | "UNAVAILABLE";
-export interface CreateProjectsLocationsWorkflowsRequest {
-  /** Required. Project and location in which the workflow should be created. Format: projects/{project}/locations/{location} */
-  parent: string;
-  /** Required. The ID of the workflow to be created. It has to fulfill the following requirements: * Must contain only letters, numbers, underscores and hyphens. * Must start with a letter. * Must be between 1-64 characters. * Must end with a number or a letter. * Must be unique within the customer project and location. */
-  workflowId?: string | undefined;
+/** Workflow program to be executed by Workflows. */
+export interface Workflow {
   /** Output only. The timestamp for the latest revision of the workflow's creation. */
   revisionCreateTime?: string | undefined;
   /** Labels associated with this workflow. Labels can contain at most 64 entries. Keys and values can be no longer than 63 characters and can only contain lowercase letters, numeric characters, underscores, and dashes. Label keys must start with a letter. International characters are allowed. This is a workflow-wide field and is not tied to a specific revision. */
@@ -146,6 +143,12 @@ export interface CreateProjectsLocationsWorkflowsRequest {
   revisionId?: string | undefined;
   /** Output only. State of the workflow deployment. */
   state?: WorkflowStateEnum | (string & {}) | undefined;
+}
+export interface CreateProjectsLocationsWorkflowsRequest extends Workflow {
+  /** Required. Project and location in which the workflow should be created. Format: projects/{project}/locations/{location} */
+  parent: string;
+  /** Required. The ID of the workflow to be created. It has to fulfill the following requirements: * Must contain only letters, numbers, underscores and hyphens. * Must start with a letter. * Must be between 1-64 characters. * Must end with a number or a letter. * Must be unique within the customer project and location. */
+  workflowId?: string | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -207,47 +210,6 @@ export interface GetProjectsLocationsWorkflowsRequest {
   revisionId?: string | undefined;
   /** Required. Name of the workflow for which information should be retrieved. Format: projects/{project}/locations/{location}/workflows/{workflow} */
   name: string;
-}
-/** Workflow program to be executed by Workflows. */
-export interface Workflow {
-  /** Output only. The timestamp for the latest revision of the workflow's creation. */
-  revisionCreateTime?: string | undefined;
-  /** Labels associated with this workflow. Labels can contain at most 64 entries. Keys and values can be no longer than 63 characters and can only contain lowercase letters, numeric characters, underscores, and dashes. Label keys must start with a letter. International characters are allowed. This is a workflow-wide field and is not tied to a specific revision. */
-  labels?: StringMap | undefined;
-  /** Output only. The timestamp for when the workflow was created. This is a workflow-wide field and is not tied to a specific revision. */
-  createTime?: string | undefined;
-  /** Optional. Describes the level of platform logging to apply to calls and call responses during executions of this workflow. If both the workflow and the execution specify a logging level, the execution level takes precedence. */
-  callLogLevel?: WorkflowCallLogLevelEnum | undefined;
-  /** Workflow code to be executed. The size limit is 128KB. */
-  sourceContents?: string | undefined;
-  /** Description of the workflow provided by the user. Must be at most 1000 Unicode characters long. This is a workflow-wide field and is not tied to a specific revision. */
-  description?: string | undefined;
-  /** Output only. The resource name of a KMS crypto key version used to encrypt or decrypt the data associated with the workflow. Format: projects/{project}/locations/{location}/keyRings/{keyRing}/cryptoKeys/{cryptoKey}/cryptoKeyVersions/{cryptoKeyVersion} */
-  cryptoKeyVersion?: string | undefined;
-  /** Output only. The timestamp for when the workflow was last updated. This is a workflow-wide field and is not tied to a specific revision. */
-  updateTime?: string | undefined;
-  /** Output only. A list of all KMS crypto keys used to encrypt or decrypt the data associated with the workflow. */
-  allKmsKeys?: StringList | undefined;
-  /** Optional. User-defined environment variables associated with this workflow revision. This map has a maximum length of 20. Each string can take up to 4KiB. Keys cannot be empty strings and cannot start with "GOOGLE" or "WORKFLOWS". */
-  userEnvVars?: StringMap | undefined;
-  /** Output only. Error regarding the state of the workflow. For example, this field will have error details if the execution data is unavailable due to revoked KMS key permissions. */
-  stateError?: StateError | undefined;
-  /** The resource name of the workflow. Format: projects/{project}/locations/{location}/workflows/{workflow}. This is a workflow-wide field and is not tied to a specific revision. */
-  name?: string | undefined;
-  /** Optional. Describes the execution history level to apply to this workflow. */
-  executionHistoryLevel?: WorkflowExecutionHistoryLevelEnum | undefined;
-  /** Optional. The resource name of a KMS crypto key used to encrypt or decrypt the data associated with the workflow. Format: projects/{project}/locations/{location}/keyRings/{keyRing}/cryptoKeys/{cryptoKey} Using `-` as a wildcard for the `{project}` or not providing one at all will infer the project from the account. If not provided, data associated with the workflow will not be CMEK-encrypted. */
-  cryptoKeyName?: string | undefined;
-  /** The service account associated with the latest workflow version. This service account represents the identity of the workflow and determines what permissions the workflow has. Format: projects/{project}/serviceAccounts/{account} or {account} Using `-` as a wildcard for the `{project}` or not providing one at all will infer the project from the account. The `{account}` value can be the `email` address or the `unique_id` of the service account. If not provided, workflow will use the project's default service account. Modifying this field for an existing workflow results in a new workflow revision. */
-  serviceAccount?: string | undefined;
-  /** Optional. Input only. Immutable. Tags associated with this workflow. */
-  tags?: StringMap | undefined;
-  /** Output only. A list of all KMS crypto key versions used to encrypt or decrypt the data associated with the workflow. */
-  allKmsKeysVersions?: StringList | undefined;
-  /** Output only. The revision of the workflow. A new revision of a workflow is created as a result of updating the following properties of a workflow: - Service account - Workflow code to be executed The format is "000001-a4d", where the first six characters define the zero-padded revision ordinal number. They are followed by a hyphen and three hexadecimal random characters. */
-  revisionId?: string | undefined;
-  /** Output only. State of the workflow deployment. */
-  state?: WorkflowStateEnum | undefined;
 }
 export interface ListProjectsLocationsRequest {
   /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
@@ -328,47 +290,11 @@ export interface ListWorkflowRevisionsResponse {
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string | undefined;
 }
-export interface PatchProjectsLocationsWorkflowsRequest {
+export interface PatchProjectsLocationsWorkflowsRequest extends Omit<Workflow, "name"> {
   /** The resource name of the workflow. Format: projects/{project}/locations/{location}/workflows/{workflow}. This is a workflow-wide field and is not tied to a specific revision. */
   name: string;
   /** List of fields to be updated. If not present, the entire workflow will be updated. */
   updateMask?: string | undefined;
-  /** Output only. The timestamp for the latest revision of the workflow's creation. */
-  revisionCreateTime?: string | undefined;
-  /** Labels associated with this workflow. Labels can contain at most 64 entries. Keys and values can be no longer than 63 characters and can only contain lowercase letters, numeric characters, underscores, and dashes. Label keys must start with a letter. International characters are allowed. This is a workflow-wide field and is not tied to a specific revision. */
-  labels?: StringMap | undefined;
-  /** Output only. The timestamp for when the workflow was created. This is a workflow-wide field and is not tied to a specific revision. */
-  createTime?: string | undefined;
-  /** Optional. Describes the level of platform logging to apply to calls and call responses during executions of this workflow. If both the workflow and the execution specify a logging level, the execution level takes precedence. */
-  callLogLevel?: WorkflowCallLogLevelEnum | (string & {}) | undefined;
-  /** Workflow code to be executed. The size limit is 128KB. */
-  sourceContents?: string | undefined;
-  /** Description of the workflow provided by the user. Must be at most 1000 Unicode characters long. This is a workflow-wide field and is not tied to a specific revision. */
-  description?: string | undefined;
-  /** Output only. The resource name of a KMS crypto key version used to encrypt or decrypt the data associated with the workflow. Format: projects/{project}/locations/{location}/keyRings/{keyRing}/cryptoKeys/{cryptoKey}/cryptoKeyVersions/{cryptoKeyVersion} */
-  cryptoKeyVersion?: string | undefined;
-  /** Output only. The timestamp for when the workflow was last updated. This is a workflow-wide field and is not tied to a specific revision. */
-  updateTime?: string | undefined;
-  /** Output only. A list of all KMS crypto keys used to encrypt or decrypt the data associated with the workflow. */
-  allKmsKeys?: StringList | undefined;
-  /** Optional. User-defined environment variables associated with this workflow revision. This map has a maximum length of 20. Each string can take up to 4KiB. Keys cannot be empty strings and cannot start with "GOOGLE" or "WORKFLOWS". */
-  userEnvVars?: StringMap | undefined;
-  /** Output only. Error regarding the state of the workflow. For example, this field will have error details if the execution data is unavailable due to revoked KMS key permissions. */
-  stateError?: StateError | undefined;
-  /** Optional. Describes the execution history level to apply to this workflow. */
-  executionHistoryLevel?: WorkflowExecutionHistoryLevelEnum | (string & {}) | undefined;
-  /** Optional. The resource name of a KMS crypto key used to encrypt or decrypt the data associated with the workflow. Format: projects/{project}/locations/{location}/keyRings/{keyRing}/cryptoKeys/{cryptoKey} Using `-` as a wildcard for the `{project}` or not providing one at all will infer the project from the account. If not provided, data associated with the workflow will not be CMEK-encrypted. */
-  cryptoKeyName?: string | undefined;
-  /** The service account associated with the latest workflow version. This service account represents the identity of the workflow and determines what permissions the workflow has. Format: projects/{project}/serviceAccounts/{account} or {account} Using `-` as a wildcard for the `{project}` or not providing one at all will infer the project from the account. The `{account}` value can be the `email` address or the `unique_id` of the service account. If not provided, workflow will use the project's default service account. Modifying this field for an existing workflow results in a new workflow revision. */
-  serviceAccount?: string | undefined;
-  /** Optional. Input only. Immutable. Tags associated with this workflow. */
-  tags?: StringMap | undefined;
-  /** Output only. A list of all KMS crypto key versions used to encrypt or decrypt the data associated with the workflow. */
-  allKmsKeysVersions?: StringList | undefined;
-  /** Output only. The revision of the workflow. A new revision of a workflow is created as a result of updating the following properties of a workflow: - Service account - Workflow code to be executed The format is "000001-a4d", where the first six characters define the zero-padded revision ordinal number. They are followed by a hyphen and three hexadecimal random characters. */
-  revisionId?: string | undefined;
-  /** Output only. State of the workflow deployment. */
-  state?: WorkflowStateEnum | (string & {}) | undefined;
 }
 export type CreateProjectsLocationsWorkflowsError =
   | NotFound
@@ -479,7 +405,7 @@ export const getProjectsLocationsWorkflows: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(68, __c17, 0) as any as S.Schema<GetProjectsLocationsWorkflowsRequest>,
-  output: __S(72, __c18, 0) as any as S.Schema<Workflow>,
+  output: __S(45, __c11, 1) as any as S.Schema<Workflow>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -676,7 +602,7 @@ function __c2(j: number): any {
 function __c3(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(72, __c18, 0));
+      return S.Array(__S(45, __c11, 1));
   }
 }
 function __c4(j: number): any {
@@ -708,28 +634,13 @@ function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          revisionCreateTime: S.optional(S.String),
-          labels: S.optional(__S(36, __c9, 0)),
-          createTime: S.optional(S.String),
-          callLogLevel: S.optional(S.String),
-          sourceContents: S.optional(S.String),
-          description: S.optional(S.String),
-          cryptoKeyVersion: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          allKmsKeys: S.optional(__S(40, __c10, 0)),
-          userEnvVars: S.optional(__S(36, __c9, 0)),
-          stateError: S.optional(__S(44, __c11, 0)),
-          executionHistoryLevel: S.optional(S.String),
-          cryptoKeyName: S.optional(S.String),
-          serviceAccount: S.optional(S.String),
-          tags: S.optional(__S(36, __c9, 0)),
-          allKmsKeysVersions: S.optional(__S(40, __c10, 0)),
-          revisionId: S.optional(S.String),
-          state: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(45, __c11, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -743,29 +654,13 @@ function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          workflowId: S.optional(S.String.pipe(T.Query())),
-          revisionCreateTime: S.optional(S.String),
-          labels: S.optional(__S(36, __c9, 0)),
-          createTime: S.optional(S.String),
-          callLogLevel: S.optional(S.String),
-          sourceContents: S.optional(S.String),
-          description: S.optional(S.String),
-          cryptoKeyVersion: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          allKmsKeys: S.optional(__S(40, __c10, 0)),
-          userEnvVars: S.optional(__S(36, __c9, 0)),
-          stateError: S.optional(__S(44, __c11, 0)),
-          name: S.optional(S.String),
-          executionHistoryLevel: S.optional(S.String),
-          cryptoKeyName: S.optional(S.String),
-          serviceAccount: S.optional(S.String),
-          tags: S.optional(__S(36, __c9, 0)),
-          allKmsKeysVersions: S.optional(__S(40, __c10, 0)),
-          revisionId: S.optional(S.String),
-          state: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(45, __c11, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            workflowId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/workflows",
@@ -826,6 +721,30 @@ function __c11(j: number): any {
           type: S.optional(S.String),
         }),
       ).annotate({ identifier: "StateError" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          revisionCreateTime: S.optional(S.String),
+          labels: S.optional(__S(36, __c9, 0)),
+          createTime: S.optional(S.String),
+          callLogLevel: S.optional(S.String),
+          sourceContents: S.optional(S.String),
+          description: S.optional(S.String),
+          cryptoKeyVersion: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          allKmsKeys: S.optional(__S(40, __c10, 0)),
+          userEnvVars: S.optional(__S(36, __c9, 0)),
+          stateError: S.optional(__S(44, __c11, 0)),
+          name: S.optional(S.String),
+          executionHistoryLevel: S.optional(S.String),
+          cryptoKeyName: S.optional(S.String),
+          serviceAccount: S.optional(S.String),
+          tags: S.optional(__S(36, __c9, 0)),
+          allKmsKeysVersions: S.optional(__S(40, __c10, 0)),
+          revisionId: S.optional(S.String),
+          state: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Workflow" });
   }
 }
 function __c12(j: number): any {
@@ -923,34 +842,6 @@ function __c17(j: number): any {
           }),
         ),
       ).annotate({ identifier: "GetProjectsLocationsWorkflowsRequest" });
-  }
-}
-function __c18(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          revisionCreateTime: S.optional(S.String),
-          labels: S.optional(__S(36, __c9, 0)),
-          createTime: S.optional(S.String),
-          callLogLevel: S.optional(S.String),
-          sourceContents: S.optional(S.String),
-          description: S.optional(S.String),
-          cryptoKeyVersion: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          allKmsKeys: S.optional(__S(40, __c10, 0)),
-          userEnvVars: S.optional(__S(36, __c9, 0)),
-          stateError: S.optional(__S(44, __c11, 0)),
-          name: S.optional(S.String),
-          executionHistoryLevel: S.optional(S.String),
-          cryptoKeyName: S.optional(S.String),
-          serviceAccount: S.optional(S.String),
-          tags: S.optional(__S(36, __c9, 0)),
-          allKmsKeysVersions: S.optional(__S(40, __c10, 0)),
-          revisionId: S.optional(S.String),
-          state: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Workflow" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

@@ -102,9 +102,8 @@ export type ProfileProfileTypeEnum =
   | "CONTENTION"
   | "PEAK_HEAP"
   | "HEAP_ALLOC";
-export interface CreateOfflineProjectsProfilesRequest {
-  /** Parent project to create the profile in. */
-  parent: string;
+/** Profile resource. */
+export interface Profile {
   /** Output only. Start time for the profile. This output is only present in response from the ListProfiles method. */
   startTime?: string | undefined;
   /** Deployment this profile corresponds to. */
@@ -120,22 +119,9 @@ export interface CreateOfflineProjectsProfilesRequest {
   /** Output only. Opaque, server-assigned, unique ID for this profile. */
   name?: string | undefined;
 }
-/** Profile resource. */
-export interface Profile {
-  /** Output only. Start time for the profile. This output is only present in response from the ListProfiles method. */
-  startTime?: string | undefined;
-  /** Deployment this profile corresponds to. */
-  deployment?: Deployment | undefined;
-  /** Input only. Labels associated to this specific profile. These labels will get merged with the deployment labels for the final data set. See documentation on deployment labels for validation rules and limits. */
-  labels?: StringMap | undefined;
-  /** Input only. Profile bytes, as a gzip compressed serialized proto, the format is https://github.com/google/pprof/blob/master/proto/profile.proto. */
-  profileBytes?: string | undefined;
-  /** Type of profile. For offline mode, this must be specified when creating the profile. For online mode it is assigned and returned by the server. */
-  profileType?: ProfileProfileTypeEnum | undefined;
-  /** Duration of the profiling session. Input (for the offline mode) or output (for the online mode). The field represents requested profiling duration. It may slightly differ from the effective profiling duration, which is recorded in the profile data, in case the profiling can't be stopped immediately (e.g. in case stopping the profiling is handled asynchronously). */
-  duration?: string | undefined;
-  /** Output only. Opaque, server-assigned, unique ID for this profile. */
-  name?: string | undefined;
+export interface CreateOfflineProjectsProfilesRequest extends Profile {
+  /** Parent project to create the profile in. */
+  parent: string;
 }
 export type CreateProfileRequestProfileTypeItemEnum =
   | "PROFILE_TYPE_UNSPECIFIED"
@@ -149,13 +135,16 @@ export type CreateProfileRequestProfileTypeItemEnum =
 export type CreateProfileRequestProfileTypeItemEnumList = Array<
   CreateProfileRequestProfileTypeItemEnum | (string & {})
 >;
-export interface CreateProjectsProfilesRequest {
-  /** Parent project to create the profile in. */
-  parent: string;
+/** CreateProfileRequest describes a profile resource online creation request. The deployment field must be populated. The profile_type specifies the list of profile types supported by the agent. The creation call will hang until a profile of one of these types needs to be collected. */
+export interface CreateProfileRequest {
   /** One or more profile types that the agent is capable of providing. */
   profileType?: CreateProfileRequestProfileTypeItemEnumList | undefined;
   /** Deployment details. */
   deployment?: Deployment | undefined;
+}
+export interface CreateProjectsProfilesRequest extends CreateProfileRequest {
+  /** Parent project to create the profile in. */
+  parent: string;
 }
 export interface ListProjectsProfilesRequest {
   /** Optional. The token to continue pagination and get profiles from a particular page. When paginating, all other parameters provided to `ListProfiles` must match the call that provided the page token. */
@@ -175,23 +164,11 @@ export interface ListProfilesResponse {
   /** List of profiles fetched. */
   profiles?: ProfileList | undefined;
 }
-export interface PatchProjectsProfilesRequest {
+export interface PatchProjectsProfilesRequest extends Omit<Profile, "name"> {
   /** Field mask used to specify the fields to be overwritten. Currently only profile_bytes and labels fields are supported by UpdateProfile, so only those fields can be specified in the mask. When no mask is provided, all fields are overwritten. */
   updateMask?: string | undefined;
   /** Output only. Opaque, server-assigned, unique ID for this profile. */
   name: string;
-  /** Output only. Start time for the profile. This output is only present in response from the ListProfiles method. */
-  startTime?: string | undefined;
-  /** Deployment this profile corresponds to. */
-  deployment?: Deployment | undefined;
-  /** Input only. Labels associated to this specific profile. These labels will get merged with the deployment labels for the final data set. See documentation on deployment labels for validation rules and limits. */
-  labels?: StringMap | undefined;
-  /** Input only. Profile bytes, as a gzip compressed serialized proto, the format is https://github.com/google/pprof/blob/master/proto/profile.proto. */
-  profileBytes?: string | undefined;
-  /** Type of profile. For offline mode, this must be specified when creating the profile. For online mode it is assigned and returned by the server. */
-  profileType?: ProfileProfileTypeEnum | (string & {}) | undefined;
-  /** Duration of the profiling session. Input (for the offline mode) or output (for the online mode). The field represents requested profiling duration. It may slightly differ from the effective profiling duration, which is recorded in the profile data, in case the profiling can't be stopped immediately (e.g. in case stopping the profiling is handled asynchronously). */
-  duration?: string | undefined;
 }
 export type CreateOfflineProjectsProfilesError =
   | NotFound
@@ -223,7 +200,7 @@ export const createProjectsProfiles: API.OperationMethod<
   CreateProjectsProfilesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9, __c2, 1) as any as S.Schema<CreateProjectsProfilesRequest>,
+  input: __S(10, __c2, 2) as any as S.Schema<CreateProjectsProfilesRequest>,
   output: __S(6, __c1, 2) as any as S.Schema<Profile>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -273,16 +250,12 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          startTime: S.optional(S.String),
-          deployment: S.optional(__S(5, __c1, 1)),
-          labels: S.optional(__S(4, __c1, 0)),
-          profileBytes: S.optional(S.String),
-          profileType: S.optional(S.String),
-          duration: S.optional(S.String),
-          name: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(6, __c1, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/profiles:createOffline",
@@ -325,10 +298,18 @@ function __c2(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
           profileType: S.optional(__S(8, __c2, 0)),
           deployment: S.optional(__S(5, __c1, 1)),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "CreateProfileRequest" });
+    case 2:
+      return S.suspend(() =>
+        S.Extend(
+          __S(9, __c2, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/profiles",
@@ -370,16 +351,13 @@ function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          startTime: S.optional(S.String),
-          deployment: S.optional(__S(5, __c1, 1)),
-          labels: S.optional(__S(4, __c1, 0)),
-          profileBytes: S.optional(S.String),
-          profileType: S.optional(S.String),
-          duration: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(6, __c1, 2),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",

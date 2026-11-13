@@ -791,11 +791,14 @@ export interface Note {
   kind?: NoteKindEnum | (string & {}) | undefined;
 }
 export type NoteMap = { [key: string]: Note | undefined };
-export interface BatchCreateProjectsLocationsNotesRequest {
-  /** Required. The name of the project in the form of `projects/[PROJECT_ID]`, under which the notes are to be created. */
-  parent: string;
+/** Request to create notes in batch. */
+export interface BatchCreateNotesRequest {
   /** Required. The notes to create. Max allowed length is 1000. */
   notes?: NoteMap | undefined;
+}
+export interface BatchCreateProjectsLocationsNotesRequest extends BatchCreateNotesRequest {
+  /** Required. The name of the project in the form of `projects/[PROJECT_ID]`, under which the notes are to be created. */
+  parent: string;
 }
 export type NoteList = Array<Note>;
 /** Response for creating notes in batch. */
@@ -1825,228 +1828,47 @@ export interface Occurrence {
   build?: BuildOccurrence | undefined;
 }
 export type OccurrenceList = Array<Occurrence>;
-export interface BatchCreateProjectsLocationsOccurrencesRequest {
-  /** Required. The name of the project in the form of `projects/[PROJECT_ID]`, under which the occurrences are to be created. */
-  parent: string;
+/** Request to create occurrences in batch. */
+export interface BatchCreateOccurrencesRequest {
   /** Required. The occurrences to create. Max allowed length is 1000. */
   occurrences?: OccurrenceList | undefined;
+}
+export interface BatchCreateProjectsLocationsOccurrencesRequest extends BatchCreateOccurrencesRequest {
+  /** Required. The name of the project in the form of `projects/[PROJECT_ID]`, under which the occurrences are to be created. */
+  parent: string;
 }
 /** Response for creating occurrences in batch. */
 export interface BatchCreateOccurrencesResponse {
   /** The occurrences that were created. */
   occurrences?: OccurrenceList | undefined;
 }
-export interface BatchCreateProjectsNotesRequest {
+export interface BatchCreateProjectsNotesRequest extends BatchCreateNotesRequest {
   /** Required. The name of the project in the form of `projects/[PROJECT_ID]`, under which the notes are to be created. */
   parent: string;
-  /** Required. The notes to create. Max allowed length is 1000. */
-  notes?: NoteMap | undefined;
 }
-export interface BatchCreateProjectsOccurrencesRequest {
+export interface BatchCreateProjectsOccurrencesRequest extends BatchCreateOccurrencesRequest {
   /** Required. The name of the project in the form of `projects/[PROJECT_ID]`, under which the occurrences are to be created. */
   parent: string;
-  /** Required. The occurrences to create. Max allowed length is 1000. */
-  occurrences?: OccurrenceList | undefined;
 }
-export interface CreateProjectsLocationsNotesRequest {
+export interface CreateProjectsLocationsNotesRequest extends Note {
   /** Required. The name of the project in the form of `projects/[PROJECT_ID]`, under which the note is to be created. */
   parent: string;
   /** Required. The ID to use for this note. */
   noteId?: string | undefined;
-  /** A note describing an attestation role. */
-  attestation?: AttestationNote | undefined;
-  /** A note describing a compliance check. */
-  compliance?: ComplianceNote | undefined;
-  /** Output only. The time this note was last updated. This field can be used as a filter in list requests. */
-  updateTime?: string | undefined;
-  /** A note describing a dsse attestation note. */
-  dsseAttestation?: DSSEAttestationNote | undefined;
-  /** A note describing available package upgrades. */
-  upgrade?: UpgradeNote | undefined;
-  /** Other notes related to this note. */
-  relatedNoteNames?: StringList | undefined;
-  /** A note describing the initial analysis of a resource. */
-  discovery?: DiscoveryNote | undefined;
-  /** A note describing build provenance for a verifiable build. */
-  build?: BuildNote | undefined;
-  /** A note describing an AI skill analysis. */
-  aiSkillAnalysis?: AISkillAnalysisNote | undefined;
-  /** A note describing a vulnerability assessment. */
-  vulnerabilityAssessment?: VulnerabilityAssessmentNote | undefined;
-  /** A note describing a secret. */
-  secret?: AISkillAnalysisNote | undefined;
-  /** URLs associated with this note. */
-  relatedUrl?: RelatedUrlList | undefined;
-  /** A note describing something that can be deployed. */
-  deployment?: DeploymentNote | undefined;
-  /** A detailed description of this note. */
-  longDescription?: string | undefined;
-  /** A note describing a base image. */
-  image?: ImageNote | undefined;
-  /** A note describing an SBOM reference. */
-  sbomReference?: SBOMReferenceNote | undefined;
-  /** A note describing a package hosted by various package managers. */
-  package?: PackageNote | undefined;
-  /** A note describing a package vulnerability. */
-  vulnerability?: VulnerabilityNote | undefined;
-  /** Output only. The time this note was created. This field can be used as a filter in list requests. */
-  createTime?: string | undefined;
-  /** Time of expiration for this note. Empty if note does not expire. */
-  expirationTime?: string | undefined;
-  /** A one sentence description of this note. */
-  shortDescription?: string | undefined;
-  /** Output only. The name of the note in the form of `projects/[PROVIDER_ID]/notes/[NOTE_ID]`. */
-  name?: string | undefined;
-  /** Output only. The type of analysis. This field can be used as a filter in list requests. */
-  kind?: NoteKindEnum | (string & {}) | undefined;
 }
-export interface CreateProjectsLocationsOccurrencesRequest {
+export interface CreateProjectsLocationsOccurrencesRequest extends Occurrence {
   /** Required. The name of the project in the form of `projects/[PROJECT_ID]`, under which the occurrence is to be created. */
   parent: string;
-  /** A description of actions that can be taken to remedy the note. */
-  remediation?: string | undefined;
-  /** Output only. The time this occurrence was created. */
-  createTime?: string | undefined;
-  /** Describes the installation of a package on the linked resource. */
-  package?: PackageOccurrence | undefined;
-  /** Describes an AI skill analysis. */
-  aiSkillAnalysis?: AISkillAnalysisOccurrence | undefined;
-  /** Describes the deployment of an artifact on a runtime. */
-  deployment?: DeploymentOccurrence | undefined;
-  /** Output only. The name of the occurrence in the form of `projects/[PROJECT_ID]/occurrences/[OCCURRENCE_ID]`. */
-  name?: string | undefined;
-  /** Output only. This explicitly denotes which of the occurrence details are specified. This field can be used as a filter in list requests. */
-  kind?: OccurrenceKindEnum | (string & {}) | undefined;
-  /** Required. Immutable. A URI that represents the resource for which the occurrence applies. For example, `https://gcr.io/project/image@sha256:123abc` for a Docker image. */
-  resourceUri?: string | undefined;
-  /** The time this advisory was published by the source. */
-  advisoryPublishTime?: string | undefined;
-  /** Describes an available package upgrade on the linked resource. */
-  upgrade?: UpgradeOccurrence | undefined;
-  /** https://github.com/secure-systems-lab/dsse */
-  envelope?: Envelope | undefined;
-  /** Describes an attestation of an artifact using dsse. */
-  dsseAttestation?: DSSEAttestationOccurrence | undefined;
-  /** Describes how this resource derives from the basis in the associated note. */
-  image?: ImageOccurrence | undefined;
-  /** Describes an attestation of an artifact. */
-  attestation?: AttestationOccurrence | undefined;
-  /** Required. Immutable. The analysis note associated with this occurrence, in the form of `projects/[PROVIDER_ID]/notes/[NOTE_ID]`. This field can be used as a filter in list requests. */
-  noteName?: string | undefined;
-  /** Describes a secret. */
-  secret?: SecretOccurrence | undefined;
-  /** Describes a compliance violation on a linked resource. */
-  compliance?: ComplianceOccurrence | undefined;
-  /** Describes when a resource was discovered. */
-  discovery?: DiscoveryOccurrence | undefined;
-  /** Describes a security vulnerability. */
-  vulnerability?: VulnerabilityOccurrence | undefined;
-  /** Output only. The time this occurrence was last updated. */
-  updateTime?: string | undefined;
-  /** Describes a specific SBOM reference occurrences. */
-  sbomReference?: SBOMReferenceOccurrence | undefined;
-  /** Describes a verifiable build. */
-  build?: BuildOccurrence | undefined;
 }
-export interface CreateProjectsNotesRequest {
+export interface CreateProjectsNotesRequest extends Note {
   /** Required. The name of the project in the form of `projects/[PROJECT_ID]`, under which the note is to be created. */
   parent: string;
   /** Required. The ID to use for this note. */
   noteId?: string | undefined;
-  /** A note describing an attestation role. */
-  attestation?: AttestationNote | undefined;
-  /** A note describing a compliance check. */
-  compliance?: ComplianceNote | undefined;
-  /** Output only. The time this note was last updated. This field can be used as a filter in list requests. */
-  updateTime?: string | undefined;
-  /** A note describing a dsse attestation note. */
-  dsseAttestation?: DSSEAttestationNote | undefined;
-  /** A note describing available package upgrades. */
-  upgrade?: UpgradeNote | undefined;
-  /** Other notes related to this note. */
-  relatedNoteNames?: StringList | undefined;
-  /** A note describing the initial analysis of a resource. */
-  discovery?: DiscoveryNote | undefined;
-  /** A note describing build provenance for a verifiable build. */
-  build?: BuildNote | undefined;
-  /** A note describing an AI skill analysis. */
-  aiSkillAnalysis?: AISkillAnalysisNote | undefined;
-  /** A note describing a vulnerability assessment. */
-  vulnerabilityAssessment?: VulnerabilityAssessmentNote | undefined;
-  /** A note describing a secret. */
-  secret?: AISkillAnalysisNote | undefined;
-  /** URLs associated with this note. */
-  relatedUrl?: RelatedUrlList | undefined;
-  /** A note describing something that can be deployed. */
-  deployment?: DeploymentNote | undefined;
-  /** A detailed description of this note. */
-  longDescription?: string | undefined;
-  /** A note describing a base image. */
-  image?: ImageNote | undefined;
-  /** A note describing an SBOM reference. */
-  sbomReference?: SBOMReferenceNote | undefined;
-  /** A note describing a package hosted by various package managers. */
-  package?: PackageNote | undefined;
-  /** A note describing a package vulnerability. */
-  vulnerability?: VulnerabilityNote | undefined;
-  /** Output only. The time this note was created. This field can be used as a filter in list requests. */
-  createTime?: string | undefined;
-  /** Time of expiration for this note. Empty if note does not expire. */
-  expirationTime?: string | undefined;
-  /** A one sentence description of this note. */
-  shortDescription?: string | undefined;
-  /** Output only. The name of the note in the form of `projects/[PROVIDER_ID]/notes/[NOTE_ID]`. */
-  name?: string | undefined;
-  /** Output only. The type of analysis. This field can be used as a filter in list requests. */
-  kind?: NoteKindEnum | (string & {}) | undefined;
 }
-export interface CreateProjectsOccurrencesRequest {
+export interface CreateProjectsOccurrencesRequest extends Occurrence {
   /** Required. The name of the project in the form of `projects/[PROJECT_ID]`, under which the occurrence is to be created. */
   parent: string;
-  /** A description of actions that can be taken to remedy the note. */
-  remediation?: string | undefined;
-  /** Output only. The time this occurrence was created. */
-  createTime?: string | undefined;
-  /** Describes the installation of a package on the linked resource. */
-  package?: PackageOccurrence | undefined;
-  /** Describes an AI skill analysis. */
-  aiSkillAnalysis?: AISkillAnalysisOccurrence | undefined;
-  /** Describes the deployment of an artifact on a runtime. */
-  deployment?: DeploymentOccurrence | undefined;
-  /** Output only. The name of the occurrence in the form of `projects/[PROJECT_ID]/occurrences/[OCCURRENCE_ID]`. */
-  name?: string | undefined;
-  /** Output only. This explicitly denotes which of the occurrence details are specified. This field can be used as a filter in list requests. */
-  kind?: OccurrenceKindEnum | (string & {}) | undefined;
-  /** Required. Immutable. A URI that represents the resource for which the occurrence applies. For example, `https://gcr.io/project/image@sha256:123abc` for a Docker image. */
-  resourceUri?: string | undefined;
-  /** The time this advisory was published by the source. */
-  advisoryPublishTime?: string | undefined;
-  /** Describes an available package upgrade on the linked resource. */
-  upgrade?: UpgradeOccurrence | undefined;
-  /** https://github.com/secure-systems-lab/dsse */
-  envelope?: Envelope | undefined;
-  /** Describes an attestation of an artifact using dsse. */
-  dsseAttestation?: DSSEAttestationOccurrence | undefined;
-  /** Describes how this resource derives from the basis in the associated note. */
-  image?: ImageOccurrence | undefined;
-  /** Describes an attestation of an artifact. */
-  attestation?: AttestationOccurrence | undefined;
-  /** Required. Immutable. The analysis note associated with this occurrence, in the form of `projects/[PROVIDER_ID]/notes/[NOTE_ID]`. This field can be used as a filter in list requests. */
-  noteName?: string | undefined;
-  /** Describes a secret. */
-  secret?: SecretOccurrence | undefined;
-  /** Describes a compliance violation on a linked resource. */
-  compliance?: ComplianceOccurrence | undefined;
-  /** Describes when a resource was discovered. */
-  discovery?: DiscoveryOccurrence | undefined;
-  /** Describes a security vulnerability. */
-  vulnerability?: VulnerabilityOccurrence | undefined;
-  /** Output only. The time this occurrence was last updated. */
-  updateTime?: string | undefined;
-  /** Describes a specific SBOM reference occurrences. */
-  sbomReference?: SBOMReferenceOccurrence | undefined;
-  /** Describes a verifiable build. */
-  build?: BuildOccurrence | undefined;
 }
 export interface DeleteProjectsLocationsNotesRequest {
   /** Required. The name of the note in the form of `projects/[PROVIDER_ID]/notes/[NOTE_ID]`. */
@@ -2068,33 +1890,37 @@ export interface DeleteProjectsOccurrencesRequest {
 }
 /** Empty placeholder to denote that this is a Google Cloud Storage export request. */
 export type CloudStorageLocation = AISkillAnalysisNote;
-export interface ExportSBOMProjectsLocationsResourcesRequest {
-  /** Required. The name of the resource in the form of `projects/[PROJECT_ID]/resources/[RESOURCE_URL]`. */
-  name: string;
+/** The request to generate and export SBOM. Target must be specified for the request. */
+export interface ExportSBOMRequest {
   /** Optional. Empty placeholder to denote that this is a Google Cloud Storage export request. */
   cloudStorageLocation?: AISkillAnalysisNote | undefined;
+}
+export interface ExportSBOMProjectsLocationsResourcesRequest extends ExportSBOMRequest {
+  /** Required. The name of the resource in the form of `projects/[PROJECT_ID]/resources/[RESOURCE_URL]`. */
+  name: string;
 }
 /** The response from a call to ExportSBOM. */
 export interface ExportSBOMResponse {
   /** The name of the discovery occurrence in the form "projects/{project_id}/occurrences/{OCCURRENCE_ID} It can be used to track the progress of the SBOM export. */
   discoveryOccurrence?: string | undefined;
 }
-export interface ExportSBOMProjectsResourcesRequest {
+export interface ExportSBOMProjectsResourcesRequest extends ExportSBOMRequest {
   /** Required. The name of the resource in the form of `projects/[PROJECT_ID]/resources/[RESOURCE_URL]`. */
   name: string;
-  /** Optional. Empty placeholder to denote that this is a Google Cloud Storage export request. */
-  cloudStorageLocation?: AISkillAnalysisNote | undefined;
 }
 /** Encapsulates settings provided to GetIamPolicy. */
 export interface GetPolicyOptions {
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   requestedPolicyVersion?: number | undefined;
 }
-export interface GetIamPolicyProjectsLocationsNotesRequest {
-  /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
+/** Request message for `GetIamPolicy` method. */
+export interface GetIamPolicyRequest {
   /** OPTIONAL: A `GetPolicyOptions` object for specifying options to `GetIamPolicy`. */
   options?: GetPolicyOptions | undefined;
+}
+export interface GetIamPolicyProjectsLocationsNotesRequest extends GetIamPolicyRequest {
+  /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
 }
 /** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
 export interface Expr {
@@ -2126,23 +1952,17 @@ export interface Policy {
   /** `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An `etag` is returned in the response to `getIamPolicy`, and systems are expected to put that etag in the request to `setIamPolicy` to ensure that their change will be applied to the same version of the policy. **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. */
   etag?: string | undefined;
 }
-export interface GetIamPolicyProjectsLocationsOccurrencesRequest {
+export interface GetIamPolicyProjectsLocationsOccurrencesRequest extends GetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** OPTIONAL: A `GetPolicyOptions` object for specifying options to `GetIamPolicy`. */
-  options?: GetPolicyOptions | undefined;
 }
-export interface GetIamPolicyProjectsNotesRequest {
+export interface GetIamPolicyProjectsNotesRequest extends GetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** OPTIONAL: A `GetPolicyOptions` object for specifying options to `GetIamPolicy`. */
-  options?: GetPolicyOptions | undefined;
 }
-export interface GetIamPolicyProjectsOccurrencesRequest {
+export interface GetIamPolicyProjectsOccurrencesRequest extends GetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** OPTIONAL: A `GetPolicyOptions` object for specifying options to `GetIamPolicy`. */
-  options?: GetPolicyOptions | undefined;
 }
 export interface GetNotesProjectsLocationsOccurrencesRequest {
   /** Required. The name of the occurrence in the form of `projects/[PROJECT_ID]/occurrences/[OCCURRENCE_ID]`. */
@@ -2303,254 +2123,76 @@ export interface ListProjectsOccurrencesRequest {
   /** The filter expression. */
   filter?: string | undefined;
 }
-export interface PatchProjectsLocationsNotesRequest {
+export interface PatchProjectsLocationsNotesRequest extends Omit<Note, "name"> {
   /** The fields to update. */
   updateMask?: string | undefined;
   /** Required. The name of the note in the form of `projects/[PROVIDER_ID]/notes/[NOTE_ID]`. */
   name: string;
-  /** A note describing an attestation role. */
-  attestation?: AttestationNote | undefined;
-  /** A note describing a compliance check. */
-  compliance?: ComplianceNote | undefined;
-  /** Output only. The time this note was last updated. This field can be used as a filter in list requests. */
-  updateTime?: string | undefined;
-  /** A note describing a dsse attestation note. */
-  dsseAttestation?: DSSEAttestationNote | undefined;
-  /** A note describing available package upgrades. */
-  upgrade?: UpgradeNote | undefined;
-  /** Other notes related to this note. */
-  relatedNoteNames?: StringList | undefined;
-  /** A note describing the initial analysis of a resource. */
-  discovery?: DiscoveryNote | undefined;
-  /** A note describing build provenance for a verifiable build. */
-  build?: BuildNote | undefined;
-  /** A note describing an AI skill analysis. */
-  aiSkillAnalysis?: AISkillAnalysisNote | undefined;
-  /** A note describing a vulnerability assessment. */
-  vulnerabilityAssessment?: VulnerabilityAssessmentNote | undefined;
-  /** A note describing a secret. */
-  secret?: AISkillAnalysisNote | undefined;
-  /** URLs associated with this note. */
-  relatedUrl?: RelatedUrlList | undefined;
-  /** A note describing something that can be deployed. */
-  deployment?: DeploymentNote | undefined;
-  /** A detailed description of this note. */
-  longDescription?: string | undefined;
-  /** A note describing a base image. */
-  image?: ImageNote | undefined;
-  /** A note describing an SBOM reference. */
-  sbomReference?: SBOMReferenceNote | undefined;
-  /** A note describing a package hosted by various package managers. */
-  package?: PackageNote | undefined;
-  /** A note describing a package vulnerability. */
-  vulnerability?: VulnerabilityNote | undefined;
-  /** Output only. The time this note was created. This field can be used as a filter in list requests. */
-  createTime?: string | undefined;
-  /** Time of expiration for this note. Empty if note does not expire. */
-  expirationTime?: string | undefined;
-  /** A one sentence description of this note. */
-  shortDescription?: string | undefined;
-  /** Output only. The type of analysis. This field can be used as a filter in list requests. */
-  kind?: NoteKindEnum | (string & {}) | undefined;
 }
-export interface PatchProjectsLocationsOccurrencesRequest {
+export interface PatchProjectsLocationsOccurrencesRequest extends Omit<Occurrence, "name"> {
   /** Required. The name of the occurrence in the form of `projects/[PROJECT_ID]/occurrences/[OCCURRENCE_ID]`. */
   name: string;
   /** The fields to update. */
   updateMask?: string | undefined;
-  /** A description of actions that can be taken to remedy the note. */
-  remediation?: string | undefined;
-  /** Output only. The time this occurrence was created. */
-  createTime?: string | undefined;
-  /** Describes the installation of a package on the linked resource. */
-  package?: PackageOccurrence | undefined;
-  /** Describes an AI skill analysis. */
-  aiSkillAnalysis?: AISkillAnalysisOccurrence | undefined;
-  /** Describes the deployment of an artifact on a runtime. */
-  deployment?: DeploymentOccurrence | undefined;
-  /** Output only. This explicitly denotes which of the occurrence details are specified. This field can be used as a filter in list requests. */
-  kind?: OccurrenceKindEnum | (string & {}) | undefined;
-  /** Required. Immutable. A URI that represents the resource for which the occurrence applies. For example, `https://gcr.io/project/image@sha256:123abc` for a Docker image. */
-  resourceUri?: string | undefined;
-  /** The time this advisory was published by the source. */
-  advisoryPublishTime?: string | undefined;
-  /** Describes an available package upgrade on the linked resource. */
-  upgrade?: UpgradeOccurrence | undefined;
-  /** https://github.com/secure-systems-lab/dsse */
-  envelope?: Envelope | undefined;
-  /** Describes an attestation of an artifact using dsse. */
-  dsseAttestation?: DSSEAttestationOccurrence | undefined;
-  /** Describes how this resource derives from the basis in the associated note. */
-  image?: ImageOccurrence | undefined;
-  /** Describes an attestation of an artifact. */
-  attestation?: AttestationOccurrence | undefined;
-  /** Required. Immutable. The analysis note associated with this occurrence, in the form of `projects/[PROVIDER_ID]/notes/[NOTE_ID]`. This field can be used as a filter in list requests. */
-  noteName?: string | undefined;
-  /** Describes a secret. */
-  secret?: SecretOccurrence | undefined;
-  /** Describes a compliance violation on a linked resource. */
-  compliance?: ComplianceOccurrence | undefined;
-  /** Describes when a resource was discovered. */
-  discovery?: DiscoveryOccurrence | undefined;
-  /** Describes a security vulnerability. */
-  vulnerability?: VulnerabilityOccurrence | undefined;
-  /** Output only. The time this occurrence was last updated. */
-  updateTime?: string | undefined;
-  /** Describes a specific SBOM reference occurrences. */
-  sbomReference?: SBOMReferenceOccurrence | undefined;
-  /** Describes a verifiable build. */
-  build?: BuildOccurrence | undefined;
 }
-export interface PatchProjectsNotesRequest {
+export interface PatchProjectsNotesRequest extends Omit<Note, "name"> {
   /** Required. The name of the note in the form of `projects/[PROVIDER_ID]/notes/[NOTE_ID]`. */
   name: string;
   /** The fields to update. */
   updateMask?: string | undefined;
-  /** A note describing an attestation role. */
-  attestation?: AttestationNote | undefined;
-  /** A note describing a compliance check. */
-  compliance?: ComplianceNote | undefined;
-  /** Output only. The time this note was last updated. This field can be used as a filter in list requests. */
-  updateTime?: string | undefined;
-  /** A note describing a dsse attestation note. */
-  dsseAttestation?: DSSEAttestationNote | undefined;
-  /** A note describing available package upgrades. */
-  upgrade?: UpgradeNote | undefined;
-  /** Other notes related to this note. */
-  relatedNoteNames?: StringList | undefined;
-  /** A note describing the initial analysis of a resource. */
-  discovery?: DiscoveryNote | undefined;
-  /** A note describing build provenance for a verifiable build. */
-  build?: BuildNote | undefined;
-  /** A note describing an AI skill analysis. */
-  aiSkillAnalysis?: AISkillAnalysisNote | undefined;
-  /** A note describing a vulnerability assessment. */
-  vulnerabilityAssessment?: VulnerabilityAssessmentNote | undefined;
-  /** A note describing a secret. */
-  secret?: AISkillAnalysisNote | undefined;
-  /** URLs associated with this note. */
-  relatedUrl?: RelatedUrlList | undefined;
-  /** A note describing something that can be deployed. */
-  deployment?: DeploymentNote | undefined;
-  /** A detailed description of this note. */
-  longDescription?: string | undefined;
-  /** A note describing a base image. */
-  image?: ImageNote | undefined;
-  /** A note describing an SBOM reference. */
-  sbomReference?: SBOMReferenceNote | undefined;
-  /** A note describing a package hosted by various package managers. */
-  package?: PackageNote | undefined;
-  /** A note describing a package vulnerability. */
-  vulnerability?: VulnerabilityNote | undefined;
-  /** Output only. The time this note was created. This field can be used as a filter in list requests. */
-  createTime?: string | undefined;
-  /** Time of expiration for this note. Empty if note does not expire. */
-  expirationTime?: string | undefined;
-  /** A one sentence description of this note. */
-  shortDescription?: string | undefined;
-  /** Output only. The type of analysis. This field can be used as a filter in list requests. */
-  kind?: NoteKindEnum | (string & {}) | undefined;
 }
-export interface PatchProjectsOccurrencesRequest {
+export interface PatchProjectsOccurrencesRequest extends Omit<Occurrence, "name"> {
   /** Required. The name of the occurrence in the form of `projects/[PROJECT_ID]/occurrences/[OCCURRENCE_ID]`. */
   name: string;
   /** The fields to update. */
   updateMask?: string | undefined;
-  /** A description of actions that can be taken to remedy the note. */
-  remediation?: string | undefined;
-  /** Output only. The time this occurrence was created. */
-  createTime?: string | undefined;
-  /** Describes the installation of a package on the linked resource. */
-  package?: PackageOccurrence | undefined;
-  /** Describes an AI skill analysis. */
-  aiSkillAnalysis?: AISkillAnalysisOccurrence | undefined;
-  /** Describes the deployment of an artifact on a runtime. */
-  deployment?: DeploymentOccurrence | undefined;
-  /** Output only. This explicitly denotes which of the occurrence details are specified. This field can be used as a filter in list requests. */
-  kind?: OccurrenceKindEnum | (string & {}) | undefined;
-  /** Required. Immutable. A URI that represents the resource for which the occurrence applies. For example, `https://gcr.io/project/image@sha256:123abc` for a Docker image. */
-  resourceUri?: string | undefined;
-  /** The time this advisory was published by the source. */
-  advisoryPublishTime?: string | undefined;
-  /** Describes an available package upgrade on the linked resource. */
-  upgrade?: UpgradeOccurrence | undefined;
-  /** https://github.com/secure-systems-lab/dsse */
-  envelope?: Envelope | undefined;
-  /** Describes an attestation of an artifact using dsse. */
-  dsseAttestation?: DSSEAttestationOccurrence | undefined;
-  /** Describes how this resource derives from the basis in the associated note. */
-  image?: ImageOccurrence | undefined;
-  /** Describes an attestation of an artifact. */
-  attestation?: AttestationOccurrence | undefined;
-  /** Required. Immutable. The analysis note associated with this occurrence, in the form of `projects/[PROVIDER_ID]/notes/[NOTE_ID]`. This field can be used as a filter in list requests. */
-  noteName?: string | undefined;
-  /** Describes a secret. */
-  secret?: SecretOccurrence | undefined;
-  /** Describes a compliance violation on a linked resource. */
-  compliance?: ComplianceOccurrence | undefined;
-  /** Describes when a resource was discovered. */
-  discovery?: DiscoveryOccurrence | undefined;
-  /** Describes a security vulnerability. */
-  vulnerability?: VulnerabilityOccurrence | undefined;
-  /** Output only. The time this occurrence was last updated. */
-  updateTime?: string | undefined;
-  /** Describes a specific SBOM reference occurrences. */
-  sbomReference?: SBOMReferenceOccurrence | undefined;
-  /** Describes a verifiable build. */
-  build?: BuildOccurrence | undefined;
 }
-export interface SetIamPolicyProjectsLocationsNotesRequest {
-  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
+/** Request message for `SetIamPolicy` method. */
+export interface SetIamPolicyRequest {
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
   policy?: Policy | undefined;
 }
-export interface SetIamPolicyProjectsLocationsOccurrencesRequest {
+export interface SetIamPolicyProjectsLocationsNotesRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
-  policy?: Policy | undefined;
 }
-export interface SetIamPolicyProjectsNotesRequest {
+export interface SetIamPolicyProjectsLocationsOccurrencesRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
-  policy?: Policy | undefined;
 }
-export interface SetIamPolicyProjectsOccurrencesRequest {
+export interface SetIamPolicyProjectsNotesRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
-  policy?: Policy | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsNotesRequest {
-  /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+export interface SetIamPolicyProjectsOccurrencesRequest extends SetIamPolicyRequest {
+  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
+}
+/** Request message for `TestIamPermissions` method. */
+export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: StringList | undefined;
+}
+export interface TestIamPermissionsProjectsLocationsNotesRequest extends TestIamPermissionsRequest {
+  /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsOccurrencesRequest {
+export interface TestIamPermissionsProjectsLocationsOccurrencesRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
-  permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsNotesRequest {
+export interface TestIamPermissionsProjectsNotesRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
-  permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsOccurrencesRequest {
+export interface TestIamPermissionsProjectsOccurrencesRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
-  permissions?: StringList | undefined;
 }
 export type BatchCreateProjectsLocationsNotesError =
   | NotFound
@@ -2566,7 +2208,7 @@ export const batchCreateProjectsLocationsNotes: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1184, __c37, 0) as any as S.Schema<BatchCreateProjectsLocationsNotesRequest>,
-  output: __S(1281, __c40, 1) as any as S.Schema<BatchCreateNotesResponse>,
+  output: __S(1282, __c40, 2) as any as S.Schema<BatchCreateNotesResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2587,8 +2229,8 @@ export const batchCreateProjectsLocationsOccurrences: API.OperationMethod<
   BatchCreateProjectsLocationsOccurrencesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c53, 0) as any as S.Schema<BatchCreateProjectsLocationsOccurrencesRequest>,
-  output: __S(1728, __c54, 0) as any as S.Schema<BatchCreateOccurrencesResponse>,
+  input: __S(1728, __c54, 0) as any as S.Schema<BatchCreateProjectsLocationsOccurrencesRequest>,
+  output: __S(1760, __c55, 0) as any as S.Schema<BatchCreateOccurrencesResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2609,8 +2251,8 @@ export const batchCreateProjectsNotes: API.OperationMethod<
   BatchCreateProjectsNotesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1920, __c60, 0) as any as S.Schema<BatchCreateProjectsNotesRequest>,
-  output: __S(1281, __c40, 1) as any as S.Schema<BatchCreateNotesResponse>,
+  input: __S(1952, __c61, 0) as any as S.Schema<BatchCreateProjectsNotesRequest>,
+  output: __S(1282, __c40, 2) as any as S.Schema<BatchCreateNotesResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2631,8 +2273,8 @@ export const batchCreateProjectsOccurrences: API.OperationMethod<
   BatchCreateProjectsOccurrencesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1952, __c61, 0) as any as S.Schema<BatchCreateProjectsOccurrencesRequest>,
-  output: __S(1728, __c54, 0) as any as S.Schema<BatchCreateOccurrencesResponse>,
+  input: __S(1984, __c62, 0) as any as S.Schema<BatchCreateProjectsOccurrencesRequest>,
+  output: __S(1760, __c55, 0) as any as S.Schema<BatchCreateOccurrencesResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2653,7 +2295,7 @@ export const createProjectsLocationsNotes: API.OperationMethod<
   CreateProjectsLocationsNotesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1984, __c62, 0) as any as S.Schema<CreateProjectsLocationsNotesRequest>,
+  input: __S(2016, __c63, 0) as any as S.Schema<CreateProjectsLocationsNotesRequest>,
   output: __S(1405, __c43, 29) as any as S.Schema<Note>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -2675,8 +2317,8 @@ export const createProjectsLocationsOccurrences: API.OperationMethod<
   CreateProjectsLocationsOccurrencesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2016, __c63, 0) as any as S.Schema<CreateProjectsLocationsOccurrencesRequest>,
-  output: __S(1900, __c59, 12) as any as S.Schema<Occurrence>,
+  input: __S(2048, __c64, 0) as any as S.Schema<CreateProjectsLocationsOccurrencesRequest>,
+  output: __S(1932, __c60, 12) as any as S.Schema<Occurrence>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2715,7 +2357,7 @@ export const createProjectsOccurrences: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c1, 0) as any as S.Schema<CreateProjectsOccurrencesRequest>,
-  output: __S(1900, __c59, 12) as any as S.Schema<Occurrence>,
+  output: __S(1932, __c60, 12) as any as S.Schema<Occurrence>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2820,7 +2462,7 @@ export const exportSBOMProjectsLocationsResources: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c6, 0) as any as S.Schema<ExportSBOMProjectsLocationsResourcesRequest>,
-  output: __S(224, __c7, 0) as any as S.Schema<ExportSBOMResponse>,
+  output: __S(225, __c7, 1) as any as S.Schema<ExportSBOMResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2842,7 +2484,7 @@ export const exportSBOMProjectsResources: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c8, 0) as any as S.Schema<ExportSBOMProjectsResourcesRequest>,
-  output: __S(224, __c7, 0) as any as S.Schema<ExportSBOMResponse>,
+  output: __S(225, __c7, 1) as any as S.Schema<ExportSBOMResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2998,7 +2640,7 @@ export const getProjectsLocationsOccurrences: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c18, 0) as any as S.Schema<GetProjectsLocationsOccurrencesRequest>,
-  output: __S(1900, __c59, 12) as any as S.Schema<Occurrence>,
+  output: __S(1932, __c60, 12) as any as S.Schema<Occurrence>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3032,7 +2674,7 @@ export const getProjectsOccurrences: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(640, __c20, 0) as any as S.Schema<GetProjectsOccurrencesRequest>,
-  output: __S(1900, __c59, 12) as any as S.Schema<Occurrence>,
+  output: __S(1932, __c60, 12) as any as S.Schema<Occurrence>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3231,7 +2873,7 @@ export const patchProjectsLocationsOccurrences: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1088, __c34, 0) as any as S.Schema<PatchProjectsLocationsOccurrencesRequest>,
-  output: __S(1900, __c59, 12) as any as S.Schema<Occurrence>,
+  output: __S(1932, __c60, 12) as any as S.Schema<Occurrence>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3270,7 +2912,7 @@ export const patchProjectsOccurrences: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1152, __c36, 0) as any as S.Schema<PatchProjectsOccurrencesRequest>,
-  output: __S(1900, __c59, 12) as any as S.Schema<Occurrence>,
+  output: __S(1932, __c60, 12) as any as S.Schema<Occurrence>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3313,7 +2955,7 @@ export const setIamPolicyProjectsLocationsOccurrences: API.OperationMethod<
   SetIamPolicyProjectsLocationsOccurrencesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1440, __c45, 0) as any as S.Schema<SetIamPolicyProjectsLocationsOccurrencesRequest>,
+  input: __S(1472, __c46, 0) as any as S.Schema<SetIamPolicyProjectsLocationsOccurrencesRequest>,
   output: __S(355, __c11, 3) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -3335,7 +2977,7 @@ export const setIamPolicyProjectsNotes: API.OperationMethod<
   SetIamPolicyProjectsNotesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c46, 0) as any as S.Schema<SetIamPolicyProjectsNotesRequest>,
+  input: __S(1504, __c47, 0) as any as S.Schema<SetIamPolicyProjectsNotesRequest>,
   output: __S(355, __c11, 3) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -3357,7 +2999,7 @@ export const setIamPolicyProjectsOccurrences: API.OperationMethod<
   SetIamPolicyProjectsOccurrencesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c47, 0) as any as S.Schema<SetIamPolicyProjectsOccurrencesRequest>,
+  input: __S(1536, __c48, 0) as any as S.Schema<SetIamPolicyProjectsOccurrencesRequest>,
   output: __S(355, __c11, 3) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -3379,8 +3021,8 @@ export const testIamPermissionsProjectsLocationsNotes: API.OperationMethod<
   TestIamPermissionsProjectsLocationsNotesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1536, __c48, 0) as any as S.Schema<TestIamPermissionsProjectsLocationsNotesRequest>,
-  output: __S(1568, __c49, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  input: __S(1568, __c49, 0) as any as S.Schema<TestIamPermissionsProjectsLocationsNotesRequest>,
+  output: __S(1600, __c50, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3402,11 +3044,11 @@ export const testIamPermissionsProjectsLocationsOccurrences: API.OperationMethod
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1600,
-    __c50,
+    1632,
+    __c51,
     0,
   ) as any as S.Schema<TestIamPermissionsProjectsLocationsOccurrencesRequest>,
-  output: __S(1568, __c49, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  output: __S(1600, __c50, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3427,8 +3069,8 @@ export const testIamPermissionsProjectsNotes: API.OperationMethod<
   TestIamPermissionsProjectsNotesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1632, __c51, 0) as any as S.Schema<TestIamPermissionsProjectsNotesRequest>,
-  output: __S(1568, __c49, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  input: __S(1664, __c52, 0) as any as S.Schema<TestIamPermissionsProjectsNotesRequest>,
+  output: __S(1600, __c50, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3449,8 +3091,8 @@ export const testIamPermissionsProjectsOccurrences: API.OperationMethod<
   TestIamPermissionsProjectsOccurrencesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c52, 0) as any as S.Schema<TestIamPermissionsProjectsOccurrencesRequest>,
-  output: __S(1568, __c49, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  input: __S(1696, __c53, 0) as any as S.Schema<TestIamPermissionsProjectsOccurrencesRequest>,
+  output: __S(1600, __c50, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3463,33 +3105,13 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          noteId: S.optional(S.String.pipe(T.Query())),
-          attestation: S.optional(__S(1377, __c43, 1)),
-          compliance: S.optional(__S(1380, __c43, 4)),
-          updateTime: S.optional(S.String),
-          dsseAttestation: S.optional(__S(1377, __c43, 1)),
-          upgrade: S.optional(__S(1382, __c43, 6)),
-          relatedNoteNames: S.optional(__S(1216, __c38, 0)),
-          discovery: S.optional(__S(1383, __c43, 7)),
-          build: S.optional(__S(1384, __c43, 8)),
-          aiSkillAnalysis: S.optional(__S(1344, __c42, 0)),
-          vulnerabilityAssessment: S.optional(__S(1388, __c43, 12)),
-          secret: S.optional(__S(1344, __c42, 0)),
-          relatedUrl: S.optional(__S(1258, __c39, 10)),
-          deployment: S.optional(__S(1389, __c43, 13)),
-          longDescription: S.optional(S.String),
-          image: S.optional(__S(1390, __c43, 14)),
-          sbomReference: S.optional(__S(1391, __c43, 15)),
-          package: S.optional(__S(1396, __c43, 20)),
-          vulnerability: S.optional(__S(1404, __c43, 28)),
-          createTime: S.optional(S.String),
-          expirationTime: S.optional(S.String),
-          shortDescription: S.optional(S.String),
-          name: S.optional(S.String),
-          kind: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1405, __c43, 29),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            noteId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/notes",
@@ -3503,31 +3125,12 @@ function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          remediation: S.optional(S.String),
-          createTime: S.optional(S.String),
-          package: S.optional(__S(1794, __c56, 2)),
-          aiSkillAnalysis: S.optional(__S(1804, __c56, 12)),
-          deployment: S.optional(__S(1805, __c56, 13)),
-          name: S.optional(S.String),
-          kind: S.optional(S.String),
-          resourceUri: S.optional(S.String),
-          advisoryPublishTime: S.optional(S.String),
-          upgrade: S.optional(__S(1806, __c56, 14)),
-          envelope: S.optional(__S(1809, __c56, 17)),
-          dsseAttestation: S.optional(__S(1832, __c57, 8)),
-          image: S.optional(__S(1835, __c57, 11)),
-          attestation: S.optional(__S(1840, __c57, 16)),
-          noteName: S.optional(S.String),
-          secret: S.optional(__S(1849, __c57, 25)),
-          compliance: S.optional(__S(1852, __c57, 28)),
-          discovery: S.optional(__S(1857, __c58, 1)),
-          vulnerability: S.optional(__S(1869, __c58, 13)),
-          updateTime: S.optional(S.String),
-          sbomReference: S.optional(__S(1872, __c58, 16)),
-          build: S.optional(__S(1899, __c59, 11)),
-        }).pipe(
+        S.Extend(
+          __S(1932, __c60, 12),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/occurrences",
@@ -3605,10 +3208,12 @@ function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          cloudStorageLocation: S.optional(__S(1344, __c42, 0)),
-        }).pipe(
+        S.Extend(
+          __S(224, __c7, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:exportSBOM",
@@ -3623,6 +3228,12 @@ function __c7(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          cloudStorageLocation: S.optional(__S(1344, __c42, 0)),
+        }),
+      ).annotate({ identifier: "ExportSBOMRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
           discoveryOccurrence: S.optional(S.String),
         }),
       ).annotate({ identifier: "ExportSBOMResponse" });
@@ -3632,10 +3243,12 @@ function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          cloudStorageLocation: S.optional(__S(1344, __c42, 0)),
-        }).pipe(
+        S.Extend(
+          __S(224, __c7, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:exportSBOM",
@@ -3649,10 +3262,12 @@ function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          options: S.optional(__S(320, __c10, 0)),
-        }).pipe(
+        S.Extend(
+          __S(321, __c10, 1),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:getIamPolicy",
@@ -3670,6 +3285,12 @@ function __c10(j: number): any {
           requestedPolicyVersion: S.optional(S.Number),
         }),
       ).annotate({ identifier: "GetPolicyOptions" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          options: S.optional(__S(320, __c10, 0)),
+        }),
+      ).annotate({ identifier: "GetIamPolicyRequest" });
   }
 }
 function __c11(j: number): any {
@@ -3707,10 +3328,12 @@ function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          options: S.optional(__S(320, __c10, 0)),
-        }).pipe(
+        S.Extend(
+          __S(321, __c10, 1),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:getIamPolicy",
@@ -3724,10 +3347,12 @@ function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          options: S.optional(__S(320, __c10, 0)),
-        }).pipe(
+        S.Extend(
+          __S(321, __c10, 1),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:getIamPolicy",
@@ -3741,10 +3366,12 @@ function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          options: S.optional(__S(320, __c10, 0)),
-        }).pipe(
+        S.Extend(
+          __S(321, __c10, 1),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:getIamPolicy",
@@ -3964,7 +3591,7 @@ function __c27(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          occurrences: S.optional(__S(1760, __c55, 0)),
+          occurrences: S.optional(__S(1792, __c56, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListNoteOccurrencesResponse" });
@@ -3995,7 +3622,7 @@ function __c29(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          occurrences: S.optional(__S(1760, __c55, 0)),
+          occurrences: S.optional(__S(1792, __c56, 0)),
           unreachable: S.optional(__S(1216, __c38, 0)),
           nextPageToken: S.optional(S.String),
         }),
@@ -4065,32 +3692,13 @@ function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          attestation: S.optional(__S(1377, __c43, 1)),
-          compliance: S.optional(__S(1380, __c43, 4)),
-          updateTime: S.optional(S.String),
-          dsseAttestation: S.optional(__S(1377, __c43, 1)),
-          upgrade: S.optional(__S(1382, __c43, 6)),
-          relatedNoteNames: S.optional(__S(1216, __c38, 0)),
-          discovery: S.optional(__S(1383, __c43, 7)),
-          build: S.optional(__S(1384, __c43, 8)),
-          aiSkillAnalysis: S.optional(__S(1344, __c42, 0)),
-          vulnerabilityAssessment: S.optional(__S(1388, __c43, 12)),
-          secret: S.optional(__S(1344, __c42, 0)),
-          relatedUrl: S.optional(__S(1258, __c39, 10)),
-          deployment: S.optional(__S(1389, __c43, 13)),
-          longDescription: S.optional(S.String),
-          image: S.optional(__S(1390, __c43, 14)),
-          sbomReference: S.optional(__S(1391, __c43, 15)),
-          package: S.optional(__S(1396, __c43, 20)),
-          vulnerability: S.optional(__S(1404, __c43, 28)),
-          createTime: S.optional(S.String),
-          expirationTime: S.optional(S.String),
-          shortDescription: S.optional(S.String),
-          kind: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1405, __c43, 29),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -4104,31 +3712,13 @@ function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          remediation: S.optional(S.String),
-          createTime: S.optional(S.String),
-          package: S.optional(__S(1794, __c56, 2)),
-          aiSkillAnalysis: S.optional(__S(1804, __c56, 12)),
-          deployment: S.optional(__S(1805, __c56, 13)),
-          kind: S.optional(S.String),
-          resourceUri: S.optional(S.String),
-          advisoryPublishTime: S.optional(S.String),
-          upgrade: S.optional(__S(1806, __c56, 14)),
-          envelope: S.optional(__S(1809, __c56, 17)),
-          dsseAttestation: S.optional(__S(1832, __c57, 8)),
-          image: S.optional(__S(1835, __c57, 11)),
-          attestation: S.optional(__S(1840, __c57, 16)),
-          noteName: S.optional(S.String),
-          secret: S.optional(__S(1849, __c57, 25)),
-          compliance: S.optional(__S(1852, __c57, 28)),
-          discovery: S.optional(__S(1857, __c58, 1)),
-          vulnerability: S.optional(__S(1869, __c58, 13)),
-          updateTime: S.optional(S.String),
-          sbomReference: S.optional(__S(1872, __c58, 16)),
-          build: S.optional(__S(1899, __c59, 11)),
-        }).pipe(
+        S.Extend(
+          __S(1932, __c60, 12),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -4142,32 +3732,13 @@ function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          attestation: S.optional(__S(1377, __c43, 1)),
-          compliance: S.optional(__S(1380, __c43, 4)),
-          updateTime: S.optional(S.String),
-          dsseAttestation: S.optional(__S(1377, __c43, 1)),
-          upgrade: S.optional(__S(1382, __c43, 6)),
-          relatedNoteNames: S.optional(__S(1216, __c38, 0)),
-          discovery: S.optional(__S(1383, __c43, 7)),
-          build: S.optional(__S(1384, __c43, 8)),
-          aiSkillAnalysis: S.optional(__S(1344, __c42, 0)),
-          vulnerabilityAssessment: S.optional(__S(1388, __c43, 12)),
-          secret: S.optional(__S(1344, __c42, 0)),
-          relatedUrl: S.optional(__S(1258, __c39, 10)),
-          deployment: S.optional(__S(1389, __c43, 13)),
-          longDescription: S.optional(S.String),
-          image: S.optional(__S(1390, __c43, 14)),
-          sbomReference: S.optional(__S(1391, __c43, 15)),
-          package: S.optional(__S(1396, __c43, 20)),
-          vulnerability: S.optional(__S(1404, __c43, 28)),
-          createTime: S.optional(S.String),
-          expirationTime: S.optional(S.String),
-          shortDescription: S.optional(S.String),
-          kind: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1405, __c43, 29),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -4181,31 +3752,13 @@ function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          remediation: S.optional(S.String),
-          createTime: S.optional(S.String),
-          package: S.optional(__S(1794, __c56, 2)),
-          aiSkillAnalysis: S.optional(__S(1804, __c56, 12)),
-          deployment: S.optional(__S(1805, __c56, 13)),
-          kind: S.optional(S.String),
-          resourceUri: S.optional(S.String),
-          advisoryPublishTime: S.optional(S.String),
-          upgrade: S.optional(__S(1806, __c56, 14)),
-          envelope: S.optional(__S(1809, __c56, 17)),
-          dsseAttestation: S.optional(__S(1832, __c57, 8)),
-          image: S.optional(__S(1835, __c57, 11)),
-          attestation: S.optional(__S(1840, __c57, 16)),
-          noteName: S.optional(S.String),
-          secret: S.optional(__S(1849, __c57, 25)),
-          compliance: S.optional(__S(1852, __c57, 28)),
-          discovery: S.optional(__S(1857, __c58, 1)),
-          vulnerability: S.optional(__S(1869, __c58, 13)),
-          updateTime: S.optional(S.String),
-          sbomReference: S.optional(__S(1872, __c58, 16)),
-          build: S.optional(__S(1899, __c59, 11)),
-        }).pipe(
+        S.Extend(
+          __S(1932, __c60, 12),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -4219,10 +3772,12 @@ function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          notes: S.optional(__S(1280, __c40, 0)),
-        }).pipe(
+        S.Extend(
+          __S(1281, __c40, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/notes:batchCreate",
@@ -4369,6 +3924,12 @@ function __c40(j: number): any {
     case 0:
       return S.Record(S.String, __S(1405, __c43, 29));
     case 1:
+      return S.suspend(() =>
+        S.Struct({
+          notes: S.optional(__S(1280, __c40, 0)),
+        }),
+      ).annotate({ identifier: "BatchCreateNotesRequest" });
+    case 2:
       return S.suspend(() =>
         S.Struct({
           notes: S.optional(__S(1312, __c41, 0)),
@@ -4653,10 +4214,12 @@ function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          policy: S.optional(__S(355, __c11, 3)),
-        }).pipe(
+        S.Extend(
+          __S(1440, __c45, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -4671,9 +4234,21 @@ function __c45(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          resource: S.String.pipe(T.Label()),
           policy: S.optional(__S(355, __c11, 3)),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "SetIamPolicyRequest" });
+  }
+}
+function __c46(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(1440, __c45, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -4683,14 +4258,16 @@ function __c45(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsLocationsOccurrencesRequest" });
   }
 }
-function __c46(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          policy: S.optional(__S(355, __c11, 3)),
-        }).pipe(
+        S.Extend(
+          __S(1440, __c45, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -4700,14 +4277,16 @@ function __c46(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsNotesRequest" });
   }
 }
-function __c47(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          policy: S.optional(__S(355, __c11, 3)),
-        }).pipe(
+        S.Extend(
+          __S(1440, __c45, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -4717,14 +4296,16 @@ function __c47(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsOccurrencesRequest" });
   }
 }
-function __c48(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          permissions: S.optional(__S(1216, __c38, 0)),
-        }).pipe(
+        S.Extend(
+          __S(1600, __c50, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -4734,24 +4315,26 @@ function __c48(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsLocationsNotesRequest" });
   }
 }
-function __c49(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           permissions: S.optional(__S(1216, __c38, 0)),
         }),
-      ).annotate({ identifier: "TestIamPermissionsResponse" });
+      ).annotate({ identifier: "TestIamPermissionsRequest" });
   }
 }
-function __c50(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          permissions: S.optional(__S(1216, __c38, 0)),
-        }).pipe(
+        S.Extend(
+          __S(1600, __c50, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -4761,14 +4344,16 @@ function __c50(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsLocationsOccurrencesRequest" });
   }
 }
-function __c51(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          permissions: S.optional(__S(1216, __c38, 0)),
-        }).pipe(
+        S.Extend(
+          __S(1600, __c50, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -4778,14 +4363,16 @@ function __c51(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsNotesRequest" });
   }
 }
-function __c52(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          permissions: S.optional(__S(1216, __c38, 0)),
-        }).pipe(
+        S.Extend(
+          __S(1600, __c50, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -4795,14 +4382,16 @@ function __c52(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsOccurrencesRequest" });
   }
 }
-function __c53(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          occurrences: S.optional(__S(1760, __c55, 0)),
-        }).pipe(
+        S.Extend(
+          __S(1760, __c55, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/occurrences:batchCreate",
@@ -4812,23 +4401,23 @@ function __c53(j: number): any {
       ).annotate({ identifier: "BatchCreateProjectsLocationsOccurrencesRequest" });
   }
 }
-function __c54(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          occurrences: S.optional(__S(1760, __c55, 0)),
+          occurrences: S.optional(__S(1792, __c56, 0)),
         }),
-      ).annotate({ identifier: "BatchCreateOccurrencesResponse" });
-  }
-}
-function __c55(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(1900, __c59, 12));
+      ).annotate({ identifier: "BatchCreateOccurrencesRequest" });
   }
 }
 function __c56(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(1932, __c60, 12));
+  }
+}
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4839,11 +4428,11 @@ function __c56(j: number): any {
         }),
       ).annotate({ identifier: "Location" });
     case 1:
-      return S.Array(__S(1792, __c56, 0));
+      return S.Array(__S(1824, __c57, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          location: S.optional(__S(1793, __c56, 1)),
+          location: S.optional(__S(1825, __c57, 1)),
           architecture: S.optional(S.String),
           version: S.optional(__S(1249, __c39, 1)),
           cpeUri: S.optional(S.String),
@@ -4862,7 +4451,7 @@ function __c56(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          location: S.optional(__S(1795, __c56, 3)),
+          location: S.optional(__S(1827, __c57, 3)),
           scanner: S.optional(S.String),
           details: S.optional(S.String),
           category: S.optional(S.String),
@@ -4870,7 +4459,7 @@ function __c56(j: number): any {
         }),
       ).annotate({ identifier: "Finding" });
     case 5:
-      return S.Array(__S(1796, __c56, 4));
+      return S.Array(__S(1828, __c57, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -4887,7 +4476,7 @@ function __c56(j: number): any {
           scanStatus: S.optional(S.String),
           maxSeverity: S.optional(S.String),
           modelId: S.optional(S.String),
-          tokenUsage: S.optional(__S(1798, __c56, 6)),
+          tokenUsage: S.optional(__S(1830, __c57, 6)),
         }),
       ).annotate({ identifier: "MaliciousContentLLMResult" });
     case 8:
@@ -4914,19 +4503,19 @@ function __c56(j: number): any {
     case 11:
       return S.suspend(() =>
         S.Struct({
-          maliciousContentLlmResult: S.optional(__S(1799, __c56, 7)),
-          malwareScan: S.optional(__S(1800, __c56, 8)),
-          maliciousContentStaticResult: S.optional(__S(1801, __c56, 9)),
-          workspacePolicy: S.optional(__S(1802, __c56, 10)),
+          maliciousContentLlmResult: S.optional(__S(1831, __c57, 7)),
+          malwareScan: S.optional(__S(1832, __c57, 8)),
+          maliciousContentStaticResult: S.optional(__S(1833, __c57, 9)),
+          workspacePolicy: S.optional(__S(1834, __c57, 10)),
         }),
       ).annotate({ identifier: "PerScannerVerdict" });
     case 12:
       return S.suspend(() =>
         S.Struct({
           maxSeverity: S.optional(S.String),
-          findings: S.optional(__S(1797, __c56, 5)),
+          findings: S.optional(__S(1829, __c57, 5)),
           skillName: S.optional(S.String),
-          perScannerVerdict: S.optional(__S(1803, __c56, 11)),
+          perScannerVerdict: S.optional(__S(1835, __c57, 11)),
         }),
       ).annotate({ identifier: "AISkillAnalysisOccurrence" });
     case 13:
@@ -4958,13 +4547,13 @@ function __c56(j: number): any {
         }),
       ).annotate({ identifier: "EnvelopeSignature" });
     case 16:
-      return S.Array(__S(1807, __c56, 15));
+      return S.Array(__S(1839, __c57, 15));
     case 17:
       return S.suspend(() =>
         S.Struct({
           payload: S.optional(S.String),
           payloadType: S.optional(S.String),
-          signatures: S.optional(__S(1808, __c56, 16)),
+          signatures: S.optional(__S(1840, __c57, 16)),
         }),
       ).annotate({ identifier: "Envelope" });
     case 18:
@@ -4972,7 +4561,7 @@ function __c56(j: number): any {
     case 19:
       return S.suspend(() =>
         S.Struct({
-          digest: S.optional(__S(1810, __c56, 18)),
+          digest: S.optional(__S(1842, __c57, 18)),
           entryPoint: S.optional(S.String),
           uri: S.optional(S.String),
         }),
@@ -4982,9 +4571,9 @@ function __c56(j: number): any {
     case 21:
       return S.suspend(() =>
         S.Struct({
-          configSource: S.optional(__S(1811, __c56, 19)),
-          parameters: S.optional(__S(1812, __c56, 20)),
-          environment: S.optional(__S(1812, __c56, 20)),
+          configSource: S.optional(__S(1843, __c57, 19)),
+          parameters: S.optional(__S(1844, __c57, 20)),
+          environment: S.optional(__S(1844, __c57, 20)),
         }),
       ).annotate({ identifier: "GrafeasV1SlsaProvenanceZeroTwoSlsaInvocation" });
     case 22:
@@ -4997,11 +4586,11 @@ function __c56(j: number): any {
       return S.suspend(() =>
         S.Struct({
           uri: S.optional(S.String),
-          digest: S.optional(__S(1810, __c56, 18)),
+          digest: S.optional(__S(1842, __c57, 18)),
         }),
       ).annotate({ identifier: "GrafeasV1SlsaProvenanceZeroTwoSlsaMaterial" });
     case 24:
-      return S.Array(__S(1815, __c56, 23));
+      return S.Array(__S(1847, __c57, 23));
     case 25:
       return S.suspend(() =>
         S.Struct({
@@ -5017,18 +4606,18 @@ function __c56(j: number): any {
           buildStartedOn: S.optional(S.String),
           buildFinishedOn: S.optional(S.String),
           buildInvocationId: S.optional(S.String),
-          completeness: S.optional(__S(1817, __c56, 25)),
+          completeness: S.optional(__S(1849, __c57, 25)),
         }),
       ).annotate({ identifier: "GrafeasV1SlsaProvenanceZeroTwoSlsaMetadata" });
     case 27:
       return S.suspend(() =>
         S.Struct({
-          invocation: S.optional(__S(1813, __c56, 21)),
-          builder: S.optional(__S(1814, __c56, 22)),
+          invocation: S.optional(__S(1845, __c57, 21)),
+          builder: S.optional(__S(1846, __c57, 22)),
           buildType: S.optional(S.String),
-          materials: S.optional(__S(1816, __c56, 24)),
-          metadata: S.optional(__S(1818, __c56, 26)),
-          buildConfig: S.optional(__S(1812, __c56, 20)),
+          materials: S.optional(__S(1848, __c57, 24)),
+          metadata: S.optional(__S(1850, __c57, 26)),
+          buildConfig: S.optional(__S(1844, __c57, 20)),
         }),
       ).annotate({ identifier: "SlsaProvenanceZeroTwo" });
     case 28:
@@ -5042,7 +4631,7 @@ function __c56(j: number): any {
     case 29:
       return S.suspend(() =>
         S.Struct({
-          completeness: S.optional(__S(1820, __c56, 28)),
+          completeness: S.optional(__S(1852, __c57, 28)),
           buildInvocationId: S.optional(S.String),
           reproducible: S.optional(S.Boolean),
           buildFinishedOn: S.optional(S.String),
@@ -5055,31 +4644,31 @@ function __c56(j: number): any {
           type: S.optional(S.String),
           entryPoint: S.optional(S.String),
           definedInMaterial: S.optional(S.String),
-          arguments: S.optional(__S(1812, __c56, 20)),
-          environment: S.optional(__S(1812, __c56, 20)),
+          arguments: S.optional(__S(1844, __c57, 20)),
+          environment: S.optional(__S(1844, __c57, 20)),
         }),
       ).annotate({ identifier: "SlsaRecipe" });
     case 31:
       return S.suspend(() =>
         S.Struct({
-          metadata: S.optional(__S(1821, __c56, 29)),
-          builder: S.optional(__S(1814, __c56, 22)),
-          materials: S.optional(__S(1816, __c56, 24)),
-          recipe: S.optional(__S(1822, __c56, 30)),
+          metadata: S.optional(__S(1853, __c57, 29)),
+          builder: S.optional(__S(1846, __c57, 22)),
+          materials: S.optional(__S(1848, __c57, 24)),
+          recipe: S.optional(__S(1854, __c57, 30)),
         }),
       ).annotate({ identifier: "SlsaProvenance" });
   }
 }
-function __c57(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1812, __c56, 20));
+      return S.Array(__S(1844, __c57, 20));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          environment: S.optional(__S(1824, __c57, 0)),
+          environment: S.optional(__S(1856, __c58, 0)),
           entryPoint: S.optional(S.String),
-          arguments: S.optional(__S(1824, __c57, 0)),
+          arguments: S.optional(__S(1856, __c58, 0)),
           type: S.optional(S.String),
           definedInMaterial: S.optional(S.String),
         }),
@@ -5099,15 +4688,15 @@ function __c57(j: number): any {
           reproducible: S.optional(S.Boolean),
           buildFinishedOn: S.optional(S.String),
           buildInvocationId: S.optional(S.String),
-          completeness: S.optional(__S(1826, __c57, 2)),
+          completeness: S.optional(__S(1858, __c58, 2)),
         }),
       ).annotate({ identifier: "Metadata" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          recipe: S.optional(__S(1825, __c57, 1)),
-          metadata: S.optional(__S(1827, __c57, 3)),
-          builderConfig: S.optional(__S(1814, __c56, 22)),
+          recipe: S.optional(__S(1857, __c58, 1)),
+          metadata: S.optional(__S(1859, __c58, 3)),
+          builderConfig: S.optional(__S(1846, __c57, 22)),
           materials: S.optional(__S(1216, __c38, 0)),
         }),
       ).annotate({ identifier: "InTotoProvenance" });
@@ -5115,27 +4704,27 @@ function __c57(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          digest: S.optional(__S(1810, __c56, 18)),
+          digest: S.optional(__S(1842, __c57, 18)),
         }),
       ).annotate({ identifier: "Subject" });
     case 6:
-      return S.Array(__S(1829, __c57, 5));
+      return S.Array(__S(1861, __c58, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          slsaProvenanceZeroTwo: S.optional(__S(1819, __c56, 27)),
-          slsaProvenance: S.optional(__S(1823, __c56, 31)),
-          provenance: S.optional(__S(1828, __c57, 4)),
+          slsaProvenanceZeroTwo: S.optional(__S(1851, __c57, 27)),
+          slsaProvenance: S.optional(__S(1855, __c57, 31)),
+          provenance: S.optional(__S(1860, __c58, 4)),
           _type: S.optional(S.String),
-          subject: S.optional(__S(1830, __c57, 6)),
+          subject: S.optional(__S(1862, __c58, 6)),
           predicateType: S.optional(S.String),
         }),
       ).annotate({ identifier: "InTotoStatement" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          statement: S.optional(__S(1831, __c57, 7)),
-          envelope: S.optional(__S(1809, __c56, 17)),
+          statement: S.optional(__S(1863, __c58, 7)),
+          envelope: S.optional(__S(1841, __c57, 17)),
         }),
       ).annotate({ identifier: "DSSEAttestationOccurrence" });
     case 9:
@@ -5146,13 +4735,13 @@ function __c57(j: number): any {
         }),
       ).annotate({ identifier: "Layer" });
     case 10:
-      return S.Array(__S(1833, __c57, 9));
+      return S.Array(__S(1865, __c58, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
           baseResourceUrl: S.optional(S.String),
           fingerprint: S.optional(__S(1260, __c39, 12)),
-          layerInfo: S.optional(__S(1834, __c57, 10)),
+          layerInfo: S.optional(__S(1866, __c58, 10)),
           distance: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ImageOccurrence" });
@@ -5164,7 +4753,7 @@ function __c57(j: number): any {
         }),
       ).annotate({ identifier: "Signature" });
     case 13:
-      return S.Array(__S(1836, __c57, 12));
+      return S.Array(__S(1868, __c58, 12));
     case 14:
       return S.suspend(() =>
         S.Struct({
@@ -5172,13 +4761,13 @@ function __c57(j: number): any {
         }),
       ).annotate({ identifier: "Jwt" });
     case 15:
-      return S.Array(__S(1838, __c57, 14));
+      return S.Array(__S(1870, __c58, 14));
     case 16:
       return S.suspend(() =>
         S.Struct({
-          signatures: S.optional(__S(1837, __c57, 13)),
+          signatures: S.optional(__S(1869, __c58, 13)),
           serializedPayload: S.optional(S.String),
-          jwts: S.optional(__S(1839, __c57, 15)),
+          jwts: S.optional(__S(1871, __c58, 15)),
         }),
       ).annotate({ identifier: "AttestationOccurrence" });
     case 17:
@@ -5191,12 +4780,12 @@ function __c57(j: number): any {
         }),
       ).annotate({ identifier: "BaseImage" });
     case 18:
-      return S.Array(__S(1841, __c57, 17));
+      return S.Array(__S(1873, __c58, 17));
     case 19:
       return S.suspend(() =>
         S.Struct({
           chainId: S.optional(S.String),
-          baseImages: S.optional(__S(1842, __c57, 18)),
+          baseImages: S.optional(__S(1874, __c58, 18)),
           diffId: S.optional(S.String),
           command: S.optional(S.String),
           index: S.optional(S.Number),
@@ -5205,7 +4794,7 @@ function __c57(j: number): any {
     case 20:
       return S.suspend(() =>
         S.Struct({
-          layerDetails: S.optional(__S(1843, __c57, 19)),
+          layerDetails: S.optional(__S(1875, __c58, 19)),
           filePath: S.optional(S.String),
           lineNumber: S.optional(S.Number),
         }),
@@ -5213,11 +4802,11 @@ function __c57(j: number): any {
     case 21:
       return S.suspend(() =>
         S.Struct({
-          fileLocation: S.optional(__S(1844, __c57, 20)),
+          fileLocation: S.optional(__S(1876, __c58, 20)),
         }),
       ).annotate({ identifier: "SecretLocation" });
     case 22:
-      return S.Array(__S(1845, __c57, 21));
+      return S.Array(__S(1877, __c58, 21));
     case 23:
       return S.suspend(() =>
         S.Struct({
@@ -5227,13 +4816,13 @@ function __c57(j: number): any {
         }),
       ).annotate({ identifier: "SecretStatus" });
     case 24:
-      return S.Array(__S(1847, __c57, 23));
+      return S.Array(__S(1879, __c58, 23));
     case 25:
       return S.suspend(() =>
         S.Struct({
           kind: S.optional(S.String),
-          locations: S.optional(__S(1846, __c57, 22)),
-          statuses: S.optional(__S(1848, __c57, 24)),
+          locations: S.optional(__S(1878, __c58, 22)),
+          statuses: S.optional(__S(1880, __c58, 24)),
         }),
       ).annotate({ identifier: "SecretOccurrence" });
     case 26:
@@ -5245,12 +4834,12 @@ function __c57(j: number): any {
         }),
       ).annotate({ identifier: "NonCompliantFile" });
     case 27:
-      return S.Array(__S(1850, __c57, 26));
+      return S.Array(__S(1882, __c58, 26));
     case 28:
       return S.suspend(() =>
         S.Struct({
           nonComplianceReason: S.optional(S.String),
-          nonCompliantFiles: S.optional(__S(1851, __c57, 27)),
+          nonCompliantFiles: S.optional(__S(1883, __c58, 27)),
           version: S.optional(__S(1248, __c39, 0)),
         }),
       ).annotate({ identifier: "ComplianceOccurrence" });
@@ -5265,14 +4854,14 @@ function __c57(j: number): any {
         S.Struct({
           code: S.optional(S.Number),
           message: S.optional(S.String),
-          details: S.optional(__S(1824, __c57, 0)),
+          details: S.optional(__S(1856, __c58, 0)),
         }),
       ).annotate({ identifier: "Status" });
     case 31:
-      return S.Array(__S(1854, __c57, 30));
+      return S.Array(__S(1886, __c58, 30));
   }
 }
-function __c58(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5284,13 +4873,13 @@ function __c58(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          analysisCompleted: S.optional(__S(1853, __c57, 29)),
-          files: S.optional(__S(1830, __c57, 6)),
+          analysisCompleted: S.optional(__S(1885, __c58, 29)),
+          files: S.optional(__S(1862, __c58, 6)),
           cpe: S.optional(S.String),
           analysisStatus: S.optional(S.String),
-          analysisError: S.optional(__S(1855, __c57, 31)),
-          sbomStatus: S.optional(__S(1856, __c58, 0)),
-          analysisStatusError: S.optional(__S(1854, __c57, 30)),
+          analysisError: S.optional(__S(1887, __c58, 31)),
+          sbomStatus: S.optional(__S(1888, __c59, 0)),
+          analysisStatusError: S.optional(__S(1886, __c58, 30)),
           lastVulnerabilityUpdateTime: S.optional(S.String),
           archiveTime: S.optional(S.String),
           continuousAnalysis: S.optional(S.String),
@@ -5298,7 +4887,7 @@ function __c58(j: number): any {
         }),
       ).annotate({ identifier: "DiscoveryOccurrence" });
     case 2:
-      return S.Array(__S(1844, __c57, 20));
+      return S.Array(__S(1876, __c58, 20));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -5309,7 +4898,7 @@ function __c58(j: number): any {
         }),
       ).annotate({ identifier: "ExploitabilitySignal" });
     case 4:
-      return S.Array(__S(1859, __c58, 3));
+      return S.Array(__S(1891, __c59, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -5320,28 +4909,28 @@ function __c58(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          signals: S.optional(__S(1860, __c58, 4)),
-          summary: S.optional(__S(1861, __c58, 5)),
+          signals: S.optional(__S(1892, __c59, 4)),
+          summary: S.optional(__S(1893, __c59, 5)),
         }),
       ).annotate({ identifier: "Exploitability" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          fileLocation: S.optional(__S(1858, __c58, 2)),
+          fileLocation: S.optional(__S(1890, __c59, 2)),
           fixAvailable: S.optional(S.Boolean),
           fixedPackage: S.optional(S.String),
           affectedCpeUri: S.optional(S.String),
           packageType: S.optional(S.String),
           fixedVersion: S.optional(__S(1249, __c39, 1)),
           effectiveSeverity: S.optional(S.String),
-          exploitability: S.optional(__S(1862, __c58, 6)),
+          exploitability: S.optional(__S(1894, __c59, 6)),
           affectedVersion: S.optional(__S(1249, __c39, 1)),
           fixedCpeUri: S.optional(S.String),
           affectedPackage: S.optional(S.String),
         }),
       ).annotate({ identifier: "PackageIssue" });
     case 8:
-      return S.Array(__S(1863, __c58, 7));
+      return S.Array(__S(1895, __c59, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
@@ -5358,8 +4947,8 @@ function __c58(j: number): any {
     case 11:
       return S.suspend(() =>
         S.Struct({
-          epss: S.optional(__S(1865, __c58, 9)),
-          cisaKev: S.optional(__S(1866, __c58, 10)),
+          epss: S.optional(__S(1897, __c59, 9)),
+          cisaKev: S.optional(__S(1898, __c59, 10)),
         }),
       ).annotate({ identifier: "Risk" });
     case 12:
@@ -5386,12 +4975,12 @@ function __c58(j: number): any {
           cvssv3: S.optional(__S(1262, __c39, 14)),
           severity: S.optional(S.String),
           cvssV4: S.optional(__S(1262, __c39, 14)),
-          packageIssue: S.optional(__S(1864, __c58, 8)),
+          packageIssue: S.optional(__S(1896, __c59, 8)),
           longDescription: S.optional(S.String),
-          risk: S.optional(__S(1867, __c58, 11)),
+          risk: S.optional(__S(1899, __c59, 11)),
           extraDetails: S.optional(S.String),
-          exploitability: S.optional(__S(1862, __c58, 6)),
-          vexAssessment: S.optional(__S(1868, __c58, 12)),
+          exploitability: S.optional(__S(1894, __c59, 6)),
+          vexAssessment: S.optional(__S(1900, __c59, 12)),
           effectiveSeverity: S.optional(S.String),
           cvssVersion: S.optional(S.String),
           fixAvailable: S.optional(S.Boolean),
@@ -5402,7 +4991,7 @@ function __c58(j: number): any {
         S.Struct({
           location: S.optional(S.String),
           mimeType: S.optional(S.String),
-          digest: S.optional(__S(1810, __c56, 18)),
+          digest: S.optional(__S(1842, __c57, 18)),
           referrerId: S.optional(S.String),
         }),
       ).annotate({ identifier: "SbomReferenceIntotoPredicate" });
@@ -5410,8 +4999,8 @@ function __c58(j: number): any {
       return S.suspend(() =>
         S.Struct({
           predicateType: S.optional(S.String),
-          subject: S.optional(__S(1830, __c57, 6)),
-          predicate: S.optional(__S(1870, __c58, 14)),
+          subject: S.optional(__S(1862, __c58, 6)),
+          predicate: S.optional(__S(1902, __c59, 14)),
           _type: S.optional(S.String),
         }),
       ).annotate({ identifier: "SbomReferenceIntotoPayload" });
@@ -5419,8 +5008,8 @@ function __c58(j: number): any {
       return S.suspend(() =>
         S.Struct({
           payloadType: S.optional(S.String),
-          signatures: S.optional(__S(1808, __c56, 16)),
-          payload: S.optional(__S(1871, __c58, 15)),
+          signatures: S.optional(__S(1840, __c57, 16)),
+          payload: S.optional(__S(1903, __c59, 15)),
         }),
       ).annotate({ identifier: "SBOMReferenceOccurrence" });
     case 17:
@@ -5435,7 +5024,7 @@ function __c58(j: number): any {
         }),
       ).annotate({ identifier: "Command" });
     case 18:
-      return S.Array(__S(1873, __c58, 17));
+      return S.Array(__S(1905, __c59, 17));
     case 19:
       return S.suspend(() =>
         S.Struct({
@@ -5446,7 +5035,7 @@ function __c58(j: number): any {
     case 20:
       return S.suspend(() =>
         S.Struct({
-          projectRepoId: S.optional(__S(1875, __c58, 19)),
+          projectRepoId: S.optional(__S(1907, __c59, 19)),
           uid: S.optional(S.String),
         }),
       ).annotate({ identifier: "RepoId" });
@@ -5461,8 +5050,8 @@ function __c58(j: number): any {
       return S.suspend(() =>
         S.Struct({
           revisionId: S.optional(S.String),
-          repoId: S.optional(__S(1876, __c58, 20)),
-          aliasContext: S.optional(__S(1877, __c58, 21)),
+          repoId: S.optional(__S(1908, __c59, 20)),
+          aliasContext: S.optional(__S(1909, __c59, 21)),
         }),
       ).annotate({ identifier: "CloudRepoSourceContext" });
     case 23:
@@ -5477,17 +5066,17 @@ function __c58(j: number): any {
         S.Struct({
           hostUri: S.optional(S.String),
           gerritProject: S.optional(S.String),
-          aliasContext: S.optional(__S(1877, __c58, 21)),
+          aliasContext: S.optional(__S(1909, __c59, 21)),
           revisionId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GerritSourceContext" });
     case 25:
       return S.suspend(() =>
         S.Struct({
-          labels: S.optional(__S(1810, __c56, 18)),
-          cloudRepo: S.optional(__S(1878, __c58, 22)),
-          git: S.optional(__S(1879, __c58, 23)),
-          gerrit: S.optional(__S(1880, __c58, 24)),
+          labels: S.optional(__S(1842, __c57, 18)),
+          cloudRepo: S.optional(__S(1910, __c59, 22)),
+          git: S.optional(__S(1911, __c59, 23)),
+          gerrit: S.optional(__S(1912, __c59, 24)),
         }),
       ).annotate({ identifier: "SourceContext" });
     case 26:
@@ -5498,29 +5087,29 @@ function __c58(j: number): any {
         }),
       ).annotate({ identifier: "Hash" });
     case 27:
-      return S.Array(__S(1882, __c58, 26));
+      return S.Array(__S(1914, __c59, 26));
     case 28:
       return S.suspend(() =>
         S.Struct({
-          fileHash: S.optional(__S(1883, __c58, 27)),
+          fileHash: S.optional(__S(1915, __c59, 27)),
         }),
       ).annotate({ identifier: "FileHashes" });
     case 29:
-      return S.Record(S.String, __S(1884, __c58, 28));
+      return S.Record(S.String, __S(1916, __c59, 28));
     case 30:
-      return S.Array(__S(1881, __c58, 25));
+      return S.Array(__S(1913, __c59, 25));
     case 31:
       return S.suspend(() =>
         S.Struct({
-          context: S.optional(__S(1881, __c58, 25)),
+          context: S.optional(__S(1913, __c59, 25)),
           artifactStorageSourceUri: S.optional(S.String),
-          fileHashes: S.optional(__S(1885, __c58, 29)),
-          additionalContexts: S.optional(__S(1886, __c58, 30)),
+          fileHashes: S.optional(__S(1917, __c59, 29)),
+          additionalContexts: S.optional(__S(1918, __c59, 30)),
         }),
       ).annotate({ identifier: "Source" });
   }
 }
-function __c59(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5531,7 +5120,7 @@ function __c59(j: number): any {
         }),
       ).annotate({ identifier: "Artifact" });
     case 1:
-      return S.Array(__S(1888, __c59, 0));
+      return S.Array(__S(1920, __c60, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -5541,13 +5130,13 @@ function __c59(j: number): any {
           startTime: S.optional(S.String),
           triggerId: S.optional(S.String),
           endTime: S.optional(S.String),
-          commands: S.optional(__S(1874, __c58, 18)),
+          commands: S.optional(__S(1906, __c59, 18)),
           builderVersion: S.optional(S.String),
           logsUri: S.optional(S.String),
-          sourceProvenance: S.optional(__S(1887, __c58, 31)),
+          sourceProvenance: S.optional(__S(1919, __c59, 31)),
           projectId: S.optional(S.String),
-          buildOptions: S.optional(__S(1810, __c56, 18)),
-          builtArtifacts: S.optional(__S(1889, __c59, 1)),
+          buildOptions: S.optional(__S(1842, __c57, 18)),
+          builtArtifacts: S.optional(__S(1921, __c60, 1)),
         }),
       ).annotate({ identifier: "BuildProvenance" });
     case 3:
@@ -5564,63 +5153,63 @@ function __c59(j: number): any {
           name: S.optional(S.String),
           uri: S.optional(S.String),
           downloadLocation: S.optional(S.String),
-          digest: S.optional(__S(1810, __c56, 18)),
-          annotations: S.optional(__S(1812, __c56, 20)),
+          digest: S.optional(__S(1842, __c57, 18)),
+          annotations: S.optional(__S(1844, __c57, 20)),
           content: S.optional(S.String),
           mediaType: S.optional(S.String),
         }),
       ).annotate({ identifier: "ResourceDescriptor" });
     case 5:
-      return S.Array(__S(1892, __c59, 4));
+      return S.Array(__S(1924, __c60, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          version: S.optional(__S(1810, __c56, 18)),
+          version: S.optional(__S(1842, __c57, 18)),
           id: S.optional(S.String),
-          builderDependencies: S.optional(__S(1893, __c59, 5)),
+          builderDependencies: S.optional(__S(1925, __c60, 5)),
         }),
       ).annotate({ identifier: "ProvenanceBuilder" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          metadata: S.optional(__S(1891, __c59, 3)),
-          builder: S.optional(__S(1894, __c59, 6)),
-          byproducts: S.optional(__S(1893, __c59, 5)),
+          metadata: S.optional(__S(1923, __c60, 3)),
+          builder: S.optional(__S(1926, __c60, 6)),
+          byproducts: S.optional(__S(1925, __c60, 5)),
         }),
       ).annotate({ identifier: "RunDetails" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          internalParameters: S.optional(__S(1812, __c56, 20)),
-          resolvedDependencies: S.optional(__S(1893, __c59, 5)),
+          internalParameters: S.optional(__S(1844, __c57, 20)),
+          resolvedDependencies: S.optional(__S(1925, __c60, 5)),
           buildType: S.optional(S.String),
-          externalParameters: S.optional(__S(1812, __c56, 20)),
+          externalParameters: S.optional(__S(1844, __c57, 20)),
         }),
       ).annotate({ identifier: "BuildDefinition" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          runDetails: S.optional(__S(1895, __c59, 7)),
-          buildDefinition: S.optional(__S(1896, __c59, 8)),
+          runDetails: S.optional(__S(1927, __c60, 7)),
+          buildDefinition: S.optional(__S(1928, __c60, 8)),
         }),
       ).annotate({ identifier: "SlsaProvenanceV1" });
     case 10:
       return S.suspend(() =>
         S.Struct({
-          subject: S.optional(__S(1830, __c57, 6)),
+          subject: S.optional(__S(1862, __c58, 6)),
           predicateType: S.optional(S.String),
           _type: S.optional(S.String),
-          predicate: S.optional(__S(1897, __c59, 9)),
+          predicate: S.optional(__S(1929, __c60, 9)),
         }),
       ).annotate({ identifier: "InTotoSlsaProvenanceV1" });
     case 11:
       return S.suspend(() =>
         S.Struct({
-          provenance: S.optional(__S(1890, __c59, 2)),
-          intotoStatement: S.optional(__S(1831, __c57, 7)),
+          provenance: S.optional(__S(1922, __c60, 2)),
+          intotoStatement: S.optional(__S(1863, __c58, 7)),
           provenanceBytes: S.optional(S.String),
-          inTotoSlsaProvenanceV1: S.optional(__S(1898, __c59, 10)),
-          intotoProvenance: S.optional(__S(1828, __c57, 4)),
+          inTotoSlsaProvenanceV1: S.optional(__S(1930, __c60, 10)),
+          intotoProvenance: S.optional(__S(1860, __c58, 4)),
         }),
       ).annotate({ identifier: "BuildOccurrence" });
     case 12:
@@ -5628,38 +5217,40 @@ function __c59(j: number): any {
         S.Struct({
           remediation: S.optional(S.String),
           createTime: S.optional(S.String),
-          package: S.optional(__S(1794, __c56, 2)),
-          aiSkillAnalysis: S.optional(__S(1804, __c56, 12)),
-          deployment: S.optional(__S(1805, __c56, 13)),
+          package: S.optional(__S(1826, __c57, 2)),
+          aiSkillAnalysis: S.optional(__S(1836, __c57, 12)),
+          deployment: S.optional(__S(1837, __c57, 13)),
           name: S.optional(S.String),
           kind: S.optional(S.String),
           resourceUri: S.optional(S.String),
           advisoryPublishTime: S.optional(S.String),
-          upgrade: S.optional(__S(1806, __c56, 14)),
-          envelope: S.optional(__S(1809, __c56, 17)),
-          dsseAttestation: S.optional(__S(1832, __c57, 8)),
-          image: S.optional(__S(1835, __c57, 11)),
-          attestation: S.optional(__S(1840, __c57, 16)),
+          upgrade: S.optional(__S(1838, __c57, 14)),
+          envelope: S.optional(__S(1841, __c57, 17)),
+          dsseAttestation: S.optional(__S(1864, __c58, 8)),
+          image: S.optional(__S(1867, __c58, 11)),
+          attestation: S.optional(__S(1872, __c58, 16)),
           noteName: S.optional(S.String),
-          secret: S.optional(__S(1849, __c57, 25)),
-          compliance: S.optional(__S(1852, __c57, 28)),
-          discovery: S.optional(__S(1857, __c58, 1)),
-          vulnerability: S.optional(__S(1869, __c58, 13)),
+          secret: S.optional(__S(1881, __c58, 25)),
+          compliance: S.optional(__S(1884, __c58, 28)),
+          discovery: S.optional(__S(1889, __c59, 1)),
+          vulnerability: S.optional(__S(1901, __c59, 13)),
           updateTime: S.optional(S.String),
-          sbomReference: S.optional(__S(1872, __c58, 16)),
-          build: S.optional(__S(1899, __c59, 11)),
+          sbomReference: S.optional(__S(1904, __c59, 16)),
+          build: S.optional(__S(1931, __c60, 11)),
         }),
       ).annotate({ identifier: "Occurrence" });
   }
 }
-function __c60(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          notes: S.optional(__S(1280, __c40, 0)),
-        }).pipe(
+        S.Extend(
+          __S(1281, __c40, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/notes:batchCreate",
@@ -5669,14 +5260,16 @@ function __c60(j: number): any {
       ).annotate({ identifier: "BatchCreateProjectsNotesRequest" });
   }
 }
-function __c61(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          occurrences: S.optional(__S(1760, __c55, 0)),
-        }).pipe(
+        S.Extend(
+          __S(1760, __c55, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/occurrences:batchCreate",
@@ -5686,37 +5279,17 @@ function __c61(j: number): any {
       ).annotate({ identifier: "BatchCreateProjectsOccurrencesRequest" });
   }
 }
-function __c62(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          noteId: S.optional(S.String.pipe(T.Query())),
-          attestation: S.optional(__S(1377, __c43, 1)),
-          compliance: S.optional(__S(1380, __c43, 4)),
-          updateTime: S.optional(S.String),
-          dsseAttestation: S.optional(__S(1377, __c43, 1)),
-          upgrade: S.optional(__S(1382, __c43, 6)),
-          relatedNoteNames: S.optional(__S(1216, __c38, 0)),
-          discovery: S.optional(__S(1383, __c43, 7)),
-          build: S.optional(__S(1384, __c43, 8)),
-          aiSkillAnalysis: S.optional(__S(1344, __c42, 0)),
-          vulnerabilityAssessment: S.optional(__S(1388, __c43, 12)),
-          secret: S.optional(__S(1344, __c42, 0)),
-          relatedUrl: S.optional(__S(1258, __c39, 10)),
-          deployment: S.optional(__S(1389, __c43, 13)),
-          longDescription: S.optional(S.String),
-          image: S.optional(__S(1390, __c43, 14)),
-          sbomReference: S.optional(__S(1391, __c43, 15)),
-          package: S.optional(__S(1396, __c43, 20)),
-          vulnerability: S.optional(__S(1404, __c43, 28)),
-          createTime: S.optional(S.String),
-          expirationTime: S.optional(S.String),
-          shortDescription: S.optional(S.String),
-          name: S.optional(S.String),
-          kind: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1405, __c43, 29),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            noteId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/notes",
@@ -5726,35 +5299,16 @@ function __c62(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsNotesRequest" });
   }
 }
-function __c63(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          remediation: S.optional(S.String),
-          createTime: S.optional(S.String),
-          package: S.optional(__S(1794, __c56, 2)),
-          aiSkillAnalysis: S.optional(__S(1804, __c56, 12)),
-          deployment: S.optional(__S(1805, __c56, 13)),
-          name: S.optional(S.String),
-          kind: S.optional(S.String),
-          resourceUri: S.optional(S.String),
-          advisoryPublishTime: S.optional(S.String),
-          upgrade: S.optional(__S(1806, __c56, 14)),
-          envelope: S.optional(__S(1809, __c56, 17)),
-          dsseAttestation: S.optional(__S(1832, __c57, 8)),
-          image: S.optional(__S(1835, __c57, 11)),
-          attestation: S.optional(__S(1840, __c57, 16)),
-          noteName: S.optional(S.String),
-          secret: S.optional(__S(1849, __c57, 25)),
-          compliance: S.optional(__S(1852, __c57, 28)),
-          discovery: S.optional(__S(1857, __c58, 1)),
-          vulnerability: S.optional(__S(1869, __c58, 13)),
-          updateTime: S.optional(S.String),
-          sbomReference: S.optional(__S(1872, __c58, 16)),
-          build: S.optional(__S(1899, __c59, 11)),
-        }).pipe(
+        S.Extend(
+          __S(1932, __c60, 12),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/occurrences",

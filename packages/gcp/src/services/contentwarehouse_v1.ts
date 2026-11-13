@@ -1137,9 +1137,8 @@ export interface GoogleCloudContentwarehouseV1Document {
   /** The user who lastly updates the document. */
   updater?: string | undefined;
 }
-export interface CreateProjectsLocationsDocumentsRequest {
-  /** Required. The parent name. Format: projects/{project_number}/locations/{location}. */
-  parent: string;
+/** Request message for DocumentService.CreateDocument. */
+export interface GoogleCloudContentwarehouseV1CreateDocumentRequest {
   /** Request Option for processing Cloud AI Document in Document Warehouse. This field offers limited support for mapping entities from Cloud AI Document to Warehouse Document. Please consult with product team before using this field and other available options. */
   cloudAiDocumentOption?: GoogleCloudContentwarehouseV1CloudAIDocumentOption | undefined;
   /** Default document policy during creation. This refers to an Identity and Access (IAM) policy, which specifies access controls for the Document. Conditions defined in the policy will be ignored. */
@@ -1150,6 +1149,10 @@ export interface CreateProjectsLocationsDocumentsRequest {
   requestMetadata?: GoogleCloudContentwarehouseV1RequestMetadata | undefined;
   /** Required. The document to create. */
   document?: GoogleCloudContentwarehouseV1Document | undefined;
+}
+export interface CreateProjectsLocationsDocumentsRequest extends GoogleCloudContentwarehouseV1CreateDocumentRequest {
+  /** Required. The parent name. Format: projects/{project_number}/locations/{location}. */
+  parent: string;
 }
 export type GoogleCloudContentwarehouseV1RuleTriggerTypeEnum =
   | "UNKNOWN"
@@ -1416,24 +1419,6 @@ export interface GoogleCloudContentwarehouseV1PropertyDefinition {
 }
 export type GoogleCloudContentwarehouseV1PropertyDefinitionList =
   Array<GoogleCloudContentwarehouseV1PropertyDefinition>;
-export interface CreateProjectsLocationsDocumentSchemasRequest {
-  /** Required. The parent name. */
-  parent: string;
-  /** The resource name of the document schema. Format: projects/{project_number}/locations/{location}/documentSchemas/{document_schema_id}. The name is ignored when creating a document schema. */
-  name?: string | undefined;
-  /** Output only. The time when the document schema is last updated. */
-  updateTime?: string | undefined;
-  /** Schema description. */
-  description?: string | undefined;
-  /** Output only. The time when the document schema is created. */
-  createTime?: string | undefined;
-  /** Document details. */
-  propertyDefinitions?: GoogleCloudContentwarehouseV1PropertyDefinitionList | undefined;
-  /** Required. Name of the schema given by the user. Must be unique per project. */
-  displayName?: string | undefined;
-  /** Document Type, true refers the document is a folder, otherwise it is a typical document. */
-  documentIsFolder?: boolean | undefined;
-}
 /** A document schema used to define document structure. */
 export interface GoogleCloudContentwarehouseV1DocumentSchema {
   /** The resource name of the document schema. Format: projects/{project_number}/locations/{location}/documentSchemas/{document_schema_id}. The name is ignored when creating a document schema. */
@@ -1450,6 +1435,10 @@ export interface GoogleCloudContentwarehouseV1DocumentSchema {
   displayName?: string | undefined;
   /** Document Type, true refers the document is a folder, otherwise it is a typical document. */
   documentIsFolder?: boolean | undefined;
+}
+export interface CreateProjectsLocationsDocumentSchemasRequest extends GoogleCloudContentwarehouseV1DocumentSchema {
+  /** Required. The parent name. */
+  parent: string;
 }
 /** References to the documents. */
 export interface GoogleCloudContentwarehouseV1DocumentReference {
@@ -1493,25 +1482,16 @@ export interface GoogleCloudContentwarehouseV1DocumentLink {
   /** The state of the documentlink. If target node has been deleted, the link is marked as invalid. Removing a source node will result in removal of all associated links. */
   state?: GoogleCloudContentwarehouseV1DocumentLinkStateEnum | (string & {}) | undefined;
 }
-export interface CreateProjectsLocationsDocumentsDocumentLinksRequest {
-  /** Required. Parent of the document-link to be created. parent of document-link should be a document. Format: projects/{project_number}/locations/{location}/documents/{source_document_id}. */
-  parent: string;
+/** Request message for DocumentLinkService.CreateDocumentLink. */
+export interface GoogleCloudContentwarehouseV1CreateDocumentLinkRequest {
   /** Required. Document links associated with the source documents (source_document_id). */
   documentLink?: GoogleCloudContentwarehouseV1DocumentLink | undefined;
   /** The meta information collected about the document creator, used to enforce access control for the service. */
   requestMetadata?: GoogleCloudContentwarehouseV1RequestMetadata | undefined;
 }
-export interface CreateProjectsLocationsRuleSetsRequest {
-  /** Required. The parent name. Format: projects/{project_number}/locations/{location}. */
+export interface CreateProjectsLocationsDocumentsDocumentLinksRequest extends GoogleCloudContentwarehouseV1CreateDocumentLinkRequest {
+  /** Required. Parent of the document-link to be created. parent of document-link should be a document. Format: projects/{project_number}/locations/{location}/documents/{source_document_id}. */
   parent: string;
-  /** Short description of the rule-set. */
-  description?: string | undefined;
-  /** Source of the rules i.e., customer name. */
-  source?: string | undefined;
-  /** List of rules given by the customer. */
-  rules?: GoogleCloudContentwarehouseV1RuleList | undefined;
-  /** The resource name of the rule set. Managed internally. Format: projects/{project_number}/locations/{location}/ruleSet/{rule_set_id}. The name is ignored when creating a rule set. */
-  name?: string | undefined;
 }
 /** Represents a set of rules from a single customer. */
 export interface GoogleCloudContentwarehouseV1RuleSet {
@@ -1524,6 +1504,10 @@ export interface GoogleCloudContentwarehouseV1RuleSet {
   /** The resource name of the rule set. Managed internally. Format: projects/{project_number}/locations/{location}/ruleSet/{rule_set_id}. The name is ignored when creating a rule set. */
   name?: string | undefined;
 }
+export interface CreateProjectsLocationsRuleSetsRequest extends GoogleCloudContentwarehouseV1RuleSet {
+  /** Required. The parent name. Format: projects/{project_number}/locations/{location}. */
+  parent: string;
+}
 /** Represents a list of words given by the customer All these words are synonyms of each other. */
 export interface GoogleCloudContentwarehouseV1SynonymSetSynonym {
   /** For example: sale, invoice, bill, order */
@@ -1531,16 +1515,6 @@ export interface GoogleCloudContentwarehouseV1SynonymSetSynonym {
 }
 export type GoogleCloudContentwarehouseV1SynonymSetSynonymList =
   Array<GoogleCloudContentwarehouseV1SynonymSetSynonym>;
-export interface CreateProjectsLocationsSynonymSetsRequest {
-  /** Required. The parent name. Format: projects/{project_number}/locations/{location}. */
-  parent: string;
-  /** List of Synonyms for the context. */
-  synonyms?: GoogleCloudContentwarehouseV1SynonymSetSynonymList | undefined;
-  /** This is a freeform field. Example contexts can be "sales," "engineering," "real estate," "accounting," etc. The context can be supplied during search requests. */
-  context?: string | undefined;
-  /** The resource name of the SynonymSet This is mandatory for google.api.resource. Format: projects/{project_number}/locations/{location}/synonymSets/{context}. */
-  name?: string | undefined;
-}
 /** Represents a list of synonyms for a given context. For example a context "sales" could contain: Synonym 1: sale, invoice, bill, order Synonym 2: money, credit, finance, payment Synonym 3: shipping, freight, transport Each SynonymSets should be disjoint */
 export interface GoogleCloudContentwarehouseV1SynonymSet {
   /** List of Synonyms for the context. */
@@ -1550,11 +1524,18 @@ export interface GoogleCloudContentwarehouseV1SynonymSet {
   /** The resource name of the SynonymSet This is mandatory for google.api.resource. Format: projects/{project_number}/locations/{location}/synonymSets/{context}. */
   name?: string | undefined;
 }
-export interface DeleteProjectsLocationsDocumentsRequest {
-  /** Required. The name of the document to delete. Format: projects/{project_number}/locations/{location}/documents/{document_id} or projects/{project_number}/locations/{location}/documents/referenceId/{reference_id}. */
-  name: string;
+export interface CreateProjectsLocationsSynonymSetsRequest extends GoogleCloudContentwarehouseV1SynonymSet {
+  /** Required. The parent name. Format: projects/{project_number}/locations/{location}. */
+  parent: string;
+}
+/** Request message for DocumentService.DeleteDocument. */
+export interface GoogleCloudContentwarehouseV1DeleteDocumentRequest {
   /** The meta information collected about the end user, used to enforce access control for the service. */
   requestMetadata?: GoogleCloudContentwarehouseV1RequestMetadata | undefined;
+}
+export interface DeleteProjectsLocationsDocumentsRequest extends GoogleCloudContentwarehouseV1DeleteDocumentRequest {
+  /** Required. The name of the document to delete. Format: projects/{project_number}/locations/{location}/documents/{document_id} or projects/{project_number}/locations/{location}/documents/referenceId/{reference_id}. */
+  name: string;
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface GoogleProtobufEmpty {}
@@ -1562,17 +1543,18 @@ export interface DeleteProjectsLocationsDocumentSchemasRequest {
   /** Required. The name of the document schema to delete. */
   name: string;
 }
-export interface DeleteProjectsLocationsDocumentsDocumentLinksRequest {
-  /** Required. The name of the document-link to be deleted. Format: projects/{project_number}/locations/{location}/documents/{source_document_id}/documentLinks/{document_link_id}. */
-  name: string;
+/** Request message for DocumentLinkService.DeleteDocumentLink. */
+export interface GoogleCloudContentwarehouseV1DeleteDocumentLinkRequest {
   /** The meta information collected about the document creator, used to enforce access control for the service. */
   requestMetadata?: GoogleCloudContentwarehouseV1RequestMetadata | undefined;
 }
-export interface DeleteProjectsLocationsDocumentsReferenceIdRequest {
+export interface DeleteProjectsLocationsDocumentsDocumentLinksRequest extends GoogleCloudContentwarehouseV1DeleteDocumentLinkRequest {
+  /** Required. The name of the document-link to be deleted. Format: projects/{project_number}/locations/{location}/documents/{source_document_id}/documentLinks/{document_link_id}. */
+  name: string;
+}
+export interface DeleteProjectsLocationsDocumentsReferenceIdRequest extends GoogleCloudContentwarehouseV1DeleteDocumentRequest {
   /** Required. The name of the document to delete. Format: projects/{project_number}/locations/{location}/documents/{document_id} or projects/{project_number}/locations/{location}/documents/referenceId/{reference_id}. */
   name: string;
-  /** The meta information collected about the end user, used to enforce access control for the service. */
-  requestMetadata?: GoogleCloudContentwarehouseV1RequestMetadata | undefined;
 }
 export interface DeleteProjectsLocationsRuleSetsRequest {
   /** Required. The name of the rule set to delete. Format: projects/{project_number}/locations/{location}/ruleSets/{rule_set_id}. */
@@ -1582,13 +1564,16 @@ export interface DeleteProjectsLocationsSynonymSetsRequest {
   /** Required. The name of the synonymSet to delete Format: projects/{project_number}/locations/{location}/synonymSets/{context}. */
   name: string;
 }
-export interface FetchAclProjectsRequest {
-  /** Required. REQUIRED: The resource for which the policy is being requested. Format for document: projects/{project_number}/locations/{location}/documents/{document_id}. Format for collection: projects/{project_number}/locations/{location}/collections/{collection_id}. Format for project: projects/{project_number}. */
-  resource: string;
+/** Request message for DocumentService.FetchAcl */
+export interface GoogleCloudContentwarehouseV1FetchAclRequest {
   /** For Get Project ACL only. Authorization check for end user will be ignored when project_owner=true. */
   projectOwner?: boolean | undefined;
   /** The meta information collected about the end user, used to enforce access control for the service. */
   requestMetadata?: GoogleCloudContentwarehouseV1RequestMetadata | undefined;
+}
+export interface FetchAclProjectsRequest extends GoogleCloudContentwarehouseV1FetchAclRequest {
+  /** Required. REQUIRED: The resource for which the policy is being requested. Format for document: projects/{project_number}/locations/{location}/documents/{document_id}. Format for collection: projects/{project_number}/locations/{location}/collections/{collection_id}. Format for project: projects/{project_number}. */
+  resource: string;
 }
 /** Response message for DocumentService.FetchAcl. */
 export interface GoogleCloudContentwarehouseV1FetchAclResponse {
@@ -1597,29 +1582,24 @@ export interface GoogleCloudContentwarehouseV1FetchAclResponse {
   /** Additional information for the API invocation, such as the request tracking id. */
   metadata?: GoogleCloudContentwarehouseV1ResponseMetadata | undefined;
 }
-export interface FetchAclProjectsLocationsDocumentsRequest {
+export interface FetchAclProjectsLocationsDocumentsRequest extends GoogleCloudContentwarehouseV1FetchAclRequest {
   /** Required. REQUIRED: The resource for which the policy is being requested. Format for document: projects/{project_number}/locations/{location}/documents/{document_id}. Format for collection: projects/{project_number}/locations/{location}/collections/{collection_id}. Format for project: projects/{project_number}. */
   resource: string;
-  /** For Get Project ACL only. Authorization check for end user will be ignored when project_owner=true. */
-  projectOwner?: boolean | undefined;
-  /** The meta information collected about the end user, used to enforce access control for the service. */
-  requestMetadata?: GoogleCloudContentwarehouseV1RequestMetadata | undefined;
 }
-export interface GetProjectsLocationsDocumentsRequest {
+/** Request message for DocumentService.GetDocument. */
+export type GoogleCloudContentwarehouseV1GetDocumentRequest =
+  GoogleCloudContentwarehouseV1DeleteDocumentRequest;
+export interface GetProjectsLocationsDocumentsRequest extends GoogleCloudContentwarehouseV1DeleteDocumentRequest {
   /** Required. The name of the document to retrieve. Format: projects/{project_number}/locations/{location}/documents/{document_id} or projects/{project_number}/locations/{location}/documents/referenceId/{reference_id}. */
   name: string;
-  /** The meta information collected about the end user, used to enforce access control for the service. */
-  requestMetadata?: GoogleCloudContentwarehouseV1RequestMetadata | undefined;
 }
 export interface GetProjectsLocationsDocumentSchemasRequest {
   /** Required. The name of the document schema to retrieve. */
   name: string;
 }
-export interface GetProjectsLocationsDocumentsReferenceIdRequest {
+export interface GetProjectsLocationsDocumentsReferenceIdRequest extends GoogleCloudContentwarehouseV1DeleteDocumentRequest {
   /** Required. The name of the document to retrieve. Format: projects/{project_number}/locations/{location}/documents/{document_id} or projects/{project_number}/locations/{location}/documents/referenceId/{reference_id}. */
   name: string;
-  /** The meta information collected about the end user, used to enforce access control for the service. */
-  requestMetadata?: GoogleCloudContentwarehouseV1RequestMetadata | undefined;
 }
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
@@ -1684,9 +1664,8 @@ export type GoogleCloudContentwarehouseV1InitializeProjectRequestAccessControlMo
   | "ACL_MODE_UNIVERSAL_ACCESS"
   | "ACL_MODE_DOCUMENT_LEVEL_ACCESS_CONTROL_BYOID"
   | "ACL_MODE_DOCUMENT_LEVEL_ACCESS_CONTROL_GCI";
-export interface InitializeProjectsLocationsRequest {
-  /** Required. The location to be initialized Format: projects/{project_number}/locations/{location}. */
-  location: string;
+/** Request message for projectService.InitializeProject */
+export interface GoogleCloudContentwarehouseV1InitializeProjectRequest {
   /** Required. The type of database used to store customer data */
   databaseType?:
     | GoogleCloudContentwarehouseV1InitializeProjectRequestDatabaseTypeEnum
@@ -1707,15 +1686,22 @@ export interface InitializeProjectsLocationsRequest {
   /** Optional. The KMS key used for CMEK encryption. It is required that the kms key is in the same region as the endpoint. The same key will be used for all provisioned resources, if encryption is available. If the kms_key is left empty, no encryption will be enforced. */
   kmsKey?: string | undefined;
 }
-export interface LinkedSourcesProjectsLocationsDocumentsRequest {
-  /** Required. The name of the document, for which all source links are returned. Format: projects/{project_number}/locations/{location}/documents/{source_document_id}. */
-  parent: string;
+export interface InitializeProjectsLocationsRequest extends GoogleCloudContentwarehouseV1InitializeProjectRequest {
+  /** Required. The location to be initialized Format: projects/{project_number}/locations/{location}. */
+  location: string;
+}
+/** Response message for DocumentLinkService.ListLinkedSources. */
+export interface GoogleCloudContentwarehouseV1ListLinkedSourcesRequest {
   /** The meta information collected about the document creator, used to enforce access control for the service. */
   requestMetadata?: GoogleCloudContentwarehouseV1RequestMetadata | undefined;
   /** A page token, received from a previous `ListLinkedSources` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListLinkedSources` must match the call that provided the page token. */
   pageToken?: string | undefined;
   /** The maximum number of document-links to return. The service may return fewer than this value. If unspecified, at most 50 document-links will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
   pageSize?: number | undefined;
+}
+export interface LinkedSourcesProjectsLocationsDocumentsRequest extends GoogleCloudContentwarehouseV1ListLinkedSourcesRequest {
+  /** Required. The name of the document, for which all source links are returned. Format: projects/{project_number}/locations/{location}/documents/{source_document_id}. */
+  parent: string;
 }
 export type GoogleCloudContentwarehouseV1DocumentLinkList =
   Array<GoogleCloudContentwarehouseV1DocumentLink>;
@@ -1726,11 +1712,12 @@ export interface GoogleCloudContentwarehouseV1ListLinkedSourcesResponse {
   /** Source document-links. */
   documentLinks?: GoogleCloudContentwarehouseV1DocumentLinkList | undefined;
 }
-export interface LinkedTargetsProjectsLocationsDocumentsRequest {
+/** Request message for DocumentLinkService.ListLinkedTargets. */
+export type GoogleCloudContentwarehouseV1ListLinkedTargetsRequest =
+  GoogleCloudContentwarehouseV1DeleteDocumentLinkRequest;
+export interface LinkedTargetsProjectsLocationsDocumentsRequest extends GoogleCloudContentwarehouseV1DeleteDocumentLinkRequest {
   /** Required. The name of the document, for which all target links are returned. Format: projects/{project_number}/locations/{location}/documents/{target_document_id}. */
   parent: string;
-  /** The meta information collected about the document creator, used to enforce access control for the service. */
-  requestMetadata?: GoogleCloudContentwarehouseV1RequestMetadata | undefined;
 }
 /** Response message for DocumentLinkService.ListLinkedTargets. */
 export interface GoogleCloudContentwarehouseV1ListLinkedTargetsResponse {
@@ -1789,13 +1776,16 @@ export interface GoogleCloudContentwarehouseV1ListSynonymSetsResponse {
   /** A page token, received from a previous `ListSynonymSets` call. Provide this to retrieve the subsequent page. */
   nextPageToken?: string | undefined;
 }
-export interface LockProjectsLocationsDocumentsRequest {
-  /** Required. The name of the document to lock. Format: projects/{project_number}/locations/{location}/documents/{document}. */
-  name: string;
+/** Request message for DocumentService.LockDocument. */
+export interface GoogleCloudContentwarehouseV1LockDocumentRequest {
   /** The user information who locks the document. */
   lockingUser?: GoogleCloudContentwarehouseV1UserInfo | undefined;
   /** The collection the document connects to. */
   collectionId?: string | undefined;
+}
+export interface LockProjectsLocationsDocumentsRequest extends GoogleCloudContentwarehouseV1LockDocumentRequest {
+  /** Required. The name of the document to lock. Format: projects/{project_number}/locations/{location}/documents/{document}. */
+  name: string;
 }
 export type GoogleCloudContentwarehouseV1UpdateOptionsUpdateTypeEnum =
   | "UPDATE_TYPE_UNSPECIFIED"
@@ -1821,9 +1811,8 @@ export interface GoogleCloudContentwarehouseV1UpdateOptions {
   /** Options for merging. */
   mergeFieldsOptions?: GoogleCloudContentwarehouseV1MergeFieldsOptions | undefined;
 }
-export interface PatchProjectsLocationsDocumentsRequest {
-  /** Required. The name of the document to update. Format: projects/{project_number}/locations/{location}/documents/{document_id} or projects/{project_number}/locations/{location}/documents/referenceId/{reference_id}. */
-  name: string;
+/** Request message for DocumentService.UpdateDocument. */
+export interface GoogleCloudContentwarehouseV1UpdateDocumentRequest {
   /** Required. The document to update. */
   document?: GoogleCloudContentwarehouseV1Document | undefined;
   /** The meta information collected about the end user, used to enforce access control for the service. */
@@ -1832,6 +1821,10 @@ export interface PatchProjectsLocationsDocumentsRequest {
   cloudAiDocumentOption?: GoogleCloudContentwarehouseV1CloudAIDocumentOption | undefined;
   /** Options for the update operation. */
   updateOptions?: GoogleCloudContentwarehouseV1UpdateOptions | undefined;
+}
+export interface PatchProjectsLocationsDocumentsRequest extends GoogleCloudContentwarehouseV1UpdateDocumentRequest {
+  /** Required. The name of the document to update. Format: projects/{project_number}/locations/{location}/documents/{document_id} or projects/{project_number}/locations/{location}/documents/referenceId/{reference_id}. */
+  name: string;
 }
 /** Response message for DocumentService.UpdateDocument. */
 export interface GoogleCloudContentwarehouseV1UpdateDocumentResponse {
@@ -1842,37 +1835,34 @@ export interface GoogleCloudContentwarehouseV1UpdateDocumentResponse {
   /** Additional information for the API invocation, such as the request tracking id. */
   metadata?: GoogleCloudContentwarehouseV1ResponseMetadata | undefined;
 }
-export interface PatchProjectsLocationsDocumentSchemasRequest {
-  /** Required. The name of the document schema to update. Format: projects/{project_number}/locations/{location}/documentSchemas/{document_schema_id}. */
-  name: string;
+/** Request message for DocumentSchemaService.UpdateDocumentSchema. */
+export interface GoogleCloudContentwarehouseV1UpdateDocumentSchemaRequest {
   /** Required. The document schema to update with. */
   documentSchema?: GoogleCloudContentwarehouseV1DocumentSchema | undefined;
 }
-export interface PatchProjectsLocationsDocumentsReferenceIdRequest {
+export interface PatchProjectsLocationsDocumentSchemasRequest extends GoogleCloudContentwarehouseV1UpdateDocumentSchemaRequest {
+  /** Required. The name of the document schema to update. Format: projects/{project_number}/locations/{location}/documentSchemas/{document_schema_id}. */
+  name: string;
+}
+export interface PatchProjectsLocationsDocumentsReferenceIdRequest extends GoogleCloudContentwarehouseV1UpdateDocumentRequest {
   /** Required. The name of the document to update. Format: projects/{project_number}/locations/{location}/documents/{document_id} or projects/{project_number}/locations/{location}/documents/referenceId/{reference_id}. */
   name: string;
-  /** Required. The document to update. */
-  document?: GoogleCloudContentwarehouseV1Document | undefined;
-  /** The meta information collected about the end user, used to enforce access control for the service. */
-  requestMetadata?: GoogleCloudContentwarehouseV1RequestMetadata | undefined;
-  /** Request Option for processing Cloud AI Document in Document Warehouse. This field offers limited support for mapping entities from Cloud AI Document to Warehouse Document. Please consult with product team before using this field and other available options. */
-  cloudAiDocumentOption?: GoogleCloudContentwarehouseV1CloudAIDocumentOption | undefined;
-  /** Options for the update operation. */
-  updateOptions?: GoogleCloudContentwarehouseV1UpdateOptions | undefined;
 }
-export interface PatchProjectsLocationsRuleSetsRequest {
-  /** Required. The name of the rule set to update. Format: projects/{project_number}/locations/{location}/ruleSets/{rule_set_id}. */
-  name: string;
+/** Request message for RuleSetService.UpdateRuleSet. */
+export interface GoogleCloudContentwarehouseV1UpdateRuleSetRequest {
   /** Required. The rule set to update. */
   ruleSet?: GoogleCloudContentwarehouseV1RuleSet | undefined;
 }
-export interface PatchProjectsLocationsSynonymSetsRequest {
+export interface PatchProjectsLocationsRuleSetsRequest extends GoogleCloudContentwarehouseV1UpdateRuleSetRequest {
+  /** Required. The name of the rule set to update. Format: projects/{project_number}/locations/{location}/ruleSets/{rule_set_id}. */
+  name: string;
+}
+export interface PatchProjectsLocationsSynonymSetsRequest extends Omit<
+  GoogleCloudContentwarehouseV1SynonymSet,
+  "name"
+> {
   /** Required. The name of the synonymSet to update Format: projects/{project_number}/locations/{location}/synonymSets/{context}. */
   name: string;
-  /** List of Synonyms for the context. */
-  synonyms?: GoogleCloudContentwarehouseV1SynonymSetSynonymList | undefined;
-  /** This is a freeform field. Example contexts can be "sales," "engineering," "real estate," "accounting," etc. The context can be supplied during search requests. */
-  context?: string | undefined;
 }
 /** The DocAI processor information. */
 export interface GoogleCloudContentwarehouseV1ProcessorInfo {
@@ -1946,9 +1936,8 @@ export interface GoogleCloudContentwarehouseV1ExportToCdwPipeline {
   /** Optional. The CDW dataset resource name. This field is optional. If not set, the documents will be exported to Cloud Storage only. Format: projects/{project}/locations/{location}/processors/{processor}/dataset */
   docAiDataset?: string | undefined;
 }
-export interface RunPipelineProjectsLocationsRequest {
-  /** Required. The resource name which owns the resources of the pipeline. Format: projects/{project_number}/locations/{location}. */
-  name: string;
+/** Request message for DocumentService.RunPipeline. */
+export interface GoogleCloudContentwarehouseV1RunPipelineRequest {
   /** Use a DocAI processor to process documents in Document Warehouse, and re-ingest the updated results into Document Warehouse. */
   processWithDocAiPipeline?: GoogleCloudContentwarehouseV1ProcessWithDocAiPipeline | undefined;
   /** Cloud Storage ingestion pipeline. */
@@ -1961,6 +1950,10 @@ export interface RunPipelineProjectsLocationsRequest {
   requestMetadata?: GoogleCloudContentwarehouseV1RequestMetadata | undefined;
   /** Export docuemnts from Document Warehouse to CDW for training purpose. */
   exportCdwPipeline?: GoogleCloudContentwarehouseV1ExportToCdwPipeline | undefined;
+}
+export interface RunPipelineProjectsLocationsRequest extends GoogleCloudContentwarehouseV1RunPipelineRequest {
+  /** Required. The resource name which owns the resources of the pipeline. Format: projects/{project_number}/locations/{location}. */
+  name: string;
 }
 export interface GoogleCloudContentwarehouseV1PropertyFilter {
   /** The Document schema name Document.document_schema_name. Format: projects/{project_number}/locations/{location}/documentSchemas/{document_schema_id}. */
@@ -2070,9 +2063,8 @@ export interface GoogleCloudContentwarehouseV1HistogramQuery {
 }
 export type GoogleCloudContentwarehouseV1HistogramQueryList =
   Array<GoogleCloudContentwarehouseV1HistogramQuery>;
-export interface SearchProjectsLocationsDocumentsRequest {
-  /** Required. The parent, which owns this collection of documents. Format: projects/{project_number}/locations/{location}. */
-  parent: string;
+/** Request message for DocumentService.SearchDocuments. */
+export interface GoogleCloudContentwarehouseV1SearchDocumentsRequest {
   /** The meta information collected about the end user, used to enforce access control and improve the search quality of the service. */
   requestMetadata?: GoogleCloudContentwarehouseV1RequestMetadata | undefined;
   /** Query used to search against documents (keyword, filters, etc.). */
@@ -2096,6 +2088,10 @@ export interface SearchProjectsLocationsDocumentsRequest {
   requireTotalSize?: boolean | undefined;
   /** An integer that specifies the current offset (that is, starting result location, amongst the documents deemed by the API as relevant) in search results. This field is only considered if page_token is unset. The maximum allowed value is 5000. Otherwise an error is thrown. For example, 0 means to return results starting from the first matching document, and 10 means to return from the 11th document. This can be used for pagination, (for example, pageSize = 10 and offset = 10 means to return from the second page). */
   offset?: number | undefined;
+}
+export interface SearchProjectsLocationsDocumentsRequest extends GoogleCloudContentwarehouseV1SearchDocumentsRequest {
+  /** Required. The parent, which owns this collection of documents. Format: projects/{project_number}/locations/{location}. */
+  parent: string;
 }
 /** Histogram result that matches HistogramQuery specified in searches. */
 export interface GoogleCloudContentwarehouseV1HistogramQueryResult {
@@ -2152,15 +2148,18 @@ export interface GoogleCloudContentwarehouseV1SearchDocumentsResponse {
     | GoogleCloudContentwarehouseV1SearchDocumentsResponseMatchingDocumentList
     | undefined;
 }
-export interface SetAclProjectsRequest {
-  /** Required. REQUIRED: The resource for which the policy is being requested. Format for document: projects/{project_number}/locations/{location}/documents/{document_id}. Format for collection: projects/{project_number}/locations/{location}/collections/{collection_id}. Format for project: projects/{project_number}. */
-  resource: string;
+/** Request message for DocumentService.SetAcl. */
+export interface GoogleCloudContentwarehouseV1SetAclRequest {
   /** Required. REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. This refers to an Identity and Access (IAM) policy, which specifies access controls for the Document. You can set ACL with condition for projects only. Supported operators are: `=`, `!=`, `<`, `<=`, `>`, and `>=` where the left of the operator is `DocumentSchemaId` or property name and the right of the operator is a number or a quoted string. You must escape backslash (\\) and quote (\") characters. Boolean expressions (AND/OR) are supported up to 3 levels of nesting (for example, "((A AND B AND C) OR D) AND E"), a maximum of 10 comparisons are allowed in the expression. The expression must be < 6000 bytes in length. Sample condition: `"DocumentSchemaId = \"some schema id\" OR SchemaId.floatPropertyName >= 10"` */
   policy?: GoogleIamV1Policy | undefined;
   /** For Set Project ACL only. Authorization check for end user will be ignored when project_owner=true. */
   projectOwner?: boolean | undefined;
   /** The meta information collected about the end user, used to enforce access control for the service. */
   requestMetadata?: GoogleCloudContentwarehouseV1RequestMetadata | undefined;
+}
+export interface SetAclProjectsRequest extends GoogleCloudContentwarehouseV1SetAclRequest {
+  /** Required. REQUIRED: The resource for which the policy is being requested. Format for document: projects/{project_number}/locations/{location}/documents/{document_id}. Format for collection: projects/{project_number}/locations/{location}/collections/{collection_id}. Format for project: projects/{project_number}. */
+  resource: string;
 }
 /** Response message for DocumentService.SetAcl. */
 export interface GoogleCloudContentwarehouseV1SetAclResponse {
@@ -2169,15 +2168,9 @@ export interface GoogleCloudContentwarehouseV1SetAclResponse {
   /** The policy will be attached to a resource (e.g. projecct, document). */
   policy?: GoogleIamV1Policy | undefined;
 }
-export interface SetAclProjectsLocationsDocumentsRequest {
+export interface SetAclProjectsLocationsDocumentsRequest extends GoogleCloudContentwarehouseV1SetAclRequest {
   /** Required. REQUIRED: The resource for which the policy is being requested. Format for document: projects/{project_number}/locations/{location}/documents/{document_id}. Format for collection: projects/{project_number}/locations/{location}/collections/{collection_id}. Format for project: projects/{project_number}. */
   resource: string;
-  /** Required. REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. This refers to an Identity and Access (IAM) policy, which specifies access controls for the Document. You can set ACL with condition for projects only. Supported operators are: `=`, `!=`, `<`, `<=`, `>`, and `>=` where the left of the operator is `DocumentSchemaId` or property name and the right of the operator is a number or a quoted string. You must escape backslash (\\) and quote (\") characters. Boolean expressions (AND/OR) are supported up to 3 levels of nesting (for example, "((A AND B AND C) OR D) AND E"), a maximum of 10 comparisons are allowed in the expression. The expression must be < 6000 bytes in length. Sample condition: `"DocumentSchemaId = \"some schema id\" OR SchemaId.floatPropertyName >= 10"` */
-  policy?: GoogleIamV1Policy | undefined;
-  /** For Set Project ACL only. Authorization check for end user will be ignored when project_owner=true. */
-  projectOwner?: boolean | undefined;
-  /** The meta information collected about the end user, used to enforce access control for the service. */
-  requestMetadata?: GoogleCloudContentwarehouseV1RequestMetadata | undefined;
 }
 export type CreateProjectsLocationsDocumentsError =
   | NotFound
@@ -2193,11 +2186,11 @@ export const createProjectsLocationsDocuments: API.OperationMethod<
   CreateProjectsLocationsDocumentsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c35, 0) as any as S.Schema<CreateProjectsLocationsDocumentsRequest>,
+  input: __S(1153, __c36, 1) as any as S.Schema<CreateProjectsLocationsDocumentsRequest>,
   output: __S(
-    1122,
-    __c35,
-    2,
+    1155,
+    __c36,
+    3,
   ) as any as S.Schema<GoogleCloudContentwarehouseV1CreateDocumentResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
@@ -2220,8 +2213,8 @@ export const createProjectsLocationsDocumentSchemas: API.OperationMethod<
   CreateProjectsLocationsDocumentSchemasError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1600, __c50, 0) as any as S.Schema<CreateProjectsLocationsDocumentSchemasRequest>,
-  output: __S(1670, __c52, 6) as any as S.Schema<GoogleCloudContentwarehouseV1DocumentSchema>,
+  input: __S(1632, __c51, 0) as any as S.Schema<CreateProjectsLocationsDocumentSchemasRequest>,
+  output: __S(1702, __c53, 6) as any as S.Schema<GoogleCloudContentwarehouseV1DocumentSchema>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2244,11 +2237,11 @@ export const createProjectsLocationsDocumentsDocumentLinks: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1696,
-    __c53,
-    0,
+    1729,
+    __c54,
+    1,
   ) as any as S.Schema<CreateProjectsLocationsDocumentsDocumentLinksRequest>,
-  output: __S(1729, __c54, 1) as any as S.Schema<GoogleCloudContentwarehouseV1DocumentLink>,
+  output: __S(1761, __c55, 1) as any as S.Schema<GoogleCloudContentwarehouseV1DocumentLink>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2270,8 +2263,8 @@ export const createProjectsLocationsRuleSets: API.OperationMethod<
   CreateProjectsLocationsRuleSetsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1760, __c55, 0) as any as S.Schema<CreateProjectsLocationsRuleSetsRequest>,
-  output: __S(1792, __c56, 0) as any as S.Schema<GoogleCloudContentwarehouseV1RuleSet>,
+  input: __S(1792, __c56, 0) as any as S.Schema<CreateProjectsLocationsRuleSetsRequest>,
+  output: __S(1824, __c57, 0) as any as S.Schema<GoogleCloudContentwarehouseV1RuleSet>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2293,8 +2286,8 @@ export const createProjectsLocationsSynonymSets: API.OperationMethod<
   CreateProjectsLocationsSynonymSetsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1824, __c57, 0) as any as S.Schema<CreateProjectsLocationsSynonymSetsRequest>,
-  output: __S(1858, __c58, 2) as any as S.Schema<GoogleCloudContentwarehouseV1SynonymSet>,
+  input: __S(1856, __c58, 0) as any as S.Schema<CreateProjectsLocationsSynonymSetsRequest>,
+  output: __S(1890, __c59, 2) as any as S.Schema<GoogleCloudContentwarehouseV1SynonymSet>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2317,7 +2310,7 @@ export const deleteProjectsLocationsDocuments: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<DeleteProjectsLocationsDocumentsRequest>,
-  output: __S(1632, __c51, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  output: __S(1664, __c52, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2339,8 +2332,8 @@ export const deleteProjectsLocationsDocumentSchemas: API.OperationMethod<
   DeleteProjectsLocationsDocumentSchemasError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c1, 0) as any as S.Schema<DeleteProjectsLocationsDocumentSchemasRequest>,
-  output: __S(1632, __c51, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  input: __S(64, __c2, 0) as any as S.Schema<DeleteProjectsLocationsDocumentSchemasRequest>,
+  output: __S(1664, __c52, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2362,8 +2355,8 @@ export const deleteProjectsLocationsDocumentsDocumentLinks: API.OperationMethod<
   DeleteProjectsLocationsDocumentsDocumentLinksError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c2, 0) as any as S.Schema<DeleteProjectsLocationsDocumentsDocumentLinksRequest>,
-  output: __S(1632, __c51, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  input: __S(96, __c3, 0) as any as S.Schema<DeleteProjectsLocationsDocumentsDocumentLinksRequest>,
+  output: __S(1664, __c52, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2385,8 +2378,8 @@ export const deleteProjectsLocationsDocumentsReferenceId: API.OperationMethod<
   DeleteProjectsLocationsDocumentsReferenceIdError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c3, 0) as any as S.Schema<DeleteProjectsLocationsDocumentsReferenceIdRequest>,
-  output: __S(1632, __c51, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  input: __S(128, __c4, 0) as any as S.Schema<DeleteProjectsLocationsDocumentsReferenceIdRequest>,
+  output: __S(1664, __c52, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2408,8 +2401,8 @@ export const deleteProjectsLocationsRuleSets: API.OperationMethod<
   DeleteProjectsLocationsRuleSetsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c4, 0) as any as S.Schema<DeleteProjectsLocationsRuleSetsRequest>,
-  output: __S(1632, __c51, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  input: __S(160, __c5, 0) as any as S.Schema<DeleteProjectsLocationsRuleSetsRequest>,
+  output: __S(1664, __c52, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2431,8 +2424,8 @@ export const deleteProjectsLocationsSynonymSets: API.OperationMethod<
   DeleteProjectsLocationsSynonymSetsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c5, 0) as any as S.Schema<DeleteProjectsLocationsSynonymSetsRequest>,
-  output: __S(1632, __c51, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  input: __S(192, __c6, 0) as any as S.Schema<DeleteProjectsLocationsSynonymSetsRequest>,
+  output: __S(1664, __c52, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2454,8 +2447,8 @@ export const fetchAclProjects: API.OperationMethod<
   FetchAclProjectsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c6, 0) as any as S.Schema<FetchAclProjectsRequest>,
-  output: __S(224, __c7, 0) as any as S.Schema<GoogleCloudContentwarehouseV1FetchAclResponse>,
+  input: __S(224, __c7, 0) as any as S.Schema<FetchAclProjectsRequest>,
+  output: __S(257, __c8, 1) as any as S.Schema<GoogleCloudContentwarehouseV1FetchAclResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2477,8 +2470,8 @@ export const fetchAclProjectsLocationsDocuments: API.OperationMethod<
   FetchAclProjectsLocationsDocumentsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c8, 0) as any as S.Schema<FetchAclProjectsLocationsDocumentsRequest>,
-  output: __S(224, __c7, 0) as any as S.Schema<GoogleCloudContentwarehouseV1FetchAclResponse>,
+  input: __S(288, __c9, 0) as any as S.Schema<FetchAclProjectsLocationsDocumentsRequest>,
+  output: __S(257, __c8, 1) as any as S.Schema<GoogleCloudContentwarehouseV1FetchAclResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2500,8 +2493,8 @@ export const getProjectsLocationsDocuments: API.OperationMethod<
   GetProjectsLocationsDocumentsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c9, 0) as any as S.Schema<GetProjectsLocationsDocumentsRequest>,
-  output: __S(1323, __c41, 11) as any as S.Schema<GoogleCloudContentwarehouseV1Document>,
+  input: __S(320, __c10, 0) as any as S.Schema<GetProjectsLocationsDocumentsRequest>,
+  output: __S(1355, __c42, 11) as any as S.Schema<GoogleCloudContentwarehouseV1Document>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2521,8 +2514,8 @@ export const getProjectsLocationsDocumentSchemas: API.OperationMethod<
   GetProjectsLocationsDocumentSchemasError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c10, 0) as any as S.Schema<GetProjectsLocationsDocumentSchemasRequest>,
-  output: __S(1670, __c52, 6) as any as S.Schema<GoogleCloudContentwarehouseV1DocumentSchema>,
+  input: __S(352, __c11, 0) as any as S.Schema<GetProjectsLocationsDocumentSchemasRequest>,
+  output: __S(1702, __c53, 6) as any as S.Schema<GoogleCloudContentwarehouseV1DocumentSchema>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2544,8 +2537,8 @@ export const getProjectsLocationsDocumentsReferenceId: API.OperationMethod<
   GetProjectsLocationsDocumentsReferenceIdError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c11, 0) as any as S.Schema<GetProjectsLocationsDocumentsReferenceIdRequest>,
-  output: __S(1323, __c41, 11) as any as S.Schema<GoogleCloudContentwarehouseV1Document>,
+  input: __S(384, __c12, 0) as any as S.Schema<GetProjectsLocationsDocumentsReferenceIdRequest>,
+  output: __S(1355, __c42, 11) as any as S.Schema<GoogleCloudContentwarehouseV1Document>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2565,8 +2558,8 @@ export const getProjectsLocationsOperations: API.OperationMethod<
   GetProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c12, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
-  output: __S(1344, __c42, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(416, __c13, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
+  output: __S(1376, __c43, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2582,8 +2575,8 @@ export const getProjectsLocationsRuleSets: API.OperationMethod<
   GetProjectsLocationsRuleSetsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c13, 0) as any as S.Schema<GetProjectsLocationsRuleSetsRequest>,
-  output: __S(1792, __c56, 0) as any as S.Schema<GoogleCloudContentwarehouseV1RuleSet>,
+  input: __S(448, __c14, 0) as any as S.Schema<GetProjectsLocationsRuleSetsRequest>,
+  output: __S(1824, __c57, 0) as any as S.Schema<GoogleCloudContentwarehouseV1RuleSet>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2603,8 +2596,8 @@ export const getProjectsLocationsSynonymSets: API.OperationMethod<
   GetProjectsLocationsSynonymSetsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c14, 0) as any as S.Schema<GetProjectsLocationsSynonymSetsRequest>,
-  output: __S(1858, __c58, 2) as any as S.Schema<GoogleCloudContentwarehouseV1SynonymSet>,
+  input: __S(480, __c15, 0) as any as S.Schema<GetProjectsLocationsSynonymSetsRequest>,
+  output: __S(1890, __c59, 2) as any as S.Schema<GoogleCloudContentwarehouseV1SynonymSet>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2620,8 +2613,8 @@ export const getStatusProjectsLocations: API.OperationMethod<
   GetStatusProjectsLocationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c15, 0) as any as S.Schema<GetStatusProjectsLocationsRequest>,
-  output: __S(481, __c15, 1) as any as S.Schema<GoogleCloudContentwarehouseV1ProjectStatus>,
+  input: __S(512, __c16, 0) as any as S.Schema<GetStatusProjectsLocationsRequest>,
+  output: __S(513, __c16, 1) as any as S.Schema<GoogleCloudContentwarehouseV1ProjectStatus>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2643,8 +2636,8 @@ export const initializeProjectsLocations: API.OperationMethod<
   InitializeProjectsLocationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c16, 0) as any as S.Schema<InitializeProjectsLocationsRequest>,
-  output: __S(1344, __c42, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(545, __c17, 1) as any as S.Schema<InitializeProjectsLocationsRequest>,
+  output: __S(1376, __c43, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2666,11 +2659,11 @@ export const linkedSourcesProjectsLocationsDocuments: API.OperationMethod<
   LinkedSourcesProjectsLocationsDocumentsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c17, 0) as any as S.Schema<LinkedSourcesProjectsLocationsDocumentsRequest>,
+  input: __S(577, __c18, 1) as any as S.Schema<LinkedSourcesProjectsLocationsDocumentsRequest>,
   output: __S(
-    545,
-    __c17,
-    1,
+    578,
+    __c18,
+    2,
   ) as any as S.Schema<GoogleCloudContentwarehouseV1ListLinkedSourcesResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
@@ -2693,10 +2686,10 @@ export const linkedTargetsProjectsLocationsDocuments: API.OperationMethod<
   LinkedTargetsProjectsLocationsDocumentsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c19, 0) as any as S.Schema<LinkedTargetsProjectsLocationsDocumentsRequest>,
+  input: __S(640, __c20, 0) as any as S.Schema<LinkedTargetsProjectsLocationsDocumentsRequest>,
   output: __S(
-    609,
-    __c19,
+    641,
+    __c20,
     1,
   ) as any as S.Schema<GoogleCloudContentwarehouseV1ListLinkedTargetsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
@@ -2719,10 +2712,10 @@ export const listProjectsLocationsDocumentSchemas: API.PaginatedOperationMethod<
   GcpOpContext,
   GoogleCloudContentwarehouseV1ListDocumentSchemasResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(640, __c20, 0) as any as S.Schema<ListProjectsLocationsDocumentSchemasRequest>,
+  input: __S(672, __c21, 0) as any as S.Schema<ListProjectsLocationsDocumentSchemasRequest>,
   output: __S(
-    642,
-    __c20,
+    674,
+    __c21,
     2,
   ) as any as S.Schema<GoogleCloudContentwarehouseV1ListDocumentSchemasResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
@@ -2746,8 +2739,8 @@ export const listProjectsLocationsRuleSets: API.PaginatedOperationMethod<
   GcpOpContext,
   GoogleCloudContentwarehouseV1ListRuleSetsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(672, __c21, 0) as any as S.Schema<ListProjectsLocationsRuleSetsRequest>,
-  output: __S(674, __c21, 2) as any as S.Schema<GoogleCloudContentwarehouseV1ListRuleSetsResponse>,
+  input: __S(704, __c22, 0) as any as S.Schema<ListProjectsLocationsRuleSetsRequest>,
+  output: __S(706, __c22, 2) as any as S.Schema<GoogleCloudContentwarehouseV1ListRuleSetsResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2769,10 +2762,10 @@ export const listProjectsLocationsSynonymSets: API.PaginatedOperationMethod<
   GcpOpContext,
   GoogleCloudContentwarehouseV1ListSynonymSetsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(704, __c22, 0) as any as S.Schema<ListProjectsLocationsSynonymSetsRequest>,
+  input: __S(736, __c23, 0) as any as S.Schema<ListProjectsLocationsSynonymSetsRequest>,
   output: __S(
-    706,
-    __c22,
+    738,
+    __c23,
     2,
   ) as any as S.Schema<GoogleCloudContentwarehouseV1ListSynonymSetsResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
@@ -2797,8 +2790,8 @@ export const lockProjectsLocationsDocuments: API.OperationMethod<
   LockProjectsLocationsDocumentsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c23, 0) as any as S.Schema<LockProjectsLocationsDocumentsRequest>,
-  output: __S(1323, __c41, 11) as any as S.Schema<GoogleCloudContentwarehouseV1Document>,
+  input: __S(769, __c24, 1) as any as S.Schema<LockProjectsLocationsDocumentsRequest>,
+  output: __S(1355, __c42, 11) as any as S.Schema<GoogleCloudContentwarehouseV1Document>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2820,11 +2813,11 @@ export const patchProjectsLocationsDocuments: API.OperationMethod<
   PatchProjectsLocationsDocumentsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c24, 0) as any as S.Schema<PatchProjectsLocationsDocumentsRequest>,
+  input: __S(800, __c25, 0) as any as S.Schema<PatchProjectsLocationsDocumentsRequest>,
   output: __S(
-    802,
-    __c25,
-    2,
+    835,
+    __c26,
+    3,
   ) as any as S.Schema<GoogleCloudContentwarehouseV1UpdateDocumentResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
@@ -2847,8 +2840,8 @@ export const patchProjectsLocationsDocumentSchemas: API.OperationMethod<
   PatchProjectsLocationsDocumentSchemasError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c26, 0) as any as S.Schema<PatchProjectsLocationsDocumentSchemasRequest>,
-  output: __S(1670, __c52, 6) as any as S.Schema<GoogleCloudContentwarehouseV1DocumentSchema>,
+  input: __S(865, __c27, 1) as any as S.Schema<PatchProjectsLocationsDocumentSchemasRequest>,
+  output: __S(1702, __c53, 6) as any as S.Schema<GoogleCloudContentwarehouseV1DocumentSchema>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2870,11 +2863,11 @@ export const patchProjectsLocationsDocumentsReferenceId: API.OperationMethod<
   PatchProjectsLocationsDocumentsReferenceIdError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c27, 0) as any as S.Schema<PatchProjectsLocationsDocumentsReferenceIdRequest>,
+  input: __S(896, __c28, 0) as any as S.Schema<PatchProjectsLocationsDocumentsReferenceIdRequest>,
   output: __S(
-    802,
-    __c25,
-    2,
+    835,
+    __c26,
+    3,
   ) as any as S.Schema<GoogleCloudContentwarehouseV1UpdateDocumentResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
@@ -2897,8 +2890,8 @@ export const patchProjectsLocationsRuleSets: API.OperationMethod<
   PatchProjectsLocationsRuleSetsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c28, 0) as any as S.Schema<PatchProjectsLocationsRuleSetsRequest>,
-  output: __S(1792, __c56, 0) as any as S.Schema<GoogleCloudContentwarehouseV1RuleSet>,
+  input: __S(929, __c29, 1) as any as S.Schema<PatchProjectsLocationsRuleSetsRequest>,
+  output: __S(1824, __c57, 0) as any as S.Schema<GoogleCloudContentwarehouseV1RuleSet>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2920,8 +2913,8 @@ export const patchProjectsLocationsSynonymSets: API.OperationMethod<
   PatchProjectsLocationsSynonymSetsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c29, 0) as any as S.Schema<PatchProjectsLocationsSynonymSetsRequest>,
-  output: __S(1858, __c58, 2) as any as S.Schema<GoogleCloudContentwarehouseV1SynonymSet>,
+  input: __S(960, __c30, 0) as any as S.Schema<PatchProjectsLocationsSynonymSetsRequest>,
+  output: __S(1890, __c59, 2) as any as S.Schema<GoogleCloudContentwarehouseV1SynonymSet>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2943,8 +2936,8 @@ export const runPipelineProjectsLocations: API.OperationMethod<
   RunPipelineProjectsLocationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(967, __c30, 7) as any as S.Schema<RunPipelineProjectsLocationsRequest>,
-  output: __S(1344, __c42, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(1000, __c31, 8) as any as S.Schema<RunPipelineProjectsLocationsRequest>,
+  output: __S(1376, __c43, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2966,11 +2959,11 @@ export const searchProjectsLocationsDocuments: API.OperationMethod<
   SearchProjectsLocationsDocumentsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1005, __c31, 13) as any as S.Schema<SearchProjectsLocationsDocumentsRequest>,
+  input: __S(1038, __c32, 14) as any as S.Schema<SearchProjectsLocationsDocumentsRequest>,
   output: __S(
-    1013,
-    __c31,
-    21,
+    1046,
+    __c32,
+    22,
   ) as any as S.Schema<GoogleCloudContentwarehouseV1SearchDocumentsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
@@ -2993,8 +2986,8 @@ export const setAclProjects: API.OperationMethod<
   SetAclProjectsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c32, 0) as any as S.Schema<SetAclProjectsRequest>,
-  output: __S(1056, __c33, 0) as any as S.Schema<GoogleCloudContentwarehouseV1SetAclResponse>,
+  input: __S(1056, __c33, 0) as any as S.Schema<SetAclProjectsRequest>,
+  output: __S(1089, __c34, 1) as any as S.Schema<GoogleCloudContentwarehouseV1SetAclResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3016,8 +3009,8 @@ export const setAclProjectsLocationsDocuments: API.OperationMethod<
   SetAclProjectsLocationsDocumentsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c34, 0) as any as S.Schema<SetAclProjectsLocationsDocumentsRequest>,
-  output: __S(1056, __c33, 0) as any as S.Schema<GoogleCloudContentwarehouseV1SetAclResponse>,
+  input: __S(1120, __c35, 0) as any as S.Schema<SetAclProjectsLocationsDocumentsRequest>,
+  output: __S(1089, __c34, 1) as any as S.Schema<GoogleCloudContentwarehouseV1SetAclResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3030,10 +3023,12 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          requestMetadata: S.optional(__S(1472, __c46, 0)),
-        }).pipe(
+        S.Extend(
+          __S(32, __c1, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:delete",
@@ -3044,6 +3039,16 @@ function __c0(j: number): any {
   }
 }
 function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          requestMetadata: S.optional(__S(1504, __c47, 0)),
+        }),
+      ).annotate({ identifier: "GoogleCloudContentwarehouseV1DeleteDocumentRequest" });
+  }
+}
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3059,14 +3064,16 @@ function __c1(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsDocumentSchemasRequest" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          requestMetadata: S.optional(__S(1472, __c46, 0)),
-        }).pipe(
+        S.Extend(
+          __S(32, __c1, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:delete",
@@ -3076,14 +3083,16 @@ function __c2(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsDocumentsDocumentLinksRequest" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          requestMetadata: S.optional(__S(1472, __c46, 0)),
-        }).pipe(
+        S.Extend(
+          __S(32, __c1, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:delete",
@@ -3091,22 +3100,6 @@ function __c3(j: number): any {
           }),
         ),
       ).annotate({ identifier: "DeleteProjectsLocationsDocumentsReferenceIdRequest" });
-  }
-}
-function __c4(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "v1/{+name}",
-            baseUrl: "https://contentwarehouse.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "DeleteProjectsLocationsRuleSetsRequest" });
   }
 }
 function __c5(j: number): any {
@@ -3122,7 +3115,7 @@ function __c5(j: number): any {
             baseUrl: "https://contentwarehouse.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "DeleteProjectsLocationsSynonymSetsRequest" });
+      ).annotate({ identifier: "DeleteProjectsLocationsRuleSetsRequest" });
   }
 }
 function __c6(j: number): any {
@@ -3130,10 +3123,27 @@ function __c6(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          resource: S.String.pipe(T.Label()),
-          projectOwner: S.optional(S.Boolean),
-          requestMetadata: S.optional(__S(1472, __c46, 0)),
+          name: S.String.pipe(T.Label()),
         }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "v1/{+name}",
+            baseUrl: "https://contentwarehouse.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "DeleteProjectsLocationsSynonymSetsRequest" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(256, __c8, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:fetchAcl",
@@ -3143,26 +3153,34 @@ function __c6(j: number): any {
       ).annotate({ identifier: "FetchAclProjectsRequest" });
   }
 }
-function __c7(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          policy: S.optional(__S(1511, __c47, 7)),
-          metadata: S.optional(__S(1152, __c36, 0)),
-        }),
-      ).annotate({ identifier: "GoogleCloudContentwarehouseV1FetchAclResponse" });
-  }
-}
 function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          resource: S.String.pipe(T.Label()),
           projectOwner: S.optional(S.Boolean),
-          requestMetadata: S.optional(__S(1472, __c46, 0)),
-        }).pipe(
+          requestMetadata: S.optional(__S(1504, __c47, 0)),
+        }),
+      ).annotate({ identifier: "GoogleCloudContentwarehouseV1FetchAclRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          policy: S.optional(__S(1543, __c48, 7)),
+          metadata: S.optional(__S(1184, __c37, 0)),
+        }),
+      ).annotate({ identifier: "GoogleCloudContentwarehouseV1FetchAclResponse" });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(256, __c8, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:fetchAcl",
@@ -3172,14 +3190,16 @@ function __c8(j: number): any {
       ).annotate({ identifier: "FetchAclProjectsLocationsDocumentsRequest" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          requestMetadata: S.optional(__S(1472, __c46, 0)),
-        }).pipe(
+        S.Extend(
+          __S(32, __c1, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:get",
@@ -3189,7 +3209,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsDocumentsRequest" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3205,14 +3225,16 @@ function __c10(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsDocumentSchemasRequest" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          requestMetadata: S.optional(__S(1472, __c46, 0)),
-        }).pipe(
+        S.Extend(
+          __S(32, __c1, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:get",
@@ -3220,22 +3242,6 @@ function __c11(j: number): any {
           }),
         ),
       ).annotate({ identifier: "GetProjectsLocationsDocumentsReferenceIdRequest" });
-  }
-}
-function __c12(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v1/{+name}",
-            baseUrl: "https://contentwarehouse.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "GetProjectsLocationsOperationsRequest" });
   }
 }
 function __c13(j: number): any {
@@ -3251,7 +3257,7 @@ function __c13(j: number): any {
             baseUrl: "https://contentwarehouse.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsRuleSetsRequest" });
+      ).annotate({ identifier: "GetProjectsLocationsOperationsRequest" });
   }
 }
 function __c14(j: number): any {
@@ -3267,10 +3273,26 @@ function __c14(j: number): any {
             baseUrl: "https://contentwarehouse.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsSynonymSetsRequest" });
+      ).annotate({ identifier: "GetProjectsLocationsRuleSetsRequest" });
   }
 }
 function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1/{+name}",
+            baseUrl: "https://contentwarehouse.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "GetProjectsLocationsSynonymSetsRequest" });
+  }
+}
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3297,18 +3319,26 @@ function __c15(j: number): any {
       ).annotate({ identifier: "GoogleCloudContentwarehouseV1ProjectStatus" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          location: S.String.pipe(T.Label()),
           databaseType: S.optional(S.String),
           enableCalUserEmailLogging: S.optional(S.Boolean),
           documentCreatorDefaultRole: S.optional(S.String),
           accessControlMode: S.optional(S.String),
           kmsKey: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "GoogleCloudContentwarehouseV1InitializeProjectRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(544, __c17, 0),
+          S.Struct({
+            location: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+location}:initialize",
@@ -3318,16 +3348,24 @@ function __c16(j: number): any {
       ).annotate({ identifier: "InitializeProjectsLocationsRequest" });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
-          requestMetadata: S.optional(__S(1472, __c46, 0)),
+          requestMetadata: S.optional(__S(1504, __c47, 0)),
           pageToken: S.optional(S.String),
           pageSize: S.optional(S.Number),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "GoogleCloudContentwarehouseV1ListLinkedSourcesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(576, __c18, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/linkedSources",
@@ -3335,29 +3373,31 @@ function __c17(j: number): any {
           }),
         ),
       ).annotate({ identifier: "LinkedSourcesProjectsLocationsDocumentsRequest" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          documentLinks: S.optional(__S(576, __c18, 0)),
+          documentLinks: S.optional(__S(608, __c19, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudContentwarehouseV1ListLinkedSourcesResponse" });
-  }
-}
-function __c18(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(1729, __c54, 1));
   }
 }
 function __c19(j: number): any {
   switch (j) {
     case 0:
+      return S.Array(__S(1761, __c55, 1));
+  }
+}
+function __c20(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          requestMetadata: S.optional(__S(1472, __c46, 0)),
-        }).pipe(
+        S.Extend(
+          __S(32, __c1, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/linkedTargets",
@@ -3368,13 +3408,13 @@ function __c19(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          documentLinks: S.optional(__S(576, __c18, 0)),
+          documentLinks: S.optional(__S(608, __c19, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudContentwarehouseV1ListLinkedTargetsResponse" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3391,17 +3431,17 @@ function __c20(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsDocumentSchemasRequest" });
     case 1:
-      return S.Array(__S(1670, __c52, 6));
+      return S.Array(__S(1702, __c53, 6));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          documentSchemas: S.optional(__S(641, __c20, 1)),
+          documentSchemas: S.optional(__S(673, __c21, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudContentwarehouseV1ListDocumentSchemasResponse" });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3418,17 +3458,17 @@ function __c21(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsRuleSetsRequest" });
     case 1:
-      return S.Array(__S(1792, __c56, 0));
+      return S.Array(__S(1824, __c57, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          ruleSets: S.optional(__S(673, __c21, 1)),
+          ruleSets: S.optional(__S(705, __c22, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudContentwarehouseV1ListRuleSetsResponse" });
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3445,25 +3485,33 @@ function __c22(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsSynonymSetsRequest" });
     case 1:
-      return S.Array(__S(1858, __c58, 2));
+      return S.Array(__S(1890, __c59, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          synonymSets: S.optional(__S(705, __c22, 1)),
+          synonymSets: S.optional(__S(737, __c23, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudContentwarehouseV1ListSynonymSetsResponse" });
   }
 }
-function __c23(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
-          lockingUser: S.optional(__S(1440, __c45, 0)),
+          lockingUser: S.optional(__S(1472, __c46, 0)),
           collectionId: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "GoogleCloudContentwarehouseV1LockDocumentRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(768, __c24, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:lock",
@@ -3473,17 +3521,16 @@ function __c23(j: number): any {
       ).annotate({ identifier: "LockProjectsLocationsDocumentsRequest" });
   }
 }
-function __c24(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          document: S.optional(__S(1323, __c41, 11)),
-          requestMetadata: S.optional(__S(1472, __c46, 0)),
-          cloudAiDocumentOption: S.optional(__S(1376, __c43, 0)),
-          updateOptions: S.optional(__S(801, __c25, 1)),
-        }).pipe(
+        S.Extend(
+          __S(834, __c26, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -3493,7 +3540,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsDocumentsRequest" });
   }
 }
-function __c25(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3507,27 +3554,44 @@ function __c25(j: number): any {
         S.Struct({
           updateMask: S.optional(S.String),
           updateType: S.optional(S.String),
-          mergeFieldsOptions: S.optional(__S(800, __c25, 0)),
+          mergeFieldsOptions: S.optional(__S(832, __c26, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudContentwarehouseV1UpdateOptions" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          document: S.optional(__S(1323, __c41, 11)),
-          ruleEngineOutput: S.optional(__S(1385, __c43, 9)),
-          metadata: S.optional(__S(1152, __c36, 0)),
+          document: S.optional(__S(1355, __c42, 11)),
+          requestMetadata: S.optional(__S(1504, __c47, 0)),
+          cloudAiDocumentOption: S.optional(__S(1408, __c44, 0)),
+          updateOptions: S.optional(__S(833, __c26, 1)),
+        }),
+      ).annotate({ identifier: "GoogleCloudContentwarehouseV1UpdateDocumentRequest" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          document: S.optional(__S(1355, __c42, 11)),
+          ruleEngineOutput: S.optional(__S(1417, __c44, 9)),
+          metadata: S.optional(__S(1184, __c37, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudContentwarehouseV1UpdateDocumentResponse" });
   }
 }
-function __c26(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
-          documentSchema: S.optional(__S(1670, __c52, 6)),
-        }).pipe(
+          documentSchema: S.optional(__S(1702, __c53, 6)),
+        }),
+      ).annotate({ identifier: "GoogleCloudContentwarehouseV1UpdateDocumentSchemaRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(864, __c27, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -3537,17 +3601,16 @@ function __c26(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsDocumentSchemasRequest" });
   }
 }
-function __c27(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          document: S.optional(__S(1323, __c41, 11)),
-          requestMetadata: S.optional(__S(1472, __c46, 0)),
-          cloudAiDocumentOption: S.optional(__S(1376, __c43, 0)),
-          updateOptions: S.optional(__S(801, __c25, 1)),
-        }).pipe(
+        S.Extend(
+          __S(834, __c26, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -3557,14 +3620,22 @@ function __c27(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsDocumentsReferenceIdRequest" });
   }
 }
-function __c28(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
-          ruleSet: S.optional(__S(1792, __c56, 0)),
-        }).pipe(
+          ruleSet: S.optional(__S(1824, __c57, 0)),
+        }),
+      ).annotate({ identifier: "GoogleCloudContentwarehouseV1UpdateRuleSetRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(928, __c29, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -3574,15 +3645,16 @@ function __c28(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsRuleSetsRequest" });
   }
 }
-function __c29(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          synonyms: S.optional(__S(1857, __c58, 1)),
-          context: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1890, __c59, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -3592,7 +3664,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsSynonymSetsRequest" });
   }
 }
-function __c30(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3606,15 +3678,15 @@ function __c30(j: number): any {
       return S.suspend(() =>
         S.Struct({
           exportFolderPath: S.optional(S.String),
-          processorInfo: S.optional(__S(960, __c30, 0)),
-          documents: S.optional(__S(1408, __c44, 0)),
+          processorInfo: S.optional(__S(992, __c31, 0)),
+          documents: S.optional(__S(1440, __c45, 0)),
           processorResultsFolderPath: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudContentwarehouseV1ProcessWithDocAiPipeline" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          documentAclPolicy: S.optional(__S(1511, __c47, 7)),
+          documentAclPolicy: S.optional(__S(1543, __c48, 7)),
           folder: S.optional(S.String),
           enableDocumentTextExtraction: S.optional(S.Boolean),
           cloudFunction: S.optional(S.String),
@@ -3623,7 +3695,7 @@ function __c30(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          pipelineConfig: S.optional(__S(962, __c30, 2)),
+          pipelineConfig: S.optional(__S(994, __c31, 2)),
           processorType: S.optional(S.String),
           skipIngestedDocuments: S.optional(S.Boolean),
           inputPath: S.optional(S.String),
@@ -3631,16 +3703,16 @@ function __c30(j: number): any {
         }),
       ).annotate({ identifier: "GoogleCloudContentwarehouseV1GcsIngestPipeline" });
     case 4:
-      return S.Array(__S(960, __c30, 0));
+      return S.Array(__S(992, __c31, 0));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          splitClassifyProcessorInfo: S.optional(__S(960, __c30, 0)),
+          splitClassifyProcessorInfo: S.optional(__S(992, __c31, 0)),
           processorResultsFolderPath: S.optional(S.String),
           skipIngestedDocuments: S.optional(S.Boolean),
           inputPath: S.optional(S.String),
-          extractProcessorInfos: S.optional(__S(964, __c30, 4)),
-          pipelineConfig: S.optional(__S(962, __c30, 2)),
+          extractProcessorInfos: S.optional(__S(996, __c31, 4)),
+          pipelineConfig: S.optional(__S(994, __c31, 2)),
         }),
       ).annotate({
         identifier: "GoogleCloudContentwarehouseV1GcsIngestWithDocAiProcessorsPipeline",
@@ -3650,20 +3722,28 @@ function __c30(j: number): any {
         S.Struct({
           exportFolderPath: S.optional(S.String),
           trainingSplitRatio: S.optional(S.Number),
-          documents: S.optional(__S(1408, __c44, 0)),
+          documents: S.optional(__S(1440, __c45, 0)),
           docAiDataset: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudContentwarehouseV1ExportToCdwPipeline" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
-          processWithDocAiPipeline: S.optional(__S(961, __c30, 1)),
-          gcsIngestPipeline: S.optional(__S(963, __c30, 3)),
-          gcsIngestWithDocAiProcessorsPipeline: S.optional(__S(965, __c30, 5)),
-          requestMetadata: S.optional(__S(1472, __c46, 0)),
-          exportCdwPipeline: S.optional(__S(966, __c30, 6)),
-        }).pipe(
+          processWithDocAiPipeline: S.optional(__S(993, __c31, 1)),
+          gcsIngestPipeline: S.optional(__S(995, __c31, 3)),
+          gcsIngestWithDocAiProcessorsPipeline: S.optional(__S(997, __c31, 5)),
+          requestMetadata: S.optional(__S(1504, __c47, 0)),
+          exportCdwPipeline: S.optional(__S(998, __c31, 6)),
+        }),
+      ).annotate({ identifier: "GoogleCloudContentwarehouseV1RunPipelineRequest" });
+    case 8:
+      return S.suspend(() =>
+        S.Extend(
+          __S(999, __c31, 7),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:runPipeline",
@@ -3673,7 +3753,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "RunPipelineProjectsLocationsRequest" });
   }
 }
-function __c31(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3683,20 +3763,20 @@ function __c31(j: number): any {
         }),
       ).annotate({ identifier: "GoogleCloudContentwarehouseV1PropertyFilter" });
     case 1:
-      return S.Array(__S(992, __c31, 0));
+      return S.Array(__S(1024, __c32, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           documentSchemaName: S.optional(S.String),
-          propertyNames: S.optional(__S(1408, __c44, 0)),
+          propertyNames: S.optional(__S(1440, __c45, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudContentwarehouseV1WeightedSchemaProperty" });
     case 3:
-      return S.Array(__S(994, __c31, 2));
+      return S.Array(__S(1026, __c32, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          weightedSchemaProperties: S.optional(__S(995, __c31, 3)),
+          weightedSchemaProperties: S.optional(__S(1027, __c32, 3)),
         }),
       ).annotate({ identifier: "GoogleCloudContentwarehouseV1CustomWeightsMetadata" });
     case 5:
@@ -3716,25 +3796,25 @@ function __c31(j: number): any {
       return S.suspend(() =>
         S.Struct({
           timeField: S.optional(S.String),
-          timeRange: S.optional(__S(998, __c31, 6)),
+          timeRange: S.optional(__S(1030, __c32, 6)),
         }),
       ).annotate({ identifier: "GoogleCloudContentwarehouseV1TimeFilter" });
     case 8:
-      return S.Array(__S(999, __c31, 7));
+      return S.Array(__S(1031, __c32, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
           folderNameFilter: S.optional(S.String),
-          documentSchemaNames: S.optional(__S(1408, __c44, 0)),
-          propertyFilter: S.optional(__S(993, __c31, 1)),
-          documentNameFilter: S.optional(__S(1408, __c44, 0)),
-          customWeightsMetadata: S.optional(__S(996, __c31, 4)),
+          documentSchemaNames: S.optional(__S(1440, __c45, 0)),
+          propertyFilter: S.optional(__S(1025, __c32, 1)),
+          documentNameFilter: S.optional(__S(1440, __c45, 0)),
+          customWeightsMetadata: S.optional(__S(1028, __c32, 4)),
           query: S.optional(S.String),
-          fileTypeFilter: S.optional(__S(997, __c31, 5)),
-          queryContext: S.optional(__S(1408, __c44, 0)),
-          timeFilters: S.optional(__S(1000, __c31, 8)),
+          fileTypeFilter: S.optional(__S(1029, __c32, 5)),
+          queryContext: S.optional(__S(1440, __c45, 0)),
+          timeFilters: S.optional(__S(1032, __c32, 8)),
           isNlQuery: S.optional(S.Boolean),
-          documentCreatorFilter: S.optional(__S(1408, __c44, 0)),
+          documentCreatorFilter: S.optional(__S(1440, __c45, 0)),
           customPropertyFilter: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudContentwarehouseV1DocumentQuery" });
@@ -3742,35 +3822,43 @@ function __c31(j: number): any {
       return S.suspend(() =>
         S.Struct({
           yAxis: S.optional(S.String),
-          documentSchemas: S.optional(__S(1408, __c44, 0)),
-          propertyNames: S.optional(__S(1408, __c44, 0)),
+          documentSchemas: S.optional(__S(1440, __c45, 0)),
+          propertyNames: S.optional(__S(1440, __c45, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudContentwarehouseV1HistogramQueryPropertyNameFilter" });
     case 11:
       return S.suspend(() =>
         S.Struct({
-          filters: S.optional(__S(1002, __c31, 10)),
+          filters: S.optional(__S(1034, __c32, 10)),
           histogramQuery: S.optional(S.String),
           requirePreciseResultSize: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "GoogleCloudContentwarehouseV1HistogramQuery" });
     case 12:
-      return S.Array(__S(1003, __c31, 11));
+      return S.Array(__S(1035, __c32, 11));
     case 13:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
-          requestMetadata: S.optional(__S(1472, __c46, 0)),
-          documentQuery: S.optional(__S(1001, __c31, 9)),
+          requestMetadata: S.optional(__S(1504, __c47, 0)),
+          documentQuery: S.optional(__S(1033, __c32, 9)),
           pageToken: S.optional(S.String),
           orderBy: S.optional(S.String),
           pageSize: S.optional(S.Number),
           totalResultSize: S.optional(S.String),
           qaSizeLimit: S.optional(S.Number),
-          histogramQueries: S.optional(__S(1004, __c31, 12)),
+          histogramQueries: S.optional(__S(1036, __c32, 12)),
           requireTotalSize: S.optional(S.Boolean),
           offset: S.optional(S.Number),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "GoogleCloudContentwarehouseV1SearchDocumentsRequest" });
+    case 14:
+      return S.suspend(() =>
+        S.Extend(
+          __S(1037, __c32, 13),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/documents:search",
@@ -3778,67 +3866,67 @@ function __c31(j: number): any {
           }),
         ),
       ).annotate({ identifier: "SearchProjectsLocationsDocumentsRequest" });
-    case 14:
+    case 15:
       return S.suspend(() =>
         S.Struct({
           histogramQuery: S.optional(S.String),
-          histogram: S.optional(__S(1568, __c49, 0)),
+          histogram: S.optional(__S(1600, __c50, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudContentwarehouseV1HistogramQueryResult" });
-    case 15:
-      return S.Array(__S(1006, __c31, 14));
     case 16:
+      return S.Array(__S(1039, __c32, 15));
+    case 17:
       return S.suspend(() =>
         S.Struct({
           endIndex: S.optional(S.Number),
           startIndex: S.optional(S.Number),
         }),
       ).annotate({ identifier: "GoogleCloudContentwarehouseV1QAResultHighlight" });
-    case 17:
-      return S.Array(__S(1008, __c31, 16));
     case 18:
-      return S.suspend(() =>
-        S.Struct({
-          highlights: S.optional(__S(1009, __c31, 17)),
-          confidenceScore: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "GoogleCloudContentwarehouseV1QAResult" });
+      return S.Array(__S(1041, __c32, 17));
     case 19:
       return S.suspend(() =>
         S.Struct({
-          document: S.optional(__S(1323, __c41, 11)),
-          qaResult: S.optional(__S(1010, __c31, 18)),
+          highlights: S.optional(__S(1042, __c32, 18)),
+          confidenceScore: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "GoogleCloudContentwarehouseV1QAResult" });
+    case 20:
+      return S.suspend(() =>
+        S.Struct({
+          document: S.optional(__S(1355, __c42, 11)),
+          qaResult: S.optional(__S(1043, __c32, 19)),
           searchTextSnippet: S.optional(S.String),
-          matchedTokenPageIndices: S.optional(__S(1408, __c44, 0)),
+          matchedTokenPageIndices: S.optional(__S(1440, __c45, 0)),
         }),
       ).annotate({
         identifier: "GoogleCloudContentwarehouseV1SearchDocumentsResponseMatchingDocument",
       });
-    case 20:
-      return S.Array(__S(1011, __c31, 19));
     case 21:
+      return S.Array(__S(1044, __c32, 20));
+    case 22:
       return S.suspend(() =>
         S.Struct({
           totalSize: S.optional(S.Number),
-          metadata: S.optional(__S(1152, __c36, 0)),
-          histogramQueryResults: S.optional(__S(1007, __c31, 15)),
+          metadata: S.optional(__S(1184, __c37, 0)),
+          histogramQueryResults: S.optional(__S(1040, __c32, 16)),
           questionAnswer: S.optional(S.String),
           nextPageToken: S.optional(S.String),
-          matchingDocuments: S.optional(__S(1012, __c31, 20)),
+          matchingDocuments: S.optional(__S(1045, __c32, 21)),
         }),
       ).annotate({ identifier: "GoogleCloudContentwarehouseV1SearchDocumentsResponse" });
   }
 }
-function __c32(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          policy: S.optional(__S(1511, __c47, 7)),
-          projectOwner: S.optional(S.Boolean),
-          requestMetadata: S.optional(__S(1472, __c46, 0)),
-        }).pipe(
+        S.Extend(
+          __S(1088, __c34, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setAcl",
@@ -3848,27 +3936,35 @@ function __c32(j: number): any {
       ).annotate({ identifier: "SetAclProjectsRequest" });
   }
 }
-function __c33(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          metadata: S.optional(__S(1152, __c36, 0)),
-          policy: S.optional(__S(1511, __c47, 7)),
-        }),
-      ).annotate({ identifier: "GoogleCloudContentwarehouseV1SetAclResponse" });
-  }
-}
 function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          resource: S.String.pipe(T.Label()),
-          policy: S.optional(__S(1511, __c47, 7)),
+          policy: S.optional(__S(1543, __c48, 7)),
           projectOwner: S.optional(S.Boolean),
-          requestMetadata: S.optional(__S(1472, __c46, 0)),
-        }).pipe(
+          requestMetadata: S.optional(__S(1504, __c47, 0)),
+        }),
+      ).annotate({ identifier: "GoogleCloudContentwarehouseV1SetAclRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          metadata: S.optional(__S(1184, __c37, 0)),
+          policy: S.optional(__S(1543, __c48, 7)),
+        }),
+      ).annotate({ identifier: "GoogleCloudContentwarehouseV1SetAclResponse" });
+  }
+}
+function __c35(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(1088, __c34, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setAcl",
@@ -3878,18 +3974,26 @@ function __c34(j: number): any {
       ).annotate({ identifier: "SetAclProjectsLocationsDocumentsRequest" });
   }
 }
-function __c35(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
-          cloudAiDocumentOption: S.optional(__S(1376, __c43, 0)),
-          policy: S.optional(__S(1511, __c47, 7)),
+          cloudAiDocumentOption: S.optional(__S(1408, __c44, 0)),
+          policy: S.optional(__S(1543, __c48, 7)),
           createMask: S.optional(S.String),
-          requestMetadata: S.optional(__S(1472, __c46, 0)),
-          document: S.optional(__S(1323, __c41, 11)),
-        }).pipe(
+          requestMetadata: S.optional(__S(1504, __c47, 0)),
+          document: S.optional(__S(1355, __c42, 11)),
+        }),
+      ).annotate({ identifier: "GoogleCloudContentwarehouseV1CreateDocumentRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(1152, __c36, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/documents",
@@ -3897,20 +4001,20 @@ function __c35(j: number): any {
           }),
         ),
       ).annotate({ identifier: "CreateProjectsLocationsDocumentsRequest" });
-    case 1:
-      return S.Array(__S(1344, __c42, 0));
     case 2:
+      return S.Array(__S(1376, __c43, 0));
+    case 3:
       return S.suspend(() =>
         S.Struct({
-          ruleEngineOutput: S.optional(__S(1385, __c43, 9)),
-          document: S.optional(__S(1323, __c41, 11)),
-          metadata: S.optional(__S(1152, __c36, 0)),
-          longRunningOperations: S.optional(__S(1121, __c35, 1)),
+          ruleEngineOutput: S.optional(__S(1417, __c44, 9)),
+          document: S.optional(__S(1355, __c42, 11)),
+          metadata: S.optional(__S(1184, __c37, 0)),
+          longRunningOperations: S.optional(__S(1154, __c36, 2)),
         }),
       ).annotate({ identifier: "GoogleCloudContentwarehouseV1CreateDocumentResponse" });
   }
 }
-function __c36(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3920,23 +4024,23 @@ function __c36(j: number): any {
       ).annotate({ identifier: "GoogleCloudContentwarehouseV1ResponseMetadata" });
   }
 }
-function __c37(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
     case 1:
-      return S.Array(__S(1184, __c37, 0));
+      return S.Array(__S(1216, __c38, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           code: S.optional(S.Number),
           message: S.optional(S.String),
-          details: S.optional(__S(1185, __c37, 1)),
+          details: S.optional(__S(1217, __c38, 1)),
         }),
       ).annotate({ identifier: "GoogleRpcStatus" });
   }
 }
-function __c38(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3946,11 +4050,11 @@ function __c38(j: number): any {
         }),
       ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentTextAnchorTextSegment" });
     case 1:
-      return S.Array(__S(1216, __c38, 0));
+      return S.Array(__S(1248, __c39, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          textSegments: S.optional(__S(1217, __c38, 1)),
+          textSegments: S.optional(__S(1249, __c39, 1)),
           content: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentTextAnchor" });
@@ -3963,28 +4067,28 @@ function __c38(j: number): any {
         }),
       ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentProvenanceParent" });
     case 4:
-      return S.Array(__S(1219, __c38, 3));
+      return S.Array(__S(1251, __c39, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
           revision: S.optional(S.Number),
-          parents: S.optional(__S(1220, __c38, 4)),
+          parents: S.optional(__S(1252, __c39, 4)),
           id: S.optional(S.Number),
         }),
       ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentProvenance" });
     case 6:
-      return S.Array(__S(1221, __c38, 5));
+      return S.Array(__S(1253, __c39, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
           changedText: S.optional(S.String),
-          textAnchor: S.optional(__S(1218, __c38, 2)),
-          provenance: S.optional(__S(1222, __c38, 6)),
+          textAnchor: S.optional(__S(1250, __c39, 2)),
+          provenance: S.optional(__S(1254, __c39, 6)),
         }),
       ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentTextChange" });
     case 8:
-      return S.Array(__S(1223, __c38, 7));
+      return S.Array(__S(1255, __c39, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
@@ -4012,18 +4116,18 @@ function __c38(j: number): any {
     case 12:
       return S.suspend(() =>
         S.Struct({
-          backgroundColor: S.optional(__S(1226, __c38, 10)),
+          backgroundColor: S.optional(__S(1258, __c39, 10)),
           textDecoration: S.optional(S.String),
           fontFamily: S.optional(S.String),
-          fontSize: S.optional(__S(1227, __c38, 11)),
+          fontSize: S.optional(__S(1259, __c39, 11)),
           fontWeight: S.optional(S.String),
-          textAnchor: S.optional(__S(1218, __c38, 2)),
+          textAnchor: S.optional(__S(1250, __c39, 2)),
           textStyle: S.optional(S.String),
-          color: S.optional(__S(1226, __c38, 10)),
+          color: S.optional(__S(1258, __c39, 10)),
         }),
       ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentStyle" });
     case 13:
-      return S.Array(__S(1228, __c38, 12));
+      return S.Array(__S(1260, __c39, 12));
     case 14:
       return S.suspend(() =>
         S.Struct({
@@ -4037,30 +4141,30 @@ function __c38(j: number): any {
       return S.suspend(() =>
         S.Struct({
           text: S.optional(S.String),
-          pageSpan: S.optional(__S(1230, __c38, 14)),
+          pageSpan: S.optional(__S(1262, __c39, 14)),
         }),
       ).annotate({
         identifier: "GoogleCloudDocumentaiV1DocumentChunkedDocumentChunkChunkPageFooter",
       });
     case 16:
-      return S.Array(__S(1231, __c38, 15));
+      return S.Array(__S(1263, __c39, 15));
     case 17:
       return S.suspend(() =>
         S.Struct({
-          pageFooters: S.optional(__S(1232, __c38, 16)),
+          pageFooters: S.optional(__S(1264, __c39, 16)),
           content: S.optional(S.String),
-          sourceBlockIds: S.optional(__S(1408, __c44, 0)),
-          pageSpan: S.optional(__S(1230, __c38, 14)),
-          pageHeaders: S.optional(__S(1232, __c38, 16)),
+          sourceBlockIds: S.optional(__S(1440, __c45, 0)),
+          pageSpan: S.optional(__S(1262, __c39, 14)),
+          pageHeaders: S.optional(__S(1264, __c39, 16)),
           chunkId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentChunkedDocumentChunk" });
     case 18:
-      return S.Array(__S(1233, __c38, 17));
+      return S.Array(__S(1265, __c39, 17));
     case 19:
       return S.suspend(() =>
         S.Struct({
-          chunks: S.optional(__S(1234, __c38, 18)),
+          chunks: S.optional(__S(1266, __c39, 18)),
         }),
       ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentChunkedDocument" });
     case 20:
@@ -4083,7 +4187,7 @@ function __c38(j: number): any {
         S.Struct({
           utcOffset: S.optional(S.String),
           minutes: S.optional(S.Number),
-          timeZone: S.optional(__S(1237, __c38, 21)),
+          timeZone: S.optional(__S(1269, __c39, 21)),
           seconds: S.optional(S.Number),
           nanos: S.optional(S.Number),
           day: S.optional(S.Number),
@@ -4095,7 +4199,7 @@ function __c38(j: number): any {
     case 23:
       return S.suspend(() =>
         S.Struct({
-          addressLines: S.optional(__S(1408, __c44, 0)),
+          addressLines: S.optional(__S(1440, __c45, 0)),
           regionCode: S.optional(S.String),
           sortingCode: S.optional(S.String),
           languageCode: S.optional(S.String),
@@ -4104,7 +4208,7 @@ function __c38(j: number): any {
           sublocality: S.optional(S.String),
           locality: S.optional(S.String),
           administrativeArea: S.optional(S.String),
-          recipients: S.optional(__S(1408, __c44, 0)),
+          recipients: S.optional(__S(1440, __c45, 0)),
           postalCode: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleTypePostalAddress" });
@@ -4119,14 +4223,14 @@ function __c38(j: number): any {
     case 25:
       return S.suspend(() =>
         S.Struct({
-          dateValue: S.optional(__S(1236, __c38, 20)),
+          dateValue: S.optional(__S(1268, __c39, 20)),
           text: S.optional(S.String),
-          datetimeValue: S.optional(__S(1238, __c38, 22)),
+          datetimeValue: S.optional(__S(1270, __c39, 22)),
           floatValue: S.optional(S.Number),
           booleanValue: S.optional(S.Boolean),
-          addressValue: S.optional(__S(1239, __c38, 23)),
+          addressValue: S.optional(__S(1271, __c39, 23)),
           integerValue: S.optional(S.Number),
-          moneyValue: S.optional(__S(1240, __c38, 24)),
+          moneyValue: S.optional(__S(1272, __c39, 24)),
         }),
       ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentEntityNormalizedValue" });
     case 26:
@@ -4137,7 +4241,7 @@ function __c38(j: number): any {
         }),
       ).annotate({ identifier: "GoogleCloudDocumentaiV1Vertex" });
     case 27:
-      return S.Array(__S(1242, __c38, 26));
+      return S.Array(__S(1274, __c39, 26));
     case 28:
       return S.suspend(() =>
         S.Struct({
@@ -4146,12 +4250,12 @@ function __c38(j: number): any {
         }),
       ).annotate({ identifier: "GoogleCloudDocumentaiV1NormalizedVertex" });
     case 29:
-      return S.Array(__S(1244, __c38, 28));
+      return S.Array(__S(1276, __c39, 28));
     case 30:
       return S.suspend(() =>
         S.Struct({
-          vertices: S.optional(__S(1243, __c38, 27)),
-          normalizedVertices: S.optional(__S(1245, __c38, 29)),
+          vertices: S.optional(__S(1275, __c39, 27)),
+          normalizedVertices: S.optional(__S(1277, __c39, 29)),
         }),
       ).annotate({ identifier: "GoogleCloudDocumentaiV1BoundingPoly" });
     case 31:
@@ -4159,41 +4263,41 @@ function __c38(j: number): any {
         S.Struct({
           layoutType: S.optional(S.String),
           confidence: S.optional(S.Number),
-          boundingPoly: S.optional(__S(1246, __c38, 30)),
+          boundingPoly: S.optional(__S(1278, __c39, 30)),
           page: S.optional(S.String),
           layoutId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentPageAnchorPageRef" });
   }
 }
-function __c39(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1247, __c38, 31));
+      return S.Array(__S(1279, __c39, 31));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          pageRefs: S.optional(__S(1248, __c39, 0)),
+          pageRefs: S.optional(__S(1280, __c40, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentPageAnchor" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          textAnchor: S.optional(__S(1218, __c38, 2)),
+          textAnchor: S.optional(__S(1250, __c39, 2)),
           mentionText: S.optional(S.String),
           type: S.optional(S.String),
           redacted: S.optional(S.Boolean),
           id: S.optional(S.String),
-          properties: S.optional(S.suspend(() => __S(1251, __c39, 3))),
+          properties: S.optional(S.suspend(() => __S(1283, __c40, 3))),
           confidence: S.optional(S.Number),
-          normalizedValue: S.optional(__S(1241, __c38, 25)),
-          pageAnchor: S.optional(__S(1249, __c39, 1)),
-          provenance: S.optional(__S(1221, __c38, 5)),
+          normalizedValue: S.optional(__S(1273, __c39, 25)),
+          pageAnchor: S.optional(__S(1281, __c40, 1)),
+          provenance: S.optional(__S(1253, __c39, 5)),
           mentionId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentEntity" });
     case 3:
-      return S.Array(__S(1250, __c39, 2));
+      return S.Array(__S(1282, __c40, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -4203,11 +4307,11 @@ function __c39(j: number): any {
         }),
       ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentEntityRelation" });
     case 5:
-      return S.Array(__S(1252, __c39, 4));
+      return S.Array(__S(1284, __c40, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          blocks: S.optional(S.suspend(() => __S(1265, __c39, 17))),
+          blocks: S.optional(S.suspend(() => __S(1297, __c40, 17))),
           colSpan: S.optional(S.Number),
           rowSpan: S.optional(S.Number),
         }),
@@ -4216,24 +4320,24 @@ function __c39(j: number): any {
           "GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutTableCell",
       });
     case 7:
-      return S.Array(__S(1254, __c39, 6));
+      return S.Array(__S(1286, __c40, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          cells: S.optional(__S(1255, __c39, 7)),
+          cells: S.optional(__S(1287, __c40, 7)),
         }),
       ).annotate({
         identifier:
           "GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutTableRow",
       });
     case 9:
-      return S.Array(__S(1256, __c39, 8));
+      return S.Array(__S(1288, __c40, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
-          bodyRows: S.optional(__S(1257, __c39, 9)),
+          bodyRows: S.optional(__S(1289, __c40, 9)),
           caption: S.optional(S.String),
-          headerRows: S.optional(__S(1257, __c39, 9)),
+          headerRows: S.optional(__S(1289, __c40, 9)),
         }),
       ).annotate({
         identifier:
@@ -4242,18 +4346,18 @@ function __c39(j: number): any {
     case 11:
       return S.suspend(() =>
         S.Struct({
-          blocks: S.optional(S.suspend(() => __S(1265, __c39, 17))),
+          blocks: S.optional(S.suspend(() => __S(1297, __c40, 17))),
         }),
       ).annotate({
         identifier:
           "GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlockLayoutListEntry",
       });
     case 12:
-      return S.Array(__S(1259, __c39, 11));
+      return S.Array(__S(1291, __c40, 11));
     case 13:
       return S.suspend(() =>
         S.Struct({
-          listEntries: S.optional(__S(1260, __c39, 12)),
+          listEntries: S.optional(__S(1292, __c40, 12)),
           type: S.optional(S.String),
         }),
       ).annotate({
@@ -4274,7 +4378,7 @@ function __c39(j: number): any {
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          blocks: S.optional(S.suspend(() => __S(1265, __c39, 17))),
+          blocks: S.optional(S.suspend(() => __S(1297, __c40, 17))),
           text: S.optional(S.String),
         }),
       ).annotate({
@@ -4285,20 +4389,20 @@ function __c39(j: number): any {
       return S.suspend(() =>
         S.Struct({
           blockId: S.optional(S.String),
-          tableBlock: S.optional(__S(1258, __c39, 10)),
-          listBlock: S.optional(__S(1261, __c39, 13)),
-          pageSpan: S.optional(__S(1262, __c39, 14)),
-          textBlock: S.optional(__S(1263, __c39, 15)),
+          tableBlock: S.optional(__S(1290, __c40, 10)),
+          listBlock: S.optional(__S(1293, __c40, 13)),
+          pageSpan: S.optional(__S(1294, __c40, 14)),
+          textBlock: S.optional(__S(1295, __c40, 15)),
         }),
       ).annotate({
         identifier: "GoogleCloudDocumentaiV1DocumentDocumentLayoutDocumentLayoutBlock",
       });
     case 17:
-      return S.Array(__S(1264, __c39, 16));
+      return S.Array(__S(1296, __c40, 16));
     case 18:
       return S.suspend(() =>
         S.Struct({
-          blocks: S.optional(__S(1265, __c39, 17)),
+          blocks: S.optional(__S(1297, __c40, 17)),
         }),
       ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentDocumentLayout" });
     case 19:
@@ -4316,14 +4420,14 @@ function __c39(j: number): any {
           id: S.optional(S.String),
           createTime: S.optional(S.String),
           agent: S.optional(S.String),
-          humanReview: S.optional(__S(1267, __c39, 19)),
-          parentIds: S.optional(__S(1408, __c44, 0)),
+          humanReview: S.optional(__S(1299, __c40, 19)),
+          parentIds: S.optional(__S(1440, __c45, 0)),
           processor: S.optional(S.String),
-          parent: S.optional(__S(1268, __c39, 20)),
+          parent: S.optional(__S(1300, __c40, 20)),
         }),
       ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentRevision" });
     case 22:
-      return S.Array(__S(1269, __c39, 21));
+      return S.Array(__S(1301, __c40, 21));
     case 23:
       return S.suspend(() =>
         S.Struct({
@@ -4337,19 +4441,19 @@ function __c39(j: number): any {
         S.Struct({
           confidence: S.optional(S.Number),
           orientation: S.optional(S.String),
-          boundingPoly: S.optional(__S(1246, __c38, 30)),
-          textAnchor: S.optional(__S(1218, __c38, 2)),
+          boundingPoly: S.optional(__S(1278, __c39, 30)),
+          textAnchor: S.optional(__S(1250, __c39, 2)),
         }),
       ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentPageLayout" });
     case 25:
       return S.suspend(() =>
         S.Struct({
-          barcode: S.optional(__S(1271, __c39, 23)),
-          layout: S.optional(__S(1272, __c39, 24)),
+          barcode: S.optional(__S(1303, __c40, 23)),
+          layout: S.optional(__S(1304, __c40, 24)),
         }),
       ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentPageDetectedBarcode" });
     case 26:
-      return S.Array(__S(1273, __c39, 25));
+      return S.Array(__S(1305, __c40, 25));
     case 27:
       return S.suspend(() =>
         S.Struct({
@@ -4358,24 +4462,24 @@ function __c39(j: number): any {
         }),
       ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentPageDetectedLanguage" });
     case 28:
-      return S.Array(__S(1275, __c39, 27));
+      return S.Array(__S(1307, __c40, 27));
     case 29:
       return S.suspend(() =>
         S.Struct({
-          layout: S.optional(__S(1272, __c39, 24)),
-          detectedLanguages: S.optional(__S(1276, __c39, 28)),
+          layout: S.optional(__S(1304, __c40, 24)),
+          detectedLanguages: S.optional(__S(1308, __c40, 28)),
         }),
       ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentPageSymbol" });
     case 30:
-      return S.Array(__S(1277, __c39, 29));
+      return S.Array(__S(1309, __c40, 29));
     case 31:
       return S.suspend(() =>
         S.Struct({
-          provenance: S.optional(__S(1221, __c38, 5)),
-          fieldValue: S.optional(__S(1272, __c39, 24)),
-          nameDetectedLanguages: S.optional(__S(1276, __c39, 28)),
-          valueDetectedLanguages: S.optional(__S(1276, __c39, 28)),
-          fieldName: S.optional(__S(1272, __c39, 24)),
+          provenance: S.optional(__S(1253, __c39, 5)),
+          fieldValue: S.optional(__S(1304, __c40, 24)),
+          nameDetectedLanguages: S.optional(__S(1308, __c40, 28)),
+          valueDetectedLanguages: S.optional(__S(1308, __c40, 28)),
+          fieldName: S.optional(__S(1304, __c40, 24)),
           correctedKeyText: S.optional(S.String),
           valueType: S.optional(S.String),
           correctedValueText: S.optional(S.String),
@@ -4383,10 +4487,10 @@ function __c39(j: number): any {
       ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentPageFormField" });
   }
 }
-function __c40(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1279, __c39, 31));
+      return S.Array(__S(1311, __c40, 31));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -4397,12 +4501,12 @@ function __c40(j: number): any {
         identifier: "GoogleCloudDocumentaiV1DocumentPageImageQualityScoresDetectedDefect",
       });
     case 2:
-      return S.Array(__S(1281, __c40, 1));
+      return S.Array(__S(1313, __c41, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           qualityScore: S.optional(S.Number),
-          detectedDefects: S.optional(__S(1282, __c40, 2)),
+          detectedDefects: S.optional(__S(1314, __c41, 2)),
         }),
       ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentPageImageQualityScores" });
     case 4:
@@ -4417,23 +4521,23 @@ function __c40(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          detectedLanguages: S.optional(__S(1276, __c39, 28)),
-          layout: S.optional(__S(1272, __c39, 24)),
-          provenance: S.optional(__S(1221, __c38, 5)),
+          detectedLanguages: S.optional(__S(1308, __c40, 28)),
+          layout: S.optional(__S(1304, __c40, 24)),
+          provenance: S.optional(__S(1253, __c39, 5)),
         }),
       ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentPageParagraph" });
     case 6:
-      return S.Array(__S(1285, __c40, 5));
+      return S.Array(__S(1317, __c41, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          layout: S.optional(__S(1272, __c39, 24)),
-          detectedLanguages: S.optional(__S(1276, __c39, 28)),
-          provenance: S.optional(__S(1221, __c38, 5)),
+          layout: S.optional(__S(1304, __c40, 24)),
+          detectedLanguages: S.optional(__S(1308, __c40, 28)),
+          provenance: S.optional(__S(1253, __c39, 5)),
         }),
       ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentPageLine" });
     case 8:
-      return S.Array(__S(1287, __c40, 7));
+      return S.Array(__S(1319, __c41, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
@@ -4444,7 +4548,7 @@ function __c40(j: number): any {
         }),
       ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentPageMatrix" });
     case 10:
-      return S.Array(__S(1289, __c40, 9));
+      return S.Array(__S(1321, __c41, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
@@ -4466,10 +4570,10 @@ function __c40(j: number): any {
           handwritten: S.optional(S.Boolean),
           fontSize: S.optional(S.Number),
           fontType: S.optional(S.String),
-          textColor: S.optional(__S(1226, __c38, 10)),
+          textColor: S.optional(__S(1258, __c39, 10)),
           pixelFontSize: S.optional(S.Number),
           strikeout: S.optional(S.Boolean),
-          backgroundColor: S.optional(__S(1226, __c38, 10)),
+          backgroundColor: S.optional(__S(1258, __c39, 10)),
           italic: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentPageTokenStyleInfo" });
@@ -4482,107 +4586,107 @@ function __c40(j: number): any {
     case 14:
       return S.suspend(() =>
         S.Struct({
-          styleInfo: S.optional(__S(1292, __c40, 12)),
-          layout: S.optional(__S(1272, __c39, 24)),
-          detectedLanguages: S.optional(__S(1276, __c39, 28)),
-          detectedBreak: S.optional(__S(1293, __c40, 13)),
-          provenance: S.optional(__S(1221, __c38, 5)),
+          styleInfo: S.optional(__S(1324, __c41, 12)),
+          layout: S.optional(__S(1304, __c40, 24)),
+          detectedLanguages: S.optional(__S(1308, __c40, 28)),
+          detectedBreak: S.optional(__S(1325, __c41, 13)),
+          provenance: S.optional(__S(1253, __c39, 5)),
         }),
       ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentPageToken" });
     case 15:
-      return S.Array(__S(1294, __c40, 14));
+      return S.Array(__S(1326, __c41, 14));
     case 16:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          layout: S.optional(__S(1272, __c39, 24)),
-          detectedLanguages: S.optional(__S(1276, __c39, 28)),
+          layout: S.optional(__S(1304, __c40, 24)),
+          detectedLanguages: S.optional(__S(1308, __c40, 28)),
         }),
       ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentPageVisualElement" });
     case 17:
-      return S.Array(__S(1296, __c40, 16));
+      return S.Array(__S(1328, __c41, 16));
     case 18:
       return S.suspend(() =>
         S.Struct({
-          detectedLanguages: S.optional(__S(1276, __c39, 28)),
-          provenance: S.optional(__S(1221, __c38, 5)),
-          layout: S.optional(__S(1272, __c39, 24)),
+          detectedLanguages: S.optional(__S(1308, __c40, 28)),
+          provenance: S.optional(__S(1253, __c39, 5)),
+          layout: S.optional(__S(1304, __c40, 24)),
         }),
       ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentPageBlock" });
     case 19:
-      return S.Array(__S(1298, __c40, 18));
+      return S.Array(__S(1330, __c41, 18));
     case 20:
       return S.suspend(() =>
         S.Struct({
           rowSpan: S.optional(S.Number),
           colSpan: S.optional(S.Number),
-          layout: S.optional(__S(1272, __c39, 24)),
-          detectedLanguages: S.optional(__S(1276, __c39, 28)),
+          layout: S.optional(__S(1304, __c40, 24)),
+          detectedLanguages: S.optional(__S(1308, __c40, 28)),
         }),
       ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentPageTableTableCell" });
     case 21:
-      return S.Array(__S(1300, __c40, 20));
+      return S.Array(__S(1332, __c41, 20));
     case 22:
       return S.suspend(() =>
         S.Struct({
-          cells: S.optional(__S(1301, __c40, 21)),
+          cells: S.optional(__S(1333, __c41, 21)),
         }),
       ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentPageTableTableRow" });
     case 23:
-      return S.Array(__S(1302, __c40, 22));
+      return S.Array(__S(1334, __c41, 22));
     case 24:
       return S.suspend(() =>
         S.Struct({
-          detectedLanguages: S.optional(__S(1276, __c39, 28)),
-          headerRows: S.optional(__S(1303, __c40, 23)),
-          bodyRows: S.optional(__S(1303, __c40, 23)),
-          provenance: S.optional(__S(1221, __c38, 5)),
-          layout: S.optional(__S(1272, __c39, 24)),
+          detectedLanguages: S.optional(__S(1308, __c40, 28)),
+          headerRows: S.optional(__S(1335, __c41, 23)),
+          bodyRows: S.optional(__S(1335, __c41, 23)),
+          provenance: S.optional(__S(1253, __c39, 5)),
+          layout: S.optional(__S(1304, __c40, 24)),
         }),
       ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentPageTable" });
     case 25:
-      return S.Array(__S(1304, __c40, 24));
+      return S.Array(__S(1336, __c41, 24));
     case 26:
       return S.suspend(() =>
         S.Struct({
-          detectedBarcodes: S.optional(__S(1274, __c39, 26)),
+          detectedBarcodes: S.optional(__S(1306, __c40, 26)),
           pageNumber: S.optional(S.Number),
-          symbols: S.optional(__S(1278, __c39, 30)),
-          formFields: S.optional(__S(1280, __c40, 0)),
-          provenance: S.optional(__S(1221, __c38, 5)),
-          imageQualityScores: S.optional(__S(1283, __c40, 3)),
-          image: S.optional(__S(1284, __c40, 4)),
-          paragraphs: S.optional(__S(1286, __c40, 6)),
-          layout: S.optional(__S(1272, __c39, 24)),
-          lines: S.optional(__S(1288, __c40, 8)),
-          transforms: S.optional(__S(1290, __c40, 10)),
-          dimension: S.optional(__S(1291, __c40, 11)),
-          tokens: S.optional(__S(1295, __c40, 15)),
-          visualElements: S.optional(__S(1297, __c40, 17)),
-          blocks: S.optional(__S(1299, __c40, 19)),
-          detectedLanguages: S.optional(__S(1276, __c39, 28)),
-          tables: S.optional(__S(1305, __c40, 25)),
+          symbols: S.optional(__S(1310, __c40, 30)),
+          formFields: S.optional(__S(1312, __c41, 0)),
+          provenance: S.optional(__S(1253, __c39, 5)),
+          imageQualityScores: S.optional(__S(1315, __c41, 3)),
+          image: S.optional(__S(1316, __c41, 4)),
+          paragraphs: S.optional(__S(1318, __c41, 6)),
+          layout: S.optional(__S(1304, __c40, 24)),
+          lines: S.optional(__S(1320, __c41, 8)),
+          transforms: S.optional(__S(1322, __c41, 10)),
+          dimension: S.optional(__S(1323, __c41, 11)),
+          tokens: S.optional(__S(1327, __c41, 15)),
+          visualElements: S.optional(__S(1329, __c41, 17)),
+          blocks: S.optional(__S(1331, __c41, 19)),
+          detectedLanguages: S.optional(__S(1308, __c40, 28)),
+          tables: S.optional(__S(1337, __c41, 25)),
         }),
       ).annotate({ identifier: "GoogleCloudDocumentaiV1DocumentPage" });
     case 27:
-      return S.Array(__S(1306, __c40, 26));
+      return S.Array(__S(1338, __c41, 26));
     case 28:
       return S.suspend(() =>
         S.Struct({
           uri: S.optional(S.String),
-          textChanges: S.optional(__S(1224, __c38, 8)),
+          textChanges: S.optional(__S(1256, __c39, 8)),
           content: S.optional(S.String),
-          shardInfo: S.optional(__S(1225, __c38, 9)),
-          textStyles: S.optional(__S(1229, __c38, 13)),
-          chunkedDocument: S.optional(__S(1235, __c38, 19)),
-          entities: S.optional(__S(1251, __c39, 3)),
+          shardInfo: S.optional(__S(1257, __c39, 9)),
+          textStyles: S.optional(__S(1261, __c39, 13)),
+          chunkedDocument: S.optional(__S(1267, __c39, 19)),
+          entities: S.optional(__S(1283, __c40, 3)),
           text: S.optional(S.String),
-          entityRelations: S.optional(__S(1253, __c39, 5)),
+          entityRelations: S.optional(__S(1285, __c40, 5)),
           mimeType: S.optional(S.String),
-          documentLayout: S.optional(__S(1266, __c39, 18)),
-          revisions: S.optional(__S(1270, __c39, 22)),
-          pages: S.optional(__S(1307, __c40, 27)),
-          error: S.optional(__S(1186, __c37, 2)),
+          documentLayout: S.optional(__S(1298, __c40, 18)),
+          revisions: S.optional(__S(1302, __c40, 22)),
+          pages: S.optional(__S(1339, __c41, 27)),
+          error: S.optional(__S(1218, __c38, 2)),
         }),
       ).annotate({ identifier: "GoogleCloudDocumentaiV1Document" });
     case 29:
@@ -4602,76 +4706,76 @@ function __c40(j: number): any {
       return S.suspend(() =>
         S.Struct({
           intValue: S.optional(S.Number),
-          datetimeValue: S.optional(__S(1238, __c38, 22)),
+          datetimeValue: S.optional(__S(1270, __c39, 22)),
           floatValue: S.optional(S.Number),
           booleanValue: S.optional(S.Boolean),
-          timestampValue: S.optional(__S(1309, __c40, 29)),
-          enumValue: S.optional(__S(1310, __c40, 30)),
+          timestampValue: S.optional(__S(1341, __c41, 29)),
+          enumValue: S.optional(__S(1342, __c41, 30)),
           stringValue: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudContentwarehouseV1Value" });
   }
 }
-function __c41(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, __S(1311, __c40, 31));
+      return S.Record(S.String, __S(1343, __c41, 31));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          fields: S.optional(__S(1312, __c41, 0)),
+          fields: S.optional(__S(1344, __c42, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudContentwarehouseV1MapProperty" });
     case 2:
-      return S.Array(__S(1238, __c38, 22));
+      return S.Array(__S(1270, __c39, 22));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          values: S.optional(__S(1314, __c41, 2)),
+          values: S.optional(__S(1346, __c42, 2)),
         }),
       ).annotate({ identifier: "GoogleCloudContentwarehouseV1DateTimeArray" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          values: S.optional(__S(1268, __c39, 20)),
+          values: S.optional(__S(1300, __c40, 20)),
         }),
       ).annotate({ identifier: "GoogleCloudContentwarehouseV1IntegerArray" });
     case 5:
-      return S.Array(__S(1309, __c40, 29));
+      return S.Array(__S(1341, __c41, 29));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          values: S.optional(__S(1317, __c41, 5)),
+          values: S.optional(__S(1349, __c42, 5)),
         }),
       ).annotate({ identifier: "GoogleCloudContentwarehouseV1TimestampArray" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          values: S.optional(__S(1408, __c44, 0)),
+          values: S.optional(__S(1440, __c45, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudContentwarehouseV1EnumArray" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          properties: S.optional(S.suspend(() => __S(1322, __c41, 10))),
+          properties: S.optional(S.suspend(() => __S(1354, __c42, 10))),
         }),
       ).annotate({ identifier: "GoogleCloudContentwarehouseV1PropertyArray" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          mapProperty: S.optional(__S(1313, __c41, 1)),
-          dateTimeValues: S.optional(__S(1315, __c41, 3)),
-          integerValues: S.optional(__S(1316, __c41, 4)),
-          timestampValues: S.optional(__S(1318, __c41, 6)),
-          floatValues: S.optional(__S(1316, __c41, 4)),
-          enumValues: S.optional(__S(1319, __c41, 7)),
-          textValues: S.optional(__S(1319, __c41, 7)),
-          propertyValues: S.optional(__S(1320, __c41, 8)),
+          mapProperty: S.optional(__S(1345, __c42, 1)),
+          dateTimeValues: S.optional(__S(1347, __c42, 3)),
+          integerValues: S.optional(__S(1348, __c42, 4)),
+          timestampValues: S.optional(__S(1350, __c42, 6)),
+          floatValues: S.optional(__S(1348, __c42, 4)),
+          enumValues: S.optional(__S(1351, __c42, 7)),
+          textValues: S.optional(__S(1351, __c42, 7)),
+          propertyValues: S.optional(__S(1352, __c42, 8)),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudContentwarehouseV1Property" });
     case 10:
-      return S.Array(__S(1321, __c41, 9));
+      return S.Array(__S(1353, __c42, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
@@ -4679,8 +4783,8 @@ function __c41(j: number): any {
           dispositionTime: S.optional(S.String),
           textExtractionDisabled: S.optional(S.Boolean),
           title: S.optional(S.String),
-          cloudAiDocument: S.optional(__S(1308, __c40, 28)),
-          properties: S.optional(__S(1322, __c41, 10)),
+          cloudAiDocument: S.optional(__S(1340, __c41, 28)),
+          properties: S.optional(__S(1354, __c42, 10)),
           inlineRawDocument: S.optional(S.String),
           updateTime: S.optional(S.String),
           name: S.optional(S.String),
@@ -4700,44 +4804,44 @@ function __c41(j: number): any {
       ).annotate({ identifier: "GoogleCloudContentwarehouseV1Document" });
   }
 }
-function __c42(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          done: S.optional(S.Boolean),
-          metadata: S.optional(__S(1184, __c37, 0)),
-          response: S.optional(__S(1184, __c37, 0)),
-          error: S.optional(__S(1186, __c37, 2)),
-          name: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleLongrunningOperation" });
-  }
-}
 function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          customizedEntitiesPropertiesConversions: S.optional(__S(1568, __c49, 0)),
+          done: S.optional(S.Boolean),
+          metadata: S.optional(__S(1216, __c38, 0)),
+          response: S.optional(__S(1216, __c38, 0)),
+          error: S.optional(__S(1218, __c38, 2)),
+          name: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleLongrunningOperation" });
+  }
+}
+function __c44(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          customizedEntitiesPropertiesConversions: S.optional(__S(1600, __c50, 0)),
           enableEntitiesConversions: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "GoogleCloudContentwarehouseV1CloudAIDocumentOption" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          rule: S.optional(__S(1545, __c48, 9)),
+          rule: S.optional(__S(1577, __c49, 9)),
           error: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudContentwarehouseV1InvalidRule" });
     case 2:
-      return S.Array(__S(1377, __c43, 1));
+      return S.Array(__S(1409, __c44, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          matchedRules: S.optional(__S(1546, __c48, 10)),
-          invalidRules: S.optional(__S(1378, __c43, 2)),
-          triggeredRules: S.optional(__S(1546, __c48, 10)),
+          matchedRules: S.optional(__S(1578, __c49, 10)),
+          invalidRules: S.optional(__S(1410, __c44, 2)),
+          triggeredRules: S.optional(__S(1578, __c49, 10)),
         }),
       ).annotate({ identifier: "GoogleCloudContentwarehouseV1RuleEvaluatorOutput" });
     case 4:
@@ -4749,47 +4853,36 @@ function __c43(j: number): any {
         }),
       ).annotate({ identifier: "GoogleCloudContentwarehouseV1ActionOutput" });
     case 5:
-      return S.Array(__S(1380, __c43, 4));
+      return S.Array(__S(1412, __c44, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          rule: S.optional(__S(1545, __c48, 9)),
-          actionOutputs: S.optional(__S(1381, __c43, 5)),
+          rule: S.optional(__S(1577, __c49, 9)),
+          actionOutputs: S.optional(__S(1413, __c44, 5)),
         }),
       ).annotate({ identifier: "GoogleCloudContentwarehouseV1RuleActionsPair" });
     case 7:
-      return S.Array(__S(1382, __c43, 6));
+      return S.Array(__S(1414, __c44, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          ruleActionsPairs: S.optional(__S(1383, __c43, 7)),
+          ruleActionsPairs: S.optional(__S(1415, __c44, 7)),
         }),
       ).annotate({ identifier: "GoogleCloudContentwarehouseV1ActionExecutorOutput" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          ruleEvaluatorOutput: S.optional(__S(1379, __c43, 3)),
-          actionExecutorOutput: S.optional(__S(1384, __c43, 8)),
+          ruleEvaluatorOutput: S.optional(__S(1411, __c44, 3)),
+          actionExecutorOutput: S.optional(__S(1416, __c44, 8)),
           documentName: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudContentwarehouseV1RuleEngineOutput" });
   }
 }
-function __c44(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
 function __c45(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          groupIds: S.optional(__S(1408, __c44, 0)),
-        }),
-      ).annotate({ identifier: "GoogleCloudContentwarehouseV1UserInfo" });
+      return S.Array(S.String);
   }
 }
 function __c46(j: number): any {
@@ -4797,12 +4890,23 @@ function __c46(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          userInfo: S.optional(__S(1440, __c45, 0)),
+          id: S.optional(S.String),
+          groupIds: S.optional(__S(1440, __c45, 0)),
+        }),
+      ).annotate({ identifier: "GoogleCloudContentwarehouseV1UserInfo" });
+  }
+}
+function __c47(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          userInfo: S.optional(__S(1472, __c46, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudContentwarehouseV1RequestMetadata" });
   }
 }
-function __c47(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4816,56 +4920,56 @@ function __c47(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          condition: S.optional(__S(1504, __c47, 0)),
-          members: S.optional(__S(1408, __c44, 0)),
+          condition: S.optional(__S(1536, __c48, 0)),
+          members: S.optional(__S(1440, __c45, 0)),
           role: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleIamV1Binding" });
     case 2:
-      return S.Array(__S(1505, __c47, 1));
+      return S.Array(__S(1537, __c48, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           logType: S.optional(S.String),
-          exemptedMembers: S.optional(__S(1408, __c44, 0)),
+          exemptedMembers: S.optional(__S(1440, __c45, 0)),
         }),
       ).annotate({ identifier: "GoogleIamV1AuditLogConfig" });
     case 4:
-      return S.Array(__S(1507, __c47, 3));
+      return S.Array(__S(1539, __c48, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           service: S.optional(S.String),
-          auditLogConfigs: S.optional(__S(1508, __c47, 4)),
+          auditLogConfigs: S.optional(__S(1540, __c48, 4)),
         }),
       ).annotate({ identifier: "GoogleIamV1AuditConfig" });
     case 6:
-      return S.Array(__S(1509, __c47, 5));
+      return S.Array(__S(1541, __c48, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
           version: S.optional(S.Number),
           etag: S.optional(S.String),
-          bindings: S.optional(__S(1506, __c47, 2)),
-          auditConfigs: S.optional(__S(1510, __c47, 6)),
+          bindings: S.optional(__S(1538, __c48, 2)),
+          auditConfigs: S.optional(__S(1542, __c48, 6)),
         }),
       ).annotate({ identifier: "GoogleIamV1Policy" });
   }
 }
-function __c48(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           topicId: S.optional(S.String),
-          messages: S.optional(__S(1408, __c44, 0)),
+          messages: S.optional(__S(1440, __c45, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudContentwarehouseV1PublishAction" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           operationType: S.optional(S.String),
-          policy: S.optional(__S(1511, __c47, 7)),
+          policy: S.optional(__S(1543, __c48, 7)),
         }),
       ).annotate({ identifier: "GoogleCloudContentwarehouseV1AccessControlAction" });
     case 2:
@@ -4878,19 +4982,19 @@ function __c48(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          entries: S.optional(__S(1568, __c49, 0)),
+          entries: S.optional(__S(1600, __c50, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudContentwarehouseV1DataUpdateAction" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          folders: S.optional(__S(1408, __c44, 0)),
+          folders: S.optional(__S(1440, __c45, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudContentwarehouseV1AddToFolderAction" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          conditions: S.optional(__S(1568, __c49, 0)),
+          conditions: S.optional(__S(1600, __c50, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudContentwarehouseV1DataValidationAction" });
     case 6:
@@ -4902,18 +5006,18 @@ function __c48(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          publishToPubSub: S.optional(__S(1536, __c48, 0)),
-          accessControl: S.optional(__S(1537, __c48, 1)),
+          publishToPubSub: S.optional(__S(1568, __c49, 0)),
+          accessControl: S.optional(__S(1569, __c49, 1)),
           actionId: S.optional(S.String),
-          removeFromFolderAction: S.optional(__S(1538, __c48, 2)),
-          dataUpdate: S.optional(__S(1539, __c48, 3)),
-          addToFolder: S.optional(__S(1540, __c48, 4)),
-          dataValidation: S.optional(__S(1541, __c48, 5)),
-          deleteDocumentAction: S.optional(__S(1542, __c48, 6)),
+          removeFromFolderAction: S.optional(__S(1570, __c49, 2)),
+          dataUpdate: S.optional(__S(1571, __c49, 3)),
+          addToFolder: S.optional(__S(1572, __c49, 4)),
+          dataValidation: S.optional(__S(1573, __c49, 5)),
+          deleteDocumentAction: S.optional(__S(1574, __c49, 6)),
         }),
       ).annotate({ identifier: "GoogleCloudContentwarehouseV1Action" });
     case 8:
-      return S.Array(__S(1543, __c48, 7));
+      return S.Array(__S(1575, __c49, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
@@ -4921,33 +5025,29 @@ function __c48(j: number): any {
           ruleId: S.optional(S.String),
           triggerType: S.optional(S.String),
           description: S.optional(S.String),
-          actions: S.optional(__S(1544, __c48, 8)),
+          actions: S.optional(__S(1576, __c49, 8)),
         }),
       ).annotate({ identifier: "GoogleCloudContentwarehouseV1Rule" });
     case 10:
-      return S.Array(__S(1545, __c48, 9));
-  }
-}
-function __c49(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, S.String);
+      return S.Array(__S(1577, __c49, 9));
   }
 }
 function __c50(j: number): any {
   switch (j) {
     case 0:
+      return S.Record(S.String, S.String);
+  }
+}
+function __c51(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          name: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          description: S.optional(S.String),
-          createTime: S.optional(S.String),
-          propertyDefinitions: S.optional(__S(1669, __c52, 5)),
-          displayName: S.optional(S.String),
-          documentIsFolder: S.optional(S.Boolean),
-        }).pipe(
+        S.Extend(
+          __S(1702, __c53, 6),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/documentSchemas",
@@ -4957,7 +5057,7 @@ function __c50(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsDocumentSchemasRequest" });
   }
 }
-function __c51(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({
@@ -4965,19 +5065,19 @@ function __c51(j: number): any {
       });
   }
 }
-function __c52(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           validationCheckDisabled: S.optional(S.Boolean),
-          possibleValues: S.optional(__S(1408, __c44, 0)),
+          possibleValues: S.optional(__S(1440, __c45, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudContentwarehouseV1EnumTypeOptions" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          propertyDefinitions: S.optional(S.suspend(() => __S(1669, __c52, 5))),
+          propertyDefinitions: S.optional(S.suspend(() => __S(1701, __c53, 5))),
         }),
       ).annotate({ identifier: "GoogleCloudContentwarehouseV1PropertyTypeOptions" });
     case 2:
@@ -4988,31 +5088,31 @@ function __c52(j: number): any {
         }),
       ).annotate({ identifier: "GoogleCloudContentwarehouseV1PropertyDefinitionSchemaSource" });
     case 3:
-      return S.Array(__S(1666, __c52, 2));
+      return S.Array(__S(1698, __c53, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          floatTypeOptions: S.optional(__S(1632, __c51, 0)),
-          integerTypeOptions: S.optional(__S(1632, __c51, 0)),
+          floatTypeOptions: S.optional(__S(1664, __c52, 0)),
+          integerTypeOptions: S.optional(__S(1664, __c52, 0)),
           isFilterable: S.optional(S.Boolean),
           displayName: S.optional(S.String),
           isMetadata: S.optional(S.Boolean),
-          mapTypeOptions: S.optional(__S(1632, __c51, 0)),
+          mapTypeOptions: S.optional(__S(1664, __c52, 0)),
           isRepeatable: S.optional(S.Boolean),
-          dateTimeTypeOptions: S.optional(__S(1632, __c51, 0)),
+          dateTimeTypeOptions: S.optional(__S(1664, __c52, 0)),
           name: S.optional(S.String),
-          enumTypeOptions: S.optional(__S(1664, __c52, 0)),
+          enumTypeOptions: S.optional(__S(1696, __c53, 0)),
           isRequired: S.optional(S.Boolean),
           retrievalImportance: S.optional(S.String),
-          timestampTypeOptions: S.optional(__S(1632, __c51, 0)),
+          timestampTypeOptions: S.optional(__S(1664, __c52, 0)),
           isSearchable: S.optional(S.Boolean),
-          propertyTypeOptions: S.optional(__S(1665, __c52, 1)),
-          textTypeOptions: S.optional(__S(1632, __c51, 0)),
-          schemaSources: S.optional(__S(1667, __c52, 3)),
+          propertyTypeOptions: S.optional(__S(1697, __c53, 1)),
+          textTypeOptions: S.optional(__S(1664, __c52, 0)),
+          schemaSources: S.optional(__S(1699, __c53, 3)),
         }),
       ).annotate({ identifier: "GoogleCloudContentwarehouseV1PropertyDefinition" });
     case 5:
-      return S.Array(__S(1668, __c52, 4));
+      return S.Array(__S(1700, __c53, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -5020,22 +5120,30 @@ function __c52(j: number): any {
           updateTime: S.optional(S.String),
           description: S.optional(S.String),
           createTime: S.optional(S.String),
-          propertyDefinitions: S.optional(__S(1669, __c52, 5)),
+          propertyDefinitions: S.optional(__S(1701, __c53, 5)),
           displayName: S.optional(S.String),
           documentIsFolder: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "GoogleCloudContentwarehouseV1DocumentSchema" });
   }
 }
-function __c53(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
-          documentLink: S.optional(__S(1729, __c54, 1)),
-          requestMetadata: S.optional(__S(1472, __c46, 0)),
-        }).pipe(
+          documentLink: S.optional(__S(1761, __c55, 1)),
+          requestMetadata: S.optional(__S(1504, __c47, 0)),
+        }),
+      ).annotate({ identifier: "GoogleCloudContentwarehouseV1CreateDocumentLinkRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(1728, __c54, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/documentLinks",
@@ -5045,7 +5153,7 @@ function __c53(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsDocumentsDocumentLinksRequest" });
   }
 }
-function __c54(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5064,10 +5172,10 @@ function __c54(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          targetDocumentReference: S.optional(__S(1728, __c54, 0)),
+          targetDocumentReference: S.optional(__S(1760, __c55, 0)),
           createTime: S.optional(S.String),
           description: S.optional(S.String),
-          sourceDocumentReference: S.optional(__S(1728, __c54, 0)),
+          sourceDocumentReference: S.optional(__S(1760, __c55, 0)),
           name: S.optional(S.String),
           updateTime: S.optional(S.String),
           state: S.optional(S.String),
@@ -5075,17 +5183,16 @@ function __c54(j: number): any {
       ).annotate({ identifier: "GoogleCloudContentwarehouseV1DocumentLink" });
   }
 }
-function __c55(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          description: S.optional(S.String),
-          source: S.optional(S.String),
-          rules: S.optional(__S(1546, __c48, 10)),
-          name: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1824, __c57, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/ruleSets",
@@ -5095,29 +5202,29 @@ function __c55(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsRuleSetsRequest" });
   }
 }
-function __c56(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
           source: S.optional(S.String),
-          rules: S.optional(__S(1546, __c48, 10)),
+          rules: S.optional(__S(1578, __c49, 10)),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudContentwarehouseV1RuleSet" });
   }
 }
-function __c57(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          synonyms: S.optional(__S(1857, __c58, 1)),
-          context: S.optional(S.String),
-          name: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1890, __c59, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/synonymSets",
@@ -5127,20 +5234,20 @@ function __c57(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsSynonymSetsRequest" });
   }
 }
-function __c58(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          words: S.optional(__S(1408, __c44, 0)),
+          words: S.optional(__S(1440, __c45, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudContentwarehouseV1SynonymSetSynonym" });
     case 1:
-      return S.Array(__S(1856, __c58, 0));
+      return S.Array(__S(1888, __c59, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          synonyms: S.optional(__S(1857, __c58, 1)),
+          synonyms: S.optional(__S(1889, __c59, 1)),
           context: S.optional(S.String),
           name: S.optional(S.String),
         }),

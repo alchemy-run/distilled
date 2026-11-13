@@ -1267,13 +1267,16 @@ export interface WriteControl {
   /** The optional target revision ID of the document the write request is applied to. If collaborator changes have occurred after the document was read using the API, the changes produced by this write request are applied against the collaborator changes. This results in a new revision of the document that incorporates both the collaborator changes and the changes in the request, with the Docs server resolving conflicting changes. When using target revision ID, the API client can be thought of as another collaborator of the document. The target revision ID can only be used to write to recent versions of a document. If the target revision is too far behind the latest revision, the request is not processed and returns a 400 bad request error. The request should be tried again after retrieving the latest version of the document. Usually a revision ID remains valid for use as a target revision for several minutes after it's read, but for frequently edited documents this window might be shorter. */
   targetRevisionId?: string | undefined;
 }
-export interface BatchUpdateDocumentsRequest {
-  /** The ID of the document to update. */
-  documentId: string;
+/** Request message for BatchUpdateDocument. */
+export interface BatchUpdateDocumentRequest {
   /** A list of updates to apply to the document. */
   requests?: RequestList | undefined;
   /** Provides control over how write requests are executed. */
   writeControl?: WriteControl | undefined;
+}
+export interface BatchUpdateDocumentsRequest extends BatchUpdateDocumentRequest {
+  /** The ID of the document to update. */
+  documentId: string;
 }
 export type BatchUpdateDocumentResponseCommentUpdateStateEnum =
   | "COMMENT_UPDATE_STATE_UNSPECIFIED"
@@ -2491,7 +2494,8 @@ export interface Tab {
   childTabs?: TabList | undefined;
 }
 export type TabList = Array<Tab>;
-export interface CreateDocumentsRequest {
+/** A Google Docs document. */
+export interface Document {
   /** Output only. The suggested changes to the named styles of the document, keyed by suggestion ID. Legacy field: Instead, use Document.tabs.documentTab.suggestedNamedStylesChanges, which exposes the actual document content from all tabs when the includeTabsContent parameter is set to `true`. If `false` or unset, this field contains information about the first tab in the document. */
   suggestedNamedStylesChanges?: SuggestedNamedStylesMap | undefined;
   /** Output only. The revision ID of the document. Can be used in update requests to specify which revision of a document to apply updates to and how the request should behave if the document has been edited since that revision. Only populated if the user has edit access to the document. The revision ID is not a sequential number but an opaque string. The format of the revision ID might change over time. A returned revision ID is only guaranteed to be valid for 24 hours after it has been returned and cannot be shared across users. If the revision ID is unchanged between calls, then the document has not changed. Conversely, a changed ID (for the same document and user) usually means the document has been updated. However, a changed ID can also be due to internal factors such as ID format changes. */
@@ -2533,49 +2537,7 @@ export interface CreateDocumentsRequest {
   /** The title of the document. */
   title?: string | undefined;
 }
-/** A Google Docs document. */
-export interface Document {
-  /** Output only. The suggested changes to the named styles of the document, keyed by suggestion ID. Legacy field: Instead, use Document.tabs.documentTab.suggestedNamedStylesChanges, which exposes the actual document content from all tabs when the includeTabsContent parameter is set to `true`. If `false` or unset, this field contains information about the first tab in the document. */
-  suggestedNamedStylesChanges?: SuggestedNamedStylesMap | undefined;
-  /** Output only. The revision ID of the document. Can be used in update requests to specify which revision of a document to apply updates to and how the request should behave if the document has been edited since that revision. Only populated if the user has edit access to the document. The revision ID is not a sequential number but an opaque string. The format of the revision ID might change over time. A returned revision ID is only guaranteed to be valid for 24 hours after it has been returned and cannot be shared across users. If the revision ID is unchanged between calls, then the document has not changed. Conversely, a changed ID (for the same document and user) usually means the document has been updated. However, a changed ID can also be due to internal factors such as ID format changes. */
-  revisionId?: string | undefined;
-  /** Output only. The suggested changes to the style of the document, keyed by suggestion ID. Legacy field: Instead, use Document.tabs.documentTab.suggestedDocumentStyleChanges, which exposes the actual document content from all tabs when the includeTabsContent parameter is set to `true`. If `false` or unset, this field contains information about the first tab in the document. */
-  suggestedDocumentStyleChanges?: SuggestedDocumentStyleMap | undefined;
-  /** Output only. The headers in the document, keyed by header ID. Legacy field: Instead, use Document.tabs.documentTab.headers, which exposes the actual document content from all tabs when the includeTabsContent parameter is set to `true`. If `false` or unset, this field contains information about the first tab in the document. */
-  headers?: HeaderMap | undefined;
-  /** Output only. The suggestions view mode applied to the document. Note: When editing a document, changes must be based on a document with SUGGESTIONS_INLINE. */
-  suggestionsViewMode?: DocumentSuggestionsViewModeEnum | undefined;
-  /** Output only. The named styles of the document. Legacy field: Instead, use Document.tabs.documentTab.namedStyles, which exposes the actual document content from all tabs when the includeTabsContent parameter is set to `true`. If `false` or unset, this field contains information about the first tab in the document. */
-  namedStyles?: NamedStyles | undefined;
-  /** Output only. The main body of the document. Legacy field: Instead, use Document.tabs.documentTab.body, which exposes the actual document content from all tabs when the includeTabsContent parameter is set to `true`. If `false` or unset, this field contains information about the first tab in the document. */
-  body?: Body | undefined;
-  /** Output only. The footnotes in the document, keyed by footnote ID. Legacy field: Instead, use Document.tabs.documentTab.footnotes, which exposes the actual document content from all tabs when the includeTabsContent parameter is set to `true`. If `false` or unset, this field contains information about the first tab in the document. */
-  footnotes?: FootnoteMap | undefined;
-  /** Output only. The ID of the document. */
-  documentId?: string | undefined;
-  /** Output only. The footers in the document, keyed by footer ID. Legacy field: Instead, use Document.tabs.documentTab.footers, which exposes the actual document content from all tabs when the includeTabsContent parameter is set to `true`. If `false` or unset, this field contains information about the first tab in the document. */
-  footers?: FooterMap | undefined;
-  /** Output only. The comments associated with the document. Only populated if the commentsViewMode parameter is set to require comments (such as `COMMENTS_VIEW_MODE_INCLUDED`). */
-  comments?: CommentThreadList | undefined;
-  /** Output only. The named ranges in the document, keyed by name. Legacy field: Instead, use Document.tabs.documentTab.namedRanges, which exposes the actual document content from all tabs when the includeTabsContent parameter is set to `true`. If `false` or unset, this field contains information about the first tab in the document. */
-  namedRanges?: NamedRangesMap | undefined;
-  /** Output only. The lists in the document, keyed by list ID. Legacy field: Instead, use Document.tabs.documentTab.lists, which exposes the actual document content from all tabs when the includeTabsContent parameter is set to `true`. If `false` or unset, this field contains information about the first tab in the document. */
-  lists?: ListMap | undefined;
-  /** Output only. The suggestions associated with the document. Only populated if the commentsViewMode parameter is set to require comments (such as `COMMENTS_VIEW_MODE_INCLUDED`). */
-  suggestions?: SuggestionThreadList | undefined;
-  /** Output only. The style of the document. Legacy field: Instead, use Document.tabs.documentTab.documentStyle, which exposes the actual document content from all tabs when the includeTabsContent parameter is set to `true`. If `false` or unset, this field contains information about the first tab in the document. */
-  documentStyle?: DocumentStyle | undefined;
-  /** Output only. The positioned objects in the document, keyed by object ID. Legacy field: Instead, use Document.tabs.documentTab.positionedObjects, which exposes the actual document content from all tabs when the includeTabsContent parameter is set to `true`. If `false` or unset, this field contains information about the first tab in the document. */
-  positionedObjects?: PositionedObjectMap | undefined;
-  /** Output only. The inline objects in the document, keyed by object ID. Legacy field: Instead, use Document.tabs.documentTab.inlineObjects, which exposes the actual document content from all tabs when the includeTabsContent parameter is set to `true`. If `false` or unset, this field contains information about the first tab in the document. */
-  inlineObjects?: InlineObjectMap | undefined;
-  /** Output only. The comments view mode applied to the document. */
-  commentsViewMode?: DocumentCommentsViewModeEnum | undefined;
-  /** Output only. Tabs that are part of a document. Tabs can contain child tabs, a tab nested within another tab. Child tabs are represented by the Tab.childTabs field. */
-  tabs?: TabList | undefined;
-  /** The title of the document. */
-  title?: string | undefined;
-}
+export interface CreateDocumentsRequest extends Document {}
 export type GetDocumentsCommentsViewModeEnum =
   | "COMMENTS_VIEW_MODE_UNSPECIFIED"
   | "COMMENTS_VIEW_MODE_DEFAULT_FOR_CURRENT_ACCESS"
@@ -2609,8 +2571,8 @@ export const batchUpdateDocuments: API.OperationMethod<
   BatchUpdateDocumentsError,
   GoogleWorkspaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(58, __c1, 26) as any as S.Schema<BatchUpdateDocumentsRequest>,
-  output: __S(73, __c2, 9) as any as S.Schema<BatchUpdateDocumentResponse>,
+  input: __S(59, __c1, 27) as any as S.Schema<BatchUpdateDocumentsRequest>,
+  output: __S(74, __c2, 10) as any as S.Schema<BatchUpdateDocumentResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
@@ -3144,10 +3106,18 @@ function __c1(j: number): any {
     case 26:
       return S.suspend(() =>
         S.Struct({
-          documentId: S.String.pipe(T.Label()),
           requests: S.optional(__S(56, __c1, 24)),
           writeControl: S.optional(__S(57, __c1, 25)),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "BatchUpdateDocumentRequest" });
+    case 27:
+      return S.suspend(() =>
+        S.Extend(
+          __S(58, __c1, 26),
+          S.Struct({
+            documentId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/documents/{documentId}:batchUpdate",
@@ -3155,36 +3125,30 @@ function __c1(j: number): any {
           }),
         ),
       ).annotate({ identifier: "BatchUpdateDocumentsRequest" });
-    case 27:
+    case 28:
       return S.suspend(() =>
         S.Struct({
           commentThread: S.optional(__S(138, __c4, 10)),
         }),
       ).annotate({ identifier: "InsertCommentResponse" });
-    case 28:
+    case 29:
       return S.suspend(() =>
         S.Struct({
           dropdown: S.optional(__S(145, __c4, 17)),
         }),
       ).annotate({ identifier: "InsertDropdownResponse" });
-    case 29:
+    case 30:
       return S.suspend(() =>
         S.Struct({
           objectId: S.optional(S.String),
         }),
       ).annotate({ identifier: "InsertInlineImageResponse" });
-    case 30:
+    case 31:
       return S.suspend(() =>
         S.Struct({
           footnoteId: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateFootnoteResponse" });
-    case 31:
-      return S.suspend(() =>
-        S.Struct({
-          namedRangeId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CreateNamedRangeResponse" });
   }
 }
 function __c2(j: number): any {
@@ -3192,53 +3156,59 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          namedRangeId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CreateNamedRangeResponse" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
           dropdownDefinition: S.optional(__S(132, __c4, 4)),
         }),
       ).annotate({ identifier: "CreateDropdownDefinitionResponse" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           occurrencesChanged: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ReplaceAllTextResponse" });
-    case 2:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           post: S.optional(__S(108, __c3, 12)),
         }),
       ).annotate({ identifier: "AddCommentReplyResponse" });
-    case 3:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           footerId: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateFooterResponse" });
-    case 4:
+    case 5:
       return S.suspend(() =>
         S.Struct({
           headerId: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateHeaderResponse" });
-    case 5:
+    case 6:
       return S.suspend(() =>
         S.Struct({
-          insertComment: S.optional(__S(59, __c1, 27)),
-          insertDropdown: S.optional(__S(60, __c1, 28)),
-          insertInlineImage: S.optional(__S(61, __c1, 29)),
-          createFootnote: S.optional(__S(62, __c1, 30)),
-          createNamedRange: S.optional(__S(63, __c1, 31)),
+          insertComment: S.optional(__S(60, __c1, 28)),
+          insertDropdown: S.optional(__S(61, __c1, 29)),
+          insertInlineImage: S.optional(__S(62, __c1, 30)),
+          createFootnote: S.optional(__S(63, __c1, 31)),
+          createNamedRange: S.optional(__S(64, __c2, 0)),
           addDocumentTab: S.optional(__S(49, __c1, 17)),
-          insertInlineSheetsChart: S.optional(__S(61, __c1, 29)),
-          createDropdownDefinition: S.optional(__S(64, __c2, 0)),
-          replaceAllText: S.optional(__S(65, __c2, 1)),
-          addCommentReply: S.optional(__S(66, __c2, 2)),
-          createFooter: S.optional(__S(67, __c2, 3)),
-          createHeader: S.optional(__S(68, __c2, 4)),
+          insertInlineSheetsChart: S.optional(__S(62, __c1, 30)),
+          createDropdownDefinition: S.optional(__S(65, __c2, 1)),
+          replaceAllText: S.optional(__S(66, __c2, 2)),
+          addCommentReply: S.optional(__S(67, __c2, 3)),
+          createFooter: S.optional(__S(68, __c2, 4)),
+          createHeader: S.optional(__S(69, __c2, 5)),
         }),
       ).annotate({ identifier: "Response" });
-    case 6:
-      return S.Array(__S(69, __c2, 5));
     case 7:
+      return S.Array(__S(70, __c2, 6));
+    case 8:
       return S.suspend(() =>
         S.Struct({
           acceptedSuggestionIds: S.optional(__S(96, __c3, 0)),
@@ -3248,16 +3218,16 @@ function __c2(j: number): any {
           updatedSummarySuggestionIds: S.optional(__S(96, __c3, 0)),
         }),
       ).annotate({ identifier: "SuggestionResponse" });
-    case 8:
-      return S.Array(__S(71, __c2, 7));
     case 9:
+      return S.Array(__S(72, __c2, 8));
+    case 10:
       return S.suspend(() =>
         S.Struct({
           writeControl: S.optional(__S(57, __c1, 25)),
           documentId: S.optional(S.String),
           commentUpdateState: S.optional(S.String),
-          replies: S.optional(__S(70, __c2, 6)),
-          suggestionResponses: S.optional(__S(72, __c2, 8)),
+          replies: S.optional(__S(71, __c2, 7)),
+          suggestionResponses: S.optional(__S(73, __c2, 9)),
         }),
       ).annotate({ identifier: "BatchUpdateDocumentResponse" });
   }
@@ -3709,28 +3679,7 @@ function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          suggestedNamedStylesChanges: S.optional(__S(200, __c6, 8)),
-          revisionId: S.optional(S.String),
-          suggestedDocumentStyleChanges: S.optional(__S(204, __c6, 12)),
-          headers: S.optional(__S(248, __c7, 24)),
-          suggestionsViewMode: S.optional(S.String),
-          namedStyles: S.optional(__S(198, __c6, 6)),
-          body: S.optional(__S(249, __c7, 25)),
-          footnotes: S.optional(__S(251, __c7, 27)),
-          documentId: S.optional(S.String),
-          footers: S.optional(__S(253, __c7, 29)),
-          comments: S.optional(__S(254, __c7, 30)),
-          namedRanges: S.optional(__S(259, __c8, 3)),
-          lists: S.optional(__S(269, __c8, 13)),
-          suggestions: S.optional(__S(271, __c8, 15)),
-          documentStyle: S.optional(__S(104, __c3, 8)),
-          positionedObjects: S.optional(__S(292, __c9, 4)),
-          inlineObjects: S.optional(__S(298, __c9, 10)),
-          commentsViewMode: S.optional(S.String),
-          tabs: S.optional(__S(304, __c9, 16)),
-          title: S.optional(S.String),
-        }).pipe(
+        S.Extend(__S(305, __c9, 17), S.Struct({})).pipe(
           T.Http({ method: "POST", uri: "v1/documents", baseUrl: "https://docs.googleapis.com/" }),
         ),
       ).annotate({ identifier: "CreateDocumentsRequest" });

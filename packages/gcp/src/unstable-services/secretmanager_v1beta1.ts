@@ -99,11 +99,14 @@ export interface AccessSecretVersionResponse {
   /** The resource name of the SecretVersion in the format `projects/*\/secrets/*\/versions/*`. */
   name?: string | undefined;
 }
-export interface AddVersionProjectsSecretsRequest {
-  /** Required. The resource name of the Secret to associate with the SecretVersion in the format `projects/*\/secrets/*`. */
-  parent: string;
+/** Request message for SecretManagerService.AddSecretVersion. */
+export interface AddSecretVersionRequest {
   /** Required. The secret payload of the SecretVersion. */
   payload?: SecretPayload | undefined;
+}
+export interface AddVersionProjectsSecretsRequest extends AddSecretVersionRequest {
+  /** Required. The resource name of the Secret to associate with the SecretVersion in the format `projects/*\/secrets/*`. */
+  parent: string;
 }
 export type SecretVersionStateEnum = "STATE_UNSPECIFIED" | "ENABLED" | "DISABLED" | "DESTROYED";
 /** A secret version resource in the Secret Manager API. */
@@ -138,22 +141,6 @@ export interface Replication {
   userManaged?: UserManaged | undefined;
 }
 export type StringMap = { [key: string]: string | undefined };
-export interface CreateProjectsSecretsRequest {
-  /** Required. The resource name of the project to associate with the Secret, in the format `projects/*`. */
-  parent: string;
-  /** Required. This must be unique within the project. A secret ID is a string with a maximum length of 255 characters and can contain uppercase and lowercase letters, numerals, and the hyphen (`-`) and underscore (`_`) characters. */
-  secretId?: string | undefined;
-  /** Required. Immutable. The replication policy of the secret data attached to the Secret. The replication policy cannot be changed after the Secret has been created. */
-  replication?: Replication | undefined;
-  /** Optional. Input only. Immutable. Mapping of Tag keys/values directly bound to this resource. For example: "123/environment": "production", "123/costCenter": "marketing" Tags are used to organize and group resources. Tags can be used to control policy evaluation for the resource. */
-  tags?: StringMap | undefined;
-  /** The labels assigned to this Secret. Label keys must be between 1 and 63 characters long, have a UTF-8 encoding of maximum 128 bytes, and must conform to the following PCRE regular expression: `\p{Ll}\p{Lo}{0,62}` Label values must be between 0 and 63 characters long, have a UTF-8 encoding of maximum 128 bytes, and must conform to the following PCRE regular expression: `[\p{Ll}\p{Lo}\p{N}_-]{0,63}` No more than 64 labels can be assigned to a given resource. */
-  labels?: StringMap | undefined;
-  /** Output only. The resource name of the Secret in the format `projects/*\/secrets/*`. */
-  name?: string | undefined;
-  /** Output only. The time at which the Secret was created. */
-  createTime?: string | undefined;
-}
 /** A Secret is a logical secret whose value and versions can be accessed. A Secret is made up of zero or more SecretVersions that represent the secret data. */
 export interface Secret {
   /** Required. Immutable. The replication policy of the secret data attached to the Secret. The replication policy cannot be changed after the Secret has been created. */
@@ -166,6 +153,12 @@ export interface Secret {
   name?: string | undefined;
   /** Output only. The time at which the Secret was created. */
   createTime?: string | undefined;
+}
+export interface CreateProjectsSecretsRequest extends Secret {
+  /** Required. The resource name of the project to associate with the Secret, in the format `projects/*`. */
+  parent: string;
+  /** Required. This must be unique within the project. A secret ID is a string with a maximum length of 255 characters and can contain uppercase and lowercase letters, numerals, and the hyphen (`-`) and underscore (`_`) characters. */
+  secretId?: string | undefined;
 }
 export interface DeleteProjectsSecretsRequest {
   /** Required. The resource name of the Secret to delete in the format `projects/*\/secrets/*`. */
@@ -339,33 +332,31 @@ export interface ListSecretVersionsResponse {
   /** The list of SecretVersions sorted in reverse by create_time (newest first). */
   versions?: SecretVersionList | undefined;
 }
-export interface PatchProjectsSecretsRequest {
+export interface PatchProjectsSecretsRequest extends Omit<Secret, "name"> {
   /** Required. Specifies the fields to be updated. */
   updateMask?: string | undefined;
   /** Output only. The resource name of the Secret in the format `projects/*\/secrets/*`. */
   name: string;
-  /** Required. Immutable. The replication policy of the secret data attached to the Secret. The replication policy cannot be changed after the Secret has been created. */
-  replication?: Replication | undefined;
-  /** Optional. Input only. Immutable. Mapping of Tag keys/values directly bound to this resource. For example: "123/environment": "production", "123/costCenter": "marketing" Tags are used to organize and group resources. Tags can be used to control policy evaluation for the resource. */
-  tags?: StringMap | undefined;
-  /** The labels assigned to this Secret. Label keys must be between 1 and 63 characters long, have a UTF-8 encoding of maximum 128 bytes, and must conform to the following PCRE regular expression: `\p{Ll}\p{Lo}{0,62}` Label values must be between 0 and 63 characters long, have a UTF-8 encoding of maximum 128 bytes, and must conform to the following PCRE regular expression: `[\p{Ll}\p{Lo}\p{N}_-]{0,63}` No more than 64 labels can be assigned to a given resource. */
-  labels?: StringMap | undefined;
-  /** Output only. The time at which the Secret was created. */
-  createTime?: string | undefined;
 }
-export interface SetIamPolicyProjectsSecretsRequest {
-  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
+/** Request message for `SetIamPolicy` method. */
+export interface SetIamPolicyRequest {
   /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
   updateMask?: string | undefined;
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
   policy?: Policy | undefined;
 }
-export interface TestIamPermissionsProjectsSecretsRequest {
-  /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+export interface SetIamPolicyProjectsSecretsRequest extends SetIamPolicyRequest {
+  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
+}
+/** Request message for `TestIamPermissions` method. */
+export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: StringList | undefined;
+}
+export interface TestIamPermissionsProjectsSecretsRequest extends TestIamPermissionsRequest {
+  /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
@@ -402,7 +393,7 @@ export const addVersionProjectsSecrets: API.OperationMethod<
   AddVersionProjectsSecretsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c16, 0) as any as S.Schema<AddVersionProjectsSecretsRequest>,
+  input: __S(129, __c16, 1) as any as S.Schema<AddVersionProjectsSecretsRequest>,
   output: __S(136, __c17, 0) as any as S.Schema<SecretVersion>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -666,7 +657,7 @@ export const setIamPolicyProjectsSecrets: API.OperationMethod<
   SetIamPolicyProjectsSecretsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c12, 0) as any as S.Schema<SetIamPolicyProjectsSecretsRequest>,
+  input: __S(97, __c12, 1) as any as S.Schema<SetIamPolicyProjectsSecretsRequest>,
   output: __S(31, __c3, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -688,8 +679,8 @@ export const testIamPermissionsProjectsSecrets: API.OperationMethod<
   TestIamPermissionsProjectsSecretsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(104, __c13, 0) as any as S.Schema<TestIamPermissionsProjectsSecretsRequest>,
-  output: __S(105, __c13, 1) as any as S.Schema<TestIamPermissionsResponse>,
+  input: __S(105, __c13, 1) as any as S.Schema<TestIamPermissionsProjectsSecretsRequest>,
+  output: __S(104, __c13, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -941,14 +932,13 @@ function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          replication: S.optional(__S(163, __c20, 3)),
-          tags: S.optional(__S(152, __c19, 0)),
-          labels: S.optional(__S(152, __c19, 0)),
-          createTime: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(164, __c20, 4),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -963,10 +953,18 @@ function __c12(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          resource: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String),
           policy: S.optional(__S(31, __c3, 7)),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "SetIamPolicyRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(96, __c12, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+resource}:setIamPolicy",
@@ -981,9 +979,17 @@ function __c13(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          resource: S.String.pipe(T.Label()),
           permissions: S.optional(__S(16, __c2, 0)),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "TestIamPermissionsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(104, __c13, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+resource}:testIamPermissions",
@@ -991,12 +997,6 @@ function __c13(j: number): any {
           }),
         ),
       ).annotate({ identifier: "TestIamPermissionsProjectsSecretsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          permissions: S.optional(__S(16, __c2, 0)),
-        }),
-      ).annotate({ identifier: "TestIamPermissionsResponse" });
   }
 }
 function __c14(j: number): any {
@@ -1037,9 +1037,17 @@ function __c16(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
           payload: S.optional(__S(120, __c15, 0)),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "AddSecretVersionRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(128, __c16, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}:addVersion",
@@ -1066,15 +1074,13 @@ function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          secretId: S.optional(S.String.pipe(T.Query())),
-          replication: S.optional(__S(163, __c20, 3)),
-          tags: S.optional(__S(152, __c19, 0)),
-          labels: S.optional(__S(152, __c19, 0)),
-          name: S.optional(S.String),
-          createTime: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(164, __c20, 4),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            secretId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/secrets",

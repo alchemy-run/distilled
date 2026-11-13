@@ -114,11 +114,14 @@ export interface EditTagsApiObservationsRequest {
   tagActions?: TagActionList | undefined;
 }
 export type EditTagsApiObservationsRequestList = Array<EditTagsApiObservationsRequest>;
-export interface BatchEditTagsProjectsLocationsObservationJobsApiObservationsRequest {
-  /** Required. The parent resource shared by all ApiObservations being edited. Format: projects/{project}/locations/{location}/observationJobs/{observation_job} */
-  parent: string;
+/** Message for requesting batch edit tags for ApiObservations */
+export interface BatchEditTagsApiObservationsRequest {
   /** Required. The request message specifying the resources to update. A maximum of 1000 apiObservations can be modified in a batch. */
   requests?: EditTagsApiObservationsRequestList | undefined;
+}
+export interface BatchEditTagsProjectsLocationsObservationJobsApiObservationsRequest extends BatchEditTagsApiObservationsRequest {
+  /** Required. The parent resource shared by all ApiObservations being edited. Format: projects/{project}/locations/{location}/observationJobs/{observation_job} */
+  parent: string;
 }
 export type ApiObservationStyleEnum = "STYLE_UNSPECIFIED" | "REST" | "GRPC" | "GRAPHQL";
 export type StringList = Array<string>;
@@ -170,13 +173,8 @@ export type ObservationJobStateEnum =
   | "DISABLED"
   | "DELETING"
   | "ERROR";
-export interface CreateProjectsLocationsObservationJobsRequest {
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Required. The ID to use for the Observation Job. This value should be 4-63 characters, and valid characters are /a-z-/. */
-  observationJobId?: string | undefined;
-  /** Required. The parent resource where this ObservationJob will be created. Format: projects/{project}/locations/{location} */
-  parent: string;
+/** Message describing ObservationJob object */
+export interface ObservationJob {
   /** Optional. These should be of the same kind of source. */
   sources?: StringList | undefined;
   /** Identifier. name of resource Format: projects/{project}/locations/{location}/observationJobs/{observation_job} */
@@ -187,6 +185,14 @@ export interface CreateProjectsLocationsObservationJobsRequest {
   createTime?: string | undefined;
   /** Output only. The observation job state */
   state?: ObservationJobStateEnum | (string & {}) | undefined;
+}
+export interface CreateProjectsLocationsObservationJobsRequest extends ObservationJob {
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+  /** Required. The ID to use for the Observation Job. This value should be 4-63 characters, and valid characters are /a-z-/. */
+  observationJobId?: string | undefined;
+  /** Required. The parent resource where this ObservationJob will be created. Format: projects/{project}/locations/{location} */
+  parent: string;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -232,13 +238,8 @@ export type ObservationSourceStateEnum =
   | "CREATED"
   | "DELETING"
   | "ERROR";
-export interface CreateProjectsLocationsObservationSourcesRequest {
-  /** Required. The ID to use for the Observation Source. This value should be 4-63 characters, and valid characters are /a-z-/. */
-  observationSourceId?: string | undefined;
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Required. Value for parent. */
-  parent: string;
+/** Observation source configuration types */
+export interface ObservationSource {
   /** Output only. [Output only] Create time stamp */
   createTime?: string | undefined;
   /** The GCLB observation source */
@@ -249,6 +250,14 @@ export interface CreateProjectsLocationsObservationSourcesRequest {
   state?: ObservationSourceStateEnum | (string & {}) | undefined;
   /** Output only. [Output only] Update time stamp */
   updateTime?: string | undefined;
+}
+export interface CreateProjectsLocationsObservationSourcesRequest extends ObservationSource {
+  /** Required. The ID to use for the Observation Source. This value should be 4-63 characters, and valid characters are /a-z-/. */
+  observationSourceId?: string | undefined;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+  /** Required. Value for parent. */
+  parent: string;
 }
 export interface DeleteProjectsLocationsObservationJobsRequest {
   /** Required. Name of the resource Format: projects/{project}/locations/{location}/observationJobs/{observation_job} */
@@ -316,19 +325,6 @@ export interface Location {
 export interface GetProjectsLocationsObservationJobsRequest {
   /** Required. The name of the ObservationJob to retrieve. Format: projects/{project}/locations/{location}/observationJobs/{job} */
   name: string;
-}
-/** Message describing ObservationJob object */
-export interface ObservationJob {
-  /** Optional. These should be of the same kind of source. */
-  sources?: StringList | undefined;
-  /** Identifier. name of resource Format: projects/{project}/locations/{location}/observationJobs/{observation_job} */
-  name?: string | undefined;
-  /** Output only. [Output only] Update time stamp */
-  updateTime?: string | undefined;
-  /** Output only. [Output only] Create time stamp */
-  createTime?: string | undefined;
-  /** Output only. The observation job state */
-  state?: ObservationJobStateEnum | undefined;
 }
 export interface GetProjectsLocationsObservationJobsApiObservationsRequest {
   /** Required. The name of the ApiObservation to retrieve. Format: projects/{project}/locations/{location}/observationJobs/{observation_job}/apiObservations/{api_observation} */
@@ -441,19 +437,6 @@ export interface ApiOperation {
 export interface GetProjectsLocationsObservationSourcesRequest {
   /** Required. The name of the ObservationSource to retrieve. Format: projects/{project}/locations/{location}/observationSources/{source} */
   name: string;
-}
-/** Observation source configuration types */
-export interface ObservationSource {
-  /** Output only. [Output only] Create time stamp */
-  createTime?: string | undefined;
-  /** The GCLB observation source */
-  gclbObservationSource?: GclbObservationSource | undefined;
-  /** Identifier. name of resource For MVP, each region can only have 1 source. */
-  name?: string | undefined;
-  /** Output only. The observation source state */
-  state?: ObservationSourceStateEnum | undefined;
-  /** Output only. [Output only] Update time stamp */
-  updateTime?: string | undefined;
 }
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
@@ -597,11 +580,11 @@ export const batchEditTagsProjectsLocationsObservationJobsApiObservations: API.O
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    372,
-    __c23,
-    4,
+    341,
+    __c21,
+    5,
   ) as any as S.Schema<BatchEditTagsProjectsLocationsObservationJobsApiObservationsRequest>,
-  output: __S(373, __c23, 5) as any as S.Schema<BatchEditTagsApiObservationsResponse>,
+  output: __S(342, __c21, 6) as any as S.Schema<BatchEditTagsApiObservationsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -622,8 +605,8 @@ export const cancelProjectsLocationsOperations: API.OperationMethod<
   CancelProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(432, __c27, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
-  output: __S(448, __c28, 0) as any as S.Schema<Empty>,
+  input: __S(400, __c25, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
+  output: __S(416, __c26, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -645,8 +628,8 @@ export const createProjectsLocationsObservationJobs: API.OperationMethod<
   CreateProjectsLocationsObservationJobsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(464, __c29, 0) as any as S.Schema<CreateProjectsLocationsObservationJobsRequest>,
-  output: __S(498, __c31, 2) as any as S.Schema<Operation>,
+  input: __S(432, __c27, 0) as any as S.Schema<CreateProjectsLocationsObservationJobsRequest>,
+  output: __S(482, __c30, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -668,8 +651,8 @@ export const createProjectsLocationsObservationSources: API.OperationMethod<
   CreateProjectsLocationsObservationSourcesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c32, 0) as any as S.Schema<CreateProjectsLocationsObservationSourcesRequest>,
-  output: __S(498, __c31, 2) as any as S.Schema<Operation>,
+  input: __S(496, __c31, 0) as any as S.Schema<CreateProjectsLocationsObservationSourcesRequest>,
+  output: __S(482, __c30, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -691,8 +674,8 @@ export const deleteProjectsLocationsObservationJobs: API.OperationMethod<
   DeleteProjectsLocationsObservationJobsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c34, 0) as any as S.Schema<DeleteProjectsLocationsObservationJobsRequest>,
-  output: __S(498, __c31, 2) as any as S.Schema<Operation>,
+  input: __S(528, __c33, 0) as any as S.Schema<DeleteProjectsLocationsObservationJobsRequest>,
+  output: __S(482, __c30, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -715,7 +698,7 @@ export const deleteProjectsLocationsObservationSources: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<DeleteProjectsLocationsObservationSourcesRequest>,
-  output: __S(498, __c31, 2) as any as S.Schema<Operation>,
+  output: __S(482, __c30, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -737,7 +720,7 @@ export const deleteProjectsLocationsOperations: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c1, 0) as any as S.Schema<DeleteProjectsLocationsOperationsRequest>,
-  output: __S(448, __c28, 0) as any as S.Schema<Empty>,
+  output: __S(416, __c26, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -760,7 +743,7 @@ export const disableProjectsLocationsObservationJobs: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c2, 0) as any as S.Schema<DisableProjectsLocationsObservationJobsRequest>,
-  output: __S(498, __c31, 2) as any as S.Schema<Operation>,
+  output: __S(482, __c30, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -783,7 +766,7 @@ export const enableProjectsLocationsObservationJobs: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c3, 0) as any as S.Schema<EnableProjectsLocationsObservationJobsRequest>,
-  output: __S(498, __c31, 2) as any as S.Schema<Operation>,
+  output: __S(482, __c30, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -838,7 +821,7 @@ export const getProjectsLocationsObservationJobs: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c8, 0) as any as S.Schema<GetProjectsLocationsObservationJobsRequest>,
-  output: __S(144, __c9, 0) as any as S.Schema<ObservationJob>,
+  output: __S(448, __c28, 0) as any as S.Schema<ObservationJob>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -858,11 +841,11 @@ export const getProjectsLocationsObservationJobsApiObservations: API.OperationMe
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    160,
-    __c10,
+    144,
+    __c9,
     0,
   ) as any as S.Schema<GetProjectsLocationsObservationJobsApiObservationsRequest>,
-  output: __S(384, __c24, 0) as any as S.Schema<ApiObservation>,
+  output: __S(352, __c22, 0) as any as S.Schema<ApiObservation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -882,11 +865,11 @@ export const getProjectsLocationsObservationJobsApiObservationsApiOperations: AP
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    176,
-    __c11,
+    160,
+    __c10,
     0,
   ) as any as S.Schema<GetProjectsLocationsObservationJobsApiObservationsApiOperationsRequest>,
-  output: __S(201, __c12, 9) as any as S.Schema<ApiOperation>,
+  output: __S(185, __c11, 9) as any as S.Schema<ApiOperation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -906,8 +889,8 @@ export const getProjectsLocationsObservationSources: API.OperationMethod<
   GetProjectsLocationsObservationSourcesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c13, 0) as any as S.Schema<GetProjectsLocationsObservationSourcesRequest>,
-  output: __S(224, __c14, 0) as any as S.Schema<ObservationSource>,
+  input: __S(192, __c12, 0) as any as S.Schema<GetProjectsLocationsObservationSourcesRequest>,
+  output: __S(515, __c32, 3) as any as S.Schema<ObservationSource>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -927,8 +910,8 @@ export const getProjectsLocationsOperations: API.OperationMethod<
   GetProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c15, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
-  output: __S(498, __c31, 2) as any as S.Schema<Operation>,
+  input: __S(208, __c13, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
+  output: __S(482, __c30, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -945,8 +928,8 @@ export const listApiObservationTagsProjectsLocations: API.PaginatedOperationMeth
   GcpOpContext,
   ListApiObservationTagsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(256, __c16, 0) as any as S.Schema<ListApiObservationTagsProjectsLocationsRequest>,
-  output: __S(257, __c16, 1) as any as S.Schema<ListApiObservationTagsResponse>,
+  input: __S(224, __c14, 0) as any as S.Schema<ListApiObservationTagsProjectsLocationsRequest>,
+  output: __S(225, __c14, 1) as any as S.Schema<ListApiObservationTagsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -964,8 +947,8 @@ export const listProjectsLocations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListLocationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(272, __c17, 0) as any as S.Schema<ListProjectsLocationsRequest>,
-  output: __S(274, __c17, 2) as any as S.Schema<ListLocationsResponse>,
+  input: __S(240, __c15, 0) as any as S.Schema<ListProjectsLocationsRequest>,
+  output: __S(242, __c15, 2) as any as S.Schema<ListLocationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -987,8 +970,8 @@ export const listProjectsLocationsObservationJobs: API.PaginatedOperationMethod<
   GcpOpContext,
   ListObservationJobsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(288, __c18, 0) as any as S.Schema<ListProjectsLocationsObservationJobsRequest>,
-  output: __S(290, __c18, 2) as any as S.Schema<ListObservationJobsResponse>,
+  input: __S(256, __c16, 0) as any as S.Schema<ListProjectsLocationsObservationJobsRequest>,
+  output: __S(258, __c16, 2) as any as S.Schema<ListObservationJobsResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1010,11 +993,11 @@ export const listProjectsLocationsObservationJobsApiObservations: API.PaginatedO
   ListApiObservationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    304,
-    __c19,
+    272,
+    __c17,
     0,
   ) as any as S.Schema<ListProjectsLocationsObservationJobsApiObservationsRequest>,
-  output: __S(305, __c19, 1) as any as S.Schema<ListApiObservationsResponse>,
+  output: __S(273, __c17, 1) as any as S.Schema<ListApiObservationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1036,11 +1019,11 @@ export const listProjectsLocationsObservationJobsApiObservationsApiOperations: A
   ListApiOperationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    320,
-    __c20,
+    288,
+    __c18,
     0,
   ) as any as S.Schema<ListProjectsLocationsObservationJobsApiObservationsApiOperationsRequest>,
-  output: __S(322, __c20, 2) as any as S.Schema<ListApiOperationsResponse>,
+  output: __S(290, __c18, 2) as any as S.Schema<ListApiOperationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1062,8 +1045,8 @@ export const listProjectsLocationsObservationSources: API.PaginatedOperationMeth
   GcpOpContext,
   ListObservationSourcesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(336, __c21, 0) as any as S.Schema<ListProjectsLocationsObservationSourcesRequest>,
-  output: __S(338, __c21, 2) as any as S.Schema<ListObservationSourcesResponse>,
+  input: __S(304, __c19, 0) as any as S.Schema<ListProjectsLocationsObservationSourcesRequest>,
+  output: __S(306, __c19, 2) as any as S.Schema<ListObservationSourcesResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1081,8 +1064,8 @@ export const listProjectsLocationsOperations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListOperationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(352, __c22, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
-  output: __S(354, __c22, 2) as any as S.Schema<ListOperationsResponse>,
+  input: __S(320, __c20, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
+  output: __S(322, __c20, 2) as any as S.Schema<ListOperationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1130,7 +1113,7 @@ function __c2(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(448, __c28, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(416, __c26, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1147,7 +1130,7 @@ function __c3(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(448, __c28, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(416, __c26, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1213,7 +1196,7 @@ function __c7(j: number): any {
         S.Struct({
           displayName: S.optional(S.String),
           locationId: S.optional(S.String),
-          metadata: S.optional(__S(480, __c30, 0)),
+          metadata: S.optional(__S(464, __c29, 0)),
           name: S.optional(S.String),
           labels: S.optional(__S(96, __c6, 0)),
         }),
@@ -1241,20 +1224,6 @@ function __c9(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          sources: S.optional(__S(416, __c26, 0)),
-          name: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          createTime: S.optional(S.String),
-          state: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ObservationJob" });
-  }
-}
-function __c10(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
           name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -1266,7 +1235,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsObservationJobsApiObservationsRequest" });
   }
 }
-function __c11(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1284,7 +1253,7 @@ function __c11(j: number): any {
       });
   }
 }
-function __c12(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1294,7 +1263,7 @@ function __c12(j: number): any {
         }),
       ).annotate({ identifier: "HttpOperationPathParam" });
     case 1:
-      return S.Array(__S(192, __c12, 0));
+      return S.Array(__S(176, __c11, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -1304,17 +1273,17 @@ function __c12(j: number): any {
         }),
       ).annotate({ identifier: "HttpOperationHeader" });
     case 3:
-      return S.Record(S.String, __S(194, __c12, 2));
+      return S.Record(S.String, __S(178, __c11, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          headers: S.optional(__S(195, __c12, 3)),
+          headers: S.optional(__S(179, __c11, 3)),
         }),
       ).annotate({ identifier: "HttpOperationHttpRequest" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          headers: S.optional(__S(195, __c12, 3)),
+          headers: S.optional(__S(179, __c11, 3)),
           responseCodes: S.optional(__S(96, __c6, 0)),
         }),
       ).annotate({ identifier: "HttpOperationHttpResponse" });
@@ -1327,16 +1296,16 @@ function __c12(j: number): any {
         }),
       ).annotate({ identifier: "HttpOperationQueryParam" });
     case 7:
-      return S.Record(S.String, __S(198, __c12, 6));
+      return S.Record(S.String, __S(182, __c11, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          pathParams: S.optional(__S(193, __c12, 1)),
+          pathParams: S.optional(__S(177, __c11, 1)),
           method: S.optional(S.String),
           path: S.optional(S.String),
-          request: S.optional(__S(196, __c12, 4)),
-          response: S.optional(__S(197, __c12, 5)),
-          queryParams: S.optional(__S(199, __c12, 7)),
+          request: S.optional(__S(180, __c11, 4)),
+          response: S.optional(__S(181, __c11, 5)),
+          queryParams: S.optional(__S(183, __c11, 7)),
         }),
       ).annotate({ identifier: "HttpOperation" });
     case 9:
@@ -1344,14 +1313,14 @@ function __c12(j: number): any {
         S.Struct({
           name: S.optional(S.String),
           count: S.optional(S.String),
-          httpOperation: S.optional(__S(200, __c12, 8)),
+          httpOperation: S.optional(__S(184, __c11, 8)),
           firstSeenTime: S.optional(S.String),
           lastSeenTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "ApiOperation" });
   }
 }
-function __c13(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1367,21 +1336,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsObservationSourcesRequest" });
   }
 }
-function __c14(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          createTime: S.optional(S.String),
-          gclbObservationSource: S.optional(__S(530, __c33, 2)),
-          name: S.optional(S.String),
-          state: S.optional(S.String),
-          updateTime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ObservationSource" });
-  }
-}
-function __c15(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1397,7 +1352,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsOperationsRequest" });
   }
 }
-function __c16(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1417,17 +1372,17 @@ function __c16(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          apiObservationTags: S.optional(__S(416, __c26, 0)),
+          apiObservationTags: S.optional(__S(384, __c24, 0)),
         }),
       ).annotate({ identifier: "ListApiObservationTagsResponse" });
   }
 }
-function __c17(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          extraLocationTypes: S.optional(__S(416, __c26, 0).pipe(T.Query())),
+          extraLocationTypes: S.optional(__S(384, __c24, 0).pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
@@ -1445,13 +1400,13 @@ function __c17(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          locations: S.optional(__S(273, __c17, 1)),
+          locations: S.optional(__S(241, __c15, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListLocationsResponse" });
   }
 }
-function __c18(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1468,18 +1423,18 @@ function __c18(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsObservationJobsRequest" });
     case 1:
-      return S.Array(__S(144, __c9, 0));
+      return S.Array(__S(448, __c28, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          observationJobs: S.optional(__S(289, __c18, 1)),
-          unreachable: S.optional(__S(416, __c26, 0)),
+          observationJobs: S.optional(__S(257, __c16, 1)),
+          unreachable: S.optional(__S(384, __c24, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListObservationJobsResponse" });
   }
 }
-function __c19(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1499,12 +1454,12 @@ function __c19(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          apiObservations: S.optional(__S(400, __c25, 0)),
+          apiObservations: S.optional(__S(368, __c23, 0)),
         }),
       ).annotate({ identifier: "ListApiObservationsResponse" });
   }
 }
-function __c20(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1523,17 +1478,17 @@ function __c20(j: number): any {
         identifier: "ListProjectsLocationsObservationJobsApiObservationsApiOperationsRequest",
       });
     case 1:
-      return S.Array(__S(201, __c12, 9));
+      return S.Array(__S(185, __c11, 9));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          apiOperations: S.optional(__S(321, __c20, 1)),
+          apiOperations: S.optional(__S(289, __c18, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListApiOperationsResponse" });
   }
 }
-function __c21(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1550,18 +1505,18 @@ function __c21(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsObservationSourcesRequest" });
     case 1:
-      return S.Array(__S(224, __c14, 0));
+      return S.Array(__S(515, __c32, 3));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          observationSources: S.optional(__S(337, __c21, 1)),
-          unreachable: S.optional(__S(416, __c26, 0)),
+          observationSources: S.optional(__S(305, __c19, 1)),
+          unreachable: S.optional(__S(384, __c24, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListObservationSourcesResponse" });
   }
 }
-function __c22(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1580,18 +1535,18 @@ function __c22(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsOperationsRequest" });
     case 1:
-      return S.Array(__S(498, __c31, 2));
+      return S.Array(__S(482, __c30, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          operations: S.optional(__S(353, __c22, 1)),
-          unreachable: S.optional(__S(416, __c26, 0)),
+          operations: S.optional(__S(321, __c20, 1)),
+          unreachable: S.optional(__S(384, __c24, 0)),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
   }
 }
-function __c23(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1601,22 +1556,30 @@ function __c23(j: number): any {
         }),
       ).annotate({ identifier: "TagAction" });
     case 1:
-      return S.Array(__S(368, __c23, 0));
+      return S.Array(__S(336, __c21, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           apiObservationId: S.optional(S.String),
-          tagActions: S.optional(__S(369, __c23, 1)),
+          tagActions: S.optional(__S(337, __c21, 1)),
         }),
       ).annotate({ identifier: "EditTagsApiObservationsRequest" });
     case 3:
-      return S.Array(__S(370, __c23, 2));
+      return S.Array(__S(338, __c21, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
-          requests: S.optional(__S(371, __c23, 3)),
-        }).pipe(
+          requests: S.optional(__S(339, __c21, 3)),
+        }),
+      ).annotate({ identifier: "BatchEditTagsApiObservationsRequest" });
+    case 5:
+      return S.suspend(() =>
+        S.Extend(
+          __S(340, __c21, 4),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/apiObservations:batchEditTags",
@@ -1626,15 +1589,15 @@ function __c23(j: number): any {
       ).annotate({
         identifier: "BatchEditTagsProjectsLocationsObservationJobsApiObservationsRequest",
       });
-    case 5:
+    case 6:
       return S.suspend(() =>
         S.Struct({
-          apiObservations: S.optional(__S(400, __c25, 0)),
+          apiObservations: S.optional(__S(368, __c23, 0)),
         }),
       ).annotate({ identifier: "BatchEditTagsApiObservationsResponse" });
   }
 }
-function __c24(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1642,36 +1605,36 @@ function __c24(j: number): any {
           name: S.optional(S.String),
           createTime: S.optional(S.String),
           style: S.optional(S.String),
-          sourceLocations: S.optional(__S(416, __c26, 0)),
+          sourceLocations: S.optional(__S(384, __c24, 0)),
           updateTime: S.optional(S.String),
           apiOperationCount: S.optional(S.String),
-          serverIps: S.optional(__S(416, __c26, 0)),
+          serverIps: S.optional(__S(384, __c24, 0)),
           hostname: S.optional(S.String),
           lastEventDetectedTime: S.optional(S.String),
-          tags: S.optional(__S(416, __c26, 0)),
+          tags: S.optional(__S(384, __c24, 0)),
         }),
       ).annotate({ identifier: "ApiObservation" });
   }
 }
-function __c25(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(384, __c24, 0));
+      return S.Array(__S(352, __c22, 0));
   }
 }
-function __c26(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c27(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(448, __c28, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(416, __c26, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1682,26 +1645,24 @@ function __c27(j: number): any {
       ).annotate({ identifier: "CancelProjectsLocationsOperationsRequest" });
   }
 }
-function __c28(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "CancelOperationRequest" });
   }
 }
-function __c29(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          observationJobId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          sources: S.optional(__S(416, __c26, 0)),
-          name: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          createTime: S.optional(S.String),
-          state: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(448, __c28, 0),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            observationJobId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/observationJobs",
@@ -1711,50 +1672,62 @@ function __c29(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsObservationJobsRequest" });
   }
 }
-function __c30(j: number): any {
+function __c28(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          sources: S.optional(__S(384, __c24, 0)),
+          name: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          createTime: S.optional(S.String),
+          state: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ObservationJob" });
+  }
+}
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c31(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(480, __c30, 0));
+      return S.Array(__S(464, __c29, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
           message: S.optional(S.String),
-          details: S.optional(__S(496, __c31, 0)),
+          details: S.optional(__S(480, __c30, 0)),
           code: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Status" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          error: S.optional(__S(497, __c31, 1)),
+          error: S.optional(__S(481, __c30, 1)),
           done: S.optional(S.Boolean),
-          response: S.optional(__S(480, __c30, 0)),
-          metadata: S.optional(__S(480, __c30, 0)),
+          response: S.optional(__S(464, __c29, 0)),
+          metadata: S.optional(__S(464, __c29, 0)),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "Operation" });
   }
 }
-function __c32(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          observationSourceId: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          createTime: S.optional(S.String),
-          gclbObservationSource: S.optional(__S(530, __c33, 2)),
-          name: S.optional(S.String),
-          state: S.optional(S.String),
-          updateTime: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(515, __c32, 3),
+          S.Struct({
+            observationSourceId: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/observationSources",
@@ -1764,7 +1737,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsObservationSourcesRequest" });
   }
 }
-function __c33(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1774,16 +1747,26 @@ function __c33(j: number): any {
         }),
       ).annotate({ identifier: "GclbObservationSourcePscNetworkConfig" });
     case 1:
-      return S.Array(__S(528, __c33, 0));
+      return S.Array(__S(512, __c32, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          pscNetworkConfigs: S.optional(__S(529, __c33, 1)),
+          pscNetworkConfigs: S.optional(__S(513, __c32, 1)),
         }),
       ).annotate({ identifier: "GclbObservationSource" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          createTime: S.optional(S.String),
+          gclbObservationSource: S.optional(__S(514, __c32, 2)),
+          name: S.optional(S.String),
+          state: S.optional(S.String),
+          updateTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ObservationSource" });
   }
 }
-function __c34(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

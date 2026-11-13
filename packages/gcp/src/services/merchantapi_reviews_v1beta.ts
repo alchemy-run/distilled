@@ -446,37 +446,17 @@ export interface ProductReview {
   /** Identifier. The name of the product review. Format: `"{productreview.name=accounts/{account}/productReviews/{productReview}}"` */
   name?: string | undefined;
 }
-export interface InsertAccountsMerchantReviewsRequest {
+export interface InsertAccountsMerchantReviewsRequest extends Omit<MerchantReview, "dataSource"> {
   /** Required. The account where the merchant review will be inserted. Format: accounts/{account} */
   parent: string;
   /** Required. The data source of the [merchantreview](https://support.google.com/merchants/answer/7045996?sjid=5253581244217581976-EU) Format: `accounts/{account}/dataSources/{datasource}`. */
   dataSource?: string | undefined;
-  /** Optional. A list of custom (merchant-provided) attributes. It can also be used for submitting any attribute of the data specification in its generic form (for example, `{ "name": "size type", "value": "regular" }`). This is useful for submitting attributes not explicitly exposed by the API, such as experimental attributes. Maximum allowed number of characters for each custom attribute is 10240 (represents sum of characters for name and value). Maximum 2500 custom attributes can be set per product, with total size of 102.4kB. Underscores in custom attribute names are replaced by spaces upon insertion. */
-  customAttributes?: CustomAttributeList | undefined;
-  /** Required. The user provided merchant review ID to uniquely identify the merchant review. */
-  merchantReviewId?: string | undefined;
-  /** Output only. The status of a merchant review, data validation issues, that is, information about a merchant review computed asynchronously. */
-  merchantReviewStatus?: MerchantReviewStatus | undefined;
-  /** Identifier. The name of the merchant review. Format: `"{merchantreview.name=accounts/{account}/merchantReviews/{merchantReview}}"` */
-  name?: string | undefined;
-  /** Optional. A list of merchant review attributes. */
-  merchantReviewAttributes?: MerchantReviewAttributes | undefined;
 }
-export interface InsertAccountsProductReviewsRequest {
+export interface InsertAccountsProductReviewsRequest extends Omit<ProductReview, "dataSource"> {
   /** Required. Format: `accounts/{account}/dataSources/{datasource}`. */
   dataSource?: string | undefined;
   /** Required. The account where the product review will be inserted. Format: accounts/{account} */
   parent: string;
-  /** Optional. A list of custom (merchant-provided) attributes. */
-  customAttributes?: CustomAttributeList | undefined;
-  /** Optional. A list of product review attributes. */
-  productReviewAttributes?: ProductReviewAttributes | undefined;
-  /** Required. The permanent, unique identifier for the product review in the publisher's system. */
-  productReviewId?: string | undefined;
-  /** Output only. The status of a product review, data validation issues, that is, information about a product review computed asynchronously. */
-  productReviewStatus?: ProductReviewStatus | undefined;
-  /** Identifier. The name of the product review. Format: `"{productreview.name=accounts/{account}/productReviews/{productReview}}"` */
-  name?: string | undefined;
 }
 export interface ListAccountsMerchantReviewsRequest {
   /** Required. The account to list merchant reviews for. Format: accounts/{account} */
@@ -691,15 +671,13 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          dataSource: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          customAttributes: S.optional(__S(57, __c7, 1)),
-          productReviewAttributes: S.optional(__S(82, __c10, 2)),
-          productReviewId: S.optional(S.String),
-          productReviewStatus: S.optional(__S(85, __c10, 5)),
-          name: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(86, __c10, 6),
+          S.Struct({
+            dataSource: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "reviews/v1beta/{+parent}/productReviews:insert",
@@ -1003,15 +981,13 @@ function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          dataSource: S.optional(S.String.pipe(T.Query())),
-          customAttributes: S.optional(__S(57, __c7, 1)),
-          merchantReviewId: S.optional(S.String),
-          merchantReviewStatus: S.optional(__S(66, __c8, 2)),
-          name: S.optional(S.String),
-          merchantReviewAttributes: S.optional(__S(67, __c8, 3)),
-        }).pipe(
+        S.Extend(
+          __S(68, __c8, 4),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            dataSource: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "reviews/v1beta/{+parent}/merchantReviews:insert",

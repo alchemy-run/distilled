@@ -92,23 +92,22 @@ export interface GoogleAppsDriveLabelsV2betaDeleteLabelPermissionRequest {
 }
 export type GoogleAppsDriveLabelsV2betaDeleteLabelPermissionRequestList =
   Array<GoogleAppsDriveLabelsV2betaDeleteLabelPermissionRequest>;
-export interface BatchDeleteLabelsPermissionsRequest {
-  /** Required. The parent label resource name shared by all permissions being deleted. Format: `labels/{label}`. If this is set, the parent field in the `UpdateLabelPermissionRequest` messages must either be empty or match this field. */
-  parent: string;
+/** Deletes one or more label permissions. */
+export interface GoogleAppsDriveLabelsV2betaBatchDeleteLabelPermissionsRequest {
   /** Required. The request message specifying the resources to update. */
   requests?: GoogleAppsDriveLabelsV2betaDeleteLabelPermissionRequestList | undefined;
   /** Set to `true` in order to use the user's admin credentials. The server will verify the user is an admin for the label before allowing access. If this is set, the `use_admin_access` field in the `DeleteLabelPermissionRequest` messages must either be empty or match this field. */
   useAdminAccess?: boolean | undefined;
 }
-/** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
-export interface GoogleProtobufEmpty {}
-export interface BatchDeleteLabelsRevisionsPermissionsRequest {
+export interface BatchDeleteLabelsPermissionsRequest extends GoogleAppsDriveLabelsV2betaBatchDeleteLabelPermissionsRequest {
   /** Required. The parent label resource name shared by all permissions being deleted. Format: `labels/{label}`. If this is set, the parent field in the `UpdateLabelPermissionRequest` messages must either be empty or match this field. */
   parent: string;
-  /** Required. The request message specifying the resources to update. */
-  requests?: GoogleAppsDriveLabelsV2betaDeleteLabelPermissionRequestList | undefined;
-  /** Set to `true` in order to use the user's admin credentials. The server will verify the user is an admin for the label before allowing access. If this is set, the `use_admin_access` field in the `DeleteLabelPermissionRequest` messages must either be empty or match this field. */
-  useAdminAccess?: boolean | undefined;
+}
+/** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
+export interface GoogleProtobufEmpty {}
+export interface BatchDeleteLabelsRevisionsPermissionsRequest extends GoogleAppsDriveLabelsV2betaBatchDeleteLabelPermissionsRequest {
+  /** Required. The parent label resource name shared by all permissions being deleted. Format: `labels/{label}`. If this is set, the parent field in the `UpdateLabelPermissionRequest` messages must either be empty or match this field. */
+  parent: string;
 }
 export type GoogleAppsDriveLabelsV2betaLabelPermissionRoleEnum =
   | "LABEL_ROLE_UNSPECIFIED"
@@ -142,13 +141,16 @@ export interface GoogleAppsDriveLabelsV2betaUpdateLabelPermissionRequest {
 }
 export type GoogleAppsDriveLabelsV2betaUpdateLabelPermissionRequestList =
   Array<GoogleAppsDriveLabelsV2betaUpdateLabelPermissionRequest>;
-export interface BatchUpdateLabelsPermissionsRequest {
-  /** Required. The parent label resource name shared by all permissions being updated. Format: `labels/{label}`. If this is set, the parent field in the `UpdateLabelPermissionRequest` messages must either be empty or match this field. */
-  parent: string;
+/** Updates one or more label permissions. */
+export interface GoogleAppsDriveLabelsV2betaBatchUpdateLabelPermissionsRequest {
   /** Set to `true` in order to use the user's admin credentials. The server will verify the user is an admin for the label before allowing access. If this is set, the `use_admin_access` field in the `UpdateLabelPermissionRequest` messages must either be empty or match this field. */
   useAdminAccess?: boolean | undefined;
   /** Required. The request message specifying the resources to update. */
   requests?: GoogleAppsDriveLabelsV2betaUpdateLabelPermissionRequestList | undefined;
+}
+export interface BatchUpdateLabelsPermissionsRequest extends GoogleAppsDriveLabelsV2betaBatchUpdateLabelPermissionsRequest {
+  /** Required. The parent label resource name shared by all permissions being updated. Format: `labels/{label}`. If this is set, the parent field in the `UpdateLabelPermissionRequest` messages must either be empty or match this field. */
+  parent: string;
 }
 export type GoogleAppsDriveLabelsV2betaLabelPermissionList =
   Array<GoogleAppsDriveLabelsV2betaLabelPermission>;
@@ -157,13 +159,9 @@ export interface GoogleAppsDriveLabelsV2betaBatchUpdateLabelPermissionsResponse 
   /** Required. Permissions updated. */
   permissions?: GoogleAppsDriveLabelsV2betaLabelPermissionList | undefined;
 }
-export interface BatchUpdateLabelsRevisionsPermissionsRequest {
+export interface BatchUpdateLabelsRevisionsPermissionsRequest extends GoogleAppsDriveLabelsV2betaBatchUpdateLabelPermissionsRequest {
   /** Required. The parent label resource name shared by all permissions being updated. Format: `labels/{label}`. If this is set, the parent field in the `UpdateLabelPermissionRequest` messages must either be empty or match this field. */
   parent: string;
-  /** Set to `true` in order to use the user's admin credentials. The server will verify the user is an admin for the label before allowing access. If this is set, the `use_admin_access` field in the `UpdateLabelPermissionRequest` messages must either be empty or match this field. */
-  useAdminAccess?: boolean | undefined;
-  /** Required. The request message specifying the resources to update. */
-  requests?: GoogleAppsDriveLabelsV2betaUpdateLabelPermissionRequestList | undefined;
 }
 /** The UI display hints for rendering the label. */
 export interface GoogleAppsDriveLabelsV2betaLabelDisplayHints {
@@ -526,11 +524,8 @@ export interface GoogleAppsDriveLabelsV2betaLabelEnabledAppSettings {
   /** Optional. The list of apps where the label can be used. */
   enabledApps?: GoogleAppsDriveLabelsV2betaLabelEnabledAppSettingsEnabledAppList | undefined;
 }
-export interface CreateLabelsRequest {
-  /** Set to `true` in order to use the user's admin privileges. The server will verify the user is an admin before allowing access. */
-  useAdminAccess?: boolean | undefined;
-  /** The BCP-47 language code to use for evaluating localized field labels in response. When not specified, values in the default configured language will be used. */
-  languageCode?: string | undefined;
+/** A label defines a taxonomy that can be applied to Drive items in order to organize and search across items. Labels can be simple strings, or can contain fields that describe additional metadata that can be further used to organize and search Drive items. */
+export interface GoogleAppsDriveLabelsV2betaLabel {
   /** Output only. UI display hints for rendering the label. */
   displayHints?: GoogleAppsDriveLabelsV2betaLabelDisplayHints | undefined;
   /** Output only. The capabilities the user has on this label. */
@@ -578,90 +573,23 @@ export interface CreateLabelsRequest {
   /** Output only. Resource name of the label. Will be in the form of either: `labels/{id}` or `labels/{id}@{revision_id}` depending on the request. See `id` and `revision_id` below. */
   name?: string | undefined;
 }
-/** A label defines a taxonomy that can be applied to Drive items in order to organize and search across items. Labels can be simple strings, or can contain fields that describe additional metadata that can be further used to organize and search Drive items. */
-export interface GoogleAppsDriveLabelsV2betaLabel {
-  /** Output only. UI display hints for rendering the label. */
-  displayHints?: GoogleAppsDriveLabelsV2betaLabelDisplayHints | undefined;
-  /** Output only. The capabilities the user has on this label. */
-  schemaCapabilities?: GoogleAppsDriveLabelsV2betaLabelSchemaCapabilities | undefined;
-  /** Required. The basic properties of the label. */
-  properties?: GoogleAppsDriveLabelsV2betaLabelProperties | undefined;
-  /** Output only. The user who published this label. This value has no meaning when the label isn't published.>> */
-  publisher?: GoogleAppsDriveLabelsV2betaUserInfo | undefined;
-  /** Required. The type of label. */
-  labelType?: GoogleAppsDriveLabelsV2betaLabelLabelTypeEnum | undefined;
-  /** Output only. Globally unique identifier of this label. ID makes up part of the label `name`, but unlike `name`, ID is consistent between revisions. Matches the regex: `([a-zA-Z0-9])+`. */
-  id?: string | undefined;
-  /** Output only. The time this label revision was created. */
-  revisionCreateTime?: string | undefined;
-  /** Output only. The lifecycle state of the label including whether it's published, deprecated, and has draft changes. */
-  lifecycle?: GoogleAppsDriveLabelsV2betaLifecycle | undefined;
-  /** Output only. The `LockStatus` of this label. */
-  lockStatus?: GoogleAppsDriveLabelsV2betaLockStatus | undefined;
-  /** Output only. The user who created this label. */
-  creator?: GoogleAppsDriveLabelsV2betaUserInfo | undefined;
-  /** Output only. The user who disabled this label. This value has no meaning when the label isn't disabled. */
-  disabler?: GoogleAppsDriveLabelsV2betaUserInfo | undefined;
-  /** Output only. Behavior of this label when it's applied to Drive items. */
-  appliedLabelPolicy?: GoogleAppsDriveLabelsV2betaLabelAppliedLabelPolicy | undefined;
-  /** Output only. The time this label was created. */
-  createTime?: string | undefined;
-  /** Output only. The time this label was disabled. This value has no meaning when the label isn't disabled. */
-  disableTime?: string | undefined;
-  /** Output only. The user who created this label revision. */
-  revisionCreator?: GoogleAppsDriveLabelsV2betaUserInfo | undefined;
-  /** Output only. The time this label was published. This value has no meaning when the label isn't published. */
-  publishTime?: string | undefined;
-  /** List of fields in descending priority order. */
-  fields?: GoogleAppsDriveLabelsV2betaFieldList | undefined;
-  /** Output only. The customer this label belongs to. For example: `customers/123abc789`. */
-  customer?: string | undefined;
-  /** Output only. The capabilities related to this label on applied metadata. */
-  appliedCapabilities?: GoogleAppsDriveLabelsV2betaLabelAppliedCapabilities | undefined;
-  /** Optional. The `EnabledAppSettings` for this Label. */
-  enabledAppSettings?: GoogleAppsDriveLabelsV2betaLabelEnabledAppSettings | undefined;
-  /** Output only. Revision ID of the label. Revision ID might be part of the label `name` depending on the request issued. A new revision is created whenever revisioned properties of a label are changed. Matches the regex: `([a-zA-Z0-9])+`. */
-  revisionId?: string | undefined;
-  /** Custom URL to present to users to allow them to learn more about this label and how it should be used. */
-  learnMoreUri?: string | undefined;
-  /** Output only. Resource name of the label. Will be in the form of either: `labels/{id}` or `labels/{id}@{revision_id}` depending on the request. See `id` and `revision_id` below. */
-  name?: string | undefined;
+export interface CreateLabelsRequest extends GoogleAppsDriveLabelsV2betaLabel {
+  /** Set to `true` in order to use the user's admin privileges. The server will verify the user is an admin before allowing access. */
+  useAdminAccess?: boolean | undefined;
+  /** The BCP-47 language code to use for evaluating localized field labels in response. When not specified, values in the default configured language will be used. */
+  languageCode?: string | undefined;
 }
-export interface CreateLabelsPermissionsRequest {
+export interface CreateLabelsPermissionsRequest extends GoogleAppsDriveLabelsV2betaLabelPermission {
   /** Set to `true` in order to use the user's admin credentials. The server will verify the user is an admin for the label before allowing access. */
   useAdminAccess?: boolean | undefined;
   /** Required. The parent label resource name on the label permission is created. Format: `labels/{label}`. */
   parent: string;
-  /** Audience to grant a role to. The magic value of `audiences/default` may be used to apply the role to the default audience in the context of the organization that owns the label. */
-  audience?: string | undefined;
-  /** The role the principal should have. */
-  role?: GoogleAppsDriveLabelsV2betaLabelPermissionRoleEnum | (string & {}) | undefined;
-  /** Group resource name. */
-  group?: string | undefined;
-  /** Specifies the email address for a user or group principal. Not populated for audience principals. User and group permissions may only be inserted using an email address. On update requests, if email address is specified, no principal should be specified. */
-  email?: string | undefined;
-  /** Person resource name. */
-  person?: string | undefined;
-  /** Resource name of this permission. */
-  name?: string | undefined;
 }
-export interface CreateLabelsRevisionsPermissionsRequest {
+export interface CreateLabelsRevisionsPermissionsRequest extends GoogleAppsDriveLabelsV2betaLabelPermission {
   /** Required. The parent label resource name on the label permission is created. Format: `labels/{label}`. */
   parent: string;
   /** Set to `true` in order to use the user's admin credentials. The server will verify the user is an admin for the label before allowing access. */
   useAdminAccess?: boolean | undefined;
-  /** Audience to grant a role to. The magic value of `audiences/default` may be used to apply the role to the default audience in the context of the organization that owns the label. */
-  audience?: string | undefined;
-  /** The role the principal should have. */
-  role?: GoogleAppsDriveLabelsV2betaLabelPermissionRoleEnum | (string & {}) | undefined;
-  /** Group resource name. */
-  group?: string | undefined;
-  /** Specifies the email address for a user or group principal. Not populated for audience principals. User and group permissions may only be inserted using an email address. On update requests, if email address is specified, no principal should be specified. */
-  email?: string | undefined;
-  /** Person resource name. */
-  person?: string | undefined;
-  /** Resource name of this permission. */
-  name?: string | undefined;
 }
 export interface DeleteLabelsRequest {
   /** Required. Label resource name. */
@@ -836,9 +764,8 @@ export interface GoogleAppsDriveLabelsV2betaWriteControl {
 export type GoogleAppsDriveLabelsV2betaDeltaUpdateLabelRequestViewEnum =
   | "LABEL_VIEW_BASIC"
   | "LABEL_VIEW_FULL";
-export interface DeltaLabelsRequest {
-  /** Required. The resource name of the label to update. */
-  name: string;
+/** The set of requests for updating aspects of a label. If any request isn't valid, no requests will be applied. */
+export interface GoogleAppsDriveLabelsV2betaDeltaUpdateLabelRequest {
   /** A list of updates to apply to the label. Requests will be applied in the order they are specified. */
   requests?: GoogleAppsDriveLabelsV2betaDeltaUpdateLabelRequestRequestList | undefined;
   /** Set to `true` in order to use the user's admin credentials. The server will verify the user is an admin for the label before allowing access. */
@@ -849,6 +776,10 @@ export interface DeltaLabelsRequest {
   writeControl?: GoogleAppsDriveLabelsV2betaWriteControl | undefined;
   /** When specified, only certain fields belonging to the indicated view will be returned. */
   view?: GoogleAppsDriveLabelsV2betaDeltaUpdateLabelRequestViewEnum | (string & {}) | undefined;
+}
+export interface DeltaLabelsRequest extends GoogleAppsDriveLabelsV2betaDeltaUpdateLabelRequest {
+  /** Required. The resource name of the label to update. */
+  name: string;
 }
 /** Response following field delete. */
 export interface GoogleAppsDriveLabelsV2betaDeltaUpdateLabelResponseDeleteFieldResponse {}
@@ -947,9 +878,8 @@ export interface GoogleAppsDriveLabelsV2betaDeltaUpdateLabelResponse {
   /** The reply of the updates. This maps 1:1 with the updates, although responses to some requests may be empty. */
   responses?: GoogleAppsDriveLabelsV2betaDeltaUpdateLabelResponseResponseList | undefined;
 }
-export interface DisableLabelsRequest {
-  /** Required. Label resource name. */
-  name: string;
+/** Request to deprecate a published label. */
+export interface GoogleAppsDriveLabelsV2betaDisableLabelRequest {
   /** Disabled policy to use. */
   disabledPolicy?: GoogleAppsDriveLabelsV2betaLifecycleDisabledPolicy | undefined;
   /** Set to `true` in order to use the user's admin credentials. The server will verify the user is an admin for the label before allowing access. */
@@ -961,15 +891,22 @@ export interface DisableLabelsRequest {
   /** The fields that should be updated. At least one field must be specified. The root `disabled_policy` is implied and should not be specified. A single `*` can be used as a short-hand for updating every field. */
   updateMask?: string | undefined;
 }
-export interface EnableLabelsRequest {
+export interface DisableLabelsRequest extends GoogleAppsDriveLabelsV2betaDisableLabelRequest {
   /** Required. Label resource name. */
   name: string;
+}
+/** Request to enable a label. */
+export interface GoogleAppsDriveLabelsV2betaEnableLabelRequest {
   /** Set to `true` in order to use the user's admin credentials. The server will verify the user is an admin for the label before allowing access. */
   useAdminAccess?: boolean | undefined;
   /** The BCP-47 language code to use for evaluating localized field labels. When not specified, values in the default configured language will be used. */
   languageCode?: string | undefined;
   /** Provides control over how write requests are executed. Defaults to unset, which means the last write wins. */
   writeControl?: GoogleAppsDriveLabelsV2betaWriteControl | undefined;
+}
+export interface EnableLabelsRequest extends GoogleAppsDriveLabelsV2betaEnableLabelRequest {
+  /** Required. Label resource name. */
+  name: string;
 }
 export interface GetCapabilitiesUsersRequest {
   /** Required. The resource name of the user. Only "users/me/capabilities" is supported. */
@@ -1206,15 +1143,18 @@ export interface ListLabelsRevisionsPermissionsRequest {
   /** Set to `true` in order to use the user's admin credentials. The server will verify the user is an admin for the label before allowing access. */
   useAdminAccess?: boolean | undefined;
 }
-export interface PublishLabelsRequest {
-  /** Required. Label resource name. */
-  name: string;
+/** Request to publish a label. */
+export interface GoogleAppsDriveLabelsV2betaPublishLabelRequest {
   /** Set to `true` in order to use the user's admin credentials. The server will verify the user is an admin for the label before allowing access. */
   useAdminAccess?: boolean | undefined;
   /** Provides control over how write requests are executed. Defaults to unset, which means the last write wins. */
   writeControl?: GoogleAppsDriveLabelsV2betaWriteControl | undefined;
   /** The BCP-47 language code to use for evaluating localized field labels. When not specified, values in the default configured language will be used. */
   languageCode?: string | undefined;
+}
+export interface PublishLabelsRequest extends GoogleAppsDriveLabelsV2betaPublishLabelRequest {
+  /** Required. Label resource name. */
+  name: string;
 }
 export type GoogleAppsDriveLabelsV2betaUpdateLabelCopyModeRequestCopyModeEnum =
   | "COPY_MODE_UNSPECIFIED"
@@ -1224,9 +1164,8 @@ export type GoogleAppsDriveLabelsV2betaUpdateLabelCopyModeRequestCopyModeEnum =
 export type GoogleAppsDriveLabelsV2betaUpdateLabelCopyModeRequestViewEnum =
   | "LABEL_VIEW_BASIC"
   | "LABEL_VIEW_FULL";
-export interface UpdateLabelCopyModeLabelsRequest {
-  /** Required. The resource name of the label to update. */
-  name: string;
+/** Request to update the `CopyMode` of the given label. Changes to this policy aren't revisioned, don't require publishing, and take effect immediately. \ */
+export interface GoogleAppsDriveLabelsV2betaUpdateLabelCopyModeRequest {
   /** Required. Indicates how the applied label and field values should be copied when a Drive item is copied. */
   copyMode?:
     | GoogleAppsDriveLabelsV2betaUpdateLabelCopyModeRequestCopyModeEnum
@@ -1239,12 +1178,15 @@ export interface UpdateLabelCopyModeLabelsRequest {
   /** Set to `true` in order to use the user's admin credentials. The server will verify the user is an admin for the label before allowing access. */
   useAdminAccess?: boolean | undefined;
 }
+export interface UpdateLabelCopyModeLabelsRequest extends GoogleAppsDriveLabelsV2betaUpdateLabelCopyModeRequest {
+  /** Required. The resource name of the label to update. */
+  name: string;
+}
 export type GoogleAppsDriveLabelsV2betaUpdateLabelEnabledAppSettingsRequestViewEnum =
   | "LABEL_VIEW_BASIC"
   | "LABEL_VIEW_FULL";
-export interface UpdateLabelEnabledAppSettingsLabelsRequest {
-  /** Required. The resource name of the label to update. The resource name of the label to update. */
-  name: string;
+/** Request to update the `EnabledAppSettings` of the given label. This change is not revisioned, doesn't require publishing, and takes effect immediately. \ */
+export interface GoogleAppsDriveLabelsV2betaUpdateLabelEnabledAppSettingsRequest {
   /** Optional. When specified, only certain fields belonging to the indicated view will be returned. */
   view?:
     | GoogleAppsDriveLabelsV2betaUpdateLabelEnabledAppSettingsRequestViewEnum
@@ -1257,41 +1199,21 @@ export interface UpdateLabelEnabledAppSettingsLabelsRequest {
   /** Required. The new `EnabledAppSettings` value for the label. */
   enabledAppSettings?: GoogleAppsDriveLabelsV2betaLabelEnabledAppSettings | undefined;
 }
-export interface UpdatePermissionsLabelsRequest {
-  /** Required. The parent label resource name. */
-  parent: string;
-  /** Set to `true` in order to use the user's admin credentials. The server will verify the user is an admin for the label before allowing access. */
-  useAdminAccess?: boolean | undefined;
-  /** Audience to grant a role to. The magic value of `audiences/default` may be used to apply the role to the default audience in the context of the organization that owns the label. */
-  audience?: string | undefined;
-  /** The role the principal should have. */
-  role?: GoogleAppsDriveLabelsV2betaLabelPermissionRoleEnum | (string & {}) | undefined;
-  /** Group resource name. */
-  group?: string | undefined;
-  /** Specifies the email address for a user or group principal. Not populated for audience principals. User and group permissions may only be inserted using an email address. On update requests, if email address is specified, no principal should be specified. */
-  email?: string | undefined;
-  /** Person resource name. */
-  person?: string | undefined;
-  /** Resource name of this permission. */
-  name?: string | undefined;
+export interface UpdateLabelEnabledAppSettingsLabelsRequest extends GoogleAppsDriveLabelsV2betaUpdateLabelEnabledAppSettingsRequest {
+  /** Required. The resource name of the label to update. The resource name of the label to update. */
+  name: string;
 }
-export interface UpdatePermissionsLabelsRevisionsRequest {
+export interface UpdatePermissionsLabelsRequest extends GoogleAppsDriveLabelsV2betaLabelPermission {
+  /** Required. The parent label resource name. */
+  parent: string;
+  /** Set to `true` in order to use the user's admin credentials. The server will verify the user is an admin for the label before allowing access. */
+  useAdminAccess?: boolean | undefined;
+}
+export interface UpdatePermissionsLabelsRevisionsRequest extends GoogleAppsDriveLabelsV2betaLabelPermission {
   /** Set to `true` in order to use the user's admin credentials. The server will verify the user is an admin for the label before allowing access. */
   useAdminAccess?: boolean | undefined;
   /** Required. The parent label resource name. */
   parent: string;
-  /** Audience to grant a role to. The magic value of `audiences/default` may be used to apply the role to the default audience in the context of the organization that owns the label. */
-  audience?: string | undefined;
-  /** The role the principal should have. */
-  role?: GoogleAppsDriveLabelsV2betaLabelPermissionRoleEnum | (string & {}) | undefined;
-  /** Group resource name. */
-  group?: string | undefined;
-  /** Specifies the email address for a user or group principal. Not populated for audience principals. User and group permissions may only be inserted using an email address. On update requests, if email address is specified, no principal should be specified. */
-  email?: string | undefined;
-  /** Person resource name. */
-  person?: string | undefined;
-  /** Resource name of this permission. */
-  name?: string | undefined;
 }
 export type BatchDeleteLabelsPermissionsError =
   | NotFound
@@ -1352,9 +1274,9 @@ export const batchUpdateLabelsPermissions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(864, __c27, 0) as any as S.Schema<BatchUpdateLabelsPermissionsRequest>,
   output: __S(
-    898,
+    899,
     __c28,
-    2,
+    3,
   ) as any as S.Schema<GoogleAppsDriveLabelsV2betaBatchUpdateLabelPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -1378,9 +1300,9 @@ export const batchUpdateLabelsRevisionsPermissions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(992, __c31, 0) as any as S.Schema<BatchUpdateLabelsRevisionsPermissionsRequest>,
   output: __S(
-    898,
+    899,
     __c28,
-    2,
+    3,
   ) as any as S.Schema<GoogleAppsDriveLabelsV2betaBatchUpdateLabelPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -1519,11 +1441,11 @@ export const deltaLabels: API.OperationMethod<
   DeltaLabelsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(140, __c4, 12) as any as S.Schema<DeltaLabelsRequest>,
+  input: __S(141, __c4, 13) as any as S.Schema<DeltaLabelsRequest>,
   output: __S(
-    145,
+    146,
     __c4,
-    17,
+    18,
   ) as any as S.Schema<GoogleAppsDriveLabelsV2betaDeltaUpdateLabelResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -1540,7 +1462,7 @@ export const disableLabels: API.OperationMethod<
   DisableLabelsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c6, 0) as any as S.Schema<DisableLabelsRequest>,
+  input: __S(193, __c6, 1) as any as S.Schema<DisableLabelsRequest>,
   output: __S(1149, __c35, 29) as any as S.Schema<GoogleAppsDriveLabelsV2betaLabel>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -1557,7 +1479,7 @@ export const enableLabels: API.OperationMethod<
   EnableLabelsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c7, 0) as any as S.Schema<EnableLabelsRequest>,
+  input: __S(225, __c7, 1) as any as S.Schema<EnableLabelsRequest>,
   output: __S(1149, __c35, 29) as any as S.Schema<GoogleAppsDriveLabelsV2betaLabel>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -1728,7 +1650,7 @@ export const publishLabels: API.OperationMethod<
   PublishLabelsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c18, 0) as any as S.Schema<PublishLabelsRequest>,
+  input: __S(577, __c18, 1) as any as S.Schema<PublishLabelsRequest>,
   output: __S(1149, __c35, 29) as any as S.Schema<GoogleAppsDriveLabelsV2betaLabel>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -1750,7 +1672,7 @@ export const updateLabelCopyModeLabels: API.OperationMethod<
   UpdateLabelCopyModeLabelsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c19, 0) as any as S.Schema<UpdateLabelCopyModeLabelsRequest>,
+  input: __S(609, __c19, 1) as any as S.Schema<UpdateLabelCopyModeLabelsRequest>,
   output: __S(1149, __c35, 29) as any as S.Schema<GoogleAppsDriveLabelsV2betaLabel>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -1772,7 +1694,7 @@ export const updateLabelEnabledAppSettingsLabels: API.OperationMethod<
   UpdateLabelEnabledAppSettingsLabelsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c20, 0) as any as S.Schema<UpdateLabelEnabledAppSettingsLabelsRequest>,
+  input: __S(641, __c20, 1) as any as S.Schema<UpdateLabelEnabledAppSettingsLabelsRequest>,
   output: __S(1149, __c35, 29) as any as S.Schema<GoogleAppsDriveLabelsV2betaLabel>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -1830,16 +1752,13 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          useAdminAccess: S.optional(S.Boolean.pipe(T.Query())),
-          audience: S.optional(S.String),
-          role: S.optional(S.String),
-          group: S.optional(S.String),
-          email: S.optional(S.String),
-          person: S.optional(S.String),
-          name: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(960, __c30, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            useAdminAccess: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta/{+parent}/permissions",
@@ -2030,13 +1949,21 @@ function __c4(j: number): any {
     case 12:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           requests: S.optional(__S(139, __c4, 11)),
           useAdminAccess: S.optional(S.Boolean),
           languageCode: S.optional(S.String),
           writeControl: S.optional(__S(160, __c5, 0)),
           view: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "GoogleAppsDriveLabelsV2betaDeltaUpdateLabelRequest" });
+    case 13:
+      return S.suspend(() =>
+        S.Extend(
+          __S(140, __c4, 12),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta/{+name}:delta",
@@ -2044,7 +1971,7 @@ function __c4(j: number): any {
           }),
         ),
       ).annotate({ identifier: "DeltaLabelsRequest" });
-    case 13:
+    case 14:
       return S.suspend(() =>
         S.Struct({
           priority: S.optional(S.Number),
@@ -2053,7 +1980,7 @@ function __c4(j: number): any {
         identifier:
           "GoogleAppsDriveLabelsV2betaDeltaUpdateLabelResponseUpdateSelectionChoicePropertiesResponse",
       });
-    case 14:
+    case 15:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
@@ -2062,30 +1989,30 @@ function __c4(j: number): any {
       ).annotate({
         identifier: "GoogleAppsDriveLabelsV2betaDeltaUpdateLabelResponseCreateFieldResponse",
       });
-    case 15:
+    case 16:
       return S.suspend(() =>
         S.Struct({
           deleteField: S.optional(__S(800, __c25, 0)),
-          updateSelectionChoiceProperties: S.optional(__S(141, __c4, 13)),
+          updateSelectionChoiceProperties: S.optional(__S(142, __c4, 14)),
           disableSelectionChoice: S.optional(__S(800, __c25, 0)),
           createSelectionChoice: S.optional(__S(130, __c4, 2)),
-          createField: S.optional(__S(142, __c4, 14)),
+          createField: S.optional(__S(143, __c4, 15)),
           updateFieldType: S.optional(__S(800, __c25, 0)),
           disableField: S.optional(__S(800, __c25, 0)),
           enableField: S.optional(__S(800, __c25, 0)),
           enableSelectionChoice: S.optional(__S(800, __c25, 0)),
-          updateField: S.optional(__S(141, __c4, 13)),
+          updateField: S.optional(__S(142, __c4, 14)),
           deleteSelectionChoice: S.optional(__S(800, __c25, 0)),
           updateLabel: S.optional(__S(800, __c25, 0)),
         }),
       ).annotate({ identifier: "GoogleAppsDriveLabelsV2betaDeltaUpdateLabelResponseResponse" });
-    case 16:
-      return S.Array(__S(143, __c4, 15));
     case 17:
+      return S.Array(__S(144, __c4, 16));
+    case 18:
       return S.suspend(() =>
         S.Struct({
           updatedLabel: S.optional(__S(1149, __c35, 29)),
-          responses: S.optional(__S(144, __c4, 16)),
+          responses: S.optional(__S(145, __c4, 17)),
         }),
       ).annotate({ identifier: "GoogleAppsDriveLabelsV2betaDeltaUpdateLabelResponse" });
   }
@@ -2105,13 +2032,21 @@ function __c6(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           disabledPolicy: S.optional(__S(1123, __c35, 3)),
           useAdminAccess: S.optional(S.Boolean),
           languageCode: S.optional(S.String),
           writeControl: S.optional(__S(160, __c5, 0)),
           updateMask: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "GoogleAppsDriveLabelsV2betaDisableLabelRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(192, __c6, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta/{+name}:disable",
@@ -2126,11 +2061,19 @@ function __c7(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           useAdminAccess: S.optional(S.Boolean),
           languageCode: S.optional(S.String),
           writeControl: S.optional(__S(160, __c5, 0)),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "GoogleAppsDriveLabelsV2betaEnableLabelRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(224, __c7, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta/{+name}:enable",
@@ -2412,11 +2355,19 @@ function __c18(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           useAdminAccess: S.optional(S.Boolean),
           writeControl: S.optional(__S(160, __c5, 0)),
           languageCode: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "GoogleAppsDriveLabelsV2betaPublishLabelRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(576, __c18, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta/{+name}:publish",
@@ -2431,12 +2382,20 @@ function __c19(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           copyMode: S.optional(S.String),
           view: S.optional(S.String),
           languageCode: S.optional(S.String),
           useAdminAccess: S.optional(S.Boolean),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "GoogleAppsDriveLabelsV2betaUpdateLabelCopyModeRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(608, __c19, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta/{+name}:updateLabelCopyMode",
@@ -2451,12 +2410,20 @@ function __c20(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           view: S.optional(S.String),
           useAdminAccess: S.optional(S.Boolean),
           languageCode: S.optional(S.String),
           enabledAppSettings: S.optional(__S(1148, __c35, 28)),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "GoogleAppsDriveLabelsV2betaUpdateLabelEnabledAppSettingsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(640, __c20, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta/{+name}:updateLabelEnabledAppSettings",
@@ -2470,16 +2437,13 @@ function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          useAdminAccess: S.optional(S.Boolean.pipe(T.Query())),
-          audience: S.optional(S.String),
-          role: S.optional(S.String),
-          group: S.optional(S.String),
-          email: S.optional(S.String),
-          person: S.optional(S.String),
-          name: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(960, __c30, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            useAdminAccess: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2beta/{+parent}/permissions",
@@ -2493,16 +2457,13 @@ function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          useAdminAccess: S.optional(S.Boolean.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          audience: S.optional(S.String),
-          role: S.optional(S.String),
-          group: S.optional(S.String),
-          email: S.optional(S.String),
-          person: S.optional(S.String),
-          name: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(960, __c30, 0),
+          S.Struct({
+            useAdminAccess: S.optional(S.Boolean.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2beta/{+parent}/permissions",
@@ -2516,11 +2477,12 @@ function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          requests: S.optional(__S(769, __c24, 1)),
-          useAdminAccess: S.optional(S.Boolean),
-        }).pipe(
+        S.Extend(
+          __S(770, __c24, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta/{+parent}/permissions:batchDelete",
@@ -2541,6 +2503,13 @@ function __c24(j: number): any {
       ).annotate({ identifier: "GoogleAppsDriveLabelsV2betaDeleteLabelPermissionRequest" });
     case 1:
       return S.Array(__S(768, __c24, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          requests: S.optional(__S(769, __c24, 1)),
+          useAdminAccess: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "GoogleAppsDriveLabelsV2betaBatchDeleteLabelPermissionsRequest" });
   }
 }
 function __c25(j: number): any {
@@ -2553,11 +2522,12 @@ function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          requests: S.optional(__S(769, __c24, 1)),
-          useAdminAccess: S.optional(S.Boolean),
-        }).pipe(
+        S.Extend(
+          __S(770, __c24, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta/{+parent}/permissions:batchDelete",
@@ -2571,11 +2541,12 @@ function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          useAdminAccess: S.optional(S.Boolean),
-          requests: S.optional(__S(897, __c28, 1)),
-        }).pipe(
+        S.Extend(
+          __S(898, __c28, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta/{+parent}/permissions:batchUpdate",
@@ -2598,6 +2569,13 @@ function __c28(j: number): any {
     case 1:
       return S.Array(__S(896, __c28, 0));
     case 2:
+      return S.suspend(() =>
+        S.Struct({
+          useAdminAccess: S.optional(S.Boolean),
+          requests: S.optional(__S(897, __c28, 1)),
+        }),
+      ).annotate({ identifier: "GoogleAppsDriveLabelsV2betaBatchUpdateLabelPermissionsRequest" });
+    case 3:
       return S.suspend(() =>
         S.Struct({
           permissions: S.optional(__S(928, __c29, 0)),
@@ -2630,11 +2608,12 @@ function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          useAdminAccess: S.optional(S.Boolean),
-          requests: S.optional(__S(897, __c28, 1)),
-        }).pipe(
+        S.Extend(
+          __S(898, __c28, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta/{+parent}/permissions:batchUpdate",
@@ -2648,33 +2627,13 @@ function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          useAdminAccess: S.optional(S.Boolean.pipe(T.Query())),
-          languageCode: S.optional(S.String.pipe(T.Query())),
-          displayHints: S.optional(__S(1120, __c35, 0)),
-          schemaCapabilities: S.optional(__S(1121, __c35, 1)),
-          properties: S.optional(__S(1122, __c35, 2)),
-          publisher: S.optional(__S(1088, __c34, 0)),
-          labelType: S.optional(S.String),
-          id: S.optional(S.String),
-          revisionCreateTime: S.optional(S.String),
-          lifecycle: S.optional(__S(1124, __c35, 4)),
-          lockStatus: S.optional(__S(1125, __c35, 5)),
-          creator: S.optional(__S(1088, __c34, 0)),
-          disabler: S.optional(__S(1088, __c34, 0)),
-          appliedLabelPolicy: S.optional(__S(1126, __c35, 6)),
-          createTime: S.optional(S.String),
-          disableTime: S.optional(S.String),
-          revisionCreator: S.optional(__S(1088, __c34, 0)),
-          publishTime: S.optional(S.String),
-          fields: S.optional(__S(1144, __c35, 24)),
-          customer: S.optional(S.String),
-          appliedCapabilities: S.optional(__S(1145, __c35, 25)),
-          enabledAppSettings: S.optional(__S(1148, __c35, 28)),
-          revisionId: S.optional(S.String),
-          learnMoreUri: S.optional(S.String),
-          name: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1149, __c35, 29),
+          S.Struct({
+            useAdminAccess: S.optional(S.Boolean.pipe(T.Query())),
+            languageCode: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta/labels",
@@ -3010,16 +2969,13 @@ function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          useAdminAccess: S.optional(S.Boolean.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          audience: S.optional(S.String),
-          role: S.optional(S.String),
-          group: S.optional(S.String),
-          email: S.optional(S.String),
-          person: S.optional(S.String),
-          name: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(960, __c30, 0),
+          S.Struct({
+            useAdminAccess: S.optional(S.Boolean.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta/{+parent}/permissions",

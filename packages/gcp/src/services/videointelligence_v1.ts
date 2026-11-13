@@ -222,7 +222,8 @@ export type GoogleCloudVideointelligenceV1_AnnotateVideoRequestFeaturesItemEnum 
 export type GoogleCloudVideointelligenceV1_AnnotateVideoRequestFeaturesItemEnumList = Array<
   GoogleCloudVideointelligenceV1_AnnotateVideoRequestFeaturesItemEnum | (string & {})
 >;
-export interface AnnotateVideosRequest {
+/** Video annotation request. */
+export interface GoogleCloudVideointelligenceV1_AnnotateVideoRequest {
   /** Input video location. Currently, only [Cloud Storage](https://cloud.google.com/storage/) URIs are supported. URIs must be specified in the following format: `gs://bucket-id/object-id` (other URI formats return google.rpc.Code.INVALID_ARGUMENT). For more information, see [Request URIs](https://cloud.google.com/storage/docs/request-endpoints). To identify multiple videos, a video URI may include wildcards in the `object-id`. Supported wildcards: '*' to match 0 or more characters; '?' to match 1 character. If unset, the input video should be embedded in the request as `input_content`. If set, `input_content` must be unset. */
   inputUri?: string | undefined;
   /** Additional video context and/or feature-specific parameters. */
@@ -236,6 +237,7 @@ export interface AnnotateVideosRequest {
   /** Optional. Cloud region where annotation should take place. Supported cloud regions are: `us-east1`, `us-west1`, `europe-west1`, `asia-east1`. If no region is specified, the region will be determined based on video file location. */
   locationId?: string | undefined;
 }
+export interface AnnotateVideosRequest extends GoogleCloudVideointelligenceV1_AnnotateVideoRequest {}
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
@@ -320,7 +322,7 @@ export const annotateVideos: API.OperationMethod<
   AnnotateVideosError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(45, __c2, 13) as any as S.Schema<AnnotateVideosRequest>,
+  input: __S(46, __c2, 14) as any as S.Schema<AnnotateVideosRequest>,
   output: __S(67, __c4, 3) as any as S.Schema<GoogleLongrunning_Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -617,7 +619,11 @@ function __c2(j: number): any {
           inputContent: S.optional(S.String),
           features: S.optional(__S(44, __c2, 12)),
           locationId: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "GoogleCloudVideointelligenceV1_AnnotateVideoRequest" });
+    case 14:
+      return S.suspend(() =>
+        S.Extend(__S(45, __c2, 13), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/videos:annotate",

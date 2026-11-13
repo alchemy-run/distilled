@@ -204,9 +204,8 @@ export interface Status {
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
   details?: DocumentMapList | undefined;
 }
-export interface CreateProjectsLocationsJobsRequest {
-  /** Required. The location name. For example: `projects/PROJECT_ID/locations/LOCATION_ID`. */
-  parent: string;
+/** Configuration for a job. The maximum allowed size for a job is 1MB. */
+export interface Job {
   /** Specifies the time zone to be used in interpreting schedule. The value of this field must be a time zone name from the [tz database](http://en.wikipedia.org/wiki/Tz_database). Note that some time zones include a provision for daylight savings time. The rules for daylight saving time are determined by the chosen tz. For UTC use the string "utc". If a time zone is not specified, the default will be in UTC (also known as GMT). */
   timeZone?: string | undefined;
   /** The deadline for job attempts. If the request handler does not respond by this deadline then the request is cancelled and the attempt is marked as a `DEADLINE_EXCEEDED` failure. The failed attempt can be viewed in execution logs. Cloud Scheduler will retry the job according to the RetryConfig. The default and the allowed values depend on the type of target: * For HTTP targets, the default is 3 minutes. The deadline must be in the interval [15 seconds, 30 minutes]. * For App Engine HTTP targets, 0 indicates that the request has the default deadline. The default deadline depends on the scaling type of the service: 10 minutes for standard apps with automatic scaling, 24 hours for standard apps with manual and basic scaling, and 60 minutes for flex apps. If the request deadline is set, it must be in the interval [15 seconds, 24 hours 15 seconds]. * For Pub/Sub targets, this field is ignored. */
@@ -240,40 +239,9 @@ export interface CreateProjectsLocationsJobsRequest {
   /** Output only. Whether or not this Job satisfies the requirements of physical zone separation */
   satisfiesPzs?: boolean | undefined;
 }
-/** Configuration for a job. The maximum allowed size for a job is 1MB. */
-export interface Job {
-  /** Specifies the time zone to be used in interpreting schedule. The value of this field must be a time zone name from the [tz database](http://en.wikipedia.org/wiki/Tz_database). Note that some time zones include a provision for daylight savings time. The rules for daylight saving time are determined by the chosen tz. For UTC use the string "utc". If a time zone is not specified, the default will be in UTC (also known as GMT). */
-  timeZone?: string | undefined;
-  /** The deadline for job attempts. If the request handler does not respond by this deadline then the request is cancelled and the attempt is marked as a `DEADLINE_EXCEEDED` failure. The failed attempt can be viewed in execution logs. Cloud Scheduler will retry the job according to the RetryConfig. The default and the allowed values depend on the type of target: * For HTTP targets, the default is 3 minutes. The deadline must be in the interval [15 seconds, 30 minutes]. * For App Engine HTTP targets, 0 indicates that the request has the default deadline. The default deadline depends on the scaling type of the service: 10 minutes for standard apps with automatic scaling, 24 hours for standard apps with manual and basic scaling, and 60 minutes for flex apps. If the request deadline is set, it must be in the interval [15 seconds, 24 hours 15 seconds]. * For Pub/Sub targets, this field is ignored. */
-  attemptDeadline?: string | undefined;
-  /** Immutable. This field is used to manage the legacy App Engine Cron jobs using the Cloud Scheduler API. If the field is set to true, the job will be considered a legacy job. Note that App Engine Cron jobs have fewer features than Cloud Scheduler jobs, e.g., are only limited to App Engine targets. */
-  legacyAppEngineCron?: boolean | undefined;
-  /** Output only. State of the job. */
-  state?: JobStateEnum | undefined;
-  /** App Engine HTTP target. */
-  appEngineHttpTarget?: AppEngineHttpTarget | undefined;
-  /** Pub/Sub target. */
-  pubsubTarget?: PubsubTarget | undefined;
-  /** Settings that determine the retry behavior. */
-  retryConfig?: RetryConfig | undefined;
-  /** Optionally caller-specified in CreateJob, after which it becomes output only. The job name. For example: `projects/PROJECT_ID/locations/LOCATION_ID/jobs/JOB_ID`. * `PROJECT_ID` can contain letters ([A-Za-z]), numbers ([0-9]), hyphens (-), colons (:), or periods (.). For more information, see [Identifying projects](/resource-manager/docs/creating-managing-projects#identifying_projects) * `LOCATION_ID` is the canonical ID for the job's location. The list of available locations can be obtained by calling [locations.list](/scheduler/docs/reference/rest/v1beta1/projects.locations/list). For more information, see [Cloud Scheduler locations](/scheduler/docs/locations). * `JOB_ID` can contain only letters ([A-Za-z]), numbers ([0-9]), hyphens (-), or underscores (_). The maximum length is 500 characters. */
-  name?: string | undefined;
-  /** Output only. The creation time of the job. */
-  userUpdateTime?: string | undefined;
-  /** Output only. The next time the job is scheduled. Note that this may be a retry of a previously failed attempt or the next execution time according to the schedule. */
-  scheduleTime?: string | undefined;
-  /** HTTP target. */
-  httpTarget?: HttpTarget | undefined;
-  /** Output only. The time the last job attempt started. */
-  lastAttemptTime?: string | undefined;
-  /** Optionally caller-specified in CreateJob or UpdateJob. A human-readable description for the job. This string must not contain more than 500 characters. */
-  description?: string | undefined;
-  /** Output only. The response from the target for the last attempted execution. */
-  status?: Status | undefined;
-  /** Required, except when used with UpdateJob. Describes the schedule on which the job will be executed. The schedule can be either of the following types: * [Crontab](https://en.wikipedia.org/wiki/Cron#Overview) * English-like [schedule](/scheduler/docs/configuring/cron-job-schedules) As a general rule, execution `n + 1` of a job will not begin until execution `n` has finished. Cloud Scheduler will never allow two simultaneously outstanding executions. For example, this implies that if the `n+1`th execution is scheduled to run at 16:00 but the `n`th execution takes until 16:15, the `n+1`th execution will not start until `16:15`. A scheduled start time will be delayed if the previous execution has not ended when its scheduled time occurs. If retry_count > 0 and a job attempt fails, the job will be tried a total of retry_count times, with exponential backoff, until the next scheduled start time. If retry_count is 0, a job attempt will not be retried if it fails. Instead the Cloud Scheduler system will wait for the next scheduled execution time. Setting retry_count to 0 does not prevent failed jobs from running according to schedule after the failure. */
-  schedule?: string | undefined;
-  /** Output only. Whether or not this Job satisfies the requirements of physical zone separation */
-  satisfiesPzs?: boolean | undefined;
+export interface CreateProjectsLocationsJobsRequest extends Job {
+  /** Required. The location name. For example: `projects/PROJECT_ID/locations/LOCATION_ID`. */
+  parent: string;
 }
 export interface DeleteProjectsLocationsJobsRequest {
   /** This field is used to manage the legacy App Engine Cron jobs using the Cloud Scheduler API. If the field is set to true, the job in the __cron queue with the corresponding name will be deleted instead. */
@@ -386,41 +354,11 @@ export interface ListOperationsResponse {
   /** The standard List next-page token. */
   nextPageToken?: string | undefined;
 }
-export interface PatchProjectsLocationsJobsRequest {
+export interface PatchProjectsLocationsJobsRequest extends Omit<Job, "name"> {
   /** A mask used to specify which fields of the job are being updated. */
   updateMask?: string | undefined;
   /** Optionally caller-specified in CreateJob, after which it becomes output only. The job name. For example: `projects/PROJECT_ID/locations/LOCATION_ID/jobs/JOB_ID`. * `PROJECT_ID` can contain letters ([A-Za-z]), numbers ([0-9]), hyphens (-), colons (:), or periods (.). For more information, see [Identifying projects](/resource-manager/docs/creating-managing-projects#identifying_projects) * `LOCATION_ID` is the canonical ID for the job's location. The list of available locations can be obtained by calling [locations.list](/scheduler/docs/reference/rest/v1beta1/projects.locations/list). For more information, see [Cloud Scheduler locations](/scheduler/docs/locations). * `JOB_ID` can contain only letters ([A-Za-z]), numbers ([0-9]), hyphens (-), or underscores (_). The maximum length is 500 characters. */
   name: string;
-  /** Specifies the time zone to be used in interpreting schedule. The value of this field must be a time zone name from the [tz database](http://en.wikipedia.org/wiki/Tz_database). Note that some time zones include a provision for daylight savings time. The rules for daylight saving time are determined by the chosen tz. For UTC use the string "utc". If a time zone is not specified, the default will be in UTC (also known as GMT). */
-  timeZone?: string | undefined;
-  /** The deadline for job attempts. If the request handler does not respond by this deadline then the request is cancelled and the attempt is marked as a `DEADLINE_EXCEEDED` failure. The failed attempt can be viewed in execution logs. Cloud Scheduler will retry the job according to the RetryConfig. The default and the allowed values depend on the type of target: * For HTTP targets, the default is 3 minutes. The deadline must be in the interval [15 seconds, 30 minutes]. * For App Engine HTTP targets, 0 indicates that the request has the default deadline. The default deadline depends on the scaling type of the service: 10 minutes for standard apps with automatic scaling, 24 hours for standard apps with manual and basic scaling, and 60 minutes for flex apps. If the request deadline is set, it must be in the interval [15 seconds, 24 hours 15 seconds]. * For Pub/Sub targets, this field is ignored. */
-  attemptDeadline?: string | undefined;
-  /** Immutable. This field is used to manage the legacy App Engine Cron jobs using the Cloud Scheduler API. If the field is set to true, the job will be considered a legacy job. Note that App Engine Cron jobs have fewer features than Cloud Scheduler jobs, e.g., are only limited to App Engine targets. */
-  legacyAppEngineCron?: boolean | undefined;
-  /** Output only. State of the job. */
-  state?: JobStateEnum | (string & {}) | undefined;
-  /** App Engine HTTP target. */
-  appEngineHttpTarget?: AppEngineHttpTarget | undefined;
-  /** Pub/Sub target. */
-  pubsubTarget?: PubsubTarget | undefined;
-  /** Settings that determine the retry behavior. */
-  retryConfig?: RetryConfig | undefined;
-  /** Output only. The creation time of the job. */
-  userUpdateTime?: string | undefined;
-  /** Output only. The next time the job is scheduled. Note that this may be a retry of a previously failed attempt or the next execution time according to the schedule. */
-  scheduleTime?: string | undefined;
-  /** HTTP target. */
-  httpTarget?: HttpTarget | undefined;
-  /** Output only. The time the last job attempt started. */
-  lastAttemptTime?: string | undefined;
-  /** Optionally caller-specified in CreateJob or UpdateJob. A human-readable description for the job. This string must not contain more than 500 characters. */
-  description?: string | undefined;
-  /** Output only. The response from the target for the last attempted execution. */
-  status?: Status | undefined;
-  /** Required, except when used with UpdateJob. Describes the schedule on which the job will be executed. The schedule can be either of the following types: * [Crontab](https://en.wikipedia.org/wiki/Cron#Overview) * English-like [schedule](/scheduler/docs/configuring/cron-job-schedules) As a general rule, execution `n + 1` of a job will not begin until execution `n` has finished. Cloud Scheduler will never allow two simultaneously outstanding executions. For example, this implies that if the `n+1`th execution is scheduled to run at 16:00 but the `n`th execution takes until 16:15, the `n+1`th execution will not start until `16:15`. A scheduled start time will be delayed if the previous execution has not ended when its scheduled time occurs. If retry_count > 0 and a job attempt fails, the job will be tried a total of retry_count times, with exponential backoff, until the next scheduled start time. If retry_count is 0, a job attempt will not be retried if it fails. Instead the Cloud Scheduler system will wait for the next scheduled execution time. Setting retry_count to 0 does not prevent failed jobs from running according to schedule after the failure. */
-  schedule?: string | undefined;
-  /** Output only. Whether or not this Job satisfies the requirements of physical zone separation */
-  satisfiesPzs?: boolean | undefined;
 }
 /** Request message for PauseJob. */
 export type PauseJobRequest = CancelOperationRequest;
@@ -438,11 +376,14 @@ export interface ResumeProjectsLocationsJobsRequest {
   /** Request body */
   body?: CancelOperationRequest | undefined;
 }
-export interface RunProjectsLocationsJobsRequest {
-  /** Required. The job name. For example: `projects/PROJECT_ID/locations/LOCATION_ID/jobs/JOB_ID`. */
-  name: string;
+/** Request message for forcing a job to run now using RunJob. */
+export interface RunJobRequest {
   /** This field is used to manage the legacy App Engine Cron jobs using the Cloud Scheduler API. If the field is set to true, the job in the __cron queue with the corresponding name will be forced to run instead. */
   legacyAppEngineCron?: boolean | undefined;
+}
+export interface RunProjectsLocationsJobsRequest extends RunJobRequest {
+  /** Required. The job name. For example: `projects/PROJECT_ID/locations/LOCATION_ID/jobs/JOB_ID`. */
+  name: string;
 }
 export type CancelProjectsLocationsOperationsError =
   | NotFound
@@ -719,7 +660,7 @@ export const runProjectsLocationsJobs: API.OperationMethod<
   RunProjectsLocationsJobsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c9, 0) as any as S.Schema<RunProjectsLocationsJobsRequest>,
+  input: __S(73, __c9, 1) as any as S.Schema<RunProjectsLocationsJobsRequest>,
   output: __S(135, __c16, 7) as any as S.Schema<Job>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -857,25 +798,13 @@ function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          timeZone: S.optional(S.String),
-          attemptDeadline: S.optional(S.String),
-          legacyAppEngineCron: S.optional(S.Boolean),
-          state: S.optional(S.String),
-          appEngineHttpTarget: S.optional(__S(129, __c16, 1)),
-          pubsubTarget: S.optional(__S(130, __c16, 2)),
-          retryConfig: S.optional(__S(131, __c16, 3)),
-          userUpdateTime: S.optional(S.String),
-          scheduleTime: S.optional(S.String),
-          httpTarget: S.optional(__S(134, __c16, 6)),
-          lastAttemptTime: S.optional(S.String),
-          description: S.optional(S.String),
-          status: S.optional(__S(121, __c15, 1)),
-          schedule: S.optional(S.String),
-          satisfiesPzs: S.optional(S.Boolean),
-        }).pipe(
+        S.Extend(
+          __S(135, __c16, 7),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -924,9 +853,17 @@ function __c9(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           legacyAppEngineCron: S.optional(S.Boolean),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "RunJobRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(72, __c9, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:run",
@@ -963,25 +900,12 @@ function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          timeZone: S.optional(S.String),
-          attemptDeadline: S.optional(S.String),
-          legacyAppEngineCron: S.optional(S.Boolean),
-          state: S.optional(S.String),
-          appEngineHttpTarget: S.optional(__S(129, __c16, 1)),
-          pubsubTarget: S.optional(__S(130, __c16, 2)),
-          retryConfig: S.optional(__S(131, __c16, 3)),
-          name: S.optional(S.String),
-          userUpdateTime: S.optional(S.String),
-          scheduleTime: S.optional(S.String),
-          httpTarget: S.optional(__S(134, __c16, 6)),
-          lastAttemptTime: S.optional(S.String),
-          description: S.optional(S.String),
-          status: S.optional(__S(121, __c15, 1)),
-          schedule: S.optional(S.String),
-          satisfiesPzs: S.optional(S.Boolean),
-        }).pipe(
+        S.Extend(
+          __S(135, __c16, 7),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/jobs",

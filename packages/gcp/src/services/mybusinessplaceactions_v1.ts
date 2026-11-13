@@ -97,9 +97,8 @@ export type PlaceActionLinkProviderTypeEnum =
   | "PROVIDER_TYPE_UNSPECIFIED"
   | "MERCHANT"
   | "AGGREGATOR_3P";
-export interface CreateLocationsPlaceActionLinksRequest {
-  /** Required. The resource name of the location where to create this place action link. `locations/{location_id}`. */
-  parent: string;
+/** Represents a place action link and its attributes. */
+export interface PlaceActionLink {
   /** Required. The type of place action that can be performed using this link. */
   placeActionType?: PlaceActionLinkPlaceActionTypeEnum | (string & {}) | undefined;
   /** Output only. Indicates whether this link can be edited by the client. */
@@ -117,24 +116,9 @@ export interface CreateLocationsPlaceActionLinksRequest {
   /** Required. The link uri. The same uri can be reused for different action types across different locations. However, only one place action link is allowed for each unique combination of (uri, place action type, location). */
   uri?: string | undefined;
 }
-/** Represents a place action link and its attributes. */
-export interface PlaceActionLink {
-  /** Required. The type of place action that can be performed using this link. */
-  placeActionType?: PlaceActionLinkPlaceActionTypeEnum | undefined;
-  /** Output only. Indicates whether this link can be edited by the client. */
-  isEditable?: boolean | undefined;
-  /** Output only. Specifies the provider type. */
-  providerType?: PlaceActionLinkProviderTypeEnum | undefined;
-  /** Optional. Whether this link is preferred by the merchant. Only one link can be marked as preferred per place action type at a location. If a future request marks a different link as preferred for the same place action type, then the current preferred link (if any exists) will lose its preference. */
-  isPreferred?: boolean | undefined;
-  /** Optional. The resource name, in the format `locations/{location_id}/placeActionLinks/{place_action_link_id}`. The name field will only be considered in UpdatePlaceActionLink and DeletePlaceActionLink requests for updating and deleting links respectively. However, it will be ignored in CreatePlaceActionLink request, where `place_action_link_id` will be assigned by the server on successful creation of a new link and returned as part of the response. */
-  name?: string | undefined;
-  /** Output only. The time when the place action link was created. */
-  createTime?: string | undefined;
-  /** Output only. The time when the place action link was last modified. */
-  updateTime?: string | undefined;
-  /** Required. The link uri. The same uri can be reused for different action types across different locations. However, only one place action link is allowed for each unique combination of (uri, place action type, location). */
-  uri?: string | undefined;
+export interface CreateLocationsPlaceActionLinksRequest extends PlaceActionLink {
+  /** Required. The resource name of the location where to create this place action link. `locations/{location_id}`. */
+  parent: string;
 }
 export interface DeleteLocationsPlaceActionLinksRequest {
   /** Required. The resource name of the place action link to remove from the location. */
@@ -199,25 +183,11 @@ export interface ListPlaceActionTypeMetadataResponse {
   /** A collection of metadata for the available place action types. */
   placeActionTypeMetadata?: PlaceActionTypeMetadataList | undefined;
 }
-export interface PatchLocationsPlaceActionLinksRequest {
+export interface PatchLocationsPlaceActionLinksRequest extends Omit<PlaceActionLink, "name"> {
   /** Optional. The resource name, in the format `locations/{location_id}/placeActionLinks/{place_action_link_id}`. The name field will only be considered in UpdatePlaceActionLink and DeletePlaceActionLink requests for updating and deleting links respectively. However, it will be ignored in CreatePlaceActionLink request, where `place_action_link_id` will be assigned by the server on successful creation of a new link and returned as part of the response. */
   name: string;
   /** Required. The specific fields to update. The only editable fields are `uri`, `place_action_type` and `is_preferred`. If the updated link already exists at the same location with the same `place_action_type` and `uri`, fails with an `ALREADY_EXISTS` error. */
   updateMask?: string | undefined;
-  /** Required. The type of place action that can be performed using this link. */
-  placeActionType?: PlaceActionLinkPlaceActionTypeEnum | (string & {}) | undefined;
-  /** Output only. Indicates whether this link can be edited by the client. */
-  isEditable?: boolean | undefined;
-  /** Output only. Specifies the provider type. */
-  providerType?: PlaceActionLinkProviderTypeEnum | (string & {}) | undefined;
-  /** Optional. Whether this link is preferred by the merchant. Only one link can be marked as preferred per place action type at a location. If a future request marks a different link as preferred for the same place action type, then the current preferred link (if any exists) will lose its preference. */
-  isPreferred?: boolean | undefined;
-  /** Output only. The time when the place action link was created. */
-  createTime?: string | undefined;
-  /** Output only. The time when the place action link was last modified. */
-  updateTime?: string | undefined;
-  /** Required. The link uri. The same uri can be reused for different action types across different locations. However, only one place action link is allowed for each unique combination of (uri, place action type, location). */
-  uri?: string | undefined;
 }
 export type CreateLocationsPlaceActionLinksError =
   | NotFound
@@ -345,17 +315,12 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          placeActionType: S.optional(S.String),
-          isEditable: S.optional(S.Boolean),
-          providerType: S.optional(S.String),
-          isPreferred: S.optional(S.Boolean),
-          name: S.optional(S.String),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          uri: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(4, __c1, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/placeActionLinks",
@@ -483,17 +448,13 @@ function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          placeActionType: S.optional(S.String),
-          isEditable: S.optional(S.Boolean),
-          providerType: S.optional(S.String),
-          isPreferred: S.optional(S.Boolean),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          uri: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(4, __c1, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",

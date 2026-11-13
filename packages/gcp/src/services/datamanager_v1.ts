@@ -131,8 +131,7 @@ export type PartnerLinkFeatureSetEnum =
   | "FEATURE_SET_UNSPECIFIED"
   | "FEATURE_SET_AUDIENCE_AND_EVENT_MANAGEMENT"
   | "FEATURE_SET_AD_EVENT_MANAGEMENT";
-export interface CreateAccountTypesAccountsPartnerLinksRequest {
-  parent: string;
+export interface PartnerLink {
   partnerLinkId?: string | undefined;
   partnerLinkMetadata?: PartnerLinkMetadata | undefined;
   partnerCustomerAccount?: PartnerCustomerAccount | undefined;
@@ -141,14 +140,8 @@ export interface CreateAccountTypesAccountsPartnerLinksRequest {
   featureSet?: PartnerLinkFeatureSetEnum | (string & {}) | undefined;
   owningAccount?: ProductAccount | undefined;
 }
-export interface PartnerLink {
-  partnerLinkId?: string | undefined;
-  partnerLinkMetadata?: PartnerLinkMetadata | undefined;
-  partnerCustomerAccount?: PartnerCustomerAccount | undefined;
-  partnerAccount?: ProductAccount | undefined;
-  name?: string | undefined;
-  featureSet?: PartnerLinkFeatureSetEnum | undefined;
-  owningAccount?: ProductAccount | undefined;
+export interface CreateAccountTypesAccountsPartnerLinksRequest extends PartnerLink {
+  parent: string;
 }
 export type UserListLicensePricingBuyerApprovalStateEnum =
   | "USER_LIST_PRICING_BUYER_APPROVAL_STATE_UNSPECIFIED"
@@ -189,8 +182,7 @@ export interface UserListLicenseMetrics {
   clickCount?: string | undefined;
 }
 export type UserListLicensePricingList = Array<UserListLicensePricing>;
-export interface CreateAccountTypesAccountsUserListDirectLicensesRequest {
-  parent: string;
+export interface UserListDirectLicense {
   pricing?: UserListLicensePricing | undefined;
   userListId?: string | undefined;
   clientAccountId?: string | undefined;
@@ -202,17 +194,8 @@ export interface CreateAccountTypesAccountsUserListDirectLicensesRequest {
   name?: string | undefined;
   historicalPricings?: UserListLicensePricingList | undefined;
 }
-export interface UserListDirectLicense {
-  pricing?: UserListLicensePricing | undefined;
-  userListId?: string | undefined;
-  clientAccountId?: string | undefined;
-  clientAccountType?: UserListDirectLicenseClientAccountTypeEnum | undefined;
-  status?: UserListDirectLicenseStatusEnum | undefined;
-  metrics?: UserListLicenseMetrics | undefined;
-  clientAccountDisplayName?: string | undefined;
-  userListDisplayName?: string | undefined;
-  name?: string | undefined;
-  historicalPricings?: UserListLicensePricingList | undefined;
+export interface CreateAccountTypesAccountsUserListDirectLicensesRequest extends UserListDirectLicense {
+  parent: string;
 }
 export type UserListGlobalLicenseLicenseTypeEnum =
   | "USER_LIST_GLOBAL_LICENSE_TYPE_UNSPECIFIED"
@@ -223,8 +206,7 @@ export type UserListGlobalLicenseStatusEnum =
   | "USER_LIST_LICENSE_STATUS_UNSPECIFIED"
   | "USER_LIST_LICENSE_STATUS_ENABLED"
   | "USER_LIST_LICENSE_STATUS_DISABLED";
-export interface CreateAccountTypesAccountsUserListGlobalLicensesRequest {
-  parent: string;
+export interface UserListGlobalLicense {
   userListId?: string | undefined;
   pricing?: UserListLicensePricing | undefined;
   name?: string | undefined;
@@ -234,15 +216,8 @@ export interface CreateAccountTypesAccountsUserListGlobalLicensesRequest {
   licenseType?: UserListGlobalLicenseLicenseTypeEnum | (string & {}) | undefined;
   status?: UserListGlobalLicenseStatusEnum | (string & {}) | undefined;
 }
-export interface UserListGlobalLicense {
-  userListId?: string | undefined;
-  pricing?: UserListLicensePricing | undefined;
-  name?: string | undefined;
-  metrics?: UserListLicenseMetrics | undefined;
-  userListDisplayName?: string | undefined;
-  historicalPricings?: UserListLicensePricingList | undefined;
-  licenseType?: UserListGlobalLicenseLicenseTypeEnum | undefined;
-  status?: UserListGlobalLicenseStatusEnum | undefined;
+export interface CreateAccountTypesAccountsUserListGlobalLicensesRequest extends UserListGlobalLicense {
+  parent: string;
 }
 export type UserListClosingReasonEnum = "CLOSING_REASON_UNSPECIFIED" | "UNUSED";
 export interface SizeInfo {
@@ -339,9 +314,7 @@ export interface TargetNetworkInfo {
   eligibleForDisplay?: boolean | undefined;
   eligibleForSearch?: boolean | undefined;
 }
-export interface CreateAccountTypesAccountsUserListsRequest {
-  parent: string;
-  validateOnly?: boolean | undefined;
+export interface UserList {
   closingReason?: UserListClosingReasonEnum | (string & {}) | undefined;
   readOnly?: boolean | undefined;
   name?: string | undefined;
@@ -357,21 +330,9 @@ export interface CreateAccountTypesAccountsUserListsRequest {
   id?: string | undefined;
   targetNetworkInfo?: TargetNetworkInfo | undefined;
 }
-export interface UserList {
-  closingReason?: UserListClosingReasonEnum | undefined;
-  readOnly?: boolean | undefined;
-  name?: string | undefined;
-  sizeInfo?: SizeInfo | undefined;
-  integrationCode?: string | undefined;
-  ingestedUserListInfo?: IngestedUserListInfo | undefined;
-  description?: string | undefined;
-  accountAccessStatus?: UserListAccountAccessStatusEnum | undefined;
-  membershipStatus?: UserListMembershipStatusEnum | undefined;
-  displayName?: string | undefined;
-  membershipDuration?: string | undefined;
-  accessReason?: UserListAccessReasonEnum | undefined;
-  id?: string | undefined;
-  targetNetworkInfo?: TargetNetworkInfo | undefined;
+export interface CreateAccountTypesAccountsUserListsRequest extends UserList {
+  parent: string;
+  validateOnly?: boolean | undefined;
 }
 export interface DeleteAccountTypesAccountsPartnerLinksRequest {
   name: string;
@@ -389,10 +350,12 @@ export interface Baseline {
   baselineLocation?: Location | undefined;
   locationAutoDetectionEnabled?: boolean | undefined;
 }
-export interface GetAccountTypesAccountsInsightsRequest {
-  parent: string;
+export interface RetrieveInsightsRequest {
   userListId?: string | undefined;
   baseline?: Baseline | undefined;
+}
+export interface GetAccountTypesAccountsInsightsRequest extends RetrieveInsightsRequest {
+  parent: string;
 }
 export type MarketingDataInsightsAttributeGenderEnum =
   | "GENDER_UNSPECIFIED"
@@ -903,11 +866,12 @@ export interface EncryptionInfo {
   awsWrappedKeyInfo?: AwsWrappedKeyInfo | undefined;
   coordinatorKeyInfo?: CoordinatorKeyInfo | undefined;
 }
-export interface IngestAdEventsRequest_ {
+export interface IngestAdEventsRequest {
   adEvents?: AdEventList | undefined;
   validateOnly?: boolean | undefined;
   encryptionInfo?: EncryptionInfo | undefined;
 }
+export interface IngestAdEventsRequest_ extends IngestAdEventsRequest {}
 export interface IngestAdEventsResponse {}
 export type IngestAudienceMembersRequestEncodingEnum = "ENCODING_UNSPECIFIED" | "HEX" | "BASE64";
 export type ConsentAdUserDataEnum =
@@ -974,7 +938,7 @@ export interface TermsOfService {
     | (string & {})
     | undefined;
 }
-export interface IngestAudienceMembersRequest_ {
+export interface IngestAudienceMembersRequest {
   encoding?: IngestAudienceMembersRequestEncodingEnum | (string & {}) | undefined;
   consent?: Consent | undefined;
   destinations?: DestinationList | undefined;
@@ -983,6 +947,7 @@ export interface IngestAudienceMembersRequest_ {
   termsOfService?: TermsOfService | undefined;
   encryptionInfo?: EncryptionInfo | undefined;
 }
+export interface IngestAudienceMembersRequest_ extends IngestAudienceMembersRequest {}
 export type FieldWarningReasonEnum =
   | "WARNING_REASON_UNSPECIFIED"
   | "WARNING_REASON_CUSTOM_VARIABLE_NOT_ENABLED"
@@ -1166,7 +1131,7 @@ export interface Event {
 }
 export type EventList = Array<Event>;
 export type IngestEventsRequestEncodingEnum = "ENCODING_UNSPECIFIED" | "HEX" | "BASE64";
-export interface IngestEventsRequest_ {
+export interface IngestEventsRequest {
   consent?: Consent | undefined;
   encryptionInfo?: EncryptionInfo | undefined;
   events?: EventList | undefined;
@@ -1174,6 +1139,7 @@ export interface IngestEventsRequest_ {
   encoding?: IngestEventsRequestEncodingEnum | (string & {}) | undefined;
   destinations?: DestinationList | undefined;
 }
+export interface IngestEventsRequest_ extends IngestEventsRequest {}
 export interface IngestEventsResponse {
   requestId?: string | undefined;
   fieldWarnings?: FieldWarningList | undefined;
@@ -1184,13 +1150,14 @@ export interface User {
 }
 export type UserList_ = Array<User>;
 export type IngestUsersRequestEncodingEnum = "ENCODING_UNSPECIFIED" | "HEX" | "BASE64";
-export interface IngestUsersRequest_ {
+export interface IngestUsersRequest {
   validateOnly?: boolean | undefined;
   users?: UserList_ | undefined;
   encryptionInfo?: EncryptionInfo | undefined;
   encoding?: IngestUsersRequestEncodingEnum | (string & {}) | undefined;
   destinations?: DestinationList | undefined;
 }
+export interface IngestUsersRequest_ extends IngestUsersRequest {}
 export interface IngestUsersResponse {
   requestId?: string | undefined;
 }
@@ -1266,76 +1233,56 @@ export interface ListUserListsResponse {
   nextPageToken?: string | undefined;
   userLists?: UserListList | undefined;
 }
-export interface PatchAccountTypesAccountsUserListDirectLicensesRequest {
+export interface PatchAccountTypesAccountsUserListDirectLicensesRequest extends Omit<
+  UserListDirectLicense,
+  "name"
+> {
   updateMask?: string | undefined;
   name: string;
-  pricing?: UserListLicensePricing | undefined;
-  userListId?: string | undefined;
-  clientAccountId?: string | undefined;
-  clientAccountType?: UserListDirectLicenseClientAccountTypeEnum | (string & {}) | undefined;
-  status?: UserListDirectLicenseStatusEnum | (string & {}) | undefined;
-  metrics?: UserListLicenseMetrics | undefined;
-  clientAccountDisplayName?: string | undefined;
-  userListDisplayName?: string | undefined;
-  historicalPricings?: UserListLicensePricingList | undefined;
 }
-export interface PatchAccountTypesAccountsUserListGlobalLicensesRequest {
+export interface PatchAccountTypesAccountsUserListGlobalLicensesRequest extends Omit<
+  UserListGlobalLicense,
+  "name"
+> {
   updateMask?: string | undefined;
   name: string;
-  userListId?: string | undefined;
-  pricing?: UserListLicensePricing | undefined;
-  metrics?: UserListLicenseMetrics | undefined;
-  userListDisplayName?: string | undefined;
-  historicalPricings?: UserListLicensePricingList | undefined;
-  licenseType?: UserListGlobalLicenseLicenseTypeEnum | (string & {}) | undefined;
-  status?: UserListGlobalLicenseStatusEnum | (string & {}) | undefined;
 }
-export interface PatchAccountTypesAccountsUserListsRequest {
+export interface PatchAccountTypesAccountsUserListsRequest extends Omit<UserList, "name"> {
   name: string;
   updateMask?: string | undefined;
   validateOnly?: boolean | undefined;
-  closingReason?: UserListClosingReasonEnum | (string & {}) | undefined;
-  readOnly?: boolean | undefined;
-  sizeInfo?: SizeInfo | undefined;
-  integrationCode?: string | undefined;
-  ingestedUserListInfo?: IngestedUserListInfo | undefined;
-  description?: string | undefined;
-  accountAccessStatus?: UserListAccountAccessStatusEnum | (string & {}) | undefined;
-  membershipStatus?: UserListMembershipStatusEnum | (string & {}) | undefined;
-  displayName?: string | undefined;
-  membershipDuration?: string | undefined;
-  accessReason?: UserListAccessReasonEnum | (string & {}) | undefined;
-  id?: string | undefined;
-  targetNetworkInfo?: TargetNetworkInfo | undefined;
 }
-export interface RemoveAllAudienceMembersRequest_ {
+export interface RemoveAllAudienceMembersRequest {
   destinations?: DestinationList | undefined;
   removeAsOfTime?: string | undefined;
   validateOnly?: boolean | undefined;
 }
+export interface RemoveAllAudienceMembersRequest_ extends RemoveAllAudienceMembersRequest {}
 export interface RemoveAllAudienceMembersResponse {
   requestId?: string | undefined;
 }
 export type RemoveAudienceMembersRequestEncodingEnum = "ENCODING_UNSPECIFIED" | "HEX" | "BASE64";
-export interface RemoveAudienceMembersRequest_ {
+export interface RemoveAudienceMembersRequest {
   validateOnly?: boolean | undefined;
   audienceMembers?: AudienceMemberList | undefined;
   encryptionInfo?: EncryptionInfo | undefined;
   encoding?: RemoveAudienceMembersRequestEncodingEnum | (string & {}) | undefined;
   destinations?: DestinationList | undefined;
 }
+export interface RemoveAudienceMembersRequest_ extends RemoveAudienceMembersRequest {}
 export interface RemoveAudienceMembersResponse {
   requestId?: string | undefined;
 }
 export type RemoveUsersRequestEncodingEnum = "ENCODING_UNSPECIFIED" | "HEX" | "BASE64";
 export type UserDataList = Array<UserData>;
-export interface RemoveUsersRequest_ {
+export interface RemoveUsersRequest {
   validateOnly?: boolean | undefined;
   encoding?: RemoveUsersRequestEncodingEnum | (string & {}) | undefined;
   userData?: UserDataList | undefined;
   destinations?: DestinationList | undefined;
   encryptionInfo?: EncryptionInfo | undefined;
 }
+export interface RemoveUsersRequest_ extends RemoveUsersRequest {}
 export interface RemoveUsersResponse {
   requestId?: string | undefined;
 }
@@ -1512,8 +1459,8 @@ export const getAccountTypesAccountsInsights: API.OperationMethod<
   GetAccountTypesAccountsInsightsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(34, __c1, 2) as any as S.Schema<GetAccountTypesAccountsInsightsRequest>,
-  output: __S(39, __c1, 7) as any as S.Schema<RetrieveInsightsResponse>,
+  input: __S(35, __c1, 3) as any as S.Schema<GetAccountTypesAccountsInsightsRequest>,
+  output: __S(40, __c1, 8) as any as S.Schema<RetrieveInsightsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1621,7 +1568,7 @@ export const ingestAdEvents: API.OperationMethod<
   IngestAdEventsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(291, __c9, 3) as any as S.Schema<IngestAdEventsRequest_>,
+  input: __S(292, __c9, 4) as any as S.Schema<IngestAdEventsRequest_>,
   output: __S(1376, __c43, 0) as any as S.Schema<IngestAdEventsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -1637,8 +1584,8 @@ export const ingestAudienceMembers: API.OperationMethod<
   IngestAudienceMembersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(385, __c12, 1) as any as S.Schema<IngestAudienceMembersRequest_>,
-  output: __S(386, __c12, 2) as any as S.Schema<IngestAudienceMembersResponse>,
+  input: __S(386, __c12, 2) as any as S.Schema<IngestAudienceMembersRequest_>,
+  output: __S(387, __c12, 3) as any as S.Schema<IngestAudienceMembersResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1653,8 +1600,8 @@ export const ingestEvents: API.OperationMethod<
   IngestEventsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(597, __c18, 21) as any as S.Schema<IngestEventsRequest_>,
-  output: __S(598, __c18, 22) as any as S.Schema<IngestEventsResponse>,
+  input: __S(598, __c18, 22) as any as S.Schema<IngestEventsRequest_>,
+  output: __S(599, __c18, 23) as any as S.Schema<IngestEventsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1669,7 +1616,7 @@ export const ingestUsers: API.OperationMethod<
   IngestUsersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(610, __c19, 2) as any as S.Schema<IngestUsersRequest_>,
+  input: __S(611, __c19, 3) as any as S.Schema<IngestUsersRequest_>,
   output: __S(640, __c20, 0) as any as S.Schema<IngestUsersResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -1860,7 +1807,7 @@ export const removeAllAudienceMembers: API.OperationMethod<
   RemoveAllAudienceMembersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c28, 0) as any as S.Schema<RemoveAllAudienceMembersRequest_>,
+  input: __S(897, __c28, 1) as any as S.Schema<RemoveAllAudienceMembersRequest_>,
   output: __S(640, __c20, 0) as any as S.Schema<RemoveAllAudienceMembersResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -1876,7 +1823,7 @@ export const removeAudienceMembers: API.OperationMethod<
   RemoveAudienceMembersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c29, 0) as any as S.Schema<RemoveAudienceMembersRequest_>,
+  input: __S(929, __c29, 1) as any as S.Schema<RemoveAudienceMembersRequest_>,
   output: __S(640, __c20, 0) as any as S.Schema<RemoveAudienceMembersResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -1892,7 +1839,7 @@ export const removeUsers: API.OperationMethod<
   RemoveUsersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(961, __c30, 1) as any as S.Schema<RemoveUsersRequest_>,
+  input: __S(962, __c30, 2) as any as S.Schema<RemoveUsersRequest_>,
   output: __S(640, __c20, 0) as any as S.Schema<RemoveUsersResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -1955,10 +1902,18 @@ function __c1(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
           userListId: S.optional(S.String),
           baseline: S.optional(__S(33, __c1, 1)),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "RetrieveInsightsRequest" });
+    case 3:
+      return S.suspend(() =>
+        S.Extend(
+          __S(34, __c1, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/insights:retrieve",
@@ -1966,7 +1921,7 @@ function __c1(j: number): any {
           }),
         ),
       ).annotate({ identifier: "GetAccountTypesAccountsInsightsRequest" });
-    case 3:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           gender: S.optional(S.String),
@@ -1975,21 +1930,21 @@ function __c1(j: number): any {
           lift: S.optional(S.Number),
         }),
       ).annotate({ identifier: "MarketingDataInsightsAttribute" });
-    case 4:
-      return S.Array(__S(35, __c1, 3));
     case 5:
+      return S.Array(__S(36, __c1, 4));
+    case 6:
       return S.suspend(() =>
         S.Struct({
-          attributes: S.optional(__S(36, __c1, 4)),
+          attributes: S.optional(__S(37, __c1, 5)),
           dimension: S.optional(S.String),
         }),
       ).annotate({ identifier: "MarketingDataInsight" });
-    case 6:
-      return S.Array(__S(37, __c1, 5));
     case 7:
+      return S.Array(__S(38, __c1, 6));
+    case 8:
       return S.suspend(() =>
         S.Struct({
-          marketingDataInsights: S.optional(__S(38, __c1, 6)),
+          marketingDataInsights: S.optional(__S(39, __c1, 7)),
         }),
       ).annotate({ identifier: "RetrieveInsightsResponse" });
   }
@@ -2400,7 +2355,11 @@ function __c9(j: number): any {
           adEvents: S.optional(__S(290, __c9, 2)),
           validateOnly: S.optional(S.Boolean),
           encryptionInfo: S.optional(__S(327, __c10, 7)),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "IngestAdEventsRequest" });
+    case 4:
+      return S.suspend(() =>
+        S.Extend(__S(291, __c9, 3), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/adEvents:ingest",
@@ -2513,7 +2472,11 @@ function __c12(j: number): any {
           audienceMembers: S.optional(__S(553, __c17, 9)),
           termsOfService: S.optional(__S(384, __c12, 0)),
           encryptionInfo: S.optional(__S(327, __c10, 7)),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "IngestAudienceMembersRequest" });
+    case 2:
+      return S.suspend(() =>
+        S.Extend(__S(385, __c12, 1), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/audienceMembers:ingest",
@@ -2521,7 +2484,7 @@ function __c12(j: number): any {
           }),
         ),
       ).annotate({ identifier: "IngestAudienceMembersRequest_" });
-    case 2:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           fieldWarnings: S.optional(__S(417, __c13, 1)),
@@ -2810,7 +2773,11 @@ function __c18(j: number): any {
           validateOnly: S.optional(S.Boolean),
           encoding: S.optional(S.String),
           destinations: S.optional(__S(448, __c14, 0)),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "IngestEventsRequest" });
+    case 22:
+      return S.suspend(() =>
+        S.Extend(__S(597, __c18, 21), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/events:ingest",
@@ -2818,7 +2785,7 @@ function __c18(j: number): any {
           }),
         ),
       ).annotate({ identifier: "IngestEventsRequest_" });
-    case 22:
+    case 23:
       return S.suspend(() =>
         S.Struct({
           requestId: S.optional(S.String),
@@ -2846,7 +2813,11 @@ function __c19(j: number): any {
           encryptionInfo: S.optional(__S(327, __c10, 7)),
           encoding: S.optional(S.String),
           destinations: S.optional(__S(448, __c14, 0)),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "IngestUsersRequest" });
+    case 3:
+      return S.suspend(() =>
+        S.Extend(__S(610, __c19, 2), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/users:ingest",
@@ -3001,19 +2972,13 @@ function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          pricing: S.optional(__S(1184, __c37, 0)),
-          userListId: S.optional(S.String),
-          clientAccountId: S.optional(S.String),
-          clientAccountType: S.optional(S.String),
-          status: S.optional(S.String),
-          metrics: S.optional(__S(1185, __c37, 1)),
-          clientAccountDisplayName: S.optional(S.String),
-          userListDisplayName: S.optional(S.String),
-          historicalPricings: S.optional(__S(1186, __c37, 2)),
-        }).pipe(
+        S.Extend(
+          __S(1152, __c36, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -3027,17 +2992,13 @@ function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          userListId: S.optional(S.String),
-          pricing: S.optional(__S(1184, __c37, 0)),
-          metrics: S.optional(__S(1185, __c37, 1)),
-          userListDisplayName: S.optional(S.String),
-          historicalPricings: S.optional(__S(1186, __c37, 2)),
-          licenseType: S.optional(S.String),
-          status: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1248, __c39, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -3051,24 +3012,14 @@ function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          closingReason: S.optional(S.String),
-          readOnly: S.optional(S.Boolean),
-          sizeInfo: S.optional(__S(1312, __c41, 0)),
-          integrationCode: S.optional(S.String),
-          ingestedUserListInfo: S.optional(__S(1320, __c41, 8)),
-          description: S.optional(S.String),
-          accountAccessStatus: S.optional(S.String),
-          membershipStatus: S.optional(S.String),
-          displayName: S.optional(S.String),
-          membershipDuration: S.optional(S.String),
-          accessReason: S.optional(S.String),
-          id: S.optional(S.String),
-          targetNetworkInfo: S.optional(__S(1321, __c41, 9)),
-        }).pipe(
+        S.Extend(
+          __S(1322, __c41, 10),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -3086,7 +3037,11 @@ function __c28(j: number): any {
           destinations: S.optional(__S(448, __c14, 0)),
           removeAsOfTime: S.optional(S.String),
           validateOnly: S.optional(S.Boolean),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "RemoveAllAudienceMembersRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(__S(896, __c28, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/audienceMembers:removeAll",
@@ -3106,7 +3061,11 @@ function __c29(j: number): any {
           encryptionInfo: S.optional(__S(327, __c10, 7)),
           encoding: S.optional(S.String),
           destinations: S.optional(__S(448, __c14, 0)),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "RemoveAudienceMembersRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(__S(928, __c29, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/audienceMembers:remove",
@@ -3128,7 +3087,11 @@ function __c30(j: number): any {
           userData: S.optional(__S(960, __c30, 0)),
           destinations: S.optional(__S(448, __c14, 0)),
           encryptionInfo: S.optional(__S(327, __c10, 7)),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "RemoveUsersRequest" });
+    case 2:
+      return S.suspend(() =>
+        S.Extend(__S(961, __c30, 1), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/users:remove",
@@ -3170,16 +3133,12 @@ function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          partnerLinkId: S.optional(S.String),
-          partnerLinkMetadata: S.optional(__S(1090, __c34, 2)),
-          partnerCustomerAccount: S.optional(__S(1088, __c34, 0)),
-          partnerAccount: S.optional(__S(1056, __c33, 0)),
-          name: S.optional(S.String),
-          featureSet: S.optional(S.String),
-          owningAccount: S.optional(__S(1056, __c33, 0)),
-        }).pipe(
+        S.Extend(
+          __S(1091, __c34, 3),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/partnerLinks",
@@ -3237,19 +3196,12 @@ function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          pricing: S.optional(__S(1184, __c37, 0)),
-          userListId: S.optional(S.String),
-          clientAccountId: S.optional(S.String),
-          clientAccountType: S.optional(S.String),
-          status: S.optional(S.String),
-          metrics: S.optional(__S(1185, __c37, 1)),
-          clientAccountDisplayName: S.optional(S.String),
-          userListDisplayName: S.optional(S.String),
-          name: S.optional(S.String),
-          historicalPricings: S.optional(__S(1186, __c37, 2)),
-        }).pipe(
+        S.Extend(
+          __S(1152, __c36, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/userListDirectLicenses",
@@ -3312,17 +3264,12 @@ function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          userListId: S.optional(S.String),
-          pricing: S.optional(__S(1184, __c37, 0)),
-          name: S.optional(S.String),
-          metrics: S.optional(__S(1185, __c37, 1)),
-          userListDisplayName: S.optional(S.String),
-          historicalPricings: S.optional(__S(1186, __c37, 2)),
-          licenseType: S.optional(S.String),
-          status: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1248, __c39, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/userListGlobalLicenses",
@@ -3353,24 +3300,13 @@ function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          closingReason: S.optional(S.String),
-          readOnly: S.optional(S.Boolean),
-          name: S.optional(S.String),
-          sizeInfo: S.optional(__S(1312, __c41, 0)),
-          integrationCode: S.optional(S.String),
-          ingestedUserListInfo: S.optional(__S(1320, __c41, 8)),
-          description: S.optional(S.String),
-          accountAccessStatus: S.optional(S.String),
-          membershipStatus: S.optional(S.String),
-          displayName: S.optional(S.String),
-          membershipDuration: S.optional(S.String),
-          accessReason: S.optional(S.String),
-          id: S.optional(S.String),
-          targetNetworkInfo: S.optional(__S(1321, __c41, 9)),
-        }).pipe(
+        S.Extend(
+          __S(1322, __c41, 10),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/userLists",

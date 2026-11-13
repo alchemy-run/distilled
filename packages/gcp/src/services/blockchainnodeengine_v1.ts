@@ -180,13 +180,8 @@ export interface EthereumDetails {
   nodeType?: EthereumDetailsNodeTypeEnum | (string & {}) | undefined;
 }
 export type BlockchainNodeBlockchainTypeEnum = "BLOCKCHAIN_TYPE_UNSPECIFIED" | "ETHEREUM";
-export interface CreateProjectsLocationsBlockchainNodesRequest {
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Required. ID of the requesting object. */
-  blockchainNodeId?: string | undefined;
-  /** Required. Value for parent. */
-  parent: string;
+/** A representation of a blockchain node. */
+export interface BlockchainNode {
   /** User-provided key-value pairs. */
   labels?: StringMap | undefined;
   /** Output only. The timestamp at which the blockchain node was last updated. */
@@ -205,6 +200,14 @@ export interface CreateProjectsLocationsBlockchainNodesRequest {
   name?: string | undefined;
   /** Immutable. The blockchain type of the node. */
   blockchainType?: BlockchainNodeBlockchainTypeEnum | (string & {}) | undefined;
+}
+export interface CreateProjectsLocationsBlockchainNodesRequest extends BlockchainNode {
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+  /** Required. ID of the requesting object. */
+  blockchainNodeId?: string | undefined;
+  /** Required. Value for parent. */
+  parent: string;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -260,27 +263,6 @@ export interface Location {
 export interface GetProjectsLocationsBlockchainNodesRequest {
   /** Required. The fully qualified name of the blockchain node to fetch. e.g. `projects/my-project/locations/us-central1/blockchainNodes/my-node`. */
   name: string;
-}
-/** A representation of a blockchain node. */
-export interface BlockchainNode {
-  /** User-provided key-value pairs. */
-  labels?: StringMap | undefined;
-  /** Output only. The timestamp at which the blockchain node was last updated. */
-  updateTime?: string | undefined;
-  /** Output only. A status representing the state of the node. */
-  state?: BlockchainNodeStateEnum | undefined;
-  /** Optional. When true, the node is only accessible via Private Service Connect; no public endpoints are exposed. Otherwise, the node is only accessible via public endpoints. Warning: These nodes are deprecated, please use public endpoints instead. */
-  privateServiceConnectEnabled?: boolean | undefined;
-  /** Output only. The connection information used to interact with a blockchain node. */
-  connectionInfo?: ConnectionInfo | undefined;
-  /** Output only. The timestamp at which the blockchain node was first created. */
-  createTime?: string | undefined;
-  /** Ethereum-specific blockchain node details. */
-  ethereumDetails?: EthereumDetails | undefined;
-  /** Output only. The fully qualified name of the blockchain node. e.g. `projects/my-project/locations/us-central1/blockchainNodes/my-node`. */
-  name?: string | undefined;
-  /** Immutable. The blockchain type of the node. */
-  blockchainType?: BlockchainNodeBlockchainTypeEnum | undefined;
 }
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
@@ -346,29 +328,13 @@ export interface ListOperationsResponse {
   /** The standard List next-page token. */
   nextPageToken?: string | undefined;
 }
-export interface PatchProjectsLocationsBlockchainNodesRequest {
+export interface PatchProjectsLocationsBlockchainNodesRequest extends Omit<BlockchainNode, "name"> {
   /** Required. Field mask is used to specify the fields to be overwritten in the Blockchain node resource by the update. The fields specified in the `update_mask` are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
   /** Output only. The fully qualified name of the blockchain node. e.g. `projects/my-project/locations/us-central1/blockchainNodes/my-node`. */
   name: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** User-provided key-value pairs. */
-  labels?: StringMap | undefined;
-  /** Output only. The timestamp at which the blockchain node was last updated. */
-  updateTime?: string | undefined;
-  /** Output only. A status representing the state of the node. */
-  state?: BlockchainNodeStateEnum | (string & {}) | undefined;
-  /** Optional. When true, the node is only accessible via Private Service Connect; no public endpoints are exposed. Otherwise, the node is only accessible via public endpoints. Warning: These nodes are deprecated, please use public endpoints instead. */
-  privateServiceConnectEnabled?: boolean | undefined;
-  /** Output only. The connection information used to interact with a blockchain node. */
-  connectionInfo?: ConnectionInfo | undefined;
-  /** Output only. The timestamp at which the blockchain node was first created. */
-  createTime?: string | undefined;
-  /** Ethereum-specific blockchain node details. */
-  ethereumDetails?: EthereumDetails | undefined;
-  /** Immutable. The blockchain type of the node. */
-  blockchainType?: BlockchainNodeBlockchainTypeEnum | (string & {}) | undefined;
 }
 export type CancelProjectsLocationsOperationsError =
   | NotFound
@@ -484,7 +450,7 @@ export const getProjectsLocationsBlockchainNodes: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(136, __c17, 0) as any as S.Schema<GetProjectsLocationsBlockchainNodesRequest>,
-  output: __S(144, __c18, 0) as any as S.Schema<BlockchainNode>,
+  output: __S(102, __c12, 6) as any as S.Schema<BlockchainNode>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -653,7 +619,7 @@ function __c2(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsBlockchainNodesRequest" });
     case 1:
-      return S.Array(__S(144, __c18, 0));
+      return S.Array(__S(102, __c12, 6));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -696,19 +662,14 @@ function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          labels: S.optional(__S(80, __c10, 0)),
-          updateTime: S.optional(S.String),
-          state: S.optional(S.String),
-          privateServiceConnectEnabled: S.optional(S.Boolean),
-          connectionInfo: S.optional(__S(97, __c12, 1)),
-          createTime: S.optional(S.String),
-          ethereumDetails: S.optional(__S(101, __c12, 5)),
-          blockchainType: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(102, __c12, 6),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -745,20 +706,14 @@ function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          blockchainNodeId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          labels: S.optional(__S(80, __c10, 0)),
-          updateTime: S.optional(S.String),
-          state: S.optional(S.String),
-          privateServiceConnectEnabled: S.optional(S.Boolean),
-          connectionInfo: S.optional(__S(97, __c12, 1)),
-          createTime: S.optional(S.String),
-          ethereumDetails: S.optional(__S(101, __c12, 5)),
-          name: S.optional(S.String),
-          blockchainType: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(102, __c12, 6),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            blockchainNodeId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/blockchainNodes",
@@ -862,6 +817,20 @@ function __c12(j: number): any {
           nodeType: S.optional(S.String),
         }),
       ).annotate({ identifier: "EthereumDetails" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          labels: S.optional(__S(80, __c10, 0)),
+          updateTime: S.optional(S.String),
+          state: S.optional(S.String),
+          privateServiceConnectEnabled: S.optional(S.Boolean),
+          connectionInfo: S.optional(__S(97, __c12, 1)),
+          createTime: S.optional(S.String),
+          ethereumDetails: S.optional(__S(101, __c12, 5)),
+          name: S.optional(S.String),
+          blockchainType: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "BlockchainNode" });
   }
 }
 function __c13(j: number): any {
@@ -941,24 +910,6 @@ function __c17(j: number): any {
           }),
         ),
       ).annotate({ identifier: "GetProjectsLocationsBlockchainNodesRequest" });
-  }
-}
-function __c18(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          labels: S.optional(__S(80, __c10, 0)),
-          updateTime: S.optional(S.String),
-          state: S.optional(S.String),
-          privateServiceConnectEnabled: S.optional(S.Boolean),
-          connectionInfo: S.optional(__S(97, __c12, 1)),
-          createTime: S.optional(S.String),
-          ethereumDetails: S.optional(__S(101, __c12, 5)),
-          name: S.optional(S.String),
-          blockchainType: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "BlockchainNode" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

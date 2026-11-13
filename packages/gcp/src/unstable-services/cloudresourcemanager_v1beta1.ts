@@ -98,9 +98,8 @@ export interface ResourceId {
   type?: string | undefined;
 }
 export type StringList = Array<string>;
-export interface CreateProjectsRequest {
-  /** A now unused experiment opt-out option. */
-  useLegacyStack?: boolean | undefined;
+/** A Project is a high-level Google Cloud Platform entity. It is a container for ACLs, APIs, App Engine Apps, VMs, and other Google Cloud Platform resources. */
+export interface Project {
   /** The unique, user-assigned ID of the Project. It must be 6 to 30 lowercase letters, digits, or hyphens. It must start with a letter. Trailing hyphens are prohibited. Example: `tokyo-rain-123` Read-only after creation. */
   projectId?: string | undefined;
   /** Output only. The type of Management Project. This field is only populated if `is_management_project` is `true`. */
@@ -122,28 +121,9 @@ export interface CreateProjectsRequest {
   /** Output only. If this project is a Management Project, list of capabilities configured on the parent folder. Note, presence of any capability implies that this is a Management Project. Example: `folders/123/capabilities/app-management`. OUTPUT ONLY. */
   configuredCapabilities?: StringList | undefined;
 }
-/** A Project is a high-level Google Cloud Platform entity. It is a container for ACLs, APIs, App Engine Apps, VMs, and other Google Cloud Platform resources. */
-export interface Project {
-  /** The unique, user-assigned ID of the Project. It must be 6 to 30 lowercase letters, digits, or hyphens. It must start with a letter. Trailing hyphens are prohibited. Example: `tokyo-rain-123` Read-only after creation. */
-  projectId?: string | undefined;
-  /** Output only. The type of Management Project. This field is only populated if `is_management_project` is `true`. */
-  managementType?: ProjectManagementTypeEnum | undefined;
-  /** Output only. If `true`, this project is a Management Project. A Management Project manages dedicated project groups for specific purposes (e.g., agent management or app management). */
-  isManagementProject?: boolean | undefined;
-  /** The Project lifecycle state. Read-only. */
-  lifecycleState?: ProjectLifecycleStateEnum | undefined;
-  /** The number uniquely identifying the project. Example: `415104041262` Read-only. */
-  projectNumber?: string | undefined;
-  /** The labels associated with this Project. Label keys must be between 1 and 63 characters long and must conform to the following regular expression: a-z{0,62}. Label values must be between 0 and 63 characters long and must conform to the regular expression [a-z0-9_-]{0,63}. A label value can be empty. No more than 256 labels can be associated with a given resource. Clients should store labels in a representation such as JSON that does not depend on specific characters being disallowed. Example: `"environment" : "dev"` Read-write. */
-  labels?: StringMap | undefined;
-  /** Creation time. Read-only. */
-  createTime?: string | undefined;
-  /** The optional user-assigned display name of the Project. When present it must be between 4 to 30 characters. Allowed characters are: lowercase and uppercase letters, numbers, hyphen, single-quote, double-quote, space, and exclamation point. Example: `My Project` Read-write. */
-  name?: string | undefined;
-  /** An optional reference to a parent Resource. Supported parent types include "organization" and "folder". Once set, the parent cannot be cleared. The `parent` can be set on creation or using the `UpdateProject` method; the end user must have the `resourcemanager.projects.create` permission on the parent. Read-write. */
-  parent?: ResourceId | undefined;
-  /** Output only. If this project is a Management Project, list of capabilities configured on the parent folder. Note, presence of any capability implies that this is a Management Project. Example: `folders/123/capabilities/app-management`. OUTPUT ONLY. */
-  configuredCapabilities?: StringList | undefined;
+export interface CreateProjectsRequest extends Project {
+  /** A now unused experiment opt-out option. */
+  useLegacyStack?: boolean | undefined;
 }
 export interface DeleteProjectsRequest {
   /** The Project ID (for example, `foo-bar-123`). */
@@ -175,11 +155,14 @@ export interface GetPolicyOptions {
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   requestedPolicyVersion?: number | undefined;
 }
-export interface GetIamPolicyOrganizationsRequest {
-  /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
+/** Request message for `GetIamPolicy` method. */
+export interface GetIamPolicyRequest {
   /** OPTIONAL: A `GetPolicyOptions` object for specifying options to `GetIamPolicy`. */
   options?: GetPolicyOptions | undefined;
+}
+export interface GetIamPolicyOrganizationsRequest extends GetIamPolicyRequest {
+  /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
 }
 export type AuditLogConfigLogTypeEnum =
   | "LOG_TYPE_UNSPECIFIED"
@@ -234,11 +217,9 @@ export interface Policy {
   /** Associates a list of `members`, or principals, with a `role`. Optionally, may specify a `condition` that determines how and when the `bindings` are applied. Each of the `bindings` must contain at least one principal. The `bindings` in a `Policy` can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the `bindings` grant 50 different roles to `user:alice@example.com`, and not to any other principal, then you can add another 1,450 principals to the `bindings` in the `Policy`. */
   bindings?: BindingList | undefined;
 }
-export interface GetIamPolicyProjectsRequest {
+export interface GetIamPolicyProjectsRequest extends GetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** OPTIONAL: A `GetPolicyOptions` object for specifying options to `GetIamPolicy`. */
-  options?: GetPolicyOptions | undefined;
 }
 export interface GetOrganizationsRequest {
   /** The id of the Organization resource to fetch. This field is deprecated and will be removed in v1. Use name instead. */
@@ -264,7 +245,7 @@ export interface Organization {
   /** An immutable id for the Organization that is assigned on creation. This should be omitted when creating a new Organization. This field is read-only. */
   organizationId?: string | undefined;
   /** The organization's current lifecycle state. Assigned by the server. */
-  lifecycleState?: OrganizationLifecycleStateEnum | undefined;
+  lifecycleState?: OrganizationLifecycleStateEnum | (string & {}) | undefined;
   /** A human-readable string that refers to the Organization in the Google Cloud console. This string is set by the server and cannot be changed. The string will be set to the primary domain (for example, "google.com") of the G Suite customer that owns the organization. */
   displayName?: string | undefined;
   /** Output only. The resource name of the organization. This is the organization's relative path in the API. Its format is "organizations/[organization_id]". For example, "organizations/1234". */
@@ -306,38 +287,38 @@ export interface ListProjectsResponse {
   /** Pagination token. If the result set is too large to fit in a single response, this token is returned. It encodes the position of the current result cursor. Feeding this value into a new list request with the `page_token` parameter gives the next page of the results. When `next_page_token` is not filled in, there is no next page and the list returned is the last page in the result set. Pagination tokens have a limited lifetime. */
   nextPageToken?: string | undefined;
 }
-export interface SetIamPolicyOrganizationsRequest {
-  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
+/** Request message for `SetIamPolicy` method. */
+export interface SetIamPolicyRequest {
   /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
   updateMask?: string | undefined;
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
   policy?: Policy | undefined;
 }
-export interface SetIamPolicyProjectsRequest {
+export interface SetIamPolicyOrganizationsRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
-  updateMask?: string | undefined;
-  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
-  policy?: Policy | undefined;
 }
-export interface TestIamPermissionsOrganizationsRequest {
-  /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+export interface SetIamPolicyProjectsRequest extends SetIamPolicyRequest {
+  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
+}
+/** Request message for `TestIamPermissions` method. */
+export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: StringList | undefined;
+}
+export interface TestIamPermissionsOrganizationsRequest extends TestIamPermissionsRequest {
+  /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsRequest {
+export interface TestIamPermissionsProjectsRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
-  permissions?: StringList | undefined;
 }
 /** The request sent to the UndeleteProject method. */
 export type UndeleteProjectRequest = GetAncestryRequest;
@@ -347,41 +328,13 @@ export interface UndeleteProjectsRequest {
   /** Request body */
   body?: GetAncestryRequest | undefined;
 }
-export interface UpdateOrganizationsRequest {
+export interface UpdateOrganizationsRequest extends Omit<Organization, "name"> {
   /** Output only. The resource name of the organization. This is the organization's relative path in the API. Its format is "organizations/[organization_id]". For example, "organizations/1234". */
   name: string;
-  /** The owner of this Organization. The owner should be specified on creation. Once set, it cannot be changed. This field is required. */
-  owner?: OrganizationOwner | undefined;
-  /** Timestamp when the Organization was created. Assigned by the server. */
-  creationTime?: string | undefined;
-  /** An immutable id for the Organization that is assigned on creation. This should be omitted when creating a new Organization. This field is read-only. */
-  organizationId?: string | undefined;
-  /** The organization's current lifecycle state. Assigned by the server. */
-  lifecycleState?: OrganizationLifecycleStateEnum | (string & {}) | undefined;
-  /** A human-readable string that refers to the Organization in the Google Cloud console. This string is set by the server and cannot be changed. The string will be set to the primary domain (for example, "google.com") of the G Suite customer that owns the organization. */
-  displayName?: string | undefined;
 }
-export interface UpdateProjectsRequest {
+export interface UpdateProjectsRequest extends Omit<Project, "projectId"> {
   /** The project ID (for example, `my-project-123`). */
   projectId: string;
-  /** Output only. The type of Management Project. This field is only populated if `is_management_project` is `true`. */
-  managementType?: ProjectManagementTypeEnum | (string & {}) | undefined;
-  /** Output only. If `true`, this project is a Management Project. A Management Project manages dedicated project groups for specific purposes (e.g., agent management or app management). */
-  isManagementProject?: boolean | undefined;
-  /** The Project lifecycle state. Read-only. */
-  lifecycleState?: ProjectLifecycleStateEnum | (string & {}) | undefined;
-  /** The number uniquely identifying the project. Example: `415104041262` Read-only. */
-  projectNumber?: string | undefined;
-  /** The labels associated with this Project. Label keys must be between 1 and 63 characters long and must conform to the following regular expression: a-z{0,62}. Label values must be between 0 and 63 characters long and must conform to the regular expression [a-z0-9_-]{0,63}. A label value can be empty. No more than 256 labels can be associated with a given resource. Clients should store labels in a representation such as JSON that does not depend on specific characters being disallowed. Example: `"environment" : "dev"` Read-write. */
-  labels?: StringMap | undefined;
-  /** Creation time. Read-only. */
-  createTime?: string | undefined;
-  /** The optional user-assigned display name of the Project. When present it must be between 4 to 30 characters. Allowed characters are: lowercase and uppercase letters, numbers, hyphen, single-quote, double-quote, space, and exclamation point. Example: `My Project` Read-write. */
-  name?: string | undefined;
-  /** An optional reference to a parent Resource. Supported parent types include "organization" and "folder". Once set, the parent cannot be cleared. The `parent` can be set on creation or using the `UpdateProject` method; the end user must have the `resourcemanager.projects.create` permission on the parent. Read-write. */
-  parent?: ResourceId | undefined;
-  /** Output only. If this project is a Management Project, list of capabilities configured on the parent folder. Note, presence of any capability implies that this is a Management Project. Example: `folders/123/capabilities/app-management`. OUTPUT ONLY. */
-  configuredCapabilities?: StringList | undefined;
 }
 export type CreateProjectsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
 /** Creates a Project resource. Initially, the Project resource is owned by its creator exclusively. The creator can later grant permission to others to read or update the Project. Several APIs are activated automatically for the Project, including Google Cloud Storage. The parent is identified by a specified ResourceId, which must include both an ID and a type, such as project, folder, or organization. This method does not associate the new project with a billing account. You can set or update the billing account associated with a project using the [`projects.updateBillingInfo`] (/billing/reference/rest/v1/projects/updateBillingInfo) method. */
@@ -391,8 +344,8 @@ export const createProjects: API.OperationMethod<
   CreateProjectsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c11, 0) as any as S.Schema<CreateProjectsRequest>,
-  output: __S(97, __c12, 1) as any as S.Schema<Project>,
+  input: __S(96, __c12, 0) as any as S.Schema<CreateProjectsRequest>,
+  output: __S(105, __c13, 1) as any as S.Schema<Project>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -408,8 +361,8 @@ export const deleteProjects: API.OperationMethod<
   DeleteProjectsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(120, __c15, 0) as any as S.Schema<DeleteProjectsRequest>,
-  output: __S(128, __c16, 0) as any as S.Schema<Empty>,
+  input: __S(128, __c16, 0) as any as S.Schema<DeleteProjectsRequest>,
+  output: __S(136, __c17, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -425,8 +378,8 @@ export const getAncestryProjects: API.OperationMethod<
   GetAncestryProjectsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(136, __c17, 0) as any as S.Schema<GetAncestryProjectsRequest>,
-  output: __S(139, __c17, 3) as any as S.Schema<GetAncestryResponse>,
+  input: __S(144, __c18, 0) as any as S.Schema<GetAncestryProjectsRequest>,
+  output: __S(147, __c18, 3) as any as S.Schema<GetAncestryResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -447,8 +400,8 @@ export const getIamPolicyOrganizations: API.OperationMethod<
   GetIamPolicyOrganizationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c18, 0) as any as S.Schema<GetIamPolicyOrganizationsRequest>,
-  output: __S(167, __c20, 7) as any as S.Schema<Policy>,
+  input: __S(152, __c19, 0) as any as S.Schema<GetIamPolicyOrganizationsRequest>,
+  output: __S(175, __c21, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -464,8 +417,8 @@ export const getIamPolicyProjects: API.OperationMethod<
   GetIamPolicyProjectsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(168, __c21, 0) as any as S.Schema<GetIamPolicyProjectsRequest>,
-  output: __S(167, __c20, 7) as any as S.Schema<Policy>,
+  input: __S(176, __c22, 0) as any as S.Schema<GetIamPolicyProjectsRequest>,
+  output: __S(175, __c21, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -481,8 +434,8 @@ export const getOrganizations: API.OperationMethod<
   GetOrganizationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c22, 0) as any as S.Schema<GetOrganizationsRequest>,
-  output: __S(185, __c23, 1) as any as S.Schema<Organization>,
+  input: __S(184, __c23, 0) as any as S.Schema<GetOrganizationsRequest>,
+  output: __S(193, __c24, 1) as any as S.Schema<Organization>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -499,7 +452,7 @@ export const getProjects: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<GetProjectsRequest>,
-  output: __S(97, __c12, 1) as any as S.Schema<Project>,
+  output: __S(105, __c13, 1) as any as S.Schema<Project>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -559,7 +512,7 @@ export const setIamPolicyOrganizations: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24, __c3, 0) as any as S.Schema<SetIamPolicyOrganizationsRequest>,
-  output: __S(167, __c20, 7) as any as S.Schema<Policy>,
+  output: __S(175, __c21, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -575,8 +528,8 @@ export const setIamPolicyProjects: API.OperationMethod<
   SetIamPolicyProjectsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c4, 0) as any as S.Schema<SetIamPolicyProjectsRequest>,
-  output: __S(167, __c20, 7) as any as S.Schema<Policy>,
+  input: __S(40, __c5, 0) as any as S.Schema<SetIamPolicyProjectsRequest>,
+  output: __S(175, __c21, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -597,8 +550,8 @@ export const testIamPermissionsOrganizations: API.OperationMethod<
   TestIamPermissionsOrganizationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<TestIamPermissionsOrganizationsRequest>,
-  output: __S(48, __c6, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  input: __S(48, __c6, 0) as any as S.Schema<TestIamPermissionsOrganizationsRequest>,
+  output: __S(56, __c7, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -619,8 +572,8 @@ export const testIamPermissionsProjects: API.OperationMethod<
   TestIamPermissionsProjectsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<TestIamPermissionsProjectsRequest>,
-  output: __S(48, __c6, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  input: __S(64, __c8, 0) as any as S.Schema<TestIamPermissionsProjectsRequest>,
+  output: __S(56, __c7, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -636,8 +589,8 @@ export const undeleteProjects: API.OperationMethod<
   UndeleteProjectsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c8, 0) as any as S.Schema<UndeleteProjectsRequest>,
-  output: __S(128, __c16, 0) as any as S.Schema<Empty>,
+  input: __S(72, __c9, 0) as any as S.Schema<UndeleteProjectsRequest>,
+  output: __S(136, __c17, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -653,8 +606,8 @@ export const updateOrganizations: API.OperationMethod<
   UpdateOrganizationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c9, 0) as any as S.Schema<UpdateOrganizationsRequest>,
-  output: __S(185, __c23, 1) as any as S.Schema<Organization>,
+  input: __S(80, __c10, 0) as any as S.Schema<UpdateOrganizationsRequest>,
+  output: __S(193, __c24, 1) as any as S.Schema<Organization>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -670,8 +623,8 @@ export const updateProjects: API.OperationMethod<
   UpdateProjectsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c10, 0) as any as S.Schema<UpdateProjectsRequest>,
-  output: __S(97, __c12, 1) as any as S.Schema<Project>,
+  input: __S(88, __c11, 0) as any as S.Schema<UpdateProjectsRequest>,
+  output: __S(105, __c13, 1) as any as S.Schema<Project>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -713,7 +666,7 @@ function __c1(j: number): any {
         ),
       ).annotate({ identifier: "ListOrganizationsRequest" });
     case 1:
-      return S.Array(__S(185, __c23, 1));
+      return S.Array(__S(193, __c24, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -740,7 +693,7 @@ function __c2(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsRequest" });
     case 1:
-      return S.Array(__S(97, __c12, 1));
+      return S.Array(__S(105, __c13, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -754,11 +707,12 @@ function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String),
-          policy: S.optional(__S(167, __c20, 7)),
-        }).pipe(
+        S.Extend(
+          __S(32, __c4, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+resource}:setIamPolicy",
@@ -773,10 +727,22 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          resource: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String),
-          policy: S.optional(__S(167, __c20, 7)),
-        }).pipe(
+          policy: S.optional(__S(175, __c21, 7)),
+        }),
+      ).annotate({ identifier: "SetIamPolicyRequest" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(32, __c4, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/projects/{resource}:setIamPolicy",
@@ -786,14 +752,16 @@ function __c4(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsRequest" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          permissions: S.optional(__S(112, __c14, 0)),
-        }).pipe(
+        S.Extend(
+          __S(56, __c7, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+resource}:testIamPermissions",
@@ -803,24 +771,26 @@ function __c5(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsOrganizationsRequest" });
   }
 }
-function __c6(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          permissions: S.optional(__S(112, __c14, 0)),
-        }),
-      ).annotate({ identifier: "TestIamPermissionsResponse" });
-  }
-}
 function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          resource: S.String.pipe(T.Label()),
-          permissions: S.optional(__S(112, __c14, 0)),
-        }).pipe(
+          permissions: S.optional(__S(120, __c15, 0)),
+        }),
+      ).annotate({ identifier: "TestIamPermissionsRequest" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(56, __c7, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/projects/{resource}:testIamPermissions",
@@ -830,13 +800,13 @@ function __c7(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsRequest" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
-          body: S.optional(__S(128, __c16, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(136, __c17, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -847,18 +817,16 @@ function __c8(j: number): any {
       ).annotate({ identifier: "UndeleteProjectsRequest" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          owner: S.optional(__S(184, __c23, 0)),
-          creationTime: S.optional(S.String),
-          organizationId: S.optional(S.String),
-          lifecycleState: S.optional(S.String),
-          displayName: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(193, __c24, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "v1beta1/{+name}",
@@ -868,22 +836,16 @@ function __c9(j: number): any {
       ).annotate({ identifier: "UpdateOrganizationsRequest" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          managementType: S.optional(S.String),
-          isManagementProject: S.optional(S.Boolean),
-          lifecycleState: S.optional(S.String),
-          projectNumber: S.optional(S.String),
-          labels: S.optional(__S(96, __c12, 0)),
-          createTime: S.optional(S.String),
-          name: S.optional(S.String),
-          parent: S.optional(__S(104, __c13, 0)),
-          configuredCapabilities: S.optional(__S(112, __c14, 0)),
-        }).pipe(
+        S.Extend(
+          __S(105, __c13, 1),
+          S.Struct({
+            projectId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "v1beta1/projects/{projectId}",
@@ -893,23 +855,16 @@ function __c10(j: number): any {
       ).annotate({ identifier: "UpdateProjectsRequest" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          useLegacyStack: S.optional(S.Boolean.pipe(T.Query())),
-          projectId: S.optional(S.String),
-          managementType: S.optional(S.String),
-          isManagementProject: S.optional(S.Boolean),
-          lifecycleState: S.optional(S.String),
-          projectNumber: S.optional(S.String),
-          labels: S.optional(__S(96, __c12, 0)),
-          createTime: S.optional(S.String),
-          name: S.optional(S.String),
-          parent: S.optional(__S(104, __c13, 0)),
-          configuredCapabilities: S.optional(__S(112, __c14, 0)),
-        }).pipe(
+        S.Extend(
+          __S(105, __c13, 1),
+          S.Struct({
+            useLegacyStack: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/projects",
@@ -919,7 +874,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "CreateProjectsRequest" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
@@ -931,16 +886,16 @@ function __c12(j: number): any {
           isManagementProject: S.optional(S.Boolean),
           lifecycleState: S.optional(S.String),
           projectNumber: S.optional(S.String),
-          labels: S.optional(__S(96, __c12, 0)),
+          labels: S.optional(__S(104, __c13, 0)),
           createTime: S.optional(S.String),
           name: S.optional(S.String),
-          parent: S.optional(__S(104, __c13, 0)),
-          configuredCapabilities: S.optional(__S(112, __c14, 0)),
+          parent: S.optional(__S(112, __c14, 0)),
+          configuredCapabilities: S.optional(__S(120, __c15, 0)),
         }),
       ).annotate({ identifier: "Project" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -951,13 +906,13 @@ function __c13(j: number): any {
       ).annotate({ identifier: "ResourceId" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -973,19 +928,19 @@ function __c15(j: number): any {
       ).annotate({ identifier: "DeleteProjectsRequest" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "Empty" });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
-          body: S.optional(__S(128, __c16, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(136, __c17, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -997,27 +952,29 @@ function __c17(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          resourceId: S.optional(__S(104, __c13, 0)),
+          resourceId: S.optional(__S(112, __c14, 0)),
         }),
       ).annotate({ identifier: "Ancestor" });
     case 2:
-      return S.Array(__S(137, __c17, 1));
+      return S.Array(__S(145, __c18, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          ancestor: S.optional(__S(138, __c17, 2)),
+          ancestor: S.optional(__S(146, __c18, 2)),
         }),
       ).annotate({ identifier: "GetAncestryResponse" });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          options: S.optional(__S(152, __c19, 0)),
-        }).pipe(
+        S.Extend(
+          __S(161, __c20, 1),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+resource}:getIamPolicy",
@@ -1027,7 +984,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "GetIamPolicyOrganizationsRequest" });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1035,28 +992,34 @@ function __c19(j: number): any {
           requestedPolicyVersion: S.optional(S.Number),
         }),
       ).annotate({ identifier: "GetPolicyOptions" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          options: S.optional(__S(160, __c20, 0)),
+        }),
+      ).annotate({ identifier: "GetIamPolicyRequest" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          exemptedMembers: S.optional(__S(112, __c14, 0)),
+          exemptedMembers: S.optional(__S(120, __c15, 0)),
           logType: S.optional(S.String),
         }),
       ).annotate({ identifier: "AuditLogConfig" });
     case 1:
-      return S.Array(__S(160, __c20, 0));
+      return S.Array(__S(168, __c21, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          auditLogConfigs: S.optional(__S(161, __c20, 1)),
+          auditLogConfigs: S.optional(__S(169, __c21, 1)),
           service: S.optional(S.String),
         }),
       ).annotate({ identifier: "AuditConfig" });
     case 3:
-      return S.Array(__S(162, __c20, 2));
+      return S.Array(__S(170, __c21, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -1069,32 +1032,34 @@ function __c20(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          members: S.optional(__S(112, __c14, 0)),
+          members: S.optional(__S(120, __c15, 0)),
           role: S.optional(S.String),
-          condition: S.optional(__S(164, __c20, 4)),
+          condition: S.optional(__S(172, __c21, 4)),
         }),
       ).annotate({ identifier: "Binding" });
     case 6:
-      return S.Array(__S(165, __c20, 5));
+      return S.Array(__S(173, __c21, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          auditConfigs: S.optional(__S(163, __c20, 3)),
+          auditConfigs: S.optional(__S(171, __c21, 3)),
           etag: S.optional(S.String),
           version: S.optional(S.Number),
-          bindings: S.optional(__S(166, __c20, 6)),
+          bindings: S.optional(__S(174, __c21, 6)),
         }),
       ).annotate({ identifier: "Policy" });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          options: S.optional(__S(152, __c19, 0)),
-        }).pipe(
+        S.Extend(
+          __S(161, __c20, 1),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/projects/{resource}:getIamPolicy",
@@ -1104,7 +1069,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "GetIamPolicyProjectsRequest" });
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1121,7 +1086,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "GetOrganizationsRequest" });
   }
 }
-function __c23(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1132,7 +1097,7 @@ function __c23(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          owner: S.optional(__S(184, __c23, 0)),
+          owner: S.optional(__S(192, __c24, 0)),
           creationTime: S.optional(S.String),
           organizationId: S.optional(S.String),
           lifecycleState: S.optional(S.String),

@@ -83,11 +83,14 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
-export interface AcceptBuyersProposalsRequest {
-  /** Name of the proposal. Format: `buyers/{accountId}/proposals/{proposalId}` */
-  name: string;
+/** Request to accept a proposal. Accepting a proposal implies acceptance of the publisher terms_and_conditions, if any. */
+export interface AcceptProposalRequest {
   /** The last known client revision number of the proposal. */
   proposalRevision?: string | undefined;
+}
+export interface AcceptBuyersProposalsRequest extends AcceptProposalRequest {
+  /** Name of the proposal. Format: `buyers/{accountId}/proposals/{proposalId}` */
+  name: string;
 }
 export type ProposalOriginatorRoleEnum = "BUYER_SELLER_ROLE_UNSPECIFIED" | "BUYER" | "SELLER";
 /** Contains information on how a buyer or seller can be reached. */
@@ -139,7 +142,7 @@ export interface Proposal {
   /** Whether pausing is allowed for the proposal. This is a negotiable term between buyers and publishers. */
   pausingConsented?: boolean | undefined;
   /** Output only. Indicates whether the buyer/seller created the proposal. */
-  originatorRole?: ProposalOriginatorRoleEnum | undefined;
+  originatorRole?: ProposalOriginatorRoleEnum | (string & {}) | undefined;
   /** Contact information for the buyer. */
   buyerContacts?: ContactList | undefined;
   /** Buyer private data (hidden from seller). */
@@ -149,9 +152,9 @@ export interface Proposal {
   /** Output only. Refers to a Client. Format: `buyers/{buyerAccountId}/clients/{clientAccountid}` */
   client?: string | undefined;
   /** Output only. Indicates the state of the proposal. */
-  state?: ProposalStateEnum | undefined;
+  state?: ProposalStateEnum | (string & {}) | undefined;
   /** Output only. Type of deal the proposal contains. */
-  dealType?: ProposalDealTypeEnum | undefined;
+  dealType?: ProposalDealTypeEnum | (string & {}) | undefined;
   /** Output only. The descriptive name for the proposal. Maximum length of 255 unicode characters is allowed. Control characters are not allowed. Buyers cannot update this field. Note: Not to be confused with name, which is a unique identifier of the proposal. */
   displayName?: string | undefined;
   /** A list of notes from the buyer and the seller attached to this proposal. */
@@ -169,7 +172,7 @@ export interface Proposal {
   /** Output only. The time when the proposal was last revised. */
   updateTime?: string | undefined;
   /** Output only. The role of the last user that either updated the proposal or left a comment. */
-  lastUpdaterOrCommentorRole?: ProposalLastUpdaterOrCommentorRoleEnum | undefined;
+  lastUpdaterOrCommentorRole?: ProposalLastUpdaterOrCommentorRoleEnum | (string & {}) | undefined;
 }
 /** Request message for activating a client. */
 export interface ActivateClientRequest {}
@@ -188,7 +191,7 @@ export type ClientRoleEnum =
 /** A client represents an agency, a brand, or an advertiser customer of the buyer. Based on the client's role, its client users will have varying levels of restricted access to the Marketplace and certain other sections of the Authorized Buyers UI. */
 export interface Client {
   /** Output only. The state of the client. */
-  state?: ClientStateEnum | undefined;
+  state?: ClientStateEnum | (string & {}) | undefined;
   /** Output only. The resource name of the client. Format: `buyers/{accountId}/clients/{clientAccountId}` */
   name?: string | undefined;
   /** Whether the client will be visible to sellers. */
@@ -196,7 +199,7 @@ export interface Client {
   /** Arbitrary unique identifier provided by the buyer. This field can be used to associate a client with an identifier in the namespace of the buyer, lookup clients by that identifier and verify whether an Authorized Buyers account of the client already exists. If present, must be unique across all the clients. */
   partnerClientId?: string | undefined;
   /** Required. The role assigned to the client. Each role implies a set of permissions granted to the client. */
-  role?: ClientRoleEnum | undefined;
+  role?: ClientRoleEnum | (string & {}) | undefined;
   /** Required. Display name shown to publishers. Must be unique for clients without partnerClientId specified. Maximum length of 255 characters is allowed. */
   displayName?: string | undefined;
 }
@@ -216,7 +219,7 @@ export interface ClientUser {
   /** Output only. The resource name of the client user. Format: `buyers/{accountId}/clients/{clientAccountId}/users/{userId}` */
   name?: string | undefined;
   /** Output only. The state of the client user. */
-  state?: ClientUserStateEnum | undefined;
+  state?: ClientUserStateEnum | (string & {}) | undefined;
 }
 /** Request message for activating a data segment */
 export type ActivateDataSegmentRequest = ActivateClientRequest;
@@ -251,7 +254,7 @@ export interface DataSegment {
   /** Optional. The fee will be charged as a percentage of the impression cost, represented in millipercent. For example, 1% is represented as 1000. */
   millipercentOfMediaFee?: string | undefined;
   /** Output only. The state of the data segment. */
-  state?: DataSegmentStateEnum | undefined;
+  state?: DataSegmentStateEnum | (string & {}) | undefined;
 }
 /** Request message for ActivateCuratedPackage. */
 export type ActivateCuratedPackageRequest = ActivateClientRequest;
@@ -528,7 +531,7 @@ export interface AccessControlSettings {
 /** Represents a curated package of inventory created and managed by a Curator. */
 export interface CuratedPackage {
   /** Output only. The state of the curated package. Can be used to filter the response of the curatedPackages.list method. */
-  state?: CuratedPackageStateEnum | undefined;
+  state?: CuratedPackageStateEnum | (string & {}) | undefined;
   /** Output only. The timestamp when the curated package was created. Can be used to filter the response of the curatedPackages.list method. */
   createTime?: string | undefined;
   /** Optional. Targeting criteria for the curated package. */
@@ -542,7 +545,7 @@ export interface CuratedPackage {
   /** Optional. The minimum CPM a buyer has to bid to participate in auctions for inventory in this curated package. Can be used to filter the response of the curatedPackages.list method. */
   floorPriceCpm?: Money | undefined;
   /** Optional. Immutable. The visibility of the combined curation package fee and data segment fees (the total curation fee). */
-  curationFeeVisibility?: CuratedPackageCurationFeeVisibilityEnum | undefined;
+  curationFeeVisibility?: CuratedPackageCurationFeeVisibilityEnum | (string & {}) | undefined;
   /** Required. Settings for controlling access to the curated package. Access to this curated package is limited to the allowlisted media planners and the creator. Buyers and bidders can not be allowlisted for or have direct access to this resource. */
   accessSettings?: AccessControlSettings | undefined;
   /** Optional. The CPM fee charged by the curator to buyers using this curated package. Can be used to filter the response of the curatedPackages.list method. */
@@ -552,11 +555,14 @@ export interface CuratedPackage {
   /** Required. The display name assigned to the curated package by the curator. Can be used to filter the response of the curatedPackages.list method. */
   displayName?: string | undefined;
 }
-export interface AddCreativeBuyersFinalizedDealsRequest {
-  /** Required. Name of the finalized deal in the format of: `buyers/{accountId}/finalizedDeals/{dealId}` */
-  deal: string;
+/** Request message for adding creative to be used in the bidding process for the finalized deal. */
+export interface AddCreativeRequest {
   /** Name of the creative to add to the finalized deal, in the format `buyers/{buyerAccountId}/creatives/{creativeId}`. See creative.name. */
   creative?: string | undefined;
+}
+export interface AddCreativeBuyersFinalizedDealsRequest extends AddCreativeRequest {
+  /** Required. Name of the finalized deal in the format of: `buyers/{accountId}/finalizedDeals/{dealId}` */
+  deal: string;
 }
 export type FinalizedDealDealServingStatusEnum =
   | "DEAL_SERVING_STATUS_UNSPECIFIED"
@@ -970,11 +976,14 @@ export interface FinalizedDeal {
   /** Information related to deal pausing for the deal. */
   dealPausingInfo?: DealPausingInfo | undefined;
 }
-export interface AddNoteBuyersProposalsRequest {
-  /** Name of the proposal. Format: `buyers/{accountId}/proposals/{proposalId}` */
-  proposal: string;
+/** Request to add a note. */
+export interface AddNoteRequest {
   /** The note to add. */
   note?: Note | undefined;
+}
+export interface AddNoteBuyersProposalsRequest extends AddNoteRequest {
+  /** Name of the proposal. Format: `buyers/{accountId}/proposals/{proposalId}` */
+  proposal: string;
 }
 /** Request message for updating the deal at the given revision number. */
 export interface UpdateDealRequest {
@@ -984,11 +993,14 @@ export interface UpdateDealRequest {
   updateMask?: string | undefined;
 }
 export type UpdateDealRequestList = Array<UpdateDealRequest>;
-export interface BatchUpdateBuyersProposalsDealsRequest {
-  /** Required. The name of the proposal containing the deals to batch update. Format: buyers/{accountId}/proposals/{proposalId} */
-  parent: string;
+/** Request message for batch updating deals. */
+export interface BatchUpdateDealsRequest {
   /** Required. List of request messages to update deals. */
   requests?: UpdateDealRequestList | undefined;
+}
+export interface BatchUpdateBuyersProposalsDealsRequest extends BatchUpdateDealsRequest {
+  /** Required. The name of the proposal containing the deals to batch update. Format: buyers/{accountId}/proposals/{proposalId} */
+  parent: string;
 }
 export type DealList = Array<Deal>;
 /** Response message for batch updating deals. */
@@ -1004,77 +1016,21 @@ export interface CancelNegotiationBuyersProposalsRequest {
   /** Request body */
   body?: ActivateClientRequest | undefined;
 }
-export interface CreateBuyersClientsRequest {
+export interface CreateBuyersClientsRequest extends Client {
   /** Required. The name of the buyer. Format: `buyers/{accountId}` */
   parent: string;
-  /** Output only. The state of the client. */
-  state?: ClientStateEnum | (string & {}) | undefined;
-  /** Output only. The resource name of the client. Format: `buyers/{accountId}/clients/{clientAccountId}` */
-  name?: string | undefined;
-  /** Whether the client will be visible to sellers. */
-  sellerVisible?: boolean | undefined;
-  /** Arbitrary unique identifier provided by the buyer. This field can be used to associate a client with an identifier in the namespace of the buyer, lookup clients by that identifier and verify whether an Authorized Buyers account of the client already exists. If present, must be unique across all the clients. */
-  partnerClientId?: string | undefined;
-  /** Required. The role assigned to the client. Each role implies a set of permissions granted to the client. */
-  role?: ClientRoleEnum | (string & {}) | undefined;
-  /** Required. Display name shown to publishers. Must be unique for clients without partnerClientId specified. Maximum length of 255 characters is allowed. */
-  displayName?: string | undefined;
 }
-export interface CreateBuyersClientsUsersRequest {
+export interface CreateBuyersClientsUsersRequest extends ClientUser {
   /** Required. The name of the client. Format: `buyers/{accountId}/clients/{clientAccountId}` */
   parent: string;
-  /** Required. The client user's email address that has to be unique across all users for the same client. */
-  email?: string | undefined;
-  /** Output only. The resource name of the client user. Format: `buyers/{accountId}/clients/{clientAccountId}/users/{userId}` */
-  name?: string | undefined;
-  /** Output only. The state of the client user. */
-  state?: ClientUserStateEnum | (string & {}) | undefined;
 }
-export interface CreateBuyersDataSegmentsRequest {
+export interface CreateBuyersDataSegmentsRequest extends DataSegment {
   /** Required. The parent resource where this data segment will be created. v1alpha format: `buyers/{accountId}` v1beta format: `curators/{accountId}` */
   parent: string;
-  /** Output only. Time the data segment was created. */
-  createTime?: string | undefined;
-  /** Optional. Immutable. The ID of the User List wrapped by this Data Segment. Curators with a linked Data Partner account can create a data segment that wraps a user list owned by the linked Data Partner account. User lists can be uploaded and managed using the [Data Manager API](https://developers.google.com/data-manager/api/data-partners/audiences). Linking a user list to a data segment lets you define a segment of inventory that is based on an audience you create. */
-  userListId?: string | undefined;
-  /** Immutable. Identifier. The unique identifier for the data segment. Account ID corresponds to the account ID that created the segment. v1alpha format: `buyers/{accountId}/dataSegments/{curatorDataSegmentId}` v1beta format: `curators/{curatorAccountId}/dataSegments/{curatorDataSegmentId}` */
-  name?: string | undefined;
-  /** Output only. Time the data segment was last updated. */
-  updateTime?: string | undefined;
-  /** Optional. A fixed fee charged per thousand impressions. Once set, the currency code cannot be changed. */
-  cpmFee?: Money | undefined;
-  /** Optional. The fee will be charged as a percentage of the impression cost, represented in millipercent. For example, 1% is represented as 1000. */
-  millipercentOfMediaFee?: string | undefined;
-  /** Output only. The state of the data segment. */
-  state?: DataSegmentStateEnum | (string & {}) | undefined;
 }
-export interface CreateCuratorsCuratedPackagesRequest {
+export interface CreateCuratorsCuratedPackagesRequest extends CuratedPackage {
   /** Required. The parent curator account where this curated package will be created. Format: `curators/{accountId}` */
   parent: string;
-  /** Output only. The state of the curated package. Can be used to filter the response of the curatedPackages.list method. */
-  state?: CuratedPackageStateEnum | (string & {}) | undefined;
-  /** Output only. The timestamp when the curated package was created. Can be used to filter the response of the curatedPackages.list method. */
-  createTime?: string | undefined;
-  /** Optional. Targeting criteria for the curated package. */
-  targeting?: PackageTargeting | undefined;
-  /** Output only. The timestamp when the curated package was last updated. Can be used to filter the response of the curatedPackages.list method. */
-  updateTime?: string | undefined;
-  /** Optional. A description of the curated package, provided by the curator. */
-  description?: string | undefined;
-  /** Optional. The fee will be charged as a percentage of the impression cost, represented in millipercent. For example, 1% is represented as 1000. */
-  millipercentOfMediaFee?: string | undefined;
-  /** Optional. The minimum CPM a buyer has to bid to participate in auctions for inventory in this curated package. Can be used to filter the response of the curatedPackages.list method. */
-  floorPriceCpm?: Money | undefined;
-  /** Optional. Immutable. The visibility of the combined curation package fee and data segment fees (the total curation fee). */
-  curationFeeVisibility?: CuratedPackageCurationFeeVisibilityEnum | (string & {}) | undefined;
-  /** Required. Settings for controlling access to the curated package. Access to this curated package is limited to the allowlisted media planners and the creator. Buyers and bidders can not be allowlisted for or have direct access to this resource. */
-  accessSettings?: AccessControlSettings | undefined;
-  /** Optional. The CPM fee charged by the curator to buyers using this curated package. Can be used to filter the response of the curatedPackages.list method. */
-  feeCpm?: Money | undefined;
-  /** Identifier. The unique resource name for the curated package. Format: `curators/{accountId}/curatedPackages/{curatedPackageId}` */
-  name?: string | undefined;
-  /** Required. The display name assigned to the curated package by the curator. Can be used to filter the response of the curatedPackages.list method. */
-  displayName?: string | undefined;
 }
 /** Request message for disabling a client. */
 export type DeactivateClientRequest = ActivateClientRequest;
@@ -1434,167 +1390,44 @@ export interface ListMediaPlannersResponse {
   /** A token which can be passed to a subsequent call to the `ListMediaPlanners` method to retrieve the next page of results in ListMediaPlannersRequest.pageToken. */
   nextPageToken?: string | undefined;
 }
-export interface PatchBuyersClientsRequest {
+export interface PatchBuyersClientsRequest extends Omit<Client, "name"> {
   /** List of fields to be updated. If empty or unspecified, the service will update all fields populated in the update request excluding the output only fields and primitive fields with default value. Note that explicit field mask is required in order to reset a primitive field back to its default value, for example, false for boolean fields, 0 for integer fields. A special field mask consisting of a single path "*" can be used to indicate full replacement(the equivalent of PUT method), updatable fields unset or unspecified in the input will be cleared or set to default value. Output only fields will be ignored regardless of the value of updateMask. */
   updateMask?: string | undefined;
   /** Output only. The resource name of the client. Format: `buyers/{accountId}/clients/{clientAccountId}` */
   name: string;
-  /** Output only. The state of the client. */
-  state?: ClientStateEnum | (string & {}) | undefined;
-  /** Whether the client will be visible to sellers. */
-  sellerVisible?: boolean | undefined;
-  /** Arbitrary unique identifier provided by the buyer. This field can be used to associate a client with an identifier in the namespace of the buyer, lookup clients by that identifier and verify whether an Authorized Buyers account of the client already exists. If present, must be unique across all the clients. */
-  partnerClientId?: string | undefined;
-  /** Required. The role assigned to the client. Each role implies a set of permissions granted to the client. */
-  role?: ClientRoleEnum | (string & {}) | undefined;
-  /** Required. Display name shown to publishers. Must be unique for clients without partnerClientId specified. Maximum length of 255 characters is allowed. */
-  displayName?: string | undefined;
 }
-export interface PatchBuyersDataSegmentsRequest {
+export interface PatchBuyersDataSegmentsRequest extends Omit<DataSegment, "name"> {
   /** Optional. List of fields to be updated. If empty or unspecified, the service will update all fields populated in the update request excluding the output only fields and primitive fields with default value. Note that explicit field mask is required in order to reset a primitive field back to its default value, for example, false for boolean fields, 0 for integer fields. A special field mask consisting of a single path "*" can be used to indicate full replacement(the equivalent of PUT method), updatable fields unset or unspecified in the input will be cleared or set to default value. Output only fields will be ignored regardless of the value of updateMask. */
   updateMask?: string | undefined;
   /** Immutable. Identifier. The unique identifier for the data segment. Account ID corresponds to the account ID that created the segment. v1alpha format: `buyers/{accountId}/dataSegments/{curatorDataSegmentId}` v1beta format: `curators/{curatorAccountId}/dataSegments/{curatorDataSegmentId}` */
   name: string;
-  /** Output only. Time the data segment was created. */
-  createTime?: string | undefined;
-  /** Optional. Immutable. The ID of the User List wrapped by this Data Segment. Curators with a linked Data Partner account can create a data segment that wraps a user list owned by the linked Data Partner account. User lists can be uploaded and managed using the [Data Manager API](https://developers.google.com/data-manager/api/data-partners/audiences). Linking a user list to a data segment lets you define a segment of inventory that is based on an audience you create. */
-  userListId?: string | undefined;
-  /** Output only. Time the data segment was last updated. */
-  updateTime?: string | undefined;
-  /** Optional. A fixed fee charged per thousand impressions. Once set, the currency code cannot be changed. */
-  cpmFee?: Money | undefined;
-  /** Optional. The fee will be charged as a percentage of the impression cost, represented in millipercent. For example, 1% is represented as 1000. */
-  millipercentOfMediaFee?: string | undefined;
-  /** Output only. The state of the data segment. */
-  state?: DataSegmentStateEnum | (string & {}) | undefined;
 }
-export interface PatchBuyersProposalsRequest {
+export interface PatchBuyersProposalsRequest extends Omit<Proposal, "name"> {
   /** Immutable. The name of the proposal serving as a unique identifier. Format: buyers/{accountId}/proposals/{proposalId} */
   name: string;
   /** List of fields to be updated. If empty or unspecified, the service will update all fields populated in the update request excluding the output only fields and primitive fields with default value. Note that explicit field mask is required in order to reset a primitive field back to its default value, for example, false for boolean fields, 0 for integer fields. A special field mask consisting of a single path "*" can be used to indicate full replacement(the equivalent of PUT method), updatable fields unset or unspecified in the input will be cleared or set to default value. Output only fields will be ignored regardless of the value of updateMask. */
   updateMask?: string | undefined;
-  /** Output only. The terms and conditions associated with this proposal. Accepting a proposal implies acceptance of this field. This is created by the seller, the buyer can only view it. */
-  termsAndConditions?: string | undefined;
-  /** Whether pausing is allowed for the proposal. This is a negotiable term between buyers and publishers. */
-  pausingConsented?: boolean | undefined;
-  /** Output only. Indicates whether the buyer/seller created the proposal. */
-  originatorRole?: ProposalOriginatorRoleEnum | (string & {}) | undefined;
-  /** Contact information for the buyer. */
-  buyerContacts?: ContactList | undefined;
-  /** Buyer private data (hidden from seller). */
-  buyerPrivateData?: PrivateData | undefined;
-  /** Output only. True if the proposal was previously finalized and is now being renegotiated. */
-  isRenegotiating?: boolean | undefined;
-  /** Output only. Refers to a Client. Format: `buyers/{buyerAccountId}/clients/{clientAccountid}` */
-  client?: string | undefined;
-  /** Output only. Indicates the state of the proposal. */
-  state?: ProposalStateEnum | (string & {}) | undefined;
-  /** Output only. Type of deal the proposal contains. */
-  dealType?: ProposalDealTypeEnum | (string & {}) | undefined;
-  /** Output only. The descriptive name for the proposal. Maximum length of 255 unicode characters is allowed. Control characters are not allowed. Buyers cannot update this field. Note: Not to be confused with name, which is a unique identifier of the proposal. */
-  displayName?: string | undefined;
-  /** A list of notes from the buyer and the seller attached to this proposal. */
-  notes?: NoteList | undefined;
-  /** Output only. When the client field is populated, this field refers to the buyer who creates and manages the client buyer and gets billed on behalf of the client buyer; when the buyer field is populated, this field is the same value as buyer. Format : `buyers/{buyerAccountId}` */
-  billedBuyer?: string | undefined;
-  /** Output only. The revision number for the proposal. Each update to the proposal or deal causes the proposal revision number to auto-increment. The buyer keeps track of the last revision number they know of and pass it in when making an update. If the head revision number on the server has since incremented, then an ABORTED error is returned during the update operation to let the buyer know that a subsequent update was made. */
-  proposalRevision?: string | undefined;
-  /** Immutable. Reference to the seller on the proposal. Format: `buyers/{buyerAccountId}/publisherProfiles/{publisherProfileId}` Note: This field may be set only when creating the resource. Modifying this field while updating the resource will result in an error. */
-  publisherProfile?: string | undefined;
-  /** Output only. Refers to a buyer in The Realtime-bidding API. Format: `buyers/{buyerAccountId}` */
-  buyer?: string | undefined;
-  /** Output only. Contact information for the seller. */
-  sellerContacts?: ContactList | undefined;
-  /** Output only. The time when the proposal was last revised. */
-  updateTime?: string | undefined;
-  /** Output only. The role of the last user that either updated the proposal or left a comment. */
-  lastUpdaterOrCommentorRole?: ProposalLastUpdaterOrCommentorRoleEnum | (string & {}) | undefined;
 }
-export interface PatchBuyersProposalsDealsRequest {
+export interface PatchBuyersProposalsDealsRequest extends Omit<Deal, "name"> {
   /** Immutable. The unique identifier of the deal. Auto-generated by the server when a deal is created. Format: buyers/{accountId}/proposals/{proposalId}/deals/{dealId} */
   name: string;
   /** List of fields to be updated. If empty or unspecified, the service will update all fields populated in the update request excluding the output only fields and primitive fields with default value. Note that explicit field mask is required in order to reset a primitive field back to its default value, for example, false for boolean fields, 0 for integer fields. A special field mask consisting of a single path "*" can be used to indicate full replacement(the equivalent of PUT method), updatable fields unset or unspecified in the input will be cleared or set to default value. Output only fields will be ignored regardless of the value of updateMask. */
   updateMask?: string | undefined;
-  /** Specifies the subset of inventory targeted by the deal. Can be updated by the buyer before the deal is finalized. */
-  targeting?: MarketplaceTargeting | undefined;
-  /** Output only. Refers to a Client. Format: `buyers/{buyerAccountId}/clients/{clientAccountid}` */
-  client?: string | undefined;
-  /** Output only. The time when the deal was last updated. */
-  updateTime?: string | undefined;
-  /** Output only. Free text description for the deal terms. */
-  description?: string | undefined;
-  /** Proposed flight start time of the deal. This will generally be stored in the granularity of one second since deal serving starts at seconds boundary. Any time specified with more granularity (for example, in milliseconds) will be truncated towards the start of time in seconds. */
-  flightStartTime?: string | undefined;
-  /** Output only. Type of deal. */
-  dealType?: DealDealTypeEnum | (string & {}) | undefined;
-  /** Proposed flight end time of the deal. This will generally be stored in a granularity of a second. A value is not necessary for Private Auction deals. */
-  flightEndTime?: string | undefined;
-  /** Output only. If set, this field contains the list of DSP specific seat ids set by media planners that are eligible to transact on this deal. The seat ID is in the calling DSP's namespace. */
-  eligibleSeatIds?: StringList | undefined;
-  /** Output only. The buyer permission type of the deal. */
-  buyerPermissionType?: DealBuyerPermissionTypeEnum | (string & {}) | undefined;
-  /** Output only. Specifies the pacing set by the publisher. */
-  deliveryControl?: DeliveryControl | undefined;
-  /** The terms for programmatic guaranteed deals. */
-  programmaticGuaranteedTerms?: ProgrammaticGuaranteedTerms | undefined;
-  /** Output only. Refers to a buyer in Real-time Bidding API's Buyer resource. This field represents a media planner (For example, agency or big advertiser). */
-  mediaPlanner?: MediaPlanner | undefined;
-  /** Specified by buyers in request for proposal (RFP) to notify publisher the total estimated spend for the proposal. Publishers will receive this information and send back proposed deals accordingly. */
-  estimatedGrossSpend?: Money | undefined;
-  /** Output only. The time of the deal creation. */
-  createTime?: string | undefined;
-  /** Output only. When the client field is populated, this field refers to the buyer who creates and manages the client buyer and gets billed on behalf of the client buyer; when the buyer field is populated, this field is the same value as buyer; when the deal belongs to a media planner account, this field will be empty. Format : `buyers/{buyerAccountId}` */
-  billedBuyer?: string | undefined;
-  /** Output only. Refers to a buyer in Real-time Bidding API's Buyer resource. Format: `buyers/{buyerAccountId}` */
-  buyer?: string | undefined;
-  /** The terms for private auction deals. */
-  privateAuctionTerms?: PrivateAuctionTerms | undefined;
-  /** Output only. The revision number for the proposal and is the same value as proposal.proposal_revision. Each update to deal causes the proposal revision number to auto-increment. The buyer keeps track of the last revision number they know of and pass it in when making an update. If the head revision number on the server has since incremented, then an ABORTED error is returned during the update operation to let the buyer know that a subsequent update was made. */
-  proposalRevision?: string | undefined;
-  /** The terms for preferred deals. */
-  preferredDealTerms?: PreferredDealTerms | undefined;
-  /** Output only. Time zone of the seller used to mark the boundaries of a day for daypart targeting and CPD billing. */
-  sellerTimeZone?: TimeZone | undefined;
-  /** Immutable. Reference to the seller on the deal. Format: `buyers/{buyerAccountId}/publisherProfiles/{publisherProfileId}` */
-  publisherProfile?: string | undefined;
-  /** Output only. Metadata about the creatives of this deal. */
-  creativeRequirements?: CreativeRequirements | undefined;
-  /** Output only. The name of the deal. Maximum length of 255 unicode characters is allowed. Control characters are not allowed. Buyers cannot update this field. Note: Not to be confused with name, which is a unique identifier of the deal. */
-  displayName?: string | undefined;
 }
-export interface PatchCuratorsCuratedPackagesRequest {
+export interface PatchCuratorsCuratedPackagesRequest extends Omit<CuratedPackage, "name"> {
   /** Identifier. The unique resource name for the curated package. Format: `curators/{accountId}/curatedPackages/{curatedPackageId}` */
   name: string;
   /** Optional. List of fields to be updated. If empty or unspecified, the service will update all fields populated in the update request excluding the output only fields and primitive fields with default value. Note that explicit field mask is required in order to reset a primitive field back to its default value, for example, false for boolean fields, 0 for integer fields. A special field mask consisting of a single path "*" can be used to indicate full replacement (the equivalent of PUT method), updatable fields unset or unspecified in the input will be cleared or set to default value. Output only fields will be ignored regardless of the value of updateMask. */
   updateMask?: string | undefined;
-  /** Output only. The state of the curated package. Can be used to filter the response of the curatedPackages.list method. */
-  state?: CuratedPackageStateEnum | (string & {}) | undefined;
-  /** Output only. The timestamp when the curated package was created. Can be used to filter the response of the curatedPackages.list method. */
-  createTime?: string | undefined;
-  /** Optional. Targeting criteria for the curated package. */
-  targeting?: PackageTargeting | undefined;
-  /** Output only. The timestamp when the curated package was last updated. Can be used to filter the response of the curatedPackages.list method. */
-  updateTime?: string | undefined;
-  /** Optional. A description of the curated package, provided by the curator. */
-  description?: string | undefined;
-  /** Optional. The fee will be charged as a percentage of the impression cost, represented in millipercent. For example, 1% is represented as 1000. */
-  millipercentOfMediaFee?: string | undefined;
-  /** Optional. The minimum CPM a buyer has to bid to participate in auctions for inventory in this curated package. Can be used to filter the response of the curatedPackages.list method. */
-  floorPriceCpm?: Money | undefined;
-  /** Optional. Immutable. The visibility of the combined curation package fee and data segment fees (the total curation fee). */
-  curationFeeVisibility?: CuratedPackageCurationFeeVisibilityEnum | (string & {}) | undefined;
-  /** Required. Settings for controlling access to the curated package. Access to this curated package is limited to the allowlisted media planners and the creator. Buyers and bidders can not be allowlisted for or have direct access to this resource. */
-  accessSettings?: AccessControlSettings | undefined;
-  /** Optional. The CPM fee charged by the curator to buyers using this curated package. Can be used to filter the response of the curatedPackages.list method. */
-  feeCpm?: Money | undefined;
-  /** Required. The display name assigned to the curated package by the curator. Can be used to filter the response of the curatedPackages.list method. */
-  displayName?: string | undefined;
 }
-export interface PauseBuyersFinalizedDealsRequest {
-  /** Required. Format: `buyers/{accountId}/finalizedDeals/{dealId}` */
-  name: string;
+/** Request message for pausing a finalized deal. */
+export interface PauseFinalizedDealRequest {
   /** The reason to pause the finalized deal, will be displayed to the seller. Maximum length is 1000 characters. */
   reason?: string | undefined;
+}
+export interface PauseBuyersFinalizedDealsRequest extends PauseFinalizedDealRequest {
+  /** Required. Format: `buyers/{accountId}/finalizedDeals/{dealId}` */
+  name: string;
 }
 /** Request message for resuming a finalized deal. */
 export type ResumeFinalizedDealRequest = ActivateClientRequest;
@@ -1619,9 +1452,8 @@ export interface SearchMediaPlannersResponse {
   /** List of media planners matching the search criteria. */
   mediaPlanners?: MediaPlannerList | undefined;
 }
-export interface SendRfpBuyersProposalsRequest {
-  /** Required. The current buyer who is sending the RFP in the format: `buyers/{accountId}`. */
-  buyer: string;
+/** Request to send an RFP. All fields in this request are proposed to publisher and subject to changes by publisher during later negotiation. */
+export interface SendRfpRequest {
   /** The terms for programmatic guaranteed deals. */
   programmaticGuaranteedTerms?: ProgrammaticGuaranteedTerms | undefined;
   /** Inventory sizes to be targeted. Only PIXEL inventory size type is supported. */
@@ -1647,6 +1479,10 @@ export interface SendRfpBuyersProposalsRequest {
   /** Required. The display name of the proposal being created by this RFP. */
   displayName?: string | undefined;
 }
+export interface SendRfpBuyersProposalsRequest extends SendRfpRequest {
+  /** Required. The current buyer who is sending the RFP in the format: `buyers/{accountId}`. */
+  buyer: string;
+}
 /** Request message for setting ready to serve for a finalized deal. */
 export type SetReadyToServeRequest = ActivateClientRequest;
 export interface SetReadyToServeBiddersFinalizedDealsRequest {
@@ -1669,11 +1505,14 @@ export interface SubscribeBuyersAuctionPackagesRequest {
   /** Request body */
   body?: ActivateClientRequest | undefined;
 }
-export interface SubscribeClientsBuyersAuctionPackagesRequest {
-  /** Required. Name of the auction package. Format: `buyers/{accountId}/auctionPackages/{auctionPackageId}` */
-  auctionPackage: string;
+/** Request message for SubscribeAuctionPackageClients. */
+export interface SubscribeClientsRequest {
   /** Optional. A list of client buyers to subscribe to the auction package, with client buyer in the format `buyers/{accountId}/clients/{clientAccountId}`. The current buyer will be subscribed to the auction package regardless of the list contents if not already. */
   clients?: StringList | undefined;
+}
+export interface SubscribeClientsBuyersAuctionPackagesRequest extends SubscribeClientsRequest {
+  /** Required. Name of the auction package. Format: `buyers/{accountId}/auctionPackages/{auctionPackageId}` */
+  auctionPackage: string;
 }
 /** Request message for UnsubscribeAuctionPackage. */
 export type UnsubscribeAuctionPackageRequest = ActivateClientRequest;
@@ -1683,11 +1522,14 @@ export interface UnsubscribeBuyersAuctionPackagesRequest {
   /** Request body */
   body?: ActivateClientRequest | undefined;
 }
-export interface UnsubscribeClientsBuyersAuctionPackagesRequest {
-  /** Required. Name of the auction package. Format: `buyers/{accountId}/auctionPackages/{auctionPackageId}` */
-  auctionPackage: string;
+/** Request message for UnsubscribeAuctionPackage. */
+export interface UnsubscribeClientsRequest {
   /** Optional. A list of client buyers to unsubscribe from the auction package, with client buyer in the format `buyers/{accountId}/clients/{clientAccountId}`. */
   clients?: StringList | undefined;
+}
+export interface UnsubscribeClientsBuyersAuctionPackagesRequest extends UnsubscribeClientsRequest {
+  /** Required. Name of the auction package. Format: `buyers/{accountId}/auctionPackages/{auctionPackageId}` */
+  auctionPackage: string;
 }
 export type AcceptBuyersProposalsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
 /** Accepts the proposal at the given revision number. If the revision number in the request is behind the latest from the server, an error message will be returned. This call updates the Proposal.state from `BUYER_ACCEPTANCE_REQUESTED` to `FINALIZED`; it has no side effect if the Proposal.state is already `FINALIZED` and throws exception if the Proposal.state is not either `BUYER_ACCEPTANCE_REQUESTED` or `FINALIZED`. Accepting a proposal means the buyer understands and accepts the Proposal.terms_and_conditions proposed by the seller. */
@@ -1697,7 +1539,7 @@ export const acceptBuyersProposals: API.OperationMethod<
   AcceptBuyersProposalsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c36, 0) as any as S.Schema<AcceptBuyersProposalsRequest>,
+  input: __S(1153, __c36, 1) as any as S.Schema<AcceptBuyersProposalsRequest>,
   output: __S(1189, __c37, 5) as any as S.Schema<Proposal>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -1736,8 +1578,8 @@ export const activateBuyersClientsUsers: API.OperationMethod<
   ActivateBuyersClientsUsersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1888, __c59, 0) as any as S.Schema<ActivateBuyersClientsUsersRequest>,
-  output: __S(1920, __c60, 0) as any as S.Schema<ClientUser>,
+  input: __S(1920, __c60, 0) as any as S.Schema<ActivateBuyersClientsUsersRequest>,
+  output: __S(1952, __c61, 0) as any as S.Schema<ClientUser>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1758,8 +1600,8 @@ export const activateBuyersDataSegments: API.OperationMethod<
   ActivateBuyersDataSegmentsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1952, __c61, 0) as any as S.Schema<ActivateBuyersDataSegmentsRequest>,
-  output: __S(1984, __c62, 0) as any as S.Schema<DataSegment>,
+  input: __S(1984, __c62, 0) as any as S.Schema<ActivateBuyersDataSegmentsRequest>,
+  output: __S(2016, __c63, 0) as any as S.Schema<DataSegment>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1780,8 +1622,8 @@ export const activateCuratorsCuratedPackages: API.OperationMethod<
   ActivateCuratorsCuratedPackagesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2048, __c64, 0) as any as S.Schema<ActivateCuratorsCuratedPackagesRequest>,
-  output: __S(2089, __c65, 9) as any as S.Schema<CuratedPackage>,
+  input: __S(2080, __c65, 0) as any as S.Schema<ActivateCuratorsCuratedPackagesRequest>,
+  output: __S(2121, __c66, 9) as any as S.Schema<CuratedPackage>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1802,8 +1644,8 @@ export const addCreativeBuyersFinalizedDeals: API.OperationMethod<
   AddCreativeBuyersFinalizedDealsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2208, __c69, 0) as any as S.Schema<AddCreativeBuyersFinalizedDealsRequest>,
-  output: __S(2338, __c73, 2) as any as S.Schema<FinalizedDeal>,
+  input: __S(2241, __c70, 1) as any as S.Schema<AddCreativeBuyersFinalizedDealsRequest>,
+  output: __S(2370, __c74, 2) as any as S.Schema<FinalizedDeal>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1819,7 +1661,7 @@ export const addNoteBuyersProposals: API.OperationMethod<
   AddNoteBuyersProposalsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<AddNoteBuyersProposalsRequest>,
+  input: __S(1, __c0, 1) as any as S.Schema<AddNoteBuyersProposalsRequest>,
   output: __S(1189, __c37, 5) as any as S.Schema<Proposal>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -1841,8 +1683,8 @@ export const batchUpdateBuyersProposalsDeals: API.OperationMethod<
   BatchUpdateBuyersProposalsDealsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(34, __c1, 2) as any as S.Schema<BatchUpdateBuyersProposalsDealsRequest>,
-  output: __S(35, __c1, 3) as any as S.Schema<BatchUpdateDealsResponse>,
+  input: __S(35, __c1, 3) as any as S.Schema<BatchUpdateBuyersProposalsDealsRequest>,
+  output: __S(36, __c1, 4) as any as S.Schema<BatchUpdateDealsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1903,7 +1745,7 @@ export const createBuyersClientsUsers: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c5, 0) as any as S.Schema<CreateBuyersClientsUsersRequest>,
-  output: __S(1920, __c60, 0) as any as S.Schema<ClientUser>,
+  output: __S(1952, __c61, 0) as any as S.Schema<ClientUser>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1925,7 +1767,7 @@ export const createBuyersDataSegments: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c6, 0) as any as S.Schema<CreateBuyersDataSegmentsRequest>,
-  output: __S(1984, __c62, 0) as any as S.Schema<DataSegment>,
+  output: __S(2016, __c63, 0) as any as S.Schema<DataSegment>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1947,7 +1789,7 @@ export const createCuratorsCuratedPackages: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c7, 0) as any as S.Schema<CreateCuratorsCuratedPackagesRequest>,
-  output: __S(2089, __c65, 9) as any as S.Schema<CuratedPackage>,
+  output: __S(2121, __c66, 9) as any as S.Schema<CuratedPackage>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1991,7 +1833,7 @@ export const deactivateBuyersClientsUsers: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c9, 0) as any as S.Schema<DeactivateBuyersClientsUsersRequest>,
-  output: __S(1920, __c60, 0) as any as S.Schema<ClientUser>,
+  output: __S(1952, __c61, 0) as any as S.Schema<ClientUser>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2013,7 +1855,7 @@ export const deactivateBuyersDataSegments: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c10, 0) as any as S.Schema<DeactivateBuyersDataSegmentsRequest>,
-  output: __S(1984, __c62, 0) as any as S.Schema<DataSegment>,
+  output: __S(2016, __c63, 0) as any as S.Schema<DataSegment>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2035,7 +1877,7 @@ export const deactivateCuratorsCuratedPackages: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c11, 0) as any as S.Schema<DeactivateCuratorsCuratedPackagesRequest>,
-  output: __S(2089, __c65, 9) as any as S.Schema<CuratedPackage>,
+  output: __S(2121, __c66, 9) as any as S.Schema<CuratedPackage>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2108,7 +1950,7 @@ export const getBuyersClientsUsers: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c17, 0) as any as S.Schema<GetBuyersClientsUsersRequest>,
-  output: __S(1920, __c60, 0) as any as S.Schema<ClientUser>,
+  output: __S(1952, __c61, 0) as any as S.Schema<ClientUser>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2125,7 +1967,7 @@ export const getBuyersDataSegments: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c18, 0) as any as S.Schema<GetBuyersDataSegmentsRequest>,
-  output: __S(1984, __c62, 0) as any as S.Schema<DataSegment>,
+  output: __S(2016, __c63, 0) as any as S.Schema<DataSegment>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2142,7 +1984,7 @@ export const getBuyersFinalizedDeals: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c19, 0) as any as S.Schema<GetBuyersFinalizedDealsRequest>,
-  output: __S(2338, __c73, 2) as any as S.Schema<FinalizedDeal>,
+  output: __S(2370, __c74, 2) as any as S.Schema<FinalizedDeal>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2176,7 +2018,7 @@ export const getBuyersProposalsDeals: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c21, 0) as any as S.Schema<GetBuyersProposalsDealsRequest>,
-  output: __S(2323, __c72, 19) as any as S.Schema<Deal>,
+  output: __S(2355, __c73, 19) as any as S.Schema<Deal>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2210,7 +2052,7 @@ export const getCuratorsCuratedPackages: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c24, 0) as any as S.Schema<GetCuratorsCuratedPackagesRequest>,
-  output: __S(2089, __c65, 9) as any as S.Schema<CuratedPackage>,
+  output: __S(2121, __c66, 9) as any as S.Schema<CuratedPackage>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2477,7 +2319,7 @@ export const patchBuyersDataSegments: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1344, __c42, 0) as any as S.Schema<PatchBuyersDataSegmentsRequest>,
-  output: __S(1984, __c62, 0) as any as S.Schema<DataSegment>,
+  output: __S(2016, __c63, 0) as any as S.Schema<DataSegment>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2516,7 +2358,7 @@ export const patchBuyersProposalsDeals: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1408, __c44, 0) as any as S.Schema<PatchBuyersProposalsDealsRequest>,
-  output: __S(2323, __c72, 19) as any as S.Schema<Deal>,
+  output: __S(2355, __c73, 19) as any as S.Schema<Deal>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2538,7 +2380,7 @@ export const patchCuratorsCuratedPackages: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1440, __c45, 0) as any as S.Schema<PatchCuratorsCuratedPackagesRequest>,
-  output: __S(2089, __c65, 9) as any as S.Schema<CuratedPackage>,
+  output: __S(2121, __c66, 9) as any as S.Schema<CuratedPackage>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2559,8 +2401,8 @@ export const pauseBuyersFinalizedDeals: API.OperationMethod<
   PauseBuyersFinalizedDealsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c46, 0) as any as S.Schema<PauseBuyersFinalizedDealsRequest>,
-  output: __S(2338, __c73, 2) as any as S.Schema<FinalizedDeal>,
+  input: __S(1473, __c46, 1) as any as S.Schema<PauseBuyersFinalizedDealsRequest>,
+  output: __S(2370, __c74, 2) as any as S.Schema<FinalizedDeal>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2582,7 +2424,7 @@ export const resumeBuyersFinalizedDeals: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1504, __c47, 0) as any as S.Schema<ResumeBuyersFinalizedDealsRequest>,
-  output: __S(2338, __c73, 2) as any as S.Schema<FinalizedDeal>,
+  output: __S(2370, __c74, 2) as any as S.Schema<FinalizedDeal>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2617,7 +2459,7 @@ export const sendRfpBuyersProposals: API.OperationMethod<
   SendRfpBuyersProposalsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c52, 0) as any as S.Schema<SendRfpBuyersProposalsRequest>,
+  input: __S(1665, __c52, 1) as any as S.Schema<SendRfpBuyersProposalsRequest>,
   output: __S(1189, __c37, 5) as any as S.Schema<Proposal>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -2640,7 +2482,7 @@ export const setReadyToServeBiddersFinalizedDeals: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1696, __c53, 0) as any as S.Schema<SetReadyToServeBiddersFinalizedDealsRequest>,
-  output: __S(2338, __c73, 2) as any as S.Schema<FinalizedDeal>,
+  output: __S(2370, __c74, 2) as any as S.Schema<FinalizedDeal>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2662,7 +2504,7 @@ export const setReadyToServeBuyersFinalizedDeals: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1728, __c54, 0) as any as S.Schema<SetReadyToServeBuyersFinalizedDealsRequest>,
-  output: __S(2338, __c73, 2) as any as S.Schema<FinalizedDeal>,
+  output: __S(2370, __c74, 2) as any as S.Schema<FinalizedDeal>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2727,7 +2569,7 @@ export const unsubscribeBuyersAuctionPackages: API.OperationMethod<
   UnsubscribeBuyersAuctionPackagesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1824, __c57, 0) as any as S.Schema<UnsubscribeBuyersAuctionPackagesRequest>,
+  input: __S(1856, __c58, 0) as any as S.Schema<UnsubscribeBuyersAuctionPackagesRequest>,
   output: __S(480, __c15, 0) as any as S.Schema<AuctionPackage>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -2749,7 +2591,7 @@ export const unsubscribeClientsBuyersAuctionPackages: API.OperationMethod<
   UnsubscribeClientsBuyersAuctionPackagesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1856, __c58, 0) as any as S.Schema<UnsubscribeClientsBuyersAuctionPackagesRequest>,
+  input: __S(1888, __c59, 0) as any as S.Schema<UnsubscribeClientsBuyersAuctionPackagesRequest>,
   output: __S(480, __c15, 0) as any as S.Schema<AuctionPackage>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -2764,9 +2606,17 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          proposal: S.String.pipe(T.Label()),
           note: S.optional(__S(1187, __c37, 3)),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "AddNoteRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(0, __c0, 0),
+          S.Struct({
+            proposal: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+proposal}:addNote",
@@ -2781,7 +2631,7 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          deal: S.optional(__S(2323, __c72, 19)),
+          deal: S.optional(__S(2355, __c73, 19)),
           updateMask: S.optional(S.String),
         }),
       ).annotate({ identifier: "UpdateDealRequest" });
@@ -2790,9 +2640,17 @@ function __c1(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
           requests: S.optional(__S(33, __c1, 1)),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "BatchUpdateDealsRequest" });
+    case 3:
+      return S.suspend(() =>
+        S.Extend(
+          __S(34, __c1, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/deals:batchUpdate",
@@ -2800,7 +2658,7 @@ function __c1(j: number): any {
           }),
         ),
       ).annotate({ identifier: "BatchUpdateBuyersProposalsDealsRequest" });
-    case 3:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           deals: S.optional(__S(64, __c2, 0)),
@@ -2811,7 +2669,7 @@ function __c1(j: number): any {
 function __c2(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2323, __c72, 19));
+      return S.Array(__S(2355, __c73, 19));
   }
 }
 function __c3(j: number): any {
@@ -2835,15 +2693,12 @@ function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          state: S.optional(S.String),
-          name: S.optional(S.String),
-          sellerVisible: S.optional(S.Boolean),
-          partnerClientId: S.optional(S.String),
-          role: S.optional(S.String),
-          displayName: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1568, __c49, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/clients",
@@ -2857,12 +2712,12 @@ function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          email: S.optional(S.String),
-          name: S.optional(S.String),
-          state: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1952, __c61, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/users",
@@ -2876,16 +2731,12 @@ function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          createTime: S.optional(S.String),
-          userListId: S.optional(S.String),
-          name: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          cpmFee: S.optional(__S(2016, __c63, 0)),
-          millipercentOfMediaFee: S.optional(S.String),
-          state: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(2016, __c63, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/dataSegments",
@@ -2899,21 +2750,12 @@ function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          state: S.optional(S.String),
-          createTime: S.optional(S.String),
-          targeting: S.optional(__S(2087, __c65, 7)),
-          updateTime: S.optional(S.String),
-          description: S.optional(S.String),
-          millipercentOfMediaFee: S.optional(S.String),
-          floorPriceCpm: S.optional(__S(2016, __c63, 0)),
-          curationFeeVisibility: S.optional(S.String),
-          accessSettings: S.optional(__S(2088, __c65, 8)),
-          feeCpm: S.optional(__S(2016, __c63, 0)),
-          name: S.optional(S.String),
-          displayName: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(2121, __c66, 9),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/curatedPackages",
@@ -3026,7 +2868,7 @@ function __c13(j: number): any {
 function __c14(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2240, __c70, 0));
+      return S.Array(__S(2272, __c71, 0));
   }
 }
 function __c15(j: number): any {
@@ -3034,17 +2876,17 @@ function __c15(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          eligibleSeatIds: S.optional(__S(2112, __c66, 0)),
+          eligibleSeatIds: S.optional(__S(2144, __c67, 0)),
           updateTime: S.optional(S.String),
           subscribedMediaPlanners: S.optional(__S(448, __c14, 0)),
-          subscribedBuyers: S.optional(__S(2112, __c66, 0)),
+          subscribedBuyers: S.optional(__S(2144, __c67, 0)),
           creator: S.optional(S.String),
           displayName: S.optional(S.String),
           createTime: S.optional(S.String),
-          floorPriceCpm: S.optional(__S(2016, __c63, 0)),
+          floorPriceCpm: S.optional(__S(2048, __c64, 0)),
           name: S.optional(S.String),
           dealOwnerSeatId: S.optional(S.String),
-          subscribedClients: S.optional(__S(2112, __c66, 0)),
+          subscribedClients: S.optional(__S(2144, __c67, 0)),
           description: S.optional(S.String),
         }),
       ).annotate({ identifier: "AuctionPackage" });
@@ -3180,7 +3022,7 @@ function __c23(j: number): any {
           directDealsContact: S.optional(S.String),
           isParent: S.optional(S.Boolean),
           name: S.optional(S.String),
-          topHeadlines: S.optional(__S(2112, __c66, 0)),
+          topHeadlines: S.optional(__S(2144, __c67, 0)),
           publisherCode: S.optional(S.String),
           samplePageUrl: S.optional(S.String),
           programmaticDealsContact: S.optional(S.String),
@@ -3188,7 +3030,7 @@ function __c23(j: number): any {
           audienceDescription: S.optional(S.String),
           pitchStatement: S.optional(S.String),
           displayName: S.optional(S.String),
-          domains: S.optional(__S(2112, __c66, 0)),
+          domains: S.optional(__S(2144, __c67, 0)),
           logoUrl: S.optional(S.String),
           mediaKitUrl: S.optional(S.String),
           mobileApps: S.optional(__S(737, __c23, 1)),
@@ -3268,7 +3110,7 @@ function __c27(j: number): any {
 function __c28(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2338, __c73, 2));
+      return S.Array(__S(2370, __c74, 2));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -3343,7 +3185,7 @@ function __c31(j: number): any {
         ),
       ).annotate({ identifier: "ListBuyersClientsUsersRequest" });
     case 1:
-      return S.Array(__S(1920, __c60, 0));
+      return S.Array(__S(1952, __c61, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -3370,7 +3212,7 @@ function __c32(j: number): any {
         ),
       ).annotate({ identifier: "ListBuyersDataSegmentsRequest" });
     case 1:
-      return S.Array(__S(1984, __c62, 0));
+      return S.Array(__S(2016, __c63, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -3458,9 +3300,17 @@ function __c36(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           proposalRevision: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "AcceptProposalRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(1152, __c36, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+name}:accept",
@@ -3569,7 +3419,7 @@ function __c39(j: number): any {
         ),
       ).annotate({ identifier: "ListCuratorsCuratedPackagesRequest" });
     case 1:
-      return S.Array(__S(2089, __c65, 9));
+      return S.Array(__S(2121, __c66, 9));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -3608,15 +3458,13 @@ function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          state: S.optional(S.String),
-          sellerVisible: S.optional(S.Boolean),
-          partnerClientId: S.optional(S.String),
-          role: S.optional(S.String),
-          displayName: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1568, __c49, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha/{+name}",
@@ -3630,16 +3478,13 @@ function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          createTime: S.optional(S.String),
-          userListId: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          cpmFee: S.optional(__S(2016, __c63, 0)),
-          millipercentOfMediaFee: S.optional(S.String),
-          state: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(2016, __c63, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha/{+name}",
@@ -3653,28 +3498,13 @@ function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          termsAndConditions: S.optional(S.String),
-          pausingConsented: S.optional(S.Boolean),
-          originatorRole: S.optional(S.String),
-          buyerContacts: S.optional(__S(1185, __c37, 1)),
-          buyerPrivateData: S.optional(__S(1186, __c37, 2)),
-          isRenegotiating: S.optional(S.Boolean),
-          client: S.optional(S.String),
-          state: S.optional(S.String),
-          dealType: S.optional(S.String),
-          displayName: S.optional(S.String),
-          notes: S.optional(__S(1188, __c37, 4)),
-          billedBuyer: S.optional(S.String),
-          proposalRevision: S.optional(S.String),
-          publisherProfile: S.optional(S.String),
-          buyer: S.optional(S.String),
-          sellerContacts: S.optional(__S(1185, __c37, 1)),
-          updateTime: S.optional(S.String),
-          lastUpdaterOrCommentorRole: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1189, __c37, 5),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha/{+name}",
@@ -3688,33 +3518,13 @@ function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          targeting: S.optional(__S(2316, __c72, 12)),
-          client: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          description: S.optional(S.String),
-          flightStartTime: S.optional(S.String),
-          dealType: S.optional(S.String),
-          flightEndTime: S.optional(S.String),
-          eligibleSeatIds: S.optional(__S(2112, __c66, 0)),
-          buyerPermissionType: S.optional(S.String),
-          deliveryControl: S.optional(__S(2319, __c72, 15)),
-          programmaticGuaranteedTerms: S.optional(__S(2274, __c71, 2)),
-          mediaPlanner: S.optional(__S(2240, __c70, 0)),
-          estimatedGrossSpend: S.optional(__S(2016, __c63, 0)),
-          createTime: S.optional(S.String),
-          billedBuyer: S.optional(S.String),
-          buyer: S.optional(S.String),
-          privateAuctionTerms: S.optional(__S(2320, __c72, 16)),
-          proposalRevision: S.optional(S.String),
-          preferredDealTerms: S.optional(__S(2275, __c71, 3)),
-          sellerTimeZone: S.optional(__S(2321, __c72, 17)),
-          publisherProfile: S.optional(S.String),
-          creativeRequirements: S.optional(__S(2322, __c72, 18)),
-          displayName: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(2355, __c73, 19),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha/{+name}",
@@ -3728,21 +3538,13 @@ function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          state: S.optional(S.String),
-          createTime: S.optional(S.String),
-          targeting: S.optional(__S(2087, __c65, 7)),
-          updateTime: S.optional(S.String),
-          description: S.optional(S.String),
-          millipercentOfMediaFee: S.optional(S.String),
-          floorPriceCpm: S.optional(__S(2016, __c63, 0)),
-          curationFeeVisibility: S.optional(S.String),
-          accessSettings: S.optional(__S(2088, __c65, 8)),
-          feeCpm: S.optional(__S(2016, __c63, 0)),
-          displayName: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(2121, __c66, 9),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha/{+name}",
@@ -3757,9 +3559,17 @@ function __c46(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           reason: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "PauseFinalizedDealRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(1472, __c46, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+name}:pause",
@@ -3854,20 +3664,28 @@ function __c52(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          buyer: S.String.pipe(T.Label()),
-          programmaticGuaranteedTerms: S.optional(__S(2274, __c71, 2)),
-          inventorySizeTargeting: S.optional(__S(2272, __c71, 0)),
+          programmaticGuaranteedTerms: S.optional(__S(2306, __c72, 2)),
+          inventorySizeTargeting: S.optional(__S(2304, __c72, 0)),
           flightEndTime: S.optional(S.String),
           client: S.optional(S.String),
-          estimatedGrossSpend: S.optional(__S(2016, __c63, 0)),
+          estimatedGrossSpend: S.optional(__S(2048, __c64, 0)),
           note: S.optional(S.String),
-          preferredDealTerms: S.optional(__S(2275, __c71, 3)),
-          geoTargeting: S.optional(__S(2144, __c67, 0)),
+          preferredDealTerms: S.optional(__S(2307, __c72, 3)),
+          geoTargeting: S.optional(__S(2176, __c68, 0)),
           publisherProfile: S.optional(S.String),
           flightStartTime: S.optional(S.String),
           buyerContacts: S.optional(__S(1185, __c37, 1)),
           displayName: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "SendRfpRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(1664, __c52, 0),
+          S.Struct({
+            buyer: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+buyer}/proposals:sendRfp",
@@ -3932,10 +3750,12 @@ function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          auctionPackage: S.String.pipe(T.Label()),
-          clients: S.optional(__S(2112, __c66, 0)),
-        }).pipe(
+        S.Extend(
+          __S(1824, __c57, 0),
+          S.Struct({
+            auctionPackage: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+auctionPackage}:subscribeClients",
@@ -3946,6 +3766,16 @@ function __c56(j: number): any {
   }
 }
 function __c57(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          clients: S.optional(__S(2144, __c67, 0)),
+        }),
+      ).annotate({ identifier: "SubscribeClientsRequest" });
+  }
+}
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3962,14 +3792,16 @@ function __c57(j: number): any {
       ).annotate({ identifier: "UnsubscribeBuyersAuctionPackagesRequest" });
   }
 }
-function __c58(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          auctionPackage: S.String.pipe(T.Label()),
-          clients: S.optional(__S(2112, __c66, 0)),
-        }).pipe(
+        S.Extend(
+          __S(1824, __c57, 0),
+          S.Struct({
+            auctionPackage: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+auctionPackage}:unsubscribeClients",
@@ -3979,7 +3811,7 @@ function __c58(j: number): any {
       ).annotate({ identifier: "UnsubscribeClientsBuyersAuctionPackagesRequest" });
   }
 }
-function __c59(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3996,7 +3828,7 @@ function __c59(j: number): any {
       ).annotate({ identifier: "ActivateBuyersClientsUsersRequest" });
   }
 }
-function __c60(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4008,7 +3840,7 @@ function __c60(j: number): any {
       ).annotate({ identifier: "ClientUser" });
   }
 }
-function __c61(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4025,7 +3857,7 @@ function __c61(j: number): any {
       ).annotate({ identifier: "ActivateBuyersDataSegmentsRequest" });
   }
 }
-function __c62(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4034,14 +3866,14 @@ function __c62(j: number): any {
           userListId: S.optional(S.String),
           name: S.optional(S.String),
           updateTime: S.optional(S.String),
-          cpmFee: S.optional(__S(2016, __c63, 0)),
+          cpmFee: S.optional(__S(2048, __c64, 0)),
           millipercentOfMediaFee: S.optional(S.String),
           state: S.optional(S.String),
         }),
       ).annotate({ identifier: "DataSegment" });
   }
 }
-function __c63(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4053,7 +3885,7 @@ function __c63(j: number): any {
       ).annotate({ identifier: "Money" });
   }
 }
-function __c64(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4070,28 +3902,28 @@ function __c64(j: number): any {
       ).annotate({ identifier: "ActivateCuratorsCuratedPackagesRequest" });
   }
 }
-function __c65(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          excludedTaxonomyIds: S.optional(__S(2112, __c66, 0)),
-          targetedTaxonomyIds: S.optional(__S(2112, __c66, 0)),
+          excludedTaxonomyIds: S.optional(__S(2144, __c67, 0)),
+          targetedTaxonomyIds: S.optional(__S(2144, __c67, 0)),
         }),
       ).annotate({ identifier: "TaxonomyTargeting" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           selectionType: S.optional(S.String),
-          values: S.optional(__S(2112, __c66, 0)),
+          values: S.optional(__S(2144, __c67, 0)),
         }),
       ).annotate({ identifier: "StringTargetingDimension" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          audienceTargeting: S.optional(__S(2080, __c65, 0)),
-          videoAndAudioSignalsTargeting: S.optional(__S(2081, __c65, 1)),
-          contentTargeting: S.optional(__S(2080, __c65, 0)),
+          audienceTargeting: S.optional(__S(2112, __c66, 0)),
+          videoAndAudioSignalsTargeting: S.optional(__S(2113, __c66, 1)),
+          contentTargeting: S.optional(__S(2112, __c66, 0)),
         }),
       ).annotate({ identifier: "PackagePublisherProvidedSignalsTargeting" });
     case 3:
@@ -4104,7 +3936,7 @@ function __c65(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          videoPlcmtTypes: S.optional(__S(2176, __c68, 0)),
+          videoPlcmtTypes: S.optional(__S(2208, __c69, 0)),
           selectionType: S.optional(S.String),
         }),
       ).annotate({ identifier: "VideoPlcmtTargeting" });
@@ -4113,51 +3945,51 @@ function __c65(j: number): any {
         S.Struct({
           includedMaximumAdDurationTargeting: S.optional(S.String),
           minimumPredictedCompletionRatePercentage: S.optional(S.String),
-          includedPositionTypes: S.optional(__S(2176, __c68, 0)),
+          includedPositionTypes: S.optional(__S(2208, __c69, 0)),
           includedContentDeliveryMethod: S.optional(S.String),
-          includedMimeTypes: S.optional(__S(2176, __c68, 0)),
-          includedPlayerSizeTargeting: S.optional(__S(2083, __c65, 3)),
-          plcmtTargeting: S.optional(__S(2084, __c65, 4)),
-          includedPlaybackMethods: S.optional(__S(2176, __c68, 0)),
+          includedMimeTypes: S.optional(__S(2208, __c69, 0)),
+          includedPlayerSizeTargeting: S.optional(__S(2115, __c66, 3)),
+          plcmtTargeting: S.optional(__S(2116, __c66, 4)),
+          includedPlaybackMethods: S.optional(__S(2208, __c69, 0)),
         }),
       ).annotate({ identifier: "PackageVideoTargeting" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          includedMobileAppCategoryTargeting: S.optional(__S(2112, __c66, 0)),
-          uriTargeting: S.optional(__S(2081, __c65, 1)),
-          mobileAppTargeting: S.optional(__S(2081, __c65, 1)),
+          includedMobileAppCategoryTargeting: S.optional(__S(2144, __c67, 0)),
+          uriTargeting: S.optional(__S(2113, __c66, 1)),
+          mobileAppTargeting: S.optional(__S(2113, __c66, 1)),
         }),
       ).annotate({ identifier: "PackagePlacementTargeting" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          includedOpenMeasurementTypes: S.optional(__S(2176, __c68, 0)),
-          publisherProvidedSignalsTargeting: S.optional(__S(2082, __c65, 2)),
-          languageTargeting: S.optional(__S(2081, __c65, 1)),
-          geoTargeting: S.optional(__S(2144, __c67, 0)),
+          includedOpenMeasurementTypes: S.optional(__S(2208, __c69, 0)),
+          publisherProvidedSignalsTargeting: S.optional(__S(2114, __c66, 2)),
+          languageTargeting: S.optional(__S(2113, __c66, 1)),
+          geoTargeting: S.optional(__S(2176, __c68, 0)),
           includedAcceleratedMobilePageType: S.optional(S.String),
-          verticalTargeting: S.optional(__S(2144, __c67, 0)),
+          verticalTargeting: S.optional(__S(2176, __c68, 0)),
           minimumPredictedClickThroughRatePercentageMillis: S.optional(S.String),
-          includedDataSegments: S.optional(__S(2112, __c66, 0)),
-          videoTargeting: S.optional(__S(2085, __c65, 5)),
-          publisherTargeting: S.optional(__S(2081, __c65, 1)),
-          includedRestrictedCategories: S.optional(__S(2176, __c68, 0)),
-          includedAdSizes: S.optional(__S(2146, __c67, 2)),
+          includedDataSegments: S.optional(__S(2144, __c67, 0)),
+          videoTargeting: S.optional(__S(2117, __c66, 5)),
+          publisherTargeting: S.optional(__S(2113, __c66, 1)),
+          includedRestrictedCategories: S.optional(__S(2208, __c69, 0)),
+          includedAdSizes: S.optional(__S(2178, __c68, 2)),
           minimumPredictedViewabilityPercentage: S.optional(S.String),
           includedCreativeFormat: S.optional(S.String),
           includedRewardedType: S.optional(S.String),
-          placementTargeting: S.optional(__S(2086, __c65, 6)),
-          includedAuthorizedSellerStatuses: S.optional(__S(2176, __c68, 0)),
-          includedNativeInventoryTypes: S.optional(__S(2176, __c68, 0)),
-          includedDeviceTypes: S.optional(__S(2176, __c68, 0)),
+          placementTargeting: S.optional(__S(2118, __c66, 6)),
+          includedAuthorizedSellerStatuses: S.optional(__S(2208, __c69, 0)),
+          includedNativeInventoryTypes: S.optional(__S(2208, __c69, 0)),
+          includedDeviceTypes: S.optional(__S(2208, __c69, 0)),
           includedEnvironment: S.optional(S.String),
         }),
       ).annotate({ identifier: "PackageTargeting" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          allowlistedMediaPlanners: S.optional(__S(2112, __c66, 0)),
+          allowlistedMediaPlanners: S.optional(__S(2144, __c67, 0)),
         }),
       ).annotate({ identifier: "AccessControlSettings" });
     case 9:
@@ -4165,33 +3997,33 @@ function __c65(j: number): any {
         S.Struct({
           state: S.optional(S.String),
           createTime: S.optional(S.String),
-          targeting: S.optional(__S(2087, __c65, 7)),
+          targeting: S.optional(__S(2119, __c66, 7)),
           updateTime: S.optional(S.String),
           description: S.optional(S.String),
           millipercentOfMediaFee: S.optional(S.String),
-          floorPriceCpm: S.optional(__S(2016, __c63, 0)),
+          floorPriceCpm: S.optional(__S(2048, __c64, 0)),
           curationFeeVisibility: S.optional(S.String),
-          accessSettings: S.optional(__S(2088, __c65, 8)),
-          feeCpm: S.optional(__S(2016, __c63, 0)),
+          accessSettings: S.optional(__S(2120, __c66, 8)),
+          feeCpm: S.optional(__S(2048, __c64, 0)),
           name: S.optional(S.String),
           displayName: S.optional(S.String),
         }),
       ).annotate({ identifier: "CuratedPackage" });
   }
 }
-function __c66(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c67(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          targetedCriteriaIds: S.optional(__S(2112, __c66, 0)),
-          excludedCriteriaIds: S.optional(__S(2112, __c66, 0)),
+          targetedCriteriaIds: S.optional(__S(2144, __c67, 0)),
+          excludedCriteriaIds: S.optional(__S(2144, __c67, 0)),
         }),
       ).annotate({ identifier: "CriteriaTargeting" });
     case 1:
@@ -4203,23 +4035,31 @@ function __c67(j: number): any {
         }),
       ).annotate({ identifier: "AdSize" });
     case 2:
-      return S.Array(__S(2145, __c67, 1));
-  }
-}
-function __c68(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
+      return S.Array(__S(2177, __c68, 1));
   }
 }
 function __c69(j: number): any {
   switch (j) {
     case 0:
+      return S.Array(S.String);
+  }
+}
+function __c70(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
-          deal: S.String.pipe(T.Label()),
           creative: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "AddCreativeRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(2240, __c70, 0),
+          S.Struct({
+            deal: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+deal}:addCreative",
@@ -4229,7 +4069,7 @@ function __c69(j: number): any {
       ).annotate({ identifier: "AddCreativeBuyersFinalizedDealsRequest" });
   }
 }
-function __c70(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4237,24 +4077,24 @@ function __c70(j: number): any {
           name: S.optional(S.String),
           accountId: S.optional(S.String),
           displayName: S.optional(S.String),
-          ancestorNames: S.optional(__S(2112, __c66, 0)),
+          ancestorNames: S.optional(__S(2144, __c67, 0)),
         }),
       ).annotate({ identifier: "MediaPlanner" });
   }
 }
-function __c71(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          targetedInventorySizes: S.optional(__S(2146, __c67, 2)),
-          excludedInventorySizes: S.optional(__S(2146, __c67, 2)),
+          targetedInventorySizes: S.optional(__S(2178, __c68, 2)),
+          excludedInventorySizes: S.optional(__S(2178, __c68, 2)),
         }),
       ).annotate({ identifier: "InventorySizeTargeting" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          amount: S.optional(__S(2016, __c63, 0)),
+          amount: S.optional(__S(2048, __c64, 0)),
           type: S.optional(S.String),
         }),
       ).annotate({ identifier: "Price" });
@@ -4263,7 +4103,7 @@ function __c71(j: number): any {
         S.Struct({
           percentShareOfVoice: S.optional(S.String),
           impressionCap: S.optional(S.String),
-          fixedPrice: S.optional(__S(2273, __c71, 1)),
+          fixedPrice: S.optional(__S(2305, __c72, 1)),
           minimumDailyLooks: S.optional(S.String),
           reservationType: S.optional(S.String),
           guaranteedLooks: S.optional(S.String),
@@ -4272,33 +4112,33 @@ function __c71(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          fixedPrice: S.optional(__S(2273, __c71, 1)),
+          fixedPrice: S.optional(__S(2305, __c72, 1)),
         }),
       ).annotate({ identifier: "PreferredDealTerms" });
   }
 }
-function __c72(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          excludedPositionTypes: S.optional(__S(2176, __c68, 0)),
-          targetedPositionTypes: S.optional(__S(2176, __c68, 0)),
+          excludedPositionTypes: S.optional(__S(2208, __c69, 0)),
+          targetedPositionTypes: S.optional(__S(2208, __c69, 0)),
         }),
       ).annotate({ identifier: "VideoTargeting" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          operatingSystemCriteria: S.optional(__S(2144, __c67, 0)),
-          operatingSystemVersionCriteria: S.optional(__S(2144, __c67, 0)),
+          operatingSystemCriteria: S.optional(__S(2176, __c68, 0)),
+          operatingSystemVersionCriteria: S.optional(__S(2176, __c68, 0)),
         }),
       ).annotate({ identifier: "OperatingSystemTargeting" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          deviceCategoryTargeting: S.optional(__S(2144, __c67, 0)),
-          deviceCapabilityTargeting: S.optional(__S(2144, __c67, 0)),
-          operatingSystemTargeting: S.optional(__S(2305, __c72, 1)),
+          deviceCategoryTargeting: S.optional(__S(2176, __c68, 0)),
+          deviceCapabilityTargeting: S.optional(__S(2176, __c68, 0)),
+          operatingSystemTargeting: S.optional(__S(2337, __c73, 1)),
         }),
       ).annotate({ identifier: "TechnologyTargeting" });
     case 3:
@@ -4314,65 +4154,65 @@ function __c72(j: number): any {
       return S.suspend(() =>
         S.Struct({
           dayOfWeek: S.optional(S.String),
-          startTime: S.optional(__S(2307, __c72, 3)),
-          endTime: S.optional(__S(2307, __c72, 3)),
+          startTime: S.optional(__S(2339, __c73, 3)),
+          endTime: S.optional(__S(2339, __c73, 3)),
         }),
       ).annotate({ identifier: "DayPart" });
     case 5:
-      return S.Array(__S(2308, __c72, 4));
+      return S.Array(__S(2340, __c73, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          dayParts: S.optional(__S(2309, __c72, 5)),
+          dayParts: S.optional(__S(2341, __c73, 5)),
           timeZoneType: S.optional(S.String),
         }),
       ).annotate({ identifier: "DayPartTargeting" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          excludedUris: S.optional(__S(2112, __c66, 0)),
-          targetedUris: S.optional(__S(2112, __c66, 0)),
+          excludedUris: S.optional(__S(2144, __c67, 0)),
+          targetedUris: S.optional(__S(2144, __c67, 0)),
         }),
       ).annotate({ identifier: "UriTargeting" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          targetedAppIds: S.optional(__S(2112, __c66, 0)),
-          excludedAppIds: S.optional(__S(2112, __c66, 0)),
+          targetedAppIds: S.optional(__S(2144, __c67, 0)),
+          excludedAppIds: S.optional(__S(2144, __c67, 0)),
         }),
       ).annotate({ identifier: "FirstPartyMobileApplicationTargeting" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          firstPartyTargeting: S.optional(__S(2312, __c72, 8)),
+          firstPartyTargeting: S.optional(__S(2344, __c73, 8)),
         }),
       ).annotate({ identifier: "MobileApplicationTargeting" });
     case 10:
       return S.suspend(() =>
         S.Struct({
-          uriTargeting: S.optional(__S(2311, __c72, 7)),
-          mobileApplicationTargeting: S.optional(__S(2313, __c72, 9)),
+          uriTargeting: S.optional(__S(2343, __c73, 7)),
+          mobileApplicationTargeting: S.optional(__S(2345, __c73, 9)),
         }),
       ).annotate({ identifier: "PlacementTargeting" });
     case 11:
       return S.suspend(() =>
         S.Struct({
-          inventoryTypes: S.optional(__S(2176, __c68, 0)),
+          inventoryTypes: S.optional(__S(2208, __c69, 0)),
         }),
       ).annotate({ identifier: "InventoryTypeTargeting" });
     case 12:
       return S.suspend(() =>
         S.Struct({
-          verticalTargeting: S.optional(__S(2144, __c67, 0)),
-          videoTargeting: S.optional(__S(2304, __c72, 0)),
-          geoTargeting: S.optional(__S(2144, __c67, 0)),
-          excludedSensitiveCategoryIds: S.optional(__S(2112, __c66, 0)),
-          technologyTargeting: S.optional(__S(2306, __c72, 2)),
-          daypartTargeting: S.optional(__S(2310, __c72, 6)),
-          inventorySizeTargeting: S.optional(__S(2272, __c71, 0)),
-          userListTargeting: S.optional(__S(2144, __c67, 0)),
-          placementTargeting: S.optional(__S(2314, __c72, 10)),
-          inventoryTypeTargeting: S.optional(__S(2315, __c72, 11)),
+          verticalTargeting: S.optional(__S(2176, __c68, 0)),
+          videoTargeting: S.optional(__S(2336, __c73, 0)),
+          geoTargeting: S.optional(__S(2176, __c68, 0)),
+          excludedSensitiveCategoryIds: S.optional(__S(2144, __c67, 0)),
+          technologyTargeting: S.optional(__S(2338, __c73, 2)),
+          daypartTargeting: S.optional(__S(2342, __c73, 6)),
+          inventorySizeTargeting: S.optional(__S(2304, __c72, 0)),
+          userListTargeting: S.optional(__S(2176, __c68, 0)),
+          placementTargeting: S.optional(__S(2346, __c73, 10)),
+          inventoryTypeTargeting: S.optional(__S(2347, __c73, 11)),
         }),
       ).annotate({ identifier: "MarketplaceTargeting" });
     case 13:
@@ -4384,12 +4224,12 @@ function __c72(j: number): any {
         }),
       ).annotate({ identifier: "FrequencyCap" });
     case 14:
-      return S.Array(__S(2317, __c72, 13));
+      return S.Array(__S(2349, __c73, 13));
     case 15:
       return S.suspend(() =>
         S.Struct({
           companionDeliveryType: S.optional(S.String),
-          frequencyCap: S.optional(__S(2318, __c72, 14)),
+          frequencyCap: S.optional(__S(2350, __c73, 14)),
           deliveryRateType: S.optional(S.String),
           creativeRotationType: S.optional(S.String),
           roadblockingType: S.optional(S.String),
@@ -4398,7 +4238,7 @@ function __c72(j: number): any {
     case 16:
       return S.suspend(() =>
         S.Struct({
-          floorPrice: S.optional(__S(2273, __c71, 1)),
+          floorPrice: S.optional(__S(2305, __c72, 1)),
           openAuctionAllowed: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "PrivateAuctionTerms" });
@@ -4423,35 +4263,35 @@ function __c72(j: number): any {
     case 19:
       return S.suspend(() =>
         S.Struct({
-          targeting: S.optional(__S(2316, __c72, 12)),
+          targeting: S.optional(__S(2348, __c73, 12)),
           client: S.optional(S.String),
           updateTime: S.optional(S.String),
           description: S.optional(S.String),
           flightStartTime: S.optional(S.String),
           dealType: S.optional(S.String),
           flightEndTime: S.optional(S.String),
-          eligibleSeatIds: S.optional(__S(2112, __c66, 0)),
+          eligibleSeatIds: S.optional(__S(2144, __c67, 0)),
           buyerPermissionType: S.optional(S.String),
-          deliveryControl: S.optional(__S(2319, __c72, 15)),
-          programmaticGuaranteedTerms: S.optional(__S(2274, __c71, 2)),
-          mediaPlanner: S.optional(__S(2240, __c70, 0)),
-          estimatedGrossSpend: S.optional(__S(2016, __c63, 0)),
+          deliveryControl: S.optional(__S(2351, __c73, 15)),
+          programmaticGuaranteedTerms: S.optional(__S(2306, __c72, 2)),
+          mediaPlanner: S.optional(__S(2272, __c71, 0)),
+          estimatedGrossSpend: S.optional(__S(2048, __c64, 0)),
           createTime: S.optional(S.String),
           billedBuyer: S.optional(S.String),
           buyer: S.optional(S.String),
-          privateAuctionTerms: S.optional(__S(2320, __c72, 16)),
+          privateAuctionTerms: S.optional(__S(2352, __c73, 16)),
           proposalRevision: S.optional(S.String),
-          preferredDealTerms: S.optional(__S(2275, __c71, 3)),
-          sellerTimeZone: S.optional(__S(2321, __c72, 17)),
+          preferredDealTerms: S.optional(__S(2307, __c72, 3)),
+          sellerTimeZone: S.optional(__S(2353, __c73, 17)),
           name: S.optional(S.String),
           publisherProfile: S.optional(S.String),
-          creativeRequirements: S.optional(__S(2322, __c72, 18)),
+          creativeRequirements: S.optional(__S(2354, __c73, 18)),
           displayName: S.optional(S.String),
         }),
       ).annotate({ identifier: "Deal" });
   }
 }
-function __c73(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4477,10 +4317,10 @@ function __c73(j: number): any {
         S.Struct({
           dealServingStatus: S.optional(S.String),
           readyToServe: S.optional(S.Boolean),
-          rtbMetrics: S.optional(__S(2336, __c73, 0)),
+          rtbMetrics: S.optional(__S(2368, __c74, 0)),
           name: S.optional(S.String),
-          deal: S.optional(__S(2323, __c72, 19)),
-          dealPausingInfo: S.optional(__S(2337, __c73, 1)),
+          deal: S.optional(__S(2355, __c73, 19)),
+          dealPausingInfo: S.optional(__S(2369, __c74, 1)),
         }),
       ).annotate({ identifier: "FinalizedDeal" });
   }

@@ -175,13 +175,8 @@ export interface Scope {
   /** Required. Scope Type. */
   type?: ScopeTypeEnum | (string & {}) | undefined;
 }
-export interface CreateProjectsLocationsApplicationsRequest {
-  /** Required. Project and location to create Application in. Expected format: `projects/{project}/locations/{location}`. */
-  parent: string;
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Required. The Application identifier. Must contain only lowercase letters, numbers or hyphens, with the first character a letter, the last a letter or a number, and a 63 character maximum. */
-  applicationId?: string | undefined;
+/** Application defines the governance boundary for App Hub entities that perform a logical end-to-end business function. App Hub supports application level IAM permission to align with governance requirements. */
+export interface Application {
   /** Identifier. The resource name of an Application. Format: `"projects/{host-project-id}/locations/{location}/applications/{application-id}"` */
   name?: string | undefined;
   /** Output only. Application state. */
@@ -204,6 +199,14 @@ export interface CreateProjectsLocationsApplicationsRequest {
   description?: string | undefined;
   /** Required. Immutable. Defines what data can be included into this Application. Limits which Services and Workloads can be registered. */
   scope?: Scope | undefined;
+}
+export interface CreateProjectsLocationsApplicationsRequest extends Application {
+  /** Required. Project and location to create Application in. Expected format: `projects/{project}/locations/{location}`. */
+  parent: string;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+  /** Required. The Application identifier. Must contain only lowercase letters, numbers or hyphens, with the first character a letter, the last a letter or a number, and a 63 character maximum. */
+  applicationId?: string | undefined;
 }
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
@@ -273,13 +276,8 @@ export type ServiceStateEnum =
   | "ACTIVE"
   | "DELETING"
   | "DETACHED";
-export interface CreateProjectsLocationsApplicationsServicesRequest {
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Required. Fully qualified name of the parent Application to create the Service in. Expected format: `projects/{project}/locations/{location}/applications/{application}`. */
-  parent: string;
-  /** Required. The Service identifier. Must contain only lowercase letters, numbers or hyphens, with the first character a letter, the last a letter or a number, and a 63 character maximum. */
-  serviceId?: string | undefined;
+/** Service is an App Hub data model that contains a discovered service, which represents a network or API interface that exposes some functionality to clients for consumption over the network. */
+export interface Service {
   /** Output only. A universally unique identifier (UUID) for the `Service` in the UUID4 format. */
   uid?: string | undefined;
   /** Optional. Consumer provided attributes. */
@@ -302,6 +300,14 @@ export interface CreateProjectsLocationsApplicationsServicesRequest {
   description?: string | undefined;
   /** Output only. Service state. */
   state?: ServiceStateEnum | (string & {}) | undefined;
+}
+export interface CreateProjectsLocationsApplicationsServicesRequest extends Service {
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+  /** Required. Fully qualified name of the parent Application to create the Service in. Expected format: `projects/{project}/locations/{location}/applications/{application}`. */
+  parent: string;
+  /** Required. The Service identifier. Must contain only lowercase letters, numbers or hyphens, with the first character a letter, the last a letter or a number, and a 63 character maximum. */
+  serviceId?: string | undefined;
 }
 /** Reference of an underlying compute resource represented by the Workload. */
 export interface WorkloadReference {
@@ -329,13 +335,8 @@ export type WorkloadStateEnum =
   | "ACTIVE"
   | "DELETING"
   | "DETACHED";
-export interface CreateProjectsLocationsApplicationsWorkloadsRequest {
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Required. Fully qualified name of the Application to create Workload in. Expected format: `projects/{project}/locations/{location}/applications/{application}`. */
-  parent: string;
-  /** Required. The Workload identifier. Must contain only lowercase letters, numbers or hyphens, with the first character a letter, the last a letter or a number, and a 63 character maximum. */
-  workloadId?: string | undefined;
+/** Workload is an App Hub data model that contains a discovered workload, which represents a binary deployment (such as managed instance groups (MIGs) and GKE deployments) that performs the smallest logical subset of business functionality. */
+export interface Workload {
   /** Output only. Reference of an underlying compute resource represented by the Workload. These are immutable. */
   workloadReference?: WorkloadReference | undefined;
   /** Optional. Consumer provided attributes. */
@@ -359,18 +360,21 @@ export interface CreateProjectsLocationsApplicationsWorkloadsRequest {
   /** Required. Immutable. The resource name of the original discovered workload. */
   discoveredWorkload?: string | undefined;
 }
+export interface CreateProjectsLocationsApplicationsWorkloadsRequest extends Workload {
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+  /** Required. Fully qualified name of the Application to create Workload in. Expected format: `projects/{project}/locations/{location}/applications/{application}`. */
+  parent: string;
+  /** Required. The Workload identifier. Must contain only lowercase letters, numbers or hyphens, with the first character a letter, the last a letter or a number, and a 63 character maximum. */
+  workloadId?: string | undefined;
+}
 export type ServiceProjectAttachmentStateEnum =
   | "STATE_UNSPECIFIED"
   | "CREATING"
   | "ACTIVE"
   | "DELETING";
-export interface CreateProjectsLocationsServiceProjectAttachmentsRequest {
-  /** Required. Host project ID and location to which service project is being attached. Only global location is supported. Expected format: `projects/{project}/locations/{location}`. */
-  parent: string;
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Required. The service project attachment identifier must contain the project id of the service project specified in the service_project_attachment.service_project field. */
-  serviceProjectAttachmentId?: string | undefined;
+/** ServiceProjectAttachment represents an attachment from a service project to a host project. Service projects contain the underlying cloud infrastructure resources, and expose these resources to the host project through a ServiceProjectAttachment. With the attachments, the host project can provide an aggregated view of resources across all service projects. */
+export interface ServiceProjectAttachment {
   /** Identifier. The resource name of a ServiceProjectAttachment. Format: `"projects/{host-project-id}/locations/global/serviceProjectAttachments/{service-project-id}."` */
   name?: string | undefined;
   /** Output only. ServiceProjectAttachment state. */
@@ -381,6 +385,14 @@ export interface CreateProjectsLocationsServiceProjectAttachmentsRequest {
   serviceProject?: string | undefined;
   /** Output only. Create time. */
   createTime?: string | undefined;
+}
+export interface CreateProjectsLocationsServiceProjectAttachmentsRequest extends ServiceProjectAttachment {
+  /** Required. Host project ID and location to which service project is being attached. Only global location is supported. Expected format: `projects/{project}/locations/{location}`. */
+  parent: string;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+  /** Required. The service project attachment identifier must contain the project id of the service project specified in the service_project_attachment.service_project field. */
+  serviceProjectAttachmentId?: string | undefined;
 }
 export interface DeleteProjectsLocationsApplicationsRequest {
   /** Required. Fully qualified name of the Application to delete. Expected format: `projects/{project}/locations/{location}/applications/{application}`. */
@@ -428,7 +440,7 @@ export type BoundaryTypeEnum = "TYPE_UNSPECIFIED" | "AUTOMATIC" | "MANUAL" | "MA
 /** Application management boundary. */
 export interface Boundary {
   /** Output only. Boundary type. */
-  type?: BoundaryTypeEnum | undefined;
+  type?: BoundaryTypeEnum | (string & {}) | undefined;
   /** Identifier. The resource name of the boundary. Format: "projects/{project}/locations/{location}/boundary" */
   name?: string | undefined;
   /** Optional. The resource name of the CRM node being attached to the boundary. Format: `projects/{project-number}` or `projects/{project-id}` */
@@ -520,88 +532,13 @@ export interface GetProjectsLocationsApplicationsRequest {
   /** Required. Fully qualified name of the Application to fetch. Expected format: `projects/{project}/locations/{location}/applications/{application}`. */
   name: string;
 }
-/** Application defines the governance boundary for App Hub entities that perform a logical end-to-end business function. App Hub supports application level IAM permission to align with governance requirements. */
-export interface Application {
-  /** Identifier. The resource name of an Application. Format: `"projects/{host-project-id}/locations/{location}/applications/{application-id}"` */
-  name?: string | undefined;
-  /** Output only. Application state. */
-  state?: ApplicationStateEnum | undefined;
-  /** Optional. User-defined name for the Application. Can have a maximum length of 63 characters. */
-  displayName?: string | undefined;
-  /** Output only. Create time. */
-  createTime?: string | undefined;
-  /** Output only. Update time. */
-  updateTime?: string | undefined;
-  /** Output only. Application type. */
-  applicationType?: ApplicationType | undefined;
-  /** Output only. A universally unique identifier (in UUID4 format) for the `Application`. */
-  uid?: string | undefined;
-  /** Output only. Properties of an underlying cloud resource that can comprise an Application. */
-  applicationProperties?: ApplicationProperties | undefined;
-  /** Optional. Consumer provided attributes. */
-  attributes?: Attributes | undefined;
-  /** Optional. User-defined description of an Application. Can have a maximum length of 2048 characters. */
-  description?: string | undefined;
-  /** Required. Immutable. Defines what data can be included into this Application. Limits which Services and Workloads can be registered. */
-  scope?: Scope | undefined;
-}
 export interface GetProjectsLocationsApplicationsServicesRequest {
   /** Required. Fully qualified name of the Service to fetch. Expected format: `projects/{project}/locations/{location}/applications/{application}/services/{service}`. */
   name: string;
 }
-/** Service is an App Hub data model that contains a discovered service, which represents a network or API interface that exposes some functionality to clients for consumption over the network. */
-export interface Service {
-  /** Output only. A universally unique identifier (UUID) for the `Service` in the UUID4 format. */
-  uid?: string | undefined;
-  /** Optional. Consumer provided attributes. */
-  attributes?: Attributes | undefined;
-  /** Optional. User-defined name for the Service. Can have a maximum length of 63 characters. */
-  displayName?: string | undefined;
-  /** Required. Immutable. The resource name of the original discovered service. */
-  discoveredService?: string | undefined;
-  /** Identifier. The resource name of a Service. Format: `"projects/{host-project-id}/locations/{location}/applications/{application-id}/services/{service-id}"` */
-  name?: string | undefined;
-  /** Output only. Properties of an underlying compute resource that can comprise a Service. These are immutable. */
-  serviceProperties?: ServiceProperties | undefined;
-  /** Output only. Reference to an underlying networking resource that can comprise a Service. These are immutable. */
-  serviceReference?: ServiceReference | undefined;
-  /** Output only. Create time. */
-  createTime?: string | undefined;
-  /** Output only. Update time. */
-  updateTime?: string | undefined;
-  /** Optional. User-defined description of a Service. Can have a maximum length of 2048 characters. */
-  description?: string | undefined;
-  /** Output only. Service state. */
-  state?: ServiceStateEnum | undefined;
-}
 export interface GetProjectsLocationsApplicationsWorkloadsRequest {
   /** Required. Fully qualified name of the Workload to fetch. Expected format: `projects/{project}/locations/{location}/applications/{application}/workloads/{workload}`. */
   name: string;
-}
-/** Workload is an App Hub data model that contains a discovered workload, which represents a binary deployment (such as managed instance groups (MIGs) and GKE deployments) that performs the smallest logical subset of business functionality. */
-export interface Workload {
-  /** Output only. Reference of an underlying compute resource represented by the Workload. These are immutable. */
-  workloadReference?: WorkloadReference | undefined;
-  /** Optional. Consumer provided attributes. */
-  attributes?: Attributes | undefined;
-  /** Output only. Properties of an underlying compute resource represented by the Workload. These are immutable. */
-  workloadProperties?: WorkloadProperties | undefined;
-  /** Optional. User-defined name for the Workload. Can have a maximum length of 63 characters. */
-  displayName?: string | undefined;
-  /** Identifier. The resource name of the Workload. Format: `"projects/{host-project-id}/locations/{location}/applications/{application-id}/workloads/{workload-id}"` */
-  name?: string | undefined;
-  /** Optional. User-defined description of a Workload. Can have a maximum length of 2048 characters. */
-  description?: string | undefined;
-  /** Output only. Create time. */
-  createTime?: string | undefined;
-  /** Output only. Update time. */
-  updateTime?: string | undefined;
-  /** Output only. Workload state. */
-  state?: WorkloadStateEnum | undefined;
-  /** Output only. A universally unique identifier (UUID) for the `Workload` in the UUID4 format. */
-  uid?: string | undefined;
-  /** Required. Immutable. The resource name of the original discovered workload. */
-  discoveredWorkload?: string | undefined;
 }
 export interface GetProjectsLocationsDiscoveredServicesRequest {
   /** Required. Fully qualified name of the Discovered Service to fetch. Expected format: `projects/{project}/locations/{location}/discoveredServices/{discoveredService}`. */
@@ -649,19 +586,6 @@ export interface GetProjectsLocationsOperationsRequest {
 export interface GetProjectsLocationsServiceProjectAttachmentsRequest {
   /** Required. Fully qualified name of the service project attachment to retrieve. Expected format: `projects/{project}/locations/{location}/serviceProjectAttachments/{serviceProjectAttachment}`. */
   name: string;
-}
-/** ServiceProjectAttachment represents an attachment from a service project to a host project. Service projects contain the underlying cloud infrastructure resources, and expose these resources to the host project through a ServiceProjectAttachment. With the attachments, the host project can provide an aggregated view of resources across all service projects. */
-export interface ServiceProjectAttachment {
-  /** Identifier. The resource name of a ServiceProjectAttachment. Format: `"projects/{host-project-id}/locations/global/serviceProjectAttachments/{service-project-id}."` */
-  name?: string | undefined;
-  /** Output only. ServiceProjectAttachment state. */
-  state?: ServiceProjectAttachmentStateEnum | undefined;
-  /** Output only. A globally unique identifier (in UUID4 format) for the `ServiceProjectAttachment`. */
-  uid?: string | undefined;
-  /** Required. Immutable. Service project name in the format: `"projects/abc"` or `"projects/123"`. As input, project name with either project id or number are accepted. As output, this field will contain project number. */
-  serviceProject?: string | undefined;
-  /** Output only. Create time. */
-  createTime?: string | undefined;
 }
 export interface ListProjectsLocationsRequest {
   /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
@@ -884,124 +808,62 @@ export interface LookupServiceProjectAttachmentResponse {
   /** Service project attachment for a project if exists, empty otherwise. */
   serviceProjectAttachment?: ServiceProjectAttachment | undefined;
 }
-export interface PatchProjectsLocationsApplicationsRequest {
+export interface PatchProjectsLocationsApplicationsRequest extends Omit<Application, "name"> {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Identifier. The resource name of an Application. Format: `"projects/{host-project-id}/locations/{location}/applications/{application-id}"` */
   name: string;
   /** Optional. Field mask is used to specify the fields to be overwritten in the Application resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. The API changes the values of the fields as specified in the update_mask. The API ignores the values of all fields not covered by the update_mask. You can also unset a field by not specifying it in the updated message, but adding the field to the mask. This clears whatever value the field previously had. */
   updateMask?: string | undefined;
-  /** Output only. Application state. */
-  state?: ApplicationStateEnum | (string & {}) | undefined;
-  /** Optional. User-defined name for the Application. Can have a maximum length of 63 characters. */
-  displayName?: string | undefined;
-  /** Output only. Create time. */
-  createTime?: string | undefined;
-  /** Output only. Update time. */
-  updateTime?: string | undefined;
-  /** Output only. Application type. */
-  applicationType?: ApplicationType | undefined;
-  /** Output only. A universally unique identifier (in UUID4 format) for the `Application`. */
-  uid?: string | undefined;
-  /** Output only. Properties of an underlying cloud resource that can comprise an Application. */
-  applicationProperties?: ApplicationProperties | undefined;
-  /** Optional. Consumer provided attributes. */
-  attributes?: Attributes | undefined;
-  /** Optional. User-defined description of an Application. Can have a maximum length of 2048 characters. */
-  description?: string | undefined;
-  /** Required. Immutable. Defines what data can be included into this Application. Limits which Services and Workloads can be registered. */
-  scope?: Scope | undefined;
 }
-export interface PatchProjectsLocationsApplicationsServicesRequest {
+export interface PatchProjectsLocationsApplicationsServicesRequest extends Omit<Service, "name"> {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Optional. Field mask is used to specify the fields to be overwritten in the Service resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. The API changes the values of the fields as specified in the update_mask. The API ignores the values of all fields not covered by the update_mask. You can also unset a field by not specifying it in the updated message, but adding the field to the mask. This clears whatever value the field previously had. */
   updateMask?: string | undefined;
   /** Identifier. The resource name of a Service. Format: `"projects/{host-project-id}/locations/{location}/applications/{application-id}/services/{service-id}"` */
   name: string;
-  /** Output only. A universally unique identifier (UUID) for the `Service` in the UUID4 format. */
-  uid?: string | undefined;
-  /** Optional. Consumer provided attributes. */
-  attributes?: Attributes | undefined;
-  /** Optional. User-defined name for the Service. Can have a maximum length of 63 characters. */
-  displayName?: string | undefined;
-  /** Required. Immutable. The resource name of the original discovered service. */
-  discoveredService?: string | undefined;
-  /** Output only. Properties of an underlying compute resource that can comprise a Service. These are immutable. */
-  serviceProperties?: ServiceProperties | undefined;
-  /** Output only. Reference to an underlying networking resource that can comprise a Service. These are immutable. */
-  serviceReference?: ServiceReference | undefined;
-  /** Output only. Create time. */
-  createTime?: string | undefined;
-  /** Output only. Update time. */
-  updateTime?: string | undefined;
-  /** Optional. User-defined description of a Service. Can have a maximum length of 2048 characters. */
-  description?: string | undefined;
-  /** Output only. Service state. */
-  state?: ServiceStateEnum | (string & {}) | undefined;
 }
-export interface PatchProjectsLocationsApplicationsWorkloadsRequest {
+export interface PatchProjectsLocationsApplicationsWorkloadsRequest extends Omit<Workload, "name"> {
   /** Identifier. The resource name of the Workload. Format: `"projects/{host-project-id}/locations/{location}/applications/{application-id}/workloads/{workload-id}"` */
   name: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Optional. Field mask is used to specify the fields to be overwritten in the Workload resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. The API changes the values of the fields as specified in the update_mask. The API ignores the values of all fields not covered by the update_mask. You can also unset a field by not specifying it in the updated message, but adding the field to the mask. This clears whatever value the field previously had. */
   updateMask?: string | undefined;
-  /** Output only. Reference of an underlying compute resource represented by the Workload. These are immutable. */
-  workloadReference?: WorkloadReference | undefined;
-  /** Optional. Consumer provided attributes. */
-  attributes?: Attributes | undefined;
-  /** Output only. Properties of an underlying compute resource represented by the Workload. These are immutable. */
-  workloadProperties?: WorkloadProperties | undefined;
-  /** Optional. User-defined name for the Workload. Can have a maximum length of 63 characters. */
-  displayName?: string | undefined;
-  /** Optional. User-defined description of a Workload. Can have a maximum length of 2048 characters. */
-  description?: string | undefined;
-  /** Output only. Create time. */
-  createTime?: string | undefined;
-  /** Output only. Update time. */
-  updateTime?: string | undefined;
-  /** Output only. Workload state. */
-  state?: WorkloadStateEnum | (string & {}) | undefined;
-  /** Output only. A universally unique identifier (UUID) for the `Workload` in the UUID4 format. */
-  uid?: string | undefined;
-  /** Required. Immutable. The resource name of the original discovered workload. */
-  discoveredWorkload?: string | undefined;
 }
-export interface SetIamPolicyProjectsLocationsApplicationsRequest {
-  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
+/** Request message for `SetIamPolicy` method. */
+export interface SetIamPolicyRequest {
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
   policy?: Policy | undefined;
   /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
   updateMask?: string | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsApplicationsRequest {
-  /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+export interface SetIamPolicyProjectsLocationsApplicationsRequest extends SetIamPolicyRequest {
+  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
+}
+/** Request message for `TestIamPermissions` method. */
+export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: StringList | undefined;
+}
+export interface TestIamPermissionsProjectsLocationsApplicationsRequest extends TestIamPermissionsRequest {
+  /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
   permissions?: StringList | undefined;
 }
-export interface UpdateBoundaryProjectsLocationsRequest {
+export interface UpdateBoundaryProjectsLocationsRequest extends Omit<Boundary, "name"> {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Optional. Field mask is used to specify the fields to be overwritten in the Boundary resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
   /** Identifier. The resource name of the boundary. Format: "projects/{project}/locations/{location}/boundary" */
   name: string;
-  /** Output only. Boundary type. */
-  type?: BoundaryTypeEnum | (string & {}) | undefined;
-  /** Optional. The resource name of the CRM node being attached to the boundary. Format: `projects/{project-number}` or `projects/{project-id}` */
-  crmNode?: string | undefined;
-  /** Output only. Create time. */
-  createTime?: string | undefined;
-  /** Output only. Update time. */
-  updateTime?: string | undefined;
 }
 export type CancelProjectsLocationsOperationsError =
   | NotFound
@@ -1017,8 +879,8 @@ export const cancelProjectsLocationsOperations: API.OperationMethod<
   CancelProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(360, __c45, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
-  output: __S(368, __c46, 0) as any as S.Schema<Empty>,
+  input: __S(336, __c42, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
+  output: __S(344, __c43, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1040,8 +902,8 @@ export const createProjectsLocationsApplications: API.OperationMethod<
   CreateProjectsLocationsApplicationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(376, __c47, 0) as any as S.Schema<CreateProjectsLocationsApplicationsRequest>,
-  output: __S(418, __c52, 2) as any as S.Schema<Operation>,
+  input: __S(352, __c44, 0) as any as S.Schema<CreateProjectsLocationsApplicationsRequest>,
+  output: __S(394, __c49, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1063,8 +925,8 @@ export const createProjectsLocationsApplicationsServices: API.OperationMethod<
   CreateProjectsLocationsApplicationsServicesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(424, __c53, 0) as any as S.Schema<CreateProjectsLocationsApplicationsServicesRequest>,
-  output: __S(418, __c52, 2) as any as S.Schema<Operation>,
+  input: __S(400, __c50, 0) as any as S.Schema<CreateProjectsLocationsApplicationsServicesRequest>,
+  output: __S(394, __c49, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1086,8 +948,8 @@ export const createProjectsLocationsApplicationsWorkloads: API.OperationMethod<
   CreateProjectsLocationsApplicationsWorkloadsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c56, 0) as any as S.Schema<CreateProjectsLocationsApplicationsWorkloadsRequest>,
-  output: __S(418, __c52, 2) as any as S.Schema<Operation>,
+  input: __S(432, __c54, 0) as any as S.Schema<CreateProjectsLocationsApplicationsWorkloadsRequest>,
+  output: __S(394, __c49, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1110,11 +972,11 @@ export const createProjectsLocationsServiceProjectAttachments: API.OperationMeth
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    464,
-    __c58,
+    456,
+    __c57,
     0,
   ) as any as S.Schema<CreateProjectsLocationsServiceProjectAttachmentsRequest>,
-  output: __S(418, __c52, 2) as any as S.Schema<Operation>,
+  output: __S(394, __c49, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1137,7 +999,7 @@ export const deleteProjectsLocationsApplications: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<DeleteProjectsLocationsApplicationsRequest>,
-  output: __S(418, __c52, 2) as any as S.Schema<Operation>,
+  output: __S(394, __c49, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1160,7 +1022,7 @@ export const deleteProjectsLocationsApplicationsServices: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8, __c1, 0) as any as S.Schema<DeleteProjectsLocationsApplicationsServicesRequest>,
-  output: __S(418, __c52, 2) as any as S.Schema<Operation>,
+  output: __S(394, __c49, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1183,7 +1045,7 @@ export const deleteProjectsLocationsApplicationsWorkloads: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c2, 0) as any as S.Schema<DeleteProjectsLocationsApplicationsWorkloadsRequest>,
-  output: __S(418, __c52, 2) as any as S.Schema<Operation>,
+  output: __S(394, __c49, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1206,7 +1068,7 @@ export const deleteProjectsLocationsOperations: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24, __c3, 0) as any as S.Schema<DeleteProjectsLocationsOperationsRequest>,
-  output: __S(368, __c46, 0) as any as S.Schema<Empty>,
+  output: __S(344, __c43, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1233,7 +1095,7 @@ export const deleteProjectsLocationsServiceProjectAttachments: API.OperationMeth
     __c4,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsServiceProjectAttachmentsRequest>,
-  output: __S(418, __c52, 2) as any as S.Schema<Operation>,
+  output: __S(394, __c49, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1260,7 +1122,7 @@ export const detachServiceProjectAttachmentProjectsLocations: API.OperationMetho
     __c5,
     0,
   ) as any as S.Schema<DetachServiceProjectAttachmentProjectsLocationsRequest>,
-  output: __S(368, __c46, 0) as any as S.Schema<DetachServiceProjectAttachmentResponse>,
+  output: __S(344, __c43, 0) as any as S.Schema<DetachServiceProjectAttachmentResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1277,7 +1139,7 @@ export const getBoundaryProjectsLocations: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c6, 0) as any as S.Schema<GetBoundaryProjectsLocationsRequest>,
-  output: __S(49, __c6, 1) as any as S.Schema<Boundary>,
+  output: __S(56, __c7, 0) as any as S.Schema<Boundary>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1297,8 +1159,8 @@ export const getIamPolicyProjectsLocationsApplications: API.OperationMethod<
   GetIamPolicyProjectsLocationsApplicationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<GetIamPolicyProjectsLocationsApplicationsRequest>,
-  output: __S(79, __c9, 7) as any as S.Schema<Policy>,
+  input: __S(64, __c8, 0) as any as S.Schema<GetIamPolicyProjectsLocationsApplicationsRequest>,
+  output: __S(87, __c10, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1314,8 +1176,8 @@ export const getProjectsLocations: API.OperationMethod<
   GetProjectsLocationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c10, 0) as any as S.Schema<GetProjectsLocationsRequest>,
-  output: __S(89, __c11, 1) as any as S.Schema<Location>,
+  input: __S(88, __c11, 0) as any as S.Schema<GetProjectsLocationsRequest>,
+  output: __S(97, __c12, 1) as any as S.Schema<Location>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1335,8 +1197,8 @@ export const getProjectsLocationsApplications: API.OperationMethod<
   GetProjectsLocationsApplicationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c12, 0) as any as S.Schema<GetProjectsLocationsApplicationsRequest>,
-  output: __S(104, __c13, 0) as any as S.Schema<Application>,
+  input: __S(104, __c13, 0) as any as S.Schema<GetProjectsLocationsApplicationsRequest>,
+  output: __S(361, __c45, 1) as any as S.Schema<Application>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1357,7 +1219,7 @@ export const getProjectsLocationsApplicationsServices: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c14, 0) as any as S.Schema<GetProjectsLocationsApplicationsServicesRequest>,
-  output: __S(120, __c15, 0) as any as S.Schema<Service>,
+  output: __S(416, __c52, 0) as any as S.Schema<Service>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1377,8 +1239,8 @@ export const getProjectsLocationsApplicationsWorkloads: API.OperationMethod<
   GetProjectsLocationsApplicationsWorkloadsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c16, 0) as any as S.Schema<GetProjectsLocationsApplicationsWorkloadsRequest>,
-  output: __S(136, __c17, 0) as any as S.Schema<Workload>,
+  input: __S(120, __c15, 0) as any as S.Schema<GetProjectsLocationsApplicationsWorkloadsRequest>,
+  output: __S(448, __c56, 0) as any as S.Schema<Workload>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1398,8 +1260,8 @@ export const getProjectsLocationsDiscoveredServices: API.OperationMethod<
   GetProjectsLocationsDiscoveredServicesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c18, 0) as any as S.Schema<GetProjectsLocationsDiscoveredServicesRequest>,
-  output: __S(152, __c19, 0) as any as S.Schema<DiscoveredService>,
+  input: __S(128, __c16, 0) as any as S.Schema<GetProjectsLocationsDiscoveredServicesRequest>,
+  output: __S(136, __c17, 0) as any as S.Schema<DiscoveredService>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1419,8 +1281,8 @@ export const getProjectsLocationsDiscoveredWorkloads: API.OperationMethod<
   GetProjectsLocationsDiscoveredWorkloadsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c20, 0) as any as S.Schema<GetProjectsLocationsDiscoveredWorkloadsRequest>,
-  output: __S(168, __c21, 0) as any as S.Schema<DiscoveredWorkload>,
+  input: __S(144, __c18, 0) as any as S.Schema<GetProjectsLocationsDiscoveredWorkloadsRequest>,
+  output: __S(152, __c19, 0) as any as S.Schema<DiscoveredWorkload>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1440,8 +1302,8 @@ export const getProjectsLocationsExtendedMetadataSchemas: API.OperationMethod<
   GetProjectsLocationsExtendedMetadataSchemasError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c22, 0) as any as S.Schema<GetProjectsLocationsExtendedMetadataSchemasRequest>,
-  output: __S(184, __c23, 0) as any as S.Schema<ExtendedMetadataSchema>,
+  input: __S(160, __c20, 0) as any as S.Schema<GetProjectsLocationsExtendedMetadataSchemasRequest>,
+  output: __S(168, __c21, 0) as any as S.Schema<ExtendedMetadataSchema>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1461,8 +1323,8 @@ export const getProjectsLocationsOperations: API.OperationMethod<
   GetProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c24, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
-  output: __S(418, __c52, 2) as any as S.Schema<Operation>,
+  input: __S(176, __c22, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
+  output: __S(394, __c49, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1483,11 +1345,11 @@ export const getProjectsLocationsServiceProjectAttachments: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    200,
-    __c25,
+    184,
+    __c23,
     0,
   ) as any as S.Schema<GetProjectsLocationsServiceProjectAttachmentsRequest>,
-  output: __S(208, __c26, 0) as any as S.Schema<ServiceProjectAttachment>,
+  output: __S(464, __c58, 0) as any as S.Schema<ServiceProjectAttachment>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1504,8 +1366,8 @@ export const listProjectsLocations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListLocationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(216, __c27, 0) as any as S.Schema<ListProjectsLocationsRequest>,
-  output: __S(218, __c27, 2) as any as S.Schema<ListLocationsResponse>,
+  input: __S(192, __c24, 0) as any as S.Schema<ListProjectsLocationsRequest>,
+  output: __S(194, __c24, 2) as any as S.Schema<ListLocationsResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1527,8 +1389,8 @@ export const listProjectsLocationsApplications: API.PaginatedOperationMethod<
   GcpOpContext,
   ListApplicationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(224, __c28, 0) as any as S.Schema<ListProjectsLocationsApplicationsRequest>,
-  output: __S(226, __c28, 2) as any as S.Schema<ListApplicationsResponse>,
+  input: __S(200, __c25, 0) as any as S.Schema<ListProjectsLocationsApplicationsRequest>,
+  output: __S(202, __c25, 2) as any as S.Schema<ListApplicationsResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1550,8 +1412,8 @@ export const listProjectsLocationsApplicationsServices: API.PaginatedOperationMe
   GcpOpContext,
   ListServicesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(232, __c29, 0) as any as S.Schema<ListProjectsLocationsApplicationsServicesRequest>,
-  output: __S(234, __c29, 2) as any as S.Schema<ListServicesResponse>,
+  input: __S(208, __c26, 0) as any as S.Schema<ListProjectsLocationsApplicationsServicesRequest>,
+  output: __S(210, __c26, 2) as any as S.Schema<ListServicesResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1573,8 +1435,8 @@ export const listProjectsLocationsApplicationsWorkloads: API.PaginatedOperationM
   GcpOpContext,
   ListWorkloadsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(240, __c30, 0) as any as S.Schema<ListProjectsLocationsApplicationsWorkloadsRequest>,
-  output: __S(242, __c30, 2) as any as S.Schema<ListWorkloadsResponse>,
+  input: __S(216, __c27, 0) as any as S.Schema<ListProjectsLocationsApplicationsWorkloadsRequest>,
+  output: __S(218, __c27, 2) as any as S.Schema<ListWorkloadsResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1596,8 +1458,8 @@ export const listProjectsLocationsDiscoveredServices: API.PaginatedOperationMeth
   GcpOpContext,
   ListDiscoveredServicesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(248, __c31, 0) as any as S.Schema<ListProjectsLocationsDiscoveredServicesRequest>,
-  output: __S(250, __c31, 2) as any as S.Schema<ListDiscoveredServicesResponse>,
+  input: __S(224, __c28, 0) as any as S.Schema<ListProjectsLocationsDiscoveredServicesRequest>,
+  output: __S(226, __c28, 2) as any as S.Schema<ListDiscoveredServicesResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1619,8 +1481,8 @@ export const listProjectsLocationsDiscoveredWorkloads: API.PaginatedOperationMet
   GcpOpContext,
   ListDiscoveredWorkloadsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(256, __c32, 0) as any as S.Schema<ListProjectsLocationsDiscoveredWorkloadsRequest>,
-  output: __S(258, __c32, 2) as any as S.Schema<ListDiscoveredWorkloadsResponse>,
+  input: __S(232, __c29, 0) as any as S.Schema<ListProjectsLocationsDiscoveredWorkloadsRequest>,
+  output: __S(234, __c29, 2) as any as S.Schema<ListDiscoveredWorkloadsResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1642,8 +1504,8 @@ export const listProjectsLocationsExtendedMetadataSchemas: API.PaginatedOperatio
   GcpOpContext,
   ListExtendedMetadataSchemasResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(264, __c33, 0) as any as S.Schema<ListProjectsLocationsExtendedMetadataSchemasRequest>,
-  output: __S(266, __c33, 2) as any as S.Schema<ListExtendedMetadataSchemasResponse>,
+  input: __S(240, __c30, 0) as any as S.Schema<ListProjectsLocationsExtendedMetadataSchemasRequest>,
+  output: __S(242, __c30, 2) as any as S.Schema<ListExtendedMetadataSchemasResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1665,8 +1527,8 @@ export const listProjectsLocationsOperations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListOperationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(272, __c34, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
-  output: __S(274, __c34, 2) as any as S.Schema<ListOperationsResponse>,
+  input: __S(248, __c31, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
+  output: __S(250, __c31, 2) as any as S.Schema<ListOperationsResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1689,11 +1551,11 @@ export const listProjectsLocationsServiceProjectAttachments: API.PaginatedOperat
   ListServiceProjectAttachmentsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    280,
-    __c35,
+    256,
+    __c32,
     0,
   ) as any as S.Schema<ListProjectsLocationsServiceProjectAttachmentsRequest>,
-  output: __S(282, __c35, 2) as any as S.Schema<ListServiceProjectAttachmentsResponse>,
+  output: __S(258, __c32, 2) as any as S.Schema<ListServiceProjectAttachmentsResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1714,8 +1576,8 @@ export const lookupProjectsLocationsDiscoveredServices: API.OperationMethod<
   LookupProjectsLocationsDiscoveredServicesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c36, 0) as any as S.Schema<LookupProjectsLocationsDiscoveredServicesRequest>,
-  output: __S(289, __c36, 1) as any as S.Schema<LookupDiscoveredServiceResponse>,
+  input: __S(264, __c33, 0) as any as S.Schema<LookupProjectsLocationsDiscoveredServicesRequest>,
+  output: __S(265, __c33, 1) as any as S.Schema<LookupDiscoveredServiceResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1735,8 +1597,8 @@ export const lookupProjectsLocationsDiscoveredWorkloads: API.OperationMethod<
   LookupProjectsLocationsDiscoveredWorkloadsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(296, __c37, 0) as any as S.Schema<LookupProjectsLocationsDiscoveredWorkloadsRequest>,
-  output: __S(297, __c37, 1) as any as S.Schema<LookupDiscoveredWorkloadResponse>,
+  input: __S(272, __c34, 0) as any as S.Schema<LookupProjectsLocationsDiscoveredWorkloadsRequest>,
+  output: __S(273, __c34, 1) as any as S.Schema<LookupDiscoveredWorkloadResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1757,11 +1619,11 @@ export const lookupServiceProjectAttachmentProjectsLocations: API.OperationMetho
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    304,
-    __c38,
+    280,
+    __c35,
     0,
   ) as any as S.Schema<LookupServiceProjectAttachmentProjectsLocationsRequest>,
-  output: __S(305, __c38, 1) as any as S.Schema<LookupServiceProjectAttachmentResponse>,
+  output: __S(281, __c35, 1) as any as S.Schema<LookupServiceProjectAttachmentResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1783,8 +1645,8 @@ export const patchProjectsLocationsApplications: API.OperationMethod<
   PatchProjectsLocationsApplicationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(312, __c39, 0) as any as S.Schema<PatchProjectsLocationsApplicationsRequest>,
-  output: __S(418, __c52, 2) as any as S.Schema<Operation>,
+  input: __S(288, __c36, 0) as any as S.Schema<PatchProjectsLocationsApplicationsRequest>,
+  output: __S(394, __c49, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1806,8 +1668,8 @@ export const patchProjectsLocationsApplicationsServices: API.OperationMethod<
   PatchProjectsLocationsApplicationsServicesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c40, 0) as any as S.Schema<PatchProjectsLocationsApplicationsServicesRequest>,
-  output: __S(418, __c52, 2) as any as S.Schema<Operation>,
+  input: __S(296, __c37, 0) as any as S.Schema<PatchProjectsLocationsApplicationsServicesRequest>,
+  output: __S(394, __c49, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1829,8 +1691,8 @@ export const patchProjectsLocationsApplicationsWorkloads: API.OperationMethod<
   PatchProjectsLocationsApplicationsWorkloadsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(328, __c41, 0) as any as S.Schema<PatchProjectsLocationsApplicationsWorkloadsRequest>,
-  output: __S(418, __c52, 2) as any as S.Schema<Operation>,
+  input: __S(304, __c38, 0) as any as S.Schema<PatchProjectsLocationsApplicationsWorkloadsRequest>,
+  output: __S(394, __c49, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1852,8 +1714,8 @@ export const setIamPolicyProjectsLocationsApplications: API.OperationMethod<
   SetIamPolicyProjectsLocationsApplicationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c42, 0) as any as S.Schema<SetIamPolicyProjectsLocationsApplicationsRequest>,
-  output: __S(79, __c9, 7) as any as S.Schema<Policy>,
+  input: __S(313, __c39, 1) as any as S.Schema<SetIamPolicyProjectsLocationsApplicationsRequest>,
+  output: __S(87, __c10, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1876,11 +1738,11 @@ export const testIamPermissionsProjectsLocationsApplications: API.OperationMetho
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    344,
-    __c43,
-    0,
+    321,
+    __c40,
+    1,
   ) as any as S.Schema<TestIamPermissionsProjectsLocationsApplicationsRequest>,
-  output: __S(345, __c43, 1) as any as S.Schema<TestIamPermissionsResponse>,
+  output: __S(320, __c40, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1902,8 +1764,8 @@ export const updateBoundaryProjectsLocations: API.OperationMethod<
   UpdateBoundaryProjectsLocationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c44, 0) as any as S.Schema<UpdateBoundaryProjectsLocationsRequest>,
-  output: __S(418, __c52, 2) as any as S.Schema<Operation>,
+  input: __S(328, __c41, 0) as any as S.Schema<UpdateBoundaryProjectsLocationsRequest>,
+  output: __S(394, __c49, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2002,7 +1864,7 @@ function __c5(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(368, __c46, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(344, __c43, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2023,7 +1885,11 @@ function __c6(j: number): any {
           T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://apphub.googleapis.com/" }),
         ),
       ).annotate({ identifier: "GetBoundaryProjectsLocationsRequest" });
-    case 1:
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
@@ -2035,7 +1901,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "Boundary" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2052,32 +1918,32 @@ function __c7(j: number): any {
       ).annotate({ identifier: "GetIamPolicyProjectsLocationsApplicationsRequest" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           logType: S.optional(S.String),
-          exemptedMembers: S.optional(__S(64, __c8, 0)),
+          exemptedMembers: S.optional(__S(72, __c9, 0)),
         }),
       ).annotate({ identifier: "AuditLogConfig" });
     case 1:
-      return S.Array(__S(72, __c9, 0));
+      return S.Array(__S(80, __c10, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          auditLogConfigs: S.optional(__S(73, __c9, 1)),
+          auditLogConfigs: S.optional(__S(81, __c10, 1)),
           service: S.optional(S.String),
         }),
       ).annotate({ identifier: "AuditConfig" });
     case 3:
-      return S.Array(__S(74, __c9, 2));
+      return S.Array(__S(82, __c10, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -2090,25 +1956,25 @@ function __c9(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          condition: S.optional(__S(76, __c9, 4)),
-          members: S.optional(__S(64, __c8, 0)),
+          condition: S.optional(__S(84, __c10, 4)),
+          members: S.optional(__S(72, __c9, 0)),
           role: S.optional(S.String),
         }),
       ).annotate({ identifier: "Binding" });
     case 6:
-      return S.Array(__S(77, __c9, 5));
+      return S.Array(__S(85, __c10, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          auditConfigs: S.optional(__S(75, __c9, 3)),
-          bindings: S.optional(__S(78, __c9, 6)),
+          auditConfigs: S.optional(__S(83, __c10, 3)),
+          bindings: S.optional(__S(86, __c10, 6)),
           version: S.optional(S.Number),
           etag: S.optional(S.String),
         }),
       ).annotate({ identifier: "Policy" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2120,7 +1986,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsRequest" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
@@ -2129,14 +1995,14 @@ function __c11(j: number): any {
         S.Struct({
           name: S.optional(S.String),
           locationId: S.optional(S.String),
-          labels: S.optional(__S(88, __c11, 0)),
+          labels: S.optional(__S(96, __c12, 0)),
           displayName: S.optional(S.String),
-          metadata: S.optional(__S(408, __c51, 0)),
+          metadata: S.optional(__S(384, __c48, 0)),
         }),
       ).annotate({ identifier: "Location" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2146,26 +2012,6 @@ function __c12(j: number): any {
           T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://apphub.googleapis.com/" }),
         ),
       ).annotate({ identifier: "GetProjectsLocationsApplicationsRequest" });
-  }
-}
-function __c13(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          state: S.optional(S.String),
-          displayName: S.optional(S.String),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          applicationType: S.optional(__S(392, __c49, 0)),
-          uid: S.optional(S.String),
-          applicationProperties: S.optional(__S(384, __c48, 0)),
-          attributes: S.optional(__S(402, __c50, 2)),
-          description: S.optional(S.String),
-          scope: S.optional(__S(392, __c49, 0)),
-        }),
-      ).annotate({ identifier: "Application" });
   }
 }
 function __c14(j: number): any {
@@ -2185,19 +2031,11 @@ function __c15(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          uid: S.optional(S.String),
-          attributes: S.optional(__S(402, __c50, 2)),
-          displayName: S.optional(S.String),
-          discoveredService: S.optional(S.String),
-          name: S.optional(S.String),
-          serviceProperties: S.optional(__S(432, __c54, 0)),
-          serviceReference: S.optional(__S(441, __c55, 1)),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          description: S.optional(S.String),
-          state: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Service" });
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://apphub.googleapis.com/" }),
+        ),
+      ).annotate({ identifier: "GetProjectsLocationsApplicationsWorkloadsRequest" });
   }
 }
 function __c16(j: number): any {
@@ -2209,7 +2047,7 @@ function __c16(j: number): any {
         }).pipe(
           T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://apphub.googleapis.com/" }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsApplicationsWorkloadsRequest" });
+      ).annotate({ identifier: "GetProjectsLocationsDiscoveredServicesRequest" });
   }
 }
 function __c17(j: number): any {
@@ -2217,19 +2055,11 @@ function __c17(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          workloadReference: S.optional(__S(441, __c55, 1)),
-          attributes: S.optional(__S(402, __c50, 2)),
-          workloadProperties: S.optional(__S(456, __c57, 0)),
-          displayName: S.optional(S.String),
           name: S.optional(S.String),
-          description: S.optional(S.String),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          state: S.optional(S.String),
-          uid: S.optional(S.String),
-          discoveredWorkload: S.optional(S.String),
+          serviceProperties: S.optional(__S(408, __c51, 0)),
+          serviceReference: S.optional(__S(425, __c53, 1)),
         }),
-      ).annotate({ identifier: "Workload" });
+      ).annotate({ identifier: "DiscoveredService" });
   }
 }
 function __c18(j: number): any {
@@ -2241,7 +2071,7 @@ function __c18(j: number): any {
         }).pipe(
           T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://apphub.googleapis.com/" }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsDiscoveredServicesRequest" });
+      ).annotate({ identifier: "GetProjectsLocationsDiscoveredWorkloadsRequest" });
   }
 }
 function __c19(j: number): any {
@@ -2249,11 +2079,11 @@ function __c19(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          workloadReference: S.optional(__S(425, __c53, 1)),
           name: S.optional(S.String),
-          serviceProperties: S.optional(__S(432, __c54, 0)),
-          serviceReference: S.optional(__S(441, __c55, 1)),
+          workloadProperties: S.optional(__S(440, __c55, 0)),
         }),
-      ).annotate({ identifier: "DiscoveredService" });
+      ).annotate({ identifier: "DiscoveredWorkload" });
   }
 }
 function __c20(j: number): any {
@@ -2265,34 +2095,10 @@ function __c20(j: number): any {
         }).pipe(
           T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://apphub.googleapis.com/" }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsDiscoveredWorkloadsRequest" });
-  }
-}
-function __c21(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          workloadReference: S.optional(__S(441, __c55, 1)),
-          name: S.optional(S.String),
-          workloadProperties: S.optional(__S(456, __c57, 0)),
-        }),
-      ).annotate({ identifier: "DiscoveredWorkload" });
-  }
-}
-function __c22(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://apphub.googleapis.com/" }),
-        ),
       ).annotate({ identifier: "GetProjectsLocationsExtendedMetadataSchemasRequest" });
   }
 }
-function __c23(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2304,7 +2110,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "ExtendedMetadataSchema" });
   }
 }
-function __c24(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2316,7 +2122,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsOperationsRequest" });
   }
 }
-function __c25(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2328,26 +2134,12 @@ function __c25(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsServiceProjectAttachmentsRequest" });
   }
 }
-function __c26(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          state: S.optional(S.String),
-          uid: S.optional(S.String),
-          serviceProject: S.optional(S.String),
-          createTime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ServiceProjectAttachment" });
-  }
-}
-function __c27(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          extraLocationTypes: S.optional(__S(64, __c8, 0).pipe(T.Query())),
+          extraLocationTypes: S.optional(__S(72, __c9, 0).pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
@@ -2361,17 +2153,17 @@ function __c27(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsRequest" });
     case 1:
-      return S.Array(__S(89, __c11, 1));
+      return S.Array(__S(97, __c12, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          locations: S.optional(__S(217, __c27, 1)),
+          locations: S.optional(__S(193, __c24, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListLocationsResponse" });
   }
 }
-function __c28(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2390,18 +2182,18 @@ function __c28(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsApplicationsRequest" });
     case 1:
-      return S.Array(__S(104, __c13, 0));
+      return S.Array(__S(361, __c45, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(64, __c8, 0)),
+          unreachable: S.optional(__S(72, __c9, 0)),
           nextPageToken: S.optional(S.String),
-          applications: S.optional(__S(225, __c28, 1)),
+          applications: S.optional(__S(201, __c25, 1)),
         }),
       ).annotate({ identifier: "ListApplicationsResponse" });
   }
 }
-function __c29(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2420,18 +2212,18 @@ function __c29(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsApplicationsServicesRequest" });
     case 1:
-      return S.Array(__S(120, __c15, 0));
+      return S.Array(__S(416, __c52, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          services: S.optional(__S(233, __c29, 1)),
-          unreachable: S.optional(__S(64, __c8, 0)),
+          services: S.optional(__S(209, __c26, 1)),
+          unreachable: S.optional(__S(72, __c9, 0)),
         }),
       ).annotate({ identifier: "ListServicesResponse" });
   }
 }
-function __c30(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2450,18 +2242,18 @@ function __c30(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsApplicationsWorkloadsRequest" });
     case 1:
-      return S.Array(__S(136, __c17, 0));
+      return S.Array(__S(448, __c56, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(64, __c8, 0)),
+          unreachable: S.optional(__S(72, __c9, 0)),
           nextPageToken: S.optional(S.String),
-          workloads: S.optional(__S(241, __c30, 1)),
+          workloads: S.optional(__S(217, __c27, 1)),
         }),
       ).annotate({ identifier: "ListWorkloadsResponse" });
   }
 }
-function __c31(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2480,18 +2272,18 @@ function __c31(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsDiscoveredServicesRequest" });
     case 1:
-      return S.Array(__S(152, __c19, 0));
+      return S.Array(__S(136, __c17, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(64, __c8, 0)),
-          discoveredServices: S.optional(__S(249, __c31, 1)),
+          unreachable: S.optional(__S(72, __c9, 0)),
+          discoveredServices: S.optional(__S(225, __c28, 1)),
         }),
       ).annotate({ identifier: "ListDiscoveredServicesResponse" });
   }
 }
-function __c32(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2510,18 +2302,18 @@ function __c32(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsDiscoveredWorkloadsRequest" });
     case 1:
-      return S.Array(__S(168, __c21, 0));
+      return S.Array(__S(152, __c19, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          discoveredWorkloads: S.optional(__S(257, __c32, 1)),
-          unreachable: S.optional(__S(64, __c8, 0)),
+          discoveredWorkloads: S.optional(__S(233, __c29, 1)),
+          unreachable: S.optional(__S(72, __c9, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListDiscoveredWorkloadsResponse" });
   }
 }
-function __c33(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2538,17 +2330,17 @@ function __c33(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsExtendedMetadataSchemasRequest" });
     case 1:
-      return S.Array(__S(184, __c23, 0));
+      return S.Array(__S(168, __c21, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          extendedMetadataSchemas: S.optional(__S(265, __c33, 1)),
+          extendedMetadataSchemas: S.optional(__S(241, __c30, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListExtendedMetadataSchemasResponse" });
   }
 }
-function __c34(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2567,18 +2359,18 @@ function __c34(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsOperationsRequest" });
     case 1:
-      return S.Array(__S(418, __c52, 2));
+      return S.Array(__S(394, __c49, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          operations: S.optional(__S(273, __c34, 1)),
-          unreachable: S.optional(__S(64, __c8, 0)),
+          operations: S.optional(__S(249, __c31, 1)),
+          unreachable: S.optional(__S(72, __c9, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
   }
 }
-function __c35(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2597,18 +2389,18 @@ function __c35(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsServiceProjectAttachmentsRequest" });
     case 1:
-      return S.Array(__S(208, __c26, 0));
+      return S.Array(__S(464, __c58, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(64, __c8, 0)),
+          unreachable: S.optional(__S(72, __c9, 0)),
           nextPageToken: S.optional(S.String),
-          serviceProjectAttachments: S.optional(__S(281, __c35, 1)),
+          serviceProjectAttachments: S.optional(__S(257, __c32, 1)),
         }),
       ).annotate({ identifier: "ListServiceProjectAttachmentsResponse" });
   }
 }
-function __c36(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2626,12 +2418,12 @@ function __c36(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          discoveredService: S.optional(__S(152, __c19, 0)),
+          discoveredService: S.optional(__S(136, __c17, 0)),
         }),
       ).annotate({ identifier: "LookupDiscoveredServiceResponse" });
   }
 }
-function __c37(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2649,12 +2441,12 @@ function __c37(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          discoveredWorkload: S.optional(__S(168, __c21, 0)),
+          discoveredWorkload: S.optional(__S(152, __c19, 0)),
         }),
       ).annotate({ identifier: "LookupDiscoveredWorkloadResponse" });
   }
 }
-function __c38(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2671,9 +2463,60 @@ function __c38(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          serviceProjectAttachment: S.optional(__S(208, __c26, 0)),
+          serviceProjectAttachment: S.optional(__S(464, __c58, 0)),
         }),
       ).annotate({ identifier: "LookupServiceProjectAttachmentResponse" });
+  }
+}
+function __c36(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(361, __c45, 1),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
+          T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://apphub.googleapis.com/" }),
+        ),
+      ).annotate({ identifier: "PatchProjectsLocationsApplicationsRequest" });
+  }
+}
+function __c37(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(416, __c52, 0),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
+          T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://apphub.googleapis.com/" }),
+        ),
+      ).annotate({ identifier: "PatchProjectsLocationsApplicationsServicesRequest" });
+  }
+}
+function __c38(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(448, __c56, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
+          T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://apphub.googleapis.com/" }),
+        ),
+      ).annotate({ identifier: "PatchProjectsLocationsApplicationsWorkloadsRequest" });
   }
 }
 function __c39(j: number): any {
@@ -2681,82 +2524,18 @@ function __c39(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          state: S.optional(S.String),
-          displayName: S.optional(S.String),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          applicationType: S.optional(__S(392, __c49, 0)),
-          uid: S.optional(S.String),
-          applicationProperties: S.optional(__S(384, __c48, 0)),
-          attributes: S.optional(__S(402, __c50, 2)),
-          description: S.optional(S.String),
-          scope: S.optional(__S(392, __c49, 0)),
-        }).pipe(
-          T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://apphub.googleapis.com/" }),
-        ),
-      ).annotate({ identifier: "PatchProjectsLocationsApplicationsRequest" });
-  }
-}
-function __c40(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          uid: S.optional(S.String),
-          attributes: S.optional(__S(402, __c50, 2)),
-          displayName: S.optional(S.String),
-          discoveredService: S.optional(S.String),
-          serviceProperties: S.optional(__S(432, __c54, 0)),
-          serviceReference: S.optional(__S(441, __c55, 1)),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          description: S.optional(S.String),
-          state: S.optional(S.String),
-        }).pipe(
-          T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://apphub.googleapis.com/" }),
-        ),
-      ).annotate({ identifier: "PatchProjectsLocationsApplicationsServicesRequest" });
-  }
-}
-function __c41(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          workloadReference: S.optional(__S(441, __c55, 1)),
-          attributes: S.optional(__S(402, __c50, 2)),
-          workloadProperties: S.optional(__S(456, __c57, 0)),
-          displayName: S.optional(S.String),
-          description: S.optional(S.String),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          state: S.optional(S.String),
-          uid: S.optional(S.String),
-          discoveredWorkload: S.optional(S.String),
-        }).pipe(
-          T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://apphub.googleapis.com/" }),
-        ),
-      ).annotate({ identifier: "PatchProjectsLocationsApplicationsWorkloadsRequest" });
-  }
-}
-function __c42(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          policy: S.optional(__S(79, __c9, 7)),
+          policy: S.optional(__S(87, __c10, 7)),
           updateMask: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "SetIamPolicyRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(312, __c39, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -2766,14 +2545,22 @@ function __c42(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsLocationsApplicationsRequest" });
   }
 }
-function __c43(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          resource: S.String.pipe(T.Label()),
-          permissions: S.optional(__S(64, __c8, 0)),
-        }).pipe(
+          permissions: S.optional(__S(72, __c9, 0)),
+        }),
+      ).annotate({ identifier: "TestIamPermissionsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(320, __c40, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -2781,39 +2568,32 @@ function __c43(j: number): any {
           }),
         ),
       ).annotate({ identifier: "TestIamPermissionsProjectsLocationsApplicationsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          permissions: S.optional(__S(64, __c8, 0)),
-        }),
-      ).annotate({ identifier: "TestIamPermissionsResponse" });
   }
 }
-function __c44(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          type: S.optional(S.String),
-          crmNode: S.optional(S.String),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(56, __c7, 0),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://apphub.googleapis.com/" }),
         ),
       ).annotate({ identifier: "UpdateBoundaryProjectsLocationsRequest" });
   }
 }
-function __c45(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(368, __c46, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(344, __c43, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2824,32 +2604,24 @@ function __c45(j: number): any {
       ).annotate({ identifier: "CancelProjectsLocationsOperationsRequest" });
   }
 }
-function __c46(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "CancelOperationRequest" });
   }
 }
-function __c47(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          applicationId: S.optional(S.String.pipe(T.Query())),
-          name: S.optional(S.String),
-          state: S.optional(S.String),
-          displayName: S.optional(S.String),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          applicationType: S.optional(__S(392, __c49, 0)),
-          uid: S.optional(S.String),
-          applicationProperties: S.optional(__S(384, __c48, 0)),
-          attributes: S.optional(__S(402, __c50, 2)),
-          description: S.optional(S.String),
-          scope: S.optional(__S(392, __c49, 0)),
-        }).pipe(
+        S.Extend(
+          __S(361, __c45, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            applicationId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/applications",
@@ -2859,17 +2631,33 @@ function __c47(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsApplicationsRequest" });
   }
 }
-function __c48(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          extendedMetadata: S.optional(__S(394, __c49, 2)),
+          extendedMetadata: S.optional(__S(370, __c46, 2)),
         }),
       ).annotate({ identifier: "ApplicationProperties" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          state: S.optional(S.String),
+          displayName: S.optional(S.String),
+          createTime: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          applicationType: S.optional(__S(368, __c46, 0)),
+          uid: S.optional(S.String),
+          applicationProperties: S.optional(__S(360, __c45, 0)),
+          attributes: S.optional(__S(378, __c47, 2)),
+          description: S.optional(S.String),
+          scope: S.optional(__S(368, __c46, 0)),
+        }),
+      ).annotate({ identifier: "Application" });
   }
 }
-function __c49(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2880,14 +2668,14 @@ function __c49(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          metadataStruct: S.optional(__S(408, __c51, 0)),
+          metadataStruct: S.optional(__S(384, __c48, 0)),
         }),
       ).annotate({ identifier: "ExtendedMetadata" });
     case 2:
-      return S.Record(S.String, __S(393, __c49, 1));
+      return S.Record(S.String, __S(369, __c46, 1));
   }
 }
-function __c50(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2897,69 +2685,61 @@ function __c50(j: number): any {
         }),
       ).annotate({ identifier: "ContactInfo" });
     case 1:
-      return S.Array(__S(400, __c50, 0));
+      return S.Array(__S(376, __c47, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          environment: S.optional(__S(392, __c49, 0)),
-          businessOwners: S.optional(__S(401, __c50, 1)),
-          criticality: S.optional(__S(392, __c49, 0)),
-          developerOwners: S.optional(__S(401, __c50, 1)),
-          operatorOwners: S.optional(__S(401, __c50, 1)),
+          environment: S.optional(__S(368, __c46, 0)),
+          businessOwners: S.optional(__S(377, __c47, 1)),
+          criticality: S.optional(__S(368, __c46, 0)),
+          developerOwners: S.optional(__S(377, __c47, 1)),
+          operatorOwners: S.optional(__S(377, __c47, 1)),
         }),
       ).annotate({ identifier: "Attributes" });
   }
 }
-function __c51(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c52(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(408, __c51, 0));
+      return S.Array(__S(384, __c48, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
           code: S.optional(S.Number),
-          details: S.optional(__S(416, __c52, 0)),
+          details: S.optional(__S(392, __c49, 0)),
           message: S.optional(S.String),
         }),
       ).annotate({ identifier: "Status" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          response: S.optional(__S(408, __c51, 0)),
-          metadata: S.optional(__S(408, __c51, 0)),
-          error: S.optional(__S(417, __c52, 1)),
+          response: S.optional(__S(384, __c48, 0)),
+          metadata: S.optional(__S(384, __c48, 0)),
+          error: S.optional(__S(393, __c49, 1)),
           done: S.optional(S.Boolean),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "Operation" });
   }
 }
-function __c53(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          serviceId: S.optional(S.String.pipe(T.Query())),
-          uid: S.optional(S.String),
-          attributes: S.optional(__S(402, __c50, 2)),
-          displayName: S.optional(S.String),
-          discoveredService: S.optional(S.String),
-          name: S.optional(S.String),
-          serviceProperties: S.optional(__S(432, __c54, 0)),
-          serviceReference: S.optional(__S(441, __c55, 1)),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          description: S.optional(S.String),
-          state: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(416, __c52, 0),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            serviceId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/services",
@@ -2969,23 +2749,43 @@ function __c53(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsApplicationsServicesRequest" });
   }
 }
-function __c54(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          functionalType: S.optional(__S(392, __c49, 0)),
+          functionalType: S.optional(__S(368, __c46, 0)),
           gcpProject: S.optional(S.String),
-          identity: S.optional(__S(440, __c55, 0)),
+          identity: S.optional(__S(424, __c53, 0)),
           zone: S.optional(S.String),
-          registrationType: S.optional(__S(392, __c49, 0)),
-          extendedMetadata: S.optional(__S(394, __c49, 2)),
+          registrationType: S.optional(__S(368, __c46, 0)),
+          extendedMetadata: S.optional(__S(370, __c46, 2)),
           location: S.optional(S.String),
         }),
       ).annotate({ identifier: "ServiceProperties" });
   }
 }
-function __c55(j: number): any {
+function __c52(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uid: S.optional(S.String),
+          attributes: S.optional(__S(378, __c47, 2)),
+          displayName: S.optional(S.String),
+          discoveredService: S.optional(S.String),
+          name: S.optional(S.String),
+          serviceProperties: S.optional(__S(408, __c51, 0)),
+          serviceReference: S.optional(__S(425, __c53, 1)),
+          createTime: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          description: S.optional(S.String),
+          state: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Service" });
+  }
+}
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3001,26 +2801,18 @@ function __c55(j: number): any {
       ).annotate({ identifier: "ServiceReference" });
   }
 }
-function __c56(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          workloadId: S.optional(S.String.pipe(T.Query())),
-          workloadReference: S.optional(__S(441, __c55, 1)),
-          attributes: S.optional(__S(402, __c50, 2)),
-          workloadProperties: S.optional(__S(456, __c57, 0)),
-          displayName: S.optional(S.String),
-          name: S.optional(S.String),
-          description: S.optional(S.String),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          state: S.optional(S.String),
-          uid: S.optional(S.String),
-          discoveredWorkload: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(448, __c56, 0),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            workloadId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/workloads",
@@ -3030,35 +2822,53 @@ function __c56(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsApplicationsWorkloadsRequest" });
   }
 }
-function __c57(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           zone: S.optional(S.String),
-          identity: S.optional(__S(440, __c55, 0)),
-          functionalType: S.optional(__S(392, __c49, 0)),
+          identity: S.optional(__S(424, __c53, 0)),
+          functionalType: S.optional(__S(368, __c46, 0)),
           gcpProject: S.optional(S.String),
           location: S.optional(S.String),
-          extendedMetadata: S.optional(__S(394, __c49, 2)),
+          extendedMetadata: S.optional(__S(370, __c46, 2)),
         }),
       ).annotate({ identifier: "WorkloadProperties" });
   }
 }
-function __c58(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          serviceProjectAttachmentId: S.optional(S.String.pipe(T.Query())),
+          workloadReference: S.optional(__S(425, __c53, 1)),
+          attributes: S.optional(__S(378, __c47, 2)),
+          workloadProperties: S.optional(__S(440, __c55, 0)),
+          displayName: S.optional(S.String),
           name: S.optional(S.String),
+          description: S.optional(S.String),
+          createTime: S.optional(S.String),
+          updateTime: S.optional(S.String),
           state: S.optional(S.String),
           uid: S.optional(S.String),
-          serviceProject: S.optional(S.String),
-          createTime: S.optional(S.String),
-        }).pipe(
+          discoveredWorkload: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Workload" });
+  }
+}
+function __c57(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(464, __c58, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            serviceProjectAttachmentId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/serviceProjectAttachments",
@@ -3066,6 +2876,20 @@ function __c58(j: number): any {
           }),
         ),
       ).annotate({ identifier: "CreateProjectsLocationsServiceProjectAttachmentsRequest" });
+  }
+}
+function __c58(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          state: S.optional(S.String),
+          uid: S.optional(S.String),
+          serviceProject: S.optional(S.String),
+          createTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ServiceProjectAttachment" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

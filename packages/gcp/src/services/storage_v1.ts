@@ -144,21 +144,23 @@ export class ObjectPreconditionFailed
     [{ status: 412 }],
   ) {}
 
-export interface AdvanceRelocateBucketOperationsRequest {
-  /** Name of the bucket to advance the relocate for. */
-  bucket: string;
-  /** ID of the operation resource. */
-  operationId: string;
+/** An AdvanceRelocateBucketOperation request. */
+export interface AdvanceRelocateBucketOperationRequest {
   /** Specifies the duration after which the relocation will revert to the sync stage if the relocation hasn't succeeded. Optional, if not supplied, a default value of 12h will be used. */
   ttl?: string | undefined;
   /** Specifies the time when the relocation will revert to the sync stage if the relocation hasn't succeeded. */
   expireTime?: string | undefined;
 }
+export interface AdvanceRelocateBucketOperationsRequest extends AdvanceRelocateBucketOperationRequest {
+  /** Name of the bucket to advance the relocate for. */
+  bucket: string;
+  /** ID of the operation resource. */
+  operationId: string;
+}
 export interface AdvanceRelocateBucketOperationsResponse {}
 export type StringList = Array<string>;
-export interface BulkRestoreObjectsRequest_ {
-  /** Name of the bucket in which the object resides. */
-  bucket: string;
+/** A bulk restore objects request. */
+export interface BulkRestoreObjectsRequest {
   /** If false (default), the restore will not overwrite live objects with the same name at the destination. This means some deleted objects may be skipped. If true, live objects will be overwritten resulting in a noncurrent object (if versioning is enabled). If versioning is not enabled, overwriting the object will result in a soft-deleted object. In either case, if a noncurrent object already exists with the same name, a live version can be written without issue. */
   allowOverwrite?: boolean | undefined;
   /** Restores only the objects that were soft-deleted after this time. */
@@ -173,6 +175,10 @@ export interface BulkRestoreObjectsRequest_ {
   createdAfterTime?: string | undefined;
   /** Restores only the objects that were created before this time. */
   createdBeforeTime?: string | undefined;
+}
+export interface BulkRestoreObjectsRequest_ extends BulkRestoreObjectsRequest {
+  /** Name of the bucket in which the object resides. */
+  bucket: string;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -381,7 +387,18 @@ export interface ComposeRequestSourceObjectsItem {
   objectPreconditions?: ComposeRequestSourceObjectsItemObjectPreconditions | undefined;
 }
 export type ComposeRequestSourceObjectsItemList = Array<ComposeRequestSourceObjectsItem>;
-export interface ComposeObjectsRequest {
+/** A Compose request. */
+export interface ComposeRequest {
+  /** Properties of the resulting object. */
+  destination?: Storage_Object | undefined;
+  /** The kind of item this is. */
+  kind?: string | undefined;
+  /** The list of source objects that will be concatenated into a single object. */
+  sourceObjects?: ComposeRequestSourceObjectsItemList | undefined;
+  /** If true, the source objects will be deleted. */
+  deleteSourceObjects?: boolean | undefined;
+}
+export interface ComposeObjectsRequest extends ComposeRequest {
   /** Name of the bucket containing the source objects. The destination object is stored in this bucket. */
   destinationBucket: string;
   /** Name of the new object. For information about how to URL encode object names to be path safe, see [Encoding URI Path Parts](https://cloud.google.com/storage/docs/request-endpoints#encoding). */
@@ -398,14 +415,6 @@ export interface ComposeObjectsRequest {
   kmsKeyName?: string | undefined;
   /** The project to be billed for this request. Required for Requester Pays buckets. */
   userProject?: string | undefined;
-  /** Properties of the resulting object. */
-  destination?: Storage_Object | undefined;
-  /** The kind of item this is. */
-  kind?: string | undefined;
-  /** The list of source objects that will be concatenated into a single object. */
-  sourceObjects?: ComposeRequestSourceObjectsItemList | undefined;
-  /** If true, the source objects will be deleted. */
-  deleteSourceObjects?: boolean | undefined;
 }
 export type CopyObjectsDestinationPredefinedAclEnum =
   | "authenticatedRead"
@@ -415,7 +424,7 @@ export type CopyObjectsDestinationPredefinedAclEnum =
   | "projectPrivate"
   | "publicRead";
 export type CopyObjectsProjectionEnum = "full" | "noAcl";
-export interface CopyObjectsRequest {
+export interface CopyObjectsRequest extends Storage_Object {
   /** Name of the bucket in which to store the new object. Overrides the provided object metadata's bucket value, if any.For information about how to URL encode object names to be path safe, see [Encoding URI Path Parts](https://cloud.google.com/storage/docs/request-endpoints#encoding). */
   destinationBucket: string;
   /** Resource name of the Cloud KMS key, of the form projects/my-project/locations/global/keyRings/my-kr/cryptoKeys/my-key, that will be used to encrypt the object. Overrides the object metadata's kms_key_name value, if any. */
@@ -450,82 +459,6 @@ export interface CopyObjectsRequest {
   sourceObject: string;
   /** The project to be billed for this request. Required for Requester Pays buckets. */
   userProject?: string | undefined;
-  /** Access controls on the object. */
-  acl?: ObjectAccessControlList | undefined;
-  /** The name of the bucket containing this object. */
-  bucket?: string | undefined;
-  /** Cache-Control directive for the object data. If omitted, and the object is accessible to all anonymous users, the default will be public, max-age=3600. */
-  cacheControl?: string | undefined;
-  /** Number of underlying components that make up this object. Components are accumulated by compose operations. */
-  componentCount?: number | undefined;
-  /** Content-Disposition of the object data. */
-  contentDisposition?: string | undefined;
-  /** Content-Encoding of the object data. */
-  contentEncoding?: string | undefined;
-  /** Content-Language of the object data. */
-  contentLanguage?: string | undefined;
-  /** Content-Type of the object data. If an object is stored without a Content-Type, it is served as application/octet-stream. */
-  contentType?: string | undefined;
-  /** CRC32c checksum, as described in RFC 4960, Appendix B; encoded using base64 in big-endian byte order. For more information about using the CRC32c checksum, see [Data Validation and Change Detection](https://cloud.google.com/storage/docs/data-validation). */
-  crc32c?: string | undefined;
-  /** A timestamp in RFC 3339 format specified by the user for an object. */
-  customTime?: string | undefined;
-  /** Metadata of customer-supplied encryption key, if the object is encrypted by such a key. */
-  customerEncryption?: Storage_ObjectCustomerEncryption | undefined;
-  /** HTTP 1.1 Entity tag for the object. */
-  etag?: string | undefined;
-  /** Whether an object is under event-based hold. Event-based hold is a way to retain objects until an event occurs, which is signified by the hold's release (i.e. this value is set to false). After being released (set to false), such objects will be subject to bucket-level retention (if any). One sample use case of this flag is for banks to hold loan documents for at least 3 years after loan is paid in full. Here, bucket-level retention is 3 years and the event is the loan being paid in full. In this example, these objects will be held intact for any number of years until the event has occurred (event-based hold on the object is released) and then 3 more years after that. That means retention duration of the objects begins from the moment event-based hold transitioned from true to false. */
-  eventBasedHold?: boolean | undefined;
-  /** The content generation of this object. Used for object versioning. */
-  generation?: string | undefined;
-  /** The ID of the object, including the bucket name, object name, and generation number. */
-  id?: string | undefined;
-  /** The kind of item this is. For objects, this is always storage#object. */
-  kind?: string | undefined;
-  /** Not currently supported. Specifying the parameter causes the request to fail with status code 400 - Bad Request. */
-  kmsKeyName?: string | undefined;
-  /** MD5 hash of the data; encoded using base64. For more information about using the MD5 hash, see [Data Validation and Change Detection](https://cloud.google.com/storage/docs/data-validation). */
-  md5Hash?: string | undefined;
-  /** Media download link. */
-  mediaLink?: string | undefined;
-  /** User-provided metadata, in key/value pairs. */
-  metadata?: StringMap | undefined;
-  /** User-defined or system-defined object contexts. Each object context is a key-payload pair, where the key provides the identification and the payload holds the associated value and additional metadata. */
-  contexts?: Storage_ObjectContexts | undefined;
-  /** Restore token used to differentiate deleted objects with the same name and generation. This field is only returned for deleted objects in hierarchical namespace buckets. */
-  restoreToken?: string | undefined;
-  /** The version of the metadata for this object at this generation. Used for preconditions and for detecting changes in metadata. A metageneration number is only meaningful in the context of a particular generation of a particular object. */
-  metageneration?: string | undefined;
-  /** The name of the object. Required if not specified by URL parameter. */
-  name?: string | undefined;
-  /** The owner of the object. This will always be the uploader of the object. */
-  owner?: Storage_ObjectOwner | undefined;
-  /** A server-determined value that specifies the earliest time that the object's retention period expires. This value is in RFC 3339 format. Note 1: This field is not provided for objects with an active event-based hold, since retention expiration is unknown until the hold is removed. Note 2: This value can be provided even when temporary hold is set (so that the user can reason about policy without having to first unset the temporary hold). */
-  retentionExpirationTime?: string | undefined;
-  /** A collection of object level retention parameters. */
-  retention?: Storage_ObjectRetention | undefined;
-  /** The link to this object. */
-  selfLink?: string | undefined;
-  /** Content-Length of the data in bytes. */
-  size?: string | undefined;
-  /** Storage class of the object. */
-  storageClass?: string | undefined;
-  /** Whether an object is under temporary hold. While this flag is set to true, the object is protected against deletion and overwrites. A common use case of this flag is regulatory investigations where objects need to be retained while the investigation is ongoing. Note that unlike event-based hold, temporary hold does not impact retention expiration time of an object. */
-  temporaryHold?: boolean | undefined;
-  /** The creation time of the object in RFC 3339 format. */
-  timeCreated?: string | undefined;
-  /** The time at which the object became noncurrent in RFC 3339 format. Will be returned if and only if this version of the object has been deleted. */
-  timeDeleted?: string | undefined;
-  /** The time when the object was finalized. */
-  timeFinalized?: string | undefined;
-  /** The time at which the object became soft-deleted in RFC 3339 format. */
-  softDeleteTime?: string | undefined;
-  /** This is the time (in the future) when the soft-deleted object will no longer be restorable. It is equal to the soft delete time plus the current soft delete retention duration of the bucket. */
-  hardDeleteTime?: string | undefined;
-  /** The time at which the object's storage class was last changed. When the object is initially created, it will be set to timeCreated. */
-  timeStorageClassUpdated?: string | undefined;
-  /** The modification time of the object metadata in RFC 3339 format. Set initially to object creation time and then updated whenever any metadata of the object changes. This includes changes made by a requester, such as modifying custom metadata, as well as changes made by Cloud Storage on behalf of a requester, such as changing the storage class based on an Object Lifecycle Configuration. */
-  updated?: string | undefined;
 }
 export interface CreateProjectsHmacKeysRequest {
   /** Project ID owning the service account. */
@@ -1383,59 +1316,15 @@ export interface BucketStorageLayout {
   /** The type of the bucket location. */
   locationType?: string | undefined;
 }
-export interface InsertAnywhereCachesRequest {
+export interface InsertAnywhereCachesRequest extends Omit<AnywhereCache, "bucket"> {
   /** Name of the parent bucket. */
   bucket: string;
-  /** The kind of item this is. For Anywhere Cache, this is always storage#anywhereCache. */
-  kind?: string | undefined;
-  /** The ID of the resource, including the project number, bucket name and anywhere cache ID. */
-  id?: string | undefined;
-  /** The link to this cache instance. */
-  selfLink?: string | undefined;
-  /** The ID of the Anywhere cache instance. */
-  anywhereCacheId?: string | undefined;
-  /** The zone in which the cache instance is running. For example, us-central1-a. */
-  zone?: string | undefined;
-  /** The current state of the cache instance. */
-  state?: string | undefined;
-  /** The creation time of the cache instance in RFC 3339 format. */
-  createTime?: string | undefined;
-  /** The modification time of the cache instance metadata in RFC 3339 format. */
-  updateTime?: string | undefined;
-  /** The TTL of all cache entries in whole seconds. e.g., "7200s". */
-  ttl?: string | undefined;
-  /** The cache-level entry admission policy. */
-  admissionPolicy?: string | undefined;
-  /** True if the cache instance has an active Update long-running operation. */
-  pendingUpdate?: boolean | undefined;
-  /** Specifies whether objects are ingested into the cache upon write. */
-  ingestOnWrite?: boolean | undefined;
 }
-export interface InsertBucketAccessControlsRequest {
+export interface InsertBucketAccessControlsRequest extends Omit<BucketAccessControl, "bucket"> {
   /** Name of a bucket. */
   bucket: string;
   /** The project to be billed for this request. Required for Requester Pays buckets. */
   userProject?: string | undefined;
-  /** The domain associated with the entity, if any. */
-  domain?: string | undefined;
-  /** The email address associated with the entity, if any. */
-  email?: string | undefined;
-  /** The entity holding the permission, in one of the following forms: - user-userId - user-email - group-groupId - group-email - domain-domain - project-team-projectId - allUsers - allAuthenticatedUsers Examples: - The user liz@example.com would be user-liz@example.com. - The group example@googlegroups.com would be group-example@googlegroups.com. - To refer to all members of the Google Apps for Business domain example.com, the entity would be domain-example.com. */
-  entity?: string | undefined;
-  /** The ID for the entity, if any. */
-  entityId?: string | undefined;
-  /** HTTP 1.1 Entity tag for the access-control entry. */
-  etag?: string | undefined;
-  /** The ID of the access-control entry. */
-  id?: string | undefined;
-  /** The kind of item this is. For bucket access control entries, this is always storage#bucketAccessControl. */
-  kind?: string | undefined;
-  /** The project team associated with the entity, if any. */
-  projectTeam?: ObjectAccessControlProjectTeam | undefined;
-  /** The access permission for the entity. */
-  role?: string | undefined;
-  /** The link to this access-control entry. */
-  selfLink?: string | undefined;
 }
 export type InsertBucketsPredefinedAclEnum =
   | "authenticatedRead"
@@ -1451,7 +1340,7 @@ export type InsertBucketsPredefinedDefaultObjectAclEnum =
   | "projectPrivate"
   | "publicRead";
 export type InsertBucketsProjectionEnum = "full" | "noAcl";
-export interface InsertBucketsRequest {
+export interface InsertBucketsRequest extends Bucket {
   /** Apply a predefined set of access controls to this bucket. */
   predefinedAcl?: InsertBucketsPredefinedAclEnum | (string & {}) | undefined;
   /** Apply a predefined set of default object access controls to this bucket. */
@@ -1467,180 +1356,36 @@ export interface InsertBucketsRequest {
   userProject?: string | undefined;
   /** When set to true, object retention is enabled for this bucket. */
   enableObjectRetention?: boolean | undefined;
-  /** Access controls on the bucket. */
-  acl?: BucketAccessControlList | undefined;
-  /** The bucket's billing configuration. */
-  billing?: BucketBilling | undefined;
-  /** The bucket's Cross-Origin Resource Sharing (CORS) configuration. */
-  cors?: BucketCorsItemList | undefined;
-  /** The bucket's custom placement configuration for Custom Dual Regions. */
-  customPlacementConfig?: BucketCustomPlacementConfig | undefined;
-  /** The default value for event-based hold on newly created objects in this bucket. Event-based hold is a way to retain objects indefinitely until an event occurs, signified by the hold's release. After being released, such objects will be subject to bucket-level retention (if any). One sample use case of this flag is for banks to hold loan documents for at least 3 years after loan is paid in full. Here, bucket-level retention is 3 years and the event is loan being paid in full. In this example, these objects will be held intact for any number of years until the event has occurred (event-based hold on the object is released) and then 3 more years after that. That means retention duration of the objects begins from the moment event-based hold transitioned from true to false. Objects under event-based hold cannot be deleted, overwritten or archived until the hold is removed. */
-  defaultEventBasedHold?: boolean | undefined;
-  /** Default access controls to apply to new objects when no ACL is provided. */
-  defaultObjectAcl?: ObjectAccessControlList | undefined;
-  /** Encryption configuration for a bucket. */
-  encryption?: BucketEncryption | undefined;
-  /** HTTP 1.1 Entity tag for the bucket. */
-  etag?: string | undefined;
-  /** The bucket's hierarchical namespace configuration. */
-  hierarchicalNamespace?: BucketHierarchicalNamespace | undefined;
-  /** The bucket's IAM configuration. */
-  iamConfiguration?: BucketIamConfiguration | undefined;
-  /** The ID of the bucket. For buckets, the id and name properties are the same. */
-  id?: string | undefined;
-  /** The bucket's IP filter configuration. Specifies the network sources that are allowed to access the operations on the bucket, as well as its underlying objects. Only enforced when the mode is set to 'Enabled'. */
-  ipFilter?: BucketIpFilter | undefined;
-  /** The kind of item this is. For buckets, this is always storage#bucket. */
-  kind?: string | undefined;
-  /** User-provided labels, in key/value pairs. */
-  labels?: StringMap | undefined;
-  /** The bucket's lifecycle configuration. See [Lifecycle Management](https://cloud.google.com/storage/docs/lifecycle) for more information. */
-  lifecycle?: BucketLifecycle | undefined;
-  /** The bucket's Autoclass configuration. */
-  autoclass?: BucketAutoclass | undefined;
-  /** The location of the bucket. Object data for objects in the bucket resides in physical storage within this region. Defaults to US. See the [Developer's Guide](https://cloud.google.com/storage/docs/locations) for the authoritative list. */
-  location?: string | undefined;
-  /** The type of the bucket location. */
-  locationType?: string | undefined;
-  /** The bucket's logging configuration, which defines the destination bucket and optional name prefix for the current bucket's logs. */
-  logging?: BucketLogging | undefined;
-  /** The generation of this bucket. */
-  generation?: string | undefined;
-  /** The metadata generation of this bucket. */
-  metageneration?: string | undefined;
-  /** The name of the bucket. */
-  name?: string | undefined;
-  /** The owner of the bucket. This is always the project team's owner group. */
-  owner?: BucketOwner | undefined;
-  /** The project number of the project the bucket belongs to. */
-  projectNumber?: string | undefined;
-  /** The bucket's retention policy. The retention policy enforces a minimum retention time for all objects contained in the bucket, based on their creation time. Any attempt to overwrite or delete objects younger than the retention period will result in a PERMISSION_DENIED error. An unlocked retention policy can be modified or removed from the bucket via a storage.buckets.update operation. A locked retention policy cannot be removed or shortened in duration for the lifetime of the bucket. Attempting to remove or decrease period of a locked retention policy will result in a PERMISSION_DENIED error. */
-  retentionPolicy?: BucketRetentionPolicy | undefined;
-  /** The bucket's object retention config. */
-  objectRetention?: BucketObjectRetention | undefined;
-  /** The Recovery Point Objective (RPO) of this bucket. Set to ASYNC_TURBO to turn on Turbo Replication on a bucket. */
-  rpo?: string | undefined;
-  /** The URI of this bucket. */
-  selfLink?: string | undefined;
-  /** The bucket's soft delete policy, which defines the period of time that soft-deleted objects will be retained, and cannot be permanently deleted. */
-  softDeletePolicy?: BucketSoftDeletePolicy | undefined;
-  /** The bucket's default storage class, used whenever no storageClass is specified for a newly-created object. This defines how objects in the bucket are stored and determines the SLA and the cost of storage. Values include MULTI_REGIONAL, REGIONAL, STANDARD, NEARLINE, COLDLINE, ARCHIVE, and DURABLE_REDUCED_AVAILABILITY. If this value is not specified when the bucket is created, it will default to STANDARD. For more information, see [Storage Classes](https://cloud.google.com/storage/docs/storage-classes). */
-  storageClass?: string | undefined;
-  /** The creation time of the bucket in RFC 3339 format. */
-  timeCreated?: string | undefined;
-  /** The modification time of the bucket in RFC 3339 format. */
-  updated?: string | undefined;
-  /** The soft delete time of the bucket in RFC 3339 format. */
-  softDeleteTime?: string | undefined;
-  /** The hard delete time of the bucket in RFC 3339 format. */
-  hardDeleteTime?: string | undefined;
-  /** The bucket's versioning configuration. */
-  versioning?: BucketVersioning | undefined;
-  /** The bucket's website configuration, controlling how the service behaves when accessing bucket contents as a web site. See the [Static Website Examples](https://cloud.google.com/storage/docs/static-website) for more information. */
-  website?: BucketWebsite | undefined;
-  /** Reserved for future use. */
-  satisfiesPZS?: boolean | undefined;
-  /** Reserved for future use. */
-  satisfiesPZI?: boolean | undefined;
 }
-export interface InsertDefaultObjectAccessControlsRequest {
+export interface InsertDefaultObjectAccessControlsRequest extends Omit<
+  ObjectAccessControl,
+  "bucket"
+> {
   /** Name of a bucket. */
   bucket: string;
   /** The project to be billed for this request. Required for Requester Pays buckets. */
   userProject?: string | undefined;
-  /** The domain associated with the entity, if any. */
-  domain?: string | undefined;
-  /** The email address associated with the entity, if any. */
-  email?: string | undefined;
-  /** The entity holding the permission, in one of the following forms: - user-userId - user-email - group-groupId - group-email - domain-domain - project-team-projectId - allUsers - allAuthenticatedUsers Examples: - The user liz@example.com would be user-liz@example.com. - The group example@googlegroups.com would be group-example@googlegroups.com. - To refer to all members of the Google Apps for Business domain example.com, the entity would be domain-example.com. */
-  entity?: string | undefined;
-  /** The ID for the entity, if any. */
-  entityId?: string | undefined;
-  /** HTTP 1.1 Entity tag for the access-control entry. */
-  etag?: string | undefined;
-  /** The content generation of the object, if applied to an object. */
-  generation?: string | undefined;
-  /** The ID of the access-control entry. */
-  id?: string | undefined;
-  /** The kind of item this is. For object access control entries, this is always storage#objectAccessControl. */
-  kind?: string | undefined;
-  /** The name of the object, if applied to an object. */
-  object?: string | undefined;
-  /** The project team associated with the entity, if any. */
-  projectTeam?: ObjectAccessControlProjectTeam | undefined;
-  /** The access permission for the entity. */
-  role?: string | undefined;
-  /** The link to this access-control entry. */
-  selfLink?: string | undefined;
 }
-export interface InsertFoldersRequest {
+export interface InsertFoldersRequest extends Omit<Folder, "bucket"> {
   /** Name of the bucket in which the folder resides. */
   bucket: string;
   /** If true, any parent folder which doesn't exist will be created automatically. */
   recursive?: boolean | undefined;
-  /** The ID of the folder, including the bucket name, folder name. */
-  id?: string | undefined;
-  /** The kind of item this is. For folders, this is always storage#folder. */
-  kind?: string | undefined;
-  /** The version of the metadata for this folder. Used for preconditions and for detecting changes in metadata. */
-  metageneration?: string | undefined;
-  /** The name of the folder. Required if not specified by URL parameter. */
-  name?: string | undefined;
-  /** The link to this folder. */
-  selfLink?: string | undefined;
-  /** The creation time of the folder in RFC 3339 format. */
-  createTime?: string | undefined;
-  /** The modification time of the folder metadata in RFC 3339 format. */
-  updateTime?: string | undefined;
-  /** Only present if the folder is part of an ongoing rename folder operation. Contains information which can be used to query the operation status. */
-  pendingRenameInfo?: FolderPendingRenameInfo | undefined;
 }
-export interface InsertManagedFoldersRequest {
+export interface InsertManagedFoldersRequest extends Omit<ManagedFolder, "bucket"> {
   /** Name of the bucket containing the managed folder. */
   bucket: string;
-  /** The ID of the managed folder, including the bucket name and managed folder name. */
-  id?: string | undefined;
-  /** The kind of item this is. For managed folders, this is always storage#managedFolder. */
-  kind?: string | undefined;
-  /** The version of the metadata for this managed folder. Used for preconditions and for detecting changes in metadata. */
-  metageneration?: string | undefined;
-  /** The name of the managed folder. Required if not specified by URL parameter. */
-  name?: string | undefined;
-  /** The link to this managed folder. */
-  selfLink?: string | undefined;
-  /** The creation time of the managed folder in RFC 3339 format. */
-  createTime?: string | undefined;
-  /** The last update time of the managed folder metadata in RFC 3339 format. */
-  updateTime?: string | undefined;
-  /** The rapid cache configuration for the managed folder. */
-  rapidCacheConfig?: RapidCacheConfig | undefined;
 }
-export interface InsertNotificationsRequest {
+export interface InsertNotificationsRequest extends Notification {
   /** The parent bucket of the notification. */
   bucket: string;
   /** The project to be billed for this request. Required for Requester Pays buckets. */
   userProject?: string | undefined;
-  /** An optional list of additional attributes to attach to each Cloud PubSub message published for this notification subscription. */
-  custom_attributes?: StringMap | undefined;
-  /** HTTP 1.1 Entity tag for this subscription notification. */
-  etag?: string | undefined;
-  /** If present, only send notifications about listed event types. If empty, sent notifications for all event types. */
-  event_types?: StringList | undefined;
-  /** The ID of the notification. */
-  id?: string | undefined;
-  /** The kind of item this is. For notifications, this is always storage#notification. */
-  kind?: string | undefined;
-  /** If present, only apply this notification configuration to object names that begin with this prefix. */
-  object_name_prefix?: string | undefined;
-  /** The desired content of the Payload. */
-  payload_format?: string | undefined;
-  /** The canonical URL of this notification. */
-  selfLink?: string | undefined;
-  /** The Cloud PubSub topic to which this subscription publishes. Formatted as: '//pubsub.googleapis.com/projects/{project-identifier}/topics/{my-topic}' */
-  topic?: string | undefined;
 }
-export interface InsertObjectAccessControlsRequest {
+export interface InsertObjectAccessControlsRequest extends Omit<
+  ObjectAccessControl,
+  "bucket" | "generation" | "object"
+> {
   /** Name of a bucket. */
   bucket: string;
   /** If present, selects a specific revision of this object (as opposed to the latest version, the default). */
@@ -1649,26 +1394,6 @@ export interface InsertObjectAccessControlsRequest {
   object: string;
   /** The project to be billed for this request. Required for Requester Pays buckets. */
   userProject?: string | undefined;
-  /** The domain associated with the entity, if any. */
-  domain?: string | undefined;
-  /** The email address associated with the entity, if any. */
-  email?: string | undefined;
-  /** The entity holding the permission, in one of the following forms: - user-userId - user-email - group-groupId - group-email - domain-domain - project-team-projectId - allUsers - allAuthenticatedUsers Examples: - The user liz@example.com would be user-liz@example.com. - The group example@googlegroups.com would be group-example@googlegroups.com. - To refer to all members of the Google Apps for Business domain example.com, the entity would be domain-example.com. */
-  entity?: string | undefined;
-  /** The ID for the entity, if any. */
-  entityId?: string | undefined;
-  /** HTTP 1.1 Entity tag for the access-control entry. */
-  etag?: string | undefined;
-  /** The ID of the access-control entry. */
-  id?: string | undefined;
-  /** The kind of item this is. For object access control entries, this is always storage#objectAccessControl. */
-  kind?: string | undefined;
-  /** The project team associated with the entity, if any. */
-  projectTeam?: ObjectAccessControlProjectTeam | undefined;
-  /** The access permission for the entity. */
-  role?: string | undefined;
-  /** The link to this access-control entry. */
-  selfLink?: string | undefined;
 }
 export type InsertObjectsPredefinedAclEnum =
   | "authenticatedRead"
@@ -1678,7 +1403,10 @@ export type InsertObjectsPredefinedAclEnum =
   | "projectPrivate"
   | "publicRead";
 export type InsertObjectsProjectionEnum = "full" | "noAcl";
-export interface InsertObjectsRequest {
+export interface InsertObjectsRequest extends Omit<
+  Storage_Object,
+  "bucket" | "contentEncoding" | "kmsKeyName" | "name"
+> {
   /** Name of the bucket in which to store the new object. Overrides the provided object metadata's bucket value, if any. */
   bucket: string;
   /** If set, sets the contentEncoding property of the final object to this value. Setting this parameter is equivalent to setting the contentEncoding metadata property. This can be useful when uploading an object with uploadType=media to indicate the encoding of the content being uploaded. */
@@ -1701,104 +1429,10 @@ export interface InsertObjectsRequest {
   projection?: InsertObjectsProjectionEnum | (string & {}) | undefined;
   /** The project to be billed for this request. Required for Requester Pays buckets. */
   userProject?: string | undefined;
-  /** Access controls on the object. */
-  acl?: ObjectAccessControlList | undefined;
-  /** Cache-Control directive for the object data. If omitted, and the object is accessible to all anonymous users, the default will be public, max-age=3600. */
-  cacheControl?: string | undefined;
-  /** Number of underlying components that make up this object. Components are accumulated by compose operations. */
-  componentCount?: number | undefined;
-  /** Content-Disposition of the object data. */
-  contentDisposition?: string | undefined;
-  /** Content-Language of the object data. */
-  contentLanguage?: string | undefined;
-  /** Content-Type of the object data. If an object is stored without a Content-Type, it is served as application/octet-stream. */
-  contentType?: string | undefined;
-  /** CRC32c checksum, as described in RFC 4960, Appendix B; encoded using base64 in big-endian byte order. For more information about using the CRC32c checksum, see [Data Validation and Change Detection](https://cloud.google.com/storage/docs/data-validation). */
-  crc32c?: string | undefined;
-  /** A timestamp in RFC 3339 format specified by the user for an object. */
-  customTime?: string | undefined;
-  /** Metadata of customer-supplied encryption key, if the object is encrypted by such a key. */
-  customerEncryption?: Storage_ObjectCustomerEncryption | undefined;
-  /** HTTP 1.1 Entity tag for the object. */
-  etag?: string | undefined;
-  /** Whether an object is under event-based hold. Event-based hold is a way to retain objects until an event occurs, which is signified by the hold's release (i.e. this value is set to false). After being released (set to false), such objects will be subject to bucket-level retention (if any). One sample use case of this flag is for banks to hold loan documents for at least 3 years after loan is paid in full. Here, bucket-level retention is 3 years and the event is the loan being paid in full. In this example, these objects will be held intact for any number of years until the event has occurred (event-based hold on the object is released) and then 3 more years after that. That means retention duration of the objects begins from the moment event-based hold transitioned from true to false. */
-  eventBasedHold?: boolean | undefined;
-  /** The content generation of this object. Used for object versioning. */
-  generation?: string | undefined;
-  /** The ID of the object, including the bucket name, object name, and generation number. */
-  id?: string | undefined;
-  /** The kind of item this is. For objects, this is always storage#object. */
-  kind?: string | undefined;
-  /** MD5 hash of the data; encoded using base64. For more information about using the MD5 hash, see [Data Validation and Change Detection](https://cloud.google.com/storage/docs/data-validation). */
-  md5Hash?: string | undefined;
-  /** Media download link. */
-  mediaLink?: string | undefined;
-  /** User-provided metadata, in key/value pairs. */
-  metadata?: StringMap | undefined;
-  /** User-defined or system-defined object contexts. Each object context is a key-payload pair, where the key provides the identification and the payload holds the associated value and additional metadata. */
-  contexts?: Storage_ObjectContexts | undefined;
-  /** Restore token used to differentiate deleted objects with the same name and generation. This field is only returned for deleted objects in hierarchical namespace buckets. */
-  restoreToken?: string | undefined;
-  /** The version of the metadata for this object at this generation. Used for preconditions and for detecting changes in metadata. A metageneration number is only meaningful in the context of a particular generation of a particular object. */
-  metageneration?: string | undefined;
-  /** The owner of the object. This will always be the uploader of the object. */
-  owner?: Storage_ObjectOwner | undefined;
-  /** A server-determined value that specifies the earliest time that the object's retention period expires. This value is in RFC 3339 format. Note 1: This field is not provided for objects with an active event-based hold, since retention expiration is unknown until the hold is removed. Note 2: This value can be provided even when temporary hold is set (so that the user can reason about policy without having to first unset the temporary hold). */
-  retentionExpirationTime?: string | undefined;
-  /** A collection of object level retention parameters. */
-  retention?: Storage_ObjectRetention | undefined;
-  /** The link to this object. */
-  selfLink?: string | undefined;
-  /** Content-Length of the data in bytes. */
-  size?: string | undefined;
-  /** Storage class of the object. */
-  storageClass?: string | undefined;
-  /** Whether an object is under temporary hold. While this flag is set to true, the object is protected against deletion and overwrites. A common use case of this flag is regulatory investigations where objects need to be retained while the investigation is ongoing. Note that unlike event-based hold, temporary hold does not impact retention expiration time of an object. */
-  temporaryHold?: boolean | undefined;
-  /** The creation time of the object in RFC 3339 format. */
-  timeCreated?: string | undefined;
-  /** The time at which the object became noncurrent in RFC 3339 format. Will be returned if and only if this version of the object has been deleted. */
-  timeDeleted?: string | undefined;
-  /** The time when the object was finalized. */
-  timeFinalized?: string | undefined;
-  /** The time at which the object became soft-deleted in RFC 3339 format. */
-  softDeleteTime?: string | undefined;
-  /** This is the time (in the future) when the soft-deleted object will no longer be restorable. It is equal to the soft delete time plus the current soft delete retention duration of the bucket. */
-  hardDeleteTime?: string | undefined;
-  /** The time at which the object's storage class was last changed. When the object is initially created, it will be set to timeCreated. */
-  timeStorageClassUpdated?: string | undefined;
-  /** The modification time of the object metadata in RFC 3339 format. Set initially to object creation time and then updated whenever any metadata of the object changes. This includes changes made by a requester, such as modifying custom metadata, as well as changes made by Cloud Storage on behalf of a requester, such as changing the storage class based on an Object Lifecycle Configuration. */
-  updated?: string | undefined;
 }
-export interface InsertRapidCachesRequest {
+export interface InsertRapidCachesRequest extends Omit<RapidCache, "bucket"> {
   /** Name of the parent bucket. */
   bucket: string;
-  /** The kind of item this is. For Rapid Cache, this is always storage#rapidCache. */
-  kind?: string | undefined;
-  /** The ID of the resource, including the project number, bucket name and rapid cache ID. */
-  id?: string | undefined;
-  /** The link to this cache instance. */
-  selfLink?: string | undefined;
-  /** The ID of the Rapid cache instance. */
-  rapidCacheId?: string | undefined;
-  /** The zone in which the cache instance is running. For example, us-central1-a. */
-  zone?: string | undefined;
-  /** The current state of the cache instance. */
-  state?: string | undefined;
-  /** The creation time of the cache instance in RFC 3339 format. */
-  createTime?: string | undefined;
-  /** The modification time of the cache instance metadata in RFC 3339 format. */
-  updateTime?: string | undefined;
-  /** The TTL of all cache entries in whole seconds. e.g., "7200s". */
-  ttl?: string | undefined;
-  /** The cache-level entry admission policy. */
-  admissionPolicy?: string | undefined;
-  /** True if the cache instance has an active Update long-running operation. */
-  pendingUpdate?: boolean | undefined;
-  /** Specifies whether objects are ingested into the cache upon write. */
-  ingestOnWrite?: boolean | undefined;
-  /** The type of Rapid Cache this represents. Valid values include: "rapid-cache" and "rapid-cache-ultra". */
-  cacheType?: string | undefined;
 }
 export interface ListAnywhereCachesRequest {
   /** Name of the parent bucket. */
@@ -2093,31 +1727,16 @@ export interface MoveObjectsRequest {
   /** The project to be billed for this request. Required for Requester Pays buckets. */
   userProject?: string | undefined;
 }
-export interface PatchBucketAccessControlsRequest {
+export interface PatchBucketAccessControlsRequest extends Omit<
+  BucketAccessControl,
+  "bucket" | "entity"
+> {
   /** Name of a bucket. */
   bucket: string;
   /** The entity holding the permission. Can be user-userId, user-emailAddress, group-groupId, group-emailAddress, allUsers, or allAuthenticatedUsers. */
   entity: string;
   /** The project to be billed for this request. Required for Requester Pays buckets. */
   userProject?: string | undefined;
-  /** The domain associated with the entity, if any. */
-  domain?: string | undefined;
-  /** The email address associated with the entity, if any. */
-  email?: string | undefined;
-  /** The ID for the entity, if any. */
-  entityId?: string | undefined;
-  /** HTTP 1.1 Entity tag for the access-control entry. */
-  etag?: string | undefined;
-  /** The ID of the access-control entry. */
-  id?: string | undefined;
-  /** The kind of item this is. For bucket access control entries, this is always storage#bucketAccessControl. */
-  kind?: string | undefined;
-  /** The project team associated with the entity, if any. */
-  projectTeam?: ObjectAccessControlProjectTeam | undefined;
-  /** The access permission for the entity. */
-  role?: string | undefined;
-  /** The link to this access-control entry. */
-  selfLink?: string | undefined;
 }
 export type PatchBucketsPredefinedAclEnum =
   | "authenticatedRead"
@@ -2133,7 +1752,7 @@ export type PatchBucketsPredefinedDefaultObjectAclEnum =
   | "projectPrivate"
   | "publicRead";
 export type PatchBucketsProjectionEnum = "full" | "noAcl";
-export interface PatchBucketsRequest {
+export interface PatchBucketsRequest extends Bucket {
   /** Name of a bucket. */
   bucket: string;
   /** Makes the return of the bucket metadata conditional on whether the bucket's current metageneration matches the given value. */
@@ -2151,114 +1770,22 @@ export interface PatchBucketsRequest {
   projection?: PatchBucketsProjectionEnum | (string & {}) | undefined;
   /** The project to be billed for this request. Required for Requester Pays buckets. */
   userProject?: string | undefined;
-  /** Access controls on the bucket. */
-  acl?: BucketAccessControlList | undefined;
-  /** The bucket's billing configuration. */
-  billing?: BucketBilling | undefined;
-  /** The bucket's Cross-Origin Resource Sharing (CORS) configuration. */
-  cors?: BucketCorsItemList | undefined;
-  /** The bucket's custom placement configuration for Custom Dual Regions. */
-  customPlacementConfig?: BucketCustomPlacementConfig | undefined;
-  /** The default value for event-based hold on newly created objects in this bucket. Event-based hold is a way to retain objects indefinitely until an event occurs, signified by the hold's release. After being released, such objects will be subject to bucket-level retention (if any). One sample use case of this flag is for banks to hold loan documents for at least 3 years after loan is paid in full. Here, bucket-level retention is 3 years and the event is loan being paid in full. In this example, these objects will be held intact for any number of years until the event has occurred (event-based hold on the object is released) and then 3 more years after that. That means retention duration of the objects begins from the moment event-based hold transitioned from true to false. Objects under event-based hold cannot be deleted, overwritten or archived until the hold is removed. */
-  defaultEventBasedHold?: boolean | undefined;
-  /** Default access controls to apply to new objects when no ACL is provided. */
-  defaultObjectAcl?: ObjectAccessControlList | undefined;
-  /** Encryption configuration for a bucket. */
-  encryption?: BucketEncryption | undefined;
-  /** HTTP 1.1 Entity tag for the bucket. */
-  etag?: string | undefined;
-  /** The bucket's hierarchical namespace configuration. */
-  hierarchicalNamespace?: BucketHierarchicalNamespace | undefined;
-  /** The bucket's IAM configuration. */
-  iamConfiguration?: BucketIamConfiguration | undefined;
-  /** The ID of the bucket. For buckets, the id and name properties are the same. */
-  id?: string | undefined;
-  /** The bucket's IP filter configuration. Specifies the network sources that are allowed to access the operations on the bucket, as well as its underlying objects. Only enforced when the mode is set to 'Enabled'. */
-  ipFilter?: BucketIpFilter | undefined;
-  /** The kind of item this is. For buckets, this is always storage#bucket. */
-  kind?: string | undefined;
-  /** User-provided labels, in key/value pairs. */
-  labels?: StringMap | undefined;
-  /** The bucket's lifecycle configuration. See [Lifecycle Management](https://cloud.google.com/storage/docs/lifecycle) for more information. */
-  lifecycle?: BucketLifecycle | undefined;
-  /** The bucket's Autoclass configuration. */
-  autoclass?: BucketAutoclass | undefined;
-  /** The location of the bucket. Object data for objects in the bucket resides in physical storage within this region. Defaults to US. See the [Developer's Guide](https://cloud.google.com/storage/docs/locations) for the authoritative list. */
-  location?: string | undefined;
-  /** The type of the bucket location. */
-  locationType?: string | undefined;
-  /** The bucket's logging configuration, which defines the destination bucket and optional name prefix for the current bucket's logs. */
-  logging?: BucketLogging | undefined;
-  /** The generation of this bucket. */
-  generation?: string | undefined;
-  /** The metadata generation of this bucket. */
-  metageneration?: string | undefined;
-  /** The name of the bucket. */
-  name?: string | undefined;
-  /** The owner of the bucket. This is always the project team's owner group. */
-  owner?: BucketOwner | undefined;
-  /** The project number of the project the bucket belongs to. */
-  projectNumber?: string | undefined;
-  /** The bucket's retention policy. The retention policy enforces a minimum retention time for all objects contained in the bucket, based on their creation time. Any attempt to overwrite or delete objects younger than the retention period will result in a PERMISSION_DENIED error. An unlocked retention policy can be modified or removed from the bucket via a storage.buckets.update operation. A locked retention policy cannot be removed or shortened in duration for the lifetime of the bucket. Attempting to remove or decrease period of a locked retention policy will result in a PERMISSION_DENIED error. */
-  retentionPolicy?: BucketRetentionPolicy | undefined;
-  /** The bucket's object retention config. */
-  objectRetention?: BucketObjectRetention | undefined;
-  /** The Recovery Point Objective (RPO) of this bucket. Set to ASYNC_TURBO to turn on Turbo Replication on a bucket. */
-  rpo?: string | undefined;
-  /** The URI of this bucket. */
-  selfLink?: string | undefined;
-  /** The bucket's soft delete policy, which defines the period of time that soft-deleted objects will be retained, and cannot be permanently deleted. */
-  softDeletePolicy?: BucketSoftDeletePolicy | undefined;
-  /** The bucket's default storage class, used whenever no storageClass is specified for a newly-created object. This defines how objects in the bucket are stored and determines the SLA and the cost of storage. Values include MULTI_REGIONAL, REGIONAL, STANDARD, NEARLINE, COLDLINE, ARCHIVE, and DURABLE_REDUCED_AVAILABILITY. If this value is not specified when the bucket is created, it will default to STANDARD. For more information, see [Storage Classes](https://cloud.google.com/storage/docs/storage-classes). */
-  storageClass?: string | undefined;
-  /** The creation time of the bucket in RFC 3339 format. */
-  timeCreated?: string | undefined;
-  /** The modification time of the bucket in RFC 3339 format. */
-  updated?: string | undefined;
-  /** The soft delete time of the bucket in RFC 3339 format. */
-  softDeleteTime?: string | undefined;
-  /** The hard delete time of the bucket in RFC 3339 format. */
-  hardDeleteTime?: string | undefined;
-  /** The bucket's versioning configuration. */
-  versioning?: BucketVersioning | undefined;
-  /** The bucket's website configuration, controlling how the service behaves when accessing bucket contents as a web site. See the [Static Website Examples](https://cloud.google.com/storage/docs/static-website) for more information. */
-  website?: BucketWebsite | undefined;
-  /** Reserved for future use. */
-  satisfiesPZS?: boolean | undefined;
-  /** Reserved for future use. */
-  satisfiesPZI?: boolean | undefined;
 }
-export interface PatchDefaultObjectAccessControlsRequest {
+export interface PatchDefaultObjectAccessControlsRequest extends Omit<
+  ObjectAccessControl,
+  "bucket" | "entity"
+> {
   /** Name of a bucket. */
   bucket: string;
   /** The entity holding the permission. Can be user-userId, user-emailAddress, group-groupId, group-emailAddress, allUsers, or allAuthenticatedUsers. */
   entity: string;
   /** The project to be billed for this request. Required for Requester Pays buckets. */
   userProject?: string | undefined;
-  /** The domain associated with the entity, if any. */
-  domain?: string | undefined;
-  /** The email address associated with the entity, if any. */
-  email?: string | undefined;
-  /** The ID for the entity, if any. */
-  entityId?: string | undefined;
-  /** HTTP 1.1 Entity tag for the access-control entry. */
-  etag?: string | undefined;
-  /** The content generation of the object, if applied to an object. */
-  generation?: string | undefined;
-  /** The ID of the access-control entry. */
-  id?: string | undefined;
-  /** The kind of item this is. For object access control entries, this is always storage#objectAccessControl. */
-  kind?: string | undefined;
-  /** The name of the object, if applied to an object. */
-  object?: string | undefined;
-  /** The project team associated with the entity, if any. */
-  projectTeam?: ObjectAccessControlProjectTeam | undefined;
-  /** The access permission for the entity. */
-  role?: string | undefined;
-  /** The link to this access-control entry. */
-  selfLink?: string | undefined;
 }
-export interface PatchObjectAccessControlsRequest {
+export interface PatchObjectAccessControlsRequest extends Omit<
+  ObjectAccessControl,
+  "bucket" | "entity" | "generation" | "object"
+> {
   /** Name of a bucket. */
   bucket: string;
   /** The entity holding the permission. Can be user-userId, user-emailAddress, group-groupId, group-emailAddress, allUsers, or allAuthenticatedUsers. */
@@ -2269,24 +1796,6 @@ export interface PatchObjectAccessControlsRequest {
   object: string;
   /** The project to be billed for this request. Required for Requester Pays buckets. */
   userProject?: string | undefined;
-  /** The domain associated with the entity, if any. */
-  domain?: string | undefined;
-  /** The email address associated with the entity, if any. */
-  email?: string | undefined;
-  /** The ID for the entity, if any. */
-  entityId?: string | undefined;
-  /** HTTP 1.1 Entity tag for the access-control entry. */
-  etag?: string | undefined;
-  /** The ID of the access-control entry. */
-  id?: string | undefined;
-  /** The kind of item this is. For object access control entries, this is always storage#objectAccessControl. */
-  kind?: string | undefined;
-  /** The project team associated with the entity, if any. */
-  projectTeam?: ObjectAccessControlProjectTeam | undefined;
-  /** The access permission for the entity. */
-  role?: string | undefined;
-  /** The link to this access-control entry. */
-  selfLink?: string | undefined;
 }
 export type PatchObjectsPredefinedAclEnum =
   | "authenticatedRead"
@@ -2296,7 +1805,7 @@ export type PatchObjectsPredefinedAclEnum =
   | "projectPrivate"
   | "publicRead";
 export type PatchObjectsProjectionEnum = "full" | "noAcl";
-export interface PatchObjectsRequest {
+export interface PatchObjectsRequest extends Omit<Storage_Object, "bucket" | "generation"> {
   /** Name of the bucket in which the object resides. */
   bucket: string;
   /** If present, selects a specific revision of this object (as opposed to the latest version, the default). */
@@ -2319,83 +1828,10 @@ export interface PatchObjectsRequest {
   projection?: PatchObjectsProjectionEnum | (string & {}) | undefined;
   /** The project to be billed for this request, for Requester Pays buckets. */
   userProject?: string | undefined;
-  /** Access controls on the object. */
-  acl?: ObjectAccessControlList | undefined;
-  /** Cache-Control directive for the object data. If omitted, and the object is accessible to all anonymous users, the default will be public, max-age=3600. */
-  cacheControl?: string | undefined;
-  /** Number of underlying components that make up this object. Components are accumulated by compose operations. */
-  componentCount?: number | undefined;
-  /** Content-Disposition of the object data. */
-  contentDisposition?: string | undefined;
-  /** Content-Encoding of the object data. */
-  contentEncoding?: string | undefined;
-  /** Content-Language of the object data. */
-  contentLanguage?: string | undefined;
-  /** Content-Type of the object data. If an object is stored without a Content-Type, it is served as application/octet-stream. */
-  contentType?: string | undefined;
-  /** CRC32c checksum, as described in RFC 4960, Appendix B; encoded using base64 in big-endian byte order. For more information about using the CRC32c checksum, see [Data Validation and Change Detection](https://cloud.google.com/storage/docs/data-validation). */
-  crc32c?: string | undefined;
-  /** A timestamp in RFC 3339 format specified by the user for an object. */
-  customTime?: string | undefined;
-  /** Metadata of customer-supplied encryption key, if the object is encrypted by such a key. */
-  customerEncryption?: Storage_ObjectCustomerEncryption | undefined;
-  /** HTTP 1.1 Entity tag for the object. */
-  etag?: string | undefined;
-  /** Whether an object is under event-based hold. Event-based hold is a way to retain objects until an event occurs, which is signified by the hold's release (i.e. this value is set to false). After being released (set to false), such objects will be subject to bucket-level retention (if any). One sample use case of this flag is for banks to hold loan documents for at least 3 years after loan is paid in full. Here, bucket-level retention is 3 years and the event is the loan being paid in full. In this example, these objects will be held intact for any number of years until the event has occurred (event-based hold on the object is released) and then 3 more years after that. That means retention duration of the objects begins from the moment event-based hold transitioned from true to false. */
-  eventBasedHold?: boolean | undefined;
-  /** The ID of the object, including the bucket name, object name, and generation number. */
-  id?: string | undefined;
-  /** The kind of item this is. For objects, this is always storage#object. */
-  kind?: string | undefined;
-  /** Not currently supported. Specifying the parameter causes the request to fail with status code 400 - Bad Request. */
-  kmsKeyName?: string | undefined;
-  /** MD5 hash of the data; encoded using base64. For more information about using the MD5 hash, see [Data Validation and Change Detection](https://cloud.google.com/storage/docs/data-validation). */
-  md5Hash?: string | undefined;
-  /** Media download link. */
-  mediaLink?: string | undefined;
-  /** User-provided metadata, in key/value pairs. */
-  metadata?: StringMap | undefined;
-  /** User-defined or system-defined object contexts. Each object context is a key-payload pair, where the key provides the identification and the payload holds the associated value and additional metadata. */
-  contexts?: Storage_ObjectContexts | undefined;
-  /** Restore token used to differentiate deleted objects with the same name and generation. This field is only returned for deleted objects in hierarchical namespace buckets. */
-  restoreToken?: string | undefined;
-  /** The version of the metadata for this object at this generation. Used for preconditions and for detecting changes in metadata. A metageneration number is only meaningful in the context of a particular generation of a particular object. */
-  metageneration?: string | undefined;
-  /** The name of the object. Required if not specified by URL parameter. */
-  name?: string | undefined;
-  /** The owner of the object. This will always be the uploader of the object. */
-  owner?: Storage_ObjectOwner | undefined;
-  /** A server-determined value that specifies the earliest time that the object's retention period expires. This value is in RFC 3339 format. Note 1: This field is not provided for objects with an active event-based hold, since retention expiration is unknown until the hold is removed. Note 2: This value can be provided even when temporary hold is set (so that the user can reason about policy without having to first unset the temporary hold). */
-  retentionExpirationTime?: string | undefined;
-  /** A collection of object level retention parameters. */
-  retention?: Storage_ObjectRetention | undefined;
-  /** The link to this object. */
-  selfLink?: string | undefined;
-  /** Content-Length of the data in bytes. */
-  size?: string | undefined;
-  /** Storage class of the object. */
-  storageClass?: string | undefined;
-  /** Whether an object is under temporary hold. While this flag is set to true, the object is protected against deletion and overwrites. A common use case of this flag is regulatory investigations where objects need to be retained while the investigation is ongoing. Note that unlike event-based hold, temporary hold does not impact retention expiration time of an object. */
-  temporaryHold?: boolean | undefined;
-  /** The creation time of the object in RFC 3339 format. */
-  timeCreated?: string | undefined;
-  /** The time at which the object became noncurrent in RFC 3339 format. Will be returned if and only if this version of the object has been deleted. */
-  timeDeleted?: string | undefined;
-  /** The time when the object was finalized. */
-  timeFinalized?: string | undefined;
-  /** The time at which the object became soft-deleted in RFC 3339 format. */
-  softDeleteTime?: string | undefined;
-  /** This is the time (in the future) when the soft-deleted object will no longer be restorable. It is equal to the soft delete time plus the current soft delete retention duration of the bucket. */
-  hardDeleteTime?: string | undefined;
-  /** The time at which the object's storage class was last changed. When the object is initially created, it will be set to timeCreated. */
-  timeStorageClassUpdated?: string | undefined;
-  /** The modification time of the object metadata in RFC 3339 format. Set initially to object creation time and then updated whenever any metadata of the object changes. This includes changes made by a requester, such as modifying custom metadata, as well as changes made by Cloud Storage on behalf of a requester, such as changing the storage class based on an Object Lifecycle Configuration. */
-  updated?: string | undefined;
 }
 export type RelocateBucketRequestDestinationCustomPlacementConfig = BucketCustomPlacementConfig;
-export interface RelocateBucketsRequest {
-  /** Name of the bucket to be moved. */
-  bucket: string;
+/** A Relocate Bucket request. */
+export interface RelocateBucketRequest {
   /** The new location the bucket will be relocated to. */
   destinationLocation?: string | undefined;
   /** The bucket's new custom placement configuration if relocating to a Custom Dual Region. */
@@ -2404,6 +1840,10 @@ export interface RelocateBucketsRequest {
   validateOnly?: boolean | undefined;
   /** Resource name of a Cloud KMS key, of the form projects/my-project/locations/global/keyRings/my-kr/cryptoKeys/my-key. If set, is used to encrypt all objects in the destination bucket. */
   destinationKmsKeyName?: string | undefined;
+}
+export interface RelocateBucketsRequest extends RelocateBucketRequest {
+  /** Name of the bucket to be moved. */
+  bucket: string;
 }
 export interface RenameFoldersRequest {
   /** Name of the bucket in which the folders are in. */
@@ -2467,7 +1907,7 @@ export type RewriteObjectsDestinationPredefinedAclEnum =
   | "projectPrivate"
   | "publicRead";
 export type RewriteObjectsProjectionEnum = "full" | "noAcl";
-export interface RewriteObjectsRequest {
+export interface RewriteObjectsRequest extends Storage_Object {
   /** Name of the bucket in which to store the new object. Overrides the provided object metadata's bucket value, if any. */
   destinationBucket: string;
   /** Resource name of the Cloud KMS key, of the form projects/my-project/locations/global/keyRings/my-kr/cryptoKeys/my-key, that will be used to encrypt the object. Overrides the object metadata's kms_key_name value, if any. */
@@ -2508,82 +1948,6 @@ export interface RewriteObjectsRequest {
   sourceObject: string;
   /** The project to be billed for this request. Required for Requester Pays buckets. */
   userProject?: string | undefined;
-  /** Access controls on the object. */
-  acl?: ObjectAccessControlList | undefined;
-  /** The name of the bucket containing this object. */
-  bucket?: string | undefined;
-  /** Cache-Control directive for the object data. If omitted, and the object is accessible to all anonymous users, the default will be public, max-age=3600. */
-  cacheControl?: string | undefined;
-  /** Number of underlying components that make up this object. Components are accumulated by compose operations. */
-  componentCount?: number | undefined;
-  /** Content-Disposition of the object data. */
-  contentDisposition?: string | undefined;
-  /** Content-Encoding of the object data. */
-  contentEncoding?: string | undefined;
-  /** Content-Language of the object data. */
-  contentLanguage?: string | undefined;
-  /** Content-Type of the object data. If an object is stored without a Content-Type, it is served as application/octet-stream. */
-  contentType?: string | undefined;
-  /** CRC32c checksum, as described in RFC 4960, Appendix B; encoded using base64 in big-endian byte order. For more information about using the CRC32c checksum, see [Data Validation and Change Detection](https://cloud.google.com/storage/docs/data-validation). */
-  crc32c?: string | undefined;
-  /** A timestamp in RFC 3339 format specified by the user for an object. */
-  customTime?: string | undefined;
-  /** Metadata of customer-supplied encryption key, if the object is encrypted by such a key. */
-  customerEncryption?: Storage_ObjectCustomerEncryption | undefined;
-  /** HTTP 1.1 Entity tag for the object. */
-  etag?: string | undefined;
-  /** Whether an object is under event-based hold. Event-based hold is a way to retain objects until an event occurs, which is signified by the hold's release (i.e. this value is set to false). After being released (set to false), such objects will be subject to bucket-level retention (if any). One sample use case of this flag is for banks to hold loan documents for at least 3 years after loan is paid in full. Here, bucket-level retention is 3 years and the event is the loan being paid in full. In this example, these objects will be held intact for any number of years until the event has occurred (event-based hold on the object is released) and then 3 more years after that. That means retention duration of the objects begins from the moment event-based hold transitioned from true to false. */
-  eventBasedHold?: boolean | undefined;
-  /** The content generation of this object. Used for object versioning. */
-  generation?: string | undefined;
-  /** The ID of the object, including the bucket name, object name, and generation number. */
-  id?: string | undefined;
-  /** The kind of item this is. For objects, this is always storage#object. */
-  kind?: string | undefined;
-  /** Not currently supported. Specifying the parameter causes the request to fail with status code 400 - Bad Request. */
-  kmsKeyName?: string | undefined;
-  /** MD5 hash of the data; encoded using base64. For more information about using the MD5 hash, see [Data Validation and Change Detection](https://cloud.google.com/storage/docs/data-validation). */
-  md5Hash?: string | undefined;
-  /** Media download link. */
-  mediaLink?: string | undefined;
-  /** User-provided metadata, in key/value pairs. */
-  metadata?: StringMap | undefined;
-  /** User-defined or system-defined object contexts. Each object context is a key-payload pair, where the key provides the identification and the payload holds the associated value and additional metadata. */
-  contexts?: Storage_ObjectContexts | undefined;
-  /** Restore token used to differentiate deleted objects with the same name and generation. This field is only returned for deleted objects in hierarchical namespace buckets. */
-  restoreToken?: string | undefined;
-  /** The version of the metadata for this object at this generation. Used for preconditions and for detecting changes in metadata. A metageneration number is only meaningful in the context of a particular generation of a particular object. */
-  metageneration?: string | undefined;
-  /** The name of the object. Required if not specified by URL parameter. */
-  name?: string | undefined;
-  /** The owner of the object. This will always be the uploader of the object. */
-  owner?: Storage_ObjectOwner | undefined;
-  /** A server-determined value that specifies the earliest time that the object's retention period expires. This value is in RFC 3339 format. Note 1: This field is not provided for objects with an active event-based hold, since retention expiration is unknown until the hold is removed. Note 2: This value can be provided even when temporary hold is set (so that the user can reason about policy without having to first unset the temporary hold). */
-  retentionExpirationTime?: string | undefined;
-  /** A collection of object level retention parameters. */
-  retention?: Storage_ObjectRetention | undefined;
-  /** The link to this object. */
-  selfLink?: string | undefined;
-  /** Content-Length of the data in bytes. */
-  size?: string | undefined;
-  /** Storage class of the object. */
-  storageClass?: string | undefined;
-  /** Whether an object is under temporary hold. While this flag is set to true, the object is protected against deletion and overwrites. A common use case of this flag is regulatory investigations where objects need to be retained while the investigation is ongoing. Note that unlike event-based hold, temporary hold does not impact retention expiration time of an object. */
-  temporaryHold?: boolean | undefined;
-  /** The creation time of the object in RFC 3339 format. */
-  timeCreated?: string | undefined;
-  /** The time at which the object became noncurrent in RFC 3339 format. Will be returned if and only if this version of the object has been deleted. */
-  timeDeleted?: string | undefined;
-  /** The time when the object was finalized. */
-  timeFinalized?: string | undefined;
-  /** The time at which the object became soft-deleted in RFC 3339 format. */
-  softDeleteTime?: string | undefined;
-  /** This is the time (in the future) when the soft-deleted object will no longer be restorable. It is equal to the soft delete time plus the current soft delete retention duration of the bucket. */
-  hardDeleteTime?: string | undefined;
-  /** The time at which the object's storage class was last changed. When the object is initially created, it will be set to timeCreated. */
-  timeStorageClassUpdated?: string | undefined;
-  /** The modification time of the object metadata in RFC 3339 format. Set initially to object creation time and then updated whenever any metadata of the object changes. This includes changes made by a requester, such as modifying custom metadata, as well as changes made by Cloud Storage on behalf of a requester, such as changing the storage class based on an Object Lifecycle Configuration. */
-  updated?: string | undefined;
 }
 /** A rewrite response. */
 export interface RewriteResponse {
@@ -2600,41 +1964,21 @@ export interface RewriteResponse {
   /** The total bytes written so far, which can be used to provide a waiting user with a progress indicator. This property is always present in the response. */
   totalBytesRewritten?: string | undefined;
 }
-export interface SetIamPolicyBucketsRequest {
+export interface SetIamPolicyBucketsRequest extends Policy {
   /** Name of a bucket. */
   bucket: string;
   /** The project to be billed for this request. Required for Requester Pays buckets. */
   userProject?: string | undefined;
-  /** An association between a role, which comes with a set of permissions, and members who may assume that role. */
-  bindings?: PolicyBindingsItemList | undefined;
-  /** HTTP 1.1 Entity tag for the policy. */
-  etag?: string | undefined;
-  /** The kind of item this is. For policies, this is always storage#policy. This field is ignored on input. */
-  kind?: string | undefined;
-  /** The ID of the resource to which this policy belongs. Will be of the form projects/_/buckets/bucket for buckets, projects/_/buckets/bucket/objects/object for objects, and projects/_/buckets/bucket/managedFolders/managedFolder. A specific generation may be specified by appending #generationNumber to the end of the object name, e.g. projects/_/buckets/my-bucket/objects/data.txt#17. The current generation can be denoted with #0. This field is ignored on input. */
-  resourceId?: string | undefined;
-  /** The IAM policy format version. */
-  version?: number | undefined;
 }
-export interface SetIamPolicyManagedFoldersRequest {
+export interface SetIamPolicyManagedFoldersRequest extends Policy {
   /** Name of the bucket containing the managed folder. */
   bucket: string;
   /** The managed folder name/path. */
   managedFolder: string;
   /** The project to be billed for this request. Required for Requester Pays buckets. */
   userProject?: string | undefined;
-  /** An association between a role, which comes with a set of permissions, and members who may assume that role. */
-  bindings?: PolicyBindingsItemList | undefined;
-  /** HTTP 1.1 Entity tag for the policy. */
-  etag?: string | undefined;
-  /** The kind of item this is. For policies, this is always storage#policy. This field is ignored on input. */
-  kind?: string | undefined;
-  /** The ID of the resource to which this policy belongs. Will be of the form projects/_/buckets/bucket for buckets, projects/_/buckets/bucket/objects/object for objects, and projects/_/buckets/bucket/managedFolders/managedFolder. A specific generation may be specified by appending #generationNumber to the end of the object name, e.g. projects/_/buckets/my-bucket/objects/data.txt#17. The current generation can be denoted with #0. This field is ignored on input. */
-  resourceId?: string | undefined;
-  /** The IAM policy format version. */
-  version?: number | undefined;
 }
-export interface SetIamPolicyObjectsRequest {
+export interface SetIamPolicyObjectsRequest extends Policy {
   /** Name of the bucket in which the object resides. */
   bucket: string;
   /** If present, selects a specific revision of this object (as opposed to the latest version, the default). */
@@ -2643,16 +1987,6 @@ export interface SetIamPolicyObjectsRequest {
   object: string;
   /** The project to be billed for this request. Required for Requester Pays buckets. */
   userProject?: string | undefined;
-  /** An association between a role, which comes with a set of permissions, and members who may assume that role. */
-  bindings?: PolicyBindingsItemList | undefined;
-  /** HTTP 1.1 Entity tag for the policy. */
-  etag?: string | undefined;
-  /** The kind of item this is. For policies, this is always storage#policy. This field is ignored on input. */
-  kind?: string | undefined;
-  /** The ID of the resource to which this policy belongs. Will be of the form projects/_/buckets/bucket for buckets, projects/_/buckets/bucket/objects/object for objects, and projects/_/buckets/bucket/managedFolders/managedFolder. A specific generation may be specified by appending #generationNumber to the end of the object name, e.g. projects/_/buckets/my-bucket/objects/data.txt#17. The current generation can be denoted with #0. This field is ignored on input. */
-  resourceId?: string | undefined;
-  /** The IAM policy format version. */
-  version?: number | undefined;
 }
 export interface TestIamPermissionsBucketsRequest {
   /** Name of a bucket. */
@@ -2691,59 +2025,25 @@ export interface TestIamPermissionsObjectsRequest {
   /** The project to be billed for this request. Required for Requester Pays buckets. */
   userProject?: string | undefined;
 }
-export interface UpdateAnywhereCachesRequest {
+export interface UpdateAnywhereCachesRequest extends Omit<
+  AnywhereCache,
+  "bucket" | "anywhereCacheId"
+> {
   /** Name of the parent bucket. */
   bucket: string;
   /** The ID of requested Anywhere Cache instance. */
   anywhereCacheId: string;
-  /** The kind of item this is. For Anywhere Cache, this is always storage#anywhereCache. */
-  kind?: string | undefined;
-  /** The ID of the resource, including the project number, bucket name and anywhere cache ID. */
-  id?: string | undefined;
-  /** The link to this cache instance. */
-  selfLink?: string | undefined;
-  /** The zone in which the cache instance is running. For example, us-central1-a. */
-  zone?: string | undefined;
-  /** The current state of the cache instance. */
-  state?: string | undefined;
-  /** The creation time of the cache instance in RFC 3339 format. */
-  createTime?: string | undefined;
-  /** The modification time of the cache instance metadata in RFC 3339 format. */
-  updateTime?: string | undefined;
-  /** The TTL of all cache entries in whole seconds. e.g., "7200s". */
-  ttl?: string | undefined;
-  /** The cache-level entry admission policy. */
-  admissionPolicy?: string | undefined;
-  /** True if the cache instance has an active Update long-running operation. */
-  pendingUpdate?: boolean | undefined;
-  /** Specifies whether objects are ingested into the cache upon write. */
-  ingestOnWrite?: boolean | undefined;
 }
-export interface UpdateBucketAccessControlsRequest {
+export interface UpdateBucketAccessControlsRequest extends Omit<
+  BucketAccessControl,
+  "bucket" | "entity"
+> {
   /** Name of a bucket. */
   bucket: string;
   /** The entity holding the permission. Can be user-userId, user-emailAddress, group-groupId, group-emailAddress, allUsers, or allAuthenticatedUsers. */
   entity: string;
   /** The project to be billed for this request. Required for Requester Pays buckets. */
   userProject?: string | undefined;
-  /** The domain associated with the entity, if any. */
-  domain?: string | undefined;
-  /** The email address associated with the entity, if any. */
-  email?: string | undefined;
-  /** The ID for the entity, if any. */
-  entityId?: string | undefined;
-  /** HTTP 1.1 Entity tag for the access-control entry. */
-  etag?: string | undefined;
-  /** The ID of the access-control entry. */
-  id?: string | undefined;
-  /** The kind of item this is. For bucket access control entries, this is always storage#bucketAccessControl. */
-  kind?: string | undefined;
-  /** The project team associated with the entity, if any. */
-  projectTeam?: ObjectAccessControlProjectTeam | undefined;
-  /** The access permission for the entity. */
-  role?: string | undefined;
-  /** The link to this access-control entry. */
-  selfLink?: string | undefined;
 }
 export type UpdateBucketsPredefinedAclEnum =
   | "authenticatedRead"
@@ -2759,7 +2059,7 @@ export type UpdateBucketsPredefinedDefaultObjectAclEnum =
   | "projectPrivate"
   | "publicRead";
 export type UpdateBucketsProjectionEnum = "full" | "noAcl";
-export interface UpdateBucketsRequest {
+export interface UpdateBucketsRequest extends Bucket {
   /** Name of a bucket. */
   bucket: string;
   /** Makes the return of the bucket metadata conditional on whether the bucket's current metageneration matches the given value. */
@@ -2777,114 +2077,19 @@ export interface UpdateBucketsRequest {
   projection?: UpdateBucketsProjectionEnum | (string & {}) | undefined;
   /** The project to be billed for this request. Required for Requester Pays buckets. */
   userProject?: string | undefined;
-  /** Access controls on the bucket. */
-  acl?: BucketAccessControlList | undefined;
-  /** The bucket's billing configuration. */
-  billing?: BucketBilling | undefined;
-  /** The bucket's Cross-Origin Resource Sharing (CORS) configuration. */
-  cors?: BucketCorsItemList | undefined;
-  /** The bucket's custom placement configuration for Custom Dual Regions. */
-  customPlacementConfig?: BucketCustomPlacementConfig | undefined;
-  /** The default value for event-based hold on newly created objects in this bucket. Event-based hold is a way to retain objects indefinitely until an event occurs, signified by the hold's release. After being released, such objects will be subject to bucket-level retention (if any). One sample use case of this flag is for banks to hold loan documents for at least 3 years after loan is paid in full. Here, bucket-level retention is 3 years and the event is loan being paid in full. In this example, these objects will be held intact for any number of years until the event has occurred (event-based hold on the object is released) and then 3 more years after that. That means retention duration of the objects begins from the moment event-based hold transitioned from true to false. Objects under event-based hold cannot be deleted, overwritten or archived until the hold is removed. */
-  defaultEventBasedHold?: boolean | undefined;
-  /** Default access controls to apply to new objects when no ACL is provided. */
-  defaultObjectAcl?: ObjectAccessControlList | undefined;
-  /** Encryption configuration for a bucket. */
-  encryption?: BucketEncryption | undefined;
-  /** HTTP 1.1 Entity tag for the bucket. */
-  etag?: string | undefined;
-  /** The bucket's hierarchical namespace configuration. */
-  hierarchicalNamespace?: BucketHierarchicalNamespace | undefined;
-  /** The bucket's IAM configuration. */
-  iamConfiguration?: BucketIamConfiguration | undefined;
-  /** The ID of the bucket. For buckets, the id and name properties are the same. */
-  id?: string | undefined;
-  /** The bucket's IP filter configuration. Specifies the network sources that are allowed to access the operations on the bucket, as well as its underlying objects. Only enforced when the mode is set to 'Enabled'. */
-  ipFilter?: BucketIpFilter | undefined;
-  /** The kind of item this is. For buckets, this is always storage#bucket. */
-  kind?: string | undefined;
-  /** User-provided labels, in key/value pairs. */
-  labels?: StringMap | undefined;
-  /** The bucket's lifecycle configuration. See [Lifecycle Management](https://cloud.google.com/storage/docs/lifecycle) for more information. */
-  lifecycle?: BucketLifecycle | undefined;
-  /** The bucket's Autoclass configuration. */
-  autoclass?: BucketAutoclass | undefined;
-  /** The location of the bucket. Object data for objects in the bucket resides in physical storage within this region. Defaults to US. See the [Developer's Guide](https://cloud.google.com/storage/docs/locations) for the authoritative list. */
-  location?: string | undefined;
-  /** The type of the bucket location. */
-  locationType?: string | undefined;
-  /** The bucket's logging configuration, which defines the destination bucket and optional name prefix for the current bucket's logs. */
-  logging?: BucketLogging | undefined;
-  /** The generation of this bucket. */
-  generation?: string | undefined;
-  /** The metadata generation of this bucket. */
-  metageneration?: string | undefined;
-  /** The name of the bucket. */
-  name?: string | undefined;
-  /** The owner of the bucket. This is always the project team's owner group. */
-  owner?: BucketOwner | undefined;
-  /** The project number of the project the bucket belongs to. */
-  projectNumber?: string | undefined;
-  /** The bucket's retention policy. The retention policy enforces a minimum retention time for all objects contained in the bucket, based on their creation time. Any attempt to overwrite or delete objects younger than the retention period will result in a PERMISSION_DENIED error. An unlocked retention policy can be modified or removed from the bucket via a storage.buckets.update operation. A locked retention policy cannot be removed or shortened in duration for the lifetime of the bucket. Attempting to remove or decrease period of a locked retention policy will result in a PERMISSION_DENIED error. */
-  retentionPolicy?: BucketRetentionPolicy | undefined;
-  /** The bucket's object retention config. */
-  objectRetention?: BucketObjectRetention | undefined;
-  /** The Recovery Point Objective (RPO) of this bucket. Set to ASYNC_TURBO to turn on Turbo Replication on a bucket. */
-  rpo?: string | undefined;
-  /** The URI of this bucket. */
-  selfLink?: string | undefined;
-  /** The bucket's soft delete policy, which defines the period of time that soft-deleted objects will be retained, and cannot be permanently deleted. */
-  softDeletePolicy?: BucketSoftDeletePolicy | undefined;
-  /** The bucket's default storage class, used whenever no storageClass is specified for a newly-created object. This defines how objects in the bucket are stored and determines the SLA and the cost of storage. Values include MULTI_REGIONAL, REGIONAL, STANDARD, NEARLINE, COLDLINE, ARCHIVE, and DURABLE_REDUCED_AVAILABILITY. If this value is not specified when the bucket is created, it will default to STANDARD. For more information, see [Storage Classes](https://cloud.google.com/storage/docs/storage-classes). */
-  storageClass?: string | undefined;
-  /** The creation time of the bucket in RFC 3339 format. */
-  timeCreated?: string | undefined;
-  /** The modification time of the bucket in RFC 3339 format. */
-  updated?: string | undefined;
-  /** The soft delete time of the bucket in RFC 3339 format. */
-  softDeleteTime?: string | undefined;
-  /** The hard delete time of the bucket in RFC 3339 format. */
-  hardDeleteTime?: string | undefined;
-  /** The bucket's versioning configuration. */
-  versioning?: BucketVersioning | undefined;
-  /** The bucket's website configuration, controlling how the service behaves when accessing bucket contents as a web site. See the [Static Website Examples](https://cloud.google.com/storage/docs/static-website) for more information. */
-  website?: BucketWebsite | undefined;
-  /** Reserved for future use. */
-  satisfiesPZS?: boolean | undefined;
-  /** Reserved for future use. */
-  satisfiesPZI?: boolean | undefined;
 }
-export interface UpdateDefaultObjectAccessControlsRequest {
+export interface UpdateDefaultObjectAccessControlsRequest extends Omit<
+  ObjectAccessControl,
+  "bucket" | "entity"
+> {
   /** Name of a bucket. */
   bucket: string;
   /** The entity holding the permission. Can be user-userId, user-emailAddress, group-groupId, group-emailAddress, allUsers, or allAuthenticatedUsers. */
   entity: string;
   /** The project to be billed for this request. Required for Requester Pays buckets. */
   userProject?: string | undefined;
-  /** The domain associated with the entity, if any. */
-  domain?: string | undefined;
-  /** The email address associated with the entity, if any. */
-  email?: string | undefined;
-  /** The ID for the entity, if any. */
-  entityId?: string | undefined;
-  /** HTTP 1.1 Entity tag for the access-control entry. */
-  etag?: string | undefined;
-  /** The content generation of the object, if applied to an object. */
-  generation?: string | undefined;
-  /** The ID of the access-control entry. */
-  id?: string | undefined;
-  /** The kind of item this is. For object access control entries, this is always storage#objectAccessControl. */
-  kind?: string | undefined;
-  /** The name of the object, if applied to an object. */
-  object?: string | undefined;
-  /** The project team associated with the entity, if any. */
-  projectTeam?: ObjectAccessControlProjectTeam | undefined;
-  /** The access permission for the entity. */
-  role?: string | undefined;
-  /** The link to this access-control entry. */
-  selfLink?: string | undefined;
 }
-export interface UpdateManagedFoldersRequest {
+export interface UpdateManagedFoldersRequest extends Omit<ManagedFolder, "bucket"> {
   /** The name of the bucket containing the managed folder. */
   bucket: string;
   /** The name of the managed folder. */
@@ -2893,24 +2098,11 @@ export interface UpdateManagedFoldersRequest {
   ifMetagenerationMatch?: string | undefined;
   /** Makes the operation conditional on whether the metageneration of the managed folder doesn't match the specified value. */
   ifMetagenerationNotMatch?: string | undefined;
-  /** The ID of the managed folder, including the bucket name and managed folder name. */
-  id?: string | undefined;
-  /** The kind of item this is. For managed folders, this is always storage#managedFolder. */
-  kind?: string | undefined;
-  /** The version of the metadata for this managed folder. Used for preconditions and for detecting changes in metadata. */
-  metageneration?: string | undefined;
-  /** The name of the managed folder. Required if not specified by URL parameter. */
-  name?: string | undefined;
-  /** The link to this managed folder. */
-  selfLink?: string | undefined;
-  /** The creation time of the managed folder in RFC 3339 format. */
-  createTime?: string | undefined;
-  /** The last update time of the managed folder metadata in RFC 3339 format. */
-  updateTime?: string | undefined;
-  /** The rapid cache configuration for the managed folder. */
-  rapidCacheConfig?: RapidCacheConfig | undefined;
 }
-export interface UpdateObjectAccessControlsRequest {
+export interface UpdateObjectAccessControlsRequest extends Omit<
+  ObjectAccessControl,
+  "bucket" | "entity" | "generation" | "object"
+> {
   /** Name of a bucket. */
   bucket: string;
   /** The entity holding the permission. Can be user-userId, user-emailAddress, group-groupId, group-emailAddress, allUsers, or allAuthenticatedUsers. */
@@ -2921,24 +2113,6 @@ export interface UpdateObjectAccessControlsRequest {
   object: string;
   /** The project to be billed for this request. Required for Requester Pays buckets. */
   userProject?: string | undefined;
-  /** The domain associated with the entity, if any. */
-  domain?: string | undefined;
-  /** The email address associated with the entity, if any. */
-  email?: string | undefined;
-  /** The ID for the entity, if any. */
-  entityId?: string | undefined;
-  /** HTTP 1.1 Entity tag for the access-control entry. */
-  etag?: string | undefined;
-  /** The ID of the access-control entry. */
-  id?: string | undefined;
-  /** The kind of item this is. For object access control entries, this is always storage#objectAccessControl. */
-  kind?: string | undefined;
-  /** The project team associated with the entity, if any. */
-  projectTeam?: ObjectAccessControlProjectTeam | undefined;
-  /** The access permission for the entity. */
-  role?: string | undefined;
-  /** The link to this access-control entry. */
-  selfLink?: string | undefined;
 }
 export type UpdateObjectsPredefinedAclEnum =
   | "authenticatedRead"
@@ -2948,7 +2122,7 @@ export type UpdateObjectsPredefinedAclEnum =
   | "projectPrivate"
   | "publicRead";
 export type UpdateObjectsProjectionEnum = "full" | "noAcl";
-export interface UpdateObjectsRequest {
+export interface UpdateObjectsRequest extends Omit<Storage_Object, "bucket" | "generation"> {
   /** Name of the bucket in which the object resides. */
   bucket: string;
   /** If present, selects a specific revision of this object (as opposed to the latest version, the default). */
@@ -2971,132 +2145,23 @@ export interface UpdateObjectsRequest {
   projection?: UpdateObjectsProjectionEnum | (string & {}) | undefined;
   /** The project to be billed for this request. Required for Requester Pays buckets. */
   userProject?: string | undefined;
-  /** Access controls on the object. */
-  acl?: ObjectAccessControlList | undefined;
-  /** Cache-Control directive for the object data. If omitted, and the object is accessible to all anonymous users, the default will be public, max-age=3600. */
-  cacheControl?: string | undefined;
-  /** Number of underlying components that make up this object. Components are accumulated by compose operations. */
-  componentCount?: number | undefined;
-  /** Content-Disposition of the object data. */
-  contentDisposition?: string | undefined;
-  /** Content-Encoding of the object data. */
-  contentEncoding?: string | undefined;
-  /** Content-Language of the object data. */
-  contentLanguage?: string | undefined;
-  /** Content-Type of the object data. If an object is stored without a Content-Type, it is served as application/octet-stream. */
-  contentType?: string | undefined;
-  /** CRC32c checksum, as described in RFC 4960, Appendix B; encoded using base64 in big-endian byte order. For more information about using the CRC32c checksum, see [Data Validation and Change Detection](https://cloud.google.com/storage/docs/data-validation). */
-  crc32c?: string | undefined;
-  /** A timestamp in RFC 3339 format specified by the user for an object. */
-  customTime?: string | undefined;
-  /** Metadata of customer-supplied encryption key, if the object is encrypted by such a key. */
-  customerEncryption?: Storage_ObjectCustomerEncryption | undefined;
-  /** HTTP 1.1 Entity tag for the object. */
-  etag?: string | undefined;
-  /** Whether an object is under event-based hold. Event-based hold is a way to retain objects until an event occurs, which is signified by the hold's release (i.e. this value is set to false). After being released (set to false), such objects will be subject to bucket-level retention (if any). One sample use case of this flag is for banks to hold loan documents for at least 3 years after loan is paid in full. Here, bucket-level retention is 3 years and the event is the loan being paid in full. In this example, these objects will be held intact for any number of years until the event has occurred (event-based hold on the object is released) and then 3 more years after that. That means retention duration of the objects begins from the moment event-based hold transitioned from true to false. */
-  eventBasedHold?: boolean | undefined;
-  /** The ID of the object, including the bucket name, object name, and generation number. */
-  id?: string | undefined;
-  /** The kind of item this is. For objects, this is always storage#object. */
-  kind?: string | undefined;
-  /** Not currently supported. Specifying the parameter causes the request to fail with status code 400 - Bad Request. */
-  kmsKeyName?: string | undefined;
-  /** MD5 hash of the data; encoded using base64. For more information about using the MD5 hash, see [Data Validation and Change Detection](https://cloud.google.com/storage/docs/data-validation). */
-  md5Hash?: string | undefined;
-  /** Media download link. */
-  mediaLink?: string | undefined;
-  /** User-provided metadata, in key/value pairs. */
-  metadata?: StringMap | undefined;
-  /** User-defined or system-defined object contexts. Each object context is a key-payload pair, where the key provides the identification and the payload holds the associated value and additional metadata. */
-  contexts?: Storage_ObjectContexts | undefined;
-  /** Restore token used to differentiate deleted objects with the same name and generation. This field is only returned for deleted objects in hierarchical namespace buckets. */
-  restoreToken?: string | undefined;
-  /** The version of the metadata for this object at this generation. Used for preconditions and for detecting changes in metadata. A metageneration number is only meaningful in the context of a particular generation of a particular object. */
-  metageneration?: string | undefined;
-  /** The name of the object. Required if not specified by URL parameter. */
-  name?: string | undefined;
-  /** The owner of the object. This will always be the uploader of the object. */
-  owner?: Storage_ObjectOwner | undefined;
-  /** A server-determined value that specifies the earliest time that the object's retention period expires. This value is in RFC 3339 format. Note 1: This field is not provided for objects with an active event-based hold, since retention expiration is unknown until the hold is removed. Note 2: This value can be provided even when temporary hold is set (so that the user can reason about policy without having to first unset the temporary hold). */
-  retentionExpirationTime?: string | undefined;
-  /** A collection of object level retention parameters. */
-  retention?: Storage_ObjectRetention | undefined;
-  /** The link to this object. */
-  selfLink?: string | undefined;
-  /** Content-Length of the data in bytes. */
-  size?: string | undefined;
-  /** Storage class of the object. */
-  storageClass?: string | undefined;
-  /** Whether an object is under temporary hold. While this flag is set to true, the object is protected against deletion and overwrites. A common use case of this flag is regulatory investigations where objects need to be retained while the investigation is ongoing. Note that unlike event-based hold, temporary hold does not impact retention expiration time of an object. */
-  temporaryHold?: boolean | undefined;
-  /** The creation time of the object in RFC 3339 format. */
-  timeCreated?: string | undefined;
-  /** The time at which the object became noncurrent in RFC 3339 format. Will be returned if and only if this version of the object has been deleted. */
-  timeDeleted?: string | undefined;
-  /** The time when the object was finalized. */
-  timeFinalized?: string | undefined;
-  /** The time at which the object became soft-deleted in RFC 3339 format. */
-  softDeleteTime?: string | undefined;
-  /** This is the time (in the future) when the soft-deleted object will no longer be restorable. It is equal to the soft delete time plus the current soft delete retention duration of the bucket. */
-  hardDeleteTime?: string | undefined;
-  /** The time at which the object's storage class was last changed. When the object is initially created, it will be set to timeCreated. */
-  timeStorageClassUpdated?: string | undefined;
-  /** The modification time of the object metadata in RFC 3339 format. Set initially to object creation time and then updated whenever any metadata of the object changes. This includes changes made by a requester, such as modifying custom metadata, as well as changes made by Cloud Storage on behalf of a requester, such as changing the storage class based on an Object Lifecycle Configuration. */
-  updated?: string | undefined;
 }
-export interface UpdateProjectsHmacKeysRequest {
+export interface UpdateProjectsHmacKeysRequest extends Omit<
+  HmacKeyMetadata,
+  "accessId" | "projectId"
+> {
   /** Name of the HMAC key being updated. */
   accessId: string;
   /** Project ID owning the service account of the updated key. */
   projectId: string;
   /** The project to be billed for this request. */
   userProject?: string | undefined;
-  /** HTTP 1.1 Entity tag for the HMAC key. */
-  etag?: string | undefined;
-  /** The ID of the HMAC key, including the Project ID and the Access ID. */
-  id?: string | undefined;
-  /** The kind of item this is. For HMAC Key metadata, this is always storage#hmacKeyMetadata. */
-  kind?: string | undefined;
-  /** The link to this resource. */
-  selfLink?: string | undefined;
-  /** The email address of the key's associated service account. */
-  serviceAccountEmail?: string | undefined;
-  /** The state of the key. Can be one of ACTIVE, INACTIVE, or DELETED. */
-  state?: string | undefined;
-  /** The creation time of the HMAC key in RFC 3339 format. */
-  timeCreated?: string | undefined;
-  /** The last modification time of the HMAC key metadata in RFC 3339 format. */
-  updated?: string | undefined;
 }
-export interface UpdateRapidCachesRequest {
+export interface UpdateRapidCachesRequest extends Omit<RapidCache, "bucket" | "rapidCacheId"> {
   /** Name of the parent bucket. */
   bucket: string;
   /** The ID of the requested Rapid Cache instance. */
   rapidCacheId: string;
-  /** The kind of item this is. For Rapid Cache, this is always storage#rapidCache. */
-  kind?: string | undefined;
-  /** The ID of the resource, including the project number, bucket name and rapid cache ID. */
-  id?: string | undefined;
-  /** The link to this cache instance. */
-  selfLink?: string | undefined;
-  /** The zone in which the cache instance is running. For example, us-central1-a. */
-  zone?: string | undefined;
-  /** The current state of the cache instance. */
-  state?: string | undefined;
-  /** The creation time of the cache instance in RFC 3339 format. */
-  createTime?: string | undefined;
-  /** The modification time of the cache instance metadata in RFC 3339 format. */
-  updateTime?: string | undefined;
-  /** The TTL of all cache entries in whole seconds. e.g., "7200s". */
-  ttl?: string | undefined;
-  /** The cache-level entry admission policy. */
-  admissionPolicy?: string | undefined;
-  /** True if the cache instance has an active Update long-running operation. */
-  pendingUpdate?: boolean | undefined;
-  /** Specifies whether objects are ingested into the cache upon write. */
-  ingestOnWrite?: boolean | undefined;
-  /** The type of Rapid Cache this represents. Valid values include: "rapid-cache" and "rapid-cache-ultra". */
-  cacheType?: string | undefined;
 }
 export interface ViewFullContextObjectsRequest {
   /** Name of the bucket in which the object resides. */
@@ -3141,7 +2206,7 @@ export const advanceRelocateBucketOperations: API.OperationMethod<
   AdvanceRelocateBucketOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2848, __c89, 0) as any as S.Schema<AdvanceRelocateBucketOperationsRequest>,
+  input: __S(2849, __c89, 1) as any as S.Schema<AdvanceRelocateBucketOperationsRequest>,
   output: __S(2880, __c90, 0) as any as S.Schema<AdvanceRelocateBucketOperationsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -3158,7 +2223,7 @@ export const bulkRestoreObjects: API.OperationMethod<
   BulkRestoreObjectsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3264, __c102, 0) as any as S.Schema<BulkRestoreObjectsRequest_>,
+  input: __S(3265, __c102, 1) as any as S.Schema<BulkRestoreObjectsRequest_>,
   output: __S(3330, __c104, 2) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -3192,7 +2257,7 @@ export const composeObjects: API.OperationMethod<
   ComposeObjectsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(35, __c1, 3) as any as S.Schema<ComposeObjectsRequest>,
+  input: __S(36, __c1, 4) as any as S.Schema<ComposeObjectsRequest>,
   output: __S(229, __c7, 5) as any as S.Schema<Storage_Object>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -4321,7 +3386,7 @@ export const relocateBuckets: API.OperationMethod<
   RelocateBucketsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2592, __c81, 0) as any as S.Schema<RelocateBucketsRequest>,
+  input: __S(2593, __c81, 1) as any as S.Schema<RelocateBucketsRequest>,
   output: __S(3330, __c104, 2) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -4752,19 +3817,27 @@ function __c1(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          destinationBucket: S.String.pipe(T.Label()),
-          destinationObject: S.String.pipe(T.Label()),
-          destinationPredefinedAcl: S.optional(S.String.pipe(T.Query())),
-          dropContextGroups: S.optional(__S(3296, __c103, 0).pipe(T.Query())),
-          ifGenerationMatch: S.optional(S.String.pipe(T.Query())),
-          ifMetagenerationMatch: S.optional(S.String.pipe(T.Query())),
-          kmsKeyName: S.optional(S.String.pipe(T.Query())),
-          userProject: S.optional(S.String.pipe(T.Query())),
           destination: S.optional(__S(229, __c7, 5)),
           kind: S.optional(S.String),
           sourceObjects: S.optional(__S(34, __c1, 2)),
           deleteSourceObjects: S.optional(S.Boolean),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "ComposeRequest" });
+    case 4:
+      return S.suspend(() =>
+        S.Extend(
+          __S(35, __c1, 3),
+          S.Struct({
+            destinationBucket: S.String.pipe(T.Label()),
+            destinationObject: S.String.pipe(T.Label()),
+            destinationPredefinedAcl: S.optional(S.String.pipe(T.Query())),
+            dropContextGroups: S.optional(__S(3296, __c103, 0).pipe(T.Query())),
+            ifGenerationMatch: S.optional(S.String.pipe(T.Query())),
+            ifMetagenerationMatch: S.optional(S.String.pipe(T.Query())),
+            kmsKeyName: S.optional(S.String.pipe(T.Query())),
+            userProject: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "b/{destinationBucket}/o/{destinationObject}/compose",
@@ -4912,63 +3985,28 @@ function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          destinationBucket: S.String.pipe(T.Label()),
-          destinationKmsKeyName: S.optional(S.String.pipe(T.Query())),
-          destinationObject: S.String.pipe(T.Label()),
-          destinationPredefinedAcl: S.optional(S.String.pipe(T.Query())),
-          ifGenerationMatch: S.optional(S.String.pipe(T.Query())),
-          ifGenerationNotMatch: S.optional(S.String.pipe(T.Query())),
-          ifMetagenerationMatch: S.optional(S.String.pipe(T.Query())),
-          ifMetagenerationNotMatch: S.optional(S.String.pipe(T.Query())),
-          ifSourceGenerationMatch: S.optional(S.String.pipe(T.Query())),
-          ifSourceGenerationNotMatch: S.optional(S.String.pipe(T.Query())),
-          ifSourceMetagenerationMatch: S.optional(S.String.pipe(T.Query())),
-          ifSourceMetagenerationNotMatch: S.optional(S.String.pipe(T.Query())),
-          projection: S.optional(S.String.pipe(T.Query())),
-          sourceBucket: S.String.pipe(T.Label()),
-          sourceGeneration: S.optional(S.String.pipe(T.Query())),
-          sourceObject: S.String.pipe(T.Label()),
-          userProject: S.optional(S.String.pipe(T.Query())),
-          acl: S.optional(__S(160, __c5, 0)),
-          bucket: S.optional(S.String),
-          cacheControl: S.optional(S.String),
-          componentCount: S.optional(S.Number),
-          contentDisposition: S.optional(S.String),
-          contentEncoding: S.optional(S.String),
-          contentLanguage: S.optional(S.String),
-          contentType: S.optional(S.String),
-          crc32c: S.optional(S.String),
-          customTime: S.optional(S.String),
-          customerEncryption: S.optional(__S(224, __c7, 0)),
-          etag: S.optional(S.String),
-          eventBasedHold: S.optional(S.Boolean),
-          generation: S.optional(S.String),
-          id: S.optional(S.String),
-          kind: S.optional(S.String),
-          kmsKeyName: S.optional(S.String),
-          md5Hash: S.optional(S.String),
-          mediaLink: S.optional(S.String),
-          metadata: S.optional(__S(128, __c4, 0)),
-          contexts: S.optional(__S(227, __c7, 3)),
-          restoreToken: S.optional(S.String),
-          metageneration: S.optional(S.String),
-          name: S.optional(S.String),
-          owner: S.optional(__S(192, __c6, 0)),
-          retentionExpirationTime: S.optional(S.String),
-          retention: S.optional(__S(228, __c7, 4)),
-          selfLink: S.optional(S.String),
-          size: S.optional(S.String),
-          storageClass: S.optional(S.String),
-          temporaryHold: S.optional(S.Boolean),
-          timeCreated: S.optional(S.String),
-          timeDeleted: S.optional(S.String),
-          timeFinalized: S.optional(S.String),
-          softDeleteTime: S.optional(S.String),
-          hardDeleteTime: S.optional(S.String),
-          timeStorageClassUpdated: S.optional(S.String),
-          updated: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(229, __c7, 5),
+          S.Struct({
+            destinationBucket: S.String.pipe(T.Label()),
+            destinationKmsKeyName: S.optional(S.String.pipe(T.Query())),
+            destinationObject: S.String.pipe(T.Label()),
+            destinationPredefinedAcl: S.optional(S.String.pipe(T.Query())),
+            ifGenerationMatch: S.optional(S.String.pipe(T.Query())),
+            ifGenerationNotMatch: S.optional(S.String.pipe(T.Query())),
+            ifMetagenerationMatch: S.optional(S.String.pipe(T.Query())),
+            ifMetagenerationNotMatch: S.optional(S.String.pipe(T.Query())),
+            ifSourceGenerationMatch: S.optional(S.String.pipe(T.Query())),
+            ifSourceGenerationNotMatch: S.optional(S.String.pipe(T.Query())),
+            ifSourceMetagenerationMatch: S.optional(S.String.pipe(T.Query())),
+            ifSourceMetagenerationNotMatch: S.optional(S.String.pipe(T.Query())),
+            projection: S.optional(S.String.pipe(T.Query())),
+            sourceBucket: S.String.pipe(T.Label()),
+            sourceGeneration: S.optional(S.String.pipe(T.Query())),
+            sourceObject: S.String.pipe(T.Label()),
+            userProject: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "b/{sourceBucket}/o/{sourceObject}/copyTo/b/{destinationBucket}/o/{destinationObject}",
@@ -6002,21 +5040,12 @@ function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          bucket: S.String.pipe(T.Label()),
-          kind: S.optional(S.String),
-          id: S.optional(S.String),
-          selfLink: S.optional(S.String),
-          anywhereCacheId: S.optional(S.String),
-          zone: S.optional(S.String),
-          state: S.optional(S.String),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          ttl: S.optional(S.String),
-          admissionPolicy: S.optional(S.String),
-          pendingUpdate: S.optional(S.Boolean),
-          ingestOnWrite: S.optional(S.Boolean),
-        }).pipe(
+        S.Extend(
+          __S(704, __c22, 0),
+          S.Struct({
+            bucket: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "b/{bucket}/anywhereCaches",
@@ -6030,20 +5059,13 @@ function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          bucket: S.String.pipe(T.Label()),
-          userProject: S.optional(S.String.pipe(T.Query())),
-          domain: S.optional(S.String),
-          email: S.optional(S.String),
-          entity: S.optional(S.String),
-          entityId: S.optional(S.String),
-          etag: S.optional(S.String),
-          id: S.optional(S.String),
-          kind: S.optional(S.String),
-          projectTeam: S.optional(__S(64, __c2, 0)),
-          role: S.optional(S.String),
-          selfLink: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(832, __c26, 0),
+          S.Struct({
+            bucket: S.String.pipe(T.Label()),
+            userProject: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "b/{bucket}/acl",
@@ -6057,52 +5079,17 @@ function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          predefinedAcl: S.optional(S.String.pipe(T.Query())),
-          predefinedDefaultObjectAcl: S.optional(S.String.pipe(T.Query())),
-          project: S.String.pipe(T.Query()),
-          projection: S.optional(S.String.pipe(T.Query())),
-          userProject: S.optional(S.String.pipe(T.Query())),
-          enableObjectRetention: S.optional(S.Boolean.pipe(T.Query())),
-          acl: S.optional(__S(960, __c30, 0)),
-          billing: S.optional(__S(992, __c31, 0)),
-          cors: S.optional(__S(994, __c31, 2)),
-          customPlacementConfig: S.optional(__S(896, __c28, 0)),
-          defaultEventBasedHold: S.optional(S.Boolean),
-          defaultObjectAcl: S.optional(__S(160, __c5, 0)),
-          encryption: S.optional(__S(996, __c31, 4)),
-          etag: S.optional(S.String),
-          hierarchicalNamespace: S.optional(__S(928, __c29, 0)),
-          iamConfiguration: S.optional(__S(998, __c31, 6)),
-          id: S.optional(S.String),
-          ipFilter: S.optional(__S(1002, __c31, 10)),
-          kind: S.optional(S.String),
-          labels: S.optional(__S(128, __c4, 0)),
-          lifecycle: S.optional(__S(1007, __c31, 15)),
-          autoclass: S.optional(__S(1008, __c31, 16)),
-          location: S.optional(S.String),
-          locationType: S.optional(S.String),
-          logging: S.optional(__S(1009, __c31, 17)),
-          generation: S.optional(S.String),
-          metageneration: S.optional(S.String),
-          name: S.optional(S.String),
-          owner: S.optional(__S(192, __c6, 0)),
-          projectNumber: S.optional(S.String),
-          retentionPolicy: S.optional(__S(1010, __c31, 18)),
-          objectRetention: S.optional(__S(1011, __c31, 19)),
-          rpo: S.optional(S.String),
-          selfLink: S.optional(S.String),
-          softDeletePolicy: S.optional(__S(1013, __c31, 21)),
-          storageClass: S.optional(S.String),
-          timeCreated: S.optional(S.String),
-          updated: S.optional(S.String),
-          softDeleteTime: S.optional(S.String),
-          hardDeleteTime: S.optional(S.String),
-          versioning: S.optional(__S(928, __c29, 0)),
-          website: S.optional(__S(1014, __c31, 22)),
-          satisfiesPZS: S.optional(S.Boolean),
-          satisfiesPZI: S.optional(S.Boolean),
-        }).pipe(
+        S.Extend(
+          __S(1015, __c31, 23),
+          S.Struct({
+            predefinedAcl: S.optional(S.String.pipe(T.Query())),
+            predefinedDefaultObjectAcl: S.optional(S.String.pipe(T.Query())),
+            project: S.String.pipe(T.Query()),
+            projection: S.optional(S.String.pipe(T.Query())),
+            userProject: S.optional(S.String.pipe(T.Query())),
+            enableObjectRetention: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "b",
@@ -6116,22 +5103,13 @@ function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          bucket: S.String.pipe(T.Label()),
-          userProject: S.optional(S.String.pipe(T.Query())),
-          domain: S.optional(S.String),
-          email: S.optional(S.String),
-          entity: S.optional(S.String),
-          entityId: S.optional(S.String),
-          etag: S.optional(S.String),
-          generation: S.optional(S.String),
-          id: S.optional(S.String),
-          kind: S.optional(S.String),
-          object: S.optional(S.String),
-          projectTeam: S.optional(__S(64, __c2, 0)),
-          role: S.optional(S.String),
-          selfLink: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(96, __c3, 0),
+          S.Struct({
+            bucket: S.String.pipe(T.Label()),
+            userProject: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "b/{bucket}/defaultObjectAcl",
@@ -6145,18 +5123,13 @@ function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          bucket: S.String.pipe(T.Label()),
-          recursive: S.optional(S.Boolean.pipe(T.Query())),
-          id: S.optional(S.String),
-          kind: S.optional(S.String),
-          metageneration: S.optional(S.String),
-          name: S.optional(S.String),
-          selfLink: S.optional(S.String),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          pendingRenameInfo: S.optional(__S(1088, __c34, 0)),
-        }).pipe(
+        S.Extend(
+          __S(1089, __c34, 1),
+          S.Struct({
+            bucket: S.String.pipe(T.Label()),
+            recursive: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "b/{bucket}/folders",
@@ -6170,17 +5143,12 @@ function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          bucket: S.String.pipe(T.Label()),
-          id: S.optional(S.String),
-          kind: S.optional(S.String),
-          metageneration: S.optional(S.String),
-          name: S.optional(S.String),
-          selfLink: S.optional(S.String),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          rapidCacheConfig: S.optional(__S(1282, __c40, 2)),
-        }).pipe(
+        S.Extend(
+          __S(1283, __c40, 3),
+          S.Struct({
+            bucket: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "b/{bucket}/managedFolders",
@@ -6194,19 +5162,13 @@ function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          bucket: S.String.pipe(T.Label()),
-          userProject: S.optional(S.String.pipe(T.Query())),
-          custom_attributes: S.optional(__S(128, __c4, 0)),
-          etag: S.optional(S.String),
-          event_types: S.optional(__S(3296, __c103, 0)),
-          id: S.optional(S.String),
-          kind: S.optional(S.String),
-          object_name_prefix: S.optional(S.String),
-          payload_format: S.optional(S.String),
-          selfLink: S.optional(S.String),
-          topic: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1344, __c42, 0),
+          S.Struct({
+            bucket: S.String.pipe(T.Label()),
+            userProject: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "b/{bucket}/notificationConfigs",
@@ -6220,22 +5182,15 @@ function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          bucket: S.String.pipe(T.Label()),
-          generation: S.optional(S.String.pipe(T.Query())),
-          object: S.String.pipe(T.Label()),
-          userProject: S.optional(S.String.pipe(T.Query())),
-          domain: S.optional(S.String),
-          email: S.optional(S.String),
-          entity: S.optional(S.String),
-          entityId: S.optional(S.String),
-          etag: S.optional(S.String),
-          id: S.optional(S.String),
-          kind: S.optional(S.String),
-          projectTeam: S.optional(__S(64, __c2, 0)),
-          role: S.optional(S.String),
-          selfLink: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(96, __c3, 0),
+          S.Struct({
+            bucket: S.String.pipe(T.Label()),
+            generation: S.optional(S.String.pipe(T.Query())),
+            object: S.String.pipe(T.Label()),
+            userProject: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "b/{bucket}/o/{object}/acl",
@@ -6249,53 +5204,22 @@ function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          bucket: S.String.pipe(T.Label()),
-          contentEncoding: S.optional(S.String.pipe(T.Query())),
-          ifGenerationMatch: S.optional(S.String.pipe(T.Query())),
-          ifGenerationNotMatch: S.optional(S.String.pipe(T.Query())),
-          ifMetagenerationMatch: S.optional(S.String.pipe(T.Query())),
-          ifMetagenerationNotMatch: S.optional(S.String.pipe(T.Query())),
-          kmsKeyName: S.optional(S.String.pipe(T.Query())),
-          name: S.optional(S.String.pipe(T.Query())),
-          predefinedAcl: S.optional(S.String.pipe(T.Query())),
-          projection: S.optional(S.String.pipe(T.Query())),
-          userProject: S.optional(S.String.pipe(T.Query())),
-          acl: S.optional(__S(160, __c5, 0)),
-          cacheControl: S.optional(S.String),
-          componentCount: S.optional(S.Number),
-          contentDisposition: S.optional(S.String),
-          contentLanguage: S.optional(S.String),
-          contentType: S.optional(S.String),
-          crc32c: S.optional(S.String),
-          customTime: S.optional(S.String),
-          customerEncryption: S.optional(__S(224, __c7, 0)),
-          etag: S.optional(S.String),
-          eventBasedHold: S.optional(S.Boolean),
-          generation: S.optional(S.String),
-          id: S.optional(S.String),
-          kind: S.optional(S.String),
-          md5Hash: S.optional(S.String),
-          mediaLink: S.optional(S.String),
-          metadata: S.optional(__S(128, __c4, 0)),
-          contexts: S.optional(__S(227, __c7, 3)),
-          restoreToken: S.optional(S.String),
-          metageneration: S.optional(S.String),
-          owner: S.optional(__S(192, __c6, 0)),
-          retentionExpirationTime: S.optional(S.String),
-          retention: S.optional(__S(228, __c7, 4)),
-          selfLink: S.optional(S.String),
-          size: S.optional(S.String),
-          storageClass: S.optional(S.String),
-          temporaryHold: S.optional(S.Boolean),
-          timeCreated: S.optional(S.String),
-          timeDeleted: S.optional(S.String),
-          timeFinalized: S.optional(S.String),
-          softDeleteTime: S.optional(S.String),
-          hardDeleteTime: S.optional(S.String),
-          timeStorageClassUpdated: S.optional(S.String),
-          updated: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(229, __c7, 5),
+          S.Struct({
+            bucket: S.String.pipe(T.Label()),
+            contentEncoding: S.optional(S.String.pipe(T.Query())),
+            ifGenerationMatch: S.optional(S.String.pipe(T.Query())),
+            ifGenerationNotMatch: S.optional(S.String.pipe(T.Query())),
+            ifMetagenerationMatch: S.optional(S.String.pipe(T.Query())),
+            ifMetagenerationNotMatch: S.optional(S.String.pipe(T.Query())),
+            kmsKeyName: S.optional(S.String.pipe(T.Query())),
+            name: S.optional(S.String.pipe(T.Query())),
+            predefinedAcl: S.optional(S.String.pipe(T.Query())),
+            projection: S.optional(S.String.pipe(T.Query())),
+            userProject: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "b/{bucket}/o",
@@ -6309,22 +5233,12 @@ function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          bucket: S.String.pipe(T.Label()),
-          kind: S.optional(S.String),
-          id: S.optional(S.String),
-          selfLink: S.optional(S.String),
-          rapidCacheId: S.optional(S.String),
-          zone: S.optional(S.String),
-          state: S.optional(S.String),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          ttl: S.optional(S.String),
-          admissionPolicy: S.optional(S.String),
-          pendingUpdate: S.optional(S.Boolean),
-          ingestOnWrite: S.optional(S.Boolean),
-          cacheType: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1568, __c49, 0),
+          S.Struct({
+            bucket: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "b/{bucket}/rapidCaches",
@@ -6735,20 +5649,14 @@ function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          bucket: S.String.pipe(T.Label()),
-          entity: S.String.pipe(T.Label()),
-          userProject: S.optional(S.String.pipe(T.Query())),
-          domain: S.optional(S.String),
-          email: S.optional(S.String),
-          entityId: S.optional(S.String),
-          etag: S.optional(S.String),
-          id: S.optional(S.String),
-          kind: S.optional(S.String),
-          projectTeam: S.optional(__S(64, __c2, 0)),
-          role: S.optional(S.String),
-          selfLink: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(832, __c26, 0),
+          S.Struct({
+            bucket: S.String.pipe(T.Label()),
+            entity: S.String.pipe(T.Label()),
+            userProject: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "b/{bucket}/acl/{entity}",
@@ -6762,53 +5670,18 @@ function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          bucket: S.String.pipe(T.Label()),
-          ifMetagenerationMatch: S.optional(S.String.pipe(T.Query())),
-          ifMetagenerationNotMatch: S.optional(S.String.pipe(T.Query())),
-          predefinedAcl: S.optional(S.String.pipe(T.Query())),
-          predefinedDefaultObjectAcl: S.optional(S.String.pipe(T.Query())),
-          projection: S.optional(S.String.pipe(T.Query())),
-          userProject: S.optional(S.String.pipe(T.Query())),
-          acl: S.optional(__S(960, __c30, 0)),
-          billing: S.optional(__S(992, __c31, 0)),
-          cors: S.optional(__S(994, __c31, 2)),
-          customPlacementConfig: S.optional(__S(896, __c28, 0)),
-          defaultEventBasedHold: S.optional(S.Boolean),
-          defaultObjectAcl: S.optional(__S(160, __c5, 0)),
-          encryption: S.optional(__S(996, __c31, 4)),
-          etag: S.optional(S.String),
-          hierarchicalNamespace: S.optional(__S(928, __c29, 0)),
-          iamConfiguration: S.optional(__S(998, __c31, 6)),
-          id: S.optional(S.String),
-          ipFilter: S.optional(__S(1002, __c31, 10)),
-          kind: S.optional(S.String),
-          labels: S.optional(__S(128, __c4, 0)),
-          lifecycle: S.optional(__S(1007, __c31, 15)),
-          autoclass: S.optional(__S(1008, __c31, 16)),
-          location: S.optional(S.String),
-          locationType: S.optional(S.String),
-          logging: S.optional(__S(1009, __c31, 17)),
-          generation: S.optional(S.String),
-          metageneration: S.optional(S.String),
-          name: S.optional(S.String),
-          owner: S.optional(__S(192, __c6, 0)),
-          projectNumber: S.optional(S.String),
-          retentionPolicy: S.optional(__S(1010, __c31, 18)),
-          objectRetention: S.optional(__S(1011, __c31, 19)),
-          rpo: S.optional(S.String),
-          selfLink: S.optional(S.String),
-          softDeletePolicy: S.optional(__S(1013, __c31, 21)),
-          storageClass: S.optional(S.String),
-          timeCreated: S.optional(S.String),
-          updated: S.optional(S.String),
-          softDeleteTime: S.optional(S.String),
-          hardDeleteTime: S.optional(S.String),
-          versioning: S.optional(__S(928, __c29, 0)),
-          website: S.optional(__S(1014, __c31, 22)),
-          satisfiesPZS: S.optional(S.Boolean),
-          satisfiesPZI: S.optional(S.Boolean),
-        }).pipe(
+        S.Extend(
+          __S(1015, __c31, 23),
+          S.Struct({
+            bucket: S.String.pipe(T.Label()),
+            ifMetagenerationMatch: S.optional(S.String.pipe(T.Query())),
+            ifMetagenerationNotMatch: S.optional(S.String.pipe(T.Query())),
+            predefinedAcl: S.optional(S.String.pipe(T.Query())),
+            predefinedDefaultObjectAcl: S.optional(S.String.pipe(T.Query())),
+            projection: S.optional(S.String.pipe(T.Query())),
+            userProject: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "b/{bucket}",
@@ -6822,22 +5695,14 @@ function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          bucket: S.String.pipe(T.Label()),
-          entity: S.String.pipe(T.Label()),
-          userProject: S.optional(S.String.pipe(T.Query())),
-          domain: S.optional(S.String),
-          email: S.optional(S.String),
-          entityId: S.optional(S.String),
-          etag: S.optional(S.String),
-          generation: S.optional(S.String),
-          id: S.optional(S.String),
-          kind: S.optional(S.String),
-          object: S.optional(S.String),
-          projectTeam: S.optional(__S(64, __c2, 0)),
-          role: S.optional(S.String),
-          selfLink: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(96, __c3, 0),
+          S.Struct({
+            bucket: S.String.pipe(T.Label()),
+            entity: S.String.pipe(T.Label()),
+            userProject: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "b/{bucket}/defaultObjectAcl/{entity}",
@@ -6851,22 +5716,16 @@ function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          bucket: S.String.pipe(T.Label()),
-          entity: S.String.pipe(T.Label()),
-          generation: S.optional(S.String.pipe(T.Query())),
-          object: S.String.pipe(T.Label()),
-          userProject: S.optional(S.String.pipe(T.Query())),
-          domain: S.optional(S.String),
-          email: S.optional(S.String),
-          entityId: S.optional(S.String),
-          etag: S.optional(S.String),
-          id: S.optional(S.String),
-          kind: S.optional(S.String),
-          projectTeam: S.optional(__S(64, __c2, 0)),
-          role: S.optional(S.String),
-          selfLink: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(96, __c3, 0),
+          S.Struct({
+            bucket: S.String.pipe(T.Label()),
+            entity: S.String.pipe(T.Label()),
+            generation: S.optional(S.String.pipe(T.Query())),
+            object: S.String.pipe(T.Label()),
+            userProject: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "b/{bucket}/o/{object}/acl/{entity}",
@@ -6880,55 +5739,22 @@ function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          bucket: S.String.pipe(T.Label()),
-          generation: S.optional(S.String.pipe(T.Query())),
-          ifGenerationMatch: S.optional(S.String.pipe(T.Query())),
-          ifGenerationNotMatch: S.optional(S.String.pipe(T.Query())),
-          ifMetagenerationMatch: S.optional(S.String.pipe(T.Query())),
-          ifMetagenerationNotMatch: S.optional(S.String.pipe(T.Query())),
-          overrideUnlockedRetention: S.optional(S.Boolean.pipe(T.Query())),
-          object: S.String.pipe(T.Label()),
-          predefinedAcl: S.optional(S.String.pipe(T.Query())),
-          projection: S.optional(S.String.pipe(T.Query())),
-          userProject: S.optional(S.String.pipe(T.Query())),
-          acl: S.optional(__S(160, __c5, 0)),
-          cacheControl: S.optional(S.String),
-          componentCount: S.optional(S.Number),
-          contentDisposition: S.optional(S.String),
-          contentEncoding: S.optional(S.String),
-          contentLanguage: S.optional(S.String),
-          contentType: S.optional(S.String),
-          crc32c: S.optional(S.String),
-          customTime: S.optional(S.String),
-          customerEncryption: S.optional(__S(224, __c7, 0)),
-          etag: S.optional(S.String),
-          eventBasedHold: S.optional(S.Boolean),
-          id: S.optional(S.String),
-          kind: S.optional(S.String),
-          kmsKeyName: S.optional(S.String),
-          md5Hash: S.optional(S.String),
-          mediaLink: S.optional(S.String),
-          metadata: S.optional(__S(128, __c4, 0)),
-          contexts: S.optional(__S(227, __c7, 3)),
-          restoreToken: S.optional(S.String),
-          metageneration: S.optional(S.String),
-          name: S.optional(S.String),
-          owner: S.optional(__S(192, __c6, 0)),
-          retentionExpirationTime: S.optional(S.String),
-          retention: S.optional(__S(228, __c7, 4)),
-          selfLink: S.optional(S.String),
-          size: S.optional(S.String),
-          storageClass: S.optional(S.String),
-          temporaryHold: S.optional(S.Boolean),
-          timeCreated: S.optional(S.String),
-          timeDeleted: S.optional(S.String),
-          timeFinalized: S.optional(S.String),
-          softDeleteTime: S.optional(S.String),
-          hardDeleteTime: S.optional(S.String),
-          timeStorageClassUpdated: S.optional(S.String),
-          updated: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(229, __c7, 5),
+          S.Struct({
+            bucket: S.String.pipe(T.Label()),
+            generation: S.optional(S.String.pipe(T.Query())),
+            ifGenerationMatch: S.optional(S.String.pipe(T.Query())),
+            ifGenerationNotMatch: S.optional(S.String.pipe(T.Query())),
+            ifMetagenerationMatch: S.optional(S.String.pipe(T.Query())),
+            ifMetagenerationNotMatch: S.optional(S.String.pipe(T.Query())),
+            overrideUnlockedRetention: S.optional(S.Boolean.pipe(T.Query())),
+            object: S.String.pipe(T.Label()),
+            predefinedAcl: S.optional(S.String.pipe(T.Query())),
+            projection: S.optional(S.String.pipe(T.Query())),
+            userProject: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "b/{bucket}/o/{object}",
@@ -6943,12 +5769,20 @@ function __c81(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          bucket: S.String.pipe(T.Label()),
           destinationLocation: S.optional(S.String),
           destinationCustomPlacementConfig: S.optional(__S(896, __c28, 0)),
           validateOnly: S.optional(S.Boolean),
           destinationKmsKeyName: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "RelocateBucketRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(2592, __c81, 0),
+          S.Struct({
+            bucket: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "b/{bucket}/relocate",
@@ -7044,66 +5878,31 @@ function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          destinationBucket: S.String.pipe(T.Label()),
-          destinationKmsKeyName: S.optional(S.String.pipe(T.Query())),
-          destinationObject: S.String.pipe(T.Label()),
-          destinationPredefinedAcl: S.optional(S.String.pipe(T.Query())),
-          dropContextGroups: S.optional(__S(3296, __c103, 0).pipe(T.Query())),
-          ifGenerationMatch: S.optional(S.String.pipe(T.Query())),
-          ifGenerationNotMatch: S.optional(S.String.pipe(T.Query())),
-          ifMetagenerationMatch: S.optional(S.String.pipe(T.Query())),
-          ifMetagenerationNotMatch: S.optional(S.String.pipe(T.Query())),
-          ifSourceGenerationMatch: S.optional(S.String.pipe(T.Query())),
-          ifSourceGenerationNotMatch: S.optional(S.String.pipe(T.Query())),
-          ifSourceMetagenerationMatch: S.optional(S.String.pipe(T.Query())),
-          ifSourceMetagenerationNotMatch: S.optional(S.String.pipe(T.Query())),
-          maxBytesRewrittenPerCall: S.optional(S.String.pipe(T.Query())),
-          projection: S.optional(S.String.pipe(T.Query())),
-          rewriteToken: S.optional(S.String.pipe(T.Query())),
-          sourceBucket: S.String.pipe(T.Label()),
-          sourceGeneration: S.optional(S.String.pipe(T.Query())),
-          sourceObject: S.String.pipe(T.Label()),
-          userProject: S.optional(S.String.pipe(T.Query())),
-          acl: S.optional(__S(160, __c5, 0)),
-          bucket: S.optional(S.String),
-          cacheControl: S.optional(S.String),
-          componentCount: S.optional(S.Number),
-          contentDisposition: S.optional(S.String),
-          contentEncoding: S.optional(S.String),
-          contentLanguage: S.optional(S.String),
-          contentType: S.optional(S.String),
-          crc32c: S.optional(S.String),
-          customTime: S.optional(S.String),
-          customerEncryption: S.optional(__S(224, __c7, 0)),
-          etag: S.optional(S.String),
-          eventBasedHold: S.optional(S.Boolean),
-          generation: S.optional(S.String),
-          id: S.optional(S.String),
-          kind: S.optional(S.String),
-          kmsKeyName: S.optional(S.String),
-          md5Hash: S.optional(S.String),
-          mediaLink: S.optional(S.String),
-          metadata: S.optional(__S(128, __c4, 0)),
-          contexts: S.optional(__S(227, __c7, 3)),
-          restoreToken: S.optional(S.String),
-          metageneration: S.optional(S.String),
-          name: S.optional(S.String),
-          owner: S.optional(__S(192, __c6, 0)),
-          retentionExpirationTime: S.optional(S.String),
-          retention: S.optional(__S(228, __c7, 4)),
-          selfLink: S.optional(S.String),
-          size: S.optional(S.String),
-          storageClass: S.optional(S.String),
-          temporaryHold: S.optional(S.Boolean),
-          timeCreated: S.optional(S.String),
-          timeDeleted: S.optional(S.String),
-          timeFinalized: S.optional(S.String),
-          softDeleteTime: S.optional(S.String),
-          hardDeleteTime: S.optional(S.String),
-          timeStorageClassUpdated: S.optional(S.String),
-          updated: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(229, __c7, 5),
+          S.Struct({
+            destinationBucket: S.String.pipe(T.Label()),
+            destinationKmsKeyName: S.optional(S.String.pipe(T.Query())),
+            destinationObject: S.String.pipe(T.Label()),
+            destinationPredefinedAcl: S.optional(S.String.pipe(T.Query())),
+            dropContextGroups: S.optional(__S(3296, __c103, 0).pipe(T.Query())),
+            ifGenerationMatch: S.optional(S.String.pipe(T.Query())),
+            ifGenerationNotMatch: S.optional(S.String.pipe(T.Query())),
+            ifMetagenerationMatch: S.optional(S.String.pipe(T.Query())),
+            ifMetagenerationNotMatch: S.optional(S.String.pipe(T.Query())),
+            ifSourceGenerationMatch: S.optional(S.String.pipe(T.Query())),
+            ifSourceGenerationNotMatch: S.optional(S.String.pipe(T.Query())),
+            ifSourceMetagenerationMatch: S.optional(S.String.pipe(T.Query())),
+            ifSourceMetagenerationNotMatch: S.optional(S.String.pipe(T.Query())),
+            maxBytesRewrittenPerCall: S.optional(S.String.pipe(T.Query())),
+            projection: S.optional(S.String.pipe(T.Query())),
+            rewriteToken: S.optional(S.String.pipe(T.Query())),
+            sourceBucket: S.String.pipe(T.Label()),
+            sourceGeneration: S.optional(S.String.pipe(T.Query())),
+            sourceObject: S.String.pipe(T.Label()),
+            userProject: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "b/{sourceBucket}/o/{sourceObject}/rewriteTo/b/{destinationBucket}/o/{destinationObject}",
@@ -7128,15 +5927,13 @@ function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          bucket: S.String.pipe(T.Label()),
-          userProject: S.optional(S.String.pipe(T.Query())),
-          bindings: S.optional(__S(1154, __c36, 2)),
-          etag: S.optional(S.String),
-          kind: S.optional(S.String),
-          resourceId: S.optional(S.String),
-          version: S.optional(S.Number),
-        }).pipe(
+        S.Extend(
+          __S(1155, __c36, 3),
+          S.Struct({
+            bucket: S.String.pipe(T.Label()),
+            userProject: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "b/{bucket}/iam",
@@ -7150,16 +5947,14 @@ function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          bucket: S.String.pipe(T.Label()),
-          managedFolder: S.String.pipe(T.Label()),
-          userProject: S.optional(S.String.pipe(T.Query())),
-          bindings: S.optional(__S(1154, __c36, 2)),
-          etag: S.optional(S.String),
-          kind: S.optional(S.String),
-          resourceId: S.optional(S.String),
-          version: S.optional(S.Number),
-        }).pipe(
+        S.Extend(
+          __S(1155, __c36, 3),
+          S.Struct({
+            bucket: S.String.pipe(T.Label()),
+            managedFolder: S.String.pipe(T.Label()),
+            userProject: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "b/{bucket}/managedFolders/{managedFolder}/iam",
@@ -7174,11 +5969,19 @@ function __c89(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          bucket: S.String.pipe(T.Label()),
-          operationId: S.String.pipe(T.Label()),
           ttl: S.optional(S.String),
           expireTime: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "AdvanceRelocateBucketOperationRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(2848, __c89, 0),
+          S.Struct({
+            bucket: S.String.pipe(T.Label()),
+            operationId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "b/{bucket}/operations/{operationId}/advanceRelocateBucket",
@@ -7200,17 +6003,15 @@ function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          bucket: S.String.pipe(T.Label()),
-          generation: S.optional(S.String.pipe(T.Query())),
-          object: S.String.pipe(T.Label()),
-          userProject: S.optional(S.String.pipe(T.Query())),
-          bindings: S.optional(__S(1154, __c36, 2)),
-          etag: S.optional(S.String),
-          kind: S.optional(S.String),
-          resourceId: S.optional(S.String),
-          version: S.optional(S.Number),
-        }).pipe(
+        S.Extend(
+          __S(1155, __c36, 3),
+          S.Struct({
+            bucket: S.String.pipe(T.Label()),
+            generation: S.optional(S.String.pipe(T.Query())),
+            object: S.String.pipe(T.Label()),
+            userProject: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "b/{bucket}/o/{object}/iam",
@@ -7292,21 +6093,13 @@ function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          bucket: S.String.pipe(T.Label()),
-          anywhereCacheId: S.String.pipe(T.Label()),
-          kind: S.optional(S.String),
-          id: S.optional(S.String),
-          selfLink: S.optional(S.String),
-          zone: S.optional(S.String),
-          state: S.optional(S.String),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          ttl: S.optional(S.String),
-          admissionPolicy: S.optional(S.String),
-          pendingUpdate: S.optional(S.Boolean),
-          ingestOnWrite: S.optional(S.Boolean),
-        }).pipe(
+        S.Extend(
+          __S(704, __c22, 0),
+          S.Struct({
+            bucket: S.String.pipe(T.Label()),
+            anywhereCacheId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "b/{bucket}/anywhereCaches/{anywhereCacheId}",
@@ -7320,20 +6113,14 @@ function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          bucket: S.String.pipe(T.Label()),
-          entity: S.String.pipe(T.Label()),
-          userProject: S.optional(S.String.pipe(T.Query())),
-          domain: S.optional(S.String),
-          email: S.optional(S.String),
-          entityId: S.optional(S.String),
-          etag: S.optional(S.String),
-          id: S.optional(S.String),
-          kind: S.optional(S.String),
-          projectTeam: S.optional(__S(64, __c2, 0)),
-          role: S.optional(S.String),
-          selfLink: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(832, __c26, 0),
+          S.Struct({
+            bucket: S.String.pipe(T.Label()),
+            entity: S.String.pipe(T.Label()),
+            userProject: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "b/{bucket}/acl/{entity}",
@@ -7347,53 +6134,18 @@ function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          bucket: S.String.pipe(T.Label()),
-          ifMetagenerationMatch: S.optional(S.String.pipe(T.Query())),
-          ifMetagenerationNotMatch: S.optional(S.String.pipe(T.Query())),
-          predefinedAcl: S.optional(S.String.pipe(T.Query())),
-          predefinedDefaultObjectAcl: S.optional(S.String.pipe(T.Query())),
-          projection: S.optional(S.String.pipe(T.Query())),
-          userProject: S.optional(S.String.pipe(T.Query())),
-          acl: S.optional(__S(960, __c30, 0)),
-          billing: S.optional(__S(992, __c31, 0)),
-          cors: S.optional(__S(994, __c31, 2)),
-          customPlacementConfig: S.optional(__S(896, __c28, 0)),
-          defaultEventBasedHold: S.optional(S.Boolean),
-          defaultObjectAcl: S.optional(__S(160, __c5, 0)),
-          encryption: S.optional(__S(996, __c31, 4)),
-          etag: S.optional(S.String),
-          hierarchicalNamespace: S.optional(__S(928, __c29, 0)),
-          iamConfiguration: S.optional(__S(998, __c31, 6)),
-          id: S.optional(S.String),
-          ipFilter: S.optional(__S(1002, __c31, 10)),
-          kind: S.optional(S.String),
-          labels: S.optional(__S(128, __c4, 0)),
-          lifecycle: S.optional(__S(1007, __c31, 15)),
-          autoclass: S.optional(__S(1008, __c31, 16)),
-          location: S.optional(S.String),
-          locationType: S.optional(S.String),
-          logging: S.optional(__S(1009, __c31, 17)),
-          generation: S.optional(S.String),
-          metageneration: S.optional(S.String),
-          name: S.optional(S.String),
-          owner: S.optional(__S(192, __c6, 0)),
-          projectNumber: S.optional(S.String),
-          retentionPolicy: S.optional(__S(1010, __c31, 18)),
-          objectRetention: S.optional(__S(1011, __c31, 19)),
-          rpo: S.optional(S.String),
-          selfLink: S.optional(S.String),
-          softDeletePolicy: S.optional(__S(1013, __c31, 21)),
-          storageClass: S.optional(S.String),
-          timeCreated: S.optional(S.String),
-          updated: S.optional(S.String),
-          softDeleteTime: S.optional(S.String),
-          hardDeleteTime: S.optional(S.String),
-          versioning: S.optional(__S(928, __c29, 0)),
-          website: S.optional(__S(1014, __c31, 22)),
-          satisfiesPZS: S.optional(S.Boolean),
-          satisfiesPZI: S.optional(S.Boolean),
-        }).pipe(
+        S.Extend(
+          __S(1015, __c31, 23),
+          S.Struct({
+            bucket: S.String.pipe(T.Label()),
+            ifMetagenerationMatch: S.optional(S.String.pipe(T.Query())),
+            ifMetagenerationNotMatch: S.optional(S.String.pipe(T.Query())),
+            predefinedAcl: S.optional(S.String.pipe(T.Query())),
+            predefinedDefaultObjectAcl: S.optional(S.String.pipe(T.Query())),
+            projection: S.optional(S.String.pipe(T.Query())),
+            userProject: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "b/{bucket}",
@@ -7407,22 +6159,14 @@ function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          bucket: S.String.pipe(T.Label()),
-          entity: S.String.pipe(T.Label()),
-          userProject: S.optional(S.String.pipe(T.Query())),
-          domain: S.optional(S.String),
-          email: S.optional(S.String),
-          entityId: S.optional(S.String),
-          etag: S.optional(S.String),
-          generation: S.optional(S.String),
-          id: S.optional(S.String),
-          kind: S.optional(S.String),
-          object: S.optional(S.String),
-          projectTeam: S.optional(__S(64, __c2, 0)),
-          role: S.optional(S.String),
-          selfLink: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(96, __c3, 0),
+          S.Struct({
+            bucket: S.String.pipe(T.Label()),
+            entity: S.String.pipe(T.Label()),
+            userProject: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "b/{bucket}/defaultObjectAcl/{entity}",
@@ -7436,20 +6180,15 @@ function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          bucket: S.String.pipe(T.Label()),
-          managedFolder: S.String.pipe(T.Label()),
-          ifMetagenerationMatch: S.optional(S.String.pipe(T.Query())),
-          ifMetagenerationNotMatch: S.optional(S.String.pipe(T.Query())),
-          id: S.optional(S.String),
-          kind: S.optional(S.String),
-          metageneration: S.optional(S.String),
-          name: S.optional(S.String),
-          selfLink: S.optional(S.String),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          rapidCacheConfig: S.optional(__S(1282, __c40, 2)),
-        }).pipe(
+        S.Extend(
+          __S(1283, __c40, 3),
+          S.Struct({
+            bucket: S.String.pipe(T.Label()),
+            managedFolder: S.String.pipe(T.Label()),
+            ifMetagenerationMatch: S.optional(S.String.pipe(T.Query())),
+            ifMetagenerationNotMatch: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "b/{bucket}/managedFolders/{managedFolder}",
@@ -7463,22 +6202,16 @@ function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          bucket: S.String.pipe(T.Label()),
-          entity: S.String.pipe(T.Label()),
-          generation: S.optional(S.String.pipe(T.Query())),
-          object: S.String.pipe(T.Label()),
-          userProject: S.optional(S.String.pipe(T.Query())),
-          domain: S.optional(S.String),
-          email: S.optional(S.String),
-          entityId: S.optional(S.String),
-          etag: S.optional(S.String),
-          id: S.optional(S.String),
-          kind: S.optional(S.String),
-          projectTeam: S.optional(__S(64, __c2, 0)),
-          role: S.optional(S.String),
-          selfLink: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(96, __c3, 0),
+          S.Struct({
+            bucket: S.String.pipe(T.Label()),
+            entity: S.String.pipe(T.Label()),
+            generation: S.optional(S.String.pipe(T.Query())),
+            object: S.String.pipe(T.Label()),
+            userProject: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "b/{bucket}/o/{object}/acl/{entity}",
@@ -7493,7 +6226,6 @@ function __c102(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          bucket: S.String.pipe(T.Label()),
           allowOverwrite: S.optional(S.Boolean),
           softDeletedAfterTime: S.optional(S.String),
           softDeletedBeforeTime: S.optional(S.String),
@@ -7501,7 +6233,16 @@ function __c102(j: number): any {
           copySourceAcl: S.optional(S.Boolean),
           createdAfterTime: S.optional(S.String),
           createdBeforeTime: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "BulkRestoreObjectsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(3264, __c102, 0),
+          S.Struct({
+            bucket: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "b/{bucket}/o/bulkRestore",
@@ -7553,55 +6294,22 @@ function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          bucket: S.String.pipe(T.Label()),
-          generation: S.optional(S.String.pipe(T.Query())),
-          ifGenerationMatch: S.optional(S.String.pipe(T.Query())),
-          ifGenerationNotMatch: S.optional(S.String.pipe(T.Query())),
-          ifMetagenerationMatch: S.optional(S.String.pipe(T.Query())),
-          ifMetagenerationNotMatch: S.optional(S.String.pipe(T.Query())),
-          overrideUnlockedRetention: S.optional(S.Boolean.pipe(T.Query())),
-          object: S.String.pipe(T.Label()),
-          predefinedAcl: S.optional(S.String.pipe(T.Query())),
-          projection: S.optional(S.String.pipe(T.Query())),
-          userProject: S.optional(S.String.pipe(T.Query())),
-          acl: S.optional(__S(160, __c5, 0)),
-          cacheControl: S.optional(S.String),
-          componentCount: S.optional(S.Number),
-          contentDisposition: S.optional(S.String),
-          contentEncoding: S.optional(S.String),
-          contentLanguage: S.optional(S.String),
-          contentType: S.optional(S.String),
-          crc32c: S.optional(S.String),
-          customTime: S.optional(S.String),
-          customerEncryption: S.optional(__S(224, __c7, 0)),
-          etag: S.optional(S.String),
-          eventBasedHold: S.optional(S.Boolean),
-          id: S.optional(S.String),
-          kind: S.optional(S.String),
-          kmsKeyName: S.optional(S.String),
-          md5Hash: S.optional(S.String),
-          mediaLink: S.optional(S.String),
-          metadata: S.optional(__S(128, __c4, 0)),
-          contexts: S.optional(__S(227, __c7, 3)),
-          restoreToken: S.optional(S.String),
-          metageneration: S.optional(S.String),
-          name: S.optional(S.String),
-          owner: S.optional(__S(192, __c6, 0)),
-          retentionExpirationTime: S.optional(S.String),
-          retention: S.optional(__S(228, __c7, 4)),
-          selfLink: S.optional(S.String),
-          size: S.optional(S.String),
-          storageClass: S.optional(S.String),
-          temporaryHold: S.optional(S.Boolean),
-          timeCreated: S.optional(S.String),
-          timeDeleted: S.optional(S.String),
-          timeFinalized: S.optional(S.String),
-          softDeleteTime: S.optional(S.String),
-          hardDeleteTime: S.optional(S.String),
-          timeStorageClassUpdated: S.optional(S.String),
-          updated: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(229, __c7, 5),
+          S.Struct({
+            bucket: S.String.pipe(T.Label()),
+            generation: S.optional(S.String.pipe(T.Query())),
+            ifGenerationMatch: S.optional(S.String.pipe(T.Query())),
+            ifGenerationNotMatch: S.optional(S.String.pipe(T.Query())),
+            ifMetagenerationMatch: S.optional(S.String.pipe(T.Query())),
+            ifMetagenerationNotMatch: S.optional(S.String.pipe(T.Query())),
+            overrideUnlockedRetention: S.optional(S.Boolean.pipe(T.Query())),
+            object: S.String.pipe(T.Label()),
+            predefinedAcl: S.optional(S.String.pipe(T.Query())),
+            projection: S.optional(S.String.pipe(T.Query())),
+            userProject: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "b/{bucket}/o/{object}",
@@ -7615,19 +6323,14 @@ function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          accessId: S.String.pipe(T.Label()),
-          projectId: S.String.pipe(T.Label()),
-          userProject: S.optional(S.String.pipe(T.Query())),
-          etag: S.optional(S.String),
-          id: S.optional(S.String),
-          kind: S.optional(S.String),
-          selfLink: S.optional(S.String),
-          serviceAccountEmail: S.optional(S.String),
-          state: S.optional(S.String),
-          timeCreated: S.optional(S.String),
-          updated: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(320, __c10, 0),
+          S.Struct({
+            accessId: S.String.pipe(T.Label()),
+            projectId: S.String.pipe(T.Label()),
+            userProject: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "projects/{projectId}/hmacKeys/{accessId}",
@@ -7641,22 +6344,13 @@ function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          bucket: S.String.pipe(T.Label()),
-          rapidCacheId: S.String.pipe(T.Label()),
-          kind: S.optional(S.String),
-          id: S.optional(S.String),
-          selfLink: S.optional(S.String),
-          zone: S.optional(S.String),
-          state: S.optional(S.String),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          ttl: S.optional(S.String),
-          admissionPolicy: S.optional(S.String),
-          pendingUpdate: S.optional(S.Boolean),
-          ingestOnWrite: S.optional(S.Boolean),
-          cacheType: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1568, __c49, 0),
+          S.Struct({
+            bucket: S.String.pipe(T.Label()),
+            rapidCacheId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "b/{bucket}/rapidCaches/{rapidCacheId}",

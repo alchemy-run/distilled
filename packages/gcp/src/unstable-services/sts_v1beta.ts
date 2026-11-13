@@ -82,7 +82,8 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
-export interface TokenV1betaRequest {
+/** Request message for ExchangeToken. */
+export interface GoogleIdentityStsV1betaExchangeTokenRequest {
   /** Required. The type of security token. Must be `urn:ietf:params:oauth:token-type:access_token`, which indicates an OAuth 2.0 access token. */
   requestedTokenType?: string | undefined;
   /** Required. The grant type. Must be `urn:ietf:params:oauth:grant-type:token-exchange`, which indicates a token exchange. */
@@ -98,6 +99,7 @@ export interface TokenV1betaRequest {
   /** A set of features that Security Token Service supports, in addition to the standard OAuth 2.0 token exchange, formatted as a serialized JSON object of Options. The size of the parameter value must not exceed 4096 characters. */
   options?: string | undefined;
 }
+export interface TokenV1betaRequest extends GoogleIdentityStsV1betaExchangeTokenRequest {}
 /** Response message for ExchangeToken. */
 export interface GoogleIdentityStsV1betaExchangeTokenResponse {
   /** An OAuth 2.0 security token, issued by Google, in response to the token exchange request. Tokens can vary in size, depending in part on the size of mapped claims, up to a maximum of 12288 bytes (12 KB). Google reserves the right to change the token size and the maximum length at any time. */
@@ -117,8 +119,8 @@ export const tokenV1beta: API.OperationMethod<
   TokenV1betaError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<TokenV1betaRequest>,
-  output: __S(1, __c0, 1) as any as S.Schema<GoogleIdentityStsV1betaExchangeTokenResponse>,
+  input: __S(1, __c0, 1) as any as S.Schema<TokenV1betaRequest>,
+  output: __S(2, __c0, 2) as any as S.Schema<GoogleIdentityStsV1betaExchangeTokenResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -139,11 +141,15 @@ function __c0(j: number): any {
           subjectToken: S.optional(S.String),
           audience: S.optional(S.String),
           options: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "GoogleIdentityStsV1betaExchangeTokenRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(__S(0, __c0, 0), S.Struct({})).pipe(
           T.Http({ method: "POST", uri: "v1beta/token", baseUrl: "https://sts.googleapis.com/" }),
         ),
       ).annotate({ identifier: "TokenV1betaRequest" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           access_token: S.optional(S.String),

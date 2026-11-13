@@ -109,11 +109,8 @@ export interface CancelProjectsLocationsOperationsRequest {
 export interface Empty {}
 export type StringMap = { [key: string]: string | undefined };
 export type AnnotationTypeEnum = "TYPE_UNSPECIFIED" | "TYPE_LEGACY_EXPORT_CONSENT" | "TYPE_QWIKLAB";
-export interface CreateProjectsLocationsAnnotationsRequest {
-  /** Required. Name of the parent (project+location). */
-  parent: string;
-  /** Optional. An optional request ID to identify requests. */
-  requestId?: string | undefined;
+/** Message describing an Annotation */
+export interface Annotation {
   /** name of resource. */
   name?: string | undefined;
   /** Labels as key value pairs. */
@@ -124,6 +121,12 @@ export interface CreateProjectsLocationsAnnotationsRequest {
   createTime?: string | undefined;
   /** Output only. Update time stamp. */
   updateTime?: string | undefined;
+}
+export interface CreateProjectsLocationsAnnotationsRequest extends Annotation {
+  /** Required. Name of the parent (project+location). */
+  parent: string;
+  /** Optional. An optional request ID to identify requests. */
+  requestId?: string | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -169,13 +172,8 @@ export interface GuestOsScan {
   /** reference to the corresponding Guest OS Scan in MC Source. */
   coreSource?: string | undefined;
 }
-export interface CreateProjectsLocationsCollectorsRequest {
-  /** Optional. An optional request ID to identify requests. */
-  requestId?: string | undefined;
-  /** Required. Id of the requesting object. */
-  collectorId?: string | undefined;
-  /** Required. Name of the parent (project+location). */
-  parent: string;
+/** Message describing Collector object. */
+export interface Collector {
   /** Output only. Reference to MC Source vsphere_scan. */
   vsphereScan?: VSphereScan | undefined;
   /** How many days to collect data. */
@@ -206,6 +204,14 @@ export interface CreateProjectsLocationsCollectorsRequest {
   updateTime?: string | undefined;
   /** Output only. Reference to MC Source Guest Os Scan. */
   guestOsScan?: GuestOsScan | undefined;
+}
+export interface CreateProjectsLocationsCollectorsRequest extends Collector {
+  /** Optional. An optional request ID to identify requests. */
+  requestId?: string | undefined;
+  /** Required. Id of the requesting object. */
+  collectorId?: string | undefined;
+  /** Required. Name of the parent (project+location). */
+  parent: string;
 }
 export interface DeleteProjectsLocationsCollectorsRequest {
   /** Required. Name of the resource. */
@@ -238,55 +244,9 @@ export interface GetProjectsLocationsAnnotationsRequest {
   /** Required. Name of the resource. */
   name: string;
 }
-/** Message describing an Annotation */
-export interface Annotation {
-  /** name of resource. */
-  name?: string | undefined;
-  /** Labels as key value pairs. */
-  labels?: StringMap | undefined;
-  /** Type of an annotation. */
-  type?: AnnotationTypeEnum | undefined;
-  /** Output only. Create time stamp. */
-  createTime?: string | undefined;
-  /** Output only. Update time stamp. */
-  updateTime?: string | undefined;
-}
 export interface GetProjectsLocationsCollectorsRequest {
   /** Required. Name of the resource. */
   name: string;
-}
-/** Message describing Collector object. */
-export interface Collector {
-  /** Output only. Reference to MC Source vsphere_scan. */
-  vsphereScan?: VSphereScan | undefined;
-  /** How many days to collect data. */
-  collectionDays?: number | undefined;
-  /** User specified description of the Collector. */
-  description?: string | undefined;
-  /** User specified expected asset count. */
-  expectedAssetCount?: string | undefined;
-  /** Labels as key value pairs. */
-  labels?: StringMap | undefined;
-  /** Uri for EULA (End User License Agreement) from customer. */
-  eulaUri?: string | undefined;
-  /** Service Account email used to ingest data to this Collector. */
-  serviceAccount?: string | undefined;
-  /** User specified name of the Collector. */
-  displayName?: string | undefined;
-  /** Output only. Create time stamp. */
-  createTime?: string | undefined;
-  /** Output only. Client version. */
-  clientVersion?: string | undefined;
-  /** Output only. State of the Collector. */
-  state?: CollectorStateEnum | undefined;
-  /** name of resource. */
-  name?: string | undefined;
-  /** Output only. Store cloud storage bucket name (which is a guid) created with this Collector. */
-  bucket?: string | undefined;
-  /** Output only. Update time stamp. */
-  updateTime?: string | undefined;
-  /** Output only. Reference to MC Source Guest Os Scan. */
-  guestOsScan?: GuestOsScan | undefined;
 }
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
@@ -353,59 +313,34 @@ export interface ListOperationsResponse {
   /** A list of operations that matches the specified filter in the request. */
   operations?: OperationList | undefined;
 }
-export interface PatchProjectsLocationsCollectorsRequest {
+export interface PatchProjectsLocationsCollectorsRequest extends Omit<Collector, "name"> {
   /** name of resource. */
   name: string;
   /** Required. Field mask is used to specify the fields to be overwritten in the Collector resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Output only. Reference to MC Source vsphere_scan. */
-  vsphereScan?: VSphereScan | undefined;
-  /** How many days to collect data. */
-  collectionDays?: number | undefined;
-  /** User specified description of the Collector. */
-  description?: string | undefined;
-  /** User specified expected asset count. */
-  expectedAssetCount?: string | undefined;
-  /** Labels as key value pairs. */
-  labels?: StringMap | undefined;
-  /** Uri for EULA (End User License Agreement) from customer. */
-  eulaUri?: string | undefined;
-  /** Service Account email used to ingest data to this Collector. */
-  serviceAccount?: string | undefined;
-  /** User specified name of the Collector. */
-  displayName?: string | undefined;
-  /** Output only. Create time stamp. */
-  createTime?: string | undefined;
-  /** Output only. Client version. */
-  clientVersion?: string | undefined;
-  /** Output only. State of the Collector. */
-  state?: CollectorStateEnum | (string & {}) | undefined;
-  /** Output only. Store cloud storage bucket name (which is a guid) created with this Collector. */
-  bucket?: string | undefined;
-  /** Output only. Update time stamp. */
-  updateTime?: string | undefined;
-  /** Output only. Reference to MC Source Guest Os Scan. */
-  guestOsScan?: GuestOsScan | undefined;
 }
-export interface PauseProjectsLocationsCollectorsRequest {
-  /** Required. Name of the resource. */
-  name: string;
+/** Message for pausing a Collector. */
+export interface PauseCollectorRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
 }
-export interface RegisterProjectsLocationsCollectorsRequest {
+export interface PauseProjectsLocationsCollectorsRequest extends PauseCollectorRequest {
   /** Required. Name of the resource. */
   name: string;
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
 }
-export interface ResumeProjectsLocationsCollectorsRequest {
+/** Message for registering a Collector. */
+export type RegisterCollectorRequest = PauseCollectorRequest;
+export interface RegisterProjectsLocationsCollectorsRequest extends PauseCollectorRequest {
   /** Required. Name of the resource. */
   name: string;
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
+}
+/** Message for resuming a Collector. */
+export type ResumeCollectorRequest = PauseCollectorRequest;
+export interface ResumeProjectsLocationsCollectorsRequest extends PauseCollectorRequest {
+  /** Required. Name of the resource. */
+  name: string;
 }
 export type CancelProjectsLocationsOperationsError =
   | NotFound
@@ -445,7 +380,7 @@ export const createProjectsLocationsAnnotations: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c16, 0) as any as S.Schema<CreateProjectsLocationsAnnotationsRequest>,
-  output: __S(78, __c19, 2) as any as S.Schema<Operation>,
+  output: __S(82, __c20, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -467,8 +402,8 @@ export const createProjectsLocationsCollectors: API.OperationMethod<
   CreateProjectsLocationsCollectorsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c20, 0) as any as S.Schema<CreateProjectsLocationsCollectorsRequest>,
-  output: __S(78, __c19, 2) as any as S.Schema<Operation>,
+  input: __S(84, __c21, 0) as any as S.Schema<CreateProjectsLocationsCollectorsRequest>,
+  output: __S(82, __c20, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -490,8 +425,8 @@ export const deleteProjectsLocationsCollectors: API.OperationMethod<
   DeleteProjectsLocationsCollectorsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c22, 0) as any as S.Schema<DeleteProjectsLocationsCollectorsRequest>,
-  output: __S(78, __c19, 2) as any as S.Schema<Operation>,
+  input: __S(92, __c23, 0) as any as S.Schema<DeleteProjectsLocationsCollectorsRequest>,
+  output: __S(82, __c20, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -513,7 +448,7 @@ export const deleteProjectsLocationsOperations: API.OperationMethod<
   DeleteProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(92, __c23, 0) as any as S.Schema<DeleteProjectsLocationsOperationsRequest>,
+  input: __S(96, __c24, 0) as any as S.Schema<DeleteProjectsLocationsOperationsRequest>,
   output: __S(60, __c15, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
@@ -552,7 +487,7 @@ export const getProjectsLocationsAnnotations: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8, __c2, 0) as any as S.Schema<GetProjectsLocationsAnnotationsRequest>,
-  output: __S(9, __c2, 1) as any as S.Schema<Annotation>,
+  output: __S(68, __c17, 0) as any as S.Schema<Annotation>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -573,7 +508,7 @@ export const getProjectsLocationsCollectors: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12, __c3, 0) as any as S.Schema<GetProjectsLocationsCollectorsRequest>,
-  output: __S(16, __c4, 0) as any as S.Schema<Collector>,
+  output: __S(89, __c22, 1) as any as S.Schema<Collector>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -593,8 +528,8 @@ export const getProjectsLocationsOperations: API.OperationMethod<
   GetProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20, __c5, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
-  output: __S(78, __c19, 2) as any as S.Schema<Operation>,
+  input: __S(16, __c4, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
+  output: __S(82, __c20, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -611,8 +546,8 @@ export const listProjectsLocations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListLocationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(24, __c6, 0) as any as S.Schema<ListProjectsLocationsRequest>,
-  output: __S(26, __c6, 2) as any as S.Schema<ListLocationsResponse>,
+  input: __S(20, __c5, 0) as any as S.Schema<ListProjectsLocationsRequest>,
+  output: __S(22, __c5, 2) as any as S.Schema<ListLocationsResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -634,8 +569,8 @@ export const listProjectsLocationsCollectors: API.PaginatedOperationMethod<
   GcpOpContext,
   ListCollectorsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(32, __c8, 0) as any as S.Schema<ListProjectsLocationsCollectorsRequest>,
-  output: __S(34, __c8, 2) as any as S.Schema<ListCollectorsResponse>,
+  input: __S(28, __c7, 0) as any as S.Schema<ListProjectsLocationsCollectorsRequest>,
+  output: __S(30, __c7, 2) as any as S.Schema<ListCollectorsResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -657,8 +592,8 @@ export const listProjectsLocationsOperations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListOperationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(36, __c9, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
-  output: __S(38, __c9, 2) as any as S.Schema<ListOperationsResponse>,
+  input: __S(32, __c8, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
+  output: __S(34, __c8, 2) as any as S.Schema<ListOperationsResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -681,8 +616,8 @@ export const patchProjectsLocationsCollectors: API.OperationMethod<
   PatchProjectsLocationsCollectorsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c10, 0) as any as S.Schema<PatchProjectsLocationsCollectorsRequest>,
-  output: __S(78, __c19, 2) as any as S.Schema<Operation>,
+  input: __S(36, __c9, 0) as any as S.Schema<PatchProjectsLocationsCollectorsRequest>,
+  output: __S(82, __c20, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -704,8 +639,8 @@ export const pauseProjectsLocationsCollectors: API.OperationMethod<
   PauseProjectsLocationsCollectorsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(44, __c11, 0) as any as S.Schema<PauseProjectsLocationsCollectorsRequest>,
-  output: __S(78, __c19, 2) as any as S.Schema<Operation>,
+  input: __S(40, __c10, 0) as any as S.Schema<PauseProjectsLocationsCollectorsRequest>,
+  output: __S(82, __c20, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -728,7 +663,7 @@ export const registerProjectsLocationsCollectors: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c12, 0) as any as S.Schema<RegisterProjectsLocationsCollectorsRequest>,
-  output: __S(78, __c19, 2) as any as S.Schema<Operation>,
+  output: __S(82, __c20, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -751,7 +686,7 @@ export const resumeProjectsLocationsCollectors: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(52, __c13, 0) as any as S.Schema<ResumeProjectsLocationsCollectorsRequest>,
-  output: __S(78, __c19, 2) as any as S.Schema<Operation>,
+  output: __S(82, __c20, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -781,9 +716,9 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          labels: S.optional(__S(68, __c17, 0)),
+          labels: S.optional(__S(72, __c18, 0)),
           name: S.optional(S.String),
-          metadata: S.optional(__S(72, __c18, 0)),
+          metadata: S.optional(__S(76, __c19, 0)),
           locationId: S.optional(S.String),
           displayName: S.optional(S.String),
         }),
@@ -804,16 +739,6 @@ function __c2(j: number): any {
           }),
         ),
       ).annotate({ identifier: "GetProjectsLocationsAnnotationsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          labels: S.optional(__S(68, __c17, 0)),
-          type: S.optional(S.String),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Annotation" });
   }
 }
 function __c3(j: number): any {
@@ -837,30 +762,6 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          vsphereScan: S.optional(__S(84, __c21, 0)),
-          collectionDays: S.optional(S.Number),
-          description: S.optional(S.String),
-          expectedAssetCount: S.optional(S.String),
-          labels: S.optional(__S(68, __c17, 0)),
-          eulaUri: S.optional(S.String),
-          serviceAccount: S.optional(S.String),
-          displayName: S.optional(S.String),
-          createTime: S.optional(S.String),
-          clientVersion: S.optional(S.String),
-          state: S.optional(S.String),
-          name: S.optional(S.String),
-          bucket: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          guestOsScan: S.optional(__S(84, __c21, 0)),
-        }),
-      ).annotate({ identifier: "Collector" });
-  }
-}
-function __c5(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
           name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -872,7 +773,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsOperationsRequest" });
   }
 }
-function __c6(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -881,7 +782,7 @@ function __c6(j: number): any {
           filter: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          extraLocationTypes: S.optional(__S(28, __c7, 0).pipe(T.Query())),
+          extraLocationTypes: S.optional(__S(24, __c6, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -895,19 +796,19 @@ function __c6(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          locations: S.optional(__S(25, __c6, 1)),
+          locations: S.optional(__S(21, __c5, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListLocationsResponse" });
   }
 }
-function __c7(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c8(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -926,18 +827,18 @@ function __c8(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsCollectorsRequest" });
     case 1:
-      return S.Array(__S(16, __c4, 0));
+      return S.Array(__S(89, __c22, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(28, __c7, 0)),
-          collectors: S.optional(__S(33, __c8, 1)),
+          unreachable: S.optional(__S(24, __c6, 0)),
+          collectors: S.optional(__S(29, __c7, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListCollectorsResponse" });
   }
 }
-function __c9(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -955,39 +856,28 @@ function __c9(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsOperationsRequest" });
     case 1:
-      return S.Array(__S(78, __c19, 2));
+      return S.Array(__S(82, __c20, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          operations: S.optional(__S(37, __c9, 1)),
+          operations: S.optional(__S(33, __c8, 1)),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
   }
 }
-function __c10(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          vsphereScan: S.optional(__S(84, __c21, 0)),
-          collectionDays: S.optional(S.Number),
-          description: S.optional(S.String),
-          expectedAssetCount: S.optional(S.String),
-          labels: S.optional(__S(68, __c17, 0)),
-          eulaUri: S.optional(S.String),
-          serviceAccount: S.optional(S.String),
-          displayName: S.optional(S.String),
-          createTime: S.optional(S.String),
-          clientVersion: S.optional(S.String),
-          state: S.optional(S.String),
-          bucket: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          guestOsScan: S.optional(__S(84, __c21, 0)),
-        }).pipe(
+        S.Extend(
+          __S(89, __c22, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -997,14 +887,16 @@ function __c10(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsCollectorsRequest" });
   }
 }
-function __c11(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(44, __c11, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:pause",
@@ -1014,14 +906,26 @@ function __c11(j: number): any {
       ).annotate({ identifier: "PauseProjectsLocationsCollectorsRequest" });
   }
 }
-function __c12(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           requestId: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "PauseCollectorRequest" });
+  }
+}
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(44, __c11, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:register",
@@ -1035,10 +939,12 @@ function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(44, __c11, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:resume",
@@ -1075,15 +981,13 @@ function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          name: S.optional(S.String),
-          labels: S.optional(__S(68, __c17, 0)),
-          type: S.optional(S.String),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(68, __c17, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/annotations",
@@ -1096,23 +1000,37 @@ function __c16(j: number): any {
 function __c17(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, S.String);
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          labels: S.optional(__S(72, __c18, 0)),
+          type: S.optional(S.String),
+          createTime: S.optional(S.String),
+          updateTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Annotation" });
   }
 }
 function __c18(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, S.Unknown);
+      return S.Record(S.String, S.String);
   }
 }
 function __c19(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(72, __c18, 0));
+      return S.Record(S.String, S.Unknown);
+  }
+}
+function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(76, __c19, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          details: S.optional(__S(76, __c19, 0)),
+          details: S.optional(__S(80, __c20, 0)),
           code: S.optional(S.Number),
           message: S.optional(S.String),
         }),
@@ -1120,39 +1038,27 @@ function __c19(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          metadata: S.optional(__S(72, __c18, 0)),
+          metadata: S.optional(__S(76, __c19, 0)),
           done: S.optional(S.Boolean),
-          response: S.optional(__S(72, __c18, 0)),
-          error: S.optional(__S(77, __c19, 1)),
+          response: S.optional(__S(76, __c19, 0)),
+          error: S.optional(__S(81, __c20, 1)),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "Operation" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          collectorId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          vsphereScan: S.optional(__S(84, __c21, 0)),
-          collectionDays: S.optional(S.Number),
-          description: S.optional(S.String),
-          expectedAssetCount: S.optional(S.String),
-          labels: S.optional(__S(68, __c17, 0)),
-          eulaUri: S.optional(S.String),
-          serviceAccount: S.optional(S.String),
-          displayName: S.optional(S.String),
-          createTime: S.optional(S.String),
-          clientVersion: S.optional(S.String),
-          state: S.optional(S.String),
-          name: S.optional(S.String),
-          bucket: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          guestOsScan: S.optional(__S(84, __c21, 0)),
-        }).pipe(
+        S.Extend(
+          __S(89, __c22, 1),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            collectorId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/collectors",
@@ -1162,7 +1068,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsCollectorsRequest" });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1170,9 +1076,29 @@ function __c21(j: number): any {
           coreSource: S.optional(S.String),
         }),
       ).annotate({ identifier: "VSphereScan" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          vsphereScan: S.optional(__S(88, __c22, 0)),
+          collectionDays: S.optional(S.Number),
+          description: S.optional(S.String),
+          expectedAssetCount: S.optional(S.String),
+          labels: S.optional(__S(72, __c18, 0)),
+          eulaUri: S.optional(S.String),
+          serviceAccount: S.optional(S.String),
+          displayName: S.optional(S.String),
+          createTime: S.optional(S.String),
+          clientVersion: S.optional(S.String),
+          state: S.optional(S.String),
+          name: S.optional(S.String),
+          bucket: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          guestOsScan: S.optional(__S(88, __c22, 0)),
+        }),
+      ).annotate({ identifier: "Collector" });
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1189,7 +1115,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsCollectorsRequest" });
   }
 }
-function __c23(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

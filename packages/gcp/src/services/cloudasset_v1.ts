@@ -162,15 +162,18 @@ export interface IamPolicyAnalysisQuery {
   /** Optional. Specifies roles or permissions for analysis. This is optional. */
   accessSelector?: AccessSelector | undefined;
 }
-export interface AnalyzeIamPolicyLongrunningV1Request {
-  /** Required. The relative name of the root asset. Only resources and IAM policies within the scope will be analyzed. This can only be an organization number (such as "organizations/123"), a folder number (such as "folders/123"), a project ID (such as "projects/my-project-id"), or a project number (such as "projects/12345"). To know how to get organization ID, visit [here ](https://cloud.google.com/resource-manager/docs/creating-managing-organization#retrieving_your_organization_id). To know how to get folder or project ID, visit [here ](https://cloud.google.com/resource-manager/docs/creating-managing-folders#viewing_or_listing_folders_and_projects). */
-  scope: string;
+/** A request message for AssetService.AnalyzeIamPolicyLongrunning. */
+export interface AnalyzeIamPolicyLongrunningRequest {
   /** Required. Output configuration indicating where the results will be output to. */
   outputConfig?: IamPolicyAnalysisOutputConfig | undefined;
   /** Optional. The name of a saved query, which must be in the format of: * projects/project_number/savedQueries/saved_query_id * folders/folder_number/savedQueries/saved_query_id * organizations/organization_number/savedQueries/saved_query_id If both `analysis_query` and `saved_analysis_query` are provided, they will be merged together with the `saved_analysis_query` as base and the `analysis_query` as overrides. For more details of the merge behavior, refer to the [MergeFrom](https://developers.google.com/protocol-buffers/docs/reference/cpp/google.protobuf.message#Message.MergeFrom.details) doc. Note that you cannot override primitive fields with default value, such as 0 or empty string, etc., because we use proto3, which doesn't support field presence yet. */
   savedAnalysisQuery?: string | undefined;
   /** Required. The request query. */
   analysisQuery?: IamPolicyAnalysisQuery | undefined;
+}
+export interface AnalyzeIamPolicyLongrunningV1Request extends AnalyzeIamPolicyLongrunningRequest {
+  /** Required. The relative name of the root asset. Only resources and IAM policies within the scope will be analyzed. This can only be an organization number (such as "organizations/123"), a folder number (such as "folders/123"), a project ID (such as "projects/my-project-id"), or a project number (such as "projects/12345"). To know how to get organization ID, visit [here ](https://cloud.google.com/resource-manager/docs/creating-managing-organization#retrieving_your_organization_id). To know how to get folder or project ID, visit [here ](https://cloud.google.com/resource-manager/docs/creating-managing-folders#viewing_or_listing_folders_and_projects). */
+  scope: string;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -1438,41 +1441,22 @@ export interface Feed {
   /** A list of the full names of the assets to receive updates. You must specify either or both of asset_names and asset_types. Only asset updates matching specified asset_names or asset_types are exported to the feed. Example: `//compute.googleapis.com/projects/my_project_123/zones/zone1/instances/instance1`. For a list of the full names for supported asset types, see [Resource name format](/asset-inventory/docs/resource-name-format). */
   assetNames?: StringList | undefined;
 }
-export interface CreateFeedsRequest {
-  /** Required. The name of the project/folder/organization where this feed should be created in. It can only be an organization number (such as "organizations/123"), a folder number (such as "folders/123"), a project ID (such as "projects/my-project-id"), or a project number (such as "projects/12345"). */
-  parent: string;
+/** Create asset feed request. */
+export interface CreateFeedRequest {
   /** Required. The feed details. The field `name` must be empty and it will be generated in the format of: projects/project_number/feeds/feed_id folders/folder_number/feeds/feed_id organizations/organization_number/feeds/feed_id */
   feed?: Feed | undefined;
   /** Required. This is the client-assigned asset feed identifier and it needs to be unique under a specific parent project/folder/organization. */
   feedId?: string | undefined;
+}
+export interface CreateFeedsRequest extends CreateFeedRequest {
+  /** Required. The name of the project/folder/organization where this feed should be created in. It can only be an organization number (such as "organizations/123"), a folder number (such as "folders/123"), a project ID (such as "projects/my-project-id"), or a project number (such as "projects/12345"). */
+  parent: string;
 }
 export type StringMap = { [key: string]: string | undefined };
 /** The query content. */
 export interface QueryContent {
   /** An IAM Policy Analysis query, which could be used in the AssetService.AnalyzeIamPolicy RPC or the AssetService.AnalyzeIamPolicyLongrunning RPC. */
   iamPolicyAnalysisQuery?: IamPolicyAnalysisQuery | undefined;
-}
-export interface CreateSavedQueriesRequest {
-  /** Required. The ID to use for the saved query, which must be unique in the specified parent. It will become the final component of the saved query's resource name. This value should be 4-63 characters, and valid characters are `a-z-`. Notice that this field is required in the saved query creation, and the `name` field of the `saved_query` will be ignored. */
-  savedQueryId?: string | undefined;
-  /** Required. The name of the project/folder/organization where this saved_query should be created in. It can only be an organization number (such as "organizations/123"), a folder number (such as "folders/123"), a project ID (such as "projects/my-project-id"), or a project number (such as "projects/12345"). */
-  parent: string;
-  /** Output only. The last update time of this saved query. */
-  lastUpdateTime?: string | undefined;
-  /** Output only. The create time of this saved query. */
-  createTime?: string | undefined;
-  /** Output only. The account's email address who has created this saved query. */
-  creator?: string | undefined;
-  /** The description of this saved query. This value should be fewer than 255 characters. */
-  description?: string | undefined;
-  /** Labels applied on the resource. This value should not contain more than 10 entries. The key and value of each entry must be non-empty and fewer than 64 characters. */
-  labels?: StringMap | undefined;
-  /** The query content. */
-  content?: QueryContent | undefined;
-  /** Output only. The account's email address who has updated this saved query most recently. */
-  lastUpdater?: string | undefined;
-  /** The resource name of the saved query. The format must be: * projects/project_number/savedQueries/saved_query_id * folders/folder_number/savedQueries/saved_query_id * organizations/organization_number/savedQueries/saved_query_id */
-  name?: string | undefined;
 }
 /** A saved query which can be shared with others or used later. */
 export interface SavedQuery {
@@ -1492,6 +1476,12 @@ export interface SavedQuery {
   lastUpdater?: string | undefined;
   /** The resource name of the saved query. The format must be: * projects/project_number/savedQueries/saved_query_id * folders/folder_number/savedQueries/saved_query_id * organizations/organization_number/savedQueries/saved_query_id */
   name?: string | undefined;
+}
+export interface CreateSavedQueriesRequest extends SavedQuery {
+  /** Required. The ID to use for the saved query, which must be unique in the specified parent. It will become the final component of the saved query's resource name. This value should be 4-63 characters, and valid characters are `a-z-`. Notice that this field is required in the saved query creation, and the `name` field of the `saved_query` will be ignored. */
+  savedQueryId?: string | undefined;
+  /** Required. The name of the project/folder/organization where this saved_query should be created in. It can only be an organization number (such as "organizations/123"), a folder number (such as "folders/123"), a project ID (such as "projects/my-project-id"), or a project number (such as "projects/12345"). */
+  parent: string;
 }
 export interface DeleteFeedsRequest {
   /** Required. The name of the feed and it must be in the format of: projects/project_number/feeds/feed_id folders/folder_number/feeds/feed_id organizations/organization_number/feeds/feed_id */
@@ -1547,9 +1537,8 @@ export type ExportAssetsRequestContentTypeEnum =
   | "ACCESS_POLICY"
   | "OS_INVENTORY"
   | "RELATIONSHIP";
-export interface ExportAssetsV1Request {
-  /** Required. The relative name of the root asset. This can only be an organization number (such as "organizations/123"), a project ID (such as "projects/my-project-id"), or a project number (such as "projects/12345"), or a folder number (such as "folders/123"). */
-  parent: string;
+/** Export asset request. */
+export interface ExportAssetsRequest {
   /** Required. Output configuration indicating where the results will be output to. */
   outputConfig?: OutputConfig | undefined;
   /** Asset content type. If not specified, no content but the asset name will be returned. */
@@ -1560,6 +1549,10 @@ export interface ExportAssetsV1Request {
   readTime?: string | undefined;
   /** A list of relationship types to export, for example: `INSTANCE_TO_INSTANCEGROUP`. This field should only be specified if content_type=RELATIONSHIP. * If specified: it snapshots specified relationships. It returns an error if any of the [relationship_types] doesn't belong to the supported relationship types of the [asset_types] or if any of the [asset_types] doesn't belong to the source types of the [relationship_types]. * Otherwise: it snapshots the supported relationships for all [asset_types] or returns an error if any of the [asset_types] has no relationship support. An unspecified asset types field means all supported asset_types. See [Introduction to Cloud Asset Inventory](https://cloud.google.com/asset-inventory/docs/overview) for all supported asset types and relationship types. */
   relationshipTypes?: StringList | undefined;
+}
+export interface ExportAssetsV1Request extends ExportAssetsRequest {
+  /** Required. The relative name of the root asset. This can only be an organization number (such as "organizations/123"), a project ID (such as "projects/my-project-id"), or a project number (such as "projects/12345"), or a folder number (such as "folders/123"). */
+  parent: string;
 }
 export interface GetFeedsRequest {
   /** Required. The name of the Feed and it must be in the format of: projects/project_number/feeds/feed_id folders/folder_number/feeds/feed_id organizations/organization_number/feeds/feed_id */
@@ -1634,33 +1627,22 @@ export interface ListSavedQueriesResponse {
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string | undefined;
 }
-export interface PatchFeedsRequest {
-  /** Required. The format will be projects/{project_number}/feeds/{client-assigned_feed_identifier} or folders/{folder_number}/feeds/{client-assigned_feed_identifier} or organizations/{organization_number}/feeds/{client-assigned_feed_identifier} The client-assigned feed identifier must be unique within the parent project/folder/organization. */
-  name: string;
+/** Update asset feed request. */
+export interface UpdateFeedRequest {
   /** Required. Only updates the `feed` fields indicated by this mask. The field mask must not be empty, and it must not contain fields that are immutable or only set by the server. */
   updateMask?: string | undefined;
   /** Required. The new values of feed details. It must match an existing feed and the field `name` must be in the format of: projects/project_number/feeds/feed_id or folders/folder_number/feeds/feed_id or organizations/organization_number/feeds/feed_id. */
   feed?: Feed | undefined;
 }
-export interface PatchSavedQueriesRequest {
+export interface PatchFeedsRequest extends UpdateFeedRequest {
+  /** Required. The format will be projects/{project_number}/feeds/{client-assigned_feed_identifier} or folders/{folder_number}/feeds/{client-assigned_feed_identifier} or organizations/{organization_number}/feeds/{client-assigned_feed_identifier} The client-assigned feed identifier must be unique within the parent project/folder/organization. */
+  name: string;
+}
+export interface PatchSavedQueriesRequest extends Omit<SavedQuery, "name"> {
   /** The resource name of the saved query. The format must be: * projects/project_number/savedQueries/saved_query_id * folders/folder_number/savedQueries/saved_query_id * organizations/organization_number/savedQueries/saved_query_id */
   name: string;
   /** Required. The list of fields to update. */
   updateMask?: string | undefined;
-  /** Output only. The last update time of this saved query. */
-  lastUpdateTime?: string | undefined;
-  /** Output only. The create time of this saved query. */
-  createTime?: string | undefined;
-  /** Output only. The account's email address who has created this saved query. */
-  creator?: string | undefined;
-  /** The description of this saved query. This value should be fewer than 255 characters. */
-  description?: string | undefined;
-  /** Labels applied on the resource. This value should not contain more than 10 entries. The key and value of each entry must be non-empty and fewer than 64 characters. */
-  labels?: StringMap | undefined;
-  /** The query content. */
-  content?: QueryContent | undefined;
-  /** Output only. The account's email address who has updated this saved query most recently. */
-  lastUpdater?: string | undefined;
 }
 /** BigQuery destination. */
 export interface GoogleCloudAssetV1QueryAssetsOutputConfigBigQueryDestination {
@@ -1676,9 +1658,8 @@ export interface QueryAssetsOutputConfig {
   /** BigQuery destination where the query results will be saved. */
   bigqueryDestination?: GoogleCloudAssetV1QueryAssetsOutputConfigBigQueryDestination | undefined;
 }
-export interface QueryAssetsV1Request {
-  /** Required. The relative name of the root asset. This can only be an organization number (such as "organizations/123"), a project ID (such as "projects/my-project-id"), or a project number (such as "projects/12345"), or a folder number (such as "folders/123"). Only assets belonging to the `parent` will be returned. */
-  parent: string;
+/** QueryAssets request. */
+export interface QueryAssetsRequest {
   /** Optional. Queries cloud assets as they appeared at the specified point in time. */
   readTime?: string | undefined;
   /** Optional. Destination where the query results will be saved. When this field is specified, the query results won't be saved in the [QueryAssetsResponse.query_result]. Instead [QueryAssetsResponse.output_config] will be set. Meanwhile, [QueryAssetsResponse.job_reference] will be set and can be used to check the status of the query job when passed to a following [QueryAssets] API call. */
@@ -1695,6 +1676,10 @@ export interface QueryAssetsV1Request {
   jobReference?: string | undefined;
   /** Optional. Specifies the maximum amount of time that the client is willing to wait for the query to complete. By default, this limit is 5 min for the first query, and 1 minute for the following queries. If the query is complete, the `done` field in the `QueryAssetsResponse` is true, otherwise false. Like BigQuery [jobs.query API](https://cloud.google.com/bigquery/docs/reference/rest/v2/jobs/query#queryrequest) The call is not guaranteed to wait for the specified timeout; it typically returns after around 200 seconds (200,000 milliseconds), even if the query is not complete. The field will be ignored when [output_config] is specified. */
   timeout?: string | undefined;
+}
+export interface QueryAssetsV1Request extends QueryAssetsRequest {
+  /** Required. The relative name of the root asset. This can only be an organization number (such as "organizations/123"), a project ID (such as "projects/my-project-id"), or a project number (such as "projects/12345"), or a folder number (such as "folders/123"). Only assets belonging to the `parent` will be returned. */
+  parent: string;
 }
 /** A field in TableSchema. */
 export interface TableFieldSchema {
@@ -1926,7 +1911,7 @@ export const analyzeIamPolicyLongrunningV1: API.OperationMethod<
   AnalyzeIamPolicyLongrunningV1Error,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(803, __c25, 3) as any as S.Schema<AnalyzeIamPolicyLongrunningV1Request>,
+  input: __S(804, __c25, 4) as any as S.Schema<AnalyzeIamPolicyLongrunningV1Request>,
   output: __S(832, __c26, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -2068,7 +2053,7 @@ export const createFeeds: API.OperationMethod<
   CreateFeedsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c6, 0) as any as S.Schema<CreateFeedsRequest>,
+  input: __S(193, __c6, 1) as any as S.Schema<CreateFeedsRequest>,
   output: __S(226, __c7, 2) as any as S.Schema<Feed>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -2136,7 +2121,7 @@ export const exportAssetsV1: API.OperationMethod<
   ExportAssetsV1Error,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(420, __c13, 4) as any as S.Schema<ExportAssetsV1Request>,
+  input: __S(421, __c13, 5) as any as S.Schema<ExportAssetsV1Request>,
   output: __S(832, __c26, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -2255,7 +2240,7 @@ export const patchFeeds: API.OperationMethod<
   PatchFeedsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c20, 0) as any as S.Schema<PatchFeedsRequest>,
+  input: __S(641, __c20, 1) as any as S.Schema<PatchFeedsRequest>,
   output: __S(226, __c7, 2) as any as S.Schema<Feed>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -2289,8 +2274,8 @@ export const queryAssetsV1: API.OperationMethod<
   QueryAssetsV1Error,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(706, __c22, 2) as any as S.Schema<QueryAssetsV1Request>,
-  output: __S(711, __c22, 7) as any as S.Schema<QueryAssetsResponse>,
+  input: __S(707, __c22, 3) as any as S.Schema<QueryAssetsV1Request>,
+  output: __S(712, __c22, 8) as any as S.Schema<QueryAssetsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2900,10 +2885,18 @@ function __c6(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
           feed: S.optional(__S(226, __c7, 2)),
           feedId: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "CreateFeedRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(192, __c6, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/feeds",
@@ -2945,18 +2938,13 @@ function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          savedQueryId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          lastUpdateTime: S.optional(S.String),
-          createTime: S.optional(S.String),
-          creator: S.optional(S.String),
-          description: S.optional(S.String),
-          labels: S.optional(__S(320, __c10, 0)),
-          content: S.optional(__S(288, __c9, 0)),
-          lastUpdater: S.optional(S.String),
-          name: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(289, __c9, 1),
+          S.Struct({
+            savedQueryId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/savedQueries",
@@ -3062,13 +3050,21 @@ function __c13(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
           outputConfig: S.optional(__S(419, __c13, 3)),
           contentType: S.optional(S.String),
           assetTypes: S.optional(__S(896, __c28, 0)),
           readTime: S.optional(S.String),
           relationshipTypes: S.optional(__S(896, __c28, 0)),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "ExportAssetsRequest" });
+    case 5:
+      return S.suspend(() =>
+        S.Extend(
+          __S(420, __c13, 4),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}:exportAssets",
@@ -3215,10 +3211,18 @@ function __c20(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String),
           feed: S.optional(__S(226, __c7, 2)),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "UpdateFeedRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(640, __c20, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -3232,17 +3236,13 @@ function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          lastUpdateTime: S.optional(S.String),
-          createTime: S.optional(S.String),
-          creator: S.optional(S.String),
-          description: S.optional(S.String),
-          labels: S.optional(__S(320, __c10, 0)),
-          content: S.optional(__S(288, __c9, 0)),
-          lastUpdater: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(289, __c9, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -3271,7 +3271,6 @@ function __c22(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
           readTime: S.optional(S.String),
           outputConfig: S.optional(__S(705, __c22, 1)),
           pageToken: S.optional(S.String),
@@ -3280,7 +3279,16 @@ function __c22(j: number): any {
           statement: S.optional(S.String),
           jobReference: S.optional(S.String),
           timeout: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "QueryAssetsRequest" });
+    case 3:
+      return S.suspend(() =>
+        S.Extend(
+          __S(706, __c22, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}:queryAssets",
@@ -3288,38 +3296,38 @@ function __c22(j: number): any {
           }),
         ),
       ).annotate({ identifier: "QueryAssetsV1Request" });
-    case 3:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           field: S.optional(S.String),
-          fields: S.optional(S.suspend(() => __S(708, __c22, 4))),
+          fields: S.optional(S.suspend(() => __S(709, __c22, 5))),
           type: S.optional(S.String),
           mode: S.optional(S.String),
         }),
       ).annotate({ identifier: "TableFieldSchema" });
-    case 4:
-      return S.Array(__S(707, __c22, 3));
     case 5:
-      return S.suspend(() =>
-        S.Struct({
-          fields: S.optional(__S(708, __c22, 4)),
-        }),
-      ).annotate({ identifier: "TableSchema" });
+      return S.Array(__S(708, __c22, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
+          fields: S.optional(__S(709, __c22, 5)),
+        }),
+      ).annotate({ identifier: "TableSchema" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
           totalRows: S.optional(S.String),
-          schema: S.optional(__S(709, __c22, 5)),
+          schema: S.optional(__S(710, __c22, 6)),
           rows: S.optional(__S(960, __c30, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "QueryResult" });
-    case 7:
+    case 8:
       return S.suspend(() =>
         S.Struct({
           done: S.optional(S.Boolean),
           jobReference: S.optional(S.String),
-          queryResult: S.optional(__S(710, __c22, 6)),
+          queryResult: S.optional(__S(711, __c22, 7)),
           error: S.optional(__S(961, __c30, 1)),
           outputConfig: S.optional(__S(705, __c22, 1)),
         }),
@@ -3523,11 +3531,19 @@ function __c25(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          scope: S.String.pipe(T.Label()),
           outputConfig: S.optional(__S(802, __c25, 2)),
           savedAnalysisQuery: S.optional(S.String),
           analysisQuery: S.optional(__S(869, __c27, 5)),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "AnalyzeIamPolicyLongrunningRequest" });
+    case 4:
+      return S.suspend(() =>
+        S.Extend(
+          __S(803, __c25, 3),
+          S.Struct({
+            scope: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+scope}:analyzeIamPolicyLongrunning",

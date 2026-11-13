@@ -84,11 +84,14 @@ export class NotFound
   ) {}
 
 export type StringList = Array<string>;
-export interface AcknowledgeProjectsSubscriptionsRequest {
-  /** The subscription whose message is being acknowledged. */
-  subscription: string;
+/** Request for the Acknowledge method. */
+export interface AcknowledgeRequest {
   /** The acknowledgment ID for the messages being acknowledged that was returned by the Pub/Sub system in the `Pull` response. Must not be empty. */
   ackIds?: StringList | undefined;
+}
+export interface AcknowledgeProjectsSubscriptionsRequest extends AcknowledgeRequest {
+  /** The subscription whose message is being acknowledged. */
+  subscription: string;
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
@@ -109,16 +112,6 @@ export interface PushConfig {
   /** Endpoint configuration attributes. Every endpoint has a set of API supported attributes that can be used to control different aspects of the message delivery. The currently supported attribute is `x-goog-version`, which you can use to change the format of the push message. This attribute indicates the version of the data expected by the endpoint. This controls the shape of the envelope (i.e. its fields and metadata). The endpoint version is based on the version of the Pub/Sub API. If not present during the `CreateSubscription` call, it will default to the version of the API used to make such call. If not present during a `ModifyPushConfig` call, its value will not be changed. `GetSubscription` calls will always return a valid version, even if the subscription was created without this attribute. The possible values for this attribute are: * `v1beta1`: uses the push format defined in the v1beta1 Pub/Sub API. * `v1` or `v1beta2`: uses the push format defined in the v1 Pub/Sub API. */
   attributes?: StringMap | undefined;
 }
-export interface CreateProjectsSubscriptionsRequest {
-  /** The name of the subscription. It must have the format `"projects/{project}/subscriptions/{subscription}"`. `{subscription}` must start with a letter, and contain only letters (`[A-Za-z]`), numbers (`[0-9]`), dashes (`-`), underscores (`_`), periods (`.`), tildes (`~`), plus (`+`) or percent signs (`%`). It must be between 3 and 255 characters in length, and it must not start with `"goog"`. */
-  name: string;
-  /** If push delivery is used with this subscription, this field is used to configure it. An empty `pushConfig` signifies that the subscriber will pull and ack messages using API methods. */
-  pushConfig?: PushConfig | undefined;
-  /** This value is the maximum time after a subscriber receives a message before the subscriber should acknowledge the message. After message delivery but before the ack deadline expires and before the message is acknowledged, it is an outstanding message and will not be delivered again during that time (on a best-effort basis). For pull subscriptions, this value is used as the initial value for the ack deadline. To override this value for a given message, call `ModifyAckDeadline` with the corresponding `ack_id` if using pull. The maximum custom deadline you can specify is 600 seconds (10 minutes). For push delivery, this value is also used to set the request timeout for the call to the push endpoint. If the subscriber never acknowledges the message, the Pub/Sub system will eventually redeliver the message. If this parameter is 0, a default value of 10 seconds is used. */
-  ackDeadlineSeconds?: number | undefined;
-  /** The name of the topic from which this subscription is receiving messages. The value of this field will be `_deleted-topic_` if the topic has been deleted. */
-  topic?: string | undefined;
-}
 /** A subscription resource. */
 export interface Subscription {
   /** If push delivery is used with this subscription, this field is used to configure it. An empty `pushConfig` signifies that the subscriber will pull and ack messages using API methods. */
@@ -130,14 +123,18 @@ export interface Subscription {
   /** The name of the topic from which this subscription is receiving messages. The value of this field will be `_deleted-topic_` if the topic has been deleted. */
   topic?: string | undefined;
 }
-export interface CreateProjectsTopicsRequest {
-  /** The name of the topic. It must have the format `"projects/{project}/topics/{topic}"`. `{topic}` must start with a letter, and contain only letters (`[A-Za-z]`), numbers (`[0-9]`), dashes (`-`), underscores (`_`), periods (`.`), tildes (`~`), plus (`+`) or percent signs (`%`). It must be between 3 and 255 characters in length, and it must not start with `"goog"`. */
+export interface CreateProjectsSubscriptionsRequest extends Omit<Subscription, "name"> {
+  /** The name of the subscription. It must have the format `"projects/{project}/subscriptions/{subscription}"`. `{subscription}` must start with a letter, and contain only letters (`[A-Za-z]`), numbers (`[0-9]`), dashes (`-`), underscores (`_`), periods (`.`), tildes (`~`), plus (`+`) or percent signs (`%`). It must be between 3 and 255 characters in length, and it must not start with `"goog"`. */
   name: string;
 }
 /** A topic resource. */
 export interface Topic {
   /** The name of the topic. It must have the format `"projects/{project}/topics/{topic}"`. `{topic}` must start with a letter, and contain only letters (`[A-Za-z]`), numbers (`[0-9]`), dashes (`-`), underscores (`_`), periods (`.`), tildes (`~`), plus (`+`) or percent signs (`%`). It must be between 3 and 255 characters in length, and it must not start with `"goog"`. */
   name?: string | undefined;
+}
+export interface CreateProjectsTopicsRequest extends Omit<Topic, "name"> {
+  /** The name of the topic. It must have the format `"projects/{project}/topics/{topic}"`. `{topic}` must start with a letter, and contain only letters (`[A-Za-z]`), numbers (`[0-9]`), dashes (`-`), underscores (`_`), periods (`.`), tildes (`~`), plus (`+`) or percent signs (`%`). It must be between 3 and 255 characters in length, and it must not start with `"goog"`. */
+  name: string;
 }
 export interface DeleteProjectsSubscriptionsRequest {
   /** The subscription to delete. */
@@ -244,9 +241,8 @@ export interface ListTopicSubscriptionsResponse {
   /** If not empty, indicates that there may be more subscriptions that match the request; this value should be passed in a new `ListTopicSubscriptionsRequest` to get more subscriptions. */
   nextPageToken?: string | undefined;
 }
-export interface ModifyAckDeadlineProjectsSubscriptionsRequest {
-  /** The name of the subscription. */
-  subscription: string;
+/** Request for the ModifyAckDeadline method. */
+export interface ModifyAckDeadlineRequest {
   /** List of acknowledgment IDs. */
   ackIds?: StringList | undefined;
   /** The new ack deadline with respect to the time this request was sent to the Pub/Sub system. Must be >= 0. For example, if the value is 10, the new ack deadline will expire 10 seconds after the `ModifyAckDeadline` call was made. Specifying zero may immediately make the message available for another pull request. */
@@ -254,11 +250,18 @@ export interface ModifyAckDeadlineProjectsSubscriptionsRequest {
   /** The acknowledgment ID. Either this or ack_ids must be populated, but not both. */
   ackId?: string | undefined;
 }
-export interface ModifyPushConfigProjectsSubscriptionsRequest {
+export interface ModifyAckDeadlineProjectsSubscriptionsRequest extends ModifyAckDeadlineRequest {
   /** The name of the subscription. */
   subscription: string;
+}
+/** Request for the ModifyPushConfig method. */
+export interface ModifyPushConfigRequest {
   /** The push configuration for future deliveries. An empty `pushConfig` indicates that the Pub/Sub system should stop pushing messages from the given subscription and allow messages to be pulled and acknowledged - effectively pausing the subscription if `Pull` is not called. */
   pushConfig?: PushConfig | undefined;
+}
+export interface ModifyPushConfigProjectsSubscriptionsRequest extends ModifyPushConfigRequest {
+  /** The name of the subscription. */
+  subscription: string;
 }
 /** A message data and its attributes. The message payload must not be empty; it must contain either a non-empty data field, or at least one attribute. */
 export interface PubsubMessage {
@@ -272,24 +275,30 @@ export interface PubsubMessage {
   data?: string | undefined;
 }
 export type PubsubMessageList = Array<PubsubMessage>;
-export interface PublishProjectsTopicsRequest {
-  /** The messages in the request will be published on this topic. */
-  topic: string;
+/** Request for the Publish method. */
+export interface PublishRequest {
   /** The messages to publish. */
   messages?: PubsubMessageList | undefined;
+}
+export interface PublishProjectsTopicsRequest extends PublishRequest {
+  /** The messages in the request will be published on this topic. */
+  topic: string;
 }
 /** Response for the `Publish` method. */
 export interface PublishResponse {
   /** The server-assigned ID of each published message, in the same order as the messages in the request. IDs are guaranteed to be unique within the topic. */
   messageIds?: StringList | undefined;
 }
-export interface PullProjectsSubscriptionsRequest {
-  /** The subscription from which messages should be pulled. */
-  subscription: string;
+/** Request for the `Pull` method. */
+export interface PullRequest {
   /** Optional. If this is specified as true the system will respond immediately even if it is not able to return a message in the `Pull` response. Otherwise the system is allowed to wait until at least one message is available rather than returning no messages. The client may cancel the request if it does not wish to wait any longer for the response. Warning: setting this field to `true` is discouraged because it adversely impacts the performance of `Pull` operations. We recommend that users do not set this field. */
   returnImmediately?: boolean | undefined;
   /** The maximum number of messages returned for this request. The Pub/Sub system may return fewer than the number specified. */
   maxMessages?: number | undefined;
+}
+export interface PullProjectsSubscriptionsRequest extends PullRequest {
+  /** The subscription from which messages should be pulled. */
+  subscription: string;
 }
 /** A message and its corresponding acknowledgment ID. */
 export interface ReceivedMessage {
@@ -304,34 +313,36 @@ export interface PullResponse {
   /** Received Pub/Sub messages. The Pub/Sub system will return zero messages if there are no more available in the backlog. The Pub/Sub system may return fewer than the `maxMessages` requested even if there are more messages available in the backlog. */
   receivedMessages?: ReceivedMessageList | undefined;
 }
-export interface SetIamPolicyProjectsSubscriptionsRequest {
-  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
+/** Request message for `SetIamPolicy` method. */
+export interface SetIamPolicyRequest {
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
   policy?: Policy | undefined;
 }
-export interface SetIamPolicyProjectsTopicsRequest {
+export interface SetIamPolicyProjectsSubscriptionsRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
-  policy?: Policy | undefined;
 }
-export interface TestIamPermissionsProjectsSubscriptionsRequest {
-  /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+export interface SetIamPolicyProjectsTopicsRequest extends SetIamPolicyRequest {
+  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
+}
+/** Request message for `TestIamPermissions` method. */
+export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: StringList | undefined;
+}
+export interface TestIamPermissionsProjectsSubscriptionsRequest extends TestIamPermissionsRequest {
+  /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsTopicsRequest {
+export interface TestIamPermissionsProjectsTopicsRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
-  permissions?: StringList | undefined;
 }
 export type AcknowledgeProjectsSubscriptionsError =
   | NotFound
@@ -346,8 +357,8 @@ export const acknowledgeProjectsSubscriptions: API.OperationMethod<
   AcknowledgeProjectsSubscriptionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c16, 0) as any as S.Schema<AcknowledgeProjectsSubscriptionsRequest>,
-  output: __S(68, __c17, 0) as any as S.Schema<Empty>,
+  input: __S(137, __c17, 1) as any as S.Schema<AcknowledgeProjectsSubscriptionsRequest>,
+  output: __S(144, __c18, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -368,8 +379,8 @@ export const createProjectsSubscriptions: API.OperationMethod<
   CreateProjectsSubscriptionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(76, __c19, 0) as any as S.Schema<CreateProjectsSubscriptionsRequest>,
-  output: __S(80, __c20, 0) as any as S.Schema<Subscription>,
+  input: __S(160, __c20, 0) as any as S.Schema<CreateProjectsSubscriptionsRequest>,
+  output: __S(168, __c21, 0) as any as S.Schema<Subscription>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -385,8 +396,8 @@ export const createProjectsTopics: API.OperationMethod<
   CreateProjectsTopicsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(92, __c23, 0) as any as S.Schema<CreateProjectsTopicsRequest>,
-  output: __S(96, __c24, 0) as any as S.Schema<Topic>,
+  input: __S(192, __c24, 0) as any as S.Schema<CreateProjectsTopicsRequest>,
+  output: __S(200, __c25, 0) as any as S.Schema<Topic>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -407,8 +418,8 @@ export const deleteProjectsSubscriptions: API.OperationMethod<
   DeleteProjectsSubscriptionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(100, __c25, 0) as any as S.Schema<DeleteProjectsSubscriptionsRequest>,
-  output: __S(68, __c17, 0) as any as S.Schema<Empty>,
+  input: __S(208, __c26, 0) as any as S.Schema<DeleteProjectsSubscriptionsRequest>,
+  output: __S(144, __c18, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -424,8 +435,8 @@ export const deleteProjectsTopics: API.OperationMethod<
   DeleteProjectsTopicsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(104, __c26, 0) as any as S.Schema<DeleteProjectsTopicsRequest>,
-  output: __S(68, __c17, 0) as any as S.Schema<Empty>,
+  input: __S(216, __c27, 0) as any as S.Schema<DeleteProjectsTopicsRequest>,
+  output: __S(144, __c18, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -441,8 +452,8 @@ export const getIamPolicyProjectsSubscriptions: API.OperationMethod<
   GetIamPolicyProjectsSubscriptionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(108, __c27, 0) as any as S.Schema<GetIamPolicyProjectsSubscriptionsRequest>,
-  output: __S(115, __c28, 3) as any as S.Schema<Policy>,
+  input: __S(224, __c28, 0) as any as S.Schema<GetIamPolicyProjectsSubscriptionsRequest>,
+  output: __S(235, __c29, 3) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -459,7 +470,7 @@ export const getIamPolicyProjectsTopics: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<GetIamPolicyProjectsTopicsRequest>,
-  output: __S(115, __c28, 3) as any as S.Schema<Policy>,
+  output: __S(235, __c29, 3) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -475,8 +486,8 @@ export const getProjectsSubscriptions: API.OperationMethod<
   GetProjectsSubscriptionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4, __c1, 0) as any as S.Schema<GetProjectsSubscriptionsRequest>,
-  output: __S(80, __c20, 0) as any as S.Schema<Subscription>,
+  input: __S(8, __c1, 0) as any as S.Schema<GetProjectsSubscriptionsRequest>,
+  output: __S(168, __c21, 0) as any as S.Schema<Subscription>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -492,8 +503,8 @@ export const getProjectsTopics: API.OperationMethod<
   GetProjectsTopicsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c2, 0) as any as S.Schema<GetProjectsTopicsRequest>,
-  output: __S(96, __c24, 0) as any as S.Schema<Topic>,
+  input: __S(16, __c2, 0) as any as S.Schema<GetProjectsTopicsRequest>,
+  output: __S(200, __c25, 0) as any as S.Schema<Topic>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -510,8 +521,8 @@ export const listProjectsSubscriptions: API.PaginatedOperationMethod<
   GcpOpContext,
   ListSubscriptionsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(12, __c3, 0) as any as S.Schema<ListProjectsSubscriptionsRequest>,
-  output: __S(14, __c3, 2) as any as S.Schema<ListSubscriptionsResponse>,
+  input: __S(24, __c3, 0) as any as S.Schema<ListProjectsSubscriptionsRequest>,
+  output: __S(26, __c3, 2) as any as S.Schema<ListSubscriptionsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -529,8 +540,8 @@ export const listProjectsTopics: API.PaginatedOperationMethod<
   GcpOpContext,
   ListTopicsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(16, __c4, 0) as any as S.Schema<ListProjectsTopicsRequest>,
-  output: __S(18, __c4, 2) as any as S.Schema<ListTopicsResponse>,
+  input: __S(32, __c4, 0) as any as S.Schema<ListProjectsTopicsRequest>,
+  output: __S(34, __c4, 2) as any as S.Schema<ListTopicsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -548,8 +559,8 @@ export const listProjectsTopicsSubscriptions: API.PaginatedOperationMethod<
   GcpOpContext,
   ListTopicSubscriptionsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(20, __c5, 0) as any as S.Schema<ListProjectsTopicsSubscriptionsRequest>,
-  output: __S(21, __c5, 1) as any as S.Schema<ListTopicSubscriptionsResponse>,
+  input: __S(40, __c5, 0) as any as S.Schema<ListProjectsTopicsSubscriptionsRequest>,
+  output: __S(41, __c5, 1) as any as S.Schema<ListTopicSubscriptionsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -571,8 +582,8 @@ export const modifyAckDeadlineProjectsSubscriptions: API.OperationMethod<
   ModifyAckDeadlineProjectsSubscriptionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c6, 0) as any as S.Schema<ModifyAckDeadlineProjectsSubscriptionsRequest>,
-  output: __S(68, __c17, 0) as any as S.Schema<Empty>,
+  input: __S(49, __c6, 1) as any as S.Schema<ModifyAckDeadlineProjectsSubscriptionsRequest>,
+  output: __S(144, __c18, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -593,8 +604,8 @@ export const modifyPushConfigProjectsSubscriptions: API.OperationMethod<
   ModifyPushConfigProjectsSubscriptionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28, __c7, 0) as any as S.Schema<ModifyPushConfigProjectsSubscriptionsRequest>,
-  output: __S(68, __c17, 0) as any as S.Schema<Empty>,
+  input: __S(57, __c7, 1) as any as S.Schema<ModifyPushConfigProjectsSubscriptionsRequest>,
+  output: __S(144, __c18, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -610,8 +621,8 @@ export const publishProjectsTopics: API.OperationMethod<
   PublishProjectsTopicsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(33, __c8, 1) as any as S.Schema<PublishProjectsTopicsRequest>,
-  output: __S(34, __c8, 2) as any as S.Schema<PublishResponse>,
+  input: __S(66, __c8, 2) as any as S.Schema<PublishProjectsTopicsRequest>,
+  output: __S(67, __c8, 3) as any as S.Schema<PublishResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -632,8 +643,8 @@ export const pullProjectsSubscriptions: API.OperationMethod<
   PullProjectsSubscriptionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c10, 0) as any as S.Schema<PullProjectsSubscriptionsRequest>,
-  output: __S(43, __c10, 3) as any as S.Schema<PullResponse>,
+  input: __S(81, __c10, 1) as any as S.Schema<PullProjectsSubscriptionsRequest>,
+  output: __S(84, __c10, 4) as any as S.Schema<PullResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -654,8 +665,8 @@ export const setIamPolicyProjectsSubscriptions: API.OperationMethod<
   SetIamPolicyProjectsSubscriptionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(44, __c11, 0) as any as S.Schema<SetIamPolicyProjectsSubscriptionsRequest>,
-  output: __S(115, __c28, 3) as any as S.Schema<Policy>,
+  input: __S(88, __c11, 0) as any as S.Schema<SetIamPolicyProjectsSubscriptionsRequest>,
+  output: __S(235, __c29, 3) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -676,8 +687,8 @@ export const setIamPolicyProjectsTopics: API.OperationMethod<
   SetIamPolicyProjectsTopicsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c12, 0) as any as S.Schema<SetIamPolicyProjectsTopicsRequest>,
-  output: __S(115, __c28, 3) as any as S.Schema<Policy>,
+  input: __S(104, __c13, 0) as any as S.Schema<SetIamPolicyProjectsTopicsRequest>,
+  output: __S(235, __c29, 3) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -698,8 +709,8 @@ export const testIamPermissionsProjectsSubscriptions: API.OperationMethod<
   TestIamPermissionsProjectsSubscriptionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(52, __c13, 0) as any as S.Schema<TestIamPermissionsProjectsSubscriptionsRequest>,
-  output: __S(56, __c14, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  input: __S(112, __c14, 0) as any as S.Schema<TestIamPermissionsProjectsSubscriptionsRequest>,
+  output: __S(120, __c15, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -720,8 +731,8 @@ export const testIamPermissionsProjectsTopics: API.OperationMethod<
   TestIamPermissionsProjectsTopicsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(60, __c15, 0) as any as S.Schema<TestIamPermissionsProjectsTopicsRequest>,
-  output: __S(56, __c14, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  input: __S(128, __c16, 0) as any as S.Schema<TestIamPermissionsProjectsTopicsRequest>,
+  output: __S(120, __c15, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -796,11 +807,11 @@ function __c3(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsSubscriptionsRequest" });
     case 1:
-      return S.Array(__S(80, __c20, 0));
+      return S.Array(__S(168, __c21, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          subscriptions: S.optional(__S(13, __c3, 1)),
+          subscriptions: S.optional(__S(25, __c3, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListSubscriptionsResponse" });
@@ -823,12 +834,12 @@ function __c4(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsTopicsRequest" });
     case 1:
-      return S.Array(__S(96, __c24, 0));
+      return S.Array(__S(200, __c25, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          topics: S.optional(__S(17, __c4, 1)),
+          topics: S.optional(__S(33, __c4, 1)),
         }),
       ).annotate({ identifier: "ListTopicsResponse" });
   }
@@ -852,7 +863,7 @@ function __c5(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          subscriptions: S.optional(__S(72, __c18, 0)),
+          subscriptions: S.optional(__S(152, __c19, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListTopicSubscriptionsResponse" });
@@ -863,11 +874,19 @@ function __c6(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          subscription: S.String.pipe(T.Label()),
-          ackIds: S.optional(__S(72, __c18, 0)),
+          ackIds: S.optional(__S(152, __c19, 0)),
           ackDeadlineSeconds: S.optional(S.Number),
           ackId: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "ModifyAckDeadlineRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(48, __c6, 0),
+          S.Struct({
+            subscription: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta2/{+subscription}:modifyAckDeadline",
@@ -882,9 +901,17 @@ function __c7(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          subscription: S.String.pipe(T.Label()),
-          pushConfig: S.optional(__S(85, __c21, 1)),
-        }).pipe(
+          pushConfig: S.optional(__S(177, __c22, 1)),
+        }),
+      ).annotate({ identifier: "ModifyPushConfigRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(56, __c7, 0),
+          S.Struct({
+            subscription: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta2/{+subscription}:modifyPushConfig",
@@ -897,13 +924,21 @@ function __c7(j: number): any {
 function __c8(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(36, __c9, 0));
+      return S.Array(__S(72, __c9, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          topic: S.String.pipe(T.Label()),
-          messages: S.optional(__S(32, __c8, 0)),
-        }).pipe(
+          messages: S.optional(__S(64, __c8, 0)),
+        }),
+      ).annotate({ identifier: "PublishRequest" });
+    case 2:
+      return S.suspend(() =>
+        S.Extend(
+          __S(65, __c8, 1),
+          S.Struct({
+            topic: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta2/{+topic}:publish",
@@ -911,10 +946,10 @@ function __c8(j: number): any {
           }),
         ),
       ).annotate({ identifier: "PublishProjectsTopicsRequest" });
-    case 2:
+    case 3:
       return S.suspend(() =>
         S.Struct({
-          messageIds: S.optional(__S(72, __c18, 0)),
+          messageIds: S.optional(__S(152, __c19, 0)),
         }),
       ).annotate({ identifier: "PublishResponse" });
   }
@@ -924,7 +959,7 @@ function __c9(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          attributes: S.optional(__S(88, __c22, 0)),
+          attributes: S.optional(__S(184, __c23, 0)),
           publishTime: S.optional(S.String),
           messageId: S.optional(S.String),
           data: S.optional(S.String),
@@ -937,10 +972,18 @@ function __c10(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          subscription: S.String.pipe(T.Label()),
           returnImmediately: S.optional(S.Boolean),
           maxMessages: S.optional(S.Number),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "PullRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(80, __c10, 0),
+          S.Struct({
+            subscription: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta2/{+subscription}:pull",
@@ -948,19 +991,19 @@ function __c10(j: number): any {
           }),
         ),
       ).annotate({ identifier: "PullProjectsSubscriptionsRequest" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           ackId: S.optional(S.String),
-          message: S.optional(__S(36, __c9, 0)),
+          message: S.optional(__S(72, __c9, 0)),
         }),
       ).annotate({ identifier: "ReceivedMessage" });
-    case 2:
-      return S.Array(__S(41, __c10, 1));
     case 3:
+      return S.Array(__S(82, __c10, 2));
+    case 4:
       return S.suspend(() =>
         S.Struct({
-          receivedMessages: S.optional(__S(42, __c10, 2)),
+          receivedMessages: S.optional(__S(83, __c10, 3)),
         }),
       ).annotate({ identifier: "PullResponse" });
   }
@@ -969,10 +1012,12 @@ function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          policy: S.optional(__S(115, __c28, 3)),
-        }).pipe(
+        S.Extend(
+          __S(96, __c12, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta2/{+resource}:setIamPolicy",
@@ -987,9 +1032,21 @@ function __c12(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          resource: S.String.pipe(T.Label()),
-          policy: S.optional(__S(115, __c28, 3)),
-        }).pipe(
+          policy: S.optional(__S(235, __c29, 3)),
+        }),
+      ).annotate({ identifier: "SetIamPolicyRequest" });
+  }
+}
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(96, __c12, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta2/{+resource}:setIamPolicy",
@@ -999,14 +1056,16 @@ function __c12(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsTopicsRequest" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          permissions: S.optional(__S(72, __c18, 0)),
-        }).pipe(
+        S.Extend(
+          __S(120, __c15, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta2/{+resource}:testIamPermissions",
@@ -1016,24 +1075,26 @@ function __c13(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsSubscriptionsRequest" });
   }
 }
-function __c14(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          permissions: S.optional(__S(72, __c18, 0)),
-        }),
-      ).annotate({ identifier: "TestIamPermissionsResponse" });
-  }
-}
 function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          resource: S.String.pipe(T.Label()),
-          permissions: S.optional(__S(72, __c18, 0)),
-        }).pipe(
+          permissions: S.optional(__S(152, __c19, 0)),
+        }),
+      ).annotate({ identifier: "TestIamPermissionsRequest" });
+  }
+}
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(120, __c15, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta2/{+resource}:testIamPermissions",
@@ -1043,14 +1104,22 @@ function __c15(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsTopicsRequest" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          subscription: S.String.pipe(T.Label()),
-          ackIds: S.optional(__S(72, __c18, 0)),
-        }).pipe(
+          ackIds: S.optional(__S(152, __c19, 0)),
+        }),
+      ).annotate({ identifier: "AcknowledgeRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(136, __c17, 0),
+          S.Struct({
+            subscription: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta2/{+subscription}:acknowledge",
@@ -1060,28 +1129,28 @@ function __c16(j: number): any {
       ).annotate({ identifier: "AcknowledgeProjectsSubscriptionsRequest" });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "Empty" });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          pushConfig: S.optional(__S(85, __c21, 1)),
-          ackDeadlineSeconds: S.optional(S.Number),
-          topic: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(168, __c21, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "v1beta2/{+name}",
@@ -1091,12 +1160,12 @@ function __c19(j: number): any {
       ).annotate({ identifier: "CreateProjectsSubscriptionsRequest" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pushConfig: S.optional(__S(85, __c21, 1)),
+          pushConfig: S.optional(__S(177, __c22, 1)),
           ackDeadlineSeconds: S.optional(S.Number),
           name: S.optional(S.String),
           topic: S.optional(S.String),
@@ -1104,7 +1173,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "Subscription" });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1116,26 +1185,29 @@ function __c21(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          oidcToken: S.optional(__S(84, __c21, 0)),
+          oidcToken: S.optional(__S(176, __c22, 0)),
           pushEndpoint: S.optional(S.String),
-          attributes: S.optional(__S(88, __c22, 0)),
+          attributes: S.optional(__S(184, __c23, 0)),
         }),
       ).annotate({ identifier: "PushConfig" });
-  }
-}
-function __c22(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, S.String);
   }
 }
 function __c23(j: number): any {
   switch (j) {
     case 0:
+      return S.Record(S.String, S.String);
+  }
+}
+function __c24(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
+        S.Extend(
+          __S(200, __c25, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "v1beta2/{+name}",
@@ -1145,7 +1217,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "CreateProjectsTopicsRequest" });
   }
 }
-function __c24(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1155,7 +1227,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "Topic" });
   }
 }
-function __c25(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1171,7 +1243,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "DeleteProjectsSubscriptionsRequest" });
   }
 }
-function __c26(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1187,7 +1259,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "DeleteProjectsTopicsRequest" });
   }
 }
-function __c27(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1204,7 +1276,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "GetIamPolicyProjectsSubscriptionsRequest" });
   }
 }
-function __c28(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1219,17 +1291,17 @@ function __c28(j: number): any {
       return S.suspend(() =>
         S.Struct({
           role: S.optional(S.String),
-          condition: S.optional(__S(112, __c28, 0)),
-          members: S.optional(__S(72, __c18, 0)),
+          condition: S.optional(__S(232, __c29, 0)),
+          members: S.optional(__S(152, __c19, 0)),
         }),
       ).annotate({ identifier: "Binding" });
     case 2:
-      return S.Array(__S(113, __c28, 1));
+      return S.Array(__S(233, __c29, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           etag: S.optional(S.String),
-          bindings: S.optional(__S(114, __c28, 2)),
+          bindings: S.optional(__S(234, __c29, 2)),
           version: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Policy" });

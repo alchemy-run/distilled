@@ -84,9 +84,8 @@ export class NotFound
   ) {}
 
 export type StringList = Array<string>;
-export interface AddSubnetworkServicesRequest {
-  /** Required. A tenant project in the service producer organization, in the following format: services/{service}/{collection-id}/{resource-id}. {collection-id} is the cloud resource collection type that represents the tenant project. Only `projects` are supported. {resource-id} is the tenant project numeric id, such as `123456`. {service} the name of the peering service, such as `service-peering.example.com`. This service must already be enabled in the service consumer's project. */
-  parent: string;
+/** Request to create a subnetwork in a previously peered service network. */
+export interface AddSubnetworkRequest {
   /** Required. The name of the service consumer's VPC network. The network must have an existing private connection that was provisioned through the connections.create method. The name must be in the following format: `projects/{project}/global/networks/{network}`, where {project} is a project number, such as `12345`. {network} is the name of a VPC network in the project. */
   consumerNetwork?: string | undefined;
   /** Required. A resource that represents the service consumer, such as `projects/123456`. The project number can be different from the value in the consumer network parameter. For example, the network might be part of a Shared VPC network. In those cases, Service Networking validates that this resource belongs to that Shared VPC. */
@@ -103,6 +102,10 @@ export interface AddSubnetworkServicesRequest {
   subnetwork?: string | undefined;
   /** An optional description of the subnet. */
   description?: string | undefined;
+}
+export interface AddSubnetworkServicesRequest extends AddSubnetworkRequest {
+  /** Required. A tenant project in the service producer organization, in the following format: services/{service}/{collection-id}/{resource-id}. {collection-id} is the cloud resource collection type that represents the tenant project. Only `projects` are supported. {resource-id} is the tenant project numeric id, such as `123456`. {service} the name of the peering service, such as `service-peering.example.com`. This service must already be enabled in the service consumer's project. */
+  parent: string;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -128,28 +131,6 @@ export interface Operation {
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
   metadata?: DocumentMap | undefined;
 }
-export interface CreateServicesConnectionsRequest {
-  /** The service that is managing peering connectivity for a service producer's organization. For Google services that support this functionality, this value is `services/servicenetworking.googleapis.com`. */
-  parent: string;
-  /** The name of one or more allocated IP address ranges for this service producer of type `PEERING`. Note that invoking this method with a different range when connection is already established will not modify already provisioned service producer subnetworks. */
-  reservedPeeringRanges?: StringList | undefined;
-  /** The name of service consumer's VPC network that's connected with service producer network, in the following format: `projects/{project}/global/networks/{network}`. `{project}` is a project number, such as in `12345` that includes the VPC service consumer's VPC network. `{network}` is the name of the service consumer's VPC network. */
-  network?: string | undefined;
-  /** Output only. The name of the VPC Network Peering connection that was created by the service producer. */
-  peering?: string | undefined;
-  /** Output only. The name of the peering service that's associated with this connection, in the following format: `services/{service name}`. */
-  service?: string | undefined;
-}
-export interface GetOperationsRequest {
-  /** The name of the operation resource. */
-  name: string;
-}
-export interface ListServicesConnectionsRequest {
-  /** The service that is managing peering connectivity for a service producer's organization. For Google services that support this functionality, this value is `services/servicenetworking.googleapis.com`. If you specify `-` as the parameter value, all configured public peering services are listed. */
-  parent: string;
-  /** The name of service consumer's VPC network that's connected with service producer network through a private connection. The network name must be in the following format: `projects/{project}/global/networks/{network}`. {project} is a project number, such as in `12345` that includes the VPC service consumer's VPC network. {network} is the name of the service consumer's VPC network. */
-  network?: string | undefined;
-}
 /** Represents a private connection resource. A private connection is implemented as a VPC Network Peering connection between a service producer's VPC network and a service consumer's VPC network. */
 export interface GoogleCloudServicenetworkingV1betaConnection {
   /** The name of one or more allocated IP address ranges for this service producer of type `PEERING`. Note that invoking this method with a different range when connection is already established will not modify already provisioned service producer subnetworks. */
@@ -161,6 +142,20 @@ export interface GoogleCloudServicenetworkingV1betaConnection {
   /** Output only. The name of the peering service that's associated with this connection, in the following format: `services/{service name}`. */
   service?: string | undefined;
 }
+export interface CreateServicesConnectionsRequest extends GoogleCloudServicenetworkingV1betaConnection {
+  /** The service that is managing peering connectivity for a service producer's organization. For Google services that support this functionality, this value is `services/servicenetworking.googleapis.com`. */
+  parent: string;
+}
+export interface GetOperationsRequest {
+  /** The name of the operation resource. */
+  name: string;
+}
+export interface ListServicesConnectionsRequest {
+  /** The service that is managing peering connectivity for a service producer's organization. For Google services that support this functionality, this value is `services/servicenetworking.googleapis.com`. If you specify `-` as the parameter value, all configured public peering services are listed. */
+  parent: string;
+  /** The name of service consumer's VPC network that's connected with service producer network through a private connection. The network name must be in the following format: `projects/{project}/global/networks/{network}`. {project} is a project number, such as in `12345` that includes the VPC service consumer's VPC network. {network} is the name of the service consumer's VPC network. */
+  network?: string | undefined;
+}
 export type GoogleCloudServicenetworkingV1betaConnectionList =
   Array<GoogleCloudServicenetworkingV1betaConnection>;
 /** ListConnectionsResponse is the response to list peering states for the given service and consumer project. */
@@ -168,29 +163,24 @@ export interface ListConnectionsResponse {
   /** The list of Connections. */
   connections?: GoogleCloudServicenetworkingV1betaConnectionList | undefined;
 }
-export interface SearchRangeServicesRequest {
-  /** Required. This is in a form services/{service}. {service} the name of the private access management service, for example 'service-peering.example.com'. */
-  parent: string;
+/** Request to search for an unused range within allocated ranges. */
+export interface SearchRangeRequest {
   /** Network name in the consumer project. This network must have been already peered with a shared VPC network using CreateConnection method. Must be in a form 'projects/{project}/global/networks/{network}'. {project} is a project number, as in '12345' {network} is network name. */
   network?: string | undefined;
   /** Required. The prefix length of the IP range. Use usual CIDR range notation. For example, '30' to find unused x.x.x.x/30 CIDR range. Actual range will be determined using allocated range for the consumer peered network and returned in the result. */
   ipPrefixLength?: number | undefined;
 }
-export interface UpdateConnectionsServicesRequest {
+export interface SearchRangeServicesRequest extends SearchRangeRequest {
+  /** Required. This is in a form services/{service}. {service} the name of the private access management service, for example 'service-peering.example.com'. */
+  parent: string;
+}
+export interface UpdateConnectionsServicesRequest extends GoogleCloudServicenetworkingV1betaConnection {
   /** The service producer peering service that is managing peering connectivity for a service producer organization. For Google services that support this functionality, this is `services/servicenetworking.googleapis.com`. */
   name: string;
   /** The update mask. If this is omitted, it defaults to "*". You can only update the listed peering ranges. */
   updateMask?: string | undefined;
   /** If a previously defined allocated range is removed, force flag must be set to true. */
   force?: boolean | undefined;
-  /** The name of one or more allocated IP address ranges for this service producer of type `PEERING`. Note that invoking this method with a different range when connection is already established will not modify already provisioned service producer subnetworks. */
-  reservedPeeringRanges?: StringList | undefined;
-  /** The name of service consumer's VPC network that's connected with service producer network, in the following format: `projects/{project}/global/networks/{network}`. `{project}` is a project number, such as in `12345` that includes the VPC service consumer's VPC network. `{network}` is the name of the service consumer's VPC network. */
-  network?: string | undefined;
-  /** Output only. The name of the VPC Network Peering connection that was created by the service producer. */
-  peering?: string | undefined;
-  /** Output only. The name of the peering service that's associated with this connection, in the following format: `services/{service name}`. */
-  service?: string | undefined;
 }
 export type AddSubnetworkServicesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
 /** For service producers, provisions a new subnet in a peered service's shared VPC network in the requested region and with the requested size that's expressed as a CIDR range (number of leading bits of ipV4 network mask). The method checks against the assigned allocated ranges to find a non-conflicting IP address range. The method will reuse a subnet if subsequent calls contain the same subnet name, region, and prefix length. This method will make producer's tenant project to be a shared VPC service project as needed. The response from the `get` operation will be of type `Subnetwork` if the operation successfully completes. */
@@ -200,7 +190,7 @@ export const addSubnetworkServices: API.OperationMethod<
   AddSubnetworkServicesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<AddSubnetworkServicesRequest>,
+  input: __S(1, __c0, 1) as any as S.Schema<AddSubnetworkServicesRequest>,
   output: __S(7, __c1, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -239,7 +229,7 @@ export const getOperations: API.OperationMethod<
   GetOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c4, 0) as any as S.Schema<GetOperationsRequest>,
+  input: __S(20, __c5, 0) as any as S.Schema<GetOperationsRequest>,
   output: __S(7, __c1, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
@@ -256,8 +246,8 @@ export const listServicesConnections: API.OperationMethod<
   ListServicesConnectionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20, __c5, 0) as any as S.Schema<ListServicesConnectionsRequest>,
-  output: __S(23, __c5, 3) as any as S.Schema<ListConnectionsResponse>,
+  input: __S(24, __c6, 0) as any as S.Schema<ListServicesConnectionsRequest>,
+  output: __S(26, __c6, 2) as any as S.Schema<ListConnectionsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -273,7 +263,7 @@ export const searchRangeServices: API.OperationMethod<
   SearchRangeServicesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c6, 0) as any as S.Schema<SearchRangeServicesRequest>,
+  input: __S(29, __c7, 1) as any as S.Schema<SearchRangeServicesRequest>,
   output: __S(7, __c1, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -295,7 +285,7 @@ export const updateConnectionsServices: API.OperationMethod<
   UpdateConnectionsServicesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28, __c7, 0) as any as S.Schema<UpdateConnectionsServicesRequest>,
+  input: __S(32, __c8, 0) as any as S.Schema<UpdateConnectionsServicesRequest>,
   output: __S(7, __c1, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -310,7 +300,6 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
           consumerNetwork: S.optional(S.String),
           consumer: S.optional(S.String),
           ipPrefixLength: S.optional(S.Number),
@@ -319,7 +308,16 @@ function __c0(j: number): any {
           subnetworkUsers: S.optional(__S(8, __c2, 0)),
           subnetwork: S.optional(S.String),
           description: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "AddSubnetworkRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(0, __c0, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+parent}:addSubnetwork",
@@ -365,13 +363,12 @@ function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          reservedPeeringRanges: S.optional(__S(8, __c2, 0)),
-          network: S.optional(S.String),
-          peering: S.optional(S.String),
-          service: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(16, __c4, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+parent}/connections",
@@ -382,6 +379,19 @@ function __c3(j: number): any {
   }
 }
 function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          reservedPeeringRanges: S.optional(__S(8, __c2, 0)),
+          network: S.optional(S.String),
+          peering: S.optional(S.String),
+          service: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleCloudServicenetworkingV1betaConnection" });
+  }
+}
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -397,7 +407,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "GetOperationsRequest" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -413,33 +423,32 @@ function __c5(j: number): any {
         ),
       ).annotate({ identifier: "ListServicesConnectionsRequest" });
     case 1:
-      return S.suspend(() =>
-        S.Struct({
-          reservedPeeringRanges: S.optional(__S(8, __c2, 0)),
-          network: S.optional(S.String),
-          peering: S.optional(S.String),
-          service: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleCloudServicenetworkingV1betaConnection" });
+      return S.Array(__S(16, __c4, 0));
     case 2:
-      return S.Array(__S(21, __c5, 1));
-    case 3:
       return S.suspend(() =>
         S.Struct({
-          connections: S.optional(__S(22, __c5, 2)),
+          connections: S.optional(__S(25, __c6, 1)),
         }),
       ).annotate({ identifier: "ListConnectionsResponse" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
           network: S.optional(S.String),
           ipPrefixLength: S.optional(S.Number),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "SearchRangeRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(28, __c7, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+parent}:searchRange",
@@ -449,19 +458,18 @@ function __c6(j: number): any {
       ).annotate({ identifier: "SearchRangeServicesRequest" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          force: S.optional(S.Boolean.pipe(T.Query())),
-          reservedPeeringRanges: S.optional(__S(8, __c2, 0)),
-          network: S.optional(S.String),
-          peering: S.optional(S.String),
-          service: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(16, __c4, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            force: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta/{+name}/connections",

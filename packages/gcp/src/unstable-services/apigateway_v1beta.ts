@@ -101,11 +101,8 @@ export type ApigatewayApiStateEnum =
   | "FAILED"
   | "DELETING"
   | "UPDATING";
-export interface CreateProjectsLocationsApisRequest {
-  /** Required. Parent resource of the API, of the form: `projects/*\/locations/global` */
-  parent: string;
-  /** Required. Identifier to assign to the API. Must be unique within scope of the parent resource. */
-  apiId?: string | undefined;
+/** An API that can be served by one or more Gateways. */
+export interface ApigatewayApi {
   /** Output only. Created time. */
   createTime?: string | undefined;
   /** Optional. Resource labels to represent user-provided metadata. Refer to cloud documentation on labels for more details. https://cloud.google.com/compute/docs/labeling-resources */
@@ -120,6 +117,12 @@ export interface CreateProjectsLocationsApisRequest {
   name?: string | undefined;
   /** Output only. State of the API. */
   state?: ApigatewayApiStateEnum | (string & {}) | undefined;
+}
+export interface CreateProjectsLocationsApisRequest extends ApigatewayApi {
+  /** Required. Parent resource of the API, of the form: `projects/*\/locations/global` */
+  parent: string;
+  /** Required. Identifier to assign to the API. Must be unique within scope of the parent resource. */
+  apiId?: string | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -186,11 +189,8 @@ export type ApigatewayApiConfigStateEnum =
   | "DELETING"
   | "UPDATING"
   | "ACTIVATING";
-export interface CreateProjectsLocationsApisConfigsRequest {
-  /** Required. Identifier to assign to the API Config. Must be unique within scope of the parent resource. */
-  apiConfigId?: string | undefined;
-  /** Required. Parent resource of the API Config, of the form: `projects/*\/locations/global/apis/*` */
-  parent: string;
+/** An API Configuration is a combination of settings for both the Managed Service and Gateways serving this API Config. */
+export interface ApigatewayApiConfig {
   /** Output only. Created time. */
   createTime?: string | undefined;
   /** Identifier. Resource name of the API Config. Format: projects/{project}/locations/global/apis/{api}/configs/{api_config} */
@@ -216,6 +216,12 @@ export interface CreateProjectsLocationsApisConfigsRequest {
   /** Optional. Resource labels to represent user-provided metadata. Refer to cloud documentation on labels for more details. https://cloud.google.com/compute/docs/labeling-resources */
   labels?: StringMap | undefined;
 }
+export interface CreateProjectsLocationsApisConfigsRequest extends ApigatewayApiConfig {
+  /** Required. Identifier to assign to the API Config. Must be unique within scope of the parent resource. */
+  apiConfigId?: string | undefined;
+  /** Required. Parent resource of the API Config, of the form: `projects/*\/locations/global/apis/*` */
+  parent: string;
+}
 export type ApigatewayGatewayStreamingModeEnum =
   | "STREAMING_MODE_UNSPECIFIED"
   | "STREAMING_MODE_ENABLED";
@@ -230,11 +236,8 @@ export type ApigatewayGatewayEffectiveStreamingModeEnum =
   | "EFFECTIVE_STREAMING_MODE_UNSPECIFIED"
   | "EFFECTIVE_STREAMING_MODE_DISABLED"
   | "EFFECTIVE_STREAMING_MODE_ENABLED";
-export interface CreateProjectsLocationsGatewaysRequest {
-  /** Required. Identifier to assign to the Gateway. Must be unique within scope of the parent resource. */
-  gatewayId?: string | undefined;
-  /** Required. Parent resource of the Gateway, of the form: `projects/*\/locations/*` */
-  parent: string;
+/** A Gateway is an API-aware HTTP proxy. It performs API-Method and/or API-Consumer specific actions based on an API Config such as authentication, policy enforcement, and backend selection. */
+export interface ApigatewayGateway {
   /** Output only. Updated time. */
   updateTime?: string | undefined;
   /** Optional. Resource labels to represent user-provided metadata. Refer to cloud documentation on labels for more details. https://cloud.google.com/compute/docs/labeling-resources */
@@ -255,6 +258,12 @@ export interface CreateProjectsLocationsGatewaysRequest {
   apiConfig?: string | undefined;
   /** Optional. Display name. */
   displayName?: string | undefined;
+}
+export interface CreateProjectsLocationsGatewaysRequest extends ApigatewayGateway {
+  /** Required. Identifier to assign to the Gateway. Must be unique within scope of the parent resource. */
+  gatewayId?: string | undefined;
+  /** Required. Parent resource of the Gateway, of the form: `projects/*\/locations/*` */
+  parent: string;
 }
 export interface DeleteProjectsLocationsApisRequest {
   /** Required. Resource name of the form: `projects/*\/locations/global/apis/*` */
@@ -365,23 +374,6 @@ export interface GetProjectsLocationsApisRequest {
   /** Required. Resource name of the form: `projects/*\/locations/global/apis/*` */
   name: string;
 }
-/** An API that can be served by one or more Gateways. */
-export interface ApigatewayApi {
-  /** Output only. Created time. */
-  createTime?: string | undefined;
-  /** Optional. Resource labels to represent user-provided metadata. Refer to cloud documentation on labels for more details. https://cloud.google.com/compute/docs/labeling-resources */
-  labels?: StringMap | undefined;
-  /** Optional. Display name. */
-  displayName?: string | undefined;
-  /** Optional. Immutable. The name of a Google Managed Service ( https://cloud.google.com/service-infrastructure/docs/glossary#managed). If not specified, a new Service will automatically be created in the same project as this API. */
-  managedService?: string | undefined;
-  /** Output only. Updated time. */
-  updateTime?: string | undefined;
-  /** Identifier. Resource name of the API. Format: projects/{project}/locations/global/apis/{api} */
-  name?: string | undefined;
-  /** Output only. State of the API. */
-  state?: ApigatewayApiStateEnum | undefined;
-}
 export type GetProjectsLocationsApisConfigsViewEnum = "CONFIG_VIEW_UNSPECIFIED" | "BASIC" | "FULL";
 export interface GetProjectsLocationsApisConfigsRequest {
   /** Required. Resource name of the form: `projects/*\/locations/global/apis/*\/configs/*` */
@@ -389,59 +381,9 @@ export interface GetProjectsLocationsApisConfigsRequest {
   /** Optional. Specifies which fields of the API Config are returned in the response. Defaults to `BASIC` view. */
   view?: GetProjectsLocationsApisConfigsViewEnum | (string & {}) | undefined;
 }
-/** An API Configuration is a combination of settings for both the Managed Service and Gateways serving this API Config. */
-export interface ApigatewayApiConfig {
-  /** Output only. Created time. */
-  createTime?: string | undefined;
-  /** Identifier. Resource name of the API Config. Format: projects/{project}/locations/global/apis/{api}/configs/{api_config} */
-  name?: string | undefined;
-  /** Optional. Display name. */
-  displayName?: string | undefined;
-  /** Output only. The ID of the associated Service Config ( https://cloud.google.com/service-infrastructure/docs/glossary#config). */
-  serviceConfigId?: string | undefined;
-  /** Output only. Updated time. */
-  updateTime?: string | undefined;
-  /** Immutable. The Google Cloud IAM Service Account that Gateways serving this config should use to authenticate to other services. This may either be the Service Account's email (`{ACCOUNT_ID}@{PROJECT}.iam.gserviceaccount.com`) or its full resource name (`projects/{PROJECT}/accounts/{UNIQUE_ID}`). This is most often used when the service is a GCP resource such as a Cloud Run Service or an IAP-secured service. */
-  gatewayServiceAccount?: string | undefined;
-  /** Optional. Service Configuration files. At least one must be included when using gRPC service definitions. See https://cloud.google.com/endpoints/docs/grpc/grpc-service-config#service_configuration_overview for the expected file contents. If multiple files are specified, the files are merged with the following rules: * All singular scalar fields are merged using "last one wins" semantics in the order of the files uploaded. * Repeated fields are concatenated. * Singular embedded messages are merged using these rules for nested fields. */
-  managedServiceConfigs?: ApigatewayApiConfigFileList | undefined;
-  /** Immutable. Gateway specific configuration. */
-  gatewayConfig?: ApigatewayGatewayConfig | undefined;
-  /** Optional. OpenAPI specification documents. If specified, grpc_services and managed_service_configs must not be included. */
-  openapiDocuments?: ApigatewayApiConfigOpenApiDocumentList | undefined;
-  /** Optional. gRPC service definition files. If specified, openapi_documents must not be included. */
-  grpcServices?: ApigatewayApiConfigGrpcServiceDefinitionList | undefined;
-  /** Output only. State of the API Config. */
-  state?: ApigatewayApiConfigStateEnum | undefined;
-  /** Optional. Resource labels to represent user-provided metadata. Refer to cloud documentation on labels for more details. https://cloud.google.com/compute/docs/labeling-resources */
-  labels?: StringMap | undefined;
-}
 export interface GetProjectsLocationsGatewaysRequest {
   /** Required. Resource name of the form: `projects/*\/locations/*\/gateways/*` */
   name: string;
-}
-/** A Gateway is an API-aware HTTP proxy. It performs API-Method and/or API-Consumer specific actions based on an API Config such as authentication, policy enforcement, and backend selection. */
-export interface ApigatewayGateway {
-  /** Output only. Updated time. */
-  updateTime?: string | undefined;
-  /** Optional. Resource labels to represent user-provided metadata. Refer to cloud documentation on labels for more details. https://cloud.google.com/compute/docs/labeling-resources */
-  labels?: StringMap | undefined;
-  /** Optional. Immutable. Requests streaming for a new gateway. An attempt to change it on update is rejected. If unset, the service selects the mode. This field records only what was requested and is never modified by the service; read `effective_streaming_mode` for the mode the gateway is served with. */
-  streamingMode?: ApigatewayGatewayStreamingModeEnum | undefined;
-  /** Output only. The current state of the Gateway. */
-  state?: ApigatewayGatewayStateEnum | undefined;
-  /** Output only. The default hostname that serves traffic for this Gateway. */
-  defaultHostname?: string | undefined;
-  /** Output only. Created time. */
-  createTime?: string | undefined;
-  /** Identifier. Resource name of the Gateway. Format: projects/{project}/locations/{location}/gateways/{gateway} */
-  name?: string | undefined;
-  /** Output only. The streaming mode this gateway is actually served with, which the service resolves at creation from `streaming_mode`, the referenced API Config, and the platform default at the time. Read this rather than `streaming_mode` to determine whether a gateway supports streaming. */
-  effectiveStreamingMode?: ApigatewayGatewayEffectiveStreamingModeEnum | undefined;
-  /** Required. Resource name of the API Config for this Gateway. Format: projects/{project}/locations/global/apis/{api}/configs/{apiConfig} */
-  apiConfig?: string | undefined;
-  /** Optional. Display name. */
-  displayName?: string | undefined;
 }
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
@@ -555,122 +497,67 @@ export interface ApigatewayListOperationsResponse {
   /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
   unreachable?: StringList | undefined;
 }
-export interface PatchProjectsLocationsApisRequest {
+export interface PatchProjectsLocationsApisRequest extends Omit<ApigatewayApi, "name"> {
   /** Identifier. Resource name of the API. Format: projects/{project}/locations/global/apis/{api} */
   name: string;
   /** Optional. Field mask is used to specify the fields to be overwritten in the Api resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. The request fails if `update_mask` is missing or empty. */
   updateMask?: string | undefined;
-  /** Output only. Created time. */
-  createTime?: string | undefined;
-  /** Optional. Resource labels to represent user-provided metadata. Refer to cloud documentation on labels for more details. https://cloud.google.com/compute/docs/labeling-resources */
-  labels?: StringMap | undefined;
-  /** Optional. Display name. */
-  displayName?: string | undefined;
-  /** Optional. Immutable. The name of a Google Managed Service ( https://cloud.google.com/service-infrastructure/docs/glossary#managed). If not specified, a new Service will automatically be created in the same project as this API. */
-  managedService?: string | undefined;
-  /** Output only. Updated time. */
-  updateTime?: string | undefined;
-  /** Output only. State of the API. */
-  state?: ApigatewayApiStateEnum | (string & {}) | undefined;
 }
-export interface PatchProjectsLocationsApisConfigsRequest {
+export interface PatchProjectsLocationsApisConfigsRequest extends Omit<
+  ApigatewayApiConfig,
+  "name"
+> {
   /** Optional. Field mask is used to specify the fields to be overwritten in the ApiConfig resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. The request fails if `update_mask` is missing or empty. */
   updateMask?: string | undefined;
   /** Identifier. Resource name of the API Config. Format: projects/{project}/locations/global/apis/{api}/configs/{api_config} */
   name: string;
-  /** Output only. Created time. */
-  createTime?: string | undefined;
-  /** Optional. Display name. */
-  displayName?: string | undefined;
-  /** Output only. The ID of the associated Service Config ( https://cloud.google.com/service-infrastructure/docs/glossary#config). */
-  serviceConfigId?: string | undefined;
-  /** Output only. Updated time. */
-  updateTime?: string | undefined;
-  /** Immutable. The Google Cloud IAM Service Account that Gateways serving this config should use to authenticate to other services. This may either be the Service Account's email (`{ACCOUNT_ID}@{PROJECT}.iam.gserviceaccount.com`) or its full resource name (`projects/{PROJECT}/accounts/{UNIQUE_ID}`). This is most often used when the service is a GCP resource such as a Cloud Run Service or an IAP-secured service. */
-  gatewayServiceAccount?: string | undefined;
-  /** Optional. Service Configuration files. At least one must be included when using gRPC service definitions. See https://cloud.google.com/endpoints/docs/grpc/grpc-service-config#service_configuration_overview for the expected file contents. If multiple files are specified, the files are merged with the following rules: * All singular scalar fields are merged using "last one wins" semantics in the order of the files uploaded. * Repeated fields are concatenated. * Singular embedded messages are merged using these rules for nested fields. */
-  managedServiceConfigs?: ApigatewayApiConfigFileList | undefined;
-  /** Immutable. Gateway specific configuration. */
-  gatewayConfig?: ApigatewayGatewayConfig | undefined;
-  /** Optional. OpenAPI specification documents. If specified, grpc_services and managed_service_configs must not be included. */
-  openapiDocuments?: ApigatewayApiConfigOpenApiDocumentList | undefined;
-  /** Optional. gRPC service definition files. If specified, openapi_documents must not be included. */
-  grpcServices?: ApigatewayApiConfigGrpcServiceDefinitionList | undefined;
-  /** Output only. State of the API Config. */
-  state?: ApigatewayApiConfigStateEnum | (string & {}) | undefined;
-  /** Optional. Resource labels to represent user-provided metadata. Refer to cloud documentation on labels for more details. https://cloud.google.com/compute/docs/labeling-resources */
-  labels?: StringMap | undefined;
 }
-export interface PatchProjectsLocationsGatewaysRequest {
+export interface PatchProjectsLocationsGatewaysRequest extends Omit<ApigatewayGateway, "name"> {
   /** Identifier. Resource name of the Gateway. Format: projects/{project}/locations/{location}/gateways/{gateway} */
   name: string;
   /** Optional. Field mask is used to specify the fields to be overwritten in the Gateway resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. The request fails if `update_mask` is missing or empty. */
   updateMask?: string | undefined;
-  /** Output only. Updated time. */
-  updateTime?: string | undefined;
-  /** Optional. Resource labels to represent user-provided metadata. Refer to cloud documentation on labels for more details. https://cloud.google.com/compute/docs/labeling-resources */
-  labels?: StringMap | undefined;
-  /** Optional. Immutable. Requests streaming for a new gateway. An attempt to change it on update is rejected. If unset, the service selects the mode. This field records only what was requested and is never modified by the service; read `effective_streaming_mode` for the mode the gateway is served with. */
-  streamingMode?: ApigatewayGatewayStreamingModeEnum | (string & {}) | undefined;
-  /** Output only. The current state of the Gateway. */
-  state?: ApigatewayGatewayStateEnum | (string & {}) | undefined;
-  /** Output only. The default hostname that serves traffic for this Gateway. */
-  defaultHostname?: string | undefined;
-  /** Output only. Created time. */
-  createTime?: string | undefined;
-  /** Output only. The streaming mode this gateway is actually served with, which the service resolves at creation from `streaming_mode`, the referenced API Config, and the platform default at the time. Read this rather than `streaming_mode` to determine whether a gateway supports streaming. */
-  effectiveStreamingMode?: ApigatewayGatewayEffectiveStreamingModeEnum | (string & {}) | undefined;
-  /** Required. Resource name of the API Config for this Gateway. Format: projects/{project}/locations/global/apis/{api}/configs/{apiConfig} */
-  apiConfig?: string | undefined;
-  /** Optional. Display name. */
-  displayName?: string | undefined;
 }
-export interface SetIamPolicyProjectsLocationsApisRequest {
-  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
+/** Request message for `SetIamPolicy` method. */
+export interface ApigatewaySetIamPolicyRequest {
   /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
   updateMask?: string | undefined;
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
   policy?: ApigatewayPolicy | undefined;
 }
-export interface SetIamPolicyProjectsLocationsApisConfigsRequest {
+export interface SetIamPolicyProjectsLocationsApisRequest extends ApigatewaySetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
-  updateMask?: string | undefined;
-  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
-  policy?: ApigatewayPolicy | undefined;
 }
-export interface SetIamPolicyProjectsLocationsGatewaysRequest {
+export interface SetIamPolicyProjectsLocationsApisConfigsRequest extends ApigatewaySetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
-  updateMask?: string | undefined;
-  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
-  policy?: ApigatewayPolicy | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsApisRequest {
-  /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+export interface SetIamPolicyProjectsLocationsGatewaysRequest extends ApigatewaySetIamPolicyRequest {
+  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
+}
+/** Request message for `TestIamPermissions` method. */
+export interface ApigatewayTestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: StringList | undefined;
+}
+export interface TestIamPermissionsProjectsLocationsApisRequest extends ApigatewayTestIamPermissionsRequest {
+  /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface ApigatewayTestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsApisConfigsRequest {
+export interface TestIamPermissionsProjectsLocationsApisConfigsRequest extends ApigatewayTestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
-  permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsGatewaysRequest {
+export interface TestIamPermissionsProjectsLocationsGatewaysRequest extends ApigatewayTestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
-  permissions?: StringList | undefined;
 }
 export type CancelProjectsLocationsOperationsError =
   | NotFound
@@ -685,8 +572,8 @@ export const cancelProjectsLocationsOperations: API.OperationMethod<
   CancelProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(248, __c31, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
-  output: __S(256, __c32, 0) as any as S.Schema<Empty>,
+  input: __S(464, __c29, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
+  output: __S(480, __c30, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -707,8 +594,8 @@ export const createProjectsLocationsApis: API.OperationMethod<
   CreateProjectsLocationsApisError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(264, __c33, 0) as any as S.Schema<CreateProjectsLocationsApisRequest>,
-  output: __S(290, __c36, 2) as any as S.Schema<ApigatewayOperation>,
+  input: __S(496, __c31, 0) as any as S.Schema<CreateProjectsLocationsApisRequest>,
+  output: __S(562, __c35, 2) as any as S.Schema<ApigatewayOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -729,8 +616,8 @@ export const createProjectsLocationsApisConfigs: API.OperationMethod<
   CreateProjectsLocationsApisConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(296, __c37, 0) as any as S.Schema<CreateProjectsLocationsApisConfigsRequest>,
-  output: __S(290, __c36, 2) as any as S.Schema<ApigatewayOperation>,
+  input: __S(576, __c36, 0) as any as S.Schema<CreateProjectsLocationsApisConfigsRequest>,
+  output: __S(562, __c35, 2) as any as S.Schema<ApigatewayOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -751,8 +638,8 @@ export const createProjectsLocationsGateways: API.OperationMethod<
   CreateProjectsLocationsGatewaysError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(312, __c39, 0) as any as S.Schema<CreateProjectsLocationsGatewaysRequest>,
-  output: __S(290, __c36, 2) as any as S.Schema<ApigatewayOperation>,
+  input: __S(608, __c38, 0) as any as S.Schema<CreateProjectsLocationsGatewaysRequest>,
+  output: __S(562, __c35, 2) as any as S.Schema<ApigatewayOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -773,8 +660,8 @@ export const deleteProjectsLocationsApis: API.OperationMethod<
   DeleteProjectsLocationsApisError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c40, 0) as any as S.Schema<DeleteProjectsLocationsApisRequest>,
-  output: __S(290, __c36, 2) as any as S.Schema<ApigatewayOperation>,
+  input: __S(640, __c40, 0) as any as S.Schema<DeleteProjectsLocationsApisRequest>,
+  output: __S(562, __c35, 2) as any as S.Schema<ApigatewayOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -795,8 +682,8 @@ export const deleteProjectsLocationsApisConfigs: API.OperationMethod<
   DeleteProjectsLocationsApisConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(328, __c41, 0) as any as S.Schema<DeleteProjectsLocationsApisConfigsRequest>,
-  output: __S(290, __c36, 2) as any as S.Schema<ApigatewayOperation>,
+  input: __S(656, __c41, 0) as any as S.Schema<DeleteProjectsLocationsApisConfigsRequest>,
+  output: __S(562, __c35, 2) as any as S.Schema<ApigatewayOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -818,7 +705,7 @@ export const deleteProjectsLocationsGateways: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<DeleteProjectsLocationsGatewaysRequest>,
-  output: __S(290, __c36, 2) as any as S.Schema<ApigatewayOperation>,
+  output: __S(562, __c35, 2) as any as S.Schema<ApigatewayOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -839,8 +726,8 @@ export const deleteProjectsLocationsOperations: API.OperationMethod<
   DeleteProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c1, 0) as any as S.Schema<DeleteProjectsLocationsOperationsRequest>,
-  output: __S(256, __c32, 0) as any as S.Schema<Empty>,
+  input: __S(16, __c1, 0) as any as S.Schema<DeleteProjectsLocationsOperationsRequest>,
+  output: __S(480, __c30, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -856,8 +743,8 @@ export const getIamPolicyProjectsLocationsApis: API.OperationMethod<
   GetIamPolicyProjectsLocationsApisError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c2, 0) as any as S.Schema<GetIamPolicyProjectsLocationsApisRequest>,
-  output: __S(39, __c4, 7) as any as S.Schema<ApigatewayPolicy>,
+  input: __S(32, __c2, 0) as any as S.Schema<GetIamPolicyProjectsLocationsApisRequest>,
+  output: __S(71, __c4, 7) as any as S.Schema<ApigatewayPolicy>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -873,8 +760,8 @@ export const getIamPolicyProjectsLocationsApisConfigs: API.OperationMethod<
   GetIamPolicyProjectsLocationsApisConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<GetIamPolicyProjectsLocationsApisConfigsRequest>,
-  output: __S(39, __c4, 7) as any as S.Schema<ApigatewayPolicy>,
+  input: __S(80, __c5, 0) as any as S.Schema<GetIamPolicyProjectsLocationsApisConfigsRequest>,
+  output: __S(71, __c4, 7) as any as S.Schema<ApigatewayPolicy>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -890,8 +777,8 @@ export const getIamPolicyProjectsLocationsGateways: API.OperationMethod<
   GetIamPolicyProjectsLocationsGatewaysError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c6, 0) as any as S.Schema<GetIamPolicyProjectsLocationsGatewaysRequest>,
-  output: __S(39, __c4, 7) as any as S.Schema<ApigatewayPolicy>,
+  input: __S(96, __c6, 0) as any as S.Schema<GetIamPolicyProjectsLocationsGatewaysRequest>,
+  output: __S(71, __c4, 7) as any as S.Schema<ApigatewayPolicy>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -907,8 +794,8 @@ export const getProjectsLocations: API.OperationMethod<
   GetProjectsLocationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<GetProjectsLocationsRequest>,
-  output: __S(64, __c8, 0) as any as S.Schema<ApigatewayLocation>,
+  input: __S(112, __c7, 0) as any as S.Schema<GetProjectsLocationsRequest>,
+  output: __S(128, __c8, 0) as any as S.Schema<ApigatewayLocation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -924,8 +811,8 @@ export const getProjectsLocationsApis: API.OperationMethod<
   GetProjectsLocationsApisError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c9, 0) as any as S.Schema<GetProjectsLocationsApisRequest>,
-  output: __S(80, __c10, 0) as any as S.Schema<ApigatewayApi>,
+  input: __S(144, __c9, 0) as any as S.Schema<GetProjectsLocationsApisRequest>,
+  output: __S(512, __c32, 0) as any as S.Schema<ApigatewayApi>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -941,8 +828,8 @@ export const getProjectsLocationsApisConfigs: API.OperationMethod<
   GetProjectsLocationsApisConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c11, 0) as any as S.Schema<GetProjectsLocationsApisConfigsRequest>,
-  output: __S(96, __c12, 0) as any as S.Schema<ApigatewayApiConfig>,
+  input: __S(160, __c10, 0) as any as S.Schema<GetProjectsLocationsApisConfigsRequest>,
+  output: __S(600, __c37, 8) as any as S.Schema<ApigatewayApiConfig>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -958,8 +845,8 @@ export const getProjectsLocationsGateways: API.OperationMethod<
   GetProjectsLocationsGatewaysError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(104, __c13, 0) as any as S.Schema<GetProjectsLocationsGatewaysRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<ApigatewayGateway>,
+  input: __S(176, __c11, 0) as any as S.Schema<GetProjectsLocationsGatewaysRequest>,
+  output: __S(624, __c39, 0) as any as S.Schema<ApigatewayGateway>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -975,8 +862,8 @@ export const getProjectsLocationsOperations: API.OperationMethod<
   GetProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(120, __c15, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
-  output: __S(290, __c36, 2) as any as S.Schema<ApigatewayOperation>,
+  input: __S(192, __c12, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
+  output: __S(562, __c35, 2) as any as S.Schema<ApigatewayOperation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -993,8 +880,8 @@ export const listProjectsLocations: API.PaginatedOperationMethod<
   GcpOpContext,
   ApigatewayListLocationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(128, __c16, 0) as any as S.Schema<ListProjectsLocationsRequest>,
-  output: __S(130, __c16, 2) as any as S.Schema<ApigatewayListLocationsResponse>,
+  input: __S(208, __c13, 0) as any as S.Schema<ListProjectsLocationsRequest>,
+  output: __S(210, __c13, 2) as any as S.Schema<ApigatewayListLocationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1012,8 +899,8 @@ export const listProjectsLocationsApis: API.PaginatedOperationMethod<
   GcpOpContext,
   ApigatewayListApisResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(136, __c17, 0) as any as S.Schema<ListProjectsLocationsApisRequest>,
-  output: __S(138, __c17, 2) as any as S.Schema<ApigatewayListApisResponse>,
+  input: __S(224, __c14, 0) as any as S.Schema<ListProjectsLocationsApisRequest>,
+  output: __S(226, __c14, 2) as any as S.Schema<ApigatewayListApisResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1031,8 +918,8 @@ export const listProjectsLocationsApisConfigs: API.PaginatedOperationMethod<
   GcpOpContext,
   ApigatewayListApiConfigsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(144, __c18, 0) as any as S.Schema<ListProjectsLocationsApisConfigsRequest>,
-  output: __S(146, __c18, 2) as any as S.Schema<ApigatewayListApiConfigsResponse>,
+  input: __S(240, __c15, 0) as any as S.Schema<ListProjectsLocationsApisConfigsRequest>,
+  output: __S(242, __c15, 2) as any as S.Schema<ApigatewayListApiConfigsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1050,8 +937,8 @@ export const listProjectsLocationsGateways: API.PaginatedOperationMethod<
   GcpOpContext,
   ApigatewayListGatewaysResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(152, __c19, 0) as any as S.Schema<ListProjectsLocationsGatewaysRequest>,
-  output: __S(154, __c19, 2) as any as S.Schema<ApigatewayListGatewaysResponse>,
+  input: __S(256, __c16, 0) as any as S.Schema<ListProjectsLocationsGatewaysRequest>,
+  output: __S(258, __c16, 2) as any as S.Schema<ApigatewayListGatewaysResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1069,8 +956,8 @@ export const listProjectsLocationsOperations: API.PaginatedOperationMethod<
   GcpOpContext,
   ApigatewayListOperationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(160, __c20, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
-  output: __S(162, __c20, 2) as any as S.Schema<ApigatewayListOperationsResponse>,
+  input: __S(272, __c17, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
+  output: __S(274, __c17, 2) as any as S.Schema<ApigatewayListOperationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1092,8 +979,8 @@ export const patchProjectsLocationsApis: API.OperationMethod<
   PatchProjectsLocationsApisError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(168, __c21, 0) as any as S.Schema<PatchProjectsLocationsApisRequest>,
-  output: __S(290, __c36, 2) as any as S.Schema<ApigatewayOperation>,
+  input: __S(288, __c18, 0) as any as S.Schema<PatchProjectsLocationsApisRequest>,
+  output: __S(562, __c35, 2) as any as S.Schema<ApigatewayOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1114,8 +1001,8 @@ export const patchProjectsLocationsApisConfigs: API.OperationMethod<
   PatchProjectsLocationsApisConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c22, 0) as any as S.Schema<PatchProjectsLocationsApisConfigsRequest>,
-  output: __S(290, __c36, 2) as any as S.Schema<ApigatewayOperation>,
+  input: __S(304, __c19, 0) as any as S.Schema<PatchProjectsLocationsApisConfigsRequest>,
+  output: __S(562, __c35, 2) as any as S.Schema<ApigatewayOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1136,8 +1023,8 @@ export const patchProjectsLocationsGateways: API.OperationMethod<
   PatchProjectsLocationsGatewaysError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(184, __c23, 0) as any as S.Schema<PatchProjectsLocationsGatewaysRequest>,
-  output: __S(290, __c36, 2) as any as S.Schema<ApigatewayOperation>,
+  input: __S(320, __c20, 0) as any as S.Schema<PatchProjectsLocationsGatewaysRequest>,
+  output: __S(562, __c35, 2) as any as S.Schema<ApigatewayOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1158,8 +1045,8 @@ export const setIamPolicyProjectsLocationsApis: API.OperationMethod<
   SetIamPolicyProjectsLocationsApisError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c24, 0) as any as S.Schema<SetIamPolicyProjectsLocationsApisRequest>,
-  output: __S(39, __c4, 7) as any as S.Schema<ApigatewayPolicy>,
+  input: __S(336, __c21, 0) as any as S.Schema<SetIamPolicyProjectsLocationsApisRequest>,
+  output: __S(71, __c4, 7) as any as S.Schema<ApigatewayPolicy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1180,8 +1067,8 @@ export const setIamPolicyProjectsLocationsApisConfigs: API.OperationMethod<
   SetIamPolicyProjectsLocationsApisConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(200, __c25, 0) as any as S.Schema<SetIamPolicyProjectsLocationsApisConfigsRequest>,
-  output: __S(39, __c4, 7) as any as S.Schema<ApigatewayPolicy>,
+  input: __S(368, __c23, 0) as any as S.Schema<SetIamPolicyProjectsLocationsApisConfigsRequest>,
+  output: __S(71, __c4, 7) as any as S.Schema<ApigatewayPolicy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1202,8 +1089,8 @@ export const setIamPolicyProjectsLocationsGateways: API.OperationMethod<
   SetIamPolicyProjectsLocationsGatewaysError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c26, 0) as any as S.Schema<SetIamPolicyProjectsLocationsGatewaysRequest>,
-  output: __S(39, __c4, 7) as any as S.Schema<ApigatewayPolicy>,
+  input: __S(384, __c24, 0) as any as S.Schema<SetIamPolicyProjectsLocationsGatewaysRequest>,
+  output: __S(71, __c4, 7) as any as S.Schema<ApigatewayPolicy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1224,8 +1111,8 @@ export const testIamPermissionsProjectsLocationsApis: API.OperationMethod<
   TestIamPermissionsProjectsLocationsApisError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(216, __c27, 0) as any as S.Schema<TestIamPermissionsProjectsLocationsApisRequest>,
-  output: __S(224, __c28, 0) as any as S.Schema<ApigatewayTestIamPermissionsResponse>,
+  input: __S(400, __c25, 0) as any as S.Schema<TestIamPermissionsProjectsLocationsApisRequest>,
+  output: __S(416, __c26, 0) as any as S.Schema<ApigatewayTestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1247,11 +1134,11 @@ export const testIamPermissionsProjectsLocationsApisConfigs: API.OperationMethod
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    232,
-    __c29,
+    432,
+    __c27,
     0,
   ) as any as S.Schema<TestIamPermissionsProjectsLocationsApisConfigsRequest>,
-  output: __S(224, __c28, 0) as any as S.Schema<ApigatewayTestIamPermissionsResponse>,
+  output: __S(416, __c26, 0) as any as S.Schema<ApigatewayTestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1272,8 +1159,8 @@ export const testIamPermissionsProjectsLocationsGateways: API.OperationMethod<
   TestIamPermissionsProjectsLocationsGatewaysError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c30, 0) as any as S.Schema<TestIamPermissionsProjectsLocationsGatewaysRequest>,
-  output: __S(224, __c28, 0) as any as S.Schema<ApigatewayTestIamPermissionsResponse>,
+  input: __S(448, __c28, 0) as any as S.Schema<TestIamPermissionsProjectsLocationsGatewaysRequest>,
+  output: __S(416, __c26, 0) as any as S.Schema<ApigatewayTestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1351,37 +1238,37 @@ function __c4(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          condition: S.optional(__S(32, __c4, 0)),
+          condition: S.optional(__S(64, __c4, 0)),
           role: S.optional(S.String),
-          members: S.optional(__S(24, __c3, 0)),
+          members: S.optional(__S(48, __c3, 0)),
         }),
       ).annotate({ identifier: "ApigatewayBinding" });
     case 2:
-      return S.Array(__S(33, __c4, 1));
+      return S.Array(__S(65, __c4, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           logType: S.optional(S.String),
-          exemptedMembers: S.optional(__S(24, __c3, 0)),
+          exemptedMembers: S.optional(__S(48, __c3, 0)),
         }),
       ).annotate({ identifier: "ApigatewayAuditLogConfig" });
     case 4:
-      return S.Array(__S(35, __c4, 3));
+      return S.Array(__S(67, __c4, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           service: S.optional(S.String),
-          auditLogConfigs: S.optional(__S(36, __c4, 4)),
+          auditLogConfigs: S.optional(__S(68, __c4, 4)),
         }),
       ).annotate({ identifier: "ApigatewayAuditConfig" });
     case 6:
-      return S.Array(__S(37, __c4, 5));
+      return S.Array(__S(69, __c4, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
           version: S.optional(S.Number),
-          bindings: S.optional(__S(34, __c4, 2)),
-          auditConfigs: S.optional(__S(38, __c4, 6)),
+          bindings: S.optional(__S(66, __c4, 2)),
+          auditConfigs: S.optional(__S(70, __c4, 6)),
           etag: S.optional(S.String),
         }),
       ).annotate({ identifier: "ApigatewayPolicy" });
@@ -1442,10 +1329,10 @@ function __c8(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          metadata: S.optional(__S(280, __c35, 0)),
+          metadata: S.optional(__S(544, __c34, 0)),
           displayName: S.optional(S.String),
           locationId: S.optional(S.String),
-          labels: S.optional(__S(272, __c34, 0)),
+          labels: S.optional(__S(528, __c33, 0)),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "ApigatewayLocation" });
@@ -1472,22 +1359,6 @@ function __c10(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          createTime: S.optional(S.String),
-          labels: S.optional(__S(272, __c34, 0)),
-          displayName: S.optional(S.String),
-          managedService: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          name: S.optional(S.String),
-          state: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ApigatewayApi" });
-  }
-}
-function __c11(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
           name: S.String.pipe(T.Label()),
           view: S.optional(S.String.pipe(T.Query())),
         }).pipe(
@@ -1500,28 +1371,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsApisConfigsRequest" });
   }
 }
-function __c12(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          createTime: S.optional(S.String),
-          name: S.optional(S.String),
-          displayName: S.optional(S.String),
-          serviceConfigId: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          gatewayServiceAccount: S.optional(S.String),
-          managedServiceConfigs: S.optional(__S(305, __c38, 1)),
-          gatewayConfig: S.optional(__S(307, __c38, 3)),
-          openapiDocuments: S.optional(__S(309, __c38, 5)),
-          grpcServices: S.optional(__S(311, __c38, 7)),
-          state: S.optional(S.String),
-          labels: S.optional(__S(272, __c34, 0)),
-        }),
-      ).annotate({ identifier: "ApigatewayApiConfig" });
-  }
-}
-function __c13(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1537,26 +1387,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsGatewaysRequest" });
   }
 }
-function __c14(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          updateTime: S.optional(S.String),
-          labels: S.optional(__S(272, __c34, 0)),
-          streamingMode: S.optional(S.String),
-          state: S.optional(S.String),
-          defaultHostname: S.optional(S.String),
-          createTime: S.optional(S.String),
-          name: S.optional(S.String),
-          effectiveStreamingMode: S.optional(S.String),
-          apiConfig: S.optional(S.String),
-          displayName: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ApigatewayGateway" });
-  }
-}
-function __c15(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1572,13 +1403,13 @@ function __c15(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsOperationsRequest" });
   }
 }
-function __c16(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          extraLocationTypes: S.optional(__S(24, __c3, 0).pipe(T.Query())),
+          extraLocationTypes: S.optional(__S(48, __c3, 0).pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
@@ -1591,17 +1422,17 @@ function __c16(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsRequest" });
     case 1:
-      return S.Array(__S(64, __c8, 0));
+      return S.Array(__S(128, __c8, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          locations: S.optional(__S(129, __c16, 1)),
+          locations: S.optional(__S(209, __c13, 1)),
         }),
       ).annotate({ identifier: "ApigatewayListLocationsResponse" });
   }
 }
-function __c17(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1620,18 +1451,18 @@ function __c17(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsApisRequest" });
     case 1:
-      return S.Array(__S(80, __c10, 0));
+      return S.Array(__S(512, __c32, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          unreachableLocations: S.optional(__S(24, __c3, 0)),
-          apis: S.optional(__S(137, __c17, 1)),
+          unreachableLocations: S.optional(__S(48, __c3, 0)),
+          apis: S.optional(__S(225, __c14, 1)),
         }),
       ).annotate({ identifier: "ApigatewayListApisResponse" });
   }
 }
-function __c18(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1650,18 +1481,18 @@ function __c18(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsApisConfigsRequest" });
     case 1:
-      return S.Array(__S(96, __c12, 0));
+      return S.Array(__S(600, __c37, 8));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachableLocations: S.optional(__S(24, __c3, 0)),
+          unreachableLocations: S.optional(__S(48, __c3, 0)),
           nextPageToken: S.optional(S.String),
-          apiConfigs: S.optional(__S(145, __c18, 1)),
+          apiConfigs: S.optional(__S(241, __c15, 1)),
         }),
       ).annotate({ identifier: "ApigatewayListApiConfigsResponse" });
   }
 }
-function __c19(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1680,18 +1511,18 @@ function __c19(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsGatewaysRequest" });
     case 1:
-      return S.Array(__S(112, __c14, 0));
+      return S.Array(__S(624, __c39, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          gateways: S.optional(__S(153, __c19, 1)),
+          gateways: S.optional(__S(257, __c16, 1)),
           nextPageToken: S.optional(S.String),
-          unreachableLocations: S.optional(__S(24, __c3, 0)),
+          unreachableLocations: S.optional(__S(48, __c3, 0)),
         }),
       ).annotate({ identifier: "ApigatewayListGatewaysResponse" });
   }
 }
-function __c20(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1710,31 +1541,28 @@ function __c20(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsOperationsRequest" });
     case 1:
-      return S.Array(__S(290, __c36, 2));
+      return S.Array(__S(562, __c35, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          operations: S.optional(__S(161, __c20, 1)),
+          operations: S.optional(__S(273, __c17, 1)),
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(24, __c3, 0)),
+          unreachable: S.optional(__S(48, __c3, 0)),
         }),
       ).annotate({ identifier: "ApigatewayListOperationsResponse" });
   }
 }
-function __c21(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          createTime: S.optional(S.String),
-          labels: S.optional(__S(272, __c34, 0)),
-          displayName: S.optional(S.String),
-          managedService: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          state: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(512, __c32, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta/{+name}",
@@ -1744,25 +1572,17 @@ function __c21(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsApisRequest" });
   }
 }
-function __c22(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          createTime: S.optional(S.String),
-          displayName: S.optional(S.String),
-          serviceConfigId: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          gatewayServiceAccount: S.optional(S.String),
-          managedServiceConfigs: S.optional(__S(305, __c38, 1)),
-          gatewayConfig: S.optional(__S(307, __c38, 3)),
-          openapiDocuments: S.optional(__S(309, __c38, 5)),
-          grpcServices: S.optional(__S(311, __c38, 7)),
-          state: S.optional(S.String),
-          labels: S.optional(__S(272, __c34, 0)),
-        }).pipe(
+        S.Extend(
+          __S(600, __c37, 8),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta/{+name}",
@@ -1772,23 +1592,17 @@ function __c22(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsApisConfigsRequest" });
   }
 }
-function __c23(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          updateTime: S.optional(S.String),
-          labels: S.optional(__S(272, __c34, 0)),
-          streamingMode: S.optional(S.String),
-          state: S.optional(S.String),
-          defaultHostname: S.optional(S.String),
-          createTime: S.optional(S.String),
-          effectiveStreamingMode: S.optional(S.String),
-          apiConfig: S.optional(S.String),
-          displayName: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(624, __c39, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta/{+name}",
@@ -1798,15 +1612,16 @@ function __c23(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsGatewaysRequest" });
   }
 }
-function __c24(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String),
-          policy: S.optional(__S(39, __c4, 7)),
-        }).pipe(
+        S.Extend(
+          __S(352, __c22, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+resource}:setIamPolicy",
@@ -1816,15 +1631,27 @@ function __c24(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsLocationsApisRequest" });
   }
 }
-function __c25(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          resource: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String),
-          policy: S.optional(__S(39, __c4, 7)),
-        }).pipe(
+          policy: S.optional(__S(71, __c4, 7)),
+        }),
+      ).annotate({ identifier: "ApigatewaySetIamPolicyRequest" });
+  }
+}
+function __c23(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(352, __c22, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+resource}:setIamPolicy",
@@ -1834,15 +1661,16 @@ function __c25(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsLocationsApisConfigsRequest" });
   }
 }
-function __c26(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String),
-          policy: S.optional(__S(39, __c4, 7)),
-        }).pipe(
+        S.Extend(
+          __S(352, __c22, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+resource}:setIamPolicy",
@@ -1852,14 +1680,16 @@ function __c26(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsLocationsGatewaysRequest" });
   }
 }
-function __c27(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          permissions: S.optional(__S(24, __c3, 0)),
-        }).pipe(
+        S.Extend(
+          __S(416, __c26, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+resource}:testIamPermissions",
@@ -1869,24 +1699,26 @@ function __c27(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsLocationsApisRequest" });
   }
 }
-function __c28(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          permissions: S.optional(__S(24, __c3, 0)),
+          permissions: S.optional(__S(48, __c3, 0)),
         }),
-      ).annotate({ identifier: "ApigatewayTestIamPermissionsResponse" });
+      ).annotate({ identifier: "ApigatewayTestIamPermissionsRequest" });
   }
 }
-function __c29(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          permissions: S.optional(__S(24, __c3, 0)),
-        }).pipe(
+        S.Extend(
+          __S(416, __c26, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+resource}:testIamPermissions",
@@ -1896,14 +1728,16 @@ function __c29(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsLocationsApisConfigsRequest" });
   }
 }
-function __c30(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          permissions: S.optional(__S(24, __c3, 0)),
-        }).pipe(
+        S.Extend(
+          __S(416, __c26, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+resource}:testIamPermissions",
@@ -1913,13 +1747,13 @@ function __c30(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsLocationsGatewaysRequest" });
   }
 }
-function __c31(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(256, __c32, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(480, __c30, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1930,7 +1764,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "CancelProjectsLocationsOperationsRequest" });
   }
 }
-function __c32(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({
@@ -1938,21 +1772,17 @@ function __c32(j: number): any {
       });
   }
 }
-function __c33(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          apiId: S.optional(S.String.pipe(T.Query())),
-          createTime: S.optional(S.String),
-          labels: S.optional(__S(272, __c34, 0)),
-          displayName: S.optional(S.String),
-          managedService: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          name: S.optional(S.String),
-          state: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(512, __c32, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            apiId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+parent}/apis",
@@ -1962,26 +1792,42 @@ function __c33(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsApisRequest" });
   }
 }
-function __c34(j: number): any {
+function __c32(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          createTime: S.optional(S.String),
+          labels: S.optional(__S(528, __c33, 0)),
+          displayName: S.optional(S.String),
+          managedService: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          name: S.optional(S.String),
+          state: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ApigatewayApi" });
+  }
+}
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
   }
 }
-function __c35(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c36(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(280, __c35, 0));
+      return S.Array(__S(544, __c34, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          details: S.optional(__S(288, __c36, 0)),
+          details: S.optional(__S(560, __c35, 0)),
           code: S.optional(S.Number),
           message: S.optional(S.String),
         }),
@@ -1990,34 +1836,25 @@ function __c36(j: number): any {
       return S.suspend(() =>
         S.Struct({
           done: S.optional(S.Boolean),
-          error: S.optional(__S(289, __c36, 1)),
-          metadata: S.optional(__S(280, __c35, 0)),
-          response: S.optional(__S(280, __c35, 0)),
+          error: S.optional(__S(561, __c35, 1)),
+          metadata: S.optional(__S(544, __c34, 0)),
+          response: S.optional(__S(544, __c34, 0)),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "ApigatewayOperation" });
   }
 }
-function __c37(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          apiConfigId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          createTime: S.optional(S.String),
-          name: S.optional(S.String),
-          displayName: S.optional(S.String),
-          serviceConfigId: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          gatewayServiceAccount: S.optional(S.String),
-          managedServiceConfigs: S.optional(__S(305, __c38, 1)),
-          gatewayConfig: S.optional(__S(307, __c38, 3)),
-          openapiDocuments: S.optional(__S(309, __c38, 5)),
-          grpcServices: S.optional(__S(311, __c38, 7)),
-          state: S.optional(S.String),
-          labels: S.optional(__S(272, __c34, 0)),
-        }).pipe(
+        S.Extend(
+          __S(600, __c37, 8),
+          S.Struct({
+            apiConfigId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+parent}/configs",
@@ -2027,7 +1864,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsApisConfigsRequest" });
   }
 }
-function __c38(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2037,7 +1874,7 @@ function __c38(j: number): any {
         }),
       ).annotate({ identifier: "ApigatewayApiConfigFile" });
     case 1:
-      return S.Array(__S(304, __c38, 0));
+      return S.Array(__S(592, __c37, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -2047,26 +1884,63 @@ function __c38(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          backendConfig: S.optional(__S(306, __c38, 2)),
+          backendConfig: S.optional(__S(594, __c37, 2)),
         }),
       ).annotate({ identifier: "ApigatewayGatewayConfig" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          document: S.optional(__S(304, __c38, 0)),
+          document: S.optional(__S(592, __c37, 0)),
         }),
       ).annotate({ identifier: "ApigatewayApiConfigOpenApiDocument" });
     case 5:
-      return S.Array(__S(308, __c38, 4));
+      return S.Array(__S(596, __c37, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          source: S.optional(__S(305, __c38, 1)),
-          fileDescriptorSet: S.optional(__S(304, __c38, 0)),
+          source: S.optional(__S(593, __c37, 1)),
+          fileDescriptorSet: S.optional(__S(592, __c37, 0)),
         }),
       ).annotate({ identifier: "ApigatewayApiConfigGrpcServiceDefinition" });
     case 7:
-      return S.Array(__S(310, __c38, 6));
+      return S.Array(__S(598, __c37, 6));
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          createTime: S.optional(S.String),
+          name: S.optional(S.String),
+          displayName: S.optional(S.String),
+          serviceConfigId: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          gatewayServiceAccount: S.optional(S.String),
+          managedServiceConfigs: S.optional(__S(593, __c37, 1)),
+          gatewayConfig: S.optional(__S(595, __c37, 3)),
+          openapiDocuments: S.optional(__S(597, __c37, 5)),
+          grpcServices: S.optional(__S(599, __c37, 7)),
+          state: S.optional(S.String),
+          labels: S.optional(__S(528, __c33, 0)),
+        }),
+      ).annotate({ identifier: "ApigatewayApiConfig" });
+  }
+}
+function __c38(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(624, __c39, 0),
+          S.Struct({
+            gatewayId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
+          T.Http({
+            method: "POST",
+            uri: "v1beta/{+parent}/gateways",
+            baseUrl: "https://apigateway.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "CreateProjectsLocationsGatewaysRequest" });
   }
 }
 function __c39(j: number): any {
@@ -2074,10 +1948,8 @@ function __c39(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          gatewayId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
           updateTime: S.optional(S.String),
-          labels: S.optional(__S(272, __c34, 0)),
+          labels: S.optional(__S(528, __c33, 0)),
           streamingMode: S.optional(S.String),
           state: S.optional(S.String),
           defaultHostname: S.optional(S.String),
@@ -2086,14 +1958,8 @@ function __c39(j: number): any {
           effectiveStreamingMode: S.optional(S.String),
           apiConfig: S.optional(S.String),
           displayName: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "v1beta/{+parent}/gateways",
-            baseUrl: "https://apigateway.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "CreateProjectsLocationsGatewaysRequest" });
+        }),
+      ).annotate({ identifier: "ApigatewayGateway" });
   }
 }
 function __c40(j: number): any {

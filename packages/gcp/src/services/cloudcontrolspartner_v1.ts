@@ -110,22 +110,6 @@ export interface CustomerOnboardingState {
   /** List of customer onboarding steps */
   onboardingSteps?: CustomerOnboardingStepList | undefined;
 }
-export interface CreateOrganizationsLocationsCustomersRequest {
-  /** Required. Parent resource Format: `organizations/{organization}/locations/{location}` */
-  parent: string;
-  /** Required. The customer id to use for the customer, which will become the final component of the customer's resource name. The specified value must be a valid Google cloud organization id. */
-  customerId?: string | undefined;
-  /** Output only. Container for customer onboarding steps */
-  customerOnboardingState?: CustomerOnboardingState | undefined;
-  /** Output only. Indicates whether a customer is fully onboarded */
-  isOnboarded?: boolean | undefined;
-  /** Identifier. Format: `organizations/{organization}/locations/{location}/customers/{customer}` */
-  name?: string | undefined;
-  /** Required. Display name for the customer */
-  displayName?: string | undefined;
-  /** Output only. The customer organization domain, extracted from CRM Organization's display_name field. e.g. "google.com" */
-  organizationDomain?: string | undefined;
-}
 /** Contains metadata around a Cloud Controls Partner Customer */
 export interface Customer {
   /** Output only. Container for customer onboarding steps */
@@ -138,6 +122,12 @@ export interface Customer {
   displayName?: string | undefined;
   /** Output only. The customer organization domain, extracted from CRM Organization's display_name field. e.g. "google.com" */
   organizationDomain?: string | undefined;
+}
+export interface CreateOrganizationsLocationsCustomersRequest extends Customer {
+  /** Required. Parent resource Format: `organizations/{organization}/locations/{location}` */
+  parent: string;
+  /** Required. The customer id to use for the customer, which will become the final component of the customer's resource name. The specified value must be a valid Google cloud organization id. */
+  customerId?: string | undefined;
 }
 export interface DeleteOrganizationsLocationsCustomersRequest {
   /** Required. name of the resource to be deleted format: name=organizations/*\/locations/*\/customers/* */
@@ -495,19 +485,11 @@ export interface ListViolationsResponse {
   /** List of violation */
   violations?: ViolationList | undefined;
 }
-export interface PatchOrganizationsLocationsCustomersRequest {
+export interface PatchOrganizationsLocationsCustomersRequest extends Omit<Customer, "name"> {
   /** Identifier. Format: `organizations/{organization}/locations/{location}/customers/{customer}` */
   name: string;
   /** Optional. The list of fields to update */
   updateMask?: string | undefined;
-  /** Output only. Container for customer onboarding steps */
-  customerOnboardingState?: CustomerOnboardingState | undefined;
-  /** Output only. Indicates whether a customer is fully onboarded */
-  isOnboarded?: boolean | undefined;
-  /** Required. Display name for the customer */
-  displayName?: string | undefined;
-  /** Output only. The customer organization domain, extracted from CRM Organization's display_name field. e.g. "google.com" */
-  organizationDomain?: string | undefined;
 }
 export type CreateOrganizationsLocationsCustomersError =
   | NotFound
@@ -1006,14 +988,13 @@ function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          customerOnboardingState: S.optional(__S(66, __c8, 2)),
-          isOnboarded: S.optional(S.Boolean),
-          displayName: S.optional(S.String),
-          organizationDomain: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(67, __c8, 3),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -1027,15 +1008,13 @@ function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          customerId: S.optional(S.String.pipe(T.Query())),
-          customerOnboardingState: S.optional(__S(66, __c8, 2)),
-          isOnboarded: S.optional(S.Boolean),
-          name: S.optional(S.String),
-          displayName: S.optional(S.String),
-          organizationDomain: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(67, __c8, 3),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            customerId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/customers",

@@ -131,11 +131,8 @@ export type BackupStateEnum =
   | "READY"
   | "DELETING"
   | "INVALID";
-export interface CreateProjectsLocationsBackupsRequest {
-  /** Required. The backup's project and location, in the format `projects/{project_number}/locations/{location}`. In Filestore, backup locations map to Google Cloud regions, for example **us-west1**. */
-  parent: string;
-  /** Required. The ID to use for the backup. The ID must be unique within the specified project and location. This value must start with a lowercase letter followed by up to 62 lowercase letters, numbers, or hyphens, and cannot end with a hyphen. Values that do not match this pattern will trigger an INVALID_ARGUMENT error. */
-  backupId?: string | undefined;
+/** A Filestore backup. */
+export interface Backup {
   /** Output only. Amount of bytes that will be downloaded if the backup is restored. This may be different than storage bytes, since sequential backups of the same disk will share storage. */
   downloadBytes?: string | undefined;
   /** Output only. The time when the backup was created. */
@@ -168,6 +165,12 @@ export interface CreateProjectsLocationsBackupsRequest {
   kmsKey?: string | undefined;
   /** Output only. The size of the storage used by the backup. As backups share storage, this number is expected to change with backup creation/deletion. */
   storageBytes?: string | undefined;
+}
+export interface CreateProjectsLocationsBackupsRequest extends Backup {
+  /** Required. The backup's project and location, in the format `projects/{project_number}/locations/{location}`. In Filestore, backup locations map to Google Cloud regions, for example **us-west1**. */
+  parent: string;
+  /** Required. The ID to use for the backup. The ID must be unique within the specified project and location. This value must start with a lowercase letter followed by up to 62 lowercase letters, numbers, or hyphens, and cannot end with a hyphen. Values that do not match this pattern will trigger an INVALID_ARGUMENT error. */
+  backupId?: string | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -374,11 +377,8 @@ export interface Replication {
   /** Optional. The replication role. When creating a new replica, this field must be set to `STANDBY`. */
   role?: ReplicationRoleEnum | (string & {}) | undefined;
 }
-export interface CreateProjectsLocationsInstancesRequest {
-  /** Required. The instance's project and location, in the format `projects/{project_id}/locations/{location}`. In Filestore, locations map to Google Cloud zones, for example **us-west1-b**. */
-  parent: string;
-  /** Required. The name of the instance to create. The name must be unique for the specified project and location. */
-  instanceId?: string | undefined;
+/** A Filestore instance. */
+export interface Instance {
   /** Output only. Indicates whether this instance supports configuring its performance. If true, the user can configure the instance's performance by using the 'performance_config' field. */
   customPerformanceSupported?: boolean | undefined;
   /** Output only. Field indicates all the reasons the instance is in "SUSPENDED" state. */
@@ -432,12 +432,15 @@ export interface CreateProjectsLocationsInstancesRequest {
   /** Output only. The maximum capacity of the instance in GB. */
   maxCapacityGb?: string | undefined;
 }
-export type SnapshotStateEnum = "STATE_UNSPECIFIED" | "CREATING" | "READY" | "DELETING";
-export interface CreateProjectsLocationsInstancesSnapshotsRequest {
-  /** Required. The ID to use for the snapshot. The ID must be unique within the specified instance. This value must start with a lowercase letter followed by up to 62 lowercase letters, numbers, or hyphens, and cannot end with a hyphen. */
-  snapshotId?: string | undefined;
-  /** Required. The Filestore Instance to create the snapshots of, in the format `projects/{project_id}/locations/{location}/instances/{instance_id}` */
+export interface CreateProjectsLocationsInstancesRequest extends Instance {
+  /** Required. The instance's project and location, in the format `projects/{project_id}/locations/{location}`. In Filestore, locations map to Google Cloud zones, for example **us-west1-b**. */
   parent: string;
+  /** Required. The name of the instance to create. The name must be unique for the specified project and location. */
+  instanceId?: string | undefined;
+}
+export type SnapshotStateEnum = "STATE_UNSPECIFIED" | "CREATING" | "READY" | "DELETING";
+/** A Filestore snapshot. */
+export interface Snapshot {
   /** Output only. The resource name of the snapshot, in the format `projects/{project_id}/locations/{location_id}/instances/{instance_id}/snapshots/{snapshot_id}`. */
   name?: string | undefined;
   /** Output only. The snapshot state. */
@@ -452,6 +455,12 @@ export interface CreateProjectsLocationsInstancesSnapshotsRequest {
   createTime?: string | undefined;
   /** Output only. The amount of bytes needed to allocate a full copy of the snapshot content */
   filesystemUsedBytes?: string | undefined;
+}
+export interface CreateProjectsLocationsInstancesSnapshotsRequest extends Snapshot {
+  /** Required. The ID to use for the snapshot. The ID must be unique within the specified instance. This value must start with a lowercase letter followed by up to 62 lowercase letters, numbers, or hyphens, and cannot end with a hyphen. */
+  snapshotId?: string | undefined;
+  /** Required. The Filestore Instance to create the snapshots of, in the format `projects/{project_id}/locations/{location}/instances/{instance_id}` */
+  parent: string;
 }
 export interface DeleteProjectsLocationsBackupsRequest {
   /** Required. The backup resource name, in the format `projects/{project_number}/locations/{location}/backups/{backup_id}` */
@@ -492,120 +501,13 @@ export interface GetProjectsLocationsBackupsRequest {
   /** Required. The backup resource name, in the format `projects/{project_number}/locations/{location}/backups/{backup_id}`. */
   name: string;
 }
-/** A Filestore backup. */
-export interface Backup {
-  /** Output only. Amount of bytes that will be downloaded if the backup is restored. This may be different than storage bytes, since sequential backups of the same disk will share storage. */
-  downloadBytes?: string | undefined;
-  /** Output only. The time when the backup was created. */
-  createTime?: string | undefined;
-  /** Optional. Input only. Immutable. Tag key-value pairs bound to this resource. Each key must be a namespaced name and each value a short name. Example: "123456789012/environment" : "production", "123456789013/costCenter" : "marketing" See the documentation for more information: - Namespaced name: https://cloud.google.com/resource-manager/docs/tags/tags-creating-and-managing#retrieving_tag_key - Short name: https://cloud.google.com/resource-manager/docs/tags/tags-creating-and-managing#retrieving_tag_value */
-  tags?: StringMap | undefined;
-  /** Output only. The file system protocol of the source Filestore instance that this backup is created from. */
-  fileSystemProtocol?: BackupFileSystemProtocolEnum | undefined;
-  /** The resource name of the source Filestore instance, in the format `projects/{project_number}/locations/{location_id}/instances/{instance_id}`, used to create this backup. */
-  sourceInstance?: string | undefined;
-  /** Name of the file share in the source Filestore instance that the backup is created from. */
-  sourceFileShare?: string | undefined;
-  /** Output only. Capacity of the source file share when the backup was created. */
-  capacityGb?: string | undefined;
-  /** Output only. Reserved for future use. */
-  satisfiesPzi?: boolean | undefined;
-  /** Resource labels to represent user provided metadata. */
-  labels?: StringMap | undefined;
-  /** Output only. Reserved for future use. */
-  satisfiesPzs?: boolean | undefined;
-  /** A description of the backup with 2048 characters or less. Requests with longer descriptions will be rejected. */
-  description?: string | undefined;
-  /** Output only. The resource name of the backup, in the format `projects/{project_number}/locations/{location_id}/backups/{backup_id}`. */
-  name?: string | undefined;
-  /** Output only. The service tier of the source Filestore instance that this backup is created from. */
-  sourceInstanceTier?: BackupSourceInstanceTierEnum | undefined;
-  /** Output only. The backup state. */
-  state?: BackupStateEnum | undefined;
-  /** Immutable. KMS key name used for data encryption. */
-  kmsKey?: string | undefined;
-  /** Output only. The size of the storage used by the backup. As backups share storage, this number is expected to change with backup creation/deletion. */
-  storageBytes?: string | undefined;
-}
 export interface GetProjectsLocationsInstancesRequest {
   /** Required. The instance resource name, in the format `projects/{project_id}/locations/{location}/instances/{instance_id}`. */
   name: string;
 }
-/** A Filestore instance. */
-export interface Instance {
-  /** Output only. Indicates whether this instance supports configuring its performance. If true, the user can configure the instance's performance by using the 'performance_config' field. */
-  customPerformanceSupported?: boolean | undefined;
-  /** Output only. Field indicates all the reasons the instance is in "SUSPENDED" state. */
-  suspensionReasons?: InstanceSuspensionReasonsItemEnumList | undefined;
-  /** Resource labels to represent user provided metadata. */
-  labels?: StringMap | undefined;
-  /** Output only. Used for getting performance limits. */
-  performanceLimits?: PerformanceLimits | undefined;
-  /** Output only. The minimum capacity of the instance in GB. */
-  minCapacityGb?: string | undefined;
-  /** Optional. The reason for enabling deletion protection. */
-  deletionProtectionReason?: string | undefined;
-  /** Output only. Additional information about the instance state, if available. */
-  statusMessage?: string | undefined;
-  /** Immutable. The protocol indicates the access protocol for all shares in the instance. This field is immutable and it cannot be changed after the instance has been created. Default value: `NFS_V3`. */
-  protocol?: InstanceProtocolEnum | undefined;
-  /** Server-specified ETag for the instance resource to prevent simultaneous updates from overwriting each other. */
-  etag?: string | undefined;
-  /** Output only. The incremental increase or decrease in capacity, designated in some number of GB. */
-  capacityStepSizeGb?: string | undefined;
-  /** Output only. The resource name of the instance, in the format `projects/{project}/locations/{location}/instances/{instance}`. */
-  name?: string | undefined;
-  /** Output only. Reserved for future use. */
-  satisfiesPzs?: boolean | undefined;
-  /** The service tier of the instance. */
-  tier?: InstanceTierEnum | undefined;
-  /** VPC networks to which the instance is connected. For this version, only a single network is supported. */
-  networks?: NetworkConfigList | undefined;
-  /** Optional. Input only. Immutable. Tag key-value pairs bound to this resource. Each key must be a namespaced name and each value a short name. Example: "123456789012/environment" : "production", "123456789013/costCenter" : "marketing" See the documentation for more information: - Namespaced name: https://cloud.google.com/resource-manager/docs/tags/tags-creating-and-managing#retrieving_tag_key - Short name: https://cloud.google.com/resource-manager/docs/tags/tags-creating-and-managing#retrieving_tag_value */
-  tags?: StringMap | undefined;
-  /** Output only. The time when the instance was created. */
-  createTime?: string | undefined;
-  /** Output only. The instance state. */
-  state?: InstanceStateEnum | undefined;
-  /** Optional. Used to configure performance. */
-  performanceConfig?: PerformanceConfig | undefined;
-  /** File system shares on the instance. For this version, only a single file share is supported. */
-  fileShares?: FileShareConfigList | undefined;
-  /** KMS key name used for data encryption. */
-  kmsKeyName?: string | undefined;
-  /** Output only. Reserved for future use. */
-  satisfiesPzi?: boolean | undefined;
-  /** Optional. Indicates whether the instance is protected against deletion. */
-  deletionProtectionEnabled?: boolean | undefined;
-  /** Optional. Directory Services configuration for Kerberos-based authentication. Should only be set if protocol is "NFS_V4_1". */
-  directoryServices?: DirectoryServicesConfig | undefined;
-  /** The description of the instance (2048 characters or less). */
-  description?: string | undefined;
-  /** Optional. Replication configuration. */
-  replication?: Replication | undefined;
-  /** Output only. The maximum capacity of the instance in GB. */
-  maxCapacityGb?: string | undefined;
-}
 export interface GetProjectsLocationsInstancesSnapshotsRequest {
   /** Required. The snapshot resource name, in the format `projects/{project_id}/locations/{location}/instances/{instance_id}/snapshots/{snapshot_id}` */
   name: string;
-}
-/** A Filestore snapshot. */
-export interface Snapshot {
-  /** Output only. The resource name of the snapshot, in the format `projects/{project_id}/locations/{location_id}/instances/{instance_id}/snapshots/{snapshot_id}`. */
-  name?: string | undefined;
-  /** Output only. The snapshot state. */
-  state?: SnapshotStateEnum | undefined;
-  /** Resource labels to represent user provided metadata. */
-  labels?: StringMap | undefined;
-  /** A description of the snapshot with 2048 characters or less. Requests with longer descriptions will be rejected. */
-  description?: string | undefined;
-  /** Optional. Input only. Immutable. Tag key-value pairs bound to this resource. Each key must be a namespaced name and each value a short name. Example: "123456789012/environment" : "production", "123456789013/costCenter" : "marketing" See the documentation for more information: - Namespaced name: https://cloud.google.com/resource-manager/docs/tags/tags-creating-and-managing#retrieving_tag_key - Short name: https://cloud.google.com/resource-manager/docs/tags/tags-creating-and-managing#retrieving_tag_value */
-  tags?: StringMap | undefined;
-  /** Output only. The time when the snapshot was created. */
-  createTime?: string | undefined;
-  /** Output only. The amount of bytes needed to allocate a full copy of the snapshot content */
-  filesystemUsedBytes?: string | undefined;
 }
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
@@ -721,115 +623,23 @@ export interface ListOperationsResponse {
   /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
   unreachable?: StringList | undefined;
 }
-export interface PatchProjectsLocationsBackupsRequest {
+export interface PatchProjectsLocationsBackupsRequest extends Omit<Backup, "name"> {
   /** Required. Mask of fields to update. At least one path must be supplied in this field. */
   updateMask?: string | undefined;
   /** Output only. The resource name of the backup, in the format `projects/{project_number}/locations/{location_id}/backups/{backup_id}`. */
   name: string;
-  /** Output only. Amount of bytes that will be downloaded if the backup is restored. This may be different than storage bytes, since sequential backups of the same disk will share storage. */
-  downloadBytes?: string | undefined;
-  /** Output only. The time when the backup was created. */
-  createTime?: string | undefined;
-  /** Optional. Input only. Immutable. Tag key-value pairs bound to this resource. Each key must be a namespaced name and each value a short name. Example: "123456789012/environment" : "production", "123456789013/costCenter" : "marketing" See the documentation for more information: - Namespaced name: https://cloud.google.com/resource-manager/docs/tags/tags-creating-and-managing#retrieving_tag_key - Short name: https://cloud.google.com/resource-manager/docs/tags/tags-creating-and-managing#retrieving_tag_value */
-  tags?: StringMap | undefined;
-  /** Output only. The file system protocol of the source Filestore instance that this backup is created from. */
-  fileSystemProtocol?: BackupFileSystemProtocolEnum | (string & {}) | undefined;
-  /** The resource name of the source Filestore instance, in the format `projects/{project_number}/locations/{location_id}/instances/{instance_id}`, used to create this backup. */
-  sourceInstance?: string | undefined;
-  /** Name of the file share in the source Filestore instance that the backup is created from. */
-  sourceFileShare?: string | undefined;
-  /** Output only. Capacity of the source file share when the backup was created. */
-  capacityGb?: string | undefined;
-  /** Output only. Reserved for future use. */
-  satisfiesPzi?: boolean | undefined;
-  /** Resource labels to represent user provided metadata. */
-  labels?: StringMap | undefined;
-  /** Output only. Reserved for future use. */
-  satisfiesPzs?: boolean | undefined;
-  /** A description of the backup with 2048 characters or less. Requests with longer descriptions will be rejected. */
-  description?: string | undefined;
-  /** Output only. The service tier of the source Filestore instance that this backup is created from. */
-  sourceInstanceTier?: BackupSourceInstanceTierEnum | (string & {}) | undefined;
-  /** Output only. The backup state. */
-  state?: BackupStateEnum | (string & {}) | undefined;
-  /** Immutable. KMS key name used for data encryption. */
-  kmsKey?: string | undefined;
-  /** Output only. The size of the storage used by the backup. As backups share storage, this number is expected to change with backup creation/deletion. */
-  storageBytes?: string | undefined;
 }
-export interface PatchProjectsLocationsInstancesRequest {
+export interface PatchProjectsLocationsInstancesRequest extends Omit<Instance, "name"> {
   /** Output only. The resource name of the instance, in the format `projects/{project}/locations/{location}/instances/{instance}`. */
   name: string;
   /** Mask of fields to update. At least one path must be supplied in this field. The elements of the repeated paths field may only include these fields: * "description" * "file_shares" * "labels" * "performance_config" * "deletion_protection_enabled" * "deletion_protection_reason" */
   updateMask?: string | undefined;
-  /** Output only. Indicates whether this instance supports configuring its performance. If true, the user can configure the instance's performance by using the 'performance_config' field. */
-  customPerformanceSupported?: boolean | undefined;
-  /** Output only. Field indicates all the reasons the instance is in "SUSPENDED" state. */
-  suspensionReasons?: InstanceSuspensionReasonsItemEnumList | undefined;
-  /** Resource labels to represent user provided metadata. */
-  labels?: StringMap | undefined;
-  /** Output only. Used for getting performance limits. */
-  performanceLimits?: PerformanceLimits | undefined;
-  /** Output only. The minimum capacity of the instance in GB. */
-  minCapacityGb?: string | undefined;
-  /** Optional. The reason for enabling deletion protection. */
-  deletionProtectionReason?: string | undefined;
-  /** Output only. Additional information about the instance state, if available. */
-  statusMessage?: string | undefined;
-  /** Immutable. The protocol indicates the access protocol for all shares in the instance. This field is immutable and it cannot be changed after the instance has been created. Default value: `NFS_V3`. */
-  protocol?: InstanceProtocolEnum | (string & {}) | undefined;
-  /** Server-specified ETag for the instance resource to prevent simultaneous updates from overwriting each other. */
-  etag?: string | undefined;
-  /** Output only. The incremental increase or decrease in capacity, designated in some number of GB. */
-  capacityStepSizeGb?: string | undefined;
-  /** Output only. Reserved for future use. */
-  satisfiesPzs?: boolean | undefined;
-  /** The service tier of the instance. */
-  tier?: InstanceTierEnum | (string & {}) | undefined;
-  /** VPC networks to which the instance is connected. For this version, only a single network is supported. */
-  networks?: NetworkConfigList | undefined;
-  /** Optional. Input only. Immutable. Tag key-value pairs bound to this resource. Each key must be a namespaced name and each value a short name. Example: "123456789012/environment" : "production", "123456789013/costCenter" : "marketing" See the documentation for more information: - Namespaced name: https://cloud.google.com/resource-manager/docs/tags/tags-creating-and-managing#retrieving_tag_key - Short name: https://cloud.google.com/resource-manager/docs/tags/tags-creating-and-managing#retrieving_tag_value */
-  tags?: StringMap | undefined;
-  /** Output only. The time when the instance was created. */
-  createTime?: string | undefined;
-  /** Output only. The instance state. */
-  state?: InstanceStateEnum | (string & {}) | undefined;
-  /** Optional. Used to configure performance. */
-  performanceConfig?: PerformanceConfig | undefined;
-  /** File system shares on the instance. For this version, only a single file share is supported. */
-  fileShares?: FileShareConfigList | undefined;
-  /** KMS key name used for data encryption. */
-  kmsKeyName?: string | undefined;
-  /** Output only. Reserved for future use. */
-  satisfiesPzi?: boolean | undefined;
-  /** Optional. Indicates whether the instance is protected against deletion. */
-  deletionProtectionEnabled?: boolean | undefined;
-  /** Optional. Directory Services configuration for Kerberos-based authentication. Should only be set if protocol is "NFS_V4_1". */
-  directoryServices?: DirectoryServicesConfig | undefined;
-  /** The description of the instance (2048 characters or less). */
-  description?: string | undefined;
-  /** Optional. Replication configuration. */
-  replication?: Replication | undefined;
-  /** Output only. The maximum capacity of the instance in GB. */
-  maxCapacityGb?: string | undefined;
 }
-export interface PatchProjectsLocationsInstancesSnapshotsRequest {
+export interface PatchProjectsLocationsInstancesSnapshotsRequest extends Omit<Snapshot, "name"> {
   /** Required. Mask of fields to update. At least one path must be supplied in this field. */
   updateMask?: string | undefined;
   /** Output only. The resource name of the snapshot, in the format `projects/{project_id}/locations/{location_id}/instances/{instance_id}/snapshots/{snapshot_id}`. */
   name: string;
-  /** Output only. The snapshot state. */
-  state?: SnapshotStateEnum | (string & {}) | undefined;
-  /** Resource labels to represent user provided metadata. */
-  labels?: StringMap | undefined;
-  /** A description of the snapshot with 2048 characters or less. Requests with longer descriptions will be rejected. */
-  description?: string | undefined;
-  /** Optional. Input only. Immutable. Tag key-value pairs bound to this resource. Each key must be a namespaced name and each value a short name. Example: "123456789012/environment" : "production", "123456789013/costCenter" : "marketing" See the documentation for more information: - Namespaced name: https://cloud.google.com/resource-manager/docs/tags/tags-creating-and-managing#retrieving_tag_key - Short name: https://cloud.google.com/resource-manager/docs/tags/tags-creating-and-managing#retrieving_tag_value */
-  tags?: StringMap | undefined;
-  /** Output only. The time when the snapshot was created. */
-  createTime?: string | undefined;
-  /** Output only. The amount of bytes needed to allocate a full copy of the snapshot content */
-  filesystemUsedBytes?: string | undefined;
 }
 /** PauseReplicaRequest pauses a Filestore standby instance (replica). */
 export type PauseReplicaRequest = CancelOperationRequest;
@@ -839,19 +649,25 @@ export interface PauseReplicaProjectsLocationsInstancesRequest {
   /** Request body */
   body?: CancelOperationRequest | undefined;
 }
-export interface PromoteReplicaProjectsLocationsInstancesRequest {
-  /** Required. The resource name of the instance, in the format `projects/{project_id}/locations/{location_id}/instances/{instance_id}`. */
-  name: string;
+/** PromoteReplicaRequest promotes a Filestore standby instance (replica). */
+export interface PromoteReplicaRequest {
   /** Optional. The resource name of the peer instance to promote, in the format `projects/{project_id}/locations/{location_id}/instances/{instance_id}`. The peer instance is required if the operation is called on an active instance. */
   peerInstance?: string | undefined;
 }
-export interface RestoreProjectsLocationsInstancesRequest {
-  /** Required. The resource name of the instance, in the format `projects/{project_number}/locations/{location_id}/instances/{instance_id}`. */
+export interface PromoteReplicaProjectsLocationsInstancesRequest extends PromoteReplicaRequest {
+  /** Required. The resource name of the instance, in the format `projects/{project_id}/locations/{location_id}/instances/{instance_id}`. */
   name: string;
+}
+/** RestoreInstanceRequest restores an existing instance's file share from a backup. */
+export interface RestoreInstanceRequest {
   /** The resource name of the backup, in the format `projects/{project_number}/locations/{location_id}/backups/{backup_id}`. */
   sourceBackup?: string | undefined;
   /** Required. Name of the file share in the Filestore instance that the backup is being restored to. */
   fileShare?: string | undefined;
+}
+export interface RestoreProjectsLocationsInstancesRequest extends RestoreInstanceRequest {
+  /** Required. The resource name of the instance, in the format `projects/{project_number}/locations/{location_id}/instances/{instance_id}`. */
+  name: string;
 }
 /** ResumeReplicaRequest resumes a Filestore standby instance (replica). */
 export type ResumeReplicaRequest = CancelOperationRequest;
@@ -861,11 +677,14 @@ export interface ResumeReplicaProjectsLocationsInstancesRequest {
   /** Request body */
   body?: CancelOperationRequest | undefined;
 }
-export interface RevertProjectsLocationsInstancesRequest {
-  /** Required. The resource name of the instance, in the format `projects/{project_id}/locations/{location_id}/instances/{instance_id}`. */
-  name: string;
+/** RevertInstanceRequest reverts the given instance's file share to the specified snapshot. */
+export interface RevertInstanceRequest {
   /** Required. The snapshot resource ID, in the format 'my-snapshot', where the specified ID is the {snapshot_id} of the fully qualified name like `projects/{project_id}/locations/{location_id}/instances/{instance_id}/snapshots/{snapshot_id}` */
   targetSnapshotId?: string | undefined;
+}
+export interface RevertProjectsLocationsInstancesRequest extends RevertInstanceRequest {
+  /** Required. The resource name of the instance, in the format `projects/{project_id}/locations/{location_id}/instances/{instance_id}`. */
+  name: string;
 }
 export type CancelProjectsLocationsOperationsError =
   | NotFound
@@ -880,8 +699,8 @@ export const cancelProjectsLocationsOperations: API.OperationMethod<
   CancelProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c25, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
-  output: __S(832, __c26, 0) as any as S.Schema<Empty>,
+  input: __S(704, __c22, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
+  output: __S(736, __c23, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -902,8 +721,8 @@ export const createProjectsLocationsBackups: API.OperationMethod<
   CreateProjectsLocationsBackupsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c27, 0) as any as S.Schema<CreateProjectsLocationsBackupsRequest>,
-  output: __S(962, __c30, 2) as any as S.Schema<Operation>,
+  input: __S(768, __c24, 0) as any as S.Schema<CreateProjectsLocationsBackupsRequest>,
+  output: __S(898, __c28, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -925,8 +744,8 @@ export const createProjectsLocationsInstances: API.OperationMethod<
   CreateProjectsLocationsInstancesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c31, 0) as any as S.Schema<CreateProjectsLocationsInstancesRequest>,
-  output: __S(962, __c30, 2) as any as S.Schema<Operation>,
+  input: __S(928, __c29, 0) as any as S.Schema<CreateProjectsLocationsInstancesRequest>,
+  output: __S(898, __c28, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, StorageQuotaExceeded, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -947,8 +766,8 @@ export const createProjectsLocationsInstancesSnapshots: API.OperationMethod<
   CreateProjectsLocationsInstancesSnapshotsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c34, 0) as any as S.Schema<CreateProjectsLocationsInstancesSnapshotsRequest>,
-  output: __S(962, __c30, 2) as any as S.Schema<Operation>,
+  input: __S(1024, __c32, 0) as any as S.Schema<CreateProjectsLocationsInstancesSnapshotsRequest>,
+  output: __S(898, __c28, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -969,8 +788,8 @@ export const deleteProjectsLocationsBackups: API.OperationMethod<
   DeleteProjectsLocationsBackupsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c35, 0) as any as S.Schema<DeleteProjectsLocationsBackupsRequest>,
-  output: __S(962, __c30, 2) as any as S.Schema<Operation>,
+  input: __S(1088, __c34, 0) as any as S.Schema<DeleteProjectsLocationsBackupsRequest>,
+  output: __S(898, __c28, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -992,7 +811,7 @@ export const deleteProjectsLocationsInstances: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<DeleteProjectsLocationsInstancesRequest>,
-  output: __S(962, __c30, 2) as any as S.Schema<Operation>,
+  output: __S(898, __c28, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1014,7 +833,7 @@ export const deleteProjectsLocationsInstancesSnapshots: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c1, 0) as any as S.Schema<DeleteProjectsLocationsInstancesSnapshotsRequest>,
-  output: __S(962, __c30, 2) as any as S.Schema<Operation>,
+  output: __S(898, __c28, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1036,7 +855,7 @@ export const deleteProjectsLocationsOperations: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c2, 0) as any as S.Schema<DeleteProjectsLocationsOperationsRequest>,
-  output: __S(832, __c26, 0) as any as S.Schema<Empty>,
+  output: __S(736, __c23, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1070,7 +889,7 @@ export const getProjectsLocationsBackups: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c5, 0) as any as S.Schema<GetProjectsLocationsBackupsRequest>,
-  output: __S(192, __c6, 0) as any as S.Schema<Backup>,
+  output: __S(800, __c25, 0) as any as S.Schema<Backup>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1086,8 +905,8 @@ export const getProjectsLocationsInstances: API.OperationMethod<
   GetProjectsLocationsInstancesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c7, 0) as any as S.Schema<GetProjectsLocationsInstancesRequest>,
-  output: __S(256, __c8, 0) as any as S.Schema<Instance>,
+  input: __S(192, __c6, 0) as any as S.Schema<GetProjectsLocationsInstancesRequest>,
+  output: __S(1009, __c31, 17) as any as S.Schema<Instance>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1103,8 +922,8 @@ export const getProjectsLocationsInstancesSnapshots: API.OperationMethod<
   GetProjectsLocationsInstancesSnapshotsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c9, 0) as any as S.Schema<GetProjectsLocationsInstancesSnapshotsRequest>,
-  output: __S(320, __c10, 0) as any as S.Schema<Snapshot>,
+  input: __S(224, __c7, 0) as any as S.Schema<GetProjectsLocationsInstancesSnapshotsRequest>,
+  output: __S(1056, __c33, 0) as any as S.Schema<Snapshot>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1120,8 +939,8 @@ export const getProjectsLocationsOperations: API.OperationMethod<
   GetProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c11, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
-  output: __S(962, __c30, 2) as any as S.Schema<Operation>,
+  input: __S(256, __c8, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
+  output: __S(898, __c28, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1138,8 +957,8 @@ export const listProjectsLocations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListLocationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(384, __c12, 0) as any as S.Schema<ListProjectsLocationsRequest>,
-  output: __S(386, __c12, 2) as any as S.Schema<ListLocationsResponse>,
+  input: __S(288, __c9, 0) as any as S.Schema<ListProjectsLocationsRequest>,
+  output: __S(290, __c9, 2) as any as S.Schema<ListLocationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1157,8 +976,8 @@ export const listProjectsLocationsBackups: API.PaginatedOperationMethod<
   GcpOpContext,
   ListBackupsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(416, __c13, 0) as any as S.Schema<ListProjectsLocationsBackupsRequest>,
-  output: __S(418, __c13, 2) as any as S.Schema<ListBackupsResponse>,
+  input: __S(320, __c10, 0) as any as S.Schema<ListProjectsLocationsBackupsRequest>,
+  output: __S(322, __c10, 2) as any as S.Schema<ListBackupsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1176,8 +995,8 @@ export const listProjectsLocationsInstances: API.PaginatedOperationMethod<
   GcpOpContext,
   ListInstancesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(448, __c14, 0) as any as S.Schema<ListProjectsLocationsInstancesRequest>,
-  output: __S(450, __c14, 2) as any as S.Schema<ListInstancesResponse>,
+  input: __S(352, __c11, 0) as any as S.Schema<ListProjectsLocationsInstancesRequest>,
+  output: __S(354, __c11, 2) as any as S.Schema<ListInstancesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1195,8 +1014,8 @@ export const listProjectsLocationsInstancesSnapshots: API.PaginatedOperationMeth
   GcpOpContext,
   ListSnapshotsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(480, __c15, 0) as any as S.Schema<ListProjectsLocationsInstancesSnapshotsRequest>,
-  output: __S(482, __c15, 2) as any as S.Schema<ListSnapshotsResponse>,
+  input: __S(384, __c12, 0) as any as S.Schema<ListProjectsLocationsInstancesSnapshotsRequest>,
+  output: __S(386, __c12, 2) as any as S.Schema<ListSnapshotsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1214,8 +1033,8 @@ export const listProjectsLocationsOperations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListOperationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(512, __c16, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
-  output: __S(514, __c16, 2) as any as S.Schema<ListOperationsResponse>,
+  input: __S(416, __c13, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
+  output: __S(418, __c13, 2) as any as S.Schema<ListOperationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1237,8 +1056,8 @@ export const patchProjectsLocationsBackups: API.OperationMethod<
   PatchProjectsLocationsBackupsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c17, 0) as any as S.Schema<PatchProjectsLocationsBackupsRequest>,
-  output: __S(962, __c30, 2) as any as S.Schema<Operation>,
+  input: __S(448, __c14, 0) as any as S.Schema<PatchProjectsLocationsBackupsRequest>,
+  output: __S(898, __c28, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1259,8 +1078,8 @@ export const patchProjectsLocationsInstances: API.OperationMethod<
   PatchProjectsLocationsInstancesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c18, 0) as any as S.Schema<PatchProjectsLocationsInstancesRequest>,
-  output: __S(962, __c30, 2) as any as S.Schema<Operation>,
+  input: __S(480, __c15, 0) as any as S.Schema<PatchProjectsLocationsInstancesRequest>,
+  output: __S(898, __c28, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1281,8 +1100,8 @@ export const patchProjectsLocationsInstancesSnapshots: API.OperationMethod<
   PatchProjectsLocationsInstancesSnapshotsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c19, 0) as any as S.Schema<PatchProjectsLocationsInstancesSnapshotsRequest>,
-  output: __S(962, __c30, 2) as any as S.Schema<Operation>,
+  input: __S(512, __c16, 0) as any as S.Schema<PatchProjectsLocationsInstancesSnapshotsRequest>,
+  output: __S(898, __c28, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1303,8 +1122,8 @@ export const pauseReplicaProjectsLocationsInstances: API.OperationMethod<
   PauseReplicaProjectsLocationsInstancesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c20, 0) as any as S.Schema<PauseReplicaProjectsLocationsInstancesRequest>,
-  output: __S(962, __c30, 2) as any as S.Schema<Operation>,
+  input: __S(544, __c17, 0) as any as S.Schema<PauseReplicaProjectsLocationsInstancesRequest>,
+  output: __S(898, __c28, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1325,8 +1144,8 @@ export const promoteReplicaProjectsLocationsInstances: API.OperationMethod<
   PromoteReplicaProjectsLocationsInstancesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c21, 0) as any as S.Schema<PromoteReplicaProjectsLocationsInstancesRequest>,
-  output: __S(962, __c30, 2) as any as S.Schema<Operation>,
+  input: __S(577, __c18, 1) as any as S.Schema<PromoteReplicaProjectsLocationsInstancesRequest>,
+  output: __S(898, __c28, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1347,8 +1166,8 @@ export const restoreProjectsLocationsInstances: API.OperationMethod<
   RestoreProjectsLocationsInstancesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c22, 0) as any as S.Schema<RestoreProjectsLocationsInstancesRequest>,
-  output: __S(962, __c30, 2) as any as S.Schema<Operation>,
+  input: __S(609, __c19, 1) as any as S.Schema<RestoreProjectsLocationsInstancesRequest>,
+  output: __S(898, __c28, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1369,8 +1188,8 @@ export const resumeReplicaProjectsLocationsInstances: API.OperationMethod<
   ResumeReplicaProjectsLocationsInstancesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c23, 0) as any as S.Schema<ResumeReplicaProjectsLocationsInstancesRequest>,
-  output: __S(962, __c30, 2) as any as S.Schema<Operation>,
+  input: __S(640, __c20, 0) as any as S.Schema<ResumeReplicaProjectsLocationsInstancesRequest>,
+  output: __S(898, __c28, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1391,8 +1210,8 @@ export const revertProjectsLocationsInstances: API.OperationMethod<
   RevertProjectsLocationsInstancesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c24, 0) as any as S.Schema<RevertProjectsLocationsInstancesRequest>,
-  output: __S(962, __c30, 2) as any as S.Schema<Operation>,
+  input: __S(673, __c21, 1) as any as S.Schema<RevertProjectsLocationsInstancesRequest>,
+  output: __S(898, __c28, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1457,8 +1276,8 @@ function __c4(j: number): any {
         S.Struct({
           name: S.optional(S.String),
           locationId: S.optional(S.String),
-          metadata: S.optional(__S(928, __c29, 0)),
-          labels: S.optional(__S(896, __c28, 0)),
+          metadata: S.optional(__S(864, __c27, 0)),
+          labels: S.optional(__S(832, __c26, 0)),
           displayName: S.optional(S.String),
         }),
       ).annotate({ identifier: "Location" });
@@ -1481,24 +1300,11 @@ function __c6(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          downloadBytes: S.optional(S.String),
-          createTime: S.optional(S.String),
-          tags: S.optional(__S(896, __c28, 0)),
-          fileSystemProtocol: S.optional(S.String),
-          sourceInstance: S.optional(S.String),
-          sourceFileShare: S.optional(S.String),
-          capacityGb: S.optional(S.String),
-          satisfiesPzi: S.optional(S.Boolean),
-          labels: S.optional(__S(896, __c28, 0)),
-          satisfiesPzs: S.optional(S.Boolean),
-          description: S.optional(S.String),
-          name: S.optional(S.String),
-          sourceInstanceTier: S.optional(S.String),
-          state: S.optional(S.String),
-          kmsKey: S.optional(S.String),
-          storageBytes: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Backup" });
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://file.googleapis.com/" }),
+        ),
+      ).annotate({ identifier: "GetProjectsLocationsInstancesRequest" });
   }
 }
 function __c7(j: number): any {
@@ -1510,73 +1316,10 @@ function __c7(j: number): any {
         }).pipe(
           T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://file.googleapis.com/" }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsInstancesRequest" });
-  }
-}
-function __c8(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          customPerformanceSupported: S.optional(S.Boolean),
-          suspensionReasons: S.optional(__S(1056, __c33, 0)),
-          labels: S.optional(__S(896, __c28, 0)),
-          performanceLimits: S.optional(__S(1057, __c33, 1)),
-          minCapacityGb: S.optional(S.String),
-          deletionProtectionReason: S.optional(S.String),
-          statusMessage: S.optional(S.String),
-          protocol: S.optional(S.String),
-          etag: S.optional(S.String),
-          capacityStepSizeGb: S.optional(S.String),
-          name: S.optional(S.String),
-          satisfiesPzs: S.optional(S.Boolean),
-          tier: S.optional(S.String),
-          networks: S.optional(__S(1060, __c33, 4)),
-          tags: S.optional(__S(896, __c28, 0)),
-          createTime: S.optional(S.String),
-          state: S.optional(S.String),
-          performanceConfig: S.optional(__S(1063, __c33, 7)),
-          fileShares: S.optional(__S(1067, __c33, 11)),
-          kmsKeyName: S.optional(S.String),
-          satisfiesPzi: S.optional(S.Boolean),
-          deletionProtectionEnabled: S.optional(S.Boolean),
-          directoryServices: S.optional(__S(1069, __c33, 13)),
-          description: S.optional(S.String),
-          replication: S.optional(__S(1072, __c33, 16)),
-          maxCapacityGb: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Instance" });
-  }
-}
-function __c9(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://file.googleapis.com/" }),
-        ),
       ).annotate({ identifier: "GetProjectsLocationsInstancesSnapshotsRequest" });
   }
 }
-function __c10(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          state: S.optional(S.String),
-          labels: S.optional(__S(896, __c28, 0)),
-          description: S.optional(S.String),
-          tags: S.optional(__S(896, __c28, 0)),
-          createTime: S.optional(S.String),
-          filesystemUsedBytes: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Snapshot" });
-  }
-}
-function __c11(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1588,12 +1331,12 @@ function __c11(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsOperationsRequest" });
   }
 }
-function __c12(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          extraLocationTypes: S.optional(__S(1024, __c32, 0).pipe(T.Query())),
+          extraLocationTypes: S.optional(__S(960, __c30, 0).pipe(T.Query())),
           name: S.String.pipe(T.Label()),
           filter: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
@@ -1611,13 +1354,13 @@ function __c12(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          locations: S.optional(__S(385, __c12, 1)),
+          locations: S.optional(__S(289, __c9, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListLocationsResponse" });
   }
 }
-function __c13(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1636,18 +1379,18 @@ function __c13(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsBackupsRequest" });
     case 1:
-      return S.Array(__S(192, __c6, 0));
+      return S.Array(__S(800, __c25, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          backups: S.optional(__S(417, __c13, 1)),
-          unreachable: S.optional(__S(1024, __c32, 0)),
+          backups: S.optional(__S(321, __c10, 1)),
+          unreachable: S.optional(__S(960, __c30, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListBackupsResponse" });
   }
 }
-function __c14(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1666,18 +1409,18 @@ function __c14(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsInstancesRequest" });
     case 1:
-      return S.Array(__S(256, __c8, 0));
+      return S.Array(__S(1009, __c31, 17));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(1024, __c32, 0)),
-          instances: S.optional(__S(449, __c14, 1)),
+          unreachable: S.optional(__S(960, __c30, 0)),
+          instances: S.optional(__S(353, __c11, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListInstancesResponse" });
   }
 }
-function __c15(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1697,18 +1440,18 @@ function __c15(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsInstancesSnapshotsRequest" });
     case 1:
-      return S.Array(__S(320, __c10, 0));
+      return S.Array(__S(1056, __c33, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          snapshots: S.optional(__S(481, __c15, 1)),
-          unreachable: S.optional(__S(1024, __c32, 0)),
+          snapshots: S.optional(__S(385, __c12, 1)),
+          unreachable: S.optional(__S(960, __c30, 0)),
         }),
       ).annotate({ identifier: "ListSnapshotsResponse" });
   }
 }
-function __c16(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1727,15 +1470,63 @@ function __c16(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsOperationsRequest" });
     case 1:
-      return S.Array(__S(962, __c30, 2));
+      return S.Array(__S(898, __c28, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          operations: S.optional(__S(513, __c16, 1)),
-          unreachable: S.optional(__S(1024, __c32, 0)),
+          operations: S.optional(__S(417, __c13, 1)),
+          unreachable: S.optional(__S(960, __c30, 0)),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
+  }
+}
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(800, __c25, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
+          T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://file.googleapis.com/" }),
+        ),
+      ).annotate({ identifier: "PatchProjectsLocationsBackupsRequest" });
+  }
+}
+function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(1009, __c31, 17),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
+          T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://file.googleapis.com/" }),
+        ),
+      ).annotate({ identifier: "PatchProjectsLocationsInstancesRequest" });
+  }
+}
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(1056, __c33, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
+          T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://file.googleapis.com/" }),
+        ),
+      ).annotate({ identifier: "PatchProjectsLocationsInstancesSnapshotsRequest" });
   }
 }
 function __c17(j: number): any {
@@ -1743,93 +1534,8 @@ function __c17(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          downloadBytes: S.optional(S.String),
-          createTime: S.optional(S.String),
-          tags: S.optional(__S(896, __c28, 0)),
-          fileSystemProtocol: S.optional(S.String),
-          sourceInstance: S.optional(S.String),
-          sourceFileShare: S.optional(S.String),
-          capacityGb: S.optional(S.String),
-          satisfiesPzi: S.optional(S.Boolean),
-          labels: S.optional(__S(896, __c28, 0)),
-          satisfiesPzs: S.optional(S.Boolean),
-          description: S.optional(S.String),
-          sourceInstanceTier: S.optional(S.String),
-          state: S.optional(S.String),
-          kmsKey: S.optional(S.String),
-          storageBytes: S.optional(S.String),
-        }).pipe(
-          T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://file.googleapis.com/" }),
-        ),
-      ).annotate({ identifier: "PatchProjectsLocationsBackupsRequest" });
-  }
-}
-function __c18(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          customPerformanceSupported: S.optional(S.Boolean),
-          suspensionReasons: S.optional(__S(1056, __c33, 0)),
-          labels: S.optional(__S(896, __c28, 0)),
-          performanceLimits: S.optional(__S(1057, __c33, 1)),
-          minCapacityGb: S.optional(S.String),
-          deletionProtectionReason: S.optional(S.String),
-          statusMessage: S.optional(S.String),
-          protocol: S.optional(S.String),
-          etag: S.optional(S.String),
-          capacityStepSizeGb: S.optional(S.String),
-          satisfiesPzs: S.optional(S.Boolean),
-          tier: S.optional(S.String),
-          networks: S.optional(__S(1060, __c33, 4)),
-          tags: S.optional(__S(896, __c28, 0)),
-          createTime: S.optional(S.String),
-          state: S.optional(S.String),
-          performanceConfig: S.optional(__S(1063, __c33, 7)),
-          fileShares: S.optional(__S(1067, __c33, 11)),
-          kmsKeyName: S.optional(S.String),
-          satisfiesPzi: S.optional(S.Boolean),
-          deletionProtectionEnabled: S.optional(S.Boolean),
-          directoryServices: S.optional(__S(1069, __c33, 13)),
-          description: S.optional(S.String),
-          replication: S.optional(__S(1072, __c33, 16)),
-          maxCapacityGb: S.optional(S.String),
-        }).pipe(
-          T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://file.googleapis.com/" }),
-        ),
-      ).annotate({ identifier: "PatchProjectsLocationsInstancesRequest" });
-  }
-}
-function __c19(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          state: S.optional(S.String),
-          labels: S.optional(__S(896, __c28, 0)),
-          description: S.optional(S.String),
-          tags: S.optional(__S(896, __c28, 0)),
-          createTime: S.optional(S.String),
-          filesystemUsedBytes: S.optional(S.String),
-        }).pipe(
-          T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://file.googleapis.com/" }),
-        ),
-      ).annotate({ identifier: "PatchProjectsLocationsInstancesSnapshotsRequest" });
-  }
-}
-function __c20(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(832, __c26, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(736, __c23, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1840,14 +1546,22 @@ function __c20(j: number): any {
       ).annotate({ identifier: "PauseReplicaProjectsLocationsInstancesRequest" });
   }
 }
-function __c21(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           peerInstance: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "PromoteReplicaRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(576, __c18, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:promoteReplica",
@@ -1857,15 +1571,23 @@ function __c21(j: number): any {
       ).annotate({ identifier: "PromoteReplicaProjectsLocationsInstancesRequest" });
   }
 }
-function __c22(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           sourceBackup: S.optional(S.String),
           fileShare: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "RestoreInstanceRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(608, __c19, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:restore",
@@ -1875,13 +1597,13 @@ function __c22(j: number): any {
       ).annotate({ identifier: "RestoreProjectsLocationsInstancesRequest" });
   }
 }
-function __c23(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(832, __c26, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(736, __c23, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1892,14 +1614,22 @@ function __c23(j: number): any {
       ).annotate({ identifier: "ResumeReplicaProjectsLocationsInstancesRequest" });
   }
 }
-function __c24(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           targetSnapshotId: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "RevertInstanceRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(672, __c21, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:revert",
@@ -1909,13 +1639,13 @@ function __c24(j: number): any {
       ).annotate({ identifier: "RevertProjectsLocationsInstancesRequest" });
   }
 }
-function __c25(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(832, __c26, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(736, __c23, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1926,36 +1656,23 @@ function __c25(j: number): any {
       ).annotate({ identifier: "CancelProjectsLocationsOperationsRequest" });
   }
 }
-function __c26(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "CancelOperationRequest" });
   }
 }
-function __c27(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          backupId: S.optional(S.String.pipe(T.Query())),
-          downloadBytes: S.optional(S.String),
-          createTime: S.optional(S.String),
-          tags: S.optional(__S(896, __c28, 0)),
-          fileSystemProtocol: S.optional(S.String),
-          sourceInstance: S.optional(S.String),
-          sourceFileShare: S.optional(S.String),
-          capacityGb: S.optional(S.String),
-          satisfiesPzi: S.optional(S.Boolean),
-          labels: S.optional(__S(896, __c28, 0)),
-          satisfiesPzs: S.optional(S.Boolean),
-          description: S.optional(S.String),
-          name: S.optional(S.String),
-          sourceInstanceTier: S.optional(S.String),
-          state: S.optional(S.String),
-          kmsKey: S.optional(S.String),
-          storageBytes: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(800, __c25, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            backupId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/backups",
@@ -1965,26 +1682,51 @@ function __c27(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsBackupsRequest" });
   }
 }
-function __c28(j: number): any {
+function __c25(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          downloadBytes: S.optional(S.String),
+          createTime: S.optional(S.String),
+          tags: S.optional(__S(832, __c26, 0)),
+          fileSystemProtocol: S.optional(S.String),
+          sourceInstance: S.optional(S.String),
+          sourceFileShare: S.optional(S.String),
+          capacityGb: S.optional(S.String),
+          satisfiesPzi: S.optional(S.Boolean),
+          labels: S.optional(__S(832, __c26, 0)),
+          satisfiesPzs: S.optional(S.Boolean),
+          description: S.optional(S.String),
+          name: S.optional(S.String),
+          sourceInstanceTier: S.optional(S.String),
+          state: S.optional(S.String),
+          kmsKey: S.optional(S.String),
+          storageBytes: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Backup" });
+  }
+}
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
   }
 }
-function __c29(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c30(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(928, __c29, 0));
+      return S.Array(__S(864, __c27, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          details: S.optional(__S(960, __c30, 0)),
+          details: S.optional(__S(896, __c28, 0)),
           message: S.optional(S.String),
           code: S.optional(S.Number),
         }),
@@ -1992,49 +1734,26 @@ function __c30(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          metadata: S.optional(__S(928, __c29, 0)),
-          response: S.optional(__S(928, __c29, 0)),
+          metadata: S.optional(__S(864, __c27, 0)),
+          response: S.optional(__S(864, __c27, 0)),
           done: S.optional(S.Boolean),
           name: S.optional(S.String),
-          error: S.optional(__S(961, __c30, 1)),
+          error: S.optional(__S(897, __c28, 1)),
         }),
       ).annotate({ identifier: "Operation" });
   }
 }
-function __c31(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          instanceId: S.optional(S.String.pipe(T.Query())),
-          customPerformanceSupported: S.optional(S.Boolean),
-          suspensionReasons: S.optional(__S(1056, __c33, 0)),
-          labels: S.optional(__S(896, __c28, 0)),
-          performanceLimits: S.optional(__S(1057, __c33, 1)),
-          minCapacityGb: S.optional(S.String),
-          deletionProtectionReason: S.optional(S.String),
-          statusMessage: S.optional(S.String),
-          protocol: S.optional(S.String),
-          etag: S.optional(S.String),
-          capacityStepSizeGb: S.optional(S.String),
-          name: S.optional(S.String),
-          satisfiesPzs: S.optional(S.Boolean),
-          tier: S.optional(S.String),
-          networks: S.optional(__S(1060, __c33, 4)),
-          tags: S.optional(__S(896, __c28, 0)),
-          createTime: S.optional(S.String),
-          state: S.optional(S.String),
-          performanceConfig: S.optional(__S(1063, __c33, 7)),
-          fileShares: S.optional(__S(1067, __c33, 11)),
-          kmsKeyName: S.optional(S.String),
-          satisfiesPzi: S.optional(S.Boolean),
-          deletionProtectionEnabled: S.optional(S.Boolean),
-          directoryServices: S.optional(__S(1069, __c33, 13)),
-          description: S.optional(S.String),
-          replication: S.optional(__S(1072, __c33, 16)),
-          maxCapacityGb: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1009, __c31, 17),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            instanceId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/instances",
@@ -2044,13 +1763,13 @@ function __c31(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsInstancesRequest" });
   }
 }
-function __c32(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c33(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
@@ -2075,15 +1794,15 @@ function __c33(j: number): any {
       return S.suspend(() =>
         S.Struct({
           network: S.optional(S.String),
-          pscConfig: S.optional(__S(1058, __c33, 2)),
-          ipAddresses: S.optional(__S(1024, __c32, 0)),
+          pscConfig: S.optional(__S(994, __c31, 2)),
+          ipAddresses: S.optional(__S(960, __c30, 0)),
           connectMode: S.optional(S.String),
-          modes: S.optional(__S(1056, __c33, 0)),
+          modes: S.optional(__S(992, __c31, 0)),
           reservedIpRange: S.optional(S.String),
         }),
       ).annotate({ identifier: "NetworkConfig" });
     case 4:
-      return S.Array(__S(1059, __c33, 3));
+      return S.Array(__S(995, __c31, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -2099,8 +1818,8 @@ function __c33(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          iopsPerTb: S.optional(__S(1061, __c33, 5)),
-          fixedIops: S.optional(__S(1062, __c33, 6)),
+          iopsPerTb: S.optional(__S(997, __c31, 5)),
+          fixedIops: S.optional(__S(998, __c31, 6)),
         }),
       ).annotate({ identifier: "PerformanceConfig" });
     case 8:
@@ -2108,14 +1827,14 @@ function __c33(j: number): any {
         S.Struct({
           accessMode: S.optional(S.String),
           squashMode: S.optional(S.String),
-          ipRanges: S.optional(__S(1024, __c32, 0)),
+          ipRanges: S.optional(__S(960, __c30, 0)),
           anonGid: S.optional(S.String),
           network: S.optional(S.String),
           anonUid: S.optional(S.String),
         }),
       ).annotate({ identifier: "NfsExportOptions" });
     case 9:
-      return S.Array(__S(1064, __c33, 8));
+      return S.Array(__S(1000, __c31, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
@@ -2123,24 +1842,24 @@ function __c33(j: number): any {
           name: S.optional(S.String),
           sourceBackup: S.optional(S.String),
           capacityGb: S.optional(S.String),
-          nfsExportOptions: S.optional(__S(1065, __c33, 9)),
+          nfsExportOptions: S.optional(__S(1001, __c31, 9)),
         }),
       ).annotate({ identifier: "FileShareConfig" });
     case 11:
-      return S.Array(__S(1066, __c33, 10));
+      return S.Array(__S(1002, __c31, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
           groupsOu: S.optional(S.String),
           domain: S.optional(S.String),
-          servers: S.optional(__S(1024, __c32, 0)),
+          servers: S.optional(__S(960, __c30, 0)),
           usersOu: S.optional(S.String),
         }),
       ).annotate({ identifier: "LdapConfig" });
     case 13:
       return S.suspend(() =>
         S.Struct({
-          ldap: S.optional(__S(1068, __c33, 12)),
+          ldap: S.optional(__S(1004, __c31, 12)),
         }),
       ).annotate({ identifier: "DirectoryServicesConfig" });
     case 14:
@@ -2149,36 +1868,63 @@ function __c33(j: number): any {
           stateUpdateTime: S.optional(S.String),
           lastActiveSyncTime: S.optional(S.String),
           state: S.optional(S.String),
-          stateReasons: S.optional(__S(1056, __c33, 0)),
+          stateReasons: S.optional(__S(992, __c31, 0)),
           peerInstance: S.optional(S.String),
         }),
       ).annotate({ identifier: "ReplicaConfig" });
     case 15:
-      return S.Array(__S(1070, __c33, 14));
+      return S.Array(__S(1006, __c31, 14));
     case 16:
       return S.suspend(() =>
         S.Struct({
-          replicas: S.optional(__S(1071, __c33, 15)),
+          replicas: S.optional(__S(1007, __c31, 15)),
           role: S.optional(S.String),
         }),
       ).annotate({ identifier: "Replication" });
+    case 17:
+      return S.suspend(() =>
+        S.Struct({
+          customPerformanceSupported: S.optional(S.Boolean),
+          suspensionReasons: S.optional(__S(992, __c31, 0)),
+          labels: S.optional(__S(832, __c26, 0)),
+          performanceLimits: S.optional(__S(993, __c31, 1)),
+          minCapacityGb: S.optional(S.String),
+          deletionProtectionReason: S.optional(S.String),
+          statusMessage: S.optional(S.String),
+          protocol: S.optional(S.String),
+          etag: S.optional(S.String),
+          capacityStepSizeGb: S.optional(S.String),
+          name: S.optional(S.String),
+          satisfiesPzs: S.optional(S.Boolean),
+          tier: S.optional(S.String),
+          networks: S.optional(__S(996, __c31, 4)),
+          tags: S.optional(__S(832, __c26, 0)),
+          createTime: S.optional(S.String),
+          state: S.optional(S.String),
+          performanceConfig: S.optional(__S(999, __c31, 7)),
+          fileShares: S.optional(__S(1003, __c31, 11)),
+          kmsKeyName: S.optional(S.String),
+          satisfiesPzi: S.optional(S.Boolean),
+          deletionProtectionEnabled: S.optional(S.Boolean),
+          directoryServices: S.optional(__S(1005, __c31, 13)),
+          description: S.optional(S.String),
+          replication: S.optional(__S(1008, __c31, 16)),
+          maxCapacityGb: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Instance" });
   }
 }
-function __c34(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          snapshotId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          name: S.optional(S.String),
-          state: S.optional(S.String),
-          labels: S.optional(__S(896, __c28, 0)),
-          description: S.optional(S.String),
-          tags: S.optional(__S(896, __c28, 0)),
-          createTime: S.optional(S.String),
-          filesystemUsedBytes: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1056, __c33, 0),
+          S.Struct({
+            snapshotId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/snapshots",
@@ -2188,7 +1934,23 @@ function __c34(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsInstancesSnapshotsRequest" });
   }
 }
-function __c35(j: number): any {
+function __c33(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          state: S.optional(S.String),
+          labels: S.optional(__S(832, __c26, 0)),
+          description: S.optional(S.String),
+          tags: S.optional(__S(832, __c26, 0)),
+          createTime: S.optional(S.String),
+          filesystemUsedBytes: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Snapshot" });
+  }
+}
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

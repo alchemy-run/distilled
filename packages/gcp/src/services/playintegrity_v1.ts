@@ -83,11 +83,14 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
-export interface DecodeIntegrityTokenV1Request {
-  /** Package name of the app the attached integrity token belongs to. */
-  packageName: string;
+/** Request to decode the integrity token. */
+export interface DecodeIntegrityTokenRequest {
   /** Encoded integrity token. */
   integrityToken?: string | undefined;
+}
+export interface DecodeIntegrityTokenV1Request extends DecodeIntegrityTokenRequest {
+  /** Package name of the app the attached integrity token belongs to. */
+  packageName: string;
 }
 export type StringList = Array<string>;
 export type AppIntegrityAppRecognitionVerdictEnum =
@@ -285,11 +288,11 @@ export interface DecodeIntegrityTokenResponse {
   /** Plain token payload generated from the decoded integrity token. */
   tokenPayloadExternal?: TokenPayloadExternal | undefined;
 }
-export interface DecodePcIntegrityTokenV1Request {
+/** Request to decode the PC integrity token. */
+export type DecodePcIntegrityTokenRequest = DecodeIntegrityTokenRequest;
+export interface DecodePcIntegrityTokenV1Request extends DecodeIntegrityTokenRequest {
   /** Package name of the app the attached integrity token belongs to. */
   packageName: string;
-  /** Encoded integrity token. */
-  integrityToken?: string | undefined;
 }
 export type PcDeviceIntegrityDeviceRecognitionVerdictItemEnum =
   | "DEVICE_RECOGNITION_VERDICT_UNSPECIFIED"
@@ -341,13 +344,16 @@ export interface DecodePcIntegrityTokenResponse {
   /** Plain token payload generated from the decoded integrity token. */
   tokenPayloadExternal?: PcTokenPayloadExternal | undefined;
 }
-export interface WriteDeviceRecallRequest_ {
-  /** Required. Package name of the app the attached integrity token belongs to. */
-  packageName: string;
+/** Request to write device recall bits. */
+export interface WriteDeviceRecallRequest {
   /** Required. Integrity token obtained from calling Play Integrity API. */
   integrityToken?: string | undefined;
   /** Required. The new values for the device recall bits to be written. */
   newValues?: Values | undefined;
+}
+export interface WriteDeviceRecallRequest_ extends WriteDeviceRecallRequest {
+  /** Required. Package name of the app the attached integrity token belongs to. */
+  packageName: string;
 }
 /** Response for the Write Device Recall action. Currently empty. */
 export interface WriteDeviceRecallResponse {}
@@ -398,8 +404,8 @@ export const writeDeviceRecall: API.OperationMethod<
   WriteDeviceRecallError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c4, 0) as any as S.Schema<WriteDeviceRecallRequest_>,
-  output: __S(65, __c4, 1) as any as S.Schema<WriteDeviceRecallResponse>,
+  input: __S(65, __c4, 1) as any as S.Schema<WriteDeviceRecallRequest_>,
+  output: __S(66, __c4, 2) as any as S.Schema<WriteDeviceRecallResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -412,10 +418,12 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          packageName: S.String.pipe(T.Label()),
-          integrityToken: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(16, __c1, 0),
+          S.Struct({
+            packageName: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+packageName}:decodeIntegrityToken",
@@ -465,16 +473,16 @@ function __c0(j: number): any {
       return S.suspend(() =>
         S.Struct({
           recentDeviceActivity: S.optional(__S(3, __c0, 3)),
-          legacyDeviceRecognitionVerdict: S.optional(__S(17, __c1, 1)),
+          legacyDeviceRecognitionVerdict: S.optional(__S(18, __c1, 2)),
           deviceRecall: S.optional(__S(5, __c0, 5)),
           deviceAttributes: S.optional(__S(6, __c0, 6)),
-          deviceRecognitionVerdict: S.optional(__S(17, __c1, 1)),
+          deviceRecognitionVerdict: S.optional(__S(18, __c1, 2)),
         }),
       ).annotate({ identifier: "DeviceIntegrity" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          appsDetected: S.optional(__S(17, __c1, 1)),
+          appsDetected: S.optional(__S(18, __c1, 2)),
         }),
       ).annotate({ identifier: "AppAccessRiskVerdict" });
     case 9:
@@ -482,7 +490,7 @@ function __c0(j: number): any {
         S.Struct({
           appAccessRiskVerdict: S.optional(__S(8, __c0, 8)),
           playProtectVerdict: S.optional(S.String),
-          locationSpoofingRiskVerdict: S.optional(__S(17, __c1, 1)),
+          locationSpoofingRiskVerdict: S.optional(__S(18, __c1, 2)),
         }),
       ).annotate({ identifier: "EnvironmentDetails" });
     case 10:
@@ -511,7 +519,7 @@ function __c0(j: number): any {
       return S.suspend(() =>
         S.Struct({
           appIntegrity: S.optional(__S(2, __c0, 2)),
-          testingDetails: S.optional(__S(16, __c1, 0)),
+          testingDetails: S.optional(__S(17, __c1, 1)),
           deviceIntegrity: S.optional(__S(7, __c0, 7)),
           environmentDetails: S.optional(__S(9, __c0, 9)),
           accountDetails: S.optional(__S(11, __c0, 11)),
@@ -531,10 +539,16 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          integrityToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DecodeIntegrityTokenRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
           isTestingResponse: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "TestingDetails" });
-    case 1:
+    case 2:
       return S.Array(S.String);
   }
 }
@@ -554,10 +568,12 @@ function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          packageName: S.String.pipe(T.Label()),
-          integrityToken: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(16, __c1, 0),
+          S.Struct({
+            packageName: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+packageName}:decodePcIntegrityToken",
@@ -568,7 +584,7 @@ function __c3(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          deviceRecognitionVerdict: S.optional(__S(17, __c1, 1)),
+          deviceRecognitionVerdict: S.optional(__S(18, __c1, 2)),
         }),
       ).annotate({ identifier: "PcDeviceIntegrity" });
     case 2:
@@ -591,7 +607,7 @@ function __c3(j: number): any {
           deviceIntegrity: S.optional(__S(49, __c3, 1)),
           requestDetails: S.optional(__S(50, __c3, 2)),
           accountDetails: S.optional(__S(51, __c3, 3)),
-          testingDetails: S.optional(__S(16, __c1, 0)),
+          testingDetails: S.optional(__S(17, __c1, 1)),
         }),
       ).annotate({ identifier: "PcTokenPayloadExternal" });
     case 5:
@@ -607,10 +623,18 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          packageName: S.String.pipe(T.Label()),
           integrityToken: S.optional(S.String),
           newValues: S.optional(__S(32, __c2, 0)),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "WriteDeviceRecallRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(64, __c4, 0),
+          S.Struct({
+            packageName: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+packageName}/deviceRecall:write",
@@ -618,7 +642,7 @@ function __c4(j: number): any {
           }),
         ),
       ).annotate({ identifier: "WriteDeviceRecallRequest_" });
-    case 1:
+    case 2:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "WriteDeviceRecallResponse" });
   }
 }

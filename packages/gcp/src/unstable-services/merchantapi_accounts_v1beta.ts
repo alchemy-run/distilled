@@ -199,11 +199,14 @@ export interface AccountService {
   /** Immutable. An optional, immutable identifier that Google uses to refer to this account when communicating with the provider. This should be the unique account ID within the provider's system (for example, your shop ID in Shopify). If you have multiple accounts with the same provider - for instance, different accounts for various regions -- the `external_account_id` differentiates between them, ensuring accurate linking and integration between Google and the provider. */
   externalAccountId?: string | undefined;
 }
-export interface ClaimAccountsHomepageRequest {
-  /** Required. The name of the homepage to claim. Format: `accounts/{account}/homepage` */
-  name: string;
+/** Request message for the `ClaimHomepage` method. */
+export interface ClaimHomepageRequest {
   /** Optional. When set to `true`, this option removes any existing claim on the requested website from any other account to the account making the request, effectively replacing the previous claim. */
   overwrite?: boolean | undefined;
+}
+export interface ClaimAccountsHomepageRequest extends ClaimHomepageRequest {
+  /** Required. The name of the homepage to claim. Format: `accounts/{account}/homepage` */
+  name: string;
 }
 /** The `Homepage` message represents a business's store homepage within the system. A business's homepage is the primary domain where customers interact with their store. The homepage can be claimed and verified as a proof of ownership and allows the business to unlock features that require a verified website. For more information, see [Understanding online store URL verification](//support.google.com/merchants/answer/176793). */
 export interface Homepage {
@@ -310,9 +313,8 @@ export interface LfpLink {
   /** Required. The resource name of the LFP provider. Format: `lfpProviders/{lfp_provider}` */
   lfpProvider?: string | undefined;
 }
-export interface CreateAccountsOmnichannelSettingsRequest {
-  /** Required. The parent resource where this omnichannel setting will be created. Format: `accounts/{account}` */
-  parent: string;
+/** Collection of information related to the omnichannel settings of a merchant. */
+export interface OmnichannelSetting {
   /** Required. The Local Store Front type for this country. */
   lsfType?: OmnichannelSettingLsfTypeEnum | (string & {}) | undefined;
   /** Optional. The about page URI and state for this country. */
@@ -332,26 +334,9 @@ export interface CreateAccountsOmnichannelSettingsRequest {
   /** Identifier. The resource name of the omnichannel setting. Format: `accounts/{account}/omnichannelSettings/{omnichannel_setting}` */
   name?: string | undefined;
 }
-/** Collection of information related to the omnichannel settings of a merchant. */
-export interface OmnichannelSetting {
-  /** Required. The Local Store Front type for this country. */
-  lsfType?: OmnichannelSettingLsfTypeEnum | undefined;
-  /** Optional. The about page URI and state for this country. */
-  about?: About | undefined;
-  /** Optional. The inventory verification contact and state for this country. */
-  inventoryVerification?: InventoryVerification | undefined;
-  /** Optional. The InStock URI and state for this country. */
-  inStock?: InStock | undefined;
-  /** Optional. The Pickup URI and state for this country. */
-  pickup?: Pickup | undefined;
-  /** Required. Immutable. Region code defined by [CLDR](https://cldr.unicode.org/). Must be provided in the Create method, and is immutable. */
-  regionCode?: string | undefined;
-  /** Optional. The On Display to Order (ODO) policy URI and state for this country. */
-  odo?: OnDisplayToOrder | undefined;
-  /** Output only. The established link to a LFP provider. */
-  lfpLink?: LfpLink | undefined;
-  /** Identifier. The resource name of the omnichannel setting. Format: `accounts/{account}/omnichannelSettings/{omnichannel_setting}` */
-  name?: string | undefined;
+export interface CreateAccountsOmnichannelSettingsRequest extends OmnichannelSetting {
+  /** Required. The parent resource where this omnichannel setting will be created. Format: `accounts/{account}` */
+  parent: string;
 }
 export interface SeasonalOverride {
   /** Required. Display name of this seasonal override in Merchant Center. */
@@ -421,9 +406,8 @@ export type OnlineReturnPolicyItemConditionsItemEnum =
 export type OnlineReturnPolicyItemConditionsItemEnumList = Array<
   OnlineReturnPolicyItemConditionsItemEnum | (string & {})
 >;
-export interface CreateAccountsOnlineReturnPoliciesRequest {
-  /** Required. The Merchant Center account for which the return policy will be created. Format: `accounts/{account}` */
-  parent: string;
+/** [Online return policy](https://support.google.com/merchants/answer/10220642) object. This is currently used to represent return policies for ads and free listings programs. */
+export interface OnlineReturnPolicy {
   /** Optional. Overrides to the general policy for orders placed during a specific set of time intervals. */
   seasonalOverrides?: SeasonalOverrideList | undefined;
   /** Optional. The return methods of how customers can return an item. This value is required to not be empty unless the type of return policy is noReturns. */
@@ -455,38 +439,9 @@ export interface CreateAccountsOnlineReturnPoliciesRequest {
   /** Optional. The item conditions accepted for returns must not be empty unless the type of return policy is 'noReturns'. */
   itemConditions?: OnlineReturnPolicyItemConditionsItemEnumList | undefined;
 }
-/** [Online return policy](https://support.google.com/merchants/answer/10220642) object. This is currently used to represent return policies for ads and free listings programs. */
-export interface OnlineReturnPolicy {
-  /** Optional. Overrides to the general policy for orders placed during a specific set of time intervals. */
-  seasonalOverrides?: SeasonalOverrideList | undefined;
-  /** Optional. The return methods of how customers can return an item. This value is required to not be empty unless the type of return policy is noReturns. */
-  returnMethods?: OnlineReturnPolicyReturnMethodsItemEnumList | undefined;
-  /** Optional. This field specifies if business only accepts defective products for returns. */
-  acceptDefectiveOnly?: boolean | undefined;
-  /** Required. The return policy uri. This can used by Google to do a sanity check for the policy. It must be a valid URL. */
-  returnPolicyUri?: string | undefined;
-  /** Optional. This field specifies if business allows customers to exchange products. */
-  acceptExchange?: boolean | undefined;
-  /** Optional. The return shipping fee. Should be set only when customer need to download and print the return label. */
-  returnShippingFee?: ReturnShippingFee | undefined;
-  /** Optional. The restocking fee that applies to all return reason categories. This would be treated as a free restocking fee if the value is not set. */
-  restockingFee?: RestockingFee | undefined;
-  /** Identifier. The name of the `OnlineReturnPolicy` resource. Format: `accounts/{account}/onlineReturnPolicies/{return_policy}` */
-  name?: string | undefined;
-  /** Optional. The return policy. */
-  policy?: Policy | undefined;
-  /** Optional. The field specifies the return label source. */
-  returnLabelSource?: OnlineReturnPolicyReturnLabelSourceEnum | undefined;
-  /** Optional. Immutable. This field represents the unique user-defined label of the return policy for the given country. It is important to note that the same label cannot be used in different return policies for the same country. If not given, policies will be automatically treated as the 'default' for the country. When using label, you are creating an exception policy in that country to assign a custom return policy to certain product groups, follow the instructions provided in the [Return policy label] (https://support.google.com/merchants/answer/9445425). The label can contain up to 50 characters. */
-  label?: string | undefined;
-  /** Optional. The field specifies the number of days it takes for business to process refunds. */
-  processRefundDays?: number | undefined;
-  /** Output only. Return policy ID generated by Google. */
-  returnPolicyId?: string | undefined;
-  /** Required. Immutable. The countries of sale where the return policy applies. The values must be a valid 2 letter ISO 3166 code. */
-  countries?: StringList | undefined;
-  /** Optional. The item conditions accepted for returns must not be empty unless the type of return policy is 'noReturns'. */
-  itemConditions?: OnlineReturnPolicyItemConditionsItemEnumList | undefined;
+export interface CreateAccountsOnlineReturnPoliciesRequest extends OnlineReturnPolicy {
+  /** Required. The Merchant Center account for which the return policy will be created. Format: `accounts/{account}` */
+  parent: string;
 }
 /** URL settings for cart or checkout URL. */
 export interface UriSettings {
@@ -533,9 +488,8 @@ export type CheckoutSettingsReviewStateEnum =
   | "IN_REVIEW"
   | "APPROVED"
   | "DISAPPROVED";
-export interface CreateAccountsProgramsCheckoutSettingsRequest {
-  /** Required. The merchant account for which the `CheckoutSettings` will be created. */
-  parent: string;
+/** [CheckoutSettings](https://support.google.com/merchants/answer/13945960) for a specific merchant. */
+export interface CheckoutSettings {
   /** URI settings for cart or checkout URL. */
   uriSettings?: UriSettings | undefined;
   /** Output only. The effective value of enrollment_state for a given merchant ID. If account level settings are present then this value will be a copy of the account level settings. Otherwise, it will have the value of the parent account (for only marketplace sellers). */
@@ -556,24 +510,9 @@ export interface CreateAccountsProgramsCheckoutSettingsRequest {
   /** Output only. Reflects the merchant review state in `Checkout` program. This is set based on the data quality reviews of the URL provided by the merchant. A merchant with enrollment state as `ENROLLED` can be in the following review states: `IN_REVIEW`, `APPROVED` or `DISAPPROVED`. A merchant must be in an `enrollment_state` of `ENROLLED` before a review can begin for the merchant.For more details, check the help center doc. */
   reviewState?: CheckoutSettingsReviewStateEnum | (string & {}) | undefined;
 }
-/** [CheckoutSettings](https://support.google.com/merchants/answer/13945960) for a specific merchant. */
-export interface CheckoutSettings {
-  /** URI settings for cart or checkout URL. */
-  uriSettings?: UriSettings | undefined;
-  /** Output only. The effective value of enrollment_state for a given merchant ID. If account level settings are present then this value will be a copy of the account level settings. Otherwise, it will have the value of the parent account (for only marketplace sellers). */
-  effectiveEnrollmentState?: CheckoutSettingsEffectiveEnrollmentStateEnum | undefined;
-  /** Output only. The effective value of `uri_settings` for a given merchant. If account level settings are present then this value will be a copy of url settings. Otherwise, it will have the value of the parent account (for only marketplace sellers). */
-  effectiveUriSettings?: UriSettings | undefined;
-  /** Output only. Reflects the merchant enrollment state in `Checkout` program. */
-  enrollmentState?: CheckoutSettingsEnrollmentStateEnum | undefined;
-  /** Identifier. The resource name of the program configuration settings. Format: `accounts/{account}/programs/{program}/checkoutSettings` */
-  name?: string | undefined;
-  /** Optional. Required for the create operation. The destinations (also known as [Marketing methods](https://support.google.com/merchants/answer/15130232)) to which the checkout program applies. Valid destination values are `SHOPPING_ADS` and `FREE_LISTINGS`. */
-  eligibleDestinations?: CheckoutSettingsEligibleDestinationsItemEnumList | undefined;
-  /** Output only. The effective value of `review_state` for a given merchant ID. If account level settings are present then this value will be a copy of the account level settings. Otherwise, it will have the value of the parent account (for only marketplace sellers). */
-  effectiveReviewState?: CheckoutSettingsEffectiveReviewStateEnum | undefined;
-  /** Output only. Reflects the merchant review state in `Checkout` program. This is set based on the data quality reviews of the URL provided by the merchant. A merchant with enrollment state as `ENROLLED` can be in the following review states: `IN_REVIEW`, `APPROVED` or `DISAPPROVED`. A merchant must be in an `enrollment_state` of `ENROLLED` before a review can begin for the merchant.For more details, check the help center doc. */
-  reviewState?: CheckoutSettingsReviewStateEnum | undefined;
+export interface CreateAccountsProgramsCheckoutSettingsRequest extends CheckoutSettings {
+  /** Required. The merchant account for which the `CheckoutSettings` will be created. */
+  parent: string;
 }
 export type RadiusAreaRadiusUnitsEnum = "RADIUS_UNITS_UNSPECIFIED" | "MILES" | "KILOMETERS";
 /** An object that represents a latitude/longitude pair. This is expressed as a pair of doubles to represent degrees latitude and degrees longitude. Unless specified otherwise, this object must conform to the WGS84 standard. Values must be within normalized ranges. */
@@ -614,26 +553,6 @@ export interface GeoTargetArea {
   /** Required. A non-empty list of [location IDs](https://developers.google.com/adwords/api/docs/appendix/geotargeting). They must all be of the same location type (for example, state). */
   geotargetCriteriaIds?: StringList | undefined;
 }
-export interface CreateAccountsRegionsRequest {
-  /** Required. The account to create a region for. Format: `accounts/{account}` */
-  parent: string;
-  /** Required. The identifier for the region, unique over all regions of the same account. */
-  regionId?: string | undefined;
-  /** Optional. The display name of the region. */
-  displayName?: string | undefined;
-  /** Output only. Indicates if the region is eligible for use in the Regional Inventory configuration. */
-  regionalInventoryEligible?: boolean | undefined;
-  /** Optional. A radius area that defines the region area. */
-  radiusArea?: RadiusArea | undefined;
-  /** Optional. A list of postal codes that defines the region area. */
-  postalCodeArea?: PostalCodeArea | undefined;
-  /** Optional. A list of geotargets that defines the region area. */
-  geotargetArea?: GeoTargetArea | undefined;
-  /** Output only. Indicates if the region is eligible for use in the Shipping Services configuration. */
-  shippingEligible?: boolean | undefined;
-  /** Identifier. The resource name of the region. Format: `accounts/{account}/regions/{region}` */
-  name?: string | undefined;
-}
 /** Represents a geographic region that you can use as a target with both the `RegionalInventory` and `ShippingSettings` services. You can define regions as collections of either postal codes, radius areas or, in some countries, using predefined geotargets. A region must be defined by specifying exactly one of `postal_code_area`, `geotarget_area`, or `radius_area`. For more information, see [Set up regions ](https://support.google.com/merchants/answer/7410946#zippy=%2Ccreate-a-new-region) for more information. */
 export interface Region {
   /** Optional. The display name of the region. */
@@ -651,6 +570,12 @@ export interface Region {
   /** Identifier. The resource name of the region. Format: `accounts/{account}/regions/{region}` */
   name?: string | undefined;
 }
+export interface CreateAccountsRegionsRequest extends Region {
+  /** Required. The account to create a region for. Format: `accounts/{account}` */
+  parent: string;
+  /** Required. The identifier for the region, unique over all regions of the same account. */
+  regionId?: string | undefined;
+}
 export type UserStateEnum = "STATE_UNSPECIFIED" | "PENDING" | "VERIFIED";
 export type UserAccessRightsItemEnum =
   | "ACCESS_RIGHT_UNSPECIFIED"
@@ -660,18 +585,6 @@ export type UserAccessRightsItemEnum =
   | "PERFORMANCE_REPORTING"
   | "API_DEVELOPER";
 export type UserAccessRightsItemEnumList = Array<UserAccessRightsItemEnum | (string & {})>;
-export interface CreateAccountsUsersRequest {
-  /** Required. The resource name of the account for which a user will be created. Format: `accounts/{account}` */
-  parent: string;
-  /** Required. The email address of the user (for example, `john.doe@gmail.com`). */
-  userId?: string | undefined;
-  /** Output only. The state of the user. */
-  state?: UserStateEnum | (string & {}) | undefined;
-  /** Identifier. The resource name of the user. Format: `accounts/{account}/user/{email}` Use `me` to refer to your own email address, for example `accounts/{account}/users/me`. */
-  name?: string | undefined;
-  /** Required. The [access rights](https://support.google.com/merchants/answer/12160472?sjid=6789834943175119429-EU#accesstypes) the user has. */
-  accessRights?: UserAccessRightsItemEnumList | undefined;
-}
 /** The `User` resource represents a user associated with a Merchant Center account. It is used to manage user permissions and access rights within the account. For more information, see [Frequently asked questions about people and access levels](//support.google.com/merchants/answer/12160472). */
 export interface User {
   /** Output only. The state of the user. */
@@ -680,6 +593,12 @@ export interface User {
   name?: string | undefined;
   /** Required. The [access rights](https://support.google.com/merchants/answer/12160472?sjid=6789834943175119429-EU#accesstypes) the user has. */
   accessRights?: UserAccessRightsItemEnumList | undefined;
+}
+export interface CreateAccountsUsersRequest extends User {
+  /** Required. The resource name of the account for which a user will be created. Format: `accounts/{account}` */
+  parent: string;
+  /** Required. The email address of the user (for example, `john.doe@gmail.com`). */
+  userId?: string | undefined;
 }
 /** Request message for the `CreateUser` method. */
 export interface CreateUserRequest {
@@ -765,7 +684,8 @@ export interface Account {
   /** Required. The time zone of the account. On writes, `time_zone` sets both the `reporting_time_zone` and the `display_time_zone`. For reads, `time_zone` always returns the `display_time_zone`. If `display_time_zone` doesn't exist for your account, `time_zone` is empty. The `version` field is not supported, won't be set in responses and will be silently ignored if specified in requests. */
   timeZone?: TimeZone | undefined;
 }
-export interface CreateAndConfigureAccountsRequest {
+/** Request message for the `CreateAndConfigureAccount` method. */
+export interface CreateAndConfigureAccountRequest {
   /** Optional. Users to be added to the account. This field is deprecated and will not exist after the API evolves out of beta. Use the `user` field instead. */
   users?: CreateUserRequestList | undefined;
   /** Required. An account service between the account to be created and the provider account is initialized as part of the creation. At least one such service needs to be provided. Currently exactly one of these needs to be `account_aggregation` and `accounts.createAndConfigure` method can be used to create a sub-account under an existing advanced account through this method. Additional `account_management` or `products_management` services may be provided. */
@@ -777,25 +697,10 @@ export interface CreateAndConfigureAccountsRequest {
   /** Required. The account to be created. */
   account?: Account | undefined;
 }
-export interface CreateTestAccountAccountsRequest {
+export interface CreateAndConfigureAccountsRequest extends CreateAndConfigureAccountRequest {}
+export interface CreateTestAccountAccountsRequest extends Account {
   /** Required. The account resource name to create the test account under. Format: accounts/{account} */
   parent: string;
-  /** Output only. Whether this is a test account. */
-  testAccount?: boolean | undefined;
-  /** Output only. The ID of the account. */
-  accountId?: string | undefined;
-  /** Optional. Whether this account contains adult content. */
-  adultContent?: boolean | undefined;
-  /** Required. The account's [BCP-47 language code](https://tools.ietf.org/html/bcp47), such as `en-US` or `sr-Latn`. */
-  languageCode?: string | undefined;
-  /** Identifier. The resource name of the account. Format: `accounts/{account}` */
-  name?: string | undefined;
-  /** Output only. URI (typically a URL) of the store's homepage. */
-  homePageUri?: string | undefined;
-  /** Required. A human-readable name of the account. Don't use punctuation, capitalization, or non-alphanumeric symbols such as the "/" or "_" symbols. See [Adding a business name](https://support.google.com/merchants/answer/12159159) for more information. */
-  accountName?: string | undefined;
-  /** Required. The time zone of the account. On writes, `time_zone` sets both the `reporting_time_zone` and the `display_time_zone`. For reads, `time_zone` always returns the `display_time_zone`. If `display_time_zone` doesn't exist for your account, `time_zone` is empty. The `version` field is not supported, won't be set in responses and will be silently ignored if specified in requests. */
-  timeZone?: TimeZone | undefined;
 }
 export interface DeleteAccountsRequest {
   /** Required. The name of the account to delete. Format: `accounts/{account}` */
@@ -1040,7 +945,7 @@ export interface BusinessIdentity {
   /** Optional. Specifies whether the business identifies itself as being latino-owned. This optional field will only be available for businesses with the business country set to `US`. It is also not applicable for marketplaces or marketplace sellers. */
   latinoOwned?: IdentityAttribute | undefined;
   /** Required. Whether the identity attributes may be used for promotions. */
-  promotionsConsent?: BusinessIdentityPromotionsConsentEnum | undefined;
+  promotionsConsent?: BusinessIdentityPromotionsConsentEnum | (string & {}) | undefined;
 }
 export interface GetBusinessInfoAccountsBusinessInfoRequest {
   /** Required. The resource name of the business info. Format: `accounts/{account}/businessInfo`. For example, `accounts/123456/businessInfo`. */
@@ -1103,7 +1008,7 @@ export interface PostalAddress {
 /** The `BusinessInfo` message contains essential information about a business. This message captures key business details such as physical address, customer service contacts, and region-specific identifiers. */
 export interface BusinessInfo {
   /** Output only. The phone verification state of the business. */
-  phoneVerificationState?: BusinessInfoPhoneVerificationStateEnum | undefined;
+  phoneVerificationState?: BusinessInfoPhoneVerificationStateEnum | (string & {}) | undefined;
   /** Optional. The customer service of the business. */
   customerService?: CustomerService | undefined;
   /** Optional. The 10-digit [Korean business registration number](https://support.google.com/merchants/answer/9037766) separated with dashes in the format: XXX-XX-XXXXX. */
@@ -1142,7 +1047,7 @@ export type EmailPreferencesNewsAndTipsEnum =
 /** The categories of notifications the user opted into / opted out of. The email preferences do not include mandatory announcements as users can't opt out of them. */
 export interface EmailPreferences {
   /** Optional. Updates on new features, tips and best practices. */
-  newsAndTips?: EmailPreferencesNewsAndTipsEnum | undefined;
+  newsAndTips?: EmailPreferencesNewsAndTipsEnum | (string & {}) | undefined;
   /** Identifier. The name of the EmailPreferences. The endpoint is only supported for the authenticated user. */
   name?: string | undefined;
 }
@@ -1500,34 +1405,32 @@ export interface GetTermsOfServiceRequest {
   /** Required. The resource name of the terms of service version. Format: `termsOfService/{version}` */
   name: string;
 }
-export interface InsertAccountsShippingSettingsRequest {
+export interface InsertAccountsShippingSettingsRequest extends ShippingSettings {
   /** Required. The account for which this shipping setting will be inserted. If you are using an advanced account, you must specify the unique identifier of the sub-account for which you want to insert the shipping setting. Format: `accounts/{ACCOUNT_ID}` */
   parent: string;
-  /** Required. This field helps avoid async issues. It ensures that the shipping setting data doesn't change between the `get` call and the `insert` call. The user should follow these steps: 1. Set the etag field as an empty string for the initial shipping setting creation. 2. After the initial creation, call the `get` method to obtain an etag and the current shipping setting data before calling `insert`. 3. Modify the shipping setting information. 4. Call the `insert` method with the shipping setting information and the etag obtained in step 2. 5. If the shipping setting data changes between step 2 and step 4, the insert request will fail because the etag changes every time the shipping setting data changes. In this case, the user should repeat steps 2-4 with the new etag. */
-  etag?: string | undefined;
-  /** Identifier. The resource name of the shipping settings. Format: `accounts/{account}/shippingSettings`. For example, `accounts/123456/shippingSettings`. */
-  name?: string | undefined;
-  /** Optional. The target account's list of services. */
-  services?: ServiceList | undefined;
-  /** Optional. A list of warehouses which can be referred to in `services`. */
-  warehouses?: WarehouseList | undefined;
 }
-export interface LinkGbpAccountAccountsGbpAccountsRequest {
-  /** Required. The name of the parent resource to which the GBP account is linked. Format: `accounts/{account}`. */
-  parent: string;
+/** Request message for the LinkGbpAccount method. */
+export interface LinkGbpAccountRequest {
   /** Required. The email address of the Business Profile account. */
   gbpEmail?: string | undefined;
+}
+export interface LinkGbpAccountAccountsGbpAccountsRequest extends LinkGbpAccountRequest {
+  /** Required. The name of the parent resource to which the GBP account is linked. Format: `accounts/{account}`. */
+  parent: string;
 }
 /** Response message for the LinkGbpAccount method. */
 export interface LinkGbpAccountResponse {
   /** Empty response. */
   response?: Empty | undefined;
 }
-export interface LinkLfpProviderAccountsOmnichannelSettingsLfpProvidersRequest {
-  /** Required. The name of the LFP provider resource to link. Format: `accounts/{account}/omnichannelSettings/{omnichannel_setting}/lfpProviders/{lfp_provider}`. The `lfp_provider` is the LFP provider ID. */
-  name: string;
+/** Request message for the LinkLfpProvider method. */
+export interface LinkLfpProviderRequest {
   /** Required. The external account ID by which this merchant is known to the LFP provider. */
   externalAccountId?: string | undefined;
+}
+export interface LinkLfpProviderAccountsOmnichannelSettingsLfpProvidersRequest extends LinkLfpProviderRequest {
+  /** Required. The name of the LFP provider resource to link. Format: `accounts/{account}/omnichannelSettings/{omnichannel_setting}/lfpProviders/{lfp_provider}`. The `lfp_provider` is the LFP provider ID. */
+  name: string;
 }
 /** Response message for the LinkLfpProvider method. */
 export interface LinkLfpProviderResponse {
@@ -1782,135 +1685,61 @@ export interface ListSubAccountsResponse {
   /** The accounts for which the given parent account is an aggregator. */
   accounts?: AccountList | undefined;
 }
-export interface PatchAccountsRequest {
+export interface PatchAccountsRequest extends Omit<Account, "name"> {
   /** Identifier. The resource name of the account. Format: `accounts/{account}` */
   name: string;
   /** Optional. List of fields being updated. The following fields are supported (in both `snake_case` and `lowerCamelCase`): - `account_name` - `adult_content` - `language_code` - `time_zone` */
   updateMask?: string | undefined;
-  /** Output only. Whether this is a test account. */
-  testAccount?: boolean | undefined;
-  /** Output only. The ID of the account. */
-  accountId?: string | undefined;
-  /** Optional. Whether this account contains adult content. */
-  adultContent?: boolean | undefined;
-  /** Required. The account's [BCP-47 language code](https://tools.ietf.org/html/bcp47), such as `en-US` or `sr-Latn`. */
-  languageCode?: string | undefined;
-  /** Output only. URI (typically a URL) of the store's homepage. */
-  homePageUri?: string | undefined;
-  /** Required. A human-readable name of the account. Don't use punctuation, capitalization, or non-alphanumeric symbols such as the "/" or "_" symbols. See [Adding a business name](https://support.google.com/merchants/answer/12159159) for more information. */
-  accountName?: string | undefined;
-  /** Required. The time zone of the account. On writes, `time_zone` sets both the `reporting_time_zone` and the `display_time_zone`. For reads, `time_zone` always returns the `display_time_zone`. If `display_time_zone` doesn't exist for your account, `time_zone` is empty. The `version` field is not supported, won't be set in responses and will be silently ignored if specified in requests. */
-  timeZone?: TimeZone | undefined;
 }
-export interface PatchAccountsOmnichannelSettingsRequest {
+export interface PatchAccountsOmnichannelSettingsRequest extends Omit<OmnichannelSetting, "name"> {
   /** Identifier. The resource name of the omnichannel setting. Format: `accounts/{account}/omnichannelSettings/{omnichannel_setting}` */
   name: string;
   /** Required. The list of fields to be updated. The following fields are supported in snake_case only: - `lsf_type` - `in_stock` - `pickup` - `odo` - `about` - `inventory_verification` Full replacement with wildcard `*`is supported, while empty/implied update mask is not. */
   updateMask?: string | undefined;
-  /** Required. The Local Store Front type for this country. */
-  lsfType?: OmnichannelSettingLsfTypeEnum | (string & {}) | undefined;
-  /** Optional. The about page URI and state for this country. */
-  about?: About | undefined;
-  /** Optional. The inventory verification contact and state for this country. */
-  inventoryVerification?: InventoryVerification | undefined;
-  /** Optional. The InStock URI and state for this country. */
-  inStock?: InStock | undefined;
-  /** Optional. The Pickup URI and state for this country. */
-  pickup?: Pickup | undefined;
-  /** Required. Immutable. Region code defined by [CLDR](https://cldr.unicode.org/). Must be provided in the Create method, and is immutable. */
-  regionCode?: string | undefined;
-  /** Optional. The On Display to Order (ODO) policy URI and state for this country. */
-  odo?: OnDisplayToOrder | undefined;
-  /** Output only. The established link to a LFP provider. */
-  lfpLink?: LfpLink | undefined;
 }
-export interface PatchAccountsOnlineReturnPoliciesRequest {
+export interface PatchAccountsOnlineReturnPoliciesRequest extends Omit<OnlineReturnPolicy, "name"> {
   /** Identifier. The name of the `OnlineReturnPolicy` resource. Format: `accounts/{account}/onlineReturnPolicies/{return_policy}` */
   name: string;
   /** Optional. Only support updating the entire OnlineReturnPolicy message. For update_mask, always use `*`. */
   updateMask?: string | undefined;
-  /** Optional. Overrides to the general policy for orders placed during a specific set of time intervals. */
-  seasonalOverrides?: SeasonalOverrideList | undefined;
-  /** Optional. The return methods of how customers can return an item. This value is required to not be empty unless the type of return policy is noReturns. */
-  returnMethods?: OnlineReturnPolicyReturnMethodsItemEnumList | undefined;
-  /** Optional. This field specifies if business only accepts defective products for returns. */
-  acceptDefectiveOnly?: boolean | undefined;
-  /** Required. The return policy uri. This can used by Google to do a sanity check for the policy. It must be a valid URL. */
-  returnPolicyUri?: string | undefined;
-  /** Optional. This field specifies if business allows customers to exchange products. */
-  acceptExchange?: boolean | undefined;
-  /** Optional. The return shipping fee. Should be set only when customer need to download and print the return label. */
-  returnShippingFee?: ReturnShippingFee | undefined;
-  /** Optional. The restocking fee that applies to all return reason categories. This would be treated as a free restocking fee if the value is not set. */
-  restockingFee?: RestockingFee | undefined;
-  /** Optional. The return policy. */
-  policy?: Policy | undefined;
-  /** Optional. The field specifies the return label source. */
-  returnLabelSource?: OnlineReturnPolicyReturnLabelSourceEnum | (string & {}) | undefined;
-  /** Optional. Immutable. This field represents the unique user-defined label of the return policy for the given country. It is important to note that the same label cannot be used in different return policies for the same country. If not given, policies will be automatically treated as the 'default' for the country. When using label, you are creating an exception policy in that country to assign a custom return policy to certain product groups, follow the instructions provided in the [Return policy label] (https://support.google.com/merchants/answer/9445425). The label can contain up to 50 characters. */
-  label?: string | undefined;
-  /** Optional. The field specifies the number of days it takes for business to process refunds. */
-  processRefundDays?: number | undefined;
-  /** Output only. Return policy ID generated by Google. */
-  returnPolicyId?: string | undefined;
-  /** Required. Immutable. The countries of sale where the return policy applies. The values must be a valid 2 letter ISO 3166 code. */
-  countries?: StringList | undefined;
-  /** Optional. The item conditions accepted for returns must not be empty unless the type of return policy is 'noReturns'. */
-  itemConditions?: OnlineReturnPolicyItemConditionsItemEnumList | undefined;
 }
-export interface PatchAccountsRegionsRequest {
+export interface PatchAccountsRegionsRequest extends Omit<Region, "name"> {
   /** Identifier. The resource name of the region. Format: `accounts/{account}/regions/{region}` */
   name: string;
   /** Optional. The comma-separated field mask indicating the fields to update. Example: `"displayName,postalCodeArea.regionCode"`. */
   updateMask?: string | undefined;
-  /** Optional. The display name of the region. */
-  displayName?: string | undefined;
-  /** Output only. Indicates if the region is eligible for use in the Regional Inventory configuration. */
-  regionalInventoryEligible?: boolean | undefined;
-  /** Optional. A radius area that defines the region area. */
-  radiusArea?: RadiusArea | undefined;
-  /** Optional. A list of postal codes that defines the region area. */
-  postalCodeArea?: PostalCodeArea | undefined;
-  /** Optional. A list of geotargets that defines the region area. */
-  geotargetArea?: GeoTargetArea | undefined;
-  /** Output only. Indicates if the region is eligible for use in the Shipping Services configuration. */
-  shippingEligible?: boolean | undefined;
 }
-export interface PatchAccountsRelationshipsRequest {
+export interface PatchAccountsRelationshipsRequest extends Omit<AccountRelationship, "name"> {
   /** Identifier. The resource name of the account relationship. Format: `accounts/{account}/relationships/{relationship}`. For example, `accounts/123456/relationships/567890`. */
   name: string;
   /** Optional. List of fields being updated. The following fields are supported (in both `snake_case` and `lowerCamelCase`): - `account_id_alias` */
   updateMask?: string | undefined;
-  /** Immutable. The provider of the service. Either the reference to an account such as `providers/123` or a well-known service provider (one of `providers/GOOGLE_ADS` or `providers/GOOGLE_BUSINESS_PROFILE`). */
-  provider?: string | undefined;
-  /** Output only. The human-readable display name of the provider account. */
-  providerDisplayName?: string | undefined;
-  /** Optional. An optional alias you can assign to this account relationship. This alias acts as a convenient identifier for your own reference and management. It must be unique among all your account relationships with the same provider. For example, you might use `account_id_alias` to assign a friendly name to this relationship for easier identification in your systems. */
-  accountIdAlias?: string | undefined;
 }
-export interface PatchAccountsUsersRequest {
+export interface PatchAccountsUsersRequest extends Omit<User, "name"> {
   /** Identifier. The resource name of the user. Format: `accounts/{account}/user/{email}` Use `me` to refer to your own email address, for example `accounts/{account}/users/me`. */
   name: string;
   /** Optional. List of fields being updated. The following fields are supported (in both `snake_case` and `lowerCamelCase`): - `access_rights` */
   updateMask?: string | undefined;
-  /** Output only. The state of the user. */
-  state?: UserStateEnum | (string & {}) | undefined;
-  /** Required. The [access rights](https://support.google.com/merchants/answer/12160472?sjid=6789834943175119429-EU#accesstypes) the user has. */
-  accessRights?: UserAccessRightsItemEnumList | undefined;
 }
-export interface ProposeAccountsServicesRequest {
-  /** Required. The resource name of the parent account for the service. Format: `accounts/{account}` */
-  parent: string;
+/** Request to propose an account service. */
+export interface ProposeAccountServiceRequest {
   /** Required. The provider of the service. Either the reference to an account such as `providers/123` or a well-known service provider (one of `providers/GOOGLE_ADS` or `providers/GOOGLE_BUSINESS_PROFILE`). */
   provider?: string | undefined;
   /** Required. The account service to propose. */
   accountService?: AccountService | undefined;
 }
-export interface RegisterGcpAccountsDeveloperRegistrationRequest {
-  /** Required. The name of the developer registration to be created for the merchant account that the GCP will be registered with. Format: `accounts/{account}/developerRegistration` The {account} used must be the same account where user calling this API method is directly added to. Note: The account used must be a production account (can't be a [test account](https://developers.google.com/merchant/api/guides/accounts/test-accounts) ) and must have a [verified website](https://support.google.com/merchants/answer/11586344) in Merchant Center. */
-  name: string;
+export interface ProposeAccountsServicesRequest extends ProposeAccountServiceRequest {
+  /** Required. The resource name of the parent account for the service. Format: `accounts/{account}` */
+  parent: string;
+}
+/** Request message for the RegisterGCP method. */
+export interface RegisterGcpRequest {
   /** Immutable. Optional field. Developer role can be also added by using `users.update` method. If the developer email provided is associated with a user in the provided merchant account, the user will be updated to have `API_DEVELOPER` `access_rights` and the email preference corresponding to that user will be updated to have the new API notifications preference. If the developer email provided is not associated with any user, it is added as a contact. The email preference corresponding to that contact will have the new API notifications preference. Make sure the email used is associated with a Google Account and is not a service account as service accounts can't receive emails. */
   developerEmail?: string | undefined;
+}
+export interface RegisterGcpAccountsDeveloperRegistrationRequest extends RegisterGcpRequest {
+  /** Required. The name of the developer registration to be created for the merchant account that the GCP will be registered with. Format: `accounts/{account}/developerRegistration` The {account} used must be the same account where user calling this API method is directly added to. Note: The account used must be a production account (can't be a [test account](https://developers.google.com/merchant/api/guides/accounts/test-accounts) ) and must have a [verified website](https://support.google.com/merchants/answer/11586344) in Merchant Center. */
+  name: string;
 }
 /** Request to reject an account service. */
 export type RejectAccountServiceRequest = ApproveAccountServiceRequest;
@@ -1949,102 +1778,62 @@ export interface UnregisterGcpAccountsDeveloperRegistrationRequest {
   /** Request body */
   body?: ApproveAccountServiceRequest | undefined;
 }
-export interface UpdateAutofeedSettingsAccountsAutofeedSettingsRequest {
+export interface UpdateAutofeedSettingsAccountsAutofeedSettingsRequest extends Omit<
+  AutofeedSettings,
+  "name"
+> {
   /** Identifier. The resource name of the autofeed settings. Format: `accounts/{account}/autofeedSettings`. */
   name: string;
   /** Required. List of fields being updated. */
   updateMask?: string | undefined;
-  /** Output only. Determines whether the business is eligible for being enrolled into an autofeed. */
-  eligible?: boolean | undefined;
-  /** Required. Enables or disables product crawling through the autofeed for the given account. Autofeed accounts must meet [certain conditions](https://support.google.com/merchants/answer/7538732#Configure_automated_feeds_Standard_Experience), which can be checked through the `eligible` field. The account must **not** be a marketplace. When the autofeed is enabled for the first time, the products usually appear instantly. When re-enabling, it might take up to 24 hours for products to appear. */
-  enableProducts?: boolean | undefined;
 }
-export interface UpdateAutomaticImprovementsAccountsAutomaticImprovementsRequest {
+export interface UpdateAutomaticImprovementsAccountsAutomaticImprovementsRequest extends Omit<
+  AutomaticImprovements,
+  "name"
+> {
   /** Required. List of fields being updated. The following fields are supported (in both `snake_case` and `lowerCamelCase`): - `item_updates` - `item_updates.account_level_settings` - `image_improvements` - `image_improvements.account_level_settings` - `shipping_improvements` - `shipping_improvements.allow_shipping_improvements` */
   updateMask?: string | undefined;
   /** Identifier. The resource name of the automatic improvements. Format: `accounts/{account}/automaticImprovements`. */
   name: string;
-  /** This improvement will attempt to automatically correct submitted images if they don't meet the [image requirements](https://support.google.com/merchants/answer/6324350), for example, removing overlays. If successful, the image will be replaced and approved. This improvement is only applied to images of disapproved offers. For more information see: [Automatic image improvements](https://support.google.com/merchants/answer/9242973) This field is only updated (cleared) if provided in the update mask. */
-  imageImprovements?: AutomaticImageImprovements | undefined;
-  /** Turning on [item updates](https://support.google.com/merchants/answer/3246284) allows Google to automatically update items for you. When item updates are on, Google uses the structured data markup on the website and advanced data extractors to update the price and availability of the items. When the item updates are off, items with mismatched data aren't shown. This field is only updated (cleared) if provided in the update mask. */
-  itemUpdates?: AutomaticItemUpdates | undefined;
-  /** Not available for [advanced accounts](https://support.google.com/merchants/answer/188487). By turning on [automatic shipping improvements](https://support.google.com/merchants/answer/10027038), you are allowing Google to improve the accuracy of your delivery times shown to shoppers using Google. More accurate delivery times, especially when faster, typically lead to better conversion rates. Google will improve your estimated delivery times based on various factors: * Delivery address of an order * Current handling time and shipping time settings * Estimated weekdays or business days * Parcel tracking data This field is only updated (cleared) if provided in the update mask. */
-  shippingImprovements?: AutomaticShippingImprovements | undefined;
 }
-export interface UpdateBusinessIdentityAccountsBusinessIdentityRequest {
+export interface UpdateBusinessIdentityAccountsBusinessIdentityRequest extends Omit<
+  BusinessIdentity,
+  "name"
+> {
   /** Identifier. The resource name of the business identity. Format: `accounts/{account}/businessIdentity` */
   name: string;
   /** Optional. List of fields being updated. The following fields are supported (in both `snake_case` and `lowerCamelCase`): - `black_owned` - `latino_owned` - `promotions_consent` - `small_business` - `veteran_owned` - `women_owned` */
   updateMask?: string | undefined;
-  /** Optional. Specifies whether the business identifies itself as being women-owned. This optional field will only be available for businesses with a business country set to `US`. It is also not applicable for marketplaces or marketplace sellers. */
-  womenOwned?: IdentityAttribute | undefined;
-  /** Optional. Specifies whether the business identifies itself as a small business. This optional field will only be available for businesses with a business country set to `US`. It is also not applicable for marketplaces. */
-  smallBusiness?: IdentityAttribute | undefined;
-  /** Optional. Specifies whether the business identifies itself as being veteran-owned. This optional field will only be available for businesses with a business country set to `US`. It is also not applicable for marketplaces or marketplace sellers. */
-  veteranOwned?: IdentityAttribute | undefined;
-  /** Optional. Specifies whether the business identifies itself as being black-owned. This optional field will only be available for businesses with the business country set to `US`. It is also not applicable for marketplaces or marketplace sellers. */
-  blackOwned?: IdentityAttribute | undefined;
-  /** Optional. Specifies whether the business identifies itself as being latino-owned. This optional field will only be available for businesses with the business country set to `US`. It is also not applicable for marketplaces or marketplace sellers. */
-  latinoOwned?: IdentityAttribute | undefined;
-  /** Required. Whether the identity attributes may be used for promotions. */
-  promotionsConsent?: BusinessIdentityPromotionsConsentEnum | (string & {}) | undefined;
 }
-export interface UpdateBusinessInfoAccountsBusinessInfoRequest {
+export interface UpdateBusinessInfoAccountsBusinessInfoRequest extends Omit<BusinessInfo, "name"> {
   /** Identifier. The resource name of the business info. Format: `accounts/{account}/businessInfo` */
   name: string;
   /** Optional. List of fields being updated. The following fields are supported (in both `snake_case` and `lowerCamelCase`): - `address` - `customer_service` - `korean_business_registration_number` */
   updateMask?: string | undefined;
-  /** Output only. The phone verification state of the business. */
-  phoneVerificationState?: BusinessInfoPhoneVerificationStateEnum | (string & {}) | undefined;
-  /** Optional. The customer service of the business. */
-  customerService?: CustomerService | undefined;
-  /** Optional. The 10-digit [Korean business registration number](https://support.google.com/merchants/answer/9037766) separated with dashes in the format: XXX-XX-XXXXX. */
-  koreanBusinessRegistrationNumber?: string | undefined;
-  /** Optional. The address of the business. Only `region_code`, `address_lines`, `postal_code`, `administrative_area` and `locality` fields are supported. All other fields are ignored. */
-  address?: PostalAddress | undefined;
-  /** Output only. The phone number of the business. */
-  phone?: PhoneNumber | undefined;
 }
-export interface UpdateCheckoutSettingsAccountsProgramsCheckoutSettingsRequest {
+export interface UpdateCheckoutSettingsAccountsProgramsCheckoutSettingsRequest extends Omit<
+  CheckoutSettings,
+  "name"
+> {
   /** Identifier. The resource name of the program configuration settings. Format: `accounts/{account}/programs/{program}/checkoutSettings` */
   name: string;
   /** Required. List of fields being updated. The following fields are supported (in both `snake_case` and `lowerCamelCase`): - `eligible_destinations` - `uri_settings` */
   updateMask?: string | undefined;
-  /** URI settings for cart or checkout URL. */
-  uriSettings?: UriSettings | undefined;
-  /** Output only. The effective value of enrollment_state for a given merchant ID. If account level settings are present then this value will be a copy of the account level settings. Otherwise, it will have the value of the parent account (for only marketplace sellers). */
-  effectiveEnrollmentState?:
-    | CheckoutSettingsEffectiveEnrollmentStateEnum
-    | (string & {})
-    | undefined;
-  /** Output only. The effective value of `uri_settings` for a given merchant. If account level settings are present then this value will be a copy of url settings. Otherwise, it will have the value of the parent account (for only marketplace sellers). */
-  effectiveUriSettings?: UriSettings | undefined;
-  /** Output only. Reflects the merchant enrollment state in `Checkout` program. */
-  enrollmentState?: CheckoutSettingsEnrollmentStateEnum | (string & {}) | undefined;
-  /** Optional. Required for the create operation. The destinations (also known as [Marketing methods](https://support.google.com/merchants/answer/15130232)) to which the checkout program applies. Valid destination values are `SHOPPING_ADS` and `FREE_LISTINGS`. */
-  eligibleDestinations?: CheckoutSettingsEligibleDestinationsItemEnumList | undefined;
-  /** Output only. The effective value of `review_state` for a given merchant ID. If account level settings are present then this value will be a copy of the account level settings. Otherwise, it will have the value of the parent account (for only marketplace sellers). */
-  effectiveReviewState?: CheckoutSettingsEffectiveReviewStateEnum | (string & {}) | undefined;
-  /** Output only. Reflects the merchant review state in `Checkout` program. This is set based on the data quality reviews of the URL provided by the merchant. A merchant with enrollment state as `ENROLLED` can be in the following review states: `IN_REVIEW`, `APPROVED` or `DISAPPROVED`. A merchant must be in an `enrollment_state` of `ENROLLED` before a review can begin for the merchant.For more details, check the help center doc. */
-  reviewState?: CheckoutSettingsReviewStateEnum | (string & {}) | undefined;
 }
-export interface UpdateEmailPreferencesAccountsEmailPreferencesRequest {
+export interface UpdateEmailPreferencesAccountsEmailPreferencesRequest extends Omit<
+  EmailPreferences,
+  "name"
+> {
   /** Required. List of fields being updated. The following fields are supported (in both `snake_case` and `lowerCamelCase`): - `news_and_tips` */
   updateMask?: string | undefined;
   /** Identifier. The name of the EmailPreferences. The endpoint is only supported for the authenticated user. */
   name: string;
-  /** Optional. Updates on new features, tips and best practices. */
-  newsAndTips?: EmailPreferencesNewsAndTipsEnum | (string & {}) | undefined;
 }
-export interface UpdateHomepageAccountsHomepageRequest {
+export interface UpdateHomepageAccountsHomepageRequest extends Omit<Homepage, "name"> {
   /** Optional. List of fields being updated. The following fields are supported (in both `snake_case` and `lowerCamelCase`): - `uri` */
   updateMask?: string | undefined;
   /** Identifier. The resource name of the store's homepage. Format: `accounts/{account}/homepage` */
   name: string;
-  /** Output only. Whether the homepage is claimed. See [About online store URL verification](https://support.google.com/merchants/answer/176793). This field is also `true` if the account inherits the claim from its advanced account, or if the account is exempted from claiming, even when the homepage isn't claimed directly on the account. */
-  claimed?: boolean | undefined;
-  /** Required. The URI (typically a URL) of the store's homepage. */
-  uri?: string | undefined;
 }
 /** Request message for the `VerifySelf` method. */
 export type VerifySelfRequest = ApproveAccountServiceRequest;
@@ -2101,7 +1890,7 @@ export const claimAccountsHomepage: API.OperationMethod<
   ClaimAccountsHomepageError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2304, __c72, 0) as any as S.Schema<ClaimAccountsHomepageRequest>,
+  input: __S(2305, __c72, 1) as any as S.Schema<ClaimAccountsHomepageRequest>,
   output: __S(2336, __c73, 0) as any as S.Schema<Homepage>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -2223,7 +2012,7 @@ export const createAndConfigureAccounts: API.OperationMethod<
   CreateAndConfigureAccountsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(137, __c4, 9) as any as S.Schema<CreateAndConfigureAccountsRequest>,
+  input: __S(138, __c4, 10) as any as S.Schema<CreateAndConfigureAccountsRequest>,
   output: __S(161, __c5, 1) as any as S.Schema<Account>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -2855,7 +2644,7 @@ export const linkGbpAccountAccountsGbpAccounts: API.OperationMethod<
   LinkGbpAccountAccountsGbpAccountsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c52, 0) as any as S.Schema<LinkGbpAccountAccountsGbpAccountsRequest>,
+  input: __S(1665, __c52, 1) as any as S.Schema<LinkGbpAccountAccountsGbpAccountsRequest>,
   output: __S(1696, __c53, 0) as any as S.Schema<LinkGbpAccountResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -2878,9 +2667,9 @@ export const linkLfpProviderAccountsOmnichannelSettingsLfpProviders: API.Operati
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1728,
+    1729,
     __c54,
-    0,
+    1,
   ) as any as S.Schema<LinkLfpProviderAccountsOmnichannelSettingsLfpProvidersRequest>,
   output: __S(1696, __c53, 0) as any as S.Schema<LinkLfpProviderResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
@@ -3229,7 +3018,7 @@ export const proposeAccountsServices: API.OperationMethod<
   ProposeAccountsServicesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2496, __c78, 0) as any as S.Schema<ProposeAccountsServicesRequest>,
+  input: __S(2497, __c78, 1) as any as S.Schema<ProposeAccountsServicesRequest>,
   output: __S(1953, __c61, 1) as any as S.Schema<AccountService>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -3251,7 +3040,7 @@ export const registerGcpAccountsDeveloperRegistration: API.OperationMethod<
   RegisterGcpAccountsDeveloperRegistrationError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2528, __c79, 0) as any as S.Schema<RegisterGcpAccountsDeveloperRegistrationRequest>,
+  input: __S(2529, __c79, 1) as any as S.Schema<RegisterGcpAccountsDeveloperRegistrationRequest>,
   output: __S(1184, __c37, 0) as any as S.Schema<DeveloperRegistration>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -3548,17 +3337,13 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          regionId: S.optional(S.String.pipe(T.Query())),
-          displayName: S.optional(S.String),
-          regionalInventoryEligible: S.optional(S.Boolean),
-          radiusArea: S.optional(__S(33, __c1, 1)),
-          postalCodeArea: S.optional(__S(36, __c1, 4)),
-          geotargetArea: S.optional(__S(37, __c1, 5)),
-          shippingEligible: S.optional(S.Boolean),
-          name: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(38, __c1, 6),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            regionId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "accounts/v1beta/{+parent}/regions",
@@ -3626,13 +3411,13 @@ function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          userId: S.optional(S.String.pipe(T.Query())),
-          state: S.optional(S.String),
-          name: S.optional(S.String),
-          accessRights: S.optional(__S(3136, __c98, 0)),
-        }).pipe(
+        S.Extend(
+          __S(96, __c3, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            userId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "accounts/v1beta/{+parent}/users",
@@ -3713,7 +3498,11 @@ function __c4(j: number): any {
           user: S.optional(__S(134, __c4, 6)),
           setAlias: S.optional(__S(136, __c4, 8)),
           account: S.optional(__S(161, __c5, 1)),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "CreateAndConfigureAccountRequest" });
+    case 10:
+      return S.suspend(() =>
+        S.Extend(__S(137, __c4, 9), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "accounts/v1beta/accounts:createAndConfigure",
@@ -3751,17 +3540,12 @@ function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          testAccount: S.optional(S.Boolean),
-          accountId: S.optional(S.String),
-          adultContent: S.optional(S.Boolean),
-          languageCode: S.optional(S.String),
-          name: S.optional(S.String),
-          homePageUri: S.optional(S.String),
-          accountName: S.optional(S.String),
-          timeZone: S.optional(__S(160, __c5, 0)),
-        }).pipe(
+        S.Extend(
+          __S(161, __c5, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "accounts/v1beta/{+parent}:createTestAccount",
@@ -4837,13 +4621,12 @@ function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          etag: S.optional(S.String),
-          name: S.optional(S.String),
-          services: S.optional(__S(1574, __c49, 6)),
-          warehouses: S.optional(__S(1578, __c49, 10)),
-        }).pipe(
+        S.Extend(
+          __S(1579, __c49, 11),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "accounts/v1beta/{+parent}/shippingSettings:insert",
@@ -4858,9 +4641,17 @@ function __c52(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
           gbpEmail: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "LinkGbpAccountRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(1664, __c52, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "accounts/v1beta/{+parent}/gbpAccounts:linkGbpAccount",
@@ -4885,9 +4676,17 @@ function __c54(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           externalAccountId: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "LinkLfpProviderRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(1728, __c54, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "accounts/v1beta/{+name}:linkLfpProvider",
@@ -5292,17 +5091,13 @@ function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          testAccount: S.optional(S.Boolean),
-          accountId: S.optional(S.String),
-          adultContent: S.optional(S.Boolean),
-          languageCode: S.optional(S.String),
-          homePageUri: S.optional(S.String),
-          accountName: S.optional(S.String),
-          timeZone: S.optional(__S(160, __c5, 0)),
-        }).pipe(
+        S.Extend(
+          __S(161, __c5, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "accounts/v1beta/{+name}",
@@ -5316,18 +5111,13 @@ function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          lsfType: S.optional(S.String),
-          about: S.optional(__S(2720, __c85, 0)),
-          inventoryVerification: S.optional(__S(2721, __c85, 1)),
-          inStock: S.optional(__S(2722, __c85, 2)),
-          pickup: S.optional(__S(2722, __c85, 2)),
-          regionCode: S.optional(S.String),
-          odo: S.optional(__S(2722, __c85, 2)),
-          lfpLink: S.optional(__S(2723, __c85, 3)),
-        }).pipe(
+        S.Extend(
+          __S(2724, __c85, 4),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "accounts/v1beta/{+name}",
@@ -5342,9 +5132,17 @@ function __c72(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           overwrite: S.optional(S.Boolean),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "ClaimHomepageRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(2304, __c72, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "accounts/v1beta/{+name}:claim",
@@ -5370,24 +5168,13 @@ function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          seasonalOverrides: S.optional(__S(3105, __c97, 1)),
-          returnMethods: S.optional(__S(3136, __c98, 0)),
-          acceptDefectiveOnly: S.optional(S.Boolean),
-          returnPolicyUri: S.optional(S.String),
-          acceptExchange: S.optional(S.Boolean),
-          returnShippingFee: S.optional(__S(3106, __c97, 2)),
-          restockingFee: S.optional(__S(3107, __c97, 3)),
-          policy: S.optional(__S(3108, __c97, 4)),
-          returnLabelSource: S.optional(S.String),
-          label: S.optional(S.String),
-          processRefundDays: S.optional(S.Number),
-          returnPolicyId: S.optional(S.String),
-          countries: S.optional(__S(3040, __c95, 0)),
-          itemConditions: S.optional(__S(3136, __c98, 0)),
-        }).pipe(
+        S.Extend(
+          __S(3109, __c97, 5),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "accounts/v1beta/{+name}",
@@ -5401,16 +5188,13 @@ function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          displayName: S.optional(S.String),
-          regionalInventoryEligible: S.optional(S.Boolean),
-          radiusArea: S.optional(__S(33, __c1, 1)),
-          postalCodeArea: S.optional(__S(36, __c1, 4)),
-          geotargetArea: S.optional(__S(37, __c1, 5)),
-          shippingEligible: S.optional(S.Boolean),
-        }).pipe(
+        S.Extend(
+          __S(38, __c1, 6),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "accounts/v1beta/{+name}",
@@ -5424,13 +5208,13 @@ function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          provider: S.optional(S.String),
-          providerDisplayName: S.optional(S.String),
-          accountIdAlias: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(736, __c23, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "accounts/v1beta/{+name}",
@@ -5444,12 +5228,13 @@ function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          state: S.optional(S.String),
-          accessRights: S.optional(__S(3136, __c98, 0)),
-        }).pipe(
+        S.Extend(
+          __S(96, __c3, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "accounts/v1beta/{+name}",
@@ -5464,10 +5249,18 @@ function __c78(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
           provider: S.optional(S.String),
           accountService: S.optional(__S(1953, __c61, 1)),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "ProposeAccountServiceRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(2496, __c78, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "accounts/v1beta/{+parent}/services:propose",
@@ -5482,9 +5275,17 @@ function __c79(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           developerEmail: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "RegisterGcpRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(2528, __c79, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "accounts/v1beta/{+name}:registerGcp",
@@ -5572,18 +5373,12 @@ function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          lsfType: S.optional(S.String),
-          about: S.optional(__S(2720, __c85, 0)),
-          inventoryVerification: S.optional(__S(2721, __c85, 1)),
-          inStock: S.optional(__S(2722, __c85, 2)),
-          pickup: S.optional(__S(2722, __c85, 2)),
-          regionCode: S.optional(S.String),
-          odo: S.optional(__S(2722, __c85, 2)),
-          lfpLink: S.optional(__S(2723, __c85, 3)),
-          name: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(2724, __c85, 4),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "accounts/v1beta/{+parent}/omnichannelSettings",
@@ -5646,12 +5441,13 @@ function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          eligible: S.optional(S.Boolean),
-          enableProducts: S.optional(S.Boolean),
-        }).pipe(
+        S.Extend(
+          __S(896, __c28, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "accounts/v1beta/{+name}",
@@ -5665,13 +5461,13 @@ function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          imageImprovements: S.optional(__S(961, __c30, 1)),
-          itemUpdates: S.optional(__S(963, __c30, 3)),
-          shippingImprovements: S.optional(__S(964, __c30, 4)),
-        }).pipe(
+        S.Extend(
+          __S(965, __c30, 5),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "accounts/v1beta/{+name}",
@@ -5685,16 +5481,13 @@ function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          womenOwned: S.optional(__S(1024, __c32, 0)),
-          smallBusiness: S.optional(__S(1024, __c32, 0)),
-          veteranOwned: S.optional(__S(1024, __c32, 0)),
-          blackOwned: S.optional(__S(1024, __c32, 0)),
-          latinoOwned: S.optional(__S(1024, __c32, 0)),
-          promotionsConsent: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1025, __c32, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "accounts/v1beta/{+name}",
@@ -5708,15 +5501,13 @@ function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          phoneVerificationState: S.optional(S.String),
-          customerService: S.optional(__S(1090, __c34, 2)),
-          koreanBusinessRegistrationNumber: S.optional(S.String),
-          address: S.optional(__S(1091, __c34, 3)),
-          phone: S.optional(__S(1089, __c34, 1)),
-        }).pipe(
+        S.Extend(
+          __S(1092, __c34, 4),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "accounts/v1beta/{+name}",
@@ -5730,17 +5521,13 @@ function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          uriSettings: S.optional(__S(3200, __c100, 0)),
-          effectiveEnrollmentState: S.optional(S.String),
-          effectiveUriSettings: S.optional(__S(3200, __c100, 0)),
-          enrollmentState: S.optional(S.String),
-          eligibleDestinations: S.optional(__S(3136, __c98, 0)),
-          effectiveReviewState: S.optional(S.String),
-          reviewState: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(3201, __c100, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "accounts/v1beta/{+name}",
@@ -5754,11 +5541,13 @@ function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          newsAndTips: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1248, __c39, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "accounts/v1beta/{+name}",
@@ -5772,12 +5561,13 @@ function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          claimed: S.optional(S.Boolean),
-          uri: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(2336, __c73, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "accounts/v1beta/{+name}",
@@ -5808,24 +5598,12 @@ function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          seasonalOverrides: S.optional(__S(3105, __c97, 1)),
-          returnMethods: S.optional(__S(3136, __c98, 0)),
-          acceptDefectiveOnly: S.optional(S.Boolean),
-          returnPolicyUri: S.optional(S.String),
-          acceptExchange: S.optional(S.Boolean),
-          returnShippingFee: S.optional(__S(3106, __c97, 2)),
-          restockingFee: S.optional(__S(3107, __c97, 3)),
-          name: S.optional(S.String),
-          policy: S.optional(__S(3108, __c97, 4)),
-          returnLabelSource: S.optional(S.String),
-          label: S.optional(S.String),
-          processRefundDays: S.optional(S.Number),
-          returnPolicyId: S.optional(S.String),
-          countries: S.optional(__S(3040, __c95, 0)),
-          itemConditions: S.optional(__S(3136, __c98, 0)),
-        }).pipe(
+        S.Extend(
+          __S(3109, __c97, 5),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "accounts/v1beta/{+parent}/onlineReturnPolicies",
@@ -5919,17 +5697,12 @@ function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          uriSettings: S.optional(__S(3200, __c100, 0)),
-          effectiveEnrollmentState: S.optional(S.String),
-          effectiveUriSettings: S.optional(__S(3200, __c100, 0)),
-          enrollmentState: S.optional(S.String),
-          name: S.optional(S.String),
-          eligibleDestinations: S.optional(__S(3136, __c98, 0)),
-          effectiveReviewState: S.optional(S.String),
-          reviewState: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(3201, __c100, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "accounts/v1beta/{+parent}/checkoutSettings",

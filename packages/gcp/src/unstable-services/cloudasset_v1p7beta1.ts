@@ -127,9 +127,8 @@ export interface GoogleCloudAssetV1p7beta1OutputConfig {
   /** Destination on Cloud Storage. */
   gcsDestination?: GoogleCloudAssetV1p7beta1GcsDestination | undefined;
 }
-export interface ExportAssetsV1p7beta1Request {
-  /** Required. The relative name of the root asset. This can only be an organization number (such as "organizations/123"), a project ID (such as "projects/my-project-id"), or a project number (such as "projects/12345"), or a folder number (such as "folders/123"). */
-  parent: string;
+/** Export asset request. */
+export interface GoogleCloudAssetV1p7beta1ExportAssetsRequest {
   /** A list of relationship types to export, for example: `INSTANCE_TO_INSTANCEGROUP`. This field should only be specified if content_type=RELATIONSHIP. If specified, it will snapshot [asset_types]' specified relationships, or give errors if any relationship_types' supported types are not in [asset_types]. If not specified, it will snapshot all [asset_types]' supported relationships. An unspecified [asset_types] field means all supported asset_types. See [Introduction to Cloud Asset Inventory](https://cloud.google.com/asset-inventory/docs/overview) for all supported asset types and relationship types. */
   relationshipTypes?: StringList | undefined;
   /** Asset content type. If not specified, no content but the asset name will be returned. */
@@ -143,6 +142,10 @@ export interface ExportAssetsV1p7beta1Request {
   outputConfig?: GoogleCloudAssetV1p7beta1OutputConfig | undefined;
   /** Timestamp to take an asset snapshot. This can only be set to a timestamp between the current time and the current time minus 35 days (inclusive). If not specified, the current time will be used. Due to delays in resource data collection and indexing, there is a volatile window during which running the same query may get different results. */
   readTime?: string | undefined;
+}
+export interface ExportAssetsV1p7beta1Request extends GoogleCloudAssetV1p7beta1ExportAssetsRequest {
+  /** Required. The relative name of the root asset. This can only be an organization number (such as "organizations/123"), a project ID (such as "projects/my-project-id"), or a project number (such as "projects/12345"), or a folder number (such as "folders/123"). */
+  parent: string;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -180,7 +183,7 @@ export const exportAssetsV1p7beta1: API.OperationMethod<
   ExportAssetsV1p7beta1Error,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5, __c0, 5) as any as S.Schema<ExportAssetsV1p7beta1Request>,
+  input: __S(6, __c0, 6) as any as S.Schema<ExportAssetsV1p7beta1Request>,
   output: __S(11, __c1, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -244,13 +247,21 @@ function __c0(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
           relationshipTypes: S.optional(__S(0, __c0, 0)),
           contentType: S.optional(S.String),
           assetTypes: S.optional(__S(0, __c0, 0)),
           outputConfig: S.optional(__S(4, __c0, 4)),
           readTime: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "GoogleCloudAssetV1p7beta1ExportAssetsRequest" });
+    case 6:
+      return S.suspend(() =>
+        S.Extend(
+          __S(5, __c0, 5),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1p7beta1/{+parent}:exportAssets",

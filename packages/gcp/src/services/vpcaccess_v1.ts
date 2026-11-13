@@ -98,11 +98,8 @@ export interface Subnet {
   /** Optional. Project in which the subnet exists. If not set, this project is assumed to be the project for which the connector create request was issued. */
   projectId?: string | undefined;
 }
-export interface CreateProjectsLocationsConnectorsRequest {
-  /** Required. The project ID and location in which the configuration should be created, specified in the format `projects/*\/locations/*`. */
-  parent: string;
-  /** Required. The ID to use for this connector. */
-  connectorId?: string | undefined;
+/** Definition of a Serverless VPC Access connector. */
+export interface Connector {
   /** Optional. Name of a VPC network. */
   network?: string | undefined;
   /** Optional. The range of internal addresses that follows RFC 4632 notation. Example: `10.132.0.0/28`. */
@@ -125,6 +122,12 @@ export interface CreateProjectsLocationsConnectorsRequest {
   subnet?: Subnet | undefined;
   /** Machine type of VM Instance underlying connector. Default is e2-micro */
   machineType?: string | undefined;
+}
+export interface CreateProjectsLocationsConnectorsRequest extends Connector {
+  /** Required. The project ID and location in which the configuration should be created, specified in the format `projects/*\/locations/*`. */
+  parent: string;
+  /** Required. The ID to use for this connector. */
+  connectorId?: string | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -157,31 +160,6 @@ export interface DeleteProjectsLocationsConnectorsRequest {
 export interface GetProjectsLocationsConnectorsRequest {
   /** Required. Name of a Serverless VPC Access connector to get. */
   name: string;
-}
-/** Definition of a Serverless VPC Access connector. */
-export interface Connector {
-  /** Optional. Name of a VPC network. */
-  network?: string | undefined;
-  /** Optional. The range of internal addresses that follows RFC 4632 notation. Example: `10.132.0.0/28`. */
-  ipCidrRange?: string | undefined;
-  /** Minimum value of instances in autoscaling group underlying the connector. */
-  minInstances?: number | undefined;
-  /** Maximum throughput of the connector in Mbps. Refers to the expected throughput when using an `e2-micro` machine type. Value must be a multiple of 100 from 300 through 1000. Must be higher than the value specified by --min-throughput. If both max-throughput and max-instances are provided, max-instances takes precedence over max-throughput. The use of `max-throughput` is discouraged in favor of `max-instances`. */
-  maxThroughput?: number | undefined;
-  /** Maximum value of instances in autoscaling group underlying the connector. */
-  maxInstances?: number | undefined;
-  /** Output only. State of the VPC access connector. */
-  state?: ConnectorStateEnum | undefined;
-  /** The resource name in the format `projects/*\/locations/*\/connectors/*`. */
-  name?: string | undefined;
-  /** Output only. List of projects using the connector. */
-  connectedProjects?: StringList | undefined;
-  /** Minimum throughput of the connector in Mbps. Refers to the expected throughput when using an `e2-micro` machine type. Value must be a multiple of 100 from 200 through 900. Must be lower than the value specified by --max-throughput. If both min-throughput and min-instances are provided, min-instances takes precedence over min-throughput. The use of `min-throughput` is discouraged in favor of `min-instances`. */
-  minThroughput?: number | undefined;
-  /** Optional. The subnet in which to house the VPC Access Connector. */
-  subnet?: Subnet | undefined;
-  /** Machine type of VM Instance underlying connector. Default is e2-micro */
-  machineType?: string | undefined;
 }
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
@@ -259,31 +237,11 @@ export interface ListOperationsResponse {
   /** The standard List next-page token. */
   nextPageToken?: string | undefined;
 }
-export interface PatchProjectsLocationsConnectorsRequest {
+export interface PatchProjectsLocationsConnectorsRequest extends Omit<Connector, "name"> {
   /** The resource name in the format `projects/*\/locations/*\/connectors/*`. */
   name: string;
   /** The fields to update on the entry group. If absent or empty, all modifiable fields are updated. */
   updateMask?: string | undefined;
-  /** Optional. Name of a VPC network. */
-  network?: string | undefined;
-  /** Optional. The range of internal addresses that follows RFC 4632 notation. Example: `10.132.0.0/28`. */
-  ipCidrRange?: string | undefined;
-  /** Minimum value of instances in autoscaling group underlying the connector. */
-  minInstances?: number | undefined;
-  /** Maximum throughput of the connector in Mbps. Refers to the expected throughput when using an `e2-micro` machine type. Value must be a multiple of 100 from 300 through 1000. Must be higher than the value specified by --min-throughput. If both max-throughput and max-instances are provided, max-instances takes precedence over max-throughput. The use of `max-throughput` is discouraged in favor of `max-instances`. */
-  maxThroughput?: number | undefined;
-  /** Maximum value of instances in autoscaling group underlying the connector. */
-  maxInstances?: number | undefined;
-  /** Output only. State of the VPC access connector. */
-  state?: ConnectorStateEnum | (string & {}) | undefined;
-  /** Output only. List of projects using the connector. */
-  connectedProjects?: StringList | undefined;
-  /** Minimum throughput of the connector in Mbps. Refers to the expected throughput when using an `e2-micro` machine type. Value must be a multiple of 100 from 200 through 900. Must be lower than the value specified by --max-throughput. If both min-throughput and min-instances are provided, min-instances takes precedence over min-throughput. The use of `min-throughput` is discouraged in favor of `min-instances`. */
-  minThroughput?: number | undefined;
-  /** Optional. The subnet in which to house the VPC Access Connector. */
-  subnet?: Subnet | undefined;
-  /** Machine type of VM Instance underlying connector. Default is e2-micro */
-  machineType?: string | undefined;
 }
 export type CreateProjectsLocationsConnectorsError =
   | NotFound
@@ -338,7 +296,7 @@ export const getProjectsLocationsConnectors: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c8, 0) as any as S.Schema<GetProjectsLocationsConnectorsRequest>,
-  output: __S(72, __c9, 0) as any as S.Schema<Connector>,
+  output: __S(49, __c6, 1) as any as S.Schema<Connector>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -354,7 +312,7 @@ export const getProjectsLocationsOperations: API.OperationMethod<
   GetProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c10, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
+  input: __S(72, __c9, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
   output: __S(26, __c3, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
@@ -372,8 +330,8 @@ export const listProjectsLocations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListLocationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(88, __c11, 0) as any as S.Schema<ListProjectsLocationsRequest>,
-  output: __S(92, __c11, 4) as any as S.Schema<ListLocationsResponse>,
+  input: __S(80, __c10, 0) as any as S.Schema<ListProjectsLocationsRequest>,
+  output: __S(84, __c10, 4) as any as S.Schema<ListLocationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -391,8 +349,8 @@ export const listProjectsLocationsConnectors: API.PaginatedOperationMethod<
   GcpOpContext,
   ListConnectorsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(96, __c12, 0) as any as S.Schema<ListProjectsLocationsConnectorsRequest>,
-  output: __S(98, __c12, 2) as any as S.Schema<ListConnectorsResponse>,
+  input: __S(88, __c11, 0) as any as S.Schema<ListProjectsLocationsConnectorsRequest>,
+  output: __S(90, __c11, 2) as any as S.Schema<ListConnectorsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -477,20 +435,13 @@ function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          network: S.optional(S.String),
-          ipCidrRange: S.optional(S.String),
-          minInstances: S.optional(S.Number),
-          maxThroughput: S.optional(S.Number),
-          maxInstances: S.optional(S.Number),
-          state: S.optional(S.String),
-          connectedProjects: S.optional(__S(40, __c5, 0)),
-          minThroughput: S.optional(S.Number),
-          subnet: S.optional(__S(48, __c6, 0)),
-          machineType: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(49, __c6, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -504,21 +455,13 @@ function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          connectorId: S.optional(S.String.pipe(T.Query())),
-          network: S.optional(S.String),
-          ipCidrRange: S.optional(S.String),
-          minInstances: S.optional(S.Number),
-          maxThroughput: S.optional(S.Number),
-          maxInstances: S.optional(S.Number),
-          state: S.optional(S.String),
-          name: S.optional(S.String),
-          connectedProjects: S.optional(__S(40, __c5, 0)),
-          minThroughput: S.optional(S.Number),
-          subnet: S.optional(__S(48, __c6, 0)),
-          machineType: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(49, __c6, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            connectorId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/connectors",
@@ -573,6 +516,22 @@ function __c6(j: number): any {
           projectId: S.optional(S.String),
         }),
       ).annotate({ identifier: "Subnet" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          network: S.optional(S.String),
+          ipCidrRange: S.optional(S.String),
+          minInstances: S.optional(S.Number),
+          maxThroughput: S.optional(S.Number),
+          maxInstances: S.optional(S.Number),
+          state: S.optional(S.String),
+          name: S.optional(S.String),
+          connectedProjects: S.optional(__S(40, __c5, 0)),
+          minThroughput: S.optional(S.Number),
+          subnet: S.optional(__S(48, __c6, 0)),
+          machineType: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Connector" });
   }
 }
 function __c7(j: number): any {
@@ -612,26 +571,6 @@ function __c9(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          network: S.optional(S.String),
-          ipCidrRange: S.optional(S.String),
-          minInstances: S.optional(S.Number),
-          maxThroughput: S.optional(S.Number),
-          maxInstances: S.optional(S.Number),
-          state: S.optional(S.String),
-          name: S.optional(S.String),
-          connectedProjects: S.optional(__S(40, __c5, 0)),
-          minThroughput: S.optional(S.Number),
-          subnet: S.optional(__S(48, __c6, 0)),
-          machineType: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Connector" });
-  }
-}
-function __c10(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
           name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -643,7 +582,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsOperationsRequest" });
   }
 }
-function __c11(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -666,7 +605,7 @@ function __c11(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          labels: S.optional(__S(89, __c11, 1)),
+          labels: S.optional(__S(81, __c10, 1)),
           metadata: S.optional(__S(32, __c4, 0)),
           displayName: S.optional(S.String),
           locationId: S.optional(S.String),
@@ -674,17 +613,17 @@ function __c11(j: number): any {
         }),
       ).annotate({ identifier: "Location" });
     case 3:
-      return S.Array(__S(90, __c11, 2));
+      return S.Array(__S(82, __c10, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          locations: S.optional(__S(91, __c11, 3)),
+          locations: S.optional(__S(83, __c10, 3)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListLocationsResponse" });
   }
 }
-function __c12(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -701,11 +640,11 @@ function __c12(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsConnectorsRequest" });
     case 1:
-      return S.Array(__S(72, __c9, 0));
+      return S.Array(__S(49, __c6, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          connectors: S.optional(__S(97, __c12, 1)),
+          connectors: S.optional(__S(89, __c11, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListConnectorsResponse" });

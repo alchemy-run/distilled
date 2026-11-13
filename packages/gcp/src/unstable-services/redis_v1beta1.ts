@@ -95,11 +95,14 @@ export interface AuthToken {
   /** Output only. The service generated authentication token used to connect to the Redis cluster. */
   token?: string | undefined;
 }
-export interface AddAuthTokenProjectsLocationsClustersTokenAuthUsersRequest {
-  /** Required. The name of the token auth user resource that this auth token will be added for. Format: projects/{project}/locations/{location}/clusters/{cluster}/tokenAuthUsers/{token_auth_user} */
-  tokenAuthUser: string;
+/** Request message for AddAuthToken. */
+export interface AddAuthTokenRequest {
   /** Required. The auth token to add. */
   authToken?: AuthToken | undefined;
+}
+export interface AddAuthTokenProjectsLocationsClustersTokenAuthUsersRequest extends AddAuthTokenRequest {
+  /** Required. The name of the token auth user resource that this auth token will be added for. Format: projects/{project}/locations/{location}/clusters/{cluster}/tokenAuthUsers/{token_auth_user} */
+  tokenAuthUser: string;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -125,19 +128,25 @@ export interface Operation {
   /** The error result of the operation in case of failure or cancellation. */
   error?: Status | undefined;
 }
-export interface AddTokenAuthUserProjectsLocationsClustersRequest {
-  /** Required. The cluster resource that this token auth user will be added for. Format: projects/{project}/locations/{location}/clusters/{cluster} */
-  cluster: string;
+/** Request message for AddTokenAuthUser. */
+export interface AddTokenAuthUserRequest {
   /** Required. The id of the token auth user to add. */
   tokenAuthUser?: string | undefined;
 }
-export interface BackupProjectsLocationsClustersRequest {
-  /** Required. Redis cluster resource name using the form: `projects/{project_id}/locations/{location_id}/clusters/{cluster_id}` where `location_id` refers to a Google Cloud region. */
-  name: string;
+export interface AddTokenAuthUserProjectsLocationsClustersRequest extends AddTokenAuthUserRequest {
+  /** Required. The cluster resource that this token auth user will be added for. Format: projects/{project}/locations/{location}/clusters/{cluster} */
+  cluster: string;
+}
+/** Request for `BackupCluster`. */
+export interface BackupClusterRequest {
   /** Optional. TTL for the backup to expire. Value range is 1 day to 100 years. If not specified, the default value is 100 years. */
   ttl?: string | undefined;
   /** Optional. The id of the backup to be created. If not specified, the default value ([YYYYMMDDHHMMSS]_[Shortened Cluster UID] is used. */
   backupId?: string | undefined;
+}
+export interface BackupProjectsLocationsClustersRequest extends BackupClusterRequest {
+  /** Required. Redis cluster resource name using the form: `projects/{project_id}/locations/{location_id}/clusters/{cluster_id}` where `location_id` refers to a Google Cloud region. */
+  name: string;
 }
 export interface CancelProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
@@ -179,13 +188,8 @@ export interface ClusterAclPolicyAttachment {
   aclPolicyRevisionStatuses?: AclPolicyRevisionStatusList | undefined;
 }
 export type ClusterAclPolicyAttachmentList = Array<ClusterAclPolicyAttachment>;
-export interface CreateProjectsLocationsAclPoliciesRequest {
-  /** Required. The resource name of the cluster location using the form: `projects/{project_id}/locations/{location_id}` where `location_id` refers to a Google Cloud region. */
-  parent: string;
-  /** Optional. Idempotent request UUID. . */
-  requestId?: string | undefined;
-  /** Required. The logical name of the ACL policy in the customer project with the following restrictions: * Must contain only lowercase letters, numbers, and hyphens. * Must start with a letter. * Must be between 1-63 characters. * Must end with a number or a letter. * Must be unique within the customer project / location */
-  aclPolicyId?: string | undefined;
+/** The ACL policy resource. */
+export interface AclPolicy {
   /** Required. The ACL rules within the ACL policy. */
   rules?: AclRuleList | undefined;
   /** Output only. Etag for the ACL policy. */
@@ -203,24 +207,13 @@ export interface CreateProjectsLocationsAclPoliciesRequest {
   /** Identifier. Full resource path of the ACL policy. */
   name?: string | undefined;
 }
-/** The ACL policy resource. */
-export interface AclPolicy {
-  /** Required. The ACL rules within the ACL policy. */
-  rules?: AclRuleList | undefined;
-  /** Output only. Etag for the ACL policy. */
-  etag?: string | undefined;
-  /** Output only. The timestamp that the ACL policy was created. */
-  createTime?: string | undefined;
-  /** Output only. The timestamp that the ACL policy was last updated. */
-  updateTime?: string | undefined;
-  /** Output only. Deprecated: Used in drift resolution. */
-  version?: string | undefined;
-  /** Output only. The state of the ACL policy. */
-  state?: AclPolicyStateEnum | undefined;
-  /** Output only. The ACL policy attachment status for each attached cluster. */
-  clusterAclPolicyAttachments?: ClusterAclPolicyAttachmentList | undefined;
-  /** Identifier. Full resource path of the ACL policy. */
-  name?: string | undefined;
+export interface CreateProjectsLocationsAclPoliciesRequest extends AclPolicy {
+  /** Required. The resource name of the cluster location using the form: `projects/{project_id}/locations/{location_id}` where `location_id` refers to a Google Cloud region. */
+  parent: string;
+  /** Optional. Idempotent request UUID. . */
+  requestId?: string | undefined;
+  /** Required. The logical name of the ACL policy in the customer project with the following restrictions: * Must contain only lowercase letters, numbers, and hyphens. * Must start with a letter. * Must be between 1-63 characters. * Must end with a number or a letter. * Must be unique within the customer project / location */
+  aclPolicyId?: string | undefined;
 }
 export type ClusterServerCaModeEnum =
   | "SERVER_CA_MODE_UNSPECIFIED"
@@ -566,13 +559,8 @@ export interface ManagedBackupSource {
   /** Optional. Example: //redis.googleapis.com/projects/{project}/locations/{location}/backupCollections/{collection}/backups/{backup} A shorter version (without the prefix) of the backup name is also supported, like projects/{project}/locations/{location}/backupCollections/{collection}/backups/{backup_id} In this case, it assumes the backup is under redis.googleapis.com. */
   backup?: string | undefined;
 }
-export interface CreateProjectsLocationsClustersRequest {
-  /** Required. The resource name of the cluster location using the form: `projects/{project_id}/locations/{location_id}` where `location_id` refers to a Google Cloud region. */
-  parent: string;
-  /** Optional. Idempotent request UUID. */
-  requestId?: string | undefined;
-  /** Required. The logical name of the Redis cluster in the customer project with the following restrictions: * Must contain only lowercase letters, numbers, and hyphens. * Must start with a letter. * Must be between 1-63 characters. * Must end with a number or a letter. * Must be unique within the customer project / location */
-  clusterId?: string | undefined;
+/** A cluster instance. */
+export interface Cluster {
   /** Optional. Server CA mode for the cluster. */
   serverCaMode?: ClusterServerCaModeEnum | (string & {}) | undefined;
   /** Optional. The ACL policy to be applied to the cluster. */
@@ -665,6 +653,14 @@ export interface CreateProjectsLocationsClustersRequest {
   managedBackupSource?: ManagedBackupSource | undefined;
   /** Output only. The timestamp associated with the cluster creation request. */
   createTime?: string | undefined;
+}
+export interface CreateProjectsLocationsClustersRequest extends Cluster {
+  /** Required. The resource name of the cluster location using the form: `projects/{project_id}/locations/{location_id}` where `location_id` refers to a Google Cloud region. */
+  parent: string;
+  /** Optional. Idempotent request UUID. */
+  requestId?: string | undefined;
+  /** Required. The logical name of the Redis cluster in the customer project with the following restrictions: * Must contain only lowercase letters, numbers, and hyphens. * Must start with a letter. * Must be between 1-63 characters. * Must end with a number or a letter. * Must be unique within the customer project / location */
+  clusterId?: string | undefined;
 }
 /** Node specific properties. */
 export interface NodeInfo {
@@ -779,11 +775,8 @@ export interface MaintenanceSchedule {
   /** Output only. The end time of any upcoming scheduled maintenance for this instance. */
   endTime?: string | undefined;
 }
-export interface CreateProjectsLocationsInstancesRequest {
-  /** Required. The logical name of the Redis instance in the customer project with the following restrictions: * Must contain only lowercase letters, numbers, and hyphens. * Must start with a letter. * Must be between 1-40 characters. * Must end with a number or a letter. * Must be unique within the customer project / location */
-  instanceId?: string | undefined;
-  /** Required. The resource name of the instance location using the form: `projects/{project_id}/locations/{location_id}` where `location_id` refers to a GCP region. */
-  parent: string;
+/** A Memorystore for Redis instance. */
+export interface Instance {
   /** Optional. Redis configuration parameters, according to [Redis configuration](https://redis.io/docs/latest/operate/oss_and_stack/management/config/). Currently, the only supported parameters are: Redis version 3.2 and newer: * maxmemory-policy * notify-keyspace-events Redis version 4.0 and newer: * activedefrag * lfu-decay-time * lfu-log-factor * maxmemory-gb Redis version 5.0 and newer: * stream-node-max-bytes * stream-node-max-entries */
   redisConfigs?: StringMap | undefined;
   /** Optional. Input only. Immutable. Tag keys/values directly bound to this resource. For example: "123/environment": "production", "123/costCenter": "marketing" */
@@ -861,6 +854,12 @@ export interface CreateProjectsLocationsInstancesRequest {
   /** Optional. Additional IP range for node placement. Required when enabling read replicas on an existing instance. For DIRECT_PEERING mode value must be a CIDR range of size /28, or "auto". For PRIVATE_SERVICE_ACCESS mode value must be the name of an allocated address range associated with the private service access connection, or "auto". */
   secondaryIpRange?: string | undefined;
 }
+export interface CreateProjectsLocationsInstancesRequest extends Instance {
+  /** Required. The logical name of the Redis instance in the customer project with the following restrictions: * Must contain only lowercase letters, numbers, and hyphens. * Must start with a letter. * Must be between 1-40 characters. * Must end with a number or a letter. * Must be unique within the customer project / location */
+  instanceId?: string | undefined;
+  /** Required. The resource name of the instance location using the form: `projects/{project_id}/locations/{location_id}` where `location_id` refers to a GCP region. */
+  parent: string;
+}
 export interface DeleteProjectsLocationsAclPoliciesRequest {
   /** Required. Redis ACL policy resource name using the form: `projects/{project_id}/locations/{location_id}/aclPolicies/{acl_policy_id}` where `location_id` refers to a Google Cloud region. */
   name: string;
@@ -901,11 +900,14 @@ export interface DeleteProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be deleted. */
   name: string;
 }
-export interface ExportProjectsLocationsBackupCollectionsBackupsRequest {
-  /** Required. Redis backup resource name using the form: `projects/{project_id}/locations/{location_id}/backupCollections/{backup_collection_id}/backups/{backup_id}` */
-  name: string;
+/** Request for `ExportBackup`. */
+export interface ExportBackupRequest {
   /** Google Cloud Storage bucket, like "my-bucket". */
   gcsBucket?: string | undefined;
+}
+export interface ExportProjectsLocationsBackupCollectionsBackupsRequest extends ExportBackupRequest {
+  /** Required. Redis backup resource name using the form: `projects/{project_id}/locations/{location_id}/backupCollections/{backup_collection_id}/backups/{backup_id}` */
+  name: string;
 }
 /** The Cloud Storage location for the output content */
 export interface GcsDestination {
@@ -917,21 +919,27 @@ export interface OutputConfig {
   /** Google Cloud Storage destination for output content. */
   gcsDestination?: GcsDestination | undefined;
 }
-export interface ExportProjectsLocationsInstancesRequest {
-  /** Required. Redis instance resource name using the form: `projects/{project_id}/locations/{location_id}/instances/{instance_id}` where `location_id` refers to a GCP region. */
-  name: string;
+/** Request for Export. */
+export interface ExportInstanceRequest {
   /** Required. Specify data to be exported. */
   outputConfig?: OutputConfig | undefined;
+}
+export interface ExportProjectsLocationsInstancesRequest extends ExportInstanceRequest {
+  /** Required. Redis instance resource name using the form: `projects/{project_id}/locations/{location_id}/instances/{instance_id}` where `location_id` refers to a GCP region. */
+  name: string;
 }
 export type FailoverInstanceRequestDataProtectionModeEnum =
   | "DATA_PROTECTION_MODE_UNSPECIFIED"
   | "LIMITED_DATA_LOSS"
   | "FORCE_DATA_LOSS";
-export interface FailoverProjectsLocationsInstancesRequest {
-  /** Required. Redis instance resource name using the form: `projects/{project_id}/locations/{location_id}/instances/{instance_id}` where `location_id` refers to a GCP region. */
-  name: string;
+/** Request for Failover. */
+export interface FailoverInstanceRequest {
   /** Optional. Available data protection modes that the user can choose. If it's unspecified, data protection mode will be LIMITED_DATA_LOSS by default. */
   dataProtectionMode?: FailoverInstanceRequestDataProtectionModeEnum | (string & {}) | undefined;
+}
+export interface FailoverProjectsLocationsInstancesRequest extends FailoverInstanceRequest {
+  /** Required. Redis instance resource name using the form: `projects/{project_id}/locations/{location_id}/instances/{instance_id}` where `location_id` refers to a GCP region. */
+  name: string;
 }
 export interface GetAuthStringProjectsLocationsInstancesRequest {
   /** Required. Redis instance resource name using the form: `projects/{project_id}/locations/{location_id}/instances/{instance_id}` where `location_id` refers to a GCP region. */
@@ -1091,101 +1099,6 @@ export interface GetProjectsLocationsClustersRequest {
   /** Required. Redis cluster resource name using the form: `projects/{project_id}/locations/{location_id}/clusters/{cluster_id}` where `location_id` refers to a Google Cloud region. */
   name: string;
 }
-/** A cluster instance. */
-export interface Cluster {
-  /** Optional. Server CA mode for the cluster. */
-  serverCaMode?: ClusterServerCaModeEnum | undefined;
-  /** Optional. The ACL policy to be applied to the cluster. */
-  aclPolicy?: string | undefined;
-  /** Optional. If true, cluster endpoints that are created and registered by customers can be deleted asynchronously. That is, such a cluster endpoint can be de-registered before the forwarding rules in the cluster endpoint are deleted. */
-  asyncClusterEndpointsDeletionEnabled?: boolean | undefined;
-  /** Output only. The list of PSC connections that are auto-created through service connectivity automation. */
-  pscConnections?: PscConnectionList | undefined;
-  /** Optional. Number of shards for the Redis cluster. */
-  shardCount?: number | undefined;
-  /** Optional. Output only. Reserved for future use. */
-  satisfiesPzs?: boolean | undefined;
-  /** Optional. Output only. The backup collection full resource name. Example: projects/{project}/locations/{location}/backupCollections/{collection} */
-  backupCollection?: string | undefined;
-  /** Optional. Input only. Rotate the server certificates. */
-  rotateServerCertificate?: boolean | undefined;
-  /** Optional. Customer-managed CA pool for the cluster. Only applicable for BYOCA i.e. if server_ca_mode is SERVER_CA_MODE_CUSTOMER_MANAGED_CAS_CA. Format: "projects/{project}/locations/{region}/caPools/{ca_pool}". */
-  serverCaPool?: string | undefined;
-  /** Optional. The automated backup config for the cluster. */
-  automatedBackupConfig?: AutomatedBackupConfig | undefined;
-  /** Output only. Additional information about the current state of the cluster. */
-  stateInfo?: StateInfo | undefined;
-  /** Output only. Redis memory size in GB for the entire cluster rounded up to the next integer. */
-  sizeGb?: number | undefined;
-  /** Optional. The type of a redis node in the cluster. NodeType determines the underlying machine-type of a redis node. */
-  nodeType?: ClusterNodeTypeEnum | undefined;
-  /** Output only. Precise value of redis memory size in GB for the entire cluster. */
-  preciseSizeGb?: number | undefined;
-  /** Optional. Input only. Ondemand maintenance for the cluster. This field can be used to trigger ondemand critical update on the cluster. */
-  ondemandMaintenance?: boolean | undefined;
-  /** Optional. Cross cluster replication config. */
-  crossClusterReplicationConfig?: CrossClusterReplicationConfig | undefined;
-  /** Optional. This config will be used to determine how the customer wants us to distribute cluster resources within the region. */
-  zoneDistributionConfig?: ZoneDistributionConfig | undefined;
-  /** Output only. System assigned, unique identifier for the cluster. */
-  uid?: string | undefined;
-  /** Optional. The number of replica nodes per shard. */
-  replicaCount?: number | undefined;
-  /** Output only. Service attachment details to configure Psc connections */
-  pscServiceAttachments?: PscServiceAttachmentList | undefined;
-  /** Output only. This field is used to determine the available maintenance versions for the self service update. */
-  availableMaintenanceVersions?: StringList | undefined;
-  /** Optional. The KMS key used to encrypt the at-rest data of the cluster. */
-  kmsKey?: string | undefined;
-  /** Output only. Details of the applied ACL policy. */
-  aclPolicyInfo?: AclPolicyInfo | undefined;
-  /** Optional. Backups stored in Cloud Storage buckets. The Cloud Storage buckets need to be the same region as the clusters. Read permission is required to import from the provided Cloud Storage objects. */
-  gcsSource?: GcsBackupSource | undefined;
-  /** Optional. Key/Value pairs of customer overrides for mutable Redis Configs */
-  redisConfigs?: StringMap | undefined;
-  /** Output only. ClusterMaintenanceSchedule Output only Published maintenance schedule. */
-  maintenanceSchedule?: ClusterMaintenanceSchedule | undefined;
-  /** Output only. Encryption information of the data at rest of the cluster. */
-  encryptionInfo?: EncryptionInfo | undefined;
-  /** Optional. Output only. Deprecated: Indicates whether the ACL rules applied to the cluster are in sync. */
-  aclPolicyInSync?: boolean | undefined;
-  /** Optional. ClusterMaintenancePolicy determines when to allow or deny updates. */
-  maintenancePolicy?: ClusterMaintenancePolicy | undefined;
-  /** Optional. The authorization mode of the Redis cluster. If not provided, auth feature is disabled for the cluster. */
-  authorizationMode?: ClusterAuthorizationModeEnum | undefined;
-  /** Output only. Endpoints created on each given network, for Redis clients to connect to the cluster. Currently only one discovery endpoint is supported. */
-  discoveryEndpoints?: DiscoveryEndpointList | undefined;
-  /** Optional. The in-transit encryption for the Redis cluster. If not provided, encryption is disabled for the cluster. */
-  transitEncryptionMode?: ClusterTransitEncryptionModeEnum | undefined;
-  /** Optional. Each PscConfig configures the consumer network where IPs will be designated to the cluster for client access through Private Service Connect Automation. Currently, only one PscConfig is supported. */
-  pscConfigs?: PscConfigList | undefined;
-  /** Optional. Persistence config (RDB, AOF) for the cluster. */
-  persistenceConfig?: ClusterPersistenceConfig | undefined;
-  /** Optional. Labels to represent user-provided metadata. */
-  labels?: StringMap | undefined;
-  /** Optional. Output only. Reserved for future use. */
-  satisfiesPzi?: boolean | undefined;
-  /** Optional. The delete operation will fail when the value is set to true. */
-  deletionProtectionEnabled?: boolean | undefined;
-  /** Required. Identifier. Unique name of the resource in this scope including project and location using the form: `projects/{project_id}/locations/{location_id}/clusters/{cluster_id}` */
-  name?: string | undefined;
-  /** Optional. A list of cluster endpoints. */
-  clusterEndpoints?: ClusterEndpointList | undefined;
-  /** Optional. This field can be used to trigger self service update to indicate the desired maintenance version. The input to this field can be determined by the available_maintenance_versions field. */
-  maintenanceVersion?: string | undefined;
-  /** Optional. Immutable. Deprecated, do not use. */
-  allowFewerZonesDeployment?: boolean | undefined;
-  /** Output only. The current state of this cluster. Can be CREATING, READY, UPDATING, DELETING and SUSPENDED */
-  state?: ClusterStateEnum | undefined;
-  /** Optional. Input only. Simulate a maintenance event. */
-  simulateMaintenanceEvent?: boolean | undefined;
-  /** Output only. This field represents the actual maintenance version of the cluster. */
-  effectiveMaintenanceVersion?: string | undefined;
-  /** Optional. Backups generated and managed by memorystore service. */
-  managedBackupSource?: ManagedBackupSource | undefined;
-  /** Output only. The timestamp associated with the cluster creation request. */
-  createTime?: string | undefined;
-}
 export interface GetProjectsLocationsClustersTokenAuthUsersRequest {
   /** Required. The name of token auth user for a token based auth enabled cluster. Format: projects/{project}/locations/{location}/clusters/{cluster}/tokenAuthUsers/{token_auth_user} */
   name: string;
@@ -1210,85 +1123,6 @@ export interface GetProjectsLocationsClustersTokenAuthUsersAuthTokensRequest {
 export interface GetProjectsLocationsInstancesRequest {
   /** Required. Redis instance resource name using the form: `projects/{project_id}/locations/{location_id}/instances/{instance_id}` where `location_id` refers to a GCP region. */
   name: string;
-}
-/** A Memorystore for Redis instance. */
-export interface Instance {
-  /** Optional. Redis configuration parameters, according to [Redis configuration](https://redis.io/docs/latest/operate/oss_and_stack/management/config/). Currently, the only supported parameters are: Redis version 3.2 and newer: * maxmemory-policy * notify-keyspace-events Redis version 4.0 and newer: * activedefrag * lfu-decay-time * lfu-log-factor * maxmemory-gb Redis version 5.0 and newer: * stream-node-max-bytes * stream-node-max-entries */
-  redisConfigs?: StringMap | undefined;
-  /** Optional. Input only. Immutable. Tag keys/values directly bound to this resource. For example: "123/environment": "production", "123/costCenter": "marketing" */
-  tags?: StringMap | undefined;
-  /** Optional. The zone where the instance will be provisioned. If not provided, the service will choose a zone from the specified region for the instance. For standard tier, additional nodes will be added across multiple zones for protection against zonal failures. If specified, at least one node will be provisioned in this zone. */
-  locationId?: string | undefined;
-  /** Output only. Hostname or IP address of the exposed Redis endpoint used by clients to connect to the service. */
-  host?: string | undefined;
-  /** Output only. Hostname or IP address of the exposed readonly Redis endpoint. Standard tier only. Targets all healthy replica nodes in instance. Replication is asynchronous and replica nodes will exhibit some lag behind the primary. Write requests must target 'host'. */
-  readEndpoint?: string | undefined;
-  /** Output only. Info per node. */
-  nodes?: NodeInfoList | undefined;
-  /** Optional. The TLS mode of the Redis instance. If not provided, TLS is disabled for the instance. */
-  transitEncryptionMode?: InstanceTransitEncryptionModeEnum | undefined;
-  /** Optional. The full name of the Google Compute Engine [network](https://cloud.google.com/vpc/docs/vpc) to which the instance is connected. If left unspecified, the `default` network will be used. */
-  authorizedNetwork?: string | undefined;
-  /** Optional. reasons that causes instance in "SUSPENDED" state. */
-  suspensionReasons?: InstanceSuspensionReasonsItemEnumList | undefined;
-  /** Optional. Read replicas mode for the instance. Defaults to READ_REPLICAS_DISABLED. */
-  readReplicasMode?: InstanceReadReplicasModeEnum | undefined;
-  /** Output only. Additional information about the current status of this instance, if available. */
-  statusMessage?: string | undefined;
-  /** Output only. List of server CA certificates for the instance. */
-  serverCaCerts?: TlsCertificateList | undefined;
-  /** Required. The service tier of the instance. */
-  tier?: InstanceTierEnum | undefined;
-  /** Optional. The version of Redis software. If not provided, latest supported version will be used. Currently, the supported values are: * `REDIS_3_2` for Redis 3.2 compatibility * `REDIS_4_0` for Redis 4.0 compatibility (default) * `REDIS_5_0` for Redis 5.0 compatibility * `REDIS_6_X` for Redis 6.x compatibility * `REDIS_7_0` for Redis 7.0 compatibility */
-  redisVersion?: string | undefined;
-  /** Optional. For DIRECT_PEERING mode, the CIDR range of internal addresses that are reserved for this instance. Range must be unique and non-overlapping with existing subnets in an authorized network. For PRIVATE_SERVICE_ACCESS mode, the name of one allocated IP address ranges associated with this private service access connection. If not provided, the service will choose an unused /29 block, for example, 10.0.0.0/29 or 192.168.0.0/29. For READ_REPLICAS_ENABLED the default block size is /28. */
-  reservedIpRange?: string | undefined;
-  /** Optional. Output only. Reserved for future use. */
-  satisfiesPzi?: boolean | undefined;
-  /** Optional. The network connect mode of the Redis instance. If not provided, the connect mode defaults to DIRECT_PEERING. */
-  connectMode?: InstanceConnectModeEnum | undefined;
-  /** Required. Unique name of the resource in this scope including project and location using the form: `projects/{project_id}/locations/{location_id}/instances/{instance_id}` Note: Redis instances are managed and addressed at regional level so location_id here refers to a GCP region; however, users may choose which specific zone (or collection of zones for cross-zone instances) an instance should be provisioned in. Refer to location_id and alternative_location_id fields for more details. */
-  name?: string | undefined;
-  /** Optional. The KMS key reference that the customer provides when trying to create the instance. */
-  customerManagedKey?: string | undefined;
-  /** Output only. The port number of the exposed readonly redis endpoint. Standard tier only. Write requests should target 'port'. */
-  readEndpointPort?: number | undefined;
-  /** Optional. Persistence configuration parameters */
-  persistenceConfig?: PersistenceConfig | undefined;
-  /** Optional. Output only. Reserved for future use. */
-  satisfiesPzs?: boolean | undefined;
-  /** Required. Redis memory size in GiB. */
-  memorySizeGb?: number | undefined;
-  /** An arbitrary and optional user-provided name for the instance. */
-  displayName?: string | undefined;
-  /** Optional. The available maintenance versions that an instance could update to. */
-  availableMaintenanceVersions?: StringList | undefined;
-  /** Output only. The current state of this instance. */
-  state?: InstanceStateEnum | undefined;
-  /** Output only. Cloud IAM identity used by import / export operations to transfer data to/from Cloud Storage. Format is "serviceAccount:". The value may change over time for a given instance so should be checked before each import/export operation. */
-  persistenceIamIdentity?: string | undefined;
-  /** Resource labels to represent user provided metadata */
-  labels?: StringMap | undefined;
-  /** Optional. The number of replica nodes. The valid range for the Standard Tier with read replicas enabled is [1-5] and defaults to 2. If read replicas are not enabled for a Standard Tier instance, the only valid value is 1 and the default is 1. The valid value for basic tier is 0 and the default is also 0. */
-  replicaCount?: number | undefined;
-  /** Output only. The time the instance was created. */
-  createTime?: string | undefined;
-  /** Optional. The self service update maintenance version. The version is date based such as "20210712_00_00". */
-  maintenanceVersion?: string | undefined;
-  /** Optional. The maintenance policy for the instance. If not provided, maintenance events can be performed at any time. */
-  maintenancePolicy?: MaintenancePolicy | undefined;
-  /** Output only. The current zone where the Redis primary node is located. In basic tier, this will always be the same as [location_id]. In standard tier, this can be the zone of any node in the instance. */
-  currentLocationId?: string | undefined;
-  /** Optional. Indicates whether OSS Redis AUTH is enabled for the instance. If set to "true" AUTH is enabled on the instance. Default value is "false" meaning AUTH is disabled. */
-  authEnabled?: boolean | undefined;
-  /** Output only. Date and time of upcoming maintenance events which have been scheduled. */
-  maintenanceSchedule?: MaintenanceSchedule | undefined;
-  /** Optional. If specified, at least one node will be provisioned in this zone in addition to the zone specified in location_id. Only applicable to standard tier. If provided, it must be a different zone from the one provided in [location_id]. Additional nodes beyond the first 2 will be placed in zones selected by the service. */
-  alternativeLocationId?: string | undefined;
-  /** Output only. The port number of the exposed Redis endpoint. */
-  port?: number | undefined;
-  /** Optional. Additional IP range for node placement. Required when enabling read replicas on an existing instance. For DIRECT_PEERING mode value must be a CIDR range of size /28, or "auto". For PRIVATE_SERVICE_ACCESS mode value must be the name of an allocated address range associated with the private service access connection, or "auto". */
-  secondaryIpRange?: string | undefined;
 }
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
@@ -1323,11 +1157,14 @@ export interface InputConfig {
   /** Google Cloud Storage location where input content is located. */
   gcsSource?: GcsSource | undefined;
 }
-export interface ImportProjectsLocationsInstancesRequest {
-  /** Required. Redis instance resource name using the form: `projects/{project_id}/locations/{location_id}/instances/{instance_id}` where `location_id` refers to a GCP region. */
-  name: string;
+/** Request for Import. */
+export interface ImportInstanceRequest {
   /** Required. Specify data to be imported. */
   inputConfig?: InputConfig | undefined;
+}
+export interface ImportProjectsLocationsInstancesRequest extends ImportInstanceRequest {
+  /** Required. Redis instance resource name using the form: `projects/{project_id}/locations/{location_id}/instances/{instance_id}` where `location_id` refers to a GCP region. */
+  name: string;
 }
 export interface ListProjectsLocationsRequest {
   /** The maximum number of results to return. If not set, the service selects a default. */
@@ -1523,213 +1360,34 @@ export interface ListOperationsResponse {
   /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
   unreachable?: StringList | undefined;
 }
-export interface PatchProjectsLocationsAclPoliciesRequest {
+export interface PatchProjectsLocationsAclPoliciesRequest extends Omit<AclPolicy, "name"> {
   /** Optional. Mask of fields to be updated. At least one path must be supplied in this field. The elements of the repeated paths field may only include these fields from `AclPolicy`: * `rules` */
   updateMask?: string | undefined;
   /** Identifier. Full resource path of the ACL policy. */
   name: string;
   /** Optional. Idempotent request UUID. */
   requestId?: string | undefined;
-  /** Required. The ACL rules within the ACL policy. */
-  rules?: AclRuleList | undefined;
-  /** Output only. Etag for the ACL policy. */
-  etag?: string | undefined;
-  /** Output only. The timestamp that the ACL policy was created. */
-  createTime?: string | undefined;
-  /** Output only. The timestamp that the ACL policy was last updated. */
-  updateTime?: string | undefined;
-  /** Output only. Deprecated: Used in drift resolution. */
-  version?: string | undefined;
-  /** Output only. The state of the ACL policy. */
-  state?: AclPolicyStateEnum | (string & {}) | undefined;
-  /** Output only. The ACL policy attachment status for each attached cluster. */
-  clusterAclPolicyAttachments?: ClusterAclPolicyAttachmentList | undefined;
 }
-export interface PatchProjectsLocationsClustersRequest {
+export interface PatchProjectsLocationsClustersRequest extends Omit<Cluster, "name"> {
   /** Required. Identifier. Unique name of the resource in this scope including project and location using the form: `projects/{project_id}/locations/{location_id}/clusters/{cluster_id}` */
   name: string;
   /** Required. Mask of fields to update. At least one path must be supplied in this field. The elements of the repeated paths field may only include these fields from Cluster: * `size_gb` * `replica_count` * `cluster_endpoints` */
   updateMask?: string | undefined;
   /** Optional. Idempotent request UUID. */
   requestId?: string | undefined;
-  /** Optional. Server CA mode for the cluster. */
-  serverCaMode?: ClusterServerCaModeEnum | (string & {}) | undefined;
-  /** Optional. The ACL policy to be applied to the cluster. */
-  aclPolicy?: string | undefined;
-  /** Optional. If true, cluster endpoints that are created and registered by customers can be deleted asynchronously. That is, such a cluster endpoint can be de-registered before the forwarding rules in the cluster endpoint are deleted. */
-  asyncClusterEndpointsDeletionEnabled?: boolean | undefined;
-  /** Output only. The list of PSC connections that are auto-created through service connectivity automation. */
-  pscConnections?: PscConnectionList | undefined;
-  /** Optional. Number of shards for the Redis cluster. */
-  shardCount?: number | undefined;
-  /** Optional. Output only. Reserved for future use. */
-  satisfiesPzs?: boolean | undefined;
-  /** Optional. Output only. The backup collection full resource name. Example: projects/{project}/locations/{location}/backupCollections/{collection} */
-  backupCollection?: string | undefined;
-  /** Optional. Input only. Rotate the server certificates. */
-  rotateServerCertificate?: boolean | undefined;
-  /** Optional. Customer-managed CA pool for the cluster. Only applicable for BYOCA i.e. if server_ca_mode is SERVER_CA_MODE_CUSTOMER_MANAGED_CAS_CA. Format: "projects/{project}/locations/{region}/caPools/{ca_pool}". */
-  serverCaPool?: string | undefined;
-  /** Optional. The automated backup config for the cluster. */
-  automatedBackupConfig?: AutomatedBackupConfig | undefined;
-  /** Output only. Additional information about the current state of the cluster. */
-  stateInfo?: StateInfo | undefined;
-  /** Output only. Redis memory size in GB for the entire cluster rounded up to the next integer. */
-  sizeGb?: number | undefined;
-  /** Optional. The type of a redis node in the cluster. NodeType determines the underlying machine-type of a redis node. */
-  nodeType?: ClusterNodeTypeEnum | (string & {}) | undefined;
-  /** Output only. Precise value of redis memory size in GB for the entire cluster. */
-  preciseSizeGb?: number | undefined;
-  /** Optional. Input only. Ondemand maintenance for the cluster. This field can be used to trigger ondemand critical update on the cluster. */
-  ondemandMaintenance?: boolean | undefined;
-  /** Optional. Cross cluster replication config. */
-  crossClusterReplicationConfig?: CrossClusterReplicationConfig | undefined;
-  /** Optional. This config will be used to determine how the customer wants us to distribute cluster resources within the region. */
-  zoneDistributionConfig?: ZoneDistributionConfig | undefined;
-  /** Output only. System assigned, unique identifier for the cluster. */
-  uid?: string | undefined;
-  /** Optional. The number of replica nodes per shard. */
-  replicaCount?: number | undefined;
-  /** Output only. Service attachment details to configure Psc connections */
-  pscServiceAttachments?: PscServiceAttachmentList | undefined;
-  /** Output only. This field is used to determine the available maintenance versions for the self service update. */
-  availableMaintenanceVersions?: StringList | undefined;
-  /** Optional. The KMS key used to encrypt the at-rest data of the cluster. */
-  kmsKey?: string | undefined;
-  /** Output only. Details of the applied ACL policy. */
-  aclPolicyInfo?: AclPolicyInfo | undefined;
-  /** Optional. Backups stored in Cloud Storage buckets. The Cloud Storage buckets need to be the same region as the clusters. Read permission is required to import from the provided Cloud Storage objects. */
-  gcsSource?: GcsBackupSource | undefined;
-  /** Optional. Key/Value pairs of customer overrides for mutable Redis Configs */
-  redisConfigs?: StringMap | undefined;
-  /** Output only. ClusterMaintenanceSchedule Output only Published maintenance schedule. */
-  maintenanceSchedule?: ClusterMaintenanceSchedule | undefined;
-  /** Output only. Encryption information of the data at rest of the cluster. */
-  encryptionInfo?: EncryptionInfo | undefined;
-  /** Optional. Output only. Deprecated: Indicates whether the ACL rules applied to the cluster are in sync. */
-  aclPolicyInSync?: boolean | undefined;
-  /** Optional. ClusterMaintenancePolicy determines when to allow or deny updates. */
-  maintenancePolicy?: ClusterMaintenancePolicy | undefined;
-  /** Optional. The authorization mode of the Redis cluster. If not provided, auth feature is disabled for the cluster. */
-  authorizationMode?: ClusterAuthorizationModeEnum | (string & {}) | undefined;
-  /** Output only. Endpoints created on each given network, for Redis clients to connect to the cluster. Currently only one discovery endpoint is supported. */
-  discoveryEndpoints?: DiscoveryEndpointList | undefined;
-  /** Optional. The in-transit encryption for the Redis cluster. If not provided, encryption is disabled for the cluster. */
-  transitEncryptionMode?: ClusterTransitEncryptionModeEnum | (string & {}) | undefined;
-  /** Optional. Each PscConfig configures the consumer network where IPs will be designated to the cluster for client access through Private Service Connect Automation. Currently, only one PscConfig is supported. */
-  pscConfigs?: PscConfigList | undefined;
-  /** Optional. Persistence config (RDB, AOF) for the cluster. */
-  persistenceConfig?: ClusterPersistenceConfig | undefined;
-  /** Optional. Labels to represent user-provided metadata. */
-  labels?: StringMap | undefined;
-  /** Optional. Output only. Reserved for future use. */
-  satisfiesPzi?: boolean | undefined;
-  /** Optional. The delete operation will fail when the value is set to true. */
-  deletionProtectionEnabled?: boolean | undefined;
-  /** Optional. A list of cluster endpoints. */
-  clusterEndpoints?: ClusterEndpointList | undefined;
-  /** Optional. This field can be used to trigger self service update to indicate the desired maintenance version. The input to this field can be determined by the available_maintenance_versions field. */
-  maintenanceVersion?: string | undefined;
-  /** Optional. Immutable. Deprecated, do not use. */
-  allowFewerZonesDeployment?: boolean | undefined;
-  /** Output only. The current state of this cluster. Can be CREATING, READY, UPDATING, DELETING and SUSPENDED */
-  state?: ClusterStateEnum | (string & {}) | undefined;
-  /** Optional. Input only. Simulate a maintenance event. */
-  simulateMaintenanceEvent?: boolean | undefined;
-  /** Output only. This field represents the actual maintenance version of the cluster. */
-  effectiveMaintenanceVersion?: string | undefined;
-  /** Optional. Backups generated and managed by memorystore service. */
-  managedBackupSource?: ManagedBackupSource | undefined;
-  /** Output only. The timestamp associated with the cluster creation request. */
-  createTime?: string | undefined;
 }
-export interface PatchProjectsLocationsInstancesRequest {
+export interface PatchProjectsLocationsInstancesRequest extends Omit<Instance, "name"> {
   /** Required. Unique name of the resource in this scope including project and location using the form: `projects/{project_id}/locations/{location_id}/instances/{instance_id}` Note: Redis instances are managed and addressed at regional level so location_id here refers to a GCP region; however, users may choose which specific zone (or collection of zones for cross-zone instances) an instance should be provisioned in. Refer to location_id and alternative_location_id fields for more details. */
   name: string;
   /** Required. Mask of fields to update. At least one path must be supplied in this field. The elements of the repeated paths field may only include these fields from Instance: * `displayName` * `labels` * `memorySizeGb` * `redisConfig` * `replica_count` */
   updateMask?: string | undefined;
-  /** Optional. Redis configuration parameters, according to [Redis configuration](https://redis.io/docs/latest/operate/oss_and_stack/management/config/). Currently, the only supported parameters are: Redis version 3.2 and newer: * maxmemory-policy * notify-keyspace-events Redis version 4.0 and newer: * activedefrag * lfu-decay-time * lfu-log-factor * maxmemory-gb Redis version 5.0 and newer: * stream-node-max-bytes * stream-node-max-entries */
-  redisConfigs?: StringMap | undefined;
-  /** Optional. Input only. Immutable. Tag keys/values directly bound to this resource. For example: "123/environment": "production", "123/costCenter": "marketing" */
-  tags?: StringMap | undefined;
-  /** Optional. The zone where the instance will be provisioned. If not provided, the service will choose a zone from the specified region for the instance. For standard tier, additional nodes will be added across multiple zones for protection against zonal failures. If specified, at least one node will be provisioned in this zone. */
-  locationId?: string | undefined;
-  /** Output only. Hostname or IP address of the exposed Redis endpoint used by clients to connect to the service. */
-  host?: string | undefined;
-  /** Output only. Hostname or IP address of the exposed readonly Redis endpoint. Standard tier only. Targets all healthy replica nodes in instance. Replication is asynchronous and replica nodes will exhibit some lag behind the primary. Write requests must target 'host'. */
-  readEndpoint?: string | undefined;
-  /** Output only. Info per node. */
-  nodes?: NodeInfoList | undefined;
-  /** Optional. The TLS mode of the Redis instance. If not provided, TLS is disabled for the instance. */
-  transitEncryptionMode?: InstanceTransitEncryptionModeEnum | (string & {}) | undefined;
-  /** Optional. The full name of the Google Compute Engine [network](https://cloud.google.com/vpc/docs/vpc) to which the instance is connected. If left unspecified, the `default` network will be used. */
-  authorizedNetwork?: string | undefined;
-  /** Optional. reasons that causes instance in "SUSPENDED" state. */
-  suspensionReasons?: InstanceSuspensionReasonsItemEnumList | undefined;
-  /** Optional. Read replicas mode for the instance. Defaults to READ_REPLICAS_DISABLED. */
-  readReplicasMode?: InstanceReadReplicasModeEnum | (string & {}) | undefined;
-  /** Output only. Additional information about the current status of this instance, if available. */
-  statusMessage?: string | undefined;
-  /** Output only. List of server CA certificates for the instance. */
-  serverCaCerts?: TlsCertificateList | undefined;
-  /** Required. The service tier of the instance. */
-  tier?: InstanceTierEnum | (string & {}) | undefined;
-  /** Optional. The version of Redis software. If not provided, latest supported version will be used. Currently, the supported values are: * `REDIS_3_2` for Redis 3.2 compatibility * `REDIS_4_0` for Redis 4.0 compatibility (default) * `REDIS_5_0` for Redis 5.0 compatibility * `REDIS_6_X` for Redis 6.x compatibility * `REDIS_7_0` for Redis 7.0 compatibility */
-  redisVersion?: string | undefined;
-  /** Optional. For DIRECT_PEERING mode, the CIDR range of internal addresses that are reserved for this instance. Range must be unique and non-overlapping with existing subnets in an authorized network. For PRIVATE_SERVICE_ACCESS mode, the name of one allocated IP address ranges associated with this private service access connection. If not provided, the service will choose an unused /29 block, for example, 10.0.0.0/29 or 192.168.0.0/29. For READ_REPLICAS_ENABLED the default block size is /28. */
-  reservedIpRange?: string | undefined;
-  /** Optional. Output only. Reserved for future use. */
-  satisfiesPzi?: boolean | undefined;
-  /** Optional. The network connect mode of the Redis instance. If not provided, the connect mode defaults to DIRECT_PEERING. */
-  connectMode?: InstanceConnectModeEnum | (string & {}) | undefined;
-  /** Optional. The KMS key reference that the customer provides when trying to create the instance. */
-  customerManagedKey?: string | undefined;
-  /** Output only. The port number of the exposed readonly redis endpoint. Standard tier only. Write requests should target 'port'. */
-  readEndpointPort?: number | undefined;
-  /** Optional. Persistence configuration parameters */
-  persistenceConfig?: PersistenceConfig | undefined;
-  /** Optional. Output only. Reserved for future use. */
-  satisfiesPzs?: boolean | undefined;
-  /** Required. Redis memory size in GiB. */
-  memorySizeGb?: number | undefined;
-  /** An arbitrary and optional user-provided name for the instance. */
-  displayName?: string | undefined;
-  /** Optional. The available maintenance versions that an instance could update to. */
-  availableMaintenanceVersions?: StringList | undefined;
-  /** Output only. The current state of this instance. */
-  state?: InstanceStateEnum | (string & {}) | undefined;
-  /** Output only. Cloud IAM identity used by import / export operations to transfer data to/from Cloud Storage. Format is "serviceAccount:". The value may change over time for a given instance so should be checked before each import/export operation. */
-  persistenceIamIdentity?: string | undefined;
-  /** Resource labels to represent user provided metadata */
-  labels?: StringMap | undefined;
-  /** Optional. The number of replica nodes. The valid range for the Standard Tier with read replicas enabled is [1-5] and defaults to 2. If read replicas are not enabled for a Standard Tier instance, the only valid value is 1 and the default is 1. The valid value for basic tier is 0 and the default is also 0. */
-  replicaCount?: number | undefined;
-  /** Output only. The time the instance was created. */
-  createTime?: string | undefined;
-  /** Optional. The self service update maintenance version. The version is date based such as "20210712_00_00". */
-  maintenanceVersion?: string | undefined;
-  /** Optional. The maintenance policy for the instance. If not provided, maintenance events can be performed at any time. */
-  maintenancePolicy?: MaintenancePolicy | undefined;
-  /** Output only. The current zone where the Redis primary node is located. In basic tier, this will always be the same as [location_id]. In standard tier, this can be the zone of any node in the instance. */
-  currentLocationId?: string | undefined;
-  /** Optional. Indicates whether OSS Redis AUTH is enabled for the instance. If set to "true" AUTH is enabled on the instance. Default value is "false" meaning AUTH is disabled. */
-  authEnabled?: boolean | undefined;
-  /** Output only. Date and time of upcoming maintenance events which have been scheduled. */
-  maintenanceSchedule?: MaintenanceSchedule | undefined;
-  /** Optional. If specified, at least one node will be provisioned in this zone in addition to the zone specified in location_id. Only applicable to standard tier. If provided, it must be a different zone from the one provided in [location_id]. Additional nodes beyond the first 2 will be placed in zones selected by the service. */
-  alternativeLocationId?: string | undefined;
-  /** Output only. The port number of the exposed Redis endpoint. */
-  port?: number | undefined;
-  /** Optional. Additional IP range for node placement. Required when enabling read replicas on an existing instance. For DIRECT_PEERING mode value must be a CIDR range of size /28, or "auto". For PRIVATE_SERVICE_ACCESS mode value must be the name of an allocated address range associated with the private service access connection, or "auto". */
-  secondaryIpRange?: string | undefined;
 }
 export type RescheduleClusterMaintenanceRequestRescheduleTypeEnum =
   | "RESCHEDULE_TYPE_UNSPECIFIED"
   | "IMMEDIATE"
   | "SPECIFIC_TIME";
-export interface RescheduleClusterMaintenanceProjectsLocationsClustersRequest {
-  /** Required. Redis Cluster instance resource name using the form: `projects/{project_id}/locations/{location_id}/clusters/{cluster_id}` where `location_id` refers to a Google Cloud region. */
-  name: string;
+/** Request for rescheduling a cluster maintenance. */
+export interface RescheduleClusterMaintenanceRequest {
   /** Required. If reschedule type is SPECIFIC_TIME, must set up schedule_time as well. */
   rescheduleType?:
     | RescheduleClusterMaintenanceRequestRescheduleTypeEnum
@@ -1738,24 +1396,34 @@ export interface RescheduleClusterMaintenanceProjectsLocationsClustersRequest {
   /** Optional. Timestamp when the maintenance shall be rescheduled to if reschedule_type=SPECIFIC_TIME, in RFC 3339 format, for example `2012-11-15T16:19:00.094Z`. */
   scheduleTime?: string | undefined;
 }
+export interface RescheduleClusterMaintenanceProjectsLocationsClustersRequest extends RescheduleClusterMaintenanceRequest {
+  /** Required. Redis Cluster instance resource name using the form: `projects/{project_id}/locations/{location_id}/clusters/{cluster_id}` where `location_id` refers to a Google Cloud region. */
+  name: string;
+}
 export type RescheduleMaintenanceRequestRescheduleTypeEnum =
   | "RESCHEDULE_TYPE_UNSPECIFIED"
   | "IMMEDIATE"
   | "NEXT_AVAILABLE_WINDOW"
   | "SPECIFIC_TIME";
-export interface RescheduleMaintenanceProjectsLocationsInstancesRequest {
-  /** Required. Redis instance resource name using the form: `projects/{project_id}/locations/{location_id}/instances/{instance_id}` where `location_id` refers to a GCP region. */
-  name: string;
+/** Request for RescheduleMaintenance. */
+export interface RescheduleMaintenanceRequest {
   /** Required. If reschedule type is SPECIFIC_TIME, must set up schedule_time as well. */
   rescheduleType?: RescheduleMaintenanceRequestRescheduleTypeEnum | (string & {}) | undefined;
   /** Optional. Timestamp when the maintenance shall be rescheduled to if reschedule_type=SPECIFIC_TIME, in RFC 3339 format, for example `2012-11-15T16:19:00.094Z`. */
   scheduleTime?: string | undefined;
 }
-export interface UpgradeProjectsLocationsInstancesRequest {
+export interface RescheduleMaintenanceProjectsLocationsInstancesRequest extends RescheduleMaintenanceRequest {
   /** Required. Redis instance resource name using the form: `projects/{project_id}/locations/{location_id}/instances/{instance_id}` where `location_id` refers to a GCP region. */
   name: string;
+}
+/** Request for UpgradeInstance. */
+export interface UpgradeInstanceRequest {
   /** Required. Specifies the target version of Redis software to upgrade to. */
   redisVersion?: string | undefined;
+}
+export interface UpgradeProjectsLocationsInstancesRequest extends UpgradeInstanceRequest {
+  /** Required. Redis instance resource name using the form: `projects/{project_id}/locations/{location_id}/instances/{instance_id}` where `location_id` refers to a GCP region. */
+  name: string;
 }
 export type AddAuthTokenProjectsLocationsClustersTokenAuthUsersError =
   | NotFound
@@ -1771,11 +1439,11 @@ export const addAuthTokenProjectsLocationsClustersTokenAuthUsers: API.OperationM
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1280,
-    __c40,
-    0,
+    1217,
+    __c38,
+    1,
   ) as any as S.Schema<AddAuthTokenProjectsLocationsClustersTokenAuthUsersRequest>,
-  output: __S(1378, __c43, 2) as any as S.Schema<Operation>,
+  output: __S(1314, __c41, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1796,8 +1464,8 @@ export const addTokenAuthUserProjectsLocationsClusters: API.OperationMethod<
   AddTokenAuthUserProjectsLocationsClustersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1728, __c54, 0) as any as S.Schema<AddTokenAuthUserProjectsLocationsClustersRequest>,
-  output: __S(1378, __c43, 2) as any as S.Schema<Operation>,
+  input: __S(1697, __c53, 1) as any as S.Schema<AddTokenAuthUserProjectsLocationsClustersRequest>,
+  output: __S(1314, __c41, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1818,8 +1486,8 @@ export const backupProjectsLocationsClusters: API.OperationMethod<
   BackupProjectsLocationsClustersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1792, __c56, 0) as any as S.Schema<BackupProjectsLocationsClustersRequest>,
-  output: __S(1378, __c43, 2) as any as S.Schema<Operation>,
+  input: __S(1761, __c55, 1) as any as S.Schema<BackupProjectsLocationsClustersRequest>,
+  output: __S(1314, __c41, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1840,8 +1508,8 @@ export const cancelProjectsLocationsOperations: API.OperationMethod<
   CancelProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1824, __c57, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
-  output: __S(1856, __c58, 0) as any as S.Schema<Empty>,
+  input: __S(1792, __c56, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
+  output: __S(1824, __c57, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1862,8 +1530,8 @@ export const createProjectsLocationsAclPolicies: API.OperationMethod<
   CreateProjectsLocationsAclPoliciesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1888, __c59, 0) as any as S.Schema<CreateProjectsLocationsAclPoliciesRequest>,
-  output: __S(1920, __c60, 0) as any as S.Schema<AclPolicy>,
+  input: __S(1856, __c58, 0) as any as S.Schema<CreateProjectsLocationsAclPoliciesRequest>,
+  output: __S(1892, __c59, 4) as any as S.Schema<AclPolicy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1884,8 +1552,8 @@ export const createProjectsLocationsClusters: API.OperationMethod<
   CreateProjectsLocationsClustersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2016, __c63, 0) as any as S.Schema<CreateProjectsLocationsClustersRequest>,
-  output: __S(1378, __c43, 2) as any as S.Schema<Operation>,
+  input: __S(1952, __c61, 0) as any as S.Schema<CreateProjectsLocationsClustersRequest>,
+  output: __S(1314, __c41, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1907,7 +1575,7 @@ export const createProjectsLocationsInstances: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateProjectsLocationsInstancesRequest>,
-  output: __S(1378, __c43, 2) as any as S.Schema<Operation>,
+  output: __S(1314, __c41, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1929,7 +1597,7 @@ export const deleteProjectsLocationsAclPolicies: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c2, 0) as any as S.Schema<DeleteProjectsLocationsAclPoliciesRequest>,
-  output: __S(1378, __c43, 2) as any as S.Schema<Operation>,
+  output: __S(1314, __c41, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1955,7 +1623,7 @@ export const deleteProjectsLocationsBackupCollectionsBackups: API.OperationMetho
     __c3,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsBackupCollectionsBackupsRequest>,
-  output: __S(1378, __c43, 2) as any as S.Schema<Operation>,
+  output: __S(1314, __c41, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1977,7 +1645,7 @@ export const deleteProjectsLocationsClusters: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c4, 0) as any as S.Schema<DeleteProjectsLocationsClustersRequest>,
-  output: __S(1378, __c43, 2) as any as S.Schema<Operation>,
+  output: __S(1314, __c41, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1999,7 +1667,7 @@ export const deleteProjectsLocationsClustersTokenAuthUsers: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c5, 0) as any as S.Schema<DeleteProjectsLocationsClustersTokenAuthUsersRequest>,
-  output: __S(1378, __c43, 2) as any as S.Schema<Operation>,
+  output: __S(1314, __c41, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2025,7 +1693,7 @@ export const deleteProjectsLocationsClustersTokenAuthUsersAuthTokens: API.Operat
     __c6,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsClustersTokenAuthUsersAuthTokensRequest>,
-  output: __S(1378, __c43, 2) as any as S.Schema<Operation>,
+  output: __S(1314, __c41, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2047,7 +1715,7 @@ export const deleteProjectsLocationsInstances: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c7, 0) as any as S.Schema<DeleteProjectsLocationsInstancesRequest>,
-  output: __S(1378, __c43, 2) as any as S.Schema<Operation>,
+  output: __S(1314, __c41, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2069,7 +1737,7 @@ export const deleteProjectsLocationsOperations: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c8, 0) as any as S.Schema<DeleteProjectsLocationsOperationsRequest>,
-  output: __S(1856, __c58, 0) as any as S.Schema<Empty>,
+  output: __S(1824, __c57, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2091,11 +1759,11 @@ export const exportProjectsLocationsBackupCollectionsBackups: API.OperationMetho
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    288,
+    289,
     __c9,
-    0,
+    1,
   ) as any as S.Schema<ExportProjectsLocationsBackupCollectionsBackupsRequest>,
-  output: __S(1378, __c43, 2) as any as S.Schema<Operation>,
+  output: __S(1314, __c41, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2116,8 +1784,8 @@ export const exportProjectsLocationsInstances: API.OperationMethod<
   ExportProjectsLocationsInstancesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(321, __c10, 1) as any as S.Schema<ExportProjectsLocationsInstancesRequest>,
-  output: __S(1378, __c43, 2) as any as S.Schema<Operation>,
+  input: __S(322, __c10, 2) as any as S.Schema<ExportProjectsLocationsInstancesRequest>,
+  output: __S(1314, __c41, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2138,8 +1806,8 @@ export const failoverProjectsLocationsInstances: API.OperationMethod<
   FailoverProjectsLocationsInstancesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c12, 0) as any as S.Schema<FailoverProjectsLocationsInstancesRequest>,
-  output: __S(1378, __c43, 2) as any as S.Schema<Operation>,
+  input: __S(385, __c12, 1) as any as S.Schema<FailoverProjectsLocationsInstancesRequest>,
+  output: __S(1314, __c41, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2214,7 +1882,7 @@ export const getProjectsLocationsAclPolicies: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c18, 0) as any as S.Schema<GetProjectsLocationsAclPoliciesRequest>,
-  output: __S(1920, __c60, 0) as any as S.Schema<AclPolicy>,
+  output: __S(1892, __c59, 4) as any as S.Schema<AclPolicy>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2282,7 +1950,7 @@ export const getProjectsLocationsClusters: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(800, __c25, 0) as any as S.Schema<GetProjectsLocationsClustersRequest>,
-  output: __S(832, __c26, 0) as any as S.Schema<Cluster>,
+  output: __S(2144, __c67, 0) as any as S.Schema<Cluster>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2298,8 +1966,8 @@ export const getProjectsLocationsClustersTokenAuthUsers: API.OperationMethod<
   GetProjectsLocationsClustersTokenAuthUsersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c27, 0) as any as S.Schema<GetProjectsLocationsClustersTokenAuthUsersRequest>,
-  output: __S(896, __c28, 0) as any as S.Schema<TokenAuthUser>,
+  input: __S(832, __c26, 0) as any as S.Schema<GetProjectsLocationsClustersTokenAuthUsersRequest>,
+  output: __S(864, __c27, 0) as any as S.Schema<TokenAuthUser>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2319,11 +1987,11 @@ export const getProjectsLocationsClustersTokenAuthUsersAuthTokens: API.Operation
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    928,
-    __c29,
+    896,
+    __c28,
     0,
   ) as any as S.Schema<GetProjectsLocationsClustersTokenAuthUsersAuthTokensRequest>,
-  output: __S(1312, __c41, 0) as any as S.Schema<AuthToken>,
+  output: __S(1248, __c39, 0) as any as S.Schema<AuthToken>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2339,8 +2007,8 @@ export const getProjectsLocationsInstances: API.OperationMethod<
   GetProjectsLocationsInstancesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c30, 0) as any as S.Schema<GetProjectsLocationsInstancesRequest>,
-  output: __S(992, __c31, 0) as any as S.Schema<Instance>,
+  input: __S(928, __c29, 0) as any as S.Schema<GetProjectsLocationsInstancesRequest>,
+  output: __S(42, __c1, 10) as any as S.Schema<Instance>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2356,8 +2024,8 @@ export const getProjectsLocationsOperations: API.OperationMethod<
   GetProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c32, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
-  output: __S(1378, __c43, 2) as any as S.Schema<Operation>,
+  input: __S(960, __c30, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
+  output: __S(1314, __c41, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2377,8 +2045,8 @@ export const getSharedRegionalCertificateAuthorityProjectsLocations: API.Operati
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1056,
-    __c33,
+    992,
+    __c31,
     0,
   ) as any as S.Schema<GetSharedRegionalCertificateAuthorityProjectsLocationsRequest>,
   output: __S(483, __c15, 3) as any as S.Schema<SharedRegionalCertificateAuthority>,
@@ -2402,8 +2070,8 @@ export const importProjectsLocationsInstances: API.OperationMethod<
   ImportProjectsLocationsInstancesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1089, __c34, 1) as any as S.Schema<ImportProjectsLocationsInstancesRequest>,
-  output: __S(1378, __c43, 2) as any as S.Schema<Operation>,
+  input: __S(1026, __c32, 2) as any as S.Schema<ImportProjectsLocationsInstancesRequest>,
+  output: __S(1314, __c41, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2420,8 +2088,8 @@ export const listProjectsLocations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListLocationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1120, __c35, 0) as any as S.Schema<ListProjectsLocationsRequest>,
-  output: __S(1122, __c35, 2) as any as S.Schema<ListLocationsResponse>,
+  input: __S(1056, __c33, 0) as any as S.Schema<ListProjectsLocationsRequest>,
+  output: __S(1058, __c33, 2) as any as S.Schema<ListLocationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2439,8 +2107,8 @@ export const listProjectsLocationsAclPolicies: API.PaginatedOperationMethod<
   GcpOpContext,
   ListAclPoliciesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1152, __c36, 0) as any as S.Schema<ListProjectsLocationsAclPoliciesRequest>,
-  output: __S(1154, __c36, 2) as any as S.Schema<ListAclPoliciesResponse>,
+  input: __S(1088, __c34, 0) as any as S.Schema<ListProjectsLocationsAclPoliciesRequest>,
+  output: __S(1090, __c34, 2) as any as S.Schema<ListAclPoliciesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2458,8 +2126,8 @@ export const listProjectsLocationsAclPoliciesRevisions: API.PaginatedOperationMe
   GcpOpContext,
   ListAclPolicyRevisionsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1184, __c37, 0) as any as S.Schema<ListProjectsLocationsAclPoliciesRevisionsRequest>,
-  output: __S(1186, __c37, 2) as any as S.Schema<ListAclPolicyRevisionsResponse>,
+  input: __S(1120, __c35, 0) as any as S.Schema<ListProjectsLocationsAclPoliciesRevisionsRequest>,
+  output: __S(1122, __c35, 2) as any as S.Schema<ListAclPolicyRevisionsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2477,8 +2145,8 @@ export const listProjectsLocationsBackupCollections: API.PaginatedOperationMetho
   GcpOpContext,
   ListBackupCollectionsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1216, __c38, 0) as any as S.Schema<ListProjectsLocationsBackupCollectionsRequest>,
-  output: __S(1218, __c38, 2) as any as S.Schema<ListBackupCollectionsResponse>,
+  input: __S(1152, __c36, 0) as any as S.Schema<ListProjectsLocationsBackupCollectionsRequest>,
+  output: __S(1154, __c36, 2) as any as S.Schema<ListBackupCollectionsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2497,11 +2165,11 @@ export const listProjectsLocationsBackupCollectionsBackups: API.PaginatedOperati
   ListBackupsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    1248,
-    __c39,
+    1184,
+    __c37,
     0,
   ) as any as S.Schema<ListProjectsLocationsBackupCollectionsBackupsRequest>,
-  output: __S(1250, __c39, 2) as any as S.Schema<ListBackupsResponse>,
+  output: __S(1186, __c37, 2) as any as S.Schema<ListBackupsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2519,8 +2187,8 @@ export const listProjectsLocationsClusters: API.PaginatedOperationMethod<
   GcpOpContext,
   ListClustersResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1408, __c44, 0) as any as S.Schema<ListProjectsLocationsClustersRequest>,
-  output: __S(1410, __c44, 2) as any as S.Schema<ListClustersResponse>,
+  input: __S(1344, __c42, 0) as any as S.Schema<ListProjectsLocationsClustersRequest>,
+  output: __S(1346, __c42, 2) as any as S.Schema<ListClustersResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2538,8 +2206,8 @@ export const listProjectsLocationsClustersTokenAuthUsers: API.PaginatedOperation
   GcpOpContext,
   ListTokenAuthUsersResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1440, __c45, 0) as any as S.Schema<ListProjectsLocationsClustersTokenAuthUsersRequest>,
-  output: __S(1442, __c45, 2) as any as S.Schema<ListTokenAuthUsersResponse>,
+  input: __S(1376, __c43, 0) as any as S.Schema<ListProjectsLocationsClustersTokenAuthUsersRequest>,
+  output: __S(1378, __c43, 2) as any as S.Schema<ListTokenAuthUsersResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2561,11 +2229,11 @@ export const listProjectsLocationsClustersTokenAuthUsersAuthTokens: API.Paginate
   ListAuthTokensResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    1472,
-    __c46,
+    1408,
+    __c44,
     0,
   ) as any as S.Schema<ListProjectsLocationsClustersTokenAuthUsersAuthTokensRequest>,
-  output: __S(1474, __c46, 2) as any as S.Schema<ListAuthTokensResponse>,
+  output: __S(1410, __c44, 2) as any as S.Schema<ListAuthTokensResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2583,8 +2251,8 @@ export const listProjectsLocationsInstances: API.PaginatedOperationMethod<
   GcpOpContext,
   ListInstancesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1504, __c47, 0) as any as S.Schema<ListProjectsLocationsInstancesRequest>,
-  output: __S(1506, __c47, 2) as any as S.Schema<ListInstancesResponse>,
+  input: __S(1440, __c45, 0) as any as S.Schema<ListProjectsLocationsInstancesRequest>,
+  output: __S(1442, __c45, 2) as any as S.Schema<ListInstancesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2602,8 +2270,8 @@ export const listProjectsLocationsOperations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListOperationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1536, __c48, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
-  output: __S(1538, __c48, 2) as any as S.Schema<ListOperationsResponse>,
+  input: __S(1472, __c46, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
+  output: __S(1474, __c46, 2) as any as S.Schema<ListOperationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2625,8 +2293,8 @@ export const patchProjectsLocationsAclPolicies: API.OperationMethod<
   PatchProjectsLocationsAclPoliciesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1568, __c49, 0) as any as S.Schema<PatchProjectsLocationsAclPoliciesRequest>,
-  output: __S(1378, __c43, 2) as any as S.Schema<Operation>,
+  input: __S(1504, __c47, 0) as any as S.Schema<PatchProjectsLocationsAclPoliciesRequest>,
+  output: __S(1314, __c41, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2647,8 +2315,8 @@ export const patchProjectsLocationsClusters: API.OperationMethod<
   PatchProjectsLocationsClustersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1600, __c50, 0) as any as S.Schema<PatchProjectsLocationsClustersRequest>,
-  output: __S(1378, __c43, 2) as any as S.Schema<Operation>,
+  input: __S(1536, __c48, 0) as any as S.Schema<PatchProjectsLocationsClustersRequest>,
+  output: __S(1314, __c41, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2669,8 +2337,8 @@ export const patchProjectsLocationsInstances: API.OperationMethod<
   PatchProjectsLocationsInstancesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1632, __c51, 0) as any as S.Schema<PatchProjectsLocationsInstancesRequest>,
-  output: __S(1378, __c43, 2) as any as S.Schema<Operation>,
+  input: __S(1568, __c49, 0) as any as S.Schema<PatchProjectsLocationsInstancesRequest>,
+  output: __S(1314, __c41, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2692,11 +2360,11 @@ export const rescheduleClusterMaintenanceProjectsLocationsClusters: API.Operatio
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1664,
-    __c52,
+    1600,
+    __c50,
     0,
   ) as any as S.Schema<RescheduleClusterMaintenanceProjectsLocationsClustersRequest>,
-  output: __S(1378, __c43, 2) as any as S.Schema<Operation>,
+  output: __S(1314, __c41, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2718,11 +2386,11 @@ export const rescheduleMaintenanceProjectsLocationsInstances: API.OperationMetho
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1696,
-    __c53,
+    1664,
+    __c52,
     0,
   ) as any as S.Schema<RescheduleMaintenanceProjectsLocationsInstancesRequest>,
-  output: __S(1378, __c43, 2) as any as S.Schema<Operation>,
+  output: __S(1314, __c41, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2743,8 +2411,8 @@ export const upgradeProjectsLocationsInstances: API.OperationMethod<
   UpgradeProjectsLocationsInstancesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1760, __c55, 0) as any as S.Schema<UpgradeProjectsLocationsInstancesRequest>,
-  output: __S(1378, __c43, 2) as any as S.Schema<Operation>,
+  input: __S(1729, __c54, 1) as any as S.Schema<UpgradeProjectsLocationsInstancesRequest>,
+  output: __S(1314, __c41, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2757,48 +2425,13 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          instanceId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          redisConfigs: S.optional(__S(2080, __c65, 0)),
-          tags: S.optional(__S(2080, __c65, 0)),
-          locationId: S.optional(S.String),
-          host: S.optional(S.String),
-          readEndpoint: S.optional(S.String),
-          nodes: S.optional(__S(33, __c1, 1)),
-          transitEncryptionMode: S.optional(S.String),
-          authorizedNetwork: S.optional(S.String),
-          suspensionReasons: S.optional(__S(34, __c1, 2)),
-          readReplicasMode: S.optional(S.String),
-          statusMessage: S.optional(S.String),
-          serverCaCerts: S.optional(__S(36, __c1, 4)),
-          tier: S.optional(S.String),
-          redisVersion: S.optional(S.String),
-          reservedIpRange: S.optional(S.String),
-          satisfiesPzi: S.optional(S.Boolean),
-          connectMode: S.optional(S.String),
-          name: S.optional(S.String),
-          customerManagedKey: S.optional(S.String),
-          readEndpointPort: S.optional(S.Number),
-          persistenceConfig: S.optional(__S(37, __c1, 5)),
-          satisfiesPzs: S.optional(S.Boolean),
-          memorySizeGb: S.optional(S.Number),
-          displayName: S.optional(S.String),
-          availableMaintenanceVersions: S.optional(__S(2048, __c64, 0)),
-          state: S.optional(S.String),
-          persistenceIamIdentity: S.optional(S.String),
-          labels: S.optional(__S(2080, __c65, 0)),
-          replicaCount: S.optional(S.Number),
-          createTime: S.optional(S.String),
-          maintenanceVersion: S.optional(S.String),
-          maintenancePolicy: S.optional(__S(40, __c1, 8)),
-          currentLocationId: S.optional(S.String),
-          authEnabled: S.optional(S.Boolean),
-          maintenanceSchedule: S.optional(__S(41, __c1, 9)),
-          alternativeLocationId: S.optional(S.String),
-          port: S.optional(S.Number),
-          secondaryIpRange: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(42, __c1, 10),
+          S.Struct({
+            instanceId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/instances",
@@ -2847,7 +2480,7 @@ function __c1(j: number): any {
         S.Struct({
           duration: S.optional(S.String),
           day: S.optional(S.String),
-          startTime: S.optional(__S(2112, __c66, 0)),
+          startTime: S.optional(__S(2048, __c64, 0)),
         }),
       ).annotate({ identifier: "WeeklyMaintenanceWindow" });
     case 7:
@@ -2870,6 +2503,49 @@ function __c1(j: number): any {
           endTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "MaintenanceSchedule" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          redisConfigs: S.optional(__S(2016, __c63, 0)),
+          tags: S.optional(__S(2016, __c63, 0)),
+          locationId: S.optional(S.String),
+          host: S.optional(S.String),
+          readEndpoint: S.optional(S.String),
+          nodes: S.optional(__S(33, __c1, 1)),
+          transitEncryptionMode: S.optional(S.String),
+          authorizedNetwork: S.optional(S.String),
+          suspensionReasons: S.optional(__S(34, __c1, 2)),
+          readReplicasMode: S.optional(S.String),
+          statusMessage: S.optional(S.String),
+          serverCaCerts: S.optional(__S(36, __c1, 4)),
+          tier: S.optional(S.String),
+          redisVersion: S.optional(S.String),
+          reservedIpRange: S.optional(S.String),
+          satisfiesPzi: S.optional(S.Boolean),
+          connectMode: S.optional(S.String),
+          name: S.optional(S.String),
+          customerManagedKey: S.optional(S.String),
+          readEndpointPort: S.optional(S.Number),
+          persistenceConfig: S.optional(__S(37, __c1, 5)),
+          satisfiesPzs: S.optional(S.Boolean),
+          memorySizeGb: S.optional(S.Number),
+          displayName: S.optional(S.String),
+          availableMaintenanceVersions: S.optional(__S(1984, __c62, 0)),
+          state: S.optional(S.String),
+          persistenceIamIdentity: S.optional(S.String),
+          labels: S.optional(__S(2016, __c63, 0)),
+          replicaCount: S.optional(S.Number),
+          createTime: S.optional(S.String),
+          maintenanceVersion: S.optional(S.String),
+          maintenancePolicy: S.optional(__S(40, __c1, 8)),
+          currentLocationId: S.optional(S.String),
+          authEnabled: S.optional(S.Boolean),
+          maintenanceSchedule: S.optional(__S(41, __c1, 9)),
+          alternativeLocationId: S.optional(S.String),
+          port: S.optional(S.Number),
+          secondaryIpRange: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Instance" });
   }
 }
 function __c2(j: number): any {
@@ -2995,9 +2671,17 @@ function __c9(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           gcsBucket: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "ExportBackupRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(288, __c9, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:export",
@@ -3018,9 +2702,17 @@ function __c10(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           outputConfig: S.optional(__S(320, __c10, 0)),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "ExportInstanceRequest" });
+    case 2:
+      return S.suspend(() =>
+        S.Extend(
+          __S(321, __c10, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:export",
@@ -3045,9 +2737,17 @@ function __c12(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           dataProtectionMode: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "FailoverInstanceRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(384, __c12, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:failover",
@@ -3100,7 +2800,7 @@ function __c15(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          certificates: S.optional(__S(2048, __c64, 0)),
+          certificates: S.optional(__S(1984, __c62, 0)),
         }),
       ).annotate({ identifier: "CertChain" });
     case 1:
@@ -3141,9 +2841,9 @@ function __c17(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          metadata: S.optional(__S(1344, __c42, 0)),
+          metadata: S.optional(__S(1280, __c40, 0)),
           displayName: S.optional(S.String),
-          labels: S.optional(__S(2080, __c65, 0)),
+          labels: S.optional(__S(2016, __c63, 0)),
           name: S.optional(S.String),
           locationId: S.optional(S.String),
         }),
@@ -3189,8 +2889,8 @@ function __c20(j: number): any {
         S.Struct({
           name: S.optional(S.String),
           createTime: S.optional(S.String),
-          attachedClusters: S.optional(__S(2048, __c64, 0)),
-          snapshot: S.optional(__S(1920, __c60, 0)),
+          attachedClusters: S.optional(__S(1984, __c62, 0)),
+          snapshot: S.optional(__S(1892, __c59, 4)),
           revisionNumber: S.optional(S.String),
         }),
       ).annotate({ identifier: "AclPolicyRevision" });
@@ -3264,7 +2964,7 @@ function __c24(j: number): any {
           totalSizeBytes: S.optional(S.String),
           createTime: S.optional(S.String),
           name: S.optional(S.String),
-          encryptionInfo: S.optional(__S(2144, __c67, 0)),
+          encryptionInfo: S.optional(__S(2080, __c65, 0)),
           backupType: S.optional(S.String),
           nodeType: S.optional(S.String),
           cluster: S.optional(S.String),
@@ -3301,61 +3001,6 @@ function __c26(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          serverCaMode: S.optional(S.String),
-          aclPolicy: S.optional(S.String),
-          asyncClusterEndpointsDeletionEnabled: S.optional(S.Boolean),
-          pscConnections: S.optional(__S(2177, __c68, 1)),
-          shardCount: S.optional(S.Number),
-          satisfiesPzs: S.optional(S.Boolean),
-          backupCollection: S.optional(S.String),
-          rotateServerCertificate: S.optional(S.Boolean),
-          serverCaPool: S.optional(S.String),
-          automatedBackupConfig: S.optional(__S(2179, __c68, 3)),
-          stateInfo: S.optional(__S(2181, __c68, 5)),
-          sizeGb: S.optional(S.Number),
-          nodeType: S.optional(S.String),
-          preciseSizeGb: S.optional(S.Number),
-          ondemandMaintenance: S.optional(S.Boolean),
-          crossClusterReplicationConfig: S.optional(__S(2185, __c68, 9)),
-          zoneDistributionConfig: S.optional(__S(2186, __c68, 10)),
-          uid: S.optional(S.String),
-          replicaCount: S.optional(S.Number),
-          pscServiceAttachments: S.optional(__S(2188, __c68, 12)),
-          availableMaintenanceVersions: S.optional(__S(2048, __c64, 0)),
-          kmsKey: S.optional(S.String),
-          aclPolicyInfo: S.optional(__S(2189, __c68, 13)),
-          gcsSource: S.optional(__S(2190, __c68, 14)),
-          redisConfigs: S.optional(__S(2080, __c65, 0)),
-          maintenanceSchedule: S.optional(__S(2191, __c68, 15)),
-          encryptionInfo: S.optional(__S(2144, __c67, 0)),
-          aclPolicyInSync: S.optional(S.Boolean),
-          maintenancePolicy: S.optional(__S(2194, __c68, 18)),
-          authorizationMode: S.optional(S.String),
-          discoveryEndpoints: S.optional(__S(2197, __c68, 21)),
-          transitEncryptionMode: S.optional(S.String),
-          pscConfigs: S.optional(__S(2198, __c68, 22)),
-          persistenceConfig: S.optional(__S(2201, __c68, 25)),
-          labels: S.optional(__S(2080, __c65, 0)),
-          satisfiesPzi: S.optional(S.Boolean),
-          deletionProtectionEnabled: S.optional(S.Boolean),
-          name: S.optional(S.String),
-          clusterEndpoints: S.optional(__S(2206, __c68, 30)),
-          maintenanceVersion: S.optional(S.String),
-          allowFewerZonesDeployment: S.optional(S.Boolean),
-          state: S.optional(S.String),
-          simulateMaintenanceEvent: S.optional(S.Boolean),
-          effectiveMaintenanceVersion: S.optional(S.String),
-          managedBackupSource: S.optional(__S(2207, __c68, 31)),
-          createTime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Cluster" });
-  }
-}
-function __c27(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
           name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -3367,7 +3012,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsClustersTokenAuthUsersRequest" });
   }
 }
-function __c28(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3378,7 +3023,7 @@ function __c28(j: number): any {
       ).annotate({ identifier: "TokenAuthUser" });
   }
 }
-function __c29(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3394,7 +3039,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsClustersTokenAuthUsersAuthTokensRequest" });
   }
 }
-function __c30(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3410,54 +3055,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsInstancesRequest" });
   }
 }
-function __c31(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          redisConfigs: S.optional(__S(2080, __c65, 0)),
-          tags: S.optional(__S(2080, __c65, 0)),
-          locationId: S.optional(S.String),
-          host: S.optional(S.String),
-          readEndpoint: S.optional(S.String),
-          nodes: S.optional(__S(33, __c1, 1)),
-          transitEncryptionMode: S.optional(S.String),
-          authorizedNetwork: S.optional(S.String),
-          suspensionReasons: S.optional(__S(34, __c1, 2)),
-          readReplicasMode: S.optional(S.String),
-          statusMessage: S.optional(S.String),
-          serverCaCerts: S.optional(__S(36, __c1, 4)),
-          tier: S.optional(S.String),
-          redisVersion: S.optional(S.String),
-          reservedIpRange: S.optional(S.String),
-          satisfiesPzi: S.optional(S.Boolean),
-          connectMode: S.optional(S.String),
-          name: S.optional(S.String),
-          customerManagedKey: S.optional(S.String),
-          readEndpointPort: S.optional(S.Number),
-          persistenceConfig: S.optional(__S(37, __c1, 5)),
-          satisfiesPzs: S.optional(S.Boolean),
-          memorySizeGb: S.optional(S.Number),
-          displayName: S.optional(S.String),
-          availableMaintenanceVersions: S.optional(__S(2048, __c64, 0)),
-          state: S.optional(S.String),
-          persistenceIamIdentity: S.optional(S.String),
-          labels: S.optional(__S(2080, __c65, 0)),
-          replicaCount: S.optional(S.Number),
-          createTime: S.optional(S.String),
-          maintenanceVersion: S.optional(S.String),
-          maintenancePolicy: S.optional(__S(40, __c1, 8)),
-          currentLocationId: S.optional(S.String),
-          authEnabled: S.optional(S.Boolean),
-          maintenanceSchedule: S.optional(__S(41, __c1, 9)),
-          alternativeLocationId: S.optional(S.String),
-          port: S.optional(S.Number),
-          secondaryIpRange: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Instance" });
-  }
-}
-function __c32(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3473,7 +3071,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsOperationsRequest" });
   }
 }
-function __c33(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3489,7 +3087,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "GetSharedRegionalCertificateAuthorityProjectsLocationsRequest" });
   }
 }
-function __c34(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3500,9 +3098,17 @@ function __c34(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
-          inputConfig: S.optional(__S(1088, __c34, 0)),
-        }).pipe(
+          inputConfig: S.optional(__S(1024, __c32, 0)),
+        }),
+      ).annotate({ identifier: "ImportInstanceRequest" });
+    case 2:
+      return S.suspend(() =>
+        S.Extend(
+          __S(1025, __c32, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:import",
@@ -3512,13 +3118,13 @@ function __c34(j: number): any {
       ).annotate({ identifier: "ImportProjectsLocationsInstancesRequest" });
   }
 }
-function __c35(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          extraLocationTypes: S.optional(__S(2048, __c64, 0).pipe(T.Query())),
+          extraLocationTypes: S.optional(__S(1984, __c62, 0).pipe(T.Query())),
           name: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
@@ -3536,12 +3142,12 @@ function __c35(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          locations: S.optional(__S(1121, __c35, 1)),
+          locations: S.optional(__S(1057, __c33, 1)),
         }),
       ).annotate({ identifier: "ListLocationsResponse" });
   }
 }
-function __c36(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3558,18 +3164,18 @@ function __c36(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsAclPoliciesRequest" });
     case 1:
-      return S.Array(__S(1920, __c60, 0));
+      return S.Array(__S(1892, __c59, 4));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          aclPolicies: S.optional(__S(1153, __c36, 1)),
-          unreachable: S.optional(__S(2048, __c64, 0)),
+          aclPolicies: S.optional(__S(1089, __c34, 1)),
+          unreachable: S.optional(__S(1984, __c62, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListAclPoliciesResponse" });
   }
 }
-function __c37(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3591,13 +3197,13 @@ function __c37(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          aclPolicyRevisions: S.optional(__S(1185, __c37, 1)),
-          unreachable: S.optional(__S(2048, __c64, 0)),
+          aclPolicyRevisions: S.optional(__S(1121, __c35, 1)),
+          unreachable: S.optional(__S(1984, __c62, 0)),
         }),
       ).annotate({ identifier: "ListAclPolicyRevisionsResponse" });
   }
 }
-function __c38(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3618,14 +3224,14 @@ function __c38(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(2048, __c64, 0)),
+          unreachable: S.optional(__S(1984, __c62, 0)),
           nextPageToken: S.optional(S.String),
-          backupCollections: S.optional(__S(1217, __c38, 1)),
+          backupCollections: S.optional(__S(1153, __c36, 1)),
         }),
       ).annotate({ identifier: "ListBackupCollectionsResponse" });
   }
 }
-function __c39(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3647,20 +3253,28 @@ function __c39(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          backups: S.optional(__S(1249, __c39, 1)),
-          unreachable: S.optional(__S(2048, __c64, 0)),
+          backups: S.optional(__S(1185, __c37, 1)),
+          unreachable: S.optional(__S(1984, __c62, 0)),
         }),
       ).annotate({ identifier: "ListBackupsResponse" });
   }
 }
-function __c40(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          tokenAuthUser: S.String.pipe(T.Label()),
-          authToken: S.optional(__S(1312, __c41, 0)),
-        }).pipe(
+          authToken: S.optional(__S(1248, __c39, 0)),
+        }),
+      ).annotate({ identifier: "AddAuthTokenRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(1216, __c38, 0),
+          S.Struct({
+            tokenAuthUser: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+tokenAuthUser}:addAuthToken",
@@ -3670,7 +3284,7 @@ function __c40(j: number): any {
       ).annotate({ identifier: "AddAuthTokenProjectsLocationsClustersTokenAuthUsersRequest" });
   }
 }
-function __c41(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3683,20 +3297,20 @@ function __c41(j: number): any {
       ).annotate({ identifier: "AuthToken" });
   }
 }
-function __c42(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c43(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1344, __c42, 0));
+      return S.Array(__S(1280, __c40, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          details: S.optional(__S(1376, __c43, 0)),
+          details: S.optional(__S(1312, __c41, 0)),
           code: S.optional(S.Number),
           message: S.optional(S.String),
         }),
@@ -3704,16 +3318,16 @@ function __c43(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          response: S.optional(__S(1344, __c42, 0)),
-          metadata: S.optional(__S(1344, __c42, 0)),
+          response: S.optional(__S(1280, __c40, 0)),
+          metadata: S.optional(__S(1280, __c40, 0)),
           done: S.optional(S.Boolean),
           name: S.optional(S.String),
-          error: S.optional(__S(1377, __c43, 1)),
+          error: S.optional(__S(1313, __c41, 1)),
         }),
       ).annotate({ identifier: "Operation" });
   }
 }
-function __c44(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3730,18 +3344,18 @@ function __c44(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsClustersRequest" });
     case 1:
-      return S.Array(__S(832, __c26, 0));
+      return S.Array(__S(2144, __c67, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(2048, __c64, 0)),
-          clusters: S.optional(__S(1409, __c44, 1)),
+          unreachable: S.optional(__S(1984, __c62, 0)),
+          clusters: S.optional(__S(1345, __c42, 1)),
         }),
       ).annotate({ identifier: "ListClustersResponse" });
   }
 }
-function __c45(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3760,18 +3374,18 @@ function __c45(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsClustersTokenAuthUsersRequest" });
     case 1:
-      return S.Array(__S(896, __c28, 0));
+      return S.Array(__S(864, __c27, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(2048, __c64, 0)),
-          tokenAuthUsers: S.optional(__S(1441, __c45, 1)),
+          unreachable: S.optional(__S(1984, __c62, 0)),
+          tokenAuthUsers: S.optional(__S(1377, __c43, 1)),
         }),
       ).annotate({ identifier: "ListTokenAuthUsersResponse" });
   }
 }
-function __c46(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3790,18 +3404,18 @@ function __c46(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsClustersTokenAuthUsersAuthTokensRequest" });
     case 1:
-      return S.Array(__S(1312, __c41, 0));
+      return S.Array(__S(1248, __c39, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          authTokens: S.optional(__S(1473, __c46, 1)),
-          unreachable: S.optional(__S(2048, __c64, 0)),
+          authTokens: S.optional(__S(1409, __c44, 1)),
+          unreachable: S.optional(__S(1984, __c62, 0)),
         }),
       ).annotate({ identifier: "ListAuthTokensResponse" });
   }
 }
-function __c47(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3818,18 +3432,18 @@ function __c47(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsInstancesRequest" });
     case 1:
-      return S.Array(__S(992, __c31, 0));
+      return S.Array(__S(42, __c1, 10));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(2048, __c64, 0)),
+          unreachable: S.optional(__S(1984, __c62, 0)),
           nextPageToken: S.optional(S.String),
-          instances: S.optional(__S(1505, __c47, 1)),
+          instances: S.optional(__S(1441, __c45, 1)),
         }),
       ).annotate({ identifier: "ListInstancesResponse" });
   }
 }
-function __c48(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3848,33 +3462,29 @@ function __c48(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsOperationsRequest" });
     case 1:
-      return S.Array(__S(1378, __c43, 2));
+      return S.Array(__S(1314, __c41, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          operations: S.optional(__S(1537, __c48, 1)),
-          unreachable: S.optional(__S(2048, __c64, 0)),
+          operations: S.optional(__S(1473, __c46, 1)),
+          unreachable: S.optional(__S(1984, __c62, 0)),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
   }
 }
-function __c49(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          rules: S.optional(__S(1953, __c61, 1)),
-          etag: S.optional(S.String),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          version: S.optional(S.String),
-          state: S.optional(S.String),
-          clusterAclPolicyAttachments: S.optional(__S(1955, __c61, 3)),
-        }).pipe(
+        S.Extend(
+          __S(1892, __c59, 4),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -3884,60 +3494,18 @@ function __c49(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsAclPoliciesRequest" });
   }
 }
-function __c50(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          serverCaMode: S.optional(S.String),
-          aclPolicy: S.optional(S.String),
-          asyncClusterEndpointsDeletionEnabled: S.optional(S.Boolean),
-          pscConnections: S.optional(__S(2177, __c68, 1)),
-          shardCount: S.optional(S.Number),
-          satisfiesPzs: S.optional(S.Boolean),
-          backupCollection: S.optional(S.String),
-          rotateServerCertificate: S.optional(S.Boolean),
-          serverCaPool: S.optional(S.String),
-          automatedBackupConfig: S.optional(__S(2179, __c68, 3)),
-          stateInfo: S.optional(__S(2181, __c68, 5)),
-          sizeGb: S.optional(S.Number),
-          nodeType: S.optional(S.String),
-          preciseSizeGb: S.optional(S.Number),
-          ondemandMaintenance: S.optional(S.Boolean),
-          crossClusterReplicationConfig: S.optional(__S(2185, __c68, 9)),
-          zoneDistributionConfig: S.optional(__S(2186, __c68, 10)),
-          uid: S.optional(S.String),
-          replicaCount: S.optional(S.Number),
-          pscServiceAttachments: S.optional(__S(2188, __c68, 12)),
-          availableMaintenanceVersions: S.optional(__S(2048, __c64, 0)),
-          kmsKey: S.optional(S.String),
-          aclPolicyInfo: S.optional(__S(2189, __c68, 13)),
-          gcsSource: S.optional(__S(2190, __c68, 14)),
-          redisConfigs: S.optional(__S(2080, __c65, 0)),
-          maintenanceSchedule: S.optional(__S(2191, __c68, 15)),
-          encryptionInfo: S.optional(__S(2144, __c67, 0)),
-          aclPolicyInSync: S.optional(S.Boolean),
-          maintenancePolicy: S.optional(__S(2194, __c68, 18)),
-          authorizationMode: S.optional(S.String),
-          discoveryEndpoints: S.optional(__S(2197, __c68, 21)),
-          transitEncryptionMode: S.optional(S.String),
-          pscConfigs: S.optional(__S(2198, __c68, 22)),
-          persistenceConfig: S.optional(__S(2201, __c68, 25)),
-          labels: S.optional(__S(2080, __c65, 0)),
-          satisfiesPzi: S.optional(S.Boolean),
-          deletionProtectionEnabled: S.optional(S.Boolean),
-          clusterEndpoints: S.optional(__S(2206, __c68, 30)),
-          maintenanceVersion: S.optional(S.String),
-          allowFewerZonesDeployment: S.optional(S.Boolean),
-          state: S.optional(S.String),
-          simulateMaintenanceEvent: S.optional(S.Boolean),
-          effectiveMaintenanceVersion: S.optional(S.String),
-          managedBackupSource: S.optional(__S(2207, __c68, 31)),
-          createTime: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(2144, __c67, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -3947,51 +3515,17 @@ function __c50(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsClustersRequest" });
   }
 }
-function __c51(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          redisConfigs: S.optional(__S(2080, __c65, 0)),
-          tags: S.optional(__S(2080, __c65, 0)),
-          locationId: S.optional(S.String),
-          host: S.optional(S.String),
-          readEndpoint: S.optional(S.String),
-          nodes: S.optional(__S(33, __c1, 1)),
-          transitEncryptionMode: S.optional(S.String),
-          authorizedNetwork: S.optional(S.String),
-          suspensionReasons: S.optional(__S(34, __c1, 2)),
-          readReplicasMode: S.optional(S.String),
-          statusMessage: S.optional(S.String),
-          serverCaCerts: S.optional(__S(36, __c1, 4)),
-          tier: S.optional(S.String),
-          redisVersion: S.optional(S.String),
-          reservedIpRange: S.optional(S.String),
-          satisfiesPzi: S.optional(S.Boolean),
-          connectMode: S.optional(S.String),
-          customerManagedKey: S.optional(S.String),
-          readEndpointPort: S.optional(S.Number),
-          persistenceConfig: S.optional(__S(37, __c1, 5)),
-          satisfiesPzs: S.optional(S.Boolean),
-          memorySizeGb: S.optional(S.Number),
-          displayName: S.optional(S.String),
-          availableMaintenanceVersions: S.optional(__S(2048, __c64, 0)),
-          state: S.optional(S.String),
-          persistenceIamIdentity: S.optional(S.String),
-          labels: S.optional(__S(2080, __c65, 0)),
-          replicaCount: S.optional(S.Number),
-          createTime: S.optional(S.String),
-          maintenanceVersion: S.optional(S.String),
-          maintenancePolicy: S.optional(__S(40, __c1, 8)),
-          currentLocationId: S.optional(S.String),
-          authEnabled: S.optional(S.Boolean),
-          maintenanceSchedule: S.optional(__S(41, __c1, 9)),
-          alternativeLocationId: S.optional(S.String),
-          port: S.optional(S.Number),
-          secondaryIpRange: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(42, __c1, 10),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -4001,15 +3535,16 @@ function __c51(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsInstancesRequest" });
   }
 }
-function __c52(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          rescheduleType: S.optional(S.String),
-          scheduleTime: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1632, __c51, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:rescheduleClusterMaintenance",
@@ -4019,15 +3554,27 @@ function __c52(j: number): any {
       ).annotate({ identifier: "RescheduleClusterMaintenanceProjectsLocationsClustersRequest" });
   }
 }
-function __c53(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           rescheduleType: S.optional(S.String),
           scheduleTime: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "RescheduleClusterMaintenanceRequest" });
+  }
+}
+function __c52(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(1632, __c51, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:rescheduleMaintenance",
@@ -4037,14 +3584,22 @@ function __c53(j: number): any {
       ).annotate({ identifier: "RescheduleMaintenanceProjectsLocationsInstancesRequest" });
   }
 }
-function __c54(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          cluster: S.String.pipe(T.Label()),
           tokenAuthUser: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "AddTokenAuthUserRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(1696, __c53, 0),
+          S.Struct({
+            cluster: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+cluster}:addTokenAuthUser",
@@ -4054,14 +3609,22 @@ function __c54(j: number): any {
       ).annotate({ identifier: "AddTokenAuthUserProjectsLocationsClustersRequest" });
   }
 }
-function __c55(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           redisVersion: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "UpgradeInstanceRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(1728, __c54, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:upgrade",
@@ -4071,15 +3634,23 @@ function __c55(j: number): any {
       ).annotate({ identifier: "UpgradeProjectsLocationsInstancesRequest" });
   }
 }
-function __c56(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           ttl: S.optional(S.String),
           backupId: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "BackupClusterRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(1760, __c55, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:backup",
@@ -4089,7 +3660,7 @@ function __c56(j: number): any {
       ).annotate({ identifier: "BackupProjectsLocationsClustersRequest" });
   }
 }
-function __c57(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4105,29 +3676,24 @@ function __c57(j: number): any {
       ).annotate({ identifier: "CancelProjectsLocationsOperationsRequest" });
   }
 }
-function __c58(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "Empty" });
   }
 }
-function __c59(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          aclPolicyId: S.optional(S.String.pipe(T.Query())),
-          rules: S.optional(__S(1953, __c61, 1)),
-          etag: S.optional(S.String),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          version: S.optional(S.String),
-          state: S.optional(S.String),
-          clusterAclPolicyAttachments: S.optional(__S(1955, __c61, 3)),
-          name: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1892, __c59, 4),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            aclPolicyId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/aclPolicies",
@@ -4137,24 +3703,7 @@ function __c59(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsAclPoliciesRequest" });
   }
 }
-function __c60(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          rules: S.optional(__S(1953, __c61, 1)),
-          etag: S.optional(S.String),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          version: S.optional(S.String),
-          state: S.optional(S.String),
-          clusterAclPolicyAttachments: S.optional(__S(1955, __c61, 3)),
-          name: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AclPolicy" });
-  }
-}
-function __c61(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4164,19 +3713,32 @@ function __c61(j: number): any {
         }),
       ).annotate({ identifier: "AclRule" });
     case 1:
-      return S.Array(__S(1952, __c61, 0));
+      return S.Array(__S(1888, __c59, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           cluster: S.optional(S.String),
-          aclPolicyRevisionStatuses: S.optional(__S(1985, __c62, 1)),
+          aclPolicyRevisionStatuses: S.optional(__S(1921, __c60, 1)),
         }),
       ).annotate({ identifier: "ClusterAclPolicyAttachment" });
     case 3:
-      return S.Array(__S(1954, __c61, 2));
+      return S.Array(__S(1890, __c59, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          rules: S.optional(__S(1889, __c59, 1)),
+          etag: S.optional(S.String),
+          createTime: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          version: S.optional(S.String),
+          state: S.optional(S.String),
+          clusterAclPolicyAttachments: S.optional(__S(1891, __c59, 3)),
+          name: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AclPolicy" });
   }
 }
-function __c62(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4188,64 +3750,21 @@ function __c62(j: number): any {
         }),
       ).annotate({ identifier: "AclPolicyRevisionStatus" });
     case 1:
-      return S.Array(__S(1984, __c62, 0));
+      return S.Array(__S(1920, __c60, 0));
   }
 }
-function __c63(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          clusterId: S.optional(S.String.pipe(T.Query())),
-          serverCaMode: S.optional(S.String),
-          aclPolicy: S.optional(S.String),
-          asyncClusterEndpointsDeletionEnabled: S.optional(S.Boolean),
-          pscConnections: S.optional(__S(2177, __c68, 1)),
-          shardCount: S.optional(S.Number),
-          satisfiesPzs: S.optional(S.Boolean),
-          backupCollection: S.optional(S.String),
-          rotateServerCertificate: S.optional(S.Boolean),
-          serverCaPool: S.optional(S.String),
-          automatedBackupConfig: S.optional(__S(2179, __c68, 3)),
-          stateInfo: S.optional(__S(2181, __c68, 5)),
-          sizeGb: S.optional(S.Number),
-          nodeType: S.optional(S.String),
-          preciseSizeGb: S.optional(S.Number),
-          ondemandMaintenance: S.optional(S.Boolean),
-          crossClusterReplicationConfig: S.optional(__S(2185, __c68, 9)),
-          zoneDistributionConfig: S.optional(__S(2186, __c68, 10)),
-          uid: S.optional(S.String),
-          replicaCount: S.optional(S.Number),
-          pscServiceAttachments: S.optional(__S(2188, __c68, 12)),
-          availableMaintenanceVersions: S.optional(__S(2048, __c64, 0)),
-          kmsKey: S.optional(S.String),
-          aclPolicyInfo: S.optional(__S(2189, __c68, 13)),
-          gcsSource: S.optional(__S(2190, __c68, 14)),
-          redisConfigs: S.optional(__S(2080, __c65, 0)),
-          maintenanceSchedule: S.optional(__S(2191, __c68, 15)),
-          encryptionInfo: S.optional(__S(2144, __c67, 0)),
-          aclPolicyInSync: S.optional(S.Boolean),
-          maintenancePolicy: S.optional(__S(2194, __c68, 18)),
-          authorizationMode: S.optional(S.String),
-          discoveryEndpoints: S.optional(__S(2197, __c68, 21)),
-          transitEncryptionMode: S.optional(S.String),
-          pscConfigs: S.optional(__S(2198, __c68, 22)),
-          persistenceConfig: S.optional(__S(2201, __c68, 25)),
-          labels: S.optional(__S(2080, __c65, 0)),
-          satisfiesPzi: S.optional(S.Boolean),
-          deletionProtectionEnabled: S.optional(S.Boolean),
-          name: S.optional(S.String),
-          clusterEndpoints: S.optional(__S(2206, __c68, 30)),
-          maintenanceVersion: S.optional(S.String),
-          allowFewerZonesDeployment: S.optional(S.Boolean),
-          state: S.optional(S.String),
-          simulateMaintenanceEvent: S.optional(S.Boolean),
-          effectiveMaintenanceVersion: S.optional(S.String),
-          managedBackupSource: S.optional(__S(2207, __c68, 31)),
-          createTime: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(2144, __c67, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            clusterId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/clusters",
@@ -4255,19 +3774,19 @@ function __c63(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsClustersRequest" });
   }
 }
-function __c64(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c65(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
   }
 }
-function __c66(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4280,7 +3799,7 @@ function __c66(j: number): any {
       ).annotate({ identifier: "TimeOfDay" });
   }
 }
-function __c67(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4288,12 +3807,12 @@ function __c67(j: number): any {
           encryptionType: S.optional(S.String),
           lastUpdateTime: S.optional(S.String),
           kmsKeyPrimaryState: S.optional(S.String),
-          kmsKeyVersions: S.optional(__S(2048, __c64, 0)),
+          kmsKeyVersions: S.optional(__S(1984, __c62, 0)),
         }),
       ).annotate({ identifier: "EncryptionInfo" });
   }
 }
-function __c68(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4310,11 +3829,11 @@ function __c68(j: number): any {
         }),
       ).annotate({ identifier: "PscConnection" });
     case 1:
-      return S.Array(__S(2176, __c68, 0));
+      return S.Array(__S(2112, __c66, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          startTime: S.optional(__S(2112, __c66, 0)),
+          startTime: S.optional(__S(2048, __c64, 0)),
         }),
       ).annotate({ identifier: "FixedFrequencySchedule" });
     case 3:
@@ -4322,7 +3841,7 @@ function __c68(j: number): any {
         S.Struct({
           automatedBackupMode: S.optional(S.String),
           retention: S.optional(S.String),
-          fixedFrequencySchedule: S.optional(__S(2178, __c68, 2)),
+          fixedFrequencySchedule: S.optional(__S(2114, __c66, 2)),
         }),
       ).annotate({ identifier: "AutomatedBackupConfig" });
     case 4:
@@ -4336,7 +3855,7 @@ function __c68(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          updateInfo: S.optional(__S(2180, __c68, 4)),
+          updateInfo: S.optional(__S(2116, __c66, 4)),
         }),
       ).annotate({ identifier: "StateInfo" });
     case 6:
@@ -4347,29 +3866,29 @@ function __c68(j: number): any {
         }),
       ).annotate({ identifier: "RemoteCluster" });
     case 7:
-      return S.Array(__S(2182, __c68, 6));
+      return S.Array(__S(2118, __c66, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          secondaryClusters: S.optional(__S(2183, __c68, 7)),
-          primaryCluster: S.optional(__S(2182, __c68, 6)),
+          secondaryClusters: S.optional(__S(2119, __c66, 7)),
+          primaryCluster: S.optional(__S(2118, __c66, 6)),
         }),
       ).annotate({ identifier: "Membership" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          primaryCluster: S.optional(__S(2182, __c68, 6)),
+          primaryCluster: S.optional(__S(2118, __c66, 6)),
           updateTime: S.optional(S.String),
           clusterRole: S.optional(S.String),
-          membership: S.optional(__S(2184, __c68, 8)),
-          secondaryClusters: S.optional(__S(2183, __c68, 7)),
+          membership: S.optional(__S(2120, __c66, 8)),
+          secondaryClusters: S.optional(__S(2119, __c66, 7)),
         }),
       ).annotate({ identifier: "CrossClusterReplicationConfig" });
     case 10:
       return S.suspend(() =>
         S.Struct({
-          activeZones: S.optional(__S(2048, __c64, 0)),
-          zones: S.optional(__S(2048, __c64, 0)),
+          activeZones: S.optional(__S(1984, __c62, 0)),
+          zones: S.optional(__S(1984, __c62, 0)),
           mode: S.optional(S.String),
           zone: S.optional(S.String),
         }),
@@ -4382,11 +3901,11 @@ function __c68(j: number): any {
         }),
       ).annotate({ identifier: "PscServiceAttachment" });
     case 12:
-      return S.Array(__S(2187, __c68, 11));
+      return S.Array(__S(2123, __c66, 11));
     case 13:
       return S.suspend(() =>
         S.Struct({
-          aclPolicyRevisionStatuses: S.optional(__S(1985, __c62, 1)),
+          aclPolicyRevisionStatuses: S.optional(__S(1921, __c60, 1)),
           appliedAclPolicyRevision: S.optional(S.String),
           appliedAclPolicyRevisionNumber: S.optional(S.String),
           appliedAclPolicy: S.optional(S.String),
@@ -4395,7 +3914,7 @@ function __c68(j: number): any {
     case 14:
       return S.suspend(() =>
         S.Struct({
-          uris: S.optional(__S(2048, __c64, 0)),
+          uris: S.optional(__S(1984, __c62, 0)),
         }),
       ).annotate({ identifier: "GcsBackupSource" });
     case 15:
@@ -4408,16 +3927,16 @@ function __c68(j: number): any {
     case 16:
       return S.suspend(() =>
         S.Struct({
-          startTime: S.optional(__S(2112, __c66, 0)),
+          startTime: S.optional(__S(2048, __c64, 0)),
           day: S.optional(S.String),
         }),
       ).annotate({ identifier: "ClusterWeeklyMaintenanceWindow" });
     case 17:
-      return S.Array(__S(2192, __c68, 16));
+      return S.Array(__S(2128, __c66, 16));
     case 18:
       return S.suspend(() =>
         S.Struct({
-          weeklyMaintenanceWindow: S.optional(__S(2193, __c68, 17)),
+          weeklyMaintenanceWindow: S.optional(__S(2129, __c66, 17)),
           createTime: S.optional(S.String),
           updateTime: S.optional(S.String),
         }),
@@ -4431,15 +3950,15 @@ function __c68(j: number): any {
     case 20:
       return S.suspend(() =>
         S.Struct({
-          pscConfig: S.optional(__S(2195, __c68, 19)),
+          pscConfig: S.optional(__S(2131, __c66, 19)),
           address: S.optional(S.String),
           port: S.optional(S.Number),
         }),
       ).annotate({ identifier: "DiscoveryEndpoint" });
     case 21:
-      return S.Array(__S(2196, __c68, 20));
+      return S.Array(__S(2132, __c66, 20));
     case 22:
-      return S.Array(__S(2195, __c68, 19));
+      return S.Array(__S(2131, __c66, 19));
     case 23:
       return S.suspend(() =>
         S.Struct({
@@ -4456,9 +3975,9 @@ function __c68(j: number): any {
     case 25:
       return S.suspend(() =>
         S.Struct({
-          aofConfig: S.optional(__S(2199, __c68, 23)),
+          aofConfig: S.optional(__S(2135, __c66, 23)),
           mode: S.optional(S.String),
-          rdbConfig: S.optional(__S(2200, __c68, 24)),
+          rdbConfig: S.optional(__S(2136, __c66, 24)),
         }),
       ).annotate({ identifier: "ClusterPersistenceConfig" });
     case 26:
@@ -4477,26 +3996,81 @@ function __c68(j: number): any {
     case 27:
       return S.suspend(() =>
         S.Struct({
-          pscConnection: S.optional(__S(2176, __c68, 0)),
-          pscAutoConnection: S.optional(__S(2202, __c68, 26)),
+          pscConnection: S.optional(__S(2112, __c66, 0)),
+          pscAutoConnection: S.optional(__S(2138, __c66, 26)),
         }),
       ).annotate({ identifier: "ConnectionDetail" });
     case 28:
-      return S.Array(__S(2203, __c68, 27));
+      return S.Array(__S(2139, __c66, 27));
     case 29:
       return S.suspend(() =>
         S.Struct({
-          connections: S.optional(__S(2204, __c68, 28)),
+          connections: S.optional(__S(2140, __c66, 28)),
         }),
       ).annotate({ identifier: "ClusterEndpoint" });
     case 30:
-      return S.Array(__S(2205, __c68, 29));
+      return S.Array(__S(2141, __c66, 29));
     case 31:
       return S.suspend(() =>
         S.Struct({
           backup: S.optional(S.String),
         }),
       ).annotate({ identifier: "ManagedBackupSource" });
+  }
+}
+function __c67(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          serverCaMode: S.optional(S.String),
+          aclPolicy: S.optional(S.String),
+          asyncClusterEndpointsDeletionEnabled: S.optional(S.Boolean),
+          pscConnections: S.optional(__S(2113, __c66, 1)),
+          shardCount: S.optional(S.Number),
+          satisfiesPzs: S.optional(S.Boolean),
+          backupCollection: S.optional(S.String),
+          rotateServerCertificate: S.optional(S.Boolean),
+          serverCaPool: S.optional(S.String),
+          automatedBackupConfig: S.optional(__S(2115, __c66, 3)),
+          stateInfo: S.optional(__S(2117, __c66, 5)),
+          sizeGb: S.optional(S.Number),
+          nodeType: S.optional(S.String),
+          preciseSizeGb: S.optional(S.Number),
+          ondemandMaintenance: S.optional(S.Boolean),
+          crossClusterReplicationConfig: S.optional(__S(2121, __c66, 9)),
+          zoneDistributionConfig: S.optional(__S(2122, __c66, 10)),
+          uid: S.optional(S.String),
+          replicaCount: S.optional(S.Number),
+          pscServiceAttachments: S.optional(__S(2124, __c66, 12)),
+          availableMaintenanceVersions: S.optional(__S(1984, __c62, 0)),
+          kmsKey: S.optional(S.String),
+          aclPolicyInfo: S.optional(__S(2125, __c66, 13)),
+          gcsSource: S.optional(__S(2126, __c66, 14)),
+          redisConfigs: S.optional(__S(2016, __c63, 0)),
+          maintenanceSchedule: S.optional(__S(2127, __c66, 15)),
+          encryptionInfo: S.optional(__S(2080, __c65, 0)),
+          aclPolicyInSync: S.optional(S.Boolean),
+          maintenancePolicy: S.optional(__S(2130, __c66, 18)),
+          authorizationMode: S.optional(S.String),
+          discoveryEndpoints: S.optional(__S(2133, __c66, 21)),
+          transitEncryptionMode: S.optional(S.String),
+          pscConfigs: S.optional(__S(2134, __c66, 22)),
+          persistenceConfig: S.optional(__S(2137, __c66, 25)),
+          labels: S.optional(__S(2016, __c63, 0)),
+          satisfiesPzi: S.optional(S.Boolean),
+          deletionProtectionEnabled: S.optional(S.Boolean),
+          name: S.optional(S.String),
+          clusterEndpoints: S.optional(__S(2142, __c66, 30)),
+          maintenanceVersion: S.optional(S.String),
+          allowFewerZonesDeployment: S.optional(S.Boolean),
+          state: S.optional(S.String),
+          simulateMaintenanceEvent: S.optional(S.Boolean),
+          effectiveMaintenanceVersion: S.optional(S.String),
+          managedBackupSource: S.optional(__S(2143, __c66, 31)),
+          createTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Cluster" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

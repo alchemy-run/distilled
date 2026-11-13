@@ -139,7 +139,10 @@ export interface GoogleCloudEssentialcontactsV1Contact {
   /** Output only. The identifier for the contact. Format: {resource_type}/{resource_id}/contacts/{contact_id} */
   name?: string | undefined;
   /** Output only. The validity of the contact. A contact is considered valid if it is the correct recipient for notifications for a particular resource. */
-  validationState?: GoogleCloudEssentialcontactsV1ContactValidationStateEnum | undefined;
+  validationState?:
+    | GoogleCloudEssentialcontactsV1ContactValidationStateEnum
+    | (string & {})
+    | undefined;
 }
 export type GoogleCloudEssentialcontactsV1ContactList =
   Array<GoogleCloudEssentialcontactsV1Contact>;
@@ -196,68 +199,17 @@ export interface ComputeProjectsContactsRequest {
   /** Optional. If present, retrieves the next batch of results from the preceding call to this method. `page_token` must be the value of `next_page_token` from the previous response. The values of other method parameters should be identical to those in the previous call. */
   pageToken?: string | undefined;
 }
-export interface CreateFoldersContactsRequest {
+export interface CreateFoldersContactsRequest extends GoogleCloudEssentialcontactsV1Contact {
   /** Required. The resource to save this contact for. Format: organizations/{organization}, folders/{folder} or projects/{project} (where {project} is the project number) */
   parent: string;
-  /** Required. The preferred language for notifications, as a ISO 639-1 language code. See [Supported languages](https://cloud.google.com/resource-manager/docs/managing-notification-contacts#supported-languages) for a list of supported languages. */
-  languageTag?: string | undefined;
-  /** Required. The email address to send notifications to. The email address does not need to be a Google Account. */
-  email?: string | undefined;
-  /** Required. The categories of notifications that the contact will receive communications for. */
-  notificationCategorySubscriptions?:
-    | GoogleCloudEssentialcontactsV1ContactNotificationCategorySubscriptionsItemEnumList
-    | undefined;
-  /** Output only. The last time the validation_state was updated, either manually or automatically. A contact is considered stale if its validation state was updated more than 1 year ago. */
-  validateTime?: string | undefined;
-  /** Output only. The identifier for the contact. Format: {resource_type}/{resource_id}/contacts/{contact_id} */
-  name?: string | undefined;
-  /** Output only. The validity of the contact. A contact is considered valid if it is the correct recipient for notifications for a particular resource. */
-  validationState?:
-    | GoogleCloudEssentialcontactsV1ContactValidationStateEnum
-    | (string & {})
-    | undefined;
 }
-export interface CreateOrganizationsContactsRequest {
+export interface CreateOrganizationsContactsRequest extends GoogleCloudEssentialcontactsV1Contact {
   /** Required. The resource to save this contact for. Format: organizations/{organization}, folders/{folder} or projects/{project} (where {project} is the project number) */
   parent: string;
-  /** Required. The preferred language for notifications, as a ISO 639-1 language code. See [Supported languages](https://cloud.google.com/resource-manager/docs/managing-notification-contacts#supported-languages) for a list of supported languages. */
-  languageTag?: string | undefined;
-  /** Required. The email address to send notifications to. The email address does not need to be a Google Account. */
-  email?: string | undefined;
-  /** Required. The categories of notifications that the contact will receive communications for. */
-  notificationCategorySubscriptions?:
-    | GoogleCloudEssentialcontactsV1ContactNotificationCategorySubscriptionsItemEnumList
-    | undefined;
-  /** Output only. The last time the validation_state was updated, either manually or automatically. A contact is considered stale if its validation state was updated more than 1 year ago. */
-  validateTime?: string | undefined;
-  /** Output only. The identifier for the contact. Format: {resource_type}/{resource_id}/contacts/{contact_id} */
-  name?: string | undefined;
-  /** Output only. The validity of the contact. A contact is considered valid if it is the correct recipient for notifications for a particular resource. */
-  validationState?:
-    | GoogleCloudEssentialcontactsV1ContactValidationStateEnum
-    | (string & {})
-    | undefined;
 }
-export interface CreateProjectsContactsRequest {
+export interface CreateProjectsContactsRequest extends GoogleCloudEssentialcontactsV1Contact {
   /** Required. The resource to save this contact for. Format: organizations/{organization}, folders/{folder} or projects/{project} (where {project} is the project number) */
   parent: string;
-  /** Required. The preferred language for notifications, as a ISO 639-1 language code. See [Supported languages](https://cloud.google.com/resource-manager/docs/managing-notification-contacts#supported-languages) for a list of supported languages. */
-  languageTag?: string | undefined;
-  /** Required. The email address to send notifications to. The email address does not need to be a Google Account. */
-  email?: string | undefined;
-  /** Required. The categories of notifications that the contact will receive communications for. */
-  notificationCategorySubscriptions?:
-    | GoogleCloudEssentialcontactsV1ContactNotificationCategorySubscriptionsItemEnumList
-    | undefined;
-  /** Output only. The last time the validation_state was updated, either manually or automatically. A contact is considered stale if its validation state was updated more than 1 year ago. */
-  validateTime?: string | undefined;
-  /** Output only. The identifier for the contact. Format: {resource_type}/{resource_id}/contacts/{contact_id} */
-  name?: string | undefined;
-  /** Output only. The validity of the contact. A contact is considered valid if it is the correct recipient for notifications for a particular resource. */
-  validationState?:
-    | GoogleCloudEssentialcontactsV1ContactValidationStateEnum
-    | (string & {})
-    | undefined;
 }
 export interface DeleteFoldersContactsRequest {
   /** Required. The name of the contact to delete. Format: organizations/{organization}/contacts/{contact}, folders/{folder}/contacts/{contact} or projects/{project}/contacts/{contact} (where {project} is the project number) */
@@ -316,68 +268,32 @@ export interface ListProjectsContactsRequest {
   /** Optional. If present, retrieves the next batch of results from the preceding call to this method. `page_token` must be the value of `next_page_token` from the previous response. The values of other method parameters should be identical to those in the previous call. */
   pageToken?: string | undefined;
 }
-export interface PatchFoldersContactsRequest {
+export interface PatchFoldersContactsRequest extends Omit<
+  GoogleCloudEssentialcontactsV1Contact,
+  "name"
+> {
   /** Optional. The update mask applied to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask */
   updateMask?: string | undefined;
   /** Output only. The identifier for the contact. Format: {resource_type}/{resource_id}/contacts/{contact_id} */
   name: string;
-  /** Required. The preferred language for notifications, as a ISO 639-1 language code. See [Supported languages](https://cloud.google.com/resource-manager/docs/managing-notification-contacts#supported-languages) for a list of supported languages. */
-  languageTag?: string | undefined;
-  /** Required. The email address to send notifications to. The email address does not need to be a Google Account. */
-  email?: string | undefined;
-  /** Required. The categories of notifications that the contact will receive communications for. */
-  notificationCategorySubscriptions?:
-    | GoogleCloudEssentialcontactsV1ContactNotificationCategorySubscriptionsItemEnumList
-    | undefined;
-  /** Output only. The last time the validation_state was updated, either manually or automatically. A contact is considered stale if its validation state was updated more than 1 year ago. */
-  validateTime?: string | undefined;
-  /** Output only. The validity of the contact. A contact is considered valid if it is the correct recipient for notifications for a particular resource. */
-  validationState?:
-    | GoogleCloudEssentialcontactsV1ContactValidationStateEnum
-    | (string & {})
-    | undefined;
 }
-export interface PatchOrganizationsContactsRequest {
+export interface PatchOrganizationsContactsRequest extends Omit<
+  GoogleCloudEssentialcontactsV1Contact,
+  "name"
+> {
   /** Optional. The update mask applied to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask */
   updateMask?: string | undefined;
   /** Output only. The identifier for the contact. Format: {resource_type}/{resource_id}/contacts/{contact_id} */
   name: string;
-  /** Required. The preferred language for notifications, as a ISO 639-1 language code. See [Supported languages](https://cloud.google.com/resource-manager/docs/managing-notification-contacts#supported-languages) for a list of supported languages. */
-  languageTag?: string | undefined;
-  /** Required. The email address to send notifications to. The email address does not need to be a Google Account. */
-  email?: string | undefined;
-  /** Required. The categories of notifications that the contact will receive communications for. */
-  notificationCategorySubscriptions?:
-    | GoogleCloudEssentialcontactsV1ContactNotificationCategorySubscriptionsItemEnumList
-    | undefined;
-  /** Output only. The last time the validation_state was updated, either manually or automatically. A contact is considered stale if its validation state was updated more than 1 year ago. */
-  validateTime?: string | undefined;
-  /** Output only. The validity of the contact. A contact is considered valid if it is the correct recipient for notifications for a particular resource. */
-  validationState?:
-    | GoogleCloudEssentialcontactsV1ContactValidationStateEnum
-    | (string & {})
-    | undefined;
 }
-export interface PatchProjectsContactsRequest {
+export interface PatchProjectsContactsRequest extends Omit<
+  GoogleCloudEssentialcontactsV1Contact,
+  "name"
+> {
   /** Optional. The update mask applied to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask */
   updateMask?: string | undefined;
   /** Output only. The identifier for the contact. Format: {resource_type}/{resource_id}/contacts/{contact_id} */
   name: string;
-  /** Required. The preferred language for notifications, as a ISO 639-1 language code. See [Supported languages](https://cloud.google.com/resource-manager/docs/managing-notification-contacts#supported-languages) for a list of supported languages. */
-  languageTag?: string | undefined;
-  /** Required. The email address to send notifications to. The email address does not need to be a Google Account. */
-  email?: string | undefined;
-  /** Required. The categories of notifications that the contact will receive communications for. */
-  notificationCategorySubscriptions?:
-    | GoogleCloudEssentialcontactsV1ContactNotificationCategorySubscriptionsItemEnumList
-    | undefined;
-  /** Output only. The last time the validation_state was updated, either manually or automatically. A contact is considered stale if its validation state was updated more than 1 year ago. */
-  validateTime?: string | undefined;
-  /** Output only. The validity of the contact. A contact is considered valid if it is the correct recipient for notifications for a particular resource. */
-  validationState?:
-    | GoogleCloudEssentialcontactsV1ContactValidationStateEnum
-    | (string & {})
-    | undefined;
 }
 export type GoogleCloudEssentialcontactsV1SendTestMessageRequestNotificationCategoryEnum =
   | "NOTIFICATION_CATEGORY_UNSPECIFIED"
@@ -390,9 +306,8 @@ export type GoogleCloudEssentialcontactsV1SendTestMessageRequestNotificationCate
   | "PRODUCT_UPDATES"
   | "TECHNICAL_INCIDENTS";
 export type StringList = Array<string>;
-export interface SendTestMessageFoldersContactsRequest {
-  /** Required. The name of the resource to send the test message for. All contacts must either be set directly on this resource or inherited from another resource that is an ancestor of this one. Format: organizations/{organization}, folders/{folder} or projects/{project} (where {project} is the project number) */
-  resource: string;
+/** Request message for the SendTestMessage method. */
+export interface GoogleCloudEssentialcontactsV1SendTestMessageRequest {
   /** Required. The notification category to send the test message for. All contacts must be subscribed to this category. */
   notificationCategory?:
     | GoogleCloudEssentialcontactsV1SendTestMessageRequestNotificationCategoryEnum
@@ -401,27 +316,17 @@ export interface SendTestMessageFoldersContactsRequest {
   /** Required. The list of names of the contacts to send a test message to. Format: organizations/{organization}/contacts/{contact}, folders/{folder}/contacts/{contact} or projects/{project}/contacts/{contact} (where {project} is the project number) */
   contacts?: StringList | undefined;
 }
-export interface SendTestMessageOrganizationsContactsRequest {
+export interface SendTestMessageFoldersContactsRequest extends GoogleCloudEssentialcontactsV1SendTestMessageRequest {
   /** Required. The name of the resource to send the test message for. All contacts must either be set directly on this resource or inherited from another resource that is an ancestor of this one. Format: organizations/{organization}, folders/{folder} or projects/{project} (where {project} is the project number) */
   resource: string;
-  /** Required. The notification category to send the test message for. All contacts must be subscribed to this category. */
-  notificationCategory?:
-    | GoogleCloudEssentialcontactsV1SendTestMessageRequestNotificationCategoryEnum
-    | (string & {})
-    | undefined;
-  /** Required. The list of names of the contacts to send a test message to. Format: organizations/{organization}/contacts/{contact}, folders/{folder}/contacts/{contact} or projects/{project}/contacts/{contact} (where {project} is the project number) */
-  contacts?: StringList | undefined;
 }
-export interface SendTestMessageProjectsContactsRequest {
+export interface SendTestMessageOrganizationsContactsRequest extends GoogleCloudEssentialcontactsV1SendTestMessageRequest {
   /** Required. The name of the resource to send the test message for. All contacts must either be set directly on this resource or inherited from another resource that is an ancestor of this one. Format: organizations/{organization}, folders/{folder} or projects/{project} (where {project} is the project number) */
   resource: string;
-  /** Required. The notification category to send the test message for. All contacts must be subscribed to this category. */
-  notificationCategory?:
-    | GoogleCloudEssentialcontactsV1SendTestMessageRequestNotificationCategoryEnum
-    | (string & {})
-    | undefined;
-  /** Required. The list of names of the contacts to send a test message to. Format: organizations/{organization}/contacts/{contact}, folders/{folder}/contacts/{contact} or projects/{project}/contacts/{contact} (where {project} is the project number) */
-  contacts?: StringList | undefined;
+}
+export interface SendTestMessageProjectsContactsRequest extends GoogleCloudEssentialcontactsV1SendTestMessageRequest {
+  /** Required. The name of the resource to send the test message for. All contacts must either be set directly on this resource or inherited from another resource that is an ancestor of this one. Format: organizations/{organization}, folders/{folder} or projects/{project} (where {project} is the project number) */
+  resource: string;
 }
 export type ComputeFoldersContactsError = NotFound | Forbidden | GcpOpError;
 /** Lists all contacts for the resource that are subscribed to the specified notification categories, including contacts inherited from any parent resources. */
@@ -995,15 +900,13 @@ function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          languageTag: S.optional(S.String),
-          email: S.optional(S.String),
-          notificationCategorySubscriptions: S.optional(__S(38, __c19, 0)),
-          validateTime: S.optional(S.String),
-          validationState: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(39, __c19, 1),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -1017,15 +920,13 @@ function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          languageTag: S.optional(S.String),
-          email: S.optional(S.String),
-          notificationCategorySubscriptions: S.optional(__S(38, __c19, 0)),
-          validateTime: S.optional(S.String),
-          validationState: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(39, __c19, 1),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -1039,15 +940,13 @@ function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          languageTag: S.optional(S.String),
-          email: S.optional(S.String),
-          notificationCategorySubscriptions: S.optional(__S(38, __c19, 0)),
-          validateTime: S.optional(S.String),
-          validationState: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(39, __c19, 1),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -1061,11 +960,12 @@ function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          notificationCategory: S.optional(S.String),
-          contacts: S.optional(__S(28, __c14, 0)),
-        }).pipe(
+        S.Extend(
+          __S(29, __c14, 1),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}/contacts:sendTestMessage",
@@ -1079,17 +979,25 @@ function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          notificationCategory: S.optional(S.String),
+          contacts: S.optional(__S(28, __c14, 0)),
+        }),
+      ).annotate({ identifier: "GoogleCloudEssentialcontactsV1SendTestMessageRequest" });
   }
 }
 function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          notificationCategory: S.optional(S.String),
-          contacts: S.optional(__S(28, __c14, 0)),
-        }).pipe(
+        S.Extend(
+          __S(29, __c14, 1),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}/contacts:sendTestMessage",
@@ -1103,11 +1011,12 @@ function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          notificationCategory: S.optional(S.String),
-          contacts: S.optional(__S(28, __c14, 0)),
-        }).pipe(
+        S.Extend(
+          __S(29, __c14, 1),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}/contacts:sendTestMessage",
@@ -1208,15 +1117,12 @@ function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          languageTag: S.optional(S.String),
-          email: S.optional(S.String),
-          notificationCategorySubscriptions: S.optional(__S(38, __c19, 0)),
-          validateTime: S.optional(S.String),
-          name: S.optional(S.String),
-          validationState: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(39, __c19, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/contacts",
@@ -1230,15 +1136,12 @@ function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          languageTag: S.optional(S.String),
-          email: S.optional(S.String),
-          notificationCategorySubscriptions: S.optional(__S(38, __c19, 0)),
-          validateTime: S.optional(S.String),
-          name: S.optional(S.String),
-          validationState: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(39, __c19, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/contacts",
@@ -1252,15 +1155,12 @@ function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          languageTag: S.optional(S.String),
-          email: S.optional(S.String),
-          notificationCategorySubscriptions: S.optional(__S(38, __c19, 0)),
-          validateTime: S.optional(S.String),
-          name: S.optional(S.String),
-          validationState: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(39, __c19, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/contacts",

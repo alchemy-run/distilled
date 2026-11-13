@@ -83,15 +83,18 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
-export interface CreateLocationsGlobalMetricsScopesProjectsRequest {
-  /** Required. The resource name of the existing Metrics Scope that will monitor this project. Example: locations/global/metricsScopes/{SCOPING_PROJECT_ID_OR_NUMBER} */
-  parent: string;
+/** A project being monitored (https://cloud.google.com/monitoring/settings/multiple-projects#create-multi) by a Metrics Scope. */
+export interface MonitoredProject {
   /** Immutable. The resource name of the MonitoredProject. On input, the resource name includes the scoping project ID and monitored project ID. On output, it contains the equivalent project numbers. Example: locations/global/metricsScopes/{SCOPING_PROJECT_ID_OR_NUMBER}/projects/{MONITORED_PROJECT_ID_OR_NUMBER} */
   name?: string | undefined;
   /** Output only. The time when this MonitoredProject was created. */
   createTime?: string | undefined;
   /** Output only. Set if the project has been tombstoned by the user. */
   isTombstoned?: boolean | undefined;
+}
+export interface CreateLocationsGlobalMetricsScopesProjectsRequest extends MonitoredProject {
+  /** Required. The resource name of the existing Metrics Scope that will monitor this project. Example: locations/global/metricsScopes/{SCOPING_PROJECT_ID_OR_NUMBER} */
+  parent: string;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -922,32 +925,6 @@ export interface GridLayout {
   /** The informational elements that are arranged into the columns row-first. */
   widgets?: WidgetList | undefined;
 }
-export interface CreateProjectsDashboardsRequest {
-  /** Required. The project on which to execute the request. The format is: projects/[PROJECT_ID_OR_NUMBER] The [PROJECT_ID_OR_NUMBER] must match the dashboard resource name. */
-  parent: string;
-  /** If set, validate the request and preview the review, but do not actually save it. */
-  validateOnly?: boolean | undefined;
-  /** Identifier. The resource name of the dashboard. */
-  name?: string | undefined;
-  /** The content is divided into equally spaced columns and the widgets are arranged vertically. */
-  columnLayout?: ColumnLayout | undefined;
-  /** The content is arranged as a grid of tiles, with each content widget occupying one or more grid blocks. */
-  mosaicLayout?: MosaicLayout | undefined;
-  /** The content is divided into equally spaced rows and the widgets are arranged horizontally. */
-  rowLayout?: RowLayout | undefined;
-  /** Required. The mutable, human-readable name. */
-  displayName?: string | undefined;
-  /** Filters to reduce the amount of data charted based on the filter criteria. */
-  dashboardFilters?: DashboardFilterList | undefined;
-  /** etag is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. An etag is returned in the response to GetDashboard, and users are expected to put that etag in the request to UpdateDashboard to ensure that their change will be applied to the same version of the Dashboard configuration. The field should not be passed during dashboard creation. */
-  etag?: string | undefined;
-  /** Configuration for event annotations to display on this dashboard. */
-  annotations?: DashboardAnnotations | undefined;
-  /** Content is arranged with a basic layout that re-flows a simple list of informational elements like widgets or tiles. */
-  gridLayout?: GridLayout | undefined;
-  /** Labels applied to the dashboard */
-  labels?: StringMap | undefined;
-}
 /** A Google Stackdriver dashboard. Dashboards define the content and layout of pages in the Stackdriver web application. */
 export interface Dashboard {
   /** Identifier. The resource name of the dashboard. */
@@ -971,6 +948,12 @@ export interface Dashboard {
   /** Labels applied to the dashboard */
   labels?: StringMap | undefined;
 }
+export interface CreateProjectsDashboardsRequest extends Dashboard {
+  /** Required. The project on which to execute the request. The format is: projects/[PROJECT_ID_OR_NUMBER] The [PROJECT_ID_OR_NUMBER] must match the dashboard resource name. */
+  parent: string;
+  /** If set, validate the request and preview the review, but do not actually save it. */
+  validateOnly?: boolean | undefined;
+}
 export interface DeleteLocationsGlobalMetricsScopesProjectsRequest {
   /** Required. The resource name of the MonitoredProject. Example: locations/global/metricsScopes/{SCOPING_PROJECT_ID_OR_NUMBER}/projects/{MONITORED_PROJECT_ID_OR_NUMBER}Authorization requires the following Google IAM (https://cloud.google.com/iam) permissions on both the Metrics Scope and on the MonitoredProject: monitoring.metricsScopes.link */
   name: string;
@@ -982,15 +965,6 @@ export interface DeleteProjectsDashboardsRequest {
 export interface GetLocationsGlobalMetricsScopesRequest {
   /** Required. The resource name of the Metrics Scope. Example: locations/global/metricsScopes/{SCOPING_PROJECT_ID_OR_NUMBER} */
   name: string;
-}
-/** A project being monitored (https://cloud.google.com/monitoring/settings/multiple-projects#create-multi) by a Metrics Scope. */
-export interface MonitoredProject {
-  /** Immutable. The resource name of the MonitoredProject. On input, the resource name includes the scoping project ID and monitored project ID. On output, it contains the equivalent project numbers. Example: locations/global/metricsScopes/{SCOPING_PROJECT_ID_OR_NUMBER}/projects/{MONITORED_PROJECT_ID_OR_NUMBER} */
-  name?: string | undefined;
-  /** Output only. The time when this MonitoredProject was created. */
-  createTime?: string | undefined;
-  /** Output only. Set if the project has been tombstoned by the user. */
-  isTombstoned?: boolean | undefined;
 }
 export type MonitoredProjectList = Array<MonitoredProject>;
 /** Represents a Metrics Scope (https://cloud.google.com/monitoring/settings#concept-scope) in Cloud Monitoring, which specifies one or more Google projects and zero or more AWS accounts to monitor together. */
@@ -1012,17 +986,20 @@ export interface GetProjectsDashboardsRequest {
   /** Required. The resource name of the Dashboard. The format is one of: dashboards/[DASHBOARD_ID] (for system dashboards) projects/[PROJECT_ID_OR_NUMBER]/dashboards/[DASHBOARD_ID] (for custom dashboards). */
   name: string;
 }
-export interface LabelsProjectsLocationPrometheusApiV1Request {
-  /** Required. The workspace on which to execute the request. It is not part of the open source API but used as a request path prefix to distinguish different virtual Prometheus instances of Google Prometheus Engine. The format is: projects/PROJECT_ID_OR_NUMBER. */
-  name: string;
-  /** Location of the resource information. Has to be "global" now. */
-  location: string;
+/** QueryLabelsRequest holds all parameters of the Prometheus upstream API for returning a list of label names. */
+export interface QueryLabelsRequest {
   /** The end time to evaluate the query for. Either floating point UNIX seconds or RFC3339 formatted timestamp. */
   end?: string | undefined;
   /** The start time to evaluate the query for. Either floating point UNIX seconds or RFC3339 formatted timestamp. */
   start?: string | undefined;
   /** A list of matchers encoded in the Prometheus label matcher format to constrain the values to series that satisfy them. */
   match?: string | undefined;
+}
+export interface LabelsProjectsLocationPrometheusApiV1Request extends QueryLabelsRequest {
+  /** Required. The workspace on which to execute the request. It is not part of the open source API but used as a request path prefix to distinguish different virtual Prometheus instances of Google Prometheus Engine. The format is: projects/PROJECT_ID_OR_NUMBER. */
+  name: string;
+  /** Location of the resource information. Has to be "global" now. */
+  location: string;
 }
 /** Message that represents an arbitrary HTTP body. It should only be used for payload formats that can't be represented as JSON, such as raw binary or an HTML page.This message can be used both in streaming and non-streaming API methods in the request as well as the response.It can be used as a top-level request field, which is convenient if one wants to extract parameters from either the URL or HTTP template into the request fields and also want access to the raw HTTP body.Example: message GetResourceRequest { // A unique request id. string request_id = 1; // The raw HTTP body is bound to this field. google.api.HttpBody http_body = 2; } service ResourceService { rpc GetResource(GetResourceRequest) returns (google.api.HttpBody); rpc UpdateResource(google.api.HttpBody) returns (google.protobuf.Empty); } Example with streaming methods: service CaldavService { rpc GetCalendar(stream google.api.HttpBody) returns (stream google.api.HttpBody); rpc UpdateCalendar(stream google.api.HttpBody) returns (stream google.api.HttpBody); } Use of this type only changes how the request and response bodies are handled, all other features will continue to work unchanged. */
 export interface HttpBody {
@@ -1069,35 +1046,14 @@ export interface ListProjectsLocationPrometheusApiV1MetadataRequest {
   /** Maximum number of metrics to return. */
   limit?: string | undefined;
 }
-export interface PatchProjectsDashboardsRequest {
+export interface PatchProjectsDashboardsRequest extends Omit<Dashboard, "name"> {
   /** If set, validate the request and preview the review, but do not actually save it. */
   validateOnly?: boolean | undefined;
   /** Identifier. The resource name of the dashboard. */
   name: string;
-  /** The content is divided into equally spaced columns and the widgets are arranged vertically. */
-  columnLayout?: ColumnLayout | undefined;
-  /** The content is arranged as a grid of tiles, with each content widget occupying one or more grid blocks. */
-  mosaicLayout?: MosaicLayout | undefined;
-  /** The content is divided into equally spaced rows and the widgets are arranged horizontally. */
-  rowLayout?: RowLayout | undefined;
-  /** Required. The mutable, human-readable name. */
-  displayName?: string | undefined;
-  /** Filters to reduce the amount of data charted based on the filter criteria. */
-  dashboardFilters?: DashboardFilterList | undefined;
-  /** etag is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. An etag is returned in the response to GetDashboard, and users are expected to put that etag in the request to UpdateDashboard to ensure that their change will be applied to the same version of the Dashboard configuration. The field should not be passed during dashboard creation. */
-  etag?: string | undefined;
-  /** Configuration for event annotations to display on this dashboard. */
-  annotations?: DashboardAnnotations | undefined;
-  /** Content is arranged with a basic layout that re-flows a simple list of informational elements like widgets or tiles. */
-  gridLayout?: GridLayout | undefined;
-  /** Labels applied to the dashboard */
-  labels?: StringMap | undefined;
 }
-export interface Query_exemplarsProjectsLocationPrometheusApiV1Request {
-  /** Location of the resource information. Has to be "global" now. */
-  location: string;
-  /** Required. The project on which to execute the request. Data associcated with the project's workspace stored under the The format is: projects/PROJECT_ID_OR_NUMBER. Open source API but used as a request path prefix to distinguish different virtual Prometheus instances of Google Prometheus Engine. */
-  name: string;
+/** QueryExemplarsRequest holds all parameters of the Prometheus upstream API for querying exemplars. */
+export interface QueryExemplarsRequest {
   /** The end time to evaluate the query for. Either floating point UNIX seconds or RFC3339 formatted timestamp. */
   end?: string | undefined;
   /** A PromQL query string. Query language documentation: https://prometheus.io/docs/prometheus/latest/querying/basics/. */
@@ -1105,11 +1061,14 @@ export interface Query_exemplarsProjectsLocationPrometheusApiV1Request {
   /** The start time to evaluate the query for. Either floating point UNIX seconds or RFC3339 formatted timestamp. */
   start?: string | undefined;
 }
-export interface Query_rangeProjectsLocationPrometheusApiV1Request {
-  /** Required. The project on which to execute the request. Data associcated with the project's workspace stored under the The format is: projects/PROJECT_ID_OR_NUMBER. Open source API but used as a request path prefix to distinguish different virtual Prometheus instances of Google Prometheus Engine. */
-  name: string;
+export interface Query_exemplarsProjectsLocationPrometheusApiV1Request extends QueryExemplarsRequest {
   /** Location of the resource information. Has to be "global" now. */
   location: string;
+  /** Required. The project on which to execute the request. Data associcated with the project's workspace stored under the The format is: projects/PROJECT_ID_OR_NUMBER. Open source API but used as a request path prefix to distinguish different virtual Prometheus instances of Google Prometheus Engine. */
+  name: string;
+}
+/** QueryRangeRequest holds all parameters of the Prometheus upstream range query API plus GCM specific parameters. */
+export interface QueryRangeRequest {
   /** The end time to evaluate the query for. Either floating point UNIX seconds or RFC3339 formatted timestamp. */
   end?: string | undefined;
   /** The resolution of query result. Either a Prometheus duration string (https://prometheus.io/docs/prometheus/latest/querying/basics/#time-durations) or floating point seconds. This non-standard encoding must be used for compatibility with the open source API. Clients may still implement timeouts at the connection level while ignoring this field. */
@@ -1121,11 +1080,14 @@ export interface Query_rangeProjectsLocationPrometheusApiV1Request {
   /** The start time to evaluate the query for. Either floating point UNIX seconds or RFC3339 formatted timestamp. */
   start?: string | undefined;
 }
-export interface QueryProjectsLocationPrometheusApiV1Request {
-  /** Location of the resource information. Has to be "global" now. */
-  location: string;
+export interface Query_rangeProjectsLocationPrometheusApiV1Request extends QueryRangeRequest {
   /** Required. The project on which to execute the request. Data associcated with the project's workspace stored under the The format is: projects/PROJECT_ID_OR_NUMBER. Open source API but used as a request path prefix to distinguish different virtual Prometheus instances of Google Prometheus Engine. */
   name: string;
+  /** Location of the resource information. Has to be "global" now. */
+  location: string;
+}
+/** QueryInstantRequest holds all parameters of the Prometheus upstream instant query API plus GCM specific parameters. */
+export interface QueryInstantRequest {
   /** The single point in time to evaluate the query for. Either floating point UNIX seconds or RFC3339 formatted timestamp. */
   time?: string | undefined;
   /** A PromQL query string. Query language documentation: https://prometheus.io/docs/prometheus/latest/querying/basics/. */
@@ -1133,15 +1095,24 @@ export interface QueryProjectsLocationPrometheusApiV1Request {
   /** An upper bound timeout for the query. Either a Prometheus duration string (https://prometheus.io/docs/prometheus/latest/querying/basics/#time-durations) or floating point seconds. This non-standard encoding must be used for compatibility with the open source API. Clients may still implement timeouts at the connection level while ignoring this field. */
   timeout?: string | undefined;
 }
-export interface SeriesProjectsLocationPrometheusApiV1Request {
-  /** Location of the resource information. Has to be "global" for now. */
+export interface QueryProjectsLocationPrometheusApiV1Request extends QueryInstantRequest {
+  /** Location of the resource information. Has to be "global" now. */
   location: string;
-  /** Required. The workspace on which to execute the request. It is not part of the open source API but used as a request path prefix to distinguish different virtual Prometheus instances of Google Prometheus Engine. The format is: projects/PROJECT_ID_OR_NUMBER. */
+  /** Required. The project on which to execute the request. Data associcated with the project's workspace stored under the The format is: projects/PROJECT_ID_OR_NUMBER. Open source API but used as a request path prefix to distinguish different virtual Prometheus instances of Google Prometheus Engine. */
   name: string;
+}
+/** QuerySeries holds all parameters of the Prometheus upstream API for querying series. */
+export interface QuerySeriesRequest {
   /** The start time to evaluate the query for. Either floating point UNIX seconds or RFC3339 formatted timestamp. */
   start?: string | undefined;
   /** The end time to evaluate the query for. Either floating point UNIX seconds or RFC3339 formatted timestamp. */
   end?: string | undefined;
+}
+export interface SeriesProjectsLocationPrometheusApiV1Request extends QuerySeriesRequest {
+  /** Location of the resource information. Has to be "global" for now. */
+  location: string;
+  /** Required. The workspace on which to execute the request. It is not part of the open source API but used as a request path prefix to distinguish different virtual Prometheus instances of Google Prometheus Engine. The format is: projects/PROJECT_ID_OR_NUMBER. */
+  name: string;
 }
 export interface ValuesProjectsLocationPrometheusApiV1LabelRequest {
   /** Location of the resource information. Has to be "global" now. */
@@ -1192,8 +1163,8 @@ export const createProjectsDashboards: API.OperationMethod<
   CreateProjectsDashboardsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c15, 0) as any as S.Schema<CreateProjectsDashboardsRequest>,
-  output: __S(593, __c18, 17) as any as S.Schema<Dashboard>,
+  input: __S(512, __c16, 0) as any as S.Schema<CreateProjectsDashboardsRequest>,
+  output: __S(625, __c19, 17) as any as S.Schema<Dashboard>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1214,7 +1185,7 @@ export const deleteLocationsGlobalMetricsScopesProjects: API.OperationMethod<
   DeleteLocationsGlobalMetricsScopesProjectsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c20, 0) as any as S.Schema<DeleteLocationsGlobalMetricsScopesProjectsRequest>,
+  input: __S(672, __c21, 0) as any as S.Schema<DeleteLocationsGlobalMetricsScopesProjectsRequest>,
   output: __S(417, __c13, 1) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -1236,8 +1207,8 @@ export const deleteProjectsDashboards: API.OperationMethod<
   DeleteProjectsDashboardsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c21, 0) as any as S.Schema<DeleteProjectsDashboardsRequest>,
-  output: __S(608, __c19, 0) as any as S.Schema<Empty>,
+  input: __S(704, __c22, 0) as any as S.Schema<DeleteProjectsDashboardsRequest>,
+  output: __S(640, __c20, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1253,8 +1224,8 @@ export const getLocationsGlobalMetricsScopes: API.OperationMethod<
   GetLocationsGlobalMetricsScopesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c22, 0) as any as S.Schema<GetLocationsGlobalMetricsScopesRequest>,
-  output: __S(738, __c23, 2) as any as S.Schema<MetricsScope>,
+  input: __S(736, __c23, 0) as any as S.Schema<GetLocationsGlobalMetricsScopesRequest>,
+  output: __S(769, __c24, 1) as any as S.Schema<MetricsScope>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1270,7 +1241,7 @@ export const getOperations: API.OperationMethod<
   GetOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c24, 0) as any as S.Schema<GetOperationsRequest>,
+  input: __S(800, __c25, 0) as any as S.Schema<GetOperationsRequest>,
   output: __S(417, __c13, 1) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
@@ -1288,7 +1259,7 @@ export const getProjectsDashboards: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<GetProjectsDashboardsRequest>,
-  output: __S(593, __c18, 17) as any as S.Schema<Dashboard>,
+  output: __S(625, __c19, 17) as any as S.Schema<Dashboard>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1309,7 +1280,7 @@ export const labelsProjectsLocationPrometheusApiV1: API.OperationMethod<
   LabelsProjectsLocationPrometheusApiV1Error,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c1, 0) as any as S.Schema<LabelsProjectsLocationPrometheusApiV1Request>,
+  input: __S(33, __c1, 1) as any as S.Schema<LabelsProjectsLocationPrometheusApiV1Request>,
   output: __S(64, __c2, 0) as any as S.Schema<HttpBody>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -1392,7 +1363,7 @@ export const patchProjectsDashboards: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c6, 0) as any as S.Schema<PatchProjectsDashboardsRequest>,
-  output: __S(593, __c18, 17) as any as S.Schema<Dashboard>,
+  output: __S(625, __c19, 17) as any as S.Schema<Dashboard>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1414,9 +1385,9 @@ export const query_exemplarsProjectsLocationPrometheusApiV1: API.OperationMethod
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    224,
+    225,
     __c7,
-    0,
+    1,
   ) as any as S.Schema<Query_exemplarsProjectsLocationPrometheusApiV1Request>,
   output: __S(64, __c2, 0) as any as S.Schema<HttpBody>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
@@ -1439,7 +1410,7 @@ export const query_rangeProjectsLocationPrometheusApiV1: API.OperationMethod<
   Query_rangeProjectsLocationPrometheusApiV1Error,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c8, 0) as any as S.Schema<Query_rangeProjectsLocationPrometheusApiV1Request>,
+  input: __S(257, __c8, 1) as any as S.Schema<Query_rangeProjectsLocationPrometheusApiV1Request>,
   output: __S(64, __c2, 0) as any as S.Schema<HttpBody>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -1461,7 +1432,7 @@ export const queryProjectsLocationPrometheusApiV1: API.OperationMethod<
   QueryProjectsLocationPrometheusApiV1Error,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c9, 0) as any as S.Schema<QueryProjectsLocationPrometheusApiV1Request>,
+  input: __S(289, __c9, 1) as any as S.Schema<QueryProjectsLocationPrometheusApiV1Request>,
   output: __S(64, __c2, 0) as any as S.Schema<HttpBody>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -1483,7 +1454,7 @@ export const seriesProjectsLocationPrometheusApiV1: API.OperationMethod<
   SeriesProjectsLocationPrometheusApiV1Error,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c10, 0) as any as S.Schema<SeriesProjectsLocationPrometheusApiV1Request>,
+  input: __S(321, __c10, 1) as any as S.Schema<SeriesProjectsLocationPrometheusApiV1Request>,
   output: __S(64, __c2, 0) as any as S.Schema<HttpBody>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -1531,12 +1502,20 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
-          location: S.String.pipe(T.Label()),
           end: S.optional(S.String),
           start: S.optional(S.String),
           match: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "QueryLabelsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(32, __c1, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            location: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}/location/{location}/prometheus/api/v1/labels",
@@ -1575,7 +1554,7 @@ function __c3(j: number): any {
         identifier: "ListMetricsScopesByMonitoredProjectLocationsGlobalMetricsScopesRequest",
       });
     case 1:
-      return S.Array(__S(738, __c23, 2));
+      return S.Array(__S(769, __c24, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -1601,7 +1580,7 @@ function __c4(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsDashboardsRequest" });
     case 1:
-      return S.Array(__S(593, __c18, 17));
+      return S.Array(__S(625, __c19, 17));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -1634,19 +1613,13 @@ function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          columnLayout: S.optional(__S(579, __c18, 3)),
-          mosaicLayout: S.optional(__S(582, __c18, 6)),
-          rowLayout: S.optional(__S(585, __c18, 9)),
-          displayName: S.optional(S.String),
-          dashboardFilters: S.optional(__S(588, __c18, 12)),
-          etag: S.optional(S.String),
-          annotations: S.optional(__S(591, __c18, 15)),
-          gridLayout: S.optional(__S(592, __c18, 16)),
-          labels: S.optional(__S(557, __c17, 13)),
-        }).pipe(
+        S.Extend(
+          __S(625, __c19, 17),
+          S.Struct({
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -1661,12 +1634,20 @@ function __c7(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          location: S.String.pipe(T.Label()),
-          name: S.String.pipe(T.Label()),
           end: S.optional(S.String),
           query: S.optional(S.String),
           start: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "QueryExemplarsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(224, __c7, 0),
+          S.Struct({
+            location: S.String.pipe(T.Label()),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}/location/{location}/prometheus/api/v1/query_exemplars",
@@ -1681,14 +1662,22 @@ function __c8(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
-          location: S.String.pipe(T.Label()),
           end: S.optional(S.String),
           step: S.optional(S.String),
           timeout: S.optional(S.String),
           query: S.optional(S.String),
           start: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "QueryRangeRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(256, __c8, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            location: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}/location/{location}/prometheus/api/v1/query_range",
@@ -1703,12 +1692,20 @@ function __c9(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          location: S.String.pipe(T.Label()),
-          name: S.String.pipe(T.Label()),
           time: S.optional(S.String),
           query: S.optional(S.String),
           timeout: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "QueryInstantRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(288, __c9, 0),
+          S.Struct({
+            location: S.String.pipe(T.Label()),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}/location/{location}/prometheus/api/v1/query",
@@ -1723,11 +1720,19 @@ function __c10(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          location: S.String.pipe(T.Label()),
-          name: S.String.pipe(T.Label()),
           start: S.optional(S.String),
           end: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "QuerySeriesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(320, __c10, 0),
+          S.Struct({
+            location: S.String.pipe(T.Label()),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}/location/{location}/prometheus/api/v1/series",
@@ -1762,12 +1767,12 @@ function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          name: S.optional(S.String),
-          createTime: S.optional(S.String),
-          isTombstoned: S.optional(S.Boolean),
-        }).pipe(
+        S.Extend(
+          __S(480, __c15, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/projects",
@@ -1812,19 +1817,24 @@ function __c15(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
           name: S.optional(S.String),
-          columnLayout: S.optional(__S(579, __c18, 3)),
-          mosaicLayout: S.optional(__S(582, __c18, 6)),
-          rowLayout: S.optional(__S(585, __c18, 9)),
-          displayName: S.optional(S.String),
-          dashboardFilters: S.optional(__S(588, __c18, 12)),
-          etag: S.optional(S.String),
-          annotations: S.optional(__S(591, __c18, 15)),
-          gridLayout: S.optional(__S(592, __c18, 16)),
-          labels: S.optional(__S(557, __c17, 13)),
-        }).pipe(
+          createTime: S.optional(S.String),
+          isTombstoned: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "MonitoredProject" });
+  }
+}
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(625, __c19, 17),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/dashboards",
@@ -1834,7 +1844,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "CreateProjectsDashboardsRequest" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1847,7 +1857,7 @@ function __c16(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          resourceNames: S.optional(__S(513, __c16, 1)),
+          resourceNames: S.optional(__S(545, __c17, 1)),
           filter: S.optional(S.String),
         }),
       ).annotate({ identifier: "LogsPanel" });
@@ -1862,7 +1872,7 @@ function __c16(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          templateVariableCondition: S.optional(__S(515, __c16, 3)),
+          templateVariableCondition: S.optional(__S(547, __c17, 3)),
         }),
       ).annotate({ identifier: "VisibilityCondition" });
     case 5:
@@ -1887,7 +1897,7 @@ function __c16(j: number): any {
         }),
       ).annotate({ identifier: "Dimension" });
     case 7:
-      return S.Array(__S(518, __c16, 6));
+      return S.Array(__S(550, __c17, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
@@ -1896,36 +1906,36 @@ function __c16(j: number): any {
         }),
       ).annotate({ identifier: "Parameter" });
     case 9:
-      return S.Array(__S(520, __c16, 8));
+      return S.Array(__S(552, __c17, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          parameters: S.optional(__S(521, __c16, 9)),
+          parameters: S.optional(__S(553, __c17, 9)),
         }),
       ).annotate({ identifier: "AggregationFunction" });
     case 11:
       return S.suspend(() =>
         S.Struct({
-          aggregationFunction: S.optional(__S(522, __c16, 10)),
+          aggregationFunction: S.optional(__S(554, __c17, 10)),
           column: S.optional(S.String),
         }),
       ).annotate({ identifier: "Measure" });
     case 12:
-      return S.Array(__S(523, __c16, 11));
+      return S.Array(__S(555, __c17, 11));
     case 13:
       return S.suspend(() =>
         S.Struct({
           alignmentPeriod: S.optional(S.String),
           crossSeriesReducer: S.optional(S.String),
           perSeriesAligner: S.optional(S.String),
-          groupByFields: S.optional(__S(513, __c16, 1)),
+          groupByFields: S.optional(__S(545, __c17, 1)),
         }),
       ).annotate({ identifier: "Aggregation" });
     case 14:
       return S.suspend(() =>
         S.Struct({
-          aggregation: S.optional(__S(525, __c16, 13)),
+          aggregation: S.optional(__S(557, __c17, 13)),
           filter: S.optional(S.String),
         }),
       ).annotate({ identifier: "RatioPart" });
@@ -1941,7 +1951,7 @@ function __c16(j: number): any {
         S.Struct({
           rankingMethod: S.optional(S.String),
           direction: S.optional(S.String),
-          interval: S.optional(__S(527, __c16, 15)),
+          interval: S.optional(__S(559, __c17, 15)),
           numTimeSeries: S.optional(S.Number),
         }),
       ).annotate({ identifier: "PickTimeSeriesFilter" });
@@ -1955,21 +1965,21 @@ function __c16(j: number): any {
     case 18:
       return S.suspend(() =>
         S.Struct({
-          denominator: S.optional(__S(526, __c16, 14)),
-          secondaryAggregation: S.optional(__S(525, __c16, 13)),
-          pickTimeSeriesFilter: S.optional(__S(528, __c16, 16)),
-          numerator: S.optional(__S(526, __c16, 14)),
-          statisticalTimeSeriesFilter: S.optional(__S(529, __c16, 17)),
+          denominator: S.optional(__S(558, __c17, 14)),
+          secondaryAggregation: S.optional(__S(557, __c17, 13)),
+          pickTimeSeriesFilter: S.optional(__S(560, __c17, 16)),
+          numerator: S.optional(__S(558, __c17, 14)),
+          statisticalTimeSeriesFilter: S.optional(__S(561, __c17, 17)),
         }),
       ).annotate({ identifier: "TimeSeriesFilterRatio" });
     case 19:
       return S.suspend(() =>
         S.Struct({
-          statisticalTimeSeriesFilter: S.optional(__S(529, __c16, 17)),
+          statisticalTimeSeriesFilter: S.optional(__S(561, __c17, 17)),
           filter: S.optional(S.String),
-          aggregation: S.optional(__S(525, __c16, 13)),
-          secondaryAggregation: S.optional(__S(525, __c16, 13)),
-          pickTimeSeriesFilter: S.optional(__S(528, __c16, 16)),
+          aggregation: S.optional(__S(557, __c17, 13)),
+          secondaryAggregation: S.optional(__S(557, __c17, 13)),
+          pickTimeSeriesFilter: S.optional(__S(560, __c17, 16)),
         }),
       ).annotate({ identifier: "TimeSeriesFilter" });
     case 20:
@@ -1982,24 +1992,24 @@ function __c16(j: number): any {
       return S.suspend(() =>
         S.Struct({
           key: S.optional(S.String),
-          value: S.optional(__S(513, __c16, 1)),
+          value: S.optional(__S(545, __c17, 1)),
         }),
       ).annotate({ identifier: "SpanAttributeFilter" });
     case 22:
-      return S.Array(__S(533, __c16, 21));
+      return S.Array(__S(565, __c17, 21));
     case 23:
       return S.suspend(() =>
         S.Struct({
-          services: S.optional(__S(513, __c16, 1)),
-          applicationIds: S.optional(__S(513, __c16, 1)),
-          attributes: S.optional(__S(534, __c16, 22)),
-          apphubWorkloads: S.optional(__S(513, __c16, 1)),
+          services: S.optional(__S(545, __c17, 1)),
+          applicationIds: S.optional(__S(545, __c17, 1)),
+          attributes: S.optional(__S(566, __c17, 22)),
+          apphubWorkloads: S.optional(__S(545, __c17, 1)),
           isRootSpan: S.optional(S.Boolean),
           maxDuration: S.optional(S.String),
-          kinds: S.optional(__S(513, __c16, 1)),
-          displayNames: S.optional(__S(513, __c16, 1)),
-          apphubServices: S.optional(__S(513, __c16, 1)),
-          status: S.optional(__S(513, __c16, 1)),
+          kinds: S.optional(__S(545, __c17, 1)),
+          displayNames: S.optional(__S(545, __c17, 1)),
+          apphubServices: S.optional(__S(545, __c17, 1)),
+          status: S.optional(__S(545, __c17, 1)),
           minDuration: S.optional(S.String),
         }),
       ).annotate({ identifier: "SpanFilters" });
@@ -2008,40 +2018,40 @@ function __c16(j: number): any {
         S.Struct({
           spanDataValue: S.optional(S.String),
           resourceContainer: S.optional(S.String),
-          spanFilters: S.optional(__S(535, __c16, 23)),
+          spanFilters: S.optional(__S(567, __c17, 23)),
         }),
       ).annotate({ identifier: "TraceQuery" });
     case 25:
       return S.suspend(() =>
         S.Struct({
-          timeSeriesFilterRatio: S.optional(__S(530, __c16, 18)),
-          timeSeriesFilter: S.optional(__S(531, __c16, 19)),
-          opsAnalyticsQuery: S.optional(__S(532, __c16, 20)),
+          timeSeriesFilterRatio: S.optional(__S(562, __c17, 18)),
+          timeSeriesFilter: S.optional(__S(563, __c17, 19)),
+          opsAnalyticsQuery: S.optional(__S(564, __c17, 20)),
           unitOverride: S.optional(S.String),
           prometheusQuery: S.optional(S.String),
           outputFullDuration: S.optional(S.Boolean),
           timeSeriesQueryLanguage: S.optional(S.String),
-          traceQuery: S.optional(__S(536, __c16, 24)),
+          traceQuery: S.optional(__S(568, __c17, 24)),
         }),
       ).annotate({ identifier: "TimeSeriesQuery" });
     case 26:
       return S.suspend(() =>
         S.Struct({
-          dimensions: S.optional(__S(519, __c16, 7)),
+          dimensions: S.optional(__S(551, __c17, 7)),
           sliceNameTemplate: S.optional(S.String),
-          measures: S.optional(__S(524, __c16, 12)),
+          measures: S.optional(__S(556, __c17, 12)),
           minAlignmentPeriod: S.optional(S.String),
-          timeSeriesQuery: S.optional(__S(537, __c16, 25)),
+          timeSeriesQuery: S.optional(__S(569, __c17, 25)),
         }),
       ).annotate({ identifier: "PieChartDataSet" });
     case 27:
-      return S.Array(__S(538, __c16, 26));
+      return S.Array(__S(570, __c17, 26));
     case 28:
       return S.suspend(() =>
         S.Struct({
           chartType: S.optional(S.String),
           showLabels: S.optional(S.Boolean),
-          dataSets: S.optional(__S(539, __c16, 27)),
+          dataSets: S.optional(__S(571, __c17, 27)),
         }),
       ).annotate({ identifier: "PieChart" });
     case 29:
@@ -2059,7 +2069,7 @@ function __c16(j: number): any {
     case 30:
       return S.suspend(() =>
         S.Struct({
-          style: S.optional(__S(541, __c16, 29)),
+          style: S.optional(__S(573, __c17, 29)),
           content: S.optional(S.String),
           format: S.optional(S.String),
         }),
@@ -2073,7 +2083,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "ChartOptions" });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2093,18 +2103,18 @@ function __c17(j: number): any {
         }),
       ).annotate({ identifier: "Threshold" });
     case 2:
-      return S.Array(__S(545, __c17, 1));
+      return S.Array(__S(577, __c18, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           sortOrder: S.optional(S.String),
           column: S.optional(S.String),
           limit: S.optional(S.Number),
-          aggregationFunction: S.optional(__S(522, __c16, 10)),
+          aggregationFunction: S.optional(__S(554, __c17, 10)),
         }),
       ).annotate({ identifier: "Breakdown" });
     case 4:
-      return S.Array(__S(547, __c17, 3));
+      return S.Array(__S(579, __c18, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -2113,50 +2123,50 @@ function __c17(j: number): any {
         }),
       ).annotate({ identifier: "ColumnSortingOptions" });
     case 6:
-      return S.Array(__S(549, __c17, 5));
+      return S.Array(__S(581, __c18, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          measures: S.optional(__S(524, __c16, 12)),
+          measures: S.optional(__S(556, __c17, 12)),
           targetAxis: S.optional(S.String),
-          dimensions: S.optional(__S(519, __c16, 7)),
+          dimensions: S.optional(__S(551, __c17, 7)),
           plotType: S.optional(S.String),
           legendTemplate: S.optional(S.String),
           minAlignmentPeriod: S.optional(S.String),
-          breakdowns: S.optional(__S(548, __c17, 4)),
-          sort: S.optional(__S(550, __c17, 6)),
-          timeSeriesQuery: S.optional(__S(537, __c16, 25)),
+          breakdowns: S.optional(__S(580, __c18, 4)),
+          sort: S.optional(__S(582, __c18, 6)),
+          timeSeriesQuery: S.optional(__S(569, __c17, 25)),
         }),
       ).annotate({ identifier: "DataSet" });
     case 8:
-      return S.Array(__S(551, __c17, 7));
+      return S.Array(__S(583, __c18, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
-          chartOptions: S.optional(__S(543, __c16, 31)),
+          chartOptions: S.optional(__S(575, __c17, 31)),
           timeshiftDuration: S.optional(S.String),
-          y2Axis: S.optional(__S(544, __c17, 0)),
-          thresholds: S.optional(__S(546, __c17, 2)),
-          dataSets: S.optional(__S(552, __c17, 8)),
-          xAxis: S.optional(__S(544, __c17, 0)),
-          yAxis: S.optional(__S(544, __c17, 0)),
+          y2Axis: S.optional(__S(576, __c18, 0)),
+          thresholds: S.optional(__S(578, __c18, 2)),
+          dataSets: S.optional(__S(584, __c18, 8)),
+          xAxis: S.optional(__S(576, __c18, 0)),
+          yAxis: S.optional(__S(576, __c18, 0)),
         }),
       ).annotate({ identifier: "XyChart" });
     case 10:
       return S.suspend(() =>
         S.Struct({
-          breakdowns: S.optional(__S(548, __c17, 4)),
-          measures: S.optional(__S(524, __c16, 12)),
-          timeSeriesQuery: S.optional(__S(537, __c16, 25)),
+          breakdowns: S.optional(__S(580, __c18, 4)),
+          measures: S.optional(__S(556, __c17, 12)),
+          timeSeriesQuery: S.optional(__S(569, __c17, 25)),
         }),
       ).annotate({ identifier: "TreemapDataSet" });
     case 11:
-      return S.Array(__S(554, __c17, 10));
+      return S.Array(__S(586, __c18, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
-          dataSets: S.optional(__S(555, __c17, 11)),
-          treemapHierarchy: S.optional(__S(513, __c16, 1)),
+          dataSets: S.optional(__S(587, __c18, 11)),
+          treemapHierarchy: S.optional(__S(545, __c17, 1)),
         }),
       ).annotate({ identifier: "Treemap" });
     case 13:
@@ -2165,16 +2175,16 @@ function __c17(j: number): any {
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          labels: S.optional(__S(557, __c17, 13)),
+          labels: S.optional(__S(589, __c18, 13)),
         }),
       ).annotate({ identifier: "MonitoredResource" });
     case 15:
-      return S.Array(__S(558, __c17, 14));
+      return S.Array(__S(590, __c18, 14));
     case 16:
       return S.suspend(() =>
         S.Struct({
-          monitoredResources: S.optional(__S(559, __c17, 15)),
-          policyNames: S.optional(__S(513, __c16, 1)),
+          monitoredResources: S.optional(__S(591, __c18, 15)),
+          policyNames: S.optional(__S(545, __c17, 1)),
         }),
       ).annotate({ identifier: "IncidentList" });
     case 17:
@@ -2187,7 +2197,7 @@ function __c17(j: number): any {
     case 18:
       return S.suspend(() =>
         S.Struct({
-          absoluteWindow: S.optional(__S(527, __c16, 15)),
+          absoluteWindow: S.optional(__S(559, __c17, 15)),
           relativeDuration: S.optional(S.String),
         }),
       ).annotate({ identifier: "TimeRange" });
@@ -2208,14 +2218,14 @@ function __c17(j: number): any {
     case 21:
       return S.suspend(() =>
         S.Struct({
-          breakdowns: S.optional(__S(548, __c17, 4)),
-          measures: S.optional(__S(524, __c16, 12)),
-          gaugeView: S.optional(__S(563, __c17, 19)),
-          sparkChartView: S.optional(__S(564, __c17, 20)),
-          dimensions: S.optional(__S(519, __c16, 7)),
-          blankView: S.optional(__S(608, __c19, 0)),
-          timeSeriesQuery: S.optional(__S(537, __c16, 25)),
-          thresholds: S.optional(__S(546, __c17, 2)),
+          breakdowns: S.optional(__S(580, __c18, 4)),
+          measures: S.optional(__S(556, __c17, 12)),
+          gaugeView: S.optional(__S(595, __c18, 19)),
+          sparkChartView: S.optional(__S(596, __c18, 20)),
+          dimensions: S.optional(__S(551, __c17, 7)),
+          blankView: S.optional(__S(640, __c20, 0)),
+          timeSeriesQuery: S.optional(__S(569, __c17, 25)),
+          thresholds: S.optional(__S(578, __c18, 2)),
         }),
       ).annotate({ identifier: "Scorecard" });
     case 22:
@@ -2227,46 +2237,46 @@ function __c17(j: number): any {
     case 23:
       return S.suspend(() =>
         S.Struct({
-          shownColumns: S.optional(__S(513, __c16, 1)),
+          shownColumns: S.optional(__S(545, __c17, 1)),
         }),
       ).annotate({ identifier: "TableDisplayOptions" });
     case 24:
       return S.suspend(() =>
         S.Struct({
           tableTemplate: S.optional(S.String),
-          timeSeriesQuery: S.optional(__S(537, __c16, 25)),
+          timeSeriesQuery: S.optional(__S(569, __c17, 25)),
           minAlignmentPeriod: S.optional(S.String),
-          tableDisplayOptions: S.optional(__S(567, __c17, 23)),
+          tableDisplayOptions: S.optional(__S(599, __c18, 23)),
         }),
       ).annotate({ identifier: "TableDataSet" });
     case 25:
-      return S.Array(__S(568, __c17, 24));
+      return S.Array(__S(600, __c18, 24));
     case 26:
       return S.suspend(() =>
         S.Struct({
           column: S.optional(S.String),
-          thresholds: S.optional(__S(546, __c17, 2)),
+          thresholds: S.optional(__S(578, __c18, 2)),
           visible: S.optional(S.Boolean),
           alignment: S.optional(S.String),
           displayName: S.optional(S.String),
         }),
       ).annotate({ identifier: "ColumnSettings" });
     case 27:
-      return S.Array(__S(570, __c17, 26));
+      return S.Array(__S(602, __c18, 26));
     case 28:
       return S.suspend(() =>
         S.Struct({
-          dataSets: S.optional(__S(569, __c17, 25)),
-          columnSettings: S.optional(__S(571, __c17, 27)),
+          dataSets: S.optional(__S(601, __c18, 25)),
+          columnSettings: S.optional(__S(603, __c18, 27)),
           metricVisualization: S.optional(S.String),
         }),
       ).annotate({ identifier: "TimeSeriesTable" });
     case 29:
       return S.suspend(() =>
         S.Struct({
-          versions: S.optional(__S(513, __c16, 1)),
-          services: S.optional(__S(513, __c16, 1)),
-          projectNames: S.optional(__S(513, __c16, 1)),
+          versions: S.optional(__S(545, __c17, 1)),
+          services: S.optional(__S(545, __c17, 1)),
+          projectNames: S.optional(__S(545, __c17, 1)),
         }),
       ).annotate({ identifier: "ErrorReportingPanel" });
     case 30:
@@ -2278,46 +2288,46 @@ function __c17(j: number): any {
     case 31:
       return S.suspend(() =>
         S.Struct({
-          alertChart: S.optional(__S(512, __c16, 0)),
-          logsPanel: S.optional(__S(514, __c16, 2)),
-          visibilityCondition: S.optional(__S(516, __c16, 4)),
-          blank: S.optional(__S(608, __c19, 0)),
-          singleViewGroup: S.optional(__S(517, __c16, 5)),
-          pieChart: S.optional(__S(540, __c16, 28)),
-          text: S.optional(__S(542, __c16, 30)),
-          xyChart: S.optional(__S(553, __c17, 9)),
-          treemap: S.optional(__S(556, __c17, 12)),
-          incidentList: S.optional(__S(560, __c17, 16)),
+          alertChart: S.optional(__S(544, __c17, 0)),
+          logsPanel: S.optional(__S(546, __c17, 2)),
+          visibilityCondition: S.optional(__S(548, __c17, 4)),
+          blank: S.optional(__S(640, __c20, 0)),
+          singleViewGroup: S.optional(__S(549, __c17, 5)),
+          pieChart: S.optional(__S(572, __c17, 28)),
+          text: S.optional(__S(574, __c17, 30)),
+          xyChart: S.optional(__S(585, __c18, 9)),
+          treemap: S.optional(__S(588, __c18, 12)),
+          incidentList: S.optional(__S(592, __c18, 16)),
           id: S.optional(S.String),
           title: S.optional(S.String),
-          sectionHeader: S.optional(__S(561, __c17, 17)),
-          timeRange: S.optional(__S(562, __c17, 18)),
-          scorecard: S.optional(__S(565, __c17, 21)),
-          filterControl: S.optional(__S(566, __c17, 22)),
-          timeSeriesTable: S.optional(__S(572, __c17, 28)),
-          errorReportingPanel: S.optional(__S(573, __c17, 29)),
-          collapsibleGroup: S.optional(__S(574, __c17, 30)),
+          sectionHeader: S.optional(__S(593, __c18, 17)),
+          timeRange: S.optional(__S(594, __c18, 18)),
+          scorecard: S.optional(__S(597, __c18, 21)),
+          filterControl: S.optional(__S(598, __c18, 22)),
+          timeSeriesTable: S.optional(__S(604, __c18, 28)),
+          errorReportingPanel: S.optional(__S(605, __c18, 29)),
+          collapsibleGroup: S.optional(__S(606, __c18, 30)),
         }),
       ).annotate({ identifier: "Widget" });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(575, __c17, 31));
+      return S.Array(__S(607, __c18, 31));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          widgets: S.optional(__S(576, __c18, 0)),
+          widgets: S.optional(__S(608, __c19, 0)),
           weight: S.optional(S.String),
         }),
       ).annotate({ identifier: "Column" });
     case 2:
-      return S.Array(__S(577, __c18, 1));
+      return S.Array(__S(609, __c19, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          columns: S.optional(__S(578, __c18, 2)),
+          columns: S.optional(__S(610, __c19, 2)),
         }),
       ).annotate({ identifier: "ColumnLayout" });
     case 4:
@@ -2325,17 +2335,17 @@ function __c18(j: number): any {
         S.Struct({
           height: S.optional(S.Number),
           width: S.optional(S.Number),
-          widget: S.optional(__S(575, __c17, 31)),
+          widget: S.optional(__S(607, __c18, 31)),
           xPos: S.optional(S.Number),
           yPos: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Tile" });
     case 5:
-      return S.Array(__S(580, __c18, 4));
+      return S.Array(__S(612, __c19, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          tiles: S.optional(__S(581, __c18, 5)),
+          tiles: S.optional(__S(613, __c19, 5)),
           columns: S.optional(S.Number),
         }),
       ).annotate({ identifier: "MosaicLayout" });
@@ -2343,101 +2353,85 @@ function __c18(j: number): any {
       return S.suspend(() =>
         S.Struct({
           weight: S.optional(S.String),
-          widgets: S.optional(__S(576, __c18, 0)),
+          widgets: S.optional(__S(608, __c19, 0)),
         }),
       ).annotate({ identifier: "Row" });
     case 8:
-      return S.Array(__S(583, __c18, 7));
+      return S.Array(__S(615, __c19, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
-          rows: S.optional(__S(584, __c18, 8)),
+          rows: S.optional(__S(616, __c19, 8)),
         }),
       ).annotate({ identifier: "RowLayout" });
     case 10:
       return S.suspend(() =>
         S.Struct({
-          values: S.optional(__S(513, __c16, 1)),
+          values: S.optional(__S(545, __c17, 1)),
         }),
       ).annotate({ identifier: "StringArray" });
     case 11:
       return S.suspend(() =>
         S.Struct({
-          timeSeriesQuery: S.optional(__S(537, __c16, 25)),
+          timeSeriesQuery: S.optional(__S(569, __c17, 25)),
           templateVariable: S.optional(S.String),
           filterType: S.optional(S.String),
           stringValue: S.optional(S.String),
-          stringArray: S.optional(__S(586, __c18, 10)),
-          stringArrayValue: S.optional(__S(586, __c18, 10)),
+          stringArray: S.optional(__S(618, __c19, 10)),
+          stringArrayValue: S.optional(__S(618, __c19, 10)),
           labelKey: S.optional(S.String),
           valueType: S.optional(S.String),
         }),
       ).annotate({ identifier: "DashboardFilter" });
     case 12:
-      return S.Array(__S(587, __c18, 11));
+      return S.Array(__S(619, __c19, 11));
     case 13:
       return S.suspend(() =>
         S.Struct({
           filter: S.optional(S.String),
           eventType: S.optional(S.String),
           enabled: S.optional(S.Boolean),
-          resourceNames: S.optional(__S(513, __c16, 1)),
+          resourceNames: S.optional(__S(545, __c17, 1)),
           displayName: S.optional(S.String),
         }),
       ).annotate({ identifier: "EventAnnotation" });
     case 14:
-      return S.Array(__S(589, __c18, 13));
+      return S.Array(__S(621, __c19, 13));
     case 15:
       return S.suspend(() =>
         S.Struct({
-          defaultResourceNames: S.optional(__S(513, __c16, 1)),
-          eventAnnotations: S.optional(__S(590, __c18, 14)),
+          defaultResourceNames: S.optional(__S(545, __c17, 1)),
+          eventAnnotations: S.optional(__S(622, __c19, 14)),
         }),
       ).annotate({ identifier: "DashboardAnnotations" });
     case 16:
       return S.suspend(() =>
         S.Struct({
           columns: S.optional(S.String),
-          widgets: S.optional(__S(576, __c18, 0)),
+          widgets: S.optional(__S(608, __c19, 0)),
         }),
       ).annotate({ identifier: "GridLayout" });
     case 17:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          columnLayout: S.optional(__S(579, __c18, 3)),
-          mosaicLayout: S.optional(__S(582, __c18, 6)),
-          rowLayout: S.optional(__S(585, __c18, 9)),
+          columnLayout: S.optional(__S(611, __c19, 3)),
+          mosaicLayout: S.optional(__S(614, __c19, 6)),
+          rowLayout: S.optional(__S(617, __c19, 9)),
           displayName: S.optional(S.String),
-          dashboardFilters: S.optional(__S(588, __c18, 12)),
+          dashboardFilters: S.optional(__S(620, __c19, 12)),
           etag: S.optional(S.String),
-          annotations: S.optional(__S(591, __c18, 15)),
-          gridLayout: S.optional(__S(592, __c18, 16)),
-          labels: S.optional(__S(557, __c17, 13)),
+          annotations: S.optional(__S(623, __c19, 15)),
+          gridLayout: S.optional(__S(624, __c19, 16)),
+          labels: S.optional(__S(589, __c18, 13)),
         }),
       ).annotate({ identifier: "Dashboard" });
-  }
-}
-function __c19(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Struct({})).annotate({ identifier: "Empty" });
   }
 }
 function __c20(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "v1/{+name}",
-            baseUrl: "https://monitoring.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "DeleteLocationsGlobalMetricsScopesProjectsRequest" });
+      return S.suspend(() => S.Struct({})).annotate({ identifier: "Empty" });
   }
 }
 function __c21(j: number): any {
@@ -2453,10 +2447,26 @@ function __c21(j: number): any {
             baseUrl: "https://monitoring.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "DeleteProjectsDashboardsRequest" });
+      ).annotate({ identifier: "DeleteLocationsGlobalMetricsScopesProjectsRequest" });
   }
 }
 function __c22(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "v1/{+name}",
+            baseUrl: "https://monitoring.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "DeleteProjectsDashboardsRequest" });
+  }
+}
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2472,30 +2482,22 @@ function __c22(j: number): any {
       ).annotate({ identifier: "GetLocationsGlobalMetricsScopesRequest" });
   }
 }
-function __c23(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          createTime: S.optional(S.String),
-          isTombstoned: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "MonitoredProject" });
+      return S.Array(__S(480, __c15, 0));
     case 1:
-      return S.Array(__S(736, __c23, 0));
-    case 2:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
           updateTime: S.optional(S.String),
           createTime: S.optional(S.String),
-          monitoredProjects: S.optional(__S(737, __c23, 1)),
+          monitoredProjects: S.optional(__S(768, __c24, 0)),
         }),
       ).annotate({ identifier: "MetricsScope" });
   }
 }
-function __c24(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

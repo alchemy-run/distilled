@@ -106,11 +106,14 @@ export interface CreateAdUnitMappingRequest {
   adUnitMapping?: AdUnitMapping | undefined;
 }
 export type CreateAdUnitMappingRequestList = Array<CreateAdUnitMappingRequest>;
-export interface BatchCreateAccountsAdUnitMappingsRequest {
-  /** Required. The AdMob account which owns this collection of ad unit mappings. Format: accounts/{publisher_id} See https://support.google.com/admob/answer/2784578 for instructions on how to find your AdMob publisher ID. */
-  parent: string;
+/** Request to create a batch of ad unit mappings under the specific AdMob account. */
+export interface BatchCreateAdUnitMappingsRequest {
   /** Required. The request message specifying the ad unit mappings to create. A maximum of 100 ad unit mappings can be created in a batch. If the number of ad unit mappings in the batch request exceed 100, the entire request will be rejected and no ad unit mappings will be created. */
   requests?: CreateAdUnitMappingRequestList | undefined;
+}
+export interface BatchCreateAccountsAdUnitMappingsRequest extends BatchCreateAdUnitMappingsRequest {
+  /** Required. The AdMob account which owns this collection of ad unit mappings. Format: accounts/{publisher_id} See https://support.google.com/admob/answer/2784578 for instructions on how to find your AdMob publisher ID. */
+  parent: string;
 }
 export type AdUnitMappingList = Array<AdUnitMapping>;
 /** Response containing a batch of created ad unit mappings. */
@@ -125,24 +128,6 @@ export interface AdUnitRewardSettings {
   unitAmount?: string | undefined;
   /** Reward item for this ad unit. */
   unitType?: string | undefined;
-}
-export interface CreateAccountsAdUnitsRequest {
-  /** Required. Resource name of the account to create the specified ad unit for. Example: accounts/pub-9876543210987654 */
-  parent: string;
-  /** The externally visible ID of the app this ad unit is associated with. Example: ca-app-pub-9876543210987654~0123456789 */
-  appId?: string | undefined;
-  /** The externally visible ID of the ad unit which can be used to integrate with AdMob. This is a read only property. Example: ca-app-pub-9876543210987654/0123456789 */
-  adUnitId?: string | undefined;
-  /** AdFormat of the ad unit. Possible values are as follows: "APP_OPEN" - App Open ad format. "BANNER" - Banner ad format. "BANNER_INTERSTITIAL" - Legacy format that can be used as either banner or interstitial. This format can no longer be created but can be targeted by mediation groups. "INTERSTITIAL" - A full screen ad. Supported ad types are "RICH_MEDIA" and "VIDEO". "NATIVE" - Native ad format. "REWARDED" - An ad that, once viewed, gets a callback verifying the view so that a reward can be given to the user. Supported ad types are "RICH_MEDIA" (interactive) and video where video can not be excluded. "REWARDED_INTERSTITIAL" - Rewarded Interstitial ad format. Only supports video ad type. See https://support.google.com/admob/answer/9884467. */
-  adFormat?: string | undefined;
-  /** The display name of the ad unit as shown in the AdMob UI, which is provided by the user. The maximum length allowed is 80 characters. */
-  displayName?: string | undefined;
-  /** Resource name for this ad unit. Format is accounts/{publisher_id}/adUnits/{ad_unit_id_fragment} Example: accounts/pub-9876543210987654/adUnits/0123456789 */
-  name?: string | undefined;
-  /** Ad media type supported by this ad unit. Possible values as follows: "RICH_MEDIA" - Text, image, and other non-video media. "VIDEO" - Video media. */
-  adTypes?: StringList_ | undefined;
-  /** Optional. Settings for a rewarded ad unit. This can be set or unset only when the ad_format is "REWARDED". */
-  rewardSettings?: AdUnitRewardSettings | undefined;
 }
 /** Describes an AdMob ad unit. */
 export interface AdUnit {
@@ -161,19 +146,13 @@ export interface AdUnit {
   /** Optional. Settings for a rewarded ad unit. This can be set or unset only when the ad_format is "REWARDED". */
   rewardSettings?: AdUnitRewardSettings | undefined;
 }
-export interface CreateAccountsAdUnitsAdUnitMappingsRequest {
+export interface CreateAccountsAdUnitsRequest extends AdUnit {
+  /** Required. Resource name of the account to create the specified ad unit for. Example: accounts/pub-9876543210987654 */
+  parent: string;
+}
+export interface CreateAccountsAdUnitsAdUnitMappingsRequest extends AdUnitMapping {
   /** Required. The parent which owns the ad unit mapping. Format: accounts/{publisher_id}/adUnits/{ad_unit_id} */
   parent: string;
-  /** Optional. The display name of this ad unit mapping instance. */
-  displayName?: string | undefined;
-  /** Output only. The status of this ad unit mapping. */
-  state?: AdUnitMappingStateEnum | (string & {}) | undefined;
-  /** Settings for the specified ad unit to make an ad request to 3rd party ad network. Key-value pairs with values set by the user for the keys requested by the ad network. Please see https://support.google.com/admob/answer/3245073 for details on how to configure the network settings. */
-  adUnitConfigurations?: StringMap | undefined;
-  /** Resource name of this ad unit mapping. Format is: accounts/{publisher_id}/adUnits/{ad_unit_id_fragment}/adUnitMappings/{ad_unit_mapping_id} Example: accounts/pub-1234567890123456/adUnits/0123456789/adUnitMappings/987654321 */
-  name?: string | undefined;
-  /** The ID of mediation ad source adapter used by this ad unit mapping. The adapter determines the information needed in the ad_network_settings. */
-  adapterId?: string | undefined;
 }
 export type AppLinkedAppInfoAndroidAppStoresItemEnum =
   | "ANDROID_APP_STORE_UNSPECIFIED"
@@ -205,22 +184,6 @@ export type AppAppApprovalStateEnum =
   | "ACTION_REQUIRED"
   | "IN_REVIEW"
   | "APPROVED";
-export interface CreateAccountsAppsRequest {
-  /** Required. Resource name of the account for which the app is being created. Example: accounts/pub-9876543210987654 */
-  parent: string;
-  /** Immutable. The information for an app that is linked to an app store. This field is present if and only if the app is linked to an app store. */
-  linkedAppInfo?: AppLinkedAppInfo | undefined;
-  /** Describes the platform of the app. Limited to "IOS" and "ANDROID". */
-  platform?: string | undefined;
-  /** The information for an app that is not linked to any app store. After an app is linked, this information is still retrivable. If no name is provided for the app upon creation, a placeholder name will be used. */
-  manualAppInfo?: AppManualAppInfo | undefined;
-  /** The externally visible ID of the app which can be used to integrate with AdMob. This is a read only property. Example: ca-app-pub-9876543210987654~0123456789 */
-  appId?: string | undefined;
-  /** Resource name for this app. Format is accounts/{publisher_id}/apps/{app_id_fragment} Example: accounts/pub-9876543210987654/apps/0123456789 */
-  name?: string | undefined;
-  /** Output only. The approval state for the app. The field is read-only. */
-  appApprovalState?: AppAppApprovalStateEnum | (string & {}) | undefined;
-}
 /** Describes an AdMob app for a specific platform (For example: Android or iOS). */
 export interface App {
   /** Immutable. The information for an app that is linked to an app store. This field is present if and only if the app is linked to an app store. */
@@ -234,7 +197,11 @@ export interface App {
   /** Resource name for this app. Format is accounts/{publisher_id}/apps/{app_id_fragment} Example: accounts/pub-9876543210987654/apps/0123456789 */
   name?: string | undefined;
   /** Output only. The approval state for the app. The field is read-only. */
-  appApprovalState?: AppAppApprovalStateEnum | undefined;
+  appApprovalState?: AppAppApprovalStateEnum | (string & {}) | undefined;
+}
+export interface CreateAccountsAppsRequest extends App {
+  /** Required. Resource name of the account for which the app is being created. Example: accounts/pub-9876543210987654 */
+  parent: string;
 }
 export type MediationGroupMediationAbExperimentStateEnum =
   | "EXPERIMENT_STATE_UNSPECIFIED"
@@ -301,9 +268,8 @@ export interface MediationGroupTargeting {
   targetedRegionCodes?: StringList_ | undefined;
 }
 export type MediationGroupStateEnum = "STATE_UNSPECIFIED" | "ENABLED" | "DISABLED";
-export interface CreateAccountsMediationGroupsRequest {
-  /** Required. The parent which owns the mediation group. Format: accounts/{publisher_id} */
-  parent: string;
+/** Describes an AdMob Mediation group. */
+export interface MediationGroup {
   /** Output only. The state of the mediation a/b experiment that belongs to this mediation group. */
   mediationAbExperimentState?:
     | MediationGroupMediationAbExperimentStateEnum
@@ -322,22 +288,9 @@ export interface CreateAccountsMediationGroupsRequest {
   /** Resource name for this mediation group. Format is: accounts/{publisher_id}/mediationGroups/{mediation_group_id} Example: accounts/pub-9876543210987654/mediationGroups/0123456789 */
   name?: string | undefined;
 }
-/** Describes an AdMob Mediation group. */
-export interface MediationGroup {
-  /** Output only. The state of the mediation a/b experiment that belongs to this mediation group. */
-  mediationAbExperimentState?: MediationGroupMediationAbExperimentStateEnum | undefined;
-  /** User provided name for the mediation group. The maximum length allowed is 120 characters. */
-  displayName?: string | undefined;
-  /** The mediation lines used for serving for this mediation group. Key is the ID of the mediation group line. For creation, use distinct negative values as placeholder. */
-  mediationGroupLines?: MediationGroupMediationGroupLineMap | undefined;
-  /** Set of criteria targeted by this mediation group, such as ad units and geo locations. */
-  targeting?: MediationGroupTargeting | undefined;
-  /** The status of the mediation group. Only enabled mediation groups will be served. */
-  state?: MediationGroupStateEnum | undefined;
-  /** The ID of the mediation group. Example: "0123456789". This is a read only property. */
-  mediationGroupId?: string | undefined;
-  /** Resource name for this mediation group. Format is: accounts/{publisher_id}/mediationGroups/{mediation_group_id} Example: accounts/pub-9876543210987654/mediationGroups/0123456789 */
-  name?: string | undefined;
+export interface CreateAccountsMediationGroupsRequest extends MediationGroup {
+  /** Required. The parent which owns the mediation group. Format: accounts/{publisher_id} */
+  parent: string;
 }
 /** The mediation group line for the experiment. It will be used for serving during the run of the experiment. */
 export interface MediationAbExperimentExperimentMediationLine {
@@ -358,9 +311,8 @@ export type MediationAbExperimentVariantLeaderEnum =
   | "INSUFFICIENT_DATA"
   | "TOO_EARLY_TO_CALL"
   | "NO_VARIANT_LEADER";
-export interface CreateAccountsMediationGroupsMediationAbExperimentsRequest {
-  /** Required. The parent which owns the mediation group. Format: accounts/{publisher_id}/mediationGroups/{mediation_group_id} */
-  parent: string;
+/** The mediation A/B experiment. */
+export interface MediationAbExperiment {
   /** Output only. The time at which the experiment was started (in UTC). */
   startTime?: string | undefined;
   /** Output only. The time at which the experiment was ended or target to end (in UTC). */
@@ -384,30 +336,9 @@ export interface CreateAccountsMediationGroupsMediationAbExperimentsRequest {
   /** Output only. The variant leader for the experiment according to some key metrics. */
   variantLeader?: MediationAbExperimentVariantLeaderEnum | (string & {}) | undefined;
 }
-/** The mediation A/B experiment. */
-export interface MediationAbExperiment {
-  /** Output only. The time at which the experiment was started (in UTC). */
-  startTime?: string | undefined;
-  /** Output only. The time at which the experiment was ended or target to end (in UTC). */
-  endTime?: string | undefined;
-  /** Output only. The experiment mediation lines for control. They are inherited from the parent mediation group. It is an output only field. */
-  controlMediationLines?: MediationAbExperimentExperimentMediationLineList | undefined;
-  /** Output only. The mediation group id this experiment belongs to. This can be used for filtering the experiments in the list experiments API. */
-  mediationGroupId?: string | undefined;
-  /** The percentage of the mediation A/B experiment traffic that will be send to the treatment (variant B). The remainder is sent to the control (variant A). The percentage is expressed as an integer in the inclusive range of [1,99]. See https://support.google.com/admob/answer/9572326 for details. */
-  treatmentTrafficPercentage?: string | undefined;
-  /** Output only. Unique identifier for the mediation A/B experiment. It is an output only property. */
-  experimentId?: string | undefined;
-  /** The display name for the mediation A/B experiment. */
-  displayName?: string | undefined;
-  /** The experiment mediation lines created for the treatment. They will be used for serving when the experiment status is RUNNING. */
-  treatmentMediationLines?: MediationAbExperimentExperimentMediationLineList | undefined;
-  /** Output only. The state of the experiment. It is an output only field. */
-  state?: MediationAbExperimentStateEnum | undefined;
-  /** Resource name for this experiment. The format is accounts/{publisher_id}/ mediationGroups/{mediation_group_id}/mediationAbExperiment/ {mediation_group_experiment_id}. For example: accounts/pub-9876543210987654/mediationGroups/0123456789/ mediationAbExperiment/12345 */
-  name?: string | undefined;
-  /** Output only. The variant leader for the experiment according to some key metrics. */
-  variantLeader?: MediationAbExperimentVariantLeaderEnum | undefined;
+export interface CreateAccountsMediationGroupsMediationAbExperimentsRequest extends MediationAbExperiment {
+  /** Required. The parent which owns the mediation group. Format: accounts/{publisher_id}/mediationGroups/{mediation_group_id} */
+  parent: string;
 }
 export type CampaignReportSpecMetricsItemEnum =
   | "METRIC_UNSPECIFIED"
@@ -463,11 +394,14 @@ export interface CampaignReportSpec {
   /** The date range for which the report is generated. The max range is 30 days. */
   dateRange?: DateRange | undefined;
 }
-export interface GenerateAccountsCampaignReportRequest {
-  /** Resource name of the account to generate the report for. Example: accounts/pub-9876543210987654 */
-  parent: string;
+/** Request to generate campaign report. */
+export interface GenerateCampaignReportRequest {
   /** Campaign report specification. */
   reportSpec?: CampaignReportSpec | undefined;
+}
+export interface GenerateAccountsCampaignReportRequest extends GenerateCampaignReportRequest {
+  /** Resource name of the account to generate the report for. Example: accounts/pub-9876543210987654 */
+  parent: string;
 }
 /** Representation of a dimension value. */
 export interface ReportRowDimensionValue {
@@ -632,11 +566,14 @@ export interface MediationReportSpec {
   /** A report time zone. Accepts an IANA TZ name values, such as "America/Los_Angeles." If no time zone is defined, the account default takes effect. Check default value by the get account action. **Warning:** The "America/Los_Angeles" is the only supported value at the moment. */
   timeZone?: string | undefined;
 }
-export interface GenerateAccountsMediationReportRequest {
-  /** Resource name of the account to generate the report for. Example: accounts/pub-9876543210987654 */
-  parent: string;
+/** Request to generate an AdMob Mediation report. */
+export interface GenerateMediationReportRequest {
   /** Network report specification. */
   reportSpec?: MediationReportSpec | undefined;
+}
+export interface GenerateAccountsMediationReportRequest extends GenerateMediationReportRequest {
+  /** Resource name of the account to generate the report for. Example: accounts/pub-9876543210987654 */
+  parent: string;
 }
 /** Groups data helps to treat the generated report. Always sent as a first message in the stream response. */
 export interface ReportHeader {
@@ -791,11 +728,14 @@ export interface NetworkReportSpec {
   /** List of dimensions of the report. The value combination of these dimensions determines the row of the report. If no dimensions are specified, the report returns a single row of requested metrics for the entire account. */
   dimensions?: NetworkReportSpecDimensionsItemEnumList | undefined;
 }
-export interface GenerateAccountsNetworkReportRequest {
-  /** Resource name of the account to generate the report for. Example: accounts/pub-9876543210987654 */
-  parent: string;
+/** Request to generate an AdMob Network report. */
+export interface GenerateNetworkReportRequest {
   /** Network report specification. */
   reportSpec?: NetworkReportSpec | undefined;
+}
+export interface GenerateAccountsNetworkReportRequest extends GenerateNetworkReportRequest {
+  /** Resource name of the account to generate the report for. Example: accounts/pub-9876543210987654 */
+  parent: string;
 }
 /** The streaming response for the AdMob Network report where the first response contains the report header, then a stream of row responses, and finally a footer as the last response message. For example: [{ "header": { "dateRange": { "startDate": {"year": 2018, "month": 9, "day": 1}, "endDate": {"year": 2018, "month": 9, "day": 1} }, "localizationSettings": { "currencyCode": "USD", "languageCode": "en-US" } } }, { "row": { "dimensionValues": { "DATE": {"value": "20180918"}, "APP": { "value": "ca-app-pub-8123415297019784~1001342552", displayLabel: "My app name!" } }, "metricValues": { "ESTIMATED_EARNINGS": {"microsValue": 6500000} } } }, { "footer": {"matchingRowCount": 1} }] */
 export interface GenerateNetworkReportResponse {
@@ -968,36 +908,24 @@ export interface ListMediationGroupsResponse {
   /** The resulting mediation groups for the requested account. */
   mediationGroups?: MediationGroupList | undefined;
 }
-export interface PatchAccountsMediationGroupsRequest {
+export interface PatchAccountsMediationGroupsRequest extends Omit<MediationGroup, "name"> {
   /** Resource name for this mediation group. Format is: accounts/{publisher_id}/mediationGroups/{mediation_group_id} Example: accounts/pub-9876543210987654/mediationGroups/0123456789 */
   name: string;
   /** List of mediation group fields to be updated. Updates to repeated fields such as items in a list will fully replace the existing value(s) with the new value(s). Updates to individual values in a map can be done by indexing by the key. The following field masks are supported for mediation group updates: - "mediation_group_lines[\"{mediation_group_line_id}\"]" clang-format off - "mediation_group_lines[\"{mediation_group_line_id}\"].ad_unit_mappings[\"{ad_unit_id}\"]" clang-format on - "mediation_group_lines[\"{mediation_group_line_id}\"].cpm_micros" - "mediation_group_lines[\"{mediation_group_line_id}\"].cpm_mode" - "mediation_group_lines[\"{mediation_group_line_id}\"].state" - "mediation_group_lines[\"{mediation_group_line_id}\"].display_name" - "targeting.ad_unit_ids" To update a mediation group with a new mediation group line, use a distinct negative number for the "mediation_group_line_id". For Example: update_mask { paths: "mediation_group_lines[\"123456789012345\"].cpm_micros" } */
   updateMask?: string | undefined;
-  /** Output only. The state of the mediation a/b experiment that belongs to this mediation group. */
-  mediationAbExperimentState?:
-    | MediationGroupMediationAbExperimentStateEnum
-    | (string & {})
-    | undefined;
-  /** User provided name for the mediation group. The maximum length allowed is 120 characters. */
-  displayName?: string | undefined;
-  /** The mediation lines used for serving for this mediation group. Key is the ID of the mediation group line. For creation, use distinct negative values as placeholder. */
-  mediationGroupLines?: MediationGroupMediationGroupLineMap | undefined;
-  /** Set of criteria targeted by this mediation group, such as ad units and geo locations. */
-  targeting?: MediationGroupTargeting | undefined;
-  /** The status of the mediation group. Only enabled mediation groups will be served. */
-  state?: MediationGroupStateEnum | (string & {}) | undefined;
-  /** The ID of the mediation group. Example: "0123456789". This is a read only property. */
-  mediationGroupId?: string | undefined;
 }
 export type StopMediationAbExperimentRequestVariantChoiceEnum =
   | "VARIANT_CHOICE_UNSPECIFIED"
   | "VARIANT_CHOICE_A"
   | "VARIANT_CHOICE_B";
-export interface StopAccountsMediationGroupsMediationAbExperimentsRequest {
-  /** Name of the mediation group, the experiment for which to choose a variant for. Example: accounts/pub-9876543210987654/mediationGroups/0123456789/ mediationAbExperiments */
-  name: string;
+/** Request to end the mediation A/B experiment and choose a winning variant. */
+export interface StopMediationAbExperimentRequest {
   /** The choice for the winning variant. */
   variantChoice?: StopMediationAbExperimentRequestVariantChoiceEnum | (string & {}) | undefined;
+}
+export interface StopAccountsMediationGroupsMediationAbExperimentsRequest extends StopMediationAbExperimentRequest {
+  /** Name of the mediation group, the experiment for which to choose a variant for. Example: accounts/pub-9876543210987654/mediationGroups/0123456789/ mediationAbExperiments */
+  name: string;
 }
 export type BatchCreateAccountsAdUnitMappingsError =
   | NotFound
@@ -1012,8 +940,8 @@ export const batchCreateAccountsAdUnitMappings: API.OperationMethod<
   BatchCreateAccountsAdUnitMappingsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(130, __c16, 2) as any as S.Schema<BatchCreateAccountsAdUnitMappingsRequest>,
-  output: __S(131, __c16, 3) as any as S.Schema<BatchCreateAdUnitMappingsResponse>,
+  input: __S(131, __c16, 3) as any as S.Schema<BatchCreateAccountsAdUnitMappingsRequest>,
+  output: __S(132, __c16, 4) as any as S.Schema<BatchCreateAdUnitMappingsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1138,8 +1066,8 @@ export const generateAccountsCampaignReport: API.OperationMethod<
   GenerateAccountsCampaignReportError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1, __c0, 1) as any as S.Schema<GenerateAccountsCampaignReportRequest>,
-  output: __S(3, __c0, 3) as any as S.Schema<GenerateCampaignReportResponse>,
+  input: __S(2, __c0, 2) as any as S.Schema<GenerateAccountsCampaignReportRequest>,
+  output: __S(4, __c0, 4) as any as S.Schema<GenerateCampaignReportResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1160,8 +1088,8 @@ export const generateAccountsMediationReport: API.OperationMethod<
   GenerateAccountsMediationReportError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21, __c2, 5) as any as S.Schema<GenerateAccountsMediationReportRequest>,
-  output: __S(22, __c2, 6) as any as S.Schema<GenerateMediationReportResponse>,
+  input: __S(22, __c2, 6) as any as S.Schema<GenerateAccountsMediationReportRequest>,
+  output: __S(23, __c2, 7) as any as S.Schema<GenerateMediationReportResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1182,8 +1110,8 @@ export const generateAccountsNetworkReport: API.OperationMethod<
   GenerateAccountsNetworkReportError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(37, __c4, 5) as any as S.Schema<GenerateAccountsNetworkReportRequest>,
-  output: __S(38, __c4, 6) as any as S.Schema<GenerateNetworkReportResponse>,
+  input: __S(38, __c4, 6) as any as S.Schema<GenerateAccountsNetworkReportRequest>,
+  output: __S(39, __c4, 7) as any as S.Schema<GenerateNetworkReportResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1377,9 +1305,9 @@ export const stopAccountsMediationGroupsMediationAbExperiments: API.OperationMet
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    120,
+    121,
     __c15,
-    0,
+    1,
   ) as any as S.Schema<StopAccountsMediationGroupsMediationAbExperimentsRequest>,
   output: __S(250, __c31, 2) as any as S.Schema<MediationAbExperiment>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
@@ -1404,9 +1332,17 @@ function __c0(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
           reportSpec: S.optional(__S(0, __c0, 0)),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "GenerateCampaignReportRequest" });
+    case 2:
+      return S.suspend(() =>
+        S.Extend(
+          __S(1, __c0, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+parent}/campaignReport:generate",
@@ -1414,12 +1350,12 @@ function __c0(j: number): any {
           }),
         ),
       ).annotate({ identifier: "GenerateAccountsCampaignReportRequest" });
-    case 2:
-      return S.Array(__S(14, __c1, 6));
     case 3:
+      return S.Array(__S(14, __c1, 6));
+    case 4:
       return S.suspend(() =>
         S.Struct({
-          rows: S.optional(__S(2, __c0, 2)),
+          rows: S.optional(__S(3, __c0, 3)),
         }),
       ).annotate({ identifier: "GenerateCampaignReportResponse" });
   }
@@ -1506,9 +1442,17 @@ function __c2(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
           reportSpec: S.optional(__S(20, __c2, 4)),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "GenerateMediationReportRequest" });
+    case 6:
+      return S.suspend(() =>
+        S.Extend(
+          __S(21, __c2, 5),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+parent}/mediationReport:generate",
@@ -1516,7 +1460,7 @@ function __c2(j: number): any {
           }),
         ),
       ).annotate({ identifier: "GenerateAccountsMediationReportRequest" });
-    case 6:
+    case 7:
       return S.suspend(() =>
         S.Struct({
           header: S.optional(__S(26, __c3, 2)),
@@ -1604,9 +1548,17 @@ function __c4(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
           reportSpec: S.optional(__S(36, __c4, 4)),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "GenerateNetworkReportRequest" });
+    case 6:
+      return S.suspend(() =>
+        S.Extend(
+          __S(37, __c4, 5),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+parent}/networkReport:generate",
@@ -1614,7 +1566,7 @@ function __c4(j: number): any {
           }),
         ),
       ).annotate({ identifier: "GenerateAccountsNetworkReportRequest" });
-    case 6:
+    case 7:
       return S.suspend(() =>
         S.Struct({
           row: S.optional(__S(14, __c1, 6)),
@@ -1874,16 +1826,13 @@ function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          mediationAbExperimentState: S.optional(S.String),
-          displayName: S.optional(S.String),
-          mediationGroupLines: S.optional(__S(224, __c28, 0)),
-          targeting: S.optional(__S(225, __c28, 1)),
-          state: S.optional(S.String),
-          mediationGroupId: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(226, __c28, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta/{+name}",
@@ -1898,9 +1847,17 @@ function __c15(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           variantChoice: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "StopMediationAbExperimentRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(120, __c15, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+name}:stop",
@@ -1924,9 +1881,17 @@ function __c16(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
           requests: S.optional(__S(129, __c16, 1)),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "BatchCreateAdUnitMappingsRequest" });
+    case 3:
+      return S.suspend(() =>
+        S.Extend(
+          __S(130, __c16, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+parent}/adUnitMappings:batchCreate",
@@ -1934,7 +1899,7 @@ function __c16(j: number): any {
           }),
         ),
       ).annotate({ identifier: "BatchCreateAccountsAdUnitMappingsRequest" });
-    case 3:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           adUnitMappings: S.optional(__S(136, __c17, 0)),
@@ -1972,16 +1937,12 @@ function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          appId: S.optional(S.String),
-          adUnitId: S.optional(S.String),
-          adFormat: S.optional(S.String),
-          displayName: S.optional(S.String),
-          name: S.optional(S.String),
-          adTypes: S.optional(__S(176, __c22, 0)),
-          rewardSettings: S.optional(__S(168, __c21, 0)),
-        }).pipe(
+        S.Extend(
+          __S(169, __c21, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+parent}/adUnits",
@@ -2024,14 +1985,12 @@ function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          displayName: S.optional(S.String),
-          state: S.optional(S.String),
-          adUnitConfigurations: S.optional(__S(152, __c19, 0)),
-          name: S.optional(S.String),
-          adapterId: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(144, __c18, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+parent}/adUnitMappings",
@@ -2045,15 +2004,12 @@ function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          linkedAppInfo: S.optional(__S(208, __c26, 0)),
-          platform: S.optional(S.String),
-          manualAppInfo: S.optional(__S(209, __c26, 1)),
-          appId: S.optional(S.String),
-          name: S.optional(S.String),
-          appApprovalState: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(210, __c26, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+parent}/apps",
@@ -2102,16 +2058,12 @@ function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          mediationAbExperimentState: S.optional(S.String),
-          displayName: S.optional(S.String),
-          mediationGroupLines: S.optional(__S(224, __c28, 0)),
-          targeting: S.optional(__S(225, __c28, 1)),
-          state: S.optional(S.String),
-          mediationGroupId: S.optional(S.String),
-          name: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(226, __c28, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+parent}/mediationGroups",
@@ -2171,20 +2123,12 @@ function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          startTime: S.optional(S.String),
-          endTime: S.optional(S.String),
-          controlMediationLines: S.optional(__S(249, __c31, 1)),
-          mediationGroupId: S.optional(S.String),
-          treatmentTrafficPercentage: S.optional(S.String),
-          experimentId: S.optional(S.String),
-          displayName: S.optional(S.String),
-          treatmentMediationLines: S.optional(__S(249, __c31, 1)),
-          state: S.optional(S.String),
-          name: S.optional(S.String),
-          variantLeader: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(250, __c31, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+parent}/mediationAbExperiments",

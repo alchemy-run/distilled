@@ -443,15 +443,18 @@ export interface Request {
   deleteItem?: DeleteItemRequest | undefined;
 }
 export type RequestList = Array<Request>;
-export interface BatchUpdateFormsRequest {
-  /** Required. The form ID. */
-  formId: string;
+/** A batch of updates to perform on a form. All the specified updates are made or none of them are. */
+export interface BatchUpdateFormRequest {
   /** Provides control over how write requests are executed. */
   writeControl?: WriteControl | undefined;
   /** Whether to return an updated version of the model in the response. */
   includeFormInResponse?: boolean | undefined;
   /** Required. The update requests of this batch. */
   requests?: RequestList | undefined;
+}
+export interface BatchUpdateFormsRequest extends BatchUpdateFormRequest {
+  /** Required. The form ID. */
+  formId: string;
 }
 export type StringList = Array<string>;
 /** The result of creating an item. */
@@ -508,25 +511,9 @@ export interface BatchUpdateFormResponse {
   /** Based on the bool request field `include_form_in_response`, a form with all applied mutations/updates is returned or not. This may be later than the revision ID created by these changes. */
   form?: Form | undefined;
 }
-export interface CreateFormsRequest {
+export interface CreateFormsRequest extends Form {
   /** Optional. Whether the form is unpublished. If set to `true`, the form doesn't accept responses. If set to `false` or unset, the form is published and accepts responses. */
   unpublished?: boolean | undefined;
-  /** The form's settings. This must be updated with UpdateSettingsRequest; it is ignored during CreateForm and UpdateFormInfoRequest. */
-  settings?: FormSettings | undefined;
-  /** Output only. The publishing settings for a form. This field isn't set for legacy forms because they don't have the publish_settings field. All newly created forms support publish settings. Forms with publish_settings value set can call SetPublishSettings API to publish or unpublish the form. */
-  publishSettings?: PublishSettings | undefined;
-  /** Required. A list of the form's items, which can include section headers, questions, embedded media, etc. */
-  items?: ItemList | undefined;
-  /** Output only. The revision ID of the form. Used in the WriteControl in update requests to identify the revision on which the changes are based. The format of the revision ID may change over time, so it should be treated opaquely. A returned revision ID is only guaranteed to be valid for 24 hours after it has been returned and cannot be shared across users. If the revision ID is unchanged between calls, then the form *content* has not changed. Conversely, a changed ID (for the same form and user) usually means the form *content* has been updated; however, a changed ID can also be due to internal factors such as ID format changes. Form content excludes form metadata, including: * sharing settings (who has access to the form) * publish_settings (if the form supports publishing and if it is published) */
-  revisionId?: string | undefined;
-  /** Output only. The form ID. */
-  formId?: string | undefined;
-  /** Required. The title and description of the form. */
-  info?: Info | undefined;
-  /** Output only. The ID of the linked Google Sheet which is accumulating responses from this Form (if such a Sheet exists). */
-  linkedSheetId?: string | undefined;
-  /** Output only. The form URI to share with responders. This opens a page that allows the user to submit responses but not edit the questions. For forms that have publish_settings value set, this is the published form URI. */
-  responderUri?: string | undefined;
 }
 export type WatchEventTypeEnum = "EVENT_TYPE_UNSPECIFIED" | "SCHEMA" | "RESPONSES";
 /** A Pub/Sub topic. */
@@ -562,13 +549,16 @@ export interface Watch {
   /** Output only. The current state of the watch. Additional details about suspended watches can be found by checking the `error_type`. */
   state?: WatchStateEnum | (string & {}) | undefined;
 }
-export interface CreateFormsWatchesRequest {
-  /** Required. ID of the Form to watch. */
-  formId: string;
+/** Create a new watch. */
+export interface CreateWatchRequest {
   /** The ID to use for the watch. If specified, the ID must not already be in use. If not specified, an ID is generated. This value should be 4-63 characters, and valid characters are /a-z-/. */
   watchId?: string | undefined;
   /** Required. The watch object. No ID should be set on this object; use `watch_id` instead. */
   watch?: Watch | undefined;
+}
+export interface CreateFormsWatchesRequest extends CreateWatchRequest {
+  /** Required. ID of the Form to watch. */
+  formId: string;
 }
 export interface DeleteFormsWatchesRequest {
   /** Required. The ID of the Watch to delete. */
@@ -690,13 +680,16 @@ export interface RenewFormsWatchesRequest {
   /** Request body */
   body?: TextItem | undefined;
 }
-export interface SetPublishSettingsFormsRequest {
-  /** Required. The ID of the form. You can get the id from Form.form_id field. */
-  formId: string;
+/** Updates the publish settings of a Form. */
+export interface SetPublishSettingsRequest {
   /** Optional. The `publish_settings` fields to update. This field mask accepts the following values: * `publish_state`: Updates or replaces all `publish_state` settings. * `"*"`: Updates or replaces all `publish_settings` fields. */
   updateMask?: string | undefined;
   /** Required. The desired publish settings to apply to the form. */
   publishSettings?: PublishSettings | undefined;
+}
+export interface SetPublishSettingsFormsRequest extends SetPublishSettingsRequest {
+  /** Required. The ID of the form. You can get the id from Form.form_id field. */
+  formId: string;
 }
 /** The response of a SetPublishSettings request. */
 export interface SetPublishSettingsResponse {
@@ -713,8 +706,8 @@ export const batchUpdateForms: API.OperationMethod<
   BatchUpdateFormsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(138, __c4, 10) as any as S.Schema<BatchUpdateFormsRequest>,
-  output: __S(143, __c4, 15) as any as S.Schema<BatchUpdateFormResponse>,
+  input: __S(139, __c4, 11) as any as S.Schema<BatchUpdateFormsRequest>,
+  output: __S(144, __c4, 16) as any as S.Schema<BatchUpdateFormResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -747,7 +740,7 @@ export const createFormsWatches: API.OperationMethod<
   CreateFormsWatchesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c10, 0) as any as S.Schema<CreateFormsWatchesRequest>,
+  input: __S(321, __c10, 1) as any as S.Schema<CreateFormsWatchesRequest>,
   output: __S(354, __c11, 2) as any as S.Schema<Watch>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -869,8 +862,8 @@ export const setPublishSettingsForms: API.OperationMethod<
   SetPublishSettingsFormsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c3, 0) as any as S.Schema<SetPublishSettingsFormsRequest>,
-  output: __S(97, __c3, 1) as any as S.Schema<SetPublishSettingsResponse>,
+  input: __S(97, __c3, 1) as any as S.Schema<SetPublishSettingsFormsRequest>,
+  output: __S(98, __c3, 2) as any as S.Schema<SetPublishSettingsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -954,10 +947,18 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          formId: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String),
           publishSettings: S.optional(__S(225, __c7, 1)),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "SetPublishSettingsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(96, __c3, 0),
+          S.Struct({
+            formId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/forms/{formId}:setPublishSettings",
@@ -965,7 +966,7 @@ function __c3(j: number): any {
           }),
         ),
       ).annotate({ identifier: "SetPublishSettingsFormsRequest" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           formId: S.optional(S.String),
@@ -1047,11 +1048,19 @@ function __c4(j: number): any {
     case 10:
       return S.suspend(() =>
         S.Struct({
-          formId: S.String.pipe(T.Label()),
           writeControl: S.optional(__S(128, __c4, 0)),
           includeFormInResponse: S.optional(S.Boolean),
           requests: S.optional(__S(137, __c4, 9)),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "BatchUpdateFormRequest" });
+    case 11:
+      return S.suspend(() =>
+        S.Extend(
+          __S(138, __c4, 10),
+          S.Struct({
+            formId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/forms/{formId}:batchUpdate",
@@ -1059,28 +1068,28 @@ function __c4(j: number): any {
           }),
         ),
       ).annotate({ identifier: "BatchUpdateFormsRequest" });
-    case 11:
-      return S.Array(S.String);
     case 12:
-      return S.suspend(() =>
-        S.Struct({
-          itemId: S.optional(S.String),
-          questionId: S.optional(__S(139, __c4, 11)),
-        }),
-      ).annotate({ identifier: "CreateItemResponse" });
+      return S.Array(S.String);
     case 13:
       return S.suspend(() =>
         S.Struct({
-          createItem: S.optional(__S(140, __c4, 12)),
+          itemId: S.optional(S.String),
+          questionId: S.optional(__S(140, __c4, 12)),
+        }),
+      ).annotate({ identifier: "CreateItemResponse" });
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          createItem: S.optional(__S(141, __c4, 13)),
         }),
       ).annotate({ identifier: "Response" });
-    case 14:
-      return S.Array(__S(141, __c4, 13));
     case 15:
+      return S.Array(__S(142, __c4, 14));
+    case 16:
       return S.suspend(() =>
         S.Struct({
           writeControl: S.optional(__S(128, __c4, 0)),
-          replies: S.optional(__S(142, __c4, 14)),
+          replies: S.optional(__S(143, __c4, 15)),
           form: S.optional(__S(219, __c6, 27)),
         }),
       ).annotate({ identifier: "BatchUpdateFormResponse" });
@@ -1373,17 +1382,12 @@ function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          unpublished: S.optional(S.Boolean.pipe(T.Query())),
-          settings: S.optional(__S(217, __c6, 25)),
-          publishSettings: S.optional(__S(225, __c7, 1)),
-          items: S.optional(__S(218, __c6, 26)),
-          revisionId: S.optional(S.String),
-          formId: S.optional(S.String),
-          info: S.optional(__S(215, __c6, 23)),
-          linkedSheetId: S.optional(S.String),
-          responderUri: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(219, __c6, 27),
+          S.Struct({
+            unpublished: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({ method: "POST", uri: "v1/forms", baseUrl: "https://forms.googleapis.com/" }),
         ),
       ).annotate({ identifier: "CreateFormsRequest" });
@@ -1394,10 +1398,18 @@ function __c10(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          formId: S.String.pipe(T.Label()),
           watchId: S.optional(S.String),
           watch: S.optional(__S(354, __c11, 2)),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "CreateWatchRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(320, __c10, 0),
+          S.Struct({
+            formId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/forms/{formId}/watches",

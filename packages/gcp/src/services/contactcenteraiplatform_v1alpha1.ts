@@ -277,13 +277,8 @@ export interface Critical {
   /** Required. Hours during which the instance should not be updated. */
   peakHours?: WeeklyScheduleList | undefined;
 }
-export interface CreateProjectsLocationsContactCentersRequest {
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Required. Id of the requesting object If auto-generating Id server-side, remove this field and contact_center_id from the method_signature of Create RPC */
-  contactCenterId?: string | undefined;
-  /** Required. Value for parent. */
-  parent: string;
+/** Message describing ContactCenter object */
+export interface ContactCenter {
   /** Optional. Info about the first admin user, such as given name and family name. */
   adminUser?: AdminUser | undefined;
   /** Output only. UJET release version, unique for each new release. */
@@ -334,6 +329,14 @@ export interface CreateProjectsLocationsContactCentersRequest {
   state?: ContactCenterStateEnum | (string & {}) | undefined;
   /** Optional. Critical release channel. */
   critical?: Critical | undefined;
+}
+export interface CreateProjectsLocationsContactCentersRequest extends ContactCenter {
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+  /** Required. Id of the requesting object If auto-generating Id server-side, remove this field and contact_center_id from the method_signature of Create RPC */
+  contactCenterId?: string | undefined;
+  /** Required. Value for parent. */
+  parent: string;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -504,9 +507,8 @@ export interface ShiftTemplate {
   startTimeIncrementMinutes?: number | undefined;
 }
 export type ShiftTemplateList = Array<ShiftTemplate>;
-export interface GenerateShiftsProjectsLocationsRequest {
-  /** Required. Name of the parent resource associated with the request. Format: projects/{project}/locations/{location} */
-  parent: string;
+/** Request with constraints for generating shifts. The shifts generated must adhere to these constraints. */
+export interface GenerateShiftsRequest {
   /** Optional. Employee information that should be considered when generating shifts. */
   employeeInfo?: EmployeeInfoList | undefined;
   /** Required. The solver will generate the maximum number of shifts per shift template. */
@@ -517,6 +519,10 @@ export interface GenerateShiftsProjectsLocationsRequest {
   solverConfig?: SolverConfig | undefined;
   /** Required. Set of shift templates specifying rules for generating shifts. A shift template can be used for generating multiple shifts. */
   shiftTemplates?: ShiftTemplateList | undefined;
+}
+export interface GenerateShiftsProjectsLocationsRequest extends GenerateShiftsRequest {
+  /** Required. Name of the parent resource associated with the request. Format: projects/{project}/locations/{location} */
+  parent: string;
 }
 export interface GetProjectsLocationsRequest {
   /** Resource name for the location. */
@@ -538,59 +544,6 @@ export interface Location {
 export interface GetProjectsLocationsContactCentersRequest {
   /** Required. Name of the resource */
   name: string;
-}
-/** Message describing ContactCenter object */
-export interface ContactCenter {
-  /** Optional. Info about the first admin user, such as given name and family name. */
-  adminUser?: AdminUser | undefined;
-  /** Output only. UJET release version, unique for each new release. */
-  releaseVersion?: string | undefined;
-  /** Required. A user friendly name for the ContactCenter. */
-  displayName?: string | undefined;
-  /** Optional. Early release channel. */
-  early?: CancelOperationRequest | undefined;
-  /** Output only. TODO(b/283407860) Deprecate this field. */
-  privateComponents?: StringList | undefined;
-  /** Optional. Feature configuration to populate the feature flags. */
-  featureConfig?: FeatureConfig | undefined;
-  /** name of resource */
-  name?: string | undefined;
-  /** Optional. Whether to enable users to be created in the CCAIP-instance concurrently to having users in Cloud identity */
-  ccaipManagedUsers?: boolean | undefined;
-  /** Output only. Timestamp in UTC of when this resource is going to be hard-deleted. */
-  purgeTime?: string | undefined;
-  /** Optional. Email address of the first admin user. */
-  userEmail?: string | undefined;
-  /** Labels as key value pairs */
-  labels?: StringMap | undefined;
-  /** Output only. [Output only] Create time stamp */
-  createTime?: string | undefined;
-  /** Optional. Params that sets up Google as IdP. */
-  samlParams?: SAMLParams | undefined;
-  /** Output only. [Output only] Update time stamp */
-  updateTime?: string | undefined;
-  /** Immutable. The KMS key name to encrypt the user input (`ContactCenter`). */
-  kmsKey?: string | undefined;
-  /** The configuration of this instance, it is currently immutable once created. */
-  instanceConfig?: InstanceConfig | undefined;
-  /** Optional. VPC-SC related networking configuration. */
-  privateAccess?: PrivateAccess | undefined;
-  /** Output only. Timestamp in UTC of when this resource was soft-deleted. */
-  deleteTime?: string | undefined;
-  /** Output only. Timestamp in UTC of when this resource is considered expired. */
-  expireTime?: string | undefined;
-  /** Optional. Normal release channel. */
-  normal?: CancelOperationRequest | undefined;
-  /** Output only. URIs to access the deployed ContactCenters. */
-  uris?: URIs | undefined;
-  /** Required. Immutable. At least 2 and max 16 char long, must conform to [RFC 1035](https://www.ietf.org/rfc/rfc1035.txt). */
-  customerDomainPrefix?: string | undefined;
-  /** Optional. Whether the advanced reporting feature is enabled. */
-  advancedReportingEnabled?: boolean | undefined;
-  /** Output only. The state of this contact center. */
-  state?: ContactCenterStateEnum | undefined;
-  /** Optional. Critical release channel. */
-  critical?: Critical | undefined;
 }
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
@@ -660,61 +613,13 @@ export interface ListOperationsResponse {
   /** A list of operations that matches the specified filter in the request. */
   operations?: OperationList | undefined;
 }
-export interface PatchProjectsLocationsContactCentersRequest {
+export interface PatchProjectsLocationsContactCentersRequest extends Omit<ContactCenter, "name"> {
   /** name of resource */
   name: string;
   /** Required. Field mask is used to specify the fields to be overwritten in the ContactCenter resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Optional. Info about the first admin user, such as given name and family name. */
-  adminUser?: AdminUser | undefined;
-  /** Output only. UJET release version, unique for each new release. */
-  releaseVersion?: string | undefined;
-  /** Required. A user friendly name for the ContactCenter. */
-  displayName?: string | undefined;
-  /** Optional. Early release channel. */
-  early?: CancelOperationRequest | undefined;
-  /** Output only. TODO(b/283407860) Deprecate this field. */
-  privateComponents?: StringList | undefined;
-  /** Optional. Feature configuration to populate the feature flags. */
-  featureConfig?: FeatureConfig | undefined;
-  /** Optional. Whether to enable users to be created in the CCAIP-instance concurrently to having users in Cloud identity */
-  ccaipManagedUsers?: boolean | undefined;
-  /** Output only. Timestamp in UTC of when this resource is going to be hard-deleted. */
-  purgeTime?: string | undefined;
-  /** Optional. Email address of the first admin user. */
-  userEmail?: string | undefined;
-  /** Labels as key value pairs */
-  labels?: StringMap | undefined;
-  /** Output only. [Output only] Create time stamp */
-  createTime?: string | undefined;
-  /** Optional. Params that sets up Google as IdP. */
-  samlParams?: SAMLParams | undefined;
-  /** Output only. [Output only] Update time stamp */
-  updateTime?: string | undefined;
-  /** Immutable. The KMS key name to encrypt the user input (`ContactCenter`). */
-  kmsKey?: string | undefined;
-  /** The configuration of this instance, it is currently immutable once created. */
-  instanceConfig?: InstanceConfig | undefined;
-  /** Optional. VPC-SC related networking configuration. */
-  privateAccess?: PrivateAccess | undefined;
-  /** Output only. Timestamp in UTC of when this resource was soft-deleted. */
-  deleteTime?: string | undefined;
-  /** Output only. Timestamp in UTC of when this resource is considered expired. */
-  expireTime?: string | undefined;
-  /** Optional. Normal release channel. */
-  normal?: CancelOperationRequest | undefined;
-  /** Output only. URIs to access the deployed ContactCenters. */
-  uris?: URIs | undefined;
-  /** Required. Immutable. At least 2 and max 16 char long, must conform to [RFC 1035](https://www.ietf.org/rfc/rfc1035.txt). */
-  customerDomainPrefix?: string | undefined;
-  /** Optional. Whether the advanced reporting feature is enabled. */
-  advancedReportingEnabled?: boolean | undefined;
-  /** Output only. The state of this contact center. */
-  state?: ContactCenterStateEnum | (string & {}) | undefined;
-  /** Optional. Critical release channel. */
-  critical?: Critical | undefined;
 }
 export interface QueryContactCenterQuotaProjectsLocationsRequest {
   /** Required. Parent project resource id. */
@@ -771,8 +676,8 @@ export const cancelProjectsLocationsOperations: API.OperationMethod<
   CancelProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c10, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
-  output: __S(352, __c11, 0) as any as S.Schema<Empty>,
+  input: __S(288, __c9, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
+  output: __S(320, __c10, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -794,8 +699,8 @@ export const createProjectsLocationsContactCenters: API.OperationMethod<
   CreateProjectsLocationsContactCentersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c12, 0) as any as S.Schema<CreateProjectsLocationsContactCentersRequest>,
-  output: __S(514, __c16, 2) as any as S.Schema<Operation>,
+  input: __S(352, __c11, 0) as any as S.Schema<CreateProjectsLocationsContactCentersRequest>,
+  output: __S(482, __c15, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -817,8 +722,8 @@ export const deleteProjectsLocationsContactCenters: API.OperationMethod<
   DeleteProjectsLocationsContactCentersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c19, 0) as any as S.Schema<DeleteProjectsLocationsContactCentersRequest>,
-  output: __S(514, __c16, 2) as any as S.Schema<Operation>,
+  input: __S(576, __c18, 0) as any as S.Schema<DeleteProjectsLocationsContactCentersRequest>,
+  output: __S(482, __c15, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -840,8 +745,8 @@ export const deleteProjectsLocationsOperations: API.OperationMethod<
   DeleteProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c20, 0) as any as S.Schema<DeleteProjectsLocationsOperationsRequest>,
-  output: __S(352, __c11, 0) as any as S.Schema<Empty>,
+  input: __S(608, __c19, 0) as any as S.Schema<DeleteProjectsLocationsOperationsRequest>,
+  output: __S(320, __c10, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -863,8 +768,8 @@ export const generateShiftsProjectsLocations: API.OperationMethod<
   GenerateShiftsProjectsLocationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(690, __c21, 18) as any as S.Schema<GenerateShiftsProjectsLocationsRequest>,
-  output: __S(514, __c16, 2) as any as S.Schema<Operation>,
+  input: __S(659, __c20, 19) as any as S.Schema<GenerateShiftsProjectsLocationsRequest>,
+  output: __S(482, __c15, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -902,7 +807,7 @@ export const getProjectsLocationsContactCenters: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c2, 0) as any as S.Schema<GetProjectsLocationsContactCentersRequest>,
-  output: __S(96, __c3, 0) as any as S.Schema<ContactCenter>,
+  output: __S(429, __c13, 13) as any as S.Schema<ContactCenter>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -922,8 +827,8 @@ export const getProjectsLocationsOperations: API.OperationMethod<
   GetProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c4, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
-  output: __S(514, __c16, 2) as any as S.Schema<Operation>,
+  input: __S(96, __c3, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
+  output: __S(482, __c15, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -940,8 +845,8 @@ export const listProjectsLocations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListLocationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(160, __c5, 0) as any as S.Schema<ListProjectsLocationsRequest>,
-  output: __S(162, __c5, 2) as any as S.Schema<ListLocationsResponse>,
+  input: __S(128, __c4, 0) as any as S.Schema<ListProjectsLocationsRequest>,
+  output: __S(130, __c4, 2) as any as S.Schema<ListLocationsResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -963,8 +868,8 @@ export const listProjectsLocationsContactCenters: API.PaginatedOperationMethod<
   GcpOpContext,
   ListContactCentersResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(192, __c6, 0) as any as S.Schema<ListProjectsLocationsContactCentersRequest>,
-  output: __S(194, __c6, 2) as any as S.Schema<ListContactCentersResponse>,
+  input: __S(160, __c5, 0) as any as S.Schema<ListProjectsLocationsContactCentersRequest>,
+  output: __S(162, __c5, 2) as any as S.Schema<ListContactCentersResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -986,8 +891,8 @@ export const listProjectsLocationsOperations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListOperationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(224, __c7, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
-  output: __S(226, __c7, 2) as any as S.Schema<ListOperationsResponse>,
+  input: __S(192, __c6, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
+  output: __S(194, __c6, 2) as any as S.Schema<ListOperationsResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1010,8 +915,8 @@ export const patchProjectsLocationsContactCenters: API.OperationMethod<
   PatchProjectsLocationsContactCentersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c8, 0) as any as S.Schema<PatchProjectsLocationsContactCentersRequest>,
-  output: __S(514, __c16, 2) as any as S.Schema<Operation>,
+  input: __S(224, __c7, 0) as any as S.Schema<PatchProjectsLocationsContactCentersRequest>,
+  output: __S(482, __c15, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1031,8 +936,8 @@ export const queryContactCenterQuotaProjectsLocations: API.OperationMethod<
   QueryContactCenterQuotaProjectsLocationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c9, 0) as any as S.Schema<QueryContactCenterQuotaProjectsLocationsRequest>,
-  output: __S(291, __c9, 3) as any as S.Schema<ContactCenterQuota>,
+  input: __S(256, __c8, 0) as any as S.Schema<QueryContactCenterQuotaProjectsLocationsRequest>,
+  output: __S(259, __c8, 3) as any as S.Schema<ContactCenterQuota>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1064,9 +969,9 @@ function __c1(j: number): any {
         S.Struct({
           name: S.optional(S.String),
           locationId: S.optional(S.String),
-          labels: S.optional(__S(416, __c13, 0)),
+          labels: S.optional(__S(384, __c12, 0)),
           displayName: S.optional(S.String),
-          metadata: S.optional(__S(480, __c15, 0)),
+          metadata: S.optional(__S(448, __c14, 0)),
         }),
       ).annotate({ identifier: "Location" });
   }
@@ -1092,40 +997,6 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          adminUser: S.optional(__S(448, __c14, 0)),
-          releaseVersion: S.optional(S.String),
-          displayName: S.optional(S.String),
-          early: S.optional(__S(352, __c11, 0)),
-          privateComponents: S.optional(__S(544, __c17, 0)),
-          featureConfig: S.optional(__S(449, __c14, 1)),
-          name: S.optional(S.String),
-          ccaipManagedUsers: S.optional(S.Boolean),
-          purgeTime: S.optional(S.String),
-          userEmail: S.optional(S.String),
-          labels: S.optional(__S(416, __c13, 0)),
-          createTime: S.optional(S.String),
-          samlParams: S.optional(__S(451, __c14, 3)),
-          updateTime: S.optional(S.String),
-          kmsKey: S.optional(S.String),
-          instanceConfig: S.optional(__S(452, __c14, 4)),
-          privateAccess: S.optional(__S(456, __c14, 8)),
-          deleteTime: S.optional(S.String),
-          expireTime: S.optional(S.String),
-          normal: S.optional(__S(352, __c11, 0)),
-          uris: S.optional(__S(457, __c14, 9)),
-          customerDomainPrefix: S.optional(S.String),
-          advancedReportingEnabled: S.optional(S.Boolean),
-          state: S.optional(S.String),
-          critical: S.optional(__S(460, __c14, 12)),
-        }),
-      ).annotate({ identifier: "ContactCenter" });
-  }
-}
-function __c4(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
           name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -1137,13 +1008,13 @@ function __c4(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsOperationsRequest" });
   }
 }
-function __c5(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          extraLocationTypes: S.optional(__S(544, __c17, 0).pipe(T.Query())),
+          extraLocationTypes: S.optional(__S(512, __c16, 0).pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
@@ -1160,13 +1031,13 @@ function __c5(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          locations: S.optional(__S(161, __c5, 1)),
+          locations: S.optional(__S(129, __c4, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListLocationsResponse" });
   }
 }
-function __c6(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1185,18 +1056,18 @@ function __c6(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsContactCentersRequest" });
     case 1:
-      return S.Array(__S(96, __c3, 0));
+      return S.Array(__S(429, __c13, 13));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(544, __c17, 0)),
-          contactCenters: S.optional(__S(193, __c6, 1)),
+          unreachable: S.optional(__S(512, __c16, 0)),
+          contactCenters: S.optional(__S(161, __c5, 1)),
         }),
       ).annotate({ identifier: "ListContactCentersResponse" });
   }
 }
-function __c7(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1215,50 +1086,29 @@ function __c7(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsOperationsRequest" });
     case 1:
-      return S.Array(__S(514, __c16, 2));
+      return S.Array(__S(482, __c15, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(544, __c17, 0)),
-          operations: S.optional(__S(225, __c7, 1)),
+          unreachable: S.optional(__S(512, __c16, 0)),
+          operations: S.optional(__S(193, __c6, 1)),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
   }
 }
-function __c8(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          adminUser: S.optional(__S(448, __c14, 0)),
-          releaseVersion: S.optional(S.String),
-          displayName: S.optional(S.String),
-          early: S.optional(__S(352, __c11, 0)),
-          privateComponents: S.optional(__S(544, __c17, 0)),
-          featureConfig: S.optional(__S(449, __c14, 1)),
-          ccaipManagedUsers: S.optional(S.Boolean),
-          purgeTime: S.optional(S.String),
-          userEmail: S.optional(S.String),
-          labels: S.optional(__S(416, __c13, 0)),
-          createTime: S.optional(S.String),
-          samlParams: S.optional(__S(451, __c14, 3)),
-          updateTime: S.optional(S.String),
-          kmsKey: S.optional(S.String),
-          instanceConfig: S.optional(__S(452, __c14, 4)),
-          privateAccess: S.optional(__S(456, __c14, 8)),
-          deleteTime: S.optional(S.String),
-          expireTime: S.optional(S.String),
-          normal: S.optional(__S(352, __c11, 0)),
-          uris: S.optional(__S(457, __c14, 9)),
-          customerDomainPrefix: S.optional(S.String),
-          advancedReportingEnabled: S.optional(S.Boolean),
-          state: S.optional(S.String),
-          critical: S.optional(__S(460, __c14, 12)),
-        }).pipe(
+        S.Extend(
+          __S(429, __c13, 13),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha1/{+name}",
@@ -1268,7 +1118,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsContactCentersRequest" });
   }
 }
-function __c9(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1291,24 +1141,24 @@ function __c9(j: number): any {
         }),
       ).annotate({ identifier: "Quota" });
     case 2:
-      return S.Array(__S(289, __c9, 1));
+      return S.Array(__S(257, __c8, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           contactCenterCountSum: S.optional(S.Number),
           contactCenterCountLimit: S.optional(S.Number),
-          quotas: S.optional(__S(290, __c9, 2)),
+          quotas: S.optional(__S(258, __c8, 2)),
         }),
       ).annotate({ identifier: "ContactCenterQuota" });
   }
 }
-function __c10(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(352, __c11, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(320, __c10, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1319,46 +1169,24 @@ function __c10(j: number): any {
       ).annotate({ identifier: "CancelProjectsLocationsOperationsRequest" });
   }
 }
-function __c11(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "CancelOperationRequest" });
   }
 }
-function __c12(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          contactCenterId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          adminUser: S.optional(__S(448, __c14, 0)),
-          releaseVersion: S.optional(S.String),
-          displayName: S.optional(S.String),
-          early: S.optional(__S(352, __c11, 0)),
-          privateComponents: S.optional(__S(544, __c17, 0)),
-          featureConfig: S.optional(__S(449, __c14, 1)),
-          name: S.optional(S.String),
-          ccaipManagedUsers: S.optional(S.Boolean),
-          purgeTime: S.optional(S.String),
-          userEmail: S.optional(S.String),
-          labels: S.optional(__S(416, __c13, 0)),
-          createTime: S.optional(S.String),
-          samlParams: S.optional(__S(451, __c14, 3)),
-          updateTime: S.optional(S.String),
-          kmsKey: S.optional(S.String),
-          instanceConfig: S.optional(__S(452, __c14, 4)),
-          privateAccess: S.optional(__S(456, __c14, 8)),
-          deleteTime: S.optional(S.String),
-          expireTime: S.optional(S.String),
-          normal: S.optional(__S(352, __c11, 0)),
-          uris: S.optional(__S(457, __c14, 9)),
-          customerDomainPrefix: S.optional(S.String),
-          advancedReportingEnabled: S.optional(S.Boolean),
-          state: S.optional(S.String),
-          critical: S.optional(__S(460, __c14, 12)),
-        }).pipe(
+        S.Extend(
+          __S(429, __c13, 13),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            contactCenterId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+parent}/contactCenters",
@@ -1368,13 +1196,13 @@ function __c12(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsContactCentersRequest" });
   }
 }
-function __c13(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
   }
 }
-function __c14(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1396,7 +1224,7 @@ function __c14(j: number): any {
         S.Struct({
           emailMapping: S.optional(S.String),
           certificate: S.optional(S.String),
-          authenticationContexts: S.optional(__S(450, __c14, 2)),
+          authenticationContexts: S.optional(__S(418, __c13, 2)),
           entityId: S.optional(S.String),
           ssoUri: S.optional(S.String),
           userEmail: S.optional(S.String),
@@ -1411,25 +1239,25 @@ function __c14(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          serviceAttachmentNames: S.optional(__S(544, __c17, 0)),
+          serviceAttachmentNames: S.optional(__S(512, __c16, 0)),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "Component" });
     case 6:
-      return S.Array(__S(453, __c14, 5));
+      return S.Array(__S(421, __c13, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          allowedConsumerProjectIds: S.optional(__S(544, __c17, 0)),
-          producerProjectIds: S.optional(__S(544, __c17, 0)),
+          allowedConsumerProjectIds: S.optional(__S(512, __c16, 0)),
+          producerProjectIds: S.optional(__S(512, __c16, 0)),
         }),
       ).annotate({ identifier: "PscSetting" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          ingressSettings: S.optional(__S(454, __c14, 6)),
-          egressSettings: S.optional(__S(454, __c14, 6)),
-          pscSetting: S.optional(__S(455, __c14, 7)),
+          ingressSettings: S.optional(__S(422, __c13, 6)),
+          egressSettings: S.optional(__S(422, __c13, 6)),
+          pscSetting: S.optional(__S(423, __c13, 7)),
         }),
       ).annotate({ identifier: "PrivateAccess" });
     case 9:
@@ -1444,37 +1272,67 @@ function __c14(j: number): any {
     case 10:
       return S.suspend(() =>
         S.Struct({
-          endTime: S.optional(__S(576, __c18, 0)),
-          days: S.optional(__S(450, __c14, 2)),
-          startTime: S.optional(__S(576, __c18, 0)),
+          endTime: S.optional(__S(544, __c17, 0)),
+          days: S.optional(__S(418, __c13, 2)),
+          startTime: S.optional(__S(544, __c17, 0)),
           duration: S.optional(S.String),
         }),
       ).annotate({ identifier: "WeeklySchedule" });
     case 11:
-      return S.Array(__S(458, __c14, 10));
+      return S.Array(__S(426, __c13, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
-          peakHours: S.optional(__S(459, __c14, 11)),
+          peakHours: S.optional(__S(427, __c13, 11)),
         }),
       ).annotate({ identifier: "Critical" });
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          adminUser: S.optional(__S(416, __c13, 0)),
+          releaseVersion: S.optional(S.String),
+          displayName: S.optional(S.String),
+          early: S.optional(__S(320, __c10, 0)),
+          privateComponents: S.optional(__S(512, __c16, 0)),
+          featureConfig: S.optional(__S(417, __c13, 1)),
+          name: S.optional(S.String),
+          ccaipManagedUsers: S.optional(S.Boolean),
+          purgeTime: S.optional(S.String),
+          userEmail: S.optional(S.String),
+          labels: S.optional(__S(384, __c12, 0)),
+          createTime: S.optional(S.String),
+          samlParams: S.optional(__S(419, __c13, 3)),
+          updateTime: S.optional(S.String),
+          kmsKey: S.optional(S.String),
+          instanceConfig: S.optional(__S(420, __c13, 4)),
+          privateAccess: S.optional(__S(424, __c13, 8)),
+          deleteTime: S.optional(S.String),
+          expireTime: S.optional(S.String),
+          normal: S.optional(__S(320, __c10, 0)),
+          uris: S.optional(__S(425, __c13, 9)),
+          customerDomainPrefix: S.optional(S.String),
+          advancedReportingEnabled: S.optional(S.Boolean),
+          state: S.optional(S.String),
+          critical: S.optional(__S(428, __c13, 12)),
+        }),
+      ).annotate({ identifier: "ContactCenter" });
   }
 }
-function __c15(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c16(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(480, __c15, 0));
+      return S.Array(__S(448, __c14, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
           message: S.optional(S.String),
-          details: S.optional(__S(512, __c16, 0)),
+          details: S.optional(__S(480, __c15, 0)),
           code: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Status" });
@@ -1482,21 +1340,21 @@ function __c16(j: number): any {
       return S.suspend(() =>
         S.Struct({
           done: S.optional(S.Boolean),
-          metadata: S.optional(__S(480, __c15, 0)),
-          response: S.optional(__S(480, __c15, 0)),
-          error: S.optional(__S(513, __c16, 1)),
+          metadata: S.optional(__S(448, __c14, 0)),
+          response: S.optional(__S(448, __c14, 0)),
+          error: S.optional(__S(481, __c15, 1)),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "Operation" });
   }
 }
-function __c17(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c18(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1509,7 +1367,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "TimeOfDay" });
   }
 }
-function __c19(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1526,7 +1384,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsContactCentersRequest" });
   }
 }
-function __c20(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1542,7 +1400,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsOperationsRequest" });
   }
 }
-function __c21(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1561,49 +1419,49 @@ function __c21(j: number): any {
           utcOffset: S.optional(S.String),
           minutes: S.optional(S.Number),
           seconds: S.optional(S.Number),
-          timeZone: S.optional(__S(672, __c21, 0)),
+          timeZone: S.optional(__S(640, __c20, 0)),
           nanos: S.optional(S.Number),
         }),
       ).annotate({ identifier: "DateTime" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          startTime: S.optional(__S(673, __c21, 1)),
+          startTime: S.optional(__S(641, __c20, 1)),
           durationMinutes: S.optional(S.Number),
         }),
       ).annotate({ identifier: "UnwantedEventInterval" });
     case 3:
-      return S.Array(__S(674, __c21, 2));
+      return S.Array(__S(642, __c20, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
-          unwantedEventIntervals: S.optional(__S(675, __c21, 3)),
+          unwantedEventIntervals: S.optional(__S(643, __c20, 3)),
         }),
       ).annotate({ identifier: "EmployeeInfo" });
     case 5:
-      return S.Array(__S(676, __c21, 4));
+      return S.Array(__S(644, __c20, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          startTime: S.optional(__S(673, __c21, 1)),
-          endTime: S.optional(__S(673, __c21, 1)),
+          startTime: S.optional(__S(641, __c20, 1)),
+          endTime: S.optional(__S(641, __c20, 1)),
         }),
       ).annotate({ identifier: "PlanningHorizon" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          endTime: S.optional(__S(673, __c21, 1)),
-          startTime: S.optional(__S(673, __c21, 1)),
+          endTime: S.optional(__S(641, __c20, 1)),
+          startTime: S.optional(__S(641, __c20, 1)),
           employeeCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "WorkforceDemand" });
     case 8:
-      return S.Array(__S(679, __c21, 7));
+      return S.Array(__S(647, __c20, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
-          values: S.optional(__S(680, __c21, 8)),
+          values: S.optional(__S(648, __c20, 8)),
         }),
       ).annotate({ identifier: "WorkforceDemandList" });
     case 10:
@@ -1624,7 +1482,7 @@ function __c21(j: number): any {
         }),
       ).annotate({ identifier: "EventTemplate" });
     case 12:
-      return S.Array(__S(683, __c21, 11));
+      return S.Array(__S(651, __c20, 11));
     case 13:
       return S.suspend(() =>
         S.Struct({
@@ -1634,24 +1492,24 @@ function __c21(j: number): any {
         }),
       ).annotate({ identifier: "Contactcenteraiplatform_Date" });
     case 14:
-      return S.Array(__S(685, __c21, 13));
+      return S.Array(__S(653, __c20, 13));
     case 15:
       return S.suspend(() =>
         S.Struct({
-          values: S.optional(__S(686, __c21, 14)),
+          values: S.optional(__S(654, __c20, 14)),
         }),
       ).annotate({ identifier: "DateList" });
     case 16:
       return S.suspend(() =>
         S.Struct({
-          latestStartTime: S.optional(__S(576, __c18, 0)),
+          latestStartTime: S.optional(__S(544, __c17, 0)),
           minimumIntereventGapMinutes: S.optional(S.Number),
-          eventTemplates: S.optional(__S(684, __c21, 12)),
-          daysOffDates: S.optional(__S(687, __c21, 15)),
+          eventTemplates: S.optional(__S(652, __c20, 12)),
+          daysOffDates: S.optional(__S(655, __c20, 15)),
           minimumEmployeeCount: S.optional(S.Number),
-          earliestStartTime: S.optional(__S(576, __c18, 0)),
+          earliestStartTime: S.optional(__S(544, __c17, 0)),
           durationMinutes: S.optional(S.Number),
-          assignableEmployeeIds: S.optional(__S(544, __c17, 0)),
+          assignableEmployeeIds: S.optional(__S(512, __c16, 0)),
           maximumEmployeeCount: S.optional(S.Number),
           id: S.optional(S.String),
           daysOffCountPerWeek: S.optional(S.Number),
@@ -1659,17 +1517,25 @@ function __c21(j: number): any {
         }),
       ).annotate({ identifier: "ShiftTemplate" });
     case 17:
-      return S.Array(__S(688, __c21, 16));
+      return S.Array(__S(656, __c20, 16));
     case 18:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
-          employeeInfo: S.optional(__S(677, __c21, 5)),
-          planningHorizon: S.optional(__S(678, __c21, 6)),
-          workforceDemands: S.optional(__S(681, __c21, 9)),
-          solverConfig: S.optional(__S(682, __c21, 10)),
-          shiftTemplates: S.optional(__S(689, __c21, 17)),
-        }).pipe(
+          employeeInfo: S.optional(__S(645, __c20, 5)),
+          planningHorizon: S.optional(__S(646, __c20, 6)),
+          workforceDemands: S.optional(__S(649, __c20, 9)),
+          solverConfig: S.optional(__S(650, __c20, 10)),
+          shiftTemplates: S.optional(__S(657, __c20, 17)),
+        }),
+      ).annotate({ identifier: "GenerateShiftsRequest" });
+    case 19:
+      return S.suspend(() =>
+        S.Extend(
+          __S(658, __c20, 18),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+parent}:generateShifts",

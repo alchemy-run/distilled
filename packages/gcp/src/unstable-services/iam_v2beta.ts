@@ -117,11 +117,8 @@ export interface GoogleIamV2betaPolicyRule {
 }
 export type GoogleIamV2betaPolicyRuleList = Array<GoogleIamV2betaPolicyRule>;
 export type StringMap = { [key: string]: string | undefined };
-export interface CreatePolicyPoliciesRequest {
-  /** Required. The resource that the policy is attached to, along with the kind of policy to create. Format: `policies/{attachment_point}/denypolicies` The attachment point is identified by its URL-encoded full resource name, which means that the forward-slash character, `/`, must be written as `%2F`. For example, `policies/cloudresourcemanager.googleapis.com%2Fprojects%2Fmy-project/denypolicies`. For organizations and folders, use the numeric ID in the full resource name. For projects, you can use the alphanumeric or the numeric ID. */
-  parent: string;
-  /** The ID to use for this policy, which will become the final component of the policy's resource name. The ID must contain 3 to 63 characters. It can contain lowercase letters and numbers, as well as dashes (`-`) and periods (`.`). The first character must be a lowercase letter. */
-  policyId?: string | undefined;
+/** Data for an IAM policy. */
+export interface GoogleIamV2betaPolicy {
   /** Output only. The time when the `Policy` was last updated. */
   updateTime?: string | undefined;
   /** An opaque tag that identifies the current version of the `Policy`. IAM uses this value to help manage concurrent updates, so they do not cause one update to be overwritten by another. If this field is present in a CreatePolicyRequest, the value is ignored. */
@@ -142,6 +139,12 @@ export interface CreatePolicyPoliciesRequest {
   annotations?: StringMap | undefined;
   /** Output only. The time when the `Policy` was created. */
   createTime?: string | undefined;
+}
+export interface CreatePolicyPoliciesRequest extends GoogleIamV2betaPolicy {
+  /** Required. The resource that the policy is attached to, along with the kind of policy to create. Format: `policies/{attachment_point}/denypolicies` The attachment point is identified by its URL-encoded full resource name, which means that the forward-slash character, `/`, must be written as `%2F`. For example, `policies/cloudresourcemanager.googleapis.com%2Fprojects%2Fmy-project/denypolicies`. For organizations and folders, use the numeric ID in the full resource name. For projects, you can use the alphanumeric or the numeric ID. */
+  parent: string;
+  /** The ID to use for this policy, which will become the final component of the policy's resource name. The ID must contain 3 to 63 characters. It can contain lowercase letters and numbers, as well as dashes (`-`) and periods (`.`). The first character must be a lowercase letter. */
+  policyId?: string | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -177,29 +180,6 @@ export interface GetPoliciesRequest {
   /** Required. The resource name of the policy to retrieve. Format: `policies/{attachment_point}/denypolicies/{policy_id}` Use the URL-encoded full resource name, which means that the forward-slash character, `/`, must be written as `%2F`. For example, `policies/cloudresourcemanager.googleapis.com%2Fprojects%2Fmy-project/denypolicies/my-policy`. For organizations and folders, use the numeric ID in the full resource name. For projects, you can use the alphanumeric or the numeric ID. */
   name: string;
 }
-/** Data for an IAM policy. */
-export interface GoogleIamV2betaPolicy {
-  /** Output only. The time when the `Policy` was last updated. */
-  updateTime?: string | undefined;
-  /** An opaque tag that identifies the current version of the `Policy`. IAM uses this value to help manage concurrent updates, so they do not cause one update to be overwritten by another. If this field is present in a CreatePolicyRequest, the value is ignored. */
-  etag?: string | undefined;
-  /** A user-specified description of the `Policy`. This value can be up to 63 characters. */
-  displayName?: string | undefined;
-  /** Immutable. The resource name of the `Policy`, which must be unique. Format: `policies/{attachment_point}/denypolicies/{policy_id}` The attachment point is identified by its URL-encoded full resource name, which means that the forward-slash character, `/`, must be written as `%2F`. For example, `policies/cloudresourcemanager.googleapis.com%2Fprojects%2Fmy-project/denypolicies/my-deny-policy`. For organizations and folders, use the numeric ID in the full resource name. For projects, requests can use the alphanumeric or the numeric ID. Responses always contain the numeric ID. */
-  name?: string | undefined;
-  /** Output only. The time when the `Policy` was deleted. Empty if the policy is not deleted. */
-  deleteTime?: string | undefined;
-  /** A list of rules that specify the behavior of the `Policy`. All of the rules should be of the `kind` specified in the `Policy`. */
-  rules?: GoogleIamV2betaPolicyRuleList | undefined;
-  /** Immutable. The globally unique ID of the `Policy`. Assigned automatically when the `Policy` is created. */
-  uid?: string | undefined;
-  /** Output only. The kind of the `Policy`. Always contains the value `DenyPolicy`. */
-  kind?: string | undefined;
-  /** A key-value map to store arbitrary metadata for the `Policy`. Keys can be up to 63 characters. Values can be up to 255 characters. */
-  annotations?: StringMap | undefined;
-  /** Output only. The time when the `Policy` was created. */
-  createTime?: string | undefined;
-}
 export interface GetPoliciesOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -220,27 +200,9 @@ export interface GoogleIamV2betaListPoliciesResponse {
   /** Metadata for the policies that are attached to the resource. */
   policies?: GoogleIamV2betaPolicyList | undefined;
 }
-export interface UpdatePoliciesRequest {
+export interface UpdatePoliciesRequest extends Omit<GoogleIamV2betaPolicy, "name"> {
   /** Immutable. The resource name of the `Policy`, which must be unique. Format: `policies/{attachment_point}/denypolicies/{policy_id}` The attachment point is identified by its URL-encoded full resource name, which means that the forward-slash character, `/`, must be written as `%2F`. For example, `policies/cloudresourcemanager.googleapis.com%2Fprojects%2Fmy-project/denypolicies/my-deny-policy`. For organizations and folders, use the numeric ID in the full resource name. For projects, requests can use the alphanumeric or the numeric ID. Responses always contain the numeric ID. */
   name: string;
-  /** Output only. The time when the `Policy` was last updated. */
-  updateTime?: string | undefined;
-  /** An opaque tag that identifies the current version of the `Policy`. IAM uses this value to help manage concurrent updates, so they do not cause one update to be overwritten by another. If this field is present in a CreatePolicyRequest, the value is ignored. */
-  etag?: string | undefined;
-  /** A user-specified description of the `Policy`. This value can be up to 63 characters. */
-  displayName?: string | undefined;
-  /** Output only. The time when the `Policy` was deleted. Empty if the policy is not deleted. */
-  deleteTime?: string | undefined;
-  /** A list of rules that specify the behavior of the `Policy`. All of the rules should be of the `kind` specified in the `Policy`. */
-  rules?: GoogleIamV2betaPolicyRuleList | undefined;
-  /** Immutable. The globally unique ID of the `Policy`. Assigned automatically when the `Policy` is created. */
-  uid?: string | undefined;
-  /** Output only. The kind of the `Policy`. Always contains the value `DenyPolicy`. */
-  kind?: string | undefined;
-  /** A key-value map to store arbitrary metadata for the `Policy`. Keys can be up to 63 characters. Values can be up to 255 characters. */
-  annotations?: StringMap | undefined;
-  /** Output only. The time when the `Policy` was created. */
-  createTime?: string | undefined;
 }
 export type CreatePolicyPoliciesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
 /** Creates a policy. */
@@ -285,7 +247,7 @@ export const getPolicies: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c4, 0) as any as S.Schema<GetPoliciesRequest>,
-  output: __S(40, __c5, 0) as any as S.Schema<GoogleIamV2betaPolicy>,
+  output: __S(22, __c2, 6) as any as S.Schema<GoogleIamV2betaPolicy>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -301,7 +263,7 @@ export const getPoliciesOperations: API.OperationMethod<
   GetPoliciesOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c6, 0) as any as S.Schema<GetPoliciesOperationsRequest>,
+  input: __S(40, __c5, 0) as any as S.Schema<GetPoliciesOperationsRequest>,
   output: __S(11, __c1, 3) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
@@ -319,8 +281,8 @@ export const listPoliciesPolicies: API.PaginatedOperationMethod<
   GcpOpContext,
   GoogleIamV2betaListPoliciesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<ListPoliciesPoliciesRequest>,
-  output: __S(58, __c7, 2) as any as S.Schema<GoogleIamV2betaListPoliciesResponse>,
+  input: __S(48, __c6, 0) as any as S.Schema<ListPoliciesPoliciesRequest>,
+  output: __S(50, __c6, 2) as any as S.Schema<GoogleIamV2betaListPoliciesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -337,7 +299,7 @@ export const updatePolicies: API.OperationMethod<
   UpdatePoliciesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c8, 0) as any as S.Schema<UpdatePoliciesRequest>,
+  input: __S(56, __c7, 0) as any as S.Schema<UpdatePoliciesRequest>,
   output: __S(11, __c1, 3) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -351,20 +313,13 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          policyId: S.optional(S.String.pipe(T.Query())),
-          updateTime: S.optional(S.String),
-          etag: S.optional(S.String),
-          displayName: S.optional(S.String),
-          name: S.optional(S.String),
-          deleteTime: S.optional(S.String),
-          rules: S.optional(__S(20, __c2, 4)),
-          uid: S.optional(S.String),
-          kind: S.optional(S.String),
-          annotations: S.optional(__S(21, __c2, 5)),
-          createTime: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(22, __c2, 6),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            policyId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta/{+parent}",
@@ -434,6 +389,21 @@ function __c2(j: number): any {
       return S.Array(__S(19, __c2, 3));
     case 5:
       return S.Record(S.String, S.String);
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          updateTime: S.optional(S.String),
+          etag: S.optional(S.String),
+          displayName: S.optional(S.String),
+          name: S.optional(S.String),
+          deleteTime: S.optional(S.String),
+          rules: S.optional(__S(20, __c2, 4)),
+          uid: S.optional(S.String),
+          kind: S.optional(S.String),
+          annotations: S.optional(__S(21, __c2, 5)),
+          createTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleIamV2betaPolicy" });
   }
 }
 function __c3(j: number): any {
@@ -470,25 +440,6 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          updateTime: S.optional(S.String),
-          etag: S.optional(S.String),
-          displayName: S.optional(S.String),
-          name: S.optional(S.String),
-          deleteTime: S.optional(S.String),
-          rules: S.optional(__S(20, __c2, 4)),
-          uid: S.optional(S.String),
-          kind: S.optional(S.String),
-          annotations: S.optional(__S(21, __c2, 5)),
-          createTime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleIamV2betaPolicy" });
-  }
-}
-function __c6(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
           name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({ method: "GET", uri: "v2beta/{+name}", baseUrl: "https://iam.googleapis.com/" }),
@@ -496,7 +447,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "GetPoliciesOperationsRequest" });
   }
 }
-function __c7(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -513,32 +464,26 @@ function __c7(j: number): any {
         ),
       ).annotate({ identifier: "ListPoliciesPoliciesRequest" });
     case 1:
-      return S.Array(__S(40, __c5, 0));
+      return S.Array(__S(22, __c2, 6));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          policies: S.optional(__S(57, __c7, 1)),
+          policies: S.optional(__S(49, __c6, 1)),
         }),
       ).annotate({ identifier: "GoogleIamV2betaListPoliciesResponse" });
   }
 }
-function __c8(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateTime: S.optional(S.String),
-          etag: S.optional(S.String),
-          displayName: S.optional(S.String),
-          deleteTime: S.optional(S.String),
-          rules: S.optional(__S(20, __c2, 4)),
-          uid: S.optional(S.String),
-          kind: S.optional(S.String),
-          annotations: S.optional(__S(21, __c2, 5)),
-          createTime: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(22, __c2, 6),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PUT", uri: "v2beta/{+name}", baseUrl: "https://iam.googleapis.com/" }),
         ),
       ).annotate({ identifier: "UpdatePoliciesRequest" });

@@ -113,11 +113,8 @@ export interface BandwidthLimit {
   limitMbps?: string | undefined;
 }
 export type AgentPoolStateEnum = "STATE_UNSPECIFIED" | "CREATING" | "CREATED" | "DELETING";
-export interface CreateProjectsAgentPoolsRequest {
-  /** Required. The ID of the Google Cloud project that owns the agent pool. */
-  projectId: string;
-  /** Required. The ID of the agent pool to create. The `agent_pool_id` must meet the following requirements: * Length of 128 characters or less. * Not start with the string `goog`. * Start with a lowercase ASCII character, followed by: * Zero or more: lowercase Latin alphabet characters, numerals, hyphens (`-`), periods (`.`), underscores (`_`), or tildes (`~`). * One or more numerals or lowercase ASCII characters. As expressed by the regular expression: `^(?!goog)[a-z]([a-z0-9-._~]*[a-z0-9])?$`. */
-  agentPoolId?: string | undefined;
+/** Represents an agent pool. */
+export interface AgentPool {
   /** Specifies the bandwidth limit details. If this field is unspecified, the default value is set as 'No Limit'. */
   bandwidthLimit?: BandwidthLimit | undefined;
   /** Required. Specifies a unique string that identifies the agent pool. Format: `projects/{project_id}/agentPools/{agent_pool_id}` */
@@ -127,16 +124,11 @@ export interface CreateProjectsAgentPoolsRequest {
   /** Specifies the client-specified AgentPool description. */
   displayName?: string | undefined;
 }
-/** Represents an agent pool. */
-export interface AgentPool {
-  /** Specifies the bandwidth limit details. If this field is unspecified, the default value is set as 'No Limit'. */
-  bandwidthLimit?: BandwidthLimit | undefined;
-  /** Required. Specifies a unique string that identifies the agent pool. Format: `projects/{project_id}/agentPools/{agent_pool_id}` */
-  name?: string | undefined;
-  /** Output only. Specifies the state of the AgentPool. */
-  state?: AgentPoolStateEnum | undefined;
-  /** Specifies the client-specified AgentPool description. */
-  displayName?: string | undefined;
+export interface CreateProjectsAgentPoolsRequest extends AgentPool {
+  /** Required. The ID of the Google Cloud project that owns the agent pool. */
+  projectId: string;
+  /** Required. The ID of the agent pool to create. The `agent_pool_id` must meet the following requirements: * Length of 128 characters or less. * Not start with the string `goog`. * Start with a lowercase ASCII character, followed by: * Zero or more: lowercase Latin alphabet characters, numerals, hyphens (`-`), periods (`.`), underscores (`_`), or tildes (`~`). * One or more numerals or lowercase ASCII characters. As expressed by the regular expression: `^(?!goog)[a-z]([a-z0-9-._~]*[a-z0-9])?$`. */
+  agentPoolId?: string | undefined;
 }
 export type LoggingConfigLogActionStatesItemEnum =
   | "LOGGABLE_ACTION_STATE_UNSPECIFIED"
@@ -482,38 +474,6 @@ export interface NotificationConfig {
   pubsubTopic?: string | undefined;
 }
 export type TransferJobStatusEnum = "STATUS_UNSPECIFIED" | "ENABLED" | "DISABLED" | "DELETED";
-export interface CreateTransferJobsRequest {
-  /** Logging configuration. */
-  loggingConfig?: LoggingConfig | undefined;
-  /** Specifies the event stream for the transfer job for event-driven transfers. When EventStream is specified, the Schedule fields are ignored. */
-  eventStream?: EventStream | undefined;
-  /** Optional. The user-managed service account to which to delegate service agent permissions. You can grant Cloud Storage bucket permissions to this service account instead of to the Transfer Service service agent. Either the service account email (`SERVICE_ACCOUNT_NAME@PROJECT_ID.iam.gserviceaccount.com`) or the unique ID (`123456789012345678901`) are accepted. See https://docs.cloud.google.com/storage-transfer/docs/delegate-service-agent-permissions for required permissions. */
-  serviceAccount?: string | undefined;
-  /** A unique name (within the transfer project) assigned when the job is created. If this field is empty in a CreateTransferJobRequest, Storage Transfer Service assigns a unique name. Otherwise, the specified name is used as the unique name for this job. If the specified name is in use by a job, the creation request fails with an ALREADY_EXISTS error. This name must start with `"transferJobs/"` prefix and end with a letter or a number, and should be no more than 128 characters. For transfers involving PosixFilesystem, this name must start with `transferJobs/OPI` specifically. For all other transfer types, this name must not start with `transferJobs/OPI`. Non-PosixFilesystem example: `"transferJobs/^(?!OPI)[A-Za-z0-9-._~]*[A-Za-z0-9]$"` PosixFilesystem example: `"transferJobs/OPI^[A-Za-z0-9-._~]*[A-Za-z0-9]$"` Applications must not rely on the enforcement of naming requirements involving OPI. Invalid job names fail with an INVALID_ARGUMENT error. */
-  name?: string | undefined;
-  /** Specifies schedule for the transfer job. This is an optional field. When the field is not set, the job never executes a transfer, unless you invoke RunTransferJob or update the job to have a non-empty schedule. */
-  schedule?: Schedule | undefined;
-  /** Transfer specification. */
-  transferSpec?: TransferSpec | undefined;
-  /** A description provided by the user for the job. Its max length is 1024 bytes when Unicode-encoded. */
-  description?: string | undefined;
-  /** The ID of the Google Cloud project that owns the job. */
-  projectId?: string | undefined;
-  /** Output only. The time that the transfer job was created. */
-  creationTime?: string | undefined;
-  /** Output only. The time that the transfer job was deleted. */
-  deletionTime?: string | undefined;
-  /** Replication specification. */
-  replicationSpec?: ReplicationSpec | undefined;
-  /** Notification configuration. */
-  notificationConfig?: NotificationConfig | undefined;
-  /** Output only. The time that the transfer job was last modified. */
-  lastModificationTime?: string | undefined;
-  /** The name of the most recently started TransferOperation of this JobConfig. Present if a TransferOperation has been created for this JobConfig. */
-  latestOperationName?: string | undefined;
-  /** Status of the job. This value MUST be specified for `CreateTransferJobRequests`. **Note:** The effect of the new job status takes place during a subsequent job run. For example, if you change the job status from ENABLED to DISABLED, and an operation spawned by the transfer is running, the status change would not affect the current operation. */
-  status?: TransferJobStatusEnum | (string & {}) | undefined;
-}
 /** This resource represents the configuration of a transfer job that runs periodically. */
 export interface TransferJob {
   /** Logging configuration. */
@@ -547,6 +507,7 @@ export interface TransferJob {
   /** Status of the job. This value MUST be specified for `CreateTransferJobRequests`. **Note:** The effect of the new job status takes place during a subsequent job run. For example, if you change the job status from ENABLED to DISABLED, and an operation spawned by the transfer is running, the status change would not affect the current operation. */
   status?: TransferJobStatusEnum | (string & {}) | undefined;
 }
+export interface CreateTransferJobsRequest extends TransferJob {}
 export interface DeleteProjectsAgentPoolsRequest {
   /** Required. The name of the agent pool to delete. */
   name: string;
@@ -662,27 +623,24 @@ export interface ListOperationsResponse {
   /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
   unreachable?: StringList | undefined;
 }
-export interface PatchProjectsAgentPoolsRequest {
+export interface PatchProjectsAgentPoolsRequest extends Omit<AgentPool, "name"> {
   /** The [field mask] (https://developers.google.com/protocol-buffers/docs/reference/google.protobuf) of the fields in `agentPool` to update in this request. The following `agentPool` fields can be updated: * display_name * bandwidth_limit */
   updateMask?: string | undefined;
   /** Required. Specifies a unique string that identifies the agent pool. Format: `projects/{project_id}/agentPools/{agent_pool_id}` */
   name: string;
-  /** Specifies the bandwidth limit details. If this field is unspecified, the default value is set as 'No Limit'. */
-  bandwidthLimit?: BandwidthLimit | undefined;
-  /** Output only. Specifies the state of the AgentPool. */
-  state?: AgentPoolStateEnum | (string & {}) | undefined;
-  /** Specifies the client-specified AgentPool description. */
-  displayName?: string | undefined;
 }
-export interface PatchTransferJobsRequest {
-  /** Required. The name of job to update. */
-  jobName: string;
+/** Request passed to UpdateTransferJob. */
+export interface UpdateTransferJobRequest {
   /** The field mask of the fields in `transferJob` that are to be updated in this request. Fields in `transferJob` that can be updated are: description, transfer_spec, notification_config, logging_config, and status. To update the `transfer_spec` of the job, a complete transfer specification must be provided. An incomplete specification missing any required fields is rejected with the error INVALID_ARGUMENT. */
   updateTransferJobFieldMask?: string | undefined;
   /** Required. The ID of the Google Cloud project that owns the job. */
   projectId?: string | undefined;
   /** Required. The job to update. `transferJob` is expected to specify one or more of five fields: description, transfer_spec, notification_config, logging_config, and status. An `UpdateTransferJobRequest` that specifies other fields are rejected with the error INVALID_ARGUMENT. Updating a job status to DELETED requires `storagetransfer.jobs.delete` permission. */
   transferJob?: TransferJob | undefined;
+}
+export interface PatchTransferJobsRequest extends UpdateTransferJobRequest {
+  /** Required. The name of job to update. */
+  jobName: string;
 }
 /** Request passed to PauseTransferOperation. */
 export type PauseTransferOperationRequest = CancelOperationRequest;
@@ -700,11 +658,14 @@ export interface ResumeTransferOperationsRequest {
   /** Request body */
   body?: CancelOperationRequest | undefined;
 }
-export interface RunTransferJobsRequest {
-  /** Required. The name of the transfer job. */
-  jobName: string;
+/** Request passed to RunTransferJob. */
+export interface RunTransferJobRequest {
   /** Required. The ID of the Google Cloud project that owns the transfer job. */
   projectId?: string | undefined;
+}
+export interface RunTransferJobsRequest extends RunTransferJobRequest {
+  /** Required. The name of the transfer job. */
+  jobName: string;
 }
 export type CancelTransferOperationsError =
   | NotFound
@@ -983,7 +944,7 @@ export const patchTransferJobs: API.OperationMethod<
   PatchTransferJobsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c9, 0) as any as S.Schema<PatchTransferJobsRequest>,
+  input: __S(289, __c9, 1) as any as S.Schema<PatchTransferJobsRequest>,
   output: __S(632, __c19, 24) as any as S.Schema<TransferJob>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
@@ -1052,7 +1013,7 @@ export const runTransferJobs: API.OperationMethod<
   RunTransferJobsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c12, 0) as any as S.Schema<RunTransferJobsRequest>,
+  input: __S(385, __c12, 1) as any as S.Schema<RunTransferJobsRequest>,
   output: __S(131, __c4, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
@@ -1249,13 +1210,13 @@ function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          bandwidthLimit: S.optional(__S(512, __c16, 0)),
-          state: S.optional(S.String),
-          displayName: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(513, __c16, 1),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -1270,11 +1231,19 @@ function __c9(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          jobName: S.String.pipe(T.Label()),
           updateTransferJobFieldMask: S.optional(S.String),
           projectId: S.optional(S.String),
           transferJob: S.optional(__S(632, __c19, 24)),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "UpdateTransferJobRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(288, __c9, 0),
+          S.Struct({
+            jobName: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+jobName}",
@@ -1323,9 +1292,17 @@ function __c12(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          jobName: S.String.pipe(T.Label()),
           projectId: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "RunTransferJobRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(384, __c12, 0),
+          S.Struct({
+            jobName: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+jobName}:run",
@@ -1362,14 +1339,13 @@ function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          agentPoolId: S.optional(S.String.pipe(T.Query())),
-          bandwidthLimit: S.optional(__S(512, __c16, 0)),
-          name: S.optional(S.String),
-          state: S.optional(S.String),
-          displayName: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(513, __c16, 1),
+          S.Struct({
+            projectId: S.String.pipe(T.Label()),
+            agentPoolId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/projects/{+projectId}/agentPools",
@@ -1402,23 +1378,7 @@ function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          loggingConfig: S.optional(__S(609, __c19, 1)),
-          eventStream: S.optional(__S(610, __c19, 2)),
-          serviceAccount: S.optional(S.String),
-          name: S.optional(S.String),
-          schedule: S.optional(__S(613, __c19, 5)),
-          transferSpec: S.optional(__S(629, __c19, 21)),
-          description: S.optional(S.String),
-          projectId: S.optional(S.String),
-          creationTime: S.optional(S.String),
-          deletionTime: S.optional(S.String),
-          replicationSpec: S.optional(__S(630, __c19, 22)),
-          notificationConfig: S.optional(__S(631, __c19, 23)),
-          lastModificationTime: S.optional(S.String),
-          latestOperationName: S.optional(S.String),
-          status: S.optional(S.String),
-        }).pipe(
+        S.Extend(__S(632, __c19, 24), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/transferJobs",

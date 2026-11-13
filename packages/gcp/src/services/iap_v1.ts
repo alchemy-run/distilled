@@ -83,18 +83,6 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
-export interface CreateProjectsBrandsRequest {
-  /** Required. GCP Project number/id under which the brand is to be created. In the following format: projects/{project_number/id}. */
-  parent: string;
-  /** Application name displayed on OAuth consent screen. */
-  applicationTitle?: string | undefined;
-  /** Output only. Whether the brand is only intended for usage inside the G Suite organization only. */
-  orgInternalOnly?: boolean | undefined;
-  /** Output only. Identifier of the brand. NOTE: GCP project number achieves the same brand identification purpose as only one brand per project can be created. */
-  name?: string | undefined;
-  /** Support email displayed on the OAuth consent screen. */
-  supportEmail?: string | undefined;
-}
 /** OAuth brand data. NOTE: Only contains a portion of the data that describes a brand. */
 export interface Brand {
   /** Application name displayed on OAuth consent screen. */
@@ -106,15 +94,9 @@ export interface Brand {
   /** Support email displayed on the OAuth consent screen. */
   supportEmail?: string | undefined;
 }
-export interface CreateProjectsBrandsIdentityAwareProxyClientsRequest {
-  /** Required. Path to create the client in. In the following format: projects/{project_number/id}/brands/{brand}. The project must belong to a G Suite account. */
+export interface CreateProjectsBrandsRequest extends Brand {
+  /** Required. GCP Project number/id under which the brand is to be created. In the following format: projects/{project_number/id}. */
   parent: string;
-  /** Output only. Client secret of the OAuth client. */
-  secret?: string | undefined;
-  /** Human-friendly name given to the OAuth client. */
-  displayName?: string | undefined;
-  /** Output only. Unique identifier of the OAuth client. */
-  name?: string | undefined;
 }
 /** Contains the data that describes an Identity Aware Proxy owned client. */
 export interface IdentityAwareProxyClient {
@@ -125,19 +107,11 @@ export interface IdentityAwareProxyClient {
   /** Output only. Unique identifier of the OAuth client. */
   name?: string | undefined;
 }
-export type StringList = Array<string>;
-export interface CreateProjectsIap_tunnelLocationsDestGroupsRequest {
-  /** Required. The ID to use for the TunnelDestGroup, which becomes the final component of the resource name. This value must be 4-63 characters, and valid characters are `[a-z]-`. */
-  tunnelDestGroupId?: string | undefined;
-  /** Required. Google Cloud Project ID and location. In the following format: `projects/{project_number/id}/iap_tunnel/locations/{location}`. */
+export interface CreateProjectsBrandsIdentityAwareProxyClientsRequest extends IdentityAwareProxyClient {
+  /** Required. Path to create the client in. In the following format: projects/{project_number/id}/brands/{brand}. The project must belong to a G Suite account. */
   parent: string;
-  /** Optional. Unordered list. List of FQDNs that this group applies to. */
-  fqdns?: StringList | undefined;
-  /** Identifier. Identifier for the TunnelDestGroup. Must be unique within the project and contain only lower case letters (a-z) and dashes (-). */
-  name?: string | undefined;
-  /** Optional. Unordered list. List of CIDRs that this group applies to. */
-  cidrs?: StringList | undefined;
 }
+export type StringList = Array<string>;
 /** A TunnelDestGroup. */
 export interface TunnelDestGroup {
   /** Optional. Unordered list. List of FQDNs that this group applies to. */
@@ -146,6 +120,12 @@ export interface TunnelDestGroup {
   name?: string | undefined;
   /** Optional. Unordered list. List of CIDRs that this group applies to. */
   cidrs?: StringList | undefined;
+}
+export interface CreateProjectsIap_tunnelLocationsDestGroupsRequest extends TunnelDestGroup {
+  /** Required. The ID to use for the TunnelDestGroup, which becomes the final component of the resource name. This value must be 4-63 characters, and valid characters are `[a-z]-`. */
+  tunnelDestGroupId?: string | undefined;
+  /** Required. Google Cloud Project ID and location. In the following format: `projects/{project_number/id}/iap_tunnel/locations/{location}`. */
+  parent: string;
 }
 export interface DeleteProjectsBrandsIdentityAwareProxyClientsRequest {
   /** Required. Name of the Identity Aware Proxy client to be deleted. In the following format: projects/{project_number/id}/brands/{brand}/identityAwareProxyClients/{client_id}. */
@@ -162,11 +142,14 @@ export interface GetPolicyOptions {
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   requestedPolicyVersion?: number | undefined;
 }
-export interface GetIamPolicyV1Request {
-  /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
+/** Request message for `GetIamPolicy` method. */
+export interface GetIamPolicyRequest {
   /** OPTIONAL: A `GetPolicyOptions` object for specifying options to `GetIamPolicy`. */
   options?: GetPolicyOptions | undefined;
+}
+export interface GetIamPolicyV1Request extends GetIamPolicyRequest {
+  /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
 }
 /** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
 export interface Expr {
@@ -454,15 +437,14 @@ export interface ListTunnelDestGroupsResponse {
   /** A token that you can send as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string | undefined;
 }
-export interface PatchProjectsIap_tunnelLocationsDestGroupsRequest {
+export interface PatchProjectsIap_tunnelLocationsDestGroupsRequest extends Omit<
+  TunnelDestGroup,
+  "name"
+> {
   /** A field mask that specifies which IAP settings to update. If omitted, then all of the settings are updated. See https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask */
   updateMask?: string | undefined;
   /** Identifier. Identifier for the TunnelDestGroup. Must be unique within the project and contain only lower case letters (a-z) and dashes (-). */
   name: string;
-  /** Optional. Unordered list. List of FQDNs that this group applies to. */
-  fqdns?: StringList | undefined;
-  /** Optional. Unordered list. List of CIDRs that this group applies to. */
-  cidrs?: StringList | undefined;
 }
 /** The request sent to ResetIdentityAwareProxyClientSecret. */
 export interface ResetIdentityAwareProxyClientSecretRequest {}
@@ -472,32 +454,34 @@ export interface ResetSecretProjectsBrandsIdentityAwareProxyClientsRequest {
   /** Request body */
   body?: ResetIdentityAwareProxyClientSecretRequest | undefined;
 }
-export interface SetIamPolicyV1Request {
-  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
+/** Request message for `SetIamPolicy` method. */
+export interface SetIamPolicyRequest {
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
   policy?: Policy | undefined;
 }
-export interface TestIamPermissionsV1Request {
-  /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+export interface SetIamPolicyV1Request extends SetIamPolicyRequest {
+  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
+}
+/** Request message for `TestIamPermissions` method. */
+export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: StringList | undefined;
+}
+export interface TestIamPermissionsV1Request extends TestIamPermissionsRequest {
+  /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
   permissions?: StringList | undefined;
 }
-export interface UpdateIapSettingsV1Request {
+export interface UpdateIapSettingsV1Request extends Omit<IapSettings, "name"> {
   /** Required. The resource name of the IAP protected resource. */
   name: string;
   /** The field mask specifying which IAP settings should be updated. If omitted, then all of the settings are updated. See https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask. Note: All IAP reauth settings must always be set together, using the field mask: `iapSettings.accessSettings.reauthSettings`. */
   updateMask?: string | undefined;
-  /** Optional. Top level wrapper for all access related setting in IAP */
-  accessSettings?: AccessSettings | undefined;
-  /** Optional. Top level wrapper for all application related settings in IAP */
-  applicationSettings?: ApplicationSettings | undefined;
 }
 export interface ValidateAttributeExpressionV1Request {
   /** Required. User input string expression. Should be of the form `attributes.saml_attributes.filter(attribute, attribute.name in ['{attribute_name}', '{attribute_name}'])` */
@@ -628,7 +612,7 @@ export const getIamPolicyV1: API.OperationMethod<
   GetIamPolicyV1Error,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(769, __c24, 1) as any as S.Schema<GetIamPolicyV1Request>,
+  input: __S(770, __c24, 2) as any as S.Schema<GetIamPolicyV1Request>,
   output: __S(803, __c25, 3) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -816,7 +800,7 @@ export const setIamPolicyV1: API.OperationMethod<
   SetIamPolicyV1Error,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c10, 0) as any as S.Schema<SetIamPolicyV1Request>,
+  input: __S(321, __c10, 1) as any as S.Schema<SetIamPolicyV1Request>,
   output: __S(803, __c25, 3) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -833,8 +817,8 @@ export const testIamPermissionsV1: API.OperationMethod<
   TestIamPermissionsV1Error,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c11, 0) as any as S.Schema<TestIamPermissionsV1Request>,
-  output: __S(353, __c11, 1) as any as S.Schema<TestIamPermissionsResponse>,
+  input: __S(353, __c11, 1) as any as S.Schema<TestIamPermissionsV1Request>,
+  output: __S(352, __c11, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1181,12 +1165,13 @@ function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          fqdns: S.optional(__S(640, __c20, 0)),
-          cidrs: S.optional(__S(640, __c20, 0)),
-        }).pipe(
+        S.Extend(
+          __S(608, __c19, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://iap.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchProjectsIap_tunnelLocationsDestGroupsRequest" });
@@ -1214,9 +1199,17 @@ function __c10(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          resource: S.String.pipe(T.Label()),
           policy: S.optional(__S(803, __c25, 3)),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "SetIamPolicyRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(320, __c10, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -1231,9 +1224,17 @@ function __c11(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          resource: S.String.pipe(T.Label()),
           permissions: S.optional(__S(640, __c20, 0)),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "TestIamPermissionsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(352, __c11, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -1241,24 +1242,19 @@ function __c11(j: number): any {
           }),
         ),
       ).annotate({ identifier: "TestIamPermissionsV1Request" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          permissions: S.optional(__S(640, __c20, 0)),
-        }),
-      ).annotate({ identifier: "TestIamPermissionsResponse" });
   }
 }
 function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          accessSettings: S.optional(__S(48, __c1, 16)),
-          applicationSettings: S.optional(__S(52, __c1, 20)),
-        }).pipe(
+        S.Extend(
+          __S(53, __c1, 21),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}:iapSettings",
@@ -1289,13 +1285,12 @@ function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          applicationTitle: S.optional(S.String),
-          orgInternalOnly: S.optional(S.Boolean),
-          name: S.optional(S.String),
-          supportEmail: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(480, __c15, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/brands",
@@ -1322,12 +1317,12 @@ function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          secret: S.optional(S.String),
-          displayName: S.optional(S.String),
-          name: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(544, __c17, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/identityAwareProxyClients",
@@ -1353,13 +1348,13 @@ function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          tunnelDestGroupId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          fqdns: S.optional(__S(640, __c20, 0)),
-          name: S.optional(S.String),
-          cidrs: S.optional(__S(640, __c20, 0)),
-        }).pipe(
+        S.Extend(
+          __S(608, __c19, 0),
+          S.Struct({
+            tunnelDestGroupId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/destGroups",
@@ -1428,9 +1423,17 @@ function __c24(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          resource: S.String.pipe(T.Label()),
           options: S.optional(__S(768, __c24, 0)),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "GetIamPolicyRequest" });
+    case 2:
+      return S.suspend(() =>
+        S.Extend(
+          __S(769, __c24, 1),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:getIamPolicy",

@@ -167,13 +167,8 @@ export interface ServerCredential {
   /** Output only. The fingerprint is a hash of the public key, and is displayed when clients access the server for the first time to verify the server's identity. */
   fingerprint?: string | undefined;
 }
-export interface CreateProjectsLocationsServersRequest {
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Required. Value for parent. */
-  parent: string;
-  /** Required. A unique ID for the server. Must start with a lowercase letter, and end with a lowercase letter or number. Can contain lowercase letters, numbers, and hyphens. Can't begin with the prefix `goog` or contain the string `google`, including close misspellings such as `g00gle`. Maximum length is 30 characters. */
-  serverId?: string | undefined;
+/** Message describing Server object */
+export interface Server {
   /** Output only. [Output only] Update time stamp */
   updateTime?: string | undefined;
   /** Optional. Display name of the Server */
@@ -202,6 +197,14 @@ export interface CreateProjectsLocationsServersRequest {
   name?: string | undefined;
   /** Output only. Credentials of the FTP Server. */
   googleManagedServerCredential?: ServerCredential | undefined;
+}
+export interface CreateProjectsLocationsServersRequest extends Server {
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+  /** Required. Value for parent. */
+  parent: string;
+  /** Required. A unique ID for the server. Must start with a lowercase letter, and end with a lowercase letter or number. Can contain lowercase letters, numbers, and hyphens. Can't begin with the prefix `goog` or contain the string `google`, including close misspellings such as `g00gle`. Maximum length is 30 characters. */
+  serverId?: string | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -261,13 +264,8 @@ export interface StorageDirectoryMapping {
   permission?: StorageDirectoryMappingPermissionEnum | (string & {}) | undefined;
 }
 export type StorageDirectoryMappingList = Array<StorageDirectoryMapping>;
-export interface CreateProjectsLocationsServersUsersRequest {
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Required. A unique user ID for the SFTP user. The user ID must start with a lowercase letter and can include lowercase letters, numbers, or hyphens. */
-  userId?: string | undefined;
-  /** Required. Value for parent. */
-  parent: string;
+/** Message describing User object */
+export interface User {
   /** Identifier. User-friendly name via which User will be identified. projects/{project}/locations/{location}/servers/{server}/users/{user} */
   name?: string | undefined;
   /** Output only. [Output only] Update time stamp */
@@ -286,6 +284,14 @@ export interface CreateProjectsLocationsServersUsersRequest {
   createTime?: string | undefined;
   /** Required. Mapping of Cloud Storage buckets to directories where the user will land in the SFTP server. */
   storageDirectoryMappings?: StorageDirectoryMappingList | undefined;
+}
+export interface CreateProjectsLocationsServersUsersRequest extends User {
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+  /** Required. A unique user ID for the SFTP user. The user ID must start with a lowercase letter and can include lowercase letters, numbers, or hyphens. */
+  userId?: string | undefined;
+  /** Required. Value for parent. */
+  parent: string;
 }
 export interface DeleteProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be deleted. */
@@ -332,37 +338,6 @@ export interface GetProjectsLocationsServersRequest {
   /** Optional. The view of the Server resource to return. */
   view?: GetProjectsLocationsServersViewEnum | (string & {}) | undefined;
 }
-/** Message describing Server object */
-export interface Server {
-  /** Output only. [Output only] Update time stamp */
-  updateTime?: string | undefined;
-  /** Optional. Display name of the Server */
-  displayName?: string | undefined;
-  /** Output only. Service agent used to access the customer bucket. */
-  serviceAgent?: string | undefined;
-  /** Configuration for internal access. */
-  internalConfig?: InternalServerConfig | undefined;
-  /** Configuration for external access. */
-  externalConfig?: ExternalServerConfig | undefined;
-  /** Optional. Labels as key value pairs */
-  labels?: StringMap | undefined;
-  /** Output only. Reserved for future use. */
-  satisfiesPzi?: boolean | undefined;
-  /** Output only. Reserved for future use. */
-  satisfiesPzs?: boolean | undefined;
-  /** Output only. The state of the server. */
-  state?: ServerStateEnum | undefined;
-  /** Optional. Configuration for Cloud Logging on the Server. */
-  loggingConfig?: LoggingConfig | undefined;
-  /** Required. The access type of the Server. */
-  accessType?: ServerAccessTypeEnum | undefined;
-  /** Output only. [Output only] Create time stamp */
-  createTime?: string | undefined;
-  /** Identifier. name of resource */
-  name?: string | undefined;
-  /** Output only. Credentials of the FTP Server. */
-  googleManagedServerCredential?: ServerCredential | undefined;
-}
 export type GetProjectsLocationsServersUsersViewEnum =
   | "USER_VIEW_UNSPECIFIED"
   | "USER_VIEW_BASIC"
@@ -372,27 +347,6 @@ export interface GetProjectsLocationsServersUsersRequest {
   view?: GetProjectsLocationsServersUsersViewEnum | (string & {}) | undefined;
   /** Required. Name of the resource */
   name: string;
-}
-/** Message describing User object */
-export interface User {
-  /** Identifier. User-friendly name via which User will be identified. projects/{project}/locations/{location}/servers/{server}/users/{user} */
-  name?: string | undefined;
-  /** Output only. [Output only] Update time stamp */
-  updateTime?: string | undefined;
-  /** Required. User credential for the user. The maximum number of user credentials is 10. */
-  userCredentials?: UserCredentialList | undefined;
-  /** Required. Service account in customer project attached to this SFTP User. */
-  customerServiceAccount?: string | undefined;
-  /** Output only. [Output only] The username of the user. */
-  username?: string | undefined;
-  /** Optional. Labels as key value pairs */
-  labels?: StringMap | undefined;
-  /** Output only. Tracks user creation. */
-  state?: UserStateEnum | undefined;
-  /** Output only. [Output only] Create time stamp */
-  createTime?: string | undefined;
-  /** Required. Mapping of Cloud Storage buckets to directories where the user will land in the SFTP server. */
-  storageDirectoryMappings?: StorageDirectoryMappingList | undefined;
 }
 export interface ListProjectsLocationsRequest {
   /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
@@ -492,61 +446,19 @@ export interface ListUsersResponse {
   /** Unordered list. Locations that could not be reached. */
   unreachable?: StringList | undefined;
 }
-export interface PatchProjectsLocationsServersRequest {
+export interface PatchProjectsLocationsServersRequest extends Omit<Server, "name"> {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Optional. Field mask is used to specify the fields to be overwritten in the Server resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields present in the request will be overwritten. */
   updateMask?: string | undefined;
   /** Identifier. name of resource */
   name: string;
-  /** Output only. [Output only] Update time stamp */
-  updateTime?: string | undefined;
-  /** Optional. Display name of the Server */
-  displayName?: string | undefined;
-  /** Output only. Service agent used to access the customer bucket. */
-  serviceAgent?: string | undefined;
-  /** Configuration for internal access. */
-  internalConfig?: InternalServerConfig | undefined;
-  /** Configuration for external access. */
-  externalConfig?: ExternalServerConfig | undefined;
-  /** Optional. Labels as key value pairs */
-  labels?: StringMap | undefined;
-  /** Output only. Reserved for future use. */
-  satisfiesPzi?: boolean | undefined;
-  /** Output only. Reserved for future use. */
-  satisfiesPzs?: boolean | undefined;
-  /** Output only. The state of the server. */
-  state?: ServerStateEnum | (string & {}) | undefined;
-  /** Optional. Configuration for Cloud Logging on the Server. */
-  loggingConfig?: LoggingConfig | undefined;
-  /** Required. The access type of the Server. */
-  accessType?: ServerAccessTypeEnum | (string & {}) | undefined;
-  /** Output only. [Output only] Create time stamp */
-  createTime?: string | undefined;
-  /** Output only. Credentials of the FTP Server. */
-  googleManagedServerCredential?: ServerCredential | undefined;
 }
-export interface PatchProjectsLocationsServersUsersRequest {
+export interface PatchProjectsLocationsServersUsersRequest extends Omit<User, "name"> {
   /** Optional. Field mask is used to specify the fields to be overwritten in the User resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields present in the request will be overwritten. */
   updateMask?: string | undefined;
   /** Identifier. User-friendly name via which User will be identified. projects/{project}/locations/{location}/servers/{server}/users/{user} */
   name: string;
-  /** Output only. [Output only] Update time stamp */
-  updateTime?: string | undefined;
-  /** Required. User credential for the user. The maximum number of user credentials is 10. */
-  userCredentials?: UserCredentialList | undefined;
-  /** Required. Service account in customer project attached to this SFTP User. */
-  customerServiceAccount?: string | undefined;
-  /** Output only. [Output only] The username of the user. */
-  username?: string | undefined;
-  /** Optional. Labels as key value pairs */
-  labels?: StringMap | undefined;
-  /** Output only. Tracks user creation. */
-  state?: UserStateEnum | (string & {}) | undefined;
-  /** Output only. [Output only] Create time stamp */
-  createTime?: string | undefined;
-  /** Required. Mapping of Cloud Storage buckets to directories where the user will land in the SFTP server. */
-  storageDirectoryMappings?: StorageDirectoryMappingList | undefined;
 }
 /** Request message for starting a Server. */
 export type StartServerRequest = CancelOperationRequest;
@@ -577,8 +489,8 @@ export const cancelProjectsLocationsOperations: API.OperationMethod<
   CancelProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c15, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
-  output: __S(256, __c16, 0) as any as S.Schema<Empty>,
+  input: __S(208, __c13, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
+  output: __S(224, __c14, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -599,8 +511,8 @@ export const createProjectsLocationsServers: API.OperationMethod<
   CreateProjectsLocationsServersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c17, 0) as any as S.Schema<CreateProjectsLocationsServersRequest>,
-  output: __S(354, __c22, 2) as any as S.Schema<Operation>,
+  input: __S(240, __c15, 0) as any as S.Schema<CreateProjectsLocationsServersRequest>,
+  output: __S(322, __c20, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -621,8 +533,8 @@ export const createProjectsLocationsServersUsers: API.OperationMethod<
   CreateProjectsLocationsServersUsersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(368, __c23, 0) as any as S.Schema<CreateProjectsLocationsServersUsersRequest>,
-  output: __S(354, __c22, 2) as any as S.Schema<Operation>,
+  input: __S(336, __c21, 0) as any as S.Schema<CreateProjectsLocationsServersUsersRequest>,
+  output: __S(322, __c20, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -643,8 +555,8 @@ export const deleteProjectsLocationsOperations: API.OperationMethod<
   DeleteProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(400, __c25, 0) as any as S.Schema<DeleteProjectsLocationsOperationsRequest>,
-  output: __S(256, __c16, 0) as any as S.Schema<Empty>,
+  input: __S(368, __c23, 0) as any as S.Schema<DeleteProjectsLocationsOperationsRequest>,
+  output: __S(224, __c14, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -665,8 +577,8 @@ export const deleteProjectsLocationsServers: API.OperationMethod<
   DeleteProjectsLocationsServersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c26, 0) as any as S.Schema<DeleteProjectsLocationsServersRequest>,
-  output: __S(354, __c22, 2) as any as S.Schema<Operation>,
+  input: __S(384, __c24, 0) as any as S.Schema<DeleteProjectsLocationsServersRequest>,
+  output: __S(322, __c20, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -687,8 +599,8 @@ export const deleteProjectsLocationsServersUsers: API.OperationMethod<
   DeleteProjectsLocationsServersUsersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(432, __c27, 0) as any as S.Schema<DeleteProjectsLocationsServersUsersRequest>,
-  output: __S(354, __c22, 2) as any as S.Schema<Operation>,
+  input: __S(400, __c25, 0) as any as S.Schema<DeleteProjectsLocationsServersUsersRequest>,
+  output: __S(322, __c20, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -722,7 +634,7 @@ export const getProjectsLocationsOperations: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c2, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
-  output: __S(354, __c22, 2) as any as S.Schema<Operation>,
+  output: __S(322, __c20, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -739,7 +651,7 @@ export const getProjectsLocationsServers: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c3, 0) as any as S.Schema<GetProjectsLocationsServersRequest>,
-  output: __S(64, __c4, 0) as any as S.Schema<Server>,
+  output: __S(282, __c17, 10) as any as S.Schema<Server>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -755,8 +667,8 @@ export const getProjectsLocationsServersUsers: API.OperationMethod<
   GetProjectsLocationsServersUsersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c5, 0) as any as S.Schema<GetProjectsLocationsServersUsersRequest>,
-  output: __S(96, __c6, 0) as any as S.Schema<User>,
+  input: __S(64, __c4, 0) as any as S.Schema<GetProjectsLocationsServersUsersRequest>,
+  output: __S(356, __c22, 4) as any as S.Schema<User>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -773,8 +685,8 @@ export const listProjectsLocations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListLocationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(112, __c7, 0) as any as S.Schema<ListProjectsLocationsRequest>,
-  output: __S(114, __c7, 2) as any as S.Schema<ListLocationsResponse>,
+  input: __S(80, __c5, 0) as any as S.Schema<ListProjectsLocationsRequest>,
+  output: __S(82, __c5, 2) as any as S.Schema<ListLocationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -792,8 +704,8 @@ export const listProjectsLocationsOperations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListOperationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(128, __c8, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
-  output: __S(130, __c8, 2) as any as S.Schema<ListOperationsResponse>,
+  input: __S(96, __c6, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
+  output: __S(98, __c6, 2) as any as S.Schema<ListOperationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -811,8 +723,8 @@ export const listProjectsLocationsServers: API.PaginatedOperationMethod<
   GcpOpContext,
   ListServersResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(144, __c9, 0) as any as S.Schema<ListProjectsLocationsServersRequest>,
-  output: __S(146, __c9, 2) as any as S.Schema<ListServersResponse>,
+  input: __S(112, __c7, 0) as any as S.Schema<ListProjectsLocationsServersRequest>,
+  output: __S(114, __c7, 2) as any as S.Schema<ListServersResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -830,8 +742,8 @@ export const listProjectsLocationsServersUsers: API.PaginatedOperationMethod<
   GcpOpContext,
   ListUsersResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(160, __c10, 0) as any as S.Schema<ListProjectsLocationsServersUsersRequest>,
-  output: __S(162, __c10, 2) as any as S.Schema<ListUsersResponse>,
+  input: __S(128, __c8, 0) as any as S.Schema<ListProjectsLocationsServersUsersRequest>,
+  output: __S(130, __c8, 2) as any as S.Schema<ListUsersResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -853,8 +765,8 @@ export const patchProjectsLocationsServers: API.OperationMethod<
   PatchProjectsLocationsServersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c11, 0) as any as S.Schema<PatchProjectsLocationsServersRequest>,
-  output: __S(354, __c22, 2) as any as S.Schema<Operation>,
+  input: __S(144, __c9, 0) as any as S.Schema<PatchProjectsLocationsServersRequest>,
+  output: __S(322, __c20, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -875,8 +787,8 @@ export const patchProjectsLocationsServersUsers: API.OperationMethod<
   PatchProjectsLocationsServersUsersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c12, 0) as any as S.Schema<PatchProjectsLocationsServersUsersRequest>,
-  output: __S(354, __c22, 2) as any as S.Schema<Operation>,
+  input: __S(160, __c10, 0) as any as S.Schema<PatchProjectsLocationsServersUsersRequest>,
+  output: __S(322, __c20, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -897,8 +809,8 @@ export const startProjectsLocationsServers: API.OperationMethod<
   StartProjectsLocationsServersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c13, 0) as any as S.Schema<StartProjectsLocationsServersRequest>,
-  output: __S(354, __c22, 2) as any as S.Schema<Operation>,
+  input: __S(176, __c11, 0) as any as S.Schema<StartProjectsLocationsServersRequest>,
+  output: __S(322, __c20, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -919,8 +831,8 @@ export const stopProjectsLocationsServers: API.OperationMethod<
   StopProjectsLocationsServersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c14, 0) as any as S.Schema<StopProjectsLocationsServersRequest>,
-  output: __S(354, __c22, 2) as any as S.Schema<Operation>,
+  input: __S(192, __c12, 0) as any as S.Schema<StopProjectsLocationsServersRequest>,
+  output: __S(322, __c20, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -946,9 +858,9 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          labels: S.optional(__S(320, __c20, 0)),
+          labels: S.optional(__S(288, __c18, 0)),
           locationId: S.optional(S.String),
-          metadata: S.optional(__S(336, __c21, 0)),
+          metadata: S.optional(__S(304, __c19, 0)),
           name: S.optional(S.String),
           displayName: S.optional(S.String),
         }),
@@ -985,29 +897,6 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          updateTime: S.optional(S.String),
-          displayName: S.optional(S.String),
-          serviceAgent: S.optional(S.String),
-          internalConfig: S.optional(__S(310, __c19, 6)),
-          externalConfig: S.optional(__S(311, __c19, 7)),
-          labels: S.optional(__S(320, __c20, 0)),
-          satisfiesPzi: S.optional(S.Boolean),
-          satisfiesPzs: S.optional(S.Boolean),
-          state: S.optional(S.String),
-          loggingConfig: S.optional(__S(312, __c19, 8)),
-          accessType: S.optional(S.String),
-          createTime: S.optional(S.String),
-          name: S.optional(S.String),
-          googleManagedServerCredential: S.optional(__S(313, __c19, 9)),
-        }),
-      ).annotate({ identifier: "Server" });
-  }
-}
-function __c5(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
           view: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
         }).pipe(
@@ -1016,32 +905,14 @@ function __c5(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsServersUsersRequest" });
   }
 }
-function __c6(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          userCredentials: S.optional(__S(385, __c24, 1)),
-          customerServiceAccount: S.optional(S.String),
-          username: S.optional(S.String),
-          labels: S.optional(__S(320, __c20, 0)),
-          state: S.optional(S.String),
-          createTime: S.optional(S.String),
-          storageDirectoryMappings: S.optional(__S(387, __c24, 3)),
-        }),
-      ).annotate({ identifier: "User" });
-  }
-}
-function __c7(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           filter: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          extraLocationTypes: S.optional(__S(288, __c18, 0).pipe(T.Query())),
+          extraLocationTypes: S.optional(__S(256, __c16, 0).pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
@@ -1057,13 +928,13 @@ function __c7(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          locations: S.optional(__S(113, __c7, 1)),
+          locations: S.optional(__S(81, __c5, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListLocationsResponse" });
   }
 }
-function __c8(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1082,18 +953,18 @@ function __c8(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsOperationsRequest" });
     case 1:
-      return S.Array(__S(354, __c22, 2));
+      return S.Array(__S(322, __c20, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(288, __c18, 0)),
-          operations: S.optional(__S(129, __c8, 1)),
+          unreachable: S.optional(__S(256, __c16, 0)),
+          operations: S.optional(__S(97, __c6, 1)),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
   }
 }
-function __c9(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1113,18 +984,18 @@ function __c9(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsServersRequest" });
     case 1:
-      return S.Array(__S(64, __c4, 0));
+      return S.Array(__S(282, __c17, 10));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(288, __c18, 0)),
-          servers: S.optional(__S(145, __c9, 1)),
+          unreachable: S.optional(__S(256, __c16, 0)),
+          servers: S.optional(__S(113, __c7, 1)),
         }),
       ).annotate({ identifier: "ListServersResponse" });
   }
 }
-function __c10(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1144,39 +1015,29 @@ function __c10(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsServersUsersRequest" });
     case 1:
-      return S.Array(__S(96, __c6, 0));
+      return S.Array(__S(356, __c22, 4));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          users: S.optional(__S(161, __c10, 1)),
+          users: S.optional(__S(129, __c8, 1)),
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(288, __c18, 0)),
+          unreachable: S.optional(__S(256, __c16, 0)),
         }),
       ).annotate({ identifier: "ListUsersResponse" });
   }
 }
-function __c11(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          updateTime: S.optional(S.String),
-          displayName: S.optional(S.String),
-          serviceAgent: S.optional(S.String),
-          internalConfig: S.optional(__S(310, __c19, 6)),
-          externalConfig: S.optional(__S(311, __c19, 7)),
-          labels: S.optional(__S(320, __c20, 0)),
-          satisfiesPzi: S.optional(S.Boolean),
-          satisfiesPzs: S.optional(S.Boolean),
-          state: S.optional(S.String),
-          loggingConfig: S.optional(__S(312, __c19, 8)),
-          accessType: S.optional(S.String),
-          createTime: S.optional(S.String),
-          googleManagedServerCredential: S.optional(__S(313, __c19, 9)),
-        }).pipe(
+        S.Extend(
+          __S(282, __c17, 10),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha/{+name}",
@@ -1186,22 +1047,17 @@ function __c11(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsServersRequest" });
   }
 }
-function __c12(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          updateTime: S.optional(S.String),
-          userCredentials: S.optional(__S(385, __c24, 1)),
-          customerServiceAccount: S.optional(S.String),
-          username: S.optional(S.String),
-          labels: S.optional(__S(320, __c20, 0)),
-          state: S.optional(S.String),
-          createTime: S.optional(S.String),
-          storageDirectoryMappings: S.optional(__S(387, __c24, 3)),
-        }).pipe(
+        S.Extend(
+          __S(356, __c22, 4),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha/{+name}",
@@ -1211,13 +1067,13 @@ function __c12(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsServersUsersRequest" });
   }
 }
-function __c13(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(256, __c16, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(224, __c14, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1228,13 +1084,13 @@ function __c13(j: number): any {
       ).annotate({ identifier: "StartProjectsLocationsServersRequest" });
   }
 }
-function __c14(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(256, __c16, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(224, __c14, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1245,13 +1101,13 @@ function __c14(j: number): any {
       ).annotate({ identifier: "StopProjectsLocationsServersRequest" });
   }
 }
-function __c15(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(256, __c16, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(224, __c14, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1262,35 +1118,24 @@ function __c15(j: number): any {
       ).annotate({ identifier: "CancelProjectsLocationsOperationsRequest" });
   }
 }
-function __c16(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "CancelOperationRequest" });
   }
 }
-function __c17(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          serverId: S.optional(S.String.pipe(T.Query())),
-          updateTime: S.optional(S.String),
-          displayName: S.optional(S.String),
-          serviceAgent: S.optional(S.String),
-          internalConfig: S.optional(__S(310, __c19, 6)),
-          externalConfig: S.optional(__S(311, __c19, 7)),
-          labels: S.optional(__S(320, __c20, 0)),
-          satisfiesPzi: S.optional(S.Boolean),
-          satisfiesPzs: S.optional(S.Boolean),
-          state: S.optional(S.String),
-          loggingConfig: S.optional(__S(312, __c19, 8)),
-          accessType: S.optional(S.String),
-          createTime: S.optional(S.String),
-          name: S.optional(S.String),
-          googleManagedServerCredential: S.optional(__S(313, __c19, 9)),
-        }).pipe(
+        S.Extend(
+          __S(282, __c17, 10),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            serverId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/servers",
@@ -1300,13 +1145,13 @@ function __c17(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsServersRequest" });
   }
 }
-function __c18(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c19(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1315,7 +1160,7 @@ function __c19(j: number): any {
         }),
       ).annotate({ identifier: "DeniedConsumer" });
     case 1:
-      return S.Array(__S(304, __c19, 0));
+      return S.Array(__S(272, __c17, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -1325,7 +1170,7 @@ function __c19(j: number): any {
         }),
       ).annotate({ identifier: "PscEndpoint" });
     case 3:
-      return S.Array(__S(306, __c19, 2));
+      return S.Array(__S(274, __c17, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -1334,20 +1179,20 @@ function __c19(j: number): any {
         }),
       ).annotate({ identifier: "AllowedConsumer" });
     case 5:
-      return S.Array(__S(308, __c19, 4));
+      return S.Array(__S(276, __c17, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          consumerRejectList: S.optional(__S(305, __c19, 1)),
-          pscEndpoints: S.optional(__S(307, __c19, 3)),
-          consumerAcceptList: S.optional(__S(309, __c19, 5)),
+          consumerRejectList: S.optional(__S(273, __c17, 1)),
+          pscEndpoints: S.optional(__S(275, __c17, 3)),
+          consumerAcceptList: S.optional(__S(277, __c17, 5)),
           serviceAttachment: S.optional(S.String),
         }),
       ).annotate({ identifier: "InternalServerConfig" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          allowedCidrBlocks: S.optional(__S(288, __c18, 0)),
+          allowedCidrBlocks: S.optional(__S(256, __c16, 0)),
           ipAddress: S.optional(S.String),
         }),
       ).annotate({ identifier: "ExternalServerConfig" });
@@ -1365,28 +1210,47 @@ function __c19(j: number): any {
           fingerprint: S.optional(S.String),
         }),
       ).annotate({ identifier: "ServerCredential" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          updateTime: S.optional(S.String),
+          displayName: S.optional(S.String),
+          serviceAgent: S.optional(S.String),
+          internalConfig: S.optional(__S(278, __c17, 6)),
+          externalConfig: S.optional(__S(279, __c17, 7)),
+          labels: S.optional(__S(288, __c18, 0)),
+          satisfiesPzi: S.optional(S.Boolean),
+          satisfiesPzs: S.optional(S.Boolean),
+          state: S.optional(S.String),
+          loggingConfig: S.optional(__S(280, __c17, 8)),
+          accessType: S.optional(S.String),
+          createTime: S.optional(S.String),
+          name: S.optional(S.String),
+          googleManagedServerCredential: S.optional(__S(281, __c17, 9)),
+        }),
+      ).annotate({ identifier: "Server" });
   }
 }
-function __c20(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
   }
 }
-function __c21(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c22(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(336, __c21, 0));
+      return S.Array(__S(304, __c19, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          details: S.optional(__S(352, __c22, 0)),
+          details: S.optional(__S(320, __c20, 0)),
           message: S.optional(S.String),
           code: S.optional(S.Number),
         }),
@@ -1395,32 +1259,26 @@ function __c22(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          response: S.optional(__S(336, __c21, 0)),
-          error: S.optional(__S(353, __c22, 1)),
+          response: S.optional(__S(304, __c19, 0)),
+          error: S.optional(__S(321, __c20, 1)),
           done: S.optional(S.Boolean),
-          metadata: S.optional(__S(336, __c21, 0)),
+          metadata: S.optional(__S(304, __c19, 0)),
         }),
       ).annotate({ identifier: "Operation" });
   }
 }
-function __c23(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          userId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          name: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          userCredentials: S.optional(__S(385, __c24, 1)),
-          customerServiceAccount: S.optional(S.String),
-          username: S.optional(S.String),
-          labels: S.optional(__S(320, __c20, 0)),
-          state: S.optional(S.String),
-          createTime: S.optional(S.String),
-          storageDirectoryMappings: S.optional(__S(387, __c24, 3)),
-        }).pipe(
+        S.Extend(
+          __S(356, __c22, 4),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            userId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/users",
@@ -1430,7 +1288,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsServersUsersRequest" });
   }
 }
-function __c24(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1441,7 +1299,7 @@ function __c24(j: number): any {
         }),
       ).annotate({ identifier: "UserCredential" });
     case 1:
-      return S.Array(__S(384, __c24, 0));
+      return S.Array(__S(352, __c22, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -1452,10 +1310,24 @@ function __c24(j: number): any {
         }),
       ).annotate({ identifier: "StorageDirectoryMapping" });
     case 3:
-      return S.Array(__S(386, __c24, 2));
+      return S.Array(__S(354, __c22, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          userCredentials: S.optional(__S(353, __c22, 1)),
+          customerServiceAccount: S.optional(S.String),
+          username: S.optional(S.String),
+          labels: S.optional(__S(288, __c18, 0)),
+          state: S.optional(S.String),
+          createTime: S.optional(S.String),
+          storageDirectoryMappings: S.optional(__S(355, __c22, 3)),
+        }),
+      ).annotate({ identifier: "User" });
   }
 }
-function __c25(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1471,7 +1343,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsOperationsRequest" });
   }
 }
-function __c26(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1487,7 +1359,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsServersRequest" });
   }
 }
-function __c27(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

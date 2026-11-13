@@ -125,40 +125,6 @@ export interface Case {
   /** A broad description of the issue. */
   description?: string | undefined;
   /** The priority of this case. */
-  priority?: CasePriorityEnum | undefined;
-  /** The language the user has requested to receive support in. This should be a BCP 47 language code (e.g., `"en"`, `"zh-CN"`, `"zh-TW"`, `"ja"`, `"ko"`). If no language or an unsupported language is specified, this field defaults to English (en). Language selection during case creation may affect your available support options. For a list of supported languages and their support working hours, see: https://cloud.google.com/support/docs/language-working-hours */
-  languageCode?: string | undefined;
-  /** The timezone of the user who created the support case. It should be in a format IANA recognizes: https://www.iana.org/time-zones. There is no additional validation done by the API. */
-  timeZone?: string | undefined;
-  /** The issue classification applicable to this case. */
-  classification?: CaseClassification | undefined;
-  /** Whether this case was created for internal API testing and should not be acted on by the support team. */
-  testCase?: boolean | undefined;
-  /** Output only. The time this case was last updated. */
-  updateTime?: string | undefined;
-  /** A user-supplied email address to send case update notifications for. This field must be set when the request is authenticated using a Workforce Identity Federation (BYOID) flow and must not be set otherwise. When unset, the contact email is inferred from the authenticated user's credentials. If you use a service account to create the case and its inferred email address cannot receive emails, you should add appropriate contact emails in the `subscriber_email_addresses` field. */
-  contactEmail?: string | undefined;
-  /** The short summary of the issue reported in this case. */
-  displayName?: string | undefined;
-  /** The user who created the case. This field is ignored on input. Note: The name and email will be obfuscated if the case was created by Google Support. */
-  creator?: Actor | undefined;
-  /** Identifier. The resource name for the case. */
-  name?: string | undefined;
-  /** Output only. The time this case was created. */
-  createTime?: string | undefined;
-  /** Output only. The current status of the support case. */
-  state?: CaseStateEnum | undefined;
-  /** Whether the case is currently escalated. */
-  escalated?: boolean | undefined;
-}
-export interface CreateCasesRequest {
-  /** Required. The name of the parent under which the case should be created. */
-  parent: string;
-  /** The email addresses to receive updates on this case. */
-  subscriberEmailAddresses?: StringList | undefined;
-  /** A broad description of the issue. */
-  description?: string | undefined;
-  /** The priority of this case. */
   priority?: CasePriorityEnum | (string & {}) | undefined;
   /** The language the user has requested to receive support in. This should be a BCP 47 language code (e.g., `"en"`, `"zh-CN"`, `"zh-TW"`, `"ja"`, `"ko"`). If no language or an unsupported language is specified, this field defaults to English (en). Language selection during case creation may affect your available support options. For a list of supported languages and their support working hours, see: https://cloud.google.com/support/docs/language-working-hours */
   languageCode?: string | undefined;
@@ -185,19 +151,9 @@ export interface CreateCasesRequest {
   /** Whether the case is currently escalated. */
   escalated?: boolean | undefined;
 }
-export interface CreateCasesCommentsRequest {
-  /** Required. The name of the case to which the comment should be added. */
+export interface CreateCasesRequest extends Case {
+  /** Required. The name of the parent under which the case should be created. */
   parent: string;
-  /** The full comment body. Maximum of 12800 characters. */
-  body?: string | undefined;
-  /** Output only. The user or Google Support agent who created the comment. */
-  creator?: Actor | undefined;
-  /** Output only. The time when the comment was created. */
-  createTime?: string | undefined;
-  /** Output only. Identifier. The resource name of the comment. */
-  name?: string | undefined;
-  /** Output only. DEPRECATED. DO NOT USE. A duplicate of the `body` field. This field is only present for legacy reasons. */
-  plainTextBody?: string | undefined;
 }
 /** A comment associated with a support case. Case comments are the primary way for Google Support to communicate with a user who has opened a case. When a user responds to Google Support, the user's responses also appear as comments. */
 export interface Comment {
@@ -212,6 +168,10 @@ export interface Comment {
   /** Output only. DEPRECATED. DO NOT USE. A duplicate of the `body` field. This field is only present for legacy reasons. */
   plainTextBody?: string | undefined;
 }
+export interface CreateCasesCommentsRequest extends Comment {
+  /** Required. The name of the case to which the comment should be added. */
+  parent: string;
+}
 export type SupportEventSubscriptionFailureReasonEnum =
   | "FAILURE_REASON_UNSPECIFIED"
   | "PERMISSION_DENIED"
@@ -222,9 +182,8 @@ export type SupportEventSubscriptionStateEnum =
   | "WORKING"
   | "FAILING"
   | "DELETED";
-export interface CreateOrganizationsSupportEventSubscriptionsRequest {
-  /** Required. The parent resource name where the support event subscription will be created. Format: organizations/{organization_id} */
-  parent: string;
+/** A support event subscription. You can also manage support event subscriptions using other tools: * [`gcloud support support-event-subscriptions`](/sdk/gcloud/reference/support/support-event-subscriptions) (or [`gcloud beta`](/sdk/gcloud/reference/beta/support/support-event-subscriptions) for beta) * [Terraform `google_cloud_support_support_event_subscription`](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/cloud_support_support_event_subscription) (or [google-beta provider](https://registry.terraform.io/providers/hashicorp/google-beta/latest/docs/resources/cloud_support_support_event_subscription) for beta) */
+export interface SupportEventSubscription {
   /** Output only. The time at which the subscription will be purged. */
   purgeTime?: string | undefined;
   /** Output only. The time at which the subscription was last updated. */
@@ -242,24 +201,9 @@ export interface CreateOrganizationsSupportEventSubscriptionsRequest {
   /** Output only. The state of the subscription. */
   state?: SupportEventSubscriptionStateEnum | (string & {}) | undefined;
 }
-/** A support event subscription. You can also manage support event subscriptions using other tools: * [`gcloud support support-event-subscriptions`](/sdk/gcloud/reference/support/support-event-subscriptions) (or [`gcloud beta`](/sdk/gcloud/reference/beta/support/support-event-subscriptions) for beta) * [Terraform `google_cloud_support_support_event_subscription`](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/cloud_support_support_event_subscription) (or [google-beta provider](https://registry.terraform.io/providers/hashicorp/google-beta/latest/docs/resources/cloud_support_support_event_subscription) for beta) */
-export interface SupportEventSubscription {
-  /** Output only. The time at which the subscription will be purged. */
-  purgeTime?: string | undefined;
-  /** Output only. The time at which the subscription was last updated. */
-  updateTime?: string | undefined;
-  /** Output only. Reason why subscription is failing. State of subscription must be FAILING in order for this to have a value. */
-  failureReason?: SupportEventSubscriptionFailureReasonEnum | undefined;
-  /** Required. The name of the Pub/Sub topic to publish notifications to. Format: projects/{project}/topics/{topic} */
-  pubSubTopic?: string | undefined;
-  /** Identifier. The resource name of the support event subscription. */
-  name?: string | undefined;
-  /** Output only. The time at which the subscription was deleted. */
-  deleteTime?: string | undefined;
-  /** Output only. The time at which the subscription was created. */
-  createTime?: string | undefined;
-  /** Output only. The state of the subscription. */
-  state?: SupportEventSubscriptionStateEnum | undefined;
+export interface CreateOrganizationsSupportEventSubscriptionsRequest extends SupportEventSubscription {
+  /** Required. The parent resource name where the support event subscription will be created. Format: organizations/{organization_id} */
+  parent: string;
 }
 export interface DeleteOrganizationsSupportEventSubscriptionsRequest {
   /** Required. The name of the support event subscription to delete. Format: organizations/{organization_id}/supportEventSubscriptions/{subscription_id} */
@@ -483,11 +427,14 @@ export interface Escalation {
   /** Required. A free text description to accompany the `reason` field above. Provides additional context on why the case is being escalated. */
   justification?: string | undefined;
 }
-export interface EscalateCasesRequest {
-  /** Required. The name of the case to be escalated. */
-  name: string;
+/** The request message for the EscalateCase endpoint. */
+export interface EscalateCaseRequest {
   /** The escalation information to be sent with the escalation request. */
   escalation?: Escalation | undefined;
+}
+export interface EscalateCasesRequest extends EscalateCaseRequest {
+  /** Required. The name of the case to be escalated. */
+  name: string;
 }
 /** Request message for ExpungeSupportEventSubscription. */
 export type ExpungeSupportEventSubscriptionRequest = CloseCaseRequest;
@@ -600,59 +547,20 @@ export interface ListSupportEventSubscriptionsResponse {
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string | undefined;
 }
-export interface PatchCasesRequest {
+export interface PatchCasesRequest extends Omit<Case, "name"> {
   /** Identifier. The resource name for the case. */
   name: string;
   /** A list of attributes of the case that should be updated. Supported values are `priority`, `display_name`, and `subscriber_email_addresses`. If no fields are specified, all supported fields are updated. Be careful - if you do not provide a field mask, then you might accidentally clear some fields. For example, if you leave the field mask empty and do not provide a value for `subscriber_email_addresses`, then `subscriber_email_addresses` is updated to empty. */
   updateMask?: string | undefined;
-  /** The email addresses to receive updates on this case. */
-  subscriberEmailAddresses?: StringList | undefined;
-  /** A broad description of the issue. */
-  description?: string | undefined;
-  /** The priority of this case. */
-  priority?: CasePriorityEnum | (string & {}) | undefined;
-  /** The language the user has requested to receive support in. This should be a BCP 47 language code (e.g., `"en"`, `"zh-CN"`, `"zh-TW"`, `"ja"`, `"ko"`). If no language or an unsupported language is specified, this field defaults to English (en). Language selection during case creation may affect your available support options. For a list of supported languages and their support working hours, see: https://cloud.google.com/support/docs/language-working-hours */
-  languageCode?: string | undefined;
-  /** The timezone of the user who created the support case. It should be in a format IANA recognizes: https://www.iana.org/time-zones. There is no additional validation done by the API. */
-  timeZone?: string | undefined;
-  /** The issue classification applicable to this case. */
-  classification?: CaseClassification | undefined;
-  /** Whether this case was created for internal API testing and should not be acted on by the support team. */
-  testCase?: boolean | undefined;
-  /** Output only. The time this case was last updated. */
-  updateTime?: string | undefined;
-  /** A user-supplied email address to send case update notifications for. This field must be set when the request is authenticated using a Workforce Identity Federation (BYOID) flow and must not be set otherwise. When unset, the contact email is inferred from the authenticated user's credentials. If you use a service account to create the case and its inferred email address cannot receive emails, you should add appropriate contact emails in the `subscriber_email_addresses` field. */
-  contactEmail?: string | undefined;
-  /** The short summary of the issue reported in this case. */
-  displayName?: string | undefined;
-  /** The user who created the case. This field is ignored on input. Note: The name and email will be obfuscated if the case was created by Google Support. */
-  creator?: Actor | undefined;
-  /** Output only. The time this case was created. */
-  createTime?: string | undefined;
-  /** Output only. The current status of the support case. */
-  state?: CaseStateEnum | (string & {}) | undefined;
-  /** Whether the case is currently escalated. */
-  escalated?: boolean | undefined;
 }
-export interface PatchOrganizationsSupportEventSubscriptionsRequest {
+export interface PatchOrganizationsSupportEventSubscriptionsRequest extends Omit<
+  SupportEventSubscription,
+  "name"
+> {
   /** Optional. The list of fields to update. The only supported value is pub_sub_topic. */
   updateMask?: string | undefined;
   /** Identifier. The resource name of the support event subscription. */
   name: string;
-  /** Output only. The time at which the subscription will be purged. */
-  purgeTime?: string | undefined;
-  /** Output only. The time at which the subscription was last updated. */
-  updateTime?: string | undefined;
-  /** Output only. Reason why subscription is failing. State of subscription must be FAILING in order for this to have a value. */
-  failureReason?: SupportEventSubscriptionFailureReasonEnum | (string & {}) | undefined;
-  /** Required. The name of the Pub/Sub topic to publish notifications to. Format: projects/{project}/topics/{topic} */
-  pubSubTopic?: string | undefined;
-  /** Output only. The time at which the subscription was deleted. */
-  deleteTime?: string | undefined;
-  /** Output only. The time at which the subscription was created. */
-  createTime?: string | undefined;
-  /** Output only. The state of the subscription. */
-  state?: SupportEventSubscriptionStateEnum | (string & {}) | undefined;
 }
 export interface SearchCaseClassificationsRequest {
   /** A token identifying the page of results to return. If unspecified, the first page is retrieved. */
@@ -695,11 +603,14 @@ export interface UndeleteOrganizationsSupportEventSubscriptionsRequest {
   /** Request body */
   body?: CloseCaseRequest | undefined;
 }
-export interface UploadMediaRequest {
-  /** Required. The name of the case or Cloud resource to which the attachment should be attached. */
-  parent: string;
+/** The request message for the CreateAttachment endpoint. */
+export interface CreateAttachmentRequest {
   /** Required. The attachment to be created. */
   attachment?: Attachment | undefined;
+}
+export interface UploadMediaRequest extends CreateAttachmentRequest {
+  /** Required. The name of the case or Cloud resource to which the attachment should be attached. */
+  parent: string;
 }
 export type CloseCasesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
 /** Close a case. EXAMPLES: cURL: ```shell case="projects/some-project/cases/43595344" curl \ --request POST \ --header "Authorization: Bearer $(gcloud auth print-access-token)" \ "https://cloudsupport.googleapis.com/v2/$case:close" ``` Python: ```python import googleapiclient.discovery api_version = "v2" supportApiService = googleapiclient.discovery.build( serviceName="cloudsupport", version=api_version, discoveryServiceUrl=f"https://cloudsupport.googleapis.com/$discovery/rest?version={api_version}", ) request = supportApiService.cases().close( name="projects/some-project/cases/43595344" ) print(request.execute()) ``` */
@@ -821,7 +732,7 @@ export const escalateCases: API.OperationMethod<
   EscalateCasesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1, __c0, 1) as any as S.Schema<EscalateCasesRequest>,
+  input: __S(2, __c0, 2) as any as S.Schema<EscalateCasesRequest>,
   output: __S(337, __c21, 1) as any as S.Schema<Case>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -1103,7 +1014,7 @@ export const uploadMedia: API.OperationMethod<
   UploadMediaError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c17, 0) as any as S.Schema<UploadMediaRequest>,
+  input: __S(273, __c17, 1) as any as S.Schema<UploadMediaRequest>,
   output: __S(64, __c4, 0) as any as S.Schema<Attachment>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -1125,9 +1036,17 @@ function __c0(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           escalation: S.optional(__S(0, __c0, 0)),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "EscalateCaseRequest" });
+    case 2:
+      return S.suspend(() =>
+        S.Extend(
+          __S(1, __c0, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+name}:escalate",
@@ -1352,24 +1271,13 @@ function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          subscriberEmailAddresses: S.optional(__S(336, __c21, 0)),
-          description: S.optional(S.String),
-          priority: S.optional(S.String),
-          languageCode: S.optional(S.String),
-          timeZone: S.optional(S.String),
-          classification: S.optional(__S(320, __c20, 0)),
-          testCase: S.optional(S.Boolean),
-          updateTime: S.optional(S.String),
-          contactEmail: S.optional(S.String),
-          displayName: S.optional(S.String),
-          creator: S.optional(__S(352, __c22, 0)),
-          createTime: S.optional(S.String),
-          state: S.optional(S.String),
-          escalated: S.optional(S.Boolean),
-        }).pipe(
+        S.Extend(
+          __S(337, __c21, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -1383,17 +1291,13 @@ function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          purgeTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          failureReason: S.optional(S.String),
-          pubSubTopic: S.optional(S.String),
-          deleteTime: S.optional(S.String),
-          createTime: S.optional(S.String),
-          state: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(432, __c27, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -1471,9 +1375,17 @@ function __c17(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
           attachment: S.optional(__S(64, __c4, 0)),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "CreateAttachmentRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(272, __c17, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/attachments",
@@ -1560,24 +1472,12 @@ function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          subscriberEmailAddresses: S.optional(__S(336, __c21, 0)),
-          description: S.optional(S.String),
-          priority: S.optional(S.String),
-          languageCode: S.optional(S.String),
-          timeZone: S.optional(S.String),
-          classification: S.optional(__S(320, __c20, 0)),
-          testCase: S.optional(S.Boolean),
-          updateTime: S.optional(S.String),
-          contactEmail: S.optional(S.String),
-          displayName: S.optional(S.String),
-          creator: S.optional(__S(352, __c22, 0)),
-          name: S.optional(S.String),
-          createTime: S.optional(S.String),
-          state: S.optional(S.String),
-          escalated: S.optional(S.Boolean),
-        }).pipe(
+        S.Extend(
+          __S(337, __c21, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/cases",
@@ -1591,14 +1491,12 @@ function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(S.String),
-          creator: S.optional(__S(352, __c22, 0)),
-          createTime: S.optional(S.String),
-          name: S.optional(S.String),
-          plainTextBody: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(400, __c25, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/comments",
@@ -1626,17 +1524,12 @@ function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          purgeTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          failureReason: S.optional(S.String),
-          pubSubTopic: S.optional(S.String),
-          name: S.optional(S.String),
-          deleteTime: S.optional(S.String),
-          createTime: S.optional(S.String),
-          state: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(432, __c27, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/supportEventSubscriptions",

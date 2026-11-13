@@ -101,9 +101,8 @@ export interface TimeZone {
   /** IANA Time Zone Database time zone. For example "America/New_York". */
   id?: string | undefined;
 }
-export interface CreatePlatformsAccountsRequest {
-  /** Required. Platform to create an account for. Format: platforms/{platform} */
-  parent: string;
+/** Representation of an Account. */
+export interface Account {
   /** Required. Input only. CLDR region code of the country/region of the address. Set this to country code of the child account if known, otherwise to your own country code. */
   regionCode?: string | undefined;
   /** Output only. Approval state of the account. */
@@ -119,22 +118,9 @@ export interface CreatePlatformsAccountsRequest {
   /** Required. An opaque token that uniquely identifies the account among all the platform's accounts. This string may contain at most 64 non-whitespace ASCII characters, but otherwise has no predefined structure. However, it is expected to be a platform-specific identifier for the user creating the account, so that only a single account can be created for any given user. This field must not contain any information that is recognizable as personally identifiable information. e.g. it should not be an email address or login name. Once an account has been created, a second attempt to create an account using the same creation_request_id will result in an ALREADY_EXISTS error. */
   creationRequestId?: string | undefined;
 }
-/** Representation of an Account. */
-export interface Account {
-  /** Required. Input only. CLDR region code of the country/region of the address. Set this to country code of the child account if known, otherwise to your own country code. */
-  regionCode?: string | undefined;
-  /** Output only. Approval state of the account. */
-  state?: AccountStateEnum | undefined;
-  /** Required. The IANA TZ timezone code of this account. For more information, see https://en.wikipedia.org/wiki/List_of_tz_database_time_zones. This field is used for reporting. It is recommended to set it to the same value for all child accounts. */
-  timeZone?: TimeZone | undefined;
-  /** Output only. Resource name of the account. Format: platforms/pub-[0-9]+/accounts/pub-[0-9]+ */
-  name?: string | undefined;
-  /** Output only. Creation time of the account. */
-  createTime?: string | undefined;
-  /** Display name of this account. */
-  displayName?: string | undefined;
-  /** Required. An opaque token that uniquely identifies the account among all the platform's accounts. This string may contain at most 64 non-whitespace ASCII characters, but otherwise has no predefined structure. However, it is expected to be a platform-specific identifier for the user creating the account, so that only a single account can be created for any given user. This field must not contain any information that is recognizable as personally identifiable information. e.g. it should not be an email address or login name. Once an account has been created, a second attempt to create an account using the same creation_request_id will result in an ALREADY_EXISTS error. */
-  creationRequestId?: string | undefined;
+export interface CreatePlatformsAccountsRequest extends Account {
+  /** Required. Platform to create an account for. Format: platforms/{platform} */
+  parent: string;
 }
 export type EventEventTypeEnum =
   | "EVENT_TYPE_UNSPECIFIED"
@@ -170,9 +156,8 @@ export interface EventInfo {
   /** Required. The email address that is associated with the publisher when performing the event. */
   email?: string | undefined;
 }
-export interface CreatePlatformsAccountsEventsRequest {
-  /** Required. Account to log events about. Format: platforms/{platform}/accounts/{account} */
-  parent: string;
+/** A platform sub-account event to record spam signals. */
+export interface Event {
   /** Required. Event type. */
   eventType?: EventEventTypeEnum | (string & {}) | undefined;
   /** Required. Information associated with the event. */
@@ -180,14 +165,9 @@ export interface CreatePlatformsAccountsEventsRequest {
   /** Required. Event timestamp. */
   eventTime?: string | undefined;
 }
-/** A platform sub-account event to record spam signals. */
-export interface Event {
-  /** Required. Event type. */
-  eventType?: EventEventTypeEnum | undefined;
-  /** Required. Information associated with the event. */
-  eventInfo?: EventInfo | undefined;
-  /** Required. Event timestamp. */
-  eventTime?: string | undefined;
+export interface CreatePlatformsAccountsEventsRequest extends Event {
+  /** Required. Account to log events about. Format: platforms/{platform}/accounts/{account} */
+  parent: string;
 }
 export type SiteStateEnum =
   | "STATE_UNSPECIFIED"
@@ -195,16 +175,6 @@ export type SiteStateEnum =
   | "GETTING_READY"
   | "READY"
   | "NEEDS_ATTENTION";
-export interface CreatePlatformsAccountsSitesRequest {
-  /** Required. Account to create site. Format: platforms/{platform}/accounts/{account_id} */
-  parent: string;
-  /** Output only. Resource name of a site. Format: platforms/{platform}/accounts/{account}/sites/{site} */
-  name?: string | undefined;
-  /** Domain/sub-domain of the site. Must be a valid domain complying with [RFC 1035](https://www.ietf.org/rfc/rfc1035.txt) and formatted as punycode [RFC 3492](https://www.ietf.org/rfc/rfc3492.txt) in case the domain contains unicode characters. */
-  domain?: string | undefined;
-  /** Output only. State of a site. */
-  state?: SiteStateEnum | (string & {}) | undefined;
-}
 /** Representation of a Site. */
 export interface Site {
   /** Output only. Resource name of a site. Format: platforms/{platform}/accounts/{account}/sites/{site} */
@@ -212,7 +182,11 @@ export interface Site {
   /** Domain/sub-domain of the site. Must be a valid domain complying with [RFC 1035](https://www.ietf.org/rfc/rfc1035.txt) and formatted as punycode [RFC 3492](https://www.ietf.org/rfc/rfc3492.txt) in case the domain contains unicode characters. */
   domain?: string | undefined;
   /** Output only. State of a site. */
-  state?: SiteStateEnum | undefined;
+  state?: SiteStateEnum | (string & {}) | undefined;
+}
+export interface CreatePlatformsAccountsSitesRequest extends Site {
+  /** Required. Account to create site. Format: platforms/{platform}/accounts/{account_id} */
+  parent: string;
 }
 export interface DeletePlatformsAccountsSitesRequest {
   /** Required. The name of the site to delete. Format: platforms/{platform}/accounts/{account}/sites/{site} */
@@ -363,25 +337,20 @@ export interface LookupAccountResponse {
   /** The name of the Account Format: platforms/{platform}/accounts/{account_id} */
   name?: string | undefined;
 }
-export interface PatchAccountsPlatformsChildAccountsSitesRequest {
+export interface PatchAccountsPlatformsChildAccountsSitesRequest extends Omit<
+  PlatformChildSite,
+  "name"
+> {
   /** Identifier. Format: accounts/{account}/platforms/{platform}/childAccounts/{child_account}/sites/{platform_child_site} */
   name: string;
   /** Optional. The list of fields to update - currently only supports updating the `platform_group` field. */
   updateMask?: string | undefined;
-  /** Output only. Domain URL of the Platform Child Site. Part of the PlatformChildSite name. */
-  domain?: string | undefined;
-  /** Resource name of the Platform Group of the Platform Child Site. */
-  platformGroup?: string | undefined;
 }
-export interface PatchAccountsPlatformsGroupsRequest {
+export interface PatchAccountsPlatformsGroupsRequest extends Omit<PlatformGroup, "name"> {
   /** Identifier. Format: accounts/{account}/platforms/{platform}/groups/{platform_group} */
   name: string;
   /** Optional. The list of fields to update - currently only supports updating the `description` field. */
   updateMask?: string | undefined;
-  /** Required. Description of the PlatformGroup. */
-  description?: string | undefined;
-  /** Output only. The revenue share of the PlatformGroup, in millipercent (e.g. 15000 = 15%). */
-  revshareMillipercent?: Decimal | undefined;
 }
 export interface RequestReviewPlatformsAccountsSitesRequest {
   /** Required. The name of the site to submit for review. Format: platforms/{platform}/accounts/{account}/sites/{site} */
@@ -441,8 +410,8 @@ export const createPlatformsAccountsEvents: API.OperationMethod<
   CreatePlatformsAccountsEventsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(78, __c19, 2) as any as S.Schema<CreatePlatformsAccountsEventsRequest>,
-  output: __S(79, __c19, 3) as any as S.Schema<Event>,
+  input: __S(79, __c19, 3) as any as S.Schema<CreatePlatformsAccountsEventsRequest>,
+  output: __S(78, __c19, 2) as any as S.Schema<Event>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1014,12 +983,13 @@ function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          domain: S.optional(S.String),
-          platformGroup: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(4, __c1, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha/{+name}",
@@ -1033,12 +1003,13 @@ function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          description: S.optional(S.String),
-          revshareMillipercent: S.optional(__S(12, __c3, 0)),
-        }).pipe(
+        S.Extend(
+          __S(13, __c3, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha/{+name}",
@@ -1091,16 +1062,12 @@ function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          regionCode: S.optional(S.String),
-          state: S.optional(S.String),
-          timeZone: S.optional(__S(72, __c18, 0)),
-          name: S.optional(S.String),
-          createTime: S.optional(S.String),
-          displayName: S.optional(S.String),
-          creationRequestId: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(73, __c18, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/accounts",
@@ -1160,11 +1127,19 @@ function __c19(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
           eventType: S.optional(S.String),
           eventInfo: S.optional(__S(77, __c19, 1)),
           eventTime: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "Event" });
+    case 3:
+      return S.suspend(() =>
+        S.Extend(
+          __S(78, __c19, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/events",
@@ -1172,26 +1147,18 @@ function __c19(j: number): any {
           }),
         ),
       ).annotate({ identifier: "CreatePlatformsAccountsEventsRequest" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          eventType: S.optional(S.String),
-          eventInfo: S.optional(__S(77, __c19, 1)),
-          eventTime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Event" });
   }
 }
 function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          name: S.optional(S.String),
-          domain: S.optional(S.String),
-          state: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(84, __c21, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/sites",

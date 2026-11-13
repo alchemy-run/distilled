@@ -115,7 +115,8 @@ export interface GoogleMapsPlacesV1AutocompletePlacesRequestLocationRestriction 
 /** The region to search. The results may be biased around the specified region. */
 export type GoogleMapsPlacesV1AutocompletePlacesRequestLocationBias =
   GoogleMapsPlacesV1AutocompletePlacesRequestLocationRestriction;
-export interface AutocompletePlacesRequest {
+/** Request proto for AutocompletePlaces. */
+export interface GoogleMapsPlacesV1AutocompletePlacesRequest {
   /** Optional. The origin point from which to calculate geodesic distance to the destination (returned as `distance_meters`). If this value is omitted, geodesic distance will not be returned. */
   origin?: GoogleTypeLatLng | undefined;
   /** Required. The text string on which to search. */
@@ -143,6 +144,7 @@ export interface AutocompletePlacesRequest {
   /** Optional. If true, include businesses that are not yet open but will open in the future. */
   includeFutureOpeningBusinesses?: boolean | undefined;
 }
+export interface AutocompletePlacesRequest extends GoogleMapsPlacesV1AutocompletePlacesRequest {}
 /** Identifies a substring within a given text. */
 export interface GoogleMapsPlacesV1AutocompletePlacesResponseSuggestionStringRange {
   /** Zero-based offset of the first Unicode character of the string (inclusive). */
@@ -1070,7 +1072,8 @@ export interface GoogleMapsPlacesV1RoutingParameters {
   /** Optional. An explicit routing origin that overrides the origin defined in the polyline. By default, the polyline origin is used. */
   origin?: GoogleTypeLatLng | undefined;
 }
-export interface SearchNearbyPlacesRequest {
+/** Request proto for Search Nearby. */
+export interface GoogleMapsPlacesV1SearchNearbyRequest {
   /** Place details will be displayed with the preferred language if available. If the language code is unspecified or unrecognized, place details of any language may be returned, with a preference for English if such details exist. Current list of supported languages: https://developers.google.com/maps/faq#languagesupport. */
   languageCode?: string | undefined;
   /** Required. The region to search. */
@@ -1097,6 +1100,7 @@ export interface SearchNearbyPlacesRequest {
   /** Included Place type (eg, "restaurant" or "gas_station") from https://developers.google.com/maps/documentation/places/web-service/place-types. Up to 50 types from [Table A](https://developers.google.com/maps/documentation/places/web-service/place-types#table-a) may be specified. If there are any conflicting types, i.e. a type appears in both included_types and excluded_types, an INVALID_ARGUMENT error is returned. If a Place type is specified with multiple type restrictions, only places that satisfy all of the restrictions are returned. For example, if we have {included_types = ["restaurant"], excluded_primary_types = ["restaurant"]}, the returned places provide "restaurant" related services but do not operate primarily as "restaurants". */
   includedTypes?: StringList | undefined;
 }
+export interface SearchNearbyPlacesRequest extends GoogleMapsPlacesV1SearchNearbyRequest {}
 /** A leg is a single portion of a journey from one location to another. */
 export interface GoogleMapsPlacesV1RoutingSummaryLeg {
   /** The time it takes to complete this leg of the trip. */
@@ -1181,7 +1185,8 @@ export interface GoogleMapsPlacesV1SearchTextRequestSearchAlongRouteParameters {
   /** Required. The route polyline. */
   polyline?: GoogleMapsPlacesV1Polyline | undefined;
 }
-export interface SearchTextPlacesRequest {
+/** Request proto for SearchText. */
+export interface GoogleMapsPlacesV1SearchTextRequest {
   /** Required. The text query for textual search. */
   textQuery?: string | undefined;
   /** Used to restrict the search to places that are marked as certain price levels. Users can choose any combinations of price levels. Default to select all price levels. */
@@ -1226,6 +1231,7 @@ export interface SearchTextPlacesRequest {
   /** Optional. The maximum number of results per page that can be returned. If the number of available results is larger than `page_size`, a `next_page_token` is returned which can be passed to `page_token` to get the next page of results in subsequent requests. If 0 or no value is provided, a default of 20 is used. The maximum value is 20; values above 20 will be set to 20. Negative values will return an INVALID_ARGUMENT error. If both `max_result_count` and `page_size` are specified, `max_result_count` will be ignored. */
   pageSize?: number | undefined;
 }
+export interface SearchTextPlacesRequest extends GoogleMapsPlacesV1SearchTextRequest {}
 /** The range of highlighted text. */
 export interface GoogleMapsPlacesV1ContextualContentJustificationReviewJustificationHighlightedTextHighlightedTextRange {
   endIndex?: number | undefined;
@@ -1300,8 +1306,8 @@ export const autocompletePlaces: API.OperationMethod<
   AutocompletePlacesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<AutocompletePlacesRequest>,
-  output: __S(9, __c0, 9) as any as S.Schema<GoogleMapsPlacesV1AutocompletePlacesResponse>,
+  input: __S(1, __c0, 1) as any as S.Schema<AutocompletePlacesRequest>,
+  output: __S(10, __c0, 10) as any as S.Schema<GoogleMapsPlacesV1AutocompletePlacesResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1351,8 +1357,8 @@ export const searchNearbyPlaces: API.OperationMethod<
   SearchNearbyPlacesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(289, __c9, 1) as any as S.Schema<SearchNearbyPlacesRequest>,
-  output: __S(290, __c9, 2) as any as S.Schema<GoogleMapsPlacesV1SearchNearbyResponse>,
+  input: __S(290, __c9, 2) as any as S.Schema<SearchNearbyPlacesRequest>,
+  output: __S(291, __c9, 3) as any as S.Schema<GoogleMapsPlacesV1SearchNearbyResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1368,8 +1374,8 @@ export const searchTextPlaces: API.OperationMethod<
   SearchTextPlacesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(356, __c11, 4) as any as S.Schema<SearchTextPlacesRequest>,
-  output: __S(366, __c11, 14) as any as S.Schema<GoogleMapsPlacesV1SearchTextResponse>,
+  input: __S(357, __c11, 5) as any as S.Schema<SearchTextPlacesRequest>,
+  output: __S(367, __c11, 15) as any as S.Schema<GoogleMapsPlacesV1SearchTextResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1396,7 +1402,11 @@ function __c0(j: number): any {
           regionCode: S.optional(S.String),
           includePureServiceAreaBusinesses: S.optional(S.Boolean),
           includeFutureOpeningBusinesses: S.optional(S.Boolean),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "GoogleMapsPlacesV1AutocompletePlacesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(__S(0, __c0, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/places:autocomplete",
@@ -1404,7 +1414,7 @@ function __c0(j: number): any {
           }),
         ),
       ).annotate({ identifier: "AutocompletePlacesRequest" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           startOffset: S.optional(S.Number),
@@ -1413,32 +1423,32 @@ function __c0(j: number): any {
       ).annotate({
         identifier: "GoogleMapsPlacesV1AutocompletePlacesResponseSuggestionStringRange",
       });
-    case 2:
-      return S.Array(__S(1, __c0, 1));
     case 3:
+      return S.Array(__S(2, __c0, 2));
+    case 4:
       return S.suspend(() =>
         S.Struct({
           text: S.optional(S.String),
-          matches: S.optional(__S(2, __c0, 2)),
+          matches: S.optional(__S(3, __c0, 3)),
         }),
       ).annotate({
         identifier: "GoogleMapsPlacesV1AutocompletePlacesResponseSuggestionFormattableText",
       });
-    case 4:
+    case 5:
       return S.suspend(() =>
         S.Struct({
-          mainText: S.optional(__S(3, __c0, 3)),
-          secondaryText: S.optional(__S(3, __c0, 3)),
+          mainText: S.optional(__S(4, __c0, 4)),
+          secondaryText: S.optional(__S(4, __c0, 4)),
         }),
       ).annotate({
         identifier: "GoogleMapsPlacesV1AutocompletePlacesResponseSuggestionStructuredFormat",
       });
-    case 5:
+    case 6:
       return S.suspend(() =>
         S.Struct({
           place: S.optional(S.String),
-          structuredFormat: S.optional(__S(4, __c0, 4)),
-          text: S.optional(__S(3, __c0, 3)),
+          structuredFormat: S.optional(__S(5, __c0, 5)),
+          text: S.optional(__S(4, __c0, 4)),
           types: S.optional(__S(33, __c1, 1)),
           distanceMeters: S.optional(S.Number),
           placeId: S.optional(S.String),
@@ -1446,28 +1456,28 @@ function __c0(j: number): any {
       ).annotate({
         identifier: "GoogleMapsPlacesV1AutocompletePlacesResponseSuggestionPlacePrediction",
       });
-    case 6:
+    case 7:
       return S.suspend(() =>
         S.Struct({
-          text: S.optional(__S(3, __c0, 3)),
-          structuredFormat: S.optional(__S(4, __c0, 4)),
+          text: S.optional(__S(4, __c0, 4)),
+          structuredFormat: S.optional(__S(5, __c0, 5)),
         }),
       ).annotate({
         identifier: "GoogleMapsPlacesV1AutocompletePlacesResponseSuggestionQueryPrediction",
       });
-    case 7:
+    case 8:
       return S.suspend(() =>
         S.Struct({
-          placePrediction: S.optional(__S(5, __c0, 5)),
-          queryPrediction: S.optional(__S(6, __c0, 6)),
+          placePrediction: S.optional(__S(6, __c0, 6)),
+          queryPrediction: S.optional(__S(7, __c0, 7)),
         }),
       ).annotate({ identifier: "GoogleMapsPlacesV1AutocompletePlacesResponseSuggestion" });
-    case 8:
-      return S.Array(__S(7, __c0, 7));
     case 9:
+      return S.Array(__S(8, __c0, 8));
+    case 10:
       return S.suspend(() =>
         S.Struct({
-          suggestions: S.optional(__S(8, __c0, 8)),
+          suggestions: S.optional(__S(9, __c0, 9)),
         }),
       ).annotate({ identifier: "GoogleMapsPlacesV1AutocompletePlacesResponse" });
   }
@@ -2104,7 +2114,11 @@ function __c9(j: number): any {
           includeFutureOpeningBusinesses: S.optional(S.Boolean),
           excludedPrimaryTypes: S.optional(__S(33, __c1, 1)),
           includedTypes: S.optional(__S(33, __c1, 1)),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "GoogleMapsPlacesV1SearchNearbyRequest" });
+    case 2:
+      return S.suspend(() =>
+        S.Extend(__S(289, __c9, 1), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/places:searchNearby",
@@ -2112,7 +2126,7 @@ function __c9(j: number): any {
           }),
         ),
       ).annotate({ identifier: "SearchNearbyPlacesRequest" });
-    case 2:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           routingSummaries: S.optional(__S(325, __c10, 5)),
@@ -2212,7 +2226,11 @@ function __c11(j: number): any {
           includePureServiceAreaBusinesses: S.optional(S.Boolean),
           includedType: S.optional(S.String),
           pageSize: S.optional(S.Number),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "GoogleMapsPlacesV1SearchTextRequest" });
+    case 5:
+      return S.suspend(() =>
+        S.Extend(__S(356, __c11, 4), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v1/places:searchText",
@@ -2220,7 +2238,7 @@ function __c11(j: number): any {
           }),
         ),
       ).annotate({ identifier: "SearchTextPlacesRequest" });
-    case 5:
+    case 6:
       return S.suspend(() =>
         S.Struct({
           endIndex: S.optional(S.Number),
@@ -2230,28 +2248,28 @@ function __c11(j: number): any {
         identifier:
           "GoogleMapsPlacesV1ContextualContentJustificationReviewJustificationHighlightedTextHighlightedTextRange",
       });
-    case 6:
-      return S.Array(__S(357, __c11, 5));
     case 7:
+      return S.Array(__S(358, __c11, 6));
+    case 8:
       return S.suspend(() =>
         S.Struct({
           text: S.optional(S.String),
-          highlightedTextRanges: S.optional(__S(358, __c11, 6)),
+          highlightedTextRanges: S.optional(__S(359, __c11, 7)),
         }),
       ).annotate({
         identifier:
           "GoogleMapsPlacesV1ContextualContentJustificationReviewJustificationHighlightedText",
       });
-    case 8:
+    case 9:
       return S.suspend(() =>
         S.Struct({
-          highlightedText: S.optional(__S(359, __c11, 7)),
+          highlightedText: S.optional(__S(360, __c11, 8)),
           review: S.optional(__S(243, __c7, 19)),
         }),
       ).annotate({
         identifier: "GoogleMapsPlacesV1ContextualContentJustificationReviewJustification",
       });
-    case 9:
+    case 10:
       return S.suspend(() =>
         S.Struct({
           takeout: S.optional(S.Boolean),
@@ -2262,32 +2280,32 @@ function __c11(j: number): any {
         identifier:
           "GoogleMapsPlacesV1ContextualContentJustificationBusinessAvailabilityAttributesJustification",
       });
-    case 10:
+    case 11:
       return S.suspend(() =>
         S.Struct({
-          reviewJustification: S.optional(__S(360, __c11, 8)),
-          businessAvailabilityAttributesJustification: S.optional(__S(361, __c11, 9)),
+          reviewJustification: S.optional(__S(361, __c11, 9)),
+          businessAvailabilityAttributesJustification: S.optional(__S(362, __c11, 10)),
         }),
       ).annotate({ identifier: "GoogleMapsPlacesV1ContextualContentJustification" });
-    case 11:
-      return S.Array(__S(362, __c11, 10));
     case 12:
+      return S.Array(__S(363, __c11, 11));
+    case 13:
       return S.suspend(() =>
         S.Struct({
-          justifications: S.optional(__S(363, __c11, 11)),
+          justifications: S.optional(__S(364, __c11, 12)),
           reviews: S.optional(__S(244, __c7, 20)),
           photos: S.optional(__S(237, __c7, 13)),
         }),
       ).annotate({ identifier: "GoogleMapsPlacesV1ContextualContent" });
-    case 13:
-      return S.Array(__S(364, __c11, 12));
     case 14:
+      return S.Array(__S(365, __c11, 13));
+    case 15:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
           places: S.optional(__S(326, __c10, 6)),
           searchUri: S.optional(S.String),
-          contextualContents: S.optional(__S(365, __c11, 13)),
+          contextualContents: S.optional(__S(366, __c11, 14)),
           routingSummaries: S.optional(__S(325, __c10, 5)),
         }),
       ).annotate({ identifier: "GoogleMapsPlacesV1SearchTextResponse" });

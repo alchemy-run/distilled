@@ -149,11 +149,14 @@ export interface ListTracesResponse {
   /** If defined, indicates that there are more traces that match the request and that this value should be passed to the next request to continue retrieving additional traces. */
   nextPageToken?: string | undefined;
 }
-export interface PatchTracesProjectsRequest {
-  /** Required. ID of the Cloud project where the trace data is stored. */
-  projectId: string;
+/** List of new or updated traces. */
+export interface Traces {
   /** List of traces. */
   traces?: TraceList | undefined;
+}
+export interface PatchTracesProjectsRequest extends Traces {
+  /** Required. ID of the Cloud project where the trace data is stored. */
+  projectId: string;
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
@@ -201,8 +204,8 @@ export const patchTracesProjects: API.OperationMethod<
   PatchTracesProjectsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c4, 0) as any as S.Schema<PatchTracesProjectsRequest>,
-  output: __S(17, __c4, 1) as any as S.Schema<Empty>,
+  input: __S(17, __c4, 1) as any as S.Schema<PatchTracesProjectsRequest>,
+  output: __S(18, __c4, 2) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -297,9 +300,17 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          projectId: S.String.pipe(T.Label()),
           traces: S.optional(__S(12, __c3, 0)),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "Traces" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(16, __c4, 0),
+          S.Struct({
+            projectId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/projects/{projectId}/traces",
@@ -307,7 +318,7 @@ function __c4(j: number): any {
           }),
         ),
       ).annotate({ identifier: "PatchTracesProjectsRequest" });
-    case 1:
+    case 2:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "Empty" });
   }
 }

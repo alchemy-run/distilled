@@ -118,7 +118,7 @@ export interface ErrorGroup {
   /** The group resource name. Written as `projects/{projectID}/groups/{group_id}` or `projects/{projectID}/locations/{location}/groups/{group_id}` Examples: `projects/my-project-123/groups/my-group`, `projects/my-project-123/locations/us-central1/groups/my-group` In the group resource name, the `group_id` is a unique identifier for a particular error group. The identifier is derived from key parts of the error-log content and is treated as Service Data. For information about how Service Data is handled, see [Google Cloud Privacy Notice](https://cloud.google.com/terms/cloud-privacy-notice). For a list of supported locations, see [Supported Regions](https://cloud.google.com/logging/docs/region-support). `global` is the default when unspecified. */
   name?: string | undefined;
   /** Error group's resolution status. An unspecified resolution status will be interpreted as OPEN */
-  resolutionStatus?: ErrorGroupResolutionStatusEnum | undefined;
+  resolutionStatus?: ErrorGroupResolutionStatusEnum | (string & {}) | undefined;
 }
 export interface GetProjectsLocationsGroupsRequest {
   /** Required. The group resource name. Written as either `projects/{projectID}/groups/{group_id}` or `projects/{projectID}/locations/{location}/groups/{group_id}`. Call groupStats.list to return a list of groups belonging to this project. Examples: `projects/my-project-123/groups/my-group`, `projects/my-project-123/locations/global/groups/my-group` In the group resource name, the `group_id` is a unique identifier for a particular error group. The identifier is derived from key parts of the error-log content and is treated as Service Data. For information about how Service Data is handled, see [Google Cloud Privacy Notice](https://cloud.google.com/terms/cloud-privacy-notice). For a list of supported locations, see [Supported Regions](https://cloud.google.com/logging/docs/region-support). `global` is the default when unspecified. */
@@ -379,9 +379,8 @@ export interface ListProjectsLocationsGroupStatsRequest {
   /** Optional. Time where the timed counts shall be aligned if rounded alignment is chosen. Default is 00:00 UTC. */
   alignmentTime?: string | undefined;
 }
-export interface ReportProjectsEventsRequest {
-  /** Required. The resource name of the Google Cloud Platform project. Written as `projects/{projectId}`, where `{projectId}` is the [Google Cloud Platform project ID](https://support.google.com/cloud/answer/6158840). Example: // `projects/my-project-123`. */
-  projectName: string;
+/** An error event which is reported to the Error Reporting system. */
+export interface ReportedErrorEvent {
   /** Optional. Time when the event occurred. If not provided, the time when the event was received by the Error Reporting system is used. If provided, the time must not exceed the [logs retention period](https://cloud.google.com/logging/quotas#logs_retention_periods) in the past, or be more than 24 hours in the future. If an invalid time is provided, then an error is returned. */
   eventTime?: string | undefined;
   /** Required. The error message. If no `context.reportLocation` is provided, the message must contain a header (typically consisting of the exception type name and an error message) and an exception stack trace in one of the supported programming languages and formats. Supported languages are Java, Python, JavaScript, Ruby, C#, PHP, Go, and Rust. Supported stack trace formats are: * **Java**: Must be the return value of [`Throwable.printStackTrace()`](https://docs.oracle.com/javase/7/docs/api/java/lang/Throwable.html#printStackTrace%28%29). * **Python**: Must be the return value of [`traceback.format_exc()`](https://docs.python.org/2/library/traceback.html#traceback.format_exc). * **JavaScript**: Must be the value of [`error.stack`](https://github.com/v8/v8/wiki/Stack-Trace-API) as returned by V8. * **Ruby**: Must contain frames returned by [`Exception.backtrace`](https://ruby-doc.org/core-2.2.0/Exception.html#method-i-backtrace). * **C#**: Must be the return value of [`Exception.ToString()`](https://msdn.microsoft.com/en-us/library/system.exception.tostring.aspx). * **PHP**: Must be prefixed with `"PHP (Notice|Parse error|Fatal error|Warning): "` and contain the result of [`(string)$exception`](https://php.net/manual/en/exception.tostring.php). * **Go**: Must be the return value of [`debug.Stack()`](https://pkg.go.dev/runtime/debug#Stack). * **Rust**: Must contain standard [`std::backtrace`](https://doc.rust-lang.org/std/backtrace/index.html) frames. Requires `RUST_BACKTRACE=1` and debug symbols enabled. */
@@ -391,27 +390,19 @@ export interface ReportProjectsEventsRequest {
   /** Required. The service context in which this error has occurred. */
   serviceContext?: ServiceContext | undefined;
 }
+export interface ReportProjectsEventsRequest extends ReportedErrorEvent {
+  /** Required. The resource name of the Google Cloud Platform project. Written as `projects/{projectId}`, where `{projectId}` is the [Google Cloud Platform project ID](https://support.google.com/cloud/answer/6158840). Example: // `projects/my-project-123`. */
+  projectName: string;
+}
 /** Response for reporting an individual error event. Data may be added to this message in the future. */
 export interface ReportErrorEventResponse {}
-export interface UpdateProjectsGroupsRequest {
+export interface UpdateProjectsGroupsRequest extends Omit<ErrorGroup, "name"> {
   /** The group resource name. Written as `projects/{projectID}/groups/{group_id}` or `projects/{projectID}/locations/{location}/groups/{group_id}` Examples: `projects/my-project-123/groups/my-group`, `projects/my-project-123/locations/us-central1/groups/my-group` In the group resource name, the `group_id` is a unique identifier for a particular error group. The identifier is derived from key parts of the error-log content and is treated as Service Data. For information about how Service Data is handled, see [Google Cloud Privacy Notice](https://cloud.google.com/terms/cloud-privacy-notice). For a list of supported locations, see [Supported Regions](https://cloud.google.com/logging/docs/region-support). `global` is the default when unspecified. */
   name: string;
-  /** An opaque identifier of the group. This field is assigned by the Error Reporting system and always populated. In the group resource name, the `group_id` is a unique identifier for a particular error group. The identifier is derived from key parts of the error-log content and is treated as Service Data. For information about how Service Data is handled, see [Google Cloud Privacy Notice](https://cloud.google.com/terms/cloud-privacy-notice). */
-  groupId?: string | undefined;
-  /** Associated tracking issues. */
-  trackingIssues?: TrackingIssueList | undefined;
-  /** Error group's resolution status. An unspecified resolution status will be interpreted as OPEN */
-  resolutionStatus?: ErrorGroupResolutionStatusEnum | (string & {}) | undefined;
 }
-export interface UpdateProjectsLocationsGroupsRequest {
+export interface UpdateProjectsLocationsGroupsRequest extends Omit<ErrorGroup, "name"> {
   /** The group resource name. Written as `projects/{projectID}/groups/{group_id}` or `projects/{projectID}/locations/{location}/groups/{group_id}` Examples: `projects/my-project-123/groups/my-group`, `projects/my-project-123/locations/us-central1/groups/my-group` In the group resource name, the `group_id` is a unique identifier for a particular error group. The identifier is derived from key parts of the error-log content and is treated as Service Data. For information about how Service Data is handled, see [Google Cloud Privacy Notice](https://cloud.google.com/terms/cloud-privacy-notice). For a list of supported locations, see [Supported Regions](https://cloud.google.com/logging/docs/region-support). `global` is the default when unspecified. */
   name: string;
-  /** An opaque identifier of the group. This field is assigned by the Error Reporting system and always populated. In the group resource name, the `group_id` is a unique identifier for a particular error group. The identifier is derived from key parts of the error-log content and is treated as Service Data. For information about how Service Data is handled, see [Google Cloud Privacy Notice](https://cloud.google.com/terms/cloud-privacy-notice). */
-  groupId?: string | undefined;
-  /** Associated tracking issues. */
-  trackingIssues?: TrackingIssueList | undefined;
-  /** Error group's resolution status. An unspecified resolution status will be interpreted as OPEN */
-  resolutionStatus?: ErrorGroupResolutionStatusEnum | (string & {}) | undefined;
 }
 export type DeleteEventsProjectsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
 /** Deletes all error events of a given project. */
@@ -514,8 +505,8 @@ export const listProjectsGroupStats: API.PaginatedOperationMethod<
   GcpOpContext,
   ListGroupStatsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(120, __c15, 0) as any as S.Schema<ListProjectsGroupStatsRequest>,
-  output: __S(134, __c16, 6) as any as S.Schema<ListGroupStatsResponse>,
+  input: __S(112, __c14, 0) as any as S.Schema<ListProjectsGroupStatsRequest>,
+  output: __S(126, __c15, 6) as any as S.Schema<ListGroupStatsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -553,7 +544,7 @@ export const listProjectsLocationsGroupStats: API.PaginatedOperationMethod<
   ListGroupStatsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(8, __c1, 0) as any as S.Schema<ListProjectsLocationsGroupStatsRequest>,
-  output: __S(134, __c16, 6) as any as S.Schema<ListGroupStatsResponse>,
+  output: __S(126, __c15, 6) as any as S.Schema<ListGroupStatsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -648,7 +639,7 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           order: S.optional(S.String.pipe(T.Query())),
-          groupId: S.optional(__S(128, __c16, 0).pipe(T.Query())),
+          groupId: S.optional(__S(120, __c15, 0).pipe(T.Query())),
           "serviceFilter.service": S.optional(S.String.pipe(T.Query())),
           "timeRange.period": S.optional(S.String.pipe(T.Query())),
           "serviceFilter.resourceType": S.optional(S.String.pipe(T.Query())),
@@ -673,13 +664,12 @@ function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          projectName: S.String.pipe(T.Label()),
-          eventTime: S.optional(S.String),
-          message: S.optional(S.String),
-          context: S.optional(__S(116, __c14, 4)),
-          serviceContext: S.optional(__S(117, __c14, 5)),
-        }).pipe(
+        S.Extend(
+          __S(110, __c13, 6),
+          S.Struct({
+            projectName: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+projectName}/events:report",
@@ -693,12 +683,12 @@ function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          groupId: S.optional(S.String),
-          trackingIssues: S.optional(__S(73, __c9, 1)),
-          resolutionStatus: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(74, __c9, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "v1beta1/{+name}",
@@ -712,12 +702,12 @@ function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          groupId: S.optional(S.String),
-          trackingIssues: S.optional(__S(73, __c9, 1)),
-          resolutionStatus: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(74, __c9, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "v1beta1/{+name}",
@@ -844,7 +834,7 @@ function __c11(j: number): any {
 function __c12(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(104, __c13, 0));
+      return S.Array(__S(110, __c13, 6));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -856,19 +846,6 @@ function __c12(j: number): any {
   }
 }
 function __c13(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          eventTime: S.optional(S.String),
-          message: S.optional(S.String),
-          context: S.optional(__S(116, __c14, 4)),
-          serviceContext: S.optional(__S(117, __c14, 5)),
-        }),
-      ).annotate({ identifier: "ErrorEvent" });
-  }
-}
-function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -897,14 +874,14 @@ function __c14(j: number): any {
         }),
       ).annotate({ identifier: "SourceReference" });
     case 3:
-      return S.Array(__S(114, __c14, 2));
+      return S.Array(__S(106, __c13, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          httpRequest: S.optional(__S(112, __c14, 0)),
-          reportLocation: S.optional(__S(113, __c14, 1)),
+          httpRequest: S.optional(__S(104, __c13, 0)),
+          reportLocation: S.optional(__S(105, __c13, 1)),
           user: S.optional(S.String),
-          sourceReferences: S.optional(__S(115, __c14, 3)),
+          sourceReferences: S.optional(__S(107, __c13, 3)),
         }),
       ).annotate({ identifier: "ErrorContext" });
     case 5:
@@ -915,16 +892,25 @@ function __c14(j: number): any {
           resourceType: S.optional(S.String),
         }),
       ).annotate({ identifier: "ServiceContext" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          eventTime: S.optional(S.String),
+          message: S.optional(S.String),
+          context: S.optional(__S(108, __c13, 4)),
+          serviceContext: S.optional(__S(109, __c13, 5)),
+        }),
+      ).annotate({ identifier: "ErrorEvent" });
   }
 }
-function __c15(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           alignment: S.optional(S.String.pipe(T.Query())),
           timedCountDuration: S.optional(S.String.pipe(T.Query())),
-          groupId: S.optional(__S(128, __c16, 0).pipe(T.Query())),
+          groupId: S.optional(__S(120, __c15, 0).pipe(T.Query())),
           order: S.optional(S.String.pipe(T.Query())),
           "serviceFilter.version": S.optional(S.String.pipe(T.Query())),
           projectName: S.String.pipe(T.Label()),
@@ -944,7 +930,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "ListProjectsGroupStatsRequest" });
   }
 }
-function __c16(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
@@ -957,29 +943,29 @@ function __c16(j: number): any {
         }),
       ).annotate({ identifier: "TimedCount" });
     case 2:
-      return S.Array(__S(129, __c16, 1));
+      return S.Array(__S(121, __c15, 1));
     case 3:
-      return S.Array(__S(117, __c14, 5));
+      return S.Array(__S(109, __c13, 5));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          representative: S.optional(__S(104, __c13, 0)),
+          representative: S.optional(__S(110, __c13, 6)),
           numAffectedServices: S.optional(S.Number),
           group: S.optional(__S(74, __c9, 2)),
           lastSeenTime: S.optional(S.String),
-          timedCounts: S.optional(__S(130, __c16, 2)),
+          timedCounts: S.optional(__S(122, __c15, 2)),
           affectedUsersCount: S.optional(S.String),
           firstSeenTime: S.optional(S.String),
-          affectedServices: S.optional(__S(131, __c16, 3)),
+          affectedServices: S.optional(__S(123, __c15, 3)),
           count: S.optional(S.String),
         }),
       ).annotate({ identifier: "ErrorGroupStats" });
     case 5:
-      return S.Array(__S(132, __c16, 4));
+      return S.Array(__S(124, __c15, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          errorGroupStats: S.optional(__S(133, __c16, 5)),
+          errorGroupStats: S.optional(__S(125, __c15, 5)),
           timeRangeBegin: S.optional(S.String),
           nextPageToken: S.optional(S.String),
         }),

@@ -3152,55 +3152,11 @@ export interface GetLodgingLocationsRequest {
   /** Required. The specific fields to return. Use "*" to include all fields. Repeated field items cannot be individually specified. */
   readMask?: string | undefined;
 }
-export interface UpdateLodgingLocationsRequest {
+export interface UpdateLodgingLocationsRequest extends Omit<Lodging, "name"> {
   /** Required. Google identifier for this location in the form: `locations/{location_id}/lodging` */
   name: string;
   /** Required. The specific fields to update. Use "*" to update all fields, which may include unsetting empty fields in the request. Repeated field items cannot be individually updated. */
   updateMask?: string | undefined;
-  /** Swimming pool or recreational water facilities available at the hotel. */
-  pools?: Pools | undefined;
-  /** Individual GuestUnitTypes that are available in this Lodging. */
-  guestUnits?: GuestUnitTypeList | undefined;
-  /** The ways in which the property provides guests with the ability to access the internet. */
-  connectivity?: Connectivity | undefined;
-  /** Output only. Some units on the property have as much as these attributes. */
-  someUnits?: GuestUnitFeatures | undefined;
-  /** Property rules that impact guests. */
-  policies?: Policies | undefined;
-  /** Policies regarding guest-owned animals. */
-  pets?: Pets | undefined;
-  /** Conveniences or help provided by the property to facilitate an easier, more comfortable stay. */
-  services?: Services | undefined;
-  /** Parking options at the property. */
-  parking?: Parking | undefined;
-  /** Physical adaptations made to the property in consideration of varying levels of human physical ability. */
-  accessibility?: Accessibility | undefined;
-  /** Output only. All units on the property have at least these attributes. */
-  allUnits?: GuestUnitFeatures | undefined;
-  /** Meals, snacks, and beverages available at the property. */
-  foodAndDrink?: FoodAndDrink | undefined;
-  /** Required. Metadata for the lodging. */
-  metadata?: LodgingMetadata | undefined;
-  /** Features of the property of specific interest to the business traveler. */
-  business?: Business | undefined;
-  /** Conveniences provided in guest units to facilitate an easier, more comfortable stay. */
-  housekeeping?: Housekeeping | undefined;
-  /** Sustainability practices implemented at the hotel. */
-  sustainability?: Sustainability | undefined;
-  /** General factual information about the property's physical structure and important dates. */
-  property?: Property | undefined;
-  /** Amenities and features related to leisure and play. */
-  activities?: Activities | undefined;
-  /** Health and safety measures implemented by the hotel during COVID-19. */
-  healthAndSafety?: HealthAndSafety | undefined;
-  /** Guest facilities at the property to promote or maintain health, beauty, and fitness. */
-  wellness?: Wellness | undefined;
-  /** Vehicles or vehicular services facilitated or owned by the property. */
-  transportation?: Transportation | undefined;
-  /** Features of the shared living areas available in this Lodging. */
-  commonLivingArea?: LivingArea | undefined;
-  /** Services and amenities for families and young guests. */
-  families?: Families | undefined;
 }
 export type GetGoogleUpdatedLocationsLodgingError = NotFound | Forbidden | GcpOpError;
 /** Returns the Google updated Lodging of a specific location. */
@@ -4114,32 +4070,13 @@ function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          pools: S.optional(__S(32, __c1, 0)),
-          guestUnits: S.optional(__S(43, __c1, 11)),
-          connectivity: S.optional(__S(44, __c1, 12)),
-          someUnits: S.optional(__S(40, __c1, 8)),
-          policies: S.optional(__S(47, __c1, 15)),
-          pets: S.optional(__S(48, __c1, 16)),
-          services: S.optional(__S(51, __c1, 19)),
-          parking: S.optional(__S(52, __c1, 20)),
-          accessibility: S.optional(__S(53, __c1, 21)),
-          allUnits: S.optional(__S(40, __c1, 8)),
-          foodAndDrink: S.optional(__S(54, __c1, 22)),
-          metadata: S.optional(__S(55, __c1, 23)),
-          business: S.optional(__S(56, __c1, 24)),
-          housekeeping: S.optional(__S(57, __c1, 25)),
-          sustainability: S.optional(__S(65, __c2, 1)),
-          property: S.optional(__S(66, __c2, 2)),
-          activities: S.optional(__S(67, __c2, 3)),
-          healthAndSafety: S.optional(__S(73, __c2, 9)),
-          wellness: S.optional(__S(74, __c2, 10)),
-          transportation: S.optional(__S(75, __c2, 11)),
-          commonLivingArea: S.optional(__S(38, __c1, 6)),
-          families: S.optional(__S(76, __c2, 12)),
-        }).pipe(
+        S.Extend(
+          __S(77, __c2, 13),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",

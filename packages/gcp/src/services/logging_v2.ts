@@ -117,7 +117,8 @@ export interface CancelProjectsLocationsOperationsRequest {
   /** Request body */
   body?: CancelOperationRequest | undefined;
 }
-export interface CopyEntriesRequest {
+/** The parameters to CopyLogEntries. */
+export interface CopyLogEntriesRequest {
   /** Required. Log bucket from which to copy log entries.For example:"projects/my-project/locations/global/buckets/my-source-bucket" */
   name?: string | undefined;
   /** Required. Destination to which to copy log entries. For example: "storage.googleapis.com/GCS_BUCKET" */
@@ -125,6 +126,7 @@ export interface CopyEntriesRequest {
   /** Optional. A filter specifying which log entries to copy. The filter must be no more than 20k characters. An empty filter matches all log entries. */
   filter?: string | undefined;
 }
+export interface CopyEntriesRequest extends CopyLogEntriesRequest {}
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The Status type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by gRPC (https://github.com/grpc). Each Status message contains three pieces of data: error code, error message, and error details.You can find out more about this error model and how to work with it in the API Design Guide (https://cloud.google.com/apis/design/errors). */
@@ -182,11 +184,8 @@ export interface CmekSettings {
   /** Output only. The resource name of the CMEK settings. */
   name?: string | undefined;
 }
-export interface CreateAsyncBillingAccountsLocationsBucketsRequest {
-  /** Required. The resource in which to create the log bucket: "projects/[PROJECT_ID]/locations/[LOCATION_ID]" For example:"projects/my-project/locations/global" */
-  parent: string;
-  /** Required. A client-assigned identifier such as "my-bucket". Identifiers are limited to 100 characters and can include only letters, digits, underscores, hyphens, and periods. Bucket identifiers must start with an alphanumeric character. */
-  bucketId?: string | undefined;
+/** Describes a repository in which log entries are stored. */
+export interface LogBucket {
   /** Output only. The last update timestamp of the bucket. */
   updateTime?: string | undefined;
   /** Output only. The bucket lifecycle state. */
@@ -210,133 +209,35 @@ export interface CreateAsyncBillingAccountsLocationsBucketsRequest {
   /** Optional. The CMEK settings of the log bucket. If present, new log entries written to this log bucket are encrypted using the CMEK key provided in this configuration. If a log bucket has CMEK settings, the CMEK settings cannot be disabled later by updating the log bucket. Changing the KMS key is allowed. */
   cmekSettings?: CmekSettings | undefined;
 }
-export interface CreateAsyncFoldersLocationsBucketsRequest {
+export interface CreateAsyncBillingAccountsLocationsBucketsRequest extends LogBucket {
   /** Required. The resource in which to create the log bucket: "projects/[PROJECT_ID]/locations/[LOCATION_ID]" For example:"projects/my-project/locations/global" */
   parent: string;
   /** Required. A client-assigned identifier such as "my-bucket". Identifiers are limited to 100 characters and can include only letters, digits, underscores, hyphens, and periods. Bucket identifiers must start with an alphanumeric character. */
   bucketId?: string | undefined;
-  /** Output only. The last update timestamp of the bucket. */
-  updateTime?: string | undefined;
-  /** Output only. The bucket lifecycle state. */
-  lifecycleState?: LogBucketLifecycleStateEnum | (string & {}) | undefined;
-  /** Output only. The creation timestamp of the bucket. This is not set for any of the default buckets. */
-  createTime?: string | undefined;
-  /** Optional. Describes this bucket. */
-  description?: string | undefined;
-  /** Optional. Whether log analytics is enabled for this bucket.Once enabled, log analytics features cannot be disabled. */
-  analyticsEnabled?: boolean | undefined;
-  /** Optional. Logs will be retained by default for this amount of time, after which they will automatically be deleted. The minimum retention period is 1 day. If this value is set to zero at bucket creation time, the default time of 30 days will be used. */
-  retentionDays?: number | undefined;
-  /** Optional. Whether the bucket is locked.The retention period on a locked bucket cannot be changed. Locked buckets may only be deleted if they are empty. */
-  locked?: boolean | undefined;
-  /** Optional. A list of indexed fields and related configuration data. */
-  indexConfigs?: IndexConfigList | undefined;
-  /** Output only. The resource name of the bucket.For example:projects/my-project/locations/global/buckets/my-bucketFor a list of supported locations, see Supported Regions (https://docs.cloud.google.com/logging/docs/region-support)For the location of global it is unspecified where log entries are actually stored.After a bucket has been created, the location cannot be changed. */
-  name?: string | undefined;
-  /** Optional. Log entry field paths that are denied access in this bucket.The following fields and their children are eligible: textPayload, jsonPayload, protoPayload, httpRequest, labels, sourceLocation.Restricting a repeated field will restrict all values. Adding a parent will block all child fields. (e.g. foo.bar will block foo.bar.baz) */
-  restrictedFields?: StringList | undefined;
-  /** Optional. The CMEK settings of the log bucket. If present, new log entries written to this log bucket are encrypted using the CMEK key provided in this configuration. If a log bucket has CMEK settings, the CMEK settings cannot be disabled later by updating the log bucket. Changing the KMS key is allowed. */
-  cmekSettings?: CmekSettings | undefined;
 }
-export interface CreateAsyncLocationsBucketsRequest {
+export interface CreateAsyncFoldersLocationsBucketsRequest extends LogBucket {
   /** Required. The resource in which to create the log bucket: "projects/[PROJECT_ID]/locations/[LOCATION_ID]" For example:"projects/my-project/locations/global" */
   parent: string;
   /** Required. A client-assigned identifier such as "my-bucket". Identifiers are limited to 100 characters and can include only letters, digits, underscores, hyphens, and periods. Bucket identifiers must start with an alphanumeric character. */
   bucketId?: string | undefined;
-  /** Output only. The last update timestamp of the bucket. */
-  updateTime?: string | undefined;
-  /** Output only. The bucket lifecycle state. */
-  lifecycleState?: LogBucketLifecycleStateEnum | (string & {}) | undefined;
-  /** Output only. The creation timestamp of the bucket. This is not set for any of the default buckets. */
-  createTime?: string | undefined;
-  /** Optional. Describes this bucket. */
-  description?: string | undefined;
-  /** Optional. Whether log analytics is enabled for this bucket.Once enabled, log analytics features cannot be disabled. */
-  analyticsEnabled?: boolean | undefined;
-  /** Optional. Logs will be retained by default for this amount of time, after which they will automatically be deleted. The minimum retention period is 1 day. If this value is set to zero at bucket creation time, the default time of 30 days will be used. */
-  retentionDays?: number | undefined;
-  /** Optional. Whether the bucket is locked.The retention period on a locked bucket cannot be changed. Locked buckets may only be deleted if they are empty. */
-  locked?: boolean | undefined;
-  /** Optional. A list of indexed fields and related configuration data. */
-  indexConfigs?: IndexConfigList | undefined;
-  /** Output only. The resource name of the bucket.For example:projects/my-project/locations/global/buckets/my-bucketFor a list of supported locations, see Supported Regions (https://docs.cloud.google.com/logging/docs/region-support)For the location of global it is unspecified where log entries are actually stored.After a bucket has been created, the location cannot be changed. */
-  name?: string | undefined;
-  /** Optional. Log entry field paths that are denied access in this bucket.The following fields and their children are eligible: textPayload, jsonPayload, protoPayload, httpRequest, labels, sourceLocation.Restricting a repeated field will restrict all values. Adding a parent will block all child fields. (e.g. foo.bar will block foo.bar.baz) */
-  restrictedFields?: StringList | undefined;
-  /** Optional. The CMEK settings of the log bucket. If present, new log entries written to this log bucket are encrypted using the CMEK key provided in this configuration. If a log bucket has CMEK settings, the CMEK settings cannot be disabled later by updating the log bucket. Changing the KMS key is allowed. */
-  cmekSettings?: CmekSettings | undefined;
 }
-export interface CreateAsyncOrganizationsLocationsBucketsRequest {
+export interface CreateAsyncLocationsBucketsRequest extends LogBucket {
   /** Required. The resource in which to create the log bucket: "projects/[PROJECT_ID]/locations/[LOCATION_ID]" For example:"projects/my-project/locations/global" */
   parent: string;
   /** Required. A client-assigned identifier such as "my-bucket". Identifiers are limited to 100 characters and can include only letters, digits, underscores, hyphens, and periods. Bucket identifiers must start with an alphanumeric character. */
   bucketId?: string | undefined;
-  /** Output only. The last update timestamp of the bucket. */
-  updateTime?: string | undefined;
-  /** Output only. The bucket lifecycle state. */
-  lifecycleState?: LogBucketLifecycleStateEnum | (string & {}) | undefined;
-  /** Output only. The creation timestamp of the bucket. This is not set for any of the default buckets. */
-  createTime?: string | undefined;
-  /** Optional. Describes this bucket. */
-  description?: string | undefined;
-  /** Optional. Whether log analytics is enabled for this bucket.Once enabled, log analytics features cannot be disabled. */
-  analyticsEnabled?: boolean | undefined;
-  /** Optional. Logs will be retained by default for this amount of time, after which they will automatically be deleted. The minimum retention period is 1 day. If this value is set to zero at bucket creation time, the default time of 30 days will be used. */
-  retentionDays?: number | undefined;
-  /** Optional. Whether the bucket is locked.The retention period on a locked bucket cannot be changed. Locked buckets may only be deleted if they are empty. */
-  locked?: boolean | undefined;
-  /** Optional. A list of indexed fields and related configuration data. */
-  indexConfigs?: IndexConfigList | undefined;
-  /** Output only. The resource name of the bucket.For example:projects/my-project/locations/global/buckets/my-bucketFor a list of supported locations, see Supported Regions (https://docs.cloud.google.com/logging/docs/region-support)For the location of global it is unspecified where log entries are actually stored.After a bucket has been created, the location cannot be changed. */
-  name?: string | undefined;
-  /** Optional. Log entry field paths that are denied access in this bucket.The following fields and their children are eligible: textPayload, jsonPayload, protoPayload, httpRequest, labels, sourceLocation.Restricting a repeated field will restrict all values. Adding a parent will block all child fields. (e.g. foo.bar will block foo.bar.baz) */
-  restrictedFields?: StringList | undefined;
-  /** Optional. The CMEK settings of the log bucket. If present, new log entries written to this log bucket are encrypted using the CMEK key provided in this configuration. If a log bucket has CMEK settings, the CMEK settings cannot be disabled later by updating the log bucket. Changing the KMS key is allowed. */
-  cmekSettings?: CmekSettings | undefined;
 }
-export interface CreateAsyncProjectsLocationsBucketsRequest {
+export interface CreateAsyncOrganizationsLocationsBucketsRequest extends LogBucket {
   /** Required. The resource in which to create the log bucket: "projects/[PROJECT_ID]/locations/[LOCATION_ID]" For example:"projects/my-project/locations/global" */
   parent: string;
   /** Required. A client-assigned identifier such as "my-bucket". Identifiers are limited to 100 characters and can include only letters, digits, underscores, hyphens, and periods. Bucket identifiers must start with an alphanumeric character. */
   bucketId?: string | undefined;
-  /** Output only. The last update timestamp of the bucket. */
-  updateTime?: string | undefined;
-  /** Output only. The bucket lifecycle state. */
-  lifecycleState?: LogBucketLifecycleStateEnum | (string & {}) | undefined;
-  /** Output only. The creation timestamp of the bucket. This is not set for any of the default buckets. */
-  createTime?: string | undefined;
-  /** Optional. Describes this bucket. */
-  description?: string | undefined;
-  /** Optional. Whether log analytics is enabled for this bucket.Once enabled, log analytics features cannot be disabled. */
-  analyticsEnabled?: boolean | undefined;
-  /** Optional. Logs will be retained by default for this amount of time, after which they will automatically be deleted. The minimum retention period is 1 day. If this value is set to zero at bucket creation time, the default time of 30 days will be used. */
-  retentionDays?: number | undefined;
-  /** Optional. Whether the bucket is locked.The retention period on a locked bucket cannot be changed. Locked buckets may only be deleted if they are empty. */
-  locked?: boolean | undefined;
-  /** Optional. A list of indexed fields and related configuration data. */
-  indexConfigs?: IndexConfigList | undefined;
-  /** Output only. The resource name of the bucket.For example:projects/my-project/locations/global/buckets/my-bucketFor a list of supported locations, see Supported Regions (https://docs.cloud.google.com/logging/docs/region-support)For the location of global it is unspecified where log entries are actually stored.After a bucket has been created, the location cannot be changed. */
-  name?: string | undefined;
-  /** Optional. Log entry field paths that are denied access in this bucket.The following fields and their children are eligible: textPayload, jsonPayload, protoPayload, httpRequest, labels, sourceLocation.Restricting a repeated field will restrict all values. Adding a parent will block all child fields. (e.g. foo.bar will block foo.bar.baz) */
-  restrictedFields?: StringList | undefined;
-  /** Optional. The CMEK settings of the log bucket. If present, new log entries written to this log bucket are encrypted using the CMEK key provided in this configuration. If a log bucket has CMEK settings, the CMEK settings cannot be disabled later by updating the log bucket. Changing the KMS key is allowed. */
-  cmekSettings?: CmekSettings | undefined;
 }
-export interface CreateBillingAccountsExclusionsRequest {
-  /** Required. The parent resource in which to create the exclusion: "projects/[PROJECT_ID]" "organizations/[ORGANIZATION_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]" "folders/[FOLDER_ID]" For examples:"projects/my-logging-project" "organizations/123456789" */
+export interface CreateAsyncProjectsLocationsBucketsRequest extends LogBucket {
+  /** Required. The resource in which to create the log bucket: "projects/[PROJECT_ID]/locations/[LOCATION_ID]" For example:"projects/my-project/locations/global" */
   parent: string;
-  /** Optional. If set to True, then this exclusion is disabled and it does not exclude any log entries. You can update an exclusion to change the value of this field. */
-  disabled?: boolean | undefined;
-  /** Output only. The last update timestamp of the exclusion.This field may not be present for older exclusions. */
-  updateTime?: string | undefined;
-  /** Optional. A description of this exclusion. */
-  description?: string | undefined;
-  /** Required. An advanced logs filter (https://docs.cloud.google.com/logging/docs/view/building-queries#queries-by-expression) that matches the log entries to be excluded. By using the sample function (https://docs.cloud.google.com/logging/docs/view/logging-query-language#sample), you can exclude less than 100% of the matching log entries.For example, the following query matches 99% of low-severity log entries from Google Cloud Storage buckets:resource.type=gcs_bucket severity<ERROR sample(insertId, 0.99) */
-  filter?: string | undefined;
-  /** Output only. The creation timestamp of the exclusion.This field may not be present for older exclusions. */
-  createTime?: string | undefined;
-  /** Optional. A client-assigned identifier, such as "load-balancer-exclusion". Identifiers are limited to 100 characters and can include only letters, digits, underscores, hyphens, and periods. First character has to be alphanumeric. */
-  name?: string | undefined;
+  /** Required. A client-assigned identifier such as "my-bucket". Identifiers are limited to 100 characters and can include only letters, digits, underscores, hyphens, and periods. Bucket identifiers must start with an alphanumeric character. */
+  bucketId?: string | undefined;
 }
 /** Specifies a set of log entries that are filtered out by a sink. If your Google Cloud resource receives a large volume of log entries, you can use exclusions to reduce your chargeable logs. Note that exclusions on organization-level and folder-level sinks don't apply to child resources. Note also that you cannot modify the _Required sink or exclude logs from it. */
 export interface LogExclusion {
@@ -353,58 +254,15 @@ export interface LogExclusion {
   /** Optional. A client-assigned identifier, such as "load-balancer-exclusion". Identifiers are limited to 100 characters and can include only letters, digits, underscores, hyphens, and periods. First character has to be alphanumeric. */
   name?: string | undefined;
 }
-export interface CreateBillingAccountsLocationsBucketsRequest {
+export interface CreateBillingAccountsExclusionsRequest extends LogExclusion {
+  /** Required. The parent resource in which to create the exclusion: "projects/[PROJECT_ID]" "organizations/[ORGANIZATION_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]" "folders/[FOLDER_ID]" For examples:"projects/my-logging-project" "organizations/123456789" */
+  parent: string;
+}
+export interface CreateBillingAccountsLocationsBucketsRequest extends LogBucket {
   /** Required. A client-assigned identifier such as "my-bucket". Identifiers are limited to 100 characters and can include only letters, digits, underscores, hyphens, and periods. Bucket identifiers must start with an alphanumeric character. */
   bucketId?: string | undefined;
   /** Required. The resource in which to create the log bucket: "projects/[PROJECT_ID]/locations/[LOCATION_ID]" For example:"projects/my-project/locations/global" */
   parent: string;
-  /** Output only. The last update timestamp of the bucket. */
-  updateTime?: string | undefined;
-  /** Output only. The bucket lifecycle state. */
-  lifecycleState?: LogBucketLifecycleStateEnum | (string & {}) | undefined;
-  /** Output only. The creation timestamp of the bucket. This is not set for any of the default buckets. */
-  createTime?: string | undefined;
-  /** Optional. Describes this bucket. */
-  description?: string | undefined;
-  /** Optional. Whether log analytics is enabled for this bucket.Once enabled, log analytics features cannot be disabled. */
-  analyticsEnabled?: boolean | undefined;
-  /** Optional. Logs will be retained by default for this amount of time, after which they will automatically be deleted. The minimum retention period is 1 day. If this value is set to zero at bucket creation time, the default time of 30 days will be used. */
-  retentionDays?: number | undefined;
-  /** Optional. Whether the bucket is locked.The retention period on a locked bucket cannot be changed. Locked buckets may only be deleted if they are empty. */
-  locked?: boolean | undefined;
-  /** Optional. A list of indexed fields and related configuration data. */
-  indexConfigs?: IndexConfigList | undefined;
-  /** Output only. The resource name of the bucket.For example:projects/my-project/locations/global/buckets/my-bucketFor a list of supported locations, see Supported Regions (https://docs.cloud.google.com/logging/docs/region-support)For the location of global it is unspecified where log entries are actually stored.After a bucket has been created, the location cannot be changed. */
-  name?: string | undefined;
-  /** Optional. Log entry field paths that are denied access in this bucket.The following fields and their children are eligible: textPayload, jsonPayload, protoPayload, httpRequest, labels, sourceLocation.Restricting a repeated field will restrict all values. Adding a parent will block all child fields. (e.g. foo.bar will block foo.bar.baz) */
-  restrictedFields?: StringList | undefined;
-  /** Optional. The CMEK settings of the log bucket. If present, new log entries written to this log bucket are encrypted using the CMEK key provided in this configuration. If a log bucket has CMEK settings, the CMEK settings cannot be disabled later by updating the log bucket. Changing the KMS key is allowed. */
-  cmekSettings?: CmekSettings | undefined;
-}
-/** Describes a repository in which log entries are stored. */
-export interface LogBucket {
-  /** Output only. The last update timestamp of the bucket. */
-  updateTime?: string | undefined;
-  /** Output only. The bucket lifecycle state. */
-  lifecycleState?: LogBucketLifecycleStateEnum | undefined;
-  /** Output only. The creation timestamp of the bucket. This is not set for any of the default buckets. */
-  createTime?: string | undefined;
-  /** Optional. Describes this bucket. */
-  description?: string | undefined;
-  /** Optional. Whether log analytics is enabled for this bucket.Once enabled, log analytics features cannot be disabled. */
-  analyticsEnabled?: boolean | undefined;
-  /** Optional. Logs will be retained by default for this amount of time, after which they will automatically be deleted. The minimum retention period is 1 day. If this value is set to zero at bucket creation time, the default time of 30 days will be used. */
-  retentionDays?: number | undefined;
-  /** Optional. Whether the bucket is locked.The retention period on a locked bucket cannot be changed. Locked buckets may only be deleted if they are empty. */
-  locked?: boolean | undefined;
-  /** Optional. A list of indexed fields and related configuration data. */
-  indexConfigs?: IndexConfigList | undefined;
-  /** Output only. The resource name of the bucket.For example:projects/my-project/locations/global/buckets/my-bucketFor a list of supported locations, see Supported Regions (https://docs.cloud.google.com/logging/docs/region-support)For the location of global it is unspecified where log entries are actually stored.After a bucket has been created, the location cannot be changed. */
-  name?: string | undefined;
-  /** Optional. Log entry field paths that are denied access in this bucket.The following fields and their children are eligible: textPayload, jsonPayload, protoPayload, httpRequest, labels, sourceLocation.Restricting a repeated field will restrict all values. Adding a parent will block all child fields. (e.g. foo.bar will block foo.bar.baz) */
-  restrictedFields?: StringList | undefined;
-  /** Optional. The CMEK settings of the log bucket. If present, new log entries written to this log bucket are encrypted using the CMEK key provided in this configuration. If a log bucket has CMEK settings, the CMEK settings cannot be disabled later by updating the log bucket. Changing the KMS key is allowed. */
-  cmekSettings?: CmekSettings | undefined;
 }
 export type LinkLifecycleStateEnum =
   | "LIFECYCLE_STATE_UNSPECIFIED"
@@ -418,11 +276,8 @@ export interface BigQueryDataset {
   /** Output only. The full resource name of the BigQuery dataset. The DATASET_ID will match the ID of the link, so the link must match the naming restrictions of BigQuery datasets (alphanumeric characters and underscores only).The dataset will have a resource path of "bigquery.googleapis.com/projects/PROJECT_ID/datasets/DATASET_ID" */
   datasetId?: string | undefined;
 }
-export interface CreateBillingAccountsLocationsBucketsLinksRequest {
-  /** Required. The full resource name of the bucket to create a link for. "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" */
-  parent: string;
-  /** Required. The ID to use for the link. The link_id can have up to 100 characters. A valid link_id must only have alphanumeric characters and underscores within it. */
-  linkId?: string | undefined;
+/** Describes a link connected to an analytics enabled bucket. */
+export interface Link {
   /** Output only. The creation timestamp of the link. */
   createTime?: string | undefined;
   /** Output only. The resource name of the link. The name can have up to 100 characters. A valid link id (at the end of the link name) must only have alphanumeric characters and underscores within it. "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/links/[LINK_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/links/[LINK_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/links/[LINK_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/links/[LINK_ID]" For example:`projects/my-project/locations/global/buckets/my-bucket/links/my_link */
@@ -434,21 +289,11 @@ export interface CreateBillingAccountsLocationsBucketsLinksRequest {
   /** Optional. The information of a BigQuery Dataset. When a link is created, a BigQuery dataset is created along with it, in the same project as the LogBucket it's linked to. This dataset will also have BigQuery Views corresponding to the LogViews in the bucket. */
   bigqueryDataset?: BigQueryDataset | undefined;
 }
-export interface CreateBillingAccountsLocationsBucketsViewsRequest {
-  /** Required. The bucket in which to create the view `"projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]"` For example:"projects/my-project/locations/global/buckets/my-bucket" */
+export interface CreateBillingAccountsLocationsBucketsLinksRequest extends Link {
+  /** Required. The full resource name of the bucket to create a link for. "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" */
   parent: string;
-  /** Required. A client-assigned identifier such as "my-view". Identifiers are limited to 100 characters and can include only letters, digits, underscores, and hyphens. */
-  viewId?: string | undefined;
-  /** Output only. The last update timestamp of the view. */
-  updateTime?: string | undefined;
-  /** Output only. The resource name of the view.For example:projects/my-project/locations/global/buckets/my-bucket/views/my-view */
-  name?: string | undefined;
-  /** Optional. Filter that restricts which log entries in a bucket are visible in this view.Filters must be logical conjunctions that use the AND operator, and they can use any of the following qualifiers: SOURCE(), which specifies a project, folder, organization, or billing account of origin. resource.type, which specifies the resource type. LOG_ID(), which identifies the log.They can also use the negations of these qualifiers with the NOT operator.For example:SOURCE("projects/myproject") AND resource.type = "gce_instance" AND NOT LOG_ID("stdout") */
-  filter?: string | undefined;
-  /** Optional. Describes this view. */
-  description?: string | undefined;
-  /** Output only. The creation timestamp of the view. */
-  createTime?: string | undefined;
+  /** Required. The ID to use for the link. The link_id can have up to 100 characters. A valid link_id must only have alphanumeric characters and underscores within it. */
+  linkId?: string | undefined;
 }
 /** Describes a view over log entries in a bucket. */
 export interface LogView {
@@ -462,6 +307,12 @@ export interface LogView {
   description?: string | undefined;
   /** Output only. The creation timestamp of the view. */
   createTime?: string | undefined;
+}
+export interface CreateBillingAccountsLocationsBucketsViewsRequest extends LogView {
+  /** Required. The bucket in which to create the view `"projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]"` For example:"projects/my-project/locations/global/buckets/my-bucket" */
+  parent: string;
+  /** Required. A client-assigned identifier such as "my-view". Identifiers are limited to 100 characters and can include only letters, digits, underscores, and hyphens. */
+  viewId?: string | undefined;
 }
 export type ProjectedFieldOperationEnum =
   | "FIELD_OPERATION_UNSPECIFIED"
@@ -607,11 +458,8 @@ export interface LoggingQuery {
   summaryFieldStart?: number | undefined;
 }
 export type SavedQueryVisibilityEnum = "VISIBILITY_UNSPECIFIED" | "PRIVATE" | "SHARED";
-export interface CreateBillingAccountsLocationsSavedQueriesRequest {
-  /** Optional. The ID to use for the saved query, which will become the final component of the saved query's resource name.If the saved_query_id is not provided, the system will generate an alphanumeric ID.The saved_query_id is limited to 100 characters and can include only the following characters: upper and lower-case alphanumeric characters, underscores, hyphens, periods.First character has to be alphanumeric. */
-  savedQueryId?: string | undefined;
-  /** Required. The parent resource in which to create the saved query: "projects/[PROJECT_ID]/locations/[LOCATION_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]" For example: "projects/my-project/locations/global" "organizations/123456789/locations/us-central1" */
-  parent: string;
+/** Describes a query that has been saved by a user. */
+export interface SavedQuery {
   /** Optional. A human readable description of the saved query. */
   description?: string | undefined;
   /** Output only. The timestamp when the saved query was created. */
@@ -629,24 +477,11 @@ export interface CreateBillingAccountsLocationsSavedQueriesRequest {
   /** Output only. The timestamp when the saved query was last updated. */
   updateTime?: string | undefined;
 }
-/** Describes a query that has been saved by a user. */
-export interface SavedQuery {
-  /** Optional. A human readable description of the saved query. */
-  description?: string | undefined;
-  /** Output only. The timestamp when the saved query was created. */
-  createTime?: string | undefined;
-  /** Output only. Resource name of the saved query.In the format: "projects/[PROJECT_ID]/locations/[LOCATION_ID]/savedQueries/[QUERY_ID]" For a list of supported locations, see Supported Regions (https://docs.cloud.google.com/logging/docs/region-support#bucket-regions)After the saved query is created, the location cannot be changed.If the user doesn't provide a QUERY_ID, the system will generate an alphanumeric ID. */
-  name?: string | undefined;
-  /** Analytics query that can be executed in Log Analytics. */
-  opsAnalyticsQuery?: OpsAnalyticsQuery | undefined;
-  /** Logging query that can be executed in Logs Explorer or via Logging API. */
-  loggingQuery?: LoggingQuery | undefined;
-  /** Required. The visibility status of this query, which determines its ownership. */
-  visibility?: SavedQueryVisibilityEnum | undefined;
-  /** Required. The user specified title for the SavedQuery. */
-  displayName?: string | undefined;
-  /** Output only. The timestamp when the saved query was last updated. */
-  updateTime?: string | undefined;
+export interface CreateBillingAccountsLocationsSavedQueriesRequest extends SavedQuery {
+  /** Optional. The ID to use for the saved query, which will become the final component of the saved query's resource name.If the saved_query_id is not provided, the system will generate an alphanumeric ID.The saved_query_id is limited to 100 characters and can include only the following characters: upper and lower-case alphanumeric characters, underscores, hyphens, periods.First character has to be alphanumeric. */
+  savedQueryId?: string | undefined;
+  /** Required. The parent resource in which to create the saved query: "projects/[PROJECT_ID]/locations/[LOCATION_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]" For example: "projects/my-project/locations/global" "organizations/123456789/locations/us-central1" */
+  parent: string;
 }
 /** Options that change functionality of a sink exporting data to BigQuery. */
 export interface BigQueryOptions {
@@ -657,42 +492,6 @@ export interface BigQueryOptions {
 }
 export type LogExclusionList = Array<LogExclusion>;
 export type LogSinkOutputVersionFormatEnum = "VERSION_FORMAT_UNSPECIFIED" | "V2" | "V1";
-export interface CreateBillingAccountsSinksRequest {
-  /** Required. The resource in which to create the sink: "projects/[PROJECT_ID]" "organizations/[ORGANIZATION_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]" "folders/[FOLDER_ID]" For examples:"projects/my-project" "organizations/123456789" */
-  parent: string;
-  /** Optional. The service account provided by the caller that will be used to write the log entries. The format must be serviceAccount:some@email. This field can only be specified when you are routing logs to a log bucket that is in a different project than the sink. When not specified, a Logging service account will automatically be generated. */
-  customWriterIdentity?: string | undefined;
-  /** Optional. Determines the kind of IAM identity returned as writer_identity in the new sink. If this value is omitted or set to false, and if the sink's parent is a project, then the value returned as writer_identity is the same group or service account used by Cloud Logging before the addition of writer identities to this API. The sink's destination must be in the same project as the sink itself.If this field is set to true, or if the sink is owned by a non-project resource such as an organization, then the value of writer_identity will be a service agent (https://docs.cloud.google.com/iam/docs/service-account-types#service-agents) used by the sinks with the same parent. For more information, see writer_identity in LogSink. */
-  uniqueWriterIdentity?: boolean | undefined;
-  /** Output only. The creation timestamp of the sink.This field may not be present for older sinks. */
-  createTime?: string | undefined;
-  /** Optional. An advanced logs filter (https://docs.cloud.google.com/logging/docs/view/building-queries#queries-by-expression). The only exported log entries are those that are in the resource owning the sink and that match the filter.For example:logName="projects/[PROJECT_ID]/logs/[LOG_ID]" AND severity>=ERROR */
-  filter?: string | undefined;
-  /** Output only. The resource name of the sink. "projects/[PROJECT_ID]/sinks/[SINK_NAME] "organizations/[ORGANIZATION_ID]/sinks/[SINK_NAME] "billingAccounts/[BILLING_ACCOUNT_ID]/sinks/[SINK_NAME] "folders/[FOLDER_ID]/sinks/[SINK_NAME] For example: projects/my_project/sinks/SINK_NAME */
-  resourceName?: string | undefined;
-  /** Output only. The last update timestamp of the sink.This field may not be present for older sinks. */
-  updateTime?: string | undefined;
-  /** Optional. This field applies only to sinks owned by organizations and folders. If the field is false, the default, only the logs owned by the sink's parent resource are available for export. If the field is true, then log entries from all the projects, folders, and billing accounts contained in the sink's parent resource are also available for export. Whether a particular log entry from the children is exported depends on the sink's filter expression.For example, if this field is true, then the filter resource.type=gce_instance would export all Compute Engine VM instance log entries from all projects in the sink's parent.To only export entries from certain child projects, filter on the project part of the log name:logName:("projects/test-project1/" OR "projects/test-project2/") AND resource.type=gce_instance */
-  includeChildren?: boolean | undefined;
-  /** Output only. An IAM identity--a service account or group--under which Cloud Logging writes the exported log entries to the sink's destination. This field is either set by specifying custom_writer_identity or set automatically by sinks.create and sinks.update based on the value of unique_writer_identity in those methods.Until you grant this identity write-access to the destination, log entry exports from this sink will fail. For more information, see Manage access to projects, folders, and organizations (https://docs.cloud.google.com/iam/docs/granting-roles-to-service-accounts#granting_access_to_a_service_account_for_a_resource). Consult the destination service's documentation to determine the appropriate IAM roles to assign to the identity.Sinks that have a destination that is a log bucket in the same project as the sink cannot have a writer_identity and no additional permissions are required. */
-  writerIdentity?: string | undefined;
-  /** Optional. Options that affect sinks exporting data to BigQuery. */
-  bigqueryOptions?: BigQueryOptions | undefined;
-  /** Optional. Log entries that match any of these exclusion filters will not be exported.If a log entry is matched by both filter and one of exclusions it will not be exported. */
-  exclusions?: LogExclusionList | undefined;
-  /** Optional. The client-assigned sink identifier, unique within the project.For example: "my-syslog-errors-to-pubsub".Sink identifiers are limited to 100 characters and can include only the following characters: upper and lower-case alphanumeric characters, underscores, hyphens, periods.First character has to be alphanumeric. */
-  name?: string | undefined;
-  /** Optional. A description of this sink.The maximum length of the description is 8000 characters. */
-  description?: string | undefined;
-  /** Optional. If set to true, then this sink is disabled and it does not export any log entries. */
-  disabled?: boolean | undefined;
-  /** Required. The export destination: "storage.googleapis.com/[GCS_BUCKET]" "bigquery.googleapis.com/projects/[PROJECT_ID]/datasets/[DATASET]" "pubsub.googleapis.com/projects/[PROJECT_ID]/topics/[TOPIC_ID]" "logging.googleapis.com/projects/[PROJECT_ID]" "logging.googleapis.com/projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" The sink's writer_identity, set when the sink is created, must have permission to write to the destination or else the log entries are not exported. For more information, see Route logs to supported destinations (https://docs.cloud.google.com/logging/docs/export/configure_export_v2). */
-  destination?: string | undefined;
-  /** Deprecated. This field is unused. */
-  outputVersionFormat?: LogSinkOutputVersionFormatEnum | (string & {}) | undefined;
-  /** Optional. This field applies only to sinks owned by organizations and folders.When the value of 'intercept_children' is true, the following restrictions apply: The sink must have the include_children flag set to true. The sink destination must be a Cloud project.Also, the following behaviors apply: Any logs matched by the sink won't be included by non-_Required sinks owned by child resources. The sink appears in the results of a ListSinks call from a child resource if the value of the filter field in its request is either 'in_scope("ALL")' or 'in_scope("ANCESTOR")'. */
-  interceptChildren?: boolean | undefined;
-}
 /** Describes a sink used to export log entries to one of the following destinations: a Cloud Logging log bucket, a Cloud Storage bucket, a BigQuery dataset, a Pub/Sub topic, a Cloud project.A logs filter controls which log entries are exported. The sink must be created within a project, organization, billing account, or folder. */
 export interface LogSink {
   /** Output only. The creation timestamp of the sink.This field may not be present for older sinks. */
@@ -720,117 +519,43 @@ export interface LogSink {
   /** Required. The export destination: "storage.googleapis.com/[GCS_BUCKET]" "bigquery.googleapis.com/projects/[PROJECT_ID]/datasets/[DATASET]" "pubsub.googleapis.com/projects/[PROJECT_ID]/topics/[TOPIC_ID]" "logging.googleapis.com/projects/[PROJECT_ID]" "logging.googleapis.com/projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" The sink's writer_identity, set when the sink is created, must have permission to write to the destination or else the log entries are not exported. For more information, see Route logs to supported destinations (https://docs.cloud.google.com/logging/docs/export/configure_export_v2). */
   destination?: string | undefined;
   /** Deprecated. This field is unused. */
-  outputVersionFormat?: LogSinkOutputVersionFormatEnum | undefined;
+  outputVersionFormat?: LogSinkOutputVersionFormatEnum | (string & {}) | undefined;
   /** Optional. This field applies only to sinks owned by organizations and folders.When the value of 'intercept_children' is true, the following restrictions apply: The sink must have the include_children flag set to true. The sink destination must be a Cloud project.Also, the following behaviors apply: Any logs matched by the sink won't be included by non-_Required sinks owned by child resources. The sink appears in the results of a ListSinks call from a child resource if the value of the filter field in its request is either 'in_scope("ALL")' or 'in_scope("ANCESTOR")'. */
   interceptChildren?: boolean | undefined;
 }
-export interface CreateExclusionsRequest {
+export interface CreateBillingAccountsSinksRequest extends LogSink {
+  /** Required. The resource in which to create the sink: "projects/[PROJECT_ID]" "organizations/[ORGANIZATION_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]" "folders/[FOLDER_ID]" For examples:"projects/my-project" "organizations/123456789" */
+  parent: string;
+  /** Optional. The service account provided by the caller that will be used to write the log entries. The format must be serviceAccount:some@email. This field can only be specified when you are routing logs to a log bucket that is in a different project than the sink. When not specified, a Logging service account will automatically be generated. */
+  customWriterIdentity?: string | undefined;
+  /** Optional. Determines the kind of IAM identity returned as writer_identity in the new sink. If this value is omitted or set to false, and if the sink's parent is a project, then the value returned as writer_identity is the same group or service account used by Cloud Logging before the addition of writer identities to this API. The sink's destination must be in the same project as the sink itself.If this field is set to true, or if the sink is owned by a non-project resource such as an organization, then the value of writer_identity will be a service agent (https://docs.cloud.google.com/iam/docs/service-account-types#service-agents) used by the sinks with the same parent. For more information, see writer_identity in LogSink. */
+  uniqueWriterIdentity?: boolean | undefined;
+}
+export interface CreateExclusionsRequest extends LogExclusion {
   /** Required. The parent resource in which to create the exclusion: "projects/[PROJECT_ID]" "organizations/[ORGANIZATION_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]" "folders/[FOLDER_ID]" For examples:"projects/my-logging-project" "organizations/123456789" */
   parent: string;
-  /** Optional. If set to True, then this exclusion is disabled and it does not exclude any log entries. You can update an exclusion to change the value of this field. */
-  disabled?: boolean | undefined;
-  /** Output only. The last update timestamp of the exclusion.This field may not be present for older exclusions. */
-  updateTime?: string | undefined;
-  /** Optional. A description of this exclusion. */
-  description?: string | undefined;
-  /** Required. An advanced logs filter (https://docs.cloud.google.com/logging/docs/view/building-queries#queries-by-expression) that matches the log entries to be excluded. By using the sample function (https://docs.cloud.google.com/logging/docs/view/logging-query-language#sample), you can exclude less than 100% of the matching log entries.For example, the following query matches 99% of low-severity log entries from Google Cloud Storage buckets:resource.type=gcs_bucket severity<ERROR sample(insertId, 0.99) */
-  filter?: string | undefined;
-  /** Output only. The creation timestamp of the exclusion.This field may not be present for older exclusions. */
-  createTime?: string | undefined;
-  /** Optional. A client-assigned identifier, such as "load-balancer-exclusion". Identifiers are limited to 100 characters and can include only letters, digits, underscores, hyphens, and periods. First character has to be alphanumeric. */
-  name?: string | undefined;
 }
-export interface CreateFoldersExclusionsRequest {
+export interface CreateFoldersExclusionsRequest extends LogExclusion {
   /** Required. The parent resource in which to create the exclusion: "projects/[PROJECT_ID]" "organizations/[ORGANIZATION_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]" "folders/[FOLDER_ID]" For examples:"projects/my-logging-project" "organizations/123456789" */
   parent: string;
-  /** Optional. If set to True, then this exclusion is disabled and it does not exclude any log entries. You can update an exclusion to change the value of this field. */
-  disabled?: boolean | undefined;
-  /** Output only. The last update timestamp of the exclusion.This field may not be present for older exclusions. */
-  updateTime?: string | undefined;
-  /** Optional. A description of this exclusion. */
-  description?: string | undefined;
-  /** Required. An advanced logs filter (https://docs.cloud.google.com/logging/docs/view/building-queries#queries-by-expression) that matches the log entries to be excluded. By using the sample function (https://docs.cloud.google.com/logging/docs/view/logging-query-language#sample), you can exclude less than 100% of the matching log entries.For example, the following query matches 99% of low-severity log entries from Google Cloud Storage buckets:resource.type=gcs_bucket severity<ERROR sample(insertId, 0.99) */
-  filter?: string | undefined;
-  /** Output only. The creation timestamp of the exclusion.This field may not be present for older exclusions. */
-  createTime?: string | undefined;
-  /** Optional. A client-assigned identifier, such as "load-balancer-exclusion". Identifiers are limited to 100 characters and can include only letters, digits, underscores, hyphens, and periods. First character has to be alphanumeric. */
-  name?: string | undefined;
 }
-export interface CreateFoldersLocationsBucketsRequest {
+export interface CreateFoldersLocationsBucketsRequest extends LogBucket {
   /** Required. A client-assigned identifier such as "my-bucket". Identifiers are limited to 100 characters and can include only letters, digits, underscores, hyphens, and periods. Bucket identifiers must start with an alphanumeric character. */
   bucketId?: string | undefined;
   /** Required. The resource in which to create the log bucket: "projects/[PROJECT_ID]/locations/[LOCATION_ID]" For example:"projects/my-project/locations/global" */
   parent: string;
-  /** Output only. The last update timestamp of the bucket. */
-  updateTime?: string | undefined;
-  /** Output only. The bucket lifecycle state. */
-  lifecycleState?: LogBucketLifecycleStateEnum | (string & {}) | undefined;
-  /** Output only. The creation timestamp of the bucket. This is not set for any of the default buckets. */
-  createTime?: string | undefined;
-  /** Optional. Describes this bucket. */
-  description?: string | undefined;
-  /** Optional. Whether log analytics is enabled for this bucket.Once enabled, log analytics features cannot be disabled. */
-  analyticsEnabled?: boolean | undefined;
-  /** Optional. Logs will be retained by default for this amount of time, after which they will automatically be deleted. The minimum retention period is 1 day. If this value is set to zero at bucket creation time, the default time of 30 days will be used. */
-  retentionDays?: number | undefined;
-  /** Optional. Whether the bucket is locked.The retention period on a locked bucket cannot be changed. Locked buckets may only be deleted if they are empty. */
-  locked?: boolean | undefined;
-  /** Optional. A list of indexed fields and related configuration data. */
-  indexConfigs?: IndexConfigList | undefined;
-  /** Output only. The resource name of the bucket.For example:projects/my-project/locations/global/buckets/my-bucketFor a list of supported locations, see Supported Regions (https://docs.cloud.google.com/logging/docs/region-support)For the location of global it is unspecified where log entries are actually stored.After a bucket has been created, the location cannot be changed. */
-  name?: string | undefined;
-  /** Optional. Log entry field paths that are denied access in this bucket.The following fields and their children are eligible: textPayload, jsonPayload, protoPayload, httpRequest, labels, sourceLocation.Restricting a repeated field will restrict all values. Adding a parent will block all child fields. (e.g. foo.bar will block foo.bar.baz) */
-  restrictedFields?: StringList | undefined;
-  /** Optional. The CMEK settings of the log bucket. If present, new log entries written to this log bucket are encrypted using the CMEK key provided in this configuration. If a log bucket has CMEK settings, the CMEK settings cannot be disabled later by updating the log bucket. Changing the KMS key is allowed. */
-  cmekSettings?: CmekSettings | undefined;
 }
-export interface CreateFoldersLocationsBucketsLinksRequest {
+export interface CreateFoldersLocationsBucketsLinksRequest extends Link {
   /** Required. The full resource name of the bucket to create a link for. "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" */
   parent: string;
   /** Required. The ID to use for the link. The link_id can have up to 100 characters. A valid link_id must only have alphanumeric characters and underscores within it. */
   linkId?: string | undefined;
-  /** Output only. The creation timestamp of the link. */
-  createTime?: string | undefined;
-  /** Output only. The resource name of the link. The name can have up to 100 characters. A valid link id (at the end of the link name) must only have alphanumeric characters and underscores within it. "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/links/[LINK_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/links/[LINK_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/links/[LINK_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/links/[LINK_ID]" For example:`projects/my-project/locations/global/buckets/my-bucket/links/my_link */
-  name?: string | undefined;
-  /** Output only. The resource lifecycle state. */
-  lifecycleState?: LinkLifecycleStateEnum | (string & {}) | undefined;
-  /** Optional. Describes this link.The maximum length of the description is 8000 characters. */
-  description?: string | undefined;
-  /** Optional. The information of a BigQuery Dataset. When a link is created, a BigQuery dataset is created along with it, in the same project as the LogBucket it's linked to. This dataset will also have BigQuery Views corresponding to the LogViews in the bucket. */
-  bigqueryDataset?: BigQueryDataset | undefined;
 }
-export interface CreateFoldersLocationsBucketsViewsRequest {
+export interface CreateFoldersLocationsBucketsViewsRequest extends LogView {
   /** Required. The bucket in which to create the view `"projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]"` For example:"projects/my-project/locations/global/buckets/my-bucket" */
   parent: string;
   /** Required. A client-assigned identifier such as "my-view". Identifiers are limited to 100 characters and can include only letters, digits, underscores, and hyphens. */
   viewId?: string | undefined;
-  /** Output only. The last update timestamp of the view. */
-  updateTime?: string | undefined;
-  /** Output only. The resource name of the view.For example:projects/my-project/locations/global/buckets/my-bucket/views/my-view */
-  name?: string | undefined;
-  /** Optional. Filter that restricts which log entries in a bucket are visible in this view.Filters must be logical conjunctions that use the AND operator, and they can use any of the following qualifiers: SOURCE(), which specifies a project, folder, organization, or billing account of origin. resource.type, which specifies the resource type. LOG_ID(), which identifies the log.They can also use the negations of these qualifiers with the NOT operator.For example:SOURCE("projects/myproject") AND resource.type = "gce_instance" AND NOT LOG_ID("stdout") */
-  filter?: string | undefined;
-  /** Optional. Describes this view. */
-  description?: string | undefined;
-  /** Output only. The creation timestamp of the view. */
-  createTime?: string | undefined;
-}
-export interface CreateFoldersLocationsLogScopesRequest {
-  /** Required. A client-assigned identifier such as "log-scope". Identifiers are limited to 100 characters and can include only letters, digits, underscores, hyphens, and periods. First character has to be alphanumeric. */
-  logScopeId?: string | undefined;
-  /** Required. The parent resource in which to create the log scope: "projects/[PROJECT_ID]/locations/[LOCATION_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]" For example:"projects/my-project/locations/global" */
-  parent: string;
-  /** Output only. The creation timestamp of the log scope. */
-  createTime?: string | undefined;
-  /** Optional. Describes this log scope.The maximum length of the description is 8000 characters. */
-  description?: string | undefined;
-  /** Required. Names of one or more parent resources (organizations and folders are not supported.): projects/[PROJECT_ID]May alternatively be one or more views: projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID]A log scope can include a maximum of 5 projects and a maximum of 100 resources in total. */
-  resourceNames?: StringList | undefined;
-  /** Output only. The last update timestamp of the log scope. */
-  updateTime?: string | undefined;
-  /** Output only. The resource name of the log scope.Log scopes are only available in the global location. For example:projects/my-project/locations/global/logScopes/my-log-scope */
-  name?: string | undefined;
 }
 /** Describes a group of resources to read log entries from. */
 export interface LogScope {
@@ -845,387 +570,119 @@ export interface LogScope {
   /** Output only. The resource name of the log scope.Log scopes are only available in the global location. For example:projects/my-project/locations/global/logScopes/my-log-scope */
   name?: string | undefined;
 }
-export interface CreateFoldersLocationsSavedQueriesRequest {
+export interface CreateFoldersLocationsLogScopesRequest extends LogScope {
+  /** Required. A client-assigned identifier such as "log-scope". Identifiers are limited to 100 characters and can include only letters, digits, underscores, hyphens, and periods. First character has to be alphanumeric. */
+  logScopeId?: string | undefined;
+  /** Required. The parent resource in which to create the log scope: "projects/[PROJECT_ID]/locations/[LOCATION_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]" For example:"projects/my-project/locations/global" */
+  parent: string;
+}
+export interface CreateFoldersLocationsSavedQueriesRequest extends SavedQuery {
   /** Optional. The ID to use for the saved query, which will become the final component of the saved query's resource name.If the saved_query_id is not provided, the system will generate an alphanumeric ID.The saved_query_id is limited to 100 characters and can include only the following characters: upper and lower-case alphanumeric characters, underscores, hyphens, periods.First character has to be alphanumeric. */
   savedQueryId?: string | undefined;
   /** Required. The parent resource in which to create the saved query: "projects/[PROJECT_ID]/locations/[LOCATION_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]" For example: "projects/my-project/locations/global" "organizations/123456789/locations/us-central1" */
   parent: string;
-  /** Optional. A human readable description of the saved query. */
-  description?: string | undefined;
-  /** Output only. The timestamp when the saved query was created. */
-  createTime?: string | undefined;
-  /** Output only. Resource name of the saved query.In the format: "projects/[PROJECT_ID]/locations/[LOCATION_ID]/savedQueries/[QUERY_ID]" For a list of supported locations, see Supported Regions (https://docs.cloud.google.com/logging/docs/region-support#bucket-regions)After the saved query is created, the location cannot be changed.If the user doesn't provide a QUERY_ID, the system will generate an alphanumeric ID. */
-  name?: string | undefined;
-  /** Analytics query that can be executed in Log Analytics. */
-  opsAnalyticsQuery?: OpsAnalyticsQuery | undefined;
-  /** Logging query that can be executed in Logs Explorer or via Logging API. */
-  loggingQuery?: LoggingQuery | undefined;
-  /** Required. The visibility status of this query, which determines its ownership. */
-  visibility?: SavedQueryVisibilityEnum | (string & {}) | undefined;
-  /** Required. The user specified title for the SavedQuery. */
-  displayName?: string | undefined;
-  /** Output only. The timestamp when the saved query was last updated. */
-  updateTime?: string | undefined;
 }
-export interface CreateFoldersSinksRequest {
+export interface CreateFoldersSinksRequest extends LogSink {
   /** Optional. The service account provided by the caller that will be used to write the log entries. The format must be serviceAccount:some@email. This field can only be specified when you are routing logs to a log bucket that is in a different project than the sink. When not specified, a Logging service account will automatically be generated. */
   customWriterIdentity?: string | undefined;
   /** Required. The resource in which to create the sink: "projects/[PROJECT_ID]" "organizations/[ORGANIZATION_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]" "folders/[FOLDER_ID]" For examples:"projects/my-project" "organizations/123456789" */
   parent: string;
   /** Optional. Determines the kind of IAM identity returned as writer_identity in the new sink. If this value is omitted or set to false, and if the sink's parent is a project, then the value returned as writer_identity is the same group or service account used by Cloud Logging before the addition of writer identities to this API. The sink's destination must be in the same project as the sink itself.If this field is set to true, or if the sink is owned by a non-project resource such as an organization, then the value of writer_identity will be a service agent (https://docs.cloud.google.com/iam/docs/service-account-types#service-agents) used by the sinks with the same parent. For more information, see writer_identity in LogSink. */
   uniqueWriterIdentity?: boolean | undefined;
-  /** Output only. The creation timestamp of the sink.This field may not be present for older sinks. */
-  createTime?: string | undefined;
-  /** Optional. An advanced logs filter (https://docs.cloud.google.com/logging/docs/view/building-queries#queries-by-expression). The only exported log entries are those that are in the resource owning the sink and that match the filter.For example:logName="projects/[PROJECT_ID]/logs/[LOG_ID]" AND severity>=ERROR */
-  filter?: string | undefined;
-  /** Output only. The resource name of the sink. "projects/[PROJECT_ID]/sinks/[SINK_NAME] "organizations/[ORGANIZATION_ID]/sinks/[SINK_NAME] "billingAccounts/[BILLING_ACCOUNT_ID]/sinks/[SINK_NAME] "folders/[FOLDER_ID]/sinks/[SINK_NAME] For example: projects/my_project/sinks/SINK_NAME */
-  resourceName?: string | undefined;
-  /** Output only. The last update timestamp of the sink.This field may not be present for older sinks. */
-  updateTime?: string | undefined;
-  /** Optional. This field applies only to sinks owned by organizations and folders. If the field is false, the default, only the logs owned by the sink's parent resource are available for export. If the field is true, then log entries from all the projects, folders, and billing accounts contained in the sink's parent resource are also available for export. Whether a particular log entry from the children is exported depends on the sink's filter expression.For example, if this field is true, then the filter resource.type=gce_instance would export all Compute Engine VM instance log entries from all projects in the sink's parent.To only export entries from certain child projects, filter on the project part of the log name:logName:("projects/test-project1/" OR "projects/test-project2/") AND resource.type=gce_instance */
-  includeChildren?: boolean | undefined;
-  /** Output only. An IAM identity--a service account or group--under which Cloud Logging writes the exported log entries to the sink's destination. This field is either set by specifying custom_writer_identity or set automatically by sinks.create and sinks.update based on the value of unique_writer_identity in those methods.Until you grant this identity write-access to the destination, log entry exports from this sink will fail. For more information, see Manage access to projects, folders, and organizations (https://docs.cloud.google.com/iam/docs/granting-roles-to-service-accounts#granting_access_to_a_service_account_for_a_resource). Consult the destination service's documentation to determine the appropriate IAM roles to assign to the identity.Sinks that have a destination that is a log bucket in the same project as the sink cannot have a writer_identity and no additional permissions are required. */
-  writerIdentity?: string | undefined;
-  /** Optional. Options that affect sinks exporting data to BigQuery. */
-  bigqueryOptions?: BigQueryOptions | undefined;
-  /** Optional. Log entries that match any of these exclusion filters will not be exported.If a log entry is matched by both filter and one of exclusions it will not be exported. */
-  exclusions?: LogExclusionList | undefined;
-  /** Optional. The client-assigned sink identifier, unique within the project.For example: "my-syslog-errors-to-pubsub".Sink identifiers are limited to 100 characters and can include only the following characters: upper and lower-case alphanumeric characters, underscores, hyphens, periods.First character has to be alphanumeric. */
-  name?: string | undefined;
-  /** Optional. A description of this sink.The maximum length of the description is 8000 characters. */
-  description?: string | undefined;
-  /** Optional. If set to true, then this sink is disabled and it does not export any log entries. */
-  disabled?: boolean | undefined;
-  /** Required. The export destination: "storage.googleapis.com/[GCS_BUCKET]" "bigquery.googleapis.com/projects/[PROJECT_ID]/datasets/[DATASET]" "pubsub.googleapis.com/projects/[PROJECT_ID]/topics/[TOPIC_ID]" "logging.googleapis.com/projects/[PROJECT_ID]" "logging.googleapis.com/projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" The sink's writer_identity, set when the sink is created, must have permission to write to the destination or else the log entries are not exported. For more information, see Route logs to supported destinations (https://docs.cloud.google.com/logging/docs/export/configure_export_v2). */
-  destination?: string | undefined;
-  /** Deprecated. This field is unused. */
-  outputVersionFormat?: LogSinkOutputVersionFormatEnum | (string & {}) | undefined;
-  /** Optional. This field applies only to sinks owned by organizations and folders.When the value of 'intercept_children' is true, the following restrictions apply: The sink must have the include_children flag set to true. The sink destination must be a Cloud project.Also, the following behaviors apply: Any logs matched by the sink won't be included by non-_Required sinks owned by child resources. The sink appears in the results of a ListSinks call from a child resource if the value of the filter field in its request is either 'in_scope("ALL")' or 'in_scope("ANCESTOR")'. */
-  interceptChildren?: boolean | undefined;
 }
-export interface CreateLocationsBucketsRequest {
+export interface CreateLocationsBucketsRequest extends LogBucket {
   /** Required. A client-assigned identifier such as "my-bucket". Identifiers are limited to 100 characters and can include only letters, digits, underscores, hyphens, and periods. Bucket identifiers must start with an alphanumeric character. */
   bucketId?: string | undefined;
   /** Required. The resource in which to create the log bucket: "projects/[PROJECT_ID]/locations/[LOCATION_ID]" For example:"projects/my-project/locations/global" */
   parent: string;
-  /** Output only. The last update timestamp of the bucket. */
-  updateTime?: string | undefined;
-  /** Output only. The bucket lifecycle state. */
-  lifecycleState?: LogBucketLifecycleStateEnum | (string & {}) | undefined;
-  /** Output only. The creation timestamp of the bucket. This is not set for any of the default buckets. */
-  createTime?: string | undefined;
-  /** Optional. Describes this bucket. */
-  description?: string | undefined;
-  /** Optional. Whether log analytics is enabled for this bucket.Once enabled, log analytics features cannot be disabled. */
-  analyticsEnabled?: boolean | undefined;
-  /** Optional. Logs will be retained by default for this amount of time, after which they will automatically be deleted. The minimum retention period is 1 day. If this value is set to zero at bucket creation time, the default time of 30 days will be used. */
-  retentionDays?: number | undefined;
-  /** Optional. Whether the bucket is locked.The retention period on a locked bucket cannot be changed. Locked buckets may only be deleted if they are empty. */
-  locked?: boolean | undefined;
-  /** Optional. A list of indexed fields and related configuration data. */
-  indexConfigs?: IndexConfigList | undefined;
-  /** Output only. The resource name of the bucket.For example:projects/my-project/locations/global/buckets/my-bucketFor a list of supported locations, see Supported Regions (https://docs.cloud.google.com/logging/docs/region-support)For the location of global it is unspecified where log entries are actually stored.After a bucket has been created, the location cannot be changed. */
-  name?: string | undefined;
-  /** Optional. Log entry field paths that are denied access in this bucket.The following fields and their children are eligible: textPayload, jsonPayload, protoPayload, httpRequest, labels, sourceLocation.Restricting a repeated field will restrict all values. Adding a parent will block all child fields. (e.g. foo.bar will block foo.bar.baz) */
-  restrictedFields?: StringList | undefined;
-  /** Optional. The CMEK settings of the log bucket. If present, new log entries written to this log bucket are encrypted using the CMEK key provided in this configuration. If a log bucket has CMEK settings, the CMEK settings cannot be disabled later by updating the log bucket. Changing the KMS key is allowed. */
-  cmekSettings?: CmekSettings | undefined;
 }
-export interface CreateLocationsBucketsLinksRequest {
+export interface CreateLocationsBucketsLinksRequest extends Link {
   /** Required. The full resource name of the bucket to create a link for. "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" */
   parent: string;
   /** Required. The ID to use for the link. The link_id can have up to 100 characters. A valid link_id must only have alphanumeric characters and underscores within it. */
   linkId?: string | undefined;
-  /** Output only. The creation timestamp of the link. */
-  createTime?: string | undefined;
-  /** Output only. The resource name of the link. The name can have up to 100 characters. A valid link id (at the end of the link name) must only have alphanumeric characters and underscores within it. "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/links/[LINK_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/links/[LINK_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/links/[LINK_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/links/[LINK_ID]" For example:`projects/my-project/locations/global/buckets/my-bucket/links/my_link */
-  name?: string | undefined;
-  /** Output only. The resource lifecycle state. */
-  lifecycleState?: LinkLifecycleStateEnum | (string & {}) | undefined;
-  /** Optional. Describes this link.The maximum length of the description is 8000 characters. */
-  description?: string | undefined;
-  /** Optional. The information of a BigQuery Dataset. When a link is created, a BigQuery dataset is created along with it, in the same project as the LogBucket it's linked to. This dataset will also have BigQuery Views corresponding to the LogViews in the bucket. */
-  bigqueryDataset?: BigQueryDataset | undefined;
 }
-export interface CreateLocationsBucketsViewsRequest {
+export interface CreateLocationsBucketsViewsRequest extends LogView {
   /** Required. The bucket in which to create the view `"projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]"` For example:"projects/my-project/locations/global/buckets/my-bucket" */
   parent: string;
   /** Required. A client-assigned identifier such as "my-view". Identifiers are limited to 100 characters and can include only letters, digits, underscores, and hyphens. */
   viewId?: string | undefined;
-  /** Output only. The last update timestamp of the view. */
-  updateTime?: string | undefined;
-  /** Output only. The resource name of the view.For example:projects/my-project/locations/global/buckets/my-bucket/views/my-view */
-  name?: string | undefined;
-  /** Optional. Filter that restricts which log entries in a bucket are visible in this view.Filters must be logical conjunctions that use the AND operator, and they can use any of the following qualifiers: SOURCE(), which specifies a project, folder, organization, or billing account of origin. resource.type, which specifies the resource type. LOG_ID(), which identifies the log.They can also use the negations of these qualifiers with the NOT operator.For example:SOURCE("projects/myproject") AND resource.type = "gce_instance" AND NOT LOG_ID("stdout") */
-  filter?: string | undefined;
-  /** Optional. Describes this view. */
-  description?: string | undefined;
-  /** Output only. The creation timestamp of the view. */
-  createTime?: string | undefined;
 }
-export interface CreateOrganizationsExclusionsRequest {
+export interface CreateOrganizationsExclusionsRequest extends LogExclusion {
   /** Required. The parent resource in which to create the exclusion: "projects/[PROJECT_ID]" "organizations/[ORGANIZATION_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]" "folders/[FOLDER_ID]" For examples:"projects/my-logging-project" "organizations/123456789" */
   parent: string;
-  /** Optional. If set to True, then this exclusion is disabled and it does not exclude any log entries. You can update an exclusion to change the value of this field. */
-  disabled?: boolean | undefined;
-  /** Output only. The last update timestamp of the exclusion.This field may not be present for older exclusions. */
-  updateTime?: string | undefined;
-  /** Optional. A description of this exclusion. */
-  description?: string | undefined;
-  /** Required. An advanced logs filter (https://docs.cloud.google.com/logging/docs/view/building-queries#queries-by-expression) that matches the log entries to be excluded. By using the sample function (https://docs.cloud.google.com/logging/docs/view/logging-query-language#sample), you can exclude less than 100% of the matching log entries.For example, the following query matches 99% of low-severity log entries from Google Cloud Storage buckets:resource.type=gcs_bucket severity<ERROR sample(insertId, 0.99) */
-  filter?: string | undefined;
-  /** Output only. The creation timestamp of the exclusion.This field may not be present for older exclusions. */
-  createTime?: string | undefined;
-  /** Optional. A client-assigned identifier, such as "load-balancer-exclusion". Identifiers are limited to 100 characters and can include only letters, digits, underscores, hyphens, and periods. First character has to be alphanumeric. */
-  name?: string | undefined;
 }
-export interface CreateOrganizationsLocationsBucketsRequest {
+export interface CreateOrganizationsLocationsBucketsRequest extends LogBucket {
   /** Required. The resource in which to create the log bucket: "projects/[PROJECT_ID]/locations/[LOCATION_ID]" For example:"projects/my-project/locations/global" */
   parent: string;
   /** Required. A client-assigned identifier such as "my-bucket". Identifiers are limited to 100 characters and can include only letters, digits, underscores, hyphens, and periods. Bucket identifiers must start with an alphanumeric character. */
   bucketId?: string | undefined;
-  /** Output only. The last update timestamp of the bucket. */
-  updateTime?: string | undefined;
-  /** Output only. The bucket lifecycle state. */
-  lifecycleState?: LogBucketLifecycleStateEnum | (string & {}) | undefined;
-  /** Output only. The creation timestamp of the bucket. This is not set for any of the default buckets. */
-  createTime?: string | undefined;
-  /** Optional. Describes this bucket. */
-  description?: string | undefined;
-  /** Optional. Whether log analytics is enabled for this bucket.Once enabled, log analytics features cannot be disabled. */
-  analyticsEnabled?: boolean | undefined;
-  /** Optional. Logs will be retained by default for this amount of time, after which they will automatically be deleted. The minimum retention period is 1 day. If this value is set to zero at bucket creation time, the default time of 30 days will be used. */
-  retentionDays?: number | undefined;
-  /** Optional. Whether the bucket is locked.The retention period on a locked bucket cannot be changed. Locked buckets may only be deleted if they are empty. */
-  locked?: boolean | undefined;
-  /** Optional. A list of indexed fields and related configuration data. */
-  indexConfigs?: IndexConfigList | undefined;
-  /** Output only. The resource name of the bucket.For example:projects/my-project/locations/global/buckets/my-bucketFor a list of supported locations, see Supported Regions (https://docs.cloud.google.com/logging/docs/region-support)For the location of global it is unspecified where log entries are actually stored.After a bucket has been created, the location cannot be changed. */
-  name?: string | undefined;
-  /** Optional. Log entry field paths that are denied access in this bucket.The following fields and their children are eligible: textPayload, jsonPayload, protoPayload, httpRequest, labels, sourceLocation.Restricting a repeated field will restrict all values. Adding a parent will block all child fields. (e.g. foo.bar will block foo.bar.baz) */
-  restrictedFields?: StringList | undefined;
-  /** Optional. The CMEK settings of the log bucket. If present, new log entries written to this log bucket are encrypted using the CMEK key provided in this configuration. If a log bucket has CMEK settings, the CMEK settings cannot be disabled later by updating the log bucket. Changing the KMS key is allowed. */
-  cmekSettings?: CmekSettings | undefined;
 }
-export interface CreateOrganizationsLocationsBucketsLinksRequest {
+export interface CreateOrganizationsLocationsBucketsLinksRequest extends Link {
   /** Required. The full resource name of the bucket to create a link for. "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" */
   parent: string;
   /** Required. The ID to use for the link. The link_id can have up to 100 characters. A valid link_id must only have alphanumeric characters and underscores within it. */
   linkId?: string | undefined;
-  /** Output only. The creation timestamp of the link. */
-  createTime?: string | undefined;
-  /** Output only. The resource name of the link. The name can have up to 100 characters. A valid link id (at the end of the link name) must only have alphanumeric characters and underscores within it. "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/links/[LINK_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/links/[LINK_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/links/[LINK_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/links/[LINK_ID]" For example:`projects/my-project/locations/global/buckets/my-bucket/links/my_link */
-  name?: string | undefined;
-  /** Output only. The resource lifecycle state. */
-  lifecycleState?: LinkLifecycleStateEnum | (string & {}) | undefined;
-  /** Optional. Describes this link.The maximum length of the description is 8000 characters. */
-  description?: string | undefined;
-  /** Optional. The information of a BigQuery Dataset. When a link is created, a BigQuery dataset is created along with it, in the same project as the LogBucket it's linked to. This dataset will also have BigQuery Views corresponding to the LogViews in the bucket. */
-  bigqueryDataset?: BigQueryDataset | undefined;
 }
-export interface CreateOrganizationsLocationsBucketsViewsRequest {
+export interface CreateOrganizationsLocationsBucketsViewsRequest extends LogView {
   /** Required. The bucket in which to create the view `"projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]"` For example:"projects/my-project/locations/global/buckets/my-bucket" */
   parent: string;
   /** Required. A client-assigned identifier such as "my-view". Identifiers are limited to 100 characters and can include only letters, digits, underscores, and hyphens. */
   viewId?: string | undefined;
-  /** Output only. The last update timestamp of the view. */
-  updateTime?: string | undefined;
-  /** Output only. The resource name of the view.For example:projects/my-project/locations/global/buckets/my-bucket/views/my-view */
-  name?: string | undefined;
-  /** Optional. Filter that restricts which log entries in a bucket are visible in this view.Filters must be logical conjunctions that use the AND operator, and they can use any of the following qualifiers: SOURCE(), which specifies a project, folder, organization, or billing account of origin. resource.type, which specifies the resource type. LOG_ID(), which identifies the log.They can also use the negations of these qualifiers with the NOT operator.For example:SOURCE("projects/myproject") AND resource.type = "gce_instance" AND NOT LOG_ID("stdout") */
-  filter?: string | undefined;
-  /** Optional. Describes this view. */
-  description?: string | undefined;
-  /** Output only. The creation timestamp of the view. */
-  createTime?: string | undefined;
 }
-export interface CreateOrganizationsLocationsLogScopesRequest {
+export interface CreateOrganizationsLocationsLogScopesRequest extends LogScope {
   /** Required. A client-assigned identifier such as "log-scope". Identifiers are limited to 100 characters and can include only letters, digits, underscores, hyphens, and periods. First character has to be alphanumeric. */
   logScopeId?: string | undefined;
   /** Required. The parent resource in which to create the log scope: "projects/[PROJECT_ID]/locations/[LOCATION_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]" For example:"projects/my-project/locations/global" */
   parent: string;
-  /** Output only. The creation timestamp of the log scope. */
-  createTime?: string | undefined;
-  /** Optional. Describes this log scope.The maximum length of the description is 8000 characters. */
-  description?: string | undefined;
-  /** Required. Names of one or more parent resources (organizations and folders are not supported.): projects/[PROJECT_ID]May alternatively be one or more views: projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID]A log scope can include a maximum of 5 projects and a maximum of 100 resources in total. */
-  resourceNames?: StringList | undefined;
-  /** Output only. The last update timestamp of the log scope. */
-  updateTime?: string | undefined;
-  /** Output only. The resource name of the log scope.Log scopes are only available in the global location. For example:projects/my-project/locations/global/logScopes/my-log-scope */
-  name?: string | undefined;
 }
-export interface CreateOrganizationsLocationsSavedQueriesRequest {
+export interface CreateOrganizationsLocationsSavedQueriesRequest extends SavedQuery {
   /** Required. The parent resource in which to create the saved query: "projects/[PROJECT_ID]/locations/[LOCATION_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]" For example: "projects/my-project/locations/global" "organizations/123456789/locations/us-central1" */
   parent: string;
   /** Optional. The ID to use for the saved query, which will become the final component of the saved query's resource name.If the saved_query_id is not provided, the system will generate an alphanumeric ID.The saved_query_id is limited to 100 characters and can include only the following characters: upper and lower-case alphanumeric characters, underscores, hyphens, periods.First character has to be alphanumeric. */
   savedQueryId?: string | undefined;
-  /** Optional. A human readable description of the saved query. */
-  description?: string | undefined;
-  /** Output only. The timestamp when the saved query was created. */
-  createTime?: string | undefined;
-  /** Output only. Resource name of the saved query.In the format: "projects/[PROJECT_ID]/locations/[LOCATION_ID]/savedQueries/[QUERY_ID]" For a list of supported locations, see Supported Regions (https://docs.cloud.google.com/logging/docs/region-support#bucket-regions)After the saved query is created, the location cannot be changed.If the user doesn't provide a QUERY_ID, the system will generate an alphanumeric ID. */
-  name?: string | undefined;
-  /** Analytics query that can be executed in Log Analytics. */
-  opsAnalyticsQuery?: OpsAnalyticsQuery | undefined;
-  /** Logging query that can be executed in Logs Explorer or via Logging API. */
-  loggingQuery?: LoggingQuery | undefined;
-  /** Required. The visibility status of this query, which determines its ownership. */
-  visibility?: SavedQueryVisibilityEnum | (string & {}) | undefined;
-  /** Required. The user specified title for the SavedQuery. */
-  displayName?: string | undefined;
-  /** Output only. The timestamp when the saved query was last updated. */
-  updateTime?: string | undefined;
 }
-export interface CreateOrganizationsSinksRequest {
+export interface CreateOrganizationsSinksRequest extends LogSink {
   /** Required. The resource in which to create the sink: "projects/[PROJECT_ID]" "organizations/[ORGANIZATION_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]" "folders/[FOLDER_ID]" For examples:"projects/my-project" "organizations/123456789" */
   parent: string;
   /** Optional. Determines the kind of IAM identity returned as writer_identity in the new sink. If this value is omitted or set to false, and if the sink's parent is a project, then the value returned as writer_identity is the same group or service account used by Cloud Logging before the addition of writer identities to this API. The sink's destination must be in the same project as the sink itself.If this field is set to true, or if the sink is owned by a non-project resource such as an organization, then the value of writer_identity will be a service agent (https://docs.cloud.google.com/iam/docs/service-account-types#service-agents) used by the sinks with the same parent. For more information, see writer_identity in LogSink. */
   uniqueWriterIdentity?: boolean | undefined;
   /** Optional. The service account provided by the caller that will be used to write the log entries. The format must be serviceAccount:some@email. This field can only be specified when you are routing logs to a log bucket that is in a different project than the sink. When not specified, a Logging service account will automatically be generated. */
   customWriterIdentity?: string | undefined;
-  /** Output only. The creation timestamp of the sink.This field may not be present for older sinks. */
-  createTime?: string | undefined;
-  /** Optional. An advanced logs filter (https://docs.cloud.google.com/logging/docs/view/building-queries#queries-by-expression). The only exported log entries are those that are in the resource owning the sink and that match the filter.For example:logName="projects/[PROJECT_ID]/logs/[LOG_ID]" AND severity>=ERROR */
-  filter?: string | undefined;
-  /** Output only. The resource name of the sink. "projects/[PROJECT_ID]/sinks/[SINK_NAME] "organizations/[ORGANIZATION_ID]/sinks/[SINK_NAME] "billingAccounts/[BILLING_ACCOUNT_ID]/sinks/[SINK_NAME] "folders/[FOLDER_ID]/sinks/[SINK_NAME] For example: projects/my_project/sinks/SINK_NAME */
-  resourceName?: string | undefined;
-  /** Output only. The last update timestamp of the sink.This field may not be present for older sinks. */
-  updateTime?: string | undefined;
-  /** Optional. This field applies only to sinks owned by organizations and folders. If the field is false, the default, only the logs owned by the sink's parent resource are available for export. If the field is true, then log entries from all the projects, folders, and billing accounts contained in the sink's parent resource are also available for export. Whether a particular log entry from the children is exported depends on the sink's filter expression.For example, if this field is true, then the filter resource.type=gce_instance would export all Compute Engine VM instance log entries from all projects in the sink's parent.To only export entries from certain child projects, filter on the project part of the log name:logName:("projects/test-project1/" OR "projects/test-project2/") AND resource.type=gce_instance */
-  includeChildren?: boolean | undefined;
-  /** Output only. An IAM identity--a service account or group--under which Cloud Logging writes the exported log entries to the sink's destination. This field is either set by specifying custom_writer_identity or set automatically by sinks.create and sinks.update based on the value of unique_writer_identity in those methods.Until you grant this identity write-access to the destination, log entry exports from this sink will fail. For more information, see Manage access to projects, folders, and organizations (https://docs.cloud.google.com/iam/docs/granting-roles-to-service-accounts#granting_access_to_a_service_account_for_a_resource). Consult the destination service's documentation to determine the appropriate IAM roles to assign to the identity.Sinks that have a destination that is a log bucket in the same project as the sink cannot have a writer_identity and no additional permissions are required. */
-  writerIdentity?: string | undefined;
-  /** Optional. Options that affect sinks exporting data to BigQuery. */
-  bigqueryOptions?: BigQueryOptions | undefined;
-  /** Optional. Log entries that match any of these exclusion filters will not be exported.If a log entry is matched by both filter and one of exclusions it will not be exported. */
-  exclusions?: LogExclusionList | undefined;
-  /** Optional. The client-assigned sink identifier, unique within the project.For example: "my-syslog-errors-to-pubsub".Sink identifiers are limited to 100 characters and can include only the following characters: upper and lower-case alphanumeric characters, underscores, hyphens, periods.First character has to be alphanumeric. */
-  name?: string | undefined;
-  /** Optional. A description of this sink.The maximum length of the description is 8000 characters. */
-  description?: string | undefined;
-  /** Optional. If set to true, then this sink is disabled and it does not export any log entries. */
-  disabled?: boolean | undefined;
-  /** Required. The export destination: "storage.googleapis.com/[GCS_BUCKET]" "bigquery.googleapis.com/projects/[PROJECT_ID]/datasets/[DATASET]" "pubsub.googleapis.com/projects/[PROJECT_ID]/topics/[TOPIC_ID]" "logging.googleapis.com/projects/[PROJECT_ID]" "logging.googleapis.com/projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" The sink's writer_identity, set when the sink is created, must have permission to write to the destination or else the log entries are not exported. For more information, see Route logs to supported destinations (https://docs.cloud.google.com/logging/docs/export/configure_export_v2). */
-  destination?: string | undefined;
-  /** Deprecated. This field is unused. */
-  outputVersionFormat?: LogSinkOutputVersionFormatEnum | (string & {}) | undefined;
-  /** Optional. This field applies only to sinks owned by organizations and folders.When the value of 'intercept_children' is true, the following restrictions apply: The sink must have the include_children flag set to true. The sink destination must be a Cloud project.Also, the following behaviors apply: Any logs matched by the sink won't be included by non-_Required sinks owned by child resources. The sink appears in the results of a ListSinks call from a child resource if the value of the filter field in its request is either 'in_scope("ALL")' or 'in_scope("ANCESTOR")'. */
-  interceptChildren?: boolean | undefined;
 }
-export interface CreateProjectsExclusionsRequest {
+export interface CreateProjectsExclusionsRequest extends LogExclusion {
   /** Required. The parent resource in which to create the exclusion: "projects/[PROJECT_ID]" "organizations/[ORGANIZATION_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]" "folders/[FOLDER_ID]" For examples:"projects/my-logging-project" "organizations/123456789" */
   parent: string;
-  /** Optional. If set to True, then this exclusion is disabled and it does not exclude any log entries. You can update an exclusion to change the value of this field. */
-  disabled?: boolean | undefined;
-  /** Output only. The last update timestamp of the exclusion.This field may not be present for older exclusions. */
-  updateTime?: string | undefined;
-  /** Optional. A description of this exclusion. */
-  description?: string | undefined;
-  /** Required. An advanced logs filter (https://docs.cloud.google.com/logging/docs/view/building-queries#queries-by-expression) that matches the log entries to be excluded. By using the sample function (https://docs.cloud.google.com/logging/docs/view/logging-query-language#sample), you can exclude less than 100% of the matching log entries.For example, the following query matches 99% of low-severity log entries from Google Cloud Storage buckets:resource.type=gcs_bucket severity<ERROR sample(insertId, 0.99) */
-  filter?: string | undefined;
-  /** Output only. The creation timestamp of the exclusion.This field may not be present for older exclusions. */
-  createTime?: string | undefined;
-  /** Optional. A client-assigned identifier, such as "load-balancer-exclusion". Identifiers are limited to 100 characters and can include only letters, digits, underscores, hyphens, and periods. First character has to be alphanumeric. */
-  name?: string | undefined;
 }
-export interface CreateProjectsLocationsBucketsRequest {
+export interface CreateProjectsLocationsBucketsRequest extends LogBucket {
   /** Required. A client-assigned identifier such as "my-bucket". Identifiers are limited to 100 characters and can include only letters, digits, underscores, hyphens, and periods. Bucket identifiers must start with an alphanumeric character. */
   bucketId?: string | undefined;
   /** Required. The resource in which to create the log bucket: "projects/[PROJECT_ID]/locations/[LOCATION_ID]" For example:"projects/my-project/locations/global" */
   parent: string;
-  /** Output only. The last update timestamp of the bucket. */
-  updateTime?: string | undefined;
-  /** Output only. The bucket lifecycle state. */
-  lifecycleState?: LogBucketLifecycleStateEnum | (string & {}) | undefined;
-  /** Output only. The creation timestamp of the bucket. This is not set for any of the default buckets. */
-  createTime?: string | undefined;
-  /** Optional. Describes this bucket. */
-  description?: string | undefined;
-  /** Optional. Whether log analytics is enabled for this bucket.Once enabled, log analytics features cannot be disabled. */
-  analyticsEnabled?: boolean | undefined;
-  /** Optional. Logs will be retained by default for this amount of time, after which they will automatically be deleted. The minimum retention period is 1 day. If this value is set to zero at bucket creation time, the default time of 30 days will be used. */
-  retentionDays?: number | undefined;
-  /** Optional. Whether the bucket is locked.The retention period on a locked bucket cannot be changed. Locked buckets may only be deleted if they are empty. */
-  locked?: boolean | undefined;
-  /** Optional. A list of indexed fields and related configuration data. */
-  indexConfigs?: IndexConfigList | undefined;
-  /** Output only. The resource name of the bucket.For example:projects/my-project/locations/global/buckets/my-bucketFor a list of supported locations, see Supported Regions (https://docs.cloud.google.com/logging/docs/region-support)For the location of global it is unspecified where log entries are actually stored.After a bucket has been created, the location cannot be changed. */
-  name?: string | undefined;
-  /** Optional. Log entry field paths that are denied access in this bucket.The following fields and their children are eligible: textPayload, jsonPayload, protoPayload, httpRequest, labels, sourceLocation.Restricting a repeated field will restrict all values. Adding a parent will block all child fields. (e.g. foo.bar will block foo.bar.baz) */
-  restrictedFields?: StringList | undefined;
-  /** Optional. The CMEK settings of the log bucket. If present, new log entries written to this log bucket are encrypted using the CMEK key provided in this configuration. If a log bucket has CMEK settings, the CMEK settings cannot be disabled later by updating the log bucket. Changing the KMS key is allowed. */
-  cmekSettings?: CmekSettings | undefined;
 }
-export interface CreateProjectsLocationsBucketsLinksRequest {
+export interface CreateProjectsLocationsBucketsLinksRequest extends Link {
   /** Required. The full resource name of the bucket to create a link for. "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" */
   parent: string;
   /** Required. The ID to use for the link. The link_id can have up to 100 characters. A valid link_id must only have alphanumeric characters and underscores within it. */
   linkId?: string | undefined;
-  /** Output only. The creation timestamp of the link. */
-  createTime?: string | undefined;
-  /** Output only. The resource name of the link. The name can have up to 100 characters. A valid link id (at the end of the link name) must only have alphanumeric characters and underscores within it. "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/links/[LINK_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/links/[LINK_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/links/[LINK_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/links/[LINK_ID]" For example:`projects/my-project/locations/global/buckets/my-bucket/links/my_link */
-  name?: string | undefined;
-  /** Output only. The resource lifecycle state. */
-  lifecycleState?: LinkLifecycleStateEnum | (string & {}) | undefined;
-  /** Optional. Describes this link.The maximum length of the description is 8000 characters. */
-  description?: string | undefined;
-  /** Optional. The information of a BigQuery Dataset. When a link is created, a BigQuery dataset is created along with it, in the same project as the LogBucket it's linked to. This dataset will also have BigQuery Views corresponding to the LogViews in the bucket. */
-  bigqueryDataset?: BigQueryDataset | undefined;
 }
-export interface CreateProjectsLocationsBucketsViewsRequest {
+export interface CreateProjectsLocationsBucketsViewsRequest extends LogView {
   /** Required. The bucket in which to create the view `"projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]"` For example:"projects/my-project/locations/global/buckets/my-bucket" */
   parent: string;
   /** Required. A client-assigned identifier such as "my-view". Identifiers are limited to 100 characters and can include only letters, digits, underscores, and hyphens. */
   viewId?: string | undefined;
-  /** Output only. The last update timestamp of the view. */
-  updateTime?: string | undefined;
-  /** Output only. The resource name of the view.For example:projects/my-project/locations/global/buckets/my-bucket/views/my-view */
-  name?: string | undefined;
-  /** Optional. Filter that restricts which log entries in a bucket are visible in this view.Filters must be logical conjunctions that use the AND operator, and they can use any of the following qualifiers: SOURCE(), which specifies a project, folder, organization, or billing account of origin. resource.type, which specifies the resource type. LOG_ID(), which identifies the log.They can also use the negations of these qualifiers with the NOT operator.For example:SOURCE("projects/myproject") AND resource.type = "gce_instance" AND NOT LOG_ID("stdout") */
-  filter?: string | undefined;
-  /** Optional. Describes this view. */
-  description?: string | undefined;
-  /** Output only. The creation timestamp of the view. */
-  createTime?: string | undefined;
 }
-export interface CreateProjectsLocationsLogScopesRequest {
+export interface CreateProjectsLocationsLogScopesRequest extends LogScope {
   /** Required. The parent resource in which to create the log scope: "projects/[PROJECT_ID]/locations/[LOCATION_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]" For example:"projects/my-project/locations/global" */
   parent: string;
   /** Required. A client-assigned identifier such as "log-scope". Identifiers are limited to 100 characters and can include only letters, digits, underscores, hyphens, and periods. First character has to be alphanumeric. */
   logScopeId?: string | undefined;
-  /** Output only. The creation timestamp of the log scope. */
-  createTime?: string | undefined;
-  /** Optional. Describes this log scope.The maximum length of the description is 8000 characters. */
-  description?: string | undefined;
-  /** Required. Names of one or more parent resources (organizations and folders are not supported.): projects/[PROJECT_ID]May alternatively be one or more views: projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID]A log scope can include a maximum of 5 projects and a maximum of 100 resources in total. */
-  resourceNames?: StringList | undefined;
-  /** Output only. The last update timestamp of the log scope. */
-  updateTime?: string | undefined;
-  /** Output only. The resource name of the log scope.Log scopes are only available in the global location. For example:projects/my-project/locations/global/logScopes/my-log-scope */
-  name?: string | undefined;
 }
-export interface CreateProjectsLocationsSavedQueriesRequest {
+export interface CreateProjectsLocationsSavedQueriesRequest extends SavedQuery {
   /** Optional. The ID to use for the saved query, which will become the final component of the saved query's resource name.If the saved_query_id is not provided, the system will generate an alphanumeric ID.The saved_query_id is limited to 100 characters and can include only the following characters: upper and lower-case alphanumeric characters, underscores, hyphens, periods.First character has to be alphanumeric. */
   savedQueryId?: string | undefined;
   /** Required. The parent resource in which to create the saved query: "projects/[PROJECT_ID]/locations/[LOCATION_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]" For example: "projects/my-project/locations/global" "organizations/123456789/locations/us-central1" */
   parent: string;
-  /** Optional. A human readable description of the saved query. */
-  description?: string | undefined;
-  /** Output only. The timestamp when the saved query was created. */
-  createTime?: string | undefined;
-  /** Output only. Resource name of the saved query.In the format: "projects/[PROJECT_ID]/locations/[LOCATION_ID]/savedQueries/[QUERY_ID]" For a list of supported locations, see Supported Regions (https://docs.cloud.google.com/logging/docs/region-support#bucket-regions)After the saved query is created, the location cannot be changed.If the user doesn't provide a QUERY_ID, the system will generate an alphanumeric ID. */
-  name?: string | undefined;
-  /** Analytics query that can be executed in Log Analytics. */
-  opsAnalyticsQuery?: OpsAnalyticsQuery | undefined;
-  /** Logging query that can be executed in Logs Explorer or via Logging API. */
-  loggingQuery?: LoggingQuery | undefined;
-  /** Required. The visibility status of this query, which determines its ownership. */
-  visibility?: SavedQueryVisibilityEnum | (string & {}) | undefined;
-  /** Required. The user specified title for the SavedQuery. */
-  displayName?: string | undefined;
-  /** Output only. The timestamp when the saved query was last updated. */
-  updateTime?: string | undefined;
 }
 /** Specifies an exponential sequence of buckets that have a width that is proportional to the value of the lower bound. Each bucket represents a constant relative uncertainty on a specific value in the bucket.There are num_finite_buckets + 2 (= N) buckets. Bucket i has the following boundaries:Upper bound (0 <= i < N-1): scale * (growth_factor ^ i).Lower bound (1 <= i < N): scale * (growth_factor ^ (i - 1)). */
 export interface Exponential {
@@ -1350,9 +807,8 @@ export interface MetricDescriptor {
   valueType?: MetricDescriptorValueTypeEnum | (string & {}) | undefined;
 }
 export type StringMap = { [key: string]: string | undefined };
-export interface CreateProjectsMetricsRequest {
-  /** Required. The resource name of the project in which to create the metric: "projects/[PROJECT_ID]" The new metric must be provided in the request. */
-  parent: string;
+/** Describes a logs-based metric. The value of the metric is the number of log entries that match a logs filter in a given time interval.Logs-based metrics can also be used to extract values from logs and create a distribution of the values. The distribution records the statistics of the extracted values along with an optional histogram of the values as specified by the bucket options. */
+export interface LogMetric {
   /** Optional. The bucket_options are required when the logs-based metric is using a DISTRIBUTION value type and it describes the bucket boundaries used to create a histogram of the extracted values. */
   bucketOptions?: BucketOptions | undefined;
   /** Optional. If set to True, then this metric is disabled and it does not generate any points. */
@@ -1380,106 +836,25 @@ export interface CreateProjectsMetricsRequest {
   /** Optional. The resource name of the Log Bucket that owns the Log Metric. Only Log Buckets in projects are supported. The bucket has to be in the same project as the metric.For example:projects/my-project/locations/global/buckets/my-bucketIf empty, then the Log Metric is considered a non-Bucket Log Metric. */
   bucketName?: string | undefined;
 }
-/** Describes a logs-based metric. The value of the metric is the number of log entries that match a logs filter in a given time interval.Logs-based metrics can also be used to extract values from logs and create a distribution of the values. The distribution records the statistics of the extracted values along with an optional histogram of the values as specified by the bucket options. */
-export interface LogMetric {
-  /** Optional. The bucket_options are required when the logs-based metric is using a DISTRIBUTION value type and it describes the bucket boundaries used to create a histogram of the extracted values. */
-  bucketOptions?: BucketOptions | undefined;
-  /** Optional. If set to True, then this metric is disabled and it does not generate any points. */
-  disabled?: boolean | undefined;
-  /** Optional. A value_extractor is required when using a distribution logs-based metric to extract the values to record from a log entry. Two functions are supported for value extraction: EXTRACT(field) or REGEXP_EXTRACT(field, regex). The arguments are: field: The name of the log entry field from which the value is to be extracted. regex: A regular expression using the Google RE2 syntax (https://github.com/google/re2/wiki/Syntax) with a single capture group to extract data from the specified log entry field. The value of the field is converted to a string before applying the regex. It is an error to specify a regex that does not include exactly one capture group.The result of the extraction must be convertible to a double type, as the distribution always records double values. If either the extraction or the conversion to double fails, then those values are not recorded in the distribution.Example: REGEXP_EXTRACT(jsonPayload.request, ".*quantity=(\d+).*") */
-  valueExtractor?: string | undefined;
-  /** Output only. The resource name of the metric: "projects/[PROJECT_ID]/metrics/[METRIC_ID]" */
-  resourceName?: string | undefined;
-  /** Deprecated. The API version that created or updated this metric. The v2 format is used by default and cannot be changed. */
-  version?: LogMetricVersionEnum | undefined;
-  /** Required. The client-assigned metric identifier. Examples: "error_count", "nginx/requests".Metric identifiers are limited to 100 characters and can include only the following characters: A-Z, a-z, 0-9, and the special characters _-.,+!*',()%/. The forward-slash character (/) denotes a hierarchy of name pieces, and it cannot be the first character of the name.This field is the [METRIC_ID] part of a metric resource name in the format "projects/PROJECT_ID/metrics/METRIC_ID". Example: If the resource name of a metric is "projects/my-project/metrics/nginx%2Frequests", this field's value is "nginx/requests". */
-  name?: string | undefined;
-  /** Optional. A description of this metric, which is used in documentation. The maximum length of the description is 8000 characters. */
-  description?: string | undefined;
-  /** Optional. The metric descriptor associated with the logs-based metric. If unspecified, it uses a default metric descriptor with a DELTA metric kind, INT64 value type, with no labels and a unit of "1". Such a metric counts the number of log entries matching the filter expression.The name, type, and description fields in the metric_descriptor are output only, and is constructed using the name and description field in the LogMetric.To create a logs-based metric that records a distribution of log values, a DELTA metric kind with a DISTRIBUTION value type must be used along with a value_extractor expression in the LogMetric.Each label in the metric descriptor must have a matching label name as the key and an extractor expression as the value in the label_extractors map.The metric_kind and value_type fields in the metric_descriptor cannot be updated once initially configured. New labels can be added in the metric_descriptor, but existing labels cannot be modified except for their description. */
-  metricDescriptor?: MetricDescriptor | undefined;
-  /** Output only. The creation timestamp of the metric.This field may not be present for older metrics. */
-  createTime?: string | undefined;
-  /** Optional. A map from a label key string to an extractor expression which is used to extract data from a log entry field and assign as the label value. Each label key specified in the LabelDescriptor must have an associated extractor expression in this map. The syntax of the extractor expression is the same as for the value_extractor field.The extracted value is converted to the type defined in the label descriptor. If either the extraction or the type conversion fails, the label will have a default value. The default value for a string label is an empty string, for an integer label its 0, and for a boolean label its false.Note that there are upper bounds on the maximum number of labels and the number of active time series that are allowed in a project. */
-  labelExtractors?: StringMap | undefined;
-  /** Output only. The last update timestamp of the metric.This field may not be present for older metrics. */
-  updateTime?: string | undefined;
-  /** Required. An advanced logs filter (https://cloud.google.com/logging/docs/view/advanced_filters) which is used to match log entries. Example: "resource.type=gae_app AND severity>=ERROR" The maximum length of the filter is 20000 characters. */
-  filter?: string | undefined;
-  /** Optional. The resource name of the Log Bucket that owns the Log Metric. Only Log Buckets in projects are supported. The bucket has to be in the same project as the metric.For example:projects/my-project/locations/global/buckets/my-bucketIf empty, then the Log Metric is considered a non-Bucket Log Metric. */
-  bucketName?: string | undefined;
+export interface CreateProjectsMetricsRequest extends LogMetric {
+  /** Required. The resource name of the project in which to create the metric: "projects/[PROJECT_ID]" The new metric must be provided in the request. */
+  parent: string;
 }
-export interface CreateProjectsSinksRequest {
+export interface CreateProjectsSinksRequest extends LogSink {
   /** Optional. Determines the kind of IAM identity returned as writer_identity in the new sink. If this value is omitted or set to false, and if the sink's parent is a project, then the value returned as writer_identity is the same group or service account used by Cloud Logging before the addition of writer identities to this API. The sink's destination must be in the same project as the sink itself.If this field is set to true, or if the sink is owned by a non-project resource such as an organization, then the value of writer_identity will be a service agent (https://docs.cloud.google.com/iam/docs/service-account-types#service-agents) used by the sinks with the same parent. For more information, see writer_identity in LogSink. */
   uniqueWriterIdentity?: boolean | undefined;
   /** Required. The resource in which to create the sink: "projects/[PROJECT_ID]" "organizations/[ORGANIZATION_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]" "folders/[FOLDER_ID]" For examples:"projects/my-project" "organizations/123456789" */
   parent: string;
   /** Optional. The service account provided by the caller that will be used to write the log entries. The format must be serviceAccount:some@email. This field can only be specified when you are routing logs to a log bucket that is in a different project than the sink. When not specified, a Logging service account will automatically be generated. */
   customWriterIdentity?: string | undefined;
-  /** Output only. The creation timestamp of the sink.This field may not be present for older sinks. */
-  createTime?: string | undefined;
-  /** Optional. An advanced logs filter (https://docs.cloud.google.com/logging/docs/view/building-queries#queries-by-expression). The only exported log entries are those that are in the resource owning the sink and that match the filter.For example:logName="projects/[PROJECT_ID]/logs/[LOG_ID]" AND severity>=ERROR */
-  filter?: string | undefined;
-  /** Output only. The resource name of the sink. "projects/[PROJECT_ID]/sinks/[SINK_NAME] "organizations/[ORGANIZATION_ID]/sinks/[SINK_NAME] "billingAccounts/[BILLING_ACCOUNT_ID]/sinks/[SINK_NAME] "folders/[FOLDER_ID]/sinks/[SINK_NAME] For example: projects/my_project/sinks/SINK_NAME */
-  resourceName?: string | undefined;
-  /** Output only. The last update timestamp of the sink.This field may not be present for older sinks. */
-  updateTime?: string | undefined;
-  /** Optional. This field applies only to sinks owned by organizations and folders. If the field is false, the default, only the logs owned by the sink's parent resource are available for export. If the field is true, then log entries from all the projects, folders, and billing accounts contained in the sink's parent resource are also available for export. Whether a particular log entry from the children is exported depends on the sink's filter expression.For example, if this field is true, then the filter resource.type=gce_instance would export all Compute Engine VM instance log entries from all projects in the sink's parent.To only export entries from certain child projects, filter on the project part of the log name:logName:("projects/test-project1/" OR "projects/test-project2/") AND resource.type=gce_instance */
-  includeChildren?: boolean | undefined;
-  /** Output only. An IAM identity--a service account or group--under which Cloud Logging writes the exported log entries to the sink's destination. This field is either set by specifying custom_writer_identity or set automatically by sinks.create and sinks.update based on the value of unique_writer_identity in those methods.Until you grant this identity write-access to the destination, log entry exports from this sink will fail. For more information, see Manage access to projects, folders, and organizations (https://docs.cloud.google.com/iam/docs/granting-roles-to-service-accounts#granting_access_to_a_service_account_for_a_resource). Consult the destination service's documentation to determine the appropriate IAM roles to assign to the identity.Sinks that have a destination that is a log bucket in the same project as the sink cannot have a writer_identity and no additional permissions are required. */
-  writerIdentity?: string | undefined;
-  /** Optional. Options that affect sinks exporting data to BigQuery. */
-  bigqueryOptions?: BigQueryOptions | undefined;
-  /** Optional. Log entries that match any of these exclusion filters will not be exported.If a log entry is matched by both filter and one of exclusions it will not be exported. */
-  exclusions?: LogExclusionList | undefined;
-  /** Optional. The client-assigned sink identifier, unique within the project.For example: "my-syslog-errors-to-pubsub".Sink identifiers are limited to 100 characters and can include only the following characters: upper and lower-case alphanumeric characters, underscores, hyphens, periods.First character has to be alphanumeric. */
-  name?: string | undefined;
-  /** Optional. A description of this sink.The maximum length of the description is 8000 characters. */
-  description?: string | undefined;
-  /** Optional. If set to true, then this sink is disabled and it does not export any log entries. */
-  disabled?: boolean | undefined;
-  /** Required. The export destination: "storage.googleapis.com/[GCS_BUCKET]" "bigquery.googleapis.com/projects/[PROJECT_ID]/datasets/[DATASET]" "pubsub.googleapis.com/projects/[PROJECT_ID]/topics/[TOPIC_ID]" "logging.googleapis.com/projects/[PROJECT_ID]" "logging.googleapis.com/projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" The sink's writer_identity, set when the sink is created, must have permission to write to the destination or else the log entries are not exported. For more information, see Route logs to supported destinations (https://docs.cloud.google.com/logging/docs/export/configure_export_v2). */
-  destination?: string | undefined;
-  /** Deprecated. This field is unused. */
-  outputVersionFormat?: LogSinkOutputVersionFormatEnum | (string & {}) | undefined;
-  /** Optional. This field applies only to sinks owned by organizations and folders.When the value of 'intercept_children' is true, the following restrictions apply: The sink must have the include_children flag set to true. The sink destination must be a Cloud project.Also, the following behaviors apply: Any logs matched by the sink won't be included by non-_Required sinks owned by child resources. The sink appears in the results of a ListSinks call from a child resource if the value of the filter field in its request is either 'in_scope("ALL")' or 'in_scope("ANCESTOR")'. */
-  interceptChildren?: boolean | undefined;
 }
-export interface CreateSinksRequest {
+export interface CreateSinksRequest extends LogSink {
   /** Optional. Determines the kind of IAM identity returned as writer_identity in the new sink. If this value is omitted or set to false, and if the sink's parent is a project, then the value returned as writer_identity is the same group or service account used by Cloud Logging before the addition of writer identities to this API. The sink's destination must be in the same project as the sink itself.If this field is set to true, or if the sink is owned by a non-project resource such as an organization, then the value of writer_identity will be a service agent (https://docs.cloud.google.com/iam/docs/service-account-types#service-agents) used by the sinks with the same parent. For more information, see writer_identity in LogSink. */
   uniqueWriterIdentity?: boolean | undefined;
   /** Required. The resource in which to create the sink: "projects/[PROJECT_ID]" "organizations/[ORGANIZATION_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]" "folders/[FOLDER_ID]" For examples:"projects/my-project" "organizations/123456789" */
   parent: string;
   /** Optional. The service account provided by the caller that will be used to write the log entries. The format must be serviceAccount:some@email. This field can only be specified when you are routing logs to a log bucket that is in a different project than the sink. When not specified, a Logging service account will automatically be generated. */
   customWriterIdentity?: string | undefined;
-  /** Output only. The creation timestamp of the sink.This field may not be present for older sinks. */
-  createTime?: string | undefined;
-  /** Optional. An advanced logs filter (https://docs.cloud.google.com/logging/docs/view/building-queries#queries-by-expression). The only exported log entries are those that are in the resource owning the sink and that match the filter.For example:logName="projects/[PROJECT_ID]/logs/[LOG_ID]" AND severity>=ERROR */
-  filter?: string | undefined;
-  /** Output only. The resource name of the sink. "projects/[PROJECT_ID]/sinks/[SINK_NAME] "organizations/[ORGANIZATION_ID]/sinks/[SINK_NAME] "billingAccounts/[BILLING_ACCOUNT_ID]/sinks/[SINK_NAME] "folders/[FOLDER_ID]/sinks/[SINK_NAME] For example: projects/my_project/sinks/SINK_NAME */
-  resourceName?: string | undefined;
-  /** Output only. The last update timestamp of the sink.This field may not be present for older sinks. */
-  updateTime?: string | undefined;
-  /** Optional. This field applies only to sinks owned by organizations and folders. If the field is false, the default, only the logs owned by the sink's parent resource are available for export. If the field is true, then log entries from all the projects, folders, and billing accounts contained in the sink's parent resource are also available for export. Whether a particular log entry from the children is exported depends on the sink's filter expression.For example, if this field is true, then the filter resource.type=gce_instance would export all Compute Engine VM instance log entries from all projects in the sink's parent.To only export entries from certain child projects, filter on the project part of the log name:logName:("projects/test-project1/" OR "projects/test-project2/") AND resource.type=gce_instance */
-  includeChildren?: boolean | undefined;
-  /** Output only. An IAM identity--a service account or group--under which Cloud Logging writes the exported log entries to the sink's destination. This field is either set by specifying custom_writer_identity or set automatically by sinks.create and sinks.update based on the value of unique_writer_identity in those methods.Until you grant this identity write-access to the destination, log entry exports from this sink will fail. For more information, see Manage access to projects, folders, and organizations (https://docs.cloud.google.com/iam/docs/granting-roles-to-service-accounts#granting_access_to_a_service_account_for_a_resource). Consult the destination service's documentation to determine the appropriate IAM roles to assign to the identity.Sinks that have a destination that is a log bucket in the same project as the sink cannot have a writer_identity and no additional permissions are required. */
-  writerIdentity?: string | undefined;
-  /** Optional. Options that affect sinks exporting data to BigQuery. */
-  bigqueryOptions?: BigQueryOptions | undefined;
-  /** Optional. Log entries that match any of these exclusion filters will not be exported.If a log entry is matched by both filter and one of exclusions it will not be exported. */
-  exclusions?: LogExclusionList | undefined;
-  /** Optional. The client-assigned sink identifier, unique within the project.For example: "my-syslog-errors-to-pubsub".Sink identifiers are limited to 100 characters and can include only the following characters: upper and lower-case alphanumeric characters, underscores, hyphens, periods.First character has to be alphanumeric. */
-  name?: string | undefined;
-  /** Optional. A description of this sink.The maximum length of the description is 8000 characters. */
-  description?: string | undefined;
-  /** Optional. If set to true, then this sink is disabled and it does not export any log entries. */
-  disabled?: boolean | undefined;
-  /** Required. The export destination: "storage.googleapis.com/[GCS_BUCKET]" "bigquery.googleapis.com/projects/[PROJECT_ID]/datasets/[DATASET]" "pubsub.googleapis.com/projects/[PROJECT_ID]/topics/[TOPIC_ID]" "logging.googleapis.com/projects/[PROJECT_ID]" "logging.googleapis.com/projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" The sink's writer_identity, set when the sink is created, must have permission to write to the destination or else the log entries are not exported. For more information, see Route logs to supported destinations (https://docs.cloud.google.com/logging/docs/export/configure_export_v2). */
-  destination?: string | undefined;
-  /** Deprecated. This field is unused. */
-  outputVersionFormat?: LogSinkOutputVersionFormatEnum | (string & {}) | undefined;
-  /** Optional. This field applies only to sinks owned by organizations and folders.When the value of 'intercept_children' is true, the following restrictions apply: The sink must have the include_children flag set to true. The sink destination must be a Cloud project.Also, the following behaviors apply: Any logs matched by the sink won't be included by non-_Required sinks owned by child resources. The sink appears in the results of a ListSinks call from a child resource if the value of the filter field in its request is either 'in_scope("ALL")' or 'in_scope("ANCESTOR")'. */
-  interceptChildren?: boolean | undefined;
 }
 export interface DeleteBillingAccountsExclusionsRequest {
   /** Required. The resource name of an existing exclusion to delete: "projects/[PROJECT_ID]/exclusions/[EXCLUSION_ID]" "organizations/[ORGANIZATION_ID]/exclusions/[EXCLUSION_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/exclusions/[EXCLUSION_ID]" "folders/[FOLDER_ID]/exclusions/[EXCLUSION_ID]" For example:"projects/my-project/exclusions/my-exclusion" */
@@ -1662,19 +1037,6 @@ export interface GetBillingAccountsLocationsBucketsLinksRequest {
   /** Required. The resource name of the link: "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/links/[LINK_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/links/[LINK_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/links/[LINK_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/links/[LINK_ID]" */
   name: string;
 }
-/** Describes a link connected to an analytics enabled bucket. */
-export interface Link {
-  /** Output only. The creation timestamp of the link. */
-  createTime?: string | undefined;
-  /** Output only. The resource name of the link. The name can have up to 100 characters. A valid link id (at the end of the link name) must only have alphanumeric characters and underscores within it. "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/links/[LINK_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/links/[LINK_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/links/[LINK_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/links/[LINK_ID]" For example:`projects/my-project/locations/global/buckets/my-bucket/links/my_link */
-  name?: string | undefined;
-  /** Output only. The resource lifecycle state. */
-  lifecycleState?: LinkLifecycleStateEnum | undefined;
-  /** Optional. Describes this link.The maximum length of the description is 8000 characters. */
-  description?: string | undefined;
-  /** Optional. The information of a BigQuery Dataset. When a link is created, a BigQuery dataset is created along with it, in the same project as the LogBucket it's linked to. This dataset will also have BigQuery Views corresponding to the LogViews in the bucket. */
-  bigqueryDataset?: BigQueryDataset | undefined;
-}
 export interface GetBillingAccountsLocationsBucketsViewsRequest {
   /** Required. The resource name of the policy: "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID]" For example:"projects/my-project/locations/global/buckets/my-bucket/views/my-view" */
   name: string;
@@ -1756,11 +1118,14 @@ export interface GetPolicyOptions {
   /** Optional. The maximum policy version that will be used to format the policy.Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected.Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset.The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1.To learn which resources support conditions in their IAM policies, see the IAM documentation (https://cloud.google.com/iam/help/conditions/resource-policies). */
   requestedPolicyVersion?: number | undefined;
 }
-export interface GetIamPolicyFoldersLocationsBucketsViewsRequest {
-  /** REQUIRED: The resource for which the policy is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
+/** Request message for GetIamPolicy method. */
+export interface GetIamPolicyRequest {
   /** OPTIONAL: A GetPolicyOptions object for specifying options to GetIamPolicy. */
   options?: GetPolicyOptions | undefined;
+}
+export interface GetIamPolicyFoldersLocationsBucketsViewsRequest extends GetIamPolicyRequest {
+  /** REQUIRED: The resource for which the policy is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
 }
 /** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec.Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
 export interface Expr {
@@ -1792,23 +1157,17 @@ export interface Policy {
   /** Associates a list of members, or principals, with a role. Optionally, may specify a condition that determines how and when the bindings are applied. Each of the bindings must contain at least one principal.The bindings in a Policy can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the bindings grant 50 different roles to user:alice@example.com, and not to any other principal, then you can add another 1,450 principals to the bindings in the Policy. */
   bindings?: BindingList | undefined;
 }
-export interface GetIamPolicyLocationsBucketsViewsRequest {
+export interface GetIamPolicyLocationsBucketsViewsRequest extends GetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** OPTIONAL: A GetPolicyOptions object for specifying options to GetIamPolicy. */
-  options?: GetPolicyOptions | undefined;
 }
-export interface GetIamPolicyOrganizationsLocationsBucketsViewsRequest {
+export interface GetIamPolicyOrganizationsLocationsBucketsViewsRequest extends GetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** OPTIONAL: A GetPolicyOptions object for specifying options to GetIamPolicy. */
-  options?: GetPolicyOptions | undefined;
 }
-export interface GetIamPolicyProjectsLocationsBucketsViewsRequest {
+export interface GetIamPolicyProjectsLocationsBucketsViewsRequest extends GetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** OPTIONAL: A GetPolicyOptions object for specifying options to GetIamPolicy. */
-  options?: GetPolicyOptions | undefined;
 }
 export interface GetLocationsRequest {
   /** Resource name for the location. */
@@ -2158,7 +1517,8 @@ export interface ListSinksResponse {
   /** A list of sinks. */
   sinks?: LogSinkList | undefined;
 }
-export interface ListEntriesRequest {
+/** The parameters to ListLogEntries. */
+export interface ListLogEntriesRequest {
   /** Optional. A filter that chooses which log entries to return. For more information, see Logging query language (https://docs.cloud.google.com/logging/docs/view/logging-query-language).Only log entries that match the filter are returned. An empty filter matches all log entries in the resources listed in resource_names. Referencing a parent resource that is not listed in resource_names will cause the filter to return no results. The maximum length of a filter is 20,000 characters.To make queries faster, you can make the filter more selective by using restrictions on indexed fields (https://docs.cloud.google.com/logging/docs/view/logging-query-language#indexed-fields) as well as limit the time range of the query by adding range restrictions on the timestamp field. */
   filter?: string | undefined;
   /** Optional. If present, then retrieve the next batch of results from the preceding call to this method. page_token must be the value of next_page_token from the previous response. The values of other method parameters should be identical to those in the previous call. */
@@ -2172,6 +1532,7 @@ export interface ListEntriesRequest {
   /** Optional. The maximum number of results to return from this request. Default is 50. If the value is negative, the request is rejected.The presence of next_page_token in the response indicates that more results might be available. */
   pageSize?: number | undefined;
 }
+export interface ListEntriesRequest extends ListLogEntriesRequest {}
 /** Resource identifiers associated with an AppHub application AppHub resources are of the form projects//locations//applications/ projects//locations//applications//services/ projects//locations//applications//workloads/ These resources can be reconstructed from the components below. */
 export interface AppHubApplication {
   /** Application Id. Example: "my-app" */
@@ -2837,83 +2198,31 @@ export interface ListSinksRequest {
   /** Optional. The maximum number of results to return from this request. Non-positive values are ignored. The presence of nextPageToken in the response indicates that more results might be available. */
   pageSize?: number | undefined;
 }
-export interface PatchBillingAccountsExclusionsRequest {
+export interface PatchBillingAccountsExclusionsRequest extends Omit<LogExclusion, "name"> {
   /** Required. The resource name of the exclusion to update: "projects/[PROJECT_ID]/exclusions/[EXCLUSION_ID]" "organizations/[ORGANIZATION_ID]/exclusions/[EXCLUSION_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/exclusions/[EXCLUSION_ID]" "folders/[FOLDER_ID]/exclusions/[EXCLUSION_ID]" For example:"projects/my-project/exclusions/my-exclusion" */
   name: string;
   /** Required. A non-empty list of fields to change in the existing exclusion. New values for the fields are taken from the corresponding fields in the LogExclusion included in this request. Fields not mentioned in update_mask are not changed and are ignored in the request.For example, to change the filter and description of an exclusion, specify an update_mask of "filter,description". */
   updateMask?: string | undefined;
-  /** Optional. If set to True, then this exclusion is disabled and it does not exclude any log entries. You can update an exclusion to change the value of this field. */
-  disabled?: boolean | undefined;
-  /** Output only. The last update timestamp of the exclusion.This field may not be present for older exclusions. */
-  updateTime?: string | undefined;
-  /** Optional. A description of this exclusion. */
-  description?: string | undefined;
-  /** Required. An advanced logs filter (https://docs.cloud.google.com/logging/docs/view/building-queries#queries-by-expression) that matches the log entries to be excluded. By using the sample function (https://docs.cloud.google.com/logging/docs/view/logging-query-language#sample), you can exclude less than 100% of the matching log entries.For example, the following query matches 99% of low-severity log entries from Google Cloud Storage buckets:resource.type=gcs_bucket severity<ERROR sample(insertId, 0.99) */
-  filter?: string | undefined;
-  /** Output only. The creation timestamp of the exclusion.This field may not be present for older exclusions. */
-  createTime?: string | undefined;
 }
-export interface PatchBillingAccountsLocationsBucketsRequest {
+export interface PatchBillingAccountsLocationsBucketsRequest extends Omit<LogBucket, "name"> {
   /** Required. Field mask that specifies the fields in bucket that need an update. A bucket field will be overwritten if, and only if, it is in the update mask. name and output only fields cannot be updated.For a detailed FieldMask definition, see: https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#google.protobuf.FieldMaskFor example: updateMask=retention_days */
   updateMask?: string | undefined;
   /** Required. The full resource name of the bucket to update. "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" For example:"projects/my-project/locations/global/buckets/my-bucket" */
   name: string;
-  /** Output only. The last update timestamp of the bucket. */
-  updateTime?: string | undefined;
-  /** Output only. The bucket lifecycle state. */
-  lifecycleState?: LogBucketLifecycleStateEnum | (string & {}) | undefined;
-  /** Output only. The creation timestamp of the bucket. This is not set for any of the default buckets. */
-  createTime?: string | undefined;
-  /** Optional. Describes this bucket. */
-  description?: string | undefined;
-  /** Optional. Whether log analytics is enabled for this bucket.Once enabled, log analytics features cannot be disabled. */
-  analyticsEnabled?: boolean | undefined;
-  /** Optional. Logs will be retained by default for this amount of time, after which they will automatically be deleted. The minimum retention period is 1 day. If this value is set to zero at bucket creation time, the default time of 30 days will be used. */
-  retentionDays?: number | undefined;
-  /** Optional. Whether the bucket is locked.The retention period on a locked bucket cannot be changed. Locked buckets may only be deleted if they are empty. */
-  locked?: boolean | undefined;
-  /** Optional. A list of indexed fields and related configuration data. */
-  indexConfigs?: IndexConfigList | undefined;
-  /** Optional. Log entry field paths that are denied access in this bucket.The following fields and their children are eligible: textPayload, jsonPayload, protoPayload, httpRequest, labels, sourceLocation.Restricting a repeated field will restrict all values. Adding a parent will block all child fields. (e.g. foo.bar will block foo.bar.baz) */
-  restrictedFields?: StringList | undefined;
-  /** Optional. The CMEK settings of the log bucket. If present, new log entries written to this log bucket are encrypted using the CMEK key provided in this configuration. If a log bucket has CMEK settings, the CMEK settings cannot be disabled later by updating the log bucket. Changing the KMS key is allowed. */
-  cmekSettings?: CmekSettings | undefined;
 }
-export interface PatchBillingAccountsLocationsBucketsViewsRequest {
+export interface PatchBillingAccountsLocationsBucketsViewsRequest extends Omit<LogView, "name"> {
   /** Required. The full resource name of the view to update "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID]" For example:"projects/my-project/locations/global/buckets/my-bucket/views/my-view" */
   name: string;
   /** Optional. Field mask that specifies the fields in view that need an update. A field will be overwritten if, and only if, it is in the update mask. name and output only fields cannot be updated.For a detailed FieldMask definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#google.protobuf.FieldMaskFor example: updateMask=filter */
   updateMask?: string | undefined;
-  /** Output only. The last update timestamp of the view. */
-  updateTime?: string | undefined;
-  /** Optional. Filter that restricts which log entries in a bucket are visible in this view.Filters must be logical conjunctions that use the AND operator, and they can use any of the following qualifiers: SOURCE(), which specifies a project, folder, organization, or billing account of origin. resource.type, which specifies the resource type. LOG_ID(), which identifies the log.They can also use the negations of these qualifiers with the NOT operator.For example:SOURCE("projects/myproject") AND resource.type = "gce_instance" AND NOT LOG_ID("stdout") */
-  filter?: string | undefined;
-  /** Optional. Describes this view. */
-  description?: string | undefined;
-  /** Output only. The creation timestamp of the view. */
-  createTime?: string | undefined;
 }
-export interface PatchBillingAccountsLocationsSavedQueriesRequest {
+export interface PatchBillingAccountsLocationsSavedQueriesRequest extends Omit<SavedQuery, "name"> {
   /** Output only. Resource name of the saved query.In the format: "projects/[PROJECT_ID]/locations/[LOCATION_ID]/savedQueries/[QUERY_ID]" For a list of supported locations, see Supported Regions (https://docs.cloud.google.com/logging/docs/region-support#bucket-regions)After the saved query is created, the location cannot be changed.If the user doesn't provide a QUERY_ID, the system will generate an alphanumeric ID. */
   name: string;
   /** Required. A non-empty list of fields to change in the existing saved query. Fields are relative to the saved_query and new values for the fields are taken from the corresponding fields in the SavedQuery included in this request. Fields not mentioned in update_mask are not changed and are ignored in the request.To update all mutable fields, specify an update_mask of *.For example, to change the description and query filter text of a saved query, specify an update_mask of "description, query.filter". */
   updateMask?: string | undefined;
-  /** Optional. A human readable description of the saved query. */
-  description?: string | undefined;
-  /** Output only. The timestamp when the saved query was created. */
-  createTime?: string | undefined;
-  /** Analytics query that can be executed in Log Analytics. */
-  opsAnalyticsQuery?: OpsAnalyticsQuery | undefined;
-  /** Logging query that can be executed in Logs Explorer or via Logging API. */
-  loggingQuery?: LoggingQuery | undefined;
-  /** Required. The visibility status of this query, which determines its ownership. */
-  visibility?: SavedQueryVisibilityEnum | (string & {}) | undefined;
-  /** Required. The user specified title for the SavedQuery. */
-  displayName?: string | undefined;
-  /** Output only. The timestamp when the saved query was last updated. */
-  updateTime?: string | undefined;
 }
-export interface PatchBillingAccountsSinksRequest {
+export interface PatchBillingAccountsSinksRequest extends LogSink {
   /** Optional. The service account provided by the caller that will be used to write the log entries. The format must be serviceAccount:some@email. This field can only be specified when you are routing logs to a log bucket that is in a different project than the sink. When not specified, a Logging service account will automatically be generated. */
   customWriterIdentity?: string | undefined;
   /** Required. The full resource name of the sink to update, including the parent resource and the sink identifier: "projects/[PROJECT_ID]/sinks/[SINK_ID]" "organizations/[ORGANIZATION_ID]/sinks/[SINK_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/sinks/[SINK_ID]" "folders/[FOLDER_ID]/sinks/[SINK_ID]" For example:"projects/my-project/sinks/my-sink" */
@@ -2922,142 +2231,44 @@ export interface PatchBillingAccountsSinksRequest {
   updateMask?: string | undefined;
   /** Optional. See sinks.create for a description of this field. When updating a sink, the effect of this field on the value of writer_identity in the updated sink depends on both the old and new values of this field: If the old and new values of this field are both false or both true, then there is no change to the sink's writer_identity. If the old value is false and the new value is true, then writer_identity is changed to a service agent (https://docs.cloud.google.com/iam/docs/service-account-types#service-agents) owned by Cloud Logging. It is an error if the old value is true and the new value is set to false or defaulted to false. */
   uniqueWriterIdentity?: boolean | undefined;
-  /** Output only. The creation timestamp of the sink.This field may not be present for older sinks. */
-  createTime?: string | undefined;
-  /** Optional. An advanced logs filter (https://docs.cloud.google.com/logging/docs/view/building-queries#queries-by-expression). The only exported log entries are those that are in the resource owning the sink and that match the filter.For example:logName="projects/[PROJECT_ID]/logs/[LOG_ID]" AND severity>=ERROR */
-  filter?: string | undefined;
-  /** Output only. The resource name of the sink. "projects/[PROJECT_ID]/sinks/[SINK_NAME] "organizations/[ORGANIZATION_ID]/sinks/[SINK_NAME] "billingAccounts/[BILLING_ACCOUNT_ID]/sinks/[SINK_NAME] "folders/[FOLDER_ID]/sinks/[SINK_NAME] For example: projects/my_project/sinks/SINK_NAME */
-  resourceName?: string | undefined;
-  /** Output only. The last update timestamp of the sink.This field may not be present for older sinks. */
-  updateTime?: string | undefined;
-  /** Optional. This field applies only to sinks owned by organizations and folders. If the field is false, the default, only the logs owned by the sink's parent resource are available for export. If the field is true, then log entries from all the projects, folders, and billing accounts contained in the sink's parent resource are also available for export. Whether a particular log entry from the children is exported depends on the sink's filter expression.For example, if this field is true, then the filter resource.type=gce_instance would export all Compute Engine VM instance log entries from all projects in the sink's parent.To only export entries from certain child projects, filter on the project part of the log name:logName:("projects/test-project1/" OR "projects/test-project2/") AND resource.type=gce_instance */
-  includeChildren?: boolean | undefined;
-  /** Output only. An IAM identity--a service account or group--under which Cloud Logging writes the exported log entries to the sink's destination. This field is either set by specifying custom_writer_identity or set automatically by sinks.create and sinks.update based on the value of unique_writer_identity in those methods.Until you grant this identity write-access to the destination, log entry exports from this sink will fail. For more information, see Manage access to projects, folders, and organizations (https://docs.cloud.google.com/iam/docs/granting-roles-to-service-accounts#granting_access_to_a_service_account_for_a_resource). Consult the destination service's documentation to determine the appropriate IAM roles to assign to the identity.Sinks that have a destination that is a log bucket in the same project as the sink cannot have a writer_identity and no additional permissions are required. */
-  writerIdentity?: string | undefined;
-  /** Optional. Options that affect sinks exporting data to BigQuery. */
-  bigqueryOptions?: BigQueryOptions | undefined;
-  /** Optional. Log entries that match any of these exclusion filters will not be exported.If a log entry is matched by both filter and one of exclusions it will not be exported. */
-  exclusions?: LogExclusionList | undefined;
-  /** Optional. The client-assigned sink identifier, unique within the project.For example: "my-syslog-errors-to-pubsub".Sink identifiers are limited to 100 characters and can include only the following characters: upper and lower-case alphanumeric characters, underscores, hyphens, periods.First character has to be alphanumeric. */
-  name?: string | undefined;
-  /** Optional. A description of this sink.The maximum length of the description is 8000 characters. */
-  description?: string | undefined;
-  /** Optional. If set to true, then this sink is disabled and it does not export any log entries. */
-  disabled?: boolean | undefined;
-  /** Required. The export destination: "storage.googleapis.com/[GCS_BUCKET]" "bigquery.googleapis.com/projects/[PROJECT_ID]/datasets/[DATASET]" "pubsub.googleapis.com/projects/[PROJECT_ID]/topics/[TOPIC_ID]" "logging.googleapis.com/projects/[PROJECT_ID]" "logging.googleapis.com/projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" The sink's writer_identity, set when the sink is created, must have permission to write to the destination or else the log entries are not exported. For more information, see Route logs to supported destinations (https://docs.cloud.google.com/logging/docs/export/configure_export_v2). */
-  destination?: string | undefined;
-  /** Deprecated. This field is unused. */
-  outputVersionFormat?: LogSinkOutputVersionFormatEnum | (string & {}) | undefined;
-  /** Optional. This field applies only to sinks owned by organizations and folders.When the value of 'intercept_children' is true, the following restrictions apply: The sink must have the include_children flag set to true. The sink destination must be a Cloud project.Also, the following behaviors apply: Any logs matched by the sink won't be included by non-_Required sinks owned by child resources. The sink appears in the results of a ListSinks call from a child resource if the value of the filter field in its request is either 'in_scope("ALL")' or 'in_scope("ANCESTOR")'. */
-  interceptChildren?: boolean | undefined;
 }
-export interface PatchExclusionsRequest {
+export interface PatchExclusionsRequest extends Omit<LogExclusion, "name"> {
   /** Required. A non-empty list of fields to change in the existing exclusion. New values for the fields are taken from the corresponding fields in the LogExclusion included in this request. Fields not mentioned in update_mask are not changed and are ignored in the request.For example, to change the filter and description of an exclusion, specify an update_mask of "filter,description". */
   updateMask?: string | undefined;
   /** Required. The resource name of the exclusion to update: "projects/[PROJECT_ID]/exclusions/[EXCLUSION_ID]" "organizations/[ORGANIZATION_ID]/exclusions/[EXCLUSION_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/exclusions/[EXCLUSION_ID]" "folders/[FOLDER_ID]/exclusions/[EXCLUSION_ID]" For example:"projects/my-project/exclusions/my-exclusion" */
   name: string;
-  /** Optional. If set to True, then this exclusion is disabled and it does not exclude any log entries. You can update an exclusion to change the value of this field. */
-  disabled?: boolean | undefined;
-  /** Output only. The last update timestamp of the exclusion.This field may not be present for older exclusions. */
-  updateTime?: string | undefined;
-  /** Optional. A description of this exclusion. */
-  description?: string | undefined;
-  /** Required. An advanced logs filter (https://docs.cloud.google.com/logging/docs/view/building-queries#queries-by-expression) that matches the log entries to be excluded. By using the sample function (https://docs.cloud.google.com/logging/docs/view/logging-query-language#sample), you can exclude less than 100% of the matching log entries.For example, the following query matches 99% of low-severity log entries from Google Cloud Storage buckets:resource.type=gcs_bucket severity<ERROR sample(insertId, 0.99) */
-  filter?: string | undefined;
-  /** Output only. The creation timestamp of the exclusion.This field may not be present for older exclusions. */
-  createTime?: string | undefined;
 }
-export interface PatchFoldersExclusionsRequest {
+export interface PatchFoldersExclusionsRequest extends Omit<LogExclusion, "name"> {
   /** Required. The resource name of the exclusion to update: "projects/[PROJECT_ID]/exclusions/[EXCLUSION_ID]" "organizations/[ORGANIZATION_ID]/exclusions/[EXCLUSION_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/exclusions/[EXCLUSION_ID]" "folders/[FOLDER_ID]/exclusions/[EXCLUSION_ID]" For example:"projects/my-project/exclusions/my-exclusion" */
   name: string;
   /** Required. A non-empty list of fields to change in the existing exclusion. New values for the fields are taken from the corresponding fields in the LogExclusion included in this request. Fields not mentioned in update_mask are not changed and are ignored in the request.For example, to change the filter and description of an exclusion, specify an update_mask of "filter,description". */
   updateMask?: string | undefined;
-  /** Optional. If set to True, then this exclusion is disabled and it does not exclude any log entries. You can update an exclusion to change the value of this field. */
-  disabled?: boolean | undefined;
-  /** Output only. The last update timestamp of the exclusion.This field may not be present for older exclusions. */
-  updateTime?: string | undefined;
-  /** Optional. A description of this exclusion. */
-  description?: string | undefined;
-  /** Required. An advanced logs filter (https://docs.cloud.google.com/logging/docs/view/building-queries#queries-by-expression) that matches the log entries to be excluded. By using the sample function (https://docs.cloud.google.com/logging/docs/view/logging-query-language#sample), you can exclude less than 100% of the matching log entries.For example, the following query matches 99% of low-severity log entries from Google Cloud Storage buckets:resource.type=gcs_bucket severity<ERROR sample(insertId, 0.99) */
-  filter?: string | undefined;
-  /** Output only. The creation timestamp of the exclusion.This field may not be present for older exclusions. */
-  createTime?: string | undefined;
 }
-export interface PatchFoldersLocationsBucketsRequest {
+export interface PatchFoldersLocationsBucketsRequest extends Omit<LogBucket, "name"> {
   /** Required. Field mask that specifies the fields in bucket that need an update. A bucket field will be overwritten if, and only if, it is in the update mask. name and output only fields cannot be updated.For a detailed FieldMask definition, see: https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#google.protobuf.FieldMaskFor example: updateMask=retention_days */
   updateMask?: string | undefined;
   /** Required. The full resource name of the bucket to update. "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" For example:"projects/my-project/locations/global/buckets/my-bucket" */
   name: string;
-  /** Output only. The last update timestamp of the bucket. */
-  updateTime?: string | undefined;
-  /** Output only. The bucket lifecycle state. */
-  lifecycleState?: LogBucketLifecycleStateEnum | (string & {}) | undefined;
-  /** Output only. The creation timestamp of the bucket. This is not set for any of the default buckets. */
-  createTime?: string | undefined;
-  /** Optional. Describes this bucket. */
-  description?: string | undefined;
-  /** Optional. Whether log analytics is enabled for this bucket.Once enabled, log analytics features cannot be disabled. */
-  analyticsEnabled?: boolean | undefined;
-  /** Optional. Logs will be retained by default for this amount of time, after which they will automatically be deleted. The minimum retention period is 1 day. If this value is set to zero at bucket creation time, the default time of 30 days will be used. */
-  retentionDays?: number | undefined;
-  /** Optional. Whether the bucket is locked.The retention period on a locked bucket cannot be changed. Locked buckets may only be deleted if they are empty. */
-  locked?: boolean | undefined;
-  /** Optional. A list of indexed fields and related configuration data. */
-  indexConfigs?: IndexConfigList | undefined;
-  /** Optional. Log entry field paths that are denied access in this bucket.The following fields and their children are eligible: textPayload, jsonPayload, protoPayload, httpRequest, labels, sourceLocation.Restricting a repeated field will restrict all values. Adding a parent will block all child fields. (e.g. foo.bar will block foo.bar.baz) */
-  restrictedFields?: StringList | undefined;
-  /** Optional. The CMEK settings of the log bucket. If present, new log entries written to this log bucket are encrypted using the CMEK key provided in this configuration. If a log bucket has CMEK settings, the CMEK settings cannot be disabled later by updating the log bucket. Changing the KMS key is allowed. */
-  cmekSettings?: CmekSettings | undefined;
 }
-export interface PatchFoldersLocationsBucketsViewsRequest {
+export interface PatchFoldersLocationsBucketsViewsRequest extends Omit<LogView, "name"> {
   /** Optional. Field mask that specifies the fields in view that need an update. A field will be overwritten if, and only if, it is in the update mask. name and output only fields cannot be updated.For a detailed FieldMask definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#google.protobuf.FieldMaskFor example: updateMask=filter */
   updateMask?: string | undefined;
   /** Required. The full resource name of the view to update "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID]" For example:"projects/my-project/locations/global/buckets/my-bucket/views/my-view" */
   name: string;
-  /** Output only. The last update timestamp of the view. */
-  updateTime?: string | undefined;
-  /** Optional. Filter that restricts which log entries in a bucket are visible in this view.Filters must be logical conjunctions that use the AND operator, and they can use any of the following qualifiers: SOURCE(), which specifies a project, folder, organization, or billing account of origin. resource.type, which specifies the resource type. LOG_ID(), which identifies the log.They can also use the negations of these qualifiers with the NOT operator.For example:SOURCE("projects/myproject") AND resource.type = "gce_instance" AND NOT LOG_ID("stdout") */
-  filter?: string | undefined;
-  /** Optional. Describes this view. */
-  description?: string | undefined;
-  /** Output only. The creation timestamp of the view. */
-  createTime?: string | undefined;
 }
-export interface PatchFoldersLocationsLogScopesRequest {
+export interface PatchFoldersLocationsLogScopesRequest extends Omit<LogScope, "name"> {
   /** Output only. The resource name of the log scope.Log scopes are only available in the global location. For example:projects/my-project/locations/global/logScopes/my-log-scope */
   name: string;
   /** Optional. Field mask that specifies the fields in log_scope that need an update. A field will be overwritten if, and only if, it is in the update mask. name and output only fields cannot be updated.For a detailed FieldMask definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#google.protobuf.FieldMaskFor example: updateMask=description */
   updateMask?: string | undefined;
-  /** Output only. The creation timestamp of the log scope. */
-  createTime?: string | undefined;
-  /** Optional. Describes this log scope.The maximum length of the description is 8000 characters. */
-  description?: string | undefined;
-  /** Required. Names of one or more parent resources (organizations and folders are not supported.): projects/[PROJECT_ID]May alternatively be one or more views: projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID]A log scope can include a maximum of 5 projects and a maximum of 100 resources in total. */
-  resourceNames?: StringList | undefined;
-  /** Output only. The last update timestamp of the log scope. */
-  updateTime?: string | undefined;
 }
-export interface PatchFoldersLocationsSavedQueriesRequest {
+export interface PatchFoldersLocationsSavedQueriesRequest extends Omit<SavedQuery, "name"> {
   /** Output only. Resource name of the saved query.In the format: "projects/[PROJECT_ID]/locations/[LOCATION_ID]/savedQueries/[QUERY_ID]" For a list of supported locations, see Supported Regions (https://docs.cloud.google.com/logging/docs/region-support#bucket-regions)After the saved query is created, the location cannot be changed.If the user doesn't provide a QUERY_ID, the system will generate an alphanumeric ID. */
   name: string;
   /** Required. A non-empty list of fields to change in the existing saved query. Fields are relative to the saved_query and new values for the fields are taken from the corresponding fields in the SavedQuery included in this request. Fields not mentioned in update_mask are not changed and are ignored in the request.To update all mutable fields, specify an update_mask of *.For example, to change the description and query filter text of a saved query, specify an update_mask of "description, query.filter". */
   updateMask?: string | undefined;
-  /** Optional. A human readable description of the saved query. */
-  description?: string | undefined;
-  /** Output only. The timestamp when the saved query was created. */
-  createTime?: string | undefined;
-  /** Analytics query that can be executed in Log Analytics. */
-  opsAnalyticsQuery?: OpsAnalyticsQuery | undefined;
-  /** Logging query that can be executed in Logs Explorer or via Logging API. */
-  loggingQuery?: LoggingQuery | undefined;
-  /** Required. The visibility status of this query, which determines its ownership. */
-  visibility?: SavedQueryVisibilityEnum | (string & {}) | undefined;
-  /** Required. The user specified title for the SavedQuery. */
-  displayName?: string | undefined;
-  /** Output only. The timestamp when the saved query was last updated. */
-  updateTime?: string | undefined;
 }
-export interface PatchFoldersSinksRequest {
+export interface PatchFoldersSinksRequest extends LogSink {
   /** Required. The full resource name of the sink to update, including the parent resource and the sink identifier: "projects/[PROJECT_ID]/sinks/[SINK_ID]" "organizations/[ORGANIZATION_ID]/sinks/[SINK_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/sinks/[SINK_ID]" "folders/[FOLDER_ID]/sinks/[SINK_ID]" For example:"projects/my-project/sinks/my-sink" */
   sinkName: string;
   /** Optional. The service account provided by the caller that will be used to write the log entries. The format must be serviceAccount:some@email. This field can only be specified when you are routing logs to a log bucket that is in a different project than the sink. When not specified, a Logging service account will automatically be generated. */
@@ -3066,166 +2277,50 @@ export interface PatchFoldersSinksRequest {
   updateMask?: string | undefined;
   /** Optional. See sinks.create for a description of this field. When updating a sink, the effect of this field on the value of writer_identity in the updated sink depends on both the old and new values of this field: If the old and new values of this field are both false or both true, then there is no change to the sink's writer_identity. If the old value is false and the new value is true, then writer_identity is changed to a service agent (https://docs.cloud.google.com/iam/docs/service-account-types#service-agents) owned by Cloud Logging. It is an error if the old value is true and the new value is set to false or defaulted to false. */
   uniqueWriterIdentity?: boolean | undefined;
-  /** Output only. The creation timestamp of the sink.This field may not be present for older sinks. */
-  createTime?: string | undefined;
-  /** Optional. An advanced logs filter (https://docs.cloud.google.com/logging/docs/view/building-queries#queries-by-expression). The only exported log entries are those that are in the resource owning the sink and that match the filter.For example:logName="projects/[PROJECT_ID]/logs/[LOG_ID]" AND severity>=ERROR */
-  filter?: string | undefined;
-  /** Output only. The resource name of the sink. "projects/[PROJECT_ID]/sinks/[SINK_NAME] "organizations/[ORGANIZATION_ID]/sinks/[SINK_NAME] "billingAccounts/[BILLING_ACCOUNT_ID]/sinks/[SINK_NAME] "folders/[FOLDER_ID]/sinks/[SINK_NAME] For example: projects/my_project/sinks/SINK_NAME */
-  resourceName?: string | undefined;
-  /** Output only. The last update timestamp of the sink.This field may not be present for older sinks. */
-  updateTime?: string | undefined;
-  /** Optional. This field applies only to sinks owned by organizations and folders. If the field is false, the default, only the logs owned by the sink's parent resource are available for export. If the field is true, then log entries from all the projects, folders, and billing accounts contained in the sink's parent resource are also available for export. Whether a particular log entry from the children is exported depends on the sink's filter expression.For example, if this field is true, then the filter resource.type=gce_instance would export all Compute Engine VM instance log entries from all projects in the sink's parent.To only export entries from certain child projects, filter on the project part of the log name:logName:("projects/test-project1/" OR "projects/test-project2/") AND resource.type=gce_instance */
-  includeChildren?: boolean | undefined;
-  /** Output only. An IAM identity--a service account or group--under which Cloud Logging writes the exported log entries to the sink's destination. This field is either set by specifying custom_writer_identity or set automatically by sinks.create and sinks.update based on the value of unique_writer_identity in those methods.Until you grant this identity write-access to the destination, log entry exports from this sink will fail. For more information, see Manage access to projects, folders, and organizations (https://docs.cloud.google.com/iam/docs/granting-roles-to-service-accounts#granting_access_to_a_service_account_for_a_resource). Consult the destination service's documentation to determine the appropriate IAM roles to assign to the identity.Sinks that have a destination that is a log bucket in the same project as the sink cannot have a writer_identity and no additional permissions are required. */
-  writerIdentity?: string | undefined;
-  /** Optional. Options that affect sinks exporting data to BigQuery. */
-  bigqueryOptions?: BigQueryOptions | undefined;
-  /** Optional. Log entries that match any of these exclusion filters will not be exported.If a log entry is matched by both filter and one of exclusions it will not be exported. */
-  exclusions?: LogExclusionList | undefined;
-  /** Optional. The client-assigned sink identifier, unique within the project.For example: "my-syslog-errors-to-pubsub".Sink identifiers are limited to 100 characters and can include only the following characters: upper and lower-case alphanumeric characters, underscores, hyphens, periods.First character has to be alphanumeric. */
-  name?: string | undefined;
-  /** Optional. A description of this sink.The maximum length of the description is 8000 characters. */
-  description?: string | undefined;
-  /** Optional. If set to true, then this sink is disabled and it does not export any log entries. */
-  disabled?: boolean | undefined;
-  /** Required. The export destination: "storage.googleapis.com/[GCS_BUCKET]" "bigquery.googleapis.com/projects/[PROJECT_ID]/datasets/[DATASET]" "pubsub.googleapis.com/projects/[PROJECT_ID]/topics/[TOPIC_ID]" "logging.googleapis.com/projects/[PROJECT_ID]" "logging.googleapis.com/projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" The sink's writer_identity, set when the sink is created, must have permission to write to the destination or else the log entries are not exported. For more information, see Route logs to supported destinations (https://docs.cloud.google.com/logging/docs/export/configure_export_v2). */
-  destination?: string | undefined;
-  /** Deprecated. This field is unused. */
-  outputVersionFormat?: LogSinkOutputVersionFormatEnum | (string & {}) | undefined;
-  /** Optional. This field applies only to sinks owned by organizations and folders.When the value of 'intercept_children' is true, the following restrictions apply: The sink must have the include_children flag set to true. The sink destination must be a Cloud project.Also, the following behaviors apply: Any logs matched by the sink won't be included by non-_Required sinks owned by child resources. The sink appears in the results of a ListSinks call from a child resource if the value of the filter field in its request is either 'in_scope("ALL")' or 'in_scope("ANCESTOR")'. */
-  interceptChildren?: boolean | undefined;
 }
-export interface PatchLocationsBucketsRequest {
+export interface PatchLocationsBucketsRequest extends Omit<LogBucket, "name"> {
   /** Required. Field mask that specifies the fields in bucket that need an update. A bucket field will be overwritten if, and only if, it is in the update mask. name and output only fields cannot be updated.For a detailed FieldMask definition, see: https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#google.protobuf.FieldMaskFor example: updateMask=retention_days */
   updateMask?: string | undefined;
   /** Required. The full resource name of the bucket to update. "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" For example:"projects/my-project/locations/global/buckets/my-bucket" */
   name: string;
-  /** Output only. The last update timestamp of the bucket. */
-  updateTime?: string | undefined;
-  /** Output only. The bucket lifecycle state. */
-  lifecycleState?: LogBucketLifecycleStateEnum | (string & {}) | undefined;
-  /** Output only. The creation timestamp of the bucket. This is not set for any of the default buckets. */
-  createTime?: string | undefined;
-  /** Optional. Describes this bucket. */
-  description?: string | undefined;
-  /** Optional. Whether log analytics is enabled for this bucket.Once enabled, log analytics features cannot be disabled. */
-  analyticsEnabled?: boolean | undefined;
-  /** Optional. Logs will be retained by default for this amount of time, after which they will automatically be deleted. The minimum retention period is 1 day. If this value is set to zero at bucket creation time, the default time of 30 days will be used. */
-  retentionDays?: number | undefined;
-  /** Optional. Whether the bucket is locked.The retention period on a locked bucket cannot be changed. Locked buckets may only be deleted if they are empty. */
-  locked?: boolean | undefined;
-  /** Optional. A list of indexed fields and related configuration data. */
-  indexConfigs?: IndexConfigList | undefined;
-  /** Optional. Log entry field paths that are denied access in this bucket.The following fields and their children are eligible: textPayload, jsonPayload, protoPayload, httpRequest, labels, sourceLocation.Restricting a repeated field will restrict all values. Adding a parent will block all child fields. (e.g. foo.bar will block foo.bar.baz) */
-  restrictedFields?: StringList | undefined;
-  /** Optional. The CMEK settings of the log bucket. If present, new log entries written to this log bucket are encrypted using the CMEK key provided in this configuration. If a log bucket has CMEK settings, the CMEK settings cannot be disabled later by updating the log bucket. Changing the KMS key is allowed. */
-  cmekSettings?: CmekSettings | undefined;
 }
-export interface PatchLocationsBucketsViewsRequest {
+export interface PatchLocationsBucketsViewsRequest extends Omit<LogView, "name"> {
   /** Required. The full resource name of the view to update "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID]" For example:"projects/my-project/locations/global/buckets/my-bucket/views/my-view" */
   name: string;
   /** Optional. Field mask that specifies the fields in view that need an update. A field will be overwritten if, and only if, it is in the update mask. name and output only fields cannot be updated.For a detailed FieldMask definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#google.protobuf.FieldMaskFor example: updateMask=filter */
   updateMask?: string | undefined;
-  /** Output only. The last update timestamp of the view. */
-  updateTime?: string | undefined;
-  /** Optional. Filter that restricts which log entries in a bucket are visible in this view.Filters must be logical conjunctions that use the AND operator, and they can use any of the following qualifiers: SOURCE(), which specifies a project, folder, organization, or billing account of origin. resource.type, which specifies the resource type. LOG_ID(), which identifies the log.They can also use the negations of these qualifiers with the NOT operator.For example:SOURCE("projects/myproject") AND resource.type = "gce_instance" AND NOT LOG_ID("stdout") */
-  filter?: string | undefined;
-  /** Optional. Describes this view. */
-  description?: string | undefined;
-  /** Output only. The creation timestamp of the view. */
-  createTime?: string | undefined;
 }
-export interface PatchOrganizationsExclusionsRequest {
+export interface PatchOrganizationsExclusionsRequest extends Omit<LogExclusion, "name"> {
   /** Required. The resource name of the exclusion to update: "projects/[PROJECT_ID]/exclusions/[EXCLUSION_ID]" "organizations/[ORGANIZATION_ID]/exclusions/[EXCLUSION_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/exclusions/[EXCLUSION_ID]" "folders/[FOLDER_ID]/exclusions/[EXCLUSION_ID]" For example:"projects/my-project/exclusions/my-exclusion" */
   name: string;
   /** Required. A non-empty list of fields to change in the existing exclusion. New values for the fields are taken from the corresponding fields in the LogExclusion included in this request. Fields not mentioned in update_mask are not changed and are ignored in the request.For example, to change the filter and description of an exclusion, specify an update_mask of "filter,description". */
   updateMask?: string | undefined;
-  /** Optional. If set to True, then this exclusion is disabled and it does not exclude any log entries. You can update an exclusion to change the value of this field. */
-  disabled?: boolean | undefined;
-  /** Output only. The last update timestamp of the exclusion.This field may not be present for older exclusions. */
-  updateTime?: string | undefined;
-  /** Optional. A description of this exclusion. */
-  description?: string | undefined;
-  /** Required. An advanced logs filter (https://docs.cloud.google.com/logging/docs/view/building-queries#queries-by-expression) that matches the log entries to be excluded. By using the sample function (https://docs.cloud.google.com/logging/docs/view/logging-query-language#sample), you can exclude less than 100% of the matching log entries.For example, the following query matches 99% of low-severity log entries from Google Cloud Storage buckets:resource.type=gcs_bucket severity<ERROR sample(insertId, 0.99) */
-  filter?: string | undefined;
-  /** Output only. The creation timestamp of the exclusion.This field may not be present for older exclusions. */
-  createTime?: string | undefined;
 }
-export interface PatchOrganizationsLocationsBucketsRequest {
+export interface PatchOrganizationsLocationsBucketsRequest extends Omit<LogBucket, "name"> {
   /** Required. Field mask that specifies the fields in bucket that need an update. A bucket field will be overwritten if, and only if, it is in the update mask. name and output only fields cannot be updated.For a detailed FieldMask definition, see: https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#google.protobuf.FieldMaskFor example: updateMask=retention_days */
   updateMask?: string | undefined;
   /** Required. The full resource name of the bucket to update. "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" For example:"projects/my-project/locations/global/buckets/my-bucket" */
   name: string;
-  /** Output only. The last update timestamp of the bucket. */
-  updateTime?: string | undefined;
-  /** Output only. The bucket lifecycle state. */
-  lifecycleState?: LogBucketLifecycleStateEnum | (string & {}) | undefined;
-  /** Output only. The creation timestamp of the bucket. This is not set for any of the default buckets. */
-  createTime?: string | undefined;
-  /** Optional. Describes this bucket. */
-  description?: string | undefined;
-  /** Optional. Whether log analytics is enabled for this bucket.Once enabled, log analytics features cannot be disabled. */
-  analyticsEnabled?: boolean | undefined;
-  /** Optional. Logs will be retained by default for this amount of time, after which they will automatically be deleted. The minimum retention period is 1 day. If this value is set to zero at bucket creation time, the default time of 30 days will be used. */
-  retentionDays?: number | undefined;
-  /** Optional. Whether the bucket is locked.The retention period on a locked bucket cannot be changed. Locked buckets may only be deleted if they are empty. */
-  locked?: boolean | undefined;
-  /** Optional. A list of indexed fields and related configuration data. */
-  indexConfigs?: IndexConfigList | undefined;
-  /** Optional. Log entry field paths that are denied access in this bucket.The following fields and their children are eligible: textPayload, jsonPayload, protoPayload, httpRequest, labels, sourceLocation.Restricting a repeated field will restrict all values. Adding a parent will block all child fields. (e.g. foo.bar will block foo.bar.baz) */
-  restrictedFields?: StringList | undefined;
-  /** Optional. The CMEK settings of the log bucket. If present, new log entries written to this log bucket are encrypted using the CMEK key provided in this configuration. If a log bucket has CMEK settings, the CMEK settings cannot be disabled later by updating the log bucket. Changing the KMS key is allowed. */
-  cmekSettings?: CmekSettings | undefined;
 }
-export interface PatchOrganizationsLocationsBucketsViewsRequest {
+export interface PatchOrganizationsLocationsBucketsViewsRequest extends Omit<LogView, "name"> {
   /** Required. The full resource name of the view to update "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID]" For example:"projects/my-project/locations/global/buckets/my-bucket/views/my-view" */
   name: string;
   /** Optional. Field mask that specifies the fields in view that need an update. A field will be overwritten if, and only if, it is in the update mask. name and output only fields cannot be updated.For a detailed FieldMask definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#google.protobuf.FieldMaskFor example: updateMask=filter */
   updateMask?: string | undefined;
-  /** Output only. The last update timestamp of the view. */
-  updateTime?: string | undefined;
-  /** Optional. Filter that restricts which log entries in a bucket are visible in this view.Filters must be logical conjunctions that use the AND operator, and they can use any of the following qualifiers: SOURCE(), which specifies a project, folder, organization, or billing account of origin. resource.type, which specifies the resource type. LOG_ID(), which identifies the log.They can also use the negations of these qualifiers with the NOT operator.For example:SOURCE("projects/myproject") AND resource.type = "gce_instance" AND NOT LOG_ID("stdout") */
-  filter?: string | undefined;
-  /** Optional. Describes this view. */
-  description?: string | undefined;
-  /** Output only. The creation timestamp of the view. */
-  createTime?: string | undefined;
 }
-export interface PatchOrganizationsLocationsLogScopesRequest {
+export interface PatchOrganizationsLocationsLogScopesRequest extends Omit<LogScope, "name"> {
   /** Optional. Field mask that specifies the fields in log_scope that need an update. A field will be overwritten if, and only if, it is in the update mask. name and output only fields cannot be updated.For a detailed FieldMask definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#google.protobuf.FieldMaskFor example: updateMask=description */
   updateMask?: string | undefined;
   /** Output only. The resource name of the log scope.Log scopes are only available in the global location. For example:projects/my-project/locations/global/logScopes/my-log-scope */
   name: string;
-  /** Output only. The creation timestamp of the log scope. */
-  createTime?: string | undefined;
-  /** Optional. Describes this log scope.The maximum length of the description is 8000 characters. */
-  description?: string | undefined;
-  /** Required. Names of one or more parent resources (organizations and folders are not supported.): projects/[PROJECT_ID]May alternatively be one or more views: projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID]A log scope can include a maximum of 5 projects and a maximum of 100 resources in total. */
-  resourceNames?: StringList | undefined;
-  /** Output only. The last update timestamp of the log scope. */
-  updateTime?: string | undefined;
 }
-export interface PatchOrganizationsLocationsSavedQueriesRequest {
+export interface PatchOrganizationsLocationsSavedQueriesRequest extends Omit<SavedQuery, "name"> {
   /** Output only. Resource name of the saved query.In the format: "projects/[PROJECT_ID]/locations/[LOCATION_ID]/savedQueries/[QUERY_ID]" For a list of supported locations, see Supported Regions (https://docs.cloud.google.com/logging/docs/region-support#bucket-regions)After the saved query is created, the location cannot be changed.If the user doesn't provide a QUERY_ID, the system will generate an alphanumeric ID. */
   name: string;
   /** Required. A non-empty list of fields to change in the existing saved query. Fields are relative to the saved_query and new values for the fields are taken from the corresponding fields in the SavedQuery included in this request. Fields not mentioned in update_mask are not changed and are ignored in the request.To update all mutable fields, specify an update_mask of *.For example, to change the description and query filter text of a saved query, specify an update_mask of "description, query.filter". */
   updateMask?: string | undefined;
-  /** Optional. A human readable description of the saved query. */
-  description?: string | undefined;
-  /** Output only. The timestamp when the saved query was created. */
-  createTime?: string | undefined;
-  /** Analytics query that can be executed in Log Analytics. */
-  opsAnalyticsQuery?: OpsAnalyticsQuery | undefined;
-  /** Logging query that can be executed in Logs Explorer or via Logging API. */
-  loggingQuery?: LoggingQuery | undefined;
-  /** Required. The visibility status of this query, which determines its ownership. */
-  visibility?: SavedQueryVisibilityEnum | (string & {}) | undefined;
-  /** Required. The user specified title for the SavedQuery. */
-  displayName?: string | undefined;
-  /** Output only. The timestamp when the saved query was last updated. */
-  updateTime?: string | undefined;
 }
-export interface PatchOrganizationsSinksRequest {
+export interface PatchOrganizationsSinksRequest extends LogSink {
   /** Optional. The service account provided by the caller that will be used to write the log entries. The format must be serviceAccount:some@email. This field can only be specified when you are routing logs to a log bucket that is in a different project than the sink. When not specified, a Logging service account will automatically be generated. */
   customWriterIdentity?: string | undefined;
   /** Optional. Field mask that specifies the fields in sink that need an update. A sink field will be overwritten if, and only if, it is in the update mask. name and output only fields cannot be updated.An empty updateMask is temporarily treated as using the following mask for backwards compatibility purposes:destination,filter,includeChildrenAt some point in the future, behavior will be removed and specifying an empty updateMask will be an error.For a detailed FieldMask definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#google.protobuf.FieldMaskFor example: updateMask=filter */
@@ -3234,126 +2329,38 @@ export interface PatchOrganizationsSinksRequest {
   uniqueWriterIdentity?: boolean | undefined;
   /** Required. The full resource name of the sink to update, including the parent resource and the sink identifier: "projects/[PROJECT_ID]/sinks/[SINK_ID]" "organizations/[ORGANIZATION_ID]/sinks/[SINK_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/sinks/[SINK_ID]" "folders/[FOLDER_ID]/sinks/[SINK_ID]" For example:"projects/my-project/sinks/my-sink" */
   sinkName: string;
-  /** Output only. The creation timestamp of the sink.This field may not be present for older sinks. */
-  createTime?: string | undefined;
-  /** Optional. An advanced logs filter (https://docs.cloud.google.com/logging/docs/view/building-queries#queries-by-expression). The only exported log entries are those that are in the resource owning the sink and that match the filter.For example:logName="projects/[PROJECT_ID]/logs/[LOG_ID]" AND severity>=ERROR */
-  filter?: string | undefined;
-  /** Output only. The resource name of the sink. "projects/[PROJECT_ID]/sinks/[SINK_NAME] "organizations/[ORGANIZATION_ID]/sinks/[SINK_NAME] "billingAccounts/[BILLING_ACCOUNT_ID]/sinks/[SINK_NAME] "folders/[FOLDER_ID]/sinks/[SINK_NAME] For example: projects/my_project/sinks/SINK_NAME */
-  resourceName?: string | undefined;
-  /** Output only. The last update timestamp of the sink.This field may not be present for older sinks. */
-  updateTime?: string | undefined;
-  /** Optional. This field applies only to sinks owned by organizations and folders. If the field is false, the default, only the logs owned by the sink's parent resource are available for export. If the field is true, then log entries from all the projects, folders, and billing accounts contained in the sink's parent resource are also available for export. Whether a particular log entry from the children is exported depends on the sink's filter expression.For example, if this field is true, then the filter resource.type=gce_instance would export all Compute Engine VM instance log entries from all projects in the sink's parent.To only export entries from certain child projects, filter on the project part of the log name:logName:("projects/test-project1/" OR "projects/test-project2/") AND resource.type=gce_instance */
-  includeChildren?: boolean | undefined;
-  /** Output only. An IAM identity--a service account or group--under which Cloud Logging writes the exported log entries to the sink's destination. This field is either set by specifying custom_writer_identity or set automatically by sinks.create and sinks.update based on the value of unique_writer_identity in those methods.Until you grant this identity write-access to the destination, log entry exports from this sink will fail. For more information, see Manage access to projects, folders, and organizations (https://docs.cloud.google.com/iam/docs/granting-roles-to-service-accounts#granting_access_to_a_service_account_for_a_resource). Consult the destination service's documentation to determine the appropriate IAM roles to assign to the identity.Sinks that have a destination that is a log bucket in the same project as the sink cannot have a writer_identity and no additional permissions are required. */
-  writerIdentity?: string | undefined;
-  /** Optional. Options that affect sinks exporting data to BigQuery. */
-  bigqueryOptions?: BigQueryOptions | undefined;
-  /** Optional. Log entries that match any of these exclusion filters will not be exported.If a log entry is matched by both filter and one of exclusions it will not be exported. */
-  exclusions?: LogExclusionList | undefined;
-  /** Optional. The client-assigned sink identifier, unique within the project.For example: "my-syslog-errors-to-pubsub".Sink identifiers are limited to 100 characters and can include only the following characters: upper and lower-case alphanumeric characters, underscores, hyphens, periods.First character has to be alphanumeric. */
-  name?: string | undefined;
-  /** Optional. A description of this sink.The maximum length of the description is 8000 characters. */
-  description?: string | undefined;
-  /** Optional. If set to true, then this sink is disabled and it does not export any log entries. */
-  disabled?: boolean | undefined;
-  /** Required. The export destination: "storage.googleapis.com/[GCS_BUCKET]" "bigquery.googleapis.com/projects/[PROJECT_ID]/datasets/[DATASET]" "pubsub.googleapis.com/projects/[PROJECT_ID]/topics/[TOPIC_ID]" "logging.googleapis.com/projects/[PROJECT_ID]" "logging.googleapis.com/projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" The sink's writer_identity, set when the sink is created, must have permission to write to the destination or else the log entries are not exported. For more information, see Route logs to supported destinations (https://docs.cloud.google.com/logging/docs/export/configure_export_v2). */
-  destination?: string | undefined;
-  /** Deprecated. This field is unused. */
-  outputVersionFormat?: LogSinkOutputVersionFormatEnum | (string & {}) | undefined;
-  /** Optional. This field applies only to sinks owned by organizations and folders.When the value of 'intercept_children' is true, the following restrictions apply: The sink must have the include_children flag set to true. The sink destination must be a Cloud project.Also, the following behaviors apply: Any logs matched by the sink won't be included by non-_Required sinks owned by child resources. The sink appears in the results of a ListSinks call from a child resource if the value of the filter field in its request is either 'in_scope("ALL")' or 'in_scope("ANCESTOR")'. */
-  interceptChildren?: boolean | undefined;
 }
-export interface PatchProjectsExclusionsRequest {
+export interface PatchProjectsExclusionsRequest extends Omit<LogExclusion, "name"> {
   /** Required. A non-empty list of fields to change in the existing exclusion. New values for the fields are taken from the corresponding fields in the LogExclusion included in this request. Fields not mentioned in update_mask are not changed and are ignored in the request.For example, to change the filter and description of an exclusion, specify an update_mask of "filter,description". */
   updateMask?: string | undefined;
   /** Required. The resource name of the exclusion to update: "projects/[PROJECT_ID]/exclusions/[EXCLUSION_ID]" "organizations/[ORGANIZATION_ID]/exclusions/[EXCLUSION_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/exclusions/[EXCLUSION_ID]" "folders/[FOLDER_ID]/exclusions/[EXCLUSION_ID]" For example:"projects/my-project/exclusions/my-exclusion" */
   name: string;
-  /** Optional. If set to True, then this exclusion is disabled and it does not exclude any log entries. You can update an exclusion to change the value of this field. */
-  disabled?: boolean | undefined;
-  /** Output only. The last update timestamp of the exclusion.This field may not be present for older exclusions. */
-  updateTime?: string | undefined;
-  /** Optional. A description of this exclusion. */
-  description?: string | undefined;
-  /** Required. An advanced logs filter (https://docs.cloud.google.com/logging/docs/view/building-queries#queries-by-expression) that matches the log entries to be excluded. By using the sample function (https://docs.cloud.google.com/logging/docs/view/logging-query-language#sample), you can exclude less than 100% of the matching log entries.For example, the following query matches 99% of low-severity log entries from Google Cloud Storage buckets:resource.type=gcs_bucket severity<ERROR sample(insertId, 0.99) */
-  filter?: string | undefined;
-  /** Output only. The creation timestamp of the exclusion.This field may not be present for older exclusions. */
-  createTime?: string | undefined;
 }
-export interface PatchProjectsLocationsBucketsRequest {
+export interface PatchProjectsLocationsBucketsRequest extends Omit<LogBucket, "name"> {
   /** Required. Field mask that specifies the fields in bucket that need an update. A bucket field will be overwritten if, and only if, it is in the update mask. name and output only fields cannot be updated.For a detailed FieldMask definition, see: https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#google.protobuf.FieldMaskFor example: updateMask=retention_days */
   updateMask?: string | undefined;
   /** Required. The full resource name of the bucket to update. "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" For example:"projects/my-project/locations/global/buckets/my-bucket" */
   name: string;
-  /** Output only. The last update timestamp of the bucket. */
-  updateTime?: string | undefined;
-  /** Output only. The bucket lifecycle state. */
-  lifecycleState?: LogBucketLifecycleStateEnum | (string & {}) | undefined;
-  /** Output only. The creation timestamp of the bucket. This is not set for any of the default buckets. */
-  createTime?: string | undefined;
-  /** Optional. Describes this bucket. */
-  description?: string | undefined;
-  /** Optional. Whether log analytics is enabled for this bucket.Once enabled, log analytics features cannot be disabled. */
-  analyticsEnabled?: boolean | undefined;
-  /** Optional. Logs will be retained by default for this amount of time, after which they will automatically be deleted. The minimum retention period is 1 day. If this value is set to zero at bucket creation time, the default time of 30 days will be used. */
-  retentionDays?: number | undefined;
-  /** Optional. Whether the bucket is locked.The retention period on a locked bucket cannot be changed. Locked buckets may only be deleted if they are empty. */
-  locked?: boolean | undefined;
-  /** Optional. A list of indexed fields and related configuration data. */
-  indexConfigs?: IndexConfigList | undefined;
-  /** Optional. Log entry field paths that are denied access in this bucket.The following fields and their children are eligible: textPayload, jsonPayload, protoPayload, httpRequest, labels, sourceLocation.Restricting a repeated field will restrict all values. Adding a parent will block all child fields. (e.g. foo.bar will block foo.bar.baz) */
-  restrictedFields?: StringList | undefined;
-  /** Optional. The CMEK settings of the log bucket. If present, new log entries written to this log bucket are encrypted using the CMEK key provided in this configuration. If a log bucket has CMEK settings, the CMEK settings cannot be disabled later by updating the log bucket. Changing the KMS key is allowed. */
-  cmekSettings?: CmekSettings | undefined;
 }
-export interface PatchProjectsLocationsBucketsViewsRequest {
+export interface PatchProjectsLocationsBucketsViewsRequest extends Omit<LogView, "name"> {
   /** Required. The full resource name of the view to update "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID]" For example:"projects/my-project/locations/global/buckets/my-bucket/views/my-view" */
   name: string;
   /** Optional. Field mask that specifies the fields in view that need an update. A field will be overwritten if, and only if, it is in the update mask. name and output only fields cannot be updated.For a detailed FieldMask definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#google.protobuf.FieldMaskFor example: updateMask=filter */
   updateMask?: string | undefined;
-  /** Output only. The last update timestamp of the view. */
-  updateTime?: string | undefined;
-  /** Optional. Filter that restricts which log entries in a bucket are visible in this view.Filters must be logical conjunctions that use the AND operator, and they can use any of the following qualifiers: SOURCE(), which specifies a project, folder, organization, or billing account of origin. resource.type, which specifies the resource type. LOG_ID(), which identifies the log.They can also use the negations of these qualifiers with the NOT operator.For example:SOURCE("projects/myproject") AND resource.type = "gce_instance" AND NOT LOG_ID("stdout") */
-  filter?: string | undefined;
-  /** Optional. Describes this view. */
-  description?: string | undefined;
-  /** Output only. The creation timestamp of the view. */
-  createTime?: string | undefined;
 }
-export interface PatchProjectsLocationsLogScopesRequest {
+export interface PatchProjectsLocationsLogScopesRequest extends Omit<LogScope, "name"> {
   /** Optional. Field mask that specifies the fields in log_scope that need an update. A field will be overwritten if, and only if, it is in the update mask. name and output only fields cannot be updated.For a detailed FieldMask definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#google.protobuf.FieldMaskFor example: updateMask=description */
   updateMask?: string | undefined;
   /** Output only. The resource name of the log scope.Log scopes are only available in the global location. For example:projects/my-project/locations/global/logScopes/my-log-scope */
   name: string;
-  /** Output only. The creation timestamp of the log scope. */
-  createTime?: string | undefined;
-  /** Optional. Describes this log scope.The maximum length of the description is 8000 characters. */
-  description?: string | undefined;
-  /** Required. Names of one or more parent resources (organizations and folders are not supported.): projects/[PROJECT_ID]May alternatively be one or more views: projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID]A log scope can include a maximum of 5 projects and a maximum of 100 resources in total. */
-  resourceNames?: StringList | undefined;
-  /** Output only. The last update timestamp of the log scope. */
-  updateTime?: string | undefined;
 }
-export interface PatchProjectsLocationsSavedQueriesRequest {
+export interface PatchProjectsLocationsSavedQueriesRequest extends Omit<SavedQuery, "name"> {
   /** Output only. Resource name of the saved query.In the format: "projects/[PROJECT_ID]/locations/[LOCATION_ID]/savedQueries/[QUERY_ID]" For a list of supported locations, see Supported Regions (https://docs.cloud.google.com/logging/docs/region-support#bucket-regions)After the saved query is created, the location cannot be changed.If the user doesn't provide a QUERY_ID, the system will generate an alphanumeric ID. */
   name: string;
   /** Required. A non-empty list of fields to change in the existing saved query. Fields are relative to the saved_query and new values for the fields are taken from the corresponding fields in the SavedQuery included in this request. Fields not mentioned in update_mask are not changed and are ignored in the request.To update all mutable fields, specify an update_mask of *.For example, to change the description and query filter text of a saved query, specify an update_mask of "description, query.filter". */
   updateMask?: string | undefined;
-  /** Optional. A human readable description of the saved query. */
-  description?: string | undefined;
-  /** Output only. The timestamp when the saved query was created. */
-  createTime?: string | undefined;
-  /** Analytics query that can be executed in Log Analytics. */
-  opsAnalyticsQuery?: OpsAnalyticsQuery | undefined;
-  /** Logging query that can be executed in Logs Explorer or via Logging API. */
-  loggingQuery?: LoggingQuery | undefined;
-  /** Required. The visibility status of this query, which determines its ownership. */
-  visibility?: SavedQueryVisibilityEnum | (string & {}) | undefined;
-  /** Required. The user specified title for the SavedQuery. */
-  displayName?: string | undefined;
-  /** Output only. The timestamp when the saved query was last updated. */
-  updateTime?: string | undefined;
 }
-export interface PatchProjectsSinksRequest {
+export interface PatchProjectsSinksRequest extends LogSink {
   /** Optional. See sinks.create for a description of this field. When updating a sink, the effect of this field on the value of writer_identity in the updated sink depends on both the old and new values of this field: If the old and new values of this field are both false or both true, then there is no change to the sink's writer_identity. If the old value is false and the new value is true, then writer_identity is changed to a service agent (https://docs.cloud.google.com/iam/docs/service-account-types#service-agents) owned by Cloud Logging. It is an error if the old value is true and the new value is set to false or defaulted to false. */
   uniqueWriterIdentity?: boolean | undefined;
   /** Required. The full resource name of the sink to update, including the parent resource and the sink identifier: "projects/[PROJECT_ID]/sinks/[SINK_ID]" "organizations/[ORGANIZATION_ID]/sinks/[SINK_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/sinks/[SINK_ID]" "folders/[FOLDER_ID]/sinks/[SINK_ID]" For example:"projects/my-project/sinks/my-sink" */
@@ -3362,68 +2369,32 @@ export interface PatchProjectsSinksRequest {
   customWriterIdentity?: string | undefined;
   /** Optional. Field mask that specifies the fields in sink that need an update. A sink field will be overwritten if, and only if, it is in the update mask. name and output only fields cannot be updated.An empty updateMask is temporarily treated as using the following mask for backwards compatibility purposes:destination,filter,includeChildrenAt some point in the future, behavior will be removed and specifying an empty updateMask will be an error.For a detailed FieldMask definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#google.protobuf.FieldMaskFor example: updateMask=filter */
   updateMask?: string | undefined;
-  /** Output only. The creation timestamp of the sink.This field may not be present for older sinks. */
-  createTime?: string | undefined;
-  /** Optional. An advanced logs filter (https://docs.cloud.google.com/logging/docs/view/building-queries#queries-by-expression). The only exported log entries are those that are in the resource owning the sink and that match the filter.For example:logName="projects/[PROJECT_ID]/logs/[LOG_ID]" AND severity>=ERROR */
-  filter?: string | undefined;
-  /** Output only. The resource name of the sink. "projects/[PROJECT_ID]/sinks/[SINK_NAME] "organizations/[ORGANIZATION_ID]/sinks/[SINK_NAME] "billingAccounts/[BILLING_ACCOUNT_ID]/sinks/[SINK_NAME] "folders/[FOLDER_ID]/sinks/[SINK_NAME] For example: projects/my_project/sinks/SINK_NAME */
-  resourceName?: string | undefined;
-  /** Output only. The last update timestamp of the sink.This field may not be present for older sinks. */
-  updateTime?: string | undefined;
-  /** Optional. This field applies only to sinks owned by organizations and folders. If the field is false, the default, only the logs owned by the sink's parent resource are available for export. If the field is true, then log entries from all the projects, folders, and billing accounts contained in the sink's parent resource are also available for export. Whether a particular log entry from the children is exported depends on the sink's filter expression.For example, if this field is true, then the filter resource.type=gce_instance would export all Compute Engine VM instance log entries from all projects in the sink's parent.To only export entries from certain child projects, filter on the project part of the log name:logName:("projects/test-project1/" OR "projects/test-project2/") AND resource.type=gce_instance */
-  includeChildren?: boolean | undefined;
-  /** Output only. An IAM identity--a service account or group--under which Cloud Logging writes the exported log entries to the sink's destination. This field is either set by specifying custom_writer_identity or set automatically by sinks.create and sinks.update based on the value of unique_writer_identity in those methods.Until you grant this identity write-access to the destination, log entry exports from this sink will fail. For more information, see Manage access to projects, folders, and organizations (https://docs.cloud.google.com/iam/docs/granting-roles-to-service-accounts#granting_access_to_a_service_account_for_a_resource). Consult the destination service's documentation to determine the appropriate IAM roles to assign to the identity.Sinks that have a destination that is a log bucket in the same project as the sink cannot have a writer_identity and no additional permissions are required. */
-  writerIdentity?: string | undefined;
-  /** Optional. Options that affect sinks exporting data to BigQuery. */
-  bigqueryOptions?: BigQueryOptions | undefined;
-  /** Optional. Log entries that match any of these exclusion filters will not be exported.If a log entry is matched by both filter and one of exclusions it will not be exported. */
-  exclusions?: LogExclusionList | undefined;
-  /** Optional. The client-assigned sink identifier, unique within the project.For example: "my-syslog-errors-to-pubsub".Sink identifiers are limited to 100 characters and can include only the following characters: upper and lower-case alphanumeric characters, underscores, hyphens, periods.First character has to be alphanumeric. */
-  name?: string | undefined;
-  /** Optional. A description of this sink.The maximum length of the description is 8000 characters. */
-  description?: string | undefined;
-  /** Optional. If set to true, then this sink is disabled and it does not export any log entries. */
-  disabled?: boolean | undefined;
-  /** Required. The export destination: "storage.googleapis.com/[GCS_BUCKET]" "bigquery.googleapis.com/projects/[PROJECT_ID]/datasets/[DATASET]" "pubsub.googleapis.com/projects/[PROJECT_ID]/topics/[TOPIC_ID]" "logging.googleapis.com/projects/[PROJECT_ID]" "logging.googleapis.com/projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" The sink's writer_identity, set when the sink is created, must have permission to write to the destination or else the log entries are not exported. For more information, see Route logs to supported destinations (https://docs.cloud.google.com/logging/docs/export/configure_export_v2). */
-  destination?: string | undefined;
-  /** Deprecated. This field is unused. */
-  outputVersionFormat?: LogSinkOutputVersionFormatEnum | (string & {}) | undefined;
-  /** Optional. This field applies only to sinks owned by organizations and folders.When the value of 'intercept_children' is true, the following restrictions apply: The sink must have the include_children flag set to true. The sink destination must be a Cloud project.Also, the following behaviors apply: Any logs matched by the sink won't be included by non-_Required sinks owned by child resources. The sink appears in the results of a ListSinks call from a child resource if the value of the filter field in its request is either 'in_scope("ALL")' or 'in_scope("ANCESTOR")'. */
-  interceptChildren?: boolean | undefined;
 }
-export interface SetIamPolicyFoldersLocationsBucketsViewsRequest {
-  /** REQUIRED: The resource for which the policy is being specified. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
+/** Request message for SetIamPolicy method. */
+export interface SetIamPolicyRequest {
   /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used:paths: "bindings, etag" */
   updateMask?: string | undefined;
   /** REQUIRED: The complete policy to be applied to the resource. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
   policy?: Policy | undefined;
 }
-export interface SetIamPolicyLocationsBucketsViewsRequest {
+export interface SetIamPolicyFoldersLocationsBucketsViewsRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used:paths: "bindings, etag" */
-  updateMask?: string | undefined;
-  /** REQUIRED: The complete policy to be applied to the resource. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
-  policy?: Policy | undefined;
 }
-export interface SetIamPolicyOrganizationsLocationsBucketsViewsRequest {
+export interface SetIamPolicyLocationsBucketsViewsRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used:paths: "bindings, etag" */
-  updateMask?: string | undefined;
-  /** REQUIRED: The complete policy to be applied to the resource. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
-  policy?: Policy | undefined;
 }
-export interface SetIamPolicyProjectsLocationsBucketsViewsRequest {
+export interface SetIamPolicyOrganizationsLocationsBucketsViewsRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used:paths: "bindings, etag" */
-  updateMask?: string | undefined;
-  /** REQUIRED: The complete policy to be applied to the resource. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
-  policy?: Policy | undefined;
 }
-export interface TailEntriesRequest {
+export interface SetIamPolicyProjectsLocationsBucketsViewsRequest extends SetIamPolicyRequest {
+  /** REQUIRED: The resource for which the policy is being specified. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
+}
+/** The parameters to TailLogEntries. */
+export interface TailLogEntriesRequest {
   /** Required. Name of a parent resource from which to retrieve log entries: projects/[PROJECT_ID] organizations/[ORGANIZATION_ID] billingAccounts/[BILLING_ACCOUNT_ID] folders/[FOLDER_ID]May alternatively be one or more views: projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID] organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID] billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID] folders/[FOLDER_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID] */
   resourceNames?: StringList | undefined;
   /** Optional. A filter that chooses which log entries to return. For more information, see Logging query language (https://docs.cloud.google.com/logging/docs/view/logging-query-language).Only log entries that match the filter are returned. An empty filter matches all log entries in the resources listed in resource_names. Referencing a parent resource that is not listed in resource_names will cause the filter to return no results. The maximum length of a filter is 20,000 characters. */
@@ -3431,6 +2402,7 @@ export interface TailEntriesRequest {
   /** Optional. The amount of time to buffer log entries at the server before being returned to prevent out of order results due to late arriving log entries. Valid values are between 0-60000 milliseconds. Defaults to 2000 milliseconds. */
   bufferWindow?: string | undefined;
 }
+export interface TailEntriesRequest extends TailLogEntriesRequest {}
 export type SuppressionInfoReasonEnum = "REASON_UNSPECIFIED" | "RATE_LIMIT" | "NOT_CONSUMED";
 /** Information about entries that were omitted from the session. */
 export interface SuppressionInfo {
@@ -3447,34 +2419,31 @@ export interface TailLogEntriesResponse {
   /** A list of log entries. Each response in the stream will order entries with increasing values of LogEntry.timestamp. Ordering is not guaranteed between separate responses. */
   entries?: LogEntryList | undefined;
 }
-export interface TestIamPermissionsFoldersLocationsBucketsViewsRequest {
-  /** REQUIRED: The resource for which the policy detail is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
+/** Request message for TestIamPermissions method. */
+export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the resource. Permissions with wildcards (such as * or storage.*) are not allowed. For more information see IAM Overview (https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: StringList | undefined;
+}
+export interface TestIamPermissionsFoldersLocationsBucketsViewsRequest extends TestIamPermissionsRequest {
+  /** REQUIRED: The resource for which the policy detail is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
 }
 /** Response message for TestIamPermissions method. */
 export interface TestIamPermissionsResponse {
   /** A subset of TestPermissionsRequest.permissions that the caller is allowed. */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsLocationsBucketsViewsRequest {
+export interface TestIamPermissionsLocationsBucketsViewsRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** The set of permissions to check for the resource. Permissions with wildcards (such as * or storage.*) are not allowed. For more information see IAM Overview (https://cloud.google.com/iam/docs/overview#permissions). */
-  permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsOrganizationsLocationsBucketsViewsRequest {
+export interface TestIamPermissionsOrganizationsLocationsBucketsViewsRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** The set of permissions to check for the resource. Permissions with wildcards (such as * or storage.*) are not allowed. For more information see IAM Overview (https://cloud.google.com/iam/docs/overview#permissions). */
-  permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsBucketsViewsRequest {
+export interface TestIamPermissionsProjectsLocationsBucketsViewsRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** The set of permissions to check for the resource. Permissions with wildcards (such as * or storage.*) are not allowed. For more information see IAM Overview (https://cloud.google.com/iam/docs/overview#permissions). */
-  permissions?: StringList | undefined;
 }
 /** The parameters to UndeleteBucket. */
 export type UndeleteBucketRequest = CancelOperationRequest;
@@ -3508,137 +2477,37 @@ export interface UndeleteProjectsLocationsBucketsRequest {
   /** Request body */
   body?: CancelOperationRequest | undefined;
 }
-export interface UpdateAsyncBillingAccountsLocationsBucketsRequest {
+export interface UpdateAsyncBillingAccountsLocationsBucketsRequest extends Omit<LogBucket, "name"> {
   /** Required. The full resource name of the bucket to update. "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" For example:"projects/my-project/locations/global/buckets/my-bucket" */
   name: string;
   /** Required. Field mask that specifies the fields in bucket that need an update. A bucket field will be overwritten if, and only if, it is in the update mask. name and output only fields cannot be updated.For a detailed FieldMask definition, see: https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#google.protobuf.FieldMaskFor example: updateMask=retention_days */
   updateMask?: string | undefined;
-  /** Output only. The last update timestamp of the bucket. */
-  updateTime?: string | undefined;
-  /** Output only. The bucket lifecycle state. */
-  lifecycleState?: LogBucketLifecycleStateEnum | (string & {}) | undefined;
-  /** Output only. The creation timestamp of the bucket. This is not set for any of the default buckets. */
-  createTime?: string | undefined;
-  /** Optional. Describes this bucket. */
-  description?: string | undefined;
-  /** Optional. Whether log analytics is enabled for this bucket.Once enabled, log analytics features cannot be disabled. */
-  analyticsEnabled?: boolean | undefined;
-  /** Optional. Logs will be retained by default for this amount of time, after which they will automatically be deleted. The minimum retention period is 1 day. If this value is set to zero at bucket creation time, the default time of 30 days will be used. */
-  retentionDays?: number | undefined;
-  /** Optional. Whether the bucket is locked.The retention period on a locked bucket cannot be changed. Locked buckets may only be deleted if they are empty. */
-  locked?: boolean | undefined;
-  /** Optional. A list of indexed fields and related configuration data. */
-  indexConfigs?: IndexConfigList | undefined;
-  /** Optional. Log entry field paths that are denied access in this bucket.The following fields and their children are eligible: textPayload, jsonPayload, protoPayload, httpRequest, labels, sourceLocation.Restricting a repeated field will restrict all values. Adding a parent will block all child fields. (e.g. foo.bar will block foo.bar.baz) */
-  restrictedFields?: StringList | undefined;
-  /** Optional. The CMEK settings of the log bucket. If present, new log entries written to this log bucket are encrypted using the CMEK key provided in this configuration. If a log bucket has CMEK settings, the CMEK settings cannot be disabled later by updating the log bucket. Changing the KMS key is allowed. */
-  cmekSettings?: CmekSettings | undefined;
 }
-export interface UpdateAsyncFoldersLocationsBucketsRequest {
+export interface UpdateAsyncFoldersLocationsBucketsRequest extends Omit<LogBucket, "name"> {
   /** Required. The full resource name of the bucket to update. "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" For example:"projects/my-project/locations/global/buckets/my-bucket" */
   name: string;
   /** Required. Field mask that specifies the fields in bucket that need an update. A bucket field will be overwritten if, and only if, it is in the update mask. name and output only fields cannot be updated.For a detailed FieldMask definition, see: https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#google.protobuf.FieldMaskFor example: updateMask=retention_days */
   updateMask?: string | undefined;
-  /** Output only. The last update timestamp of the bucket. */
-  updateTime?: string | undefined;
-  /** Output only. The bucket lifecycle state. */
-  lifecycleState?: LogBucketLifecycleStateEnum | (string & {}) | undefined;
-  /** Output only. The creation timestamp of the bucket. This is not set for any of the default buckets. */
-  createTime?: string | undefined;
-  /** Optional. Describes this bucket. */
-  description?: string | undefined;
-  /** Optional. Whether log analytics is enabled for this bucket.Once enabled, log analytics features cannot be disabled. */
-  analyticsEnabled?: boolean | undefined;
-  /** Optional. Logs will be retained by default for this amount of time, after which they will automatically be deleted. The minimum retention period is 1 day. If this value is set to zero at bucket creation time, the default time of 30 days will be used. */
-  retentionDays?: number | undefined;
-  /** Optional. Whether the bucket is locked.The retention period on a locked bucket cannot be changed. Locked buckets may only be deleted if they are empty. */
-  locked?: boolean | undefined;
-  /** Optional. A list of indexed fields and related configuration data. */
-  indexConfigs?: IndexConfigList | undefined;
-  /** Optional. Log entry field paths that are denied access in this bucket.The following fields and their children are eligible: textPayload, jsonPayload, protoPayload, httpRequest, labels, sourceLocation.Restricting a repeated field will restrict all values. Adding a parent will block all child fields. (e.g. foo.bar will block foo.bar.baz) */
-  restrictedFields?: StringList | undefined;
-  /** Optional. The CMEK settings of the log bucket. If present, new log entries written to this log bucket are encrypted using the CMEK key provided in this configuration. If a log bucket has CMEK settings, the CMEK settings cannot be disabled later by updating the log bucket. Changing the KMS key is allowed. */
-  cmekSettings?: CmekSettings | undefined;
 }
-export interface UpdateAsyncLocationsBucketsRequest {
+export interface UpdateAsyncLocationsBucketsRequest extends Omit<LogBucket, "name"> {
   /** Required. The full resource name of the bucket to update. "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" For example:"projects/my-project/locations/global/buckets/my-bucket" */
   name: string;
   /** Required. Field mask that specifies the fields in bucket that need an update. A bucket field will be overwritten if, and only if, it is in the update mask. name and output only fields cannot be updated.For a detailed FieldMask definition, see: https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#google.protobuf.FieldMaskFor example: updateMask=retention_days */
   updateMask?: string | undefined;
-  /** Output only. The last update timestamp of the bucket. */
-  updateTime?: string | undefined;
-  /** Output only. The bucket lifecycle state. */
-  lifecycleState?: LogBucketLifecycleStateEnum | (string & {}) | undefined;
-  /** Output only. The creation timestamp of the bucket. This is not set for any of the default buckets. */
-  createTime?: string | undefined;
-  /** Optional. Describes this bucket. */
-  description?: string | undefined;
-  /** Optional. Whether log analytics is enabled for this bucket.Once enabled, log analytics features cannot be disabled. */
-  analyticsEnabled?: boolean | undefined;
-  /** Optional. Logs will be retained by default for this amount of time, after which they will automatically be deleted. The minimum retention period is 1 day. If this value is set to zero at bucket creation time, the default time of 30 days will be used. */
-  retentionDays?: number | undefined;
-  /** Optional. Whether the bucket is locked.The retention period on a locked bucket cannot be changed. Locked buckets may only be deleted if they are empty. */
-  locked?: boolean | undefined;
-  /** Optional. A list of indexed fields and related configuration data. */
-  indexConfigs?: IndexConfigList | undefined;
-  /** Optional. Log entry field paths that are denied access in this bucket.The following fields and their children are eligible: textPayload, jsonPayload, protoPayload, httpRequest, labels, sourceLocation.Restricting a repeated field will restrict all values. Adding a parent will block all child fields. (e.g. foo.bar will block foo.bar.baz) */
-  restrictedFields?: StringList | undefined;
-  /** Optional. The CMEK settings of the log bucket. If present, new log entries written to this log bucket are encrypted using the CMEK key provided in this configuration. If a log bucket has CMEK settings, the CMEK settings cannot be disabled later by updating the log bucket. Changing the KMS key is allowed. */
-  cmekSettings?: CmekSettings | undefined;
 }
-export interface UpdateAsyncOrganizationsLocationsBucketsRequest {
+export interface UpdateAsyncOrganizationsLocationsBucketsRequest extends Omit<LogBucket, "name"> {
   /** Required. Field mask that specifies the fields in bucket that need an update. A bucket field will be overwritten if, and only if, it is in the update mask. name and output only fields cannot be updated.For a detailed FieldMask definition, see: https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#google.protobuf.FieldMaskFor example: updateMask=retention_days */
   updateMask?: string | undefined;
   /** Required. The full resource name of the bucket to update. "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" For example:"projects/my-project/locations/global/buckets/my-bucket" */
   name: string;
-  /** Output only. The last update timestamp of the bucket. */
-  updateTime?: string | undefined;
-  /** Output only. The bucket lifecycle state. */
-  lifecycleState?: LogBucketLifecycleStateEnum | (string & {}) | undefined;
-  /** Output only. The creation timestamp of the bucket. This is not set for any of the default buckets. */
-  createTime?: string | undefined;
-  /** Optional. Describes this bucket. */
-  description?: string | undefined;
-  /** Optional. Whether log analytics is enabled for this bucket.Once enabled, log analytics features cannot be disabled. */
-  analyticsEnabled?: boolean | undefined;
-  /** Optional. Logs will be retained by default for this amount of time, after which they will automatically be deleted. The minimum retention period is 1 day. If this value is set to zero at bucket creation time, the default time of 30 days will be used. */
-  retentionDays?: number | undefined;
-  /** Optional. Whether the bucket is locked.The retention period on a locked bucket cannot be changed. Locked buckets may only be deleted if they are empty. */
-  locked?: boolean | undefined;
-  /** Optional. A list of indexed fields and related configuration data. */
-  indexConfigs?: IndexConfigList | undefined;
-  /** Optional. Log entry field paths that are denied access in this bucket.The following fields and their children are eligible: textPayload, jsonPayload, protoPayload, httpRequest, labels, sourceLocation.Restricting a repeated field will restrict all values. Adding a parent will block all child fields. (e.g. foo.bar will block foo.bar.baz) */
-  restrictedFields?: StringList | undefined;
-  /** Optional. The CMEK settings of the log bucket. If present, new log entries written to this log bucket are encrypted using the CMEK key provided in this configuration. If a log bucket has CMEK settings, the CMEK settings cannot be disabled later by updating the log bucket. Changing the KMS key is allowed. */
-  cmekSettings?: CmekSettings | undefined;
 }
-export interface UpdateAsyncProjectsLocationsBucketsRequest {
+export interface UpdateAsyncProjectsLocationsBucketsRequest extends Omit<LogBucket, "name"> {
   /** Required. Field mask that specifies the fields in bucket that need an update. A bucket field will be overwritten if, and only if, it is in the update mask. name and output only fields cannot be updated.For a detailed FieldMask definition, see: https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#google.protobuf.FieldMaskFor example: updateMask=retention_days */
   updateMask?: string | undefined;
   /** Required. The full resource name of the bucket to update. "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" For example:"projects/my-project/locations/global/buckets/my-bucket" */
   name: string;
-  /** Output only. The last update timestamp of the bucket. */
-  updateTime?: string | undefined;
-  /** Output only. The bucket lifecycle state. */
-  lifecycleState?: LogBucketLifecycleStateEnum | (string & {}) | undefined;
-  /** Output only. The creation timestamp of the bucket. This is not set for any of the default buckets. */
-  createTime?: string | undefined;
-  /** Optional. Describes this bucket. */
-  description?: string | undefined;
-  /** Optional. Whether log analytics is enabled for this bucket.Once enabled, log analytics features cannot be disabled. */
-  analyticsEnabled?: boolean | undefined;
-  /** Optional. Logs will be retained by default for this amount of time, after which they will automatically be deleted. The minimum retention period is 1 day. If this value is set to zero at bucket creation time, the default time of 30 days will be used. */
-  retentionDays?: number | undefined;
-  /** Optional. Whether the bucket is locked.The retention period on a locked bucket cannot be changed. Locked buckets may only be deleted if they are empty. */
-  locked?: boolean | undefined;
-  /** Optional. A list of indexed fields and related configuration data. */
-  indexConfigs?: IndexConfigList | undefined;
-  /** Optional. Log entry field paths that are denied access in this bucket.The following fields and their children are eligible: textPayload, jsonPayload, protoPayload, httpRequest, labels, sourceLocation.Restricting a repeated field will restrict all values. Adding a parent will block all child fields. (e.g. foo.bar will block foo.bar.baz) */
-  restrictedFields?: StringList | undefined;
-  /** Optional. The CMEK settings of the log bucket. If present, new log entries written to this log bucket are encrypted using the CMEK key provided in this configuration. If a log bucket has CMEK settings, the CMEK settings cannot be disabled later by updating the log bucket. Changing the KMS key is allowed. */
-  cmekSettings?: CmekSettings | undefined;
 }
-export interface UpdateBillingAccountsSinksRequest {
+export interface UpdateBillingAccountsSinksRequest extends LogSink {
   /** Optional. See sinks.create for a description of this field. When updating a sink, the effect of this field on the value of writer_identity in the updated sink depends on both the old and new values of this field: If the old and new values of this field are both false or both true, then there is no change to the sink's writer_identity. If the old value is false and the new value is true, then writer_identity is changed to a service agent (https://docs.cloud.google.com/iam/docs/service-account-types#service-agents) owned by Cloud Logging. It is an error if the old value is true and the new value is set to false or defaulted to false. */
   uniqueWriterIdentity?: boolean | undefined;
   /** Required. The full resource name of the sink to update, including the parent resource and the sink identifier: "projects/[PROJECT_ID]/sinks/[SINK_ID]" "organizations/[ORGANIZATION_ID]/sinks/[SINK_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/sinks/[SINK_ID]" "folders/[FOLDER_ID]/sinks/[SINK_ID]" For example:"projects/my-project/sinks/my-sink" */
@@ -3647,60 +2516,20 @@ export interface UpdateBillingAccountsSinksRequest {
   customWriterIdentity?: string | undefined;
   /** Optional. Field mask that specifies the fields in sink that need an update. A sink field will be overwritten if, and only if, it is in the update mask. name and output only fields cannot be updated.An empty updateMask is temporarily treated as using the following mask for backwards compatibility purposes:destination,filter,includeChildrenAt some point in the future, behavior will be removed and specifying an empty updateMask will be an error.For a detailed FieldMask definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#google.protobuf.FieldMaskFor example: updateMask=filter */
   updateMask?: string | undefined;
-  /** Output only. The creation timestamp of the sink.This field may not be present for older sinks. */
-  createTime?: string | undefined;
-  /** Optional. An advanced logs filter (https://docs.cloud.google.com/logging/docs/view/building-queries#queries-by-expression). The only exported log entries are those that are in the resource owning the sink and that match the filter.For example:logName="projects/[PROJECT_ID]/logs/[LOG_ID]" AND severity>=ERROR */
-  filter?: string | undefined;
-  /** Output only. The resource name of the sink. "projects/[PROJECT_ID]/sinks/[SINK_NAME] "organizations/[ORGANIZATION_ID]/sinks/[SINK_NAME] "billingAccounts/[BILLING_ACCOUNT_ID]/sinks/[SINK_NAME] "folders/[FOLDER_ID]/sinks/[SINK_NAME] For example: projects/my_project/sinks/SINK_NAME */
-  resourceName?: string | undefined;
-  /** Output only. The last update timestamp of the sink.This field may not be present for older sinks. */
-  updateTime?: string | undefined;
-  /** Optional. This field applies only to sinks owned by organizations and folders. If the field is false, the default, only the logs owned by the sink's parent resource are available for export. If the field is true, then log entries from all the projects, folders, and billing accounts contained in the sink's parent resource are also available for export. Whether a particular log entry from the children is exported depends on the sink's filter expression.For example, if this field is true, then the filter resource.type=gce_instance would export all Compute Engine VM instance log entries from all projects in the sink's parent.To only export entries from certain child projects, filter on the project part of the log name:logName:("projects/test-project1/" OR "projects/test-project2/") AND resource.type=gce_instance */
-  includeChildren?: boolean | undefined;
-  /** Output only. An IAM identity--a service account or group--under which Cloud Logging writes the exported log entries to the sink's destination. This field is either set by specifying custom_writer_identity or set automatically by sinks.create and sinks.update based on the value of unique_writer_identity in those methods.Until you grant this identity write-access to the destination, log entry exports from this sink will fail. For more information, see Manage access to projects, folders, and organizations (https://docs.cloud.google.com/iam/docs/granting-roles-to-service-accounts#granting_access_to_a_service_account_for_a_resource). Consult the destination service's documentation to determine the appropriate IAM roles to assign to the identity.Sinks that have a destination that is a log bucket in the same project as the sink cannot have a writer_identity and no additional permissions are required. */
-  writerIdentity?: string | undefined;
-  /** Optional. Options that affect sinks exporting data to BigQuery. */
-  bigqueryOptions?: BigQueryOptions | undefined;
-  /** Optional. Log entries that match any of these exclusion filters will not be exported.If a log entry is matched by both filter and one of exclusions it will not be exported. */
-  exclusions?: LogExclusionList | undefined;
-  /** Optional. The client-assigned sink identifier, unique within the project.For example: "my-syslog-errors-to-pubsub".Sink identifiers are limited to 100 characters and can include only the following characters: upper and lower-case alphanumeric characters, underscores, hyphens, periods.First character has to be alphanumeric. */
-  name?: string | undefined;
-  /** Optional. A description of this sink.The maximum length of the description is 8000 characters. */
-  description?: string | undefined;
-  /** Optional. If set to true, then this sink is disabled and it does not export any log entries. */
-  disabled?: boolean | undefined;
-  /** Required. The export destination: "storage.googleapis.com/[GCS_BUCKET]" "bigquery.googleapis.com/projects/[PROJECT_ID]/datasets/[DATASET]" "pubsub.googleapis.com/projects/[PROJECT_ID]/topics/[TOPIC_ID]" "logging.googleapis.com/projects/[PROJECT_ID]" "logging.googleapis.com/projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" The sink's writer_identity, set when the sink is created, must have permission to write to the destination or else the log entries are not exported. For more information, see Route logs to supported destinations (https://docs.cloud.google.com/logging/docs/export/configure_export_v2). */
-  destination?: string | undefined;
-  /** Deprecated. This field is unused. */
-  outputVersionFormat?: LogSinkOutputVersionFormatEnum | (string & {}) | undefined;
-  /** Optional. This field applies only to sinks owned by organizations and folders.When the value of 'intercept_children' is true, the following restrictions apply: The sink must have the include_children flag set to true. The sink destination must be a Cloud project.Also, the following behaviors apply: Any logs matched by the sink won't be included by non-_Required sinks owned by child resources. The sink appears in the results of a ListSinks call from a child resource if the value of the filter field in its request is either 'in_scope("ALL")' or 'in_scope("ANCESTOR")'. */
-  interceptChildren?: boolean | undefined;
 }
-export interface UpdateCmekSettingsOrganizationsRequest {
+export interface UpdateCmekSettingsOrganizationsRequest extends Omit<CmekSettings, "name"> {
   /** Required. The resource name for the CMEK settings to update. "projects/[PROJECT_ID]/cmekSettings" "organizations/[ORGANIZATION_ID]/cmekSettings" "billingAccounts/[BILLING_ACCOUNT_ID]/cmekSettings" "folders/[FOLDER_ID]/cmekSettings" For example:"organizations/12345/cmekSettings"Note: CMEK for the Log Router can currently only be configured for Google Cloud organizations. Once configured, it applies to all projects and folders in the Google Cloud organization. */
   name: string;
   /** Optional. Field mask identifying which fields from cmek_settings should be updated. A field will be overwritten if and only if it is in the update mask. Output only fields cannot be updated.See FieldMask for more information.For example: "updateMask=kmsKeyName" */
   updateMask?: string | undefined;
-  /** Optional. The resource name for the configured Cloud KMS key.KMS key name format: "projects/[PROJECT_ID]/locations/[LOCATION]/keyRings/[KEYRING]/cryptoKeys/[KEY]" For example:"projects/my-project/locations/us-central1/keyRings/my-ring/cryptoKeys/my-key"To enable CMEK for the Log Router, set this field to a valid kms_key_name for which the associated service account has the needed cloudkms.cryptoKeyEncrypterDecrypter roles assigned for the key.The Cloud KMS key used by the Log Router can be updated by changing the kms_key_name to a new valid key name or disabled by setting the key name to an empty string. Encryption operations that are in progress will be completed with the key that was in use when they started. Decryption operations will be completed using the key that was used at the time of encryption unless access to that key has been revoked.To disable CMEK for the Log Router, set this field to an empty string.See Configure CMEK for Cloud Logging (https://docs.cloud.google.com/logging/docs/routing/managed-encryption) for more information. */
-  kmsKeyName?: string | undefined;
-  /** Output only. The service account that will be used by the Log Router to access your Cloud KMS key.Before enabling CMEK for Log Router, you must first assign the cloudkms.cryptoKeyEncrypterDecrypter role to the service account that the Log Router will use to access your Cloud KMS key. Use GetCmekSettings to obtain the service account ID.See Configure CMEK for Cloud Logging (https://docs.cloud.google.com/logging/docs/routing/managed-encryption) for more information. */
-  serviceAccountId?: string | undefined;
-  /** Output only. The CryptoKeyVersion resource name for the configured Cloud KMS key.KMS key name format: "projects/[PROJECT_ID]/locations/[LOCATION]/keyRings/[KEYRING]/cryptoKeys/[KEY]/cryptoKeyVersions/[VERSION]" For example:"projects/my-project/locations/us-central1/keyRings/my-ring/cryptoKeys/my-key/cryptoKeyVersions/1"This is a read-only field used to convey the specific configured CryptoKeyVersion of kms_key that has been configured. It will be populated in cases where the CMEK settings are bound to a single key version.If this field is populated, the kms_key is tied to a specific CryptoKeyVersion. */
-  kmsKeyVersionName?: string | undefined;
 }
-export interface UpdateCmekSettingsV2Request {
+export interface UpdateCmekSettingsV2Request extends Omit<CmekSettings, "name"> {
   /** Optional. Field mask identifying which fields from cmek_settings should be updated. A field will be overwritten if and only if it is in the update mask. Output only fields cannot be updated.See FieldMask for more information.For example: "updateMask=kmsKeyName" */
   updateMask?: string | undefined;
   /** Required. The resource name for the CMEK settings to update. "projects/[PROJECT_ID]/cmekSettings" "organizations/[ORGANIZATION_ID]/cmekSettings" "billingAccounts/[BILLING_ACCOUNT_ID]/cmekSettings" "folders/[FOLDER_ID]/cmekSettings" For example:"organizations/12345/cmekSettings"Note: CMEK for the Log Router can currently only be configured for Google Cloud organizations. Once configured, it applies to all projects and folders in the Google Cloud organization. */
   name: string;
-  /** Optional. The resource name for the configured Cloud KMS key.KMS key name format: "projects/[PROJECT_ID]/locations/[LOCATION]/keyRings/[KEYRING]/cryptoKeys/[KEY]" For example:"projects/my-project/locations/us-central1/keyRings/my-ring/cryptoKeys/my-key"To enable CMEK for the Log Router, set this field to a valid kms_key_name for which the associated service account has the needed cloudkms.cryptoKeyEncrypterDecrypter roles assigned for the key.The Cloud KMS key used by the Log Router can be updated by changing the kms_key_name to a new valid key name or disabled by setting the key name to an empty string. Encryption operations that are in progress will be completed with the key that was in use when they started. Decryption operations will be completed using the key that was used at the time of encryption unless access to that key has been revoked.To disable CMEK for the Log Router, set this field to an empty string.See Configure CMEK for Cloud Logging (https://docs.cloud.google.com/logging/docs/routing/managed-encryption) for more information. */
-  kmsKeyName?: string | undefined;
-  /** Output only. The service account that will be used by the Log Router to access your Cloud KMS key.Before enabling CMEK for Log Router, you must first assign the cloudkms.cryptoKeyEncrypterDecrypter role to the service account that the Log Router will use to access your Cloud KMS key. Use GetCmekSettings to obtain the service account ID.See Configure CMEK for Cloud Logging (https://docs.cloud.google.com/logging/docs/routing/managed-encryption) for more information. */
-  serviceAccountId?: string | undefined;
-  /** Output only. The CryptoKeyVersion resource name for the configured Cloud KMS key.KMS key name format: "projects/[PROJECT_ID]/locations/[LOCATION]/keyRings/[KEYRING]/cryptoKeys/[KEY]/cryptoKeyVersions/[VERSION]" For example:"projects/my-project/locations/us-central1/keyRings/my-ring/cryptoKeys/my-key/cryptoKeyVersions/1"This is a read-only field used to convey the specific configured CryptoKeyVersion of kms_key that has been configured. It will be populated in cases where the CMEK settings are bound to a single key version.If this field is populated, the kms_key is tied to a specific CryptoKeyVersion. */
-  kmsKeyVersionName?: string | undefined;
 }
-export interface UpdateFoldersSinksRequest {
+export interface UpdateFoldersSinksRequest extends LogSink {
   /** Optional. The service account provided by the caller that will be used to write the log entries. The format must be serviceAccount:some@email. This field can only be specified when you are routing logs to a log bucket that is in a different project than the sink. When not specified, a Logging service account will automatically be generated. */
   customWriterIdentity?: string | undefined;
   /** Required. The full resource name of the sink to update, including the parent resource and the sink identifier: "projects/[PROJECT_ID]/sinks/[SINK_ID]" "organizations/[ORGANIZATION_ID]/sinks/[SINK_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/sinks/[SINK_ID]" "folders/[FOLDER_ID]/sinks/[SINK_ID]" For example:"projects/my-project/sinks/my-sink" */
@@ -3709,36 +2538,8 @@ export interface UpdateFoldersSinksRequest {
   uniqueWriterIdentity?: boolean | undefined;
   /** Optional. Field mask that specifies the fields in sink that need an update. A sink field will be overwritten if, and only if, it is in the update mask. name and output only fields cannot be updated.An empty updateMask is temporarily treated as using the following mask for backwards compatibility purposes:destination,filter,includeChildrenAt some point in the future, behavior will be removed and specifying an empty updateMask will be an error.For a detailed FieldMask definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#google.protobuf.FieldMaskFor example: updateMask=filter */
   updateMask?: string | undefined;
-  /** Output only. The creation timestamp of the sink.This field may not be present for older sinks. */
-  createTime?: string | undefined;
-  /** Optional. An advanced logs filter (https://docs.cloud.google.com/logging/docs/view/building-queries#queries-by-expression). The only exported log entries are those that are in the resource owning the sink and that match the filter.For example:logName="projects/[PROJECT_ID]/logs/[LOG_ID]" AND severity>=ERROR */
-  filter?: string | undefined;
-  /** Output only. The resource name of the sink. "projects/[PROJECT_ID]/sinks/[SINK_NAME] "organizations/[ORGANIZATION_ID]/sinks/[SINK_NAME] "billingAccounts/[BILLING_ACCOUNT_ID]/sinks/[SINK_NAME] "folders/[FOLDER_ID]/sinks/[SINK_NAME] For example: projects/my_project/sinks/SINK_NAME */
-  resourceName?: string | undefined;
-  /** Output only. The last update timestamp of the sink.This field may not be present for older sinks. */
-  updateTime?: string | undefined;
-  /** Optional. This field applies only to sinks owned by organizations and folders. If the field is false, the default, only the logs owned by the sink's parent resource are available for export. If the field is true, then log entries from all the projects, folders, and billing accounts contained in the sink's parent resource are also available for export. Whether a particular log entry from the children is exported depends on the sink's filter expression.For example, if this field is true, then the filter resource.type=gce_instance would export all Compute Engine VM instance log entries from all projects in the sink's parent.To only export entries from certain child projects, filter on the project part of the log name:logName:("projects/test-project1/" OR "projects/test-project2/") AND resource.type=gce_instance */
-  includeChildren?: boolean | undefined;
-  /** Output only. An IAM identity--a service account or group--under which Cloud Logging writes the exported log entries to the sink's destination. This field is either set by specifying custom_writer_identity or set automatically by sinks.create and sinks.update based on the value of unique_writer_identity in those methods.Until you grant this identity write-access to the destination, log entry exports from this sink will fail. For more information, see Manage access to projects, folders, and organizations (https://docs.cloud.google.com/iam/docs/granting-roles-to-service-accounts#granting_access_to_a_service_account_for_a_resource). Consult the destination service's documentation to determine the appropriate IAM roles to assign to the identity.Sinks that have a destination that is a log bucket in the same project as the sink cannot have a writer_identity and no additional permissions are required. */
-  writerIdentity?: string | undefined;
-  /** Optional. Options that affect sinks exporting data to BigQuery. */
-  bigqueryOptions?: BigQueryOptions | undefined;
-  /** Optional. Log entries that match any of these exclusion filters will not be exported.If a log entry is matched by both filter and one of exclusions it will not be exported. */
-  exclusions?: LogExclusionList | undefined;
-  /** Optional. The client-assigned sink identifier, unique within the project.For example: "my-syslog-errors-to-pubsub".Sink identifiers are limited to 100 characters and can include only the following characters: upper and lower-case alphanumeric characters, underscores, hyphens, periods.First character has to be alphanumeric. */
-  name?: string | undefined;
-  /** Optional. A description of this sink.The maximum length of the description is 8000 characters. */
-  description?: string | undefined;
-  /** Optional. If set to true, then this sink is disabled and it does not export any log entries. */
-  disabled?: boolean | undefined;
-  /** Required. The export destination: "storage.googleapis.com/[GCS_BUCKET]" "bigquery.googleapis.com/projects/[PROJECT_ID]/datasets/[DATASET]" "pubsub.googleapis.com/projects/[PROJECT_ID]/topics/[TOPIC_ID]" "logging.googleapis.com/projects/[PROJECT_ID]" "logging.googleapis.com/projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" The sink's writer_identity, set when the sink is created, must have permission to write to the destination or else the log entries are not exported. For more information, see Route logs to supported destinations (https://docs.cloud.google.com/logging/docs/export/configure_export_v2). */
-  destination?: string | undefined;
-  /** Deprecated. This field is unused. */
-  outputVersionFormat?: LogSinkOutputVersionFormatEnum | (string & {}) | undefined;
-  /** Optional. This field applies only to sinks owned by organizations and folders.When the value of 'intercept_children' is true, the following restrictions apply: The sink must have the include_children flag set to true. The sink destination must be a Cloud project.Also, the following behaviors apply: Any logs matched by the sink won't be included by non-_Required sinks owned by child resources. The sink appears in the results of a ListSinks call from a child resource if the value of the filter field in its request is either 'in_scope("ALL")' or 'in_scope("ANCESTOR")'. */
-  interceptChildren?: boolean | undefined;
 }
-export interface UpdateOrganizationsSinksRequest {
+export interface UpdateOrganizationsSinksRequest extends LogSink {
   /** Optional. Field mask that specifies the fields in sink that need an update. A sink field will be overwritten if, and only if, it is in the update mask. name and output only fields cannot be updated.An empty updateMask is temporarily treated as using the following mask for backwards compatibility purposes:destination,filter,includeChildrenAt some point in the future, behavior will be removed and specifying an empty updateMask will be an error.For a detailed FieldMask definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#google.protobuf.FieldMaskFor example: updateMask=filter */
   updateMask?: string | undefined;
   /** Required. The full resource name of the sink to update, including the parent resource and the sink identifier: "projects/[PROJECT_ID]/sinks/[SINK_ID]" "organizations/[ORGANIZATION_ID]/sinks/[SINK_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/sinks/[SINK_ID]" "folders/[FOLDER_ID]/sinks/[SINK_ID]" For example:"projects/my-project/sinks/my-sink" */
@@ -3747,66 +2548,12 @@ export interface UpdateOrganizationsSinksRequest {
   uniqueWriterIdentity?: boolean | undefined;
   /** Optional. The service account provided by the caller that will be used to write the log entries. The format must be serviceAccount:some@email. This field can only be specified when you are routing logs to a log bucket that is in a different project than the sink. When not specified, a Logging service account will automatically be generated. */
   customWriterIdentity?: string | undefined;
-  /** Output only. The creation timestamp of the sink.This field may not be present for older sinks. */
-  createTime?: string | undefined;
-  /** Optional. An advanced logs filter (https://docs.cloud.google.com/logging/docs/view/building-queries#queries-by-expression). The only exported log entries are those that are in the resource owning the sink and that match the filter.For example:logName="projects/[PROJECT_ID]/logs/[LOG_ID]" AND severity>=ERROR */
-  filter?: string | undefined;
-  /** Output only. The resource name of the sink. "projects/[PROJECT_ID]/sinks/[SINK_NAME] "organizations/[ORGANIZATION_ID]/sinks/[SINK_NAME] "billingAccounts/[BILLING_ACCOUNT_ID]/sinks/[SINK_NAME] "folders/[FOLDER_ID]/sinks/[SINK_NAME] For example: projects/my_project/sinks/SINK_NAME */
-  resourceName?: string | undefined;
-  /** Output only. The last update timestamp of the sink.This field may not be present for older sinks. */
-  updateTime?: string | undefined;
-  /** Optional. This field applies only to sinks owned by organizations and folders. If the field is false, the default, only the logs owned by the sink's parent resource are available for export. If the field is true, then log entries from all the projects, folders, and billing accounts contained in the sink's parent resource are also available for export. Whether a particular log entry from the children is exported depends on the sink's filter expression.For example, if this field is true, then the filter resource.type=gce_instance would export all Compute Engine VM instance log entries from all projects in the sink's parent.To only export entries from certain child projects, filter on the project part of the log name:logName:("projects/test-project1/" OR "projects/test-project2/") AND resource.type=gce_instance */
-  includeChildren?: boolean | undefined;
-  /** Output only. An IAM identity--a service account or group--under which Cloud Logging writes the exported log entries to the sink's destination. This field is either set by specifying custom_writer_identity or set automatically by sinks.create and sinks.update based on the value of unique_writer_identity in those methods.Until you grant this identity write-access to the destination, log entry exports from this sink will fail. For more information, see Manage access to projects, folders, and organizations (https://docs.cloud.google.com/iam/docs/granting-roles-to-service-accounts#granting_access_to_a_service_account_for_a_resource). Consult the destination service's documentation to determine the appropriate IAM roles to assign to the identity.Sinks that have a destination that is a log bucket in the same project as the sink cannot have a writer_identity and no additional permissions are required. */
-  writerIdentity?: string | undefined;
-  /** Optional. Options that affect sinks exporting data to BigQuery. */
-  bigqueryOptions?: BigQueryOptions | undefined;
-  /** Optional. Log entries that match any of these exclusion filters will not be exported.If a log entry is matched by both filter and one of exclusions it will not be exported. */
-  exclusions?: LogExclusionList | undefined;
-  /** Optional. The client-assigned sink identifier, unique within the project.For example: "my-syslog-errors-to-pubsub".Sink identifiers are limited to 100 characters and can include only the following characters: upper and lower-case alphanumeric characters, underscores, hyphens, periods.First character has to be alphanumeric. */
-  name?: string | undefined;
-  /** Optional. A description of this sink.The maximum length of the description is 8000 characters. */
-  description?: string | undefined;
-  /** Optional. If set to true, then this sink is disabled and it does not export any log entries. */
-  disabled?: boolean | undefined;
-  /** Required. The export destination: "storage.googleapis.com/[GCS_BUCKET]" "bigquery.googleapis.com/projects/[PROJECT_ID]/datasets/[DATASET]" "pubsub.googleapis.com/projects/[PROJECT_ID]/topics/[TOPIC_ID]" "logging.googleapis.com/projects/[PROJECT_ID]" "logging.googleapis.com/projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" The sink's writer_identity, set when the sink is created, must have permission to write to the destination or else the log entries are not exported. For more information, see Route logs to supported destinations (https://docs.cloud.google.com/logging/docs/export/configure_export_v2). */
-  destination?: string | undefined;
-  /** Deprecated. This field is unused. */
-  outputVersionFormat?: LogSinkOutputVersionFormatEnum | (string & {}) | undefined;
-  /** Optional. This field applies only to sinks owned by organizations and folders.When the value of 'intercept_children' is true, the following restrictions apply: The sink must have the include_children flag set to true. The sink destination must be a Cloud project.Also, the following behaviors apply: Any logs matched by the sink won't be included by non-_Required sinks owned by child resources. The sink appears in the results of a ListSinks call from a child resource if the value of the filter field in its request is either 'in_scope("ALL")' or 'in_scope("ANCESTOR")'. */
-  interceptChildren?: boolean | undefined;
 }
-export interface UpdateProjectsMetricsRequest {
+export interface UpdateProjectsMetricsRequest extends LogMetric {
   /** Required. The resource name of the metric to update: "projects/[PROJECT_ID]/metrics/[METRIC_ID]" The updated metric must be provided in the request and it's name field must be the same as [METRIC_ID] If the metric does not exist in [PROJECT_ID], then a new metric is created. */
   metricName: string;
-  /** Optional. The bucket_options are required when the logs-based metric is using a DISTRIBUTION value type and it describes the bucket boundaries used to create a histogram of the extracted values. */
-  bucketOptions?: BucketOptions | undefined;
-  /** Optional. If set to True, then this metric is disabled and it does not generate any points. */
-  disabled?: boolean | undefined;
-  /** Optional. A value_extractor is required when using a distribution logs-based metric to extract the values to record from a log entry. Two functions are supported for value extraction: EXTRACT(field) or REGEXP_EXTRACT(field, regex). The arguments are: field: The name of the log entry field from which the value is to be extracted. regex: A regular expression using the Google RE2 syntax (https://github.com/google/re2/wiki/Syntax) with a single capture group to extract data from the specified log entry field. The value of the field is converted to a string before applying the regex. It is an error to specify a regex that does not include exactly one capture group.The result of the extraction must be convertible to a double type, as the distribution always records double values. If either the extraction or the conversion to double fails, then those values are not recorded in the distribution.Example: REGEXP_EXTRACT(jsonPayload.request, ".*quantity=(\d+).*") */
-  valueExtractor?: string | undefined;
-  /** Output only. The resource name of the metric: "projects/[PROJECT_ID]/metrics/[METRIC_ID]" */
-  resourceName?: string | undefined;
-  /** Deprecated. The API version that created or updated this metric. The v2 format is used by default and cannot be changed. */
-  version?: LogMetricVersionEnum | (string & {}) | undefined;
-  /** Required. The client-assigned metric identifier. Examples: "error_count", "nginx/requests".Metric identifiers are limited to 100 characters and can include only the following characters: A-Z, a-z, 0-9, and the special characters _-.,+!*',()%/. The forward-slash character (/) denotes a hierarchy of name pieces, and it cannot be the first character of the name.This field is the [METRIC_ID] part of a metric resource name in the format "projects/PROJECT_ID/metrics/METRIC_ID". Example: If the resource name of a metric is "projects/my-project/metrics/nginx%2Frequests", this field's value is "nginx/requests". */
-  name?: string | undefined;
-  /** Optional. A description of this metric, which is used in documentation. The maximum length of the description is 8000 characters. */
-  description?: string | undefined;
-  /** Optional. The metric descriptor associated with the logs-based metric. If unspecified, it uses a default metric descriptor with a DELTA metric kind, INT64 value type, with no labels and a unit of "1". Such a metric counts the number of log entries matching the filter expression.The name, type, and description fields in the metric_descriptor are output only, and is constructed using the name and description field in the LogMetric.To create a logs-based metric that records a distribution of log values, a DELTA metric kind with a DISTRIBUTION value type must be used along with a value_extractor expression in the LogMetric.Each label in the metric descriptor must have a matching label name as the key and an extractor expression as the value in the label_extractors map.The metric_kind and value_type fields in the metric_descriptor cannot be updated once initially configured. New labels can be added in the metric_descriptor, but existing labels cannot be modified except for their description. */
-  metricDescriptor?: MetricDescriptor | undefined;
-  /** Output only. The creation timestamp of the metric.This field may not be present for older metrics. */
-  createTime?: string | undefined;
-  /** Optional. A map from a label key string to an extractor expression which is used to extract data from a log entry field and assign as the label value. Each label key specified in the LabelDescriptor must have an associated extractor expression in this map. The syntax of the extractor expression is the same as for the value_extractor field.The extracted value is converted to the type defined in the label descriptor. If either the extraction or the type conversion fails, the label will have a default value. The default value for a string label is an empty string, for an integer label its 0, and for a boolean label its false.Note that there are upper bounds on the maximum number of labels and the number of active time series that are allowed in a project. */
-  labelExtractors?: StringMap | undefined;
-  /** Output only. The last update timestamp of the metric.This field may not be present for older metrics. */
-  updateTime?: string | undefined;
-  /** Required. An advanced logs filter (https://cloud.google.com/logging/docs/view/advanced_filters) which is used to match log entries. Example: "resource.type=gae_app AND severity>=ERROR" The maximum length of the filter is 20000 characters. */
-  filter?: string | undefined;
-  /** Optional. The resource name of the Log Bucket that owns the Log Metric. Only Log Buckets in projects are supported. The bucket has to be in the same project as the metric.For example:projects/my-project/locations/global/buckets/my-bucketIf empty, then the Log Metric is considered a non-Bucket Log Metric. */
-  bucketName?: string | undefined;
 }
-export interface UpdateProjectsSinksRequest {
+export interface UpdateProjectsSinksRequest extends LogSink {
   /** Optional. Field mask that specifies the fields in sink that need an update. A sink field will be overwritten if, and only if, it is in the update mask. name and output only fields cannot be updated.An empty updateMask is temporarily treated as using the following mask for backwards compatibility purposes:destination,filter,includeChildrenAt some point in the future, behavior will be removed and specifying an empty updateMask will be an error.For a detailed FieldMask definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#google.protobuf.FieldMaskFor example: updateMask=filter */
   updateMask?: string | undefined;
   /** Required. The full resource name of the sink to update, including the parent resource and the sink identifier: "projects/[PROJECT_ID]/sinks/[SINK_ID]" "organizations/[ORGANIZATION_ID]/sinks/[SINK_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/sinks/[SINK_ID]" "folders/[FOLDER_ID]/sinks/[SINK_ID]" For example:"projects/my-project/sinks/my-sink" */
@@ -3815,90 +2562,26 @@ export interface UpdateProjectsSinksRequest {
   uniqueWriterIdentity?: boolean | undefined;
   /** Optional. The service account provided by the caller that will be used to write the log entries. The format must be serviceAccount:some@email. This field can only be specified when you are routing logs to a log bucket that is in a different project than the sink. When not specified, a Logging service account will automatically be generated. */
   customWriterIdentity?: string | undefined;
-  /** Output only. The creation timestamp of the sink.This field may not be present for older sinks. */
-  createTime?: string | undefined;
-  /** Optional. An advanced logs filter (https://docs.cloud.google.com/logging/docs/view/building-queries#queries-by-expression). The only exported log entries are those that are in the resource owning the sink and that match the filter.For example:logName="projects/[PROJECT_ID]/logs/[LOG_ID]" AND severity>=ERROR */
-  filter?: string | undefined;
-  /** Output only. The resource name of the sink. "projects/[PROJECT_ID]/sinks/[SINK_NAME] "organizations/[ORGANIZATION_ID]/sinks/[SINK_NAME] "billingAccounts/[BILLING_ACCOUNT_ID]/sinks/[SINK_NAME] "folders/[FOLDER_ID]/sinks/[SINK_NAME] For example: projects/my_project/sinks/SINK_NAME */
-  resourceName?: string | undefined;
-  /** Output only. The last update timestamp of the sink.This field may not be present for older sinks. */
-  updateTime?: string | undefined;
-  /** Optional. This field applies only to sinks owned by organizations and folders. If the field is false, the default, only the logs owned by the sink's parent resource are available for export. If the field is true, then log entries from all the projects, folders, and billing accounts contained in the sink's parent resource are also available for export. Whether a particular log entry from the children is exported depends on the sink's filter expression.For example, if this field is true, then the filter resource.type=gce_instance would export all Compute Engine VM instance log entries from all projects in the sink's parent.To only export entries from certain child projects, filter on the project part of the log name:logName:("projects/test-project1/" OR "projects/test-project2/") AND resource.type=gce_instance */
-  includeChildren?: boolean | undefined;
-  /** Output only. An IAM identity--a service account or group--under which Cloud Logging writes the exported log entries to the sink's destination. This field is either set by specifying custom_writer_identity or set automatically by sinks.create and sinks.update based on the value of unique_writer_identity in those methods.Until you grant this identity write-access to the destination, log entry exports from this sink will fail. For more information, see Manage access to projects, folders, and organizations (https://docs.cloud.google.com/iam/docs/granting-roles-to-service-accounts#granting_access_to_a_service_account_for_a_resource). Consult the destination service's documentation to determine the appropriate IAM roles to assign to the identity.Sinks that have a destination that is a log bucket in the same project as the sink cannot have a writer_identity and no additional permissions are required. */
-  writerIdentity?: string | undefined;
-  /** Optional. Options that affect sinks exporting data to BigQuery. */
-  bigqueryOptions?: BigQueryOptions | undefined;
-  /** Optional. Log entries that match any of these exclusion filters will not be exported.If a log entry is matched by both filter and one of exclusions it will not be exported. */
-  exclusions?: LogExclusionList | undefined;
-  /** Optional. The client-assigned sink identifier, unique within the project.For example: "my-syslog-errors-to-pubsub".Sink identifiers are limited to 100 characters and can include only the following characters: upper and lower-case alphanumeric characters, underscores, hyphens, periods.First character has to be alphanumeric. */
-  name?: string | undefined;
-  /** Optional. A description of this sink.The maximum length of the description is 8000 characters. */
-  description?: string | undefined;
-  /** Optional. If set to true, then this sink is disabled and it does not export any log entries. */
-  disabled?: boolean | undefined;
-  /** Required. The export destination: "storage.googleapis.com/[GCS_BUCKET]" "bigquery.googleapis.com/projects/[PROJECT_ID]/datasets/[DATASET]" "pubsub.googleapis.com/projects/[PROJECT_ID]/topics/[TOPIC_ID]" "logging.googleapis.com/projects/[PROJECT_ID]" "logging.googleapis.com/projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" The sink's writer_identity, set when the sink is created, must have permission to write to the destination or else the log entries are not exported. For more information, see Route logs to supported destinations (https://docs.cloud.google.com/logging/docs/export/configure_export_v2). */
-  destination?: string | undefined;
-  /** Deprecated. This field is unused. */
-  outputVersionFormat?: LogSinkOutputVersionFormatEnum | (string & {}) | undefined;
-  /** Optional. This field applies only to sinks owned by organizations and folders.When the value of 'intercept_children' is true, the following restrictions apply: The sink must have the include_children flag set to true. The sink destination must be a Cloud project.Also, the following behaviors apply: Any logs matched by the sink won't be included by non-_Required sinks owned by child resources. The sink appears in the results of a ListSinks call from a child resource if the value of the filter field in its request is either 'in_scope("ALL")' or 'in_scope("ANCESTOR")'. */
-  interceptChildren?: boolean | undefined;
 }
-export interface UpdateSettingsFoldersRequest {
+export interface UpdateSettingsFoldersRequest extends Omit<Settings, "name"> {
   /** Required. The resource name for the settings to update. "organizations/[ORGANIZATION_ID]/settings" "folders/[FOLDER_ID]/settings" For example:"organizations/12345/settings" */
   name: string;
   /** Optional. Field mask identifying which fields from settings should be updated. A field will be overwritten if and only if it is in the update mask. Output only fields cannot be updated.See FieldMask for more information.For example: "updateMask=kmsKeyName" */
   updateMask?: string | undefined;
-  /** Output only. The service account that will be used by the Log Router to access your Cloud KMS key.Before enabling CMEK, you must first assign the role roles/cloudkms.cryptoKeyEncrypterDecrypter to the service account that will be used to access your Cloud KMS key. Use GetSettings to obtain the service account ID.See Configure CMEK for Cloud Logging (https://docs.cloud.google.com/logging/docs/routing/managed-encryption) for more information. */
-  kmsServiceAccountId?: string | undefined;
-  /** Optional. If set to true, the _Default sink in newly created projects and folders will created in a disabled state. This can be used to automatically disable log storage if there is already an aggregated sink configured in the hierarchy. The _Default sink can be re-enabled manually if needed. */
-  disableDefaultSink?: boolean | undefined;
-  /** Optional. The storage location for the _Default and _Required log buckets of newly created projects and folders, unless the storage location is explicitly provided.Example value: europe-west1.Note: this setting does not affect the location of resources where a location is explicitly provided when created, such as custom log buckets. */
-  storageLocation?: string | undefined;
-  /** Output only. The service account for the given resource container, such as project or folder. Log sinks use this service account as their writer_identity if no custom service account is provided in the request when calling the create sink method. */
-  loggingServiceAccountId?: string | undefined;
-  /** Optional. Overrides the built-in configuration for _Default sink. */
-  defaultSinkConfig?: DefaultSinkConfig | undefined;
-  /** Optional. The resource name for the configured Cloud KMS key.KMS key name format: "projects/[PROJECT_ID]/locations/[LOCATION]/keyRings/[KEYRING]/cryptoKeys/[KEY]" For example:"projects/my-project/locations/us-central1/keyRings/my-ring/cryptoKeys/my-key"To enable CMEK, set this field to a valid kms_key_name for which the associated service account has the required roles/cloudkms.cryptoKeyEncrypterDecrypter role assigned for the key.The Cloud KMS key used by the Log Router can be updated by changing the kms_key_name to a new valid key name.To disable CMEK for the Log Router, set this field to an empty string.See Configure CMEK for Cloud Logging (https://docs.cloud.google.com/logging/docs/routing/managed-encryption) for more information. */
-  kmsKeyName?: string | undefined;
 }
-export interface UpdateSettingsOrganizationsRequest {
+export interface UpdateSettingsOrganizationsRequest extends Omit<Settings, "name"> {
   /** Optional. Field mask identifying which fields from settings should be updated. A field will be overwritten if and only if it is in the update mask. Output only fields cannot be updated.See FieldMask for more information.For example: "updateMask=kmsKeyName" */
   updateMask?: string | undefined;
   /** Required. The resource name for the settings to update. "organizations/[ORGANIZATION_ID]/settings" "folders/[FOLDER_ID]/settings" For example:"organizations/12345/settings" */
   name: string;
-  /** Output only. The service account that will be used by the Log Router to access your Cloud KMS key.Before enabling CMEK, you must first assign the role roles/cloudkms.cryptoKeyEncrypterDecrypter to the service account that will be used to access your Cloud KMS key. Use GetSettings to obtain the service account ID.See Configure CMEK for Cloud Logging (https://docs.cloud.google.com/logging/docs/routing/managed-encryption) for more information. */
-  kmsServiceAccountId?: string | undefined;
-  /** Optional. If set to true, the _Default sink in newly created projects and folders will created in a disabled state. This can be used to automatically disable log storage if there is already an aggregated sink configured in the hierarchy. The _Default sink can be re-enabled manually if needed. */
-  disableDefaultSink?: boolean | undefined;
-  /** Optional. The storage location for the _Default and _Required log buckets of newly created projects and folders, unless the storage location is explicitly provided.Example value: europe-west1.Note: this setting does not affect the location of resources where a location is explicitly provided when created, such as custom log buckets. */
-  storageLocation?: string | undefined;
-  /** Output only. The service account for the given resource container, such as project or folder. Log sinks use this service account as their writer_identity if no custom service account is provided in the request when calling the create sink method. */
-  loggingServiceAccountId?: string | undefined;
-  /** Optional. Overrides the built-in configuration for _Default sink. */
-  defaultSinkConfig?: DefaultSinkConfig | undefined;
-  /** Optional. The resource name for the configured Cloud KMS key.KMS key name format: "projects/[PROJECT_ID]/locations/[LOCATION]/keyRings/[KEYRING]/cryptoKeys/[KEY]" For example:"projects/my-project/locations/us-central1/keyRings/my-ring/cryptoKeys/my-key"To enable CMEK, set this field to a valid kms_key_name for which the associated service account has the required roles/cloudkms.cryptoKeyEncrypterDecrypter role assigned for the key.The Cloud KMS key used by the Log Router can be updated by changing the kms_key_name to a new valid key name.To disable CMEK for the Log Router, set this field to an empty string.See Configure CMEK for Cloud Logging (https://docs.cloud.google.com/logging/docs/routing/managed-encryption) for more information. */
-  kmsKeyName?: string | undefined;
 }
-export interface UpdateSettingsV2Request {
+export interface UpdateSettingsV2Request extends Omit<Settings, "name"> {
   /** Required. The resource name for the settings to update. "organizations/[ORGANIZATION_ID]/settings" "folders/[FOLDER_ID]/settings" For example:"organizations/12345/settings" */
   name: string;
   /** Optional. Field mask identifying which fields from settings should be updated. A field will be overwritten if and only if it is in the update mask. Output only fields cannot be updated.See FieldMask for more information.For example: "updateMask=kmsKeyName" */
   updateMask?: string | undefined;
-  /** Output only. The service account that will be used by the Log Router to access your Cloud KMS key.Before enabling CMEK, you must first assign the role roles/cloudkms.cryptoKeyEncrypterDecrypter to the service account that will be used to access your Cloud KMS key. Use GetSettings to obtain the service account ID.See Configure CMEK for Cloud Logging (https://docs.cloud.google.com/logging/docs/routing/managed-encryption) for more information. */
-  kmsServiceAccountId?: string | undefined;
-  /** Optional. If set to true, the _Default sink in newly created projects and folders will created in a disabled state. This can be used to automatically disable log storage if there is already an aggregated sink configured in the hierarchy. The _Default sink can be re-enabled manually if needed. */
-  disableDefaultSink?: boolean | undefined;
-  /** Optional. The storage location for the _Default and _Required log buckets of newly created projects and folders, unless the storage location is explicitly provided.Example value: europe-west1.Note: this setting does not affect the location of resources where a location is explicitly provided when created, such as custom log buckets. */
-  storageLocation?: string | undefined;
-  /** Output only. The service account for the given resource container, such as project or folder. Log sinks use this service account as their writer_identity if no custom service account is provided in the request when calling the create sink method. */
-  loggingServiceAccountId?: string | undefined;
-  /** Optional. Overrides the built-in configuration for _Default sink. */
-  defaultSinkConfig?: DefaultSinkConfig | undefined;
-  /** Optional. The resource name for the configured Cloud KMS key.KMS key name format: "projects/[PROJECT_ID]/locations/[LOCATION]/keyRings/[KEYRING]/cryptoKeys/[KEY]" For example:"projects/my-project/locations/us-central1/keyRings/my-ring/cryptoKeys/my-key"To enable CMEK, set this field to a valid kms_key_name for which the associated service account has the required roles/cloudkms.cryptoKeyEncrypterDecrypter role assigned for the key.The Cloud KMS key used by the Log Router can be updated by changing the kms_key_name to a new valid key name.To disable CMEK for the Log Router, set this field to an empty string.See Configure CMEK for Cloud Logging (https://docs.cloud.google.com/logging/docs/routing/managed-encryption) for more information. */
-  kmsKeyName?: string | undefined;
 }
-export interface UpdateSinksRequest {
+export interface UpdateSinksRequest extends LogSink {
   /** Optional. See sinks.create for a description of this field. When updating a sink, the effect of this field on the value of writer_identity in the updated sink depends on both the old and new values of this field: If the old and new values of this field are both false or both true, then there is no change to the sink's writer_identity. If the old value is false and the new value is true, then writer_identity is changed to a service agent (https://docs.cloud.google.com/iam/docs/service-account-types#service-agents) owned by Cloud Logging. It is an error if the old value is true and the new value is set to false or defaulted to false. */
   uniqueWriterIdentity?: boolean | undefined;
   /** Optional. The service account provided by the caller that will be used to write the log entries. The format must be serviceAccount:some@email. This field can only be specified when you are routing logs to a log bucket that is in a different project than the sink. When not specified, a Logging service account will automatically be generated. */
@@ -3907,36 +2590,9 @@ export interface UpdateSinksRequest {
   updateMask?: string | undefined;
   /** Required. The full resource name of the sink to update, including the parent resource and the sink identifier: "projects/[PROJECT_ID]/sinks/[SINK_ID]" "organizations/[ORGANIZATION_ID]/sinks/[SINK_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/sinks/[SINK_ID]" "folders/[FOLDER_ID]/sinks/[SINK_ID]" For example:"projects/my-project/sinks/my-sink" */
   sinkName: string;
-  /** Output only. The creation timestamp of the sink.This field may not be present for older sinks. */
-  createTime?: string | undefined;
-  /** Optional. An advanced logs filter (https://docs.cloud.google.com/logging/docs/view/building-queries#queries-by-expression). The only exported log entries are those that are in the resource owning the sink and that match the filter.For example:logName="projects/[PROJECT_ID]/logs/[LOG_ID]" AND severity>=ERROR */
-  filter?: string | undefined;
-  /** Output only. The resource name of the sink. "projects/[PROJECT_ID]/sinks/[SINK_NAME] "organizations/[ORGANIZATION_ID]/sinks/[SINK_NAME] "billingAccounts/[BILLING_ACCOUNT_ID]/sinks/[SINK_NAME] "folders/[FOLDER_ID]/sinks/[SINK_NAME] For example: projects/my_project/sinks/SINK_NAME */
-  resourceName?: string | undefined;
-  /** Output only. The last update timestamp of the sink.This field may not be present for older sinks. */
-  updateTime?: string | undefined;
-  /** Optional. This field applies only to sinks owned by organizations and folders. If the field is false, the default, only the logs owned by the sink's parent resource are available for export. If the field is true, then log entries from all the projects, folders, and billing accounts contained in the sink's parent resource are also available for export. Whether a particular log entry from the children is exported depends on the sink's filter expression.For example, if this field is true, then the filter resource.type=gce_instance would export all Compute Engine VM instance log entries from all projects in the sink's parent.To only export entries from certain child projects, filter on the project part of the log name:logName:("projects/test-project1/" OR "projects/test-project2/") AND resource.type=gce_instance */
-  includeChildren?: boolean | undefined;
-  /** Output only. An IAM identity--a service account or group--under which Cloud Logging writes the exported log entries to the sink's destination. This field is either set by specifying custom_writer_identity or set automatically by sinks.create and sinks.update based on the value of unique_writer_identity in those methods.Until you grant this identity write-access to the destination, log entry exports from this sink will fail. For more information, see Manage access to projects, folders, and organizations (https://docs.cloud.google.com/iam/docs/granting-roles-to-service-accounts#granting_access_to_a_service_account_for_a_resource). Consult the destination service's documentation to determine the appropriate IAM roles to assign to the identity.Sinks that have a destination that is a log bucket in the same project as the sink cannot have a writer_identity and no additional permissions are required. */
-  writerIdentity?: string | undefined;
-  /** Optional. Options that affect sinks exporting data to BigQuery. */
-  bigqueryOptions?: BigQueryOptions | undefined;
-  /** Optional. Log entries that match any of these exclusion filters will not be exported.If a log entry is matched by both filter and one of exclusions it will not be exported. */
-  exclusions?: LogExclusionList | undefined;
-  /** Optional. The client-assigned sink identifier, unique within the project.For example: "my-syslog-errors-to-pubsub".Sink identifiers are limited to 100 characters and can include only the following characters: upper and lower-case alphanumeric characters, underscores, hyphens, periods.First character has to be alphanumeric. */
-  name?: string | undefined;
-  /** Optional. A description of this sink.The maximum length of the description is 8000 characters. */
-  description?: string | undefined;
-  /** Optional. If set to true, then this sink is disabled and it does not export any log entries. */
-  disabled?: boolean | undefined;
-  /** Required. The export destination: "storage.googleapis.com/[GCS_BUCKET]" "bigquery.googleapis.com/projects/[PROJECT_ID]/datasets/[DATASET]" "pubsub.googleapis.com/projects/[PROJECT_ID]/topics/[TOPIC_ID]" "logging.googleapis.com/projects/[PROJECT_ID]" "logging.googleapis.com/projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" The sink's writer_identity, set when the sink is created, must have permission to write to the destination or else the log entries are not exported. For more information, see Route logs to supported destinations (https://docs.cloud.google.com/logging/docs/export/configure_export_v2). */
-  destination?: string | undefined;
-  /** Deprecated. This field is unused. */
-  outputVersionFormat?: LogSinkOutputVersionFormatEnum | (string & {}) | undefined;
-  /** Optional. This field applies only to sinks owned by organizations and folders.When the value of 'intercept_children' is true, the following restrictions apply: The sink must have the include_children flag set to true. The sink destination must be a Cloud project.Also, the following behaviors apply: Any logs matched by the sink won't be included by non-_Required sinks owned by child resources. The sink appears in the results of a ListSinks call from a child resource if the value of the filter field in its request is either 'in_scope("ALL")' or 'in_scope("ANCESTOR")'. */
-  interceptChildren?: boolean | undefined;
 }
-export interface WriteEntriesRequest {
+/** The parameters to WriteLogEntries. */
+export interface WriteLogEntriesRequest {
   /** Optional. A default log resource name that is assigned to all log entries in entries that do not specify a value for log_name: projects/[PROJECT_ID]/logs/[LOG_ID] organizations/[ORGANIZATION_ID]/logs/[LOG_ID] billingAccounts/[BILLING_ACCOUNT_ID]/logs/[LOG_ID] folders/[FOLDER_ID]/logs/[LOG_ID][LOG_ID] must be URL-encoded. For example: "projects/my-project-id/logs/syslog" "organizations/123/logs/cloudaudit.googleapis.com%2Factivity" The permission logging.logEntries.create is needed on each project, organization, billing account, or folder that is receiving new log entries, whether the resource is specified in logName or in an individual log entry.Only platform services can write logs to billing accounts. */
   logName?: string | undefined;
   /** Optional. Whether a batch's valid entries should be written even if some other entry failed due to a permanent error such as INVALID_ARGUMENT or PERMISSION_DENIED. If any entry failed, then the response status is the response status of one of the failed entries. The response will include error details in WriteLogEntriesPartialErrors.log_entry_errors keyed by the entries' zero-based index in the entries. Failed requests for which no entries are written will not include per-entry errors. */
@@ -3950,6 +2606,7 @@ export interface WriteEntriesRequest {
   /** Optional. If true, the request should expect normal response, but the entries won't be persisted nor exported. Useful for checking whether the logging API endpoints are working properly before sending valuable data. */
   dryRun?: boolean | undefined;
 }
+export interface WriteEntriesRequest extends WriteLogEntriesRequest {}
 /** Result returned from WriteLogEntries. */
 export interface WriteLogEntriesResponse {}
 export type CancelBillingAccountsLocationsOperationsError =
@@ -4070,8 +2727,8 @@ export const copyEntries: API.OperationMethod<
   CopyEntriesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4432, __c277, 0) as any as S.Schema<CopyEntriesRequest>,
-  output: __S(4466, __c279, 2) as any as S.Schema<Operation>,
+  input: __S(4417, __c276, 1) as any as S.Schema<CopyEntriesRequest>,
+  output: __S(4450, __c278, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4093,7 +2750,7 @@ export const createAsyncBillingAccountsLocationsBuckets: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateAsyncBillingAccountsLocationsBucketsRequest>,
-  output: __S(4466, __c279, 2) as any as S.Schema<Operation>,
+  output: __S(4450, __c278, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4115,7 +2772,7 @@ export const createAsyncFoldersLocationsBuckets: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c16, 0) as any as S.Schema<CreateAsyncFoldersLocationsBucketsRequest>,
-  output: __S(4466, __c279, 2) as any as S.Schema<Operation>,
+  output: __S(4450, __c278, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4137,7 +2794,7 @@ export const createAsyncLocationsBuckets: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(432, __c27, 0) as any as S.Schema<CreateAsyncLocationsBucketsRequest>,
-  output: __S(4466, __c279, 2) as any as S.Schema<Operation>,
+  output: __S(4450, __c278, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4159,7 +2816,7 @@ export const createAsyncOrganizationsLocationsBuckets: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c38, 0) as any as S.Schema<CreateAsyncOrganizationsLocationsBucketsRequest>,
-  output: __S(4466, __c279, 2) as any as S.Schema<Operation>,
+  output: __S(4450, __c278, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4181,7 +2838,7 @@ export const createAsyncProjectsLocationsBuckets: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(800, __c50, 0) as any as S.Schema<CreateAsyncProjectsLocationsBucketsRequest>,
-  output: __S(4466, __c279, 2) as any as S.Schema<Operation>,
+  output: __S(4450, __c278, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4225,7 +2882,7 @@ export const createBillingAccountsLocationsBuckets: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1344, __c84, 0) as any as S.Schema<CreateBillingAccountsLocationsBucketsRequest>,
-  output: __S(1360, __c85, 0) as any as S.Schema<LogBucket>,
+  output: __S(34, __c2, 2) as any as S.Schema<LogBucket>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4246,8 +2903,8 @@ export const createBillingAccountsLocationsBucketsLinks: API.OperationMethod<
   CreateBillingAccountsLocationsBucketsLinksError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1552, __c97, 0) as any as S.Schema<CreateBillingAccountsLocationsBucketsLinksRequest>,
-  output: __S(4466, __c279, 2) as any as S.Schema<Operation>,
+  input: __S(1536, __c96, 0) as any as S.Schema<CreateBillingAccountsLocationsBucketsLinksRequest>,
+  output: __S(4450, __c278, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4268,8 +2925,8 @@ export const createBillingAccountsLocationsBucketsViews: API.OperationMethod<
   CreateBillingAccountsLocationsBucketsViewsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1744, __c109, 0) as any as S.Schema<CreateBillingAccountsLocationsBucketsViewsRequest>,
-  output: __S(1760, __c110, 0) as any as S.Schema<LogView>,
+  input: __S(1728, __c108, 0) as any as S.Schema<CreateBillingAccountsLocationsBucketsViewsRequest>,
+  output: __S(1744, __c109, 0) as any as S.Schema<LogView>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4290,8 +2947,8 @@ export const createBillingAccountsLocationsSavedQueries: API.OperationMethod<
   CreateBillingAccountsLocationsSavedQueriesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1936, __c121, 0) as any as S.Schema<CreateBillingAccountsLocationsSavedQueriesRequest>,
-  output: __S(1968, __c123, 0) as any as S.Schema<SavedQuery>,
+  input: __S(1920, __c120, 0) as any as S.Schema<CreateBillingAccountsLocationsSavedQueriesRequest>,
+  output: __S(1952, __c122, 0) as any as S.Schema<SavedQuery>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4312,8 +2969,8 @@ export const createBillingAccountsSinks: API.OperationMethod<
   CreateBillingAccountsSinksError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2144, __c134, 0) as any as S.Schema<CreateBillingAccountsSinksRequest>,
-  output: __S(2177, __c136, 1) as any as S.Schema<LogSink>,
+  input: __S(2128, __c133, 0) as any as S.Schema<CreateBillingAccountsSinksRequest>,
+  output: __S(2161, __c135, 1) as any as S.Schema<LogSink>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4329,7 +2986,7 @@ export const createExclusions: API.OperationMethod<
   CreateExclusionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2352, __c147, 0) as any as S.Schema<CreateExclusionsRequest>,
+  input: __S(2336, __c146, 0) as any as S.Schema<CreateExclusionsRequest>,
   output: __S(1104, __c69, 0) as any as S.Schema<LogExclusion>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -4351,7 +3008,7 @@ export const createFoldersExclusions: API.OperationMethod<
   CreateFoldersExclusionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2528, __c158, 0) as any as S.Schema<CreateFoldersExclusionsRequest>,
+  input: __S(2512, __c157, 0) as any as S.Schema<CreateFoldersExclusionsRequest>,
   output: __S(1104, __c69, 0) as any as S.Schema<LogExclusion>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -4374,7 +3031,7 @@ export const createFoldersLocationsBuckets: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2704, __c169, 0) as any as S.Schema<CreateFoldersLocationsBucketsRequest>,
-  output: __S(1360, __c85, 0) as any as S.Schema<LogBucket>,
+  output: __S(34, __c2, 2) as any as S.Schema<LogBucket>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4396,7 +3053,7 @@ export const createFoldersLocationsBucketsLinks: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2896, __c181, 0) as any as S.Schema<CreateFoldersLocationsBucketsLinksRequest>,
-  output: __S(4466, __c279, 2) as any as S.Schema<Operation>,
+  output: __S(4450, __c278, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4418,7 +3075,7 @@ export const createFoldersLocationsBucketsViews: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3072, __c192, 0) as any as S.Schema<CreateFoldersLocationsBucketsViewsRequest>,
-  output: __S(1760, __c110, 0) as any as S.Schema<LogView>,
+  output: __S(1744, __c109, 0) as any as S.Schema<LogView>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4462,7 +3119,7 @@ export const createFoldersLocationsSavedQueries: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3248, __c203, 0) as any as S.Schema<CreateFoldersLocationsSavedQueriesRequest>,
-  output: __S(1968, __c123, 0) as any as S.Schema<SavedQuery>,
+  output: __S(1952, __c122, 0) as any as S.Schema<SavedQuery>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4479,7 +3136,7 @@ export const createFoldersSinks: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3264, __c204, 0) as any as S.Schema<CreateFoldersSinksRequest>,
-  output: __S(2177, __c136, 1) as any as S.Schema<LogSink>,
+  output: __S(2161, __c135, 1) as any as S.Schema<LogSink>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4496,7 +3153,7 @@ export const createLocationsBuckets: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3280, __c205, 0) as any as S.Schema<CreateLocationsBucketsRequest>,
-  output: __S(1360, __c85, 0) as any as S.Schema<LogBucket>,
+  output: __S(34, __c2, 2) as any as S.Schema<LogBucket>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4518,7 +3175,7 @@ export const createLocationsBucketsLinks: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3296, __c206, 0) as any as S.Schema<CreateLocationsBucketsLinksRequest>,
-  output: __S(4466, __c279, 2) as any as S.Schema<Operation>,
+  output: __S(4450, __c278, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4540,7 +3197,7 @@ export const createLocationsBucketsViews: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3312, __c207, 0) as any as S.Schema<CreateLocationsBucketsViewsRequest>,
-  output: __S(1760, __c110, 0) as any as S.Schema<LogView>,
+  output: __S(1744, __c109, 0) as any as S.Schema<LogView>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4584,7 +3241,7 @@ export const createOrganizationsLocationsBuckets: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3344, __c209, 0) as any as S.Schema<CreateOrganizationsLocationsBucketsRequest>,
-  output: __S(1360, __c85, 0) as any as S.Schema<LogBucket>,
+  output: __S(34, __c2, 2) as any as S.Schema<LogBucket>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4606,7 +3263,7 @@ export const createOrganizationsLocationsBucketsLinks: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3360, __c210, 0) as any as S.Schema<CreateOrganizationsLocationsBucketsLinksRequest>,
-  output: __S(4466, __c279, 2) as any as S.Schema<Operation>,
+  output: __S(4450, __c278, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4628,7 +3285,7 @@ export const createOrganizationsLocationsBucketsViews: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3376, __c211, 0) as any as S.Schema<CreateOrganizationsLocationsBucketsViewsRequest>,
-  output: __S(1760, __c110, 0) as any as S.Schema<LogView>,
+  output: __S(1744, __c109, 0) as any as S.Schema<LogView>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4672,7 +3329,7 @@ export const createOrganizationsLocationsSavedQueries: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3408, __c213, 0) as any as S.Schema<CreateOrganizationsLocationsSavedQueriesRequest>,
-  output: __S(1968, __c123, 0) as any as S.Schema<SavedQuery>,
+  output: __S(1952, __c122, 0) as any as S.Schema<SavedQuery>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4694,7 +3351,7 @@ export const createOrganizationsSinks: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3424, __c214, 0) as any as S.Schema<CreateOrganizationsSinksRequest>,
-  output: __S(2177, __c136, 1) as any as S.Schema<LogSink>,
+  output: __S(2161, __c135, 1) as any as S.Schema<LogSink>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4738,7 +3395,7 @@ export const createProjectsLocationsBuckets: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3488, __c218, 0) as any as S.Schema<CreateProjectsLocationsBucketsRequest>,
-  output: __S(1360, __c85, 0) as any as S.Schema<LogBucket>,
+  output: __S(34, __c2, 2) as any as S.Schema<LogBucket>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4760,7 +3417,7 @@ export const createProjectsLocationsBucketsLinks: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3504, __c219, 0) as any as S.Schema<CreateProjectsLocationsBucketsLinksRequest>,
-  output: __S(4466, __c279, 2) as any as S.Schema<Operation>,
+  output: __S(4450, __c278, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4782,7 +3439,7 @@ export const createProjectsLocationsBucketsViews: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3520, __c220, 0) as any as S.Schema<CreateProjectsLocationsBucketsViewsRequest>,
-  output: __S(1760, __c110, 0) as any as S.Schema<LogView>,
+  output: __S(1744, __c109, 0) as any as S.Schema<LogView>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4826,7 +3483,7 @@ export const createProjectsLocationsSavedQueries: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3552, __c222, 0) as any as S.Schema<CreateProjectsLocationsSavedQueriesRequest>,
-  output: __S(1968, __c123, 0) as any as S.Schema<SavedQuery>,
+  output: __S(1952, __c122, 0) as any as S.Schema<SavedQuery>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4860,7 +3517,7 @@ export const createProjectsSinks: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3632, __c227, 0) as any as S.Schema<CreateProjectsSinksRequest>,
-  output: __S(2177, __c136, 1) as any as S.Schema<LogSink>,
+  output: __S(2161, __c135, 1) as any as S.Schema<LogSink>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4877,7 +3534,7 @@ export const createSinks: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3648, __c228, 0) as any as S.Schema<CreateSinksRequest>,
-  output: __S(2177, __c136, 1) as any as S.Schema<LogSink>,
+  output: __S(2161, __c135, 1) as any as S.Schema<LogSink>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4943,7 +3600,7 @@ export const deleteBillingAccountsLocationsBucketsLinks: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3712, __c232, 0) as any as S.Schema<DeleteBillingAccountsLocationsBucketsLinksRequest>,
-  output: __S(4466, __c279, 2) as any as S.Schema<Operation>,
+  output: __S(4450, __c278, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5114,7 +3771,7 @@ export const deleteFoldersLocationsBucketsLinks: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3840, __c240, 0) as any as S.Schema<DeleteFoldersLocationsBucketsLinksRequest>,
-  output: __S(4466, __c279, 2) as any as S.Schema<Operation>,
+  output: __S(4450, __c278, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5253,7 +3910,7 @@ export const deleteLocationsBucketsLinks: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3968, __c248, 0) as any as S.Schema<DeleteLocationsBucketsLinksRequest>,
-  output: __S(4466, __c279, 2) as any as S.Schema<Operation>,
+  output: __S(4450, __c278, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5358,7 +4015,7 @@ export const deleteOrganizationsLocationsBucketsLinks: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4064, __c254, 0) as any as S.Schema<DeleteOrganizationsLocationsBucketsLinksRequest>,
-  output: __S(4466, __c279, 2) as any as S.Schema<Operation>,
+  output: __S(4450, __c278, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5534,7 +4191,7 @@ export const deleteProjectsLocationsBucketsLinks: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4192, __c262, 0) as any as S.Schema<DeleteProjectsLocationsBucketsLinksRequest>,
-  output: __S(4466, __c279, 2) as any as S.Schema<Operation>,
+  output: __S(4450, __c278, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5719,7 +4376,7 @@ export const getBillingAccountsLocationsBuckets: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4384, __c274, 0) as any as S.Schema<GetBillingAccountsLocationsBucketsRequest>,
-  output: __S(1360, __c85, 0) as any as S.Schema<LogBucket>,
+  output: __S(34, __c2, 2) as any as S.Schema<LogBucket>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5736,7 +4393,7 @@ export const getBillingAccountsLocationsBucketsLinks: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4400, __c275, 0) as any as S.Schema<GetBillingAccountsLocationsBucketsLinksRequest>,
-  output: __S(4416, __c276, 0) as any as S.Schema<Link>,
+  output: __S(1553, __c97, 1) as any as S.Schema<Link>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5752,8 +4409,8 @@ export const getBillingAccountsLocationsBucketsViews: API.OperationMethod<
   GetBillingAccountsLocationsBucketsViewsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4480, __c280, 0) as any as S.Schema<GetBillingAccountsLocationsBucketsViewsRequest>,
-  output: __S(1760, __c110, 0) as any as S.Schema<LogView>,
+  input: __S(4464, __c279, 0) as any as S.Schema<GetBillingAccountsLocationsBucketsViewsRequest>,
+  output: __S(1744, __c109, 0) as any as S.Schema<LogView>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5769,8 +4426,8 @@ export const getBillingAccountsLocationsOperations: API.OperationMethod<
   GetBillingAccountsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4496, __c281, 0) as any as S.Schema<GetBillingAccountsLocationsOperationsRequest>,
-  output: __S(4466, __c279, 2) as any as S.Schema<Operation>,
+  input: __S(4480, __c280, 0) as any as S.Schema<GetBillingAccountsLocationsOperationsRequest>,
+  output: __S(4450, __c278, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5786,8 +4443,8 @@ export const getBillingAccountsLocationsSavedQueries: API.OperationMethod<
   GetBillingAccountsLocationsSavedQueriesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4512, __c282, 0) as any as S.Schema<GetBillingAccountsLocationsSavedQueriesRequest>,
-  output: __S(1968, __c123, 0) as any as S.Schema<SavedQuery>,
+  input: __S(4496, __c281, 0) as any as S.Schema<GetBillingAccountsLocationsSavedQueriesRequest>,
+  output: __S(1952, __c122, 0) as any as S.Schema<SavedQuery>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5803,8 +4460,8 @@ export const getBillingAccountsSinks: API.OperationMethod<
   GetBillingAccountsSinksError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4528, __c283, 0) as any as S.Schema<GetBillingAccountsSinksRequest>,
-  output: __S(2177, __c136, 1) as any as S.Schema<LogSink>,
+  input: __S(4512, __c282, 0) as any as S.Schema<GetBillingAccountsSinksRequest>,
+  output: __S(2161, __c135, 1) as any as S.Schema<LogSink>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5820,7 +4477,7 @@ export const getCmekSettingsBillingAccounts: API.OperationMethod<
   GetCmekSettingsBillingAccountsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4544, __c284, 0) as any as S.Schema<GetCmekSettingsBillingAccountsRequest>,
+  input: __S(4528, __c283, 0) as any as S.Schema<GetCmekSettingsBillingAccountsRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<CmekSettings>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
@@ -5837,7 +4494,7 @@ export const getCmekSettingsFolders: API.OperationMethod<
   GetCmekSettingsFoldersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4560, __c285, 0) as any as S.Schema<GetCmekSettingsFoldersRequest>,
+  input: __S(4544, __c284, 0) as any as S.Schema<GetCmekSettingsFoldersRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<CmekSettings>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
@@ -5854,7 +4511,7 @@ export const getCmekSettingsOrganizations: API.OperationMethod<
   GetCmekSettingsOrganizationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4576, __c286, 0) as any as S.Schema<GetCmekSettingsOrganizationsRequest>,
+  input: __S(4560, __c285, 0) as any as S.Schema<GetCmekSettingsOrganizationsRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<CmekSettings>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
@@ -5871,7 +4528,7 @@ export const getCmekSettingsProjects: API.OperationMethod<
   GetCmekSettingsProjectsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4592, __c287, 0) as any as S.Schema<GetCmekSettingsProjectsRequest>,
+  input: __S(4576, __c286, 0) as any as S.Schema<GetCmekSettingsProjectsRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<CmekSettings>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
@@ -5888,7 +4545,7 @@ export const getCmekSettingsV2: API.OperationMethod<
   GetCmekSettingsV2Error,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4608, __c288, 0) as any as S.Schema<GetCmekSettingsV2Request>,
+  input: __S(4592, __c287, 0) as any as S.Schema<GetCmekSettingsV2Request>,
   output: __S(48, __c3, 0) as any as S.Schema<CmekSettings>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
@@ -5905,7 +4562,7 @@ export const getExclusions: API.OperationMethod<
   GetExclusionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4624, __c289, 0) as any as S.Schema<GetExclusionsRequest>,
+  input: __S(4608, __c288, 0) as any as S.Schema<GetExclusionsRequest>,
   output: __S(1104, __c69, 0) as any as S.Schema<LogExclusion>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
@@ -5957,7 +4614,7 @@ export const getFoldersLocationsBuckets: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c6, 0) as any as S.Schema<GetFoldersLocationsBucketsRequest>,
-  output: __S(1360, __c85, 0) as any as S.Schema<LogBucket>,
+  output: __S(34, __c2, 2) as any as S.Schema<LogBucket>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5974,7 +4631,7 @@ export const getFoldersLocationsBucketsLinks: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c7, 0) as any as S.Schema<GetFoldersLocationsBucketsLinksRequest>,
-  output: __S(4416, __c276, 0) as any as S.Schema<Link>,
+  output: __S(1553, __c97, 1) as any as S.Schema<Link>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5991,7 +4648,7 @@ export const getFoldersLocationsBucketsViews: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c8, 0) as any as S.Schema<GetFoldersLocationsBucketsViewsRequest>,
-  output: __S(1760, __c110, 0) as any as S.Schema<LogView>,
+  output: __S(1744, __c109, 0) as any as S.Schema<LogView>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6025,7 +4682,7 @@ export const getFoldersLocationsOperations: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c10, 0) as any as S.Schema<GetFoldersLocationsOperationsRequest>,
-  output: __S(4466, __c279, 2) as any as S.Schema<Operation>,
+  output: __S(4450, __c278, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6042,7 +4699,7 @@ export const getFoldersLocationsSavedQueries: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(176, __c11, 0) as any as S.Schema<GetFoldersLocationsSavedQueriesRequest>,
-  output: __S(1968, __c123, 0) as any as S.Schema<SavedQuery>,
+  output: __S(1952, __c122, 0) as any as S.Schema<SavedQuery>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6059,7 +4716,7 @@ export const getFoldersSinks: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c12, 0) as any as S.Schema<GetFoldersSinksRequest>,
-  output: __S(2177, __c136, 1) as any as S.Schema<LogSink>,
+  output: __S(2161, __c135, 1) as any as S.Schema<LogSink>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6185,7 +4842,7 @@ export const getLocationsBuckets: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(336, __c21, 0) as any as S.Schema<GetLocationsBucketsRequest>,
-  output: __S(1360, __c85, 0) as any as S.Schema<LogBucket>,
+  output: __S(34, __c2, 2) as any as S.Schema<LogBucket>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6202,7 +4859,7 @@ export const getLocationsBucketsLinks: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c22, 0) as any as S.Schema<GetLocationsBucketsLinksRequest>,
-  output: __S(4416, __c276, 0) as any as S.Schema<Link>,
+  output: __S(1553, __c97, 1) as any as S.Schema<Link>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6219,7 +4876,7 @@ export const getLocationsBucketsViews: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(368, __c23, 0) as any as S.Schema<GetLocationsBucketsViewsRequest>,
-  output: __S(1760, __c110, 0) as any as S.Schema<LogView>,
+  output: __S(1744, __c109, 0) as any as S.Schema<LogView>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6236,7 +4893,7 @@ export const getLocationsOperations: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c24, 0) as any as S.Schema<GetLocationsOperationsRequest>,
-  output: __S(4466, __c279, 2) as any as S.Schema<Operation>,
+  output: __S(4450, __c278, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6287,7 +4944,7 @@ export const getOrganizationsLocationsBuckets: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c28, 0) as any as S.Schema<GetOrganizationsLocationsBucketsRequest>,
-  output: __S(1360, __c85, 0) as any as S.Schema<LogBucket>,
+  output: __S(34, __c2, 2) as any as S.Schema<LogBucket>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6304,7 +4961,7 @@ export const getOrganizationsLocationsBucketsLinks: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(464, __c29, 0) as any as S.Schema<GetOrganizationsLocationsBucketsLinksRequest>,
-  output: __S(4416, __c276, 0) as any as S.Schema<Link>,
+  output: __S(1553, __c97, 1) as any as S.Schema<Link>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6321,7 +4978,7 @@ export const getOrganizationsLocationsBucketsViews: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c30, 0) as any as S.Schema<GetOrganizationsLocationsBucketsViewsRequest>,
-  output: __S(1760, __c110, 0) as any as S.Schema<LogView>,
+  output: __S(1744, __c109, 0) as any as S.Schema<LogView>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6355,7 +5012,7 @@ export const getOrganizationsLocationsOperations: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c32, 0) as any as S.Schema<GetOrganizationsLocationsOperationsRequest>,
-  output: __S(4466, __c279, 2) as any as S.Schema<Operation>,
+  output: __S(4450, __c278, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6372,7 +5029,7 @@ export const getOrganizationsLocationsSavedQueries: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(528, __c33, 0) as any as S.Schema<GetOrganizationsLocationsSavedQueriesRequest>,
-  output: __S(1968, __c123, 0) as any as S.Schema<SavedQuery>,
+  output: __S(1952, __c122, 0) as any as S.Schema<SavedQuery>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6389,7 +5046,7 @@ export const getOrganizationsSinks: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c34, 0) as any as S.Schema<GetOrganizationsSinksRequest>,
-  output: __S(2177, __c136, 1) as any as S.Schema<LogSink>,
+  output: __S(2161, __c135, 1) as any as S.Schema<LogSink>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6440,7 +5097,7 @@ export const getProjectsLocationsBuckets: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(592, __c37, 0) as any as S.Schema<GetProjectsLocationsBucketsRequest>,
-  output: __S(1360, __c85, 0) as any as S.Schema<LogBucket>,
+  output: __S(34, __c2, 2) as any as S.Schema<LogBucket>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6457,7 +5114,7 @@ export const getProjectsLocationsBucketsLinks: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(624, __c39, 0) as any as S.Schema<GetProjectsLocationsBucketsLinksRequest>,
-  output: __S(4416, __c276, 0) as any as S.Schema<Link>,
+  output: __S(1553, __c97, 1) as any as S.Schema<Link>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6474,7 +5131,7 @@ export const getProjectsLocationsBucketsViews: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(640, __c40, 0) as any as S.Schema<GetProjectsLocationsBucketsViewsRequest>,
-  output: __S(1760, __c110, 0) as any as S.Schema<LogView>,
+  output: __S(1744, __c109, 0) as any as S.Schema<LogView>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6508,7 +5165,7 @@ export const getProjectsLocationsOperations: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c42, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
-  output: __S(4466, __c279, 2) as any as S.Schema<Operation>,
+  output: __S(4450, __c278, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6525,7 +5182,7 @@ export const getProjectsLocationsSavedQueries: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(688, __c43, 0) as any as S.Schema<GetProjectsLocationsSavedQueriesRequest>,
-  output: __S(1968, __c123, 0) as any as S.Schema<SavedQuery>,
+  output: __S(1952, __c122, 0) as any as S.Schema<SavedQuery>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6559,7 +5216,7 @@ export const getProjectsSinks: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(720, __c45, 0) as any as S.Schema<GetProjectsSinksRequest>,
-  output: __S(2177, __c136, 1) as any as S.Schema<LogSink>,
+  output: __S(2161, __c135, 1) as any as S.Schema<LogSink>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6657,7 +5314,7 @@ export type GetSinksError = NotFound | Forbidden | GcpOpError;
 export const getSinks: API.OperationMethod<GetSinksRequest, LogSink, GetSinksError, GcpOpContext> =
   /*@__PURE__*/ API.make(() => ({
     input: __S(848, __c53, 0) as any as S.Schema<GetSinksRequest>,
-    output: __S(2177, __c136, 1) as any as S.Schema<LogSink>,
+    output: __S(2161, __c135, 1) as any as S.Schema<LogSink>,
     errors: [NotFound, Forbidden, UnknownGCPError],
     protocol: GcpProtocol,
     retry: Retry.Retry,
@@ -6886,8 +5543,8 @@ export const listEntries: API.OperationMethod<
   ListEntriesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1232, __c77, 0) as any as S.Schema<ListEntriesRequest>,
-  output: __S(1233, __c77, 1) as any as S.Schema<ListLogEntriesResponse>,
+  input: __S(1233, __c77, 1) as any as S.Schema<ListEntriesRequest>,
+  output: __S(1234, __c77, 2) as any as S.Schema<ListLogEntriesResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -6999,7 +5656,7 @@ export const listFoldersLocationsBucketsViews: API.PaginatedOperationMethod<
   GcpOpContext,
   ListViewsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1376, __c86, 0) as any as S.Schema<ListFoldersLocationsBucketsViewsRequest>,
+  input: __S(1360, __c85, 0) as any as S.Schema<ListFoldersLocationsBucketsViewsRequest>,
   output: __S(1009, __c63, 1) as any as S.Schema<ListViewsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
@@ -7018,7 +5675,7 @@ export const listFoldersLocationsBucketsViewsLogs: API.PaginatedOperationMethod<
   GcpOpContext,
   ListLogsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1392, __c87, 0) as any as S.Schema<ListFoldersLocationsBucketsViewsLogsRequest>,
+  input: __S(1376, __c86, 0) as any as S.Schema<ListFoldersLocationsBucketsViewsLogsRequest>,
   output: __S(1040, __c65, 0) as any as S.Schema<ListLogsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
@@ -7037,8 +5694,8 @@ export const listFoldersLocationsLogScopes: API.PaginatedOperationMethod<
   GcpOpContext,
   ListLogScopesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1408, __c88, 0) as any as S.Schema<ListFoldersLocationsLogScopesRequest>,
-  output: __S(1425, __c89, 1) as any as S.Schema<ListLogScopesResponse>,
+  input: __S(1392, __c87, 0) as any as S.Schema<ListFoldersLocationsLogScopesRequest>,
+  output: __S(1409, __c88, 1) as any as S.Schema<ListLogScopesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -7056,7 +5713,7 @@ export const listFoldersLocationsOperations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListOperationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1440, __c90, 0) as any as S.Schema<ListFoldersLocationsOperationsRequest>,
+  input: __S(1424, __c89, 0) as any as S.Schema<ListFoldersLocationsOperationsRequest>,
   output: __S(1073, __c67, 1) as any as S.Schema<ListOperationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
@@ -7075,7 +5732,7 @@ export const listFoldersLocationsRecentQueries: API.PaginatedOperationMethod<
   GcpOpContext,
   ListRecentQueriesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1456, __c91, 0) as any as S.Schema<ListFoldersLocationsRecentQueriesRequest>,
+  input: __S(1440, __c90, 0) as any as S.Schema<ListFoldersLocationsRecentQueriesRequest>,
   output: __S(1138, __c71, 2) as any as S.Schema<ListRecentQueriesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
@@ -7094,7 +5751,7 @@ export const listFoldersLocationsSavedQueries: API.PaginatedOperationMethod<
   GcpOpContext,
   ListSavedQueriesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1472, __c92, 0) as any as S.Schema<ListFoldersLocationsSavedQueriesRequest>,
+  input: __S(1456, __c91, 0) as any as S.Schema<ListFoldersLocationsSavedQueriesRequest>,
   output: __S(1169, __c73, 1) as any as S.Schema<ListSavedQueriesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
@@ -7113,7 +5770,7 @@ export const listFoldersLogs: API.PaginatedOperationMethod<
   GcpOpContext,
   ListLogsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1488, __c93, 0) as any as S.Schema<ListFoldersLogsRequest>,
+  input: __S(1472, __c92, 0) as any as S.Schema<ListFoldersLogsRequest>,
   output: __S(1040, __c65, 0) as any as S.Schema<ListLogsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
@@ -7132,7 +5789,7 @@ export const listFoldersSinks: API.PaginatedOperationMethod<
   GcpOpContext,
   ListSinksResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1504, __c94, 0) as any as S.Schema<ListFoldersSinksRequest>,
+  input: __S(1488, __c93, 0) as any as S.Schema<ListFoldersSinksRequest>,
   output: __S(1217, __c76, 1) as any as S.Schema<ListSinksResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
@@ -7151,7 +5808,7 @@ export const listLocations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListLocationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1520, __c95, 0) as any as S.Schema<ListLocationsRequest>,
+  input: __S(1504, __c94, 0) as any as S.Schema<ListLocationsRequest>,
   output: __S(913, __c57, 1) as any as S.Schema<ListLocationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
@@ -7170,7 +5827,7 @@ export const listLocationsBuckets: API.PaginatedOperationMethod<
   GcpOpContext,
   ListBucketsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1536, __c96, 0) as any as S.Schema<ListLocationsBucketsRequest>,
+  input: __S(1520, __c95, 0) as any as S.Schema<ListLocationsBucketsRequest>,
   output: __S(945, __c59, 1) as any as S.Schema<ListBucketsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
@@ -7189,7 +5846,7 @@ export const listLocationsBucketsLinks: API.PaginatedOperationMethod<
   GcpOpContext,
   ListLinksResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1584, __c99, 0) as any as S.Schema<ListLocationsBucketsLinksRequest>,
+  input: __S(1568, __c98, 0) as any as S.Schema<ListLocationsBucketsLinksRequest>,
   output: __S(977, __c61, 1) as any as S.Schema<ListLinksResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
@@ -7208,7 +5865,7 @@ export const listLocationsBucketsViews: API.PaginatedOperationMethod<
   GcpOpContext,
   ListViewsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1600, __c100, 0) as any as S.Schema<ListLocationsBucketsViewsRequest>,
+  input: __S(1584, __c99, 0) as any as S.Schema<ListLocationsBucketsViewsRequest>,
   output: __S(1009, __c63, 1) as any as S.Schema<ListViewsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
@@ -7227,7 +5884,7 @@ export const listLocationsOperations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListOperationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1616, __c101, 0) as any as S.Schema<ListLocationsOperationsRequest>,
+  input: __S(1600, __c100, 0) as any as S.Schema<ListLocationsOperationsRequest>,
   output: __S(1073, __c67, 1) as any as S.Schema<ListOperationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
@@ -7246,7 +5903,7 @@ export const listLogs: API.PaginatedOperationMethod<
   GcpOpContext,
   ListLogsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1632, __c102, 0) as any as S.Schema<ListLogsRequest>,
+  input: __S(1616, __c101, 0) as any as S.Schema<ListLogsRequest>,
   output: __S(1040, __c65, 0) as any as S.Schema<ListLogsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
@@ -7265,8 +5922,8 @@ export const listMonitoredResourceDescriptors: API.PaginatedOperationMethod<
   GcpOpContext,
   ListMonitoredResourceDescriptorsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1648, __c103, 0) as any as S.Schema<ListMonitoredResourceDescriptorsRequest>,
-  output: __S(1651, __c103, 3) as any as S.Schema<ListMonitoredResourceDescriptorsResponse>,
+  input: __S(1632, __c102, 0) as any as S.Schema<ListMonitoredResourceDescriptorsRequest>,
+  output: __S(1635, __c102, 3) as any as S.Schema<ListMonitoredResourceDescriptorsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -7284,7 +5941,7 @@ export const listOrganizationsExclusions: API.PaginatedOperationMethod<
   GcpOpContext,
   ListExclusionsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1664, __c104, 0) as any as S.Schema<ListOrganizationsExclusionsRequest>,
+  input: __S(1648, __c103, 0) as any as S.Schema<ListOrganizationsExclusionsRequest>,
   output: __S(880, __c55, 0) as any as S.Schema<ListExclusionsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
@@ -7303,7 +5960,7 @@ export const listOrganizationsLocations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListLocationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1680, __c105, 0) as any as S.Schema<ListOrganizationsLocationsRequest>,
+  input: __S(1664, __c104, 0) as any as S.Schema<ListOrganizationsLocationsRequest>,
   output: __S(913, __c57, 1) as any as S.Schema<ListLocationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
@@ -7322,7 +5979,7 @@ export const listOrganizationsLocationsBuckets: API.PaginatedOperationMethod<
   GcpOpContext,
   ListBucketsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1696, __c106, 0) as any as S.Schema<ListOrganizationsLocationsBucketsRequest>,
+  input: __S(1680, __c105, 0) as any as S.Schema<ListOrganizationsLocationsBucketsRequest>,
   output: __S(945, __c59, 1) as any as S.Schema<ListBucketsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
@@ -7341,7 +5998,7 @@ export const listOrganizationsLocationsBucketsLinks: API.PaginatedOperationMetho
   GcpOpContext,
   ListLinksResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1712, __c107, 0) as any as S.Schema<ListOrganizationsLocationsBucketsLinksRequest>,
+  input: __S(1696, __c106, 0) as any as S.Schema<ListOrganizationsLocationsBucketsLinksRequest>,
   output: __S(977, __c61, 1) as any as S.Schema<ListLinksResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
@@ -7360,7 +6017,7 @@ export const listOrganizationsLocationsBucketsViews: API.PaginatedOperationMetho
   GcpOpContext,
   ListViewsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1728, __c108, 0) as any as S.Schema<ListOrganizationsLocationsBucketsViewsRequest>,
+  input: __S(1712, __c107, 0) as any as S.Schema<ListOrganizationsLocationsBucketsViewsRequest>,
   output: __S(1009, __c63, 1) as any as S.Schema<ListViewsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
@@ -7379,7 +6036,7 @@ export const listOrganizationsLocationsBucketsViewsLogs: API.PaginatedOperationM
   GcpOpContext,
   ListLogsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1776, __c111, 0) as any as S.Schema<ListOrganizationsLocationsBucketsViewsLogsRequest>,
+  input: __S(1760, __c110, 0) as any as S.Schema<ListOrganizationsLocationsBucketsViewsLogsRequest>,
   output: __S(1040, __c65, 0) as any as S.Schema<ListLogsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
@@ -7398,8 +6055,8 @@ export const listOrganizationsLocationsLogScopes: API.PaginatedOperationMethod<
   GcpOpContext,
   ListLogScopesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1792, __c112, 0) as any as S.Schema<ListOrganizationsLocationsLogScopesRequest>,
-  output: __S(1425, __c89, 1) as any as S.Schema<ListLogScopesResponse>,
+  input: __S(1776, __c111, 0) as any as S.Schema<ListOrganizationsLocationsLogScopesRequest>,
+  output: __S(1409, __c88, 1) as any as S.Schema<ListLogScopesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -7417,7 +6074,7 @@ export const listOrganizationsLocationsOperations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListOperationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1808, __c113, 0) as any as S.Schema<ListOrganizationsLocationsOperationsRequest>,
+  input: __S(1792, __c112, 0) as any as S.Schema<ListOrganizationsLocationsOperationsRequest>,
   output: __S(1073, __c67, 1) as any as S.Schema<ListOperationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
@@ -7436,7 +6093,7 @@ export const listOrganizationsLocationsRecentQueries: API.PaginatedOperationMeth
   GcpOpContext,
   ListRecentQueriesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1824, __c114, 0) as any as S.Schema<ListOrganizationsLocationsRecentQueriesRequest>,
+  input: __S(1808, __c113, 0) as any as S.Schema<ListOrganizationsLocationsRecentQueriesRequest>,
   output: __S(1138, __c71, 2) as any as S.Schema<ListRecentQueriesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
@@ -7455,7 +6112,7 @@ export const listOrganizationsLocationsSavedQueries: API.PaginatedOperationMetho
   GcpOpContext,
   ListSavedQueriesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1840, __c115, 0) as any as S.Schema<ListOrganizationsLocationsSavedQueriesRequest>,
+  input: __S(1824, __c114, 0) as any as S.Schema<ListOrganizationsLocationsSavedQueriesRequest>,
   output: __S(1169, __c73, 1) as any as S.Schema<ListSavedQueriesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
@@ -7474,7 +6131,7 @@ export const listOrganizationsLogs: API.PaginatedOperationMethod<
   GcpOpContext,
   ListLogsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1856, __c116, 0) as any as S.Schema<ListOrganizationsLogsRequest>,
+  input: __S(1840, __c115, 0) as any as S.Schema<ListOrganizationsLogsRequest>,
   output: __S(1040, __c65, 0) as any as S.Schema<ListLogsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
@@ -7493,7 +6150,7 @@ export const listOrganizationsSinks: API.PaginatedOperationMethod<
   GcpOpContext,
   ListSinksResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1872, __c117, 0) as any as S.Schema<ListOrganizationsSinksRequest>,
+  input: __S(1856, __c116, 0) as any as S.Schema<ListOrganizationsSinksRequest>,
   output: __S(1217, __c76, 1) as any as S.Schema<ListSinksResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
@@ -7512,7 +6169,7 @@ export const listProjectsExclusions: API.PaginatedOperationMethod<
   GcpOpContext,
   ListExclusionsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1888, __c118, 0) as any as S.Schema<ListProjectsExclusionsRequest>,
+  input: __S(1872, __c117, 0) as any as S.Schema<ListProjectsExclusionsRequest>,
   output: __S(880, __c55, 0) as any as S.Schema<ListExclusionsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
@@ -7531,7 +6188,7 @@ export const listProjectsLocations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListLocationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1904, __c119, 0) as any as S.Schema<ListProjectsLocationsRequest>,
+  input: __S(1888, __c118, 0) as any as S.Schema<ListProjectsLocationsRequest>,
   output: __S(913, __c57, 1) as any as S.Schema<ListLocationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
@@ -7550,7 +6207,7 @@ export const listProjectsLocationsBuckets: API.PaginatedOperationMethod<
   GcpOpContext,
   ListBucketsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1920, __c120, 0) as any as S.Schema<ListProjectsLocationsBucketsRequest>,
+  input: __S(1904, __c119, 0) as any as S.Schema<ListProjectsLocationsBucketsRequest>,
   output: __S(945, __c59, 1) as any as S.Schema<ListBucketsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
@@ -7569,7 +6226,7 @@ export const listProjectsLocationsBucketsLinks: API.PaginatedOperationMethod<
   GcpOpContext,
   ListLinksResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1984, __c124, 0) as any as S.Schema<ListProjectsLocationsBucketsLinksRequest>,
+  input: __S(1968, __c123, 0) as any as S.Schema<ListProjectsLocationsBucketsLinksRequest>,
   output: __S(977, __c61, 1) as any as S.Schema<ListLinksResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
@@ -7588,7 +6245,7 @@ export const listProjectsLocationsBucketsViews: API.PaginatedOperationMethod<
   GcpOpContext,
   ListViewsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2000, __c125, 0) as any as S.Schema<ListProjectsLocationsBucketsViewsRequest>,
+  input: __S(1984, __c124, 0) as any as S.Schema<ListProjectsLocationsBucketsViewsRequest>,
   output: __S(1009, __c63, 1) as any as S.Schema<ListViewsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
@@ -7607,7 +6264,7 @@ export const listProjectsLocationsBucketsViewsLogs: API.PaginatedOperationMethod
   GcpOpContext,
   ListLogsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2016, __c126, 0) as any as S.Schema<ListProjectsLocationsBucketsViewsLogsRequest>,
+  input: __S(2000, __c125, 0) as any as S.Schema<ListProjectsLocationsBucketsViewsLogsRequest>,
   output: __S(1040, __c65, 0) as any as S.Schema<ListLogsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
@@ -7626,8 +6283,8 @@ export const listProjectsLocationsLogScopes: API.PaginatedOperationMethod<
   GcpOpContext,
   ListLogScopesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2032, __c127, 0) as any as S.Schema<ListProjectsLocationsLogScopesRequest>,
-  output: __S(1425, __c89, 1) as any as S.Schema<ListLogScopesResponse>,
+  input: __S(2016, __c126, 0) as any as S.Schema<ListProjectsLocationsLogScopesRequest>,
+  output: __S(1409, __c88, 1) as any as S.Schema<ListLogScopesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -7645,7 +6302,7 @@ export const listProjectsLocationsOperations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListOperationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2048, __c128, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
+  input: __S(2032, __c127, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
   output: __S(1073, __c67, 1) as any as S.Schema<ListOperationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
@@ -7664,7 +6321,7 @@ export const listProjectsLocationsRecentQueries: API.PaginatedOperationMethod<
   GcpOpContext,
   ListRecentQueriesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2064, __c129, 0) as any as S.Schema<ListProjectsLocationsRecentQueriesRequest>,
+  input: __S(2048, __c128, 0) as any as S.Schema<ListProjectsLocationsRecentQueriesRequest>,
   output: __S(1138, __c71, 2) as any as S.Schema<ListRecentQueriesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
@@ -7683,7 +6340,7 @@ export const listProjectsLocationsSavedQueries: API.PaginatedOperationMethod<
   GcpOpContext,
   ListSavedQueriesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2080, __c130, 0) as any as S.Schema<ListProjectsLocationsSavedQueriesRequest>,
+  input: __S(2064, __c129, 0) as any as S.Schema<ListProjectsLocationsSavedQueriesRequest>,
   output: __S(1169, __c73, 1) as any as S.Schema<ListSavedQueriesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
@@ -7702,7 +6359,7 @@ export const listProjectsLogs: API.PaginatedOperationMethod<
   GcpOpContext,
   ListLogsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2096, __c131, 0) as any as S.Schema<ListProjectsLogsRequest>,
+  input: __S(2080, __c130, 0) as any as S.Schema<ListProjectsLogsRequest>,
   output: __S(1040, __c65, 0) as any as S.Schema<ListLogsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
@@ -7721,8 +6378,8 @@ export const listProjectsMetrics: API.PaginatedOperationMethod<
   GcpOpContext,
   ListLogMetricsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2112, __c132, 0) as any as S.Schema<ListProjectsMetricsRequest>,
-  output: __S(2114, __c132, 2) as any as S.Schema<ListLogMetricsResponse>,
+  input: __S(2096, __c131, 0) as any as S.Schema<ListProjectsMetricsRequest>,
+  output: __S(2098, __c131, 2) as any as S.Schema<ListLogMetricsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -7740,7 +6397,7 @@ export const listProjectsSinks: API.PaginatedOperationMethod<
   GcpOpContext,
   ListSinksResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2128, __c133, 0) as any as S.Schema<ListProjectsSinksRequest>,
+  input: __S(2112, __c132, 0) as any as S.Schema<ListProjectsSinksRequest>,
   output: __S(1217, __c76, 1) as any as S.Schema<ListSinksResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
@@ -7759,7 +6416,7 @@ export const listSinks: API.PaginatedOperationMethod<
   GcpOpContext,
   ListSinksResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2192, __c137, 0) as any as S.Schema<ListSinksRequest>,
+  input: __S(2176, __c136, 0) as any as S.Schema<ListSinksRequest>,
   output: __S(1217, __c76, 1) as any as S.Schema<ListSinksResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
@@ -7782,7 +6439,7 @@ export const patchBillingAccountsExclusions: API.OperationMethod<
   PatchBillingAccountsExclusionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2208, __c138, 0) as any as S.Schema<PatchBillingAccountsExclusionsRequest>,
+  input: __S(2192, __c137, 0) as any as S.Schema<PatchBillingAccountsExclusionsRequest>,
   output: __S(1104, __c69, 0) as any as S.Schema<LogExclusion>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -7804,8 +6461,8 @@ export const patchBillingAccountsLocationsBuckets: API.OperationMethod<
   PatchBillingAccountsLocationsBucketsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2224, __c139, 0) as any as S.Schema<PatchBillingAccountsLocationsBucketsRequest>,
-  output: __S(1360, __c85, 0) as any as S.Schema<LogBucket>,
+  input: __S(2208, __c138, 0) as any as S.Schema<PatchBillingAccountsLocationsBucketsRequest>,
+  output: __S(34, __c2, 2) as any as S.Schema<LogBucket>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -7826,8 +6483,8 @@ export const patchBillingAccountsLocationsBucketsViews: API.OperationMethod<
   PatchBillingAccountsLocationsBucketsViewsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2240, __c140, 0) as any as S.Schema<PatchBillingAccountsLocationsBucketsViewsRequest>,
-  output: __S(1760, __c110, 0) as any as S.Schema<LogView>,
+  input: __S(2224, __c139, 0) as any as S.Schema<PatchBillingAccountsLocationsBucketsViewsRequest>,
+  output: __S(1744, __c109, 0) as any as S.Schema<LogView>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -7848,8 +6505,8 @@ export const patchBillingAccountsLocationsSavedQueries: API.OperationMethod<
   PatchBillingAccountsLocationsSavedQueriesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2256, __c141, 0) as any as S.Schema<PatchBillingAccountsLocationsSavedQueriesRequest>,
-  output: __S(1968, __c123, 0) as any as S.Schema<SavedQuery>,
+  input: __S(2240, __c140, 0) as any as S.Schema<PatchBillingAccountsLocationsSavedQueriesRequest>,
+  output: __S(1952, __c122, 0) as any as S.Schema<SavedQuery>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -7870,8 +6527,8 @@ export const patchBillingAccountsSinks: API.OperationMethod<
   PatchBillingAccountsSinksError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2272, __c142, 0) as any as S.Schema<PatchBillingAccountsSinksRequest>,
-  output: __S(2177, __c136, 1) as any as S.Schema<LogSink>,
+  input: __S(2256, __c141, 0) as any as S.Schema<PatchBillingAccountsSinksRequest>,
+  output: __S(2161, __c135, 1) as any as S.Schema<LogSink>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -7887,7 +6544,7 @@ export const patchExclusions: API.OperationMethod<
   PatchExclusionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2288, __c143, 0) as any as S.Schema<PatchExclusionsRequest>,
+  input: __S(2272, __c142, 0) as any as S.Schema<PatchExclusionsRequest>,
   output: __S(1104, __c69, 0) as any as S.Schema<LogExclusion>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -7904,7 +6561,7 @@ export const patchFoldersExclusions: API.OperationMethod<
   PatchFoldersExclusionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2304, __c144, 0) as any as S.Schema<PatchFoldersExclusionsRequest>,
+  input: __S(2288, __c143, 0) as any as S.Schema<PatchFoldersExclusionsRequest>,
   output: __S(1104, __c69, 0) as any as S.Schema<LogExclusion>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -7926,8 +6583,8 @@ export const patchFoldersLocationsBuckets: API.OperationMethod<
   PatchFoldersLocationsBucketsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2320, __c145, 0) as any as S.Schema<PatchFoldersLocationsBucketsRequest>,
-  output: __S(1360, __c85, 0) as any as S.Schema<LogBucket>,
+  input: __S(2304, __c144, 0) as any as S.Schema<PatchFoldersLocationsBucketsRequest>,
+  output: __S(34, __c2, 2) as any as S.Schema<LogBucket>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -7948,8 +6605,8 @@ export const patchFoldersLocationsBucketsViews: API.OperationMethod<
   PatchFoldersLocationsBucketsViewsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2336, __c146, 0) as any as S.Schema<PatchFoldersLocationsBucketsViewsRequest>,
-  output: __S(1760, __c110, 0) as any as S.Schema<LogView>,
+  input: __S(2320, __c145, 0) as any as S.Schema<PatchFoldersLocationsBucketsViewsRequest>,
+  output: __S(1744, __c109, 0) as any as S.Schema<LogView>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -7970,7 +6627,7 @@ export const patchFoldersLocationsLogScopes: API.OperationMethod<
   PatchFoldersLocationsLogScopesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2368, __c148, 0) as any as S.Schema<PatchFoldersLocationsLogScopesRequest>,
+  input: __S(2352, __c147, 0) as any as S.Schema<PatchFoldersLocationsLogScopesRequest>,
   output: __S(3232, __c202, 0) as any as S.Schema<LogScope>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -7992,8 +6649,8 @@ export const patchFoldersLocationsSavedQueries: API.OperationMethod<
   PatchFoldersLocationsSavedQueriesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2384, __c149, 0) as any as S.Schema<PatchFoldersLocationsSavedQueriesRequest>,
-  output: __S(1968, __c123, 0) as any as S.Schema<SavedQuery>,
+  input: __S(2368, __c148, 0) as any as S.Schema<PatchFoldersLocationsSavedQueriesRequest>,
+  output: __S(1952, __c122, 0) as any as S.Schema<SavedQuery>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -8009,8 +6666,8 @@ export const patchFoldersSinks: API.OperationMethod<
   PatchFoldersSinksError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2400, __c150, 0) as any as S.Schema<PatchFoldersSinksRequest>,
-  output: __S(2177, __c136, 1) as any as S.Schema<LogSink>,
+  input: __S(2384, __c149, 0) as any as S.Schema<PatchFoldersSinksRequest>,
+  output: __S(2161, __c135, 1) as any as S.Schema<LogSink>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -8026,8 +6683,8 @@ export const patchLocationsBuckets: API.OperationMethod<
   PatchLocationsBucketsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2416, __c151, 0) as any as S.Schema<PatchLocationsBucketsRequest>,
-  output: __S(1360, __c85, 0) as any as S.Schema<LogBucket>,
+  input: __S(2400, __c150, 0) as any as S.Schema<PatchLocationsBucketsRequest>,
+  output: __S(34, __c2, 2) as any as S.Schema<LogBucket>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -8048,8 +6705,8 @@ export const patchLocationsBucketsViews: API.OperationMethod<
   PatchLocationsBucketsViewsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2432, __c152, 0) as any as S.Schema<PatchLocationsBucketsViewsRequest>,
-  output: __S(1760, __c110, 0) as any as S.Schema<LogView>,
+  input: __S(2416, __c151, 0) as any as S.Schema<PatchLocationsBucketsViewsRequest>,
+  output: __S(1744, __c109, 0) as any as S.Schema<LogView>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -8070,7 +6727,7 @@ export const patchOrganizationsExclusions: API.OperationMethod<
   PatchOrganizationsExclusionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2448, __c153, 0) as any as S.Schema<PatchOrganizationsExclusionsRequest>,
+  input: __S(2432, __c152, 0) as any as S.Schema<PatchOrganizationsExclusionsRequest>,
   output: __S(1104, __c69, 0) as any as S.Schema<LogExclusion>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -8092,8 +6749,8 @@ export const patchOrganizationsLocationsBuckets: API.OperationMethod<
   PatchOrganizationsLocationsBucketsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2464, __c154, 0) as any as S.Schema<PatchOrganizationsLocationsBucketsRequest>,
-  output: __S(1360, __c85, 0) as any as S.Schema<LogBucket>,
+  input: __S(2448, __c153, 0) as any as S.Schema<PatchOrganizationsLocationsBucketsRequest>,
+  output: __S(34, __c2, 2) as any as S.Schema<LogBucket>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -8114,8 +6771,8 @@ export const patchOrganizationsLocationsBucketsViews: API.OperationMethod<
   PatchOrganizationsLocationsBucketsViewsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2480, __c155, 0) as any as S.Schema<PatchOrganizationsLocationsBucketsViewsRequest>,
-  output: __S(1760, __c110, 0) as any as S.Schema<LogView>,
+  input: __S(2464, __c154, 0) as any as S.Schema<PatchOrganizationsLocationsBucketsViewsRequest>,
+  output: __S(1744, __c109, 0) as any as S.Schema<LogView>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -8136,7 +6793,7 @@ export const patchOrganizationsLocationsLogScopes: API.OperationMethod<
   PatchOrganizationsLocationsLogScopesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2496, __c156, 0) as any as S.Schema<PatchOrganizationsLocationsLogScopesRequest>,
+  input: __S(2480, __c155, 0) as any as S.Schema<PatchOrganizationsLocationsLogScopesRequest>,
   output: __S(3232, __c202, 0) as any as S.Schema<LogScope>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -8158,8 +6815,8 @@ export const patchOrganizationsLocationsSavedQueries: API.OperationMethod<
   PatchOrganizationsLocationsSavedQueriesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2512, __c157, 0) as any as S.Schema<PatchOrganizationsLocationsSavedQueriesRequest>,
-  output: __S(1968, __c123, 0) as any as S.Schema<SavedQuery>,
+  input: __S(2496, __c156, 0) as any as S.Schema<PatchOrganizationsLocationsSavedQueriesRequest>,
+  output: __S(1952, __c122, 0) as any as S.Schema<SavedQuery>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -8180,8 +6837,8 @@ export const patchOrganizationsSinks: API.OperationMethod<
   PatchOrganizationsSinksError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2544, __c159, 0) as any as S.Schema<PatchOrganizationsSinksRequest>,
-  output: __S(2177, __c136, 1) as any as S.Schema<LogSink>,
+  input: __S(2528, __c158, 0) as any as S.Schema<PatchOrganizationsSinksRequest>,
+  output: __S(2161, __c135, 1) as any as S.Schema<LogSink>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -8202,7 +6859,7 @@ export const patchProjectsExclusions: API.OperationMethod<
   PatchProjectsExclusionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2560, __c160, 0) as any as S.Schema<PatchProjectsExclusionsRequest>,
+  input: __S(2544, __c159, 0) as any as S.Schema<PatchProjectsExclusionsRequest>,
   output: __S(1104, __c69, 0) as any as S.Schema<LogExclusion>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -8224,8 +6881,8 @@ export const patchProjectsLocationsBuckets: API.OperationMethod<
   PatchProjectsLocationsBucketsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2576, __c161, 0) as any as S.Schema<PatchProjectsLocationsBucketsRequest>,
-  output: __S(1360, __c85, 0) as any as S.Schema<LogBucket>,
+  input: __S(2560, __c160, 0) as any as S.Schema<PatchProjectsLocationsBucketsRequest>,
+  output: __S(34, __c2, 2) as any as S.Schema<LogBucket>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -8246,8 +6903,8 @@ export const patchProjectsLocationsBucketsViews: API.OperationMethod<
   PatchProjectsLocationsBucketsViewsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2592, __c162, 0) as any as S.Schema<PatchProjectsLocationsBucketsViewsRequest>,
-  output: __S(1760, __c110, 0) as any as S.Schema<LogView>,
+  input: __S(2576, __c161, 0) as any as S.Schema<PatchProjectsLocationsBucketsViewsRequest>,
+  output: __S(1744, __c109, 0) as any as S.Schema<LogView>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -8268,7 +6925,7 @@ export const patchProjectsLocationsLogScopes: API.OperationMethod<
   PatchProjectsLocationsLogScopesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2608, __c163, 0) as any as S.Schema<PatchProjectsLocationsLogScopesRequest>,
+  input: __S(2592, __c162, 0) as any as S.Schema<PatchProjectsLocationsLogScopesRequest>,
   output: __S(3232, __c202, 0) as any as S.Schema<LogScope>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -8290,8 +6947,8 @@ export const patchProjectsLocationsSavedQueries: API.OperationMethod<
   PatchProjectsLocationsSavedQueriesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2624, __c164, 0) as any as S.Schema<PatchProjectsLocationsSavedQueriesRequest>,
-  output: __S(1968, __c123, 0) as any as S.Schema<SavedQuery>,
+  input: __S(2608, __c163, 0) as any as S.Schema<PatchProjectsLocationsSavedQueriesRequest>,
+  output: __S(1952, __c122, 0) as any as S.Schema<SavedQuery>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -8307,8 +6964,8 @@ export const patchProjectsSinks: API.OperationMethod<
   PatchProjectsSinksError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2640, __c165, 0) as any as S.Schema<PatchProjectsSinksRequest>,
-  output: __S(2177, __c136, 1) as any as S.Schema<LogSink>,
+  input: __S(2624, __c164, 0) as any as S.Schema<PatchProjectsSinksRequest>,
+  output: __S(2161, __c135, 1) as any as S.Schema<LogSink>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -8329,7 +6986,7 @@ export const setIamPolicyFoldersLocationsBucketsViews: API.OperationMethod<
   SetIamPolicyFoldersLocationsBucketsViewsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2656, __c166, 0) as any as S.Schema<SetIamPolicyFoldersLocationsBucketsViewsRequest>,
+  input: __S(2640, __c165, 0) as any as S.Schema<SetIamPolicyFoldersLocationsBucketsViewsRequest>,
   output: __S(243, __c15, 3) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -8416,8 +7073,8 @@ export const tailEntries: API.OperationMethod<
   TailEntriesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2736, __c171, 0) as any as S.Schema<TailEntriesRequest>,
-  output: __S(2739, __c171, 3) as any as S.Schema<TailLogEntriesResponse>,
+  input: __S(2737, __c171, 1) as any as S.Schema<TailEntriesRequest>,
+  output: __S(2740, __c171, 4) as any as S.Schema<TailLogEntriesResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -8649,7 +7306,7 @@ export const updateAsyncBillingAccountsLocationsBuckets: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2928, __c183, 0) as any as S.Schema<UpdateAsyncBillingAccountsLocationsBucketsRequest>,
-  output: __S(4466, __c279, 2) as any as S.Schema<Operation>,
+  output: __S(4450, __c278, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -8671,7 +7328,7 @@ export const updateAsyncFoldersLocationsBuckets: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2944, __c184, 0) as any as S.Schema<UpdateAsyncFoldersLocationsBucketsRequest>,
-  output: __S(4466, __c279, 2) as any as S.Schema<Operation>,
+  output: __S(4450, __c278, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -8693,7 +7350,7 @@ export const updateAsyncLocationsBuckets: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2960, __c185, 0) as any as S.Schema<UpdateAsyncLocationsBucketsRequest>,
-  output: __S(4466, __c279, 2) as any as S.Schema<Operation>,
+  output: __S(4450, __c278, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -8715,7 +7372,7 @@ export const updateAsyncOrganizationsLocationsBuckets: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2976, __c186, 0) as any as S.Schema<UpdateAsyncOrganizationsLocationsBucketsRequest>,
-  output: __S(4466, __c279, 2) as any as S.Schema<Operation>,
+  output: __S(4450, __c278, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -8737,7 +7394,7 @@ export const updateAsyncProjectsLocationsBuckets: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2992, __c187, 0) as any as S.Schema<UpdateAsyncProjectsLocationsBucketsRequest>,
-  output: __S(4466, __c279, 2) as any as S.Schema<Operation>,
+  output: __S(4450, __c278, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -8759,7 +7416,7 @@ export const updateBillingAccountsSinks: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3008, __c188, 0) as any as S.Schema<UpdateBillingAccountsSinksRequest>,
-  output: __S(2177, __c136, 1) as any as S.Schema<LogSink>,
+  output: __S(2161, __c135, 1) as any as S.Schema<LogSink>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -8815,7 +7472,7 @@ export const updateFoldersSinks: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3056, __c191, 0) as any as S.Schema<UpdateFoldersSinksRequest>,
-  output: __S(2177, __c136, 1) as any as S.Schema<LogSink>,
+  output: __S(2161, __c135, 1) as any as S.Schema<LogSink>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -8837,7 +7494,7 @@ export const updateOrganizationsSinks: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3088, __c193, 0) as any as S.Schema<UpdateOrganizationsSinksRequest>,
-  output: __S(2177, __c136, 1) as any as S.Schema<LogSink>,
+  output: __S(2161, __c135, 1) as any as S.Schema<LogSink>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -8871,7 +7528,7 @@ export const updateProjectsSinks: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3120, __c195, 0) as any as S.Schema<UpdateProjectsSinksRequest>,
-  output: __S(2177, __c136, 1) as any as S.Schema<LogSink>,
+  output: __S(2161, __c135, 1) as any as S.Schema<LogSink>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -8944,7 +7601,7 @@ export const updateSinks: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3184, __c199, 0) as any as S.Schema<UpdateSinksRequest>,
-  output: __S(2177, __c136, 1) as any as S.Schema<LogSink>,
+  output: __S(2161, __c135, 1) as any as S.Schema<LogSink>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -8960,7 +7617,7 @@ export const writeEntries: API.OperationMethod<
   WriteEntriesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3200, __c200, 0) as any as S.Schema<WriteEntriesRequest>,
+  input: __S(3201, __c200, 1) as any as S.Schema<WriteEntriesRequest>,
   output: __S(3472, __c217, 0) as any as S.Schema<WriteLogEntriesResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -8974,21 +7631,13 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          bucketId: S.optional(S.String.pipe(T.Query())),
-          updateTime: S.optional(S.String),
-          lifecycleState: S.optional(S.String),
-          createTime: S.optional(S.String),
-          description: S.optional(S.String),
-          analyticsEnabled: S.optional(S.Boolean),
-          retentionDays: S.optional(S.Number),
-          locked: S.optional(S.Boolean),
-          indexConfigs: S.optional(__S(33, __c2, 1)),
-          name: S.optional(S.String),
-          restrictedFields: S.optional(__S(16, __c1, 0)),
-          cmekSettings: S.optional(__S(48, __c3, 0)),
-        }).pipe(
+        S.Extend(
+          __S(34, __c2, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            bucketId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/buckets:createAsync",
@@ -9016,6 +7665,22 @@ function __c2(j: number): any {
       ).annotate({ identifier: "IndexConfig" });
     case 1:
       return S.Array(__S(32, __c2, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          updateTime: S.optional(S.String),
+          lifecycleState: S.optional(S.String),
+          createTime: S.optional(S.String),
+          description: S.optional(S.String),
+          analyticsEnabled: S.optional(S.Boolean),
+          retentionDays: S.optional(S.Number),
+          locked: S.optional(S.Boolean),
+          indexConfigs: S.optional(__S(33, __c2, 1)),
+          name: S.optional(S.String),
+          restrictedFields: S.optional(__S(16, __c1, 0)),
+          cmekSettings: S.optional(__S(48, __c3, 0)),
+        }),
+      ).annotate({ identifier: "LogBucket" });
   }
 }
 function __c3(j: number): any {
@@ -9147,10 +7812,12 @@ function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          options: S.optional(__S(224, __c14, 0)),
-        }).pipe(
+        S.Extend(
+          __S(225, __c14, 1),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:getIamPolicy",
@@ -9168,6 +7835,12 @@ function __c14(j: number): any {
           requestedPolicyVersion: S.optional(S.Number),
         }),
       ).annotate({ identifier: "GetPolicyOptions" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          options: S.optional(__S(224, __c14, 0)),
+        }),
+      ).annotate({ identifier: "GetIamPolicyRequest" });
   }
 }
 function __c15(j: number): any {
@@ -9205,21 +7878,13 @@ function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          bucketId: S.optional(S.String.pipe(T.Query())),
-          updateTime: S.optional(S.String),
-          lifecycleState: S.optional(S.String),
-          createTime: S.optional(S.String),
-          description: S.optional(S.String),
-          analyticsEnabled: S.optional(S.Boolean),
-          retentionDays: S.optional(S.Number),
-          locked: S.optional(S.Boolean),
-          indexConfigs: S.optional(__S(33, __c2, 1)),
-          name: S.optional(S.String),
-          restrictedFields: S.optional(__S(16, __c1, 0)),
-          cmekSettings: S.optional(__S(48, __c3, 0)),
-        }).pipe(
+        S.Extend(
+          __S(34, __c2, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            bucketId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/buckets:createAsync",
@@ -9233,10 +7898,12 @@ function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          options: S.optional(__S(224, __c14, 0)),
-        }).pipe(
+        S.Extend(
+          __S(225, __c14, 1),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:getIamPolicy",
@@ -9250,10 +7917,12 @@ function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          options: S.optional(__S(224, __c14, 0)),
-        }).pipe(
+        S.Extend(
+          __S(225, __c14, 1),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:getIamPolicy",
@@ -9267,10 +7936,12 @@ function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          options: S.optional(__S(224, __c14, 0)),
-        }).pipe(
+        S.Extend(
+          __S(225, __c14, 1),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:getIamPolicy",
@@ -9368,21 +8039,13 @@ function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          bucketId: S.optional(S.String.pipe(T.Query())),
-          updateTime: S.optional(S.String),
-          lifecycleState: S.optional(S.String),
-          createTime: S.optional(S.String),
-          description: S.optional(S.String),
-          analyticsEnabled: S.optional(S.Boolean),
-          retentionDays: S.optional(S.Number),
-          locked: S.optional(S.Boolean),
-          indexConfigs: S.optional(__S(33, __c2, 1)),
-          name: S.optional(S.String),
-          restrictedFields: S.optional(__S(16, __c1, 0)),
-          cmekSettings: S.optional(__S(48, __c3, 0)),
-        }).pipe(
+        S.Extend(
+          __S(34, __c2, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            bucketId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/buckets:createAsync",
@@ -9520,21 +8183,13 @@ function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          bucketId: S.optional(S.String.pipe(T.Query())),
-          updateTime: S.optional(S.String),
-          lifecycleState: S.optional(S.String),
-          createTime: S.optional(S.String),
-          description: S.optional(S.String),
-          analyticsEnabled: S.optional(S.Boolean),
-          retentionDays: S.optional(S.Number),
-          locked: S.optional(S.Boolean),
-          indexConfigs: S.optional(__S(33, __c2, 1)),
-          name: S.optional(S.String),
-          restrictedFields: S.optional(__S(16, __c1, 0)),
-          cmekSettings: S.optional(__S(48, __c3, 0)),
-        }).pipe(
+        S.Extend(
+          __S(34, __c2, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            bucketId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/buckets:createAsync",
@@ -9657,7 +8312,7 @@ function __c47(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          exclusions: S.optional(__S(2160, __c135, 0)),
+          exclusions: S.optional(__S(2144, __c134, 0)),
           mode: S.optional(S.String),
           filter: S.optional(S.String),
         }),
@@ -9712,21 +8367,13 @@ function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          bucketId: S.optional(S.String.pipe(T.Query())),
-          updateTime: S.optional(S.String),
-          lifecycleState: S.optional(S.String),
-          createTime: S.optional(S.String),
-          description: S.optional(S.String),
-          analyticsEnabled: S.optional(S.Boolean),
-          retentionDays: S.optional(S.Number),
-          locked: S.optional(S.Boolean),
-          indexConfigs: S.optional(__S(33, __c2, 1)),
-          name: S.optional(S.String),
-          restrictedFields: S.optional(__S(16, __c1, 0)),
-          cmekSettings: S.optional(__S(48, __c3, 0)),
-        }).pipe(
+        S.Extend(
+          __S(34, __c2, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            bucketId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/buckets:createAsync",
@@ -9807,7 +8454,7 @@ function __c55(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          exclusions: S.optional(__S(2160, __c135, 0)),
+          exclusions: S.optional(__S(2144, __c134, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListExclusionsResponse" });
@@ -9867,7 +8514,7 @@ function __c58(j: number): any {
 function __c59(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1360, __c85, 0));
+      return S.Array(__S(34, __c2, 2));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -9898,7 +8545,7 @@ function __c60(j: number): any {
 function __c61(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(4416, __c276, 0));
+      return S.Array(__S(1553, __c97, 1));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -9929,7 +8576,7 @@ function __c62(j: number): any {
 function __c63(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1760, __c110, 0));
+      return S.Array(__S(1744, __c109, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -9992,7 +8639,7 @@ function __c66(j: number): any {
 function __c67(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(4466, __c279, 2));
+      return S.Array(__S(4450, __c278, 2));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -10007,15 +8654,12 @@ function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          disabled: S.optional(S.Boolean),
-          updateTime: S.optional(S.String),
-          description: S.optional(S.String),
-          filter: S.optional(S.String),
-          createTime: S.optional(S.String),
-          name: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1104, __c69, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/exclusions",
@@ -10064,10 +8708,10 @@ function __c71(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          loggingQuery: S.optional(__S(1967, __c122, 15)),
+          loggingQuery: S.optional(__S(1951, __c121, 15)),
           lastRunTime: S.optional(S.String),
           name: S.optional(S.String),
-          opsAnalyticsQuery: S.optional(__S(1964, __c122, 12)),
+          opsAnalyticsQuery: S.optional(__S(1948, __c121, 12)),
         }),
       ).annotate({ identifier: "RecentQuery" });
     case 1:
@@ -10104,7 +8748,7 @@ function __c72(j: number): any {
 function __c73(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1968, __c123, 0));
+      return S.Array(__S(1952, __c122, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -10156,7 +8800,7 @@ function __c75(j: number): any {
 function __c76(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2177, __c136, 1));
+      return S.Array(__S(2161, __c135, 1));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -10177,7 +8821,11 @@ function __c77(j: number): any {
           resourceNames: S.optional(__S(16, __c1, 0)),
           orderBy: S.optional(S.String),
           pageSize: S.optional(S.Number),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "ListLogEntriesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(__S(1232, __c77, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v2/entries:list",
@@ -10185,7 +8833,7 @@ function __c77(j: number): any {
           }),
         ),
       ).annotate({ identifier: "ListEntriesRequest" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           entries: S.optional(__S(1261, __c78, 13)),
@@ -10268,7 +8916,7 @@ function __c78(j: number): any {
       return S.suspend(() =>
         S.Struct({
           userLabels: S.optional(__S(3616, __c226, 0)),
-          systemLabels: S.optional(__S(4448, __c278, 0)),
+          systemLabels: S.optional(__S(4432, __c277, 0)),
         }),
       ).annotate({ identifier: "MonitoredResourceMetadata" });
     case 8:
@@ -10310,11 +8958,11 @@ function __c78(j: number): any {
           apphubDestination: S.optional(__S(1251, __c78, 3)),
           logName: S.optional(S.String),
           timestamp: S.optional(S.String),
-          jsonPayload: S.optional(__S(4448, __c278, 0)),
+          jsonPayload: S.optional(__S(4432, __c277, 0)),
           metadata: S.optional(__S(1255, __c78, 7)),
-          otel: S.optional(__S(4448, __c278, 0)),
+          otel: S.optional(__S(4432, __c277, 0)),
           textPayload: S.optional(S.String),
-          protoPayload: S.optional(__S(4448, __c278, 0)),
+          protoPayload: S.optional(__S(4432, __c277, 0)),
           sourceLocation: S.optional(__S(1256, __c78, 8)),
           spanId: S.optional(S.String),
           trace: S.optional(S.String),
@@ -10423,21 +9071,13 @@ function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          bucketId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          updateTime: S.optional(S.String),
-          lifecycleState: S.optional(S.String),
-          createTime: S.optional(S.String),
-          description: S.optional(S.String),
-          analyticsEnabled: S.optional(S.Boolean),
-          retentionDays: S.optional(S.Number),
-          locked: S.optional(S.Boolean),
-          indexConfigs: S.optional(__S(33, __c2, 1)),
-          name: S.optional(S.String),
-          restrictedFields: S.optional(__S(16, __c1, 0)),
-          cmekSettings: S.optional(__S(48, __c3, 0)),
-        }).pipe(
+        S.Extend(
+          __S(34, __c2, 2),
+          S.Struct({
+            bucketId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/buckets",
@@ -10448,26 +9088,6 @@ function __c84(j: number): any {
   }
 }
 function __c85(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          updateTime: S.optional(S.String),
-          lifecycleState: S.optional(S.String),
-          createTime: S.optional(S.String),
-          description: S.optional(S.String),
-          analyticsEnabled: S.optional(S.Boolean),
-          retentionDays: S.optional(S.Number),
-          locked: S.optional(S.Boolean),
-          indexConfigs: S.optional(__S(33, __c2, 1)),
-          name: S.optional(S.String),
-          restrictedFields: S.optional(__S(16, __c1, 0)),
-          cmekSettings: S.optional(__S(48, __c3, 0)),
-        }),
-      ).annotate({ identifier: "LogBucket" });
-  }
-}
-function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10485,7 +9105,7 @@ function __c86(j: number): any {
       ).annotate({ identifier: "ListFoldersLocationsBucketsViewsRequest" });
   }
 }
-function __c87(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10504,7 +9124,7 @@ function __c87(j: number): any {
       ).annotate({ identifier: "ListFoldersLocationsBucketsViewsLogsRequest" });
   }
 }
-function __c88(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10522,7 +9142,7 @@ function __c88(j: number): any {
       ).annotate({ identifier: "ListFoldersLocationsLogScopesRequest" });
   }
 }
-function __c89(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(3232, __c202, 0));
@@ -10530,12 +9150,12 @@ function __c89(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          logScopes: S.optional(__S(1424, __c89, 0)),
+          logScopes: S.optional(__S(1408, __c88, 0)),
         }),
       ).annotate({ identifier: "ListLogScopesResponse" });
   }
 }
-function __c90(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10555,7 +9175,7 @@ function __c90(j: number): any {
       ).annotate({ identifier: "ListFoldersLocationsOperationsRequest" });
   }
 }
-function __c91(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10574,7 +9194,7 @@ function __c91(j: number): any {
       ).annotate({ identifier: "ListFoldersLocationsRecentQueriesRequest" });
   }
 }
-function __c92(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10593,7 +9213,7 @@ function __c92(j: number): any {
       ).annotate({ identifier: "ListFoldersLocationsSavedQueriesRequest" });
   }
 }
-function __c93(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10612,7 +9232,7 @@ function __c93(j: number): any {
       ).annotate({ identifier: "ListFoldersLogsRequest" });
   }
 }
-function __c94(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10631,7 +9251,7 @@ function __c94(j: number): any {
       ).annotate({ identifier: "ListFoldersSinksRequest" });
   }
 }
-function __c95(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10651,7 +9271,7 @@ function __c95(j: number): any {
       ).annotate({ identifier: "ListLocationsRequest" });
   }
 }
-function __c96(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10669,19 +9289,17 @@ function __c96(j: number): any {
       ).annotate({ identifier: "ListLocationsBucketsRequest" });
   }
 }
-function __c97(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          linkId: S.optional(S.String.pipe(T.Query())),
-          createTime: S.optional(S.String),
-          name: S.optional(S.String),
-          lifecycleState: S.optional(S.String),
-          description: S.optional(S.String),
-          bigqueryDataset: S.optional(__S(1568, __c98, 0)),
-        }).pipe(
+        S.Extend(
+          __S(1553, __c97, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            linkId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/links",
@@ -10691,7 +9309,7 @@ function __c97(j: number): any {
       ).annotate({ identifier: "CreateBillingAccountsLocationsBucketsLinksRequest" });
   }
 }
-function __c98(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10699,9 +9317,19 @@ function __c98(j: number): any {
           datasetId: S.optional(S.String),
         }),
       ).annotate({ identifier: "BigQueryDataset" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          createTime: S.optional(S.String),
+          name: S.optional(S.String),
+          lifecycleState: S.optional(S.String),
+          description: S.optional(S.String),
+          bigqueryDataset: S.optional(__S(1552, __c97, 0)),
+        }),
+      ).annotate({ identifier: "Link" });
   }
 }
-function __c99(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10719,7 +9347,7 @@ function __c99(j: number): any {
       ).annotate({ identifier: "ListLocationsBucketsLinksRequest" });
   }
 }
-function __c100(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10737,7 +9365,7 @@ function __c100(j: number): any {
       ).annotate({ identifier: "ListLocationsBucketsViewsRequest" });
   }
 }
-function __c101(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10757,7 +9385,7 @@ function __c101(j: number): any {
       ).annotate({ identifier: "ListLocationsOperationsRequest" });
   }
 }
-function __c102(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10776,7 +9404,7 @@ function __c102(j: number): any {
       ).annotate({ identifier: "ListLogsRequest" });
   }
 }
-function __c103(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10803,17 +9431,17 @@ function __c103(j: number): any {
         }),
       ).annotate({ identifier: "MonitoredResourceDescriptor" });
     case 2:
-      return S.Array(__S(1649, __c103, 1));
+      return S.Array(__S(1633, __c102, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          resourceDescriptors: S.optional(__S(1650, __c103, 2)),
+          resourceDescriptors: S.optional(__S(1634, __c102, 2)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListMonitoredResourceDescriptorsResponse" });
   }
 }
-function __c104(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10831,7 +9459,7 @@ function __c104(j: number): any {
       ).annotate({ identifier: "ListOrganizationsExclusionsRequest" });
   }
 }
-function __c105(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10851,7 +9479,7 @@ function __c105(j: number): any {
       ).annotate({ identifier: "ListOrganizationsLocationsRequest" });
   }
 }
-function __c106(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10869,7 +9497,7 @@ function __c106(j: number): any {
       ).annotate({ identifier: "ListOrganizationsLocationsBucketsRequest" });
   }
 }
-function __c107(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10887,7 +9515,7 @@ function __c107(j: number): any {
       ).annotate({ identifier: "ListOrganizationsLocationsBucketsLinksRequest" });
   }
 }
-function __c108(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10905,19 +9533,17 @@ function __c108(j: number): any {
       ).annotate({ identifier: "ListOrganizationsLocationsBucketsViewsRequest" });
   }
 }
-function __c109(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          viewId: S.optional(S.String.pipe(T.Query())),
-          updateTime: S.optional(S.String),
-          name: S.optional(S.String),
-          filter: S.optional(S.String),
-          description: S.optional(S.String),
-          createTime: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1744, __c109, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            viewId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/views",
@@ -10927,7 +9553,7 @@ function __c109(j: number): any {
       ).annotate({ identifier: "CreateBillingAccountsLocationsBucketsViewsRequest" });
   }
 }
-function __c110(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10941,7 +9567,7 @@ function __c110(j: number): any {
       ).annotate({ identifier: "LogView" });
   }
 }
-function __c111(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10960,7 +9586,7 @@ function __c111(j: number): any {
       ).annotate({ identifier: "ListOrganizationsLocationsBucketsViewsLogsRequest" });
   }
 }
-function __c112(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10978,7 +9604,7 @@ function __c112(j: number): any {
       ).annotate({ identifier: "ListOrganizationsLocationsLogScopesRequest" });
   }
 }
-function __c113(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10998,7 +9624,7 @@ function __c113(j: number): any {
       ).annotate({ identifier: "ListOrganizationsLocationsOperationsRequest" });
   }
 }
-function __c114(j: number): any {
+function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11017,7 +9643,7 @@ function __c114(j: number): any {
       ).annotate({ identifier: "ListOrganizationsLocationsRecentQueriesRequest" });
   }
 }
-function __c115(j: number): any {
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11036,7 +9662,7 @@ function __c115(j: number): any {
       ).annotate({ identifier: "ListOrganizationsLocationsSavedQueriesRequest" });
   }
 }
-function __c116(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11055,7 +9681,7 @@ function __c116(j: number): any {
       ).annotate({ identifier: "ListOrganizationsLogsRequest" });
   }
 }
-function __c117(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11074,7 +9700,7 @@ function __c117(j: number): any {
       ).annotate({ identifier: "ListOrganizationsSinksRequest" });
   }
 }
-function __c118(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11092,7 +9718,7 @@ function __c118(j: number): any {
       ).annotate({ identifier: "ListProjectsExclusionsRequest" });
   }
 }
-function __c119(j: number): any {
+function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11112,7 +9738,7 @@ function __c119(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsRequest" });
   }
 }
-function __c120(j: number): any {
+function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11130,22 +9756,17 @@ function __c120(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsBucketsRequest" });
   }
 }
-function __c121(j: number): any {
+function __c120(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          savedQueryId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          description: S.optional(S.String),
-          createTime: S.optional(S.String),
-          name: S.optional(S.String),
-          opsAnalyticsQuery: S.optional(__S(1964, __c122, 12)),
-          loggingQuery: S.optional(__S(1967, __c122, 15)),
-          visibility: S.optional(S.String),
-          displayName: S.optional(S.String),
-          updateTime: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1952, __c122, 0),
+          S.Struct({
+            savedQueryId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/savedQueries",
@@ -11155,14 +9776,14 @@ function __c121(j: number): any {
       ).annotate({ identifier: "CreateBillingAccountsLocationsSavedQueriesRequest" });
   }
 }
-function __c122(j: number): any {
+function __c121(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(1957, __c122, 5)));
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(1941, __c121, 5)));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          underlyingFieldSources: S.optional(__S(1952, __c122, 0)),
+          underlyingFieldSources: S.optional(__S(1936, __c121, 0)),
           virtualFieldType: S.optional(S.String),
         }),
       ).annotate({ identifier: "VirtualField" });
@@ -11171,7 +9792,7 @@ function __c122(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          parameters: S.optional(__S(1954, __c122, 2)),
+          parameters: S.optional(__S(1938, __c121, 2)),
           type: S.optional(S.String),
         }),
       ).annotate({ identifier: "FunctionApplication" });
@@ -11182,16 +9803,16 @@ function __c122(j: number): any {
           truncationGranularity: S.optional(S.String),
           operation: S.optional(S.String),
           field: S.optional(S.String),
-          virtualField: S.optional(__S(1953, __c122, 1)),
+          virtualField: S.optional(__S(1937, __c121, 1)),
           cast: S.optional(S.String),
-          sqlAggregationFunction: S.optional(__S(1955, __c122, 3)),
+          sqlAggregationFunction: S.optional(__S(1939, __c121, 3)),
           regexExtraction: S.optional(S.String),
         }),
       ).annotate({ identifier: "ProjectedField" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          projectedField: S.optional(__S(1956, __c122, 4)),
+          projectedField: S.optional(__S(1940, __c121, 4)),
           field: S.optional(S.String),
           aliasRef: S.optional(S.String),
           isJson: S.optional(S.Boolean),
@@ -11202,48 +9823,48 @@ function __c122(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          fieldSource: S.optional(__S(1957, __c122, 5)),
+          fieldSource: S.optional(__S(1941, __c121, 5)),
           sortOrderDirection: S.optional(S.String),
         }),
       ).annotate({ identifier: "SortOrderParameter" });
     case 7:
-      return S.Array(__S(1958, __c122, 6));
+      return S.Array(__S(1942, __c121, 6));
     case 8:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(1962, __c122, 10)));
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(1946, __c121, 10)));
     case 9:
       return S.suspend(() =>
         S.Struct({
-          fieldSourceValue: S.optional(__S(1957, __c122, 5)),
+          fieldSourceValue: S.optional(__S(1941, __c121, 5)),
           literalValue: S.optional(S.Unknown),
           comparator: S.optional(S.String),
           isNegation: S.optional(S.Boolean),
-          fieldSource: S.optional(__S(1957, __c122, 5)),
+          fieldSource: S.optional(__S(1941, __c121, 5)),
         }),
       ).annotate({ identifier: "FilterExpression" });
     case 10:
       return S.suspend(() =>
         S.Struct({
-          childPredicates: S.optional(__S(1960, __c122, 8)),
+          childPredicates: S.optional(__S(1944, __c121, 8)),
           operatorType: S.optional(S.String),
-          leafPredicate: S.optional(__S(1961, __c122, 9)),
+          leafPredicate: S.optional(__S(1945, __c121, 9)),
         }),
       ).annotate({ identifier: "FilterPredicate" });
     case 11:
       return S.suspend(() =>
         S.Struct({
-          orderBys: S.optional(__S(1959, __c122, 7)),
-          filter: S.optional(__S(1962, __c122, 10)),
+          orderBys: S.optional(__S(1943, __c121, 7)),
+          filter: S.optional(__S(1946, __c121, 10)),
           limit: S.optional(S.String),
           searchTerm: S.optional(S.String),
           resourceNames: S.optional(__S(16, __c1, 0)),
-          fieldSources: S.optional(__S(1952, __c122, 0)),
+          fieldSources: S.optional(__S(1936, __c121, 0)),
         }),
       ).annotate({ identifier: "QueryBuilderConfig" });
     case 12:
       return S.suspend(() =>
         S.Struct({
           sqlQueryText: S.optional(S.String),
-          queryBuilder: S.optional(__S(1963, __c122, 11)),
+          queryBuilder: S.optional(__S(1947, __c121, 11)),
         }),
       ).annotate({ identifier: "OpsAnalyticsQuery" });
     case 13:
@@ -11253,19 +9874,19 @@ function __c122(j: number): any {
         }),
       ).annotate({ identifier: "SummaryField" });
     case 14:
-      return S.Array(__S(1965, __c122, 13));
+      return S.Array(__S(1949, __c121, 13));
     case 15:
       return S.suspend(() =>
         S.Struct({
           filter: S.optional(S.String),
           summaryFieldEnd: S.optional(S.Number),
-          summaryFields: S.optional(__S(1966, __c122, 14)),
+          summaryFields: S.optional(__S(1950, __c121, 14)),
           summaryFieldStart: S.optional(S.Number),
         }),
       ).annotate({ identifier: "LoggingQuery" });
   }
 }
-function __c123(j: number): any {
+function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11273,8 +9894,8 @@ function __c123(j: number): any {
           description: S.optional(S.String),
           createTime: S.optional(S.String),
           name: S.optional(S.String),
-          opsAnalyticsQuery: S.optional(__S(1964, __c122, 12)),
-          loggingQuery: S.optional(__S(1967, __c122, 15)),
+          opsAnalyticsQuery: S.optional(__S(1948, __c121, 12)),
+          loggingQuery: S.optional(__S(1951, __c121, 15)),
           visibility: S.optional(S.String),
           displayName: S.optional(S.String),
           updateTime: S.optional(S.String),
@@ -11282,7 +9903,7 @@ function __c123(j: number): any {
       ).annotate({ identifier: "SavedQuery" });
   }
 }
-function __c124(j: number): any {
+function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11300,7 +9921,7 @@ function __c124(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsBucketsLinksRequest" });
   }
 }
-function __c125(j: number): any {
+function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11318,7 +9939,7 @@ function __c125(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsBucketsViewsRequest" });
   }
 }
-function __c126(j: number): any {
+function __c125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11337,7 +9958,7 @@ function __c126(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsBucketsViewsLogsRequest" });
   }
 }
-function __c127(j: number): any {
+function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11355,7 +9976,7 @@ function __c127(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsLogScopesRequest" });
   }
 }
-function __c128(j: number): any {
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11375,7 +9996,7 @@ function __c128(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsOperationsRequest" });
   }
 }
-function __c129(j: number): any {
+function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11394,7 +10015,7 @@ function __c129(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsRecentQueriesRequest" });
   }
 }
-function __c130(j: number): any {
+function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11413,7 +10034,7 @@ function __c130(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsSavedQueriesRequest" });
   }
 }
-function __c131(j: number): any {
+function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11432,7 +10053,7 @@ function __c131(j: number): any {
       ).annotate({ identifier: "ListProjectsLogsRequest" });
   }
 }
-function __c132(j: number): any {
+function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11453,13 +10074,13 @@ function __c132(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          metrics: S.optional(__S(2113, __c132, 1)),
+          metrics: S.optional(__S(2097, __c131, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListLogMetricsResponse" });
   }
 }
-function __c133(j: number): any {
+function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11478,29 +10099,18 @@ function __c133(j: number): any {
       ).annotate({ identifier: "ListProjectsSinksRequest" });
   }
 }
-function __c134(j: number): any {
+function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          customWriterIdentity: S.optional(S.String.pipe(T.Query())),
-          uniqueWriterIdentity: S.optional(S.Boolean.pipe(T.Query())),
-          createTime: S.optional(S.String),
-          filter: S.optional(S.String),
-          resourceName: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          includeChildren: S.optional(S.Boolean),
-          writerIdentity: S.optional(S.String),
-          bigqueryOptions: S.optional(__S(2176, __c136, 0)),
-          exclusions: S.optional(__S(2160, __c135, 0)),
-          name: S.optional(S.String),
-          description: S.optional(S.String),
-          disabled: S.optional(S.Boolean),
-          destination: S.optional(S.String),
-          outputVersionFormat: S.optional(S.String),
-          interceptChildren: S.optional(S.Boolean),
-        }).pipe(
+        S.Extend(
+          __S(2161, __c135, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            customWriterIdentity: S.optional(S.String.pipe(T.Query())),
+            uniqueWriterIdentity: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/sinks",
@@ -11510,13 +10120,13 @@ function __c134(j: number): any {
       ).annotate({ identifier: "CreateBillingAccountsSinksRequest" });
   }
 }
-function __c135(j: number): any {
+function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(1104, __c69, 0));
   }
 }
-function __c136(j: number): any {
+function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11534,8 +10144,8 @@ function __c136(j: number): any {
           updateTime: S.optional(S.String),
           includeChildren: S.optional(S.Boolean),
           writerIdentity: S.optional(S.String),
-          bigqueryOptions: S.optional(__S(2176, __c136, 0)),
-          exclusions: S.optional(__S(2160, __c135, 0)),
+          bigqueryOptions: S.optional(__S(2160, __c135, 0)),
+          exclusions: S.optional(__S(2144, __c134, 0)),
           name: S.optional(S.String),
           description: S.optional(S.String),
           disabled: S.optional(S.Boolean),
@@ -11546,7 +10156,7 @@ function __c136(j: number): any {
       ).annotate({ identifier: "LogSink" });
   }
 }
-function __c137(j: number): any {
+function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11565,19 +10175,17 @@ function __c137(j: number): any {
       ).annotate({ identifier: "ListSinksRequest" });
   }
 }
-function __c138(j: number): any {
+function __c137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          disabled: S.optional(S.Boolean),
-          updateTime: S.optional(S.String),
-          description: S.optional(S.String),
-          filter: S.optional(S.String),
-          createTime: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1104, __c69, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -11587,24 +10195,17 @@ function __c138(j: number): any {
       ).annotate({ identifier: "PatchBillingAccountsExclusionsRequest" });
   }
 }
-function __c139(j: number): any {
+function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          updateTime: S.optional(S.String),
-          lifecycleState: S.optional(S.String),
-          createTime: S.optional(S.String),
-          description: S.optional(S.String),
-          analyticsEnabled: S.optional(S.Boolean),
-          retentionDays: S.optional(S.Number),
-          locked: S.optional(S.Boolean),
-          indexConfigs: S.optional(__S(33, __c2, 1)),
-          restrictedFields: S.optional(__S(16, __c1, 0)),
-          cmekSettings: S.optional(__S(48, __c3, 0)),
-        }).pipe(
+        S.Extend(
+          __S(34, __c2, 2),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -11614,18 +10215,17 @@ function __c139(j: number): any {
       ).annotate({ identifier: "PatchBillingAccountsLocationsBucketsRequest" });
   }
 }
-function __c140(j: number): any {
+function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          updateTime: S.optional(S.String),
-          filter: S.optional(S.String),
-          description: S.optional(S.String),
-          createTime: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1744, __c109, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -11635,21 +10235,17 @@ function __c140(j: number): any {
       ).annotate({ identifier: "PatchBillingAccountsLocationsBucketsViewsRequest" });
   }
 }
-function __c141(j: number): any {
+function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          description: S.optional(S.String),
-          createTime: S.optional(S.String),
-          opsAnalyticsQuery: S.optional(__S(1964, __c122, 12)),
-          loggingQuery: S.optional(__S(1967, __c122, 15)),
-          visibility: S.optional(S.String),
-          displayName: S.optional(S.String),
-          updateTime: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1952, __c122, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -11659,30 +10255,19 @@ function __c141(j: number): any {
       ).annotate({ identifier: "PatchBillingAccountsLocationsSavedQueriesRequest" });
   }
 }
-function __c142(j: number): any {
+function __c141(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          customWriterIdentity: S.optional(S.String.pipe(T.Query())),
-          sinkName: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          uniqueWriterIdentity: S.optional(S.Boolean.pipe(T.Query())),
-          createTime: S.optional(S.String),
-          filter: S.optional(S.String),
-          resourceName: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          includeChildren: S.optional(S.Boolean),
-          writerIdentity: S.optional(S.String),
-          bigqueryOptions: S.optional(__S(2176, __c136, 0)),
-          exclusions: S.optional(__S(2160, __c135, 0)),
-          name: S.optional(S.String),
-          description: S.optional(S.String),
-          disabled: S.optional(S.Boolean),
-          destination: S.optional(S.String),
-          outputVersionFormat: S.optional(S.String),
-          interceptChildren: S.optional(S.Boolean),
-        }).pipe(
+        S.Extend(
+          __S(2161, __c135, 1),
+          S.Struct({
+            customWriterIdentity: S.optional(S.String.pipe(T.Query())),
+            sinkName: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            uniqueWriterIdentity: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+sinkName}",
@@ -11692,19 +10277,17 @@ function __c142(j: number): any {
       ).annotate({ identifier: "PatchBillingAccountsSinksRequest" });
   }
 }
-function __c143(j: number): any {
+function __c142(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          disabled: S.optional(S.Boolean),
-          updateTime: S.optional(S.String),
-          description: S.optional(S.String),
-          filter: S.optional(S.String),
-          createTime: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1104, __c69, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -11714,19 +10297,17 @@ function __c143(j: number): any {
       ).annotate({ identifier: "PatchExclusionsRequest" });
   }
 }
-function __c144(j: number): any {
+function __c143(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          disabled: S.optional(S.Boolean),
-          updateTime: S.optional(S.String),
-          description: S.optional(S.String),
-          filter: S.optional(S.String),
-          createTime: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1104, __c69, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -11736,24 +10317,17 @@ function __c144(j: number): any {
       ).annotate({ identifier: "PatchFoldersExclusionsRequest" });
   }
 }
-function __c145(j: number): any {
+function __c144(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          updateTime: S.optional(S.String),
-          lifecycleState: S.optional(S.String),
-          createTime: S.optional(S.String),
-          description: S.optional(S.String),
-          analyticsEnabled: S.optional(S.Boolean),
-          retentionDays: S.optional(S.Number),
-          locked: S.optional(S.Boolean),
-          indexConfigs: S.optional(__S(33, __c2, 1)),
-          restrictedFields: S.optional(__S(16, __c1, 0)),
-          cmekSettings: S.optional(__S(48, __c3, 0)),
-        }).pipe(
+        S.Extend(
+          __S(34, __c2, 2),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -11763,18 +10337,17 @@ function __c145(j: number): any {
       ).annotate({ identifier: "PatchFoldersLocationsBucketsRequest" });
   }
 }
-function __c146(j: number): any {
+function __c145(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          updateTime: S.optional(S.String),
-          filter: S.optional(S.String),
-          description: S.optional(S.String),
-          createTime: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1744, __c109, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -11784,19 +10357,16 @@ function __c146(j: number): any {
       ).annotate({ identifier: "PatchFoldersLocationsBucketsViewsRequest" });
   }
 }
-function __c147(j: number): any {
+function __c146(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          disabled: S.optional(S.Boolean),
-          updateTime: S.optional(S.String),
-          description: S.optional(S.String),
-          filter: S.optional(S.String),
-          createTime: S.optional(S.String),
-          name: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1104, __c69, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/exclusions",
@@ -11806,18 +10376,17 @@ function __c147(j: number): any {
       ).annotate({ identifier: "CreateExclusionsRequest" });
   }
 }
-function __c148(j: number): any {
+function __c147(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          createTime: S.optional(S.String),
-          description: S.optional(S.String),
-          resourceNames: S.optional(__S(16, __c1, 0)),
-          updateTime: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(3232, __c202, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -11827,21 +10396,17 @@ function __c148(j: number): any {
       ).annotate({ identifier: "PatchFoldersLocationsLogScopesRequest" });
   }
 }
-function __c149(j: number): any {
+function __c148(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          description: S.optional(S.String),
-          createTime: S.optional(S.String),
-          opsAnalyticsQuery: S.optional(__S(1964, __c122, 12)),
-          loggingQuery: S.optional(__S(1967, __c122, 15)),
-          visibility: S.optional(S.String),
-          displayName: S.optional(S.String),
-          updateTime: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1952, __c122, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -11851,30 +10416,19 @@ function __c149(j: number): any {
       ).annotate({ identifier: "PatchFoldersLocationsSavedQueriesRequest" });
   }
 }
-function __c150(j: number): any {
+function __c149(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          sinkName: S.String.pipe(T.Label()),
-          customWriterIdentity: S.optional(S.String.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          uniqueWriterIdentity: S.optional(S.Boolean.pipe(T.Query())),
-          createTime: S.optional(S.String),
-          filter: S.optional(S.String),
-          resourceName: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          includeChildren: S.optional(S.Boolean),
-          writerIdentity: S.optional(S.String),
-          bigqueryOptions: S.optional(__S(2176, __c136, 0)),
-          exclusions: S.optional(__S(2160, __c135, 0)),
-          name: S.optional(S.String),
-          description: S.optional(S.String),
-          disabled: S.optional(S.Boolean),
-          destination: S.optional(S.String),
-          outputVersionFormat: S.optional(S.String),
-          interceptChildren: S.optional(S.Boolean),
-        }).pipe(
+        S.Extend(
+          __S(2161, __c135, 1),
+          S.Struct({
+            sinkName: S.String.pipe(T.Label()),
+            customWriterIdentity: S.optional(S.String.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            uniqueWriterIdentity: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+sinkName}",
@@ -11884,24 +10438,17 @@ function __c150(j: number): any {
       ).annotate({ identifier: "PatchFoldersSinksRequest" });
   }
 }
-function __c151(j: number): any {
+function __c150(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          updateTime: S.optional(S.String),
-          lifecycleState: S.optional(S.String),
-          createTime: S.optional(S.String),
-          description: S.optional(S.String),
-          analyticsEnabled: S.optional(S.Boolean),
-          retentionDays: S.optional(S.Number),
-          locked: S.optional(S.Boolean),
-          indexConfigs: S.optional(__S(33, __c2, 1)),
-          restrictedFields: S.optional(__S(16, __c1, 0)),
-          cmekSettings: S.optional(__S(48, __c3, 0)),
-        }).pipe(
+        S.Extend(
+          __S(34, __c2, 2),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -11911,18 +10458,17 @@ function __c151(j: number): any {
       ).annotate({ identifier: "PatchLocationsBucketsRequest" });
   }
 }
-function __c152(j: number): any {
+function __c151(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          updateTime: S.optional(S.String),
-          filter: S.optional(S.String),
-          description: S.optional(S.String),
-          createTime: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1744, __c109, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -11932,19 +10478,17 @@ function __c152(j: number): any {
       ).annotate({ identifier: "PatchLocationsBucketsViewsRequest" });
   }
 }
-function __c153(j: number): any {
+function __c152(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          disabled: S.optional(S.Boolean),
-          updateTime: S.optional(S.String),
-          description: S.optional(S.String),
-          filter: S.optional(S.String),
-          createTime: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1104, __c69, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -11954,24 +10498,17 @@ function __c153(j: number): any {
       ).annotate({ identifier: "PatchOrganizationsExclusionsRequest" });
   }
 }
-function __c154(j: number): any {
+function __c153(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          updateTime: S.optional(S.String),
-          lifecycleState: S.optional(S.String),
-          createTime: S.optional(S.String),
-          description: S.optional(S.String),
-          analyticsEnabled: S.optional(S.Boolean),
-          retentionDays: S.optional(S.Number),
-          locked: S.optional(S.Boolean),
-          indexConfigs: S.optional(__S(33, __c2, 1)),
-          restrictedFields: S.optional(__S(16, __c1, 0)),
-          cmekSettings: S.optional(__S(48, __c3, 0)),
-        }).pipe(
+        S.Extend(
+          __S(34, __c2, 2),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -11981,18 +10518,17 @@ function __c154(j: number): any {
       ).annotate({ identifier: "PatchOrganizationsLocationsBucketsRequest" });
   }
 }
-function __c155(j: number): any {
+function __c154(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          updateTime: S.optional(S.String),
-          filter: S.optional(S.String),
-          description: S.optional(S.String),
-          createTime: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1744, __c109, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -12002,18 +10538,17 @@ function __c155(j: number): any {
       ).annotate({ identifier: "PatchOrganizationsLocationsBucketsViewsRequest" });
   }
 }
-function __c156(j: number): any {
+function __c155(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          createTime: S.optional(S.String),
-          description: S.optional(S.String),
-          resourceNames: S.optional(__S(16, __c1, 0)),
-          updateTime: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(3232, __c202, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -12023,21 +10558,17 @@ function __c156(j: number): any {
       ).annotate({ identifier: "PatchOrganizationsLocationsLogScopesRequest" });
   }
 }
-function __c157(j: number): any {
+function __c156(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          description: S.optional(S.String),
-          createTime: S.optional(S.String),
-          opsAnalyticsQuery: S.optional(__S(1964, __c122, 12)),
-          loggingQuery: S.optional(__S(1967, __c122, 15)),
-          visibility: S.optional(S.String),
-          displayName: S.optional(S.String),
-          updateTime: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1952, __c122, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -12047,19 +10578,16 @@ function __c157(j: number): any {
       ).annotate({ identifier: "PatchOrganizationsLocationsSavedQueriesRequest" });
   }
 }
-function __c158(j: number): any {
+function __c157(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          disabled: S.optional(S.Boolean),
-          updateTime: S.optional(S.String),
-          description: S.optional(S.String),
-          filter: S.optional(S.String),
-          createTime: S.optional(S.String),
-          name: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1104, __c69, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/exclusions",
@@ -12069,30 +10597,19 @@ function __c158(j: number): any {
       ).annotate({ identifier: "CreateFoldersExclusionsRequest" });
   }
 }
-function __c159(j: number): any {
+function __c158(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          customWriterIdentity: S.optional(S.String.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          uniqueWriterIdentity: S.optional(S.Boolean.pipe(T.Query())),
-          sinkName: S.String.pipe(T.Label()),
-          createTime: S.optional(S.String),
-          filter: S.optional(S.String),
-          resourceName: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          includeChildren: S.optional(S.Boolean),
-          writerIdentity: S.optional(S.String),
-          bigqueryOptions: S.optional(__S(2176, __c136, 0)),
-          exclusions: S.optional(__S(2160, __c135, 0)),
-          name: S.optional(S.String),
-          description: S.optional(S.String),
-          disabled: S.optional(S.Boolean),
-          destination: S.optional(S.String),
-          outputVersionFormat: S.optional(S.String),
-          interceptChildren: S.optional(S.Boolean),
-        }).pipe(
+        S.Extend(
+          __S(2161, __c135, 1),
+          S.Struct({
+            customWriterIdentity: S.optional(S.String.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            uniqueWriterIdentity: S.optional(S.Boolean.pipe(T.Query())),
+            sinkName: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+sinkName}",
@@ -12102,19 +10619,17 @@ function __c159(j: number): any {
       ).annotate({ identifier: "PatchOrganizationsSinksRequest" });
   }
 }
-function __c160(j: number): any {
+function __c159(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          disabled: S.optional(S.Boolean),
-          updateTime: S.optional(S.String),
-          description: S.optional(S.String),
-          filter: S.optional(S.String),
-          createTime: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1104, __c69, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -12124,24 +10639,17 @@ function __c160(j: number): any {
       ).annotate({ identifier: "PatchProjectsExclusionsRequest" });
   }
 }
-function __c161(j: number): any {
+function __c160(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          updateTime: S.optional(S.String),
-          lifecycleState: S.optional(S.String),
-          createTime: S.optional(S.String),
-          description: S.optional(S.String),
-          analyticsEnabled: S.optional(S.Boolean),
-          retentionDays: S.optional(S.Number),
-          locked: S.optional(S.Boolean),
-          indexConfigs: S.optional(__S(33, __c2, 1)),
-          restrictedFields: S.optional(__S(16, __c1, 0)),
-          cmekSettings: S.optional(__S(48, __c3, 0)),
-        }).pipe(
+        S.Extend(
+          __S(34, __c2, 2),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -12151,18 +10659,17 @@ function __c161(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsBucketsRequest" });
   }
 }
-function __c162(j: number): any {
+function __c161(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          updateTime: S.optional(S.String),
-          filter: S.optional(S.String),
-          description: S.optional(S.String),
-          createTime: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1744, __c109, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -12172,18 +10679,17 @@ function __c162(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsBucketsViewsRequest" });
   }
 }
-function __c163(j: number): any {
+function __c162(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          createTime: S.optional(S.String),
-          description: S.optional(S.String),
-          resourceNames: S.optional(__S(16, __c1, 0)),
-          updateTime: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(3232, __c202, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -12193,21 +10699,17 @@ function __c163(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsLogScopesRequest" });
   }
 }
-function __c164(j: number): any {
+function __c163(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          description: S.optional(S.String),
-          createTime: S.optional(S.String),
-          opsAnalyticsQuery: S.optional(__S(1964, __c122, 12)),
-          loggingQuery: S.optional(__S(1967, __c122, 15)),
-          visibility: S.optional(S.String),
-          displayName: S.optional(S.String),
-          updateTime: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1952, __c122, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -12217,30 +10719,19 @@ function __c164(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsSavedQueriesRequest" });
   }
 }
-function __c165(j: number): any {
+function __c164(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          uniqueWriterIdentity: S.optional(S.Boolean.pipe(T.Query())),
-          sinkName: S.String.pipe(T.Label()),
-          customWriterIdentity: S.optional(S.String.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          createTime: S.optional(S.String),
-          filter: S.optional(S.String),
-          resourceName: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          includeChildren: S.optional(S.Boolean),
-          writerIdentity: S.optional(S.String),
-          bigqueryOptions: S.optional(__S(2176, __c136, 0)),
-          exclusions: S.optional(__S(2160, __c135, 0)),
-          name: S.optional(S.String),
-          description: S.optional(S.String),
-          disabled: S.optional(S.Boolean),
-          destination: S.optional(S.String),
-          outputVersionFormat: S.optional(S.String),
-          interceptChildren: S.optional(S.Boolean),
-        }).pipe(
+        S.Extend(
+          __S(2161, __c135, 1),
+          S.Struct({
+            uniqueWriterIdentity: S.optional(S.Boolean.pipe(T.Query())),
+            sinkName: S.String.pipe(T.Label()),
+            customWriterIdentity: S.optional(S.String.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+sinkName}",
@@ -12250,15 +10741,16 @@ function __c165(j: number): any {
       ).annotate({ identifier: "PatchProjectsSinksRequest" });
   }
 }
-function __c166(j: number): any {
+function __c165(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String),
-          policy: S.optional(__S(243, __c15, 3)),
-        }).pipe(
+        S.Extend(
+          __S(2656, __c166, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:setIamPolicy",
@@ -12268,15 +10760,27 @@ function __c166(j: number): any {
       ).annotate({ identifier: "SetIamPolicyFoldersLocationsBucketsViewsRequest" });
   }
 }
-function __c167(j: number): any {
+function __c166(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          resource: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String),
           policy: S.optional(__S(243, __c15, 3)),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "SetIamPolicyRequest" });
+  }
+}
+function __c167(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(2656, __c166, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:setIamPolicy",
@@ -12290,11 +10794,12 @@ function __c168(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String),
-          policy: S.optional(__S(243, __c15, 3)),
-        }).pipe(
+        S.Extend(
+          __S(2656, __c166, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:setIamPolicy",
@@ -12308,21 +10813,13 @@ function __c169(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          bucketId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          updateTime: S.optional(S.String),
-          lifecycleState: S.optional(S.String),
-          createTime: S.optional(S.String),
-          description: S.optional(S.String),
-          analyticsEnabled: S.optional(S.Boolean),
-          retentionDays: S.optional(S.Number),
-          locked: S.optional(S.Boolean),
-          indexConfigs: S.optional(__S(33, __c2, 1)),
-          name: S.optional(S.String),
-          restrictedFields: S.optional(__S(16, __c1, 0)),
-          cmekSettings: S.optional(__S(48, __c3, 0)),
-        }).pipe(
+        S.Extend(
+          __S(34, __c2, 2),
+          S.Struct({
+            bucketId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/buckets",
@@ -12336,11 +10833,12 @@ function __c170(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String),
-          policy: S.optional(__S(243, __c15, 3)),
-        }).pipe(
+        S.Extend(
+          __S(2656, __c166, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:setIamPolicy",
@@ -12358,7 +10856,11 @@ function __c171(j: number): any {
           resourceNames: S.optional(__S(16, __c1, 0)),
           filter: S.optional(S.String),
           bufferWindow: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "TailLogEntriesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(__S(2736, __c171, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v2/entries:tail",
@@ -12366,19 +10868,19 @@ function __c171(j: number): any {
           }),
         ),
       ).annotate({ identifier: "TailEntriesRequest" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           suppressedCount: S.optional(S.Number),
           reason: S.optional(S.String),
         }),
       ).annotate({ identifier: "SuppressionInfo" });
-    case 2:
-      return S.Array(__S(2737, __c171, 1));
     case 3:
+      return S.Array(__S(2738, __c171, 2));
+    case 4:
       return S.suspend(() =>
         S.Struct({
-          suppressionInfo: S.optional(__S(2738, __c171, 2)),
+          suppressionInfo: S.optional(__S(2739, __c171, 3)),
           entries: S.optional(__S(1261, __c78, 13)),
         }),
       ).annotate({ identifier: "TailLogEntriesResponse" });
@@ -12388,10 +10890,12 @@ function __c172(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          permissions: S.optional(__S(16, __c1, 0)),
-        }).pipe(
+        S.Extend(
+          __S(2768, __c173, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:testIamPermissions",
@@ -12408,17 +10912,19 @@ function __c173(j: number): any {
         S.Struct({
           permissions: S.optional(__S(16, __c1, 0)),
         }),
-      ).annotate({ identifier: "TestIamPermissionsResponse" });
+      ).annotate({ identifier: "TestIamPermissionsRequest" });
   }
 }
 function __c174(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          permissions: S.optional(__S(16, __c1, 0)),
-        }).pipe(
+        S.Extend(
+          __S(2768, __c173, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:testIamPermissions",
@@ -12432,10 +10938,12 @@ function __c175(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          permissions: S.optional(__S(16, __c1, 0)),
-        }).pipe(
+        S.Extend(
+          __S(2768, __c173, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:testIamPermissions",
@@ -12449,10 +10957,12 @@ function __c176(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          permissions: S.optional(__S(16, __c1, 0)),
-        }).pipe(
+        S.Extend(
+          __S(2768, __c173, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:testIamPermissions",
@@ -12534,15 +11044,13 @@ function __c181(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          linkId: S.optional(S.String.pipe(T.Query())),
-          createTime: S.optional(S.String),
-          name: S.optional(S.String),
-          lifecycleState: S.optional(S.String),
-          description: S.optional(S.String),
-          bigqueryDataset: S.optional(__S(1568, __c98, 0)),
-        }).pipe(
+        S.Extend(
+          __S(1553, __c97, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            linkId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/links",
@@ -12573,20 +11081,13 @@ function __c183(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          updateTime: S.optional(S.String),
-          lifecycleState: S.optional(S.String),
-          createTime: S.optional(S.String),
-          description: S.optional(S.String),
-          analyticsEnabled: S.optional(S.Boolean),
-          retentionDays: S.optional(S.Number),
-          locked: S.optional(S.Boolean),
-          indexConfigs: S.optional(__S(33, __c2, 1)),
-          restrictedFields: S.optional(__S(16, __c1, 0)),
-          cmekSettings: S.optional(__S(48, __c3, 0)),
-        }).pipe(
+        S.Extend(
+          __S(34, __c2, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+name}:updateAsync",
@@ -12600,20 +11101,13 @@ function __c184(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          updateTime: S.optional(S.String),
-          lifecycleState: S.optional(S.String),
-          createTime: S.optional(S.String),
-          description: S.optional(S.String),
-          analyticsEnabled: S.optional(S.Boolean),
-          retentionDays: S.optional(S.Number),
-          locked: S.optional(S.Boolean),
-          indexConfigs: S.optional(__S(33, __c2, 1)),
-          restrictedFields: S.optional(__S(16, __c1, 0)),
-          cmekSettings: S.optional(__S(48, __c3, 0)),
-        }).pipe(
+        S.Extend(
+          __S(34, __c2, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+name}:updateAsync",
@@ -12627,20 +11121,13 @@ function __c185(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          updateTime: S.optional(S.String),
-          lifecycleState: S.optional(S.String),
-          createTime: S.optional(S.String),
-          description: S.optional(S.String),
-          analyticsEnabled: S.optional(S.Boolean),
-          retentionDays: S.optional(S.Number),
-          locked: S.optional(S.Boolean),
-          indexConfigs: S.optional(__S(33, __c2, 1)),
-          restrictedFields: S.optional(__S(16, __c1, 0)),
-          cmekSettings: S.optional(__S(48, __c3, 0)),
-        }).pipe(
+        S.Extend(
+          __S(34, __c2, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+name}:updateAsync",
@@ -12654,20 +11141,13 @@ function __c186(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          updateTime: S.optional(S.String),
-          lifecycleState: S.optional(S.String),
-          createTime: S.optional(S.String),
-          description: S.optional(S.String),
-          analyticsEnabled: S.optional(S.Boolean),
-          retentionDays: S.optional(S.Number),
-          locked: S.optional(S.Boolean),
-          indexConfigs: S.optional(__S(33, __c2, 1)),
-          restrictedFields: S.optional(__S(16, __c1, 0)),
-          cmekSettings: S.optional(__S(48, __c3, 0)),
-        }).pipe(
+        S.Extend(
+          __S(34, __c2, 2),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+name}:updateAsync",
@@ -12681,20 +11161,13 @@ function __c187(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          updateTime: S.optional(S.String),
-          lifecycleState: S.optional(S.String),
-          createTime: S.optional(S.String),
-          description: S.optional(S.String),
-          analyticsEnabled: S.optional(S.Boolean),
-          retentionDays: S.optional(S.Number),
-          locked: S.optional(S.Boolean),
-          indexConfigs: S.optional(__S(33, __c2, 1)),
-          restrictedFields: S.optional(__S(16, __c1, 0)),
-          cmekSettings: S.optional(__S(48, __c3, 0)),
-        }).pipe(
+        S.Extend(
+          __S(34, __c2, 2),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+name}:updateAsync",
@@ -12708,26 +11181,15 @@ function __c188(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          uniqueWriterIdentity: S.optional(S.Boolean.pipe(T.Query())),
-          sinkName: S.String.pipe(T.Label()),
-          customWriterIdentity: S.optional(S.String.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          createTime: S.optional(S.String),
-          filter: S.optional(S.String),
-          resourceName: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          includeChildren: S.optional(S.Boolean),
-          writerIdentity: S.optional(S.String),
-          bigqueryOptions: S.optional(__S(2176, __c136, 0)),
-          exclusions: S.optional(__S(2160, __c135, 0)),
-          name: S.optional(S.String),
-          description: S.optional(S.String),
-          disabled: S.optional(S.Boolean),
-          destination: S.optional(S.String),
-          outputVersionFormat: S.optional(S.String),
-          interceptChildren: S.optional(S.Boolean),
-        }).pipe(
+        S.Extend(
+          __S(2161, __c135, 1),
+          S.Struct({
+            uniqueWriterIdentity: S.optional(S.Boolean.pipe(T.Query())),
+            sinkName: S.String.pipe(T.Label()),
+            customWriterIdentity: S.optional(S.String.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "v2/{+sinkName}",
@@ -12741,13 +11203,13 @@ function __c189(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          kmsKeyName: S.optional(S.String),
-          serviceAccountId: S.optional(S.String),
-          kmsKeyVersionName: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(48, __c3, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}/cmekSettings",
@@ -12761,13 +11223,13 @@ function __c190(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          kmsKeyName: S.optional(S.String),
-          serviceAccountId: S.optional(S.String),
-          kmsKeyVersionName: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(48, __c3, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}/cmekSettings",
@@ -12781,26 +11243,15 @@ function __c191(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          customWriterIdentity: S.optional(S.String.pipe(T.Query())),
-          sinkName: S.String.pipe(T.Label()),
-          uniqueWriterIdentity: S.optional(S.Boolean.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          createTime: S.optional(S.String),
-          filter: S.optional(S.String),
-          resourceName: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          includeChildren: S.optional(S.Boolean),
-          writerIdentity: S.optional(S.String),
-          bigqueryOptions: S.optional(__S(2176, __c136, 0)),
-          exclusions: S.optional(__S(2160, __c135, 0)),
-          name: S.optional(S.String),
-          description: S.optional(S.String),
-          disabled: S.optional(S.Boolean),
-          destination: S.optional(S.String),
-          outputVersionFormat: S.optional(S.String),
-          interceptChildren: S.optional(S.Boolean),
-        }).pipe(
+        S.Extend(
+          __S(2161, __c135, 1),
+          S.Struct({
+            customWriterIdentity: S.optional(S.String.pipe(T.Query())),
+            sinkName: S.String.pipe(T.Label()),
+            uniqueWriterIdentity: S.optional(S.Boolean.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "v2/{+sinkName}",
@@ -12814,15 +11265,13 @@ function __c192(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          viewId: S.optional(S.String.pipe(T.Query())),
-          updateTime: S.optional(S.String),
-          name: S.optional(S.String),
-          filter: S.optional(S.String),
-          description: S.optional(S.String),
-          createTime: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1744, __c109, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            viewId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/views",
@@ -12836,26 +11285,15 @@ function __c193(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          sinkName: S.String.pipe(T.Label()),
-          uniqueWriterIdentity: S.optional(S.Boolean.pipe(T.Query())),
-          customWriterIdentity: S.optional(S.String.pipe(T.Query())),
-          createTime: S.optional(S.String),
-          filter: S.optional(S.String),
-          resourceName: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          includeChildren: S.optional(S.Boolean),
-          writerIdentity: S.optional(S.String),
-          bigqueryOptions: S.optional(__S(2176, __c136, 0)),
-          exclusions: S.optional(__S(2160, __c135, 0)),
-          name: S.optional(S.String),
-          description: S.optional(S.String),
-          disabled: S.optional(S.Boolean),
-          destination: S.optional(S.String),
-          outputVersionFormat: S.optional(S.String),
-          interceptChildren: S.optional(S.Boolean),
-        }).pipe(
+        S.Extend(
+          __S(2161, __c135, 1),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            sinkName: S.String.pipe(T.Label()),
+            uniqueWriterIdentity: S.optional(S.Boolean.pipe(T.Query())),
+            customWriterIdentity: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "v2/{+sinkName}",
@@ -12869,22 +11307,12 @@ function __c194(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          metricName: S.String.pipe(T.Label()),
-          bucketOptions: S.optional(__S(3604, __c225, 4)),
-          disabled: S.optional(S.Boolean),
-          valueExtractor: S.optional(S.String),
-          resourceName: S.optional(S.String),
-          version: S.optional(S.String),
-          name: S.optional(S.String),
-          description: S.optional(S.String),
-          metricDescriptor: S.optional(__S(3607, __c225, 7)),
-          createTime: S.optional(S.String),
-          labelExtractors: S.optional(__S(3616, __c226, 0)),
-          updateTime: S.optional(S.String),
-          filter: S.optional(S.String),
-          bucketName: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(3608, __c225, 8),
+          S.Struct({
+            metricName: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "v2/{+metricName}",
@@ -12898,26 +11326,15 @@ function __c195(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          sinkName: S.String.pipe(T.Label()),
-          uniqueWriterIdentity: S.optional(S.Boolean.pipe(T.Query())),
-          customWriterIdentity: S.optional(S.String.pipe(T.Query())),
-          createTime: S.optional(S.String),
-          filter: S.optional(S.String),
-          resourceName: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          includeChildren: S.optional(S.Boolean),
-          writerIdentity: S.optional(S.String),
-          bigqueryOptions: S.optional(__S(2176, __c136, 0)),
-          exclusions: S.optional(__S(2160, __c135, 0)),
-          name: S.optional(S.String),
-          description: S.optional(S.String),
-          disabled: S.optional(S.Boolean),
-          destination: S.optional(S.String),
-          outputVersionFormat: S.optional(S.String),
-          interceptChildren: S.optional(S.Boolean),
-        }).pipe(
+        S.Extend(
+          __S(2161, __c135, 1),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            sinkName: S.String.pipe(T.Label()),
+            uniqueWriterIdentity: S.optional(S.Boolean.pipe(T.Query())),
+            customWriterIdentity: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "v2/{+sinkName}",
@@ -12931,16 +11348,13 @@ function __c196(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          kmsServiceAccountId: S.optional(S.String),
-          disableDefaultSink: S.optional(S.Boolean),
-          storageLocation: S.optional(S.String),
-          loggingServiceAccountId: S.optional(S.String),
-          defaultSinkConfig: S.optional(__S(752, __c47, 0)),
-          kmsKeyName: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(753, __c47, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}/settings",
@@ -12954,16 +11368,13 @@ function __c197(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          kmsServiceAccountId: S.optional(S.String),
-          disableDefaultSink: S.optional(S.Boolean),
-          storageLocation: S.optional(S.String),
-          loggingServiceAccountId: S.optional(S.String),
-          defaultSinkConfig: S.optional(__S(752, __c47, 0)),
-          kmsKeyName: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(753, __c47, 1),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}/settings",
@@ -12977,16 +11388,13 @@ function __c198(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          kmsServiceAccountId: S.optional(S.String),
-          disableDefaultSink: S.optional(S.Boolean),
-          storageLocation: S.optional(S.String),
-          loggingServiceAccountId: S.optional(S.String),
-          defaultSinkConfig: S.optional(__S(752, __c47, 0)),
-          kmsKeyName: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(753, __c47, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}/settings",
@@ -13000,26 +11408,15 @@ function __c199(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          uniqueWriterIdentity: S.optional(S.Boolean.pipe(T.Query())),
-          customWriterIdentity: S.optional(S.String.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          sinkName: S.String.pipe(T.Label()),
-          createTime: S.optional(S.String),
-          filter: S.optional(S.String),
-          resourceName: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          includeChildren: S.optional(S.Boolean),
-          writerIdentity: S.optional(S.String),
-          bigqueryOptions: S.optional(__S(2176, __c136, 0)),
-          exclusions: S.optional(__S(2160, __c135, 0)),
-          name: S.optional(S.String),
-          description: S.optional(S.String),
-          disabled: S.optional(S.Boolean),
-          destination: S.optional(S.String),
-          outputVersionFormat: S.optional(S.String),
-          interceptChildren: S.optional(S.Boolean),
-        }).pipe(
+        S.Extend(
+          __S(2161, __c135, 1),
+          S.Struct({
+            uniqueWriterIdentity: S.optional(S.Boolean.pipe(T.Query())),
+            customWriterIdentity: S.optional(S.String.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            sinkName: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "v2/{+sinkName}",
@@ -13040,7 +11437,11 @@ function __c200(j: number): any {
           entries: S.optional(__S(1261, __c78, 13)),
           resource: S.optional(__S(1252, __c78, 4)),
           dryRun: S.optional(S.Boolean),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "WriteLogEntriesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(__S(3200, __c200, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v2/entries:write",
@@ -13054,15 +11455,13 @@ function __c201(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          logScopeId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          createTime: S.optional(S.String),
-          description: S.optional(S.String),
-          resourceNames: S.optional(__S(16, __c1, 0)),
-          updateTime: S.optional(S.String),
-          name: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(3232, __c202, 0),
+          S.Struct({
+            logScopeId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/logScopes",
@@ -13090,18 +11489,13 @@ function __c203(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          savedQueryId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          description: S.optional(S.String),
-          createTime: S.optional(S.String),
-          name: S.optional(S.String),
-          opsAnalyticsQuery: S.optional(__S(1964, __c122, 12)),
-          loggingQuery: S.optional(__S(1967, __c122, 15)),
-          visibility: S.optional(S.String),
-          displayName: S.optional(S.String),
-          updateTime: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1952, __c122, 0),
+          S.Struct({
+            savedQueryId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/savedQueries",
@@ -13115,25 +11509,14 @@ function __c204(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          customWriterIdentity: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          uniqueWriterIdentity: S.optional(S.Boolean.pipe(T.Query())),
-          createTime: S.optional(S.String),
-          filter: S.optional(S.String),
-          resourceName: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          includeChildren: S.optional(S.Boolean),
-          writerIdentity: S.optional(S.String),
-          bigqueryOptions: S.optional(__S(2176, __c136, 0)),
-          exclusions: S.optional(__S(2160, __c135, 0)),
-          name: S.optional(S.String),
-          description: S.optional(S.String),
-          disabled: S.optional(S.Boolean),
-          destination: S.optional(S.String),
-          outputVersionFormat: S.optional(S.String),
-          interceptChildren: S.optional(S.Boolean),
-        }).pipe(
+        S.Extend(
+          __S(2161, __c135, 1),
+          S.Struct({
+            customWriterIdentity: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            uniqueWriterIdentity: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/sinks",
@@ -13147,21 +11530,13 @@ function __c205(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          bucketId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          updateTime: S.optional(S.String),
-          lifecycleState: S.optional(S.String),
-          createTime: S.optional(S.String),
-          description: S.optional(S.String),
-          analyticsEnabled: S.optional(S.Boolean),
-          retentionDays: S.optional(S.Number),
-          locked: S.optional(S.Boolean),
-          indexConfigs: S.optional(__S(33, __c2, 1)),
-          name: S.optional(S.String),
-          restrictedFields: S.optional(__S(16, __c1, 0)),
-          cmekSettings: S.optional(__S(48, __c3, 0)),
-        }).pipe(
+        S.Extend(
+          __S(34, __c2, 2),
+          S.Struct({
+            bucketId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/buckets",
@@ -13175,15 +11550,13 @@ function __c206(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          linkId: S.optional(S.String.pipe(T.Query())),
-          createTime: S.optional(S.String),
-          name: S.optional(S.String),
-          lifecycleState: S.optional(S.String),
-          description: S.optional(S.String),
-          bigqueryDataset: S.optional(__S(1568, __c98, 0)),
-        }).pipe(
+        S.Extend(
+          __S(1553, __c97, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            linkId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/links",
@@ -13197,15 +11570,13 @@ function __c207(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          viewId: S.optional(S.String.pipe(T.Query())),
-          updateTime: S.optional(S.String),
-          name: S.optional(S.String),
-          filter: S.optional(S.String),
-          description: S.optional(S.String),
-          createTime: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1744, __c109, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            viewId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/views",
@@ -13219,15 +11590,12 @@ function __c208(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          disabled: S.optional(S.Boolean),
-          updateTime: S.optional(S.String),
-          description: S.optional(S.String),
-          filter: S.optional(S.String),
-          createTime: S.optional(S.String),
-          name: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1104, __c69, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/exclusions",
@@ -13241,21 +11609,13 @@ function __c209(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          bucketId: S.optional(S.String.pipe(T.Query())),
-          updateTime: S.optional(S.String),
-          lifecycleState: S.optional(S.String),
-          createTime: S.optional(S.String),
-          description: S.optional(S.String),
-          analyticsEnabled: S.optional(S.Boolean),
-          retentionDays: S.optional(S.Number),
-          locked: S.optional(S.Boolean),
-          indexConfigs: S.optional(__S(33, __c2, 1)),
-          name: S.optional(S.String),
-          restrictedFields: S.optional(__S(16, __c1, 0)),
-          cmekSettings: S.optional(__S(48, __c3, 0)),
-        }).pipe(
+        S.Extend(
+          __S(34, __c2, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            bucketId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/buckets",
@@ -13269,15 +11629,13 @@ function __c210(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          linkId: S.optional(S.String.pipe(T.Query())),
-          createTime: S.optional(S.String),
-          name: S.optional(S.String),
-          lifecycleState: S.optional(S.String),
-          description: S.optional(S.String),
-          bigqueryDataset: S.optional(__S(1568, __c98, 0)),
-        }).pipe(
+        S.Extend(
+          __S(1553, __c97, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            linkId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/links",
@@ -13291,15 +11649,13 @@ function __c211(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          viewId: S.optional(S.String.pipe(T.Query())),
-          updateTime: S.optional(S.String),
-          name: S.optional(S.String),
-          filter: S.optional(S.String),
-          description: S.optional(S.String),
-          createTime: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1744, __c109, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            viewId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/views",
@@ -13313,15 +11669,13 @@ function __c212(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          logScopeId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          createTime: S.optional(S.String),
-          description: S.optional(S.String),
-          resourceNames: S.optional(__S(16, __c1, 0)),
-          updateTime: S.optional(S.String),
-          name: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(3232, __c202, 0),
+          S.Struct({
+            logScopeId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/logScopes",
@@ -13335,18 +11689,13 @@ function __c213(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          savedQueryId: S.optional(S.String.pipe(T.Query())),
-          description: S.optional(S.String),
-          createTime: S.optional(S.String),
-          name: S.optional(S.String),
-          opsAnalyticsQuery: S.optional(__S(1964, __c122, 12)),
-          loggingQuery: S.optional(__S(1967, __c122, 15)),
-          visibility: S.optional(S.String),
-          displayName: S.optional(S.String),
-          updateTime: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1952, __c122, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            savedQueryId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/savedQueries",
@@ -13360,25 +11709,14 @@ function __c214(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          uniqueWriterIdentity: S.optional(S.Boolean.pipe(T.Query())),
-          customWriterIdentity: S.optional(S.String.pipe(T.Query())),
-          createTime: S.optional(S.String),
-          filter: S.optional(S.String),
-          resourceName: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          includeChildren: S.optional(S.Boolean),
-          writerIdentity: S.optional(S.String),
-          bigqueryOptions: S.optional(__S(2176, __c136, 0)),
-          exclusions: S.optional(__S(2160, __c135, 0)),
-          name: S.optional(S.String),
-          description: S.optional(S.String),
-          disabled: S.optional(S.Boolean),
-          destination: S.optional(S.String),
-          outputVersionFormat: S.optional(S.String),
-          interceptChildren: S.optional(S.Boolean),
-        }).pipe(
+        S.Extend(
+          __S(2161, __c135, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            uniqueWriterIdentity: S.optional(S.Boolean.pipe(T.Query())),
+            customWriterIdentity: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/sinks",
@@ -13392,15 +11730,12 @@ function __c215(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          disabled: S.optional(S.Boolean),
-          updateTime: S.optional(S.String),
-          description: S.optional(S.String),
-          filter: S.optional(S.String),
-          createTime: S.optional(S.String),
-          name: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1104, __c69, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/exclusions",
@@ -13437,21 +11772,13 @@ function __c218(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          bucketId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          updateTime: S.optional(S.String),
-          lifecycleState: S.optional(S.String),
-          createTime: S.optional(S.String),
-          description: S.optional(S.String),
-          analyticsEnabled: S.optional(S.Boolean),
-          retentionDays: S.optional(S.Number),
-          locked: S.optional(S.Boolean),
-          indexConfigs: S.optional(__S(33, __c2, 1)),
-          name: S.optional(S.String),
-          restrictedFields: S.optional(__S(16, __c1, 0)),
-          cmekSettings: S.optional(__S(48, __c3, 0)),
-        }).pipe(
+        S.Extend(
+          __S(34, __c2, 2),
+          S.Struct({
+            bucketId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/buckets",
@@ -13465,15 +11792,13 @@ function __c219(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          linkId: S.optional(S.String.pipe(T.Query())),
-          createTime: S.optional(S.String),
-          name: S.optional(S.String),
-          lifecycleState: S.optional(S.String),
-          description: S.optional(S.String),
-          bigqueryDataset: S.optional(__S(1568, __c98, 0)),
-        }).pipe(
+        S.Extend(
+          __S(1553, __c97, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            linkId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/links",
@@ -13487,15 +11812,13 @@ function __c220(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          viewId: S.optional(S.String.pipe(T.Query())),
-          updateTime: S.optional(S.String),
-          name: S.optional(S.String),
-          filter: S.optional(S.String),
-          description: S.optional(S.String),
-          createTime: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1744, __c109, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            viewId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/views",
@@ -13509,15 +11832,13 @@ function __c221(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          logScopeId: S.optional(S.String.pipe(T.Query())),
-          createTime: S.optional(S.String),
-          description: S.optional(S.String),
-          resourceNames: S.optional(__S(16, __c1, 0)),
-          updateTime: S.optional(S.String),
-          name: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(3232, __c202, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            logScopeId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/logScopes",
@@ -13531,18 +11852,13 @@ function __c222(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          savedQueryId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          description: S.optional(S.String),
-          createTime: S.optional(S.String),
-          name: S.optional(S.String),
-          opsAnalyticsQuery: S.optional(__S(1964, __c122, 12)),
-          loggingQuery: S.optional(__S(1967, __c122, 15)),
-          visibility: S.optional(S.String),
-          displayName: S.optional(S.String),
-          updateTime: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1952, __c122, 0),
+          S.Struct({
+            savedQueryId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/savedQueries",
@@ -13556,22 +11872,12 @@ function __c223(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          bucketOptions: S.optional(__S(3604, __c225, 4)),
-          disabled: S.optional(S.Boolean),
-          valueExtractor: S.optional(S.String),
-          resourceName: S.optional(S.String),
-          version: S.optional(S.String),
-          name: S.optional(S.String),
-          description: S.optional(S.String),
-          metricDescriptor: S.optional(__S(3607, __c225, 7)),
-          createTime: S.optional(S.String),
-          labelExtractors: S.optional(__S(3616, __c226, 0)),
-          updateTime: S.optional(S.String),
-          filter: S.optional(S.String),
-          bucketName: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(3608, __c225, 8),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/metrics",
@@ -13686,25 +11992,14 @@ function __c227(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          uniqueWriterIdentity: S.optional(S.Boolean.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          customWriterIdentity: S.optional(S.String.pipe(T.Query())),
-          createTime: S.optional(S.String),
-          filter: S.optional(S.String),
-          resourceName: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          includeChildren: S.optional(S.Boolean),
-          writerIdentity: S.optional(S.String),
-          bigqueryOptions: S.optional(__S(2176, __c136, 0)),
-          exclusions: S.optional(__S(2160, __c135, 0)),
-          name: S.optional(S.String),
-          description: S.optional(S.String),
-          disabled: S.optional(S.Boolean),
-          destination: S.optional(S.String),
-          outputVersionFormat: S.optional(S.String),
-          interceptChildren: S.optional(S.Boolean),
-        }).pipe(
+        S.Extend(
+          __S(2161, __c135, 1),
+          S.Struct({
+            uniqueWriterIdentity: S.optional(S.Boolean.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            customWriterIdentity: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/sinks",
@@ -13718,25 +12013,14 @@ function __c228(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          uniqueWriterIdentity: S.optional(S.Boolean.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          customWriterIdentity: S.optional(S.String.pipe(T.Query())),
-          createTime: S.optional(S.String),
-          filter: S.optional(S.String),
-          resourceName: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          includeChildren: S.optional(S.Boolean),
-          writerIdentity: S.optional(S.String),
-          bigqueryOptions: S.optional(__S(2176, __c136, 0)),
-          exclusions: S.optional(__S(2160, __c135, 0)),
-          name: S.optional(S.String),
-          description: S.optional(S.String),
-          disabled: S.optional(S.Boolean),
-          destination: S.optional(S.String),
-          outputVersionFormat: S.optional(S.String),
-          interceptChildren: S.optional(S.Boolean),
-        }).pipe(
+        S.Extend(
+          __S(2161, __c135, 1),
+          S.Struct({
+            uniqueWriterIdentity: S.optional(S.Boolean.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            customWriterIdentity: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/sinks",
@@ -14452,7 +12736,7 @@ function __c273(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          metadata: S.optional(__S(4448, __c278, 0)),
+          metadata: S.optional(__S(4432, __c277, 0)),
           labels: S.optional(__S(3616, __c226, 0)),
           locationId: S.optional(S.String),
           displayName: S.optional(S.String),
@@ -14489,24 +12773,14 @@ function __c276(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          createTime: S.optional(S.String),
-          name: S.optional(S.String),
-          lifecycleState: S.optional(S.String),
-          description: S.optional(S.String),
-          bigqueryDataset: S.optional(__S(1568, __c98, 0)),
-        }),
-      ).annotate({ identifier: "Link" });
-  }
-}
-function __c277(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
           name: S.optional(S.String),
           destination: S.optional(S.String),
           filter: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "CopyLogEntriesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(__S(4416, __c276, 0), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "v2/entries:copy",
@@ -14516,20 +12790,20 @@ function __c277(j: number): any {
       ).annotate({ identifier: "CopyEntriesRequest" });
   }
 }
-function __c278(j: number): any {
+function __c277(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c279(j: number): any {
+function __c278(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(4448, __c278, 0));
+      return S.Array(__S(4432, __c277, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          details: S.optional(__S(4464, __c279, 0)),
+          details: S.optional(__S(4448, __c278, 0)),
           code: S.optional(S.Number),
           message: S.optional(S.String),
         }),
@@ -14537,16 +12811,16 @@ function __c279(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          response: S.optional(__S(4448, __c278, 0)),
+          response: S.optional(__S(4432, __c277, 0)),
           name: S.optional(S.String),
           done: S.optional(S.Boolean),
-          metadata: S.optional(__S(4448, __c278, 0)),
-          error: S.optional(__S(4465, __c279, 1)),
+          metadata: S.optional(__S(4432, __c277, 0)),
+          error: S.optional(__S(4449, __c278, 1)),
         }),
       ).annotate({ identifier: "Operation" });
   }
 }
-function __c280(j: number): any {
+function __c279(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14558,7 +12832,7 @@ function __c280(j: number): any {
       ).annotate({ identifier: "GetBillingAccountsLocationsBucketsViewsRequest" });
   }
 }
-function __c281(j: number): any {
+function __c280(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14570,7 +12844,7 @@ function __c281(j: number): any {
       ).annotate({ identifier: "GetBillingAccountsLocationsOperationsRequest" });
   }
 }
-function __c282(j: number): any {
+function __c281(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14582,7 +12856,7 @@ function __c282(j: number): any {
       ).annotate({ identifier: "GetBillingAccountsLocationsSavedQueriesRequest" });
   }
 }
-function __c283(j: number): any {
+function __c282(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14598,7 +12872,7 @@ function __c283(j: number): any {
       ).annotate({ identifier: "GetBillingAccountsSinksRequest" });
   }
 }
-function __c284(j: number): any {
+function __c283(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14614,7 +12888,7 @@ function __c284(j: number): any {
       ).annotate({ identifier: "GetCmekSettingsBillingAccountsRequest" });
   }
 }
-function __c285(j: number): any {
+function __c284(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14630,7 +12904,7 @@ function __c285(j: number): any {
       ).annotate({ identifier: "GetCmekSettingsFoldersRequest" });
   }
 }
-function __c286(j: number): any {
+function __c285(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14646,7 +12920,7 @@ function __c286(j: number): any {
       ).annotate({ identifier: "GetCmekSettingsOrganizationsRequest" });
   }
 }
-function __c287(j: number): any {
+function __c286(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14662,7 +12936,7 @@ function __c287(j: number): any {
       ).annotate({ identifier: "GetCmekSettingsProjectsRequest" });
   }
 }
-function __c288(j: number): any {
+function __c287(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14678,7 +12952,7 @@ function __c288(j: number): any {
       ).annotate({ identifier: "GetCmekSettingsV2Request" });
   }
 }
-function __c289(j: number): any {
+function __c288(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

@@ -88,16 +88,6 @@ export interface OutputConfig {
   /** Required. The destination for writing trace data. Supported formats include: "bigquery.googleapis.com/projects/[PROJECT_ID]/datasets/[DATASET]" */
   destination?: string | undefined;
 }
-export interface CreateProjectsTraceSinksRequest {
-  /** Required. The resource in which to create the sink (currently only project sinks are supported): "projects/[PROJECT_ID]" Examples: `"projects/my-trace-project"`, `"projects/123456789"`. */
-  parent: string;
-  /** Output only. A service account name for exporting the data. This field is set by sinks.create and sinks.update. The service account will need to be granted write access to the destination specified in the output configuration, see [Granting access for a resource](/iam/docs/granting-roles-to-service-accounts#granting_access_to_a_service_account_for_a_resource). To create tables and to write data, this account needs the `dataEditor` role. Read more about roles in the [BigQuery documentation](https://cloud.google.com/bigquery/docs/access-control). E.g.: "service-00000001@00000002.iam.gserviceaccount.com" */
-  writerIdentity?: string | undefined;
-  /** Identifier. The canonical sink resource name, unique within the project. Must be of the form: projects/[PROJECT_NUMBER]/traceSinks/[SINK_ID]. E.g.: `"projects/12345/traceSinks/my-project-trace-sink"`. Sink identifiers are limited to 256 characters and can include only the following characters: upper and lower-case alphanumeric characters, underscores, hyphens, and periods. */
-  name?: string | undefined;
-  /** Required. The export destination. */
-  outputConfig?: OutputConfig | undefined;
-}
 /** Describes a sink used to export traces to a BigQuery dataset. The sink must be created within a project. */
 export interface TraceSink {
   /** Output only. A service account name for exporting the data. This field is set by sinks.create and sinks.update. The service account will need to be granted write access to the destination specified in the output configuration, see [Granting access for a resource](/iam/docs/granting-roles-to-service-accounts#granting_access_to_a_service_account_for_a_resource). To create tables and to write data, this account needs the `dataEditor` role. Read more about roles in the [BigQuery documentation](https://cloud.google.com/bigquery/docs/access-control). E.g.: "service-00000001@00000002.iam.gserviceaccount.com" */
@@ -106,6 +96,10 @@ export interface TraceSink {
   name?: string | undefined;
   /** Required. The export destination. */
   outputConfig?: OutputConfig | undefined;
+}
+export interface CreateProjectsTraceSinksRequest extends TraceSink {
+  /** Required. The resource in which to create the sink (currently only project sinks are supported): "projects/[PROJECT_ID]" Examples: `"projects/my-trace-project"`, `"projects/123456789"`. */
+  parent: string;
 }
 export interface DeleteProjectsTraceSinksRequest {
   /** Required. The full resource name of the sink to delete, including the parent resource and the sink identifier: "projects/[PROJECT_NUMBER]/traceSinks/[SINK_ID]" Example: `"projects/12345/traceSinks/my-sink-id"`. */
@@ -133,15 +127,11 @@ export interface ListTraceSinksResponse {
   /** A list of sinks. */
   sinks?: TraceSinkList | undefined;
 }
-export interface PatchProjectsTraceSinksRequest {
+export interface PatchProjectsTraceSinksRequest extends Omit<TraceSink, "name"> {
   /** Required. The full resource name of the sink to update, including the parent resource and the sink identifier: "projects/[PROJECT_NUMBER]/traceSinks/[SINK_ID]" Example: `"projects/12345/traceSinks/my-sink-id"`. */
   name: string;
   /** Required. Field mask that specifies the fields in `trace_sink` that are to be updated. A sink field is overwritten if, and only if, it is in the update mask. `name` and `writer_identity` fields cannot be updated. An empty `update_mask` is considered an error. For a detailed `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask Example: `updateMask=output_config`. */
   updateMask?: string | undefined;
-  /** Output only. A service account name for exporting the data. This field is set by sinks.create and sinks.update. The service account will need to be granted write access to the destination specified in the output configuration, see [Granting access for a resource](/iam/docs/granting-roles-to-service-accounts#granting_access_to_a_service_account_for_a_resource). To create tables and to write data, this account needs the `dataEditor` role. Read more about roles in the [BigQuery documentation](https://cloud.google.com/bigquery/docs/access-control). E.g.: "service-00000001@00000002.iam.gserviceaccount.com" */
-  writerIdentity?: string | undefined;
-  /** Required. The export destination. */
-  outputConfig?: OutputConfig | undefined;
 }
 export type CreateProjectsTraceSinksError =
   | NotFound
@@ -250,12 +240,12 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          writerIdentity: S.optional(S.String),
-          name: S.optional(S.String),
-          outputConfig: S.optional(__S(4, __c1, 0)),
-        }).pipe(
+        S.Extend(
+          __S(5, __c1, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2beta1/{+parent}/traceSinks",
@@ -348,12 +338,13 @@ function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          writerIdentity: S.optional(S.String),
-          outputConfig: S.optional(__S(4, __c1, 0)),
-        }).pipe(
+        S.Extend(
+          __S(5, __c1, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2beta1/{+name}",

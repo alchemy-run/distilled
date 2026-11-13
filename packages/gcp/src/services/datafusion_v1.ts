@@ -233,11 +233,8 @@ export interface MonitoringConfig {
   /** Optional. Option to enable the instance v2 metrics for this instance. This field is supported only in CDF versions 6.11.1.1 and above. */
   enableInstanceV2Metrics?: boolean | undefined;
 }
-export interface CreateProjectsLocationsInstancesRequest {
-  /** Required. The instance's project and location in the format projects/{project}/locations/{location}. */
-  parent: string;
-  /** Required. The name of the instance to create. Instance name can only contain lowercase alphanumeric characters and hyphens. It must start with a letter and must not end with a hyphen. It can have a maximum of 30 characters. */
-  instanceId?: string | undefined;
+/** Represents a Data Fusion instance. */
+export interface Instance {
   /** Output only. The current state of this Data Fusion instance. */
   state?: InstanceStateEnum | (string & {}) | undefined;
   /** Output only. If the instance state is DISABLED, the reason for disabling the instance. */
@@ -319,6 +316,12 @@ export interface CreateProjectsLocationsInstancesRequest {
   /** Optional. Input only. Immutable. Tag keys/values directly bound to this resource. For example: "123/environment": "production", "123/costCenter": "marketing" */
   tags?: StringMap | undefined;
 }
+export interface CreateProjectsLocationsInstancesRequest extends Instance {
+  /** Required. The instance's project and location in the format projects/{project}/locations/{location}. */
+  parent: string;
+  /** Required. The name of the instance to create. Instance name can only contain lowercase alphanumeric characters and hyphens. It must start with a letter and must not end with a hyphen. It can have a maximum of 30 characters. */
+  instanceId?: string | undefined;
+}
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
@@ -343,22 +346,6 @@ export interface Operation {
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
   name?: string | undefined;
 }
-export interface CreateProjectsLocationsInstancesDnsPeeringsRequest {
-  /** Required. The resource on which DNS peering will be created. */
-  parent: string;
-  /** Required. The name of the peering to create. */
-  dnsPeeringId?: string | undefined;
-  /** Optional. Optional target network to which dns peering should happen. */
-  targetNetwork?: string | undefined;
-  /** Required. The dns name suffix of the zone. */
-  domain?: string | undefined;
-  /** Identifier. The resource name of the dns peering zone. Format: projects/{project}/locations/{location}/instances/{instance}/dnsPeerings/{dns_peering} */
-  name?: string | undefined;
-  /** Optional. Optional description of the dns zone. */
-  description?: string | undefined;
-  /** Optional. Optional target project to which dns peering should happen. */
-  targetProject?: string | undefined;
-}
 /** DNS peering configuration. These configurations are used to create DNS peering with the customer Cloud DNS. */
 export interface DnsPeering {
   /** Optional. Optional target network to which dns peering should happen. */
@@ -371,6 +358,12 @@ export interface DnsPeering {
   description?: string | undefined;
   /** Optional. Optional target project to which dns peering should happen. */
   targetProject?: string | undefined;
+}
+export interface CreateProjectsLocationsInstancesDnsPeeringsRequest extends DnsPeering {
+  /** Required. The resource on which DNS peering will be created. */
+  parent: string;
+  /** Required. The name of the peering to create. */
+  dnsPeeringId?: string | undefined;
 }
 export interface DeleteProjectsLocationsInstancesRequest {
   /** Optional. If set to true, any nested resources from this instance will also be deleted. */
@@ -465,89 +458,6 @@ export interface Location {
 export interface GetProjectsLocationsInstancesRequest {
   /** Required. The instance resource name in the format projects/{project}/locations/{location}/instances/{instance}. */
   name: string;
-}
-/** Represents a Data Fusion instance. */
-export interface Instance {
-  /** Output only. The current state of this Data Fusion instance. */
-  state?: InstanceStateEnum | undefined;
-  /** Output only. If the instance state is DISABLED, the reason for disabling the instance. */
-  disabledReason?: InstanceDisabledReasonItemEnumList | undefined;
-  /** Output only. Available versions that the instance can be upgraded to using UpdateInstanceRequest. */
-  availableVersion?: VersionList | undefined;
-  /** Optional. Current version of the Data Fusion. Only specifiable in Update. */
-  version?: string | undefined;
-  /** Required. Instance type. */
-  type?: InstanceTypeEnum | undefined;
-  /** Optional. Map of additional options used to configure the behavior of Data Fusion instance. */
-  options?: StringMap | undefined;
-  /** Optional. The crypto key configuration. This field is used by the Customer-Managed Encryption Keys (CMEK) feature. */
-  cryptoKeyConfig?: CryptoKeyConfig | undefined;
-  /** Optional. Network configuration options. These are required when a private Data Fusion instance is to be created. */
-  networkConfig?: NetworkConfig | undefined;
-  /** Output only. The name of this instance is in the form of projects/{project}/locations/{location}/instances/{instance}. */
-  name?: string | undefined;
-  /** Output only. Endpoint on which the REST APIs is accessible. */
-  apiEndpoint?: string | undefined;
-  /** Output only. Endpoint on which the Data Fusion UI is accessible. */
-  serviceEndpoint?: string | undefined;
-  /** Optional. User-managed service account to set on Dataproc when Cloud Data Fusion creates Dataproc to run data processing pipelines. This allows users to have fine-grained access control on Dataproc's accesses to cloud resources. */
-  dataprocServiceAccount?: string | undefined;
-  /** Optional. Current patch revision of the Data Fusion. */
-  patchRevision?: string | undefined;
-  /** Optional. Name of the zone in which the Data Fusion instance will be created. Only DEVELOPER instances use this field. */
-  zone?: string | undefined;
-  /** Optional. Option to enable Dataproc Stackdriver Logging. */
-  enableStackdriverLogging?: boolean | undefined;
-  /** Output only. Endpoint on which the Data Fusion UI is accessible to third-party users */
-  workforceIdentityServiceEndpoint?: string | undefined;
-  /** Optional. The logging configuration for this instance. This field is supported only in CDF versions 6.11.0 and above. */
-  loggingConfig?: LoggingConfig | undefined;
-  /** Output only. Reserved for future use. */
-  satisfiesPzi?: boolean | undefined;
-  /** Optional. Option to enable and pass metadata for event publishing. */
-  eventPublishConfig?: EventPublishConfig | undefined;
-  /** Optional. Option to enable granular role-based access control. */
-  enableRbac?: boolean | undefined;
-  /** Output only. Reserved for future use. */
-  satisfiesPzs?: boolean | undefined;
-  /** Output only. The time the instance was last updated. */
-  updateTime?: string | undefined;
-  /** Optional. A description of this instance. */
-  description?: string | undefined;
-  /** Optional. Configure the maintenance policy for this instance. */
-  maintenancePolicy?: MaintenancePolicy | undefined;
-  /** Output only. List of accelerators enabled for this CDF instance. */
-  accelerators?: AcceleratorList | undefined;
-  /** Output only. Additional information about the current state of this Data Fusion instance if available. */
-  stateMessage?: string | undefined;
-  /** Output only. The maintenance events for this instance. */
-  maintenanceEvents?: MaintenanceEventList | undefined;
-  /** Output only. Deprecated. Use tenant_project_id instead to extract the tenant project ID. */
-  serviceAccount?: string | undefined;
-  /** Optional. Specifies whether the Data Fusion instance should be private. If set to true, all Data Fusion nodes will have private IP addresses and will not be able to access the public internet. */
-  privateInstance?: boolean | undefined;
-  /** Output only. Service agent for the customer project. */
-  p4ServiceAccount?: string | undefined;
-  /** The resource labels for instance to use to annotate any related underlying resources such as Compute Engine VMs. The character '=' is not allowed to be used within the labels. */
-  labels?: StringMap | undefined;
-  /** Output only. The time the instance was created. */
-  createTime?: string | undefined;
-  /** Output only. The name of the tenant project. */
-  tenantProjectId?: string | undefined;
-  /** Optional. Option to enable Stackdriver Monitoring. */
-  enableStackdriverMonitoring?: boolean | undefined;
-  /** Optional. Display name for an instance. */
-  displayName?: string | undefined;
-  /** Output only. Option to enable granular zone separation. */
-  enableZoneSeparation?: boolean | undefined;
-  /** Output only. Cloud Storage bucket generated by Data Fusion in the customer project. */
-  gcsBucket?: string | undefined;
-  /** Optional. Option to enable the Dataplex Lineage Integration feature. */
-  dataplexDataLineageIntegrationEnabled?: boolean | undefined;
-  /** Optional. The monitoring configuration for this instance. */
-  monitoringConfig?: MonitoringConfig | undefined;
-  /** Optional. Input only. Immutable. Tag keys/values directly bound to this resource. For example: "123/environment": "production", "123/costCenter": "marketing" */
-  tags?: StringMap | undefined;
 }
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
@@ -652,89 +562,11 @@ export interface ListAvailableVersionsResponse {
   /** Represents a list of all versions. */
   versions?: VersionList | undefined;
 }
-export interface PatchProjectsLocationsInstancesRequest {
+export interface PatchProjectsLocationsInstancesRequest extends Omit<Instance, "name"> {
   /** Output only. The name of this instance is in the form of projects/{project}/locations/{location}/instances/{instance}. */
   name: string;
   /** Field mask is used to specify the fields that the update will overwrite in an instance resource. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask, the label field will be overwritten. */
   updateMask?: string | undefined;
-  /** Output only. The current state of this Data Fusion instance. */
-  state?: InstanceStateEnum | (string & {}) | undefined;
-  /** Output only. If the instance state is DISABLED, the reason for disabling the instance. */
-  disabledReason?: InstanceDisabledReasonItemEnumList | undefined;
-  /** Output only. Available versions that the instance can be upgraded to using UpdateInstanceRequest. */
-  availableVersion?: VersionList | undefined;
-  /** Optional. Current version of the Data Fusion. Only specifiable in Update. */
-  version?: string | undefined;
-  /** Required. Instance type. */
-  type?: InstanceTypeEnum | (string & {}) | undefined;
-  /** Optional. Map of additional options used to configure the behavior of Data Fusion instance. */
-  options?: StringMap | undefined;
-  /** Optional. The crypto key configuration. This field is used by the Customer-Managed Encryption Keys (CMEK) feature. */
-  cryptoKeyConfig?: CryptoKeyConfig | undefined;
-  /** Optional. Network configuration options. These are required when a private Data Fusion instance is to be created. */
-  networkConfig?: NetworkConfig | undefined;
-  /** Output only. Endpoint on which the REST APIs is accessible. */
-  apiEndpoint?: string | undefined;
-  /** Output only. Endpoint on which the Data Fusion UI is accessible. */
-  serviceEndpoint?: string | undefined;
-  /** Optional. User-managed service account to set on Dataproc when Cloud Data Fusion creates Dataproc to run data processing pipelines. This allows users to have fine-grained access control on Dataproc's accesses to cloud resources. */
-  dataprocServiceAccount?: string | undefined;
-  /** Optional. Current patch revision of the Data Fusion. */
-  patchRevision?: string | undefined;
-  /** Optional. Name of the zone in which the Data Fusion instance will be created. Only DEVELOPER instances use this field. */
-  zone?: string | undefined;
-  /** Optional. Option to enable Dataproc Stackdriver Logging. */
-  enableStackdriverLogging?: boolean | undefined;
-  /** Output only. Endpoint on which the Data Fusion UI is accessible to third-party users */
-  workforceIdentityServiceEndpoint?: string | undefined;
-  /** Optional. The logging configuration for this instance. This field is supported only in CDF versions 6.11.0 and above. */
-  loggingConfig?: LoggingConfig | undefined;
-  /** Output only. Reserved for future use. */
-  satisfiesPzi?: boolean | undefined;
-  /** Optional. Option to enable and pass metadata for event publishing. */
-  eventPublishConfig?: EventPublishConfig | undefined;
-  /** Optional. Option to enable granular role-based access control. */
-  enableRbac?: boolean | undefined;
-  /** Output only. Reserved for future use. */
-  satisfiesPzs?: boolean | undefined;
-  /** Output only. The time the instance was last updated. */
-  updateTime?: string | undefined;
-  /** Optional. A description of this instance. */
-  description?: string | undefined;
-  /** Optional. Configure the maintenance policy for this instance. */
-  maintenancePolicy?: MaintenancePolicy | undefined;
-  /** Output only. List of accelerators enabled for this CDF instance. */
-  accelerators?: AcceleratorList | undefined;
-  /** Output only. Additional information about the current state of this Data Fusion instance if available. */
-  stateMessage?: string | undefined;
-  /** Output only. The maintenance events for this instance. */
-  maintenanceEvents?: MaintenanceEventList | undefined;
-  /** Output only. Deprecated. Use tenant_project_id instead to extract the tenant project ID. */
-  serviceAccount?: string | undefined;
-  /** Optional. Specifies whether the Data Fusion instance should be private. If set to true, all Data Fusion nodes will have private IP addresses and will not be able to access the public internet. */
-  privateInstance?: boolean | undefined;
-  /** Output only. Service agent for the customer project. */
-  p4ServiceAccount?: string | undefined;
-  /** The resource labels for instance to use to annotate any related underlying resources such as Compute Engine VMs. The character '=' is not allowed to be used within the labels. */
-  labels?: StringMap | undefined;
-  /** Output only. The time the instance was created. */
-  createTime?: string | undefined;
-  /** Output only. The name of the tenant project. */
-  tenantProjectId?: string | undefined;
-  /** Optional. Option to enable Stackdriver Monitoring. */
-  enableStackdriverMonitoring?: boolean | undefined;
-  /** Optional. Display name for an instance. */
-  displayName?: string | undefined;
-  /** Output only. Option to enable granular zone separation. */
-  enableZoneSeparation?: boolean | undefined;
-  /** Output only. Cloud Storage bucket generated by Data Fusion in the customer project. */
-  gcsBucket?: string | undefined;
-  /** Optional. Option to enable the Dataplex Lineage Integration feature. */
-  dataplexDataLineageIntegrationEnabled?: boolean | undefined;
-  /** Optional. The monitoring configuration for this instance. */
-  monitoringConfig?: MonitoringConfig | undefined;
-  /** Optional. Input only. Immutable. Tag keys/values directly bound to this resource. For example: "123/environment": "production", "123/costCenter": "marketing" */
-  tags?: StringMap | undefined;
 }
 /** Request message for restarting a Data Fusion instance. */
 export type RestartInstanceRequest = CancelOperationRequest;
@@ -744,19 +576,25 @@ export interface RestartProjectsLocationsInstancesRequest {
   /** Request body */
   body?: CancelOperationRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsInstancesRequest {
-  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
+/** Request message for `SetIamPolicy` method. */
+export interface SetIamPolicyRequest {
   /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
   updateMask?: string | undefined;
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
   policy?: Policy | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsInstancesRequest {
-  /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+export interface SetIamPolicyProjectsLocationsInstancesRequest extends SetIamPolicyRequest {
+  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
+}
+/** Request message for `TestIamPermissions` method. */
+export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: StringList | undefined;
+}
+export interface TestIamPermissionsProjectsLocationsInstancesRequest extends TestIamPermissionsRequest {
+  /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
@@ -776,8 +614,8 @@ export const cancelProjectsLocationsOperations: API.OperationMethod<
   CancelProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c16, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
-  output: __S(272, __c17, 0) as any as S.Schema<Empty>,
+  input: __S(240, __c15, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
+  output: __S(256, __c16, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -798,8 +636,8 @@ export const createProjectsLocationsInstances: API.OperationMethod<
   CreateProjectsLocationsInstancesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c18, 0) as any as S.Schema<CreateProjectsLocationsInstancesRequest>,
-  output: __S(386, __c24, 2) as any as S.Schema<Operation>,
+  input: __S(272, __c17, 0) as any as S.Schema<CreateProjectsLocationsInstancesRequest>,
+  output: __S(370, __c23, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -820,8 +658,8 @@ export const createProjectsLocationsInstancesDnsPeerings: API.OperationMethod<
   CreateProjectsLocationsInstancesDnsPeeringsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(400, __c25, 0) as any as S.Schema<CreateProjectsLocationsInstancesDnsPeeringsRequest>,
-  output: __S(416, __c26, 0) as any as S.Schema<DnsPeering>,
+  input: __S(384, __c24, 0) as any as S.Schema<CreateProjectsLocationsInstancesDnsPeeringsRequest>,
+  output: __S(400, __c25, 0) as any as S.Schema<DnsPeering>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -842,8 +680,8 @@ export const deleteProjectsLocationsInstances: API.OperationMethod<
   DeleteProjectsLocationsInstancesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(432, __c27, 0) as any as S.Schema<DeleteProjectsLocationsInstancesRequest>,
-  output: __S(386, __c24, 2) as any as S.Schema<Operation>,
+  input: __S(416, __c26, 0) as any as S.Schema<DeleteProjectsLocationsInstancesRequest>,
+  output: __S(370, __c23, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -864,8 +702,8 @@ export const deleteProjectsLocationsInstancesDnsPeerings: API.OperationMethod<
   DeleteProjectsLocationsInstancesDnsPeeringsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c28, 0) as any as S.Schema<DeleteProjectsLocationsInstancesDnsPeeringsRequest>,
-  output: __S(272, __c17, 0) as any as S.Schema<Empty>,
+  input: __S(432, __c27, 0) as any as S.Schema<DeleteProjectsLocationsInstancesDnsPeeringsRequest>,
+  output: __S(256, __c16, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -886,8 +724,8 @@ export const deleteProjectsLocationsOperations: API.OperationMethod<
   DeleteProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(464, __c29, 0) as any as S.Schema<DeleteProjectsLocationsOperationsRequest>,
-  output: __S(272, __c17, 0) as any as S.Schema<Empty>,
+  input: __S(448, __c28, 0) as any as S.Schema<DeleteProjectsLocationsOperationsRequest>,
+  output: __S(256, __c16, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -938,7 +776,7 @@ export const getProjectsLocationsInstances: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c4, 0) as any as S.Schema<GetProjectsLocationsInstancesRequest>,
-  output: __S(80, __c5, 0) as any as S.Schema<Instance>,
+  output: __S(351, __c21, 15) as any as S.Schema<Instance>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -954,8 +792,8 @@ export const getProjectsLocationsOperations: API.OperationMethod<
   GetProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c6, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
-  output: __S(386, __c24, 2) as any as S.Schema<Operation>,
+  input: __S(80, __c5, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
+  output: __S(370, __c23, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -972,8 +810,8 @@ export const listProjectsLocations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListLocationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(112, __c7, 0) as any as S.Schema<ListProjectsLocationsRequest>,
-  output: __S(114, __c7, 2) as any as S.Schema<ListLocationsResponse>,
+  input: __S(96, __c6, 0) as any as S.Schema<ListProjectsLocationsRequest>,
+  output: __S(98, __c6, 2) as any as S.Schema<ListLocationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -991,8 +829,8 @@ export const listProjectsLocationsInstances: API.PaginatedOperationMethod<
   GcpOpContext,
   ListInstancesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(128, __c8, 0) as any as S.Schema<ListProjectsLocationsInstancesRequest>,
-  output: __S(130, __c8, 2) as any as S.Schema<ListInstancesResponse>,
+  input: __S(112, __c7, 0) as any as S.Schema<ListProjectsLocationsInstancesRequest>,
+  output: __S(114, __c7, 2) as any as S.Schema<ListInstancesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1010,8 +848,8 @@ export const listProjectsLocationsInstancesDnsPeerings: API.PaginatedOperationMe
   GcpOpContext,
   ListDnsPeeringsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(144, __c9, 0) as any as S.Schema<ListProjectsLocationsInstancesDnsPeeringsRequest>,
-  output: __S(146, __c9, 2) as any as S.Schema<ListDnsPeeringsResponse>,
+  input: __S(128, __c8, 0) as any as S.Schema<ListProjectsLocationsInstancesDnsPeeringsRequest>,
+  output: __S(130, __c8, 2) as any as S.Schema<ListDnsPeeringsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1029,8 +867,8 @@ export const listProjectsLocationsOperations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListOperationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(160, __c10, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
-  output: __S(162, __c10, 2) as any as S.Schema<ListOperationsResponse>,
+  input: __S(144, __c9, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
+  output: __S(146, __c9, 2) as any as S.Schema<ListOperationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1048,8 +886,8 @@ export const listProjectsLocationsVersions: API.PaginatedOperationMethod<
   GcpOpContext,
   ListAvailableVersionsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(176, __c11, 0) as any as S.Schema<ListProjectsLocationsVersionsRequest>,
-  output: __S(177, __c11, 1) as any as S.Schema<ListAvailableVersionsResponse>,
+  input: __S(160, __c10, 0) as any as S.Schema<ListProjectsLocationsVersionsRequest>,
+  output: __S(161, __c10, 1) as any as S.Schema<ListAvailableVersionsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1071,8 +909,8 @@ export const patchProjectsLocationsInstances: API.OperationMethod<
   PatchProjectsLocationsInstancesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c12, 0) as any as S.Schema<PatchProjectsLocationsInstancesRequest>,
-  output: __S(386, __c24, 2) as any as S.Schema<Operation>,
+  input: __S(176, __c11, 0) as any as S.Schema<PatchProjectsLocationsInstancesRequest>,
+  output: __S(370, __c23, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1093,8 +931,8 @@ export const restartProjectsLocationsInstances: API.OperationMethod<
   RestartProjectsLocationsInstancesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c13, 0) as any as S.Schema<RestartProjectsLocationsInstancesRequest>,
-  output: __S(386, __c24, 2) as any as S.Schema<Operation>,
+  input: __S(192, __c12, 0) as any as S.Schema<RestartProjectsLocationsInstancesRequest>,
+  output: __S(370, __c23, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1115,7 +953,7 @@ export const setIamPolicyProjectsLocationsInstances: API.OperationMethod<
   SetIamPolicyProjectsLocationsInstancesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c14, 0) as any as S.Schema<SetIamPolicyProjectsLocationsInstancesRequest>,
+  input: __S(209, __c13, 1) as any as S.Schema<SetIamPolicyProjectsLocationsInstancesRequest>,
   output: __S(23, __c1, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -1137,8 +975,8 @@ export const testIamPermissionsProjectsLocationsInstances: API.OperationMethod<
   TestIamPermissionsProjectsLocationsInstancesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c15, 0) as any as S.Schema<TestIamPermissionsProjectsLocationsInstancesRequest>,
-  output: __S(241, __c15, 1) as any as S.Schema<TestIamPermissionsResponse>,
+  input: __S(225, __c14, 1) as any as S.Schema<TestIamPermissionsProjectsLocationsInstancesRequest>,
+  output: __S(224, __c14, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1170,7 +1008,7 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           logType: S.optional(S.String),
-          exemptedMembers: S.optional(__S(304, __c19, 0)),
+          exemptedMembers: S.optional(__S(288, __c18, 0)),
         }),
       ).annotate({ identifier: "AuditLogConfig" });
     case 1:
@@ -1197,7 +1035,7 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           condition: S.optional(__S(20, __c1, 4)),
-          members: S.optional(__S(304, __c19, 0)),
+          members: S.optional(__S(288, __c18, 0)),
           role: S.optional(S.String),
         }),
       ).annotate({ identifier: "Binding" });
@@ -1235,11 +1073,11 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          metadata: S.optional(__S(368, __c23, 0)),
+          metadata: S.optional(__S(352, __c22, 0)),
           locationId: S.optional(S.String),
           name: S.optional(S.String),
           displayName: S.optional(S.String),
-          labels: S.optional(__S(320, __c20, 0)),
+          labels: S.optional(__S(304, __c19, 0)),
         }),
       ).annotate({ identifier: "Location" });
   }
@@ -1265,55 +1103,6 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          state: S.optional(S.String),
-          disabledReason: S.optional(__S(352, __c22, 0)),
-          availableVersion: S.optional(__S(337, __c21, 1)),
-          version: S.optional(S.String),
-          type: S.optional(S.String),
-          options: S.optional(__S(320, __c20, 0)),
-          cryptoKeyConfig: S.optional(__S(353, __c22, 1)),
-          networkConfig: S.optional(__S(355, __c22, 3)),
-          name: S.optional(S.String),
-          apiEndpoint: S.optional(S.String),
-          serviceEndpoint: S.optional(S.String),
-          dataprocServiceAccount: S.optional(S.String),
-          patchRevision: S.optional(S.String),
-          zone: S.optional(S.String),
-          enableStackdriverLogging: S.optional(S.Boolean),
-          workforceIdentityServiceEndpoint: S.optional(S.String),
-          loggingConfig: S.optional(__S(356, __c22, 4)),
-          satisfiesPzi: S.optional(S.Boolean),
-          eventPublishConfig: S.optional(__S(357, __c22, 5)),
-          enableRbac: S.optional(S.Boolean),
-          satisfiesPzs: S.optional(S.Boolean),
-          updateTime: S.optional(S.String),
-          description: S.optional(S.String),
-          maintenancePolicy: S.optional(__S(361, __c22, 9)),
-          accelerators: S.optional(__S(363, __c22, 11)),
-          stateMessage: S.optional(S.String),
-          maintenanceEvents: S.optional(__S(365, __c22, 13)),
-          serviceAccount: S.optional(S.String),
-          privateInstance: S.optional(S.Boolean),
-          p4ServiceAccount: S.optional(S.String),
-          labels: S.optional(__S(320, __c20, 0)),
-          createTime: S.optional(S.String),
-          tenantProjectId: S.optional(S.String),
-          enableStackdriverMonitoring: S.optional(S.Boolean),
-          displayName: S.optional(S.String),
-          enableZoneSeparation: S.optional(S.Boolean),
-          gcsBucket: S.optional(S.String),
-          dataplexDataLineageIntegrationEnabled: S.optional(S.Boolean),
-          monitoringConfig: S.optional(__S(366, __c22, 14)),
-          tags: S.optional(__S(320, __c20, 0)),
-        }),
-      ).annotate({ identifier: "Instance" });
-  }
-}
-function __c6(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
           name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -1325,12 +1114,12 @@ function __c6(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsOperationsRequest" });
   }
 }
-function __c7(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          extraLocationTypes: S.optional(__S(304, __c19, 0).pipe(T.Query())),
+          extraLocationTypes: S.optional(__S(288, __c18, 0).pipe(T.Query())),
           name: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
@@ -1348,13 +1137,13 @@ function __c7(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          locations: S.optional(__S(113, __c7, 1)),
+          locations: S.optional(__S(97, __c6, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListLocationsResponse" });
   }
 }
-function __c8(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1373,18 +1162,18 @@ function __c8(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsInstancesRequest" });
     case 1:
-      return S.Array(__S(80, __c5, 0));
+      return S.Array(__S(351, __c21, 15));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          instances: S.optional(__S(129, __c8, 1)),
-          unreachable: S.optional(__S(304, __c19, 0)),
+          instances: S.optional(__S(113, __c7, 1)),
+          unreachable: S.optional(__S(288, __c18, 0)),
         }),
       ).annotate({ identifier: "ListInstancesResponse" });
   }
 }
-function __c9(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1401,17 +1190,17 @@ function __c9(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsInstancesDnsPeeringsRequest" });
     case 1:
-      return S.Array(__S(416, __c26, 0));
+      return S.Array(__S(400, __c25, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          dnsPeerings: S.optional(__S(145, __c9, 1)),
+          dnsPeerings: S.optional(__S(129, __c8, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListDnsPeeringsResponse" });
   }
 }
-function __c10(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1430,18 +1219,18 @@ function __c10(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsOperationsRequest" });
     case 1:
-      return S.Array(__S(386, __c24, 2));
+      return S.Array(__S(370, __c23, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(304, __c19, 0)),
-          operations: S.optional(__S(161, __c10, 1)),
+          unreachable: S.optional(__S(288, __c18, 0)),
+          operations: S.optional(__S(145, __c9, 1)),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
   }
 }
-function __c11(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1461,60 +1250,24 @@ function __c11(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          availableVersions: S.optional(__S(337, __c21, 1)),
+          availableVersions: S.optional(__S(321, __c20, 1)),
           nextPageToken: S.optional(S.String),
-          versions: S.optional(__S(337, __c21, 1)),
+          versions: S.optional(__S(321, __c20, 1)),
         }),
       ).annotate({ identifier: "ListAvailableVersionsResponse" });
   }
 }
-function __c12(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          state: S.optional(S.String),
-          disabledReason: S.optional(__S(352, __c22, 0)),
-          availableVersion: S.optional(__S(337, __c21, 1)),
-          version: S.optional(S.String),
-          type: S.optional(S.String),
-          options: S.optional(__S(320, __c20, 0)),
-          cryptoKeyConfig: S.optional(__S(353, __c22, 1)),
-          networkConfig: S.optional(__S(355, __c22, 3)),
-          apiEndpoint: S.optional(S.String),
-          serviceEndpoint: S.optional(S.String),
-          dataprocServiceAccount: S.optional(S.String),
-          patchRevision: S.optional(S.String),
-          zone: S.optional(S.String),
-          enableStackdriverLogging: S.optional(S.Boolean),
-          workforceIdentityServiceEndpoint: S.optional(S.String),
-          loggingConfig: S.optional(__S(356, __c22, 4)),
-          satisfiesPzi: S.optional(S.Boolean),
-          eventPublishConfig: S.optional(__S(357, __c22, 5)),
-          enableRbac: S.optional(S.Boolean),
-          satisfiesPzs: S.optional(S.Boolean),
-          updateTime: S.optional(S.String),
-          description: S.optional(S.String),
-          maintenancePolicy: S.optional(__S(361, __c22, 9)),
-          accelerators: S.optional(__S(363, __c22, 11)),
-          stateMessage: S.optional(S.String),
-          maintenanceEvents: S.optional(__S(365, __c22, 13)),
-          serviceAccount: S.optional(S.String),
-          privateInstance: S.optional(S.Boolean),
-          p4ServiceAccount: S.optional(S.String),
-          labels: S.optional(__S(320, __c20, 0)),
-          createTime: S.optional(S.String),
-          tenantProjectId: S.optional(S.String),
-          enableStackdriverMonitoring: S.optional(S.Boolean),
-          displayName: S.optional(S.String),
-          enableZoneSeparation: S.optional(S.Boolean),
-          gcsBucket: S.optional(S.String),
-          dataplexDataLineageIntegrationEnabled: S.optional(S.Boolean),
-          monitoringConfig: S.optional(__S(366, __c22, 14)),
-          tags: S.optional(__S(320, __c20, 0)),
-        }).pipe(
+        S.Extend(
+          __S(351, __c21, 15),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -1524,13 +1277,13 @@ function __c12(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsInstancesRequest" });
   }
 }
-function __c13(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(272, __c17, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(256, __c16, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1541,15 +1294,23 @@ function __c13(j: number): any {
       ).annotate({ identifier: "RestartProjectsLocationsInstancesRequest" });
   }
 }
-function __c14(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          resource: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String),
           policy: S.optional(__S(23, __c1, 7)),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "SetIamPolicyRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(208, __c13, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -1559,14 +1320,22 @@ function __c14(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsLocationsInstancesRequest" });
   }
 }
-function __c15(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          resource: S.String.pipe(T.Label()),
-          permissions: S.optional(__S(304, __c19, 0)),
-        }).pipe(
+          permissions: S.optional(__S(288, __c18, 0)),
+        }),
+      ).annotate({ identifier: "TestIamPermissionsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(224, __c14, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -1574,21 +1343,15 @@ function __c15(j: number): any {
           }),
         ),
       ).annotate({ identifier: "TestIamPermissionsProjectsLocationsInstancesRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          permissions: S.optional(__S(304, __c19, 0)),
-        }),
-      ).annotate({ identifier: "TestIamPermissionsResponse" });
   }
 }
-function __c16(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(272, __c17, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(256, __c16, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1599,60 +1362,23 @@ function __c16(j: number): any {
       ).annotate({ identifier: "CancelProjectsLocationsOperationsRequest" });
   }
 }
-function __c17(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "CancelOperationRequest" });
   }
 }
-function __c18(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          instanceId: S.optional(S.String.pipe(T.Query())),
-          state: S.optional(S.String),
-          disabledReason: S.optional(__S(352, __c22, 0)),
-          availableVersion: S.optional(__S(337, __c21, 1)),
-          version: S.optional(S.String),
-          type: S.optional(S.String),
-          options: S.optional(__S(320, __c20, 0)),
-          cryptoKeyConfig: S.optional(__S(353, __c22, 1)),
-          networkConfig: S.optional(__S(355, __c22, 3)),
-          name: S.optional(S.String),
-          apiEndpoint: S.optional(S.String),
-          serviceEndpoint: S.optional(S.String),
-          dataprocServiceAccount: S.optional(S.String),
-          patchRevision: S.optional(S.String),
-          zone: S.optional(S.String),
-          enableStackdriverLogging: S.optional(S.Boolean),
-          workforceIdentityServiceEndpoint: S.optional(S.String),
-          loggingConfig: S.optional(__S(356, __c22, 4)),
-          satisfiesPzi: S.optional(S.Boolean),
-          eventPublishConfig: S.optional(__S(357, __c22, 5)),
-          enableRbac: S.optional(S.Boolean),
-          satisfiesPzs: S.optional(S.Boolean),
-          updateTime: S.optional(S.String),
-          description: S.optional(S.String),
-          maintenancePolicy: S.optional(__S(361, __c22, 9)),
-          accelerators: S.optional(__S(363, __c22, 11)),
-          stateMessage: S.optional(S.String),
-          maintenanceEvents: S.optional(__S(365, __c22, 13)),
-          serviceAccount: S.optional(S.String),
-          privateInstance: S.optional(S.Boolean),
-          p4ServiceAccount: S.optional(S.String),
-          labels: S.optional(__S(320, __c20, 0)),
-          createTime: S.optional(S.String),
-          tenantProjectId: S.optional(S.String),
-          enableStackdriverMonitoring: S.optional(S.Boolean),
-          displayName: S.optional(S.String),
-          enableZoneSeparation: S.optional(S.Boolean),
-          gcsBucket: S.optional(S.String),
-          dataplexDataLineageIntegrationEnabled: S.optional(S.Boolean),
-          monitoringConfig: S.optional(__S(366, __c22, 14)),
-          tags: S.optional(__S(320, __c20, 0)),
-        }).pipe(
+        S.Extend(
+          __S(351, __c21, 15),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            instanceId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/instances",
@@ -1662,34 +1388,34 @@ function __c18(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsInstancesRequest" });
   }
 }
-function __c19(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c20(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
   }
 }
-function __c21(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          availableFeatures: S.optional(__S(304, __c19, 0)),
+          availableFeatures: S.optional(__S(288, __c18, 0)),
           versionNumber: S.optional(S.String),
           defaultVersion: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "Version" });
     case 1:
-      return S.Array(__S(336, __c21, 0));
+      return S.Array(__S(320, __c20, 0));
   }
 }
-function __c22(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
@@ -1713,7 +1439,7 @@ function __c22(j: number): any {
           ipAllocation: S.optional(S.String),
           connectionType: S.optional(S.String),
           network: S.optional(S.String),
-          privateServiceConnectConfig: S.optional(__S(354, __c22, 2)),
+          privateServiceConnectConfig: S.optional(__S(338, __c21, 2)),
         }),
       ).annotate({ identifier: "NetworkConfig" });
     case 4:
@@ -1741,20 +1467,20 @@ function __c22(j: number): any {
       return S.suspend(() =>
         S.Struct({
           recurrence: S.optional(S.String),
-          window: S.optional(__S(358, __c22, 6)),
+          window: S.optional(__S(342, __c21, 6)),
         }),
       ).annotate({ identifier: "RecurringTimeWindow" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          recurringTimeWindow: S.optional(__S(359, __c22, 7)),
+          recurringTimeWindow: S.optional(__S(343, __c21, 7)),
         }),
       ).annotate({ identifier: "MaintenanceWindow" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          maintenanceExclusionWindow: S.optional(__S(358, __c22, 6)),
-          maintenanceWindow: S.optional(__S(360, __c22, 8)),
+          maintenanceExclusionWindow: S.optional(__S(342, __c21, 6)),
+          maintenanceWindow: S.optional(__S(344, __c21, 8)),
         }),
       ).annotate({ identifier: "MaintenancePolicy" });
     case 10:
@@ -1765,7 +1491,7 @@ function __c22(j: number): any {
         }),
       ).annotate({ identifier: "Accelerator" });
     case 11:
-      return S.Array(__S(362, __c22, 10));
+      return S.Array(__S(346, __c21, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
@@ -1775,58 +1501,101 @@ function __c22(j: number): any {
         }),
       ).annotate({ identifier: "MaintenanceEvent" });
     case 13:
-      return S.Array(__S(364, __c22, 12));
+      return S.Array(__S(348, __c21, 12));
     case 14:
       return S.suspend(() =>
         S.Struct({
           enableInstanceV2Metrics: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "MonitoringConfig" });
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          state: S.optional(S.String),
+          disabledReason: S.optional(__S(336, __c21, 0)),
+          availableVersion: S.optional(__S(321, __c20, 1)),
+          version: S.optional(S.String),
+          type: S.optional(S.String),
+          options: S.optional(__S(304, __c19, 0)),
+          cryptoKeyConfig: S.optional(__S(337, __c21, 1)),
+          networkConfig: S.optional(__S(339, __c21, 3)),
+          name: S.optional(S.String),
+          apiEndpoint: S.optional(S.String),
+          serviceEndpoint: S.optional(S.String),
+          dataprocServiceAccount: S.optional(S.String),
+          patchRevision: S.optional(S.String),
+          zone: S.optional(S.String),
+          enableStackdriverLogging: S.optional(S.Boolean),
+          workforceIdentityServiceEndpoint: S.optional(S.String),
+          loggingConfig: S.optional(__S(340, __c21, 4)),
+          satisfiesPzi: S.optional(S.Boolean),
+          eventPublishConfig: S.optional(__S(341, __c21, 5)),
+          enableRbac: S.optional(S.Boolean),
+          satisfiesPzs: S.optional(S.Boolean),
+          updateTime: S.optional(S.String),
+          description: S.optional(S.String),
+          maintenancePolicy: S.optional(__S(345, __c21, 9)),
+          accelerators: S.optional(__S(347, __c21, 11)),
+          stateMessage: S.optional(S.String),
+          maintenanceEvents: S.optional(__S(349, __c21, 13)),
+          serviceAccount: S.optional(S.String),
+          privateInstance: S.optional(S.Boolean),
+          p4ServiceAccount: S.optional(S.String),
+          labels: S.optional(__S(304, __c19, 0)),
+          createTime: S.optional(S.String),
+          tenantProjectId: S.optional(S.String),
+          enableStackdriverMonitoring: S.optional(S.Boolean),
+          displayName: S.optional(S.String),
+          enableZoneSeparation: S.optional(S.Boolean),
+          gcsBucket: S.optional(S.String),
+          dataplexDataLineageIntegrationEnabled: S.optional(S.Boolean),
+          monitoringConfig: S.optional(__S(350, __c21, 14)),
+          tags: S.optional(__S(304, __c19, 0)),
+        }),
+      ).annotate({ identifier: "Instance" });
   }
 }
-function __c23(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c24(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(368, __c23, 0));
+      return S.Array(__S(352, __c22, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
           message: S.optional(S.String),
-          details: S.optional(__S(384, __c24, 0)),
+          details: S.optional(__S(368, __c23, 0)),
           code: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Status" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          response: S.optional(__S(368, __c23, 0)),
+          response: S.optional(__S(352, __c22, 0)),
           done: S.optional(S.Boolean),
-          metadata: S.optional(__S(368, __c23, 0)),
-          error: S.optional(__S(385, __c24, 1)),
+          metadata: S.optional(__S(352, __c22, 0)),
+          error: S.optional(__S(369, __c23, 1)),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "Operation" });
   }
 }
-function __c25(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          dnsPeeringId: S.optional(S.String.pipe(T.Query())),
-          targetNetwork: S.optional(S.String),
-          domain: S.optional(S.String),
-          name: S.optional(S.String),
-          description: S.optional(S.String),
-          targetProject: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(400, __c25, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            dnsPeeringId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/dnsPeerings",
@@ -1836,7 +1605,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsInstancesDnsPeeringsRequest" });
   }
 }
-function __c26(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1850,7 +1619,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "DnsPeering" });
   }
 }
-function __c27(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1867,7 +1636,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsInstancesRequest" });
   }
 }
-function __c28(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1883,7 +1652,7 @@ function __c28(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsInstancesDnsPeeringsRequest" });
   }
 }
-function __c29(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

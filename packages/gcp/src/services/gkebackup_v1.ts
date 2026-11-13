@@ -94,11 +94,8 @@ export interface CancelProjectsLocationsOperationsRequest {
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
 export type StringMap = { [key: string]: string | undefined };
-export interface CreateProjectsLocationsBackupChannelsRequest {
-  /** Optional. The client-provided short name for the BackupChannel resource. This name must: - be between 1 and 63 characters long (inclusive) - consist of only lower-case ASCII letters, numbers, and dashes - start with a lower-case letter - end with a lower-case letter or number - be unique within the set of BackupChannels in this location If the user does not provide a name, a uuid will be used as the name. */
-  backupChannelId?: string | undefined;
-  /** Required. The location within which to create the BackupChannel. Format: `projects/*\/locations/*` */
-  parent: string;
+/** A BackupChannel imposes constraints on where clusters can be backed up. The BackupChannel should be in the same project and region as the cluster being backed up. The backup can be created only in destination_project. */
+export interface BackupChannel {
   /** Output only. Server generated global unique identifier of [UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier) format. */
   uid?: string | undefined;
   /** Optional. A set of custom labels supplied by user. */
@@ -117,6 +114,12 @@ export interface CreateProjectsLocationsBackupChannelsRequest {
   createTime?: string | undefined;
   /** Optional. User specified descriptive string for this BackupChannel. */
   description?: string | undefined;
+}
+export interface CreateProjectsLocationsBackupChannelsRequest extends BackupChannel {
+  /** Optional. The client-provided short name for the BackupChannel resource. This name must: - be between 1 and 63 characters long (inclusive) - consist of only lower-case ASCII letters, numbers, and dashes - start with a lower-case letter - end with a lower-case letter or number - be unique within the set of BackupChannels in this location If the user does not provide a name, a uuid will be used as the name. */
+  backupChannelId?: string | undefined;
+  /** Required. The location within which to create the BackupChannel. Format: `projects/*\/locations/*` */
+  parent: string;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -284,11 +287,8 @@ export type BackupPlanStateEnum =
   | "FAILED"
   | "DEACTIVATED"
   | "DELETING";
-export interface CreateProjectsLocationsBackupPlansRequest {
-  /** Required. The client-provided short name for the BackupPlan resource. This name must: - be between 1 and 63 characters long (inclusive) - consist of only lower-case ASCII letters, numbers, and dashes - start with a lower-case letter - end with a lower-case letter or number - be unique within the set of BackupPlans in this location */
-  backupPlanId?: string | undefined;
-  /** Required. The location within which to create the BackupPlan. Format: `projects/*\/locations/*` */
-  parent: string;
+/** Defines the configuration and scheduling for a "line" of Backups. */
+export interface BackupPlan {
   /** Output only. The timestamp when this BackupPlan resource was created. */
   createTime?: string | undefined;
   /** Output only. The timestamp when this BackupPlan resource was last updated. */
@@ -330,6 +330,12 @@ export interface CreateProjectsLocationsBackupPlansRequest {
   /** Output only. Human-readable description of why BackupPlan is in the current `state`. This field is only meant for human readability and should not be used programmatically as this field is not guaranteed to be consistent. */
   stateReason?: string | undefined;
 }
+export interface CreateProjectsLocationsBackupPlansRequest extends BackupPlan {
+  /** Required. The client-provided short name for the BackupPlan resource. This name must: - be between 1 and 63 characters long (inclusive) - consist of only lower-case ASCII letters, numbers, and dashes - start with a lower-case letter - end with a lower-case letter or number - be unique within the set of BackupPlans in this location */
+  backupPlanId?: string | undefined;
+  /** Required. The location within which to create the BackupPlan. Format: `projects/*\/locations/*` */
+  parent: string;
+}
 /** Stores information about troubleshooting doc for debugging a particular state of an operation (eg - backup/restore). This will be used by the end user to debug their operation failure scenario easily. */
 export interface TroubleshootingInfo {
   /** Output only. Unique code for each backup/restore operation failure message which helps user identify the failure. */
@@ -357,11 +363,8 @@ export type BackupStateEnum =
   | "SUCCEEDED"
   | "FAILED"
   | "DELETING";
-export interface CreateProjectsLocationsBackupPlansBackupsRequest {
-  /** Required. The BackupPlan within which to create the Backup. Format: `projects/*\/locations/*\/backupPlans/*` */
-  parent: string;
-  /** Optional. The client-provided short name for the Backup resource. This name must: - be between 1 and 63 characters long (inclusive) - consist of only lower-case ASCII letters, numbers, and dashes - start with a lower-case letter - end with a lower-case letter or number - be unique within the set of Backups in this BackupPlan */
-  backupId?: string | undefined;
+/** Represents a request to perform a single point-in-time capture of some portion of the state of a GKE cluster, the record of the backup operation itself, and an anchor for the underlying artifacts that comprise the Backup (the config backup and VolumeBackups). */
+export interface Backup {
   /** Output only. If True, all namespaces were included in the Backup. */
   allNamespaces?: boolean | undefined;
   /** Output only. If set, the list of labels whose constituent namespaces were included in the Backup. */
@@ -429,11 +432,14 @@ export interface CreateProjectsLocationsBackupPlansBackupsRequest {
   /** Output only. Whether or not the Backup contains Kubernetes Secrets. Controlled by the parent BackupPlan's include_secrets value. */
   containsSecrets?: boolean | undefined;
 }
-export interface CreateProjectsLocationsRestoreChannelsRequest {
-  /** Required. The location within which to create the RestoreChannel. Format: `projects/*\/locations/*` */
+export interface CreateProjectsLocationsBackupPlansBackupsRequest extends Backup {
+  /** Required. The BackupPlan within which to create the Backup. Format: `projects/*\/locations/*\/backupPlans/*` */
   parent: string;
-  /** Optional. The client-provided short name for the RestoreChannel resource. This name must: - be between 1 and 63 characters long (inclusive) - consist of only lower-case ASCII letters, numbers, and dashes - start with a lower-case letter - end with a lower-case letter or number - be unique within the set of RestoreChannels in this location If the user does not provide a name, a uuid will be used as the name. */
-  restoreChannelId?: string | undefined;
+  /** Optional. The client-provided short name for the Backup resource. This name must: - be between 1 and 63 characters long (inclusive) - consist of only lower-case ASCII letters, numbers, and dashes - start with a lower-case letter - end with a lower-case letter or number - be unique within the set of Backups in this BackupPlan */
+  backupId?: string | undefined;
+}
+/** A RestoreChannel imposes constraints on where backups can be restored. The RestoreChannel should be in the same project and region as the backups. The backups can only be restored in the `destination_project`. */
+export interface RestoreChannel {
   /** Optional. A set of custom labels supplied by user. */
   labels?: StringMap | undefined;
   /** Output only. `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a RestoreChannel from overwriting each other. It is strongly suggested that systems make use of the 'etag' in the read-modify-write cycle to perform RestoreChannel updates in order to avoid race conditions: An `etag` is returned in the response to `GetRestoreChannel`, and systems are expected to put that etag in the request to `UpdateRestoreChannel` or `DeleteRestoreChannel` to ensure that their change will be applied to the same version of the resource. */
@@ -452,6 +458,12 @@ export interface CreateProjectsLocationsRestoreChannelsRequest {
   description?: string | undefined;
   /** Output only. The project_id where backups will be restored. Example Project ID: "my-project-id". This will be an OUTPUT_ONLY field to return the project_id of the destination project. */
   destinationProjectId?: string | undefined;
+}
+export interface CreateProjectsLocationsRestoreChannelsRequest extends RestoreChannel {
+  /** Required. The location within which to create the RestoreChannel. Format: `projects/*\/locations/*` */
+  parent: string;
+  /** Optional. The client-provided short name for the RestoreChannel resource. This name must: - be between 1 and 63 characters long (inclusive) - consist of only lower-case ASCII letters, numbers, and dashes - start with a lower-case letter - end with a lower-case letter or number - be unique within the set of RestoreChannels in this location If the user does not provide a name, a uuid will be used as the name. */
+  restoreChannelId?: string | undefined;
 }
 export type RestoreConfigVolumeDataRestorePolicyEnum =
   | "VOLUME_DATA_RESTORE_POLICY_UNSPECIFIED"
@@ -611,11 +623,8 @@ export type RestorePlanStateEnum =
   | "READY"
   | "FAILED"
   | "DELETING";
-export interface CreateProjectsLocationsRestorePlansRequest {
-  /** Required. The location within which to create the RestorePlan. Format: `projects/*\/locations/*` */
-  parent: string;
-  /** Required. The client-provided short name for the RestorePlan resource. This name must: - be between 1 and 63 characters long (inclusive) - consist of only lower-case ASCII letters, numbers, and dashes - start with a lower-case letter - end with a lower-case letter or number - be unique within the set of RestorePlans in this location */
-  restorePlanId?: string | undefined;
+/** The configuration of a potential series of Restore operations to be performed against Backups belong to a particular BackupPlan. */
+export interface RestorePlan {
   /** Optional. A set of custom labels supplied by user. */
   labels?: StringMap | undefined;
   /** Output only. The fully qualified name of the RestoreChannel to be used to create a RestorePlan. This field is set only if the `backup_plan` is in a different project than the RestorePlan. Format: `projects/*\/locations/*\/restoreChannels/*` */
@@ -642,6 +651,12 @@ export interface CreateProjectsLocationsRestorePlansRequest {
   updateTime?: string | undefined;
   /** Output only. `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a restore from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform restore updates in order to avoid race conditions: An `etag` is returned in the response to `GetRestorePlan`, and systems are expected to put that etag in the request to `UpdateRestorePlan` or `DeleteRestorePlan` to ensure that their change will be applied to the same version of the resource. */
   etag?: string | undefined;
+}
+export interface CreateProjectsLocationsRestorePlansRequest extends RestorePlan {
+  /** Required. The location within which to create the RestorePlan. Format: `projects/*\/locations/*` */
+  parent: string;
+  /** Required. The client-provided short name for the RestorePlan resource. This name must: - be between 1 and 63 characters long (inclusive) - consist of only lower-case ASCII letters, numbers, and dashes - start with a lower-case letter - end with a lower-case letter or number - be unique within the set of RestorePlans in this location */
+  restorePlanId?: string | undefined;
 }
 /** Defines a selector to identify a single or a group of resources. Conditions in the selector are optional, but at least one field should be set to a non-empty value. If a condition is not specified, no restrictions will be applied on that dimension. If more than one condition is specified, a resource will be selected if and only if all conditions are met. */
 export interface ResourceSelector {
@@ -683,11 +698,8 @@ export interface VolumeDataRestorePolicyOverride {
   selectedPvcs?: NamespacedNames | undefined;
 }
 export type VolumeDataRestorePolicyOverrideList = Array<VolumeDataRestorePolicyOverride>;
-export interface CreateProjectsLocationsRestorePlansRestoresRequest {
-  /** Required. The RestorePlan within which to create the Restore. Format: `projects/*\/locations/*\/restorePlans/*` */
-  parent: string;
-  /** Required. The client-provided short name for the Restore resource. This name must: - be between 1 and 63 characters long (inclusive) - consist of only lower-case ASCII letters, numbers, and dashes - start with a lower-case letter - end with a lower-case letter or number - be unique within the set of Restores in this RestorePlan. */
-  restoreId?: string | undefined;
+/** Represents both a request to Restore some portion of a Backup into a target GKE cluster and a record of the restore operation itself. */
+export interface Restore {
   /** Output only. Number of volumes restored during the restore execution. */
   volumesRestoredCount?: number | undefined;
   /** Output only. `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a restore from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform restore updates in order to avoid race conditions: An `etag` is returned in the response to `GetRestore`, and systems are expected to put that etag in the request to `UpdateRestore` or `DeleteRestore` to ensure that their change will be applied to the same version of the resource. */
@@ -728,6 +740,12 @@ export interface CreateProjectsLocationsRestorePlansRestoresRequest {
   uid?: string | undefined;
   /** Output only. Timestamp of when the restore operation completed. */
   completeTime?: string | undefined;
+}
+export interface CreateProjectsLocationsRestorePlansRestoresRequest extends Restore {
+  /** Required. The RestorePlan within which to create the Restore. Format: `projects/*\/locations/*\/restorePlans/*` */
+  parent: string;
+  /** Required. The client-provided short name for the Restore resource. This name must: - be between 1 and 63 characters long (inclusive) - consist of only lower-case ASCII letters, numbers, and dashes - start with a lower-case letter - end with a lower-case letter or number - be unique within the set of Restores in this RestorePlan. */
+  restoreId?: string | undefined;
 }
 export interface DeleteProjectsLocationsBackupChannelsRequest {
   /** Optional. If provided, this value must match the current value of the target BackupChannel's etag field or the request is rejected. */
@@ -896,27 +914,6 @@ export interface GetProjectsLocationsBackupChannelsRequest {
   /** Required. Fully qualified BackupChannel name. Format: `projects/*\/locations/*\/backupChannels/*` */
   name: string;
 }
-/** A BackupChannel imposes constraints on where clusters can be backed up. The BackupChannel should be in the same project and region as the cluster being backed up. The backup can be created only in destination_project. */
-export interface BackupChannel {
-  /** Output only. Server generated global unique identifier of [UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier) format. */
-  uid?: string | undefined;
-  /** Optional. A set of custom labels supplied by user. */
-  labels?: StringMap | undefined;
-  /** Output only. The project_id where Backups are allowed to be stored. Example Project ID: "my-project-id". This will be an OUTPUT_ONLY field to return the project_id of the destination project. */
-  destinationProjectId?: string | undefined;
-  /** Output only. `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a BackupChannel from overwriting each other. It is strongly suggested that systems make use of the 'etag' in the read-modify-write cycle to perform BackupChannel updates in order to avoid race conditions: An `etag` is returned in the response to `GetBackupChannel`, and systems are expected to put that etag in the request to `UpdateBackupChannel` or `DeleteBackupChannel` to ensure that their change will be applied to the same version of the resource. */
-  etag?: string | undefined;
-  /** Required. Immutable. The project where Backups are allowed to be stored. The format is `projects/{projectId}` or `projects/{projectNumber}`. */
-  destinationProject?: string | undefined;
-  /** Identifier. The fully qualified name of the BackupChannel. `projects/*\/locations/*\/backupChannels/*` */
-  name?: string | undefined;
-  /** Output only. The timestamp when this BackupChannel resource was last updated. */
-  updateTime?: string | undefined;
-  /** Output only. The timestamp when this BackupChannel resource was created. */
-  createTime?: string | undefined;
-  /** Optional. User specified descriptive string for this BackupChannel. */
-  description?: string | undefined;
-}
 export interface GetProjectsLocationsBackupChannelsBackupPlanBindingsRequest {
   /** Required. Fully qualified BackupPlanBinding name. Format: `projects/*\/locations/*\/backupChannels/*\/backupPlanBindings/*` */
   name: string;
@@ -993,121 +990,9 @@ export interface GetProjectsLocationsBackupPlansRequest {
   /** Required. Fully qualified BackupPlan name. Format: `projects/*\/locations/*\/backupPlans/*` */
   name: string;
 }
-/** Defines the configuration and scheduling for a "line" of Backups. */
-export interface BackupPlan {
-  /** Output only. The timestamp when this BackupPlan resource was created. */
-  createTime?: string | undefined;
-  /** Output only. The timestamp when this BackupPlan resource was last updated. */
-  updateTime?: string | undefined;
-  /** Output only. Completion time of the last successful Backup. This is sourced from a successful Backup's complete_time field. This field is added to maintain consistency with BackupPlanBinding to display last successful backup time. */
-  lastSuccessfulBackupTime?: string | undefined;
-  /** Output only. Identifier. The full name of the BackupPlan resource. Format: `projects/*\/locations/*\/backupPlans/*` */
-  name?: string | undefined;
-  /** Output only. Human-readable description of why the BackupPlan is in the current rpo_risk_level and action items if any. */
-  rpoRiskReason?: string | undefined;
-  /** Output only. The number of Kubernetes Pods backed up in the last successful Backup created via this BackupPlan. */
-  protectedPodCount?: number | undefined;
-  /** Output only. The fully qualified name of the BackupChannel to be used to create a backup. This field is set only if the cluster being backed up is in a different project. `projects/*\/locations/*\/backupChannels/*` */
-  backupChannel?: string | undefined;
-  /** Optional. Defines a schedule for automatic Backup creation via this BackupPlan. */
-  backupSchedule?: Schedule | undefined;
-  /** Optional. Defines the configuration of Backups created via this BackupPlan. */
-  backupConfig?: BackupConfig | undefined;
-  /** Optional. This flag indicates whether this BackupPlan has been deactivated. Setting this field to True locks the BackupPlan such that no further updates will be allowed (except deletes), including the deactivated field itself. It also prevents any new Backups from being created via this BackupPlan (including scheduled Backups). Default: False */
-  deactivated?: boolean | undefined;
-  /** Optional. RetentionPolicy governs lifecycle of Backups created under this plan. */
-  retentionPolicy?: RetentionPolicy | undefined;
-  /** Output only. A number that represents the current risk level of this BackupPlan from RPO perspective with 1 being no risk and 5 being highest risk. */
-  rpoRiskLevel?: number | undefined;
-  /** Output only. Server generated global unique identifier of [UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier) format. */
-  uid?: string | undefined;
-  /** Optional. A set of custom labels supplied by user. */
-  labels?: StringMap | undefined;
-  /** Required. Immutable. The source cluster from which Backups will be created via this BackupPlan. Valid formats: - `projects/*\/locations/*\/clusters/*` - `projects/*\/zones/*\/clusters/*` */
-  cluster?: string | undefined;
-  /** Output only. `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a backup plan from overwriting each other. It is strongly suggested that systems make use of the 'etag' in the read-modify-write cycle to perform BackupPlan updates in order to avoid race conditions: An `etag` is returned in the response to `GetBackupPlan`, and systems are expected to put that etag in the request to `UpdateBackupPlan` or `DeleteBackupPlan` to ensure that their change will be applied to the same version of the resource. */
-  etag?: string | undefined;
-  /** Optional. User specified descriptive string for this BackupPlan. */
-  description?: string | undefined;
-  /** Output only. State of the BackupPlan. This State field reflects the various stages a BackupPlan can be in during the Create operation. It will be set to "DEACTIVATED" if the BackupPlan is deactivated on an Update */
-  state?: BackupPlanStateEnum | undefined;
-  /** Output only. The number of user managed namespaces backed up in the last successful Backup created via this BackupPlan. */
-  protectedNamespaceCount?: number | undefined;
-  /** Output only. Human-readable description of why BackupPlan is in the current `state`. This field is only meant for human readability and should not be used programmatically as this field is not guaranteed to be consistent. */
-  stateReason?: string | undefined;
-}
 export interface GetProjectsLocationsBackupPlansBackupsRequest {
   /** Required. Full name of the Backup resource. Format: `projects/*\/locations/*\/backupPlans/*\/backups/*` */
   name: string;
-}
-/** Represents a request to perform a single point-in-time capture of some portion of the state of a GKE cluster, the record of the backup operation itself, and an anchor for the underlying artifacts that comprise the Backup (the config backup and VolumeBackups). */
-export interface Backup {
-  /** Output only. If True, all namespaces were included in the Backup. */
-  allNamespaces?: boolean | undefined;
-  /** Output only. If set, the list of labels whose constituent namespaces were included in the Backup. */
-  selectedNamespaceLabels?: ResourceLabels | undefined;
-  /** Output only. The total number of user managed namespaces contained in the Backup. */
-  namespaceCount?: number | undefined;
-  /** Optional. User specified descriptive string for this Backup. */
-  description?: string | undefined;
-  /** Output only. The timestamp when this Backup resource was created. */
-  createTime?: string | undefined;
-  /** Optional. A set of custom labels supplied by user. */
-  labels?: StringMap | undefined;
-  /** Output only. Server generated global unique identifier of [UUID4](https://en.wikipedia.org/wiki/Universally_unique_identifier) */
-  uid?: string | undefined;
-  /** Output only. Whether or not the Backup contains volume data. Controlled by the parent BackupPlan's include_volume_data value. */
-  containsVolumeData?: boolean | undefined;
-  /** Output only. Identifier. The fully qualified name of the Backup. `projects/*\/locations/*\/backupPlans/*\/backups/*` */
-  name?: string | undefined;
-  /** Optional. Minimum age for this Backup (in days). If this field is set to a non-zero value, the Backup will be "locked" against deletion (either manual or automatic deletion) for the number of days provided (measured from the creation time of the Backup). MUST be an integer value between 0-90 (inclusive). Defaults to parent BackupPlan's backup_delete_lock_days setting and may only be increased (either at creation time or in a subsequent update). */
-  deleteLockDays?: number | undefined;
-  /** Output only. Information about the troubleshooting steps which will provide debugging information to the end users. */
-  troubleshootingInfo?: TroubleshootingInfo | undefined;
-  /** Output only. Completion time of the Backup */
-  completeTime?: string | undefined;
-  /** Output only. If false, Backup will fail when Backup for GKE detects Kubernetes configuration that is non-standard or requires additional setup to restore. Inherited from the parent BackupPlan's permissive_mode value. */
-  permissiveMode?: boolean | undefined;
-  /** Output only. The total number of Kubernetes Pods contained in the Backup. */
-  podCount?: number | undefined;
-  /** Output only. The size of the config backup in bytes. */
-  configBackupSizeBytes?: string | undefined;
-  /** Output only. The total number of Kubernetes resources included in the Backup. */
-  resourceCount?: number | undefined;
-  /** Output only. [Output Only] Reserved for future use. */
-  satisfiesPzs?: boolean | undefined;
-  /** Output only. If set, the list of namespaces that were included in the Backup. */
-  selectedNamespaces?: Namespaces | undefined;
-  /** Output only. If set, the list of ProtectedApplications whose resources were included in the Backup. */
-  selectedApplications?: NamespacedNames | undefined;
-  /** Output only. Human-readable description of why the backup is in the current `state`. This field is only meant for human readability and should not be used programmatically as this field is not guaranteed to be consistent. */
-  stateReason?: string | undefined;
-  /** Output only. Information about the GKE cluster from which this Backup was created. */
-  clusterMetadata?: ClusterMetadata | undefined;
-  /** Output only. The time at which an existing delete lock will expire for this backup (calculated from create_time + delete_lock_days). */
-  deleteLockExpireTime?: string | undefined;
-  /** Output only. The total number of volume backups contained in the Backup. */
-  volumeCount?: number | undefined;
-  /** Output only. The time at which this Backup will be automatically deleted (calculated from create_time + retain_days). */
-  retainExpireTime?: string | undefined;
-  /** Output only. The timestamp when this Backup resource was last updated. */
-  updateTime?: string | undefined;
-  /** Output only. [Output Only] Reserved for future use. */
-  satisfiesPzi?: boolean | undefined;
-  /** Optional. The age (in days) after which this Backup will be automatically deleted. Must be an integer value >= 0: - If 0, no automatic deletion will occur for this Backup. - If not 0, this must be >= delete_lock_days and <= 365. Once a Backup is created, this value may only be increased. Defaults to the parent BackupPlan's backup_retain_days value. */
-  retainDays?: number | undefined;
-  /** Output only. Current state of the Backup */
-  state?: BackupStateEnum | undefined;
-  /** Output only. This flag indicates whether this Backup resource was created manually by a user or via a schedule in the BackupPlan. A value of True means that the Backup was created manually. */
-  manual?: boolean | undefined;
-  /** Output only. `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a backup from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform backup updates in order to avoid race conditions: An `etag` is returned in the response to `GetBackup`, and systems are expected to put that etag in the request to `UpdateBackup` or `DeleteBackup` to ensure that their change will be applied to the same version of the resource. */
-  etag?: string | undefined;
-  /** Output only. The customer managed encryption key that was used to encrypt the Backup's artifacts. Inherited from the parent BackupPlan's encryption_key value. */
-  encryptionKey?: EncryptionKey | undefined;
-  /** Output only. The total size of the Backup in bytes = config backup size + sum(volume backup sizes) */
-  sizeBytes?: string | undefined;
-  /** Output only. Whether or not the Backup contains Kubernetes Secrets. Controlled by the parent BackupPlan's include_secrets value. */
-  containsSecrets?: boolean | undefined;
 }
 export interface GetProjectsLocationsBackupPlansBackupsVolumeBackupsRequest {
   /** Required. Full name of the VolumeBackup resource. Format: `projects/*\/locations/*\/backupPlans/*\/backups/*\/volumeBackups/*` */
@@ -1164,27 +1049,6 @@ export interface GetProjectsLocationsRestoreChannelsRequest {
   /** Required. Fully qualified RestoreChannel name. Format: `projects/*\/locations/*\/restoreChannels/*` */
   name: string;
 }
-/** A RestoreChannel imposes constraints on where backups can be restored. The RestoreChannel should be in the same project and region as the backups. The backups can only be restored in the `destination_project`. */
-export interface RestoreChannel {
-  /** Optional. A set of custom labels supplied by user. */
-  labels?: StringMap | undefined;
-  /** Output only. `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a RestoreChannel from overwriting each other. It is strongly suggested that systems make use of the 'etag' in the read-modify-write cycle to perform RestoreChannel updates in order to avoid race conditions: An `etag` is returned in the response to `GetRestoreChannel`, and systems are expected to put that etag in the request to `UpdateRestoreChannel` or `DeleteRestoreChannel` to ensure that their change will be applied to the same version of the resource. */
-  etag?: string | undefined;
-  /** Identifier. The fully qualified name of the RestoreChannel. `projects/*\/locations/*\/restoreChannels/*` */
-  name?: string | undefined;
-  /** Output only. The timestamp when this RestoreChannel was created. */
-  createTime?: string | undefined;
-  /** Output only. The timestamp when this RestoreChannel was last updated. */
-  updateTime?: string | undefined;
-  /** Output only. Server generated global unique identifier of [UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier) format. */
-  uid?: string | undefined;
-  /** Required. Immutable. The project into which the backups will be restored. The format is `projects/{projectId}` or `projects/{projectNumber}`. */
-  destinationProject?: string | undefined;
-  /** Optional. User specified descriptive string for this RestoreChannel. */
-  description?: string | undefined;
-  /** Output only. The project_id where backups will be restored. Example Project ID: "my-project-id". This will be an OUTPUT_ONLY field to return the project_id of the destination project. */
-  destinationProjectId?: string | undefined;
-}
 export interface GetProjectsLocationsRestoreChannelsRestorePlanBindingsRequest {
   /** Required. Fully qualified RestorePlanBinding name. Format: `projects/*\/locations/*\/restoreChannels/*\/restorePlanBindings/*` */
   name: string;
@@ -1210,81 +1074,9 @@ export interface GetProjectsLocationsRestorePlansRequest {
   /** Required. Fully qualified RestorePlan name. Format: `projects/*\/locations/*\/restorePlans/*` */
   name: string;
 }
-/** The configuration of a potential series of Restore operations to be performed against Backups belong to a particular BackupPlan. */
-export interface RestorePlan {
-  /** Optional. A set of custom labels supplied by user. */
-  labels?: StringMap | undefined;
-  /** Output only. The fully qualified name of the RestoreChannel to be used to create a RestorePlan. This field is set only if the `backup_plan` is in a different project than the RestorePlan. Format: `projects/*\/locations/*\/restoreChannels/*` */
-  restoreChannel?: string | undefined;
-  /** Output only. Server generated global unique identifier of [UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier) format. */
-  uid?: string | undefined;
-  /** Required. Immutable. The target cluster into which Restores created via this RestorePlan will restore data. NOTE: the cluster's region must be the same as the RestorePlan. Valid formats: - `projects/*\/locations/*\/clusters/*` - `projects/*\/zones/*\/clusters/*` */
-  cluster?: string | undefined;
-  /** Optional. User specified descriptive string for this RestorePlan. */
-  description?: string | undefined;
-  /** Output only. Human-readable description of why RestorePlan is in the current `state`. This field is only meant for human readability and should not be used programmatically as this field is not guaranteed to be consistent. */
-  stateReason?: string | undefined;
-  /** Output only. Identifier. The full name of the RestorePlan resource. Format: `projects/*\/locations/*\/restorePlans/*`. */
-  name?: string | undefined;
-  /** Required. Immutable. A reference to the BackupPlan from which Backups may be used as the source for Restores created via this RestorePlan. Format: `projects/*\/locations/*\/backupPlans/*`. */
-  backupPlan?: string | undefined;
-  /** Required. Configuration of Restores created via this RestorePlan. */
-  restoreConfig?: RestoreConfig | undefined;
-  /** Output only. State of the RestorePlan. This State field reflects the various stages a RestorePlan can be in during the Create operation. */
-  state?: RestorePlanStateEnum | undefined;
-  /** Output only. The timestamp when this RestorePlan resource was created. */
-  createTime?: string | undefined;
-  /** Output only. The timestamp when this RestorePlan resource was last updated. */
-  updateTime?: string | undefined;
-  /** Output only. `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a restore from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform restore updates in order to avoid race conditions: An `etag` is returned in the response to `GetRestorePlan`, and systems are expected to put that etag in the request to `UpdateRestorePlan` or `DeleteRestorePlan` to ensure that their change will be applied to the same version of the resource. */
-  etag?: string | undefined;
-}
 export interface GetProjectsLocationsRestorePlansRestoresRequest {
   /** Required. Name of the restore resource. Format: `projects/*\/locations/*\/restorePlans/*\/restores/*` */
   name: string;
-}
-/** Represents both a request to Restore some portion of a Backup into a target GKE cluster and a record of the restore operation itself. */
-export interface Restore {
-  /** Output only. Number of volumes restored during the restore execution. */
-  volumesRestoredCount?: number | undefined;
-  /** Output only. `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a restore from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform restore updates in order to avoid race conditions: An `etag` is returned in the response to `GetRestore`, and systems are expected to put that etag in the request to `UpdateRestore` or `DeleteRestore` to ensure that their change will be applied to the same version of the resource. */
-  etag?: string | undefined;
-  /** Optional. Immutable. Filters resources for `Restore`. If not specified, the scope of the restore will remain the same as defined in the `RestorePlan`. If this is specified and no resources are matched by the `inclusion_filters` or everything is excluded by the `exclusion_filters`, nothing will be restored. This filter can only be specified if the value of namespaced_resource_restore_mode is set to `MERGE_SKIP_ON_CONFLICT`, `MERGE_REPLACE_VOLUME_ON_CONFLICT` or `MERGE_REPLACE_ON_CONFLICT`. */
-  filter?: Filter | undefined;
-  /** Output only. Configuration of the Restore. Inherited from parent RestorePlan's restore_config. */
-  restoreConfig?: RestoreConfig | undefined;
-  /** Output only. The target cluster into which this Restore will restore data. Valid formats: - `projects/*\/locations/*\/clusters/*` - `projects/*\/zones/*\/clusters/*` Inherited from parent RestorePlan's cluster value. */
-  cluster?: string | undefined;
-  /** Output only. The current state of the Restore. */
-  state?: RestoreStateEnum | undefined;
-  /** Output only. Number of resources restored during the restore execution. */
-  resourcesRestoredCount?: number | undefined;
-  /** Required. Immutable. A reference to the Backup used as the source from which this Restore will restore. Note that this Backup must be a sub-resource of the RestorePlan's backup_plan. Format: `projects/*\/locations/*\/backupPlans/*\/backups/*`. */
-  backup?: string | undefined;
-  /** Output only. Identifier. The full name of the Restore resource. Format: `projects/*\/locations/*\/restorePlans/*\/restores/*` */
-  name?: string | undefined;
-  /** A set of custom labels supplied by user. */
-  labels?: StringMap | undefined;
-  /** Output only. Human-readable description of why the Restore is in its current state. This field is only meant for human readability and should not be used programmatically as this field is not guaranteed to be consistent. */
-  stateReason?: string | undefined;
-  /** Optional. Immutable. Overrides the volume data restore policies selected in the Restore Config for override-scoped resources. */
-  volumeDataRestorePolicyOverrides?: VolumeDataRestorePolicyOverrideList | undefined;
-  /** Output only. Information about the troubleshooting steps which will provide debugging information to the end users. */
-  troubleshootingInfo?: TroubleshootingInfo | undefined;
-  /** Output only. Number of resources that failed to be restored during the restore execution. */
-  resourcesFailedCount?: number | undefined;
-  /** Output only. The timestamp when this Restore resource was last updated. */
-  updateTime?: string | undefined;
-  /** Optional. User specified descriptive string for this Restore. */
-  description?: string | undefined;
-  /** Output only. The timestamp when this Restore resource was created. */
-  createTime?: string | undefined;
-  /** Output only. Number of resources excluded during the restore execution. */
-  resourcesExcludedCount?: number | undefined;
-  /** Output only. Server generated global unique identifier of [UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier) format. */
-  uid?: string | undefined;
-  /** Output only. Timestamp of when the restore operation completed. */
-  completeTime?: string | undefined;
 }
 export interface GetProjectsLocationsRestorePlansRestoresVolumeRestoresRequest {
   /** Required. Full name of the VolumeRestore resource. Format: `projects/*\/locations/*\/restorePlans/*\/restores/*\/volumeRestores/*` */
@@ -1602,295 +1394,87 @@ export interface ListVolumeRestoresResponse {
   /** A token which may be sent as page_token in a subsequent `ListVolumeRestores` call to retrieve the next page of results. If this field is omitted or empty, then there are no more results to return. */
   nextPageToken?: string | undefined;
 }
-export interface PatchProjectsLocationsBackupChannelsRequest {
+export interface PatchProjectsLocationsBackupChannelsRequest extends Omit<BackupChannel, "name"> {
   /** Identifier. The fully qualified name of the BackupChannel. `projects/*\/locations/*\/backupChannels/*` */
   name: string;
   /** Optional. This is used to specify the fields to be overwritten in the BackupChannel targeted for update. The values for each of these updated fields will be taken from the `backup_channel` provided with this request. Field names are relative to the root of the resource (e.g., `description`, `labels`, etc.) If no `update_mask` is provided, all fields in `backup_channel` will be written to the target BackupChannel resource. Note that OUTPUT_ONLY and IMMUTABLE fields in `backup_channel` are ignored and are not used to update the target BackupChannel. */
   updateMask?: string | undefined;
-  /** Output only. Server generated global unique identifier of [UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier) format. */
-  uid?: string | undefined;
-  /** Optional. A set of custom labels supplied by user. */
-  labels?: StringMap | undefined;
-  /** Output only. The project_id where Backups are allowed to be stored. Example Project ID: "my-project-id". This will be an OUTPUT_ONLY field to return the project_id of the destination project. */
-  destinationProjectId?: string | undefined;
-  /** Output only. `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a BackupChannel from overwriting each other. It is strongly suggested that systems make use of the 'etag' in the read-modify-write cycle to perform BackupChannel updates in order to avoid race conditions: An `etag` is returned in the response to `GetBackupChannel`, and systems are expected to put that etag in the request to `UpdateBackupChannel` or `DeleteBackupChannel` to ensure that their change will be applied to the same version of the resource. */
-  etag?: string | undefined;
-  /** Required. Immutable. The project where Backups are allowed to be stored. The format is `projects/{projectId}` or `projects/{projectNumber}`. */
-  destinationProject?: string | undefined;
-  /** Output only. The timestamp when this BackupChannel resource was last updated. */
-  updateTime?: string | undefined;
-  /** Output only. The timestamp when this BackupChannel resource was created. */
-  createTime?: string | undefined;
-  /** Optional. User specified descriptive string for this BackupChannel. */
-  description?: string | undefined;
 }
-export interface PatchProjectsLocationsBackupPlansRequest {
+export interface PatchProjectsLocationsBackupPlansRequest extends Omit<BackupPlan, "name"> {
   /** Optional. This is used to specify the fields to be overwritten in the BackupPlan targeted for update. The values for each of these updated fields will be taken from the `backup_plan` provided with this request. Field names are relative to the root of the resource (e.g., `description`, `backup_config.include_volume_data`, etc.) If no `update_mask` is provided, all fields in `backup_plan` will be written to the target BackupPlan resource. Note that OUTPUT_ONLY and IMMUTABLE fields in `backup_plan` are ignored and are not used to update the target BackupPlan. */
   updateMask?: string | undefined;
   /** Output only. Identifier. The full name of the BackupPlan resource. Format: `projects/*\/locations/*\/backupPlans/*` */
   name: string;
-  /** Output only. The timestamp when this BackupPlan resource was created. */
-  createTime?: string | undefined;
-  /** Output only. The timestamp when this BackupPlan resource was last updated. */
-  updateTime?: string | undefined;
-  /** Output only. Completion time of the last successful Backup. This is sourced from a successful Backup's complete_time field. This field is added to maintain consistency with BackupPlanBinding to display last successful backup time. */
-  lastSuccessfulBackupTime?: string | undefined;
-  /** Output only. Human-readable description of why the BackupPlan is in the current rpo_risk_level and action items if any. */
-  rpoRiskReason?: string | undefined;
-  /** Output only. The number of Kubernetes Pods backed up in the last successful Backup created via this BackupPlan. */
-  protectedPodCount?: number | undefined;
-  /** Output only. The fully qualified name of the BackupChannel to be used to create a backup. This field is set only if the cluster being backed up is in a different project. `projects/*\/locations/*\/backupChannels/*` */
-  backupChannel?: string | undefined;
-  /** Optional. Defines a schedule for automatic Backup creation via this BackupPlan. */
-  backupSchedule?: Schedule | undefined;
-  /** Optional. Defines the configuration of Backups created via this BackupPlan. */
-  backupConfig?: BackupConfig | undefined;
-  /** Optional. This flag indicates whether this BackupPlan has been deactivated. Setting this field to True locks the BackupPlan such that no further updates will be allowed (except deletes), including the deactivated field itself. It also prevents any new Backups from being created via this BackupPlan (including scheduled Backups). Default: False */
-  deactivated?: boolean | undefined;
-  /** Optional. RetentionPolicy governs lifecycle of Backups created under this plan. */
-  retentionPolicy?: RetentionPolicy | undefined;
-  /** Output only. A number that represents the current risk level of this BackupPlan from RPO perspective with 1 being no risk and 5 being highest risk. */
-  rpoRiskLevel?: number | undefined;
-  /** Output only. Server generated global unique identifier of [UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier) format. */
-  uid?: string | undefined;
-  /** Optional. A set of custom labels supplied by user. */
-  labels?: StringMap | undefined;
-  /** Required. Immutable. The source cluster from which Backups will be created via this BackupPlan. Valid formats: - `projects/*\/locations/*\/clusters/*` - `projects/*\/zones/*\/clusters/*` */
-  cluster?: string | undefined;
-  /** Output only. `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a backup plan from overwriting each other. It is strongly suggested that systems make use of the 'etag' in the read-modify-write cycle to perform BackupPlan updates in order to avoid race conditions: An `etag` is returned in the response to `GetBackupPlan`, and systems are expected to put that etag in the request to `UpdateBackupPlan` or `DeleteBackupPlan` to ensure that their change will be applied to the same version of the resource. */
-  etag?: string | undefined;
-  /** Optional. User specified descriptive string for this BackupPlan. */
-  description?: string | undefined;
-  /** Output only. State of the BackupPlan. This State field reflects the various stages a BackupPlan can be in during the Create operation. It will be set to "DEACTIVATED" if the BackupPlan is deactivated on an Update */
-  state?: BackupPlanStateEnum | (string & {}) | undefined;
-  /** Output only. The number of user managed namespaces backed up in the last successful Backup created via this BackupPlan. */
-  protectedNamespaceCount?: number | undefined;
-  /** Output only. Human-readable description of why BackupPlan is in the current `state`. This field is only meant for human readability and should not be used programmatically as this field is not guaranteed to be consistent. */
-  stateReason?: string | undefined;
 }
-export interface PatchProjectsLocationsBackupPlansBackupsRequest {
+export interface PatchProjectsLocationsBackupPlansBackupsRequest extends Omit<Backup, "name"> {
   /** Output only. Identifier. The fully qualified name of the Backup. `projects/*\/locations/*\/backupPlans/*\/backups/*` */
   name: string;
   /** Optional. This is used to specify the fields to be overwritten in the Backup targeted for update. The values for each of these updated fields will be taken from the `backup_plan` provided with this request. Field names are relative to the root of the resource. If no `update_mask` is provided, all fields in `backup` will be written to the target Backup resource. Note that OUTPUT_ONLY and IMMUTABLE fields in `backup` are ignored and are not used to update the target Backup. */
   updateMask?: string | undefined;
-  /** Output only. If True, all namespaces were included in the Backup. */
-  allNamespaces?: boolean | undefined;
-  /** Output only. If set, the list of labels whose constituent namespaces were included in the Backup. */
-  selectedNamespaceLabels?: ResourceLabels | undefined;
-  /** Output only. The total number of user managed namespaces contained in the Backup. */
-  namespaceCount?: number | undefined;
-  /** Optional. User specified descriptive string for this Backup. */
-  description?: string | undefined;
-  /** Output only. The timestamp when this Backup resource was created. */
-  createTime?: string | undefined;
-  /** Optional. A set of custom labels supplied by user. */
-  labels?: StringMap | undefined;
-  /** Output only. Server generated global unique identifier of [UUID4](https://en.wikipedia.org/wiki/Universally_unique_identifier) */
-  uid?: string | undefined;
-  /** Output only. Whether or not the Backup contains volume data. Controlled by the parent BackupPlan's include_volume_data value. */
-  containsVolumeData?: boolean | undefined;
-  /** Optional. Minimum age for this Backup (in days). If this field is set to a non-zero value, the Backup will be "locked" against deletion (either manual or automatic deletion) for the number of days provided (measured from the creation time of the Backup). MUST be an integer value between 0-90 (inclusive). Defaults to parent BackupPlan's backup_delete_lock_days setting and may only be increased (either at creation time or in a subsequent update). */
-  deleteLockDays?: number | undefined;
-  /** Output only. Information about the troubleshooting steps which will provide debugging information to the end users. */
-  troubleshootingInfo?: TroubleshootingInfo | undefined;
-  /** Output only. Completion time of the Backup */
-  completeTime?: string | undefined;
-  /** Output only. If false, Backup will fail when Backup for GKE detects Kubernetes configuration that is non-standard or requires additional setup to restore. Inherited from the parent BackupPlan's permissive_mode value. */
-  permissiveMode?: boolean | undefined;
-  /** Output only. The total number of Kubernetes Pods contained in the Backup. */
-  podCount?: number | undefined;
-  /** Output only. The size of the config backup in bytes. */
-  configBackupSizeBytes?: string | undefined;
-  /** Output only. The total number of Kubernetes resources included in the Backup. */
-  resourceCount?: number | undefined;
-  /** Output only. [Output Only] Reserved for future use. */
-  satisfiesPzs?: boolean | undefined;
-  /** Output only. If set, the list of namespaces that were included in the Backup. */
-  selectedNamespaces?: Namespaces | undefined;
-  /** Output only. If set, the list of ProtectedApplications whose resources were included in the Backup. */
-  selectedApplications?: NamespacedNames | undefined;
-  /** Output only. Human-readable description of why the backup is in the current `state`. This field is only meant for human readability and should not be used programmatically as this field is not guaranteed to be consistent. */
-  stateReason?: string | undefined;
-  /** Output only. Information about the GKE cluster from which this Backup was created. */
-  clusterMetadata?: ClusterMetadata | undefined;
-  /** Output only. The time at which an existing delete lock will expire for this backup (calculated from create_time + delete_lock_days). */
-  deleteLockExpireTime?: string | undefined;
-  /** Output only. The total number of volume backups contained in the Backup. */
-  volumeCount?: number | undefined;
-  /** Output only. The time at which this Backup will be automatically deleted (calculated from create_time + retain_days). */
-  retainExpireTime?: string | undefined;
-  /** Output only. The timestamp when this Backup resource was last updated. */
-  updateTime?: string | undefined;
-  /** Output only. [Output Only] Reserved for future use. */
-  satisfiesPzi?: boolean | undefined;
-  /** Optional. The age (in days) after which this Backup will be automatically deleted. Must be an integer value >= 0: - If 0, no automatic deletion will occur for this Backup. - If not 0, this must be >= delete_lock_days and <= 365. Once a Backup is created, this value may only be increased. Defaults to the parent BackupPlan's backup_retain_days value. */
-  retainDays?: number | undefined;
-  /** Output only. Current state of the Backup */
-  state?: BackupStateEnum | (string & {}) | undefined;
-  /** Output only. This flag indicates whether this Backup resource was created manually by a user or via a schedule in the BackupPlan. A value of True means that the Backup was created manually. */
-  manual?: boolean | undefined;
-  /** Output only. `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a backup from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform backup updates in order to avoid race conditions: An `etag` is returned in the response to `GetBackup`, and systems are expected to put that etag in the request to `UpdateBackup` or `DeleteBackup` to ensure that their change will be applied to the same version of the resource. */
-  etag?: string | undefined;
-  /** Output only. The customer managed encryption key that was used to encrypt the Backup's artifacts. Inherited from the parent BackupPlan's encryption_key value. */
-  encryptionKey?: EncryptionKey | undefined;
-  /** Output only. The total size of the Backup in bytes = config backup size + sum(volume backup sizes) */
-  sizeBytes?: string | undefined;
-  /** Output only. Whether or not the Backup contains Kubernetes Secrets. Controlled by the parent BackupPlan's include_secrets value. */
-  containsSecrets?: boolean | undefined;
 }
-export interface PatchProjectsLocationsRestoreChannelsRequest {
+export interface PatchProjectsLocationsRestoreChannelsRequest extends Omit<RestoreChannel, "name"> {
   /** Identifier. The fully qualified name of the RestoreChannel. `projects/*\/locations/*\/restoreChannels/*` */
   name: string;
   /** Optional. This is used to specify the fields to be overwritten in the RestoreChannel targeted for update. The values for each of these updated fields will be taken from the `restore_channel` provided with this request. Field names are relative to the root of the resource (e.g., `description`, `destination_project_id`, etc.) If no `update_mask` is provided, all fields in `restore_channel` will be written to the target RestoreChannel resource. Note that OUTPUT_ONLY and IMMUTABLE fields in `restore_channel` are ignored and are not used to update the target RestoreChannel. */
   updateMask?: string | undefined;
-  /** Optional. A set of custom labels supplied by user. */
-  labels?: StringMap | undefined;
-  /** Output only. `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a RestoreChannel from overwriting each other. It is strongly suggested that systems make use of the 'etag' in the read-modify-write cycle to perform RestoreChannel updates in order to avoid race conditions: An `etag` is returned in the response to `GetRestoreChannel`, and systems are expected to put that etag in the request to `UpdateRestoreChannel` or `DeleteRestoreChannel` to ensure that their change will be applied to the same version of the resource. */
-  etag?: string | undefined;
-  /** Output only. The timestamp when this RestoreChannel was created. */
-  createTime?: string | undefined;
-  /** Output only. The timestamp when this RestoreChannel was last updated. */
-  updateTime?: string | undefined;
-  /** Output only. Server generated global unique identifier of [UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier) format. */
-  uid?: string | undefined;
-  /** Required. Immutable. The project into which the backups will be restored. The format is `projects/{projectId}` or `projects/{projectNumber}`. */
-  destinationProject?: string | undefined;
-  /** Optional. User specified descriptive string for this RestoreChannel. */
-  description?: string | undefined;
-  /** Output only. The project_id where backups will be restored. Example Project ID: "my-project-id". This will be an OUTPUT_ONLY field to return the project_id of the destination project. */
-  destinationProjectId?: string | undefined;
 }
-export interface PatchProjectsLocationsRestorePlansRequest {
+export interface PatchProjectsLocationsRestorePlansRequest extends Omit<RestorePlan, "name"> {
   /** Optional. This is used to specify the fields to be overwritten in the RestorePlan targeted for update. The values for each of these updated fields will be taken from the `restore_plan` provided with this request. Field names are relative to the root of the resource. If no `update_mask` is provided, all fields in `restore_plan` will be written to the target RestorePlan resource. Note that OUTPUT_ONLY and IMMUTABLE fields in `restore_plan` are ignored and are not used to update the target RestorePlan. */
   updateMask?: string | undefined;
   /** Output only. Identifier. The full name of the RestorePlan resource. Format: `projects/*\/locations/*\/restorePlans/*`. */
   name: string;
-  /** Optional. A set of custom labels supplied by user. */
-  labels?: StringMap | undefined;
-  /** Output only. The fully qualified name of the RestoreChannel to be used to create a RestorePlan. This field is set only if the `backup_plan` is in a different project than the RestorePlan. Format: `projects/*\/locations/*\/restoreChannels/*` */
-  restoreChannel?: string | undefined;
-  /** Output only. Server generated global unique identifier of [UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier) format. */
-  uid?: string | undefined;
-  /** Required. Immutable. The target cluster into which Restores created via this RestorePlan will restore data. NOTE: the cluster's region must be the same as the RestorePlan. Valid formats: - `projects/*\/locations/*\/clusters/*` - `projects/*\/zones/*\/clusters/*` */
-  cluster?: string | undefined;
-  /** Optional. User specified descriptive string for this RestorePlan. */
-  description?: string | undefined;
-  /** Output only. Human-readable description of why RestorePlan is in the current `state`. This field is only meant for human readability and should not be used programmatically as this field is not guaranteed to be consistent. */
-  stateReason?: string | undefined;
-  /** Required. Immutable. A reference to the BackupPlan from which Backups may be used as the source for Restores created via this RestorePlan. Format: `projects/*\/locations/*\/backupPlans/*`. */
-  backupPlan?: string | undefined;
-  /** Required. Configuration of Restores created via this RestorePlan. */
-  restoreConfig?: RestoreConfig | undefined;
-  /** Output only. State of the RestorePlan. This State field reflects the various stages a RestorePlan can be in during the Create operation. */
-  state?: RestorePlanStateEnum | (string & {}) | undefined;
-  /** Output only. The timestamp when this RestorePlan resource was created. */
-  createTime?: string | undefined;
-  /** Output only. The timestamp when this RestorePlan resource was last updated. */
-  updateTime?: string | undefined;
-  /** Output only. `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a restore from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform restore updates in order to avoid race conditions: An `etag` is returned in the response to `GetRestorePlan`, and systems are expected to put that etag in the request to `UpdateRestorePlan` or `DeleteRestorePlan` to ensure that their change will be applied to the same version of the resource. */
-  etag?: string | undefined;
 }
-export interface PatchProjectsLocationsRestorePlansRestoresRequest {
+export interface PatchProjectsLocationsRestorePlansRestoresRequest extends Omit<Restore, "name"> {
   /** Output only. Identifier. The full name of the Restore resource. Format: `projects/*\/locations/*\/restorePlans/*\/restores/*` */
   name: string;
   /** Optional. This is used to specify the fields to be overwritten in the Restore targeted for update. The values for each of these updated fields will be taken from the `restore` provided with this request. Field names are relative to the root of the resource. If no `update_mask` is provided, all fields in `restore` will be written to the target Restore resource. Note that OUTPUT_ONLY and IMMUTABLE fields in `restore` are ignored and are not used to update the target Restore. */
   updateMask?: string | undefined;
-  /** Output only. Number of volumes restored during the restore execution. */
-  volumesRestoredCount?: number | undefined;
-  /** Output only. `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a restore from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform restore updates in order to avoid race conditions: An `etag` is returned in the response to `GetRestore`, and systems are expected to put that etag in the request to `UpdateRestore` or `DeleteRestore` to ensure that their change will be applied to the same version of the resource. */
-  etag?: string | undefined;
-  /** Optional. Immutable. Filters resources for `Restore`. If not specified, the scope of the restore will remain the same as defined in the `RestorePlan`. If this is specified and no resources are matched by the `inclusion_filters` or everything is excluded by the `exclusion_filters`, nothing will be restored. This filter can only be specified if the value of namespaced_resource_restore_mode is set to `MERGE_SKIP_ON_CONFLICT`, `MERGE_REPLACE_VOLUME_ON_CONFLICT` or `MERGE_REPLACE_ON_CONFLICT`. */
-  filter?: Filter | undefined;
-  /** Output only. Configuration of the Restore. Inherited from parent RestorePlan's restore_config. */
-  restoreConfig?: RestoreConfig | undefined;
-  /** Output only. The target cluster into which this Restore will restore data. Valid formats: - `projects/*\/locations/*\/clusters/*` - `projects/*\/zones/*\/clusters/*` Inherited from parent RestorePlan's cluster value. */
-  cluster?: string | undefined;
-  /** Output only. The current state of the Restore. */
-  state?: RestoreStateEnum | (string & {}) | undefined;
-  /** Output only. Number of resources restored during the restore execution. */
-  resourcesRestoredCount?: number | undefined;
-  /** Required. Immutable. A reference to the Backup used as the source from which this Restore will restore. Note that this Backup must be a sub-resource of the RestorePlan's backup_plan. Format: `projects/*\/locations/*\/backupPlans/*\/backups/*`. */
-  backup?: string | undefined;
-  /** A set of custom labels supplied by user. */
-  labels?: StringMap | undefined;
-  /** Output only. Human-readable description of why the Restore is in its current state. This field is only meant for human readability and should not be used programmatically as this field is not guaranteed to be consistent. */
-  stateReason?: string | undefined;
-  /** Optional. Immutable. Overrides the volume data restore policies selected in the Restore Config for override-scoped resources. */
-  volumeDataRestorePolicyOverrides?: VolumeDataRestorePolicyOverrideList | undefined;
-  /** Output only. Information about the troubleshooting steps which will provide debugging information to the end users. */
-  troubleshootingInfo?: TroubleshootingInfo | undefined;
-  /** Output only. Number of resources that failed to be restored during the restore execution. */
-  resourcesFailedCount?: number | undefined;
-  /** Output only. The timestamp when this Restore resource was last updated. */
-  updateTime?: string | undefined;
-  /** Optional. User specified descriptive string for this Restore. */
-  description?: string | undefined;
-  /** Output only. The timestamp when this Restore resource was created. */
-  createTime?: string | undefined;
-  /** Output only. Number of resources excluded during the restore execution. */
-  resourcesExcludedCount?: number | undefined;
-  /** Output only. Server generated global unique identifier of [UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier) format. */
-  uid?: string | undefined;
-  /** Output only. Timestamp of when the restore operation completed. */
-  completeTime?: string | undefined;
 }
-export interface SetIamPolicyProjectsLocationsBackupPlansRequest {
-  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
+/** Request message for `SetIamPolicy` method. */
+export interface SetIamPolicyRequest {
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
   policy?: Policy | undefined;
   /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
   updateMask?: string | undefined;
 }
-export interface SetIamPolicyProjectsLocationsBackupPlansBackupsRequest {
+export interface SetIamPolicyProjectsLocationsBackupPlansRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
-  policy?: Policy | undefined;
-  /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
-  updateMask?: string | undefined;
 }
-export interface SetIamPolicyProjectsLocationsBackupPlansBackupsVolumeBackupsRequest {
+export interface SetIamPolicyProjectsLocationsBackupPlansBackupsRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
-  policy?: Policy | undefined;
-  /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
-  updateMask?: string | undefined;
 }
-export interface SetIamPolicyProjectsLocationsRestorePlansRequest {
+export interface SetIamPolicyProjectsLocationsBackupPlansBackupsVolumeBackupsRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
-  policy?: Policy | undefined;
-  /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
-  updateMask?: string | undefined;
 }
-export interface SetIamPolicyProjectsLocationsRestorePlansRestoresRequest {
+export interface SetIamPolicyProjectsLocationsRestorePlansRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
-  policy?: Policy | undefined;
-  /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
-  updateMask?: string | undefined;
 }
-export interface SetIamPolicyProjectsLocationsRestorePlansRestoresVolumeRestoresRequest {
+export interface SetIamPolicyProjectsLocationsRestorePlansRestoresRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
-  policy?: Policy | undefined;
-  /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
-  updateMask?: string | undefined;
 }
-export interface SetTagsProjectsLocationsBackupPlansRequest {
-  /** Required. The full resource name of the service resource. */
-  name: string;
+export interface SetIamPolicyProjectsLocationsRestorePlansRestoresVolumeRestoresRequest extends SetIamPolicyRequest {
+  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
+}
+/** Request message for SetTags. */
+export interface SetTagsRequest {
   /** Optional. A unique identifier for this request. Must be a valid UUID. This request is only idempotent if a `request_id` is provided. */
   requestId?: string | undefined;
   /** Optional. A checksum based on the current bindings which can be passed to prevent race conditions. If not passed, etag check would be skipped. */
   etag?: string | undefined;
+  /** Required. The full resource name of the service resource. */
+  name?: string | undefined;
   /** Required. These bindings will override any bindings previously set and will be effective immediately. Each item in the map must be expressed as " : ". For example: "123/environment" : "production", "123/costCenter" : "marketing" */
   tags?: StringMap | undefined;
+}
+export interface SetTagsProjectsLocationsBackupPlansRequest extends Omit<SetTagsRequest, "name"> {
+  /** Required. The full resource name of the service resource. */
+  name: string;
 }
 /** Response message for SetTags. */
 export interface SetTagsResponse {
@@ -1901,56 +1485,43 @@ export interface SetTagsResponse {
   /** A checksum based on the current bindings. This field is always set in server responses. */
   etag?: string | undefined;
 }
-export interface SetTagsProjectsLocationsRestorePlansRequest {
+export interface SetTagsProjectsLocationsRestorePlansRequest extends Omit<SetTagsRequest, "name"> {
   /** Required. The full resource name of the service resource. */
   name: string;
-  /** Optional. A unique identifier for this request. Must be a valid UUID. This request is only idempotent if a `request_id` is provided. */
-  requestId?: string | undefined;
-  /** Optional. A checksum based on the current bindings which can be passed to prevent race conditions. If not passed, etag check would be skipped. */
-  etag?: string | undefined;
-  /** Required. These bindings will override any bindings previously set and will be effective immediately. Each item in the map must be expressed as " : ". For example: "123/environment" : "production", "123/costCenter" : "marketing" */
-  tags?: StringMap | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsBackupPlansRequest {
-  /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
+/** Request message for `TestIamPermissions` method. */
+export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: StringList | undefined;
+}
+export interface TestIamPermissionsProjectsLocationsBackupPlansRequest extends TestIamPermissionsRequest {
+  /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsBackupPlansBackupsRequest {
+export interface TestIamPermissionsProjectsLocationsBackupPlansBackupsRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
-  permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsBackupPlansBackupsVolumeBackupsRequest {
+export interface TestIamPermissionsProjectsLocationsBackupPlansBackupsVolumeBackupsRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
-  permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsRestorePlansRequest {
+export interface TestIamPermissionsProjectsLocationsRestorePlansRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
-  permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsRestorePlansRestoresRequest {
+export interface TestIamPermissionsProjectsLocationsRestorePlansRestoresRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
-  permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsRestorePlansRestoresVolumeRestoresRequest {
+export interface TestIamPermissionsProjectsLocationsRestorePlansRestoresVolumeRestoresRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
-  permissions?: StringList | undefined;
 }
 export type CancelProjectsLocationsOperationsError =
   | NotFound
@@ -1965,8 +1536,8 @@ export const cancelProjectsLocationsOperations: API.OperationMethod<
   CancelProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c44, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
-  output: __S(720, __c45, 0) as any as S.Schema<Empty>,
+  input: __S(608, __c38, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
+  output: __S(624, __c39, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1987,8 +1558,8 @@ export const createProjectsLocationsBackupChannels: API.OperationMethod<
   CreateProjectsLocationsBackupChannelsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c56, 0) as any as S.Schema<CreateProjectsLocationsBackupChannelsRequest>,
-  output: __S(930, __c58, 2) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(800, __c50, 0) as any as S.Schema<CreateProjectsLocationsBackupChannelsRequest>,
+  output: __S(850, __c53, 2) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2009,8 +1580,8 @@ export const createProjectsLocationsBackupPlans: API.OperationMethod<
   CreateProjectsLocationsBackupPlansError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c70, 0) as any as S.Schema<CreateProjectsLocationsBackupPlansRequest>,
-  output: __S(930, __c58, 2) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(1056, __c66, 0) as any as S.Schema<CreateProjectsLocationsBackupPlansRequest>,
+  output: __S(850, __c53, 2) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2031,8 +1602,8 @@ export const createProjectsLocationsBackupPlansBackups: API.OperationMethod<
   CreateProjectsLocationsBackupPlansBackupsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c88, 0) as any as S.Schema<CreateProjectsLocationsBackupPlansBackupsRequest>,
-  output: __S(930, __c58, 2) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(1360, __c85, 0) as any as S.Schema<CreateProjectsLocationsBackupPlansBackupsRequest>,
+  output: __S(850, __c53, 2) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2053,8 +1624,8 @@ export const createProjectsLocationsRestoreChannels: API.OperationMethod<
   CreateProjectsLocationsRestoreChannelsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c92, 0) as any as S.Schema<CreateProjectsLocationsRestoreChannelsRequest>,
-  output: __S(930, __c58, 2) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(1424, __c89, 0) as any as S.Schema<CreateProjectsLocationsRestoreChannelsRequest>,
+  output: __S(850, __c53, 2) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2075,8 +1646,8 @@ export const createProjectsLocationsRestorePlans: API.OperationMethod<
   CreateProjectsLocationsRestorePlansError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1488, __c93, 0) as any as S.Schema<CreateProjectsLocationsRestorePlansRequest>,
-  output: __S(930, __c58, 2) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(1456, __c91, 0) as any as S.Schema<CreateProjectsLocationsRestorePlansRequest>,
+  output: __S(850, __c53, 2) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2098,7 +1669,7 @@ export const createProjectsLocationsRestorePlansRestores: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateProjectsLocationsRestorePlansRestoresRequest>,
-  output: __S(930, __c58, 2) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(850, __c53, 2) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2120,7 +1691,7 @@ export const deleteProjectsLocationsBackupChannels: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c2, 0) as any as S.Schema<DeleteProjectsLocationsBackupChannelsRequest>,
-  output: __S(930, __c58, 2) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(850, __c53, 2) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2142,7 +1713,7 @@ export const deleteProjectsLocationsBackupPlans: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c3, 0) as any as S.Schema<DeleteProjectsLocationsBackupPlansRequest>,
-  output: __S(930, __c58, 2) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(850, __c53, 2) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2164,7 +1735,7 @@ export const deleteProjectsLocationsBackupPlansBackups: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c4, 0) as any as S.Schema<DeleteProjectsLocationsBackupPlansBackupsRequest>,
-  output: __S(930, __c58, 2) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(850, __c53, 2) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2186,7 +1757,7 @@ export const deleteProjectsLocationsOperations: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c5, 0) as any as S.Schema<DeleteProjectsLocationsOperationsRequest>,
-  output: __S(720, __c45, 0) as any as S.Schema<Empty>,
+  output: __S(624, __c39, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2208,7 +1779,7 @@ export const deleteProjectsLocationsRestoreChannels: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c6, 0) as any as S.Schema<DeleteProjectsLocationsRestoreChannelsRequest>,
-  output: __S(930, __c58, 2) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(850, __c53, 2) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2230,7 +1801,7 @@ export const deleteProjectsLocationsRestorePlans: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c7, 0) as any as S.Schema<DeleteProjectsLocationsRestorePlansRequest>,
-  output: __S(930, __c58, 2) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(850, __c53, 2) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2252,7 +1823,7 @@ export const deleteProjectsLocationsRestorePlansRestores: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c8, 0) as any as S.Schema<DeleteProjectsLocationsRestorePlansRestoresRequest>,
-  output: __S(930, __c58, 2) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(850, __c53, 2) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2440,7 +2011,7 @@ export const getProjectsLocationsBackupChannels: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(304, __c19, 0) as any as S.Schema<GetProjectsLocationsBackupChannelsRequest>,
-  output: __S(320, __c20, 0) as any as S.Schema<BackupChannel>,
+  output: __S(816, __c51, 0) as any as S.Schema<BackupChannel>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2460,11 +2031,11 @@ export const getProjectsLocationsBackupChannelsBackupPlanBindings: API.Operation
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    336,
-    __c21,
+    320,
+    __c20,
     0,
   ) as any as S.Schema<GetProjectsLocationsBackupChannelsBackupPlanBindingsRequest>,
-  output: __S(355, __c22, 3) as any as S.Schema<BackupPlanBinding>,
+  output: __S(339, __c21, 3) as any as S.Schema<BackupPlanBinding>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2480,8 +2051,8 @@ export const getProjectsLocationsBackupPlans: API.OperationMethod<
   GetProjectsLocationsBackupPlansError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(368, __c23, 0) as any as S.Schema<GetProjectsLocationsBackupPlansRequest>,
-  output: __S(384, __c24, 0) as any as S.Schema<BackupPlan>,
+  input: __S(352, __c22, 0) as any as S.Schema<GetProjectsLocationsBackupPlansRequest>,
+  output: __S(1082, __c67, 10) as any as S.Schema<BackupPlan>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2497,8 +2068,8 @@ export const getProjectsLocationsBackupPlansBackups: API.OperationMethod<
   GetProjectsLocationsBackupPlansBackupsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(400, __c25, 0) as any as S.Schema<GetProjectsLocationsBackupPlansBackupsRequest>,
-  output: __S(416, __c26, 0) as any as S.Schema<Backup>,
+  input: __S(368, __c23, 0) as any as S.Schema<GetProjectsLocationsBackupPlansBackupsRequest>,
+  output: __S(1393, __c87, 1) as any as S.Schema<Backup>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2518,11 +2089,11 @@ export const getProjectsLocationsBackupPlansBackupsVolumeBackups: API.OperationM
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    432,
-    __c27,
+    384,
+    __c24,
     0,
   ) as any as S.Schema<GetProjectsLocationsBackupPlansBackupsVolumeBackupsRequest>,
-  output: __S(448, __c28, 0) as any as S.Schema<VolumeBackup>,
+  output: __S(400, __c25, 0) as any as S.Schema<VolumeBackup>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2538,8 +2109,8 @@ export const getProjectsLocationsOperations: API.OperationMethod<
   GetProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(464, __c29, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
-  output: __S(930, __c58, 2) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(416, __c26, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
+  output: __S(850, __c53, 2) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2555,8 +2126,8 @@ export const getProjectsLocationsRestoreChannels: API.OperationMethod<
   GetProjectsLocationsRestoreChannelsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c30, 0) as any as S.Schema<GetProjectsLocationsRestoreChannelsRequest>,
-  output: __S(496, __c31, 0) as any as S.Schema<RestoreChannel>,
+  input: __S(432, __c27, 0) as any as S.Schema<GetProjectsLocationsRestoreChannelsRequest>,
+  output: __S(1440, __c90, 0) as any as S.Schema<RestoreChannel>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2576,11 +2147,11 @@ export const getProjectsLocationsRestoreChannelsRestorePlanBindings: API.Operati
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    512,
-    __c32,
+    448,
+    __c28,
     0,
   ) as any as S.Schema<GetProjectsLocationsRestoreChannelsRestorePlanBindingsRequest>,
-  output: __S(528, __c33, 0) as any as S.Schema<RestorePlanBinding>,
+  output: __S(464, __c29, 0) as any as S.Schema<RestorePlanBinding>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2596,8 +2167,8 @@ export const getProjectsLocationsRestorePlans: API.OperationMethod<
   GetProjectsLocationsRestorePlansError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c34, 0) as any as S.Schema<GetProjectsLocationsRestorePlansRequest>,
-  output: __S(560, __c35, 0) as any as S.Schema<RestorePlan>,
+  input: __S(480, __c30, 0) as any as S.Schema<GetProjectsLocationsRestorePlansRequest>,
+  output: __S(1488, __c93, 0) as any as S.Schema<RestorePlan>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2613,8 +2184,8 @@ export const getProjectsLocationsRestorePlansRestores: API.OperationMethod<
   GetProjectsLocationsRestorePlansRestoresError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c36, 0) as any as S.Schema<GetProjectsLocationsRestorePlansRestoresRequest>,
-  output: __S(592, __c37, 0) as any as S.Schema<Restore>,
+  input: __S(496, __c31, 0) as any as S.Schema<GetProjectsLocationsRestorePlansRestoresRequest>,
+  output: __S(21, __c1, 5) as any as S.Schema<Restore>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2634,11 +2205,11 @@ export const getProjectsLocationsRestorePlansRestoresVolumeRestores: API.Operati
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    608,
-    __c38,
+    512,
+    __c32,
     0,
   ) as any as S.Schema<GetProjectsLocationsRestorePlansRestoresVolumeRestoresRequest>,
-  output: __S(624, __c39, 0) as any as S.Schema<VolumeRestore>,
+  output: __S(528, __c33, 0) as any as S.Schema<VolumeRestore>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2654,8 +2225,8 @@ export const getTagsProjectsLocationsBackupPlans: API.OperationMethod<
   GetTagsProjectsLocationsBackupPlansError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c40, 0) as any as S.Schema<GetTagsProjectsLocationsBackupPlansRequest>,
-  output: __S(656, __c41, 0) as any as S.Schema<GetTagsResponse>,
+  input: __S(544, __c34, 0) as any as S.Schema<GetTagsProjectsLocationsBackupPlansRequest>,
+  output: __S(560, __c35, 0) as any as S.Schema<GetTagsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2671,8 +2242,8 @@ export const getTagsProjectsLocationsRestorePlans: API.OperationMethod<
   GetTagsProjectsLocationsRestorePlansError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c42, 0) as any as S.Schema<GetTagsProjectsLocationsRestorePlansRequest>,
-  output: __S(656, __c41, 0) as any as S.Schema<GetTagsResponse>,
+  input: __S(576, __c36, 0) as any as S.Schema<GetTagsProjectsLocationsRestorePlansRequest>,
+  output: __S(560, __c35, 0) as any as S.Schema<GetTagsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2689,8 +2260,8 @@ export const listProjectsLocations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListLocationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(688, __c43, 0) as any as S.Schema<ListProjectsLocationsRequest>,
-  output: __S(690, __c43, 2) as any as S.Schema<ListLocationsResponse>,
+  input: __S(592, __c37, 0) as any as S.Schema<ListProjectsLocationsRequest>,
+  output: __S(594, __c37, 2) as any as S.Schema<ListLocationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2708,8 +2279,8 @@ export const listProjectsLocationsBackupChannels: API.PaginatedOperationMethod<
   GcpOpContext,
   ListBackupChannelsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(736, __c46, 0) as any as S.Schema<ListProjectsLocationsBackupChannelsRequest>,
-  output: __S(738, __c46, 2) as any as S.Schema<ListBackupChannelsResponse>,
+  input: __S(640, __c40, 0) as any as S.Schema<ListProjectsLocationsBackupChannelsRequest>,
+  output: __S(642, __c40, 2) as any as S.Schema<ListBackupChannelsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2731,11 +2302,11 @@ export const listProjectsLocationsBackupChannelsBackupPlanBindings: API.Paginate
   ListBackupPlanBindingsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    752,
-    __c47,
+    656,
+    __c41,
     0,
   ) as any as S.Schema<ListProjectsLocationsBackupChannelsBackupPlanBindingsRequest>,
-  output: __S(754, __c47, 2) as any as S.Schema<ListBackupPlanBindingsResponse>,
+  output: __S(658, __c41, 2) as any as S.Schema<ListBackupPlanBindingsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2753,8 +2324,8 @@ export const listProjectsLocationsBackupPlans: API.PaginatedOperationMethod<
   GcpOpContext,
   ListBackupPlansResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(768, __c48, 0) as any as S.Schema<ListProjectsLocationsBackupPlansRequest>,
-  output: __S(770, __c48, 2) as any as S.Schema<ListBackupPlansResponse>,
+  input: __S(672, __c42, 0) as any as S.Schema<ListProjectsLocationsBackupPlansRequest>,
+  output: __S(674, __c42, 2) as any as S.Schema<ListBackupPlansResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2772,8 +2343,8 @@ export const listProjectsLocationsBackupPlansBackups: API.PaginatedOperationMeth
   GcpOpContext,
   ListBackupsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(784, __c49, 0) as any as S.Schema<ListProjectsLocationsBackupPlansBackupsRequest>,
-  output: __S(786, __c49, 2) as any as S.Schema<ListBackupsResponse>,
+  input: __S(688, __c43, 0) as any as S.Schema<ListProjectsLocationsBackupPlansBackupsRequest>,
+  output: __S(690, __c43, 2) as any as S.Schema<ListBackupsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2795,11 +2366,11 @@ export const listProjectsLocationsBackupPlansBackupsVolumeBackups: API.Paginated
   ListVolumeBackupsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    800,
-    __c50,
+    704,
+    __c44,
     0,
   ) as any as S.Schema<ListProjectsLocationsBackupPlansBackupsVolumeBackupsRequest>,
-  output: __S(802, __c50, 2) as any as S.Schema<ListVolumeBackupsResponse>,
+  output: __S(706, __c44, 2) as any as S.Schema<ListVolumeBackupsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2817,8 +2388,8 @@ export const listProjectsLocationsOperations: API.PaginatedOperationMethod<
   GcpOpContext,
   GoogleLongrunningListOperationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(816, __c51, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
-  output: __S(818, __c51, 2) as any as S.Schema<GoogleLongrunningListOperationsResponse>,
+  input: __S(720, __c45, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
+  output: __S(722, __c45, 2) as any as S.Schema<GoogleLongrunningListOperationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2836,8 +2407,8 @@ export const listProjectsLocationsRestoreChannels: API.PaginatedOperationMethod<
   GcpOpContext,
   ListRestoreChannelsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(832, __c52, 0) as any as S.Schema<ListProjectsLocationsRestoreChannelsRequest>,
-  output: __S(834, __c52, 2) as any as S.Schema<ListRestoreChannelsResponse>,
+  input: __S(736, __c46, 0) as any as S.Schema<ListProjectsLocationsRestoreChannelsRequest>,
+  output: __S(738, __c46, 2) as any as S.Schema<ListRestoreChannelsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2859,11 +2430,11 @@ export const listProjectsLocationsRestoreChannelsRestorePlanBindings: API.Pagina
   ListRestorePlanBindingsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    848,
-    __c53,
+    752,
+    __c47,
     0,
   ) as any as S.Schema<ListProjectsLocationsRestoreChannelsRestorePlanBindingsRequest>,
-  output: __S(850, __c53, 2) as any as S.Schema<ListRestorePlanBindingsResponse>,
+  output: __S(754, __c47, 2) as any as S.Schema<ListRestorePlanBindingsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2881,8 +2452,8 @@ export const listProjectsLocationsRestorePlans: API.PaginatedOperationMethod<
   GcpOpContext,
   ListRestorePlansResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(864, __c54, 0) as any as S.Schema<ListProjectsLocationsRestorePlansRequest>,
-  output: __S(866, __c54, 2) as any as S.Schema<ListRestorePlansResponse>,
+  input: __S(768, __c48, 0) as any as S.Schema<ListProjectsLocationsRestorePlansRequest>,
+  output: __S(770, __c48, 2) as any as S.Schema<ListRestorePlansResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2900,8 +2471,8 @@ export const listProjectsLocationsRestorePlansRestores: API.PaginatedOperationMe
   GcpOpContext,
   ListRestoresResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(880, __c55, 0) as any as S.Schema<ListProjectsLocationsRestorePlansRestoresRequest>,
-  output: __S(882, __c55, 2) as any as S.Schema<ListRestoresResponse>,
+  input: __S(784, __c49, 0) as any as S.Schema<ListProjectsLocationsRestorePlansRestoresRequest>,
+  output: __S(786, __c49, 2) as any as S.Schema<ListRestoresResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2923,11 +2494,11 @@ export const listProjectsLocationsRestorePlansRestoresVolumeRestores: API.Pagina
   ListVolumeRestoresResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    960,
-    __c60,
+    880,
+    __c55,
     0,
   ) as any as S.Schema<ListProjectsLocationsRestorePlansRestoresVolumeRestoresRequest>,
-  output: __S(962, __c60, 2) as any as S.Schema<ListVolumeRestoresResponse>,
+  output: __S(882, __c55, 2) as any as S.Schema<ListVolumeRestoresResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2949,8 +2520,8 @@ export const patchProjectsLocationsBackupChannels: API.OperationMethod<
   PatchProjectsLocationsBackupChannelsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(976, __c61, 0) as any as S.Schema<PatchProjectsLocationsBackupChannelsRequest>,
-  output: __S(930, __c58, 2) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(896, __c56, 0) as any as S.Schema<PatchProjectsLocationsBackupChannelsRequest>,
+  output: __S(850, __c53, 2) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2971,8 +2542,8 @@ export const patchProjectsLocationsBackupPlans: API.OperationMethod<
   PatchProjectsLocationsBackupPlansError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c62, 0) as any as S.Schema<PatchProjectsLocationsBackupPlansRequest>,
-  output: __S(930, __c58, 2) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(912, __c57, 0) as any as S.Schema<PatchProjectsLocationsBackupPlansRequest>,
+  output: __S(850, __c53, 2) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2993,8 +2564,8 @@ export const patchProjectsLocationsBackupPlansBackups: API.OperationMethod<
   PatchProjectsLocationsBackupPlansBackupsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1008, __c63, 0) as any as S.Schema<PatchProjectsLocationsBackupPlansBackupsRequest>,
-  output: __S(930, __c58, 2) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(928, __c58, 0) as any as S.Schema<PatchProjectsLocationsBackupPlansBackupsRequest>,
+  output: __S(850, __c53, 2) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3015,8 +2586,8 @@ export const patchProjectsLocationsRestoreChannels: API.OperationMethod<
   PatchProjectsLocationsRestoreChannelsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c64, 0) as any as S.Schema<PatchProjectsLocationsRestoreChannelsRequest>,
-  output: __S(930, __c58, 2) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(944, __c59, 0) as any as S.Schema<PatchProjectsLocationsRestoreChannelsRequest>,
+  output: __S(850, __c53, 2) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3037,8 +2608,8 @@ export const patchProjectsLocationsRestorePlans: API.OperationMethod<
   PatchProjectsLocationsRestorePlansError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1040, __c65, 0) as any as S.Schema<PatchProjectsLocationsRestorePlansRequest>,
-  output: __S(930, __c58, 2) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(960, __c60, 0) as any as S.Schema<PatchProjectsLocationsRestorePlansRequest>,
+  output: __S(850, __c53, 2) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3059,8 +2630,8 @@ export const patchProjectsLocationsRestorePlansRestores: API.OperationMethod<
   PatchProjectsLocationsRestorePlansRestoresError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c66, 0) as any as S.Schema<PatchProjectsLocationsRestorePlansRestoresRequest>,
-  output: __S(930, __c58, 2) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(976, __c61, 0) as any as S.Schema<PatchProjectsLocationsRestorePlansRestoresRequest>,
+  output: __S(850, __c53, 2) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3081,7 +2652,7 @@ export const setIamPolicyProjectsLocationsBackupPlans: API.OperationMethod<
   SetIamPolicyProjectsLocationsBackupPlansError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1072, __c67, 0) as any as S.Schema<SetIamPolicyProjectsLocationsBackupPlansRequest>,
+  input: __S(992, __c62, 0) as any as S.Schema<SetIamPolicyProjectsLocationsBackupPlansRequest>,
   output: __S(183, __c11, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -3104,8 +2675,8 @@ export const setIamPolicyProjectsLocationsBackupPlansBackups: API.OperationMetho
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1088,
-    __c68,
+    1024,
+    __c64,
     0,
   ) as any as S.Schema<SetIamPolicyProjectsLocationsBackupPlansBackupsRequest>,
   output: __S(183, __c11, 7) as any as S.Schema<Policy>,
@@ -3130,8 +2701,8 @@ export const setIamPolicyProjectsLocationsBackupPlansBackupsVolumeBackups: API.O
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1104,
-    __c69,
+    1040,
+    __c65,
     0,
   ) as any as S.Schema<SetIamPolicyProjectsLocationsBackupPlansBackupsVolumeBackupsRequest>,
   output: __S(183, __c11, 7) as any as S.Schema<Policy>,
@@ -3155,7 +2726,7 @@ export const setIamPolicyProjectsLocationsRestorePlans: API.OperationMethod<
   SetIamPolicyProjectsLocationsRestorePlansError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1232, __c77, 0) as any as S.Schema<SetIamPolicyProjectsLocationsRestorePlansRequest>,
+  input: __S(1168, __c73, 0) as any as S.Schema<SetIamPolicyProjectsLocationsRestorePlansRequest>,
   output: __S(183, __c11, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -3178,8 +2749,8 @@ export const setIamPolicyProjectsLocationsRestorePlansRestores: API.OperationMet
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1248,
-    __c78,
+    1184,
+    __c74,
     0,
   ) as any as S.Schema<SetIamPolicyProjectsLocationsRestorePlansRestoresRequest>,
   output: __S(183, __c11, 7) as any as S.Schema<Policy>,
@@ -3204,8 +2775,8 @@ export const setIamPolicyProjectsLocationsRestorePlansRestoresVolumeRestores: AP
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1264,
-    __c79,
+    1200,
+    __c75,
     0,
   ) as any as S.Schema<SetIamPolicyProjectsLocationsRestorePlansRestoresVolumeRestoresRequest>,
   output: __S(183, __c11, 7) as any as S.Schema<Policy>,
@@ -3229,8 +2800,8 @@ export const setTagsProjectsLocationsBackupPlans: API.OperationMethod<
   SetTagsProjectsLocationsBackupPlansError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1280, __c80, 0) as any as S.Schema<SetTagsProjectsLocationsBackupPlansRequest>,
-  output: __S(656, __c41, 0) as any as S.Schema<SetTagsResponse>,
+  input: __S(1216, __c76, 0) as any as S.Schema<SetTagsProjectsLocationsBackupPlansRequest>,
+  output: __S(560, __c35, 0) as any as S.Schema<SetTagsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3251,8 +2822,8 @@ export const setTagsProjectsLocationsRestorePlans: API.OperationMethod<
   SetTagsProjectsLocationsRestorePlansError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1296, __c81, 0) as any as S.Schema<SetTagsProjectsLocationsRestorePlansRequest>,
-  output: __S(656, __c41, 0) as any as S.Schema<SetTagsResponse>,
+  input: __S(1248, __c78, 0) as any as S.Schema<SetTagsProjectsLocationsRestorePlansRequest>,
+  output: __S(560, __c35, 0) as any as S.Schema<SetTagsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3274,11 +2845,11 @@ export const testIamPermissionsProjectsLocationsBackupPlans: API.OperationMethod
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1312,
-    __c82,
+    1264,
+    __c79,
     0,
   ) as any as S.Schema<TestIamPermissionsProjectsLocationsBackupPlansRequest>,
-  output: __S(1328, __c83, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  output: __S(1280, __c80, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3300,11 +2871,11 @@ export const testIamPermissionsProjectsLocationsBackupPlansBackups: API.Operatio
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1344,
-    __c84,
+    1296,
+    __c81,
     0,
   ) as any as S.Schema<TestIamPermissionsProjectsLocationsBackupPlansBackupsRequest>,
-  output: __S(1328, __c83, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  output: __S(1280, __c80, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3326,11 +2897,11 @@ export const testIamPermissionsProjectsLocationsBackupPlansBackupsVolumeBackups:
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1360,
-    __c85,
+    1312,
+    __c82,
     0,
   ) as any as S.Schema<TestIamPermissionsProjectsLocationsBackupPlansBackupsVolumeBackupsRequest>,
-  output: __S(1328, __c83, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  output: __S(1280, __c80, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3352,11 +2923,11 @@ export const testIamPermissionsProjectsLocationsRestorePlans: API.OperationMetho
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1376,
-    __c86,
+    1328,
+    __c83,
     0,
   ) as any as S.Schema<TestIamPermissionsProjectsLocationsRestorePlansRequest>,
-  output: __S(1328, __c83, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  output: __S(1280, __c80, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3378,11 +2949,11 @@ export const testIamPermissionsProjectsLocationsRestorePlansRestores: API.Operat
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1392,
-    __c87,
+    1344,
+    __c84,
     0,
   ) as any as S.Schema<TestIamPermissionsProjectsLocationsRestorePlansRestoresRequest>,
-  output: __S(1328, __c83, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  output: __S(1280, __c80, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3404,11 +2975,11 @@ export const testIamPermissionsProjectsLocationsRestorePlansRestoresVolumeRestor
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1456,
-    __c91,
+    1408,
+    __c88,
     0,
   ) as any as S.Schema<TestIamPermissionsProjectsLocationsRestorePlansRestoresVolumeRestoresRequest>,
-  output: __S(1328, __c83, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  output: __S(1280, __c80, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3421,30 +2992,13 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          restoreId: S.optional(S.String.pipe(T.Query())),
-          volumesRestoredCount: S.optional(S.Number),
-          etag: S.optional(S.String),
-          filter: S.optional(__S(18, __c1, 2)),
-          restoreConfig: S.optional(__S(1519, __c94, 15)),
-          cluster: S.optional(S.String),
-          state: S.optional(S.String),
-          resourcesRestoredCount: S.optional(S.Number),
-          backup: S.optional(S.String),
-          name: S.optional(S.String),
-          labels: S.optional(__S(944, __c59, 0)),
-          stateReason: S.optional(S.String),
-          volumeDataRestorePolicyOverrides: S.optional(__S(20, __c1, 4)),
-          troubleshootingInfo: S.optional(__S(1424, __c89, 0)),
-          resourcesFailedCount: S.optional(S.Number),
-          updateTime: S.optional(S.String),
-          description: S.optional(S.String),
-          createTime: S.optional(S.String),
-          resourcesExcludedCount: S.optional(S.Number),
-          uid: S.optional(S.String),
-          completeTime: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(21, __c1, 5),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            restoreId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/restores",
@@ -3461,8 +3015,8 @@ function __c1(j: number): any {
         S.Struct({
           namespace: S.optional(S.String),
           name: S.optional(S.String),
-          labels: S.optional(__S(944, __c59, 0)),
-          groupKind: S.optional(__S(1504, __c94, 0)),
+          labels: S.optional(__S(864, __c54, 0)),
+          groupKind: S.optional(__S(1472, __c92, 0)),
         }),
       ).annotate({ identifier: "ResourceSelector" });
     case 1:
@@ -3478,11 +3032,36 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           policy: S.optional(S.String),
-          selectedPvcs: S.optional(__S(1218, __c76, 2)),
+          selectedPvcs: S.optional(__S(1154, __c72, 2)),
         }),
       ).annotate({ identifier: "VolumeDataRestorePolicyOverride" });
     case 4:
       return S.Array(__S(19, __c1, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          volumesRestoredCount: S.optional(S.Number),
+          etag: S.optional(S.String),
+          filter: S.optional(__S(18, __c1, 2)),
+          restoreConfig: S.optional(__S(1487, __c92, 15)),
+          cluster: S.optional(S.String),
+          state: S.optional(S.String),
+          resourcesRestoredCount: S.optional(S.Number),
+          backup: S.optional(S.String),
+          name: S.optional(S.String),
+          labels: S.optional(__S(864, __c54, 0)),
+          stateReason: S.optional(S.String),
+          volumeDataRestorePolicyOverrides: S.optional(__S(20, __c1, 4)),
+          troubleshootingInfo: S.optional(__S(1376, __c86, 0)),
+          resourcesFailedCount: S.optional(S.Number),
+          updateTime: S.optional(S.String),
+          description: S.optional(S.String),
+          createTime: S.optional(S.String),
+          resourcesExcludedCount: S.optional(S.Number),
+          uid: S.optional(S.String),
+          completeTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Restore" });
   }
 }
 function __c2(j: number): any {
@@ -3662,7 +3241,7 @@ function __c11(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          members: S.optional(__S(1184, __c74, 0)),
+          members: S.optional(__S(1120, __c70, 0)),
           condition: S.optional(__S(176, __c11, 0)),
           role: S.optional(S.String),
         }),
@@ -3672,7 +3251,7 @@ function __c11(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          exemptedMembers: S.optional(__S(1184, __c74, 0)),
+          exemptedMembers: S.optional(__S(1120, __c70, 0)),
           logType: S.optional(S.String),
         }),
       ).annotate({ identifier: "AuditLogConfig" });
@@ -3811,8 +3390,8 @@ function __c18(j: number): any {
           locationId: S.optional(S.String),
           displayName: S.optional(S.String),
           name: S.optional(S.String),
-          labels: S.optional(__S(944, __c59, 0)),
-          metadata: S.optional(__S(912, __c57, 0)),
+          labels: S.optional(__S(864, __c54, 0)),
+          metadata: S.optional(__S(832, __c52, 0)),
         }),
       ).annotate({ identifier: "Location" });
   }
@@ -3838,24 +3417,6 @@ function __c20(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          uid: S.optional(S.String),
-          labels: S.optional(__S(944, __c59, 0)),
-          destinationProjectId: S.optional(S.String),
-          etag: S.optional(S.String),
-          destinationProject: S.optional(S.String),
-          name: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          createTime: S.optional(S.String),
-          description: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "BackupChannel" });
-  }
-}
-function __c21(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
           name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -3867,16 +3428,16 @@ function __c21(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsBackupChannelsBackupPlanBindingsRequest" });
   }
 }
-function __c22(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           includeVolumeData: S.optional(S.Boolean),
-          encryptionKey: S.optional(__S(1152, __c72, 0)),
+          encryptionKey: S.optional(__S(1088, __c68, 0)),
           includeSecrets: S.optional(S.Boolean),
-          selectedNamespaces: S.optional(__S(1216, __c76, 0)),
-          selectedApplications: S.optional(__S(1218, __c76, 2)),
+          selectedNamespaces: S.optional(__S(1152, __c72, 0)),
+          selectedApplications: S.optional(__S(1154, __c72, 2)),
           allNamespaces: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "BackupConfigDetails" });
@@ -3890,9 +3451,9 @@ function __c22(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          backupConfigDetails: S.optional(__S(352, __c22, 0)),
+          backupConfigDetails: S.optional(__S(336, __c21, 0)),
           state: S.optional(S.String),
-          retentionPolicyDetails: S.optional(__S(353, __c22, 1)),
+          retentionPolicyDetails: S.optional(__S(337, __c21, 1)),
           lastSuccessfulBackupTime: S.optional(S.String),
           protectedPodCount: S.optional(S.Number),
           lastSuccessfulBackup: S.optional(S.String),
@@ -3903,7 +3464,7 @@ function __c22(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          backupPlanDetails: S.optional(__S(354, __c22, 2)),
+          backupPlanDetails: S.optional(__S(338, __c21, 2)),
           createTime: S.optional(S.String),
           cluster: S.optional(S.String),
           etag: S.optional(S.String),
@@ -3915,7 +3476,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "BackupPlanBinding" });
   }
 }
-function __c23(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3931,36 +3492,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsBackupPlansRequest" });
   }
 }
-function __c24(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          lastSuccessfulBackupTime: S.optional(S.String),
-          name: S.optional(S.String),
-          rpoRiskReason: S.optional(S.String),
-          protectedPodCount: S.optional(S.Number),
-          backupChannel: S.optional(S.String),
-          backupSchedule: S.optional(__S(1143, __c71, 7)),
-          backupConfig: S.optional(__S(1144, __c71, 8)),
-          deactivated: S.optional(S.Boolean),
-          retentionPolicy: S.optional(__S(1145, __c71, 9)),
-          rpoRiskLevel: S.optional(S.Number),
-          uid: S.optional(S.String),
-          labels: S.optional(__S(944, __c59, 0)),
-          cluster: S.optional(S.String),
-          etag: S.optional(S.String),
-          description: S.optional(S.String),
-          state: S.optional(S.String),
-          protectedNamespaceCount: S.optional(S.Number),
-          stateReason: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "BackupPlan" });
-  }
-}
-function __c25(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3976,49 +3508,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsBackupPlansBackupsRequest" });
   }
 }
-function __c26(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          allNamespaces: S.optional(S.Boolean),
-          selectedNamespaceLabels: S.optional(__S(1170, __c73, 2)),
-          namespaceCount: S.optional(S.Number),
-          description: S.optional(S.String),
-          createTime: S.optional(S.String),
-          labels: S.optional(__S(944, __c59, 0)),
-          uid: S.optional(S.String),
-          containsVolumeData: S.optional(S.Boolean),
-          name: S.optional(S.String),
-          deleteLockDays: S.optional(S.Number),
-          troubleshootingInfo: S.optional(__S(1424, __c89, 0)),
-          completeTime: S.optional(S.String),
-          permissiveMode: S.optional(S.Boolean),
-          podCount: S.optional(S.Number),
-          configBackupSizeBytes: S.optional(S.String),
-          resourceCount: S.optional(S.Number),
-          satisfiesPzs: S.optional(S.Boolean),
-          selectedNamespaces: S.optional(__S(1216, __c76, 0)),
-          selectedApplications: S.optional(__S(1218, __c76, 2)),
-          stateReason: S.optional(S.String),
-          clusterMetadata: S.optional(__S(1440, __c90, 0)),
-          deleteLockExpireTime: S.optional(S.String),
-          volumeCount: S.optional(S.Number),
-          retainExpireTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          satisfiesPzi: S.optional(S.Boolean),
-          retainDays: S.optional(S.Number),
-          state: S.optional(S.String),
-          manual: S.optional(S.Boolean),
-          etag: S.optional(S.String),
-          encryptionKey: S.optional(__S(1152, __c72, 0)),
-          sizeBytes: S.optional(S.String),
-          containsSecrets: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "Backup" });
-  }
-}
-function __c27(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4034,7 +3524,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsBackupPlansBackupsVolumeBackupsRequest" });
   }
 }
-function __c28(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4044,7 +3534,7 @@ function __c28(j: number): any {
           format: S.optional(S.String),
           uid: S.optional(S.String),
           completeTime: S.optional(S.String),
-          sourcePvc: S.optional(__S(1200, __c75, 0)),
+          sourcePvc: S.optional(__S(1136, __c71, 0)),
           satisfiesPzi: S.optional(S.Boolean),
           name: S.optional(S.String),
           storageBytes: S.optional(S.String),
@@ -4058,7 +3548,7 @@ function __c28(j: number): any {
       ).annotate({ identifier: "VolumeBackup" });
   }
 }
-function __c29(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4074,7 +3564,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsOperationsRequest" });
   }
 }
-function __c30(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4090,25 +3580,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsRestoreChannelsRequest" });
   }
 }
-function __c31(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          labels: S.optional(__S(944, __c59, 0)),
-          etag: S.optional(S.String),
-          name: S.optional(S.String),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          uid: S.optional(S.String),
-          destinationProject: S.optional(S.String),
-          description: S.optional(S.String),
-          destinationProjectId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "RestoreChannel" });
-  }
-}
-function __c32(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4124,7 +3596,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsRestoreChannelsRestorePlanBindingsRequest" });
   }
 }
-function __c33(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4140,7 +3612,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "RestorePlanBinding" });
   }
 }
-function __c34(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4156,29 +3628,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsRestorePlansRequest" });
   }
 }
-function __c35(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          labels: S.optional(__S(944, __c59, 0)),
-          restoreChannel: S.optional(S.String),
-          uid: S.optional(S.String),
-          cluster: S.optional(S.String),
-          description: S.optional(S.String),
-          stateReason: S.optional(S.String),
-          name: S.optional(S.String),
-          backupPlan: S.optional(S.String),
-          restoreConfig: S.optional(__S(1519, __c94, 15)),
-          state: S.optional(S.String),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          etag: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "RestorePlan" });
-  }
-}
-function __c36(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4194,36 +3644,7 @@ function __c36(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsRestorePlansRestoresRequest" });
   }
 }
-function __c37(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          volumesRestoredCount: S.optional(S.Number),
-          etag: S.optional(S.String),
-          filter: S.optional(__S(18, __c1, 2)),
-          restoreConfig: S.optional(__S(1519, __c94, 15)),
-          cluster: S.optional(S.String),
-          state: S.optional(S.String),
-          resourcesRestoredCount: S.optional(S.Number),
-          backup: S.optional(S.String),
-          name: S.optional(S.String),
-          labels: S.optional(__S(944, __c59, 0)),
-          stateReason: S.optional(S.String),
-          volumeDataRestorePolicyOverrides: S.optional(__S(20, __c1, 4)),
-          troubleshootingInfo: S.optional(__S(1424, __c89, 0)),
-          resourcesFailedCount: S.optional(S.Number),
-          updateTime: S.optional(S.String),
-          description: S.optional(S.String),
-          createTime: S.optional(S.String),
-          resourcesExcludedCount: S.optional(S.Number),
-          uid: S.optional(S.String),
-          completeTime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Restore" });
-  }
-}
-function __c38(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4239,14 +3660,14 @@ function __c38(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsRestorePlansRestoresVolumeRestoresRequest" });
   }
 }
-function __c39(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           volumeHandle: S.optional(S.String),
           updateTime: S.optional(S.String),
-          targetPvc: S.optional(__S(1200, __c75, 0)),
+          targetPvc: S.optional(__S(1136, __c71, 0)),
           createTime: S.optional(S.String),
           uid: S.optional(S.String),
           etag: S.optional(S.String),
@@ -4260,7 +3681,7 @@ function __c39(j: number): any {
       ).annotate({ identifier: "VolumeRestore" });
   }
 }
-function __c40(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4276,19 +3697,19 @@ function __c40(j: number): any {
       ).annotate({ identifier: "GetTagsProjectsLocationsBackupPlansRequest" });
   }
 }
-function __c41(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          tags: S.optional(__S(944, __c59, 0)),
+          tags: S.optional(__S(864, __c54, 0)),
           etag: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetTagsResponse" });
   }
 }
-function __c42(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4304,13 +3725,13 @@ function __c42(j: number): any {
       ).annotate({ identifier: "GetTagsProjectsLocationsRestorePlansRequest" });
   }
 }
-function __c43(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           pageToken: S.optional(S.String.pipe(T.Query())),
-          extraLocationTypes: S.optional(__S(1184, __c74, 0).pipe(T.Query())),
+          extraLocationTypes: S.optional(__S(1120, __c70, 0).pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
@@ -4328,18 +3749,18 @@ function __c43(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          locations: S.optional(__S(689, __c43, 1)),
+          locations: S.optional(__S(593, __c37, 1)),
         }),
       ).annotate({ identifier: "ListLocationsResponse" });
   }
 }
-function __c44(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(720, __c45, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(624, __c39, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4350,7 +3771,7 @@ function __c44(j: number): any {
       ).annotate({ identifier: "CancelProjectsLocationsOperationsRequest" });
   }
 }
-function __c45(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({
@@ -4358,7 +3779,7 @@ function __c45(j: number): any {
       });
   }
 }
-function __c46(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4377,18 +3798,18 @@ function __c46(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsBackupChannelsRequest" });
     case 1:
-      return S.Array(__S(320, __c20, 0));
+      return S.Array(__S(816, __c51, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          backupChannels: S.optional(__S(737, __c46, 1)),
-          unreachable: S.optional(__S(1184, __c74, 0)),
+          backupChannels: S.optional(__S(641, __c40, 1)),
+          unreachable: S.optional(__S(1120, __c70, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListBackupChannelsResponse" });
   }
 }
-function __c47(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4407,18 +3828,18 @@ function __c47(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsBackupChannelsBackupPlanBindingsRequest" });
     case 1:
-      return S.Array(__S(355, __c22, 3));
+      return S.Array(__S(339, __c21, 3));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(1184, __c74, 0)),
-          backupPlanBindings: S.optional(__S(753, __c47, 1)),
+          unreachable: S.optional(__S(1120, __c70, 0)),
+          backupPlanBindings: S.optional(__S(657, __c41, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListBackupPlanBindingsResponse" });
   }
 }
-function __c48(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4437,18 +3858,18 @@ function __c48(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsBackupPlansRequest" });
     case 1:
-      return S.Array(__S(384, __c24, 0));
+      return S.Array(__S(1082, __c67, 10));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(1184, __c74, 0)),
+          unreachable: S.optional(__S(1120, __c70, 0)),
           nextPageToken: S.optional(S.String),
-          backupPlans: S.optional(__S(769, __c48, 1)),
+          backupPlans: S.optional(__S(673, __c42, 1)),
         }),
       ).annotate({ identifier: "ListBackupPlansResponse" });
   }
 }
-function __c49(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4468,18 +3889,18 @@ function __c49(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsBackupPlansBackupsRequest" });
     case 1:
-      return S.Array(__S(416, __c26, 0));
+      return S.Array(__S(1393, __c87, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(1184, __c74, 0)),
+          unreachable: S.optional(__S(1120, __c70, 0)),
           nextPageToken: S.optional(S.String),
-          backups: S.optional(__S(785, __c49, 1)),
+          backups: S.optional(__S(689, __c43, 1)),
         }),
       ).annotate({ identifier: "ListBackupsResponse" });
   }
 }
-function __c50(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4498,17 +3919,17 @@ function __c50(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsBackupPlansBackupsVolumeBackupsRequest" });
     case 1:
-      return S.Array(__S(448, __c28, 0));
+      return S.Array(__S(400, __c25, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          volumeBackups: S.optional(__S(801, __c50, 1)),
+          volumeBackups: S.optional(__S(705, __c44, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListVolumeBackupsResponse" });
   }
 }
-function __c51(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4527,18 +3948,18 @@ function __c51(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsOperationsRequest" });
     case 1:
-      return S.Array(__S(930, __c58, 2));
+      return S.Array(__S(850, __c53, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          operations: S.optional(__S(817, __c51, 1)),
+          operations: S.optional(__S(721, __c45, 1)),
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(1184, __c74, 0)),
+          unreachable: S.optional(__S(1120, __c70, 0)),
         }),
       ).annotate({ identifier: "GoogleLongrunningListOperationsResponse" });
   }
 }
-function __c52(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4557,18 +3978,18 @@ function __c52(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsRestoreChannelsRequest" });
     case 1:
-      return S.Array(__S(496, __c31, 0));
+      return S.Array(__S(1440, __c90, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          restoreChannels: S.optional(__S(833, __c52, 1)),
-          unreachable: S.optional(__S(1184, __c74, 0)),
+          restoreChannels: S.optional(__S(737, __c46, 1)),
+          unreachable: S.optional(__S(1120, __c70, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListRestoreChannelsResponse" });
   }
 }
-function __c53(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4587,18 +4008,18 @@ function __c53(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsRestoreChannelsRestorePlanBindingsRequest" });
     case 1:
-      return S.Array(__S(528, __c33, 0));
+      return S.Array(__S(464, __c29, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          restorePlanBindings: S.optional(__S(849, __c53, 1)),
-          unreachable: S.optional(__S(1184, __c74, 0)),
+          restorePlanBindings: S.optional(__S(753, __c47, 1)),
+          unreachable: S.optional(__S(1120, __c70, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListRestorePlanBindingsResponse" });
   }
 }
-function __c54(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4617,18 +4038,18 @@ function __c54(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsRestorePlansRequest" });
     case 1:
-      return S.Array(__S(560, __c35, 0));
+      return S.Array(__S(1488, __c93, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          restorePlans: S.optional(__S(865, __c54, 1)),
-          unreachable: S.optional(__S(1184, __c74, 0)),
+          restorePlans: S.optional(__S(769, __c48, 1)),
+          unreachable: S.optional(__S(1120, __c70, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListRestorePlansResponse" });
   }
 }
-function __c55(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4647,34 +4068,28 @@ function __c55(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsRestorePlansRestoresRequest" });
     case 1:
-      return S.Array(__S(592, __c37, 0));
+      return S.Array(__S(21, __c1, 5));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(1184, __c74, 0)),
-          restores: S.optional(__S(881, __c55, 1)),
+          unreachable: S.optional(__S(1120, __c70, 0)),
+          restores: S.optional(__S(785, __c49, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListRestoresResponse" });
   }
 }
-function __c56(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          backupChannelId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          uid: S.optional(S.String),
-          labels: S.optional(__S(944, __c59, 0)),
-          destinationProjectId: S.optional(S.String),
-          etag: S.optional(S.String),
-          destinationProject: S.optional(S.String),
-          name: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          createTime: S.optional(S.String),
-          description: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(816, __c51, 0),
+          S.Struct({
+            backupChannelId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/backupChannels",
@@ -4684,43 +4099,61 @@ function __c56(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsBackupChannelsRequest" });
   }
 }
-function __c57(j: number): any {
+function __c51(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uid: S.optional(S.String),
+          labels: S.optional(__S(864, __c54, 0)),
+          destinationProjectId: S.optional(S.String),
+          etag: S.optional(S.String),
+          destinationProject: S.optional(S.String),
+          name: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          createTime: S.optional(S.String),
+          description: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "BackupChannel" });
+  }
+}
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c58(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(912, __c57, 0));
+      return S.Array(__S(832, __c52, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
           code: S.optional(S.Number),
           message: S.optional(S.String),
-          details: S.optional(__S(928, __c58, 0)),
+          details: S.optional(__S(848, __c53, 0)),
         }),
       ).annotate({ identifier: "GoogleRpcStatus" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          response: S.optional(__S(912, __c57, 0)),
-          error: S.optional(__S(929, __c58, 1)),
-          metadata: S.optional(__S(912, __c57, 0)),
+          response: S.optional(__S(832, __c52, 0)),
+          error: S.optional(__S(849, __c53, 1)),
+          metadata: S.optional(__S(832, __c52, 0)),
           name: S.optional(S.String),
           done: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "GoogleLongrunningOperation" });
   }
 }
-function __c59(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
   }
 }
-function __c60(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4739,32 +4172,27 @@ function __c60(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsRestorePlansRestoresVolumeRestoresRequest" });
     case 1:
-      return S.Array(__S(624, __c39, 0));
+      return S.Array(__S(528, __c33, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          volumeRestores: S.optional(__S(961, __c60, 1)),
+          volumeRestores: S.optional(__S(881, __c55, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListVolumeRestoresResponse" });
   }
 }
-function __c61(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          uid: S.optional(S.String),
-          labels: S.optional(__S(944, __c59, 0)),
-          destinationProjectId: S.optional(S.String),
-          etag: S.optional(S.String),
-          destinationProject: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          createTime: S.optional(S.String),
-          description: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(816, __c51, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -4774,33 +4202,17 @@ function __c61(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsBackupChannelsRequest" });
   }
 }
-function __c62(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          lastSuccessfulBackupTime: S.optional(S.String),
-          rpoRiskReason: S.optional(S.String),
-          protectedPodCount: S.optional(S.Number),
-          backupChannel: S.optional(S.String),
-          backupSchedule: S.optional(__S(1143, __c71, 7)),
-          backupConfig: S.optional(__S(1144, __c71, 8)),
-          deactivated: S.optional(S.Boolean),
-          retentionPolicy: S.optional(__S(1145, __c71, 9)),
-          rpoRiskLevel: S.optional(S.Number),
-          uid: S.optional(S.String),
-          labels: S.optional(__S(944, __c59, 0)),
-          cluster: S.optional(S.String),
-          etag: S.optional(S.String),
-          description: S.optional(S.String),
-          state: S.optional(S.String),
-          protectedNamespaceCount: S.optional(S.Number),
-          stateReason: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1082, __c67, 10),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -4810,46 +4222,17 @@ function __c62(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsBackupPlansRequest" });
   }
 }
-function __c63(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          allNamespaces: S.optional(S.Boolean),
-          selectedNamespaceLabels: S.optional(__S(1170, __c73, 2)),
-          namespaceCount: S.optional(S.Number),
-          description: S.optional(S.String),
-          createTime: S.optional(S.String),
-          labels: S.optional(__S(944, __c59, 0)),
-          uid: S.optional(S.String),
-          containsVolumeData: S.optional(S.Boolean),
-          deleteLockDays: S.optional(S.Number),
-          troubleshootingInfo: S.optional(__S(1424, __c89, 0)),
-          completeTime: S.optional(S.String),
-          permissiveMode: S.optional(S.Boolean),
-          podCount: S.optional(S.Number),
-          configBackupSizeBytes: S.optional(S.String),
-          resourceCount: S.optional(S.Number),
-          satisfiesPzs: S.optional(S.Boolean),
-          selectedNamespaces: S.optional(__S(1216, __c76, 0)),
-          selectedApplications: S.optional(__S(1218, __c76, 2)),
-          stateReason: S.optional(S.String),
-          clusterMetadata: S.optional(__S(1440, __c90, 0)),
-          deleteLockExpireTime: S.optional(S.String),
-          volumeCount: S.optional(S.Number),
-          retainExpireTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          satisfiesPzi: S.optional(S.Boolean),
-          retainDays: S.optional(S.Number),
-          state: S.optional(S.String),
-          manual: S.optional(S.Boolean),
-          etag: S.optional(S.String),
-          encryptionKey: S.optional(__S(1152, __c72, 0)),
-          sizeBytes: S.optional(S.String),
-          containsSecrets: S.optional(S.Boolean),
-        }).pipe(
+        S.Extend(
+          __S(1393, __c87, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -4859,22 +4242,17 @@ function __c63(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsBackupPlansBackupsRequest" });
   }
 }
-function __c64(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          labels: S.optional(__S(944, __c59, 0)),
-          etag: S.optional(S.String),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          uid: S.optional(S.String),
-          destinationProject: S.optional(S.String),
-          description: S.optional(S.String),
-          destinationProjectId: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1440, __c90, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -4884,26 +4262,17 @@ function __c64(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsRestoreChannelsRequest" });
   }
 }
-function __c65(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          labels: S.optional(__S(944, __c59, 0)),
-          restoreChannel: S.optional(S.String),
-          uid: S.optional(S.String),
-          cluster: S.optional(S.String),
-          description: S.optional(S.String),
-          stateReason: S.optional(S.String),
-          backupPlan: S.optional(S.String),
-          restoreConfig: S.optional(__S(1519, __c94, 15)),
-          state: S.optional(S.String),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          etag: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1488, __c93, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -4913,33 +4282,17 @@ function __c65(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsRestorePlansRequest" });
   }
 }
-function __c66(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          volumesRestoredCount: S.optional(S.Number),
-          etag: S.optional(S.String),
-          filter: S.optional(__S(18, __c1, 2)),
-          restoreConfig: S.optional(__S(1519, __c94, 15)),
-          cluster: S.optional(S.String),
-          state: S.optional(S.String),
-          resourcesRestoredCount: S.optional(S.Number),
-          backup: S.optional(S.String),
-          labels: S.optional(__S(944, __c59, 0)),
-          stateReason: S.optional(S.String),
-          volumeDataRestorePolicyOverrides: S.optional(__S(20, __c1, 4)),
-          troubleshootingInfo: S.optional(__S(1424, __c89, 0)),
-          resourcesFailedCount: S.optional(S.Number),
-          updateTime: S.optional(S.String),
-          description: S.optional(S.String),
-          createTime: S.optional(S.String),
-          resourcesExcludedCount: S.optional(S.Number),
-          uid: S.optional(S.String),
-          completeTime: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(21, __c1, 5),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -4949,15 +4302,16 @@ function __c66(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsRestorePlansRestoresRequest" });
   }
 }
-function __c67(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          policy: S.optional(__S(183, __c11, 7)),
-          updateMask: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1008, __c63, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -4967,15 +4321,27 @@ function __c67(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsLocationsBackupPlansRequest" });
   }
 }
-function __c68(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          resource: S.String.pipe(T.Label()),
           policy: S.optional(__S(183, __c11, 7)),
           updateMask: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "SetIamPolicyRequest" });
+  }
+}
+function __c64(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(1008, __c63, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -4985,15 +4351,16 @@ function __c68(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsLocationsBackupPlansBackupsRequest" });
   }
 }
-function __c69(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          policy: S.optional(__S(183, __c11, 7)),
-          updateMask: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1008, __c63, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -5005,34 +4372,17 @@ function __c69(j: number): any {
       });
   }
 }
-function __c70(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          backupPlanId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          lastSuccessfulBackupTime: S.optional(S.String),
-          name: S.optional(S.String),
-          rpoRiskReason: S.optional(S.String),
-          protectedPodCount: S.optional(S.Number),
-          backupChannel: S.optional(S.String),
-          backupSchedule: S.optional(__S(1143, __c71, 7)),
-          backupConfig: S.optional(__S(1144, __c71, 8)),
-          deactivated: S.optional(S.Boolean),
-          retentionPolicy: S.optional(__S(1145, __c71, 9)),
-          rpoRiskLevel: S.optional(S.Number),
-          uid: S.optional(S.String),
-          labels: S.optional(__S(944, __c59, 0)),
-          cluster: S.optional(S.String),
-          etag: S.optional(S.String),
-          description: S.optional(S.String),
-          state: S.optional(S.String),
-          protectedNamespaceCount: S.optional(S.Number),
-          stateReason: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1082, __c67, 10),
+          S.Struct({
+            backupPlanId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/backupPlans",
@@ -5042,14 +4392,14 @@ function __c70(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsBackupPlansRequest" });
   }
 }
-function __c71(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
     case 1:
       return S.suspend(() =>
         S.Struct({
-          daysOfWeek: S.optional(__S(1136, __c71, 0)),
+          daysOfWeek: S.optional(__S(1072, __c67, 0)),
         }),
       ).annotate({ identifier: "DayOfWeekList" });
     case 2:
@@ -5074,24 +4424,24 @@ function __c71(j: number): any {
         S.Struct({
           daily: S.optional(S.Boolean),
           duration: S.optional(S.String),
-          daysOfWeek: S.optional(__S(1137, __c71, 1)),
-          singleOccurrenceDate: S.optional(__S(1138, __c71, 2)),
-          startTime: S.optional(__S(1139, __c71, 3)),
+          daysOfWeek: S.optional(__S(1073, __c67, 1)),
+          singleOccurrenceDate: S.optional(__S(1074, __c67, 2)),
+          startTime: S.optional(__S(1075, __c67, 3)),
         }),
       ).annotate({ identifier: "ExclusionWindow" });
     case 5:
-      return S.Array(__S(1140, __c71, 4));
+      return S.Array(__S(1076, __c67, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           targetRpoMinutes: S.optional(S.Number),
-          exclusionWindows: S.optional(__S(1141, __c71, 5)),
+          exclusionWindows: S.optional(__S(1077, __c67, 5)),
         }),
       ).annotate({ identifier: "RpoConfig" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          rpoConfig: S.optional(__S(1142, __c71, 6)),
+          rpoConfig: S.optional(__S(1078, __c67, 6)),
           nextScheduledBackupTime: S.optional(S.String),
           paused: S.optional(S.Boolean),
           cronSchedule: S.optional(S.String),
@@ -5101,12 +4451,12 @@ function __c71(j: number): any {
       return S.suspend(() =>
         S.Struct({
           includeSecrets: S.optional(S.Boolean),
-          encryptionKey: S.optional(__S(1152, __c72, 0)),
-          selectedNamespaces: S.optional(__S(1216, __c76, 0)),
+          encryptionKey: S.optional(__S(1088, __c68, 0)),
+          selectedNamespaces: S.optional(__S(1152, __c72, 0)),
           permissiveMode: S.optional(S.Boolean),
-          selectedApplications: S.optional(__S(1218, __c76, 2)),
+          selectedApplications: S.optional(__S(1154, __c72, 2)),
           includeVolumeData: S.optional(S.Boolean),
-          selectedNamespaceLabels: S.optional(__S(1170, __c73, 2)),
+          selectedNamespaceLabels: S.optional(__S(1106, __c69, 2)),
           allNamespaces: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "BackupConfig" });
@@ -5118,9 +4468,34 @@ function __c71(j: number): any {
           backupRetainDays: S.optional(S.Number),
         }),
       ).annotate({ identifier: "RetentionPolicy" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          createTime: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          lastSuccessfulBackupTime: S.optional(S.String),
+          name: S.optional(S.String),
+          rpoRiskReason: S.optional(S.String),
+          protectedPodCount: S.optional(S.Number),
+          backupChannel: S.optional(S.String),
+          backupSchedule: S.optional(__S(1079, __c67, 7)),
+          backupConfig: S.optional(__S(1080, __c67, 8)),
+          deactivated: S.optional(S.Boolean),
+          retentionPolicy: S.optional(__S(1081, __c67, 9)),
+          rpoRiskLevel: S.optional(S.Number),
+          uid: S.optional(S.String),
+          labels: S.optional(__S(864, __c54, 0)),
+          cluster: S.optional(S.String),
+          etag: S.optional(S.String),
+          description: S.optional(S.String),
+          state: S.optional(S.String),
+          protectedNamespaceCount: S.optional(S.Number),
+          stateReason: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "BackupPlan" });
   }
 }
-function __c72(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5130,7 +4505,7 @@ function __c72(j: number): any {
       ).annotate({ identifier: "EncryptionKey" });
   }
 }
-function __c73(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5140,22 +4515,22 @@ function __c73(j: number): any {
         }),
       ).annotate({ identifier: "Label" });
     case 1:
-      return S.Array(__S(1168, __c73, 0));
+      return S.Array(__S(1104, __c69, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          resourceLabels: S.optional(__S(1169, __c73, 1)),
+          resourceLabels: S.optional(__S(1105, __c69, 1)),
         }),
       ).annotate({ identifier: "ResourceLabels" });
   }
 }
-function __c74(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c75(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5166,33 +4541,34 @@ function __c75(j: number): any {
       ).annotate({ identifier: "NamespacedName" });
   }
 }
-function __c76(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          namespaces: S.optional(__S(1184, __c74, 0)),
+          namespaces: S.optional(__S(1120, __c70, 0)),
         }),
       ).annotate({ identifier: "Namespaces" });
     case 1:
-      return S.Array(__S(1200, __c75, 0));
+      return S.Array(__S(1136, __c71, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          namespacedNames: S.optional(__S(1217, __c76, 1)),
+          namespacedNames: S.optional(__S(1153, __c72, 1)),
         }),
       ).annotate({ identifier: "NamespacedNames" });
   }
 }
-function __c77(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          policy: S.optional(__S(183, __c11, 7)),
-          updateMask: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1008, __c63, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -5202,15 +4578,16 @@ function __c77(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsLocationsRestorePlansRequest" });
   }
 }
-function __c78(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          policy: S.optional(__S(183, __c11, 7)),
-          updateMask: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1008, __c63, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -5220,15 +4597,16 @@ function __c78(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsLocationsRestorePlansRestoresRequest" });
   }
 }
-function __c79(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          policy: S.optional(__S(183, __c11, 7)),
-          updateMask: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1008, __c63, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:setIamPolicy",
@@ -5240,16 +4618,16 @@ function __c79(j: number): any {
       });
   }
 }
-function __c80(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String),
-          etag: S.optional(S.String),
-          tags: S.optional(__S(944, __c59, 0)),
-        }).pipe(
+        S.Extend(
+          __S(1232, __c77, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:setTags",
@@ -5259,16 +4637,29 @@ function __c80(j: number): any {
       ).annotate({ identifier: "SetTagsProjectsLocationsBackupPlansRequest" });
   }
 }
-function __c81(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           requestId: S.optional(S.String),
           etag: S.optional(S.String),
-          tags: S.optional(__S(944, __c59, 0)),
-        }).pipe(
+          name: S.optional(S.String),
+          tags: S.optional(__S(864, __c54, 0)),
+        }),
+      ).annotate({ identifier: "SetTagsRequest" });
+  }
+}
+function __c78(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(1232, __c77, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:setTags",
@@ -5278,14 +4669,16 @@ function __c81(j: number): any {
       ).annotate({ identifier: "SetTagsProjectsLocationsRestorePlansRequest" });
   }
 }
-function __c82(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          permissions: S.optional(__S(1184, __c74, 0)),
-        }).pipe(
+        S.Extend(
+          __S(1280, __c80, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -5295,24 +4688,26 @@ function __c82(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsLocationsBackupPlansRequest" });
   }
 }
-function __c83(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          permissions: S.optional(__S(1184, __c74, 0)),
+          permissions: S.optional(__S(1120, __c70, 0)),
         }),
-      ).annotate({ identifier: "TestIamPermissionsResponse" });
+      ).annotate({ identifier: "TestIamPermissionsRequest" });
   }
 }
-function __c84(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          permissions: S.optional(__S(1184, __c74, 0)),
-        }).pipe(
+        S.Extend(
+          __S(1280, __c80, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -5322,14 +4717,16 @@ function __c84(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsLocationsBackupPlansBackupsRequest" });
   }
 }
-function __c85(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          permissions: S.optional(__S(1184, __c74, 0)),
-        }).pipe(
+        S.Extend(
+          __S(1280, __c80, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -5341,14 +4738,16 @@ function __c85(j: number): any {
       });
   }
 }
-function __c86(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          permissions: S.optional(__S(1184, __c74, 0)),
-        }).pipe(
+        S.Extend(
+          __S(1280, __c80, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -5358,14 +4757,16 @@ function __c86(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsLocationsRestorePlansRequest" });
   }
 }
-function __c87(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          permissions: S.optional(__S(1184, __c74, 0)),
-        }).pipe(
+        S.Extend(
+          __S(1280, __c80, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -5375,47 +4776,17 @@ function __c87(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsLocationsRestorePlansRestoresRequest" });
   }
 }
-function __c88(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          backupId: S.optional(S.String.pipe(T.Query())),
-          allNamespaces: S.optional(S.Boolean),
-          selectedNamespaceLabels: S.optional(__S(1170, __c73, 2)),
-          namespaceCount: S.optional(S.Number),
-          description: S.optional(S.String),
-          createTime: S.optional(S.String),
-          labels: S.optional(__S(944, __c59, 0)),
-          uid: S.optional(S.String),
-          containsVolumeData: S.optional(S.Boolean),
-          name: S.optional(S.String),
-          deleteLockDays: S.optional(S.Number),
-          troubleshootingInfo: S.optional(__S(1424, __c89, 0)),
-          completeTime: S.optional(S.String),
-          permissiveMode: S.optional(S.Boolean),
-          podCount: S.optional(S.Number),
-          configBackupSizeBytes: S.optional(S.String),
-          resourceCount: S.optional(S.Number),
-          satisfiesPzs: S.optional(S.Boolean),
-          selectedNamespaces: S.optional(__S(1216, __c76, 0)),
-          selectedApplications: S.optional(__S(1218, __c76, 2)),
-          stateReason: S.optional(S.String),
-          clusterMetadata: S.optional(__S(1440, __c90, 0)),
-          deleteLockExpireTime: S.optional(S.String),
-          volumeCount: S.optional(S.Number),
-          retainExpireTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          satisfiesPzi: S.optional(S.Boolean),
-          retainDays: S.optional(S.Number),
-          state: S.optional(S.String),
-          manual: S.optional(S.Boolean),
-          etag: S.optional(S.String),
-          encryptionKey: S.optional(__S(1152, __c72, 0)),
-          sizeBytes: S.optional(S.String),
-          containsSecrets: S.optional(S.Boolean),
-        }).pipe(
+        S.Extend(
+          __S(1393, __c87, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            backupId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/backups",
@@ -5425,7 +4796,7 @@ function __c88(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsBackupPlansBackupsRequest" });
   }
 }
-function __c89(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5436,28 +4807,68 @@ function __c89(j: number): any {
       ).annotate({ identifier: "TroubleshootingInfo" });
   }
 }
-function __c90(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           cluster: S.optional(S.String),
-          backupCrdVersions: S.optional(__S(944, __c59, 0)),
+          backupCrdVersions: S.optional(__S(864, __c54, 0)),
           k8sVersion: S.optional(S.String),
           anthosVersion: S.optional(S.String),
           gkeVersion: S.optional(S.String),
         }),
       ).annotate({ identifier: "ClusterMetadata" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          allNamespaces: S.optional(S.Boolean),
+          selectedNamespaceLabels: S.optional(__S(1106, __c69, 2)),
+          namespaceCount: S.optional(S.Number),
+          description: S.optional(S.String),
+          createTime: S.optional(S.String),
+          labels: S.optional(__S(864, __c54, 0)),
+          uid: S.optional(S.String),
+          containsVolumeData: S.optional(S.Boolean),
+          name: S.optional(S.String),
+          deleteLockDays: S.optional(S.Number),
+          troubleshootingInfo: S.optional(__S(1376, __c86, 0)),
+          completeTime: S.optional(S.String),
+          permissiveMode: S.optional(S.Boolean),
+          podCount: S.optional(S.Number),
+          configBackupSizeBytes: S.optional(S.String),
+          resourceCount: S.optional(S.Number),
+          satisfiesPzs: S.optional(S.Boolean),
+          selectedNamespaces: S.optional(__S(1152, __c72, 0)),
+          selectedApplications: S.optional(__S(1154, __c72, 2)),
+          stateReason: S.optional(S.String),
+          clusterMetadata: S.optional(__S(1392, __c87, 0)),
+          deleteLockExpireTime: S.optional(S.String),
+          volumeCount: S.optional(S.Number),
+          retainExpireTime: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          satisfiesPzi: S.optional(S.Boolean),
+          retainDays: S.optional(S.Number),
+          state: S.optional(S.String),
+          manual: S.optional(S.Boolean),
+          etag: S.optional(S.String),
+          encryptionKey: S.optional(__S(1088, __c68, 0)),
+          sizeBytes: S.optional(S.String),
+          containsSecrets: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "Backup" });
   }
 }
-function __c91(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          permissions: S.optional(__S(1184, __c74, 0)),
-        }).pipe(
+        S.Extend(
+          __S(1280, __c80, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+resource}:testIamPermissions",
@@ -5469,23 +4880,17 @@ function __c91(j: number): any {
       });
   }
 }
-function __c92(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          restoreChannelId: S.optional(S.String.pipe(T.Query())),
-          labels: S.optional(__S(944, __c59, 0)),
-          etag: S.optional(S.String),
-          name: S.optional(S.String),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          uid: S.optional(S.String),
-          destinationProject: S.optional(S.String),
-          description: S.optional(S.String),
-          destinationProjectId: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1440, __c90, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            restoreChannelId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/restoreChannels",
@@ -5495,27 +4900,35 @@ function __c92(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsRestoreChannelsRequest" });
   }
 }
-function __c93(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
-          restorePlanId: S.optional(S.String.pipe(T.Query())),
-          labels: S.optional(__S(944, __c59, 0)),
-          restoreChannel: S.optional(S.String),
-          uid: S.optional(S.String),
-          cluster: S.optional(S.String),
-          description: S.optional(S.String),
-          stateReason: S.optional(S.String),
+          labels: S.optional(__S(864, __c54, 0)),
+          etag: S.optional(S.String),
           name: S.optional(S.String),
-          backupPlan: S.optional(S.String),
-          restoreConfig: S.optional(__S(1519, __c94, 15)),
-          state: S.optional(S.String),
           createTime: S.optional(S.String),
           updateTime: S.optional(S.String),
-          etag: S.optional(S.String),
-        }).pipe(
+          uid: S.optional(S.String),
+          destinationProject: S.optional(S.String),
+          description: S.optional(S.String),
+          destinationProjectId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RestoreChannel" });
+  }
+}
+function __c91(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(1488, __c93, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            restorePlanId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/restorePlans",
@@ -5525,7 +4938,7 @@ function __c93(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsRestorePlansRequest" });
   }
 }
-function __c94(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5537,25 +4950,25 @@ function __c94(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          requiring: S.optional(__S(1504, __c94, 0)),
-          satisfying: S.optional(__S(1504, __c94, 0)),
+          requiring: S.optional(__S(1472, __c92, 0)),
+          satisfying: S.optional(__S(1472, __c92, 0)),
         }),
       ).annotate({ identifier: "GroupKindDependency" });
     case 2:
-      return S.Array(__S(1505, __c94, 1));
+      return S.Array(__S(1473, __c92, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          groupKindDependencies: S.optional(__S(1506, __c94, 2)),
+          groupKindDependencies: S.optional(__S(1474, __c92, 2)),
         }),
       ).annotate({ identifier: "RestoreOrder" });
     case 4:
-      return S.Array(__S(1504, __c94, 0));
+      return S.Array(__S(1472, __c92, 0));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          selectedGroupKinds: S.optional(__S(1508, __c94, 4)),
-          excludedGroupKinds: S.optional(__S(1508, __c94, 4)),
+          selectedGroupKinds: S.optional(__S(1476, __c92, 4)),
+          excludedGroupKinds: S.optional(__S(1476, __c92, 4)),
           noGroupKinds: S.optional(S.Boolean),
           allGroupKinds: S.optional(S.Boolean),
         }),
@@ -5563,9 +4976,9 @@ function __c94(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          namespaces: S.optional(__S(1184, __c74, 0)),
+          namespaces: S.optional(__S(1120, __c70, 0)),
           jsonPath: S.optional(S.String),
-          groupKinds: S.optional(__S(1508, __c94, 4)),
+          groupKinds: S.optional(__S(1476, __c92, 4)),
         }),
       ).annotate({ identifier: "ResourceFilter" });
     case 7:
@@ -5578,17 +4991,17 @@ function __c94(j: number): any {
         }),
       ).annotate({ identifier: "TransformationRuleAction" });
     case 8:
-      return S.Array(__S(1511, __c94, 7));
+      return S.Array(__S(1479, __c92, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
-          resourceFilter: S.optional(__S(1510, __c94, 6)),
-          fieldActions: S.optional(__S(1512, __c94, 8)),
+          resourceFilter: S.optional(__S(1478, __c92, 6)),
+          fieldActions: S.optional(__S(1480, __c92, 8)),
         }),
       ).annotate({ identifier: "TransformationRule" });
     case 10:
-      return S.Array(__S(1513, __c94, 9));
+      return S.Array(__S(1481, __c92, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
@@ -5597,37 +5010,59 @@ function __c94(j: number): any {
         }),
       ).annotate({ identifier: "VolumeDataRestorePolicyBinding" });
     case 12:
-      return S.Array(__S(1515, __c94, 11));
+      return S.Array(__S(1483, __c92, 11));
     case 13:
       return S.suspend(() =>
         S.Struct({
-          targetNamespaces: S.optional(__S(1184, __c74, 0)),
-          targetGroupKinds: S.optional(__S(1508, __c94, 4)),
+          targetNamespaces: S.optional(__S(1120, __c70, 0)),
+          targetGroupKinds: S.optional(__S(1476, __c92, 4)),
           targetJsonPath: S.optional(S.String),
           newValue: S.optional(S.String),
           originalValuePattern: S.optional(S.String),
         }),
       ).annotate({ identifier: "SubstitutionRule" });
     case 14:
-      return S.Array(__S(1517, __c94, 13));
+      return S.Array(__S(1485, __c92, 13));
     case 15:
       return S.suspend(() =>
         S.Struct({
           volumeDataRestorePolicy: S.optional(S.String),
-          excludedNamespaces: S.optional(__S(1216, __c76, 0)),
-          restoreOrder: S.optional(__S(1507, __c94, 3)),
+          excludedNamespaces: S.optional(__S(1152, __c72, 0)),
+          restoreOrder: S.optional(__S(1475, __c92, 3)),
           namespacedResourceRestoreMode: S.optional(S.String),
           noNamespaces: S.optional(S.Boolean),
-          clusterResourceRestoreScope: S.optional(__S(1509, __c94, 5)),
+          clusterResourceRestoreScope: S.optional(__S(1477, __c92, 5)),
           clusterResourceConflictPolicy: S.optional(S.String),
-          transformationRules: S.optional(__S(1514, __c94, 10)),
+          transformationRules: S.optional(__S(1482, __c92, 10)),
           allNamespaces: S.optional(S.Boolean),
-          volumeDataRestorePolicyBindings: S.optional(__S(1516, __c94, 12)),
-          substitutionRules: S.optional(__S(1518, __c94, 14)),
-          selectedNamespaces: S.optional(__S(1216, __c76, 0)),
-          selectedApplications: S.optional(__S(1218, __c76, 2)),
+          volumeDataRestorePolicyBindings: S.optional(__S(1484, __c92, 12)),
+          substitutionRules: S.optional(__S(1486, __c92, 14)),
+          selectedNamespaces: S.optional(__S(1152, __c72, 0)),
+          selectedApplications: S.optional(__S(1154, __c72, 2)),
         }),
       ).annotate({ identifier: "RestoreConfig" });
+  }
+}
+function __c93(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          labels: S.optional(__S(864, __c54, 0)),
+          restoreChannel: S.optional(S.String),
+          uid: S.optional(S.String),
+          cluster: S.optional(S.String),
+          description: S.optional(S.String),
+          stateReason: S.optional(S.String),
+          name: S.optional(S.String),
+          backupPlan: S.optional(S.String),
+          restoreConfig: S.optional(__S(1487, __c92, 15)),
+          state: S.optional(S.String),
+          createTime: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          etag: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RestorePlan" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

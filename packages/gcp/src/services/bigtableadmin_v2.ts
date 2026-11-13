@@ -132,9 +132,8 @@ export class TableNotReady
 export interface StandardReadRemoteWrites {}
 /** Checks that all writes before the consistency token was generated in the same cluster are readable by Databoost. */
 export type DataBoostReadLocalWrites = StandardReadRemoteWrites;
-export interface CheckConsistencyProjectsInstancesTablesRequest {
-  /** Required. The unique name of the Table for which to check replication consistency. Values are of the form `projects/{project}/instances/{instance}/tables/{table}`. */
-  name: string;
+/** Request message for google.bigtable.admin.v2.BigtableTableAdmin.CheckConsistency */
+export interface CheckConsistencyRequest {
   /** Required. The token created using GenerateConsistencyToken for the Table. */
   consistencyToken?: string | undefined;
   /** Checks that reads using an app profile with `StandardIsolation` can see all writes committed before the token was created, even if the read and write target different clusters. */
@@ -142,20 +141,27 @@ export interface CheckConsistencyProjectsInstancesTablesRequest {
   /** Checks that reads using an app profile with `DataBoostIsolationReadOnly` can see all writes committed before the token was created, but only if the read and write target the same cluster. */
   dataBoostReadLocalWrites?: StandardReadRemoteWrites | undefined;
 }
+export interface CheckConsistencyProjectsInstancesTablesRequest extends CheckConsistencyRequest {
+  /** Required. The unique name of the Table for which to check replication consistency. Values are of the form `projects/{project}/instances/{instance}/tables/{table}`. */
+  name: string;
+}
 /** Response message for google.bigtable.admin.v2.BigtableTableAdmin.CheckConsistency */
 export interface CheckConsistencyResponse {
   /** True only if the token is consistent. A token is consistent if replication has caught up with the restrictions specified in the request. */
   consistent?: boolean | undefined;
 }
-export interface CopyProjectsInstancesClustersBackupsRequest {
-  /** Required. The name of the destination cluster that will contain the backup copy. The cluster must already exist. Values are of the form: `projects/{project}/instances/{instance}/clusters/{cluster}`. */
-  parent: string;
+/** The request for CopyBackup. */
+export interface CopyBackupRequest {
   /** Required. Required. The expiration time of the copied backup with microsecond granularity that must be at least 6 hours and at most 30 days from the time the request is received. Once the `expire_time` has passed, Cloud Bigtable will delete the backup and free the resources used by the backup. */
   expireTime?: string | undefined;
   /** Required. The id of the new backup. The `backup_id` along with `parent` are combined as {parent}/backups/{backup_id} to create the full backup name, of the form: `projects/{project}/instances/{instance}/clusters/{cluster}/backups/{backup_id}`. This string must be between 1 and 50 characters in length and match the regex _a-zA-Z0-9*. */
   backupId?: string | undefined;
   /** Required. The source backup to be copied from. The source backup needs to be in READY state for it to be copied. Copying a copied backup is not allowed. Once CopyBackup is in progress, the source backup cannot be deleted or cleaned up on expiration until CopyBackup is finished. Values are of the form: `projects//instances//clusters//backups/`. */
   sourceBackup?: string | undefined;
+}
+export interface CopyProjectsInstancesClustersBackupsRequest extends CopyBackupRequest {
+  /** Required. The name of the destination cluster that will contain the backup copy. The cluster must already exist. Values are of the form: `projects/{project}/instances/{instance}/clusters/{cluster}`. */
+  parent: string;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -267,15 +273,20 @@ export interface Instance {
   /** Output only. The current state of the instance. */
   state?: InstanceStateEnum | (string & {}) | undefined;
 }
-export interface CreateProjectsInstancesRequest {
+/** Request message for BigtableInstanceAdmin.CreateInstance. */
+export interface CreateInstanceRequest {
   /** Required. The unique name of the project in which to create the new instance. Values are of the form `projects/{project}`. */
-  parent: string;
+  parent?: string | undefined;
   /** Required. The clusters to be created within the instance, mapped by desired cluster ID, e.g., just `mycluster` rather than `projects/myproject/instances/myinstance/clusters/mycluster`. Fields marked `OutputOnly` must be left blank. */
   clusters?: ClusterMap | undefined;
   /** Required. The ID to be used when referring to the new instance within its project, e.g., just `myinstance` rather than `projects/myproject/instances/myinstance`. */
   instanceId?: string | undefined;
   /** Required. The instance to create. Fields marked `OutputOnly` must be left blank. */
   instance?: Instance | undefined;
+}
+export interface CreateProjectsInstancesRequest extends Omit<CreateInstanceRequest, "parent"> {
+  /** Required. The unique name of the project in which to create the new instance. Values are of the form `projects/{project}`. */
+  parent: string;
 }
 export type AppProfilePriorityEnum =
   | "PRIORITY_UNSPECIFIED"
@@ -324,13 +335,8 @@ export interface StandardIsolation {
   /** Optional. The memory config to use for requests sent using this app profile. */
   memoryConfig?: StandardReadRemoteWrites | undefined;
 }
-export interface CreateProjectsInstancesAppProfilesRequest {
-  /** Required. The ID to be used when referring to the new app profile within its instance, e.g., just `myprofile` rather than `projects/myproject/instances/myinstance/appProfiles/myprofile`. */
-  appProfileId?: string | undefined;
-  /** Required. The unique name of the instance in which to create the new app profile. Values are of the form `projects/{project}/instances/{instance}`. */
-  parent: string;
-  /** If true, ignore safety checks when creating the app profile. */
-  ignoreWarnings?: boolean | undefined;
+/** A configuration object describing how Cloud Bigtable should treat traffic from a particular end user application. */
+export interface AppProfile {
   /** This field has been deprecated in favor of `standard_isolation.priority`. If you set this field, `standard_isolation.priority` will be set instead. The priority of requests sent using this app profile. */
   priority?: AppProfilePriorityEnum | (string & {}) | undefined;
   /** Use a single-cluster routing policy. */
@@ -348,46 +354,19 @@ export interface CreateProjectsInstancesAppProfilesRequest {
   /** The standard options used for isolating this app profile's traffic from other use cases. */
   standardIsolation?: StandardIsolation | undefined;
 }
-/** A configuration object describing how Cloud Bigtable should treat traffic from a particular end user application. */
-export interface AppProfile {
-  /** This field has been deprecated in favor of `standard_isolation.priority`. If you set this field, `standard_isolation.priority` will be set instead. The priority of requests sent using this app profile. */
-  priority?: AppProfilePriorityEnum | undefined;
-  /** Use a single-cluster routing policy. */
-  singleClusterRouting?: SingleClusterRouting | undefined;
-  /** The unique name of the app profile, up to 50 characters long. Values are of the form `projects/{project}/instances/{instance}/appProfiles/_a-zA-Z0-9*`. */
-  name?: string | undefined;
-  /** Specifies that this app profile is intended for read-only usage via the Data Boost feature. */
-  dataBoostIsolationReadOnly?: DataBoostIsolationReadOnly | undefined;
-  /** Long form description of the use case for this AppProfile. */
-  description?: string | undefined;
-  /** Strongly validated etag for optimistic concurrency control. Preserve the value returned from `GetAppProfile` when calling `UpdateAppProfile` to fail the request if there has been a modification in the meantime. The `update_mask` of the request need not include `etag` for this protection to apply. See [Wikipedia](https://en.wikipedia.org/wiki/HTTP_ETag) and [RFC 7232](https://tools.ietf.org/html/rfc7232#section-2.3) for more details. */
-  etag?: string | undefined;
-  /** Use a multi-cluster routing policy. */
-  multiClusterRoutingUseAny?: MultiClusterRoutingUseAny | undefined;
-  /** The standard options used for isolating this app profile's traffic from other use cases. */
-  standardIsolation?: StandardIsolation | undefined;
+export interface CreateProjectsInstancesAppProfilesRequest extends AppProfile {
+  /** Required. The ID to be used when referring to the new app profile within its instance, e.g., just `myprofile` rather than `projects/myproject/instances/myinstance/appProfiles/myprofile`. */
+  appProfileId?: string | undefined;
+  /** Required. The unique name of the instance in which to create the new app profile. Values are of the form `projects/{project}/instances/{instance}`. */
+  parent: string;
+  /** If true, ignore safety checks when creating the app profile. */
+  ignoreWarnings?: boolean | undefined;
 }
-export interface CreateProjectsInstancesClustersRequest {
+export interface CreateProjectsInstancesClustersRequest extends Cluster {
   /** Required. The unique name of the instance in which to create the new cluster. Values are of the form `projects/{project}/instances/{instance}`. */
   parent: string;
   /** Required. The ID to be used when referring to the new cluster within its instance, e.g., just `mycluster` rather than `projects/myproject/instances/myinstance/clusters/mycluster`. */
   clusterId?: string | undefined;
-  /** The number of nodes in the cluster. If no value is set, Cloud Bigtable automatically allocates nodes based on your data footprint and optimized for 50% storage utilization. */
-  serveNodes?: number | undefined;
-  /** Immutable. The type of storage used by this cluster to serve its parent instance's tables, unless explicitly overridden. */
-  defaultStorageType?: ClusterDefaultStorageTypeEnum | (string & {}) | undefined;
-  /** Configuration for this cluster. */
-  clusterConfig?: ClusterConfig | undefined;
-  /** Immutable. The encryption configuration for CMEK-protected clusters. */
-  encryptionConfig?: EncryptionConfig | undefined;
-  /** Output only. The current state of the cluster. */
-  state?: ClusterStateEnum | (string & {}) | undefined;
-  /** The unique name of the cluster. Values are of the form `projects/{project}/instances/{instance}/clusters/a-z*`. */
-  name?: string | undefined;
-  /** Immutable. The location where this cluster's nodes and storage reside. For best performance, clients should be located as close as possible to this cluster. Currently only zones are supported, so values should be of the form `projects/{project}/locations/{zone}`. */
-  location?: string | undefined;
-  /** Immutable. The node scaling factor of this cluster. */
-  nodeScalingFactor?: ClusterNodeScalingFactorEnum | (string & {}) | undefined;
 }
 export type BackupBackupTypeEnum = "BACKUP_TYPE_UNSPECIFIED" | "STANDARD" | "HOT";
 export type EncryptionInfoEncryptionTypeEnum =
@@ -404,11 +383,8 @@ export interface EncryptionInfo {
   encryptionType?: EncryptionInfoEncryptionTypeEnum | (string & {}) | undefined;
 }
 export type BackupStateEnum = "STATE_UNSPECIFIED" | "CREATING" | "READY";
-export interface CreateProjectsInstancesClustersBackupsRequest {
-  /** Required. This must be one of the clusters in the instance in which this table is located. The backup will be stored in this cluster. Values are of the form `projects/{project}/instances/{instance}/clusters/{cluster}`. */
-  parent: string;
-  /** Required. The id of the backup to be created. The `backup_id` along with the parent `parent` are combined as {parent}/backups/{backup_id} to create the full backup name, of the form: `projects/{project}/instances/{instance}/clusters/{cluster}/backups/{backup_id}`. This string must be between 1 and 50 characters in length and match the regex _a-zA-Z0-9*. */
-  backupId?: string | undefined;
+/** A backup of a Cloud Bigtable table. */
+export interface Backup {
   /** Output only. Name of the backup from which this backup was copied. If a backup is not created by copying a backup, this field will be empty. Values are of the form: projects//instances//clusters//backups/ */
   sourceBackup?: string | undefined;
   /** The time at which the hot backup will be converted to a standard backup. Once the `hot_to_standard_time` has passed, Cloud Bigtable will convert the hot backup to a standard backup. This value must be greater than the backup creation time by: - At least 24 hours This field only applies for hot backups. When creating or updating a standard backup, attempting to set this field will fail the request. */
@@ -432,11 +408,14 @@ export interface CreateProjectsInstancesClustersBackupsRequest {
   /** Output only. Size of the backup in bytes. */
   sizeBytes?: string | undefined;
 }
-export interface CreateProjectsInstancesLogicalViewsRequest {
-  /** Required. The ID to use for the logical view, which will become the final component of the logical view's resource name. */
-  logicalViewId?: string | undefined;
-  /** Required. The parent instance where this logical view will be created. Format: `projects/{project}/instances/{instance}`. */
+export interface CreateProjectsInstancesClustersBackupsRequest extends Backup {
+  /** Required. This must be one of the clusters in the instance in which this table is located. The backup will be stored in this cluster. Values are of the form `projects/{project}/instances/{instance}/clusters/{cluster}`. */
   parent: string;
+  /** Required. The id of the backup to be created. The `backup_id` along with the parent `parent` are combined as {parent}/backups/{backup_id} to create the full backup name, of the form: `projects/{project}/instances/{instance}/clusters/{cluster}/backups/{backup_id}`. This string must be between 1 and 50 characters in length and match the regex _a-zA-Z0-9*. */
+  backupId?: string | undefined;
+}
+/** A SQL logical view object that can be referenced in SQL queries. */
+export interface LogicalView {
   /** Optional. The etag for this logical view. This may be sent on update requests to ensure that the client has an up-to-date value before proceeding. The server returns an ABORTED error on a mismatched etag. */
   etag?: string | undefined;
   /** Optional. Set to true to make the LogicalView protected against deletion. */
@@ -445,6 +424,12 @@ export interface CreateProjectsInstancesLogicalViewsRequest {
   name?: string | undefined;
   /** Required. The logical view's select query. */
   query?: string | undefined;
+}
+export interface CreateProjectsInstancesLogicalViewsRequest extends LogicalView {
+  /** Required. The ID to use for the logical view, which will become the final component of the logical view's resource name. */
+  logicalViewId?: string | undefined;
+  /** Required. The parent instance where this logical view will be created. Format: `projects/{project}/instances/{instance}`. */
+  parent: string;
 }
 export type GoogleBigtableAdminV2MaterializedViewClusterStateReplicationStateEnum =
   | "STATE_NOT_KNOWN"
@@ -461,13 +446,8 @@ export interface GoogleBigtableAdminV2MaterializedViewClusterState {
 export type GoogleBigtableAdminV2MaterializedViewClusterStateMap = {
   [key: string]: GoogleBigtableAdminV2MaterializedViewClusterState | undefined;
 };
-export interface CreateProjectsInstancesMaterializedViewsRequest {
-  /** Required. The parent instance where this materialized view will be created. Format: `projects/{project}/instances/{instance}`. */
-  parent: string;
-  /** Optional. If true, ignore optional safety checks when creating the materialized view. */
-  ignoreWarnings?: boolean | undefined;
-  /** Required. The ID to use for the materialized view, which will become the final component of the materialized view's resource name. */
-  materializedViewId?: string | undefined;
+/** A materialized view object that can be referenced in SQL queries. */
+export interface MaterializedView {
   /** Optional. The etag for this materialized view. This may be sent on update requests to ensure that the client has an up-to-date value before proceeding. The server returns an ABORTED error on a mismatched etag. Views: `SCHEMA_VIEW`, `REPLICATION_VIEW`, `FULL`. */
   etag?: string | undefined;
   /** Identifier. The unique name of the materialized view. Format: `projects/{project}/instances/{instance}/materializedViews/{materialized_view}` Views: `SCHEMA_VIEW`, `REPLICATION_VIEW`, `FULL`. */
@@ -478,6 +458,14 @@ export interface CreateProjectsInstancesMaterializedViewsRequest {
   clusterStates?: GoogleBigtableAdminV2MaterializedViewClusterStateMap | undefined;
   /** Required. Immutable. The materialized view's select query. Views: `SCHEMA_VIEW`, `FULL`. */
   query?: string | undefined;
+}
+export interface CreateProjectsInstancesMaterializedViewsRequest extends MaterializedView {
+  /** Required. The parent instance where this materialized view will be created. Format: `projects/{project}/instances/{instance}`. */
+  parent: string;
+  /** Optional. If true, ignore optional safety checks when creating the materialized view. */
+  ignoreWarnings?: boolean | undefined;
+  /** Required. The ID to use for the materialized view, which will become the final component of the materialized view's resource name. */
+  materializedViewId?: string | undefined;
 }
 /** Defines rules used to convert to or from lower level types. */
 export type GoogleBigtableAdminV2TypeBoolEncoding = StandardReadRemoteWrites;
@@ -846,15 +834,18 @@ export interface Split {
   key?: string | undefined;
 }
 export type SplitList = Array<Split>;
-export interface CreateProjectsInstancesTablesRequest {
-  /** Required. The unique name of the instance in which to create the table. Values are of the form `projects/{project}/instances/{instance}`. */
-  parent: string;
+/** Request message for google.bigtable.admin.v2.BigtableTableAdmin.CreateTable */
+export interface CreateTableRequest {
   /** Required. The Table to create. */
   table?: Table | undefined;
   /** The optional list of row keys that will be used to initially split the table into several tablets (tablets are similar to HBase regions). Given two split keys, `s1` and `s2`, three tablets will be created, spanning the key ranges: `[, s1), [s1, s2), [s2, )`. Example: * Row keys := `["a", "apple", "custom", "customer_1", "customer_2",` `"other", "zz"]` * initial_split_keys := `["apple", "customer_1", "customer_2", "other"]` * Key assignment: - Tablet 1 `[, apple) => {"a"}.` - Tablet 2 `[apple, customer_1) => {"apple", "custom"}.` - Tablet 3 `[customer_1, customer_2) => {"customer_1"}.` - Tablet 4 `[customer_2, other) => {"customer_2"}.` - Tablet 5 `[other, ) => {"other", "zz"}.` */
   initialSplits?: SplitList | undefined;
   /** Required. The name by which the new table should be referred to within the parent instance, e.g., `foobar` rather than `{parent}/tables/foobar`. Maximum 50 characters. */
   tableId?: string | undefined;
+}
+export interface CreateProjectsInstancesTablesRequest extends CreateTableRequest {
+  /** Required. The unique name of the instance in which to create the table. Values are of the form `projects/{project}/instances/{instance}`. */
+  parent: string;
 }
 /** Subsets of a column family that are included in this AuthorizedView. */
 export interface GoogleBigtableAdminV2AuthorizedViewFamilySubsets {
@@ -873,11 +864,8 @@ export interface GoogleBigtableAdminV2AuthorizedViewSubsetView {
   /** Map from column family name to the columns in this family to be included in the AuthorizedView. */
   familySubsets?: GoogleBigtableAdminV2AuthorizedViewFamilySubsetsMap | undefined;
 }
-export interface CreateProjectsInstancesTablesAuthorizedViewsRequest {
-  /** Required. This is the name of the table the AuthorizedView belongs to. Values are of the form `projects/{project}/instances/{instance}/tables/{table}`. */
-  parent: string;
-  /** Required. The id of the AuthorizedView to create. This AuthorizedView must not already exist. The `authorized_view_id` appended to `parent` forms the full AuthorizedView name of the form `projects/{project}/instances/{instance}/tables/{table}/authorizedView/{authorized_view}`. */
-  authorizedViewId?: string | undefined;
+/** An Authorized View of a Cloud Bigtable Table. */
+export interface AuthorizedView {
   /** Set to true to make the AuthorizedView protected against deletion. The parent Table and containing Instance cannot be deleted if an AuthorizedView has this bit set. */
   deletionProtection?: boolean | undefined;
   /** The etag for this AuthorizedView. If this is provided on update, it must match the server's etag. The server returns ABORTED error on a mismatched etag. */
@@ -886,6 +874,12 @@ export interface CreateProjectsInstancesTablesAuthorizedViewsRequest {
   subsetView?: GoogleBigtableAdminV2AuthorizedViewSubsetView | undefined;
   /** Identifier. The name of this AuthorizedView. Values are of the form `projects/{project}/instances/{instance}/tables/{table}/authorizedViews/{authorized_view}` */
   name?: string | undefined;
+}
+export interface CreateProjectsInstancesTablesAuthorizedViewsRequest extends AuthorizedView {
+  /** Required. This is the name of the table the AuthorizedView belongs to. Values are of the form `projects/{project}/instances/{instance}/tables/{table}`. */
+  parent: string;
+  /** Required. The id of the AuthorizedView to create. This AuthorizedView must not already exist. The `authorized_view_id` appended to `parent` forms the full AuthorizedView name of the form `projects/{project}/instances/{instance}/tables/{table}/authorizedView/{authorized_view}`. */
+  authorizedViewId?: string | undefined;
 }
 /** Represents a collection of Avro schemas. */
 export interface AvroSchema {
@@ -897,11 +891,8 @@ export interface ProtoSchema {
   /** Required. Contains a protobuf-serialized [google.protobuf.FileDescriptorSet](https://github.com/protocolbuffers/protobuf/blob/main/src/google/protobuf/descriptor.proto), which could include multiple proto files. To generate it, [install](https://grpc.io/docs/protoc-installation/) and run `protoc` with `--include_imports` and `--descriptor_set_out`. For example, to generate for moon/shot/app.proto, run ``` $protoc --proto_path=/app_path --proto_path=/lib_path \ --include_imports \ --descriptor_set_out=descriptors.pb \ moon/shot/app.proto ``` For more details, see protobuffer [self description](https://developers.google.com/protocol-buffers/docs/techniques#self-description). */
   protoDescriptors?: string | undefined;
 }
-export interface CreateProjectsInstancesTablesSchemaBundlesRequest {
-  /** Required. The parent resource where this schema bundle will be created. Values are of the form `projects/{project}/instances/{instance}/tables/{table}`. */
-  parent: string;
-  /** Required. The unique ID to use for the schema bundle, which will become the final component of the schema bundle's resource name. */
-  schemaBundleId?: string | undefined;
+/** A named collection of related schemas. */
+export interface SchemaBundle {
   /** Optional. The etag for this schema bundle. This may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. The server returns an ABORTED error on a mismatched etag. */
   etag?: string | undefined;
   /** Identifier. The unique name identifying this schema bundle. Values are of the form `projects/{project}/instances/{instance}/tables/{table}/schemaBundles/{schema_bundle}` */
@@ -910,6 +901,12 @@ export interface CreateProjectsInstancesTablesSchemaBundlesRequest {
   avroSchema?: AvroSchema | undefined;
   /** Schema for Protobufs. */
   protoSchema?: ProtoSchema | undefined;
+}
+export interface CreateProjectsInstancesTablesSchemaBundlesRequest extends SchemaBundle {
+  /** Required. The parent resource where this schema bundle will be created. Values are of the form `projects/{project}/instances/{instance}/tables/{table}`. */
+  parent: string;
+  /** Required. The unique ID to use for the schema bundle, which will become the final component of the schema bundle's resource name. */
+  schemaBundleId?: string | undefined;
 }
 export interface DeleteProjectsInstancesRequest {
   /** Required. The unique name of the instance to be deleted. Values are of the form `projects/{project}/instances/{instance}`. */
@@ -959,13 +956,16 @@ export interface DeleteProjectsInstancesTablesSchemaBundlesRequest {
   /** Optional. The etag of the schema bundle. If this is provided, it must match the server's etag. The server returns an ABORTED error on a mismatched etag. */
   etag?: string | undefined;
 }
-export interface DropRowRangeProjectsInstancesTablesRequest {
-  /** Required. The unique name of the table on which to drop a range of rows. Values are of the form `projects/{project}/instances/{instance}/tables/{table}`. */
-  name: string;
+/** Request message for google.bigtable.admin.v2.BigtableTableAdmin.DropRowRange */
+export interface DropRowRangeRequest {
   /** Delete all rows that start with this row key prefix. Prefix cannot be zero length. */
   rowKeyPrefix?: string | undefined;
   /** Delete all rows in the table. Setting this to false is a no-op. */
   deleteAllDataFromTable?: boolean | undefined;
+}
+export interface DropRowRangeProjectsInstancesTablesRequest extends DropRowRangeRequest {
+  /** Required. The unique name of the table on which to drop a range of rows. Values are of the form `projects/{project}/instances/{instance}/tables/{table}`. */
+  name: string;
 }
 /** Request message for google.bigtable.admin.v2.BigtableTableAdmin.GenerateConsistencyToken */
 export type GenerateConsistencyTokenRequest = StandardReadRemoteWrites;
@@ -985,11 +985,14 @@ export interface GetPolicyOptions {
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   requestedPolicyVersion?: number | undefined;
 }
-export interface GetIamPolicyProjectsInstancesRequest {
-  /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
+/** Request message for `GetIamPolicy` method. */
+export interface GetIamPolicyRequest {
   /** OPTIONAL: A `GetPolicyOptions` object for specifying options to `GetIamPolicy`. */
   options?: GetPolicyOptions | undefined;
+}
+export interface GetIamPolicyProjectsInstancesRequest extends GetIamPolicyRequest {
+  /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
 }
 export type AuditLogConfigLogTypeEnum =
   | "LOG_TYPE_UNSPECIFIED"
@@ -1044,41 +1047,29 @@ export interface Policy {
   /** `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An `etag` is returned in the response to `getIamPolicy`, and systems are expected to put that etag in the request to `setIamPolicy` to ensure that their change will be applied to the same version of the policy. **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. */
   etag?: string | undefined;
 }
-export interface GetIamPolicyProjectsInstancesClustersBackupsRequest {
+export interface GetIamPolicyProjectsInstancesClustersBackupsRequest extends GetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** OPTIONAL: A `GetPolicyOptions` object for specifying options to `GetIamPolicy`. */
-  options?: GetPolicyOptions | undefined;
 }
-export interface GetIamPolicyProjectsInstancesLogicalViewsRequest {
+export interface GetIamPolicyProjectsInstancesLogicalViewsRequest extends GetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** OPTIONAL: A `GetPolicyOptions` object for specifying options to `GetIamPolicy`. */
-  options?: GetPolicyOptions | undefined;
 }
-export interface GetIamPolicyProjectsInstancesMaterializedViewsRequest {
+export interface GetIamPolicyProjectsInstancesMaterializedViewsRequest extends GetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** OPTIONAL: A `GetPolicyOptions` object for specifying options to `GetIamPolicy`. */
-  options?: GetPolicyOptions | undefined;
 }
-export interface GetIamPolicyProjectsInstancesTablesRequest {
+export interface GetIamPolicyProjectsInstancesTablesRequest extends GetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** OPTIONAL: A `GetPolicyOptions` object for specifying options to `GetIamPolicy`. */
-  options?: GetPolicyOptions | undefined;
 }
-export interface GetIamPolicyProjectsInstancesTablesAuthorizedViewsRequest {
+export interface GetIamPolicyProjectsInstancesTablesAuthorizedViewsRequest extends GetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** OPTIONAL: A `GetPolicyOptions` object for specifying options to `GetIamPolicy`. */
-  options?: GetPolicyOptions | undefined;
 }
-export interface GetIamPolicyProjectsInstancesTablesSchemaBundlesRequest {
+export interface GetIamPolicyProjectsInstancesTablesSchemaBundlesRequest extends GetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** OPTIONAL: A `GetPolicyOptions` object for specifying options to `GetIamPolicy`. */
-  options?: GetPolicyOptions | undefined;
 }
 export interface GetMemoryLayerProjectsInstancesClustersRequest {
   /** Required. The unique name of the requested cluster's memory layer. Values are of the form `projects/{project}/instances/{instance}/clusters/{cluster}/memoryLayer`. */
@@ -1104,7 +1095,7 @@ export interface MemoryLayer {
   /** Identifier. Name of the memory layer. This is always: "projects/{project}/instances/{instance}/clusters/{cluster}/memoryLayer". */
   name?: string | undefined;
   /** Output only. The current state of the memory layer. */
-  state?: MemoryLayerStateEnum | undefined;
+  state?: MemoryLayerStateEnum | (string & {}) | undefined;
 }
 export interface GetOperationsRequest {
   /** The name of the operation resource. */
@@ -1126,45 +1117,9 @@ export interface GetProjectsInstancesClustersBackupsRequest {
   /** Required. Name of the backup. Values are of the form `projects/{project}/instances/{instance}/clusters/{cluster}/backups/{backup}`. */
   name: string;
 }
-/** A backup of a Cloud Bigtable table. */
-export interface Backup {
-  /** Output only. Name of the backup from which this backup was copied. If a backup is not created by copying a backup, this field will be empty. Values are of the form: projects//instances//clusters//backups/ */
-  sourceBackup?: string | undefined;
-  /** The time at which the hot backup will be converted to a standard backup. Once the `hot_to_standard_time` has passed, Cloud Bigtable will convert the hot backup to a standard backup. This value must be greater than the backup creation time by: - At least 24 hours This field only applies for hot backups. When creating or updating a standard backup, attempting to set this field will fail the request. */
-  hotToStandardTime?: string | undefined;
-  /** Output only. `end_time` is the time that the backup was finished. The row data in the backup will be no newer than this timestamp. */
-  endTime?: string | undefined;
-  /** Indicates the backup type of the backup. */
-  backupType?: BackupBackupTypeEnum | undefined;
-  /** A globally unique identifier for the backup which cannot be changed. Values are of the form `projects/{project}/instances/{instance}/clusters/{cluster}/ backups/_a-zA-Z0-9*` The final segment of the name must be between 1 and 50 characters in length. The backup is stored in the cluster identified by the prefix of the backup name of the form `projects/{project}/instances/{instance}/clusters/{cluster}`. */
-  name?: string | undefined;
-  /** Output only. The encryption information for the backup. */
-  encryptionInfo?: EncryptionInfo | undefined;
-  /** Output only. The current state of the backup. */
-  state?: BackupStateEnum | undefined;
-  /** Output only. `start_time` is the time that the backup was started (i.e. approximately the time the CreateBackup request is received). The row data in this backup will be no older than this timestamp. */
-  startTime?: string | undefined;
-  /** Required. The expiration time of the backup. When creating a backup or updating its `expire_time`, the value must be greater than the backup creation time by: - At least 6 hours - At most 90 days Once the `expire_time` has passed, Cloud Bigtable will delete the backup. */
-  expireTime?: string | undefined;
-  /** Required. Immutable. Name of the table from which this backup was created. This needs to be in the same instance as the backup. Values are of the form `projects/{project}/instances/{instance}/tables/{source_table}`. */
-  sourceTable?: string | undefined;
-  /** Output only. Size of the backup in bytes. */
-  sizeBytes?: string | undefined;
-}
 export interface GetProjectsInstancesLogicalViewsRequest {
   /** Required. The unique name of the requested logical view. Values are of the form `projects/{project}/instances/{instance}/logicalViews/{logical_view}`. */
   name: string;
-}
-/** A SQL logical view object that can be referenced in SQL queries. */
-export interface LogicalView {
-  /** Optional. The etag for this logical view. This may be sent on update requests to ensure that the client has an up-to-date value before proceeding. The server returns an ABORTED error on a mismatched etag. */
-  etag?: string | undefined;
-  /** Optional. Set to true to make the LogicalView protected against deletion. */
-  deletionProtection?: boolean | undefined;
-  /** Identifier. The unique name of the logical view. Format: `projects/{project}/instances/{instance}/logicalViews/{logical_view}` */
-  name?: string | undefined;
-  /** Required. The logical view's select query. */
-  query?: string | undefined;
 }
 export type GetProjectsInstancesMaterializedViewsViewEnum =
   | "VIEW_UNSPECIFIED"
@@ -1176,19 +1131,6 @@ export interface GetProjectsInstancesMaterializedViewsRequest {
   name: string;
   /** Optional. Describes which of the materialized view's fields should be populated in the response. Defaults to SCHEMA_VIEW. */
   view?: GetProjectsInstancesMaterializedViewsViewEnum | (string & {}) | undefined;
-}
-/** A materialized view object that can be referenced in SQL queries. */
-export interface MaterializedView {
-  /** Optional. The etag for this materialized view. This may be sent on update requests to ensure that the client has an up-to-date value before proceeding. The server returns an ABORTED error on a mismatched etag. Views: `SCHEMA_VIEW`, `REPLICATION_VIEW`, `FULL`. */
-  etag?: string | undefined;
-  /** Identifier. The unique name of the materialized view. Format: `projects/{project}/instances/{instance}/materializedViews/{materialized_view}` Views: `SCHEMA_VIEW`, `REPLICATION_VIEW`, `FULL`. */
-  name?: string | undefined;
-  /** Set to true to make the MaterializedView protected against deletion. Views: `SCHEMA_VIEW`, `REPLICATION_VIEW`, `FULL`. */
-  deletionProtection?: boolean | undefined;
-  /** Output only. Map from cluster ID to per-cluster materialized view state. If it could not be determined whether or not the materialized view has data in a particular cluster (for example, if its zone is unavailable), then there will be an entry for the cluster with `STATE_NOT_KNOWN` state. Views: `REPLICATION_VIEW`, `FULL`. */
-  clusterStates?: GoogleBigtableAdminV2MaterializedViewClusterStateMap | undefined;
-  /** Required. Immutable. The materialized view's select query. Views: `SCHEMA_VIEW`, `FULL`. */
-  query?: string | undefined;
 }
 export type GetProjectsInstancesTablesViewEnum =
   | "VIEW_UNSPECIFIED"
@@ -1215,31 +1157,9 @@ export interface GetProjectsInstancesTablesAuthorizedViewsRequest {
   /** Optional. The resource_view to be applied to the returned AuthorizedView's fields. Default to BASIC. */
   view?: GetProjectsInstancesTablesAuthorizedViewsViewEnum | (string & {}) | undefined;
 }
-/** An Authorized View of a Cloud Bigtable Table. */
-export interface AuthorizedView {
-  /** Set to true to make the AuthorizedView protected against deletion. The parent Table and containing Instance cannot be deleted if an AuthorizedView has this bit set. */
-  deletionProtection?: boolean | undefined;
-  /** The etag for this AuthorizedView. If this is provided on update, it must match the server's etag. The server returns ABORTED error on a mismatched etag. */
-  etag?: string | undefined;
-  /** An AuthorizedView permitting access to an explicit subset of a Table. */
-  subsetView?: GoogleBigtableAdminV2AuthorizedViewSubsetView | undefined;
-  /** Identifier. The name of this AuthorizedView. Values are of the form `projects/{project}/instances/{instance}/tables/{table}/authorizedViews/{authorized_view}` */
-  name?: string | undefined;
-}
 export interface GetProjectsInstancesTablesSchemaBundlesRequest {
   /** Required. The unique name of the schema bundle to retrieve. Values are of the form `projects/{project}/instances/{instance}/tables/{table}/schemaBundles/{schema_bundle}` */
   name: string;
-}
-/** A named collection of related schemas. */
-export interface SchemaBundle {
-  /** Optional. The etag for this schema bundle. This may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. The server returns an ABORTED error on a mismatched etag. */
-  etag?: string | undefined;
-  /** Identifier. The unique name identifying this schema bundle. Values are of the form `projects/{project}/instances/{instance}/tables/{table}/schemaBundles/{schema_bundle}` */
-  name?: string | undefined;
-  /** Optional. Schema for Avros. */
-  avroSchema?: AvroSchema | undefined;
-  /** Schema for Protobufs. */
-  protoSchema?: ProtoSchema | undefined;
 }
 export interface ListOperationsProjectsOperationsRequest {
   /** The standard list page token. */
@@ -1546,302 +1466,174 @@ export interface Modification {
   id?: string | undefined;
 }
 export type ModificationList = Array<Modification>;
-export interface ModifyColumnFamiliesProjectsInstancesTablesRequest {
-  /** Required. The unique name of the table whose families should be modified. Values are of the form `projects/{project}/instances/{instance}/tables/{table}`. */
-  name: string;
+/** Request message for google.bigtable.admin.v2.BigtableTableAdmin.ModifyColumnFamilies */
+export interface ModifyColumnFamiliesRequest {
   /** Required. Modifications to be atomically applied to the specified table's families. Entries are applied in order, meaning that earlier modifications can be masked by later ones (in the case of repeated updates to the same family, for example). */
   modifications?: ModificationList | undefined;
   /** Optional. If true, ignore safety checks when modifying the column families. */
   ignoreWarnings?: boolean | undefined;
 }
-export interface PartialUpdateClusterProjectsInstancesClustersRequest {
+export interface ModifyColumnFamiliesProjectsInstancesTablesRequest extends ModifyColumnFamiliesRequest {
+  /** Required. The unique name of the table whose families should be modified. Values are of the form `projects/{project}/instances/{instance}/tables/{table}`. */
+  name: string;
+}
+export interface PartialUpdateClusterProjectsInstancesClustersRequest extends Omit<
+  Cluster,
+  "name"
+> {
   /** The unique name of the cluster. Values are of the form `projects/{project}/instances/{instance}/clusters/a-z*`. */
   name: string;
   /** Required. The subset of Cluster fields which should be replaced. */
   updateMask?: string | undefined;
-  /** The number of nodes in the cluster. If no value is set, Cloud Bigtable automatically allocates nodes based on your data footprint and optimized for 50% storage utilization. */
-  serveNodes?: number | undefined;
-  /** Immutable. The type of storage used by this cluster to serve its parent instance's tables, unless explicitly overridden. */
-  defaultStorageType?: ClusterDefaultStorageTypeEnum | (string & {}) | undefined;
-  /** Configuration for this cluster. */
-  clusterConfig?: ClusterConfig | undefined;
-  /** Immutable. The encryption configuration for CMEK-protected clusters. */
-  encryptionConfig?: EncryptionConfig | undefined;
-  /** Output only. The current state of the cluster. */
-  state?: ClusterStateEnum | (string & {}) | undefined;
-  /** Immutable. The location where this cluster's nodes and storage reside. For best performance, clients should be located as close as possible to this cluster. Currently only zones are supported, so values should be of the form `projects/{project}/locations/{zone}`. */
-  location?: string | undefined;
-  /** Immutable. The node scaling factor of this cluster. */
-  nodeScalingFactor?: ClusterNodeScalingFactorEnum | (string & {}) | undefined;
 }
-export interface PartialUpdateInstanceProjectsInstancesRequest {
+export interface PartialUpdateInstanceProjectsInstancesRequest extends Omit<Instance, "name"> {
   /** The unique name of the instance. Values are of the form `projects/{project}/instances/a-z+[a-z0-9]`. */
   name: string;
   /** Required. The subset of Instance fields which should be replaced. Must be explicitly set. */
   updateMask?: string | undefined;
-  /** Output only. The region where Knowledge Catalog data is synced to and stored, including user-created aspects. */
-  knowledgeCatalogRegion?: string | undefined;
-  /** Optional. Input only. Immutable. Tag keys/values directly bound to this resource. For example: - "123/environment": "production", - "123/costCenter": "marketing" Tags and Labels (above) are both used to bind metadata to resources, with different use-cases. See https://cloud.google.com/resource-manager/docs/tags/tags-overview for an in-depth overview on the difference between tags and labels. */
-  tags?: StringMap | undefined;
-  /** Required. The descriptive name for this instance as it appears in UIs. Can be changed at any time, but should be kept globally unique to avoid confusion. */
-  displayName?: string | undefined;
-  /** Output only. A commit timestamp representing when this Instance was created. For instances created before this field was added (August 2021), this value is `seconds: 0, nanos: 1`. */
-  createTime?: string | undefined;
-  /** Optional. The edition of the instance. See Edition for details. */
-  edition?: InstanceEditionEnum | (string & {}) | undefined;
-  /** The type of the instance. Defaults to `PRODUCTION`. */
-  type?: InstanceTypeEnum | (string & {}) | undefined;
-  /** Output only. Reserved for future use. */
-  satisfiesPzs?: boolean | undefined;
-  /** Output only. Reserved for future use. */
-  satisfiesPzi?: boolean | undefined;
-  /** Labels are a flexible and lightweight mechanism for organizing cloud resources into groups that reflect a customer's organizational needs and deployment strategies. They can be used to filter resources and aggregate metrics. * Label keys must be between 1 and 63 characters long and must conform to the regular expression: `\p{Ll}\p{Lo}{0,62}`. * Label values must be between 0 and 63 characters long and must conform to the regular expression: `[\p{Ll}\p{Lo}\p{N}_-]{0,63}`. * No more than 64 labels can be associated with a given resource. * Keys and values must both be under 128 bytes. Labels and Tags (below) are both used to bind metadata to resources, with different use-cases. See https://cloud.google.com/resource-manager/docs/tags/tags-overview for an in-depth overview on the difference between tags and labels. */
-  labels?: StringMap | undefined;
-  /** Output only. The current state of the instance. */
-  state?: InstanceStateEnum | (string & {}) | undefined;
 }
-export interface PatchProjectsInstancesAppProfilesRequest {
+export interface PatchProjectsInstancesAppProfilesRequest extends Omit<AppProfile, "name"> {
   /** The unique name of the app profile, up to 50 characters long. Values are of the form `projects/{project}/instances/{instance}/appProfiles/_a-zA-Z0-9*`. */
   name: string;
   /** Required. The subset of app profile fields which should be replaced. If unset, all fields will be replaced. */
   updateMask?: string | undefined;
   /** If true, ignore safety checks when updating the app profile. */
   ignoreWarnings?: boolean | undefined;
-  /** This field has been deprecated in favor of `standard_isolation.priority`. If you set this field, `standard_isolation.priority` will be set instead. The priority of requests sent using this app profile. */
-  priority?: AppProfilePriorityEnum | (string & {}) | undefined;
-  /** Use a single-cluster routing policy. */
-  singleClusterRouting?: SingleClusterRouting | undefined;
-  /** Specifies that this app profile is intended for read-only usage via the Data Boost feature. */
-  dataBoostIsolationReadOnly?: DataBoostIsolationReadOnly | undefined;
-  /** Long form description of the use case for this AppProfile. */
-  description?: string | undefined;
-  /** Strongly validated etag for optimistic concurrency control. Preserve the value returned from `GetAppProfile` when calling `UpdateAppProfile` to fail the request if there has been a modification in the meantime. The `update_mask` of the request need not include `etag` for this protection to apply. See [Wikipedia](https://en.wikipedia.org/wiki/HTTP_ETag) and [RFC 7232](https://tools.ietf.org/html/rfc7232#section-2.3) for more details. */
-  etag?: string | undefined;
-  /** Use a multi-cluster routing policy. */
-  multiClusterRoutingUseAny?: MultiClusterRoutingUseAny | undefined;
-  /** The standard options used for isolating this app profile's traffic from other use cases. */
-  standardIsolation?: StandardIsolation | undefined;
 }
-export interface PatchProjectsInstancesClustersBackupsRequest {
+export interface PatchProjectsInstancesClustersBackupsRequest extends Omit<Backup, "name"> {
   /** A globally unique identifier for the backup which cannot be changed. Values are of the form `projects/{project}/instances/{instance}/clusters/{cluster}/ backups/_a-zA-Z0-9*` The final segment of the name must be between 1 and 50 characters in length. The backup is stored in the cluster identified by the prefix of the backup name of the form `projects/{project}/instances/{instance}/clusters/{cluster}`. */
   name: string;
   /** Required. A mask specifying which fields (e.g. `expire_time`) in the Backup resource should be updated. This mask is relative to the Backup resource, not to the request message. The field mask must always be specified; this prevents any future fields from being erased accidentally by clients that do not know about them. */
   updateMask?: string | undefined;
-  /** Output only. Name of the backup from which this backup was copied. If a backup is not created by copying a backup, this field will be empty. Values are of the form: projects//instances//clusters//backups/ */
-  sourceBackup?: string | undefined;
-  /** The time at which the hot backup will be converted to a standard backup. Once the `hot_to_standard_time` has passed, Cloud Bigtable will convert the hot backup to a standard backup. This value must be greater than the backup creation time by: - At least 24 hours This field only applies for hot backups. When creating or updating a standard backup, attempting to set this field will fail the request. */
-  hotToStandardTime?: string | undefined;
-  /** Output only. `end_time` is the time that the backup was finished. The row data in the backup will be no newer than this timestamp. */
-  endTime?: string | undefined;
-  /** Indicates the backup type of the backup. */
-  backupType?: BackupBackupTypeEnum | (string & {}) | undefined;
-  /** Output only. The encryption information for the backup. */
-  encryptionInfo?: EncryptionInfo | undefined;
-  /** Output only. The current state of the backup. */
-  state?: BackupStateEnum | (string & {}) | undefined;
-  /** Output only. `start_time` is the time that the backup was started (i.e. approximately the time the CreateBackup request is received). The row data in this backup will be no older than this timestamp. */
-  startTime?: string | undefined;
-  /** Required. The expiration time of the backup. When creating a backup or updating its `expire_time`, the value must be greater than the backup creation time by: - At least 6 hours - At most 90 days Once the `expire_time` has passed, Cloud Bigtable will delete the backup. */
-  expireTime?: string | undefined;
-  /** Required. Immutable. Name of the table from which this backup was created. This needs to be in the same instance as the backup. Values are of the form `projects/{project}/instances/{instance}/tables/{source_table}`. */
-  sourceTable?: string | undefined;
-  /** Output only. Size of the backup in bytes. */
-  sizeBytes?: string | undefined;
 }
-export interface PatchProjectsInstancesLogicalViewsRequest {
+export interface PatchProjectsInstancesLogicalViewsRequest extends Omit<LogicalView, "name"> {
   /** Optional. The list of fields to update. */
   updateMask?: string | undefined;
   /** Identifier. The unique name of the logical view. Format: `projects/{project}/instances/{instance}/logicalViews/{logical_view}` */
   name: string;
-  /** Optional. The etag for this logical view. This may be sent on update requests to ensure that the client has an up-to-date value before proceeding. The server returns an ABORTED error on a mismatched etag. */
-  etag?: string | undefined;
-  /** Optional. Set to true to make the LogicalView protected against deletion. */
-  deletionProtection?: boolean | undefined;
-  /** Required. The logical view's select query. */
-  query?: string | undefined;
 }
-export interface PatchProjectsInstancesMaterializedViewsRequest {
+export interface PatchProjectsInstancesMaterializedViewsRequest extends Omit<
+  MaterializedView,
+  "name"
+> {
   /** Identifier. The unique name of the materialized view. Format: `projects/{project}/instances/{instance}/materializedViews/{materialized_view}` Views: `SCHEMA_VIEW`, `REPLICATION_VIEW`, `FULL`. */
   name: string;
   /** Optional. The list of fields to update. */
   updateMask?: string | undefined;
-  /** Optional. The etag for this materialized view. This may be sent on update requests to ensure that the client has an up-to-date value before proceeding. The server returns an ABORTED error on a mismatched etag. Views: `SCHEMA_VIEW`, `REPLICATION_VIEW`, `FULL`. */
-  etag?: string | undefined;
-  /** Set to true to make the MaterializedView protected against deletion. Views: `SCHEMA_VIEW`, `REPLICATION_VIEW`, `FULL`. */
-  deletionProtection?: boolean | undefined;
-  /** Output only. Map from cluster ID to per-cluster materialized view state. If it could not be determined whether or not the materialized view has data in a particular cluster (for example, if its zone is unavailable), then there will be an entry for the cluster with `STATE_NOT_KNOWN` state. Views: `REPLICATION_VIEW`, `FULL`. */
-  clusterStates?: GoogleBigtableAdminV2MaterializedViewClusterStateMap | undefined;
-  /** Required. Immutable. The materialized view's select query. Views: `SCHEMA_VIEW`, `FULL`. */
-  query?: string | undefined;
 }
-export interface PatchProjectsInstancesTablesRequest {
+export interface PatchProjectsInstancesTablesRequest extends Omit<Table, "name"> {
   /** The unique name of the table. Values are of the form `projects/{project}/instances/{instance}/tables/_a-zA-Z0-9*`. Views: `NAME_ONLY`, `SCHEMA_VIEW`, `REPLICATION_VIEW`, `STATS_VIEW`, `FULL` */
   name: string;
   /** Optional. If true, ignore safety checks when updating the table. */
   ignoreWarnings?: boolean | undefined;
   /** Required. The list of fields to update. A mask specifying which fields (e.g. `change_stream_config`) in the `table` field should be updated. This mask is relative to the `table` field, not to the request message. The wildcard (*) path is currently not supported. Currently UpdateTable is only supported for the following fields: * `change_stream_config` * `change_stream_config.retention_period` * `deletion_protection` * `automated_backup_policy` * `automated_backup_policy.retention_period` * `automated_backup_policy.frequency` * `automated_backup_policy.locations` * `row_key_schema` If `column_families` is set in `update_mask`, it will return an UNIMPLEMENTED error. */
   updateMask?: string | undefined;
-  /** The column families configured for this table, mapped by column family ID. Views: `SCHEMA_VIEW`, `STATS_VIEW`, `FULL` */
-  columnFamilies?: ColumnFamilyMap | undefined;
-  /** If specified, automated backups are enabled for this table. Otherwise, automated backups are disabled. */
-  automatedBackupPolicy?: AutomatedBackupPolicy | undefined;
-  /** Rules to specify what data is stored in each storage tier. Different tiers store data differently, providing different trade-offs between cost and performance. Different parts of a table can be stored separately on different tiers. If a config is specified, tiered storage is enabled for this table. Otherwise, tiered storage is disabled. Only SSD instances can configure tiered storage. */
-  tieredStorageConfig?: TieredStorageConfig | undefined;
-  /** Output only. If this table was restored from another data source (e.g. a backup), this field will be populated with information about the restore. */
-  restoreInfo?: RestoreInfo | undefined;
-  /** If specified, enable the change stream on this table. Otherwise, the change stream is disabled and the change stream is not retained. */
-  changeStreamConfig?: ChangeStreamConfig | undefined;
-  /** Output only. Only available with STATS_VIEW, this includes summary statistics about the entire table contents. For statistics about a specific column family, see ColumnFamilyStats in the mapped ColumnFamily collection above. */
-  stats?: TableStats | undefined;
-  /** Immutable. The granularity at which timestamps are stored in this table. Timestamps not matching the granularity will be rejected. If unspecified at creation time, the value will be set to `MILLIS`. Views: `SCHEMA_VIEW`, `FULL`. */
-  granularity?: TableGranularityEnum | (string & {}) | undefined;
-  /** The row key schema for this table. The schema is used to decode the raw row key bytes into a structured format. The order of field declarations in this schema is important, as it reflects how the raw row key bytes are structured. Currently, this only affects how the key is read via a GoogleSQL query from the ExecuteQuery API. For a SQL query, the _key column is still read as raw bytes. But queries can reference the key fields by name, which will be decoded from _key using provided type and encoding. Queries that reference key fields will fail if they encounter an invalid row key. For example, if _key = "some_id#2024-04-30#\x00\x13\x00\xf3" with the following schema: { fields { field_name: "id" type { string { encoding: utf8_bytes {} } } } fields { field_name: "date" type { string { encoding: utf8_bytes {} } } } fields { field_name: "product_code" type { int64 { encoding: big_endian_bytes {} } } } encoding { delimited_bytes { delimiter: "#" } } } The decoded key parts would be: id = "some_id", date = "2024-04-30", product_code = 1245427 The query "SELECT _key, product_code FROM table" will return two columns: /------------------------------------------------------\ | _key | product_code | | --------------------------------------|--------------| | "some_id#2024-04-30#\x00\x13\x00\xf3" | 1245427 | \------------------------------------------------------/ The schema has the following invariants: (1) The decoded field values are order-preserved. For read, the field values will be decoded in sorted mode from the raw bytes. (2) Every field in the schema must specify a non-empty name. (3) Every field must specify a type with an associated encoding. The type is limited to scalar types only: Array, Map, Aggregate, and Struct are not allowed. (4) The field names must not collide with existing column family names and reserved keywords "_key" and "_timestamp". The following update operations are allowed for row_key_schema: - Update from an empty schema to a new schema. - Remove the existing schema. This operation requires setting the `ignore_warnings` flag to `true`, since it might be a backward incompatible change. Without the flag, the update request will fail with an INVALID_ARGUMENT error. Any other row key schema update operation (e.g. update existing schema columns names or types) is currently unsupported. */
-  rowKeySchema?: GoogleBigtableAdminV2TypeStruct | undefined;
-  /** Set to true to make the table protected against data loss. i.e. deleting the following resources through Admin APIs are prohibited: * The table. * The column families in the table. * The instance containing the table. Note one can still delete the data stored in the table through Data APIs. */
-  deletionProtection?: boolean | undefined;
-  /** Output only. The effective automated backup policy applied to the table. This represents the policy actually in effect, which may be a system-default policy if the user has not explicitly configured one. Views: `SCHEMA_VIEW`, `FULL`. */
-  effectiveAutomatedBackupPolicy?: AutomatedBackupPolicy | undefined;
-  /** Output only. Map from cluster ID to per-cluster table state. If it could not be determined whether or not the table has data in a particular cluster (for example, if its zone is unavailable), then there will be an entry for the cluster with UNKNOWN `replication_status`. Views: `REPLICATION_VIEW`, `ENCRYPTION_VIEW`, `FULL` */
-  clusterStates?: ClusterStateMap | undefined;
 }
-export interface PatchProjectsInstancesTablesAuthorizedViewsRequest {
+export interface PatchProjectsInstancesTablesAuthorizedViewsRequest extends Omit<
+  AuthorizedView,
+  "name"
+> {
   /** Optional. If true, ignore the safety checks when updating the AuthorizedView. */
   ignoreWarnings?: boolean | undefined;
   /** Optional. The list of fields to update. A mask specifying which fields in the AuthorizedView resource should be updated. This mask is relative to the AuthorizedView resource, not to the request message. A field will be overwritten if it is in the mask. If empty, all fields set in the request will be overwritten. A special value `*` means to overwrite all fields (including fields not set in the request). */
   updateMask?: string | undefined;
   /** Identifier. The name of this AuthorizedView. Values are of the form `projects/{project}/instances/{instance}/tables/{table}/authorizedViews/{authorized_view}` */
   name: string;
-  /** Set to true to make the AuthorizedView protected against deletion. The parent Table and containing Instance cannot be deleted if an AuthorizedView has this bit set. */
-  deletionProtection?: boolean | undefined;
-  /** The etag for this AuthorizedView. If this is provided on update, it must match the server's etag. The server returns ABORTED error on a mismatched etag. */
-  etag?: string | undefined;
-  /** An AuthorizedView permitting access to an explicit subset of a Table. */
-  subsetView?: GoogleBigtableAdminV2AuthorizedViewSubsetView | undefined;
 }
-export interface PatchProjectsInstancesTablesSchemaBundlesRequest {
+export interface PatchProjectsInstancesTablesSchemaBundlesRequest extends Omit<
+  SchemaBundle,
+  "name"
+> {
   /** Optional. If set, ignore the safety checks when updating the Schema Bundle. The safety checks are: - The new Schema Bundle is backwards compatible with the existing Schema Bundle. */
   ignoreWarnings?: boolean | undefined;
   /** Identifier. The unique name identifying this schema bundle. Values are of the form `projects/{project}/instances/{instance}/tables/{table}/schemaBundles/{schema_bundle}` */
   name: string;
   /** Optional. The list of fields to update. */
   updateMask?: string | undefined;
-  /** Optional. The etag for this schema bundle. This may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. The server returns an ABORTED error on a mismatched etag. */
-  etag?: string | undefined;
-  /** Optional. Schema for Avros. */
-  avroSchema?: AvroSchema | undefined;
-  /** Schema for Protobufs. */
-  protoSchema?: ProtoSchema | undefined;
 }
-export interface RestoreProjectsInstancesTablesRequest {
-  /** Required. The name of the instance in which to create the restored table. Values are of the form `projects//instances/`. */
-  parent: string;
+/** The request for RestoreTable. */
+export interface RestoreTableRequest {
   /** Name of the backup from which to restore. Values are of the form `projects//instances//clusters//backups/`. */
   backup?: string | undefined;
   /** Required. The id of the table to create and restore to. This table must not already exist. The `table_id` appended to `parent` forms the full table name of the form `projects//instances//tables/`. */
   tableId?: string | undefined;
 }
-export interface SetIamPolicyProjectsInstancesRequest {
-  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
+export interface RestoreProjectsInstancesTablesRequest extends RestoreTableRequest {
+  /** Required. The name of the instance in which to create the restored table. Values are of the form `projects//instances/`. */
+  parent: string;
+}
+/** Request message for `SetIamPolicy` method. */
+export interface SetIamPolicyRequest {
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
   policy?: Policy | undefined;
   /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
   updateMask?: string | undefined;
 }
-export interface SetIamPolicyProjectsInstancesClustersBackupsRequest {
+export interface SetIamPolicyProjectsInstancesRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
-  policy?: Policy | undefined;
-  /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
-  updateMask?: string | undefined;
 }
-export interface SetIamPolicyProjectsInstancesLogicalViewsRequest {
+export interface SetIamPolicyProjectsInstancesClustersBackupsRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
-  policy?: Policy | undefined;
-  /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
-  updateMask?: string | undefined;
 }
-export interface SetIamPolicyProjectsInstancesMaterializedViewsRequest {
+export interface SetIamPolicyProjectsInstancesLogicalViewsRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
-  policy?: Policy | undefined;
-  /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
-  updateMask?: string | undefined;
 }
-export interface SetIamPolicyProjectsInstancesTablesRequest {
+export interface SetIamPolicyProjectsInstancesMaterializedViewsRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
-  policy?: Policy | undefined;
-  /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
-  updateMask?: string | undefined;
 }
-export interface SetIamPolicyProjectsInstancesTablesAuthorizedViewsRequest {
+export interface SetIamPolicyProjectsInstancesTablesRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
-  policy?: Policy | undefined;
-  /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
-  updateMask?: string | undefined;
 }
-export interface SetIamPolicyProjectsInstancesTablesSchemaBundlesRequest {
+export interface SetIamPolicyProjectsInstancesTablesAuthorizedViewsRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
-  policy?: Policy | undefined;
-  /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
-  updateMask?: string | undefined;
 }
-export interface TestIamPermissionsProjectsInstancesRequest {
-  /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+export interface SetIamPolicyProjectsInstancesTablesSchemaBundlesRequest extends SetIamPolicyRequest {
+  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
+}
+/** Request message for `TestIamPermissions` method. */
+export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: StringList | undefined;
+}
+export interface TestIamPermissionsProjectsInstancesRequest extends TestIamPermissionsRequest {
+  /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsInstancesClustersBackupsRequest {
+export interface TestIamPermissionsProjectsInstancesClustersBackupsRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
-  permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsInstancesLogicalViewsRequest {
+export interface TestIamPermissionsProjectsInstancesLogicalViewsRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
-  permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsInstancesMaterializedViewsRequest {
+export interface TestIamPermissionsProjectsInstancesMaterializedViewsRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
-  permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsInstancesTablesRequest {
+export interface TestIamPermissionsProjectsInstancesTablesRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
-  permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsInstancesTablesAuthorizedViewsRequest {
+export interface TestIamPermissionsProjectsInstancesTablesAuthorizedViewsRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
-  permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsInstancesTablesSchemaBundlesRequest {
+export interface TestIamPermissionsProjectsInstancesTablesSchemaBundlesRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
-  permissions?: StringList | undefined;
 }
 /** Request message for google.bigtable.admin.v2.BigtableTableAdmin.UndeleteTable */
 export type UndeleteTableRequest = StandardReadRemoteWrites;
@@ -1851,59 +1643,22 @@ export interface UndeleteProjectsInstancesTablesRequest {
   /** Request body */
   body?: StandardReadRemoteWrites | undefined;
 }
-export interface UpdateMemoryLayerProjectsInstancesClustersRequest {
+export interface UpdateMemoryLayerProjectsInstancesClustersRequest extends Omit<
+  MemoryLayer,
+  "name"
+> {
   /** Optional. The list of fields to update. */
   updateMask?: string | undefined;
   /** Identifier. Name of the memory layer. This is always: "projects/{project}/instances/{instance}/clusters/{cluster}/memoryLayer". */
   name: string;
-  /** The configuration of this memory layer. Set an empty `memory_config` to enable the memory layer. Unset this to disable the memory layer. */
-  memoryConfig?: GoogleBigtableAdminV2MemoryLayerMemoryConfig | undefined;
-  /** Optional. The etag for this memory layer. This may be sent on update requests to ensure that the client has an up-to-date value before proceeding. The server returns an ABORTED error on a mismatched etag. */
-  etag?: string | undefined;
-  /** Output only. The current state of the memory layer. */
-  state?: MemoryLayerStateEnum | (string & {}) | undefined;
 }
-export interface UpdateProjectsInstancesRequest {
+export interface UpdateProjectsInstancesRequest extends Omit<Instance, "name"> {
   /** The unique name of the instance. Values are of the form `projects/{project}/instances/a-z+[a-z0-9]`. */
   name: string;
-  /** Output only. The region where Knowledge Catalog data is synced to and stored, including user-created aspects. */
-  knowledgeCatalogRegion?: string | undefined;
-  /** Optional. Input only. Immutable. Tag keys/values directly bound to this resource. For example: - "123/environment": "production", - "123/costCenter": "marketing" Tags and Labels (above) are both used to bind metadata to resources, with different use-cases. See https://cloud.google.com/resource-manager/docs/tags/tags-overview for an in-depth overview on the difference between tags and labels. */
-  tags?: StringMap | undefined;
-  /** Required. The descriptive name for this instance as it appears in UIs. Can be changed at any time, but should be kept globally unique to avoid confusion. */
-  displayName?: string | undefined;
-  /** Output only. A commit timestamp representing when this Instance was created. For instances created before this field was added (August 2021), this value is `seconds: 0, nanos: 1`. */
-  createTime?: string | undefined;
-  /** Optional. The edition of the instance. See Edition for details. */
-  edition?: InstanceEditionEnum | (string & {}) | undefined;
-  /** The type of the instance. Defaults to `PRODUCTION`. */
-  type?: InstanceTypeEnum | (string & {}) | undefined;
-  /** Output only. Reserved for future use. */
-  satisfiesPzs?: boolean | undefined;
-  /** Output only. Reserved for future use. */
-  satisfiesPzi?: boolean | undefined;
-  /** Labels are a flexible and lightweight mechanism for organizing cloud resources into groups that reflect a customer's organizational needs and deployment strategies. They can be used to filter resources and aggregate metrics. * Label keys must be between 1 and 63 characters long and must conform to the regular expression: `\p{Ll}\p{Lo}{0,62}`. * Label values must be between 0 and 63 characters long and must conform to the regular expression: `[\p{Ll}\p{Lo}\p{N}_-]{0,63}`. * No more than 64 labels can be associated with a given resource. * Keys and values must both be under 128 bytes. Labels and Tags (below) are both used to bind metadata to resources, with different use-cases. See https://cloud.google.com/resource-manager/docs/tags/tags-overview for an in-depth overview on the difference between tags and labels. */
-  labels?: StringMap | undefined;
-  /** Output only. The current state of the instance. */
-  state?: InstanceStateEnum | (string & {}) | undefined;
 }
-export interface UpdateProjectsInstancesClustersRequest {
+export interface UpdateProjectsInstancesClustersRequest extends Omit<Cluster, "name"> {
   /** The unique name of the cluster. Values are of the form `projects/{project}/instances/{instance}/clusters/a-z*`. */
   name: string;
-  /** The number of nodes in the cluster. If no value is set, Cloud Bigtable automatically allocates nodes based on your data footprint and optimized for 50% storage utilization. */
-  serveNodes?: number | undefined;
-  /** Immutable. The type of storage used by this cluster to serve its parent instance's tables, unless explicitly overridden. */
-  defaultStorageType?: ClusterDefaultStorageTypeEnum | (string & {}) | undefined;
-  /** Configuration for this cluster. */
-  clusterConfig?: ClusterConfig | undefined;
-  /** Immutable. The encryption configuration for CMEK-protected clusters. */
-  encryptionConfig?: EncryptionConfig | undefined;
-  /** Output only. The current state of the cluster. */
-  state?: ClusterStateEnum | (string & {}) | undefined;
-  /** Immutable. The location where this cluster's nodes and storage reside. For best performance, clients should be located as close as possible to this cluster. Currently only zones are supported, so values should be of the form `projects/{project}/locations/{zone}`. */
-  location?: string | undefined;
-  /** Immutable. The node scaling factor of this cluster. */
-  nodeScalingFactor?: ClusterNodeScalingFactorEnum | (string & {}) | undefined;
 }
 export type CheckConsistencyProjectsInstancesTablesError =
   | NotFound
@@ -1918,8 +1673,8 @@ export const checkConsistencyProjectsInstancesTables: API.OperationMethod<
   CheckConsistencyProjectsInstancesTablesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2528, __c79, 0) as any as S.Schema<CheckConsistencyProjectsInstancesTablesRequest>,
-  output: __S(2529, __c79, 1) as any as S.Schema<CheckConsistencyResponse>,
+  input: __S(2337, __c73, 1) as any as S.Schema<CheckConsistencyProjectsInstancesTablesRequest>,
+  output: __S(2338, __c73, 2) as any as S.Schema<CheckConsistencyResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1940,8 +1695,8 @@ export const copyProjectsInstancesClustersBackups: API.OperationMethod<
   CopyProjectsInstancesClustersBackupsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2944, __c92, 0) as any as S.Schema<CopyProjectsInstancesClustersBackupsRequest>,
-  output: __S(3040, __c95, 0) as any as S.Schema<Operation>,
+  input: __S(2785, __c87, 1) as any as S.Schema<CopyProjectsInstancesClustersBackupsRequest>,
+  output: __S(2880, __c90, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1962,8 +1717,8 @@ export const createProjectsInstances: API.OperationMethod<
   CreateProjectsInstancesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3361, __c105, 1) as any as S.Schema<CreateProjectsInstancesRequest>,
-  output: __S(3040, __c95, 0) as any as S.Schema<Operation>,
+  input: __S(3202, __c100, 2) as any as S.Schema<CreateProjectsInstancesRequest>,
+  output: __S(2880, __c90, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1985,7 +1740,7 @@ export const createProjectsInstancesAppProfiles: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateProjectsInstancesAppProfilesRequest>,
-  output: __S(64, __c2, 0) as any as S.Schema<AppProfile>,
+  output: __S(68, __c2, 4) as any as S.Schema<AppProfile>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2006,8 +1761,8 @@ export const createProjectsInstancesClusters: API.OperationMethod<
   CreateProjectsInstancesClustersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c4, 0) as any as S.Schema<CreateProjectsInstancesClustersRequest>,
-  output: __S(3040, __c95, 0) as any as S.Schema<Operation>,
+  input: __S(96, __c3, 0) as any as S.Schema<CreateProjectsInstancesClustersRequest>,
+  output: __S(2880, __c90, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2028,8 +1783,8 @@ export const createProjectsInstancesClustersBackups: API.OperationMethod<
   CreateProjectsInstancesClustersBackupsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c5, 0) as any as S.Schema<CreateProjectsInstancesClustersBackupsRequest>,
-  output: __S(3040, __c95, 0) as any as S.Schema<Operation>,
+  input: __S(128, __c4, 0) as any as S.Schema<CreateProjectsInstancesClustersBackupsRequest>,
+  output: __S(2880, __c90, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2051,7 +1806,7 @@ export const createProjectsInstancesLogicalViews: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c7, 0) as any as S.Schema<CreateProjectsInstancesLogicalViewsRequest>,
-  output: __S(3040, __c95, 0) as any as S.Schema<Operation>,
+  output: __S(2880, __c90, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2073,8 +1828,8 @@ export const createProjectsInstancesMaterializedViews: API.OperationMethod<
   CreateProjectsInstancesMaterializedViewsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c8, 0) as any as S.Schema<CreateProjectsInstancesMaterializedViewsRequest>,
-  output: __S(3040, __c95, 0) as any as S.Schema<Operation>,
+  input: __S(288, __c9, 0) as any as S.Schema<CreateProjectsInstancesMaterializedViewsRequest>,
+  output: __S(2880, __c90, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, SourceTableNotReady, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2095,8 +1850,8 @@ export const createProjectsInstancesTables: API.OperationMethod<
   CreateProjectsInstancesTablesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(322, __c10, 2) as any as S.Schema<CreateProjectsInstancesTablesRequest>,
-  output: __S(352, __c11, 0) as any as S.Schema<Table>,
+  input: __S(355, __c11, 3) as any as S.Schema<CreateProjectsInstancesTablesRequest>,
+  output: __S(425, __c13, 9) as any as S.Schema<Table>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2118,7 +1873,7 @@ export const createProjectsInstancesTablesAuthorizedViews: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c14, 0) as any as S.Schema<CreateProjectsInstancesTablesAuthorizedViewsRequest>,
-  output: __S(3040, __c95, 0) as any as S.Schema<Operation>,
+  output: __S(2880, __c90, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2140,7 +1895,7 @@ export const createProjectsInstancesTablesSchemaBundles: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c16, 0) as any as S.Schema<CreateProjectsInstancesTablesSchemaBundlesRequest>,
-  output: __S(3040, __c95, 0) as any as S.Schema<Operation>,
+  output: __S(2880, __c90, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2162,7 +1917,7 @@ export const deleteProjectsInstances: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c18, 0) as any as S.Schema<DeleteProjectsInstancesRequest>,
-  output: __S(2560, __c80, 0) as any as S.Schema<Empty>,
+  output: __S(2368, __c74, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2184,7 +1939,7 @@ export const deleteProjectsInstancesAppProfiles: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c19, 0) as any as S.Schema<DeleteProjectsInstancesAppProfilesRequest>,
-  output: __S(2560, __c80, 0) as any as S.Schema<Empty>,
+  output: __S(2368, __c74, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2207,7 +1962,7 @@ export const deleteProjectsInstancesClusters: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(640, __c20, 0) as any as S.Schema<DeleteProjectsInstancesClustersRequest>,
-  output: __S(2560, __c80, 0) as any as S.Schema<Empty>,
+  output: __S(2368, __c74, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, LastClusterDeletion, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2229,7 +1984,7 @@ export const deleteProjectsInstancesClustersBackups: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c21, 0) as any as S.Schema<DeleteProjectsInstancesClustersBackupsRequest>,
-  output: __S(2560, __c80, 0) as any as S.Schema<Empty>,
+  output: __S(2368, __c74, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2251,7 +2006,7 @@ export const deleteProjectsInstancesLogicalViews: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(704, __c22, 0) as any as S.Schema<DeleteProjectsInstancesLogicalViewsRequest>,
-  output: __S(2560, __c80, 0) as any as S.Schema<Empty>,
+  output: __S(2368, __c74, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2273,7 +2028,7 @@ export const deleteProjectsInstancesMaterializedViews: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(736, __c23, 0) as any as S.Schema<DeleteProjectsInstancesMaterializedViewsRequest>,
-  output: __S(2560, __c80, 0) as any as S.Schema<Empty>,
+  output: __S(2368, __c74, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2296,7 +2051,7 @@ export const deleteProjectsInstancesTables: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c24, 0) as any as S.Schema<DeleteProjectsInstancesTablesRequest>,
-  output: __S(2560, __c80, 0) as any as S.Schema<Empty>,
+  output: __S(2368, __c74, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, TableNotReady, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2318,7 +2073,7 @@ export const deleteProjectsInstancesTablesAuthorizedViews: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(800, __c25, 0) as any as S.Schema<DeleteProjectsInstancesTablesAuthorizedViewsRequest>,
-  output: __S(2560, __c80, 0) as any as S.Schema<Empty>,
+  output: __S(2368, __c74, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2340,7 +2095,7 @@ export const deleteProjectsInstancesTablesSchemaBundles: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(832, __c26, 0) as any as S.Schema<DeleteProjectsInstancesTablesSchemaBundlesRequest>,
-  output: __S(2560, __c80, 0) as any as S.Schema<Empty>,
+  output: __S(2368, __c74, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2361,8 +2116,8 @@ export const dropRowRangeProjectsInstancesTables: API.OperationMethod<
   DropRowRangeProjectsInstancesTablesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c27, 0) as any as S.Schema<DropRowRangeProjectsInstancesTablesRequest>,
-  output: __S(2560, __c80, 0) as any as S.Schema<Empty>,
+  input: __S(865, __c27, 1) as any as S.Schema<DropRowRangeProjectsInstancesTablesRequest>,
+  output: __S(2368, __c74, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2576,7 +2331,7 @@ export const getMemoryLayerProjectsInstancesClusters: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1216, __c38, 0) as any as S.Schema<GetMemoryLayerProjectsInstancesClustersRequest>,
-  output: __S(1248, __c39, 0) as any as S.Schema<MemoryLayer>,
+  output: __S(1249, __c39, 1) as any as S.Schema<MemoryLayer>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2592,8 +2347,8 @@ export const getOperations: API.OperationMethod<
   GetOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1312, __c41, 0) as any as S.Schema<GetOperationsRequest>,
-  output: __S(3040, __c95, 0) as any as S.Schema<Operation>,
+  input: __S(1280, __c40, 0) as any as S.Schema<GetOperationsRequest>,
+  output: __S(2880, __c90, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2609,8 +2364,8 @@ export const getProjectsInstances: API.OperationMethod<
   GetProjectsInstancesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1344, __c42, 0) as any as S.Schema<GetProjectsInstancesRequest>,
-  output: __S(3456, __c108, 0) as any as S.Schema<Instance>,
+  input: __S(1312, __c41, 0) as any as S.Schema<GetProjectsInstancesRequest>,
+  output: __S(3296, __c103, 0) as any as S.Schema<Instance>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2626,8 +2381,8 @@ export const getProjectsInstancesAppProfiles: API.OperationMethod<
   GetProjectsInstancesAppProfilesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c43, 0) as any as S.Schema<GetProjectsInstancesAppProfilesRequest>,
-  output: __S(64, __c2, 0) as any as S.Schema<AppProfile>,
+  input: __S(1344, __c42, 0) as any as S.Schema<GetProjectsInstancesAppProfilesRequest>,
+  output: __S(68, __c2, 4) as any as S.Schema<AppProfile>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2643,8 +2398,8 @@ export const getProjectsInstancesClusters: API.OperationMethod<
   GetProjectsInstancesClustersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c44, 0) as any as S.Schema<GetProjectsInstancesClustersRequest>,
-  output: __S(3488, __c109, 0) as any as S.Schema<Cluster>,
+  input: __S(1376, __c43, 0) as any as S.Schema<GetProjectsInstancesClustersRequest>,
+  output: __S(3237, __c101, 5) as any as S.Schema<Cluster>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2660,8 +2415,8 @@ export const getProjectsInstancesClustersBackups: API.OperationMethod<
   GetProjectsInstancesClustersBackupsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1440, __c45, 0) as any as S.Schema<GetProjectsInstancesClustersBackupsRequest>,
-  output: __S(1472, __c46, 0) as any as S.Schema<Backup>,
+  input: __S(1408, __c44, 0) as any as S.Schema<GetProjectsInstancesClustersBackupsRequest>,
+  output: __S(192, __c6, 0) as any as S.Schema<Backup>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2677,8 +2432,8 @@ export const getProjectsInstancesLogicalViews: API.OperationMethod<
   GetProjectsInstancesLogicalViewsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c47, 0) as any as S.Schema<GetProjectsInstancesLogicalViewsRequest>,
-  output: __S(1536, __c48, 0) as any as S.Schema<LogicalView>,
+  input: __S(1440, __c45, 0) as any as S.Schema<GetProjectsInstancesLogicalViewsRequest>,
+  output: __S(256, __c8, 0) as any as S.Schema<LogicalView>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2694,8 +2449,8 @@ export const getProjectsInstancesMaterializedViews: API.OperationMethod<
   GetProjectsInstancesMaterializedViewsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1568, __c49, 0) as any as S.Schema<GetProjectsInstancesMaterializedViewsRequest>,
-  output: __S(1600, __c50, 0) as any as S.Schema<MaterializedView>,
+  input: __S(1472, __c46, 0) as any as S.Schema<GetProjectsInstancesMaterializedViewsRequest>,
+  output: __S(322, __c10, 2) as any as S.Schema<MaterializedView>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2711,8 +2466,8 @@ export const getProjectsInstancesTables: API.OperationMethod<
   GetProjectsInstancesTablesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1632, __c51, 0) as any as S.Schema<GetProjectsInstancesTablesRequest>,
-  output: __S(352, __c11, 0) as any as S.Schema<Table>,
+  input: __S(1504, __c47, 0) as any as S.Schema<GetProjectsInstancesTablesRequest>,
+  output: __S(425, __c13, 9) as any as S.Schema<Table>,
   errors: [NotFound, Forbidden, TableNotReady, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2728,8 +2483,8 @@ export const getProjectsInstancesTablesAuthorizedViews: API.OperationMethod<
   GetProjectsInstancesTablesAuthorizedViewsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c52, 0) as any as S.Schema<GetProjectsInstancesTablesAuthorizedViewsRequest>,
-  output: __S(1696, __c53, 0) as any as S.Schema<AuthorizedView>,
+  input: __S(1536, __c48, 0) as any as S.Schema<GetProjectsInstancesTablesAuthorizedViewsRequest>,
+  output: __S(483, __c15, 3) as any as S.Schema<AuthorizedView>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2745,8 +2500,8 @@ export const getProjectsInstancesTablesSchemaBundles: API.OperationMethod<
   GetProjectsInstancesTablesSchemaBundlesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1728, __c54, 0) as any as S.Schema<GetProjectsInstancesTablesSchemaBundlesRequest>,
-  output: __S(1760, __c55, 0) as any as S.Schema<SchemaBundle>,
+  input: __S(1568, __c49, 0) as any as S.Schema<GetProjectsInstancesTablesSchemaBundlesRequest>,
+  output: __S(546, __c17, 2) as any as S.Schema<SchemaBundle>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2763,8 +2518,8 @@ export const listOperationsProjectsOperations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListOperationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1792, __c56, 0) as any as S.Schema<ListOperationsProjectsOperationsRequest>,
-  output: __S(1794, __c56, 2) as any as S.Schema<ListOperationsResponse>,
+  input: __S(1600, __c50, 0) as any as S.Schema<ListOperationsProjectsOperationsRequest>,
+  output: __S(1602, __c50, 2) as any as S.Schema<ListOperationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2782,8 +2537,8 @@ export const listProjectsInstances: API.PaginatedOperationMethod<
   GcpOpContext,
   ListInstancesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1824, __c57, 0) as any as S.Schema<ListProjectsInstancesRequest>,
-  output: __S(1826, __c57, 2) as any as S.Schema<ListInstancesResponse>,
+  input: __S(1632, __c51, 0) as any as S.Schema<ListProjectsInstancesRequest>,
+  output: __S(1634, __c51, 2) as any as S.Schema<ListInstancesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2801,8 +2556,8 @@ export const listProjectsInstancesAppProfiles: API.PaginatedOperationMethod<
   GcpOpContext,
   ListAppProfilesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1856, __c58, 0) as any as S.Schema<ListProjectsInstancesAppProfilesRequest>,
-  output: __S(1858, __c58, 2) as any as S.Schema<ListAppProfilesResponse>,
+  input: __S(1664, __c52, 0) as any as S.Schema<ListProjectsInstancesAppProfilesRequest>,
+  output: __S(1666, __c52, 2) as any as S.Schema<ListAppProfilesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2820,8 +2575,8 @@ export const listProjectsInstancesClusters: API.PaginatedOperationMethod<
   GcpOpContext,
   ListClustersResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1888, __c59, 0) as any as S.Schema<ListProjectsInstancesClustersRequest>,
-  output: __S(1890, __c59, 2) as any as S.Schema<ListClustersResponse>,
+  input: __S(1696, __c53, 0) as any as S.Schema<ListProjectsInstancesClustersRequest>,
+  output: __S(1698, __c53, 2) as any as S.Schema<ListClustersResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2839,8 +2594,8 @@ export const listProjectsInstancesClustersBackups: API.PaginatedOperationMethod<
   GcpOpContext,
   ListBackupsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1920, __c60, 0) as any as S.Schema<ListProjectsInstancesClustersBackupsRequest>,
-  output: __S(1922, __c60, 2) as any as S.Schema<ListBackupsResponse>,
+  input: __S(1728, __c54, 0) as any as S.Schema<ListProjectsInstancesClustersBackupsRequest>,
+  output: __S(1730, __c54, 2) as any as S.Schema<ListBackupsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2858,8 +2613,8 @@ export const listProjectsInstancesClustersHotTablets: API.PaginatedOperationMeth
   GcpOpContext,
   ListHotTabletsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1952, __c61, 0) as any as S.Schema<ListProjectsInstancesClustersHotTabletsRequest>,
-  output: __S(1955, __c61, 3) as any as S.Schema<ListHotTabletsResponse>,
+  input: __S(1760, __c55, 0) as any as S.Schema<ListProjectsInstancesClustersHotTabletsRequest>,
+  output: __S(1763, __c55, 3) as any as S.Schema<ListHotTabletsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2877,8 +2632,8 @@ export const listProjectsInstancesClustersMemoryLayers: API.PaginatedOperationMe
   GcpOpContext,
   ListMemoryLayersResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1984, __c62, 0) as any as S.Schema<ListProjectsInstancesClustersMemoryLayersRequest>,
-  output: __S(1986, __c62, 2) as any as S.Schema<ListMemoryLayersResponse>,
+  input: __S(1792, __c56, 0) as any as S.Schema<ListProjectsInstancesClustersMemoryLayersRequest>,
+  output: __S(1794, __c56, 2) as any as S.Schema<ListMemoryLayersResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2896,8 +2651,8 @@ export const listProjectsInstancesLogicalViews: API.PaginatedOperationMethod<
   GcpOpContext,
   ListLogicalViewsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2016, __c63, 0) as any as S.Schema<ListProjectsInstancesLogicalViewsRequest>,
-  output: __S(2018, __c63, 2) as any as S.Schema<ListLogicalViewsResponse>,
+  input: __S(1824, __c57, 0) as any as S.Schema<ListProjectsInstancesLogicalViewsRequest>,
+  output: __S(1826, __c57, 2) as any as S.Schema<ListLogicalViewsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2915,8 +2670,8 @@ export const listProjectsInstancesMaterializedViews: API.PaginatedOperationMetho
   GcpOpContext,
   ListMaterializedViewsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2048, __c64, 0) as any as S.Schema<ListProjectsInstancesMaterializedViewsRequest>,
-  output: __S(2050, __c64, 2) as any as S.Schema<ListMaterializedViewsResponse>,
+  input: __S(1856, __c58, 0) as any as S.Schema<ListProjectsInstancesMaterializedViewsRequest>,
+  output: __S(1858, __c58, 2) as any as S.Schema<ListMaterializedViewsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2934,8 +2689,8 @@ export const listProjectsInstancesTables: API.PaginatedOperationMethod<
   GcpOpContext,
   ListTablesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2080, __c65, 0) as any as S.Schema<ListProjectsInstancesTablesRequest>,
-  output: __S(2082, __c65, 2) as any as S.Schema<ListTablesResponse>,
+  input: __S(1888, __c59, 0) as any as S.Schema<ListProjectsInstancesTablesRequest>,
+  output: __S(1890, __c59, 2) as any as S.Schema<ListTablesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2953,8 +2708,8 @@ export const listProjectsInstancesTablesAuthorizedViews: API.PaginatedOperationM
   GcpOpContext,
   ListAuthorizedViewsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2112, __c66, 0) as any as S.Schema<ListProjectsInstancesTablesAuthorizedViewsRequest>,
-  output: __S(2114, __c66, 2) as any as S.Schema<ListAuthorizedViewsResponse>,
+  input: __S(1920, __c60, 0) as any as S.Schema<ListProjectsInstancesTablesAuthorizedViewsRequest>,
+  output: __S(1922, __c60, 2) as any as S.Schema<ListAuthorizedViewsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2972,8 +2727,8 @@ export const listProjectsInstancesTablesSchemaBundles: API.PaginatedOperationMet
   GcpOpContext,
   ListSchemaBundlesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2144, __c67, 0) as any as S.Schema<ListProjectsInstancesTablesSchemaBundlesRequest>,
-  output: __S(2146, __c67, 2) as any as S.Schema<ListSchemaBundlesResponse>,
+  input: __S(1952, __c61, 0) as any as S.Schema<ListProjectsInstancesTablesSchemaBundlesRequest>,
+  output: __S(1954, __c61, 2) as any as S.Schema<ListSchemaBundlesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2991,8 +2746,8 @@ export const listProjectsLocations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListLocationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2176, __c68, 0) as any as S.Schema<ListProjectsLocationsRequest>,
-  output: __S(2179, __c68, 3) as any as S.Schema<ListLocationsResponse>,
+  input: __S(1984, __c62, 0) as any as S.Schema<ListProjectsLocationsRequest>,
+  output: __S(1987, __c62, 3) as any as S.Schema<ListLocationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3014,8 +2769,8 @@ export const modifyColumnFamiliesProjectsInstancesTables: API.OperationMethod<
   ModifyColumnFamiliesProjectsInstancesTablesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2210, __c69, 2) as any as S.Schema<ModifyColumnFamiliesProjectsInstancesTablesRequest>,
-  output: __S(352, __c11, 0) as any as S.Schema<Table>,
+  input: __S(2019, __c63, 3) as any as S.Schema<ModifyColumnFamiliesProjectsInstancesTablesRequest>,
+  output: __S(425, __c13, 9) as any as S.Schema<Table>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3037,11 +2792,11 @@ export const partialUpdateClusterProjectsInstancesClusters: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2240,
-    __c70,
+    2048,
+    __c64,
     0,
   ) as any as S.Schema<PartialUpdateClusterProjectsInstancesClustersRequest>,
-  output: __S(3040, __c95, 0) as any as S.Schema<Operation>,
+  output: __S(2880, __c90, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3062,8 +2817,8 @@ export const partialUpdateInstanceProjectsInstances: API.OperationMethod<
   PartialUpdateInstanceProjectsInstancesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2272, __c71, 0) as any as S.Schema<PartialUpdateInstanceProjectsInstancesRequest>,
-  output: __S(3040, __c95, 0) as any as S.Schema<Operation>,
+  input: __S(2080, __c65, 0) as any as S.Schema<PartialUpdateInstanceProjectsInstancesRequest>,
+  output: __S(2880, __c90, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3084,8 +2839,8 @@ export const patchProjectsInstancesAppProfiles: API.OperationMethod<
   PatchProjectsInstancesAppProfilesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2304, __c72, 0) as any as S.Schema<PatchProjectsInstancesAppProfilesRequest>,
-  output: __S(3040, __c95, 0) as any as S.Schema<Operation>,
+  input: __S(2112, __c66, 0) as any as S.Schema<PatchProjectsInstancesAppProfilesRequest>,
+  output: __S(2880, __c90, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3106,8 +2861,8 @@ export const patchProjectsInstancesClustersBackups: API.OperationMethod<
   PatchProjectsInstancesClustersBackupsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2336, __c73, 0) as any as S.Schema<PatchProjectsInstancesClustersBackupsRequest>,
-  output: __S(1472, __c46, 0) as any as S.Schema<Backup>,
+  input: __S(2144, __c67, 0) as any as S.Schema<PatchProjectsInstancesClustersBackupsRequest>,
+  output: __S(192, __c6, 0) as any as S.Schema<Backup>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3128,8 +2883,8 @@ export const patchProjectsInstancesLogicalViews: API.OperationMethod<
   PatchProjectsInstancesLogicalViewsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2368, __c74, 0) as any as S.Schema<PatchProjectsInstancesLogicalViewsRequest>,
-  output: __S(3040, __c95, 0) as any as S.Schema<Operation>,
+  input: __S(2176, __c68, 0) as any as S.Schema<PatchProjectsInstancesLogicalViewsRequest>,
+  output: __S(2880, __c90, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3150,8 +2905,8 @@ export const patchProjectsInstancesMaterializedViews: API.OperationMethod<
   PatchProjectsInstancesMaterializedViewsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2400, __c75, 0) as any as S.Schema<PatchProjectsInstancesMaterializedViewsRequest>,
-  output: __S(3040, __c95, 0) as any as S.Schema<Operation>,
+  input: __S(2208, __c69, 0) as any as S.Schema<PatchProjectsInstancesMaterializedViewsRequest>,
+  output: __S(2880, __c90, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3172,8 +2927,8 @@ export const patchProjectsInstancesTables: API.OperationMethod<
   PatchProjectsInstancesTablesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2432, __c76, 0) as any as S.Schema<PatchProjectsInstancesTablesRequest>,
-  output: __S(3040, __c95, 0) as any as S.Schema<Operation>,
+  input: __S(2240, __c70, 0) as any as S.Schema<PatchProjectsInstancesTablesRequest>,
+  output: __S(2880, __c90, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3194,8 +2949,8 @@ export const patchProjectsInstancesTablesAuthorizedViews: API.OperationMethod<
   PatchProjectsInstancesTablesAuthorizedViewsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2464, __c77, 0) as any as S.Schema<PatchProjectsInstancesTablesAuthorizedViewsRequest>,
-  output: __S(3040, __c95, 0) as any as S.Schema<Operation>,
+  input: __S(2272, __c71, 0) as any as S.Schema<PatchProjectsInstancesTablesAuthorizedViewsRequest>,
+  output: __S(2880, __c90, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3216,8 +2971,8 @@ export const patchProjectsInstancesTablesSchemaBundles: API.OperationMethod<
   PatchProjectsInstancesTablesSchemaBundlesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2496, __c78, 0) as any as S.Schema<PatchProjectsInstancesTablesSchemaBundlesRequest>,
-  output: __S(3040, __c95, 0) as any as S.Schema<Operation>,
+  input: __S(2304, __c72, 0) as any as S.Schema<PatchProjectsInstancesTablesSchemaBundlesRequest>,
+  output: __S(2880, __c90, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3238,8 +2993,8 @@ export const restoreProjectsInstancesTables: API.OperationMethod<
   RestoreProjectsInstancesTablesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2592, __c81, 0) as any as S.Schema<RestoreProjectsInstancesTablesRequest>,
-  output: __S(3040, __c95, 0) as any as S.Schema<Operation>,
+  input: __S(2401, __c75, 1) as any as S.Schema<RestoreProjectsInstancesTablesRequest>,
+  output: __S(2880, __c90, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3260,7 +3015,7 @@ export const setIamPolicyProjectsInstances: API.OperationMethod<
   SetIamPolicyProjectsInstancesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2624, __c82, 0) as any as S.Schema<SetIamPolicyProjectsInstancesRequest>,
+  input: __S(2432, __c76, 0) as any as S.Schema<SetIamPolicyProjectsInstancesRequest>,
   output: __S(999, __c31, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -3283,8 +3038,8 @@ export const setIamPolicyProjectsInstancesClustersBackups: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2656,
-    __c83,
+    2496,
+    __c78,
     0,
   ) as any as S.Schema<SetIamPolicyProjectsInstancesClustersBackupsRequest>,
   output: __S(999, __c31, 7) as any as S.Schema<Policy>,
@@ -3308,7 +3063,7 @@ export const setIamPolicyProjectsInstancesLogicalViews: API.OperationMethod<
   SetIamPolicyProjectsInstancesLogicalViewsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2688, __c84, 0) as any as S.Schema<SetIamPolicyProjectsInstancesLogicalViewsRequest>,
+  input: __S(2528, __c79, 0) as any as S.Schema<SetIamPolicyProjectsInstancesLogicalViewsRequest>,
   output: __S(999, __c31, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -3331,8 +3086,8 @@ export const setIamPolicyProjectsInstancesMaterializedViews: API.OperationMethod
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2720,
-    __c85,
+    2560,
+    __c80,
     0,
   ) as any as S.Schema<SetIamPolicyProjectsInstancesMaterializedViewsRequest>,
   output: __S(999, __c31, 7) as any as S.Schema<Policy>,
@@ -3356,7 +3111,7 @@ export const setIamPolicyProjectsInstancesTables: API.OperationMethod<
   SetIamPolicyProjectsInstancesTablesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2752, __c86, 0) as any as S.Schema<SetIamPolicyProjectsInstancesTablesRequest>,
+  input: __S(2592, __c81, 0) as any as S.Schema<SetIamPolicyProjectsInstancesTablesRequest>,
   output: __S(999, __c31, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -3379,8 +3134,8 @@ export const setIamPolicyProjectsInstancesTablesAuthorizedViews: API.OperationMe
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2784,
-    __c87,
+    2624,
+    __c82,
     0,
   ) as any as S.Schema<SetIamPolicyProjectsInstancesTablesAuthorizedViewsRequest>,
   output: __S(999, __c31, 7) as any as S.Schema<Policy>,
@@ -3405,8 +3160,8 @@ export const setIamPolicyProjectsInstancesTablesSchemaBundles: API.OperationMeth
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2816,
-    __c88,
+    2656,
+    __c83,
     0,
   ) as any as S.Schema<SetIamPolicyProjectsInstancesTablesSchemaBundlesRequest>,
   output: __S(999, __c31, 7) as any as S.Schema<Policy>,
@@ -3430,8 +3185,8 @@ export const testIamPermissionsProjectsInstances: API.OperationMethod<
   TestIamPermissionsProjectsInstancesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2848, __c89, 0) as any as S.Schema<TestIamPermissionsProjectsInstancesRequest>,
-  output: __S(2880, __c90, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  input: __S(2688, __c84, 0) as any as S.Schema<TestIamPermissionsProjectsInstancesRequest>,
+  output: __S(2720, __c85, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3453,11 +3208,11 @@ export const testIamPermissionsProjectsInstancesClustersBackups: API.OperationMe
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2912,
-    __c91,
+    2752,
+    __c86,
     0,
   ) as any as S.Schema<TestIamPermissionsProjectsInstancesClustersBackupsRequest>,
-  output: __S(2880, __c90, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  output: __S(2720, __c85, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3479,11 +3234,11 @@ export const testIamPermissionsProjectsInstancesLogicalViews: API.OperationMetho
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3072,
-    __c96,
+    2912,
+    __c91,
     0,
   ) as any as S.Schema<TestIamPermissionsProjectsInstancesLogicalViewsRequest>,
-  output: __S(2880, __c90, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  output: __S(2720, __c85, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3505,11 +3260,11 @@ export const testIamPermissionsProjectsInstancesMaterializedViews: API.Operation
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3104,
-    __c97,
+    2944,
+    __c92,
     0,
   ) as any as S.Schema<TestIamPermissionsProjectsInstancesMaterializedViewsRequest>,
-  output: __S(2880, __c90, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  output: __S(2720, __c85, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3530,8 +3285,8 @@ export const testIamPermissionsProjectsInstancesTables: API.OperationMethod<
   TestIamPermissionsProjectsInstancesTablesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3136, __c98, 0) as any as S.Schema<TestIamPermissionsProjectsInstancesTablesRequest>,
-  output: __S(2880, __c90, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  input: __S(2976, __c93, 0) as any as S.Schema<TestIamPermissionsProjectsInstancesTablesRequest>,
+  output: __S(2720, __c85, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3553,11 +3308,11 @@ export const testIamPermissionsProjectsInstancesTablesAuthorizedViews: API.Opera
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3168,
-    __c99,
+    3008,
+    __c94,
     0,
   ) as any as S.Schema<TestIamPermissionsProjectsInstancesTablesAuthorizedViewsRequest>,
-  output: __S(2880, __c90, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  output: __S(2720, __c85, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3579,11 +3334,11 @@ export const testIamPermissionsProjectsInstancesTablesSchemaBundles: API.Operati
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3200,
-    __c100,
+    3040,
+    __c95,
     0,
   ) as any as S.Schema<TestIamPermissionsProjectsInstancesTablesSchemaBundlesRequest>,
-  output: __S(2880, __c90, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  output: __S(2720, __c85, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3605,8 +3360,8 @@ export const undeleteProjectsInstancesTables: API.OperationMethod<
   UndeleteProjectsInstancesTablesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3232, __c101, 0) as any as S.Schema<UndeleteProjectsInstancesTablesRequest>,
-  output: __S(3040, __c95, 0) as any as S.Schema<Operation>,
+  input: __S(3072, __c96, 0) as any as S.Schema<UndeleteProjectsInstancesTablesRequest>,
+  output: __S(2880, __c90, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, TableNotReady, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3627,8 +3382,8 @@ export const updateMemoryLayerProjectsInstancesClusters: API.OperationMethod<
   UpdateMemoryLayerProjectsInstancesClustersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3264, __c102, 0) as any as S.Schema<UpdateMemoryLayerProjectsInstancesClustersRequest>,
-  output: __S(3040, __c95, 0) as any as S.Schema<Operation>,
+  input: __S(3104, __c97, 0) as any as S.Schema<UpdateMemoryLayerProjectsInstancesClustersRequest>,
+  output: __S(2880, __c90, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3649,8 +3404,8 @@ export const updateProjectsInstances: API.OperationMethod<
   UpdateProjectsInstancesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3296, __c103, 0) as any as S.Schema<UpdateProjectsInstancesRequest>,
-  output: __S(3456, __c108, 0) as any as S.Schema<Instance>,
+  input: __S(3136, __c98, 0) as any as S.Schema<UpdateProjectsInstancesRequest>,
+  output: __S(3296, __c103, 0) as any as S.Schema<Instance>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3671,8 +3426,8 @@ export const updateProjectsInstancesClusters: API.OperationMethod<
   UpdateProjectsInstancesClustersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3328, __c104, 0) as any as S.Schema<UpdateProjectsInstancesClustersRequest>,
-  output: __S(3040, __c95, 0) as any as S.Schema<Operation>,
+  input: __S(3168, __c99, 0) as any as S.Schema<UpdateProjectsInstancesClustersRequest>,
+  output: __S(2880, __c90, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3685,19 +3440,14 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          appProfileId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          ignoreWarnings: S.optional(S.Boolean.pipe(T.Query())),
-          priority: S.optional(S.String),
-          singleClusterRouting: S.optional(__S(96, __c3, 0)),
-          name: S.optional(S.String),
-          dataBoostIsolationReadOnly: S.optional(__S(97, __c3, 1)),
-          description: S.optional(S.String),
-          etag: S.optional(S.String),
-          multiClusterRoutingUseAny: S.optional(__S(98, __c3, 2)),
-          standardIsolation: S.optional(__S(99, __c3, 3)),
-        }).pipe(
+        S.Extend(
+          __S(68, __c2, 4),
+          S.Struct({
+            appProfileId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            ignoreWarnings: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/appProfiles",
@@ -3718,23 +3468,6 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          priority: S.optional(S.String),
-          singleClusterRouting: S.optional(__S(96, __c3, 0)),
-          name: S.optional(S.String),
-          dataBoostIsolationReadOnly: S.optional(__S(97, __c3, 1)),
-          description: S.optional(S.String),
-          etag: S.optional(S.String),
-          multiClusterRoutingUseAny: S.optional(__S(98, __c3, 2)),
-          standardIsolation: S.optional(__S(99, __c3, 3)),
-        }),
-      ).annotate({ identifier: "AppProfile" });
-  }
-}
-function __c3(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
           allowTransactionalWrites: S.optional(S.Boolean),
           clusterId: S.optional(S.String),
         }),
@@ -3749,34 +3482,42 @@ function __c3(j: number): any {
       return S.suspend(() =>
         S.Struct({
           clusterIds: S.optional(__S(32, __c1, 0)),
-          rowAffinity: S.optional(__S(2560, __c80, 0)),
+          rowAffinity: S.optional(__S(2368, __c74, 0)),
         }),
       ).annotate({ identifier: "MultiClusterRoutingUseAny" });
     case 3:
       return S.suspend(() =>
         S.Struct({
           priority: S.optional(S.String),
-          memoryConfig: S.optional(__S(2560, __c80, 0)),
+          memoryConfig: S.optional(__S(2368, __c74, 0)),
         }),
       ).annotate({ identifier: "StandardIsolation" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          priority: S.optional(S.String),
+          singleClusterRouting: S.optional(__S(64, __c2, 0)),
+          name: S.optional(S.String),
+          dataBoostIsolationReadOnly: S.optional(__S(65, __c2, 1)),
+          description: S.optional(S.String),
+          etag: S.optional(S.String),
+          multiClusterRoutingUseAny: S.optional(__S(66, __c2, 2)),
+          standardIsolation: S.optional(__S(67, __c2, 3)),
+        }),
+      ).annotate({ identifier: "AppProfile" });
   }
 }
-function __c4(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          clusterId: S.optional(S.String.pipe(T.Query())),
-          serveNodes: S.optional(S.Number),
-          defaultStorageType: S.optional(S.String),
-          clusterConfig: S.optional(__S(3395, __c106, 3)),
-          encryptionConfig: S.optional(__S(3396, __c106, 4)),
-          state: S.optional(S.String),
-          name: S.optional(S.String),
-          location: S.optional(S.String),
-          nodeScalingFactor: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(3237, __c101, 5),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            clusterId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/clusters",
@@ -3786,25 +3527,17 @@ function __c4(j: number): any {
       ).annotate({ identifier: "CreateProjectsInstancesClustersRequest" });
   }
 }
-function __c5(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          backupId: S.optional(S.String.pipe(T.Query())),
-          sourceBackup: S.optional(S.String),
-          hotToStandardTime: S.optional(S.String),
-          endTime: S.optional(S.String),
-          backupType: S.optional(S.String),
-          name: S.optional(S.String),
-          encryptionInfo: S.optional(__S(192, __c6, 0)),
-          state: S.optional(S.String),
-          startTime: S.optional(S.String),
-          expireTime: S.optional(S.String),
-          sourceTable: S.optional(S.String),
-          sizeBytes: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(192, __c6, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            backupId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/backups",
@@ -3814,30 +3547,49 @@ function __c5(j: number): any {
       ).annotate({ identifier: "CreateProjectsInstancesClustersBackupsRequest" });
   }
 }
-function __c6(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           kmsKeyVersion: S.optional(S.String),
-          encryptionStatus: S.optional(__S(3009, __c94, 1)),
+          encryptionStatus: S.optional(__S(2849, __c89, 1)),
           encryptionType: S.optional(S.String),
         }),
       ).annotate({ identifier: "EncryptionInfo" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          sourceBackup: S.optional(S.String),
+          hotToStandardTime: S.optional(S.String),
+          endTime: S.optional(S.String),
+          backupType: S.optional(S.String),
+          name: S.optional(S.String),
+          encryptionInfo: S.optional(__S(160, __c5, 0)),
+          state: S.optional(S.String),
+          startTime: S.optional(S.String),
+          expireTime: S.optional(S.String),
+          sourceTable: S.optional(S.String),
+          sizeBytes: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Backup" });
   }
 }
 function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          logicalViewId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          etag: S.optional(S.String),
-          deletionProtection: S.optional(S.Boolean),
-          name: S.optional(S.String),
-          query: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(256, __c8, 0),
+          S.Struct({
+            logicalViewId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/logicalViews",
@@ -3852,15 +3604,26 @@ function __c8(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
-          ignoreWarnings: S.optional(S.Boolean.pipe(T.Query())),
-          materializedViewId: S.optional(S.String.pipe(T.Query())),
           etag: S.optional(S.String),
-          name: S.optional(S.String),
           deletionProtection: S.optional(S.Boolean),
-          clusterStates: S.optional(__S(289, __c9, 1)),
+          name: S.optional(S.String),
           query: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "LogicalView" });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(322, __c10, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            ignoreWarnings: S.optional(S.Boolean.pipe(T.Query())),
+            materializedViewId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/materializedViews",
@@ -3870,7 +3633,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "CreateProjectsInstancesMaterializedViewsRequest" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3879,10 +3642,20 @@ function __c9(j: number): any {
         }),
       ).annotate({ identifier: "GoogleBigtableAdminV2MaterializedViewClusterState" });
     case 1:
-      return S.Record(S.String, __S(288, __c9, 0));
+      return S.Record(S.String, __S(320, __c10, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          etag: S.optional(S.String),
+          name: S.optional(S.String),
+          deletionProtection: S.optional(S.Boolean),
+          clusterStates: S.optional(__S(321, __c10, 1)),
+          query: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "MaterializedView" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3891,15 +3664,23 @@ function __c10(j: number): any {
         }),
       ).annotate({ identifier: "Split" });
     case 1:
-      return S.Array(__S(320, __c10, 0));
+      return S.Array(__S(352, __c11, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
-          table: S.optional(__S(352, __c11, 0)),
-          initialSplits: S.optional(__S(321, __c10, 1)),
+          table: S.optional(__S(425, __c13, 9)),
+          initialSplits: S.optional(__S(353, __c11, 1)),
           tableId: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "CreateTableRequest" });
+    case 3:
+      return S.suspend(() =>
+        S.Extend(
+          __S(354, __c11, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/tables",
@@ -3909,33 +3690,12 @@ function __c10(j: number): any {
       ).annotate({ identifier: "CreateProjectsInstancesTablesRequest" });
   }
 }
-function __c11(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          columnFamilies: S.optional(__S(414, __c12, 30)),
-          automatedBackupPolicy: S.optional(__S(415, __c12, 31)),
-          tieredStorageConfig: S.optional(__S(417, __c13, 1)),
-          restoreInfo: S.optional(__S(419, __c13, 3)),
-          changeStreamConfig: S.optional(__S(420, __c13, 4)),
-          stats: S.optional(__S(421, __c13, 5)),
-          granularity: S.optional(S.String),
-          rowKeySchema: S.optional(__S(393, __c12, 9)),
-          name: S.optional(S.String),
-          deletionProtection: S.optional(S.Boolean),
-          effectiveAutomatedBackupPolicy: S.optional(__S(415, __c12, 31)),
-          clusterStates: S.optional(__S(424, __c13, 8)),
-        }),
-      ).annotate({ identifier: "Table" });
-  }
-}
 function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          encoding: S.optional(__S(2560, __c80, 0)),
+          encoding: S.optional(__S(2368, __c74, 0)),
         }),
       ).annotate({ identifier: "GoogleBigtableAdminV2TypeBool" });
     case 1:
@@ -3954,8 +3714,8 @@ function __c12(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          orderedCodeBytes: S.optional(__S(2560, __c80, 0)),
-          bigEndianBytes: S.optional(__S(2560, __c80, 0)),
+          orderedCodeBytes: S.optional(__S(2368, __c74, 0)),
+          bigEndianBytes: S.optional(__S(2368, __c74, 0)),
         }),
       ).annotate({ identifier: "GoogleBigtableAdminV2TypeInt32Encoding" });
     case 4:
@@ -3973,8 +3733,8 @@ function __c12(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          singleton: S.optional(__S(2560, __c80, 0)),
-          orderedCodeBytes: S.optional(__S(2560, __c80, 0)),
+          singleton: S.optional(__S(2368, __c74, 0)),
+          orderedCodeBytes: S.optional(__S(2368, __c74, 0)),
           delimitedBytes: S.optional(__S(389, __c12, 5)),
         }),
       ).annotate({ identifier: "GoogleBigtableAdminV2TypeStructEncoding" });
@@ -4021,7 +3781,7 @@ function __c12(j: number): any {
     case 14:
       return S.suspend(() =>
         S.Struct({
-          orderedCodeBytes: S.optional(__S(2560, __c80, 0)),
+          orderedCodeBytes: S.optional(__S(2368, __c74, 0)),
           bigEndianBytes: S.optional(__S(397, __c12, 13)),
         }),
       ).annotate({ identifier: "GoogleBigtableAdminV2TypeInt64Encoding" });
@@ -4060,12 +3820,12 @@ function __c12(j: number): any {
     case 20:
       return S.suspend(() =>
         S.Struct({
-          hllppUniqueCount: S.optional(__S(2560, __c80, 0)),
-          max: S.optional(__S(2560, __c80, 0)),
-          min: S.optional(__S(2560, __c80, 0)),
+          hllppUniqueCount: S.optional(__S(2368, __c74, 0)),
+          max: S.optional(__S(2368, __c74, 0)),
+          min: S.optional(__S(2368, __c74, 0)),
           inputType: S.optional(S.suspend(() => __S(408, __c12, 24))),
           stateType: S.optional(S.suspend(() => __S(408, __c12, 24))),
-          sum: S.optional(__S(2560, __c80, 0)),
+          sum: S.optional(__S(2368, __c74, 0)),
         }),
       ).annotate({ identifier: "GoogleBigtableAdminV2TypeAggregate" });
     case 21:
@@ -4077,7 +3837,7 @@ function __c12(j: number): any {
     case 22:
       return S.suspend(() =>
         S.Struct({
-          utf8Raw: S.optional(__S(2560, __c80, 0)),
+          utf8Raw: S.optional(__S(2368, __c74, 0)),
           utf8Bytes: S.optional(__S(405, __c12, 21)),
         }),
       ).annotate({ identifier: "GoogleBigtableAdminV2TypeStringEncoding" });
@@ -4097,14 +3857,14 @@ function __c12(j: number): any {
           structType: S.optional(__S(393, __c12, 9)),
           timestampType: S.optional(__S(400, __c12, 16)),
           protoType: S.optional(__S(401, __c12, 17)),
-          float64Type: S.optional(__S(2560, __c80, 0)),
+          float64Type: S.optional(__S(2368, __c74, 0)),
           mapType: S.optional(__S(402, __c12, 18)),
-          dateType: S.optional(__S(2560, __c80, 0)),
-          geographyType: S.optional(__S(2560, __c80, 0)),
+          dateType: S.optional(__S(2368, __c74, 0)),
+          geographyType: S.optional(__S(2368, __c74, 0)),
           int64Type: S.optional(__S(403, __c12, 19)),
           aggregateType: S.optional(__S(404, __c12, 20)),
           stringType: S.optional(__S(407, __c12, 23)),
-          float32Type: S.optional(__S(2560, __c80, 0)),
+          float32Type: S.optional(__S(2368, __c74, 0)),
           bytesType: S.optional(__S(396, __c12, 12)),
         }),
       ).annotate({ identifier: "Type" });
@@ -4204,7 +3964,7 @@ function __c13(j: number): any {
         }),
       ).annotate({ identifier: "TableStats" });
     case 6:
-      return S.Array(__S(192, __c6, 0));
+      return S.Array(__S(160, __c5, 0));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -4214,20 +3974,36 @@ function __c13(j: number): any {
       ).annotate({ identifier: "ClusterState" });
     case 8:
       return S.Record(S.String, __S(423, __c13, 7));
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          columnFamilies: S.optional(__S(414, __c12, 30)),
+          automatedBackupPolicy: S.optional(__S(415, __c12, 31)),
+          tieredStorageConfig: S.optional(__S(417, __c13, 1)),
+          restoreInfo: S.optional(__S(419, __c13, 3)),
+          changeStreamConfig: S.optional(__S(420, __c13, 4)),
+          stats: S.optional(__S(421, __c13, 5)),
+          granularity: S.optional(S.String),
+          rowKeySchema: S.optional(__S(393, __c12, 9)),
+          name: S.optional(S.String),
+          deletionProtection: S.optional(S.Boolean),
+          effectiveAutomatedBackupPolicy: S.optional(__S(415, __c12, 31)),
+          clusterStates: S.optional(__S(424, __c13, 8)),
+        }),
+      ).annotate({ identifier: "Table" });
   }
 }
 function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          authorizedViewId: S.optional(S.String.pipe(T.Query())),
-          deletionProtection: S.optional(S.Boolean),
-          etag: S.optional(S.String),
-          subsetView: S.optional(__S(482, __c15, 2)),
-          name: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(483, __c15, 3),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            authorizedViewId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/authorizedViews",
@@ -4255,20 +4031,28 @@ function __c15(j: number): any {
           familySubsets: S.optional(__S(481, __c15, 1)),
         }),
       ).annotate({ identifier: "GoogleBigtableAdminV2AuthorizedViewSubsetView" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          deletionProtection: S.optional(S.Boolean),
+          etag: S.optional(S.String),
+          subsetView: S.optional(__S(482, __c15, 2)),
+          name: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AuthorizedView" });
   }
 }
 function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          schemaBundleId: S.optional(S.String.pipe(T.Query())),
-          etag: S.optional(S.String),
-          name: S.optional(S.String),
-          avroSchema: S.optional(__S(544, __c17, 0)),
-          protoSchema: S.optional(__S(545, __c17, 1)),
-        }).pipe(
+        S.Extend(
+          __S(546, __c17, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            schemaBundleId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/schemaBundles",
@@ -4292,6 +4076,15 @@ function __c17(j: number): any {
           protoDescriptors: S.optional(S.String),
         }),
       ).annotate({ identifier: "ProtoSchema" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          etag: S.optional(S.String),
+          name: S.optional(S.String),
+          avroSchema: S.optional(__S(544, __c17, 0)),
+          protoSchema: S.optional(__S(545, __c17, 1)),
+        }),
+      ).annotate({ identifier: "SchemaBundle" });
   }
 }
 function __c18(j: number): any {
@@ -4448,10 +4241,18 @@ function __c27(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           rowKeyPrefix: S.optional(S.String),
           deleteAllDataFromTable: S.optional(S.Boolean),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "DropRowRangeRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(864, __c27, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+name}:dropRowRange",
@@ -4467,7 +4268,7 @@ function __c28(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2560, __c80, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(2368, __c74, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4488,10 +4289,12 @@ function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          options: S.optional(__S(960, __c30, 0)),
-        }).pipe(
+        S.Extend(
+          __S(961, __c30, 1),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:getIamPolicy",
@@ -4509,6 +4312,12 @@ function __c30(j: number): any {
           requestedPolicyVersion: S.optional(S.Number),
         }),
       ).annotate({ identifier: "GetPolicyOptions" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          options: S.optional(__S(960, __c30, 0)),
+        }),
+      ).annotate({ identifier: "GetIamPolicyRequest" });
   }
 }
 function __c31(j: number): any {
@@ -4565,10 +4374,12 @@ function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          options: S.optional(__S(960, __c30, 0)),
-        }).pipe(
+        S.Extend(
+          __S(961, __c30, 1),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:getIamPolicy",
@@ -4582,10 +4393,12 @@ function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          options: S.optional(__S(960, __c30, 0)),
-        }).pipe(
+        S.Extend(
+          __S(961, __c30, 1),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:getIamPolicy",
@@ -4599,10 +4412,12 @@ function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          options: S.optional(__S(960, __c30, 0)),
-        }).pipe(
+        S.Extend(
+          __S(961, __c30, 1),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:getIamPolicy",
@@ -4616,10 +4431,12 @@ function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          options: S.optional(__S(960, __c30, 0)),
-        }).pipe(
+        S.Extend(
+          __S(961, __c30, 1),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:getIamPolicy",
@@ -4633,10 +4450,12 @@ function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          options: S.optional(__S(960, __c30, 0)),
-        }).pipe(
+        S.Extend(
+          __S(961, __c30, 1),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:getIamPolicy",
@@ -4650,10 +4469,12 @@ function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          options: S.optional(__S(960, __c30, 0)),
-        }).pipe(
+        S.Extend(
+          __S(961, __c30, 1),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:getIamPolicy",
@@ -4684,7 +4505,13 @@ function __c39(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          memoryConfig: S.optional(__S(1280, __c40, 0)),
+          storageSizeGib: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "GoogleBigtableAdminV2MemoryLayerMemoryConfig" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          memoryConfig: S.optional(__S(1248, __c39, 0)),
           etag: S.optional(S.String),
           name: S.optional(S.String),
           state: S.optional(S.String),
@@ -4693,16 +4520,6 @@ function __c39(j: number): any {
   }
 }
 function __c40(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          storageSizeGib: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "GoogleBigtableAdminV2MemoryLayerMemoryConfig" });
-  }
-}
-function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4718,7 +4535,7 @@ function __c41(j: number): any {
       ).annotate({ identifier: "GetOperationsRequest" });
   }
 }
-function __c42(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4734,7 +4551,7 @@ function __c42(j: number): any {
       ).annotate({ identifier: "GetProjectsInstancesRequest" });
   }
 }
-function __c43(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4750,7 +4567,7 @@ function __c43(j: number): any {
       ).annotate({ identifier: "GetProjectsInstancesAppProfilesRequest" });
   }
 }
-function __c44(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4766,7 +4583,7 @@ function __c44(j: number): any {
       ).annotate({ identifier: "GetProjectsInstancesClustersRequest" });
   }
 }
-function __c45(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4782,27 +4599,7 @@ function __c45(j: number): any {
       ).annotate({ identifier: "GetProjectsInstancesClustersBackupsRequest" });
   }
 }
-function __c46(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          sourceBackup: S.optional(S.String),
-          hotToStandardTime: S.optional(S.String),
-          endTime: S.optional(S.String),
-          backupType: S.optional(S.String),
-          name: S.optional(S.String),
-          encryptionInfo: S.optional(__S(192, __c6, 0)),
-          state: S.optional(S.String),
-          startTime: S.optional(S.String),
-          expireTime: S.optional(S.String),
-          sourceTable: S.optional(S.String),
-          sizeBytes: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Backup" });
-  }
-}
-function __c47(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4818,20 +4615,7 @@ function __c47(j: number): any {
       ).annotate({ identifier: "GetProjectsInstancesLogicalViewsRequest" });
   }
 }
-function __c48(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          etag: S.optional(S.String),
-          deletionProtection: S.optional(S.Boolean),
-          name: S.optional(S.String),
-          query: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "LogicalView" });
-  }
-}
-function __c49(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4848,21 +4632,7 @@ function __c49(j: number): any {
       ).annotate({ identifier: "GetProjectsInstancesMaterializedViewsRequest" });
   }
 }
-function __c50(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          etag: S.optional(S.String),
-          name: S.optional(S.String),
-          deletionProtection: S.optional(S.Boolean),
-          clusterStates: S.optional(__S(289, __c9, 1)),
-          query: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "MaterializedView" });
-  }
-}
-function __c51(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4879,7 +4649,7 @@ function __c51(j: number): any {
       ).annotate({ identifier: "GetProjectsInstancesTablesRequest" });
   }
 }
-function __c52(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4896,20 +4666,7 @@ function __c52(j: number): any {
       ).annotate({ identifier: "GetProjectsInstancesTablesAuthorizedViewsRequest" });
   }
 }
-function __c53(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          deletionProtection: S.optional(S.Boolean),
-          etag: S.optional(S.String),
-          subsetView: S.optional(__S(482, __c15, 2)),
-          name: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AuthorizedView" });
-  }
-}
-function __c54(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4925,20 +4682,7 @@ function __c54(j: number): any {
       ).annotate({ identifier: "GetProjectsInstancesTablesSchemaBundlesRequest" });
   }
 }
-function __c55(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          etag: S.optional(S.String),
-          name: S.optional(S.String),
-          avroSchema: S.optional(__S(544, __c17, 0)),
-          protoSchema: S.optional(__S(545, __c17, 1)),
-        }),
-      ).annotate({ identifier: "SchemaBundle" });
-  }
-}
-function __c56(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4957,18 +4701,18 @@ function __c56(j: number): any {
         ),
       ).annotate({ identifier: "ListOperationsProjectsOperationsRequest" });
     case 1:
-      return S.Array(__S(3040, __c95, 0));
+      return S.Array(__S(2880, __c90, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          operations: S.optional(__S(1793, __c56, 1)),
+          operations: S.optional(__S(1601, __c50, 1)),
           nextPageToken: S.optional(S.String),
           unreachable: S.optional(__S(32, __c1, 0)),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
   }
 }
-function __c57(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4984,18 +4728,18 @@ function __c57(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsInstancesRequest" });
     case 1:
-      return S.Array(__S(3456, __c108, 0));
+      return S.Array(__S(3296, __c103, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           failedLocations: S.optional(__S(32, __c1, 0)),
-          instances: S.optional(__S(1825, __c57, 1)),
+          instances: S.optional(__S(1633, __c51, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListInstancesResponse" });
   }
 }
-function __c58(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5012,18 +4756,18 @@ function __c58(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsInstancesAppProfilesRequest" });
     case 1:
-      return S.Array(__S(64, __c2, 0));
+      return S.Array(__S(68, __c2, 4));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          appProfiles: S.optional(__S(1857, __c58, 1)),
+          appProfiles: S.optional(__S(1665, __c52, 1)),
           nextPageToken: S.optional(S.String),
           failedLocations: S.optional(__S(32, __c1, 0)),
         }),
       ).annotate({ identifier: "ListAppProfilesResponse" });
   }
 }
-function __c59(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5039,18 +4783,18 @@ function __c59(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsInstancesClustersRequest" });
     case 1:
-      return S.Array(__S(3488, __c109, 0));
+      return S.Array(__S(3237, __c101, 5));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          clusters: S.optional(__S(1889, __c59, 1)),
+          clusters: S.optional(__S(1697, __c53, 1)),
           failedLocations: S.optional(__S(32, __c1, 0)),
         }),
       ).annotate({ identifier: "ListClustersResponse" });
   }
 }
-function __c60(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5069,17 +4813,17 @@ function __c60(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsInstancesClustersBackupsRequest" });
     case 1:
-      return S.Array(__S(1472, __c46, 0));
+      return S.Array(__S(192, __c6, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          backups: S.optional(__S(1921, __c60, 1)),
+          backups: S.optional(__S(1729, __c54, 1)),
         }),
       ).annotate({ identifier: "ListBackupsResponse" });
   }
 }
-function __c61(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5110,17 +4854,17 @@ function __c61(j: number): any {
         }),
       ).annotate({ identifier: "HotTablet" });
     case 2:
-      return S.Array(__S(1953, __c61, 1));
+      return S.Array(__S(1761, __c55, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          hotTablets: S.optional(__S(1954, __c61, 2)),
+          hotTablets: S.optional(__S(1762, __c55, 2)),
         }),
       ).annotate({ identifier: "ListHotTabletsResponse" });
   }
 }
-function __c62(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5137,18 +4881,18 @@ function __c62(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsInstancesClustersMemoryLayersRequest" });
     case 1:
-      return S.Array(__S(1248, __c39, 0));
+      return S.Array(__S(1249, __c39, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          memoryLayers: S.optional(__S(1985, __c62, 1)),
+          memoryLayers: S.optional(__S(1793, __c56, 1)),
           failedLocations: S.optional(__S(32, __c1, 0)),
         }),
       ).annotate({ identifier: "ListMemoryLayersResponse" });
   }
 }
-function __c63(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5165,17 +4909,17 @@ function __c63(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsInstancesLogicalViewsRequest" });
     case 1:
-      return S.Array(__S(1536, __c48, 0));
+      return S.Array(__S(256, __c8, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          logicalViews: S.optional(__S(2017, __c63, 1)),
+          logicalViews: S.optional(__S(1825, __c57, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListLogicalViewsResponse" });
   }
 }
-function __c64(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5193,17 +4937,17 @@ function __c64(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsInstancesMaterializedViewsRequest" });
     case 1:
-      return S.Array(__S(1600, __c50, 0));
+      return S.Array(__S(322, __c10, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          materializedViews: S.optional(__S(2049, __c64, 1)),
+          materializedViews: S.optional(__S(1857, __c58, 1)),
         }),
       ).annotate({ identifier: "ListMaterializedViewsResponse" });
   }
 }
-function __c65(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5221,17 +4965,17 @@ function __c65(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsInstancesTablesRequest" });
     case 1:
-      return S.Array(__S(352, __c11, 0));
+      return S.Array(__S(425, __c13, 9));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          tables: S.optional(__S(2081, __c65, 1)),
+          tables: S.optional(__S(1889, __c59, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListTablesResponse" });
   }
 }
-function __c66(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5249,17 +4993,17 @@ function __c66(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsInstancesTablesAuthorizedViewsRequest" });
     case 1:
-      return S.Array(__S(1696, __c53, 0));
+      return S.Array(__S(483, __c15, 3));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          authorizedViews: S.optional(__S(2113, __c66, 1)),
+          authorizedViews: S.optional(__S(1921, __c60, 1)),
         }),
       ).annotate({ identifier: "ListAuthorizedViewsResponse" });
   }
 }
-function __c67(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5277,17 +5021,17 @@ function __c67(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsInstancesTablesSchemaBundlesRequest" });
     case 1:
-      return S.Array(__S(1760, __c55, 0));
+      return S.Array(__S(546, __c17, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          schemaBundles: S.optional(__S(2145, __c67, 1)),
+          schemaBundles: S.optional(__S(1953, __c61, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListSchemaBundlesResponse" });
   }
 }
-function __c68(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5310,23 +5054,23 @@ function __c68(j: number): any {
         S.Struct({
           locationId: S.optional(S.String),
           displayName: S.optional(S.String),
-          labels: S.optional(__S(3424, __c107, 0)),
-          metadata: S.optional(__S(2976, __c93, 0)),
+          labels: S.optional(__S(3264, __c102, 0)),
+          metadata: S.optional(__S(2816, __c88, 0)),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "Location" });
     case 2:
-      return S.Array(__S(2177, __c68, 1));
+      return S.Array(__S(1985, __c62, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          locations: S.optional(__S(2178, __c68, 2)),
+          locations: S.optional(__S(1986, __c62, 2)),
         }),
       ).annotate({ identifier: "ListLocationsResponse" });
   }
 }
-function __c69(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5339,14 +5083,22 @@ function __c69(j: number): any {
         }),
       ).annotate({ identifier: "Modification" });
     case 1:
-      return S.Array(__S(2208, __c69, 0));
+      return S.Array(__S(2016, __c63, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
-          modifications: S.optional(__S(2209, __c69, 1)),
+          modifications: S.optional(__S(2017, __c63, 1)),
           ignoreWarnings: S.optional(S.Boolean),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "ModifyColumnFamiliesRequest" });
+    case 3:
+      return S.suspend(() =>
+        S.Extend(
+          __S(2018, __c63, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+name}:modifyColumnFamilies",
@@ -5356,21 +5108,17 @@ function __c69(j: number): any {
       ).annotate({ identifier: "ModifyColumnFamiliesProjectsInstancesTablesRequest" });
   }
 }
-function __c70(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          serveNodes: S.optional(S.Number),
-          defaultStorageType: S.optional(S.String),
-          clusterConfig: S.optional(__S(3395, __c106, 3)),
-          encryptionConfig: S.optional(__S(3396, __c106, 4)),
-          state: S.optional(S.String),
-          location: S.optional(S.String),
-          nodeScalingFactor: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(3237, __c101, 5),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -5380,24 +5128,17 @@ function __c70(j: number): any {
       ).annotate({ identifier: "PartialUpdateClusterProjectsInstancesClustersRequest" });
   }
 }
-function __c71(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          knowledgeCatalogRegion: S.optional(S.String),
-          tags: S.optional(__S(3424, __c107, 0)),
-          displayName: S.optional(S.String),
-          createTime: S.optional(S.String),
-          edition: S.optional(S.String),
-          type: S.optional(S.String),
-          satisfiesPzs: S.optional(S.Boolean),
-          satisfiesPzi: S.optional(S.Boolean),
-          labels: S.optional(__S(3424, __c107, 0)),
-          state: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(3296, __c103, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -5407,22 +5148,18 @@ function __c71(j: number): any {
       ).annotate({ identifier: "PartialUpdateInstanceProjectsInstancesRequest" });
   }
 }
-function __c72(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          ignoreWarnings: S.optional(S.Boolean.pipe(T.Query())),
-          priority: S.optional(S.String),
-          singleClusterRouting: S.optional(__S(96, __c3, 0)),
-          dataBoostIsolationReadOnly: S.optional(__S(97, __c3, 1)),
-          description: S.optional(S.String),
-          etag: S.optional(S.String),
-          multiClusterRoutingUseAny: S.optional(__S(98, __c3, 2)),
-          standardIsolation: S.optional(__S(99, __c3, 3)),
-        }).pipe(
+        S.Extend(
+          __S(68, __c2, 4),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            ignoreWarnings: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -5432,24 +5169,17 @@ function __c72(j: number): any {
       ).annotate({ identifier: "PatchProjectsInstancesAppProfilesRequest" });
   }
 }
-function __c73(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          sourceBackup: S.optional(S.String),
-          hotToStandardTime: S.optional(S.String),
-          endTime: S.optional(S.String),
-          backupType: S.optional(S.String),
-          encryptionInfo: S.optional(__S(192, __c6, 0)),
-          state: S.optional(S.String),
-          startTime: S.optional(S.String),
-          expireTime: S.optional(S.String),
-          sourceTable: S.optional(S.String),
-          sizeBytes: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(192, __c6, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -5459,17 +5189,17 @@ function __c73(j: number): any {
       ).annotate({ identifier: "PatchProjectsInstancesClustersBackupsRequest" });
   }
 }
-function __c74(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          etag: S.optional(S.String),
-          deletionProtection: S.optional(S.Boolean),
-          query: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(256, __c8, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -5479,18 +5209,17 @@ function __c74(j: number): any {
       ).annotate({ identifier: "PatchProjectsInstancesLogicalViewsRequest" });
   }
 }
-function __c75(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          etag: S.optional(S.String),
-          deletionProtection: S.optional(S.Boolean),
-          clusterStates: S.optional(__S(289, __c9, 1)),
-          query: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(322, __c10, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -5500,26 +5229,18 @@ function __c75(j: number): any {
       ).annotate({ identifier: "PatchProjectsInstancesMaterializedViewsRequest" });
   }
 }
-function __c76(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          ignoreWarnings: S.optional(S.Boolean.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          columnFamilies: S.optional(__S(414, __c12, 30)),
-          automatedBackupPolicy: S.optional(__S(415, __c12, 31)),
-          tieredStorageConfig: S.optional(__S(417, __c13, 1)),
-          restoreInfo: S.optional(__S(419, __c13, 3)),
-          changeStreamConfig: S.optional(__S(420, __c13, 4)),
-          stats: S.optional(__S(421, __c13, 5)),
-          granularity: S.optional(S.String),
-          rowKeySchema: S.optional(__S(393, __c12, 9)),
-          deletionProtection: S.optional(S.Boolean),
-          effectiveAutomatedBackupPolicy: S.optional(__S(415, __c12, 31)),
-          clusterStates: S.optional(__S(424, __c13, 8)),
-        }).pipe(
+        S.Extend(
+          __S(425, __c13, 9),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            ignoreWarnings: S.optional(S.Boolean.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -5529,18 +5250,18 @@ function __c76(j: number): any {
       ).annotate({ identifier: "PatchProjectsInstancesTablesRequest" });
   }
 }
-function __c77(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          ignoreWarnings: S.optional(S.Boolean.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          deletionProtection: S.optional(S.Boolean),
-          etag: S.optional(S.String),
-          subsetView: S.optional(__S(482, __c15, 2)),
-        }).pipe(
+        S.Extend(
+          __S(483, __c15, 3),
+          S.Struct({
+            ignoreWarnings: S.optional(S.Boolean.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -5550,18 +5271,18 @@ function __c77(j: number): any {
       ).annotate({ identifier: "PatchProjectsInstancesTablesAuthorizedViewsRequest" });
   }
 }
-function __c78(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          ignoreWarnings: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          etag: S.optional(S.String),
-          avroSchema: S.optional(__S(544, __c17, 0)),
-          protoSchema: S.optional(__S(545, __c17, 1)),
-        }).pipe(
+        S.Extend(
+          __S(546, __c17, 2),
+          S.Struct({
+            ignoreWarnings: S.optional(S.Boolean.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -5571,16 +5292,24 @@ function __c78(j: number): any {
       ).annotate({ identifier: "PatchProjectsInstancesTablesSchemaBundlesRequest" });
   }
 }
-function __c79(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           consistencyToken: S.optional(S.String),
-          standardReadRemoteWrites: S.optional(__S(2560, __c80, 0)),
-          dataBoostReadLocalWrites: S.optional(__S(2560, __c80, 0)),
-        }).pipe(
+          standardReadRemoteWrites: S.optional(__S(2368, __c74, 0)),
+          dataBoostReadLocalWrites: S.optional(__S(2368, __c74, 0)),
+        }),
+      ).annotate({ identifier: "CheckConsistencyRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(2336, __c73, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+name}:checkConsistency",
@@ -5588,7 +5317,7 @@ function __c79(j: number): any {
           }),
         ),
       ).annotate({ identifier: "CheckConsistencyProjectsInstancesTablesRequest" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           consistent: S.optional(S.Boolean),
@@ -5596,21 +5325,29 @@ function __c79(j: number): any {
       ).annotate({ identifier: "CheckConsistencyResponse" });
   }
 }
-function __c80(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "StandardReadRemoteWrites" });
   }
 }
-function __c81(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
           backup: S.optional(S.String),
           tableId: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "RestoreTableRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(2400, __c75, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/tables:restore",
@@ -5620,15 +5357,16 @@ function __c81(j: number): any {
       ).annotate({ identifier: "RestoreProjectsInstancesTablesRequest" });
   }
 }
-function __c82(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          policy: S.optional(__S(999, __c31, 7)),
-          updateMask: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(2464, __c77, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:setIamPolicy",
@@ -5638,15 +5376,27 @@ function __c82(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsInstancesRequest" });
   }
 }
-function __c83(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          resource: S.String.pipe(T.Label()),
           policy: S.optional(__S(999, __c31, 7)),
           updateMask: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "SetIamPolicyRequest" });
+  }
+}
+function __c78(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(2464, __c77, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:setIamPolicy",
@@ -5656,15 +5406,16 @@ function __c83(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsInstancesClustersBackupsRequest" });
   }
 }
-function __c84(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          policy: S.optional(__S(999, __c31, 7)),
-          updateMask: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(2464, __c77, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:setIamPolicy",
@@ -5674,15 +5425,16 @@ function __c84(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsInstancesLogicalViewsRequest" });
   }
 }
-function __c85(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          policy: S.optional(__S(999, __c31, 7)),
-          updateMask: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(2464, __c77, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:setIamPolicy",
@@ -5692,15 +5444,16 @@ function __c85(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsInstancesMaterializedViewsRequest" });
   }
 }
-function __c86(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          policy: S.optional(__S(999, __c31, 7)),
-          updateMask: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(2464, __c77, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:setIamPolicy",
@@ -5710,15 +5463,16 @@ function __c86(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsInstancesTablesRequest" });
   }
 }
-function __c87(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          policy: S.optional(__S(999, __c31, 7)),
-          updateMask: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(2464, __c77, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:setIamPolicy",
@@ -5728,15 +5482,16 @@ function __c87(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsInstancesTablesAuthorizedViewsRequest" });
   }
 }
-function __c88(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          policy: S.optional(__S(999, __c31, 7)),
-          updateMask: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(2464, __c77, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:setIamPolicy",
@@ -5746,14 +5501,16 @@ function __c88(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsInstancesTablesSchemaBundlesRequest" });
   }
 }
-function __c89(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          permissions: S.optional(__S(32, __c1, 0)),
-        }).pipe(
+        S.Extend(
+          __S(2720, __c85, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:testIamPermissions",
@@ -5763,24 +5520,26 @@ function __c89(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsInstancesRequest" });
   }
 }
-function __c90(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           permissions: S.optional(__S(32, __c1, 0)),
         }),
-      ).annotate({ identifier: "TestIamPermissionsResponse" });
+      ).annotate({ identifier: "TestIamPermissionsRequest" });
   }
 }
-function __c91(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          permissions: S.optional(__S(32, __c1, 0)),
-        }).pipe(
+        S.Extend(
+          __S(2720, __c85, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:testIamPermissions",
@@ -5790,16 +5549,24 @@ function __c91(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsInstancesClustersBackupsRequest" });
   }
 }
-function __c92(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
           expireTime: S.optional(S.String),
           backupId: S.optional(S.String),
           sourceBackup: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "CopyBackupRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(2784, __c87, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/backups:copy",
@@ -5809,48 +5576,50 @@ function __c92(j: number): any {
       ).annotate({ identifier: "CopyProjectsInstancesClustersBackupsRequest" });
   }
 }
-function __c93(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c94(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2976, __c93, 0));
+      return S.Array(__S(2816, __c88, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
           message: S.optional(S.String),
-          details: S.optional(__S(3008, __c94, 0)),
+          details: S.optional(__S(2848, __c89, 0)),
           code: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Status" });
   }
 }
-function __c95(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          response: S.optional(__S(2976, __c93, 0)),
+          response: S.optional(__S(2816, __c88, 0)),
           name: S.optional(S.String),
-          metadata: S.optional(__S(2976, __c93, 0)),
-          error: S.optional(__S(3009, __c94, 1)),
+          metadata: S.optional(__S(2816, __c88, 0)),
+          error: S.optional(__S(2849, __c89, 1)),
           done: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "Operation" });
   }
 }
-function __c96(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          permissions: S.optional(__S(32, __c1, 0)),
-        }).pipe(
+        S.Extend(
+          __S(2720, __c85, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:testIamPermissions",
@@ -5860,14 +5629,16 @@ function __c96(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsInstancesLogicalViewsRequest" });
   }
 }
-function __c97(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          permissions: S.optional(__S(32, __c1, 0)),
-        }).pipe(
+        S.Extend(
+          __S(2720, __c85, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:testIamPermissions",
@@ -5877,14 +5648,16 @@ function __c97(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsInstancesMaterializedViewsRequest" });
   }
 }
-function __c98(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          permissions: S.optional(__S(32, __c1, 0)),
-        }).pipe(
+        S.Extend(
+          __S(2720, __c85, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:testIamPermissions",
@@ -5894,14 +5667,16 @@ function __c98(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsInstancesTablesRequest" });
   }
 }
-function __c99(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          permissions: S.optional(__S(32, __c1, 0)),
-        }).pipe(
+        S.Extend(
+          __S(2720, __c85, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:testIamPermissions",
@@ -5911,14 +5686,16 @@ function __c99(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsInstancesTablesAuthorizedViewsRequest" });
   }
 }
-function __c100(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          permissions: S.optional(__S(32, __c1, 0)),
-        }).pipe(
+        S.Extend(
+          __S(2720, __c85, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:testIamPermissions",
@@ -5928,13 +5705,13 @@ function __c100(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsInstancesTablesSchemaBundlesRequest" });
   }
 }
-function __c101(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2560, __c80, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(2368, __c74, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5945,17 +5722,17 @@ function __c101(j: number): any {
       ).annotate({ identifier: "UndeleteProjectsInstancesTablesRequest" });
   }
 }
-function __c102(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          memoryConfig: S.optional(__S(1280, __c40, 0)),
-          etag: S.optional(S.String),
-          state: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1249, __c39, 1),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -5965,23 +5742,16 @@ function __c102(j: number): any {
       ).annotate({ identifier: "UpdateMemoryLayerProjectsInstancesClustersRequest" });
   }
 }
-function __c103(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          knowledgeCatalogRegion: S.optional(S.String),
-          tags: S.optional(__S(3424, __c107, 0)),
-          displayName: S.optional(S.String),
-          createTime: S.optional(S.String),
-          edition: S.optional(S.String),
-          type: S.optional(S.String),
-          satisfiesPzs: S.optional(S.Boolean),
-          satisfiesPzi: S.optional(S.Boolean),
-          labels: S.optional(__S(3424, __c107, 0)),
-          state: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(3296, __c103, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "v2/{+name}",
@@ -5991,20 +5761,16 @@ function __c103(j: number): any {
       ).annotate({ identifier: "UpdateProjectsInstancesRequest" });
   }
 }
-function __c104(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          serveNodes: S.optional(S.Number),
-          defaultStorageType: S.optional(S.String),
-          clusterConfig: S.optional(__S(3395, __c106, 3)),
-          encryptionConfig: S.optional(__S(3396, __c106, 4)),
-          state: S.optional(S.String),
-          location: S.optional(S.String),
-          nodeScalingFactor: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(3237, __c101, 5),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "v2/{+name}",
@@ -6014,18 +5780,27 @@ function __c104(j: number): any {
       ).annotate({ identifier: "UpdateProjectsInstancesClustersRequest" });
   }
 }
-function __c105(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, __S(3488, __c109, 0));
+      return S.Record(S.String, __S(3237, __c101, 5));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
-          clusters: S.optional(__S(3360, __c105, 0)),
+          parent: S.optional(S.String),
+          clusters: S.optional(__S(3200, __c100, 0)),
           instanceId: S.optional(S.String),
-          instance: S.optional(__S(3456, __c108, 0)),
-        }).pipe(
+          instance: S.optional(__S(3296, __c103, 0)),
+        }),
+      ).annotate({ identifier: "CreateInstanceRequest" });
+    case 2:
+      return S.suspend(() =>
+        S.Extend(
+          __S(3201, __c100, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/instances",
@@ -6035,7 +5810,7 @@ function __c105(j: number): any {
       ).annotate({ identifier: "CreateProjectsInstancesRequest" });
   }
 }
-function __c106(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6054,14 +5829,14 @@ function __c106(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          autoscalingTargets: S.optional(__S(3392, __c106, 0)),
-          autoscalingLimits: S.optional(__S(3393, __c106, 1)),
+          autoscalingTargets: S.optional(__S(3232, __c101, 0)),
+          autoscalingLimits: S.optional(__S(3233, __c101, 1)),
         }),
       ).annotate({ identifier: "ClusterAutoscalingConfig" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          clusterAutoscalingConfig: S.optional(__S(3394, __c106, 2)),
+          clusterAutoscalingConfig: S.optional(__S(3234, __c101, 2)),
         }),
       ).annotate({ identifier: "ClusterConfig" });
     case 4:
@@ -6070,49 +5845,45 @@ function __c106(j: number): any {
           kmsKeyName: S.optional(S.String),
         }),
       ).annotate({ identifier: "EncryptionConfig" });
-  }
-}
-function __c107(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, S.String);
-  }
-}
-function __c108(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          knowledgeCatalogRegion: S.optional(S.String),
-          tags: S.optional(__S(3424, __c107, 0)),
-          displayName: S.optional(S.String),
-          createTime: S.optional(S.String),
-          edition: S.optional(S.String),
-          type: S.optional(S.String),
-          satisfiesPzs: S.optional(S.Boolean),
-          satisfiesPzi: S.optional(S.Boolean),
-          labels: S.optional(__S(3424, __c107, 0)),
-          name: S.optional(S.String),
-          state: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Instance" });
-  }
-}
-function __c109(j: number): any {
-  switch (j) {
-    case 0:
+    case 5:
       return S.suspend(() =>
         S.Struct({
           serveNodes: S.optional(S.Number),
           defaultStorageType: S.optional(S.String),
-          clusterConfig: S.optional(__S(3395, __c106, 3)),
-          encryptionConfig: S.optional(__S(3396, __c106, 4)),
+          clusterConfig: S.optional(__S(3235, __c101, 3)),
+          encryptionConfig: S.optional(__S(3236, __c101, 4)),
           state: S.optional(S.String),
           name: S.optional(S.String),
           location: S.optional(S.String),
           nodeScalingFactor: S.optional(S.String),
         }),
       ).annotate({ identifier: "Cluster" });
+  }
+}
+function __c102(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, S.String);
+  }
+}
+function __c103(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          knowledgeCatalogRegion: S.optional(S.String),
+          tags: S.optional(__S(3264, __c102, 0)),
+          displayName: S.optional(S.String),
+          createTime: S.optional(S.String),
+          edition: S.optional(S.String),
+          type: S.optional(S.String),
+          satisfiesPzs: S.optional(S.Boolean),
+          satisfiesPzi: S.optional(S.Boolean),
+          labels: S.optional(__S(3264, __c102, 0)),
+          name: S.optional(S.String),
+          state: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Instance" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

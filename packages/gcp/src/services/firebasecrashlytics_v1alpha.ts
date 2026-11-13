@@ -442,31 +442,22 @@ export interface UpdateIssueRequest {
   issue?: Issue | undefined;
 }
 export type UpdateIssueRequestList = Array<UpdateIssueRequest>;
-export interface BatchUpdateProjectsAppsIssuesRequest {
-  /** Required. The parent resource shared by all issues being updated. Format: projects/{project}/apps/{app}. If this is set, the parent field in the UpdateIssueRequest messages must either be empty or match this field. */
-  parent: string;
+/** Request message for the BatchUpdateIssues method. */
+export interface BatchUpdateIssuesRequest {
   /** Optional. The list of Issue fields to update. If this is set, the update_mask field in the UpdateIssueRequest messages must either be empty or match this field. */
   updateMask?: string | undefined;
   /** Required. The request message specifying the resources to update. A maximum of 100 issues can be modified in a batch. */
   requests?: UpdateIssueRequestList | undefined;
+}
+export interface BatchUpdateProjectsAppsIssuesRequest extends BatchUpdateIssuesRequest {
+  /** Required. The parent resource shared by all issues being updated. Format: projects/{project}/apps/{app}. If this is set, the parent field in the UpdateIssueRequest messages must either be empty or match this field. */
+  parent: string;
 }
 export type IssueList = Array<Issue>;
 /** Response message for the BatchUpdateIssues method. */
 export interface BatchUpdateIssuesResponse {
   /** Issues updated in the same order as in BatchUpdateIssuesRequest. */
   issues?: IssueList | undefined;
-}
-export interface CreateProjectsAppsIssuesNotesRequest {
-  /** Required. The parent resource where this note will be created. Format: "projects/{project}/apps/{app}/issues/{issue}". */
-  parent: string;
-  /** Output only. The email of the author of the note. */
-  author?: string | undefined;
-  /** Output only. Identifier. Format: "projects/{project}/apps/app/issues/{issue}/notes/{note}". */
-  name?: string | undefined;
-  /** Output only. Time when the note was created. */
-  createTime?: string | undefined;
-  /** Immutable. The body of the note. */
-  body?: string | undefined;
 }
 /** Developer notes for an issue. */
 export interface Note {
@@ -478,6 +469,10 @@ export interface Note {
   createTime?: string | undefined;
   /** Immutable. The body of the note. */
   body?: string | undefined;
+}
+export interface CreateProjectsAppsIssuesNotesRequest extends Note {
+  /** Required. The parent resource where this note will be created. Format: "projects/{project}/apps/{app}/issues/{issue}". */
+  parent: string;
 }
 export interface DeleteCrashReportsProjectsAppsUsersRequest {
   /** Required. Resource name for user reports, in the format: projects/ PROJECT_IDENTIFIER/apps/APP_ID/users/USER_ID/crashReports - PROJECT_IDENTIFIER: The Firebase project's project number (recommended) or its project ID. Learn more about using project identifiers in Google's [AIP 2510 standard](https://google.aip.dev/cloud/2510). - APP_ID: The globally unique, Firebase-assigned identifier for the Firebase App. This is not your package name or bundle ID. Learn how to [find your app ID](https://firebase.google.com/support/faq/#find-app-id). - USER_ID: The user ID set using the Crashlytics SDK. Learn how to [set user identifiers](https://firebase.google.com/docs/crashlytics/customize-crash-reports#set-user-ids). */
@@ -499,13 +494,16 @@ export type GenerateAlertPolicyRequestAlertTypeEnum =
   | "ALERT_TYPE_NEW_ISSUE"
   | "ALERT_TYPE_REGRESSED_ISSUE";
 export type GenerateAlertPolicyRequestLanguageEnum = "USER_PREFERENCE" | "EN_US";
-export interface GenerateAlertPolicyProjectsAppsRequest {
-  /** Required. The firebase application. Format: "projects/{project}/apps/{app_id}". */
-  name: string;
+/** Request message for the GenerateAlertPolicy method. */
+export interface GenerateAlertPolicyRequest {
   /** Required. The type of alert to create. */
   alertType?: GenerateAlertPolicyRequestAlertTypeEnum | (string & {}) | undefined;
   /** Optional. Language to use for the alert policy. Defaults to USER_PREFERENCE. */
   language?: GenerateAlertPolicyRequestLanguageEnum | (string & {}) | undefined;
+}
+export interface GenerateAlertPolicyProjectsAppsRequest extends GenerateAlertPolicyRequest {
+  /** Required. The firebase application. Format: "projects/{project}/apps/{app_id}". */
+  name: string;
 }
 /** Response message for the GenerateAlertPolicy method. */
 export interface GenerateAlertPolicyResponse {
@@ -820,51 +818,20 @@ export interface ListReportsResponse {
   /** The report objects returned will contain their names and usage instructions, but include no results. Use the `GetReport` method to run the report and obtain the paged results. */
   reports?: ReportList | undefined;
 }
-export interface PatchProjectsAppsIssuesRequest {
+export interface PatchProjectsAppsIssuesRequest extends Omit<Issue, "name"> {
   /** Required. Output only. Immutable. Identifier. The name of the issue resource. Format: "projects/{project}/apps/{app}/issues/{issue}". */
   name: string;
   /** Optional. The list of Issue fields to update. Currently only "state" is mutable. */
   updateMask?: string | undefined;
-  /** Output only. Immutable. Distinctive characteristics assigned by the Crashlytics analyzer. */
-  signals?: IssueSignalsList | undefined;
-  /** Output only. The number of notes attached to an issue. */
-  notesCount?: string | undefined;
-  /** Output only. Immutable. Indicates whether this issue is a crash, non-fatal exception, or ANR. */
-  errorType?: IssueErrorTypeEnum | (string & {}) | undefined;
-  /** Output only. Immutable. The first time this issue was seen. */
-  firstSeenTime?: string | undefined;
-  /** Output only. Immutable. The first app display_version in which this issue was seen, populated for mobile issues only. */
-  firstSeenVersion?: string | undefined;
-  /** Output only. The most recent app display_version in which this issue was seen, populated for mobile issues only. */
-  lastSeenVersion?: string | undefined;
-  /** Output only. The time at which the issue state was last changed. */
-  stateUpdateTime?: string | undefined;
-  /** Output only. Immutable. Unique identifier for the issue. */
-  id?: string | undefined;
-  /** Output only. The resource name for a sample event in this issue. */
-  sampleEvent?: string | undefined;
-  /** Output only. Indicates whether this issue is open, closed or muted. For details on how issue states change without user actions, see [Regressed Issues](https://firebase.google.com/docs/crashlytics/troubleshooting?platform=ios#regressed-issues). */
-  state?: IssueStateEnum | (string & {}) | undefined;
-  /** Output only. The most recent time this issue was seen. */
-  lastSeenTime?: string | undefined;
-  /** Output only. Immutable. Caption title. This is usually a source file or method name. */
-  title?: string | undefined;
-  /** Output only. Provides a link to the Issue on the Firebase console. When this Issue is obtained as part of a Report, then the link will be configured with the same time interval and filters as the request. */
-  uri?: string | undefined;
-  /** Output only. Immutable. Caption subtitle. This is usually a symbol or an exception message. */
-  subtitle?: string | undefined;
-  /** Output only. Immutable. The top 12 variants (subgroups) within the issue. Variants group events within an issue that are very similar. A single result implies that the variant is the same as the parent issue. This field will be empty when multiple issues are requested. Request a single issue to list variants. */
-  variants?: IssueVariantList | undefined;
 }
-export interface UpdateProfilingManagerConfigProjectsAppsRequest {
+export interface UpdateProfilingManagerConfigProjectsAppsRequest extends Omit<
+  ProfilingManagerConfig,
+  "name"
+> {
   /** Identifier. The resource name of the Profiling Manager configuration. Format: "projects/{project}/apps/{app}/profilingManagerConfig". */
   name: string;
   /** Optional. The list of ProfilingManagerConfig fields to update (`gcs_bucket`, `heap_dump_collection_enabled`). If omitted, all populated (non-default) fields are updated; specify an explicit `update_mask` (or `*`) when clearing a field to its default value (such as `""` or `false`). */
   updateMask?: string | undefined;
-  /** Optional. Whether Crashlytics heap dump collection is enabled for the app. */
-  heapDumpCollectionEnabled?: boolean | undefined;
-  /** Optional. Resource name of the Google Cloud Storage bucket where enriched heap dumps are stored. Format: "projects/{project}/buckets/{bucket}" (use `_` as `{project}` for global buckets, for example "projects/_/buckets/my-global-bucket"). */
-  bucket?: string | undefined;
 }
 export type BatchGetProjectsAppsEventsError = NotFound | Forbidden | GcpOpError;
 /** Fetch a batch of up to 100 events by name. */
@@ -896,8 +863,8 @@ export const batchUpdateProjectsAppsIssues: API.OperationMethod<
   BatchUpdateProjectsAppsIssuesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(514, __c16, 2) as any as S.Schema<BatchUpdateProjectsAppsIssuesRequest>,
-  output: __S(516, __c16, 4) as any as S.Schema<BatchUpdateIssuesResponse>,
+  input: __S(515, __c16, 3) as any as S.Schema<BatchUpdateProjectsAppsIssuesRequest>,
+  output: __S(517, __c16, 5) as any as S.Schema<BatchUpdateIssuesResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -984,8 +951,8 @@ export const generateAlertPolicyProjectsApps: API.OperationMethod<
   GenerateAlertPolicyProjectsAppsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c21, 0) as any as S.Schema<GenerateAlertPolicyProjectsAppsRequest>,
-  output: __S(673, __c21, 1) as any as S.Schema<GenerateAlertPolicyResponse>,
+  input: __S(673, __c21, 1) as any as S.Schema<GenerateAlertPolicyProjectsAppsRequest>,
+  output: __S(674, __c21, 2) as any as S.Schema<GenerateAlertPolicyResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1385,25 +1352,13 @@ function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          signals: S.optional(__S(481, __c15, 1)),
-          notesCount: S.optional(S.String),
-          errorType: S.optional(S.String),
-          firstSeenTime: S.optional(S.String),
-          firstSeenVersion: S.optional(S.String),
-          lastSeenVersion: S.optional(S.String),
-          stateUpdateTime: S.optional(S.String),
-          id: S.optional(S.String),
-          sampleEvent: S.optional(S.String),
-          state: S.optional(S.String),
-          lastSeenTime: S.optional(S.String),
-          title: S.optional(S.String),
-          uri: S.optional(S.String),
-          subtitle: S.optional(S.String),
-          variants: S.optional(__S(483, __c15, 3)),
-        }).pipe(
+        S.Extend(
+          __S(484, __c15, 4),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha/{+name}",
@@ -1417,12 +1372,13 @@ function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          heapDumpCollectionEnabled: S.optional(S.Boolean),
-          bucket: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(32, __c1, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha/{+name}",
@@ -1720,10 +1676,18 @@ function __c16(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String),
           requests: S.optional(__S(513, __c16, 1)),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "BatchUpdateIssuesRequest" });
+    case 3:
+      return S.suspend(() =>
+        S.Extend(
+          __S(514, __c16, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/issues:batchUpdate",
@@ -1731,12 +1695,12 @@ function __c16(j: number): any {
           }),
         ),
       ).annotate({ identifier: "BatchUpdateProjectsAppsIssuesRequest" });
-    case 3:
-      return S.Array(__S(484, __c15, 4));
     case 4:
+      return S.Array(__S(484, __c15, 4));
+    case 5:
       return S.suspend(() =>
         S.Struct({
-          issues: S.optional(__S(515, __c16, 3)),
+          issues: S.optional(__S(516, __c16, 4)),
         }),
       ).annotate({ identifier: "BatchUpdateIssuesResponse" });
   }
@@ -1745,13 +1709,12 @@ function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          author: S.optional(S.String),
-          name: S.optional(S.String),
-          createTime: S.optional(S.String),
-          body: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(576, __c18, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+parent}/notes",
@@ -1819,10 +1782,18 @@ function __c21(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           alertType: S.optional(S.String),
           language: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "GenerateAlertPolicyRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(672, __c21, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha/{+name}:generateAlertPolicy",
@@ -1830,7 +1801,7 @@ function __c21(j: number): any {
           }),
         ),
       ).annotate({ identifier: "GenerateAlertPolicyProjectsAppsRequest" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           alertPolicy: S.optional(S.String),

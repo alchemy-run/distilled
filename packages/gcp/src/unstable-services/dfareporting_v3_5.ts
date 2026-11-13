@@ -314,34 +314,6 @@ export type CreativeAssetMetadataDetectedFeaturesItemEnum =
 export type CreativeAssetMetadataDetectedFeaturesItemEnumList = Array<
   CreativeAssetMetadataDetectedFeaturesItemEnum | (string & {})
 >;
-export interface UploadMediaRequest {
-  /** User profile ID associated with this request. */
-  profileId: string;
-  /** Advertiser ID of this creative. This is a required field. */
-  advertiserId: string;
-  /** ID of the creative asset. This is a required field. */
-  assetIdentifier?: CreativeAssetId | undefined;
-  /** Rules validated during code generation that generated a warning. This is a read-only, auto-generated field. Possible values are: - "ADMOB_REFERENCED" - "ASSET_FORMAT_UNSUPPORTED_DCM" - "ASSET_INVALID" - "CLICK_TAG_HARD_CODED" - "CLICK_TAG_INVALID" - "CLICK_TAG_IN_GWD" - "CLICK_TAG_MISSING" - "CLICK_TAG_MORE_THAN_ONE" - "CLICK_TAG_NON_TOP_LEVEL" - "COMPONENT_UNSUPPORTED_DCM" - "ENABLER_UNSUPPORTED_METHOD_DCM" - "EXTERNAL_FILE_REFERENCED" - "FILE_DETAIL_EMPTY" - "FILE_TYPE_INVALID" - "GWD_PROPERTIES_INVALID" - "HTML5_FEATURE_UNSUPPORTED" - "LINKED_FILE_NOT_FOUND" - "MAX_FLASH_VERSION_11" - "MRAID_REFERENCED" - "NOT_SSL_COMPLIANT" - "ORPHANED_ASSET" - "PRIMARY_HTML_MISSING" - "SVG_INVALID" - "ZIP_INVALID" */
-  warnedValidationRules?: CreativeAssetMetadataWarnedValidationRulesItemEnumList | undefined;
-  /** True if the uploaded asset is a rich media asset. This is a read-only, auto-generated field. */
-  richMedia?: boolean | undefined;
-  /** List of exit events configured for the asset. This is a read-only, auto-generated field and only applicable to a rich media asset. */
-  exitCustomEvents?: CreativeCustomEventList | undefined;
-  /** List of counter events configured for the asset. This is a read-only, auto-generated field and only applicable to a rich media asset. */
-  counterCustomEvents?: CreativeCustomEventList | undefined;
-  /** List of detected click tags for assets. This is a read-only, auto-generated field. This field is empty for a rich media asset. */
-  clickTags?: ClickTagList | undefined;
-  /** Dimension value for the numeric ID of the asset. This is a read-only, auto-generated field. */
-  idDimensionValue?: DimensionValue | undefined;
-  /** List of timer events configured for the asset. This is a read-only, auto-generated field and only applicable to a rich media asset. */
-  timerCustomEvents?: CreativeCustomEventList | undefined;
-  /** List of feature dependencies for the creative asset that are detected by Campaign Manager. Feature dependencies are features that a browser must be able to support in order to render your HTML5 creative correctly. This is a read-only, auto-generated field. */
-  detectedFeatures?: CreativeAssetMetadataDetectedFeaturesItemEnumList | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#creativeAssetMetadata". */
-  kind?: string | undefined;
-  /** Numeric ID of the asset. This is a read-only, auto-generated field. */
-  id?: string | undefined;
-}
 /** CreativeAssets contains properties of a creative asset file which will be uploaded or has already been uploaded. Refer to the creative sample code for how to upload assets and insert a creative. */
 export interface CreativeAssetMetadata {
   /** ID of the creative asset. This is a required field. */
@@ -367,6 +339,12 @@ export interface CreativeAssetMetadata {
   /** Numeric ID of the asset. This is a read-only, auto-generated field. */
   id?: string | undefined;
 }
+export interface UploadMediaRequest extends CreativeAssetMetadata {
+  /** User profile ID associated with this request. */
+  profileId: string;
+  /** Advertiser ID of this creative. This is a required field. */
+  advertiserId: string;
+}
 export type UploadMediaError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
 /** Inserts a new creative asset. */
 export const uploadMedia: API.OperationMethod<
@@ -375,8 +353,8 @@ export const uploadMedia: API.OperationMethod<
   UploadMediaError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11, __c0, 11) as any as S.Schema<UploadMediaRequest>,
-  output: __S(12, __c0, 12) as any as S.Schema<CreativeAssetMetadata>,
+  input: __S(12, __c0, 12) as any as S.Schema<UploadMediaRequest>,
+  output: __S(11, __c0, 11) as any as S.Schema<CreativeAssetMetadata>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -476,30 +454,6 @@ function __c0(j: number): any {
     case 11:
       return S.suspend(() =>
         S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          advertiserId: S.String.pipe(T.Label()),
-          assetIdentifier: S.optional(__S(0, __c0, 0)),
-          warnedValidationRules: S.optional(__S(1, __c0, 1)),
-          richMedia: S.optional(S.Boolean),
-          exitCustomEvents: S.optional(__S(7, __c0, 7)),
-          counterCustomEvents: S.optional(__S(7, __c0, 7)),
-          clickTags: S.optional(__S(9, __c0, 9)),
-          idDimensionValue: S.optional(__S(10, __c0, 10)),
-          timerCustomEvents: S.optional(__S(7, __c0, 7)),
-          detectedFeatures: S.optional(__S(1, __c0, 1)),
-          kind: S.optional(S.String),
-          id: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "userprofiles/{+profileId}/creativeAssets/{+advertiserId}/creativeAssets",
-            baseUrl: "https://dfareporting.googleapis.com/dfareporting/v3.5/",
-          }),
-        ),
-      ).annotate({ identifier: "UploadMediaRequest" });
-    case 12:
-      return S.suspend(() =>
-        S.Struct({
           assetIdentifier: S.optional(__S(0, __c0, 0)),
           warnedValidationRules: S.optional(__S(1, __c0, 1)),
           richMedia: S.optional(S.Boolean),
@@ -513,6 +467,22 @@ function __c0(j: number): any {
           id: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreativeAssetMetadata" });
+    case 12:
+      return S.suspend(() =>
+        S.Extend(
+          __S(11, __c0, 11),
+          S.Struct({
+            profileId: S.String.pipe(T.Label()),
+            advertiserId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
+          T.Http({
+            method: "POST",
+            uri: "userprofiles/{+profileId}/creativeAssets/{+advertiserId}/creativeAssets",
+            baseUrl: "https://dfareporting.googleapis.com/dfareporting/v3.5/",
+          }),
+        ),
+      ).annotate({ identifier: "UploadMediaRequest" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

@@ -562,30 +562,6 @@ export interface SoftwareRecipe {
   updateSteps?: SoftwareRecipeStepList | undefined;
 }
 export type SoftwareRecipeList = Array<SoftwareRecipe>;
-export interface CreateProjectsGuestPoliciesRequest {
-  /** Required. The resource name of the parent using one of the following forms: `projects/{project_number}`. */
-  parent: string;
-  /** Required. The logical name of the guest policy in the project with the following restrictions: * Must contain only lowercase letters, numbers, and hyphens. * Must start with a letter. * Must be between 1-63 characters. * Must end with a number or a letter. * Must be unique within the project. */
-  guestPolicyId?: string | undefined;
-  /** A list of package repositories to configure on the VM instance. This is done before any other configs are applied so they can use these repos. Package repositories are only configured if the corresponding package manager(s) are available. */
-  packageRepositories?: PackageRepositoryList | undefined;
-  /** The software packages to be managed by this policy. */
-  packages?: PackageList | undefined;
-  /** Required. Unique name of the resource in this project using one of the following forms: `projects/{project_number}/guestPolicies/{guest_policy_id}`. */
-  name?: string | undefined;
-  /** Output only. Time this guest policy was created. */
-  createTime?: string | undefined;
-  /** Required. Specifies the VM instances that are assigned to this policy. This allows you to target sets or groups of VM instances by different parameters such as labels, names, OS, or zones. If left empty, all VM instances underneath this policy are targeted. At the same level in the resource hierarchy (that is within a project), the service prevents the creation of multiple policies that conflict with each other. For more information, see how the service [handles assignment conflicts](/compute/docs/os-config-management/create-guest-policy#handle-conflicts). */
-  assignment?: Assignment | undefined;
-  /** A list of Recipes to install on the VM instance. */
-  recipes?: SoftwareRecipeList | undefined;
-  /** The etag for this guest policy. If this is provided on update, it must match the server's etag. */
-  etag?: string | undefined;
-  /** Output only. Last time this guest policy was updated. */
-  updateTime?: string | undefined;
-  /** Description of the guest policy. Length of the description is limited to 1024 characters. */
-  description?: string | undefined;
-}
 /** An OS Config resource representing a guest configuration policy. These policies represent the desired state for VM instance guest environments including packages to install or remove, package repository configurations, and software to install. */
 export interface GuestPolicy {
   /** A list of package repositories to configure on the VM instance. This is done before any other configs are applied so they can use these repos. Package repositories are only configured if the corresponding package manager(s) are available. */
@@ -606,6 +582,12 @@ export interface GuestPolicy {
   updateTime?: string | undefined;
   /** Description of the guest policy. Length of the description is limited to 1024 characters. */
   description?: string | undefined;
+}
+export interface CreateProjectsGuestPoliciesRequest extends GuestPolicy {
+  /** Required. The resource name of the parent using one of the following forms: `projects/{project_number}`. */
+  parent: string;
+  /** Required. The logical name of the guest policy in the project with the following restrictions: * Must contain only lowercase letters, numbers, and hyphens. * Must start with a letter. * Must be between 1-63 characters. * Must end with a number or a letter. * Must be unique within the project. */
+  guestPolicyId?: string | undefined;
 }
 export type PatchDeploymentStateEnum = "STATE_UNSPECIFIED" | "ACTIVE" | "PAUSED";
 /** Sets the time for a one time patch deployment. Timestamp is in [RFC3339](https://www.ietf.org/rfc/rfc3339.txt) text format. */
@@ -696,11 +678,8 @@ export interface RecurringSchedule {
   /** Required. Defines the time zone that `time_of_day` is relative to. The rules for daylight saving time are determined by the chosen time zone. */
   timeZone?: TimeZone | undefined;
 }
-export interface CreateProjectsPatchDeploymentsRequest {
-  /** Required. A name for the patch deployment in the project. When creating a name the following rules apply: * Must contain only lowercase letters, numbers, and hyphens. * Must start with a letter. * Must be between 1-63 characters. * Must end with a number or a letter. * Must be unique within the project. */
-  patchDeploymentId?: string | undefined;
-  /** Required. The project to apply this patch deployment to in the form `projects/*`. */
-  parent: string;
+/** Patch deployments are configurations that individual patch jobs use to complete a patch. These configurations include instance filter, package repository settings, and a schedule. For more information about creating and managing patch deployments, see [Scheduling patch jobs](https://cloud.google.com/compute/docs/os-patch-management/schedule-patch-jobs). */
+export interface PatchDeployment {
   /** Output only. Current state of the patch deployment. */
   state?: PatchDeploymentStateEnum | (string & {}) | undefined;
   /** Optional. Rollout strategy of the patch job. */
@@ -726,32 +705,11 @@ export interface CreateProjectsPatchDeploymentsRequest {
   /** Unique name for the patch deployment resource in a project. The patch deployment name is in the form: `projects/{project_id}/patchDeployments/{patch_deployment_id}`. This field is ignored when you create a new patch deployment. */
   name?: string | undefined;
 }
-/** Patch deployments are configurations that individual patch jobs use to complete a patch. These configurations include instance filter, package repository settings, and a schedule. For more information about creating and managing patch deployments, see [Scheduling patch jobs](https://cloud.google.com/compute/docs/os-patch-management/schedule-patch-jobs). */
-export interface PatchDeployment {
-  /** Output only. Current state of the patch deployment. */
-  state?: PatchDeploymentStateEnum | undefined;
-  /** Optional. Rollout strategy of the patch job. */
-  rollout?: PatchRollout | undefined;
-  /** Required. Schedule a one-time execution. */
-  oneTimeSchedule?: OneTimeSchedule | undefined;
-  /** Output only. Time the patch deployment was last updated. Timestamp is in [RFC3339](https://www.ietf.org/rfc/rfc3339.txt) text format. */
-  updateTime?: string | undefined;
-  /** Required. Schedule recurring executions. */
-  recurringSchedule?: RecurringSchedule | undefined;
-  /** Required. VM instances to patch. */
-  instanceFilter?: PatchInstanceFilter | undefined;
-  /** Output only. Time the patch deployment was created. Timestamp is in [RFC3339](https://www.ietf.org/rfc/rfc3339.txt) text format. */
-  createTime?: string | undefined;
-  /** Optional. Description of the patch deployment. Length of the description is limited to 1024 characters. */
-  description?: string | undefined;
-  /** Optional. Duration of the patch. After the duration ends, the patch times out. */
-  duration?: string | undefined;
-  /** Output only. The last time a patch job was started by this deployment. Timestamp is in [RFC3339](https://www.ietf.org/rfc/rfc3339.txt) text format. */
-  lastExecuteTime?: string | undefined;
-  /** Optional. Patch configuration that is applied. */
-  patchConfig?: PatchConfig | undefined;
-  /** Unique name for the patch deployment resource in a project. The patch deployment name is in the form: `projects/{project_id}/patchDeployments/{patch_deployment_id}`. This field is ignored when you create a new patch deployment. */
-  name?: string | undefined;
+export interface CreateProjectsPatchDeploymentsRequest extends PatchDeployment {
+  /** Required. A name for the patch deployment in the project. When creating a name the following rules apply: * Must contain only lowercase letters, numbers, and hyphens. * Must start with a letter. * Must be between 1-63 characters. * Must end with a number or a letter. * Must be unique within the project. */
+  patchDeploymentId?: string | undefined;
+  /** Required. The project to apply this patch deployment to in the form `projects/*`. */
+  parent: string;
 }
 export interface DeleteProjectsGuestPoliciesRequest {
   /** Required. The resource name of the guest policy using one of the following forms: `projects/{project_number}/guestPolicies/{guest_policy_id}`. */
@@ -763,9 +721,8 @@ export interface DeleteProjectsPatchDeploymentsRequest {
   /** Required. The resource name of the patch deployment in the form `projects/*\/patchDeployments/*`. */
   name: string;
 }
-export interface ExecuteProjectsPatchJobsRequest {
-  /** Required. The project in which to run this patch in the form `projects/*` */
-  parent: string;
+/** A request message to initiate patching across Compute Engine instances. */
+export interface ExecutePatchJobRequest {
   /** Required. Instances to patch, either explicitly or filtered by some criteria such as zone or labels. */
   instanceFilter?: PatchInstanceFilter | undefined;
   /** Duration of the patch job. After the duration ends, the patch job times out. */
@@ -780,6 +737,10 @@ export interface ExecuteProjectsPatchJobsRequest {
   dryRun?: boolean | undefined;
   /** Display name for this patch job. This does not have to be unique. */
   displayName?: string | undefined;
+}
+export interface ExecuteProjectsPatchJobsRequest extends ExecutePatchJobRequest {
+  /** Required. The project in which to run this patch in the form `projects/*` */
+  parent: string;
 }
 export interface GetProjectsGuestPoliciesRequest {
   /** Required. The resource name of the guest policy using one of the following forms: `projects/{project_number}/guestPolicies/{guest_policy_id}`. */
@@ -892,15 +853,18 @@ export interface ListPatchJobInstanceDetailsResponse {
   /** A pagination token that can be used to get the next page of results. */
   nextPageToken?: string | undefined;
 }
-export interface LookupEffectiveGuestPolicyProjectsZonesInstancesRequest {
-  /** Required. The VM instance whose policies are being looked up. */
-  instance: string;
+/** A request message for getting the effective guest policy assigned to the instance. */
+export interface LookupEffectiveGuestPolicyRequest {
   /** Version of the OS running on the instance. The OS Config agent only provides this field for targeting if OS Inventory is enabled for that VM instance. */
   osVersion?: string | undefined;
   /** Short name of the OS running on the instance. The OS Config agent only provides this field for targeting if OS Inventory is enabled for that instance. */
   osShortName?: string | undefined;
   /** Architecture of OS running on the instance. The OS Config agent only provides this field for targeting if OS Inventory is enabled for that instance. */
   osArchitecture?: string | undefined;
+}
+export interface LookupEffectiveGuestPolicyProjectsZonesInstancesRequest extends LookupEffectiveGuestPolicyRequest {
+  /** Required. The VM instance whose policies are being looked up. */
+  instance: string;
 }
 /** A guest policy package repository including its source. */
 export interface EffectiveGuestPolicySourcedPackageRepository {
@@ -937,55 +901,17 @@ export interface EffectiveGuestPolicy {
   /** List of recipes assigned to the VM instance. */
   softwareRecipes?: EffectiveGuestPolicySourcedSoftwareRecipeList | undefined;
 }
-export interface PatchProjectsGuestPoliciesRequest {
+export interface PatchProjectsGuestPoliciesRequest extends Omit<GuestPolicy, "name"> {
   /** Field mask that controls which fields of the guest policy should be updated. */
   updateMask?: string | undefined;
   /** Required. Unique name of the resource in this project using one of the following forms: `projects/{project_number}/guestPolicies/{guest_policy_id}`. */
   name: string;
-  /** A list of package repositories to configure on the VM instance. This is done before any other configs are applied so they can use these repos. Package repositories are only configured if the corresponding package manager(s) are available. */
-  packageRepositories?: PackageRepositoryList | undefined;
-  /** The software packages to be managed by this policy. */
-  packages?: PackageList | undefined;
-  /** Output only. Time this guest policy was created. */
-  createTime?: string | undefined;
-  /** Required. Specifies the VM instances that are assigned to this policy. This allows you to target sets or groups of VM instances by different parameters such as labels, names, OS, or zones. If left empty, all VM instances underneath this policy are targeted. At the same level in the resource hierarchy (that is within a project), the service prevents the creation of multiple policies that conflict with each other. For more information, see how the service [handles assignment conflicts](/compute/docs/os-config-management/create-guest-policy#handle-conflicts). */
-  assignment?: Assignment | undefined;
-  /** A list of Recipes to install on the VM instance. */
-  recipes?: SoftwareRecipeList | undefined;
-  /** The etag for this guest policy. If this is provided on update, it must match the server's etag. */
-  etag?: string | undefined;
-  /** Output only. Last time this guest policy was updated. */
-  updateTime?: string | undefined;
-  /** Description of the guest policy. Length of the description is limited to 1024 characters. */
-  description?: string | undefined;
 }
-export interface PatchProjectsPatchDeploymentsRequest {
+export interface PatchProjectsPatchDeploymentsRequest extends Omit<PatchDeployment, "name"> {
   /** Optional. Field mask that controls which fields of the patch deployment should be updated. */
   updateMask?: string | undefined;
   /** Unique name for the patch deployment resource in a project. The patch deployment name is in the form: `projects/{project_id}/patchDeployments/{patch_deployment_id}`. This field is ignored when you create a new patch deployment. */
   name: string;
-  /** Output only. Current state of the patch deployment. */
-  state?: PatchDeploymentStateEnum | (string & {}) | undefined;
-  /** Optional. Rollout strategy of the patch job. */
-  rollout?: PatchRollout | undefined;
-  /** Required. Schedule a one-time execution. */
-  oneTimeSchedule?: OneTimeSchedule | undefined;
-  /** Output only. Time the patch deployment was last updated. Timestamp is in [RFC3339](https://www.ietf.org/rfc/rfc3339.txt) text format. */
-  updateTime?: string | undefined;
-  /** Required. Schedule recurring executions. */
-  recurringSchedule?: RecurringSchedule | undefined;
-  /** Required. VM instances to patch. */
-  instanceFilter?: PatchInstanceFilter | undefined;
-  /** Output only. Time the patch deployment was created. Timestamp is in [RFC3339](https://www.ietf.org/rfc/rfc3339.txt) text format. */
-  createTime?: string | undefined;
-  /** Optional. Description of the patch deployment. Length of the description is limited to 1024 characters. */
-  description?: string | undefined;
-  /** Optional. Duration of the patch. After the duration ends, the patch times out. */
-  duration?: string | undefined;
-  /** Output only. The last time a patch job was started by this deployment. Timestamp is in [RFC3339](https://www.ietf.org/rfc/rfc3339.txt) text format. */
-  lastExecuteTime?: string | undefined;
-  /** Optional. Patch configuration that is applied. */
-  patchConfig?: PatchConfig | undefined;
 }
 /** A request message for pausing a patch deployment. */
 export type PausePatchDeploymentRequest = CancelPatchJobRequest;
@@ -1126,7 +1052,7 @@ export const executeProjectsPatchJobs: API.OperationMethod<
   ExecuteProjectsPatchJobsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c25, 0) as any as S.Schema<ExecuteProjectsPatchJobsRequest>,
+  input: __S(801, __c25, 1) as any as S.Schema<ExecuteProjectsPatchJobsRequest>,
   output: __S(545, __c17, 1) as any as S.Schema<PatchJob>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -1276,11 +1202,11 @@ export const lookupEffectiveGuestPolicyProjectsZonesInstances: API.OperationMeth
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    224,
+    225,
     __c7,
-    0,
+    1,
   ) as any as S.Schema<LookupEffectiveGuestPolicyProjectsZonesInstancesRequest>,
-  output: __S(231, __c7, 7) as any as S.Schema<EffectiveGuestPolicy>,
+  output: __S(232, __c7, 8) as any as S.Schema<EffectiveGuestPolicy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1550,11 +1476,19 @@ function __c7(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          instance: S.String.pipe(T.Label()),
           osVersion: S.optional(S.String),
           osShortName: S.optional(S.String),
           osArchitecture: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "LookupEffectiveGuestPolicyRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(224, __c7, 0),
+          S.Struct({
+            instance: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+instance}:lookupEffectiveGuestPolicy",
@@ -1562,39 +1496,39 @@ function __c7(j: number): any {
           }),
         ),
       ).annotate({ identifier: "LookupEffectiveGuestPolicyProjectsZonesInstancesRequest" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           packageRepository: S.optional(__S(612, __c19, 4)),
           source: S.optional(S.String),
         }),
       ).annotate({ identifier: "EffectiveGuestPolicySourcedPackageRepository" });
-    case 2:
-      return S.Array(__S(225, __c7, 1));
     case 3:
+      return S.Array(__S(226, __c7, 2));
+    case 4:
       return S.suspend(() =>
         S.Struct({
           package: S.optional(__S(613, __c19, 5)),
           source: S.optional(S.String),
         }),
       ).annotate({ identifier: "EffectiveGuestPolicySourcedPackage" });
-    case 4:
-      return S.Array(__S(227, __c7, 3));
     case 5:
+      return S.Array(__S(228, __c7, 4));
+    case 6:
       return S.suspend(() =>
         S.Struct({
           softwareRecipe: S.optional(__S(626, __c19, 18)),
           source: S.optional(S.String),
         }),
       ).annotate({ identifier: "EffectiveGuestPolicySourcedSoftwareRecipe" });
-    case 6:
-      return S.Array(__S(229, __c7, 5));
     case 7:
+      return S.Array(__S(230, __c7, 6));
+    case 8:
       return S.suspend(() =>
         S.Struct({
-          packageRepositories: S.optional(__S(226, __c7, 2)),
-          packages: S.optional(__S(228, __c7, 4)),
-          softwareRecipes: S.optional(__S(230, __c7, 6)),
+          packageRepositories: S.optional(__S(227, __c7, 3)),
+          packages: S.optional(__S(229, __c7, 5)),
+          softwareRecipes: S.optional(__S(231, __c7, 7)),
         }),
       ).annotate({ identifier: "EffectiveGuestPolicy" });
   }
@@ -1603,18 +1537,13 @@ function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          packageRepositories: S.optional(__S(640, __c20, 0)),
-          packages: S.optional(__S(641, __c20, 1)),
-          createTime: S.optional(S.String),
-          assignment: S.optional(__S(644, __c20, 4)),
-          recipes: S.optional(__S(645, __c20, 5)),
-          etag: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          description: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(646, __c20, 6),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta/{+name}",
@@ -1628,21 +1557,13 @@ function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          state: S.optional(S.String),
-          rollout: S.optional(__S(523, __c16, 11)),
-          oneTimeSchedule: S.optional(__S(704, __c22, 0)),
-          updateTime: S.optional(S.String),
-          recurringSchedule: S.optional(__S(710, __c22, 6)),
-          instanceFilter: S.optional(__S(521, __c16, 9)),
-          createTime: S.optional(S.String),
-          description: S.optional(S.String),
-          duration: S.optional(S.String),
-          lastExecuteTime: S.optional(S.String),
-          patchConfig: S.optional(__S(520, __c16, 8)),
-        }).pipe(
+        S.Extend(
+          __S(711, __c22, 7),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta/{+name}",
@@ -1885,19 +1806,13 @@ function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          guestPolicyId: S.optional(S.String.pipe(T.Query())),
-          packageRepositories: S.optional(__S(640, __c20, 0)),
-          packages: S.optional(__S(641, __c20, 1)),
-          name: S.optional(S.String),
-          createTime: S.optional(S.String),
-          assignment: S.optional(__S(644, __c20, 4)),
-          recipes: S.optional(__S(645, __c20, 5)),
-          etag: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          description: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(646, __c20, 6),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            guestPolicyId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+parent}/guestPolicies",
@@ -2110,22 +2025,13 @@ function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          patchDeploymentId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          state: S.optional(S.String),
-          rollout: S.optional(__S(523, __c16, 11)),
-          oneTimeSchedule: S.optional(__S(704, __c22, 0)),
-          updateTime: S.optional(S.String),
-          recurringSchedule: S.optional(__S(710, __c22, 6)),
-          instanceFilter: S.optional(__S(521, __c16, 9)),
-          createTime: S.optional(S.String),
-          description: S.optional(S.String),
-          duration: S.optional(S.String),
-          lastExecuteTime: S.optional(S.String),
-          patchConfig: S.optional(__S(520, __c16, 8)),
-          name: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(711, __c22, 7),
+          S.Struct({
+            patchDeploymentId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+parent}/patchDeployments",
@@ -2250,7 +2156,6 @@ function __c25(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
           instanceFilter: S.optional(__S(521, __c16, 9)),
           duration: S.optional(S.String),
           patchConfig: S.optional(__S(520, __c16, 8)),
@@ -2258,7 +2163,16 @@ function __c25(j: number): any {
           rollout: S.optional(__S(523, __c16, 11)),
           dryRun: S.optional(S.Boolean),
           displayName: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "ExecutePatchJobRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(800, __c25, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+parent}/patchJobs:execute",

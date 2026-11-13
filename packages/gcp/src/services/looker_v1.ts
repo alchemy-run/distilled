@@ -300,11 +300,8 @@ export interface MaintenanceSchedule {
   /** The scheduled start time for the maintenance. */
   startTime?: string | undefined;
 }
-export interface CreateProjectsLocationsInstancesRequest {
-  /** Required. Format: `projects/{project}/locations/{location}`. */
-  parent: string;
-  /** Required. The unique instance identifier. Must contain only lowercase letters, numbers, or hyphens, with the first character a letter and the last a letter or a number. 63 characters maximum. */
-  instanceId?: string | undefined;
+/** A Looker instance. */
+export interface Instance {
   /** Optional. Whether private IP is enabled on the Looker instance. */
   privateIpEnabled?: boolean | undefined;
   /** Optional. Indicates whether catalog integration is disabled for the Looker instance. */
@@ -388,6 +385,12 @@ export interface CreateProjectsLocationsInstancesRequest {
   /** Output only. Maintenance schedule for this instance. */
   maintenanceSchedule?: MaintenanceSchedule | undefined;
 }
+export interface CreateProjectsLocationsInstancesRequest extends Instance {
+  /** Required. Format: `projects/{project}/locations/{location}`. */
+  parent: string;
+  /** Required. The unique instance identifier. Must contain only lowercase letters, numbers, or hyphens, with the first character a letter and the last a letter or a number. 63 characters maximum. */
+  instanceId?: string | undefined;
+}
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
@@ -418,9 +421,8 @@ export type InstanceBackupStateEnum =
   | "DELETING"
   | "ACTIVE"
   | "FAILED";
-export interface CreateProjectsLocationsInstancesBackupsRequest {
-  /** Required. Format: projects/{project}/locations/{location}/instances/{instance} */
-  parent: string;
+/** The details of a backup resource. */
+export interface InstanceBackup {
   /** Output only. The time when the backup will be deleted. */
   expireTime?: string | undefined;
   /** Output only. The time when the backup was started. */
@@ -431,6 +433,10 @@ export interface CreateProjectsLocationsInstancesBackupsRequest {
   state?: InstanceBackupStateEnum | (string & {}) | undefined;
   /** Immutable. The relative resource name of the backup, in the following form: `projects/{project_number}/locations/{location_id}/instances/{instance_id}/backups/{backup}` */
   name?: string | undefined;
+}
+export interface CreateProjectsLocationsInstancesBackupsRequest extends InstanceBackup {
+  /** Required. Format: projects/{project}/locations/{location}/instances/{instance} */
+  parent: string;
 }
 export interface DeleteProjectsLocationsInstancesRequest {
   /** Required. Format: `projects/{project}/locations/{location}/instances/{instance}`. */
@@ -451,13 +457,16 @@ export interface ExportEncryptionConfig {
   /** Required. Name of the CMEK key in KMS. */
   kmsKeyName?: string | undefined;
 }
-export interface ExportProjectsLocationsInstancesRequest {
-  /** Required. Format: `projects/{project}/locations/{location}/instances/{instance}`. */
-  name: string;
+/** Request options for exporting data of an Instance. */
+export interface ExportInstanceRequest {
   /** Required. Encryption configuration (CMEK). For CMEK enabled instances it should be same as looker CMEK. */
   encryptionConfig?: ExportEncryptionConfig | undefined;
   /** The path to the folder in Google Cloud Storage where the export will be stored. The URI is in the form `gs://bucketName/folderName`. */
   gcsUri?: string | undefined;
+}
+export interface ExportProjectsLocationsInstancesRequest extends ExportInstanceRequest {
+  /** Required. Format: `projects/{project}/locations/{location}/instances/{instance}`. */
+  name: string;
 }
 export interface GetProjectsLocationsRequest {
   /** Resource name for the location. */
@@ -481,117 +490,22 @@ export interface GetProjectsLocationsInstancesRequest {
   /** Required. Format: `projects/{project}/locations/{location}/instances/{instance}`. */
   name: string;
 }
-/** A Looker instance. */
-export interface Instance {
-  /** Optional. Whether private IP is enabled on the Looker instance. */
-  privateIpEnabled?: boolean | undefined;
-  /** Optional. Indicates whether catalog integration is disabled for the Looker instance. */
-  catalogIntegrationOptOut?: boolean | undefined;
-  /** Output only. Reserved for future use. */
-  satisfiesPzs?: boolean | undefined;
-  /** Optional. The selected release channel for the instance. */
-  releaseChannel?: InstanceReleaseChannelEnum | undefined;
-  /** Optional. Whether to use Private Service Connect (PSC) for private IP connectivity. If true, neither `public_ip_enabled` nor `private_ip_enabled` can be true. */
-  pscEnabled?: boolean | undefined;
-  /** Optional. Looker Instance Admin settings. */
-  adminSettings?: AdminSettings | undefined;
-  /** Optional. Maintenance window for this instance. */
-  maintenanceWindow?: MaintenanceWindow | undefined;
-  /** Optional. Name of a reserved IP address range within the Instance.consumer_network, to be used for private services access connection. May or may not be specified in a create request. */
-  reservedRange?: string | undefined;
-  /** Optional. Maintenance denial period for this instance. */
-  denyMaintenancePeriod?: DenyMaintenancePeriod | undefined;
-  /** Optional. Whether controlled egress is enabled on the Looker instance. */
-  controlledEgressEnabled?: boolean | undefined;
-  /** Optional. Auth type for the Looker instance. */
-  authType?: AuthType | undefined;
-  /** Output only. Last computed maintenance denial period for this instance. */
-  lastDenyMaintenancePeriod?: DenyMaintenancePeriod | undefined;
-  /** Output only. Public Ingress IP (IPv4). */
-  ingressPublicIp?: string | undefined;
-  /** Optional. Looker instance OAuth login settings. */
-  oauthConfig?: OAuthConfig | undefined;
-  /** Optional. Platform edition. Marked as OPTIONAL for backward compatibility, though it is required during instance creation. */
-  platformEdition?: InstancePlatformEditionEnum | undefined;
-  /** Output only. The time when the Looker instance was last updated. */
-  updateTime?: string | undefined;
-  /** Output only. Public Egress IP (IPv4). */
-  egressPublicIp?: string | undefined;
-  /** Output only. The reason for the instance being in a soft-deleted state. */
-  softDeleteReason?: InstanceSoftDeleteReasonEnum | undefined;
-  /** Optional. Whether FIPS is enabled on the Looker instance. */
-  fipsEnabled?: boolean | undefined;
-  /** Optional. Ingress IP allowlist configuration for the Looker instance. */
-  ingressIpAllowlistConfig?: IngressIpAllowlistConfig | undefined;
-  /** Optional. Configuration for periodic export. */
-  periodicExportConfig?: PeriodicExportConfig | undefined;
-  /** Optional. Network name in the consumer project. Format: `projects/{project}/global/networks/{network}`. Note that the consumer network may be in a different GCP project than the consumer project that is hosting the Looker Instance. */
-  consumerNetwork?: string | undefined;
-  /** Output only. Private Ingress IP (IPv4). */
-  ingressPrivateIp?: string | undefined;
-  /** Optional. Controlled egress configuration. */
-  controlledEgressConfig?: ControlledEgressConfig | undefined;
-  /** Output only. The time when the Looker instance provisioning was first requested. */
-  createTime?: string | undefined;
-  /** Optional. Linked Google Cloud Project Number for Looker Studio Pro. */
-  linkedLspProjectNumber?: string | undefined;
-  /** Output only. Format: `projects/{project}/locations/{location}/instances/{instance}`. */
-  name?: string | undefined;
-  /** Output only. The Looker version that the instance is using. */
-  lookerVersion?: string | undefined;
-  /** Output only. The time when the Looker instance was suspended (soft deleted). */
-  suspendedTime?: string | undefined;
-  /** Optional. Storage class of the instance. */
-  classType?: InstanceClassTypeEnum | undefined;
-  /** Optional. PSC configuration. Used when `psc_enabled` is true. */
-  pscConfig?: PscConfig | undefined;
-  /** Output only. The state of the instance. */
-  state?: InstanceStateEnum | undefined;
-  /** Optional. Whether public IP is enabled on the Looker instance. */
-  publicIpEnabled?: boolean | undefined;
-  /** Output only. Reserved for future use. */
-  satisfiesPzi?: boolean | undefined;
-  /** Output only. Looker instance URI which can be used to access the Looker Instance UI. */
-  lookerUri?: string | undefined;
-  /** Optional. Whether Gemini feature is enabled on the Looker instance or not. */
-  geminiEnabled?: boolean | undefined;
-  /** Optional. Custom domain configuration for the instance. */
-  customDomain?: CustomDomain | undefined;
-  /** Optional. User metadata. */
-  userMetadata?: UserMetadata | undefined;
-  /** Optional. Accelerated security patch enabled for the instance. */
-  acceleratedSecurityPatchEnabled?: boolean | undefined;
-  /** Optional. Encryption configuration (CMEK). Only set if CMEK has been enabled on the instance. */
-  encryptionConfig?: EncryptionConfig | undefined;
-  /** Output only. Maintenance schedule for this instance. */
-  maintenanceSchedule?: MaintenanceSchedule | undefined;
-}
 export interface GetProjectsLocationsInstancesBackupsRequest {
   /** Required. Format: `projects/{project}/locations/{location}/instances/{instance}/backups/{backup}`. */
   name: string;
-}
-/** The details of a backup resource. */
-export interface InstanceBackup {
-  /** Output only. The time when the backup will be deleted. */
-  expireTime?: string | undefined;
-  /** Output only. The time when the backup was started. */
-  createTime?: string | undefined;
-  /** Output only. Current status of the CMEK encryption */
-  encryptionConfig?: EncryptionConfig | undefined;
-  /** Output only. The current state of the backup. */
-  state?: InstanceBackupStateEnum | undefined;
-  /** Immutable. The relative resource name of the backup, in the following form: `projects/{project_number}/locations/{location_id}/instances/{instance_id}/backups/{backup}` */
-  name?: string | undefined;
 }
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
 }
-export interface ImportProjectsLocationsInstancesRequest {
-  /** Required. Format: `projects/{project}/locations/{location}/instances/{instance}`. */
-  name: string;
+/** Requestion options for importing looker data to an Instance */
+export interface ImportInstanceRequest {
   /** Path to the import folder in Google Cloud Storage, in the form `gs://bucketName/folderName`. */
   gcsUri?: string | undefined;
+}
+export interface ImportProjectsLocationsInstancesRequest extends ImportInstanceRequest {
+  /** Required. Format: `projects/{project}/locations/{location}/instances/{instance}`. */
+  name: string;
 }
 export interface ListProjectsLocationsRequest {
   /** The resource that owns the locations collection, if applicable. */
@@ -675,91 +589,11 @@ export interface ListOperationsResponse {
   /** A list of operations that matches the specified filter in the request. */
   operations?: OperationList | undefined;
 }
-export interface PatchProjectsLocationsInstancesRequest {
+export interface PatchProjectsLocationsInstancesRequest extends Omit<Instance, "name"> {
   /** Required. Field mask used to specify the fields to be overwritten in the Instance resource by the update. The fields specified in the mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. */
   updateMask?: string | undefined;
   /** Output only. Format: `projects/{project}/locations/{location}/instances/{instance}`. */
   name: string;
-  /** Optional. Whether private IP is enabled on the Looker instance. */
-  privateIpEnabled?: boolean | undefined;
-  /** Optional. Indicates whether catalog integration is disabled for the Looker instance. */
-  catalogIntegrationOptOut?: boolean | undefined;
-  /** Output only. Reserved for future use. */
-  satisfiesPzs?: boolean | undefined;
-  /** Optional. The selected release channel for the instance. */
-  releaseChannel?: InstanceReleaseChannelEnum | (string & {}) | undefined;
-  /** Optional. Whether to use Private Service Connect (PSC) for private IP connectivity. If true, neither `public_ip_enabled` nor `private_ip_enabled` can be true. */
-  pscEnabled?: boolean | undefined;
-  /** Optional. Looker Instance Admin settings. */
-  adminSettings?: AdminSettings | undefined;
-  /** Optional. Maintenance window for this instance. */
-  maintenanceWindow?: MaintenanceWindow | undefined;
-  /** Optional. Name of a reserved IP address range within the Instance.consumer_network, to be used for private services access connection. May or may not be specified in a create request. */
-  reservedRange?: string | undefined;
-  /** Optional. Maintenance denial period for this instance. */
-  denyMaintenancePeriod?: DenyMaintenancePeriod | undefined;
-  /** Optional. Whether controlled egress is enabled on the Looker instance. */
-  controlledEgressEnabled?: boolean | undefined;
-  /** Optional. Auth type for the Looker instance. */
-  authType?: AuthType | undefined;
-  /** Output only. Last computed maintenance denial period for this instance. */
-  lastDenyMaintenancePeriod?: DenyMaintenancePeriod | undefined;
-  /** Output only. Public Ingress IP (IPv4). */
-  ingressPublicIp?: string | undefined;
-  /** Optional. Looker instance OAuth login settings. */
-  oauthConfig?: OAuthConfig | undefined;
-  /** Optional. Platform edition. Marked as OPTIONAL for backward compatibility, though it is required during instance creation. */
-  platformEdition?: InstancePlatformEditionEnum | (string & {}) | undefined;
-  /** Output only. The time when the Looker instance was last updated. */
-  updateTime?: string | undefined;
-  /** Output only. Public Egress IP (IPv4). */
-  egressPublicIp?: string | undefined;
-  /** Output only. The reason for the instance being in a soft-deleted state. */
-  softDeleteReason?: InstanceSoftDeleteReasonEnum | (string & {}) | undefined;
-  /** Optional. Whether FIPS is enabled on the Looker instance. */
-  fipsEnabled?: boolean | undefined;
-  /** Optional. Ingress IP allowlist configuration for the Looker instance. */
-  ingressIpAllowlistConfig?: IngressIpAllowlistConfig | undefined;
-  /** Optional. Configuration for periodic export. */
-  periodicExportConfig?: PeriodicExportConfig | undefined;
-  /** Optional. Network name in the consumer project. Format: `projects/{project}/global/networks/{network}`. Note that the consumer network may be in a different GCP project than the consumer project that is hosting the Looker Instance. */
-  consumerNetwork?: string | undefined;
-  /** Output only. Private Ingress IP (IPv4). */
-  ingressPrivateIp?: string | undefined;
-  /** Optional. Controlled egress configuration. */
-  controlledEgressConfig?: ControlledEgressConfig | undefined;
-  /** Output only. The time when the Looker instance provisioning was first requested. */
-  createTime?: string | undefined;
-  /** Optional. Linked Google Cloud Project Number for Looker Studio Pro. */
-  linkedLspProjectNumber?: string | undefined;
-  /** Output only. The Looker version that the instance is using. */
-  lookerVersion?: string | undefined;
-  /** Output only. The time when the Looker instance was suspended (soft deleted). */
-  suspendedTime?: string | undefined;
-  /** Optional. Storage class of the instance. */
-  classType?: InstanceClassTypeEnum | (string & {}) | undefined;
-  /** Optional. PSC configuration. Used when `psc_enabled` is true. */
-  pscConfig?: PscConfig | undefined;
-  /** Output only. The state of the instance. */
-  state?: InstanceStateEnum | (string & {}) | undefined;
-  /** Optional. Whether public IP is enabled on the Looker instance. */
-  publicIpEnabled?: boolean | undefined;
-  /** Output only. Reserved for future use. */
-  satisfiesPzi?: boolean | undefined;
-  /** Output only. Looker instance URI which can be used to access the Looker Instance UI. */
-  lookerUri?: string | undefined;
-  /** Optional. Whether Gemini feature is enabled on the Looker instance or not. */
-  geminiEnabled?: boolean | undefined;
-  /** Optional. Custom domain configuration for the instance. */
-  customDomain?: CustomDomain | undefined;
-  /** Optional. User metadata. */
-  userMetadata?: UserMetadata | undefined;
-  /** Optional. Accelerated security patch enabled for the instance. */
-  acceleratedSecurityPatchEnabled?: boolean | undefined;
-  /** Optional. Encryption configuration (CMEK). Only set if CMEK has been enabled on the instance. */
-  encryptionConfig?: EncryptionConfig | undefined;
-  /** Output only. Maintenance schedule for this instance. */
-  maintenanceSchedule?: MaintenanceSchedule | undefined;
 }
 /** Request options for restarting an instance. */
 export type RestartInstanceRequest = CancelOperationRequest;
@@ -769,11 +603,14 @@ export interface RestartProjectsLocationsInstancesRequest {
   /** Request body */
   body?: CancelOperationRequest | undefined;
 }
-export interface RestoreProjectsLocationsInstancesRequest {
-  /** Required. Instance being restored Format: projects/{project}/locations/{location}/instances/{instance} */
-  name: string;
+/** Request options for restoring an instance */
+export interface RestoreInstanceRequest {
   /** Required. Backup being used to restore the instance Format: projects/{project}/locations/{location}/instances/{instance}/backups/{backup} */
   backup?: string | undefined;
+}
+export interface RestoreProjectsLocationsInstancesRequest extends RestoreInstanceRequest {
+  /** Required. Instance being restored Format: projects/{project}/locations/{location}/instances/{instance} */
+  name: string;
 }
 /** Request options for undeleting an instance. */
 export type UndeleteInstanceRequest = CancelOperationRequest;
@@ -796,8 +633,8 @@ export const cancelProjectsLocationsOperations: API.OperationMethod<
   CancelProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c17, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
-  output: __S(576, __c18, 0) as any as S.Schema<Empty>,
+  input: __S(480, __c15, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
+  output: __S(512, __c16, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -818,8 +655,8 @@ export const createProjectsLocationsInstances: API.OperationMethod<
   CreateProjectsLocationsInstancesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c19, 0) as any as S.Schema<CreateProjectsLocationsInstancesRequest>,
-  output: __S(770, __c24, 2) as any as S.Schema<Operation>,
+  input: __S(544, __c17, 0) as any as S.Schema<CreateProjectsLocationsInstancesRequest>,
+  output: __S(706, __c22, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -840,8 +677,8 @@ export const createProjectsLocationsInstancesBackups: API.OperationMethod<
   CreateProjectsLocationsInstancesBackupsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c25, 0) as any as S.Schema<CreateProjectsLocationsInstancesBackupsRequest>,
-  output: __S(770, __c24, 2) as any as S.Schema<Operation>,
+  input: __S(736, __c23, 0) as any as S.Schema<CreateProjectsLocationsInstancesBackupsRequest>,
+  output: __S(706, __c22, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -862,8 +699,8 @@ export const deleteProjectsLocationsInstances: API.OperationMethod<
   DeleteProjectsLocationsInstancesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c26, 0) as any as S.Schema<DeleteProjectsLocationsInstancesRequest>,
-  output: __S(770, __c24, 2) as any as S.Schema<Operation>,
+  input: __S(800, __c25, 0) as any as S.Schema<DeleteProjectsLocationsInstancesRequest>,
+  output: __S(706, __c22, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -884,8 +721,8 @@ export const deleteProjectsLocationsInstancesBackups: API.OperationMethod<
   DeleteProjectsLocationsInstancesBackupsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c27, 0) as any as S.Schema<DeleteProjectsLocationsInstancesBackupsRequest>,
-  output: __S(770, __c24, 2) as any as S.Schema<Operation>,
+  input: __S(832, __c26, 0) as any as S.Schema<DeleteProjectsLocationsInstancesBackupsRequest>,
+  output: __S(706, __c22, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -906,8 +743,8 @@ export const deleteProjectsLocationsOperations: API.OperationMethod<
   DeleteProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c28, 0) as any as S.Schema<DeleteProjectsLocationsOperationsRequest>,
-  output: __S(576, __c18, 0) as any as S.Schema<Empty>,
+  input: __S(864, __c27, 0) as any as S.Schema<DeleteProjectsLocationsOperationsRequest>,
+  output: __S(512, __c16, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -928,8 +765,8 @@ export const exportProjectsLocationsInstances: API.OperationMethod<
   ExportProjectsLocationsInstancesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1, __c0, 1) as any as S.Schema<ExportProjectsLocationsInstancesRequest>,
-  output: __S(770, __c24, 2) as any as S.Schema<Operation>,
+  input: __S(2, __c0, 2) as any as S.Schema<ExportProjectsLocationsInstancesRequest>,
+  output: __S(706, __c22, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -963,7 +800,7 @@ export const getProjectsLocationsInstances: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c3, 0) as any as S.Schema<GetProjectsLocationsInstancesRequest>,
-  output: __S(128, __c4, 0) as any as S.Schema<Instance>,
+  output: __S(626, __c19, 18) as any as S.Schema<Instance>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -978,8 +815,8 @@ export const getProjectsLocationsInstancesBackups: API.OperationMethod<
   GetProjectsLocationsInstancesBackupsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c5, 0) as any as S.Schema<GetProjectsLocationsInstancesBackupsRequest>,
-  output: __S(192, __c6, 0) as any as S.Schema<InstanceBackup>,
+  input: __S(128, __c4, 0) as any as S.Schema<GetProjectsLocationsInstancesBackupsRequest>,
+  output: __S(768, __c24, 0) as any as S.Schema<InstanceBackup>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -995,8 +832,8 @@ export const getProjectsLocationsOperations: API.OperationMethod<
   GetProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c7, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
-  output: __S(770, __c24, 2) as any as S.Schema<Operation>,
+  input: __S(160, __c5, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
+  output: __S(706, __c22, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1017,8 +854,8 @@ export const importProjectsLocationsInstances: API.OperationMethod<
   ImportProjectsLocationsInstancesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c8, 0) as any as S.Schema<ImportProjectsLocationsInstancesRequest>,
-  output: __S(770, __c24, 2) as any as S.Schema<Operation>,
+  input: __S(193, __c6, 1) as any as S.Schema<ImportProjectsLocationsInstancesRequest>,
+  output: __S(706, __c22, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1035,8 +872,8 @@ export const listProjectsLocations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListLocationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(288, __c9, 0) as any as S.Schema<ListProjectsLocationsRequest>,
-  output: __S(290, __c9, 2) as any as S.Schema<ListLocationsResponse>,
+  input: __S(224, __c7, 0) as any as S.Schema<ListProjectsLocationsRequest>,
+  output: __S(226, __c7, 2) as any as S.Schema<ListLocationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1054,8 +891,8 @@ export const listProjectsLocationsInstances: API.PaginatedOperationMethod<
   GcpOpContext,
   ListInstancesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(320, __c10, 0) as any as S.Schema<ListProjectsLocationsInstancesRequest>,
-  output: __S(322, __c10, 2) as any as S.Schema<ListInstancesResponse>,
+  input: __S(256, __c8, 0) as any as S.Schema<ListProjectsLocationsInstancesRequest>,
+  output: __S(258, __c8, 2) as any as S.Schema<ListInstancesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1073,8 +910,8 @@ export const listProjectsLocationsInstancesBackups: API.PaginatedOperationMethod
   GcpOpContext,
   ListInstanceBackupsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(352, __c11, 0) as any as S.Schema<ListProjectsLocationsInstancesBackupsRequest>,
-  output: __S(354, __c11, 2) as any as S.Schema<ListInstanceBackupsResponse>,
+  input: __S(288, __c9, 0) as any as S.Schema<ListProjectsLocationsInstancesBackupsRequest>,
+  output: __S(290, __c9, 2) as any as S.Schema<ListInstanceBackupsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1092,8 +929,8 @@ export const listProjectsLocationsOperations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListOperationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(384, __c12, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
-  output: __S(386, __c12, 2) as any as S.Schema<ListOperationsResponse>,
+  input: __S(320, __c10, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
+  output: __S(322, __c10, 2) as any as S.Schema<ListOperationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1115,8 +952,8 @@ export const patchProjectsLocationsInstances: API.OperationMethod<
   PatchProjectsLocationsInstancesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c13, 0) as any as S.Schema<PatchProjectsLocationsInstancesRequest>,
-  output: __S(770, __c24, 2) as any as S.Schema<Operation>,
+  input: __S(352, __c11, 0) as any as S.Schema<PatchProjectsLocationsInstancesRequest>,
+  output: __S(706, __c22, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1137,8 +974,8 @@ export const restartProjectsLocationsInstances: API.OperationMethod<
   RestartProjectsLocationsInstancesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c14, 0) as any as S.Schema<RestartProjectsLocationsInstancesRequest>,
-  output: __S(770, __c24, 2) as any as S.Schema<Operation>,
+  input: __S(384, __c12, 0) as any as S.Schema<RestartProjectsLocationsInstancesRequest>,
+  output: __S(706, __c22, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1159,8 +996,8 @@ export const restoreProjectsLocationsInstances: API.OperationMethod<
   RestoreProjectsLocationsInstancesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c15, 0) as any as S.Schema<RestoreProjectsLocationsInstancesRequest>,
-  output: __S(770, __c24, 2) as any as S.Schema<Operation>,
+  input: __S(417, __c13, 1) as any as S.Schema<RestoreProjectsLocationsInstancesRequest>,
+  output: __S(706, __c22, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1181,8 +1018,8 @@ export const undeleteProjectsLocationsInstances: API.OperationMethod<
   UndeleteProjectsLocationsInstancesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c16, 0) as any as S.Schema<UndeleteProjectsLocationsInstancesRequest>,
-  output: __S(770, __c24, 2) as any as S.Schema<Operation>,
+  input: __S(448, __c14, 0) as any as S.Schema<UndeleteProjectsLocationsInstancesRequest>,
+  output: __S(706, __c22, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1202,10 +1039,18 @@ function __c0(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           encryptionConfig: S.optional(__S(0, __c0, 0)),
           gcsUri: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "ExportInstanceRequest" });
+    case 2:
+      return S.suspend(() =>
+        S.Extend(
+          __S(1, __c0, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:export",
@@ -1238,7 +1083,7 @@ function __c2(j: number): any {
           locationId: S.optional(S.String),
           name: S.optional(S.String),
           displayName: S.optional(S.String),
-          metadata: S.optional(__S(736, __c23, 0)),
+          metadata: S.optional(__S(672, __c21, 0)),
         }),
       ).annotate({ identifier: "Location" });
   }
@@ -1260,49 +1105,11 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          privateIpEnabled: S.optional(S.Boolean),
-          catalogIntegrationOptOut: S.optional(S.Boolean),
-          satisfiesPzs: S.optional(S.Boolean),
-          releaseChannel: S.optional(S.String),
-          pscEnabled: S.optional(S.Boolean),
-          adminSettings: S.optional(__S(672, __c21, 0)),
-          maintenanceWindow: S.optional(__S(674, __c21, 2)),
-          reservedRange: S.optional(S.String),
-          denyMaintenancePeriod: S.optional(__S(676, __c21, 4)),
-          controlledEgressEnabled: S.optional(S.Boolean),
-          authType: S.optional(__S(677, __c21, 5)),
-          lastDenyMaintenancePeriod: S.optional(__S(676, __c21, 4)),
-          ingressPublicIp: S.optional(S.String),
-          oauthConfig: S.optional(__S(678, __c21, 6)),
-          platformEdition: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          egressPublicIp: S.optional(S.String),
-          softDeleteReason: S.optional(S.String),
-          fipsEnabled: S.optional(S.Boolean),
-          ingressIpAllowlistConfig: S.optional(__S(681, __c21, 9)),
-          periodicExportConfig: S.optional(__S(682, __c21, 10)),
-          consumerNetwork: S.optional(S.String),
-          ingressPrivateIp: S.optional(S.String),
-          controlledEgressConfig: S.optional(__S(683, __c21, 11)),
-          createTime: S.optional(S.String),
-          linkedLspProjectNumber: S.optional(S.String),
-          name: S.optional(S.String),
-          lookerVersion: S.optional(S.String),
-          suspendedTime: S.optional(S.String),
-          classType: S.optional(S.String),
-          pscConfig: S.optional(__S(686, __c21, 14)),
-          state: S.optional(S.String),
-          publicIpEnabled: S.optional(S.Boolean),
-          satisfiesPzi: S.optional(S.Boolean),
-          lookerUri: S.optional(S.String),
-          geminiEnabled: S.optional(S.Boolean),
-          customDomain: S.optional(__S(687, __c21, 15)),
-          userMetadata: S.optional(__S(688, __c21, 16)),
-          acceleratedSecurityPatchEnabled: S.optional(S.Boolean),
-          encryptionConfig: S.optional(__S(704, __c22, 0)),
-          maintenanceSchedule: S.optional(__S(689, __c21, 17)),
-        }),
-      ).annotate({ identifier: "Instance" });
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://looker.googleapis.com/" }),
+        ),
+      ).annotate({ identifier: "GetProjectsLocationsInstancesBackupsRequest" });
   }
 }
 function __c5(j: number): any {
@@ -1314,7 +1121,7 @@ function __c5(j: number): any {
         }).pipe(
           T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://looker.googleapis.com/" }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsInstancesBackupsRequest" });
+      ).annotate({ identifier: "GetProjectsLocationsOperationsRequest" });
   }
 }
 function __c6(j: number): any {
@@ -1322,35 +1129,17 @@ function __c6(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          expireTime: S.optional(S.String),
-          createTime: S.optional(S.String),
-          encryptionConfig: S.optional(__S(704, __c22, 0)),
-          state: S.optional(S.String),
-          name: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "InstanceBackup" });
-  }
-}
-function __c7(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://looker.googleapis.com/" }),
-        ),
-      ).annotate({ identifier: "GetProjectsLocationsOperationsRequest" });
-  }
-}
-function __c8(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
           gcsUri: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "ImportInstanceRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(192, __c6, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:import",
@@ -1360,14 +1149,14 @@ function __c8(j: number): any {
       ).annotate({ identifier: "ImportProjectsLocationsInstancesRequest" });
   }
 }
-function __c9(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
-          extraLocationTypes: S.optional(__S(640, __c20, 0).pipe(T.Query())),
+          extraLocationTypes: S.optional(__S(576, __c18, 0).pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
@@ -1384,12 +1173,12 @@ function __c9(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          locations: S.optional(__S(289, __c9, 1)),
+          locations: S.optional(__S(225, __c7, 1)),
         }),
       ).annotate({ identifier: "ListLocationsResponse" });
   }
 }
-function __c10(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1407,18 +1196,18 @@ function __c10(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsInstancesRequest" });
     case 1:
-      return S.Array(__S(128, __c4, 0));
+      return S.Array(__S(626, __c19, 18));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          instances: S.optional(__S(321, __c10, 1)),
-          unreachable: S.optional(__S(640, __c20, 0)),
+          instances: S.optional(__S(257, __c8, 1)),
+          unreachable: S.optional(__S(576, __c18, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListInstancesResponse" });
   }
 }
-function __c11(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1436,18 +1225,18 @@ function __c11(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsInstancesBackupsRequest" });
     case 1:
-      return S.Array(__S(192, __c6, 0));
+      return S.Array(__S(768, __c24, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          instanceBackups: S.optional(__S(353, __c11, 1)),
+          instanceBackups: S.optional(__S(289, __c9, 1)),
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(640, __c20, 0)),
+          unreachable: S.optional(__S(576, __c18, 0)),
         }),
       ).annotate({ identifier: "ListInstanceBackupsResponse" });
   }
 }
-function __c12(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1466,77 +1255,40 @@ function __c12(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsOperationsRequest" });
     case 1:
-      return S.Array(__S(770, __c24, 2));
+      return S.Array(__S(706, __c22, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(640, __c20, 0)),
-          operations: S.optional(__S(385, __c12, 1)),
+          unreachable: S.optional(__S(576, __c18, 0)),
+          operations: S.optional(__S(321, __c10, 1)),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
   }
 }
-function __c13(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          privateIpEnabled: S.optional(S.Boolean),
-          catalogIntegrationOptOut: S.optional(S.Boolean),
-          satisfiesPzs: S.optional(S.Boolean),
-          releaseChannel: S.optional(S.String),
-          pscEnabled: S.optional(S.Boolean),
-          adminSettings: S.optional(__S(672, __c21, 0)),
-          maintenanceWindow: S.optional(__S(674, __c21, 2)),
-          reservedRange: S.optional(S.String),
-          denyMaintenancePeriod: S.optional(__S(676, __c21, 4)),
-          controlledEgressEnabled: S.optional(S.Boolean),
-          authType: S.optional(__S(677, __c21, 5)),
-          lastDenyMaintenancePeriod: S.optional(__S(676, __c21, 4)),
-          ingressPublicIp: S.optional(S.String),
-          oauthConfig: S.optional(__S(678, __c21, 6)),
-          platformEdition: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          egressPublicIp: S.optional(S.String),
-          softDeleteReason: S.optional(S.String),
-          fipsEnabled: S.optional(S.Boolean),
-          ingressIpAllowlistConfig: S.optional(__S(681, __c21, 9)),
-          periodicExportConfig: S.optional(__S(682, __c21, 10)),
-          consumerNetwork: S.optional(S.String),
-          ingressPrivateIp: S.optional(S.String),
-          controlledEgressConfig: S.optional(__S(683, __c21, 11)),
-          createTime: S.optional(S.String),
-          linkedLspProjectNumber: S.optional(S.String),
-          lookerVersion: S.optional(S.String),
-          suspendedTime: S.optional(S.String),
-          classType: S.optional(S.String),
-          pscConfig: S.optional(__S(686, __c21, 14)),
-          state: S.optional(S.String),
-          publicIpEnabled: S.optional(S.Boolean),
-          satisfiesPzi: S.optional(S.Boolean),
-          lookerUri: S.optional(S.String),
-          geminiEnabled: S.optional(S.Boolean),
-          customDomain: S.optional(__S(687, __c21, 15)),
-          userMetadata: S.optional(__S(688, __c21, 16)),
-          acceleratedSecurityPatchEnabled: S.optional(S.Boolean),
-          encryptionConfig: S.optional(__S(704, __c22, 0)),
-          maintenanceSchedule: S.optional(__S(689, __c21, 17)),
-        }).pipe(
+        S.Extend(
+          __S(626, __c19, 18),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://looker.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchProjectsLocationsInstancesRequest" });
   }
 }
-function __c14(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(576, __c18, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(512, __c16, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1547,14 +1299,22 @@ function __c14(j: number): any {
       ).annotate({ identifier: "RestartProjectsLocationsInstancesRequest" });
   }
 }
-function __c15(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           backup: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "RestoreInstanceRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(416, __c13, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:restore",
@@ -1564,13 +1324,13 @@ function __c15(j: number): any {
       ).annotate({ identifier: "RestoreProjectsLocationsInstancesRequest" });
   }
 }
-function __c16(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(576, __c18, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(512, __c16, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1581,13 +1341,13 @@ function __c16(j: number): any {
       ).annotate({ identifier: "UndeleteProjectsLocationsInstancesRequest" });
   }
 }
-function __c17(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(576, __c18, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(512, __c16, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1598,61 +1358,23 @@ function __c17(j: number): any {
       ).annotate({ identifier: "CancelProjectsLocationsOperationsRequest" });
   }
 }
-function __c18(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "CancelOperationRequest" });
   }
 }
-function __c19(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          instanceId: S.optional(S.String.pipe(T.Query())),
-          privateIpEnabled: S.optional(S.Boolean),
-          catalogIntegrationOptOut: S.optional(S.Boolean),
-          satisfiesPzs: S.optional(S.Boolean),
-          releaseChannel: S.optional(S.String),
-          pscEnabled: S.optional(S.Boolean),
-          adminSettings: S.optional(__S(672, __c21, 0)),
-          maintenanceWindow: S.optional(__S(674, __c21, 2)),
-          reservedRange: S.optional(S.String),
-          denyMaintenancePeriod: S.optional(__S(676, __c21, 4)),
-          controlledEgressEnabled: S.optional(S.Boolean),
-          authType: S.optional(__S(677, __c21, 5)),
-          lastDenyMaintenancePeriod: S.optional(__S(676, __c21, 4)),
-          ingressPublicIp: S.optional(S.String),
-          oauthConfig: S.optional(__S(678, __c21, 6)),
-          platformEdition: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          egressPublicIp: S.optional(S.String),
-          softDeleteReason: S.optional(S.String),
-          fipsEnabled: S.optional(S.Boolean),
-          ingressIpAllowlistConfig: S.optional(__S(681, __c21, 9)),
-          periodicExportConfig: S.optional(__S(682, __c21, 10)),
-          consumerNetwork: S.optional(S.String),
-          ingressPrivateIp: S.optional(S.String),
-          controlledEgressConfig: S.optional(__S(683, __c21, 11)),
-          createTime: S.optional(S.String),
-          linkedLspProjectNumber: S.optional(S.String),
-          name: S.optional(S.String),
-          lookerVersion: S.optional(S.String),
-          suspendedTime: S.optional(S.String),
-          classType: S.optional(S.String),
-          pscConfig: S.optional(__S(686, __c21, 14)),
-          state: S.optional(S.String),
-          publicIpEnabled: S.optional(S.Boolean),
-          satisfiesPzi: S.optional(S.Boolean),
-          lookerUri: S.optional(S.String),
-          geminiEnabled: S.optional(S.Boolean),
-          customDomain: S.optional(__S(687, __c21, 15)),
-          userMetadata: S.optional(__S(688, __c21, 16)),
-          acceleratedSecurityPatchEnabled: S.optional(S.Boolean),
-          encryptionConfig: S.optional(__S(704, __c22, 0)),
-          maintenanceSchedule: S.optional(__S(689, __c21, 17)),
-        }).pipe(
+        S.Extend(
+          __S(626, __c19, 18),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            instanceId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/instances",
@@ -1662,18 +1384,18 @@ function __c19(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsInstancesRequest" });
   }
 }
-function __c20(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c21(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          allowedEmailDomains: S.optional(__S(640, __c20, 0)),
+          allowedEmailDomains: S.optional(__S(576, __c18, 0)),
         }),
       ).annotate({ identifier: "AdminSettings" });
     case 1:
@@ -1689,7 +1411,7 @@ function __c21(j: number): any {
       return S.suspend(() =>
         S.Struct({
           dayOfWeek: S.optional(S.String),
-          startTime: S.optional(__S(673, __c21, 1)),
+          startTime: S.optional(__S(609, __c19, 1)),
         }),
       ).annotate({ identifier: "MaintenanceWindow" });
     case 3:
@@ -1703,9 +1425,9 @@ function __c21(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          startDate: S.optional(__S(675, __c21, 3)),
-          time: S.optional(__S(673, __c21, 1)),
-          endDate: S.optional(__S(675, __c21, 3)),
+          startDate: S.optional(__S(611, __c19, 3)),
+          time: S.optional(__S(609, __c19, 1)),
+          endDate: S.optional(__S(611, __c19, 3)),
         }),
       ).annotate({ identifier: "DenyMaintenancePeriod" });
     case 5:
@@ -1731,19 +1453,19 @@ function __c21(j: number): any {
         }),
       ).annotate({ identifier: "IngressIpAllowlistRule" });
     case 8:
-      return S.Array(__S(679, __c21, 7));
+      return S.Array(__S(615, __c19, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
           enabled: S.optional(S.Boolean),
-          allowlistRules: S.optional(__S(680, __c21, 8)),
+          allowlistRules: S.optional(__S(616, __c19, 8)),
           googleServicesEnabled: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "IngressIpAllowlistConfig" });
     case 10:
       return S.suspend(() =>
         S.Struct({
-          startTime: S.optional(__S(673, __c21, 1)),
+          startTime: S.optional(__S(609, __c19, 1)),
           kmsKey: S.optional(S.String),
           gcsUri: S.optional(S.String),
         }),
@@ -1752,14 +1474,14 @@ function __c21(j: number): any {
       return S.suspend(() =>
         S.Struct({
           marketplaceEnabled: S.optional(S.Boolean),
-          egressFqdns: S.optional(__S(640, __c20, 0)),
-          webProxyIps: S.optional(__S(640, __c20, 0)),
+          egressFqdns: S.optional(__S(576, __c18, 0)),
+          webProxyIps: S.optional(__S(576, __c18, 0)),
         }),
       ).annotate({ identifier: "ControlledEgressConfig" });
     case 12:
       return S.suspend(() =>
         S.Struct({
-          localFqdns: S.optional(__S(640, __c20, 0)),
+          localFqdns: S.optional(__S(576, __c18, 0)),
           failureReason: S.optional(S.String),
           targetServiceAttachmentUri: S.optional(S.String),
           connectionStatus: S.optional(S.String),
@@ -1767,13 +1489,13 @@ function __c21(j: number): any {
         }),
       ).annotate({ identifier: "ServiceAttachment" });
     case 13:
-      return S.Array(__S(684, __c21, 12));
+      return S.Array(__S(620, __c19, 12));
     case 14:
       return S.suspend(() =>
         S.Struct({
           lookerServiceAttachmentUri: S.optional(S.String),
-          allowedVpcs: S.optional(__S(640, __c20, 0)),
-          serviceAttachments: S.optional(__S(685, __c21, 13)),
+          allowedVpcs: S.optional(__S(576, __c18, 0)),
+          serviceAttachments: S.optional(__S(621, __c19, 13)),
         }),
       ).annotate({ identifier: "PscConfig" });
     case 15:
@@ -1798,9 +1520,55 @@ function __c21(j: number): any {
           startTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "MaintenanceSchedule" });
+    case 18:
+      return S.suspend(() =>
+        S.Struct({
+          privateIpEnabled: S.optional(S.Boolean),
+          catalogIntegrationOptOut: S.optional(S.Boolean),
+          satisfiesPzs: S.optional(S.Boolean),
+          releaseChannel: S.optional(S.String),
+          pscEnabled: S.optional(S.Boolean),
+          adminSettings: S.optional(__S(608, __c19, 0)),
+          maintenanceWindow: S.optional(__S(610, __c19, 2)),
+          reservedRange: S.optional(S.String),
+          denyMaintenancePeriod: S.optional(__S(612, __c19, 4)),
+          controlledEgressEnabled: S.optional(S.Boolean),
+          authType: S.optional(__S(613, __c19, 5)),
+          lastDenyMaintenancePeriod: S.optional(__S(612, __c19, 4)),
+          ingressPublicIp: S.optional(S.String),
+          oauthConfig: S.optional(__S(614, __c19, 6)),
+          platformEdition: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          egressPublicIp: S.optional(S.String),
+          softDeleteReason: S.optional(S.String),
+          fipsEnabled: S.optional(S.Boolean),
+          ingressIpAllowlistConfig: S.optional(__S(617, __c19, 9)),
+          periodicExportConfig: S.optional(__S(618, __c19, 10)),
+          consumerNetwork: S.optional(S.String),
+          ingressPrivateIp: S.optional(S.String),
+          controlledEgressConfig: S.optional(__S(619, __c19, 11)),
+          createTime: S.optional(S.String),
+          linkedLspProjectNumber: S.optional(S.String),
+          name: S.optional(S.String),
+          lookerVersion: S.optional(S.String),
+          suspendedTime: S.optional(S.String),
+          classType: S.optional(S.String),
+          pscConfig: S.optional(__S(622, __c19, 14)),
+          state: S.optional(S.String),
+          publicIpEnabled: S.optional(S.Boolean),
+          satisfiesPzi: S.optional(S.Boolean),
+          lookerUri: S.optional(S.String),
+          geminiEnabled: S.optional(S.Boolean),
+          customDomain: S.optional(__S(623, __c19, 15)),
+          userMetadata: S.optional(__S(624, __c19, 16)),
+          acceleratedSecurityPatchEnabled: S.optional(S.Boolean),
+          encryptionConfig: S.optional(__S(640, __c20, 0)),
+          maintenanceSchedule: S.optional(__S(625, __c19, 17)),
+        }),
+      ).annotate({ identifier: "Instance" });
   }
 }
-function __c22(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1812,20 +1580,20 @@ function __c22(j: number): any {
       ).annotate({ identifier: "EncryptionConfig" });
   }
 }
-function __c23(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c24(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(736, __c23, 0));
+      return S.Array(__S(672, __c21, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          details: S.optional(__S(768, __c24, 0)),
+          details: S.optional(__S(704, __c22, 0)),
           code: S.optional(S.Number),
           message: S.optional(S.String),
         }),
@@ -1833,27 +1601,25 @@ function __c24(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          metadata: S.optional(__S(736, __c23, 0)),
+          metadata: S.optional(__S(672, __c21, 0)),
           name: S.optional(S.String),
-          error: S.optional(__S(769, __c24, 1)),
-          response: S.optional(__S(736, __c23, 0)),
+          error: S.optional(__S(705, __c22, 1)),
+          response: S.optional(__S(672, __c21, 0)),
           done: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "Operation" });
   }
 }
-function __c25(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          expireTime: S.optional(S.String),
-          createTime: S.optional(S.String),
-          encryptionConfig: S.optional(__S(704, __c22, 0)),
-          state: S.optional(S.String),
-          name: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(768, __c24, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/backups",
@@ -1863,7 +1629,21 @@ function __c25(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsInstancesBackupsRequest" });
   }
 }
-function __c26(j: number): any {
+function __c24(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          expireTime: S.optional(S.String),
+          createTime: S.optional(S.String),
+          encryptionConfig: S.optional(__S(640, __c20, 0)),
+          state: S.optional(S.String),
+          name: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "InstanceBackup" });
+  }
+}
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1880,7 +1660,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsInstancesRequest" });
   }
 }
-function __c27(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1896,7 +1676,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsInstancesBackupsRequest" });
   }
 }
-function __c28(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

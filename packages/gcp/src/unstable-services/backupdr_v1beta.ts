@@ -83,11 +83,14 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
-export interface AbandonBackupProjectsLocationsBackupVaultsDataSourcesRequest {
-  /** Required. The resource name of the instance, in the format 'projects/*\/locations/*\/backupVaults/*\/dataSources/'. */
-  dataSource: string;
+/** request message for AbandonBackup. */
+export interface AbandonBackupRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
+}
+export interface AbandonBackupProjectsLocationsBackupVaultsDataSourcesRequest extends AbandonBackupRequest {
+  /** Required. The resource name of the instance, in the format 'projects/*\/locations/*\/backupVaults/*\/dataSources/'. */
+  dataSource: string;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -170,13 +173,8 @@ export interface BindingSummary {
   /** Output only. Total count of Projects protected with this policy. */
   projectCount?: string | undefined;
 }
-export interface CreateProjectsLocationsAutoProtectionPoliciesRequest {
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Required. The ID to use for the policy. This will become the final component of the policy's resource name. This value must start with a lowercase letter followed by up to 62 lowercase letters, numbers, or hyphens, and cannot end with a hyphen. */
-  autoProtectionPolicyId?: string | undefined;
-  /** Required. The parent resource where this policy will be created. Format: projects/{project}/locations/{location} */
-  parent: string;
+/** An AutoprotectionPolicy is a policy resource designed to automate backup management, moving from manual per-resource protection to a bulk approach. The policy dynamically discovers and applies a specified backup plan to all eligible resources that match its defined scope and criteria. */
+export interface AutoProtectionPolicy {
   /** Required. The backup plan details for matching resources. */
   backupPlanDetails?: BackupPlanDetailList | undefined;
   /** Output only. Summary of last policy application when job was run per workload type. */
@@ -198,6 +196,14 @@ export interface CreateProjectsLocationsAutoProtectionPoliciesRequest {
   /** Output only. Identifier. The resource name of the AutoprotectionPolicy. Format: `projects/{project}/locations/{location}/autoProtectionPolicies/{auto_protection_policy}` */
   name?: string | undefined;
 }
+export interface CreateProjectsLocationsAutoProtectionPoliciesRequest extends AutoProtectionPolicy {
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+  /** Required. The ID to use for the policy. This will become the final component of the policy's resource name. This value must start with a lowercase letter followed by up to 62 lowercase letters, numbers, or hyphens, and cannot end with a hyphen. */
+  autoProtectionPolicyId?: string | undefined;
+  /** Required. The parent resource where this policy will be created. Format: projects/{project}/locations/{location} */
+  parent: string;
+}
 export type AutoProtectionPolicyBindingStateEnum =
   | "STATE_UNSPECIFIED"
   | "CREATING"
@@ -212,13 +218,8 @@ export interface BindingEvaluationSummary {
   /** Output only. The number of resources that currently match the policy's criteria. */
   matchingResourceCount?: string | undefined;
 }
-export interface CreateProjectsLocationsAutoProtectionPoliciesBindingsRequest {
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Required. The parent resource where this binding will be created. Format: projects/{project}/locations/{location}/autoProtectionPolicies/{auto_protection_policy} */
-  parent: string;
-  /** Required. The ID to use for the binding. This will become the final component of the binding's resource name. This value must start with a lowercase letter followed by up to 62 lowercase letters, numbers, or hyphens, and cannot end with a hyphen. */
-  autoProtectionPolicyBindingId?: string | undefined;
+/** An AutoprotectionPolicyBinding (APPA) acts as the bridge between an AutoprotectionPolicy and the scope (Project, Folder, or Organization) where the policy should be applied. */
+export interface AutoProtectionPolicyBinding {
   /** Optional. Output only. The etag for the binding. If this is provided on update, it must match the server's etag. */
   etag?: string | undefined;
   /** Output only. The timestamp when the binding was last updated. */
@@ -235,6 +236,14 @@ export interface CreateProjectsLocationsAutoProtectionPoliciesBindingsRequest {
   createTime?: string | undefined;
   /** Required. Immutable. Resource Id of target container on which policy will be applied. Format: projects/{project_id} */
   scope?: string | undefined;
+}
+export interface CreateProjectsLocationsAutoProtectionPoliciesBindingsRequest extends AutoProtectionPolicyBinding {
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+  /** Required. The parent resource where this binding will be created. Format: projects/{project}/locations/{location}/autoProtectionPolicies/{auto_protection_policy} */
+  parent: string;
+  /** Required. The ID to use for the binding. This will become the final component of the binding's resource name. This value must start with a lowercase letter followed by up to 62 lowercase letters, numbers, or hyphens, and cannot end with a hyphen. */
+  autoProtectionPolicyBindingId?: string | undefined;
 }
 /** Cloud SQL instance's BPA properties. */
 export interface CloudSqlInstanceBackupPlanAssociationProperties {
@@ -280,13 +289,8 @@ export interface RuleConfigInfo {
   lastBackupError?: Status | undefined;
 }
 export type RuleConfigInfoList = Array<RuleConfigInfo>;
-export interface CreateProjectsLocationsBackupPlanAssociationsRequest {
-  /** Required. The name of the backup plan association to create. The name must be unique for the specified project and location. */
-  backupPlanAssociationId?: string | undefined;
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and t he request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Required. The backup plan association project and location in the format `projects/{project_id}/locations/{location}`. In Backup and DR locations map to Google Cloud regions, for example **us-central1**. */
-  parent: string;
+/** A BackupPlanAssociation represents a single BackupPlanAssociation which contains details like workload, backup plan etc */
+export interface BackupPlanAssociation {
   /** Output only. Cloud SQL instance's backup plan association properties. */
   cloudSqlInstanceBackupPlanAssociationProperties?:
     | CloudSqlInstanceBackupPlanAssociationProperties
@@ -327,6 +331,14 @@ export interface CreateProjectsLocationsBackupPlanAssociationsRequest {
     | undefined;
   /** Output only. The config info related to backup rules. */
   rulesConfigInfo?: RuleConfigInfoList | undefined;
+}
+export interface CreateProjectsLocationsBackupPlanAssociationsRequest extends BackupPlanAssociation {
+  /** Required. The name of the backup plan association to create. The name must be unique for the specified project and location. */
+  backupPlanAssociationId?: string | undefined;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and t he request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+  /** Required. The backup plan association project and location in the format `projects/{project_id}/locations/{location}`. In Backup and DR locations map to Google Cloud regions, for example **us-central1**. */
+  parent: string;
 }
 /** Properties for a disk backup plan. */
 export interface DiskBackupPlanProperties {
@@ -446,13 +458,8 @@ export interface BackupRule {
   backupVaultServiceAccount?: string | undefined;
 }
 export type BackupRuleList = Array<BackupRule>;
-export interface CreateProjectsLocationsBackupPlansRequest {
-  /** Required. The `BackupPlan` project and location in the format `projects/{project}/locations/{location}`. In Google Cloud Backup and DR locations map to Google Cloud regions, for example **us-central1**. */
-  parent: string;
-  /** Required. The name of the `BackupPlan` to create. The name must be unique for the specified project and location.The name must start with a lowercase letter followed by up to 62 lowercase letters, numbers, or hyphens. Pattern, /a-z{,62}/. */
-  backupPlanId?: string | undefined;
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and t he request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
+/** A `BackupPlan` specifies some common fields, such as `description` as well as one or more `BackupRule` messages. Each `BackupRule` has a retention policy and defines a schedule by which the system is to perform backup workloads. */
+export interface BackupPlan {
   /** Output only. Identifier. The resource name of the `BackupPlan`. Format: `projects/{project}/locations/{location}/backupPlans/{backup_plan}` */
   name?: string | undefined;
   /** Optional. Defines optional properties specific to backups of disk-based resources, such as Compute Engine Persistent Disks. This includes settings like whether to perform a guest flush. */
@@ -490,6 +497,14 @@ export interface CreateProjectsLocationsBackupPlansRequest {
   /** Output only. When the `BackupPlan` was created. */
   createTime?: string | undefined;
 }
+export interface CreateProjectsLocationsBackupPlansRequest extends BackupPlan {
+  /** Required. The `BackupPlan` project and location in the format `projects/{project}/locations/{location}`. In Google Cloud Backup and DR locations map to Google Cloud regions, for example **us-central1**. */
+  parent: string;
+  /** Required. The name of the `BackupPlan` to create. The name must be unique for the specified project and location.The name must start with a lowercase letter followed by up to 62 lowercase letters, numbers, or hyphens. Pattern, /a-z{,62}/. */
+  backupPlanId?: string | undefined;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and t he request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+}
 export type BackupVaultBackupRetentionInheritanceEnum =
   | "BACKUP_RETENTION_INHERITANCE_UNSPECIFIED"
   | "INHERIT_VAULT_RETENTION"
@@ -512,15 +527,8 @@ export type BackupVaultAccessRestrictionEnum =
   | "WITHIN_ORGANIZATION"
   | "UNRESTRICTED"
   | "WITHIN_ORG_BUT_UNRESTRICTED_FOR_BA";
-export interface CreateProjectsLocationsBackupVaultsRequest {
-  /** Required. ID of the requesting object If auto-generating ID server-side, remove this field and backup_vault_id from the method_signature of Create RPC */
-  backupVaultId?: string | undefined;
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Required. Value for parent. */
-  parent: string;
-  /** Optional. Only validate the request, but do not perform mutations. The default is 'false'. */
-  validateOnly?: boolean | undefined;
+/** Message describing a BackupVault object. */
+export interface BackupVault {
   /** Output only. Set to true when there are no backups nested under this resource. */
   deletable?: boolean | undefined;
   /** Output only. Service account used by the BackupVault Service for this BackupVault. The user should grant this account permissions in their workload project to enable the service to run backups and restores there. */
@@ -560,6 +568,16 @@ export interface CreateProjectsLocationsBackupVaultsRequest {
   labels?: StringMap | undefined;
   /** Optional. Restricts access to certain sources and destinations for data being sent into, or restored from, the backup vault. Defaults to WITHIN_ORGANIZATION if not provided during creation. */
   accessRestriction?: BackupVaultAccessRestrictionEnum | (string & {}) | undefined;
+}
+export interface CreateProjectsLocationsBackupVaultsRequest extends BackupVault {
+  /** Required. ID of the requesting object If auto-generating ID server-side, remove this field and backup_vault_id from the method_signature of Create RPC */
+  backupVaultId?: string | undefined;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+  /** Required. Value for parent. */
+  parent: string;
+  /** Optional. Only validate the request, but do not perform mutations. The default is 'false'. */
+  validateOnly?: boolean | undefined;
 }
 export type ManagementServerTypeEnum = "INSTANCE_TYPE_UNSPECIFIED" | "BACKUP_RESTORE";
 /** ManagementURI depending on the Workforce Identity i.e. either 1p or 3p. */
@@ -601,13 +619,8 @@ export interface WorkforceIdentityBasedOAuth2ClientID {
   /** Output only. Third party OAuth Client ID for External Identity Providers. */
   thirdPartyOauth2ClientId?: string | undefined;
 }
-export interface CreateProjectsLocationsManagementServersRequest {
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Required. The name of the management server to create. The name must be unique for the specified project and location. */
-  managementServerId?: string | undefined;
-  /** Required. The management server project and location in the format 'projects/{project_id}/locations/{location}'. In Google Cloud Backup and DR locations map to Google Cloud regions, for example **us-central1**. */
-  parent: string;
+/** ManagementServer describes a single BackupDR ManagementServer instance. */
+export interface ManagementServer {
   /** Optional. The type of the ManagementServer resource. */
   type?: ManagementServerTypeEnum | (string & {}) | undefined;
   /** Output only. The time when the instance was updated. */
@@ -640,6 +653,14 @@ export interface CreateProjectsLocationsManagementServersRequest {
   workforceIdentityBasedOauth2ClientId?: WorkforceIdentityBasedOAuth2ClientID | undefined;
   /** Output only. Identifier. The resource name. */
   name?: string | undefined;
+}
+export interface CreateProjectsLocationsManagementServersRequest extends ManagementServer {
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+  /** Required. The name of the management server to create. The name must be unique for the specified project and location. */
+  managementServerId?: string | undefined;
+  /** Required. The management server project and location in the format 'projects/{project_id}/locations/{location}'. In Google Cloud Backup and DR locations map to Google Cloud regions, for example **us-central1**. */
+  parent: string;
 }
 export type ExecutionSummaryLastExecutionStateEnum =
   | "EXECUTION_STATE_UNSPECIFIED"
@@ -681,13 +702,8 @@ export interface BackupSelectionConfig {
   /** Required. Immutable. The fully qualified URI of the backupdr data source. */
   dataSource?: string | undefined;
 }
-export interface CreateProjectsLocationsRestoreTemplatesRequest {
-  /** Required. The ID of the restore template to create. The ID must be unique for the specified project and location. */
-  restoreTemplateId?: string | undefined;
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Required. The restore template project and location in the format 'projects/{project_id}/locations/{location}'. */
-  parent: string;
+/** A `RestoreTemplate` encapsulates DR readiness configurations for validating backups. */
+export interface RestoreTemplate {
   /** Optional. User-defined labels. */
   labels?: StringMap | undefined;
   /** Optional. Etag for concurrency control. */
@@ -717,6 +733,14 @@ export interface CreateProjectsLocationsRestoreTemplatesRequest {
   /** Required. Backup selection configuration. */
   backupSelectionConfig?: BackupSelectionConfig | undefined;
 }
+export interface CreateProjectsLocationsRestoreTemplatesRequest extends RestoreTemplate {
+  /** Required. The ID of the restore template to create. The ID must be unique for the specified project and location. */
+  restoreTemplateId?: string | undefined;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+  /** Required. The restore template project and location in the format 'projects/{project_id}/locations/{location}'. */
+  parent: string;
+}
 /** Defines the specific cleanup action. */
 export interface RestoreVerificationCleanupRule {
   /** Optional. Duration after restore finishes when cleanup triggers. Delay must be non-negative and at most 30 days (2592000 seconds). */
@@ -732,13 +756,8 @@ export type RestoreVerificationPlanStateEnum =
   | "INACTIVE"
   | "UPDATING"
   | "ERROR";
-export interface CreateProjectsLocationsRestoreVerificationPlansRequest {
-  /** Required. The `RestoreVerificationPlan` project and location in the format `projects/{project}/locations/{location}`. In Google Cloud Backup and DR locations map to Google Cloud regions, for example **us-central1**. */
-  parent: string;
-  /** Required. The name of the `RestoreVerificationPlan` to create. The name must be unique for the specified project and location. The name must start with a lowercase letter followed by up to 62 lowercase letters, numbers, or hyphens. Pattern, `^[a-z]([-a-z0-9]*[a-z0-9])?$`. */
-  restoreVerificationPlanId?: string | undefined;
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
+/** A `RestoreVerificationPlan` specifies the scheduling and clean-up template for automated restore verification. It contains a `RestoreVerificationSchedule` to dictate when the verifications should run, and a `CleanupConfig` for post-verification resource deletion. */
+export interface RestoreVerificationPlan {
   /** Output only. When the `RestoreVerificationPlan` was last updated. */
   updateTime?: string | undefined;
   /** Required. Describes the schedule on which the restore verification will be executed. The schedule is specified as a [Crontab](https://en.wikipedia.org/wiki/Cron#Overview) string. */
@@ -760,6 +779,14 @@ export interface CreateProjectsLocationsRestoreVerificationPlansRequest {
   /** Optional. The cleanup rule to apply if the restore verification fails. */
   failureCleanupRule?: RestoreVerificationCleanupRule | undefined;
 }
+export interface CreateProjectsLocationsRestoreVerificationPlansRequest extends RestoreVerificationPlan {
+  /** Required. The `RestoreVerificationPlan` project and location in the format `projects/{project}/locations/{location}`. In Google Cloud Backup and DR locations map to Google Cloud regions, for example **us-central1**. */
+  parent: string;
+  /** Required. The name of the `RestoreVerificationPlan` to create. The name must be unique for the specified project and location. The name must start with a lowercase letter followed by up to 62 lowercase letters, numbers, or hyphens. Pattern, `^[a-z]([-a-z0-9]*[a-z0-9])?$`. */
+  restoreVerificationPlanId?: string | undefined;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+}
 /** `TriggerSummary` contains the results of the most recent automated restore initiation and the next scheduled execution time. */
 export interface TriggerSummary {
   /** Output only. The time of the most recent trigger initiation. */
@@ -779,13 +806,8 @@ export type RestoreVerificationPlanAssociationStateEnum =
   | "INACTIVE"
   | "UPDATING"
   | "ERROR";
-export interface CreateProjectsLocationsRestoreVerificationPlansAssociationsRequest {
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know that the server has already received the duplicate request and can avoid responding with an error. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Required. The parent resource where this association will be created. Format: `projects/{project}/locations/{location}/restoreVerificationPlans/{restore_verification_plan}` */
-  parent: string;
-  /** Required. The ID to use for the association, which will become the final component of the association's resource name. This value should be 1-63 characters, and valid characters are /[a-z0-9_-]/. */
-  restoreVerificationPlanAssociationId?: string | undefined;
+/** A `RestoreVerificationPlanAssociation` binds a specific workload to a `RestoreVerificationPlan`. */
+export interface RestoreVerificationPlanAssociation {
   /** Output only. Results of the most recent automated restore initiation and the next scheduled execution time. */
   triggerSummary?: TriggerSummary | undefined;
   /** Output only. The time when the association was created. */
@@ -804,6 +826,14 @@ export interface CreateProjectsLocationsRestoreVerificationPlansAssociationsRequ
   restoreTemplate?: string | undefined;
   /** Output only. The time when the association was updated. */
   updateTime?: string | undefined;
+}
+export interface CreateProjectsLocationsRestoreVerificationPlansAssociationsRequest extends RestoreVerificationPlanAssociation {
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know that the server has already received the duplicate request and can avoid responding with an error. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+  /** Required. The parent resource where this association will be created. Format: `projects/{project}/locations/{location}/restoreVerificationPlans/{restore_verification_plan}` */
+  parent: string;
+  /** Required. The ID to use for the association, which will become the final component of the association's resource name. This value should be 1-63 characters, and valid characters are /[a-z0-9_-]/. */
+  restoreVerificationPlanAssociationId?: string | undefined;
 }
 export interface DeleteProjectsLocationsAutoProtectionPoliciesRequest {
   /** Required. The name of the policy to delete. Format: projects/{project}/locations/{location}/autoProtectionPolicies/{auto_protection_policy} */
@@ -885,11 +915,14 @@ export type EndTrialRequestEndReasonEnum =
   | "END_REASON_UNSPECIFIED"
   | "MOVE_TO_PAID"
   | "DISCONTINUED";
-export interface EndProjectsLocationsTrialRequest {
-  /** Required. The parent resource where the trial has been created. Format: projects/{project}/locations/{location} */
-  parent: string;
+/** Request message for ending a trial. */
+export interface EndTrialRequest {
   /** Required. The reason for ending the trial. */
   endReason?: EndTrialRequestEndReasonEnum | (string & {}) | undefined;
+}
+export interface EndProjectsLocationsTrialRequest extends EndTrialRequest {
+  /** Required. The parent resource where the trial has been created. Format: projects/{project}/locations/{location} */
+  parent: string;
 }
 export type TrialStateEnum =
   | "STATE_UNSPECIFIED"
@@ -912,11 +945,14 @@ export interface Trial {
   /** Output only. The time when the trial was subscribed. */
   startTime?: string | undefined;
 }
-export interface FetchAccessTokenProjectsLocationsBackupVaultsDataSourcesRequest {
-  /** Required. The resource name for the location for which static IPs should be returned. Must be in the format 'projects/*\/locations/*\/backupVaults/*\/dataSources'. */
-  name: string;
+/** Request message for FetchAccessToken. */
+export interface FetchAccessTokenRequest {
   /** Required. The generation of the backup to update. */
   generationId?: number | undefined;
+}
+export interface FetchAccessTokenProjectsLocationsBackupVaultsDataSourcesRequest extends FetchAccessTokenRequest {
+  /** Required. The resource name for the location for which static IPs should be returned. Must be in the format 'projects/*\/locations/*\/backupVaults/*\/dataSources'. */
+  name: string;
 }
 /** Response message for FetchAccessToken. */
 export interface FetchAccessTokenResponse {
@@ -1057,49 +1093,6 @@ export interface FetchForResourceTypeProjectsLocationsBackupPlanAssociationsRequ
   resourceType?: string | undefined;
   /** Required. The parent resource name. Format: projects/{project}/locations/{location} */
   parent: string;
-}
-/** A BackupPlanAssociation represents a single BackupPlanAssociation which contains details like workload, backup plan etc */
-export interface BackupPlanAssociation {
-  /** Output only. Cloud SQL instance's backup plan association properties. */
-  cloudSqlInstanceBackupPlanAssociationProperties?:
-    | CloudSqlInstanceBackupPlanAssociationProperties
-    | undefined;
-  /** Output only. The user friendly revision ID of the `BackupPlanRevision`. Example: v0, v1, v2, etc. */
-  backupPlanRevisionId?: string | undefined;
-  /** Output only. Resource name of data source which will be used as storage location for backups taken. Format : projects/{project}/locations/{location}/backupVaults/{backupvault}/dataSources/{datasource} */
-  dataSource?: string | undefined;
-  /** Output only. The BackupPlanAssociation resource state. */
-  state?: BackupPlanAssociationStateEnum | undefined;
-  /** Output only. The time when the instance was created. */
-  createTime?: string | undefined;
-  /** Required. Immutable. Resource type of workload on which backupplan is applied */
-  resourceType?: string | undefined;
-  /** Output only. Identifier. The resource name of BackupPlanAssociation in below format Format : projects/{project}/locations/{location}/backupPlanAssociations/{backupPlanAssociationId} */
-  name?: string | undefined;
-  /** Output only. The time when the instance was updated. */
-  updateTime?: string | undefined;
-  /** Output only. NetApp volume backup plan association properties. */
-  netappVolumeBackupPlanAssociationProperties?:
-    | NetAppVolumeBackupPlanAssociationProperties
-    | undefined;
-  /** Output only. The resource id of the `BackupPlanRevision`. Format: `projects/{project}/locations/{location}/backupPlans/{backup_plan}/revisions/{revision_id}` */
-  backupPlanRevisionName?: string | undefined;
-  /** Output only. The resource name of the `AutoProtectionPolicyBinding` that manages this association, if any. Format: `projects/{project}/locations/{location}/autoProtectionPolicies/{policy}/bindings/{binding}`. */
-  autoProtectionPolicyBinding?: string | undefined;
-  /** Required. Resource name of backup plan which needs to be applied on workload. Format: projects/{project}/locations/{location}/backupPlans/{backupPlanId} */
-  backupPlan?: string | undefined;
-  /** Output only. AlloyDB cluster's backup plan association properties. */
-  alloydbClusterBackupPlanAssociationProperties?:
-    | AlloyDBClusterBackupPlanAssociationProperties
-    | undefined;
-  /** Required. Immutable. Resource name of workload on which the backup plan is applied. The format can either be the resource name (e.g., "projects/my-project/zones/us-central1-a/instances/my-instance") or the full resource URI (e.g., "https://www.googleapis.com/compute/v1/projects/my-project/zones/us-central1-a/instances/my-instance"). */
-  resource?: string | undefined;
-  /** Output only. Filestore instance's backup plan association properties. */
-  filestoreInstanceBackupPlanAssociationProperties?:
-    | CloudSqlInstanceBackupPlanAssociationProperties
-    | undefined;
-  /** Output only. The config info related to backup rules. */
-  rulesConfigInfo?: RuleConfigInfoList | undefined;
 }
 export type BackupPlanAssociationList = Array<BackupPlanAssociation>;
 /** Response for the FetchBackupPlanAssociationsForResourceType method. */
@@ -1590,13 +1583,13 @@ export interface Backup {
   /** Output only. The list of BackupLocks taken by the service to prevent the deletion of the backup. */
   serviceLocks?: BackupLockList | undefined;
   /** Output only. Type of the backup, unspecified, scheduled or ondemand. */
-  backupType?: BackupBackupTypeEnum | undefined;
+  backupType?: BackupBackupTypeEnum | (string & {}) | undefined;
   /** Output only. Compute Engine specific backup properties. */
   computeInstanceBackupProperties?: ComputeInstanceBackupProperties | undefined;
   /** Output only. AlloyDB specific backup properties. */
   alloyDbBackupProperties?: AlloyDbClusterBackupProperties | undefined;
   /** Output only. The Backup resource instance state. */
-  state?: BackupStateEnum | undefined;
+  state?: BackupStateEnum | (string & {}) | undefined;
   /** Output only. Cloud SQL specific backup properties. */
   cloudSqlInstanceBackupProperties?: CloudSqlInstanceBackupProperties | undefined;
   /** Output only. Configuration for a Google Cloud resource. */
@@ -1616,7 +1609,7 @@ export interface Backup {
   /** Output only. Filestore specific backup properties. */
   filestoreInstanceBackupProperties?: FilestoreInstanceBackupProperties | undefined;
   /** Output only. Setting for how the enforced retention end time is inherited. This value is copied from this backup's BackupVault. */
-  backupRetentionInheritance?: BackupBackupRetentionInheritanceEnum | undefined;
+  backupRetentionInheritance?: BackupBackupRetentionInheritanceEnum | (string & {}) | undefined;
   /** Output only. The time when the instance was updated. */
   updateTime?: string | undefined;
   /** Optional. Resource labels to represent user provided metadata. No labels currently defined. */
@@ -1786,45 +1779,6 @@ export interface FetchUsableProjectsLocationsBackupVaultsRequest {
   /** Optional. Hint for how to order the results. */
   orderBy?: string | undefined;
 }
-/** Message describing a BackupVault object. */
-export interface BackupVault {
-  /** Output only. Set to true when there are no backups nested under this resource. */
-  deletable?: boolean | undefined;
-  /** Output only. Service account used by the BackupVault Service for this BackupVault. The user should grant this account permissions in their workload project to enable the service to run backups and restores there. */
-  serviceAccount?: string | undefined;
-  /** Output only. Total size of the storage used by all backup resources. */
-  totalStoredBytes?: string | undefined;
-  /** Optional. Setting for how a backup's enforced retention end time is inherited. */
-  backupRetentionInheritance?: BackupVaultBackupRetentionInheritanceEnum | undefined;
-  /** Optional. The description of the BackupVault instance (2048 characters or less). */
-  description?: string | undefined;
-  /** Output only. Identifier. Name of the backup vault to create. It must have the format`"projects/{project}/locations/{location}/backupVaults/{backupvault}"`. `{backupvault}` cannot be changed after creation. It must be between 3-63 characters long and must be unique within the project and location. */
-  name?: string | undefined;
-  /** Required. The default and minimum enforced retention for each backup within the backup vault. The enforced retention for each backup can be extended. Note: Longer minimum enforced retention period impacts potential storage costs post introductory trial. We recommend starting with a short duration of 3 days or less. */
-  backupMinimumEnforcedRetentionDuration?: string | undefined;
-  /** Output only. The time when the instance was created. */
-  createTime?: string | undefined;
-  /** Optional. Time after which the BackupVault resource is locked. */
-  effectiveTime?: string | undefined;
-  /** Optional. Server specified ETag for the backup vault resource to prevent simultaneous updates from overwiting each other. */
-  etag?: string | undefined;
-  /** Output only. The BackupVault resource instance state. */
-  state?: BackupVaultStateEnum | undefined;
-  /** Output only. The number of backups in this backup vault. */
-  backupCount?: string | undefined;
-  /** Optional. User annotations. See https://google.aip.dev/128#annotations Stores small amounts of arbitrary data. */
-  annotations?: StringMap | undefined;
-  /** Output only. Immutable after resource creation until resource deletion. */
-  uid?: string | undefined;
-  /** Output only. The time when the instance was updated. */
-  updateTime?: string | undefined;
-  /** Optional. The encryption config of the backup vault. */
-  encryptionConfig?: EncryptionConfig | undefined;
-  /** Optional. Resource labels to represent user provided metadata. No labels currently defined: */
-  labels?: StringMap | undefined;
-  /** Optional. Restricts access to certain sources and destinations for data being sent into, or restored from, the backup vault. Defaults to WITHIN_ORGANIZATION if not provided during creation. */
-  accessRestriction?: BackupVaultAccessRestrictionEnum | undefined;
-}
 export type BackupVaultList = Array<BackupVault>;
 /** Response message for fetching usable BackupVaults. */
 export interface FetchUsableBackupVaultsResponse {
@@ -1835,9 +1789,8 @@ export interface FetchUsableBackupVaultsResponse {
   /** The list of BackupVault instances in the project for the specified location. If the '{location}' value in the request is "-", the response contains a list of instances from all locations. In case any location is unreachable, the response will only return backup vaults in reachable locations and the 'unreachable' field will be populated with a list of unreachable locations. */
   backupVaults?: BackupVaultList | undefined;
 }
-export interface FinalizeBackupProjectsLocationsBackupVaultsDataSourcesRequest {
-  /** Required. The resource name of the instance, in the format 'projects/*\/locations/*\/backupVaults/*\/dataSources/'. */
-  dataSource: string;
+/** Message for finalizing a Backup. */
+export interface FinalizeBackupRequest {
   /** The ExpireTime on the backup will be set to FinalizeTime plus this duration. If the resulting ExpireTime is less than EnforcedRetentionEndTime, then ExpireTime is set to EnforcedRetentionEndTime. */
   retentionDuration?: string | undefined;
   /** This will be assigned to the description field of the newly created Backup. */
@@ -1852,6 +1805,10 @@ export interface FinalizeBackupProjectsLocationsBackupVaultsDataSourcesRequest {
   recoveryRangeStartTime?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
+}
+export interface FinalizeBackupProjectsLocationsBackupVaultsDataSourcesRequest extends FinalizeBackupRequest {
+  /** Required. The resource name of the instance, in the format 'projects/*\/locations/*\/backupVaults/*\/dataSources/'. */
+  dataSource: string;
 }
 export interface GetIamPolicyProjectsLocationsManagementServersRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
@@ -1933,51 +1890,9 @@ export interface GetProjectsLocationsAutoProtectionPoliciesRequest {
   /** Required. The name of the policy to retrieve. Format: projects/{project}/locations/{location}/autoProtectionPolicies/{auto_protection_policy} */
   name: string;
 }
-/** An AutoprotectionPolicy is a policy resource designed to automate backup management, moving from manual per-resource protection to a bulk approach. The policy dynamically discovers and applies a specified backup plan to all eligible resources that match its defined scope and criteria. */
-export interface AutoProtectionPolicy {
-  /** Required. The backup plan details for matching resources. */
-  backupPlanDetails?: BackupPlanDetailList | undefined;
-  /** Output only. Summary of last policy application when job was run per workload type. */
-  policyEvaluationSummary?: PolicyEvaluationSummary | undefined;
-  /** Required. The criteria for matching resources. */
-  criteria?: Criteria | undefined;
-  /** Optional. A description of the policy. The description must be at most 2048 characters. */
-  description?: string | undefined;
-  /** Output only. The etag for the policy. If this is provided on update, it must match the server's etag, otherwise the request will be rejected with an ABORTED error. */
-  etag?: string | undefined;
-  /** Output only. The current state of the AutoprotectionPolicy. */
-  state?: AutoProtectionPolicyStateEnum | undefined;
-  /** Output only. The timestamp when the policy was last updated. */
-  updateTime?: string | undefined;
-  /** Output only. Summary of total count of different containers covered through this policy. */
-  bindingSummary?: BindingSummary | undefined;
-  /** Output only. The timestamp when the policy was created. */
-  createTime?: string | undefined;
-  /** Output only. Identifier. The resource name of the AutoprotectionPolicy. Format: `projects/{project}/locations/{location}/autoProtectionPolicies/{auto_protection_policy}` */
-  name?: string | undefined;
-}
 export interface GetProjectsLocationsAutoProtectionPoliciesBindingsRequest {
   /** Required. The name of the binding to retrieve. Format: projects/{project}/locations/{location}/autoProtectionPolicies/{auto_protection_policy}/bindings/{binding} */
   name: string;
-}
-/** An AutoprotectionPolicyBinding (APPA) acts as the bridge between an AutoprotectionPolicy and the scope (Project, Folder, or Organization) where the policy should be applied. */
-export interface AutoProtectionPolicyBinding {
-  /** Optional. Output only. The etag for the binding. If this is provided on update, it must match the server's etag. */
-  etag?: string | undefined;
-  /** Output only. The timestamp when the binding was last updated. */
-  updateTime?: string | undefined;
-  /** Output only. Identifier. The resource name of the AutoProtectionPolicyBinding. Format: `projects/{project}/locations/{location}/autoProtectionPolicies/{auto_protection_policy}/bindings/{binding}` */
-  name?: string | undefined;
-  /** Output only. The current state of the AutoProtectionPolicyBinding. */
-  state?: AutoProtectionPolicyBindingStateEnum | undefined;
-  /** Optional. A description of the binding. The description must be at most 2048 characters. */
-  description?: string | undefined;
-  /** Output only. Summaries of the last policy application when the job has run, with one entry per resource type specified in the AutoProtectionPolicy. */
-  bindingEvaluationSummary?: BindingEvaluationSummary | undefined;
-  /** Output only. The timestamp when the binding was created. */
-  createTime?: string | undefined;
-  /** Required. Immutable. Resource Id of target container on which policy will be applied. Format: projects/{project_id} */
-  scope?: string | undefined;
 }
 export interface GetProjectsLocationsAutoProtectionPoliciesBindingsMatchingResourcesRequest {
   /** Required. The name of the matching resource to retrieve. Format: projects/{project}/locations/{location}/autoProtectionPolicies/{auto_protection_policy}/bindings/{binding}/matchingResources/{matching_resource} */
@@ -2018,45 +1933,6 @@ export interface GetProjectsLocationsBackupPlanAssociationsRequest {
 export interface GetProjectsLocationsBackupPlansRequest {
   /** Required. The resource name of the `BackupPlan` to retrieve. Format: `projects/{project}/locations/{location}/backupPlans/{backup_plan}` */
   name: string;
-}
-/** A `BackupPlan` specifies some common fields, such as `description` as well as one or more `BackupRule` messages. Each `BackupRule` has a retention policy and defines a schedule by which the system is to perform backup workloads. */
-export interface BackupPlan {
-  /** Output only. Identifier. The resource name of the `BackupPlan`. Format: `projects/{project}/locations/{location}/backupPlans/{backup_plan}` */
-  name?: string | undefined;
-  /** Optional. Defines optional properties specific to backups of disk-based resources, such as Compute Engine Persistent Disks. This includes settings like whether to perform a guest flush. */
-  diskBackupPlanProperties?: DiskBackupPlanProperties | undefined;
-  /** Required. Resource name of backup vault which will be used as storage location for backups. Format: projects/{project}/locations/{location}/backupVaults/{backupvault} */
-  backupVault?: string | undefined;
-  /** Optional. Defines optional properties specific to backups of compute instance based resources, such as Compute Engine Instances. This includes settings like whether to perform a guest flush. */
-  computeInstanceBackupPlanProperties?: ComputeInstanceBackupPlanProperties | undefined;
-  /** Output only. The user friendly revision ID of the `BackupPlanRevision`. Example: v0, v1, v2, etc. */
-  revisionId?: string | undefined;
-  /** Optional. `etag` is returned from the service in the response. As a user of the service, you may provide an etag value in this field to prevent stale resources. */
-  etag?: string | undefined;
-  /** Optional. The description of the `BackupPlan` resource. The description allows for additional details about `BackupPlan` and its use cases to be provided. An example description is the following: "This is a backup plan that performs a daily backup at 6pm and retains data for 3 months". The description must be at most 2048 characters. */
-  description?: string | undefined;
-  /** Optional. Optional field to configure the maximum number of days for which a backup can be retained. This field is only applicable for on-demand backups taken with custom retention value. */
-  maxCustomOnDemandRetentionDays?: number | undefined;
-  /** Output only. The `State` for the `BackupPlan`. */
-  state?: BackupPlanStateEnum | undefined;
-  /** Output only. The resource id of the `BackupPlanRevision`. Format: `projects/{project}/locations/{location}/backupPlans/{backup_plan}/revisions/{revision_id}` */
-  revisionName?: string | undefined;
-  /** Optional. This collection of key/value pairs allows for custom labels to be supplied by the user. Example, {"tag": "Weekly"}. */
-  labels?: StringMap | undefined;
-  /** Output only. The Google Cloud service account to be used by the BackupVault for taking backups. Specify the email address of the Backup Vault Service Account. */
-  backupVaultServiceAccount?: string | undefined;
-  /** Output only. When the `BackupPlan` was last updated. */
-  updateTime?: string | undefined;
-  /** Required. The resource type to which the `BackupPlan` will be applied. Examples include, "compute.googleapis.com/Instance", "sqladmin.googleapis.com/Instance", "alloydb.googleapis.com/Cluster", "compute.googleapis.com/Disk". */
-  resourceType?: string | undefined;
-  /** Optional. Applicable only for Cloud SQL resource_type. Configures how long logs will be stored. It is defined in "days". This value should be greater than or equal to minimum enforced log retention duration of the backup vault. */
-  logRetentionDays?: string | undefined;
-  /** Optional. The backup rules for this `BackupPlan`. */
-  backupRules?: BackupRuleList | undefined;
-  /** Output only. All resource types to which backupPlan can be applied. */
-  supportedResourceTypes?: StringList | undefined;
-  /** Output only. When the `BackupPlan` was created. */
-  createTime?: string | undefined;
 }
 export interface GetProjectsLocationsBackupPlansRevisionsRequest {
   /** Required. The resource name of the `BackupPlanRevision` to retrieve. Format: `projects/{project}/locations/{location}/backupPlans/{backup_plan}/revisions/{revision}` */
@@ -2278,9 +2154,9 @@ export interface DataSource {
   /** Output only. The time when the instance was created. */
   createTime?: string | undefined;
   /** Output only. The backup configuration state. */
-  configState?: DataSourceConfigStateEnum | undefined;
+  configState?: DataSourceConfigStateEnum | (string & {}) | undefined;
   /** Output only. The DataSource resource instance state. */
-  state?: DataSourceStateEnum | undefined;
+  state?: DataSourceStateEnum | (string & {}) | undefined;
   /** Output only. Identifier. Name of the datasource to create. It must have the format`"projects/{project}/locations/{location}/backupVaults/{backupvault}/dataSources/{datasource}"`. `{datasource}` cannot be changed after creation. It must be between 3-63 characters long and must be unique within the backup vault. */
   name?: string | undefined;
   /** Output only. The time when the instance was updated. */
@@ -2312,41 +2188,6 @@ export interface GetProjectsLocationsManagementServersRequest {
   /** Required. Name of the management server resource name, in the format 'projects/{project_id}/locations/{location}/managementServers/{resource_name}' */
   name: string;
 }
-/** ManagementServer describes a single BackupDR ManagementServer instance. */
-export interface ManagementServer {
-  /** Optional. The type of the ManagementServer resource. */
-  type?: ManagementServerTypeEnum | undefined;
-  /** Output only. The time when the instance was updated. */
-  updateTime?: string | undefined;
-  /** Optional. The description of the ManagementServer instance (2048 characters or less). */
-  description?: string | undefined;
-  /** Output only. The hostnames of the exposed AGM endpoints for both types of user i.e. 1p and 3p, used to connect AGM/RM UI. */
-  workforceIdentityBasedManagementUri?: WorkforceIdentityBasedManagementURI | undefined;
-  /** Optional. VPC networks to which the ManagementServer instance is connected. For this version, only a single network is supported. This field is optional if MS is created without PSA */
-  networks?: NetworkConfigList | undefined;
-  /** Output only. Reserved for future use. */
-  satisfiesPzs?: boolean | undefined;
-  /** Output only. The OAuth 2.0 client id is required to make API calls to the Backup and DR instance API of this ManagementServer. This is the value that should be provided in the 'aud' field of the OIDC ID Token (see openid specification https://openid.net/specs/openid-connect-core-1_0.html#IDToken). */
-  oauth2ClientId?: string | undefined;
-  /** Output only. The hostname or ip address of the exposed AGM endpoints, used by BAs to connect to BA proxy. */
-  baProxyUri?: StringList | undefined;
-  /** Output only. The time when the instance was created. */
-  createTime?: string | undefined;
-  /** Optional. Resource labels to represent user provided metadata. Labels currently defined: 1. migrate_from_go= If set to true, the MS is created in migration ready mode. */
-  labels?: StringMap | undefined;
-  /** Optional. Server specified ETag for the ManagementServer resource to prevent simultaneous updates from overwiting each other. */
-  etag?: string | undefined;
-  /** Output only. The hostname or ip address of the exposed AGM endpoints, used by clients to connect to AGM/RD graphical user interface and APIs. */
-  managementUri?: ManagementURI | undefined;
-  /** Output only. Reserved for future use. */
-  satisfiesPzi?: boolean | undefined;
-  /** Output only. The ManagementServer state. */
-  state?: ManagementServerStateEnum | undefined;
-  /** Output only. The OAuth client IDs for both types of user i.e. 1p and 3p. */
-  workforceIdentityBasedOauth2ClientId?: WorkforceIdentityBasedOAuth2ClientID | undefined;
-  /** Output only. Identifier. The resource name. */
-  name?: string | undefined;
-}
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -2354,37 +2195,6 @@ export interface GetProjectsLocationsOperationsRequest {
 export interface GetProjectsLocationsRestoreTemplatesRequest {
   /** Required. The name of the restore template to retrieve. Format: 'projects/{project_id}/locations/{location}/restoreTemplates/{restore_template_id}' */
   name: string;
-}
-/** A `RestoreTemplate` encapsulates DR readiness configurations for validating backups. */
-export interface RestoreTemplate {
-  /** Optional. User-defined labels. */
-  labels?: StringMap | undefined;
-  /** Optional. Etag for concurrency control. */
-  etag?: string | undefined;
-  /** Output only. Summary of the last execution. */
-  executionSummary?: ExecutionSummary | undefined;
-  /** Required. Immutable. The specific type of the workload being restored. The format is "{service_name}/{resource_kind}", for example, "compute.googleapis.com/Instance". */
-  resourceType?: string | undefined;
-  /** Identifier. The resource name of the RestoreTemplate. */
-  name?: string | undefined;
-  /** Output only. The state of the restore template. */
-  state?: RestoreTemplateStateEnum | undefined;
-  /** Output only. The time when the restore template was last updated. */
-  updateTime?: string | undefined;
-  /** Optional. Verification configuration. */
-  verificationConfig?: VerificationConfig | undefined;
-  /** Optional. Pre-restore configuration. */
-  preRestoreConfig?: PreRestoreConfig | undefined;
-  /** Optional. Post-restore configuration. */
-  postRestoreConfig?: VerificationConfig | undefined;
-  /** Optional. User-provided description of the restore template. */
-  description?: string | undefined;
-  /** Required. Defines target environments where the resource will be restored. The target resource name in `restore_properties` supports the `{EXECUTION_ID}` token to dynamically generate unique resource names for each execution. During restore execution, every occurrence of `{EXECUTION_ID}` in the target resource name is replaced with the 8-character `RestoreTemplateExecution` ID (for example, `"restored-resource-{EXECUTION_ID}"` or `"restored-{EXECUTION_ID}-resource"` resolves to `"restored-resource-5d437b06"` or `"restored-5d437b06-resource"`). */
-  restoreProperties?: DocumentMap | undefined;
-  /** Output only. The time when the restore template was created. */
-  createTime?: string | undefined;
-  /** Required. Backup selection configuration. */
-  backupSelectionConfig?: BackupSelectionConfig | undefined;
 }
 export interface GetProjectsLocationsRestoreTemplatesExecutionsRequest {
   /** Required. The name of the restore template execution to retrieve. Format: 'projects/{project_id}/locations/{location}/restoreTemplates/{restore_template_id}/executions/{execution_id}' */
@@ -2596,53 +2406,9 @@ export interface GetProjectsLocationsRestoreVerificationPlansRequest {
   /** Required. The resource name of the `RestoreVerificationPlan` to retrieve. Format: `projects/{project}/locations/{location}/restoreVerificationPlans/{restoreVerificationPlan}` */
   name: string;
 }
-/** A `RestoreVerificationPlan` specifies the scheduling and clean-up template for automated restore verification. It contains a `RestoreVerificationSchedule` to dictate when the verifications should run, and a `CleanupConfig` for post-verification resource deletion. */
-export interface RestoreVerificationPlan {
-  /** Output only. When the `RestoreVerificationPlan` was last updated. */
-  updateTime?: string | undefined;
-  /** Required. Describes the schedule on which the restore verification will be executed. The schedule is specified as a [Crontab](https://en.wikipedia.org/wiki/Cron#Overview) string. */
-  schedule?: string | undefined;
-  /** Optional. User-defined labels. */
-  labels?: StringMap | undefined;
-  /** Optional. The cleanup rule to apply if the restore verification succeeds. */
-  successCleanupRule?: RestoreVerificationCleanupRule | undefined;
-  /** Optional. Specifies the time zone to be used in interpreting schedule. The value of this field must be a time zone name from the [tz database](https://en.wikipedia.org/wiki/Tz_database), like "America/New_York" or "UTC". Defaults to `UTC` if not specified. */
-  timeZone?: string | undefined;
-  /** Output only. The `State` for the `RestoreVerificationPlan`. */
-  state?: RestoreVerificationPlanStateEnum | undefined;
-  /** Optional. The description of the `RestoreVerificationPlan` resource. The description allows for additional details about `RestoreVerificationPlan` and its use cases to be provided. An example description is the following: "This is a restore verification plan that performs a daily verification and cleans up the resources immediately after." The description must be at most 2048 characters. */
-  description?: string | undefined;
-  /** Output only. When the `RestoreVerificationPlan` was created. */
-  createTime?: string | undefined;
-  /** Output only. Identifier. The resource name of the `RestoreVerificationPlan`. Format: `projects/{project}/locations/{location}/restoreVerificationPlans/{restoreVerificationPlan}` */
-  name?: string | undefined;
-  /** Optional. The cleanup rule to apply if the restore verification fails. */
-  failureCleanupRule?: RestoreVerificationCleanupRule | undefined;
-}
 export interface GetProjectsLocationsRestoreVerificationPlansAssociationsRequest {
   /** Required. The resource name of the RestoreVerificationPlanAssociation to retrieve. Format: `projects/{project}/locations/{location}/restoreVerificationPlans/{restore_verification_plan}/associations/{association}` */
   name: string;
-}
-/** A `RestoreVerificationPlanAssociation` binds a specific workload to a `RestoreVerificationPlan`. */
-export interface RestoreVerificationPlanAssociation {
-  /** Output only. Results of the most recent automated restore initiation and the next scheduled execution time. */
-  triggerSummary?: TriggerSummary | undefined;
-  /** Output only. The time when the association was created. */
-  createTime?: string | undefined;
-  /** Output only. The `State` for the `RestoreVerificationPlanAssociation`. */
-  state?: RestoreVerificationPlanAssociationStateEnum | undefined;
-  /** Output only. Identifier. The resource name of RestoreVerificationPlanAssociation in below format Format : projects/{project}/locations/{location}/restoreVerificationPlans/{restore_verification_plan}/associations/{association} */
-  name?: string | undefined;
-  /** Required. Immutable. The type of the Google Cloud resource (e.g., `compute.googleapis.com/Instance`, `sqladmin.googleapis.com/Instance`). */
-  resourceType?: string | undefined;
-  /** Optional. User-defined labels. */
-  labels?: StringMap | undefined;
-  /** Optional. The description of the `RestoreVerificationPlanAssociation` resource. */
-  description?: string | undefined;
-  /** Required. Immutable. The canonical name of the RestoreTemplate to trigger. */
-  restoreTemplate?: string | undefined;
-  /** Output only. The time when the association was updated. */
-  updateTime?: string | undefined;
 }
 export interface GetTrialProjectsLocationsRequest {
   /** Required. The project for which trial details need to be retrieved. Format: projects/{project}/locations/{location} Supported Locations are - us, eu and asia. */
@@ -2657,9 +2423,8 @@ export interface CloudSqlInstanceInitializationConfig {
   /** Required. The edition of the Cloud SQL instance. */
   edition?: CloudSqlInstanceInitializationConfigEditionEnum | (string & {}) | undefined;
 }
-export interface InitializeProjectsLocationsServiceConfigRequest {
-  /** Required. The resource name of the serviceConfig used to initialize the service. The location must be the location of the BackupVault. Format: `projects/{project_id}/locations/{location}/serviceConfig`. */
-  name: string;
+/** Request message for initializing the service. */
+export interface InitializeServiceRequest {
   /** Optional. The location where the BackupPlan will be created. This field is required for multi-region BackupVaults and is optional for regional BackupVaults. It is useful when creating a Backup Vault in a multi-region, allowing the BackupPlan to reside in a specific region within that multi-region. If this field is not provided, the BackupPlan will be created in the same location as specified in the `name` field. */
   backupPlanLocation?: string | undefined;
   /** Required. The resource type to which the default service config will be applied. Examples include, "compute.googleapis.com/Instance" and "storage.googleapis.com/Bucket". */
@@ -2671,13 +2436,20 @@ export interface InitializeProjectsLocationsServiceConfigRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and t he request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
 }
-export interface InitiateBackupProjectsLocationsBackupVaultsDataSourcesRequest {
-  /** Required. The resource name of the instance, in the format 'projects/*\/locations/*\/backupVaults/*\/dataSources/'. */
-  dataSource: string;
+export interface InitializeProjectsLocationsServiceConfigRequest extends InitializeServiceRequest {
+  /** Required. The resource name of the serviceConfig used to initialize the service. The location must be the location of the BackupVault. Format: `projects/{project_id}/locations/{location}/serviceConfig`. */
+  name: string;
+}
+/** request message for InitiateBackup. */
+export interface InitiateBackupRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Required. Resource ID of the Backup resource. */
   backupId?: string | undefined;
+}
+export interface InitiateBackupProjectsLocationsBackupVaultsDataSourcesRequest extends InitiateBackupRequest {
+  /** Required. The resource name of the instance, in the format 'projects/*\/locations/*\/backupVaults/*\/dataSources/'. */
+  dataSource: string;
 }
 /** Response message for InitiateBackup. */
 export interface InitiateBackupResponse {
@@ -2688,13 +2460,16 @@ export interface InitiateBackupResponse {
   /** The name of the backup that was created. */
   backup?: string | undefined;
 }
-export interface InitiateDeleteProjectsLocationsAutoProtectionPoliciesBindingsRequest {
-  /** Required. The name of the binding to delete. Format: projects/{project}/locations/{location}/autoProtectionPolicies/{auto_protection_policy}/bindings/{binding} */
-  name: string;
+/** Request message for initiating delete of an AutoProtectionPolicyBinding. */
+export interface InitiateDeleteAutoProtectionPolicyBindingRequest {
   /** Optional. The current etag of the AutoProtectionPolicyBinding. If an etag is provided and does not match the current etag of the binding, deletion will be blocked and an ABORTED error will be returned. */
   etag?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
+}
+export interface InitiateDeleteProjectsLocationsAutoProtectionPoliciesBindingsRequest extends InitiateDeleteAutoProtectionPolicyBindingRequest {
+  /** Required. The name of the binding to delete. Format: projects/{project}/locations/{location}/autoProtectionPolicies/{auto_protection_policy}/bindings/{binding} */
+  name: string;
 }
 export interface ListProjectsLocationsRequest {
   /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
@@ -3133,132 +2908,51 @@ export interface ListRestoreVerificationPlanAssociationsResponse {
   /** The list of RestoreVerificationPlanAssociations. */
   restoreVerificationPlanAssociations?: RestoreVerificationPlanAssociationList | undefined;
 }
-export interface MsComplianceMetadataProjectsLocationsManagementServersRequest {
-  /** Required. The project and location to be used to check CSS metadata for target project information, in the format 'projects/{project_id}/locations/{location}'. In Google Cloud Backup and DR, locations map to Google Cloud regions, for example **us-central1**. */
-  parent: string;
+/** Request message for GetMsComplianceMetadata */
+export interface FetchMsComplianceMetadataRequest {
   /** Required. The project id of the target project */
   projectId?: string | undefined;
+}
+export interface MsComplianceMetadataProjectsLocationsManagementServersRequest extends FetchMsComplianceMetadataRequest {
+  /** Required. The project and location to be used to check CSS metadata for target project information, in the format 'projects/{project_id}/locations/{location}'. In Google Cloud Backup and DR, locations map to Google Cloud regions, for example **us-central1**. */
+  parent: string;
 }
 /** Response message for GetMsComplianceMetadata */
 export interface FetchMsComplianceMetadataResponse {
   /** The ms compliance metadata of the target project, if the project is an Assured Workloads project, values will be true, otherwise false. */
   isAssuredWorkload?: boolean | undefined;
 }
-export interface PatchProjectsLocationsAutoProtectionPoliciesRequest {
+export interface PatchProjectsLocationsAutoProtectionPoliciesRequest extends Omit<
+  AutoProtectionPolicy,
+  "name"
+> {
   /** Optional. Field mask is used to specify the fields to be overwritten in the AutoProtectionPolicy resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Output only. Identifier. The resource name of the AutoprotectionPolicy. Format: `projects/{project}/locations/{location}/autoProtectionPolicies/{auto_protection_policy}` */
   name: string;
-  /** Required. The backup plan details for matching resources. */
-  backupPlanDetails?: BackupPlanDetailList | undefined;
-  /** Output only. Summary of last policy application when job was run per workload type. */
-  policyEvaluationSummary?: PolicyEvaluationSummary | undefined;
-  /** Required. The criteria for matching resources. */
-  criteria?: Criteria | undefined;
-  /** Optional. A description of the policy. The description must be at most 2048 characters. */
-  description?: string | undefined;
-  /** Output only. The etag for the policy. If this is provided on update, it must match the server's etag, otherwise the request will be rejected with an ABORTED error. */
-  etag?: string | undefined;
-  /** Output only. The current state of the AutoprotectionPolicy. */
-  state?: AutoProtectionPolicyStateEnum | (string & {}) | undefined;
-  /** Output only. The timestamp when the policy was last updated. */
-  updateTime?: string | undefined;
-  /** Output only. Summary of total count of different containers covered through this policy. */
-  bindingSummary?: BindingSummary | undefined;
-  /** Output only. The timestamp when the policy was created. */
-  createTime?: string | undefined;
 }
-export interface PatchProjectsLocationsBackupPlanAssociationsRequest {
+export interface PatchProjectsLocationsBackupPlanAssociationsRequest extends Omit<
+  BackupPlanAssociation,
+  "name"
+> {
   /** Required. The list of fields to update. Field mask is used to specify the fields to be overwritten in the BackupPlanAssociation resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then the request will fail. Currently backup_plan_association.backup_plan is the only supported field. */
   updateMask?: string | undefined;
   /** Output only. Identifier. The resource name of BackupPlanAssociation in below format Format : projects/{project}/locations/{location}/backupPlanAssociations/{backupPlanAssociationId} */
   name: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and t he request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Output only. Cloud SQL instance's backup plan association properties. */
-  cloudSqlInstanceBackupPlanAssociationProperties?:
-    | CloudSqlInstanceBackupPlanAssociationProperties
-    | undefined;
-  /** Output only. The user friendly revision ID of the `BackupPlanRevision`. Example: v0, v1, v2, etc. */
-  backupPlanRevisionId?: string | undefined;
-  /** Output only. Resource name of data source which will be used as storage location for backups taken. Format : projects/{project}/locations/{location}/backupVaults/{backupvault}/dataSources/{datasource} */
-  dataSource?: string | undefined;
-  /** Output only. The BackupPlanAssociation resource state. */
-  state?: BackupPlanAssociationStateEnum | (string & {}) | undefined;
-  /** Output only. The time when the instance was created. */
-  createTime?: string | undefined;
-  /** Required. Immutable. Resource type of workload on which backupplan is applied */
-  resourceType?: string | undefined;
-  /** Output only. The time when the instance was updated. */
-  updateTime?: string | undefined;
-  /** Output only. NetApp volume backup plan association properties. */
-  netappVolumeBackupPlanAssociationProperties?:
-    | NetAppVolumeBackupPlanAssociationProperties
-    | undefined;
-  /** Output only. The resource id of the `BackupPlanRevision`. Format: `projects/{project}/locations/{location}/backupPlans/{backup_plan}/revisions/{revision_id}` */
-  backupPlanRevisionName?: string | undefined;
-  /** Output only. The resource name of the `AutoProtectionPolicyBinding` that manages this association, if any. Format: `projects/{project}/locations/{location}/autoProtectionPolicies/{policy}/bindings/{binding}`. */
-  autoProtectionPolicyBinding?: string | undefined;
-  /** Required. Resource name of backup plan which needs to be applied on workload. Format: projects/{project}/locations/{location}/backupPlans/{backupPlanId} */
-  backupPlan?: string | undefined;
-  /** Output only. AlloyDB cluster's backup plan association properties. */
-  alloydbClusterBackupPlanAssociationProperties?:
-    | AlloyDBClusterBackupPlanAssociationProperties
-    | undefined;
-  /** Required. Immutable. Resource name of workload on which the backup plan is applied. The format can either be the resource name (e.g., "projects/my-project/zones/us-central1-a/instances/my-instance") or the full resource URI (e.g., "https://www.googleapis.com/compute/v1/projects/my-project/zones/us-central1-a/instances/my-instance"). */
-  resource?: string | undefined;
-  /** Output only. Filestore instance's backup plan association properties. */
-  filestoreInstanceBackupPlanAssociationProperties?:
-    | CloudSqlInstanceBackupPlanAssociationProperties
-    | undefined;
-  /** Output only. The config info related to backup rules. */
-  rulesConfigInfo?: RuleConfigInfoList | undefined;
 }
-export interface PatchProjectsLocationsBackupPlansRequest {
+export interface PatchProjectsLocationsBackupPlansRequest extends Omit<BackupPlan, "name"> {
   /** Output only. Identifier. The resource name of the `BackupPlan`. Format: `projects/{project}/locations/{location}/backupPlans/{backup_plan}` */
   name: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and t he request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Required. The list of fields to update. Field mask is used to specify the fields to be overwritten in the BackupPlan resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then the request will fail. Currently, these fields are supported in update: description, schedules, retention period, adding and removing Backup Rules. */
   updateMask?: string | undefined;
-  /** Optional. Defines optional properties specific to backups of disk-based resources, such as Compute Engine Persistent Disks. This includes settings like whether to perform a guest flush. */
-  diskBackupPlanProperties?: DiskBackupPlanProperties | undefined;
-  /** Required. Resource name of backup vault which will be used as storage location for backups. Format: projects/{project}/locations/{location}/backupVaults/{backupvault} */
-  backupVault?: string | undefined;
-  /** Optional. Defines optional properties specific to backups of compute instance based resources, such as Compute Engine Instances. This includes settings like whether to perform a guest flush. */
-  computeInstanceBackupPlanProperties?: ComputeInstanceBackupPlanProperties | undefined;
-  /** Output only. The user friendly revision ID of the `BackupPlanRevision`. Example: v0, v1, v2, etc. */
-  revisionId?: string | undefined;
-  /** Optional. `etag` is returned from the service in the response. As a user of the service, you may provide an etag value in this field to prevent stale resources. */
-  etag?: string | undefined;
-  /** Optional. The description of the `BackupPlan` resource. The description allows for additional details about `BackupPlan` and its use cases to be provided. An example description is the following: "This is a backup plan that performs a daily backup at 6pm and retains data for 3 months". The description must be at most 2048 characters. */
-  description?: string | undefined;
-  /** Optional. Optional field to configure the maximum number of days for which a backup can be retained. This field is only applicable for on-demand backups taken with custom retention value. */
-  maxCustomOnDemandRetentionDays?: number | undefined;
-  /** Output only. The `State` for the `BackupPlan`. */
-  state?: BackupPlanStateEnum | (string & {}) | undefined;
-  /** Output only. The resource id of the `BackupPlanRevision`. Format: `projects/{project}/locations/{location}/backupPlans/{backup_plan}/revisions/{revision_id}` */
-  revisionName?: string | undefined;
-  /** Optional. This collection of key/value pairs allows for custom labels to be supplied by the user. Example, {"tag": "Weekly"}. */
-  labels?: StringMap | undefined;
-  /** Output only. The Google Cloud service account to be used by the BackupVault for taking backups. Specify the email address of the Backup Vault Service Account. */
-  backupVaultServiceAccount?: string | undefined;
-  /** Output only. When the `BackupPlan` was last updated. */
-  updateTime?: string | undefined;
-  /** Required. The resource type to which the `BackupPlan` will be applied. Examples include, "compute.googleapis.com/Instance", "sqladmin.googleapis.com/Instance", "alloydb.googleapis.com/Cluster", "compute.googleapis.com/Disk". */
-  resourceType?: string | undefined;
-  /** Optional. Applicable only for Cloud SQL resource_type. Configures how long logs will be stored. It is defined in "days". This value should be greater than or equal to minimum enforced log retention duration of the backup vault. */
-  logRetentionDays?: string | undefined;
-  /** Optional. The backup rules for this `BackupPlan`. */
-  backupRules?: BackupRuleList | undefined;
-  /** Output only. All resource types to which backupPlan can be applied. */
-  supportedResourceTypes?: StringList | undefined;
-  /** Output only. When the `BackupPlan` was created. */
-  createTime?: string | undefined;
 }
-export interface PatchProjectsLocationsBackupVaultsRequest {
+export interface PatchProjectsLocationsBackupVaultsRequest extends Omit<BackupVault, "name"> {
   /** Optional. If set to true, we will force update access restriction even if some non compliant data sources are present. The default is 'false'. */
   forceUpdateAccessRestriction?: boolean | undefined;
   /** Optional. If set to true, will not check plan duration against backup vault enforcement duration. */
@@ -3271,45 +2965,11 @@ export interface PatchProjectsLocationsBackupVaultsRequest {
   requestId?: string | undefined;
   /** Optional. Only validate the request, but do not perform mutations. The default is 'false'. */
   validateOnly?: boolean | undefined;
-  /** Output only. Set to true when there are no backups nested under this resource. */
-  deletable?: boolean | undefined;
-  /** Output only. Service account used by the BackupVault Service for this BackupVault. The user should grant this account permissions in their workload project to enable the service to run backups and restores there. */
-  serviceAccount?: string | undefined;
-  /** Output only. Total size of the storage used by all backup resources. */
-  totalStoredBytes?: string | undefined;
-  /** Optional. Setting for how a backup's enforced retention end time is inherited. */
-  backupRetentionInheritance?:
-    | BackupVaultBackupRetentionInheritanceEnum
-    | (string & {})
-    | undefined;
-  /** Optional. The description of the BackupVault instance (2048 characters or less). */
-  description?: string | undefined;
-  /** Required. The default and minimum enforced retention for each backup within the backup vault. The enforced retention for each backup can be extended. Note: Longer minimum enforced retention period impacts potential storage costs post introductory trial. We recommend starting with a short duration of 3 days or less. */
-  backupMinimumEnforcedRetentionDuration?: string | undefined;
-  /** Output only. The time when the instance was created. */
-  createTime?: string | undefined;
-  /** Optional. Time after which the BackupVault resource is locked. */
-  effectiveTime?: string | undefined;
-  /** Optional. Server specified ETag for the backup vault resource to prevent simultaneous updates from overwiting each other. */
-  etag?: string | undefined;
-  /** Output only. The BackupVault resource instance state. */
-  state?: BackupVaultStateEnum | (string & {}) | undefined;
-  /** Output only. The number of backups in this backup vault. */
-  backupCount?: string | undefined;
-  /** Optional. User annotations. See https://google.aip.dev/128#annotations Stores small amounts of arbitrary data. */
-  annotations?: StringMap | undefined;
-  /** Output only. Immutable after resource creation until resource deletion. */
-  uid?: string | undefined;
-  /** Output only. The time when the instance was updated. */
-  updateTime?: string | undefined;
-  /** Optional. The encryption config of the backup vault. */
-  encryptionConfig?: EncryptionConfig | undefined;
-  /** Optional. Resource labels to represent user provided metadata. No labels currently defined: */
-  labels?: StringMap | undefined;
-  /** Optional. Restricts access to certain sources and destinations for data being sent into, or restored from, the backup vault. Defaults to WITHIN_ORGANIZATION if not provided during creation. */
-  accessRestriction?: BackupVaultAccessRestrictionEnum | (string & {}) | undefined;
 }
-export interface PatchProjectsLocationsBackupVaultsDataSourcesRequest {
+export interface PatchProjectsLocationsBackupVaultsDataSourcesRequest extends Omit<
+  DataSource,
+  "name"
+> {
   /** Required. Field mask is used to specify the fields to be overwritten in the DataSource resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then the request will fail. */
   updateMask?: string | undefined;
   /** Optional. Enable upsert. */
@@ -3318,94 +2978,22 @@ export interface PatchProjectsLocationsBackupVaultsDataSourcesRequest {
   requestId?: string | undefined;
   /** Output only. Identifier. Name of the datasource to create. It must have the format`"projects/{project}/locations/{location}/backupVaults/{backupvault}/dataSources/{datasource}"`. `{datasource}` cannot be changed after creation. It must be between 3-63 characters long and must be unique within the backup vault. */
   name: string;
-  /** Output only. Details of how the resource is configured for backup. */
-  backupConfigInfo?: BackupConfigInfo | undefined;
-  /** Server specified ETag for the ManagementServer resource to prevent simultaneous updates from overwiting each other. */
-  etag?: string | undefined;
-  /** Number of backups in the data source. */
-  backupCount?: string | undefined;
-  /** Optional. Resource labels to represent user provided metadata. No labels currently defined: */
-  labels?: StringMap | undefined;
-  /** Output only. The time when the instance was created. */
-  createTime?: string | undefined;
-  /** Output only. The backup configuration state. */
-  configState?: DataSourceConfigStateEnum | (string & {}) | undefined;
-  /** Output only. The DataSource resource instance state. */
-  state?: DataSourceStateEnum | (string & {}) | undefined;
-  /** Output only. The time when the instance was updated. */
-  updateTime?: string | undefined;
-  /** The number of bytes (metadata and data) stored in this datasource. */
-  totalStoredBytes?: string | undefined;
-  /** The backed up resource is a Google Cloud resource. The word 'DataSource' was included in the names to indicate that this is the representation of the Google Cloud resource used within the DataSource object. */
-  dataSourceGcpResource?: DataSourceGcpResource | undefined;
-  /** The backed up resource is a backup appliance application. */
-  dataSourceBackupApplianceApplication?: DataSourceBackupApplianceApplication | undefined;
-  /** Output only. This field is set to true if the backup is blocked by vault access restriction. */
-  backupBlockedByVaultAccessRestriction?: boolean | undefined;
 }
-export interface PatchProjectsLocationsBackupVaultsDataSourcesBackupsRequest {
+export interface PatchProjectsLocationsBackupVaultsDataSourcesBackupsRequest extends Omit<
+  Backup,
+  "name"
+> {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Required. Field mask is used to specify the fields to be overwritten in the Backup resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then the request will fail. */
   updateMask?: string | undefined;
   /** Output only. Identifier. Name of the backup to create. It must have the format`"projects//locations//backupVaults//dataSources/{datasource}/backups/{backup}"`. `{backup}` cannot be changed after creation. It must be between 3-63 characters long and must be unique within the datasource. */
   name: string;
-  /** Optional. Output only. Reserved for future use. */
-  satisfiesPzs?: boolean | undefined;
-  /** Optional. When this backup is automatically expired. */
-  expireTime?: string | undefined;
-  /** Output only. The point in time when this backup was captured from the source. */
-  consistencyTime?: string | undefined;
-  /** Output only. The list of BackupLocks taken by the service to prevent the deletion of the backup. */
-  serviceLocks?: BackupLockList | undefined;
-  /** Output only. Type of the backup, unspecified, scheduled or ondemand. */
-  backupType?: BackupBackupTypeEnum | (string & {}) | undefined;
-  /** Output only. Compute Engine specific backup properties. */
-  computeInstanceBackupProperties?: ComputeInstanceBackupProperties | undefined;
-  /** Output only. AlloyDB specific backup properties. */
-  alloyDbBackupProperties?: AlloyDbClusterBackupProperties | undefined;
-  /** Output only. The Backup resource instance state. */
-  state?: BackupStateEnum | (string & {}) | undefined;
-  /** Output only. Cloud SQL specific backup properties. */
-  cloudSqlInstanceBackupProperties?: CloudSqlInstanceBackupProperties | undefined;
-  /** Output only. Configuration for a Google Cloud resource. */
-  gcpBackupPlanInfo?: GCPBackupPlanInfo | undefined;
-  /** Optional. The backup can not be deleted before this time. */
-  enforcedRetentionEndTime?: string | undefined;
-  /** Optional. The list of BackupLocks taken by the accessor Backup Appliance. */
-  backupApplianceLocks?: BackupLockList | undefined;
-  /** Output only. The time when the instance was created. */
-  createTime?: string | undefined;
-  /** Optional. Server specified ETag to prevent updates from overwriting each other. */
-  etag?: string | undefined;
-  /** Output only. The restore verification status of the backup. */
-  verificationSummary?: VerificationSummary | undefined;
-  /** Output only. Backup Appliance specific backup properties. */
-  backupApplianceBackupProperties?: BackupApplianceBackupProperties | undefined;
-  /** Output only. Filestore specific backup properties. */
-  filestoreInstanceBackupProperties?: FilestoreInstanceBackupProperties | undefined;
-  /** Output only. Setting for how the enforced retention end time is inherited. This value is copied from this backup's BackupVault. */
-  backupRetentionInheritance?: BackupBackupRetentionInheritanceEnum | (string & {}) | undefined;
-  /** Output only. The time when the instance was updated. */
-  updateTime?: string | undefined;
-  /** Optional. Resource labels to represent user provided metadata. No labels currently defined. */
-  labels?: StringMap | undefined;
-  /** Output only. Disk specific backup properties. */
-  diskBackupProperties?: DiskBackupProperties | undefined;
-  /** Output only. Unique identifier of the GCP resource that is being backed up. */
-  gcpResource?: BackupGcpResource | undefined;
-  /** Optional. Output only. The list of KMS key versions used to encrypt the backup. */
-  kmsKeyVersions?: StringList | undefined;
-  /** Optional. Output only. Reserved for future use. */
-  satisfiesPzi?: boolean | undefined;
-  /** Output only. The description of the Backup instance (2048 characters or less). */
-  description?: string | undefined;
-  /** Output only. NetApp Volume specific backup properties. */
-  netappVolumeBackupProperties?: NetAppVolumeBackupProperties | undefined;
-  /** Output only. source resource size in bytes at the time of the backup. */
-  resourceSizeBytes?: string | undefined;
 }
-export interface PatchProjectsLocationsRestoreTemplatesRequest {
+export interface PatchProjectsLocationsRestoreTemplatesRequest extends Omit<
+  RestoreTemplate,
+  "name"
+> {
   /** Optional. The list of fields to update. Field mask is used to specify the fields to be overwritten in the RestoreTemplate resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. */
   updateMask?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -3414,38 +3002,15 @@ export interface PatchProjectsLocationsRestoreTemplatesRequest {
   validateOnly?: boolean | undefined;
   /** Identifier. The resource name of the RestoreTemplate. */
   name: string;
-  /** Optional. User-defined labels. */
-  labels?: StringMap | undefined;
-  /** Optional. Etag for concurrency control. */
-  etag?: string | undefined;
-  /** Output only. Summary of the last execution. */
-  executionSummary?: ExecutionSummary | undefined;
-  /** Required. Immutable. The specific type of the workload being restored. The format is "{service_name}/{resource_kind}", for example, "compute.googleapis.com/Instance". */
-  resourceType?: string | undefined;
-  /** Output only. The state of the restore template. */
-  state?: RestoreTemplateStateEnum | (string & {}) | undefined;
-  /** Output only. The time when the restore template was last updated. */
-  updateTime?: string | undefined;
-  /** Optional. Verification configuration. */
-  verificationConfig?: VerificationConfig | undefined;
-  /** Optional. Pre-restore configuration. */
-  preRestoreConfig?: PreRestoreConfig | undefined;
-  /** Optional. Post-restore configuration. */
-  postRestoreConfig?: VerificationConfig | undefined;
-  /** Optional. User-provided description of the restore template. */
-  description?: string | undefined;
-  /** Required. Defines target environments where the resource will be restored. The target resource name in `restore_properties` supports the `{EXECUTION_ID}` token to dynamically generate unique resource names for each execution. During restore execution, every occurrence of `{EXECUTION_ID}` in the target resource name is replaced with the 8-character `RestoreTemplateExecution` ID (for example, `"restored-resource-{EXECUTION_ID}"` or `"restored-{EXECUTION_ID}-resource"` resolves to `"restored-resource-5d437b06"` or `"restored-5d437b06-resource"`). */
-  restoreProperties?: DocumentMap | undefined;
-  /** Output only. The time when the restore template was created. */
-  createTime?: string | undefined;
-  /** Required. Backup selection configuration. */
-  backupSelectionConfig?: BackupSelectionConfig | undefined;
 }
-export interface RemoveProjectsLocationsBackupVaultsDataSourcesRequest {
-  /** Required. Name of the resource. */
-  name: string;
+/** Message for deleting a DataSource. */
+export interface RemoveDataSourceRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
+}
+export interface RemoveProjectsLocationsBackupVaultsDataSourcesRequest extends RemoveDataSourceRequest {
+  /** Required. Name of the resource. */
+  name: string;
 }
 /** Options for creating a disk from a source Compute Instance backup. */
 export interface RestoreDiskFromInstanceOptions {
@@ -3647,9 +3212,8 @@ export interface ComputeInstanceRestoreProperties {
   /** Optional. Allows this instance to send and receive packets with non-matching destination or source IPs. */
   canIpForward?: boolean | undefined;
 }
-export interface RestoreProjectsLocationsBackupVaultsDataSourcesBackupsRequest {
-  /** Required. The resource name of the Backup instance, in the format 'projects/*\/locations/*\/backupVaults/*\/dataSources/*\/backups/'. */
-  name: string;
+/** Request message for restoring from a Backup. */
+export interface RestoreBackupRequest {
   /** Disk properties to be overridden during restore. */
   diskRestoreProperties?: DiskRestoreProperties | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -3665,36 +3229,49 @@ export interface RestoreProjectsLocationsBackupVaultsDataSourcesBackupsRequest {
   /** Optional. A field mask used to clear server-side default values for fields within the `instance_properties` oneof. When a field in this mask is cleared, the server will not apply its default logic (like inheriting a value from the source) for that field. The most common current use case is clearing default encryption keys. Examples of field mask paths: - Compute Instance Disks: `compute_instance_restore_properties.disks.*.disk_encryption_key` - Single Disk: `disk_restore_properties.disk_encryption_key` */
   clearOverridesFieldMask?: string | undefined;
 }
-export interface RunProjectsLocationsRestoreTemplatesRequest {
-  /** Required. The name of the restore template to run. Format: 'projects/{project_id}/locations/{location}/restoreTemplates/{restore_template_id}' */
+export interface RestoreProjectsLocationsBackupVaultsDataSourcesBackupsRequest extends RestoreBackupRequest {
+  /** Required. The resource name of the Backup instance, in the format 'projects/*\/locations/*\/backupVaults/*\/dataSources/*\/backups/'. */
   name: string;
+}
+/** Request message for running a RestoreTemplate. */
+export interface RunRestoreTemplateRequest {
   /** Optional. The resource name of the Backup to restore from. If not specified, the latest backup matching the backup selection configuration in the RestoreTemplate will be used. Format: 'projects/{project}/locations/{location}/backupVaults/{backup_vault}/dataSources/{data_source}/backups/{backup}' */
   backup?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
 }
-export interface SetIamPolicyProjectsLocationsManagementServersRequest {
-  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
+export interface RunProjectsLocationsRestoreTemplatesRequest extends RunRestoreTemplateRequest {
+  /** Required. The name of the restore template to run. Format: 'projects/{project_id}/locations/{location}/restoreTemplates/{restore_template_id}' */
+  name: string;
+}
+/** Request message for `SetIamPolicy` method. */
+export interface SetIamPolicyRequest {
   /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
   updateMask?: string | undefined;
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
   policy?: Policy | undefined;
+}
+export interface SetIamPolicyProjectsLocationsManagementServersRequest extends SetIamPolicyRequest {
+  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
 }
 export type SetInternalStatusRequestBackupConfigStateEnum =
   | "BACKUP_CONFIG_STATE_UNSPECIFIED"
   | "ACTIVE"
   | "PASSIVE"
   | "PAUSED";
-export interface SetInternalStatusProjectsLocationsBackupVaultsDataSourcesRequest {
-  /** Required. The resource name of the instance, in the format 'projects/*\/locations/*\/backupVaults/*\/dataSources/'. */
-  dataSource: string;
+/** Request message for SetStatusInternal method. */
+export interface SetInternalStatusRequest {
   /** Required. Output only. The new BackupConfigState to set for the DataSource. */
   backupConfigState?: SetInternalStatusRequestBackupConfigStateEnum | (string & {}) | undefined;
   /** Required. The value required for this method to work. This field must be the 32-byte SHA256 hash of the DataSourceID. The DataSourceID used here is only the final piece of the fully qualified resource path for this DataSource (i.e. the part after '.../dataSources/'). This field exists to make this method difficult to call since it is intended for use only by Backup Appliances. */
   value?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
+}
+export interface SetInternalStatusProjectsLocationsBackupVaultsDataSourcesRequest extends SetInternalStatusRequest {
+  /** Required. The resource name of the instance, in the format 'projects/*\/locations/*\/backupVaults/*\/dataSources/'. */
+  dataSource: string;
 }
 /** Request message for subscribing to a trial. */
 export type SubscribeTrialRequest = CancelOperationRequest;
@@ -3704,26 +3281,26 @@ export interface SubscribeProjectsLocationsTrialRequest {
   /** Request body */
   body?: CancelOperationRequest | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsBackupVaultsRequest {
-  /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
+/** Request message for `TestIamPermissions` method. */
+export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: StringList | undefined;
+}
+export interface TestIamPermissionsProjectsLocationsBackupVaultsRequest extends TestIamPermissionsRequest {
+  /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsManagementServersRequest {
+export interface TestIamPermissionsProjectsLocationsManagementServersRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
-  permissions?: StringList | undefined;
 }
-export interface TriggerBackupProjectsLocationsBackupPlanAssociationsRequest {
-  /** Required. Name of the backup plan association resource, in the format `projects/{project}/locations/{location}/backupPlanAssociations/{backupPlanAssociationId}` */
-  name: string;
+/** Request message for triggering a backup. */
+export interface TriggerBackupRequest {
   /** Optional. The duration for which backup data will be kept, while taking an on-demand backup with custom retention. It is defined in "days". It is mutually exclusive with rule_id. This field is required if rule_id is not provided. */
   customRetentionDays?: number | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -3733,17 +3310,27 @@ export interface TriggerBackupProjectsLocationsBackupPlanAssociationsRequest {
   /** Optional. backup rule_id for which a backup needs to be triggered. If not specified, on-demand backup with custom retention will be triggered. */
   ruleId?: string | undefined;
 }
-export interface TriggerRestoreCleanupProjectsLocationsRestoreTemplatesExecutionsRequest {
-  /** Required. Name of the restore template execution. Format: 'projects/{project_id}/locations/{location}/restoreTemplates/{restore_template_id}/executions/{execution_id}' */
+export interface TriggerBackupProjectsLocationsBackupPlanAssociationsRequest extends TriggerBackupRequest {
+  /** Required. Name of the backup plan association resource, in the format `projects/{project}/locations/{location}/backupPlanAssociations/{backupPlanAssociationId}` */
   name: string;
+}
+/** Request message for triggering a restore cleanup. */
+export interface TriggerRestoreCleanupRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
 }
-export interface TriggerRestoreVerificationProjectsLocationsRestoreVerificationPlansAssociationsRequest {
-  /** Required. The resource name of the RestoreVerificationPlanAssociation to trigger. Format: `projects/{project}/locations/{location}/restoreVerificationPlans/{restore_verification_plan}/associations/{association}` */
+export interface TriggerRestoreCleanupProjectsLocationsRestoreTemplatesExecutionsRequest extends TriggerRestoreCleanupRequest {
+  /** Required. Name of the restore template execution. Format: 'projects/{project_id}/locations/{location}/restoreTemplates/{restore_template_id}/executions/{execution_id}' */
   name: string;
+}
+/** Request message for TriggerRestoreVerification. */
+export interface TriggerRestoreVerificationRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know that the server has already received the duplicate request and can avoid responding with an error. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
+}
+export interface TriggerRestoreVerificationProjectsLocationsRestoreVerificationPlansAssociationsRequest extends TriggerRestoreVerificationRequest {
+  /** Required. The resource name of the RestoreVerificationPlanAssociation to trigger. Format: `projects/{project}/locations/{location}/restoreVerificationPlans/{restore_verification_plan}/associations/{association}` */
+  name: string;
 }
 export type AbandonBackupProjectsLocationsBackupVaultsDataSourcesError =
   | NotFound
@@ -3759,11 +3346,11 @@ export const abandonBackupProjectsLocationsBackupVaultsDataSources: API.Operatio
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1728,
-    __c54,
+    1600,
+    __c50,
     0,
   ) as any as S.Schema<AbandonBackupProjectsLocationsBackupVaultsDataSourcesRequest>,
-  output: __S(1824, __c57, 0) as any as S.Schema<Operation>,
+  output: __S(1696, __c53, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3784,8 +3371,8 @@ export const cancelProjectsLocationsOperations: API.OperationMethod<
   CancelProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2368, __c74, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
-  output: __S(2400, __c75, 0) as any as S.Schema<Empty>,
+  input: __S(2144, __c67, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
+  output: __S(2176, __c68, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3807,11 +3394,11 @@ export const createProjectsLocationsAutoProtectionPolicies: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2848,
-    __c89,
+    2560,
+    __c80,
     0,
   ) as any as S.Schema<CreateProjectsLocationsAutoProtectionPoliciesRequest>,
-  output: __S(1824, __c57, 0) as any as S.Schema<Operation>,
+  output: __S(1696, __c53, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3833,11 +3420,11 @@ export const createProjectsLocationsAutoProtectionPoliciesBindings: API.Operatio
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3296,
-    __c103,
+    3008,
+    __c94,
     0,
   ) as any as S.Schema<CreateProjectsLocationsAutoProtectionPoliciesBindingsRequest>,
-  output: __S(1824, __c57, 0) as any as S.Schema<Operation>,
+  output: __S(1696, __c53, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3859,11 +3446,11 @@ export const createProjectsLocationsBackupPlanAssociations: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3680,
-    __c115,
+    3424,
+    __c107,
     0,
   ) as any as S.Schema<CreateProjectsLocationsBackupPlanAssociationsRequest>,
-  output: __S(1824, __c57, 0) as any as S.Schema<Operation>,
+  output: __S(1696, __c53, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3884,8 +3471,8 @@ export const createProjectsLocationsBackupPlans: API.OperationMethod<
   CreateProjectsLocationsBackupPlansError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4064, __c127, 0) as any as S.Schema<CreateProjectsLocationsBackupPlansRequest>,
-  output: __S(1824, __c57, 0) as any as S.Schema<Operation>,
+  input: __S(3808, __c119, 0) as any as S.Schema<CreateProjectsLocationsBackupPlansRequest>,
+  output: __S(1696, __c53, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3907,7 +3494,7 @@ export const createProjectsLocationsBackupVaults: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateProjectsLocationsBackupVaultsRequest>,
-  output: __S(1824, __c57, 0) as any as S.Schema<Operation>,
+  output: __S(1696, __c53, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3929,7 +3516,7 @@ export const createProjectsLocationsManagementServers: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c2, 0) as any as S.Schema<CreateProjectsLocationsManagementServersRequest>,
-  output: __S(1824, __c57, 0) as any as S.Schema<Operation>,
+  output: __S(1696, __c53, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3951,7 +3538,7 @@ export const createProjectsLocationsRestoreTemplates: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c4, 0) as any as S.Schema<CreateProjectsLocationsRestoreTemplatesRequest>,
-  output: __S(1824, __c57, 0) as any as S.Schema<Operation>,
+  output: __S(1696, __c53, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3977,7 +3564,7 @@ export const createProjectsLocationsRestoreVerificationPlans: API.OperationMetho
     __c7,
     0,
   ) as any as S.Schema<CreateProjectsLocationsRestoreVerificationPlansRequest>,
-  output: __S(1824, __c57, 0) as any as S.Schema<Operation>,
+  output: __S(1696, __c53, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3999,11 +3586,11 @@ export const createProjectsLocationsRestoreVerificationPlansAssociations: API.Op
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    288,
-    __c9,
+    320,
+    __c10,
     0,
   ) as any as S.Schema<CreateProjectsLocationsRestoreVerificationPlansAssociationsRequest>,
-  output: __S(1824, __c57, 0) as any as S.Schema<Operation>,
+  output: __S(1696, __c53, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4025,11 +3612,11 @@ export const deleteProjectsLocationsAutoProtectionPolicies: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    352,
-    __c11,
+    384,
+    __c12,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsAutoProtectionPoliciesRequest>,
-  output: __S(1824, __c57, 0) as any as S.Schema<Operation>,
+  output: __S(1696, __c53, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4051,11 +3638,11 @@ export const deleteProjectsLocationsBackupPlanAssociations: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    384,
-    __c12,
+    416,
+    __c13,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsBackupPlanAssociationsRequest>,
-  output: __S(1824, __c57, 0) as any as S.Schema<Operation>,
+  output: __S(1696, __c53, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4076,8 +3663,8 @@ export const deleteProjectsLocationsBackupPlans: API.OperationMethod<
   DeleteProjectsLocationsBackupPlansError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c13, 0) as any as S.Schema<DeleteProjectsLocationsBackupPlansRequest>,
-  output: __S(1824, __c57, 0) as any as S.Schema<Operation>,
+  input: __S(448, __c14, 0) as any as S.Schema<DeleteProjectsLocationsBackupPlansRequest>,
+  output: __S(1696, __c53, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4098,8 +3685,8 @@ export const deleteProjectsLocationsBackupVaults: API.OperationMethod<
   DeleteProjectsLocationsBackupVaultsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c14, 0) as any as S.Schema<DeleteProjectsLocationsBackupVaultsRequest>,
-  output: __S(1824, __c57, 0) as any as S.Schema<Operation>,
+  input: __S(480, __c15, 0) as any as S.Schema<DeleteProjectsLocationsBackupVaultsRequest>,
+  output: __S(1696, __c53, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4121,11 +3708,11 @@ export const deleteProjectsLocationsBackupVaultsDataSourcesBackups: API.Operatio
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    480,
-    __c15,
+    512,
+    __c16,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsBackupVaultsDataSourcesBackupsRequest>,
-  output: __S(1824, __c57, 0) as any as S.Schema<Operation>,
+  output: __S(1696, __c53, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4146,8 +3733,8 @@ export const deleteProjectsLocationsManagementServers: API.OperationMethod<
   DeleteProjectsLocationsManagementServersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c16, 0) as any as S.Schema<DeleteProjectsLocationsManagementServersRequest>,
-  output: __S(1824, __c57, 0) as any as S.Schema<Operation>,
+  input: __S(544, __c17, 0) as any as S.Schema<DeleteProjectsLocationsManagementServersRequest>,
+  output: __S(1696, __c53, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4168,8 +3755,8 @@ export const deleteProjectsLocationsOperations: API.OperationMethod<
   DeleteProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c17, 0) as any as S.Schema<DeleteProjectsLocationsOperationsRequest>,
-  output: __S(2400, __c75, 0) as any as S.Schema<Empty>,
+  input: __S(576, __c18, 0) as any as S.Schema<DeleteProjectsLocationsOperationsRequest>,
+  output: __S(2176, __c68, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4190,8 +3777,8 @@ export const deleteProjectsLocationsRestoreTemplates: API.OperationMethod<
   DeleteProjectsLocationsRestoreTemplatesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c18, 0) as any as S.Schema<DeleteProjectsLocationsRestoreTemplatesRequest>,
-  output: __S(1824, __c57, 0) as any as S.Schema<Operation>,
+  input: __S(608, __c19, 0) as any as S.Schema<DeleteProjectsLocationsRestoreTemplatesRequest>,
+  output: __S(1696, __c53, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4213,11 +3800,11 @@ export const deleteProjectsLocationsRestoreVerificationPlans: API.OperationMetho
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    608,
-    __c19,
+    640,
+    __c20,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsRestoreVerificationPlansRequest>,
-  output: __S(1824, __c57, 0) as any as S.Schema<Operation>,
+  output: __S(1696, __c53, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4239,11 +3826,11 @@ export const deleteProjectsLocationsRestoreVerificationPlansAssociations: API.Op
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    640,
-    __c20,
+    672,
+    __c21,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsRestoreVerificationPlansAssociationsRequest>,
-  output: __S(1824, __c57, 0) as any as S.Schema<Operation>,
+  output: __S(1696, __c53, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4264,8 +3851,8 @@ export const endProjectsLocationsTrial: API.OperationMethod<
   EndProjectsLocationsTrialError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c21, 0) as any as S.Schema<EndProjectsLocationsTrialRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<Trial>,
+  input: __S(705, __c22, 1) as any as S.Schema<EndProjectsLocationsTrialRequest>,
+  output: __S(736, __c23, 0) as any as S.Schema<Trial>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4287,11 +3874,11 @@ export const fetchAccessTokenProjectsLocationsBackupVaultsDataSources: API.Opera
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    736,
-    __c23,
-    0,
+    769,
+    __c24,
+    1,
   ) as any as S.Schema<FetchAccessTokenProjectsLocationsBackupVaultsDataSourcesRequest>,
-  output: __S(737, __c23, 1) as any as S.Schema<FetchAccessTokenResponse>,
+  output: __S(770, __c24, 2) as any as S.Schema<FetchAccessTokenResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4308,8 +3895,8 @@ export const fetchFoldersLocationsResourceBackupConfigs: API.PaginatedOperationM
   GcpOpContext,
   FetchResourceBackupConfigsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(768, __c24, 0) as any as S.Schema<FetchFoldersLocationsResourceBackupConfigsRequest>,
-  output: __S(811, __c25, 11) as any as S.Schema<FetchResourceBackupConfigsResponse>,
+  input: __S(800, __c25, 0) as any as S.Schema<FetchFoldersLocationsResourceBackupConfigsRequest>,
+  output: __S(843, __c26, 11) as any as S.Schema<FetchResourceBackupConfigsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4331,11 +3918,11 @@ export const fetchForResourceTypeProjectsLocationsBackupPlanAssociations: API.Pa
   FetchBackupPlanAssociationsForResourceTypeResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    832,
-    __c26,
+    864,
+    __c27,
     0,
   ) as any as S.Schema<FetchForResourceTypeProjectsLocationsBackupPlanAssociationsRequest>,
-  output: __S(833, __c26, 1) as any as S.Schema<FetchBackupPlanAssociationsForResourceTypeResponse>,
+  output: __S(865, __c27, 1) as any as S.Schema<FetchBackupPlanAssociationsForResourceTypeResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4383,11 +3970,11 @@ export const fetchForResourceTypeProjectsLocationsDataSourceReferences: API.Pagi
   FetchDataSourceReferencesForResourceTypeResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    1088,
-    __c34,
+    1056,
+    __c33,
     0,
   ) as any as S.Schema<FetchForResourceTypeProjectsLocationsDataSourceReferencesRequest>,
-  output: __S(1089, __c34, 1) as any as S.Schema<FetchDataSourceReferencesForResourceTypeResponse>,
+  output: __S(1057, __c33, 1) as any as S.Schema<FetchDataSourceReferencesForResourceTypeResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4409,11 +3996,11 @@ export const fetchOrganizationsLocationsResourceBackupConfigs: API.PaginatedOper
   FetchResourceBackupConfigsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    1216,
-    __c38,
+    1184,
+    __c37,
     0,
   ) as any as S.Schema<FetchOrganizationsLocationsResourceBackupConfigsRequest>,
-  output: __S(811, __c25, 11) as any as S.Schema<FetchResourceBackupConfigsResponse>,
+  output: __S(843, __c26, 11) as any as S.Schema<FetchResourceBackupConfigsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4431,8 +4018,8 @@ export const fetchProjectsLocationsResourceBackupConfigs: API.PaginatedOperation
   GcpOpContext,
   FetchResourceBackupConfigsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1248, __c39, 0) as any as S.Schema<FetchProjectsLocationsResourceBackupConfigsRequest>,
-  output: __S(811, __c25, 11) as any as S.Schema<FetchResourceBackupConfigsResponse>,
+  input: __S(1216, __c38, 0) as any as S.Schema<FetchProjectsLocationsResourceBackupConfigsRequest>,
+  output: __S(843, __c26, 11) as any as S.Schema<FetchResourceBackupConfigsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4450,8 +4037,8 @@ export const fetchUsableProjectsLocationsBackupVaults: API.PaginatedOperationMet
   GcpOpContext,
   FetchUsableBackupVaultsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1280, __c40, 0) as any as S.Schema<FetchUsableProjectsLocationsBackupVaultsRequest>,
-  output: __S(1345, __c42, 1) as any as S.Schema<FetchUsableBackupVaultsResponse>,
+  input: __S(1248, __c39, 0) as any as S.Schema<FetchUsableProjectsLocationsBackupVaultsRequest>,
+  output: __S(1281, __c40, 1) as any as S.Schema<FetchUsableBackupVaultsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4474,11 +4061,11 @@ export const finalizeBackupProjectsLocationsBackupVaultsDataSources: API.Operati
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1376,
-    __c43,
-    0,
+    1313,
+    __c41,
+    1,
   ) as any as S.Schema<FinalizeBackupProjectsLocationsBackupVaultsDataSourcesRequest>,
-  output: __S(1824, __c57, 0) as any as S.Schema<Operation>,
+  output: __S(1696, __c53, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4495,11 +4082,11 @@ export const getIamPolicyProjectsLocationsManagementServers: API.OperationMethod
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1408,
-    __c44,
+    1344,
+    __c42,
     0,
   ) as any as S.Schema<GetIamPolicyProjectsLocationsManagementServersRequest>,
-  output: __S(1447, __c45, 7) as any as S.Schema<Policy>,
+  output: __S(1383, __c43, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4515,8 +4102,8 @@ export const getProjectsLocations: API.OperationMethod<
   GetProjectsLocationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c46, 0) as any as S.Schema<GetProjectsLocationsRequest>,
-  output: __S(1504, __c47, 0) as any as S.Schema<Location>,
+  input: __S(1408, __c44, 0) as any as S.Schema<GetProjectsLocationsRequest>,
+  output: __S(1440, __c45, 0) as any as S.Schema<Location>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4532,8 +4119,8 @@ export const getProjectsLocationsAutoProtectionPolicies: API.OperationMethod<
   GetProjectsLocationsAutoProtectionPoliciesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1536, __c48, 0) as any as S.Schema<GetProjectsLocationsAutoProtectionPoliciesRequest>,
-  output: __S(1568, __c49, 0) as any as S.Schema<AutoProtectionPolicy>,
+  input: __S(1472, __c46, 0) as any as S.Schema<GetProjectsLocationsAutoProtectionPoliciesRequest>,
+  output: __S(2626, __c82, 2) as any as S.Schema<AutoProtectionPolicy>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4553,11 +4140,11 @@ export const getProjectsLocationsAutoProtectionPoliciesBindings: API.OperationMe
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1600,
-    __c50,
+    1504,
+    __c47,
     0,
   ) as any as S.Schema<GetProjectsLocationsAutoProtectionPoliciesBindingsRequest>,
-  output: __S(1632, __c51, 0) as any as S.Schema<AutoProtectionPolicyBinding>,
+  output: __S(3072, __c96, 0) as any as S.Schema<AutoProtectionPolicyBinding>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4577,11 +4164,11 @@ export const getProjectsLocationsAutoProtectionPoliciesBindingsMatchingResources
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1664,
-    __c52,
+    1536,
+    __c48,
     0,
   ) as any as S.Schema<GetProjectsLocationsAutoProtectionPoliciesBindingsMatchingResourcesRequest>,
-  output: __S(1697, __c53, 1) as any as S.Schema<BindingMatchingResource>,
+  output: __S(1569, __c49, 1) as any as S.Schema<BindingMatchingResource>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4597,8 +4184,8 @@ export const getProjectsLocationsBackupPlanAssociations: API.OperationMethod<
   GetProjectsLocationsBackupPlanAssociationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1856, __c58, 0) as any as S.Schema<GetProjectsLocationsBackupPlanAssociationsRequest>,
-  output: __S(864, __c27, 0) as any as S.Schema<BackupPlanAssociation>,
+  input: __S(1760, __c55, 0) as any as S.Schema<GetProjectsLocationsBackupPlanAssociationsRequest>,
+  output: __S(3461, __c108, 5) as any as S.Schema<BackupPlanAssociation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4614,8 +4201,8 @@ export const getProjectsLocationsBackupPlans: API.OperationMethod<
   GetProjectsLocationsBackupPlansError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1888, __c59, 0) as any as S.Schema<GetProjectsLocationsBackupPlansRequest>,
-  output: __S(1920, __c60, 0) as any as S.Schema<BackupPlan>,
+  input: __S(1792, __c56, 0) as any as S.Schema<GetProjectsLocationsBackupPlansRequest>,
+  output: __S(3880, __c121, 8) as any as S.Schema<BackupPlan>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4631,8 +4218,8 @@ export const getProjectsLocationsBackupPlansRevisions: API.OperationMethod<
   GetProjectsLocationsBackupPlansRevisionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1952, __c61, 0) as any as S.Schema<GetProjectsLocationsBackupPlansRevisionsRequest>,
-  output: __S(1984, __c62, 0) as any as S.Schema<BackupPlanRevision>,
+  input: __S(1824, __c57, 0) as any as S.Schema<GetProjectsLocationsBackupPlansRevisionsRequest>,
+  output: __S(1856, __c58, 0) as any as S.Schema<BackupPlanRevision>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4648,8 +4235,8 @@ export const getProjectsLocationsBackupVaults: API.OperationMethod<
   GetProjectsLocationsBackupVaultsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2016, __c63, 0) as any as S.Schema<GetProjectsLocationsBackupVaultsRequest>,
-  output: __S(1312, __c41, 0) as any as S.Schema<BackupVault>,
+  input: __S(1888, __c59, 0) as any as S.Schema<GetProjectsLocationsBackupVaultsRequest>,
+  output: __S(33, __c1, 1) as any as S.Schema<BackupVault>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4665,8 +4252,8 @@ export const getProjectsLocationsBackupVaultsDataSources: API.OperationMethod<
   GetProjectsLocationsBackupVaultsDataSourcesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2048, __c64, 0) as any as S.Schema<GetProjectsLocationsBackupVaultsDataSourcesRequest>,
-  output: __S(2080, __c65, 0) as any as S.Schema<DataSource>,
+  input: __S(1920, __c60, 0) as any as S.Schema<GetProjectsLocationsBackupVaultsDataSourcesRequest>,
+  output: __S(1963, __c61, 11) as any as S.Schema<DataSource>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4686,11 +4273,11 @@ export const getProjectsLocationsBackupVaultsDataSourcesBackups: API.OperationMe
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2144,
-    __c67,
+    1984,
+    __c62,
     0,
   ) as any as S.Schema<GetProjectsLocationsBackupVaultsDataSourcesBackupsRequest>,
-  output: __S(960, __c30, 0) as any as S.Schema<Backup>,
+  output: __S(974, __c30, 14) as any as S.Schema<Backup>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4706,8 +4293,8 @@ export const getProjectsLocationsDataSourceReferences: API.OperationMethod<
   GetProjectsLocationsDataSourceReferencesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2176, __c68, 0) as any as S.Schema<GetProjectsLocationsDataSourceReferencesRequest>,
-  output: __S(1156, __c36, 4) as any as S.Schema<DataSourceReference>,
+  input: __S(2016, __c63, 0) as any as S.Schema<GetProjectsLocationsDataSourceReferencesRequest>,
+  output: __S(1124, __c35, 4) as any as S.Schema<DataSourceReference>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4723,8 +4310,8 @@ export const getProjectsLocationsManagementServers: API.OperationMethod<
   GetProjectsLocationsManagementServersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2208, __c69, 0) as any as S.Schema<GetProjectsLocationsManagementServersRequest>,
-  output: __S(2240, __c70, 0) as any as S.Schema<ManagementServer>,
+  input: __S(2048, __c64, 0) as any as S.Schema<GetProjectsLocationsManagementServersRequest>,
+  output: __S(101, __c3, 5) as any as S.Schema<ManagementServer>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4740,8 +4327,8 @@ export const getProjectsLocationsOperations: API.OperationMethod<
   GetProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2272, __c71, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
-  output: __S(1824, __c57, 0) as any as S.Schema<Operation>,
+  input: __S(2080, __c65, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
+  output: __S(1696, __c53, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4757,8 +4344,8 @@ export const getProjectsLocationsRestoreTemplates: API.OperationMethod<
   GetProjectsLocationsRestoreTemplatesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2304, __c72, 0) as any as S.Schema<GetProjectsLocationsRestoreTemplatesRequest>,
-  output: __S(2336, __c73, 0) as any as S.Schema<RestoreTemplate>,
+  input: __S(2112, __c66, 0) as any as S.Schema<GetProjectsLocationsRestoreTemplatesRequest>,
+  output: __S(193, __c6, 1) as any as S.Schema<RestoreTemplate>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4775,11 +4362,11 @@ export const getProjectsLocationsRestoreTemplatesExecutions: API.OperationMethod
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2432,
-    __c76,
+    2208,
+    __c69,
     0,
   ) as any as S.Schema<GetProjectsLocationsRestoreTemplatesExecutionsRequest>,
-  output: __S(2470, __c77, 6) as any as S.Schema<RestoreTemplateExecution>,
+  output: __S(2246, __c70, 6) as any as S.Schema<RestoreTemplateExecution>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4796,11 +4383,11 @@ export const getProjectsLocationsRestoreVerificationPlans: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2496,
-    __c78,
+    2272,
+    __c71,
     0,
   ) as any as S.Schema<GetProjectsLocationsRestoreVerificationPlansRequest>,
-  output: __S(2528, __c79, 0) as any as S.Schema<RestoreVerificationPlan>,
+  output: __S(288, __c9, 0) as any as S.Schema<RestoreVerificationPlan>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4820,11 +4407,11 @@ export const getProjectsLocationsRestoreVerificationPlansAssociations: API.Opera
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2560,
-    __c80,
+    2304,
+    __c72,
     0,
   ) as any as S.Schema<GetProjectsLocationsRestoreVerificationPlansAssociationsRequest>,
-  output: __S(2592, __c81, 0) as any as S.Schema<RestoreVerificationPlanAssociation>,
+  output: __S(353, __c11, 1) as any as S.Schema<RestoreVerificationPlanAssociation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4840,8 +4427,8 @@ export const getTrialProjectsLocations: API.OperationMethod<
   GetTrialProjectsLocationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2624, __c82, 0) as any as S.Schema<GetTrialProjectsLocationsRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<Trial>,
+  input: __S(2336, __c73, 0) as any as S.Schema<GetTrialProjectsLocationsRequest>,
+  output: __S(736, __c23, 0) as any as S.Schema<Trial>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4862,8 +4449,8 @@ export const initializeProjectsLocationsServiceConfig: API.OperationMethod<
   InitializeProjectsLocationsServiceConfigError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2657, __c83, 1) as any as S.Schema<InitializeProjectsLocationsServiceConfigRequest>,
-  output: __S(1824, __c57, 0) as any as S.Schema<Operation>,
+  input: __S(2370, __c74, 2) as any as S.Schema<InitializeProjectsLocationsServiceConfigRequest>,
+  output: __S(1696, __c53, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4885,11 +4472,11 @@ export const initiateBackupProjectsLocationsBackupVaultsDataSources: API.Operati
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2688,
-    __c84,
-    0,
+    2401,
+    __c75,
+    1,
   ) as any as S.Schema<InitiateBackupProjectsLocationsBackupVaultsDataSourcesRequest>,
-  output: __S(2689, __c84, 1) as any as S.Schema<InitiateBackupResponse>,
+  output: __S(2402, __c75, 2) as any as S.Schema<InitiateBackupResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4911,11 +4498,11 @@ export const initiateDeleteProjectsLocationsAutoProtectionPoliciesBindings: API.
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2720,
-    __c85,
-    0,
+    2433,
+    __c76,
+    1,
   ) as any as S.Schema<InitiateDeleteProjectsLocationsAutoProtectionPoliciesBindingsRequest>,
-  output: __S(1824, __c57, 0) as any as S.Schema<Operation>,
+  output: __S(1696, __c53, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4932,8 +4519,8 @@ export const listProjectsLocations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListLocationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2752, __c86, 0) as any as S.Schema<ListProjectsLocationsRequest>,
-  output: __S(2754, __c86, 2) as any as S.Schema<ListLocationsResponse>,
+  input: __S(2464, __c77, 0) as any as S.Schema<ListProjectsLocationsRequest>,
+  output: __S(2466, __c77, 2) as any as S.Schema<ListLocationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4955,11 +4542,11 @@ export const listProjectsLocationsAppliedAutoProtectionPolicies: API.PaginatedOp
   ListAppliedAutoProtectionPoliciesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    2784,
-    __c87,
+    2496,
+    __c78,
     0,
   ) as any as S.Schema<ListProjectsLocationsAppliedAutoProtectionPoliciesRequest>,
-  output: __S(2787, __c87, 3) as any as S.Schema<ListAppliedAutoProtectionPoliciesResponse>,
+  output: __S(2499, __c78, 3) as any as S.Schema<ListAppliedAutoProtectionPoliciesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4977,8 +4564,8 @@ export const listProjectsLocationsAutoProtectionPolicies: API.PaginatedOperation
   GcpOpContext,
   ListAutoProtectionPoliciesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2816, __c88, 0) as any as S.Schema<ListProjectsLocationsAutoProtectionPoliciesRequest>,
-  output: __S(2818, __c88, 2) as any as S.Schema<ListAutoProtectionPoliciesResponse>,
+  input: __S(2528, __c79, 0) as any as S.Schema<ListProjectsLocationsAutoProtectionPoliciesRequest>,
+  output: __S(2530, __c79, 2) as any as S.Schema<ListAutoProtectionPoliciesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5000,11 +4587,11 @@ export const listProjectsLocationsAutoProtectionPoliciesBindings: API.PaginatedO
   ListAutoProtectionPolicyBindingsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    2976,
-    __c93,
+    2688,
+    __c84,
     0,
   ) as any as S.Schema<ListProjectsLocationsAutoProtectionPoliciesBindingsRequest>,
-  output: __S(2978, __c93, 2) as any as S.Schema<ListAutoProtectionPolicyBindingsResponse>,
+  output: __S(2690, __c84, 2) as any as S.Schema<ListAutoProtectionPolicyBindingsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5026,11 +4613,11 @@ export const listProjectsLocationsAutoProtectionPoliciesBindingsMatchingResource
   ListBindingMatchingResourcesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    3008,
-    __c94,
+    2720,
+    __c85,
     0,
   ) as any as S.Schema<ListProjectsLocationsAutoProtectionPoliciesBindingsMatchingResourcesRequest>,
-  output: __S(3010, __c94, 2) as any as S.Schema<ListBindingMatchingResourcesResponse>,
+  output: __S(2722, __c85, 2) as any as S.Schema<ListBindingMatchingResourcesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5048,8 +4635,8 @@ export const listProjectsLocationsBackupPlanAssociations: API.PaginatedOperation
   GcpOpContext,
   ListBackupPlanAssociationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(3040, __c95, 0) as any as S.Schema<ListProjectsLocationsBackupPlanAssociationsRequest>,
-  output: __S(3041, __c95, 1) as any as S.Schema<ListBackupPlanAssociationsResponse>,
+  input: __S(2752, __c86, 0) as any as S.Schema<ListProjectsLocationsBackupPlanAssociationsRequest>,
+  output: __S(2753, __c86, 1) as any as S.Schema<ListBackupPlanAssociationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5067,8 +4654,8 @@ export const listProjectsLocationsBackupPlans: API.PaginatedOperationMethod<
   GcpOpContext,
   ListBackupPlansResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(3072, __c96, 0) as any as S.Schema<ListProjectsLocationsBackupPlansRequest>,
-  output: __S(3074, __c96, 2) as any as S.Schema<ListBackupPlansResponse>,
+  input: __S(2784, __c87, 0) as any as S.Schema<ListProjectsLocationsBackupPlansRequest>,
+  output: __S(2786, __c87, 2) as any as S.Schema<ListBackupPlansResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5086,8 +4673,8 @@ export const listProjectsLocationsBackupPlansRevisions: API.PaginatedOperationMe
   GcpOpContext,
   ListBackupPlanRevisionsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(3104, __c97, 0) as any as S.Schema<ListProjectsLocationsBackupPlansRevisionsRequest>,
-  output: __S(3106, __c97, 2) as any as S.Schema<ListBackupPlanRevisionsResponse>,
+  input: __S(2816, __c88, 0) as any as S.Schema<ListProjectsLocationsBackupPlansRevisionsRequest>,
+  output: __S(2818, __c88, 2) as any as S.Schema<ListBackupPlanRevisionsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5105,8 +4692,8 @@ export const listProjectsLocationsBackupVaults: API.PaginatedOperationMethod<
   GcpOpContext,
   ListBackupVaultsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(3136, __c98, 0) as any as S.Schema<ListProjectsLocationsBackupVaultsRequest>,
-  output: __S(1345, __c42, 1) as any as S.Schema<ListBackupVaultsResponse>,
+  input: __S(2848, __c89, 0) as any as S.Schema<ListProjectsLocationsBackupVaultsRequest>,
+  output: __S(1281, __c40, 1) as any as S.Schema<ListBackupVaultsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5125,11 +4712,11 @@ export const listProjectsLocationsBackupVaultsDataSources: API.PaginatedOperatio
   ListDataSourcesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    3168,
-    __c99,
+    2880,
+    __c90,
     0,
   ) as any as S.Schema<ListProjectsLocationsBackupVaultsDataSourcesRequest>,
-  output: __S(3170, __c99, 2) as any as S.Schema<ListDataSourcesResponse>,
+  output: __S(2882, __c90, 2) as any as S.Schema<ListDataSourcesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5151,11 +4738,11 @@ export const listProjectsLocationsBackupVaultsDataSourcesBackups: API.PaginatedO
   ListBackupsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    3200,
-    __c100,
+    2912,
+    __c91,
     0,
   ) as any as S.Schema<ListProjectsLocationsBackupVaultsDataSourcesBackupsRequest>,
-  output: __S(3201, __c100, 1) as any as S.Schema<ListBackupsResponse>,
+  output: __S(2913, __c91, 1) as any as S.Schema<ListBackupsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5173,8 +4760,8 @@ export const listProjectsLocationsDataSourceReferences: API.PaginatedOperationMe
   GcpOpContext,
   ListDataSourceReferencesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(3232, __c101, 0) as any as S.Schema<ListProjectsLocationsDataSourceReferencesRequest>,
-  output: __S(3233, __c101, 1) as any as S.Schema<ListDataSourceReferencesResponse>,
+  input: __S(2944, __c92, 0) as any as S.Schema<ListProjectsLocationsDataSourceReferencesRequest>,
+  output: __S(2945, __c92, 1) as any as S.Schema<ListDataSourceReferencesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5192,8 +4779,8 @@ export const listProjectsLocationsManagementServers: API.PaginatedOperationMetho
   GcpOpContext,
   ListManagementServersResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(3264, __c102, 0) as any as S.Schema<ListProjectsLocationsManagementServersRequest>,
-  output: __S(3266, __c102, 2) as any as S.Schema<ListManagementServersResponse>,
+  input: __S(2976, __c93, 0) as any as S.Schema<ListProjectsLocationsManagementServersRequest>,
+  output: __S(2978, __c93, 2) as any as S.Schema<ListManagementServersResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5211,8 +4798,8 @@ export const listProjectsLocationsOperations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListOperationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(3360, __c105, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
-  output: __S(3362, __c105, 2) as any as S.Schema<ListOperationsResponse>,
+  input: __S(3104, __c97, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
+  output: __S(3106, __c97, 2) as any as S.Schema<ListOperationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5230,8 +4817,8 @@ export const listProjectsLocationsResourceBackupConfigs: API.PaginatedOperationM
   GcpOpContext,
   ListResourceBackupConfigsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(3392, __c106, 0) as any as S.Schema<ListProjectsLocationsResourceBackupConfigsRequest>,
-  output: __S(811, __c25, 11) as any as S.Schema<ListResourceBackupConfigsResponse>,
+  input: __S(3136, __c98, 0) as any as S.Schema<ListProjectsLocationsResourceBackupConfigsRequest>,
+  output: __S(843, __c26, 11) as any as S.Schema<ListResourceBackupConfigsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5249,8 +4836,8 @@ export const listProjectsLocationsRestoreTemplates: API.PaginatedOperationMethod
   GcpOpContext,
   ListRestoreTemplatesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(3424, __c107, 0) as any as S.Schema<ListProjectsLocationsRestoreTemplatesRequest>,
-  output: __S(3426, __c107, 2) as any as S.Schema<ListRestoreTemplatesResponse>,
+  input: __S(3168, __c99, 0) as any as S.Schema<ListProjectsLocationsRestoreTemplatesRequest>,
+  output: __S(3170, __c99, 2) as any as S.Schema<ListRestoreTemplatesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5272,11 +4859,11 @@ export const listProjectsLocationsRestoreTemplatesExecutions: API.PaginatedOpera
   ListRestoreTemplateExecutionsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    3456,
-    __c108,
+    3200,
+    __c100,
     0,
   ) as any as S.Schema<ListProjectsLocationsRestoreTemplatesExecutionsRequest>,
-  output: __S(3458, __c108, 2) as any as S.Schema<ListRestoreTemplateExecutionsResponse>,
+  output: __S(3202, __c100, 2) as any as S.Schema<ListRestoreTemplateExecutionsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5295,11 +4882,11 @@ export const listProjectsLocationsRestoreVerificationPlans: API.PaginatedOperati
   ListRestoreVerificationPlansResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    3488,
-    __c109,
+    3232,
+    __c101,
     0,
   ) as any as S.Schema<ListProjectsLocationsRestoreVerificationPlansRequest>,
-  output: __S(3490, __c109, 2) as any as S.Schema<ListRestoreVerificationPlansResponse>,
+  output: __S(3234, __c101, 2) as any as S.Schema<ListRestoreVerificationPlansResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5321,11 +4908,11 @@ export const listProjectsLocationsRestoreVerificationPlansAssociations: API.Pagi
   ListRestoreVerificationPlanAssociationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    3520,
-    __c110,
+    3264,
+    __c102,
     0,
   ) as any as S.Schema<ListProjectsLocationsRestoreVerificationPlansAssociationsRequest>,
-  output: __S(3522, __c110, 2) as any as S.Schema<ListRestoreVerificationPlanAssociationsResponse>,
+  output: __S(3266, __c102, 2) as any as S.Schema<ListRestoreVerificationPlanAssociationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5348,11 +4935,11 @@ export const msComplianceMetadataProjectsLocationsManagementServers: API.Operati
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3552,
-    __c111,
-    0,
+    3297,
+    __c103,
+    1,
   ) as any as S.Schema<MsComplianceMetadataProjectsLocationsManagementServersRequest>,
-  output: __S(3553, __c111, 1) as any as S.Schema<FetchMsComplianceMetadataResponse>,
+  output: __S(3298, __c103, 2) as any as S.Schema<FetchMsComplianceMetadataResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5374,11 +4961,11 @@ export const patchProjectsLocationsAutoProtectionPolicies: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3584,
-    __c112,
+    3328,
+    __c104,
     0,
   ) as any as S.Schema<PatchProjectsLocationsAutoProtectionPoliciesRequest>,
-  output: __S(1824, __c57, 0) as any as S.Schema<Operation>,
+  output: __S(1696, __c53, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5400,11 +4987,11 @@ export const patchProjectsLocationsBackupPlanAssociations: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3616,
-    __c113,
+    3360,
+    __c105,
     0,
   ) as any as S.Schema<PatchProjectsLocationsBackupPlanAssociationsRequest>,
-  output: __S(1824, __c57, 0) as any as S.Schema<Operation>,
+  output: __S(1696, __c53, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5425,8 +5012,8 @@ export const patchProjectsLocationsBackupPlans: API.OperationMethod<
   PatchProjectsLocationsBackupPlansError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3648, __c114, 0) as any as S.Schema<PatchProjectsLocationsBackupPlansRequest>,
-  output: __S(1824, __c57, 0) as any as S.Schema<Operation>,
+  input: __S(3392, __c106, 0) as any as S.Schema<PatchProjectsLocationsBackupPlansRequest>,
+  output: __S(1696, __c53, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5447,8 +5034,8 @@ export const patchProjectsLocationsBackupVaults: API.OperationMethod<
   PatchProjectsLocationsBackupVaultsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3744, __c117, 0) as any as S.Schema<PatchProjectsLocationsBackupVaultsRequest>,
-  output: __S(1824, __c57, 0) as any as S.Schema<Operation>,
+  input: __S(3488, __c109, 0) as any as S.Schema<PatchProjectsLocationsBackupVaultsRequest>,
+  output: __S(1696, __c53, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5470,11 +5057,11 @@ export const patchProjectsLocationsBackupVaultsDataSources: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3776,
-    __c118,
+    3520,
+    __c110,
     0,
   ) as any as S.Schema<PatchProjectsLocationsBackupVaultsDataSourcesRequest>,
-  output: __S(1824, __c57, 0) as any as S.Schema<Operation>,
+  output: __S(1696, __c53, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5496,11 +5083,11 @@ export const patchProjectsLocationsBackupVaultsDataSourcesBackups: API.Operation
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3808,
-    __c119,
+    3552,
+    __c111,
     0,
   ) as any as S.Schema<PatchProjectsLocationsBackupVaultsDataSourcesBackupsRequest>,
-  output: __S(1824, __c57, 0) as any as S.Schema<Operation>,
+  output: __S(1696, __c53, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5521,8 +5108,8 @@ export const patchProjectsLocationsRestoreTemplates: API.OperationMethod<
   PatchProjectsLocationsRestoreTemplatesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3840, __c120, 0) as any as S.Schema<PatchProjectsLocationsRestoreTemplatesRequest>,
-  output: __S(1824, __c57, 0) as any as S.Schema<Operation>,
+  input: __S(3584, __c112, 0) as any as S.Schema<PatchProjectsLocationsRestoreTemplatesRequest>,
+  output: __S(1696, __c53, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5544,11 +5131,11 @@ export const removeProjectsLocationsBackupVaultsDataSources: API.OperationMethod
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3872,
-    __c121,
+    3616,
+    __c113,
     0,
   ) as any as S.Schema<RemoveProjectsLocationsBackupVaultsDataSourcesRequest>,
-  output: __S(1824, __c57, 0) as any as S.Schema<Operation>,
+  output: __S(1696, __c53, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5570,11 +5157,11 @@ export const restoreProjectsLocationsBackupVaultsDataSourcesBackups: API.Operati
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3916,
-    __c122,
-    12,
+    3661,
+    __c114,
+    13,
   ) as any as S.Schema<RestoreProjectsLocationsBackupVaultsDataSourcesBackupsRequest>,
-  output: __S(1824, __c57, 0) as any as S.Schema<Operation>,
+  output: __S(1696, __c53, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5595,8 +5182,8 @@ export const runProjectsLocationsRestoreTemplates: API.OperationMethod<
   RunProjectsLocationsRestoreTemplatesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3936, __c123, 0) as any as S.Schema<RunProjectsLocationsRestoreTemplatesRequest>,
-  output: __S(1824, __c57, 0) as any as S.Schema<Operation>,
+  input: __S(3681, __c115, 1) as any as S.Schema<RunProjectsLocationsRestoreTemplatesRequest>,
+  output: __S(1696, __c53, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5618,11 +5205,11 @@ export const setIamPolicyProjectsLocationsManagementServers: API.OperationMethod
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3968,
-    __c124,
-    0,
+    3713,
+    __c116,
+    1,
   ) as any as S.Schema<SetIamPolicyProjectsLocationsManagementServersRequest>,
-  output: __S(1447, __c45, 7) as any as S.Schema<Policy>,
+  output: __S(1383, __c43, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5644,11 +5231,11 @@ export const setInternalStatusProjectsLocationsBackupVaultsDataSources: API.Oper
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4000,
-    __c125,
-    0,
+    3745,
+    __c117,
+    1,
   ) as any as S.Schema<SetInternalStatusProjectsLocationsBackupVaultsDataSourcesRequest>,
-  output: __S(1824, __c57, 0) as any as S.Schema<Operation>,
+  output: __S(1696, __c53, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5669,8 +5256,8 @@ export const subscribeProjectsLocationsTrial: API.OperationMethod<
   SubscribeProjectsLocationsTrialError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4032, __c126, 0) as any as S.Schema<SubscribeProjectsLocationsTrialRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<Trial>,
+  input: __S(3776, __c118, 0) as any as S.Schema<SubscribeProjectsLocationsTrialRequest>,
+  output: __S(736, __c23, 0) as any as S.Schema<Trial>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5692,11 +5279,11 @@ export const testIamPermissionsProjectsLocationsBackupVaults: API.OperationMetho
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4160,
-    __c130,
+    3904,
+    __c122,
     0,
   ) as any as S.Schema<TestIamPermissionsProjectsLocationsBackupVaultsRequest>,
-  output: __S(4192, __c131, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  output: __S(3936, __c123, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5718,11 +5305,11 @@ export const testIamPermissionsProjectsLocationsManagementServers: API.Operation
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4224,
-    __c132,
+    3968,
+    __c124,
     0,
   ) as any as S.Schema<TestIamPermissionsProjectsLocationsManagementServersRequest>,
-  output: __S(4192, __c131, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  output: __S(3936, __c123, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5744,11 +5331,11 @@ export const triggerBackupProjectsLocationsBackupPlanAssociations: API.Operation
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4256,
-    __c133,
-    0,
+    4001,
+    __c125,
+    1,
   ) as any as S.Schema<TriggerBackupProjectsLocationsBackupPlanAssociationsRequest>,
-  output: __S(1824, __c57, 0) as any as S.Schema<Operation>,
+  output: __S(1696, __c53, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5770,11 +5357,11 @@ export const triggerRestoreCleanupProjectsLocationsRestoreTemplatesExecutions: A
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4288,
-    __c134,
+    4032,
+    __c126,
     0,
   ) as any as S.Schema<TriggerRestoreCleanupProjectsLocationsRestoreTemplatesExecutionsRequest>,
-  output: __S(1824, __c57, 0) as any as S.Schema<Operation>,
+  output: __S(1696, __c53, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5796,11 +5383,11 @@ export const triggerRestoreVerificationProjectsLocationsRestoreVerificationPlans
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4320,
-    __c135,
+    4064,
+    __c127,
     0,
   ) as any as S.Schema<TriggerRestoreVerificationProjectsLocationsRestoreVerificationPlansAssociationsRequest>,
-  output: __S(1824, __c57, 0) as any as S.Schema<Operation>,
+  output: __S(1696, __c53, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5813,30 +5400,15 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          backupVaultId: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          deletable: S.optional(S.Boolean),
-          serviceAccount: S.optional(S.String),
-          totalStoredBytes: S.optional(S.String),
-          backupRetentionInheritance: S.optional(S.String),
-          description: S.optional(S.String),
-          name: S.optional(S.String),
-          backupMinimumEnforcedRetentionDuration: S.optional(S.String),
-          createTime: S.optional(S.String),
-          effectiveTime: S.optional(S.String),
-          etag: S.optional(S.String),
-          state: S.optional(S.String),
-          backupCount: S.optional(S.String),
-          annotations: S.optional(__S(4096, __c128, 0)),
-          uid: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          encryptionConfig: S.optional(__S(32, __c1, 0)),
-          labels: S.optional(__S(4096, __c128, 0)),
-          accessRestriction: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(33, __c1, 1),
+          S.Struct({
+            backupVaultId: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+parent}/backupVaults",
@@ -5854,33 +5426,43 @@ function __c1(j: number): any {
           kmsKeyName: S.optional(S.String),
         }),
       ).annotate({ identifier: "EncryptionConfig" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          deletable: S.optional(S.Boolean),
+          serviceAccount: S.optional(S.String),
+          totalStoredBytes: S.optional(S.String),
+          backupRetentionInheritance: S.optional(S.String),
+          description: S.optional(S.String),
+          name: S.optional(S.String),
+          backupMinimumEnforcedRetentionDuration: S.optional(S.String),
+          createTime: S.optional(S.String),
+          effectiveTime: S.optional(S.String),
+          etag: S.optional(S.String),
+          state: S.optional(S.String),
+          backupCount: S.optional(S.String),
+          annotations: S.optional(__S(3840, __c120, 0)),
+          uid: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          encryptionConfig: S.optional(__S(32, __c1, 0)),
+          labels: S.optional(__S(3840, __c120, 0)),
+          accessRestriction: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "BackupVault" });
   }
 }
 function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          managementServerId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          type: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          description: S.optional(S.String),
-          workforceIdentityBasedManagementUri: S.optional(__S(96, __c3, 0)),
-          networks: S.optional(__S(98, __c3, 2)),
-          satisfiesPzs: S.optional(S.Boolean),
-          oauth2ClientId: S.optional(S.String),
-          baProxyUri: S.optional(__S(2944, __c92, 0)),
-          createTime: S.optional(S.String),
-          labels: S.optional(__S(4096, __c128, 0)),
-          etag: S.optional(S.String),
-          managementUri: S.optional(__S(99, __c3, 3)),
-          satisfiesPzi: S.optional(S.Boolean),
-          state: S.optional(S.String),
-          workforceIdentityBasedOauth2ClientId: S.optional(__S(100, __c3, 4)),
-          name: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(101, __c3, 5),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            managementServerId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+parent}/managementServers",
@@ -5922,31 +5504,41 @@ function __c3(j: number): any {
           thirdPartyOauth2ClientId: S.optional(S.String),
         }),
       ).annotate({ identifier: "WorkforceIdentityBasedOAuth2ClientID" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          description: S.optional(S.String),
+          workforceIdentityBasedManagementUri: S.optional(__S(96, __c3, 0)),
+          networks: S.optional(__S(98, __c3, 2)),
+          satisfiesPzs: S.optional(S.Boolean),
+          oauth2ClientId: S.optional(S.String),
+          baProxyUri: S.optional(__S(2656, __c83, 0)),
+          createTime: S.optional(S.String),
+          labels: S.optional(__S(3840, __c120, 0)),
+          etag: S.optional(S.String),
+          managementUri: S.optional(__S(99, __c3, 3)),
+          satisfiesPzi: S.optional(S.Boolean),
+          state: S.optional(S.String),
+          workforceIdentityBasedOauth2ClientId: S.optional(__S(100, __c3, 4)),
+          name: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ManagementServer" });
   }
 }
 function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          restoreTemplateId: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          labels: S.optional(__S(4096, __c128, 0)),
-          etag: S.optional(S.String),
-          executionSummary: S.optional(__S(192, __c6, 0)),
-          resourceType: S.optional(S.String),
-          name: S.optional(S.String),
-          state: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          verificationConfig: S.optional(__S(160, __c5, 0)),
-          preRestoreConfig: S.optional(__S(161, __c5, 1)),
-          postRestoreConfig: S.optional(__S(160, __c5, 0)),
-          description: S.optional(S.String),
-          restoreProperties: S.optional(__S(1760, __c55, 0)),
-          createTime: S.optional(S.String),
-          backupSelectionConfig: S.optional(__S(162, __c5, 2)),
-        }).pipe(
+        S.Extend(
+          __S(193, __c6, 1),
+          S.Struct({
+            restoreTemplateId: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+parent}/restoreTemplates",
@@ -5989,27 +5581,39 @@ function __c6(j: number): any {
           lastExecutionState: S.optional(S.String),
         }),
       ).annotate({ identifier: "ExecutionSummary" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          labels: S.optional(__S(3840, __c120, 0)),
+          etag: S.optional(S.String),
+          executionSummary: S.optional(__S(192, __c6, 0)),
+          resourceType: S.optional(S.String),
+          name: S.optional(S.String),
+          state: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          verificationConfig: S.optional(__S(160, __c5, 0)),
+          preRestoreConfig: S.optional(__S(161, __c5, 1)),
+          postRestoreConfig: S.optional(__S(160, __c5, 0)),
+          description: S.optional(S.String),
+          restoreProperties: S.optional(__S(1632, __c51, 0)),
+          createTime: S.optional(S.String),
+          backupSelectionConfig: S.optional(__S(162, __c5, 2)),
+        }),
+      ).annotate({ identifier: "RestoreTemplate" });
   }
 }
 function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          restoreVerificationPlanId: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          updateTime: S.optional(S.String),
-          schedule: S.optional(S.String),
-          labels: S.optional(__S(4096, __c128, 0)),
-          successCleanupRule: S.optional(__S(256, __c8, 0)),
-          timeZone: S.optional(S.String),
-          state: S.optional(S.String),
-          description: S.optional(S.String),
-          createTime: S.optional(S.String),
-          name: S.optional(S.String),
-          failureCleanupRule: S.optional(__S(256, __c8, 0)),
-        }).pipe(
+        S.Extend(
+          __S(288, __c9, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            restoreVerificationPlanId: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+parent}/restoreVerificationPlans",
@@ -6035,19 +5639,32 @@ function __c9(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          restoreVerificationPlanAssociationId: S.optional(S.String.pipe(T.Query())),
-          triggerSummary: S.optional(__S(320, __c10, 0)),
-          createTime: S.optional(S.String),
-          state: S.optional(S.String),
-          name: S.optional(S.String),
-          resourceType: S.optional(S.String),
-          labels: S.optional(__S(4096, __c128, 0)),
-          description: S.optional(S.String),
-          restoreTemplate: S.optional(S.String),
           updateTime: S.optional(S.String),
-        }).pipe(
+          schedule: S.optional(S.String),
+          labels: S.optional(__S(3840, __c120, 0)),
+          successCleanupRule: S.optional(__S(256, __c8, 0)),
+          timeZone: S.optional(S.String),
+          state: S.optional(S.String),
+          description: S.optional(S.String),
+          createTime: S.optional(S.String),
+          name: S.optional(S.String),
+          failureCleanupRule: S.optional(__S(256, __c8, 0)),
+        }),
+      ).annotate({ identifier: "RestoreVerificationPlan" });
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(353, __c11, 1),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            restoreVerificationPlanAssociationId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+parent}/associations",
@@ -6059,7 +5676,7 @@ function __c9(j: number): any {
       });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6067,12 +5684,26 @@ function __c10(j: number): any {
           lastTriggerTime: S.optional(S.String),
           nextTriggerTime: S.optional(S.String),
           lastVerificationExecution: S.optional(S.String),
-          lastTriggerError: S.optional(__S(1793, __c56, 1)),
+          lastTriggerError: S.optional(__S(1665, __c52, 1)),
         }),
       ).annotate({ identifier: "TriggerSummary" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          triggerSummary: S.optional(__S(352, __c11, 0)),
+          createTime: S.optional(S.String),
+          state: S.optional(S.String),
+          name: S.optional(S.String),
+          resourceType: S.optional(S.String),
+          labels: S.optional(__S(3840, __c120, 0)),
+          description: S.optional(S.String),
+          restoreTemplate: S.optional(S.String),
+          updateTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RestoreVerificationPlanAssociation" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6090,7 +5721,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsAutoProtectionPoliciesRequest" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6108,7 +5739,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsBackupPlanAssociationsRequest" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6125,7 +5756,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsBackupPlansRequest" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6147,7 +5778,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsBackupVaultsRequest" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6164,7 +5795,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsBackupVaultsDataSourcesBackupsRequest" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6181,7 +5812,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsManagementServersRequest" });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6197,7 +5828,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsOperationsRequest" });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6215,7 +5846,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsRestoreTemplatesRequest" });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6233,7 +5864,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsRestoreVerificationPlansRequest" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6252,14 +5883,22 @@ function __c20(j: number): any {
       });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
           endReason: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "EndTrialRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(704, __c22, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+parent}/trial:end",
@@ -6269,7 +5908,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "EndProjectsLocationsTrialRequest" });
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6283,14 +5922,22 @@ function __c22(j: number): any {
       ).annotate({ identifier: "Trial" });
   }
 }
-function __c23(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           generationId: S.optional(S.Number),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "FetchAccessTokenRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(768, __c24, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+name}:fetchAccessToken",
@@ -6298,7 +5945,7 @@ function __c23(j: number): any {
           }),
         ),
       ).annotate({ identifier: "FetchAccessTokenProjectsLocationsBackupVaultsDataSourcesRequest" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           writeLocation: S.optional(S.String),
@@ -6309,7 +5956,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "FetchAccessTokenResponse" });
   }
 }
-function __c24(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6329,7 +5976,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "FetchFoldersLocationsResourceBackupConfigsRequest" });
   }
 }
-function __c25(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6339,11 +5986,11 @@ function __c25(j: number): any {
         }),
       ).annotate({ identifier: "BackupDrPlanRule" });
     case 1:
-      return S.Array(__S(800, __c25, 0));
+      return S.Array(__S(832, __c26, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          backupDrPlanRules: S.optional(__S(801, __c25, 1)),
+          backupDrPlanRules: S.optional(__S(833, __c26, 1)),
         }),
       ).annotate({ identifier: "BackupDrPlanConfig" });
     case 3:
@@ -6360,7 +6007,7 @@ function __c25(j: number): any {
         }),
       ).annotate({ identifier: "BackupLocation" });
     case 5:
-      return S.Array(__S(804, __c25, 4));
+      return S.Array(__S(836, __c26, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -6372,46 +6019,46 @@ function __c25(j: number): any {
       return S.suspend(() =>
         S.Struct({
           state: S.optional(S.String),
-          backupDrPlanConfig: S.optional(__S(802, __c25, 2)),
+          backupDrPlanConfig: S.optional(__S(834, __c26, 2)),
           latestSuccessfulBackupTime: S.optional(S.String),
-          pitrSettings: S.optional(__S(803, __c25, 3)),
+          pitrSettings: S.optional(__S(835, __c26, 3)),
           backupVault: S.optional(S.String),
           backupConfigSource: S.optional(S.String),
-          backupLocations: S.optional(__S(805, __c25, 5)),
+          backupLocations: S.optional(__S(837, __c26, 5)),
           type: S.optional(S.String),
           backupConfigSourceDisplayName: S.optional(S.String),
-          backupDrTemplateConfig: S.optional(__S(806, __c25, 6)),
+          backupDrTemplateConfig: S.optional(__S(838, __c26, 6)),
           applicableResource: S.optional(S.String),
         }),
       ).annotate({ identifier: "BackupConfigDetails" });
     case 8:
-      return S.Array(__S(807, __c25, 7));
+      return S.Array(__S(839, __c26, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
           targetResourceDisplayName: S.optional(S.String),
           name: S.optional(S.String),
           targetResourceType: S.optional(S.String),
-          targetResourceLabels: S.optional(__S(4096, __c128, 0)),
+          targetResourceLabels: S.optional(__S(3840, __c120, 0)),
           vaulted: S.optional(S.Boolean),
           backupConfigured: S.optional(S.Boolean),
           uid: S.optional(S.String),
-          backupConfigsDetails: S.optional(__S(808, __c25, 8)),
+          backupConfigsDetails: S.optional(__S(840, __c26, 8)),
           targetResource: S.optional(S.String),
         }),
       ).annotate({ identifier: "ResourceBackupConfig" });
     case 10:
-      return S.Array(__S(809, __c25, 9));
+      return S.Array(__S(841, __c26, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
-          resourceBackupConfigs: S.optional(__S(810, __c25, 10)),
+          resourceBackupConfigs: S.optional(__S(842, __c26, 10)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "FetchResourceBackupConfigsResponse" });
   }
 }
-function __c26(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6441,35 +6088,10 @@ function __c26(j: number): any {
       ).annotate({ identifier: "FetchBackupPlanAssociationsForResourceTypeResponse" });
   }
 }
-function __c27(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          cloudSqlInstanceBackupPlanAssociationProperties: S.optional(__S(3712, __c116, 0)),
-          backupPlanRevisionId: S.optional(S.String),
-          dataSource: S.optional(S.String),
-          state: S.optional(S.String),
-          createTime: S.optional(S.String),
-          resourceType: S.optional(S.String),
-          name: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          netappVolumeBackupPlanAssociationProperties: S.optional(__S(3713, __c116, 1)),
-          backupPlanRevisionName: S.optional(S.String),
-          autoProtectionPolicyBinding: S.optional(S.String),
-          backupPlan: S.optional(S.String),
-          alloydbClusterBackupPlanAssociationProperties: S.optional(__S(3714, __c116, 2)),
-          resource: S.optional(S.String),
-          filestoreInstanceBackupPlanAssociationProperties: S.optional(__S(3712, __c116, 0)),
-          rulesConfigInfo: S.optional(__S(3716, __c116, 4)),
-        }),
-      ).annotate({ identifier: "BackupPlanAssociation" });
-  }
-}
 function __c28(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(864, __c27, 0));
+      return S.Array(__S(3461, __c108, 5));
   }
 }
 function __c29(j: number): any {
@@ -6497,50 +6119,13 @@ function __c29(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          backups: S.optional(__S(1056, __c33, 0)),
+          backups: S.optional(__S(1024, __c32, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "FetchBackupsForResourceTypeResponse" });
   }
 }
 function __c30(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          satisfiesPzs: S.optional(S.Boolean),
-          expireTime: S.optional(S.String),
-          consistencyTime: S.optional(S.String),
-          name: S.optional(S.String),
-          serviceLocks: S.optional(__S(995, __c31, 3)),
-          backupType: S.optional(S.String),
-          computeInstanceBackupProperties: S.optional(__S(996, __c31, 4)),
-          alloyDbBackupProperties: S.optional(__S(997, __c31, 5)),
-          state: S.optional(S.String),
-          cloudSqlInstanceBackupProperties: S.optional(__S(998, __c31, 6)),
-          gcpBackupPlanInfo: S.optional(__S(999, __c31, 7)),
-          enforcedRetentionEndTime: S.optional(S.String),
-          backupApplianceLocks: S.optional(__S(995, __c31, 3)),
-          createTime: S.optional(S.String),
-          etag: S.optional(S.String),
-          verificationSummary: S.optional(__S(1000, __c31, 8)),
-          backupApplianceBackupProperties: S.optional(__S(1001, __c31, 9)),
-          filestoreInstanceBackupProperties: S.optional(__S(1002, __c31, 10)),
-          backupRetentionInheritance: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          labels: S.optional(__S(4096, __c128, 0)),
-          diskBackupProperties: S.optional(__S(1003, __c31, 11)),
-          gcpResource: S.optional(__S(1004, __c31, 12)),
-          kmsKeyVersions: S.optional(__S(2944, __c92, 0)),
-          satisfiesPzi: S.optional(S.Boolean),
-          description: S.optional(S.String),
-          netappVolumeBackupProperties: S.optional(__S(1005, __c31, 13)),
-          resourceSizeBytes: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Backup" });
-  }
-}
-function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6562,27 +6147,27 @@ function __c31(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          backupApplianceLockInfo: S.optional(__S(992, __c31, 0)),
+          backupApplianceLockInfo: S.optional(__S(960, __c30, 0)),
           lockUntilTime: S.optional(S.String),
-          serviceLockInfo: S.optional(__S(993, __c31, 1)),
+          serviceLockInfo: S.optional(__S(961, __c30, 1)),
         }),
       ).annotate({ identifier: "BackupLock" });
     case 3:
-      return S.Array(__S(994, __c31, 2));
+      return S.Array(__S(962, __c30, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          networkInterface: S.optional(__S(1029, __c32, 5)),
-          serviceAccount: S.optional(__S(1031, __c32, 7)),
-          guestAccelerator: S.optional(__S(1033, __c32, 9)),
+          networkInterface: S.optional(__S(997, __c31, 5)),
+          serviceAccount: S.optional(__S(999, __c31, 7)),
+          guestAccelerator: S.optional(__S(1001, __c31, 9)),
           machineType: S.optional(S.String),
-          metadata: S.optional(__S(1036, __c32, 12)),
-          scheduling: S.optional(__S(1040, __c32, 16)),
-          tags: S.optional(__S(1041, __c32, 17)),
+          metadata: S.optional(__S(1004, __c31, 12)),
+          scheduling: S.optional(__S(1008, __c31, 16)),
+          tags: S.optional(__S(1009, __c31, 17)),
           description: S.optional(S.String),
           guestFlush: S.optional(S.Boolean),
-          disk: S.optional(__S(1047, __c32, 23)),
-          labels: S.optional(__S(4096, __c128, 0)),
+          disk: S.optional(__S(1015, __c31, 23)),
+          labels: S.optional(__S(3840, __c120, 0)),
           keyRevocationActionType: S.optional(S.String),
           sourceInstance: S.optional(S.String),
           minCpuPlatform: S.optional(S.String),
@@ -6644,16 +6229,16 @@ function __c31(j: number): any {
     case 11:
       return S.suspend(() =>
         S.Struct({
-          replicaZones: S.optional(__S(2944, __c92, 0)),
+          replicaZones: S.optional(__S(2656, __c83, 0)),
           provisionedThroughput: S.optional(S.String),
           zone: S.optional(S.String),
           region: S.optional(S.String),
           type: S.optional(S.String),
           description: S.optional(S.String),
           storagePool: S.optional(S.String),
-          guestOsFeature: S.optional(__S(1043, __c32, 19)),
+          guestOsFeature: S.optional(__S(1011, __c31, 19)),
           enableConfidentialCompute: S.optional(S.Boolean),
-          labels: S.optional(__S(4096, __c128, 0)),
+          labels: S.optional(__S(3840, __c120, 0)),
           sizeGb: S.optional(S.String),
           sourceDisk: S.optional(S.String),
           physicalBlockSizeBytes: S.optional(S.String),
@@ -6661,7 +6246,7 @@ function __c31(j: number): any {
           guestFlush: S.optional(S.Boolean),
           provisionedIops: S.optional(S.String),
           accessMode: S.optional(S.String),
-          licenses: S.optional(__S(2944, __c92, 0)),
+          licenses: S.optional(__S(2656, __c83, 0)),
         }),
       ).annotate({ identifier: "DiskBackupProperties" });
     case 12:
@@ -6678,9 +6263,42 @@ function __c31(j: number): any {
           sourceResource: S.optional(S.String),
         }),
       ).annotate({ identifier: "NetAppVolumeBackupProperties" });
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          satisfiesPzs: S.optional(S.Boolean),
+          expireTime: S.optional(S.String),
+          consistencyTime: S.optional(S.String),
+          name: S.optional(S.String),
+          serviceLocks: S.optional(__S(963, __c30, 3)),
+          backupType: S.optional(S.String),
+          computeInstanceBackupProperties: S.optional(__S(964, __c30, 4)),
+          alloyDbBackupProperties: S.optional(__S(965, __c30, 5)),
+          state: S.optional(S.String),
+          cloudSqlInstanceBackupProperties: S.optional(__S(966, __c30, 6)),
+          gcpBackupPlanInfo: S.optional(__S(967, __c30, 7)),
+          enforcedRetentionEndTime: S.optional(S.String),
+          backupApplianceLocks: S.optional(__S(963, __c30, 3)),
+          createTime: S.optional(S.String),
+          etag: S.optional(S.String),
+          verificationSummary: S.optional(__S(968, __c30, 8)),
+          backupApplianceBackupProperties: S.optional(__S(969, __c30, 9)),
+          filestoreInstanceBackupProperties: S.optional(__S(970, __c30, 10)),
+          backupRetentionInheritance: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          labels: S.optional(__S(3840, __c120, 0)),
+          diskBackupProperties: S.optional(__S(971, __c30, 11)),
+          gcpResource: S.optional(__S(972, __c30, 12)),
+          kmsKeyVersions: S.optional(__S(2656, __c83, 0)),
+          satisfiesPzi: S.optional(S.Boolean),
+          description: S.optional(S.String),
+          netappVolumeBackupProperties: S.optional(__S(973, __c30, 13)),
+          resourceSizeBytes: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Backup" });
   }
 }
-function __c32(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6696,7 +6314,7 @@ function __c32(j: number): any {
         }),
       ).annotate({ identifier: "AccessConfig" });
     case 1:
-      return S.Array(__S(1024, __c32, 0));
+      return S.Array(__S(992, __c31, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -6705,15 +6323,15 @@ function __c32(j: number): any {
         }),
       ).annotate({ identifier: "AliasIpRange" });
     case 3:
-      return S.Array(__S(1026, __c32, 2));
+      return S.Array(__S(994, __c31, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          accessConfigs: S.optional(__S(1025, __c32, 1)),
+          accessConfigs: S.optional(__S(993, __c31, 1)),
           nicType: S.optional(S.String),
           networkAttachment: S.optional(S.String),
           internalIpv6PrefixLength: S.optional(S.Number),
-          aliasIpRanges: S.optional(__S(1027, __c32, 3)),
+          aliasIpRanges: S.optional(__S(995, __c31, 3)),
           name: S.optional(S.String),
           network: S.optional(S.String),
           subnetwork: S.optional(S.String),
@@ -6721,21 +6339,21 @@ function __c32(j: number): any {
           ipv6AccessType: S.optional(S.String),
           queueCount: S.optional(S.Number),
           networkIP: S.optional(S.String),
-          ipv6AccessConfigs: S.optional(__S(1025, __c32, 1)),
+          ipv6AccessConfigs: S.optional(__S(993, __c31, 1)),
           ipv6Address: S.optional(S.String),
         }),
       ).annotate({ identifier: "NetworkInterface" });
     case 5:
-      return S.Array(__S(1028, __c32, 4));
+      return S.Array(__S(996, __c31, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           email: S.optional(S.String),
-          scopes: S.optional(__S(2944, __c92, 0)),
+          scopes: S.optional(__S(2656, __c83, 0)),
         }),
       ).annotate({ identifier: "ServiceAccount" });
     case 7:
-      return S.Array(__S(1030, __c32, 6));
+      return S.Array(__S(998, __c31, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
@@ -6744,7 +6362,7 @@ function __c32(j: number): any {
         }),
       ).annotate({ identifier: "AcceleratorConfig" });
     case 9:
-      return S.Array(__S(1032, __c32, 8));
+      return S.Array(__S(1000, __c31, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
@@ -6753,11 +6371,11 @@ function __c32(j: number): any {
         }),
       ).annotate({ identifier: "Entry" });
     case 11:
-      return S.Array(__S(1034, __c32, 10));
+      return S.Array(__S(1002, __c31, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
-          items: S.optional(__S(1035, __c32, 11)),
+          items: S.optional(__S(1003, __c31, 11)),
         }),
       ).annotate({ identifier: "Metadata" });
     case 13:
@@ -6771,29 +6389,29 @@ function __c32(j: number): any {
       return S.suspend(() =>
         S.Struct({
           operator: S.optional(S.String),
-          values: S.optional(__S(2944, __c92, 0)),
+          values: S.optional(__S(2656, __c83, 0)),
           key: S.optional(S.String),
         }),
       ).annotate({ identifier: "NodeAffinity" });
     case 15:
-      return S.Array(__S(1038, __c32, 14));
+      return S.Array(__S(1006, __c31, 14));
     case 16:
       return S.suspend(() =>
         S.Struct({
-          localSsdRecoveryTimeout: S.optional(__S(1037, __c32, 13)),
+          localSsdRecoveryTimeout: S.optional(__S(1005, __c31, 13)),
           onHostMaintenance: S.optional(S.String),
           automaticRestart: S.optional(S.Boolean),
           provisioningModel: S.optional(S.String),
           preemptible: S.optional(S.Boolean),
           minNodeCpus: S.optional(S.Number),
-          nodeAffinities: S.optional(__S(1039, __c32, 15)),
+          nodeAffinities: S.optional(__S(1007, __c31, 15)),
           instanceTerminationAction: S.optional(S.String),
         }),
       ).annotate({ identifier: "Scheduling" });
     case 17:
       return S.suspend(() =>
         S.Struct({
-          items: S.optional(__S(2944, __c92, 0)),
+          items: S.optional(__S(2656, __c83, 0)),
         }),
       ).annotate({ identifier: "Tags" });
     case 18:
@@ -6803,7 +6421,7 @@ function __c32(j: number): any {
         }),
       ).annotate({ identifier: "GuestOsFeature" });
     case 19:
-      return S.Array(__S(1042, __c32, 18));
+      return S.Array(__S(1010, __c31, 18));
     case 20:
       return S.suspend(() =>
         S.Struct({
@@ -6816,25 +6434,25 @@ function __c32(j: number): any {
     case 21:
       return S.suspend(() =>
         S.Struct({
-          replicaZones: S.optional(__S(2944, __c92, 0)),
+          replicaZones: S.optional(__S(2656, __c83, 0)),
           diskName: S.optional(S.String),
         }),
       ).annotate({ identifier: "InitializeParams" });
     case 22:
       return S.suspend(() =>
         S.Struct({
-          guestOsFeature: S.optional(__S(1043, __c32, 19)),
+          guestOsFeature: S.optional(__S(1011, __c31, 19)),
           diskType: S.optional(S.String),
-          diskEncryptionKey: S.optional(__S(1044, __c32, 20)),
+          diskEncryptionKey: S.optional(__S(1012, __c31, 20)),
           savedState: S.optional(S.String),
           source: S.optional(S.String),
           diskSizeGb: S.optional(S.String),
           kind: S.optional(S.String),
           mode: S.optional(S.String),
-          license: S.optional(__S(2944, __c92, 0)),
+          license: S.optional(__S(2656, __c83, 0)),
           index: S.optional(S.String),
           type: S.optional(S.String),
-          initializeParams: S.optional(__S(1045, __c32, 21)),
+          initializeParams: S.optional(__S(1013, __c31, 21)),
           deviceName: S.optional(S.String),
           boot: S.optional(S.Boolean),
           diskInterface: S.optional(S.String),
@@ -6843,16 +6461,16 @@ function __c32(j: number): any {
         }),
       ).annotate({ identifier: "AttachedDisk" });
     case 23:
-      return S.Array(__S(1046, __c32, 22));
+      return S.Array(__S(1014, __c31, 22));
+  }
+}
+function __c32(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(974, __c30, 14));
   }
 }
 function __c33(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(960, __c30, 0));
-  }
-}
-function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6876,13 +6494,13 @@ function __c34(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          dataSourceReferences: S.optional(__S(1184, __c37, 0)),
+          dataSourceReferences: S.optional(__S(1152, __c36, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "FetchDataSourceReferencesForResourceTypeResponse" });
   }
 }
-function __c35(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6900,7 +6518,7 @@ function __c35(j: number): any {
       ).annotate({ identifier: "FilestoreInstanceDataSourceReferenceProperties" });
   }
 }
-function __c36(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6923,10 +6541,10 @@ function __c36(j: number): any {
           location: S.optional(S.String),
           type: S.optional(S.String),
           gcpResourcename: S.optional(S.String),
-          cloudSqlInstanceProperties: S.optional(__S(1152, __c36, 0)),
-          netappVolumeProperties: S.optional(__S(1120, __c35, 0)),
-          filestoreInstanceProperties: S.optional(__S(1121, __c35, 1)),
-          alloyDbClusterProperties: S.optional(__S(1153, __c36, 1)),
+          cloudSqlInstanceProperties: S.optional(__S(1120, __c35, 0)),
+          netappVolumeProperties: S.optional(__S(1088, __c34, 0)),
+          filestoreInstanceProperties: S.optional(__S(1089, __c34, 1)),
+          alloyDbClusterProperties: S.optional(__S(1121, __c35, 1)),
         }),
       ).annotate({ identifier: "DataSourceGcpResourceInfo" });
     case 3:
@@ -6940,24 +6558,24 @@ function __c36(j: number): any {
       return S.suspend(() =>
         S.Struct({
           createTime: S.optional(S.String),
-          dataSourceGcpResourceInfo: S.optional(__S(1154, __c36, 2)),
+          dataSourceGcpResourceInfo: S.optional(__S(1122, __c35, 2)),
           dataSourceBackupCount: S.optional(S.String),
           totalStoredBytes: S.optional(S.String),
           dataSource: S.optional(S.String),
           name: S.optional(S.String),
           dataSourceBackupConfigState: S.optional(S.String),
-          dataSourceBackupConfigInfo: S.optional(__S(1155, __c36, 3)),
+          dataSourceBackupConfigInfo: S.optional(__S(1123, __c35, 3)),
         }),
       ).annotate({ identifier: "DataSourceReference" });
   }
 }
-function __c37(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1156, __c36, 4));
+      return S.Array(__S(1124, __c35, 4));
   }
 }
-function __c38(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6977,7 +6595,7 @@ function __c38(j: number): any {
       ).annotate({ identifier: "FetchOrganizationsLocationsResourceBackupConfigsRequest" });
   }
 }
-function __c39(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6997,7 +6615,7 @@ function __c39(j: number): any {
       ).annotate({ identifier: "FetchProjectsLocationsResourceBackupConfigsRequest" });
   }
 }
-function __c40(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7017,53 +6635,25 @@ function __c40(j: number): any {
       ).annotate({ identifier: "FetchUsableProjectsLocationsBackupVaultsRequest" });
   }
 }
+function __c40(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(33, __c1, 1));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          nextPageToken: S.optional(S.String),
+          unreachable: S.optional(__S(2656, __c83, 0)),
+          backupVaults: S.optional(__S(1280, __c40, 0)),
+        }),
+      ).annotate({ identifier: "FetchUsableBackupVaultsResponse" });
+  }
+}
 function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          deletable: S.optional(S.Boolean),
-          serviceAccount: S.optional(S.String),
-          totalStoredBytes: S.optional(S.String),
-          backupRetentionInheritance: S.optional(S.String),
-          description: S.optional(S.String),
-          name: S.optional(S.String),
-          backupMinimumEnforcedRetentionDuration: S.optional(S.String),
-          createTime: S.optional(S.String),
-          effectiveTime: S.optional(S.String),
-          etag: S.optional(S.String),
-          state: S.optional(S.String),
-          backupCount: S.optional(S.String),
-          annotations: S.optional(__S(4096, __c128, 0)),
-          uid: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          encryptionConfig: S.optional(__S(32, __c1, 0)),
-          labels: S.optional(__S(4096, __c128, 0)),
-          accessRestriction: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "BackupVault" });
-  }
-}
-function __c42(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(1312, __c41, 0));
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(2944, __c92, 0)),
-          backupVaults: S.optional(__S(1344, __c42, 0)),
-        }),
-      ).annotate({ identifier: "FetchUsableBackupVaultsResponse" });
-  }
-}
-function __c43(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          dataSource: S.String.pipe(T.Label()),
           retentionDuration: S.optional(S.String),
           description: S.optional(S.String),
           recoveryRangeEndTime: S.optional(S.String),
@@ -7071,7 +6661,16 @@ function __c43(j: number): any {
           backupId: S.optional(S.String),
           recoveryRangeStartTime: S.optional(S.String),
           requestId: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "FinalizeBackupRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(1312, __c41, 0),
+          S.Struct({
+            dataSource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+dataSource}:finalizeBackup",
@@ -7081,7 +6680,7 @@ function __c43(j: number): any {
       ).annotate({ identifier: "FinalizeBackupProjectsLocationsBackupVaultsDataSourcesRequest" });
   }
 }
-function __c44(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7098,26 +6697,26 @@ function __c44(j: number): any {
       ).annotate({ identifier: "GetIamPolicyProjectsLocationsManagementServersRequest" });
   }
 }
-function __c45(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          exemptedMembers: S.optional(__S(2944, __c92, 0)),
+          exemptedMembers: S.optional(__S(2656, __c83, 0)),
           logType: S.optional(S.String),
         }),
       ).annotate({ identifier: "AuditLogConfig" });
     case 1:
-      return S.Array(__S(1440, __c45, 0));
+      return S.Array(__S(1376, __c43, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           service: S.optional(S.String),
-          auditLogConfigs: S.optional(__S(1441, __c45, 1)),
+          auditLogConfigs: S.optional(__S(1377, __c43, 1)),
         }),
       ).annotate({ identifier: "AuditConfig" });
     case 3:
-      return S.Array(__S(1442, __c45, 2));
+      return S.Array(__S(1378, __c43, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -7130,25 +6729,25 @@ function __c45(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          members: S.optional(__S(2944, __c92, 0)),
+          members: S.optional(__S(2656, __c83, 0)),
           role: S.optional(S.String),
-          condition: S.optional(__S(1444, __c45, 4)),
+          condition: S.optional(__S(1380, __c43, 4)),
         }),
       ).annotate({ identifier: "Binding" });
     case 6:
-      return S.Array(__S(1445, __c45, 5));
+      return S.Array(__S(1381, __c43, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
           version: S.optional(S.Number),
           etag: S.optional(S.String),
-          auditConfigs: S.optional(__S(1443, __c45, 3)),
-          bindings: S.optional(__S(1446, __c45, 6)),
+          auditConfigs: S.optional(__S(1379, __c43, 3)),
+          bindings: S.optional(__S(1382, __c43, 6)),
         }),
       ).annotate({ identifier: "Policy" });
   }
 }
-function __c46(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7164,13 +6763,13 @@ function __c46(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsRequest" });
   }
 }
-function __c47(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          labels: S.optional(__S(4096, __c128, 0)),
-          metadata: S.optional(__S(1760, __c55, 0)),
+          labels: S.optional(__S(3840, __c120, 0)),
+          metadata: S.optional(__S(1632, __c51, 0)),
           locationId: S.optional(S.String),
           name: S.optional(S.String),
           displayName: S.optional(S.String),
@@ -7178,7 +6777,7 @@ function __c47(j: number): any {
       ).annotate({ identifier: "Location" });
   }
 }
-function __c48(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7194,26 +6793,7 @@ function __c48(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsAutoProtectionPoliciesRequest" });
   }
 }
-function __c49(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          backupPlanDetails: S.optional(__S(2881, __c90, 1)),
-          policyEvaluationSummary: S.optional(__S(2912, __c91, 0)),
-          criteria: S.optional(__S(2885, __c90, 5)),
-          description: S.optional(S.String),
-          etag: S.optional(S.String),
-          state: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          bindingSummary: S.optional(__S(2913, __c91, 1)),
-          createTime: S.optional(S.String),
-          name: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AutoProtectionPolicy" });
-  }
-}
-function __c50(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7229,24 +6809,7 @@ function __c50(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsAutoProtectionPoliciesBindingsRequest" });
   }
 }
-function __c51(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          etag: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          name: S.optional(S.String),
-          state: S.optional(S.String),
-          description: S.optional(S.String),
-          bindingEvaluationSummary: S.optional(__S(3328, __c104, 0)),
-          createTime: S.optional(S.String),
-          scope: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AutoProtectionPolicyBinding" });
-  }
-}
-function __c52(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7264,12 +6827,12 @@ function __c52(j: number): any {
       });
   }
 }
-function __c53(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          error: S.optional(__S(1793, __c56, 1)),
+          error: S.optional(__S(1665, __c52, 1)),
           backupPlanAssociation: S.optional(S.String),
           dataSource: S.optional(S.String),
           state: S.optional(S.String),
@@ -7279,21 +6842,23 @@ function __c53(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          autoProtectionDetails: S.optional(__S(1696, __c53, 0)),
+          autoProtectionDetails: S.optional(__S(1568, __c49, 0)),
           lastEvaluationTime: S.optional(S.String),
           resource: S.optional(S.String),
         }),
       ).annotate({ identifier: "BindingMatchingResource" });
   }
 }
-function __c54(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          dataSource: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1728, __c54, 0),
+          S.Struct({
+            dataSource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+dataSource}:abandonBackup",
@@ -7303,41 +6868,51 @@ function __c54(j: number): any {
       ).annotate({ identifier: "AbandonBackupProjectsLocationsBackupVaultsDataSourcesRequest" });
   }
 }
-function __c55(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c56(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1760, __c55, 0));
+      return S.Array(__S(1632, __c51, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
           code: S.optional(S.Number),
           message: S.optional(S.String),
-          details: S.optional(__S(1792, __c56, 0)),
+          details: S.optional(__S(1664, __c52, 0)),
         }),
       ).annotate({ identifier: "Status" });
   }
 }
-function __c57(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           done: S.optional(S.Boolean),
-          metadata: S.optional(__S(1760, __c55, 0)),
-          error: S.optional(__S(1793, __c56, 1)),
+          metadata: S.optional(__S(1632, __c51, 0)),
+          error: S.optional(__S(1665, __c52, 1)),
           name: S.optional(S.String),
-          response: S.optional(__S(1760, __c55, 0)),
+          response: S.optional(__S(1632, __c51, 0)),
         }),
       ).annotate({ identifier: "Operation" });
   }
 }
-function __c58(j: number): any {
+function __c54(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          requestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AbandonBackupRequest" });
+  }
+}
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7353,7 +6928,7 @@ function __c58(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsBackupPlanAssociationsRequest" });
   }
 }
-function __c59(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7369,34 +6944,7 @@ function __c59(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsBackupPlansRequest" });
   }
 }
-function __c60(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          diskBackupPlanProperties: S.optional(__S(4128, __c129, 0)),
-          backupVault: S.optional(S.String),
-          computeInstanceBackupPlanProperties: S.optional(__S(4128, __c129, 0)),
-          revisionId: S.optional(S.String),
-          etag: S.optional(S.String),
-          description: S.optional(S.String),
-          maxCustomOnDemandRetentionDays: S.optional(S.Number),
-          state: S.optional(S.String),
-          revisionName: S.optional(S.String),
-          labels: S.optional(__S(4096, __c128, 0)),
-          backupVaultServiceAccount: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          resourceType: S.optional(S.String),
-          logRetentionDays: S.optional(S.String),
-          backupRules: S.optional(__S(4135, __c129, 7)),
-          supportedResourceTypes: S.optional(__S(2944, __c92, 0)),
-          createTime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "BackupPlan" });
-  }
-}
-function __c61(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7412,21 +6960,21 @@ function __c61(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsBackupPlansRevisionsRequest" });
   }
 }
-function __c62(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           revisionId: S.optional(S.String),
           name: S.optional(S.String),
-          backupPlanSnapshot: S.optional(__S(1920, __c60, 0)),
+          backupPlanSnapshot: S.optional(__S(3880, __c121, 8)),
           state: S.optional(S.String),
           createTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "BackupPlanRevision" });
   }
 }
-function __c63(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7443,7 +6991,7 @@ function __c63(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsBackupVaultsRequest" });
   }
 }
-function __c64(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7459,29 +7007,7 @@ function __c64(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsBackupVaultsDataSourcesRequest" });
   }
 }
-function __c65(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          backupConfigInfo: S.optional(__S(2114, __c66, 2)),
-          etag: S.optional(S.String),
-          backupCount: S.optional(S.String),
-          labels: S.optional(__S(4096, __c128, 0)),
-          createTime: S.optional(S.String),
-          configState: S.optional(S.String),
-          state: S.optional(S.String),
-          name: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          totalStoredBytes: S.optional(S.String),
-          dataSourceGcpResource: S.optional(__S(2121, __c66, 9)),
-          dataSourceBackupApplianceApplication: S.optional(__S(2122, __c66, 10)),
-          backupBlockedByVaultAccessRestriction: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "DataSource" });
-  }
-}
-function __c66(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7502,7 +7028,7 @@ function __c66(j: number): any {
           backupPlanRevisionId: S.optional(S.String),
           backupPlanAssociation: S.optional(S.String),
           autoProtectionPolicyBinding: S.optional(S.String),
-          backupPlanRules: S.optional(__S(2944, __c92, 0)),
+          backupPlanRules: S.optional(__S(2656, __c83, 0)),
           backupPlanRevisionName: S.optional(S.String),
           backupPlan: S.optional(S.String),
         }),
@@ -7511,10 +7037,10 @@ function __c66(j: number): any {
       return S.suspend(() =>
         S.Struct({
           lastSuccessfulBackupConsistencyTime: S.optional(S.String),
-          backupApplianceBackupConfig: S.optional(__S(2112, __c66, 0)),
-          gcpBackupConfig: S.optional(__S(2113, __c66, 1)),
+          backupApplianceBackupConfig: S.optional(__S(1952, __c61, 0)),
+          gcpBackupConfig: S.optional(__S(1953, __c61, 1)),
           lastBackupState: S.optional(S.String),
-          lastBackupError: S.optional(__S(1793, __c56, 1)),
+          lastBackupError: S.optional(__S(1665, __c52, 1)),
         }),
       ).annotate({ identifier: "BackupConfigInfo" });
     case 3:
@@ -7535,11 +7061,11 @@ function __c66(j: number): any {
         }),
       ).annotate({ identifier: "AlloyDbPitrWindow" });
     case 5:
-      return S.Array(__S(2116, __c66, 4));
+      return S.Array(__S(1956, __c61, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          pitrWindows: S.optional(__S(2117, __c66, 5)),
+          pitrWindows: S.optional(__S(1957, __c61, 5)),
           name: S.optional(S.String),
           clusterUid: S.optional(S.String),
         }),
@@ -7567,14 +7093,14 @@ function __c66(j: number): any {
       return S.suspend(() =>
         S.Struct({
           gcpResourcename: S.optional(S.String),
-          diskDatasourceProperties: S.optional(__S(2115, __c66, 3)),
-          alloyDbClusterDatasourceProperties: S.optional(__S(2118, __c66, 6)),
-          cloudSqlInstanceDatasourceProperties: S.optional(__S(2119, __c66, 7)),
-          netappVolumeDatasourceProperties: S.optional(__S(1120, __c35, 0)),
+          diskDatasourceProperties: S.optional(__S(1955, __c61, 3)),
+          alloyDbClusterDatasourceProperties: S.optional(__S(1958, __c61, 6)),
+          cloudSqlInstanceDatasourceProperties: S.optional(__S(1959, __c61, 7)),
+          netappVolumeDatasourceProperties: S.optional(__S(1088, __c34, 0)),
           type: S.optional(S.String),
-          computeInstanceDatasourceProperties: S.optional(__S(2120, __c66, 8)),
+          computeInstanceDatasourceProperties: S.optional(__S(1960, __c61, 8)),
           location: S.optional(S.String),
-          filestoreInstanceDatasourceProperties: S.optional(__S(1121, __c35, 1)),
+          filestoreInstanceDatasourceProperties: S.optional(__S(1089, __c34, 1)),
         }),
       ).annotate({ identifier: "DataSourceGcpResource" });
     case 10:
@@ -7589,9 +7115,27 @@ function __c66(j: number): any {
           applicationId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DataSourceBackupApplianceApplication" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          backupConfigInfo: S.optional(__S(1954, __c61, 2)),
+          etag: S.optional(S.String),
+          backupCount: S.optional(S.String),
+          labels: S.optional(__S(3840, __c120, 0)),
+          createTime: S.optional(S.String),
+          configState: S.optional(S.String),
+          state: S.optional(S.String),
+          name: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          totalStoredBytes: S.optional(S.String),
+          dataSourceGcpResource: S.optional(__S(1961, __c61, 9)),
+          dataSourceBackupApplianceApplication: S.optional(__S(1962, __c61, 10)),
+          backupBlockedByVaultAccessRestriction: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "DataSource" });
   }
 }
-function __c67(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7608,7 +7152,7 @@ function __c67(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsBackupVaultsDataSourcesBackupsRequest" });
   }
 }
-function __c68(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7624,7 +7168,7 @@ function __c68(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsDataSourceReferencesRequest" });
   }
 }
-function __c69(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7640,32 +7184,7 @@ function __c69(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsManagementServersRequest" });
   }
 }
-function __c70(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          type: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          description: S.optional(S.String),
-          workforceIdentityBasedManagementUri: S.optional(__S(96, __c3, 0)),
-          networks: S.optional(__S(98, __c3, 2)),
-          satisfiesPzs: S.optional(S.Boolean),
-          oauth2ClientId: S.optional(S.String),
-          baProxyUri: S.optional(__S(2944, __c92, 0)),
-          createTime: S.optional(S.String),
-          labels: S.optional(__S(4096, __c128, 0)),
-          etag: S.optional(S.String),
-          managementUri: S.optional(__S(99, __c3, 3)),
-          satisfiesPzi: S.optional(S.Boolean),
-          state: S.optional(S.String),
-          workforceIdentityBasedOauth2ClientId: S.optional(__S(100, __c3, 4)),
-          name: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ManagementServer" });
-  }
-}
-function __c71(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7681,7 +7200,7 @@ function __c71(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsOperationsRequest" });
   }
 }
-function __c72(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7697,36 +7216,13 @@ function __c72(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsRestoreTemplatesRequest" });
   }
 }
-function __c73(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          labels: S.optional(__S(4096, __c128, 0)),
-          etag: S.optional(S.String),
-          executionSummary: S.optional(__S(192, __c6, 0)),
-          resourceType: S.optional(S.String),
-          name: S.optional(S.String),
-          state: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          verificationConfig: S.optional(__S(160, __c5, 0)),
-          preRestoreConfig: S.optional(__S(161, __c5, 1)),
-          postRestoreConfig: S.optional(__S(160, __c5, 0)),
-          description: S.optional(S.String),
-          restoreProperties: S.optional(__S(1760, __c55, 0)),
-          createTime: S.optional(S.String),
-          backupSelectionConfig: S.optional(__S(162, __c5, 2)),
-        }),
-      ).annotate({ identifier: "RestoreTemplate" });
-  }
-}
-function __c74(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2400, __c75, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(2176, __c68, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -7737,13 +7233,13 @@ function __c74(j: number): any {
       ).annotate({ identifier: "CancelProjectsLocationsOperationsRequest" });
   }
 }
-function __c75(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "CancelOperationRequest" });
   }
 }
-function __c76(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7759,12 +7255,12 @@ function __c76(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsRestoreTemplatesExecutionsRequest" });
   }
 }
-function __c77(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          error: S.optional(__S(1793, __c56, 1)),
+          error: S.optional(__S(1665, __c52, 1)),
           preRestoreConfig: S.optional(__S(161, __c5, 1)),
           cloudRunExecution: S.optional(S.String),
           phaseState: S.optional(S.String),
@@ -7779,7 +7275,7 @@ function __c77(j: number): any {
           phaseState: S.optional(S.String),
           isBackupExplicitlyPassed: S.optional(S.Boolean),
           startTime: S.optional(S.String),
-          error: S.optional(__S(1793, __c56, 1)),
+          error: S.optional(__S(1665, __c52, 1)),
           restoreVerificationPlanAssociation: S.optional(S.String),
           backup: S.optional(S.String),
           endTime: S.optional(S.String),
@@ -7788,7 +7284,7 @@ function __c77(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          error: S.optional(__S(1793, __c56, 1)),
+          error: S.optional(__S(1665, __c52, 1)),
           phaseState: S.optional(S.String),
           cloudRunExecution: S.optional(S.String),
           verificationConfig: S.optional(__S(160, __c5, 0)),
@@ -7799,10 +7295,10 @@ function __c77(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          error: S.optional(__S(1793, __c56, 1)),
+          error: S.optional(__S(1665, __c52, 1)),
           startTime: S.optional(S.String),
           restoreResource: S.optional(S.String),
-          restoreProperties: S.optional(__S(1760, __c55, 0)),
+          restoreProperties: S.optional(__S(1632, __c51, 0)),
           endTime: S.optional(S.String),
           restoreDuration: S.optional(S.String),
           phaseState: S.optional(S.String),
@@ -7812,7 +7308,7 @@ function __c77(j: number): any {
       return S.suspend(() =>
         S.Struct({
           cleanupTime: S.optional(S.String),
-          error: S.optional(__S(1793, __c56, 1)),
+          error: S.optional(__S(1665, __c52, 1)),
           cleanupDuration: S.optional(S.String),
           successCleanupRule: S.optional(__S(256, __c8, 0)),
           failureCleanupRule: S.optional(__S(256, __c8, 0)),
@@ -7826,7 +7322,7 @@ function __c77(j: number): any {
         S.Struct({
           endTime: S.optional(S.String),
           startTime: S.optional(S.String),
-          error: S.optional(__S(1793, __c56, 1)),
+          error: S.optional(__S(1665, __c52, 1)),
           cloudRunExecution: S.optional(S.String),
           postRestoreConfig: S.optional(__S(160, __c5, 0)),
           phaseState: S.optional(S.String),
@@ -7835,24 +7331,24 @@ function __c77(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          preRestorePhaseInfo: S.optional(__S(2464, __c77, 0)),
-          preparePhaseInfo: S.optional(__S(2465, __c77, 1)),
+          preRestorePhaseInfo: S.optional(__S(2240, __c70, 0)),
+          preparePhaseInfo: S.optional(__S(2241, __c70, 1)),
           createTime: S.optional(S.String),
           resourceType: S.optional(S.String),
           updateTime: S.optional(S.String),
           phase: S.optional(S.String),
           type: S.optional(S.String),
           name: S.optional(S.String),
-          verificationPhaseInfo: S.optional(__S(2466, __c77, 2)),
-          restorePhaseInfo: S.optional(__S(2467, __c77, 3)),
-          cleanupPhaseInfo: S.optional(__S(2468, __c77, 4)),
-          postRestorePhaseInfo: S.optional(__S(2469, __c77, 5)),
+          verificationPhaseInfo: S.optional(__S(2242, __c70, 2)),
+          restorePhaseInfo: S.optional(__S(2243, __c70, 3)),
+          cleanupPhaseInfo: S.optional(__S(2244, __c70, 4)),
+          postRestorePhaseInfo: S.optional(__S(2245, __c70, 5)),
           state: S.optional(S.String),
         }),
       ).annotate({ identifier: "RestoreTemplateExecution" });
   }
 }
-function __c78(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7868,26 +7364,7 @@ function __c78(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsRestoreVerificationPlansRequest" });
   }
 }
-function __c79(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          updateTime: S.optional(S.String),
-          schedule: S.optional(S.String),
-          labels: S.optional(__S(4096, __c128, 0)),
-          successCleanupRule: S.optional(__S(256, __c8, 0)),
-          timeZone: S.optional(S.String),
-          state: S.optional(S.String),
-          description: S.optional(S.String),
-          createTime: S.optional(S.String),
-          name: S.optional(S.String),
-          failureCleanupRule: S.optional(__S(256, __c8, 0)),
-        }),
-      ).annotate({ identifier: "RestoreVerificationPlan" });
-  }
-}
-function __c80(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7903,25 +7380,7 @@ function __c80(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsRestoreVerificationPlansAssociationsRequest" });
   }
 }
-function __c81(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          triggerSummary: S.optional(__S(320, __c10, 0)),
-          createTime: S.optional(S.String),
-          state: S.optional(S.String),
-          name: S.optional(S.String),
-          resourceType: S.optional(S.String),
-          labels: S.optional(__S(4096, __c128, 0)),
-          description: S.optional(S.String),
-          restoreTemplate: S.optional(S.String),
-          updateTime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "RestoreVerificationPlanAssociation" });
-  }
-}
-function __c82(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7937,7 +7396,7 @@ function __c82(j: number): any {
       ).annotate({ identifier: "GetTrialProjectsLocationsRequest" });
   }
 }
-function __c83(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7948,13 +7407,21 @@ function __c83(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           backupPlanLocation: S.optional(S.String),
           resourceType: S.optional(S.String),
-          cloudSqlInstanceInitializationConfig: S.optional(__S(2656, __c83, 0)),
+          cloudSqlInstanceInitializationConfig: S.optional(__S(2368, __c74, 0)),
           validateOnly: S.optional(S.Boolean),
           requestId: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "InitializeServiceRequest" });
+    case 2:
+      return S.suspend(() =>
+        S.Extend(
+          __S(2369, __c74, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+name}:initialize",
@@ -7964,15 +7431,23 @@ function __c83(j: number): any {
       ).annotate({ identifier: "InitializeProjectsLocationsServiceConfigRequest" });
   }
 }
-function __c84(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          dataSource: S.String.pipe(T.Label()),
           requestId: S.optional(S.String),
           backupId: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "InitiateBackupRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(2400, __c75, 0),
+          S.Struct({
+            dataSource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+dataSource}:initiateBackup",
@@ -7980,7 +7455,7 @@ function __c84(j: number): any {
           }),
         ),
       ).annotate({ identifier: "InitiateBackupProjectsLocationsBackupVaultsDataSourcesRequest" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           baseBackupGenerationId: S.optional(S.Number),
@@ -7990,15 +7465,23 @@ function __c84(j: number): any {
       ).annotate({ identifier: "InitiateBackupResponse" });
   }
 }
-function __c85(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           etag: S.optional(S.String),
           requestId: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "InitiateDeleteAutoProtectionPolicyBindingRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(2432, __c76, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+name}:initiateDelete",
@@ -8010,7 +7493,7 @@ function __c85(j: number): any {
       });
   }
 }
-function __c86(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8018,7 +7501,7 @@ function __c86(j: number): any {
           filter: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          extraLocationTypes: S.optional(__S(2944, __c92, 0).pipe(T.Query())),
+          extraLocationTypes: S.optional(__S(2656, __c83, 0).pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -8029,17 +7512,17 @@ function __c86(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsRequest" });
     case 1:
-      return S.Array(__S(1504, __c47, 0));
+      return S.Array(__S(1440, __c45, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          locations: S.optional(__S(2753, __c86, 1)),
+          locations: S.optional(__S(2465, __c77, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListLocationsResponse" });
   }
 }
-function __c87(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8060,29 +7543,29 @@ function __c87(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          backupPlanDetails: S.optional(__S(2881, __c90, 1)),
+          backupPlanDetails: S.optional(__S(2593, __c81, 1)),
           createTime: S.optional(S.String),
           status: S.optional(S.String),
           name: S.optional(S.String),
-          bindingEvaluationSummary: S.optional(__S(3328, __c104, 0)),
+          bindingEvaluationSummary: S.optional(__S(3040, __c95, 0)),
           sourceBinding: S.optional(S.String),
           updateTime: S.optional(S.String),
-          criteria: S.optional(__S(2885, __c90, 5)),
+          criteria: S.optional(__S(2597, __c81, 5)),
         }),
       ).annotate({ identifier: "AppliedAutoProtectionPolicy" });
     case 2:
-      return S.Array(__S(2785, __c87, 1));
+      return S.Array(__S(2497, __c78, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(2944, __c92, 0)),
+          unreachable: S.optional(__S(2656, __c83, 0)),
           nextPageToken: S.optional(S.String),
-          appliedAutoProtectionPolicies: S.optional(__S(2786, __c87, 2)),
+          appliedAutoProtectionPolicies: S.optional(__S(2498, __c78, 2)),
         }),
       ).annotate({ identifier: "ListAppliedAutoProtectionPoliciesResponse" });
   }
 }
-function __c88(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8101,36 +7584,29 @@ function __c88(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsAutoProtectionPoliciesRequest" });
     case 1:
-      return S.Array(__S(1568, __c49, 0));
+      return S.Array(__S(2626, __c82, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          autoProtectionPolicies: S.optional(__S(2817, __c88, 1)),
-          unreachable: S.optional(__S(2944, __c92, 0)),
+          autoProtectionPolicies: S.optional(__S(2529, __c79, 1)),
+          unreachable: S.optional(__S(2656, __c83, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListAutoProtectionPoliciesResponse" });
   }
 }
-function __c89(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          autoProtectionPolicyId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          backupPlanDetails: S.optional(__S(2881, __c90, 1)),
-          policyEvaluationSummary: S.optional(__S(2912, __c91, 0)),
-          criteria: S.optional(__S(2885, __c90, 5)),
-          description: S.optional(S.String),
-          etag: S.optional(S.String),
-          state: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          bindingSummary: S.optional(__S(2913, __c91, 1)),
-          createTime: S.optional(S.String),
-          name: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(2626, __c82, 2),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            autoProtectionPolicyId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+parent}/autoProtectionPolicies",
@@ -8140,7 +7616,7 @@ function __c89(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsAutoProtectionPoliciesRequest" });
   }
 }
-function __c90(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8150,31 +7626,31 @@ function __c90(j: number): any {
         }),
       ).annotate({ identifier: "BackupPlanDetail" });
     case 1:
-      return S.Array(__S(2880, __c90, 0));
+      return S.Array(__S(2592, __c81, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           key: S.optional(S.String),
-          values: S.optional(__S(2944, __c92, 0)),
+          values: S.optional(__S(2656, __c83, 0)),
         }),
       ).annotate({ identifier: "KeyValuePair" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          labelCondition: S.optional(__S(2882, __c90, 2)),
+          labelCondition: S.optional(__S(2594, __c81, 2)),
         }),
       ).annotate({ identifier: "MatchingCondition" });
     case 4:
-      return S.Array(__S(2883, __c90, 3));
+      return S.Array(__S(2595, __c81, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          matchingConditions: S.optional(__S(2884, __c90, 4)),
+          matchingConditions: S.optional(__S(2596, __c81, 4)),
         }),
       ).annotate({ identifier: "Criteria" });
   }
 }
-function __c91(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8190,15 +7666,30 @@ function __c91(j: number): any {
           projectCount: S.optional(S.String),
         }),
       ).annotate({ identifier: "BindingSummary" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          backupPlanDetails: S.optional(__S(2593, __c81, 1)),
+          policyEvaluationSummary: S.optional(__S(2624, __c82, 0)),
+          criteria: S.optional(__S(2597, __c81, 5)),
+          description: S.optional(S.String),
+          etag: S.optional(S.String),
+          state: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          bindingSummary: S.optional(__S(2625, __c82, 1)),
+          createTime: S.optional(S.String),
+          name: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AutoProtectionPolicy" });
   }
 }
-function __c92(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c93(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8217,18 +7708,18 @@ function __c93(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsAutoProtectionPoliciesBindingsRequest" });
     case 1:
-      return S.Array(__S(1632, __c51, 0));
+      return S.Array(__S(3072, __c96, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          autoProtectionPolicyBindings: S.optional(__S(2977, __c93, 1)),
+          autoProtectionPolicyBindings: S.optional(__S(2689, __c84, 1)),
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(2944, __c92, 0)),
+          unreachable: S.optional(__S(2656, __c83, 0)),
         }),
       ).annotate({ identifier: "ListAutoProtectionPolicyBindingsResponse" });
   }
 }
-function __c94(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8249,17 +7740,17 @@ function __c94(j: number): any {
         identifier: "ListProjectsLocationsAutoProtectionPoliciesBindingsMatchingResourcesRequest",
       });
     case 1:
-      return S.Array(__S(1697, __c53, 1));
+      return S.Array(__S(1569, __c49, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          matchingResources: S.optional(__S(3009, __c94, 1)),
+          matchingResources: S.optional(__S(2721, __c85, 1)),
         }),
       ).annotate({ identifier: "ListBindingMatchingResourcesResponse" });
   }
 }
-function __c95(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8279,14 +7770,14 @@ function __c95(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(2944, __c92, 0)),
+          unreachable: S.optional(__S(2656, __c83, 0)),
           nextPageToken: S.optional(S.String),
           backupPlanAssociations: S.optional(__S(896, __c28, 0)),
         }),
       ).annotate({ identifier: "ListBackupPlanAssociationsResponse" });
   }
 }
-function __c96(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8305,18 +7796,18 @@ function __c96(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsBackupPlansRequest" });
     case 1:
-      return S.Array(__S(1920, __c60, 0));
+      return S.Array(__S(3880, __c121, 8));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(2944, __c92, 0)),
+          unreachable: S.optional(__S(2656, __c83, 0)),
           nextPageToken: S.optional(S.String),
-          backupPlans: S.optional(__S(3073, __c96, 1)),
+          backupPlans: S.optional(__S(2785, __c87, 1)),
         }),
       ).annotate({ identifier: "ListBackupPlansResponse" });
   }
 }
-function __c97(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8333,18 +7824,18 @@ function __c97(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsBackupPlansRevisionsRequest" });
     case 1:
-      return S.Array(__S(1984, __c62, 0));
+      return S.Array(__S(1856, __c58, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          backupPlanRevisions: S.optional(__S(3105, __c97, 1)),
+          backupPlanRevisions: S.optional(__S(2817, __c88, 1)),
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(2944, __c92, 0)),
+          unreachable: S.optional(__S(2656, __c83, 0)),
         }),
       ).annotate({ identifier: "ListBackupPlanRevisionsResponse" });
   }
 }
-function __c98(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8365,7 +7856,7 @@ function __c98(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsBackupVaultsRequest" });
   }
 }
-function __c99(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8384,18 +7875,18 @@ function __c99(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsBackupVaultsDataSourcesRequest" });
     case 1:
-      return S.Array(__S(2080, __c65, 0));
+      return S.Array(__S(1963, __c61, 11));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          dataSources: S.optional(__S(3169, __c99, 1)),
-          unreachable: S.optional(__S(2944, __c92, 0)),
+          dataSources: S.optional(__S(2881, __c90, 1)),
+          unreachable: S.optional(__S(2656, __c83, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListDataSourcesResponse" });
   }
 }
-function __c100(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8417,14 +7908,14 @@ function __c100(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(2944, __c92, 0)),
+          unreachable: S.optional(__S(2656, __c83, 0)),
           nextPageToken: S.optional(S.String),
-          backups: S.optional(__S(1056, __c33, 0)),
+          backups: S.optional(__S(1024, __c32, 0)),
         }),
       ).annotate({ identifier: "ListBackupsResponse" });
   }
 }
-function __c101(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8445,14 +7936,14 @@ function __c101(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          dataSourceReferences: S.optional(__S(1184, __c37, 0)),
-          unreachable: S.optional(__S(2944, __c92, 0)),
+          dataSourceReferences: S.optional(__S(1152, __c36, 0)),
+          unreachable: S.optional(__S(2656, __c83, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListDataSourceReferencesResponse" });
   }
 }
-function __c102(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8471,34 +7962,29 @@ function __c102(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsManagementServersRequest" });
     case 1:
-      return S.Array(__S(2240, __c70, 0));
+      return S.Array(__S(101, __c3, 5));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          managementServers: S.optional(__S(3265, __c102, 1)),
+          managementServers: S.optional(__S(2977, __c93, 1)),
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(2944, __c92, 0)),
+          unreachable: S.optional(__S(2656, __c83, 0)),
         }),
       ).annotate({ identifier: "ListManagementServersResponse" });
   }
 }
-function __c103(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          autoProtectionPolicyBindingId: S.optional(S.String.pipe(T.Query())),
-          etag: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          name: S.optional(S.String),
-          state: S.optional(S.String),
-          description: S.optional(S.String),
-          bindingEvaluationSummary: S.optional(__S(3328, __c104, 0)),
-          createTime: S.optional(S.String),
-          scope: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(3072, __c96, 0),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            autoProtectionPolicyBindingId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+parent}/bindings",
@@ -8508,7 +7994,7 @@ function __c103(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsAutoProtectionPoliciesBindingsRequest" });
   }
 }
-function __c104(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8520,7 +8006,24 @@ function __c104(j: number): any {
       ).annotate({ identifier: "BindingEvaluationSummary" });
   }
 }
-function __c105(j: number): any {
+function __c96(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          etag: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          name: S.optional(S.String),
+          state: S.optional(S.String),
+          description: S.optional(S.String),
+          bindingEvaluationSummary: S.optional(__S(3040, __c95, 0)),
+          createTime: S.optional(S.String),
+          scope: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AutoProtectionPolicyBinding" });
+  }
+}
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8539,18 +8042,18 @@ function __c105(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsOperationsRequest" });
     case 1:
-      return S.Array(__S(1824, __c57, 0));
+      return S.Array(__S(1696, __c53, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(2944, __c92, 0)),
-          operations: S.optional(__S(3361, __c105, 1)),
+          unreachable: S.optional(__S(2656, __c83, 0)),
+          operations: S.optional(__S(3105, __c97, 1)),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
   }
 }
-function __c106(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8570,7 +8073,7 @@ function __c106(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsResourceBackupConfigsRequest" });
   }
 }
-function __c107(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8589,18 +8092,18 @@ function __c107(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsRestoreTemplatesRequest" });
     case 1:
-      return S.Array(__S(2336, __c73, 0));
+      return S.Array(__S(193, __c6, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          restoreTemplates: S.optional(__S(3425, __c107, 1)),
-          unreachable: S.optional(__S(2944, __c92, 0)),
+          restoreTemplates: S.optional(__S(3169, __c99, 1)),
+          unreachable: S.optional(__S(2656, __c83, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListRestoreTemplatesResponse" });
   }
 }
-function __c108(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8619,18 +8122,18 @@ function __c108(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsRestoreTemplatesExecutionsRequest" });
     case 1:
-      return S.Array(__S(2470, __c77, 6));
+      return S.Array(__S(2246, __c70, 6));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          restoreTemplateExecutions: S.optional(__S(3457, __c108, 1)),
+          restoreTemplateExecutions: S.optional(__S(3201, __c100, 1)),
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(2944, __c92, 0)),
+          unreachable: S.optional(__S(2656, __c83, 0)),
         }),
       ).annotate({ identifier: "ListRestoreTemplateExecutionsResponse" });
   }
 }
-function __c109(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8649,18 +8152,18 @@ function __c109(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsRestoreVerificationPlansRequest" });
     case 1:
-      return S.Array(__S(2528, __c79, 0));
+      return S.Array(__S(288, __c9, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          restoreVerificationPlans: S.optional(__S(3489, __c109, 1)),
-          unreachable: S.optional(__S(2944, __c92, 0)),
+          restoreVerificationPlans: S.optional(__S(3233, __c101, 1)),
+          unreachable: S.optional(__S(2656, __c83, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListRestoreVerificationPlansResponse" });
   }
 }
-function __c110(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8681,25 +8184,33 @@ function __c110(j: number): any {
         identifier: "ListProjectsLocationsRestoreVerificationPlansAssociationsRequest",
       });
     case 1:
-      return S.Array(__S(2592, __c81, 0));
+      return S.Array(__S(353, __c11, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(2944, __c92, 0)),
+          unreachable: S.optional(__S(2656, __c83, 0)),
           nextPageToken: S.optional(S.String),
-          restoreVerificationPlanAssociations: S.optional(__S(3521, __c110, 1)),
+          restoreVerificationPlanAssociations: S.optional(__S(3265, __c102, 1)),
         }),
       ).annotate({ identifier: "ListRestoreVerificationPlanAssociationsResponse" });
   }
 }
-function __c111(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
           projectId: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "FetchMsComplianceMetadataRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(3296, __c103, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+parent}:msComplianceMetadata",
@@ -8707,7 +8218,7 @@ function __c111(j: number): any {
           }),
         ),
       ).annotate({ identifier: "MsComplianceMetadataProjectsLocationsManagementServersRequest" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           isAssuredWorkload: S.optional(S.Boolean),
@@ -8715,24 +8226,18 @@ function __c111(j: number): any {
       ).annotate({ identifier: "FetchMsComplianceMetadataResponse" });
   }
 }
-function __c112(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          backupPlanDetails: S.optional(__S(2881, __c90, 1)),
-          policyEvaluationSummary: S.optional(__S(2912, __c91, 0)),
-          criteria: S.optional(__S(2885, __c90, 5)),
-          description: S.optional(S.String),
-          etag: S.optional(S.String),
-          state: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          bindingSummary: S.optional(__S(2913, __c91, 1)),
-          createTime: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(2626, __c82, 2),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta/{+name}",
@@ -8742,30 +8247,18 @@ function __c112(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsAutoProtectionPoliciesRequest" });
   }
 }
-function __c113(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          cloudSqlInstanceBackupPlanAssociationProperties: S.optional(__S(3712, __c116, 0)),
-          backupPlanRevisionId: S.optional(S.String),
-          dataSource: S.optional(S.String),
-          state: S.optional(S.String),
-          createTime: S.optional(S.String),
-          resourceType: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          netappVolumeBackupPlanAssociationProperties: S.optional(__S(3713, __c116, 1)),
-          backupPlanRevisionName: S.optional(S.String),
-          autoProtectionPolicyBinding: S.optional(S.String),
-          backupPlan: S.optional(S.String),
-          alloydbClusterBackupPlanAssociationProperties: S.optional(__S(3714, __c116, 2)),
-          resource: S.optional(S.String),
-          filestoreInstanceBackupPlanAssociationProperties: S.optional(__S(3712, __c116, 0)),
-          rulesConfigInfo: S.optional(__S(3716, __c116, 4)),
-        }).pipe(
+        S.Extend(
+          __S(3461, __c108, 5),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta/{+name}",
@@ -8775,32 +8268,18 @@ function __c113(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsBackupPlanAssociationsRequest" });
   }
 }
-function __c114(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          diskBackupPlanProperties: S.optional(__S(4128, __c129, 0)),
-          backupVault: S.optional(S.String),
-          computeInstanceBackupPlanProperties: S.optional(__S(4128, __c129, 0)),
-          revisionId: S.optional(S.String),
-          etag: S.optional(S.String),
-          description: S.optional(S.String),
-          maxCustomOnDemandRetentionDays: S.optional(S.Number),
-          state: S.optional(S.String),
-          revisionName: S.optional(S.String),
-          labels: S.optional(__S(4096, __c128, 0)),
-          backupVaultServiceAccount: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          resourceType: S.optional(S.String),
-          logRetentionDays: S.optional(S.String),
-          backupRules: S.optional(__S(4135, __c129, 7)),
-          supportedResourceTypes: S.optional(__S(2944, __c92, 0)),
-          createTime: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(3880, __c121, 8),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta/{+name}",
@@ -8810,31 +8289,18 @@ function __c114(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsBackupPlansRequest" });
   }
 }
-function __c115(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          backupPlanAssociationId: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          cloudSqlInstanceBackupPlanAssociationProperties: S.optional(__S(3712, __c116, 0)),
-          backupPlanRevisionId: S.optional(S.String),
-          dataSource: S.optional(S.String),
-          state: S.optional(S.String),
-          createTime: S.optional(S.String),
-          resourceType: S.optional(S.String),
-          name: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          netappVolumeBackupPlanAssociationProperties: S.optional(__S(3713, __c116, 1)),
-          backupPlanRevisionName: S.optional(S.String),
-          autoProtectionPolicyBinding: S.optional(S.String),
-          backupPlan: S.optional(S.String),
-          alloydbClusterBackupPlanAssociationProperties: S.optional(__S(3714, __c116, 2)),
-          resource: S.optional(S.String),
-          filestoreInstanceBackupPlanAssociationProperties: S.optional(__S(3712, __c116, 0)),
-          rulesConfigInfo: S.optional(__S(3716, __c116, 4)),
-        }).pipe(
+        S.Extend(
+          __S(3461, __c108, 5),
+          S.Struct({
+            backupPlanAssociationId: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+parent}/backupPlanAssociations",
@@ -8844,7 +8310,7 @@ function __c115(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsBackupPlanAssociationsRequest" });
   }
 }
-function __c116(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8870,42 +8336,49 @@ function __c116(j: number): any {
           lastSuccessfulBackupConsistencyTime: S.optional(S.String),
           ruleId: S.optional(S.String),
           lastBackupState: S.optional(S.String),
-          lastBackupError: S.optional(__S(1793, __c56, 1)),
+          lastBackupError: S.optional(__S(1665, __c52, 1)),
         }),
       ).annotate({ identifier: "RuleConfigInfo" });
     case 4:
-      return S.Array(__S(3715, __c116, 3));
+      return S.Array(__S(3459, __c108, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          cloudSqlInstanceBackupPlanAssociationProperties: S.optional(__S(3456, __c108, 0)),
+          backupPlanRevisionId: S.optional(S.String),
+          dataSource: S.optional(S.String),
+          state: S.optional(S.String),
+          createTime: S.optional(S.String),
+          resourceType: S.optional(S.String),
+          name: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          netappVolumeBackupPlanAssociationProperties: S.optional(__S(3457, __c108, 1)),
+          backupPlanRevisionName: S.optional(S.String),
+          autoProtectionPolicyBinding: S.optional(S.String),
+          backupPlan: S.optional(S.String),
+          alloydbClusterBackupPlanAssociationProperties: S.optional(__S(3458, __c108, 2)),
+          resource: S.optional(S.String),
+          filestoreInstanceBackupPlanAssociationProperties: S.optional(__S(3456, __c108, 0)),
+          rulesConfigInfo: S.optional(__S(3460, __c108, 4)),
+        }),
+      ).annotate({ identifier: "BackupPlanAssociation" });
   }
 }
-function __c117(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          forceUpdateAccessRestriction: S.optional(S.Boolean.pipe(T.Query())),
-          force: S.optional(S.Boolean.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          deletable: S.optional(S.Boolean),
-          serviceAccount: S.optional(S.String),
-          totalStoredBytes: S.optional(S.String),
-          backupRetentionInheritance: S.optional(S.String),
-          description: S.optional(S.String),
-          backupMinimumEnforcedRetentionDuration: S.optional(S.String),
-          createTime: S.optional(S.String),
-          effectiveTime: S.optional(S.String),
-          etag: S.optional(S.String),
-          state: S.optional(S.String),
-          backupCount: S.optional(S.String),
-          annotations: S.optional(__S(4096, __c128, 0)),
-          uid: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          encryptionConfig: S.optional(__S(32, __c1, 0)),
-          labels: S.optional(__S(4096, __c128, 0)),
-          accessRestriction: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(33, __c1, 1),
+          S.Struct({
+            forceUpdateAccessRestriction: S.optional(S.Boolean.pipe(T.Query())),
+            force: S.optional(S.Boolean.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta/{+name}",
@@ -8915,28 +8388,19 @@ function __c117(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsBackupVaultsRequest" });
   }
 }
-function __c118(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          backupConfigInfo: S.optional(__S(2114, __c66, 2)),
-          etag: S.optional(S.String),
-          backupCount: S.optional(S.String),
-          labels: S.optional(__S(4096, __c128, 0)),
-          createTime: S.optional(S.String),
-          configState: S.optional(S.String),
-          state: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          totalStoredBytes: S.optional(S.String),
-          dataSourceGcpResource: S.optional(__S(2121, __c66, 9)),
-          dataSourceBackupApplianceApplication: S.optional(__S(2122, __c66, 10)),
-          backupBlockedByVaultAccessRestriction: S.optional(S.Boolean),
-        }).pipe(
+        S.Extend(
+          __S(1963, __c61, 11),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta/{+name}",
@@ -8946,42 +8410,18 @@ function __c118(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsBackupVaultsDataSourcesRequest" });
   }
 }
-function __c119(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          satisfiesPzs: S.optional(S.Boolean),
-          expireTime: S.optional(S.String),
-          consistencyTime: S.optional(S.String),
-          serviceLocks: S.optional(__S(995, __c31, 3)),
-          backupType: S.optional(S.String),
-          computeInstanceBackupProperties: S.optional(__S(996, __c31, 4)),
-          alloyDbBackupProperties: S.optional(__S(997, __c31, 5)),
-          state: S.optional(S.String),
-          cloudSqlInstanceBackupProperties: S.optional(__S(998, __c31, 6)),
-          gcpBackupPlanInfo: S.optional(__S(999, __c31, 7)),
-          enforcedRetentionEndTime: S.optional(S.String),
-          backupApplianceLocks: S.optional(__S(995, __c31, 3)),
-          createTime: S.optional(S.String),
-          etag: S.optional(S.String),
-          verificationSummary: S.optional(__S(1000, __c31, 8)),
-          backupApplianceBackupProperties: S.optional(__S(1001, __c31, 9)),
-          filestoreInstanceBackupProperties: S.optional(__S(1002, __c31, 10)),
-          backupRetentionInheritance: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          labels: S.optional(__S(4096, __c128, 0)),
-          diskBackupProperties: S.optional(__S(1003, __c31, 11)),
-          gcpResource: S.optional(__S(1004, __c31, 12)),
-          kmsKeyVersions: S.optional(__S(2944, __c92, 0)),
-          satisfiesPzi: S.optional(S.Boolean),
-          description: S.optional(S.String),
-          netappVolumeBackupProperties: S.optional(__S(1005, __c31, 13)),
-          resourceSizeBytes: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(974, __c30, 14),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta/{+name}",
@@ -8991,29 +8431,19 @@ function __c119(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsBackupVaultsDataSourcesBackupsRequest" });
   }
 }
-function __c120(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          labels: S.optional(__S(4096, __c128, 0)),
-          etag: S.optional(S.String),
-          executionSummary: S.optional(__S(192, __c6, 0)),
-          resourceType: S.optional(S.String),
-          state: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          verificationConfig: S.optional(__S(160, __c5, 0)),
-          preRestoreConfig: S.optional(__S(161, __c5, 1)),
-          postRestoreConfig: S.optional(__S(160, __c5, 0)),
-          description: S.optional(S.String),
-          restoreProperties: S.optional(__S(1760, __c55, 0)),
-          createTime: S.optional(S.String),
-          backupSelectionConfig: S.optional(__S(162, __c5, 2)),
-        }).pipe(
+        S.Extend(
+          __S(193, __c6, 1),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta/{+name}",
@@ -9023,14 +8453,16 @@ function __c120(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsRestoreTemplatesRequest" });
   }
 }
-function __c121(j: number): any {
+function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1728, __c54, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+name}:remove",
@@ -9040,7 +8472,7 @@ function __c121(j: number): any {
       ).annotate({ identifier: "RemoveProjectsLocationsBackupVaultsDataSourcesRequest" });
   }
 }
-function __c122(j: number): any {
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9052,14 +8484,14 @@ function __c122(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          diskEncryptionKey: S.optional(__S(1044, __c32, 20)),
-          resourceManagerTags: S.optional(__S(4096, __c128, 0)),
+          diskEncryptionKey: S.optional(__S(1012, __c31, 20)),
+          resourceManagerTags: S.optional(__S(3840, __c120, 0)),
           provisionedThroughput: S.optional(S.String),
           physicalBlockSizeBytes: S.optional(S.String),
-          licenses: S.optional(__S(2944, __c92, 0)),
+          licenses: S.optional(__S(2656, __c83, 0)),
           name: S.optional(S.String),
-          instanceBackupSource: S.optional(__S(3904, __c122, 0)),
-          guestOsFeature: S.optional(__S(1043, __c32, 19)),
+          instanceBackupSource: S.optional(__S(3648, __c114, 0)),
+          guestOsFeature: S.optional(__S(1011, __c31, 19)),
           storagePool: S.optional(S.String),
           type: S.optional(S.String),
           accessMode: S.optional(S.String),
@@ -9067,8 +8499,8 @@ function __c122(j: number): any {
           provisionedIops: S.optional(S.String),
           architecture: S.optional(S.String),
           sizeGb: S.optional(S.String),
-          labels: S.optional(__S(4096, __c128, 0)),
-          resourcePolicy: S.optional(__S(2944, __c92, 0)),
+          labels: S.optional(__S(3840, __c120, 0)),
+          resourcePolicy: S.optional(__S(2656, __c83, 0)),
           enableConfidentialCompute: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "DiskRestoreProperties" });
@@ -9094,13 +8526,13 @@ function __c122(j: number): any {
           region: S.optional(S.String),
           project: S.optional(S.String),
           useProjectServiceAccount: S.optional(S.Boolean),
-          replicaZones: S.optional(__S(2944, __c92, 0)),
+          replicaZones: S.optional(__S(2656, __c83, 0)),
         }),
       ).annotate({ identifier: "RegionDiskTargetEnvironment" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          values: S.optional(__S(2944, __c92, 0)),
+          values: S.optional(__S(2656, __c83, 0)),
           consumeReservationType: S.optional(S.String),
           key: S.optional(S.String),
         }),
@@ -9129,7 +8561,7 @@ function __c122(j: number): any {
     case 9:
       return S.suspend(() =>
         S.Struct({
-          resourceManagerTags: S.optional(__S(4096, __c128, 0)),
+          resourceManagerTags: S.optional(__S(3840, __c120, 0)),
         }),
       ).annotate({ identifier: "InstanceParams" });
     case 10:
@@ -9141,29 +8573,29 @@ function __c122(j: number): any {
     case 11:
       return S.suspend(() =>
         S.Struct({
-          resourcePolicies: S.optional(__S(2944, __c92, 0)),
-          reservationAffinity: S.optional(__S(3909, __c122, 5)),
-          labels: S.optional(__S(4096, __c128, 0)),
+          resourcePolicies: S.optional(__S(2656, __c83, 0)),
+          reservationAffinity: S.optional(__S(3653, __c114, 5)),
+          labels: S.optional(__S(3840, __c120, 0)),
           minCpuPlatform: S.optional(S.String),
           keyRevocationActionType: S.optional(S.String),
-          tags: S.optional(__S(1041, __c32, 17)),
-          serviceAccounts: S.optional(__S(1031, __c32, 7)),
-          displayDevice: S.optional(__S(3910, __c122, 6)),
-          networkPerformanceConfig: S.optional(__S(3911, __c122, 7)),
-          advancedMachineFeatures: S.optional(__S(3912, __c122, 8)),
-          params: S.optional(__S(3913, __c122, 9)),
-          instanceEncryptionKey: S.optional(__S(1044, __c32, 20)),
-          guestAccelerators: S.optional(__S(1033, __c32, 9)),
-          disks: S.optional(__S(1047, __c32, 23)),
+          tags: S.optional(__S(1009, __c31, 17)),
+          serviceAccounts: S.optional(__S(999, __c31, 7)),
+          displayDevice: S.optional(__S(3654, __c114, 6)),
+          networkPerformanceConfig: S.optional(__S(3655, __c114, 7)),
+          advancedMachineFeatures: S.optional(__S(3656, __c114, 8)),
+          params: S.optional(__S(3657, __c114, 9)),
+          instanceEncryptionKey: S.optional(__S(1012, __c31, 20)),
+          guestAccelerators: S.optional(__S(1001, __c31, 9)),
+          disks: S.optional(__S(1015, __c31, 23)),
           deletionProtection: S.optional(S.Boolean),
-          networkInterfaces: S.optional(__S(1029, __c32, 5)),
+          networkInterfaces: S.optional(__S(997, __c31, 5)),
           machineType: S.optional(S.String),
           hostname: S.optional(S.String),
-          scheduling: S.optional(__S(1040, __c32, 16)),
-          confidentialInstanceConfig: S.optional(__S(3914, __c122, 10)),
+          scheduling: S.optional(__S(1008, __c31, 16)),
+          confidentialInstanceConfig: S.optional(__S(3658, __c114, 10)),
           privateIpv6GoogleAccess: S.optional(S.String),
           description: S.optional(S.String),
-          metadata: S.optional(__S(1036, __c32, 12)),
+          metadata: S.optional(__S(1004, __c31, 12)),
           name: S.optional(S.String),
           canIpForward: S.optional(S.Boolean),
         }),
@@ -9171,15 +8603,23 @@ function __c122(j: number): any {
     case 12:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
-          diskRestoreProperties: S.optional(__S(3905, __c122, 1)),
+          diskRestoreProperties: S.optional(__S(3649, __c114, 1)),
           requestId: S.optional(S.String),
-          computeInstanceTargetEnvironment: S.optional(__S(3906, __c122, 2)),
-          diskTargetEnvironment: S.optional(__S(3907, __c122, 3)),
-          regionDiskTargetEnvironment: S.optional(__S(3908, __c122, 4)),
-          computeInstanceRestoreProperties: S.optional(__S(3915, __c122, 11)),
+          computeInstanceTargetEnvironment: S.optional(__S(3650, __c114, 2)),
+          diskTargetEnvironment: S.optional(__S(3651, __c114, 3)),
+          regionDiskTargetEnvironment: S.optional(__S(3652, __c114, 4)),
+          computeInstanceRestoreProperties: S.optional(__S(3659, __c114, 11)),
           clearOverridesFieldMask: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "RestoreBackupRequest" });
+    case 13:
+      return S.suspend(() =>
+        S.Extend(
+          __S(3660, __c114, 12),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+name}:restore",
@@ -9189,15 +8629,23 @@ function __c122(j: number): any {
       ).annotate({ identifier: "RestoreProjectsLocationsBackupVaultsDataSourcesBackupsRequest" });
   }
 }
-function __c123(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           backup: S.optional(S.String),
           requestId: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "RunRestoreTemplateRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(3680, __c115, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+name}:run",
@@ -9207,15 +8655,23 @@ function __c123(j: number): any {
       ).annotate({ identifier: "RunProjectsLocationsRestoreTemplatesRequest" });
   }
 }
-function __c124(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          resource: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String),
-          policy: S.optional(__S(1447, __c45, 7)),
-        }).pipe(
+          policy: S.optional(__S(1383, __c43, 7)),
+        }),
+      ).annotate({ identifier: "SetIamPolicyRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(3712, __c116, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+resource}:setIamPolicy",
@@ -9225,16 +8681,24 @@ function __c124(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsLocationsManagementServersRequest" });
   }
 }
-function __c125(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          dataSource: S.String.pipe(T.Label()),
           backupConfigState: S.optional(S.String),
           value: S.optional(S.String),
           requestId: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "SetInternalStatusRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(3744, __c117, 0),
+          S.Struct({
+            dataSource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+dataSource}:setInternalStatus",
@@ -9246,13 +8710,13 @@ function __c125(j: number): any {
       });
   }
 }
-function __c126(j: number): any {
+function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2400, __c75, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(2176, __c68, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -9263,33 +8727,18 @@ function __c126(j: number): any {
       ).annotate({ identifier: "SubscribeProjectsLocationsTrialRequest" });
   }
 }
-function __c127(j: number): any {
+function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          backupPlanId: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          name: S.optional(S.String),
-          diskBackupPlanProperties: S.optional(__S(4128, __c129, 0)),
-          backupVault: S.optional(S.String),
-          computeInstanceBackupPlanProperties: S.optional(__S(4128, __c129, 0)),
-          revisionId: S.optional(S.String),
-          etag: S.optional(S.String),
-          description: S.optional(S.String),
-          maxCustomOnDemandRetentionDays: S.optional(S.Number),
-          state: S.optional(S.String),
-          revisionName: S.optional(S.String),
-          labels: S.optional(__S(4096, __c128, 0)),
-          backupVaultServiceAccount: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          resourceType: S.optional(S.String),
-          logRetentionDays: S.optional(S.String),
-          backupRules: S.optional(__S(4135, __c129, 7)),
-          supportedResourceTypes: S.optional(__S(2944, __c92, 0)),
-          createTime: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(3880, __c121, 8),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            backupPlanId: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+parent}/backupPlans",
@@ -9299,13 +8748,13 @@ function __c127(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsBackupPlansRequest" });
   }
 }
-function __c128(j: number): any {
+function __c120(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
   }
 }
-function __c129(j: number): any {
+function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9334,14 +8783,14 @@ function __c129(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          daysOfWeek: S.optional(__S(4129, __c129, 1)),
-          daysOfMonth: S.optional(__S(4130, __c129, 2)),
-          backupWindow: S.optional(__S(4131, __c129, 3)),
+          daysOfWeek: S.optional(__S(3873, __c121, 1)),
+          daysOfMonth: S.optional(__S(3874, __c121, 2)),
+          backupWindow: S.optional(__S(3875, __c121, 3)),
           hourlyFrequency: S.optional(S.Number),
           recurrenceType: S.optional(S.String),
           timeZone: S.optional(S.String),
-          weekDayOfMonth: S.optional(__S(4132, __c129, 4)),
-          months: S.optional(__S(4129, __c129, 1)),
+          weekDayOfMonth: S.optional(__S(3876, __c121, 4)),
+          months: S.optional(__S(3873, __c121, 1)),
         }),
       ).annotate({ identifier: "StandardSchedule" });
     case 6:
@@ -9350,22 +8799,47 @@ function __c129(j: number): any {
           ruleId: S.optional(S.String),
           backupRetentionDays: S.optional(S.Number),
           backupVault: S.optional(S.String),
-          standardSchedule: S.optional(__S(4133, __c129, 5)),
+          standardSchedule: S.optional(__S(3877, __c121, 5)),
           backupVaultServiceAccount: S.optional(S.String),
         }),
       ).annotate({ identifier: "BackupRule" });
     case 7:
-      return S.Array(__S(4134, __c129, 6));
+      return S.Array(__S(3878, __c121, 6));
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          diskBackupPlanProperties: S.optional(__S(3872, __c121, 0)),
+          backupVault: S.optional(S.String),
+          computeInstanceBackupPlanProperties: S.optional(__S(3872, __c121, 0)),
+          revisionId: S.optional(S.String),
+          etag: S.optional(S.String),
+          description: S.optional(S.String),
+          maxCustomOnDemandRetentionDays: S.optional(S.Number),
+          state: S.optional(S.String),
+          revisionName: S.optional(S.String),
+          labels: S.optional(__S(3840, __c120, 0)),
+          backupVaultServiceAccount: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          resourceType: S.optional(S.String),
+          logRetentionDays: S.optional(S.String),
+          backupRules: S.optional(__S(3879, __c121, 7)),
+          supportedResourceTypes: S.optional(__S(2656, __c83, 0)),
+          createTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "BackupPlan" });
   }
 }
-function __c130(j: number): any {
+function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          permissions: S.optional(__S(2944, __c92, 0)),
-        }).pipe(
+        S.Extend(
+          __S(3936, __c123, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+resource}:testIamPermissions",
@@ -9375,24 +8849,26 @@ function __c130(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsLocationsBackupVaultsRequest" });
   }
 }
-function __c131(j: number): any {
+function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          permissions: S.optional(__S(2944, __c92, 0)),
+          permissions: S.optional(__S(2656, __c83, 0)),
         }),
-      ).annotate({ identifier: "TestIamPermissionsResponse" });
+      ).annotate({ identifier: "TestIamPermissionsRequest" });
   }
 }
-function __c132(j: number): any {
+function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          permissions: S.optional(__S(2944, __c92, 0)),
-        }).pipe(
+        S.Extend(
+          __S(3936, __c123, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+resource}:testIamPermissions",
@@ -9402,17 +8878,25 @@ function __c132(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsLocationsManagementServersRequest" });
   }
 }
-function __c133(j: number): any {
+function __c125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           customRetentionDays: S.optional(S.Number),
           requestId: S.optional(S.String),
-          labels: S.optional(__S(4096, __c128, 0)),
+          labels: S.optional(__S(3840, __c120, 0)),
           ruleId: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "TriggerBackupRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(4000, __c125, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+name}:triggerBackup",
@@ -9422,14 +8906,16 @@ function __c133(j: number): any {
       ).annotate({ identifier: "TriggerBackupProjectsLocationsBackupPlanAssociationsRequest" });
   }
 }
-function __c134(j: number): any {
+function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1728, __c54, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+name}:triggerRestoreCleanup",
@@ -9441,14 +8927,16 @@ function __c134(j: number): any {
       });
   }
 }
-function __c135(j: number): any {
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1728, __c54, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta/{+name}:triggerRestoreVerification",

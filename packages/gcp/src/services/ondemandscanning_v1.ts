@@ -216,15 +216,18 @@ export interface PackageData {
   sourceVersion?: PackageVersion | undefined;
 }
 export type PackageDataList = Array<PackageData>;
-export interface AnalyzePackagesProjectsLocationsScansRequest {
-  /** Required. The parent of the resource for which analysis is requested. Format: projects/[project_name]/locations/[location] */
-  parent: string;
+/** AnalyzePackagesRequest is the request to analyze a list of packages and create Vulnerability Occurrences for it. */
+export interface AnalyzePackagesRequestV1 {
   /** [DEPRECATED] Whether to include OSV data in the scan. For backwards compatibility reasons, this field can be neither removed nor renamed. */
   includeOsvData?: boolean | undefined;
   /** Required. The resource URI of the container image being scanned. */
   resourceUri?: string | undefined;
   /** The packages to analyze. */
   packages?: PackageDataList | undefined;
+}
+export interface AnalyzePackagesProjectsLocationsScansRequest extends AnalyzePackagesRequestV1 {
+  /** Required. The parent of the resource for which analysis is requested. Format: projects/[project_name]/locations/[location] */
+  parent: string;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -1604,7 +1607,7 @@ export const analyzePackagesProjectsLocationsScans: API.OperationMethod<
   AnalyzePackagesProjectsLocationsScansError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(47, __c1, 15) as any as S.Schema<AnalyzePackagesProjectsLocationsScansRequest>,
+  input: __S(48, __c1, 16) as any as S.Schema<AnalyzePackagesProjectsLocationsScansRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -1860,11 +1863,19 @@ function __c1(j: number): any {
     case 15:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
           includeOsvData: S.optional(S.Boolean),
           resourceUri: S.optional(S.String),
           packages: S.optional(__S(46, __c1, 14)),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "AnalyzePackagesRequestV1" });
+    case 16:
+      return S.suspend(() =>
+        S.Extend(
+          __S(47, __c1, 15),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/scans:analyzePackages",

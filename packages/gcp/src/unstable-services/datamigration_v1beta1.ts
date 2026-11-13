@@ -222,13 +222,8 @@ export interface Status {
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
   details?: DocumentMapList | undefined;
 }
-export interface CreateProjectsLocationsConnectionProfilesRequest {
-  /** Required. The parent, which owns this collection of connection profiles. */
-  parent: string;
-  /** Required. The connection profile identifier. */
-  connectionProfileId?: string | undefined;
-  /** A unique id used to identify the request. If the server receives two requests with the same id, then the second request will be ignored. It is recommended to always set this value to a UUID. The id must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters. */
-  requestId?: string | undefined;
+/** A connection profile definition. */
+export interface ConnectionProfile {
   /** The current connection profile state (e.g. DRAFT, READY, or FAILED). */
   state?: ConnectionProfileStateEnum | (string & {}) | undefined;
   /** Output only. The timestamp when the resource was last updated. A timestamp in RFC3339 UTC "Zulu" format, accurate to nanoseconds. Example: "2014-10-02T15:01:23.045123456Z". */
@@ -249,6 +244,14 @@ export interface CreateProjectsLocationsConnectionProfilesRequest {
   error?: Status | undefined;
   /** The resource labels for connection profile to use to annotate any related underlying resources such as Compute Engine VMs. An object containing a list of "key": "value" pairs. Example: `{ "name": "wrench", "mass": "1.3kg", "count": "3" }`. */
   labels?: StringMap | undefined;
+}
+export interface CreateProjectsLocationsConnectionProfilesRequest extends ConnectionProfile {
+  /** Required. The parent, which owns this collection of connection profiles. */
+  parent: string;
+  /** Required. The connection profile identifier. */
+  connectionProfileId?: string | undefined;
+  /** A unique id used to identify the request. If the server receives two requests with the same id, then the second request will be ignored. It is recommended to always set this value to a UUID. The id must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters. */
+  requestId?: string | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
@@ -315,13 +318,8 @@ export interface DatabaseType {
   engine?: DatabaseTypeEngineEnum | (string & {}) | undefined;
 }
 export type MigrationJobTypeEnum = "TYPE_UNSPECIFIED" | "ONE_TIME" | "CONTINUOUS";
-export interface CreateProjectsLocationsMigrationJobsRequest {
-  /** Required. The parent, which owns this collection of migration jobs. */
-  parent: string;
-  /** A unique id used to identify the request. If the server receives two requests with the same id, then the second request will be ignored. It is recommended to always set this value to a UUID. The id must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters. */
-  requestId?: string | undefined;
-  /** Required. The ID of the instance to create. */
-  migrationJobId?: string | undefined;
+/** Represents a Database Migration Service migration job object. */
+export interface MigrationJob {
   /** Required. The resource name (URI) of the destination connection profile. */
   destination?: string | undefined;
   /** Output only. The current migration job phase. */
@@ -361,6 +359,14 @@ export interface CreateProjectsLocationsMigrationJobsRequest {
   /** The migration job display name. */
   displayName?: string | undefined;
 }
+export interface CreateProjectsLocationsMigrationJobsRequest extends MigrationJob {
+  /** Required. The parent, which owns this collection of migration jobs. */
+  parent: string;
+  /** A unique id used to identify the request. If the server receives two requests with the same id, then the second request will be ignored. It is recommended to always set this value to a UUID. The id must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters. */
+  requestId?: string | undefined;
+  /** Required. The ID of the instance to create. */
+  migrationJobId?: string | undefined;
+}
 export interface DeleteProjectsLocationsConnectionProfilesRequest {
   /** Required. Name of the connection profile resource to delete. */
   name: string;
@@ -395,9 +401,8 @@ export interface VmSelectionConfig {
   /** Required. The Google Cloud Platform zone the VM is located. */
   vmZone?: string | undefined;
 }
-export interface GenerateSshScriptProjectsLocationsMigrationJobsRequest {
-  /** Name of the migration job resource to generate the SSH script. */
-  migrationJob: string;
+/** Request message for 'GenerateSshScript' request. */
+export interface GenerateSshScriptRequest {
   /** The VM creation configuration */
   vmCreationConfig?: VmCreationConfig | undefined;
   /** Required. Bastion VM Instance name to use or to create. */
@@ -406,6 +411,10 @@ export interface GenerateSshScriptProjectsLocationsMigrationJobsRequest {
   vmPort?: number | undefined;
   /** The VM selection configuration */
   vmSelectionConfig?: VmSelectionConfig | undefined;
+}
+export interface GenerateSshScriptProjectsLocationsMigrationJobsRequest extends GenerateSshScriptRequest {
+  /** Name of the migration job resource to generate the SSH script. */
+  migrationJob: string;
 }
 /** Response message for 'GenerateSshScript' request. */
 export interface SshScript {
@@ -499,73 +508,9 @@ export interface GetProjectsLocationsConnectionProfilesRequest {
   /** Required. Name of the connection profile resource to get. */
   name: string;
 }
-/** A connection profile definition. */
-export interface ConnectionProfile {
-  /** The current connection profile state (e.g. DRAFT, READY, or FAILED). */
-  state?: ConnectionProfileStateEnum | undefined;
-  /** Output only. The timestamp when the resource was last updated. A timestamp in RFC3339 UTC "Zulu" format, accurate to nanoseconds. Example: "2014-10-02T15:01:23.045123456Z". */
-  updateTime?: string | undefined;
-  /** A CloudSQL database connection profile. */
-  cloudsql?: CloudSqlConnectionProfile | undefined;
-  /** The database provider. */
-  provider?: ConnectionProfileProviderEnum | undefined;
-  /** Output only. The timestamp when the resource was created. A timestamp in RFC3339 UTC "Zulu" format, accurate to nanoseconds. Example: "2014-10-02T15:01:23.045123456Z". */
-  createTime?: string | undefined;
-  /** The name of this connection profile resource in the form of projects/{project}/locations/{location}/connectionProfiles/{connectionProfile}. */
-  name?: string | undefined;
-  /** The connection profile display name. */
-  displayName?: string | undefined;
-  /** A MySQL database connection profile. */
-  mysql?: MySqlConnectionProfile | undefined;
-  /** Output only. The error details in case of state FAILED. */
-  error?: Status | undefined;
-  /** The resource labels for connection profile to use to annotate any related underlying resources such as Compute Engine VMs. An object containing a list of "key": "value" pairs. Example: `{ "name": "wrench", "mass": "1.3kg", "count": "3" }`. */
-  labels?: StringMap | undefined;
-}
 export interface GetProjectsLocationsMigrationJobsRequest {
   /** Required. Name of the migration job resource to get. */
   name: string;
-}
-/** Represents a Database Migration Service migration job object. */
-export interface MigrationJob {
-  /** Required. The resource name (URI) of the destination connection profile. */
-  destination?: string | undefined;
-  /** Output only. The current migration job phase. */
-  phase?: MigrationJobPhaseEnum | undefined;
-  /** Output only. The error details in case of state FAILED. */
-  error?: Status | undefined;
-  /** Required. The resource name (URI) of the source connection profile. */
-  source?: string | undefined;
-  /** The details needed to communicate to the source over Reverse SSH tunnel connectivity. */
-  reverseSshConnectivity?: ReverseSshConnectivity | undefined;
-  /** Output only. If the migration job is completed, the time when it was completed. */
-  endTime?: string | undefined;
-  /** The current migration job state. */
-  state?: MigrationJobStateEnum | undefined;
-  /** static ip connectivity data (default, no additional details needed). */
-  staticIpConnectivity?: CancelOperationRequest | undefined;
-  /** Output only. The duration of the migration job (in seconds). A duration in seconds with up to nine fractional digits, terminated by 's'. Example: "3.5s". */
-  duration?: string | undefined;
-  /** The resource labels for migration job to use to annotate any related underlying resources such as Compute Engine VMs. An object containing a list of "key": "value" pairs. Example: `{ "name": "wrench", "mass": "1.3kg", "count": "3" }`. */
-  labels?: StringMap | undefined;
-  /** The details of the VPC network that the source database is located in. */
-  vpcPeeringConnectivity?: VpcPeeringConnectivity | undefined;
-  /** The path to the dump file in Google Cloud Storage, in the format: (gs://[BUCKET_NAME]/[OBJECT_NAME]). */
-  dumpPath?: string | undefined;
-  /** Output only. The timestamp when the migration job resource was last updated. A timestamp in RFC3339 UTC "Zulu" format, accurate to nanoseconds. Example: "2014-10-02T15:01:23.045123456Z". */
-  updateTime?: string | undefined;
-  /** The database engine type and provider of the source. */
-  sourceDatabase?: DatabaseType | undefined;
-  /** Required. The migration job type. */
-  type?: MigrationJobTypeEnum | undefined;
-  /** The database engine type and provider of the destination. */
-  destinationDatabase?: DatabaseType | undefined;
-  /** Output only. The timestamp when the migration job resource was created. A timestamp in RFC3339 UTC "Zulu" format, accurate to nanoseconds. Example: "2014-10-02T15:01:23.045123456Z". */
-  createTime?: string | undefined;
-  /** The name (URI) of this migration job resource, in the form of: projects/{project}/locations/{location}/migrationJobs/{migrationJob}. */
-  name?: string | undefined;
-  /** The migration job display name. */
-  displayName?: string | undefined;
 }
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
@@ -657,75 +602,24 @@ export interface ListOperationsResponse {
   /** The standard List next-page token. */
   nextPageToken?: string | undefined;
 }
-export interface PatchProjectsLocationsConnectionProfilesRequest {
+export interface PatchProjectsLocationsConnectionProfilesRequest extends Omit<
+  ConnectionProfile,
+  "name"
+> {
   /** A unique id used to identify the request. If the server receives two requests with the same id, then the second request will be ignored. It is recommended to always set this value to a UUID. The id must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters. */
   requestId?: string | undefined;
   /** Required. Field mask is used to specify the fields to be overwritten in the connection profile resource by the update. */
   updateMask?: string | undefined;
   /** The name of this connection profile resource in the form of projects/{project}/locations/{location}/connectionProfiles/{connectionProfile}. */
   name: string;
-  /** The current connection profile state (e.g. DRAFT, READY, or FAILED). */
-  state?: ConnectionProfileStateEnum | (string & {}) | undefined;
-  /** Output only. The timestamp when the resource was last updated. A timestamp in RFC3339 UTC "Zulu" format, accurate to nanoseconds. Example: "2014-10-02T15:01:23.045123456Z". */
-  updateTime?: string | undefined;
-  /** A CloudSQL database connection profile. */
-  cloudsql?: CloudSqlConnectionProfile | undefined;
-  /** The database provider. */
-  provider?: ConnectionProfileProviderEnum | (string & {}) | undefined;
-  /** Output only. The timestamp when the resource was created. A timestamp in RFC3339 UTC "Zulu" format, accurate to nanoseconds. Example: "2014-10-02T15:01:23.045123456Z". */
-  createTime?: string | undefined;
-  /** The connection profile display name. */
-  displayName?: string | undefined;
-  /** A MySQL database connection profile. */
-  mysql?: MySqlConnectionProfile | undefined;
-  /** Output only. The error details in case of state FAILED. */
-  error?: Status | undefined;
-  /** The resource labels for connection profile to use to annotate any related underlying resources such as Compute Engine VMs. An object containing a list of "key": "value" pairs. Example: `{ "name": "wrench", "mass": "1.3kg", "count": "3" }`. */
-  labels?: StringMap | undefined;
 }
-export interface PatchProjectsLocationsMigrationJobsRequest {
+export interface PatchProjectsLocationsMigrationJobsRequest extends Omit<MigrationJob, "name"> {
   /** The name (URI) of this migration job resource, in the form of: projects/{project}/locations/{location}/migrationJobs/{migrationJob}. */
   name: string;
   /** Required. Field mask is used to specify the fields to be overwritten in the migration job resource by the update. */
   updateMask?: string | undefined;
   /** A unique id used to identify the request. If the server receives two requests with the same id, then the second request will be ignored. It is recommended to always set this value to a UUID. The id must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters. */
   requestId?: string | undefined;
-  /** Required. The resource name (URI) of the destination connection profile. */
-  destination?: string | undefined;
-  /** Output only. The current migration job phase. */
-  phase?: MigrationJobPhaseEnum | (string & {}) | undefined;
-  /** Output only. The error details in case of state FAILED. */
-  error?: Status | undefined;
-  /** Required. The resource name (URI) of the source connection profile. */
-  source?: string | undefined;
-  /** The details needed to communicate to the source over Reverse SSH tunnel connectivity. */
-  reverseSshConnectivity?: ReverseSshConnectivity | undefined;
-  /** Output only. If the migration job is completed, the time when it was completed. */
-  endTime?: string | undefined;
-  /** The current migration job state. */
-  state?: MigrationJobStateEnum | (string & {}) | undefined;
-  /** static ip connectivity data (default, no additional details needed). */
-  staticIpConnectivity?: CancelOperationRequest | undefined;
-  /** Output only. The duration of the migration job (in seconds). A duration in seconds with up to nine fractional digits, terminated by 's'. Example: "3.5s". */
-  duration?: string | undefined;
-  /** The resource labels for migration job to use to annotate any related underlying resources such as Compute Engine VMs. An object containing a list of "key": "value" pairs. Example: `{ "name": "wrench", "mass": "1.3kg", "count": "3" }`. */
-  labels?: StringMap | undefined;
-  /** The details of the VPC network that the source database is located in. */
-  vpcPeeringConnectivity?: VpcPeeringConnectivity | undefined;
-  /** The path to the dump file in Google Cloud Storage, in the format: (gs://[BUCKET_NAME]/[OBJECT_NAME]). */
-  dumpPath?: string | undefined;
-  /** Output only. The timestamp when the migration job resource was last updated. A timestamp in RFC3339 UTC "Zulu" format, accurate to nanoseconds. Example: "2014-10-02T15:01:23.045123456Z". */
-  updateTime?: string | undefined;
-  /** The database engine type and provider of the source. */
-  sourceDatabase?: DatabaseType | undefined;
-  /** Required. The migration job type. */
-  type?: MigrationJobTypeEnum | (string & {}) | undefined;
-  /** The database engine type and provider of the destination. */
-  destinationDatabase?: DatabaseType | undefined;
-  /** Output only. The timestamp when the migration job resource was created. A timestamp in RFC3339 UTC "Zulu" format, accurate to nanoseconds. Example: "2014-10-02T15:01:23.045123456Z". */
-  createTime?: string | undefined;
-  /** The migration job display name. */
-  displayName?: string | undefined;
 }
 /** Request message for 'PromoteMigrationJob' request. */
 export type PromoteMigrationJobRequest = CancelOperationRequest;
@@ -751,21 +645,20 @@ export interface ResumeProjectsLocationsMigrationJobsRequest {
   /** Request body */
   body?: CancelOperationRequest | undefined;
 }
-export interface SetIamPolicyProjectsLocationsConnectionProfilesRequest {
-  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
+/** Request message for `SetIamPolicy` method. */
+export interface SetIamPolicyRequest {
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
   policy?: Policy | undefined;
   /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
   updateMask?: string | undefined;
 }
-export interface SetIamPolicyProjectsLocationsMigrationJobsRequest {
+export interface SetIamPolicyProjectsLocationsConnectionProfilesRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
-  policy?: Policy | undefined;
-  /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
-  updateMask?: string | undefined;
+}
+export interface SetIamPolicyProjectsLocationsMigrationJobsRequest extends SetIamPolicyRequest {
+  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
 }
 /** Request message for 'StartMigrationJob' request. */
 export type StartMigrationJobRequest = CancelOperationRequest;
@@ -783,22 +676,23 @@ export interface StopProjectsLocationsMigrationJobsRequest {
   /** Request body */
   body?: CancelOperationRequest | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsConnectionProfilesRequest {
-  /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
+/** Request message for `TestIamPermissions` method. */
+export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: StringList | undefined;
+}
+export interface TestIamPermissionsProjectsLocationsConnectionProfilesRequest extends TestIamPermissionsRequest {
+  /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsMigrationJobsRequest {
+export interface TestIamPermissionsProjectsLocationsMigrationJobsRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
-  permissions?: StringList | undefined;
 }
 /** Request message for 'VerifyMigrationJob' request. */
 export type VerifyMigrationJobRequest = CancelOperationRequest;
@@ -821,8 +715,8 @@ export const cancelProjectsLocationsOperations: API.OperationMethod<
   CancelProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(232, __c29, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
-  output: __S(240, __c30, 0) as any as S.Schema<Empty>,
+  input: __S(224, __c28, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
+  output: __S(232, __c29, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -843,8 +737,8 @@ export const createProjectsLocationsConnectionProfiles: API.OperationMethod<
   CreateProjectsLocationsConnectionProfilesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(248, __c31, 0) as any as S.Schema<CreateProjectsLocationsConnectionProfilesRequest>,
-  output: __S(288, __c36, 0) as any as S.Schema<Operation>,
+  input: __S(240, __c30, 0) as any as S.Schema<CreateProjectsLocationsConnectionProfilesRequest>,
+  output: __S(280, __c35, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -865,8 +759,8 @@ export const createProjectsLocationsMigrationJobs: API.OperationMethod<
   CreateProjectsLocationsMigrationJobsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(296, __c37, 0) as any as S.Schema<CreateProjectsLocationsMigrationJobsRequest>,
-  output: __S(288, __c36, 0) as any as S.Schema<Operation>,
+  input: __S(288, __c36, 0) as any as S.Schema<CreateProjectsLocationsMigrationJobsRequest>,
+  output: __S(280, __c35, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -887,8 +781,8 @@ export const deleteProjectsLocationsConnectionProfiles: API.OperationMethod<
   DeleteProjectsLocationsConnectionProfilesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(312, __c39, 0) as any as S.Schema<DeleteProjectsLocationsConnectionProfilesRequest>,
-  output: __S(288, __c36, 0) as any as S.Schema<Operation>,
+  input: __S(304, __c38, 0) as any as S.Schema<DeleteProjectsLocationsConnectionProfilesRequest>,
+  output: __S(280, __c35, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -909,8 +803,8 @@ export const deleteProjectsLocationsMigrationJobs: API.OperationMethod<
   DeleteProjectsLocationsMigrationJobsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c40, 0) as any as S.Schema<DeleteProjectsLocationsMigrationJobsRequest>,
-  output: __S(288, __c36, 0) as any as S.Schema<Operation>,
+  input: __S(312, __c39, 0) as any as S.Schema<DeleteProjectsLocationsMigrationJobsRequest>,
+  output: __S(280, __c35, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -931,8 +825,8 @@ export const deleteProjectsLocationsOperations: API.OperationMethod<
   DeleteProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(328, __c41, 0) as any as S.Schema<DeleteProjectsLocationsOperationsRequest>,
-  output: __S(240, __c30, 0) as any as S.Schema<Empty>,
+  input: __S(320, __c40, 0) as any as S.Schema<DeleteProjectsLocationsOperationsRequest>,
+  output: __S(232, __c29, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -953,8 +847,8 @@ export const generateSshScriptProjectsLocationsMigrationJobs: API.OperationMetho
   GenerateSshScriptProjectsLocationsMigrationJobsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2, __c0, 2) as any as S.Schema<GenerateSshScriptProjectsLocationsMigrationJobsRequest>,
-  output: __S(3, __c0, 3) as any as S.Schema<SshScript>,
+  input: __S(3, __c0, 3) as any as S.Schema<GenerateSshScriptProjectsLocationsMigrationJobsRequest>,
+  output: __S(4, __c0, 4) as any as S.Schema<SshScript>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1025,7 +919,7 @@ export const getProjectsLocationsConnectionProfiles: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(56, __c7, 0) as any as S.Schema<GetProjectsLocationsConnectionProfilesRequest>,
-  output: __S(64, __c8, 0) as any as S.Schema<ConnectionProfile>,
+  output: __S(255, __c31, 7) as any as S.Schema<ConnectionProfile>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1041,8 +935,8 @@ export const getProjectsLocationsMigrationJobs: API.OperationMethod<
   GetProjectsLocationsMigrationJobsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c9, 0) as any as S.Schema<GetProjectsLocationsMigrationJobsRequest>,
-  output: __S(80, __c10, 0) as any as S.Schema<MigrationJob>,
+  input: __S(64, __c8, 0) as any as S.Schema<GetProjectsLocationsMigrationJobsRequest>,
+  output: __S(299, __c37, 3) as any as S.Schema<MigrationJob>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1058,8 +952,8 @@ export const getProjectsLocationsOperations: API.OperationMethod<
   GetProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c11, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
-  output: __S(288, __c36, 0) as any as S.Schema<Operation>,
+  input: __S(72, __c9, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
+  output: __S(280, __c35, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1076,8 +970,8 @@ export const listProjectsLocations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListLocationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(96, __c12, 0) as any as S.Schema<ListProjectsLocationsRequest>,
-  output: __S(98, __c12, 2) as any as S.Schema<ListLocationsResponse>,
+  input: __S(80, __c10, 0) as any as S.Schema<ListProjectsLocationsRequest>,
+  output: __S(82, __c10, 2) as any as S.Schema<ListLocationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1095,8 +989,8 @@ export const listProjectsLocationsConnectionProfiles: API.PaginatedOperationMeth
   GcpOpContext,
   ListConnectionProfilesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(104, __c13, 0) as any as S.Schema<ListProjectsLocationsConnectionProfilesRequest>,
-  output: __S(106, __c13, 2) as any as S.Schema<ListConnectionProfilesResponse>,
+  input: __S(88, __c11, 0) as any as S.Schema<ListProjectsLocationsConnectionProfilesRequest>,
+  output: __S(90, __c11, 2) as any as S.Schema<ListConnectionProfilesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1114,8 +1008,8 @@ export const listProjectsLocationsMigrationJobs: API.PaginatedOperationMethod<
   GcpOpContext,
   ListMigrationJobsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(112, __c14, 0) as any as S.Schema<ListProjectsLocationsMigrationJobsRequest>,
-  output: __S(114, __c14, 2) as any as S.Schema<ListMigrationJobsResponse>,
+  input: __S(96, __c12, 0) as any as S.Schema<ListProjectsLocationsMigrationJobsRequest>,
+  output: __S(98, __c12, 2) as any as S.Schema<ListMigrationJobsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1133,8 +1027,8 @@ export const listProjectsLocationsOperations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListOperationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(120, __c15, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
-  output: __S(122, __c15, 2) as any as S.Schema<ListOperationsResponse>,
+  input: __S(104, __c13, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
+  output: __S(106, __c13, 2) as any as S.Schema<ListOperationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1156,8 +1050,8 @@ export const patchProjectsLocationsConnectionProfiles: API.OperationMethod<
   PatchProjectsLocationsConnectionProfilesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c16, 0) as any as S.Schema<PatchProjectsLocationsConnectionProfilesRequest>,
-  output: __S(288, __c36, 0) as any as S.Schema<Operation>,
+  input: __S(112, __c14, 0) as any as S.Schema<PatchProjectsLocationsConnectionProfilesRequest>,
+  output: __S(280, __c35, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1178,8 +1072,8 @@ export const patchProjectsLocationsMigrationJobs: API.OperationMethod<
   PatchProjectsLocationsMigrationJobsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(136, __c17, 0) as any as S.Schema<PatchProjectsLocationsMigrationJobsRequest>,
-  output: __S(288, __c36, 0) as any as S.Schema<Operation>,
+  input: __S(120, __c15, 0) as any as S.Schema<PatchProjectsLocationsMigrationJobsRequest>,
+  output: __S(280, __c35, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1200,8 +1094,8 @@ export const promoteProjectsLocationsMigrationJobs: API.OperationMethod<
   PromoteProjectsLocationsMigrationJobsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c18, 0) as any as S.Schema<PromoteProjectsLocationsMigrationJobsRequest>,
-  output: __S(288, __c36, 0) as any as S.Schema<Operation>,
+  input: __S(128, __c16, 0) as any as S.Schema<PromoteProjectsLocationsMigrationJobsRequest>,
+  output: __S(280, __c35, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1222,8 +1116,8 @@ export const restartProjectsLocationsMigrationJobs: API.OperationMethod<
   RestartProjectsLocationsMigrationJobsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(152, __c19, 0) as any as S.Schema<RestartProjectsLocationsMigrationJobsRequest>,
-  output: __S(288, __c36, 0) as any as S.Schema<Operation>,
+  input: __S(136, __c17, 0) as any as S.Schema<RestartProjectsLocationsMigrationJobsRequest>,
+  output: __S(280, __c35, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1244,8 +1138,8 @@ export const resumeProjectsLocationsMigrationJobs: API.OperationMethod<
   ResumeProjectsLocationsMigrationJobsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c20, 0) as any as S.Schema<ResumeProjectsLocationsMigrationJobsRequest>,
-  output: __S(288, __c36, 0) as any as S.Schema<Operation>,
+  input: __S(144, __c18, 0) as any as S.Schema<ResumeProjectsLocationsMigrationJobsRequest>,
+  output: __S(280, __c35, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1267,8 +1161,8 @@ export const setIamPolicyProjectsLocationsConnectionProfiles: API.OperationMetho
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    168,
-    __c21,
+    152,
+    __c19,
     0,
   ) as any as S.Schema<SetIamPolicyProjectsLocationsConnectionProfilesRequest>,
   output: __S(31, __c3, 7) as any as S.Schema<Policy>,
@@ -1292,7 +1186,7 @@ export const setIamPolicyProjectsLocationsMigrationJobs: API.OperationMethod<
   SetIamPolicyProjectsLocationsMigrationJobsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c22, 0) as any as S.Schema<SetIamPolicyProjectsLocationsMigrationJobsRequest>,
+  input: __S(168, __c21, 0) as any as S.Schema<SetIamPolicyProjectsLocationsMigrationJobsRequest>,
   output: __S(31, __c3, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -1314,8 +1208,8 @@ export const startProjectsLocationsMigrationJobs: API.OperationMethod<
   StartProjectsLocationsMigrationJobsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(184, __c23, 0) as any as S.Schema<StartProjectsLocationsMigrationJobsRequest>,
-  output: __S(288, __c36, 0) as any as S.Schema<Operation>,
+  input: __S(176, __c22, 0) as any as S.Schema<StartProjectsLocationsMigrationJobsRequest>,
+  output: __S(280, __c35, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1336,8 +1230,8 @@ export const stopProjectsLocationsMigrationJobs: API.OperationMethod<
   StopProjectsLocationsMigrationJobsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c24, 0) as any as S.Schema<StopProjectsLocationsMigrationJobsRequest>,
-  output: __S(288, __c36, 0) as any as S.Schema<Operation>,
+  input: __S(184, __c23, 0) as any as S.Schema<StopProjectsLocationsMigrationJobsRequest>,
+  output: __S(280, __c35, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1359,11 +1253,11 @@ export const testIamPermissionsProjectsLocationsConnectionProfiles: API.Operatio
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    200,
-    __c25,
+    192,
+    __c24,
     0,
   ) as any as S.Schema<TestIamPermissionsProjectsLocationsConnectionProfilesRequest>,
-  output: __S(208, __c26, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  output: __S(200, __c25, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1385,11 +1279,11 @@ export const testIamPermissionsProjectsLocationsMigrationJobs: API.OperationMeth
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    216,
-    __c27,
+    208,
+    __c26,
     0,
   ) as any as S.Schema<TestIamPermissionsProjectsLocationsMigrationJobsRequest>,
-  output: __S(208, __c26, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  output: __S(200, __c25, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1410,8 +1304,8 @@ export const verifyProjectsLocationsMigrationJobs: API.OperationMethod<
   VerifyProjectsLocationsMigrationJobsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c28, 0) as any as S.Schema<VerifyProjectsLocationsMigrationJobsRequest>,
-  output: __S(288, __c36, 0) as any as S.Schema<Operation>,
+  input: __S(216, __c27, 0) as any as S.Schema<VerifyProjectsLocationsMigrationJobsRequest>,
+  output: __S(280, __c35, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1439,12 +1333,20 @@ function __c0(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          migrationJob: S.String.pipe(T.Label()),
           vmCreationConfig: S.optional(__S(0, __c0, 0)),
           vm: S.optional(S.String),
           vmPort: S.optional(S.Number),
           vmSelectionConfig: S.optional(__S(1, __c0, 1)),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "GenerateSshScriptRequest" });
+    case 3:
+      return S.suspend(() =>
+        S.Extend(
+          __S(2, __c0, 2),
+          S.Struct({
+            migrationJob: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+migrationJob}:generateSshScript",
@@ -1452,7 +1354,7 @@ function __c0(j: number): any {
           }),
         ),
       ).annotate({ identifier: "GenerateSshScriptProjectsLocationsMigrationJobsRequest" });
-    case 3:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           script: S.optional(S.String),
@@ -1573,9 +1475,9 @@ function __c6(j: number): any {
         S.Struct({
           name: S.optional(S.String),
           displayName: S.optional(S.String),
-          metadata: S.optional(__S(272, __c34, 0)),
+          metadata: S.optional(__S(264, __c33, 0)),
           locationId: S.optional(S.String),
-          labels: S.optional(__S(264, __c33, 0)),
+          labels: S.optional(__S(256, __c32, 0)),
         }),
       ).annotate({ identifier: "Location" });
   }
@@ -1601,18 +1503,15 @@ function __c8(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          state: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          cloudsql: S.optional(__S(260, __c32, 4)),
-          provider: S.optional(S.String),
-          createTime: S.optional(S.String),
-          name: S.optional(S.String),
-          displayName: S.optional(S.String),
-          mysql: S.optional(__S(262, __c32, 6)),
-          error: S.optional(__S(281, __c35, 1)),
-          labels: S.optional(__S(264, __c33, 0)),
-        }),
-      ).annotate({ identifier: "ConnectionProfile" });
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1beta1/{+name}",
+            baseUrl: "https://datamigration.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "GetProjectsLocationsMigrationJobsRequest" });
   }
 }
 function __c9(j: number): any {
@@ -1628,54 +1527,10 @@ function __c9(j: number): any {
             baseUrl: "https://datamigration.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsMigrationJobsRequest" });
-  }
-}
-function __c10(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          destination: S.optional(S.String),
-          phase: S.optional(S.String),
-          error: S.optional(__S(281, __c35, 1)),
-          source: S.optional(S.String),
-          reverseSshConnectivity: S.optional(__S(304, __c38, 0)),
-          endTime: S.optional(S.String),
-          state: S.optional(S.String),
-          staticIpConnectivity: S.optional(__S(240, __c30, 0)),
-          duration: S.optional(S.String),
-          labels: S.optional(__S(264, __c33, 0)),
-          vpcPeeringConnectivity: S.optional(__S(305, __c38, 1)),
-          dumpPath: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          sourceDatabase: S.optional(__S(306, __c38, 2)),
-          type: S.optional(S.String),
-          destinationDatabase: S.optional(__S(306, __c38, 2)),
-          createTime: S.optional(S.String),
-          name: S.optional(S.String),
-          displayName: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "MigrationJob" });
-  }
-}
-function __c11(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v1beta1/{+name}",
-            baseUrl: "https://datamigration.googleapis.com/",
-          }),
-        ),
       ).annotate({ identifier: "GetProjectsLocationsOperationsRequest" });
   }
 }
-function __c12(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1699,12 +1554,12 @@ function __c12(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          locations: S.optional(__S(97, __c12, 1)),
+          locations: S.optional(__S(81, __c10, 1)),
         }),
       ).annotate({ identifier: "ListLocationsResponse" });
   }
 }
-function __c13(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1723,18 +1578,18 @@ function __c13(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsConnectionProfilesRequest" });
     case 1:
-      return S.Array(__S(64, __c8, 0));
+      return S.Array(__S(255, __c31, 7));
     case 2:
       return S.suspend(() =>
         S.Struct({
           unreachable: S.optional(__S(16, __c2, 0)),
-          connectionProfiles: S.optional(__S(105, __c13, 1)),
+          connectionProfiles: S.optional(__S(89, __c11, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListConnectionProfilesResponse" });
   }
 }
-function __c14(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1753,18 +1608,18 @@ function __c14(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsMigrationJobsRequest" });
     case 1:
-      return S.Array(__S(80, __c10, 0));
+      return S.Array(__S(299, __c37, 3));
     case 2:
       return S.suspend(() =>
         S.Struct({
           unreachable: S.optional(__S(16, __c2, 0)),
           nextPageToken: S.optional(S.String),
-          migrationJobs: S.optional(__S(113, __c14, 1)),
+          migrationJobs: S.optional(__S(97, __c12, 1)),
         }),
       ).annotate({ identifier: "ListMigrationJobsResponse" });
   }
 }
-function __c15(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1783,35 +1638,29 @@ function __c15(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsOperationsRequest" });
     case 1:
-      return S.Array(__S(288, __c36, 0));
+      return S.Array(__S(280, __c35, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           unreachable: S.optional(__S(16, __c2, 0)),
-          operations: S.optional(__S(121, __c15, 1)),
+          operations: S.optional(__S(105, __c13, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
   }
 }
-function __c16(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          state: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          cloudsql: S.optional(__S(260, __c32, 4)),
-          provider: S.optional(S.String),
-          createTime: S.optional(S.String),
-          displayName: S.optional(S.String),
-          mysql: S.optional(__S(262, __c32, 6)),
-          error: S.optional(__S(281, __c35, 1)),
-          labels: S.optional(__S(264, __c33, 0)),
-        }).pipe(
+        S.Extend(
+          __S(255, __c31, 7),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -1821,33 +1670,18 @@ function __c16(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsConnectionProfilesRequest" });
   }
 }
-function __c17(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          destination: S.optional(S.String),
-          phase: S.optional(S.String),
-          error: S.optional(__S(281, __c35, 1)),
-          source: S.optional(S.String),
-          reverseSshConnectivity: S.optional(__S(304, __c38, 0)),
-          endTime: S.optional(S.String),
-          state: S.optional(S.String),
-          staticIpConnectivity: S.optional(__S(240, __c30, 0)),
-          duration: S.optional(S.String),
-          labels: S.optional(__S(264, __c33, 0)),
-          vpcPeeringConnectivity: S.optional(__S(305, __c38, 1)),
-          dumpPath: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          sourceDatabase: S.optional(__S(306, __c38, 2)),
-          type: S.optional(S.String),
-          destinationDatabase: S.optional(__S(306, __c38, 2)),
-          createTime: S.optional(S.String),
-          displayName: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(299, __c37, 3),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -1857,13 +1691,13 @@ function __c17(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsMigrationJobsRequest" });
   }
 }
-function __c18(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(240, __c30, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(232, __c29, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1874,13 +1708,13 @@ function __c18(j: number): any {
       ).annotate({ identifier: "PromoteProjectsLocationsMigrationJobsRequest" });
   }
 }
-function __c19(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(240, __c30, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(232, __c29, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1891,13 +1725,13 @@ function __c19(j: number): any {
       ).annotate({ identifier: "RestartProjectsLocationsMigrationJobsRequest" });
   }
 }
-function __c20(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(240, __c30, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(232, __c29, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1908,15 +1742,16 @@ function __c20(j: number): any {
       ).annotate({ identifier: "ResumeProjectsLocationsMigrationJobsRequest" });
   }
 }
-function __c21(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          policy: S.optional(__S(31, __c3, 7)),
-          updateMask: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(160, __c20, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+resource}:setIamPolicy",
@@ -1926,15 +1761,27 @@ function __c21(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsLocationsConnectionProfilesRequest" });
   }
 }
-function __c22(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          resource: S.String.pipe(T.Label()),
           policy: S.optional(__S(31, __c3, 7)),
           updateMask: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "SetIamPolicyRequest" });
+  }
+}
+function __c21(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(160, __c20, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+resource}:setIamPolicy",
@@ -1944,13 +1791,13 @@ function __c22(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsLocationsMigrationJobsRequest" });
   }
 }
-function __c23(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(240, __c30, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(232, __c29, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1961,13 +1808,13 @@ function __c23(j: number): any {
       ).annotate({ identifier: "StartProjectsLocationsMigrationJobsRequest" });
   }
 }
-function __c24(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(240, __c30, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(232, __c29, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1978,14 +1825,16 @@ function __c24(j: number): any {
       ).annotate({ identifier: "StopProjectsLocationsMigrationJobsRequest" });
   }
 }
-function __c25(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          permissions: S.optional(__S(16, __c2, 0)),
-        }).pipe(
+        S.Extend(
+          __S(200, __c25, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+resource}:testIamPermissions",
@@ -1995,24 +1844,26 @@ function __c25(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsLocationsConnectionProfilesRequest" });
   }
 }
-function __c26(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           permissions: S.optional(__S(16, __c2, 0)),
         }),
-      ).annotate({ identifier: "TestIamPermissionsResponse" });
+      ).annotate({ identifier: "TestIamPermissionsRequest" });
   }
 }
-function __c27(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          permissions: S.optional(__S(16, __c2, 0)),
-        }).pipe(
+        S.Extend(
+          __S(200, __c25, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+resource}:testIamPermissions",
@@ -2022,13 +1873,13 @@ function __c27(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsLocationsMigrationJobsRequest" });
   }
 }
-function __c28(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(240, __c30, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(232, __c29, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2039,13 +1890,13 @@ function __c28(j: number): any {
       ).annotate({ identifier: "VerifyProjectsLocationsMigrationJobsRequest" });
   }
 }
-function __c29(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(240, __c30, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(232, __c29, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2056,31 +1907,24 @@ function __c29(j: number): any {
       ).annotate({ identifier: "CancelProjectsLocationsOperationsRequest" });
   }
 }
-function __c30(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "CancelOperationRequest" });
   }
 }
-function __c31(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          connectionProfileId: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          state: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          cloudsql: S.optional(__S(260, __c32, 4)),
-          provider: S.optional(S.String),
-          createTime: S.optional(S.String),
-          name: S.optional(S.String),
-          displayName: S.optional(S.String),
-          mysql: S.optional(__S(262, __c32, 6)),
-          error: S.optional(__S(281, __c35, 1)),
-          labels: S.optional(__S(264, __c33, 0)),
-        }).pipe(
+        S.Extend(
+          __S(255, __c31, 7),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            connectionProfileId: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/connectionProfiles",
@@ -2090,7 +1934,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsConnectionProfilesRequest" });
   }
 }
-function __c32(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2102,13 +1946,13 @@ function __c32(j: number): any {
         }),
       ).annotate({ identifier: "SqlAclEntry" });
     case 1:
-      return S.Array(__S(256, __c32, 0));
+      return S.Array(__S(248, __c31, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           enableIpv4: S.optional(S.Boolean),
           requireSsl: S.optional(S.Boolean),
-          authorizedNetworks: S.optional(__S(257, __c32, 1)),
+          authorizedNetworks: S.optional(__S(249, __c31, 1)),
           privateNetwork: S.optional(S.String),
         }),
       ).annotate({ identifier: "SqlIpConfig" });
@@ -2122,10 +1966,10 @@ function __c32(j: number): any {
           databaseVersion: S.optional(S.String),
           autoStorageIncrease: S.optional(S.Boolean),
           dataDiskSizeGb: S.optional(S.String),
-          databaseFlags: S.optional(__S(264, __c33, 0)),
-          userLabels: S.optional(__S(264, __c33, 0)),
+          databaseFlags: S.optional(__S(256, __c32, 0)),
+          userLabels: S.optional(__S(256, __c32, 0)),
           dataDiskType: S.optional(S.String),
-          ipConfig: S.optional(__S(258, __c32, 2)),
+          ipConfig: S.optional(__S(250, __c31, 2)),
           rootPassword: S.optional(S.String),
           zone: S.optional(S.String),
           activationPolicy: S.optional(S.String),
@@ -2137,7 +1981,7 @@ function __c32(j: number): any {
           privateIp: S.optional(S.String),
           publicIp: S.optional(S.String),
           cloudSqlId: S.optional(S.String),
-          settings: S.optional(__S(259, __c32, 3)),
+          settings: S.optional(__S(251, __c31, 3)),
         }),
       ).annotate({ identifier: "CloudSqlConnectionProfile" });
     case 5:
@@ -2153,7 +1997,7 @@ function __c32(j: number): any {
       return S.suspend(() =>
         S.Struct({
           passwordSet: S.optional(S.Boolean),
-          ssl: S.optional(__S(261, __c32, 5)),
+          ssl: S.optional(__S(253, __c31, 5)),
           host: S.optional(S.String),
           cloudSqlId: S.optional(S.String),
           username: S.optional(S.String),
@@ -2161,76 +2005,75 @@ function __c32(j: number): any {
           password: S.optional(S.String),
         }),
       ).annotate({ identifier: "MySqlConnectionProfile" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          state: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          cloudsql: S.optional(__S(252, __c31, 4)),
+          provider: S.optional(S.String),
+          createTime: S.optional(S.String),
+          name: S.optional(S.String),
+          displayName: S.optional(S.String),
+          mysql: S.optional(__S(254, __c31, 6)),
+          error: S.optional(__S(273, __c34, 1)),
+          labels: S.optional(__S(256, __c32, 0)),
+        }),
+      ).annotate({ identifier: "ConnectionProfile" });
   }
 }
-function __c33(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
   }
 }
-function __c34(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c35(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(272, __c34, 0));
+      return S.Array(__S(264, __c33, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
           message: S.optional(S.String),
           code: S.optional(S.Number),
-          details: S.optional(__S(280, __c35, 0)),
+          details: S.optional(__S(272, __c34, 0)),
         }),
       ).annotate({ identifier: "Status" });
+  }
+}
+function __c35(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          metadata: S.optional(__S(264, __c33, 0)),
+          done: S.optional(S.Boolean),
+          error: S.optional(__S(273, __c34, 1)),
+          response: S.optional(__S(264, __c33, 0)),
+        }),
+      ).annotate({ identifier: "Operation" });
   }
 }
 function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          metadata: S.optional(__S(272, __c34, 0)),
-          done: S.optional(S.Boolean),
-          error: S.optional(__S(281, __c35, 1)),
-          response: S.optional(__S(272, __c34, 0)),
-        }),
-      ).annotate({ identifier: "Operation" });
-  }
-}
-function __c37(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          migrationJobId: S.optional(S.String.pipe(T.Query())),
-          destination: S.optional(S.String),
-          phase: S.optional(S.String),
-          error: S.optional(__S(281, __c35, 1)),
-          source: S.optional(S.String),
-          reverseSshConnectivity: S.optional(__S(304, __c38, 0)),
-          endTime: S.optional(S.String),
-          state: S.optional(S.String),
-          staticIpConnectivity: S.optional(__S(240, __c30, 0)),
-          duration: S.optional(S.String),
-          labels: S.optional(__S(264, __c33, 0)),
-          vpcPeeringConnectivity: S.optional(__S(305, __c38, 1)),
-          dumpPath: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          sourceDatabase: S.optional(__S(306, __c38, 2)),
-          type: S.optional(S.String),
-          destinationDatabase: S.optional(__S(306, __c38, 2)),
-          createTime: S.optional(S.String),
-          name: S.optional(S.String),
-          displayName: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(299, __c37, 3),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            migrationJobId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/migrationJobs",
@@ -2240,7 +2083,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsMigrationJobsRequest" });
   }
 }
-function __c38(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2264,9 +2107,33 @@ function __c38(j: number): any {
           engine: S.optional(S.String),
         }),
       ).annotate({ identifier: "DatabaseType" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          destination: S.optional(S.String),
+          phase: S.optional(S.String),
+          error: S.optional(__S(273, __c34, 1)),
+          source: S.optional(S.String),
+          reverseSshConnectivity: S.optional(__S(296, __c37, 0)),
+          endTime: S.optional(S.String),
+          state: S.optional(S.String),
+          staticIpConnectivity: S.optional(__S(232, __c29, 0)),
+          duration: S.optional(S.String),
+          labels: S.optional(__S(256, __c32, 0)),
+          vpcPeeringConnectivity: S.optional(__S(297, __c37, 1)),
+          dumpPath: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          sourceDatabase: S.optional(__S(298, __c37, 2)),
+          type: S.optional(S.String),
+          destinationDatabase: S.optional(__S(298, __c37, 2)),
+          createTime: S.optional(S.String),
+          name: S.optional(S.String),
+          displayName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "MigrationJob" });
   }
 }
-function __c39(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2284,7 +2151,7 @@ function __c39(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsConnectionProfilesRequest" });
   }
 }
-function __c40(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2302,7 +2169,7 @@ function __c40(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsMigrationJobsRequest" });
   }
 }
-function __c41(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

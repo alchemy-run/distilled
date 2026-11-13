@@ -407,24 +407,6 @@ export interface ReportDefinition {
   /** Optional. The filters for this report. */
   filters?: FilterList_ | undefined;
 }
-export interface CreateAgenciesReportsRequest {
-  /** Required. The parent resource where this `Report` will be created. Format: `agencies/{account_id}` */
-  parent: string;
-  /** Optional. Display name for the report. */
-  displayName?: string | undefined;
-  /** Output only. The instant this report was created. */
-  createTime?: string | undefined;
-  /** Output only. Report ID. */
-  reportId?: string | undefined;
-  /** Output only. The instant this report was last modified. */
-  updateTime?: string | undefined;
-  /** Output only. The locale of this report. Locale is set from the user's locale at the time of the request. Locale can't be modified. */
-  locale?: string | undefined;
-  /** Required. The report definition of the report. */
-  reportDefinition?: ReportDefinition | undefined;
-  /** Identifier. The resource name of the report. Report resource name have the form: `agencies/{account_id}/reports/{report_id}` */
-  name?: string | undefined;
-}
 /** The `Report` resource. */
 export interface Report {
   /** Optional. Display name for the report. */
@@ -441,6 +423,10 @@ export interface Report {
   reportDefinition?: ReportDefinition | undefined;
   /** Identifier. The resource name of the report. Report resource name have the form: `agencies/{account_id}/reports/{report_id}` */
   name?: string | undefined;
+}
+export interface CreateAgenciesReportsRequest extends Report {
+  /** Required. The parent resource where this `Report` will be created. Format: `agencies/{account_id}` */
+  parent: string;
 }
 export interface DeleteAgenciesReportsRequest {
   /** Required. Resource name of the report to delete. Format: `agencies/{account_id}/reports/{report_id}` */
@@ -540,23 +526,11 @@ export interface ListReportsResponse {
   /** The `Report` objects from the specified network. */
   reports?: ReportList | undefined;
 }
-export interface PatchAgenciesReportsRequest {
+export interface PatchAgenciesReportsRequest extends Omit<Report, "name"> {
   /** Identifier. The resource name of the report. Report resource name have the form: `agencies/{account_id}/reports/{report_id}` */
   name: string;
   /** Optional. The list of fields to update. */
   updateMask?: string | undefined;
-  /** Optional. Display name for the report. */
-  displayName?: string | undefined;
-  /** Output only. The instant this report was created. */
-  createTime?: string | undefined;
-  /** Output only. Report ID. */
-  reportId?: string | undefined;
-  /** Output only. The instant this report was last modified. */
-  updateTime?: string | undefined;
-  /** Output only. The locale of this report. Locale is set from the user's locale at the time of the request. Locale can't be modified. */
-  locale?: string | undefined;
-  /** Required. The report definition of the report. */
-  reportDefinition?: ReportDefinition | undefined;
 }
 /** Request message for a running a report. */
 export interface RunReportRequest {}
@@ -711,16 +685,13 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          displayName: S.optional(S.String),
-          createTime: S.optional(S.String),
-          reportId: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          locale: S.optional(S.String),
-          reportDefinition: S.optional(__S(73, __c4, 9)),
-        }).pipe(
+        S.Extend(
+          __S(74, __c4, 10),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -751,16 +722,12 @@ function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          displayName: S.optional(S.String),
-          createTime: S.optional(S.String),
-          reportId: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          locale: S.optional(S.String),
-          reportDefinition: S.optional(__S(73, __c4, 9)),
-          name: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(74, __c4, 10),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/reports",

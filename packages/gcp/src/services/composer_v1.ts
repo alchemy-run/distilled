@@ -97,11 +97,14 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
-export interface CheckUpgradeProjectsLocationsEnvironmentsRequest {
-  /** Required. The resource name of the environment to check upgrade for, in the form: "projects/{projectId}/locations/{locationId}/environments/{environmentId}" */
-  environment: string;
+/** Request to check whether image upgrade will succeed. */
+export interface CheckUpgradeRequest {
   /** Optional. The version of the software running in the environment. This encapsulates both the version of Cloud Composer functionality and the version of Apache Airflow. It must match the regular expression `composer-([0-9]+(\.[0-9]+\.[0-9]+(-preview\.[0-9]+)?)?|latest)-airflow-([0-9]+(\.[0-9]+(\.[0-9]+)?)?)`. When used as input, the server also checks if the provided version is supported and denies the request for an unsupported version. The Cloud Composer portion of the image version is a full [semantic version](https://semver.org), or an alias in the form of major version number or `latest`. When an alias is provided, the server replaces it with the current Cloud Composer version that satisfies the alias. The Apache Airflow portion of the image version is a full semantic version that points to one of the supported Apache Airflow versions, or an alias in the form of only major or major.minor versions specified. When an alias is provided, the server replaces it with the latest Apache Airflow version that satisfies the alias and is supported in the given Cloud Composer version. In all cases, the resolved image version is stored in the same field. See also [version list](/composer/docs/concepts/versioning/composer-versions) and [versioning overview](/composer/docs/concepts/versioning/composer-versioning-overview). */
   imageVersion?: string | undefined;
+}
+export interface CheckUpgradeProjectsLocationsEnvironmentsRequest extends CheckUpgradeRequest {
+  /** Required. The resource name of the environment to check upgrade for, in the form: "projects/{projectId}/locations/{locationId}/environments/{environmentId}" */
+  environment: string;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -488,9 +491,8 @@ export interface StorageConfig {
   /** Optional. The name of the Cloud Storage bucket used by the environment. No `gs://` prefix. */
   bucket?: string | undefined;
 }
-export interface CreateProjectsLocationsEnvironmentsRequest {
-  /** The parent must be of the form "projects/{projectId}/locations/{locationId}". */
-  parent: string;
+/** An environment for running orchestration tasks. */
+export interface Environment {
   /** Output only. The UUID (Universally Unique IDentifier) associated with this environment. This value is generated when the environment is created. */
   uuid?: string | undefined;
   /** Output only. Reserved for future use. */
@@ -514,13 +516,9 @@ export interface CreateProjectsLocationsEnvironmentsRequest {
   /** Output only. Reserved for future use. */
   satisfiesPzs?: boolean | undefined;
 }
-export interface CreateProjectsLocationsEnvironmentsUserWorkloadsConfigMapsRequest {
-  /** Required. The environment name to create a ConfigMap for, in the form: "projects/{projectId}/locations/{locationId}/environments/{environmentId}" */
+export interface CreateProjectsLocationsEnvironmentsRequest extends Environment {
+  /** The parent must be of the form "projects/{projectId}/locations/{locationId}". */
   parent: string;
-  /** Optional. The "data" field of Kubernetes ConfigMap, organized in key-value pairs. For details see: https://kubernetes.io/docs/concepts/configuration/configmap/ Example: { "example_key": "example_value", "another_key": "another_value" } */
-  data?: StringMap | undefined;
-  /** Identifier. The resource name of the ConfigMap, in the form: "projects/{projectId}/locations/{locationId}/environments/{environmentId}/userWorkloadsConfigMaps/{userWorkloadsConfigMapId}" */
-  name?: string | undefined;
 }
 /** User workloads ConfigMap used by Airflow tasks that run with Kubernetes executor or KubernetesPodOperator. */
 export interface UserWorkloadsConfigMap {
@@ -529,13 +527,9 @@ export interface UserWorkloadsConfigMap {
   /** Identifier. The resource name of the ConfigMap, in the form: "projects/{projectId}/locations/{locationId}/environments/{environmentId}/userWorkloadsConfigMaps/{userWorkloadsConfigMapId}" */
   name?: string | undefined;
 }
-export interface CreateProjectsLocationsEnvironmentsUserWorkloadsSecretsRequest {
-  /** Required. The environment name to create a Secret for, in the form: "projects/{projectId}/locations/{locationId}/environments/{environmentId}" */
+export interface CreateProjectsLocationsEnvironmentsUserWorkloadsConfigMapsRequest extends UserWorkloadsConfigMap {
+  /** Required. The environment name to create a ConfigMap for, in the form: "projects/{projectId}/locations/{locationId}/environments/{environmentId}" */
   parent: string;
-  /** Optional. The "data" field of Kubernetes Secret, organized in key-value pairs, which can contain sensitive values such as a password, a token, or a key. The values for all keys have to be base64-encoded strings. For details see: https://kubernetes.io/docs/concepts/configuration/secret/ Example: { "example": "ZXhhbXBsZV92YWx1ZQ==", "another-example": "YW5vdGhlcl9leGFtcGxlX3ZhbHVl" } */
-  data?: StringMap | undefined;
-  /** Identifier. The resource name of the Secret, in the form: "projects/{projectId}/locations/{locationId}/environments/{environmentId}/userWorkloadsSecrets/{userWorkloadsSecretId}" */
-  name?: string | undefined;
 }
 /** User workloads Secret used by Airflow tasks that run with Kubernetes executor or KubernetesPodOperator. */
 export interface UserWorkloadsSecret {
@@ -543,6 +537,10 @@ export interface UserWorkloadsSecret {
   data?: StringMap | undefined;
   /** Identifier. The resource name of the Secret, in the form: "projects/{projectId}/locations/{locationId}/environments/{environmentId}/userWorkloadsSecrets/{userWorkloadsSecretId}" */
   name?: string | undefined;
+}
+export interface CreateProjectsLocationsEnvironmentsUserWorkloadsSecretsRequest extends UserWorkloadsSecret {
+  /** Required. The environment name to create a Secret for, in the form: "projects/{projectId}/locations/{locationId}/environments/{environmentId}" */
+  parent: string;
 }
 /** Request to trigger database failover (only for highly resilient environments). */
 export interface DatabaseFailoverRequest {}
@@ -570,15 +568,18 @@ export interface DeleteProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be deleted. */
   name: string;
 }
-export interface ExecuteAirflowCommandProjectsLocationsEnvironmentsRequest {
-  /** The resource name of the environment in the form: "projects/{projectId}/locations/{locationId}/environments/{environmentId}". */
-  environment: string;
+/** Execute Airflow Command request. */
+export interface ExecuteAirflowCommandRequest {
   /** Airflow subcommand. */
   subcommand?: string | undefined;
   /** Airflow command. */
   command?: string | undefined;
   /** Parameters for the Airflow command/subcommand as an array of arguments. It may contain positional arguments like `["my-dag-id"]`, key-value parameters like `["--foo=bar"]` or `["--foo","bar"]`, or other flags like `["-f"]`. */
   parameters?: StringList | undefined;
+}
+export interface ExecuteAirflowCommandProjectsLocationsEnvironmentsRequest extends ExecuteAirflowCommandRequest {
+  /** The resource name of the environment in the form: "projects/{projectId}/locations/{locationId}/environments/{environmentId}". */
+  environment: string;
 }
 /** Response to ExecuteAirflowCommandRequest. */
 export interface ExecuteAirflowCommandResponse {
@@ -607,31 +608,6 @@ export interface FetchDatabasePropertiesResponse {
 export interface GetProjectsLocationsEnvironmentsRequest {
   /** The resource name of the environment to get, in the form: "projects/{projectId}/locations/{locationId}/environments/{environmentId}" */
   name: string;
-}
-/** An environment for running orchestration tasks. */
-export interface Environment {
-  /** Output only. The UUID (Universally Unique IDentifier) associated with this environment. This value is generated when the environment is created. */
-  uuid?: string | undefined;
-  /** Output only. Reserved for future use. */
-  satisfiesPzi?: boolean | undefined;
-  /** Optional. Configuration parameters for this environment. */
-  config?: EnvironmentConfig | undefined;
-  /** The current state of the environment. */
-  state?: EnvironmentStateEnum | undefined;
-  /** Optional. Selects the environment mode that determines what settings are customizable and what features are available in the environment. */
-  mode?: EnvironmentModeEnum | undefined;
-  /** Output only. The time at which this environment was created. */
-  createTime?: string | undefined;
-  /** Output only. The time at which this environment was last modified. */
-  updateTime?: string | undefined;
-  /** Optional. User-defined labels for this environment. The labels map can contain no more than 64 entries. Entries of the labels map are UTF8 strings that comply with the following restrictions: * Keys must conform to regexp: \p{Ll}\p{Lo}{0,62} * Values must conform to regexp: [\p{Ll}\p{Lo}\p{N}_-]{0,63} * Both keys and values are additionally constrained to be <= 128 bytes in size. */
-  labels?: StringMap | undefined;
-  /** Identifier. The resource name of the environment, in the form: "projects/{projectId}/locations/{locationId}/environments/{environmentId}" EnvironmentId must start with a lowercase letter followed by up to 63 lowercase letters, numbers, or hyphens, and cannot end with a hyphen. */
-  name?: string | undefined;
-  /** Optional. Storage configuration for this environment. */
-  storageConfig?: StorageConfig | undefined;
-  /** Output only. Reserved for future use. */
-  satisfiesPzs?: boolean | undefined;
 }
 export interface GetProjectsLocationsEnvironmentsUserWorkloadsConfigMapsRequest {
   /** Required. The resource name of the ConfigMap to get, in the form: "projects/{projectId}/locations/{locationId}/environments/{environmentId}/userWorkloadsConfigMaps/{userWorkloadsConfigMapId}" */
@@ -821,9 +797,8 @@ export interface ListOperationsResponse {
   /** The standard List next-page token. */
   nextPageToken?: string | undefined;
 }
-export interface LoadSnapshotProjectsLocationsEnvironmentsRequest {
-  /** The resource name of the target environment in the form: "projects/{projectId}/locations/{locationId}/environments/{environmentId}" */
-  environment: string;
+/** Request to load a snapshot into a Cloud Composer environment. */
+export interface LoadSnapshotRequest {
   /** Whether or not to skip installing Pypi packages when loading the environment's state. */
   skipPypiPackagesInstallation?: boolean | undefined;
   /** Whether or not to skip copying Cloud Storage data when loading the environment's state. */
@@ -835,35 +810,18 @@ export interface LoadSnapshotProjectsLocationsEnvironmentsRequest {
   /** A Cloud Storage path to a snapshot to load, e.g.: "gs://my-bucket/snapshots/project_location_environment_timestamp". */
   snapshotPath?: string | undefined;
 }
-export interface PatchProjectsLocationsEnvironmentsRequest {
+export interface LoadSnapshotProjectsLocationsEnvironmentsRequest extends LoadSnapshotRequest {
+  /** The resource name of the target environment in the form: "projects/{projectId}/locations/{locationId}/environments/{environmentId}" */
+  environment: string;
+}
+export interface PatchProjectsLocationsEnvironmentsRequest extends Omit<Environment, "name"> {
   /** The relative resource name of the environment to update, in the form: "projects/{projectId}/locations/{locationId}/environments/{environmentId}" */
   name: string;
   /** Required. A comma-separated list of paths, relative to `Environment`, of fields to update. For example, to set the version of scikit-learn to install in the environment to 0.19.0 and to remove an existing installation of numpy, the `updateMask` parameter would include the following two `paths` values: "config.softwareConfig.pypiPackages.scikit-learn" and "config.softwareConfig.pypiPackages.numpy". The included patch environment would specify the scikit-learn version as follows: { "config":{ "softwareConfig":{ "pypiPackages":{ "scikit-learn":"==0.19.0" } } } } Note that in the above example, any existing PyPI packages other than scikit-learn and numpy will be unaffected. Only one update type may be included in a single request's `updateMask`. For example, one cannot update both the PyPI packages and labels in the same request. However, it is possible to update multiple members of a map field simultaneously in the same request. For example, to set the labels "label1" and "label2" while clearing "label3" (assuming it already exists), one can provide the paths "labels.label1", "labels.label2", and "labels.label3" and populate the patch environment as follows: { "labels":{ "label1":"new-label1-value" "label2":"new-label2-value" } } Note that in the above example, any existing labels that are not included in the `updateMask` will be unaffected. It is also possible to replace an entire map field by providing the map field's path in the `updateMask`. The new value of the field will be that which is provided in the patch environment. For example, to delete all pre-existing user-specified PyPI packages and install botocore at version 1.7.14, the `updateMask` would contain the path "config.softwareConfig.pypiPackages", and the patch environment would be the following: { "config":{ "softwareConfig":{ "pypiPackages":{ "botocore":"==1.7.14" } } } } **Note:** Only the following fields can be updated: * `config.softwareConfig.pypiPackages` * Replace all custom custom PyPI packages. If a replacement package map is not included in `environment`, all custom PyPI packages are cleared. It is an error to provide both this mask and a mask specifying an individual package. * `config.softwareConfig.pypiPackages.`packagename * Update the custom PyPI package *packagename*, preserving other packages. To delete the package, include it in `updateMask`, and omit the mapping for it in `environment.config.softwareConfig.pypiPackages`. It is an error to provide both a mask of this form and the `config.softwareConfig.pypiPackages` mask. * `labels` * Replace all environment labels. If a replacement labels map is not included in `environment`, all labels are cleared. It is an error to provide both this mask and a mask specifying one or more individual labels. * `labels.`labelName * Set the label named *labelName*, while preserving other labels. To delete the label, include it in `updateMask` and omit its mapping in `environment.labels`. It is an error to provide both a mask of this form and the `labels` mask. * `config.nodeCount` * Horizontally scale the number of nodes in the environment. An integer greater than or equal to 3 must be provided in the `config.nodeCount` field. Supported for Cloud Composer environments in versions composer-1.*.*-airflow-*.*.*. * `config.webServerNetworkAccessControl` * Replace the environment's current `WebServerNetworkAccessControl`. * `config.softwareConfig.airflowConfigOverrides` * Replace all Apache Airflow config overrides. If a replacement config overrides map is not included in `environment`, all config overrides are cleared. It is an error to provide both this mask and a mask specifying one or more individual config overrides. * `config.softwareConfig.airflowConfigOverrides.`section-name * Override the Apache Airflow config property *name* in the section named *section*, preserving other properties. To delete the property override, include it in `updateMask` and omit its mapping in `environment.config.softwareConfig.airflowConfigOverrides`. It is an error to provide both a mask of this form and the `config.softwareConfig.airflowConfigOverrides` mask. * `config.softwareConfig.envVariables` * Replace all environment variables. If a replacement environment variable map is not included in `environment`, all custom environment variables are cleared. * `config.softwareConfig.schedulerCount` * Horizontally scale the number of schedulers in Airflow. A positive integer not greater than the number of nodes must be provided in the `config.softwareConfig.schedulerCount` field. Supported for Cloud Composer environments in versions composer-1.*.*-airflow-2.*.*. * `config.databaseConfig.machineType` * Cloud SQL machine type used by Airflow database. It has to be one of: db-n1-standard-2, db-n1-standard-4, db-n1-standard-8 or db-n1-standard-16. Supported for Cloud Composer environments in versions composer-1.*.*-airflow-*.*.*. * `config.webServerConfig.machineType` * Machine type on which Airflow web server is running. It has to be one of: composer-n1-webserver-2, composer-n1-webserver-4 or composer-n1-webserver-8. Supported for Cloud Composer environments in versions composer-1.*.*-airflow-*.*.*. */
   updateMask?: string | undefined;
-  /** Output only. The UUID (Universally Unique IDentifier) associated with this environment. This value is generated when the environment is created. */
-  uuid?: string | undefined;
-  /** Output only. Reserved for future use. */
-  satisfiesPzi?: boolean | undefined;
-  /** Optional. Configuration parameters for this environment. */
-  config?: EnvironmentConfig | undefined;
-  /** The current state of the environment. */
-  state?: EnvironmentStateEnum | (string & {}) | undefined;
-  /** Optional. Selects the environment mode that determines what settings are customizable and what features are available in the environment. */
-  mode?: EnvironmentModeEnum | (string & {}) | undefined;
-  /** Output only. The time at which this environment was created. */
-  createTime?: string | undefined;
-  /** Output only. The time at which this environment was last modified. */
-  updateTime?: string | undefined;
-  /** Optional. User-defined labels for this environment. The labels map can contain no more than 64 entries. Entries of the labels map are UTF8 strings that comply with the following restrictions: * Keys must conform to regexp: \p{Ll}\p{Lo}{0,62} * Values must conform to regexp: [\p{Ll}\p{Lo}\p{N}_-]{0,63} * Both keys and values are additionally constrained to be <= 128 bytes in size. */
-  labels?: StringMap | undefined;
-  /** Optional. Storage configuration for this environment. */
-  storageConfig?: StorageConfig | undefined;
-  /** Output only. Reserved for future use. */
-  satisfiesPzs?: boolean | undefined;
 }
-export interface PollAirflowCommandProjectsLocationsEnvironmentsRequest {
-  /** The resource name of the environment in the form: "projects/{projectId}/locations/{locationId}/environments/{environmentId}" */
-  environment: string;
+/** Poll Airflow Command request. */
+export interface PollAirflowCommandRequest {
   /** The namespace of the pod where the command is executed. */
   podNamespace?: string | undefined;
   /** The unique ID of the command execution. */
@@ -872,6 +830,10 @@ export interface PollAirflowCommandProjectsLocationsEnvironmentsRequest {
   nextLineNumber?: number | undefined;
   /** The name of the pod where the command is executed. */
   pod?: string | undefined;
+}
+export interface PollAirflowCommandProjectsLocationsEnvironmentsRequest extends PollAirflowCommandRequest {
+  /** The resource name of the environment in the form: "projects/{projectId}/locations/{locationId}/environments/{environmentId}" */
+  environment: string;
 }
 /** Information about how a command ended. */
 export interface ExitInfo {
@@ -913,15 +875,17 @@ export interface ResumeProjectsLocationsEnvironmentsRequest {
   /** Request body */
   body?: DatabaseFailoverRequest | undefined;
 }
-export interface SaveSnapshotProjectsLocationsEnvironmentsRequest {
-  /** The resource name of the source environment in the form: "projects/{projectId}/locations/{locationId}/environments/{environmentId}" */
-  environment: string;
+/** Request to create a snapshot of a Cloud Composer environment. */
+export interface SaveSnapshotRequest {
   /** Location in a Cloud Storage where the snapshot is going to be stored, e.g.: "gs://my-bucket/snapshots". */
   snapshotLocation?: string | undefined;
 }
-export interface StopAirflowCommandProjectsLocationsEnvironmentsRequest {
-  /** The resource name of the environment in the form: "projects/{projectId}/locations/{locationId}/environments/{environmentId}". */
+export interface SaveSnapshotProjectsLocationsEnvironmentsRequest extends SaveSnapshotRequest {
+  /** The resource name of the source environment in the form: "projects/{projectId}/locations/{locationId}/environments/{environmentId}" */
   environment: string;
+}
+/** Stop Airflow Command request. */
+export interface StopAirflowCommandRequest {
   /** If true, the execution is terminated forcefully (SIGKILL). If false, the execution is stopped gracefully, giving it time for cleanup. */
   force?: boolean | undefined;
   /** The name of the pod where the command is executed. */
@@ -931,6 +895,10 @@ export interface StopAirflowCommandProjectsLocationsEnvironmentsRequest {
   /** The unique ID of the command execution. */
   executionId?: string | undefined;
 }
+export interface StopAirflowCommandProjectsLocationsEnvironmentsRequest extends StopAirflowCommandRequest {
+  /** The resource name of the environment in the form: "projects/{projectId}/locations/{locationId}/environments/{environmentId}". */
+  environment: string;
+}
 /** Response to StopAirflowCommandRequest. */
 export interface StopAirflowCommandResponse {
   /** Output message from stopping execution request. */
@@ -938,17 +906,19 @@ export interface StopAirflowCommandResponse {
   /** Whether the execution is still running. */
   isDone?: boolean | undefined;
 }
-export interface UpdateProjectsLocationsEnvironmentsUserWorkloadsConfigMapsRequest {
+export interface UpdateProjectsLocationsEnvironmentsUserWorkloadsConfigMapsRequest extends Omit<
+  UserWorkloadsConfigMap,
+  "name"
+> {
   /** Identifier. The resource name of the ConfigMap, in the form: "projects/{projectId}/locations/{locationId}/environments/{environmentId}/userWorkloadsConfigMaps/{userWorkloadsConfigMapId}" */
   name: string;
-  /** Optional. The "data" field of Kubernetes ConfigMap, organized in key-value pairs. For details see: https://kubernetes.io/docs/concepts/configuration/configmap/ Example: { "example_key": "example_value", "another_key": "another_value" } */
-  data?: StringMap | undefined;
 }
-export interface UpdateProjectsLocationsEnvironmentsUserWorkloadsSecretsRequest {
+export interface UpdateProjectsLocationsEnvironmentsUserWorkloadsSecretsRequest extends Omit<
+  UserWorkloadsSecret,
+  "name"
+> {
   /** Identifier. The resource name of the Secret, in the form: "projects/{projectId}/locations/{locationId}/environments/{environmentId}/userWorkloadsSecrets/{userWorkloadsSecretId}" */
   name: string;
-  /** Optional. The "data" field of Kubernetes Secret, organized in key-value pairs, which can contain sensitive values such as a password, a token, or a key. The values for all keys have to be base64-encoded strings. For details see: https://kubernetes.io/docs/concepts/configuration/secret/ Example: { "example": "ZXhhbXBsZV92YWx1ZQ==", "another-example": "YW5vdGhlcl9leGFtcGxlX3ZhbHVl" } */
-  data?: StringMap | undefined;
 }
 export type CheckUpgradeProjectsLocationsEnvironmentsError =
   | NotFound
@@ -963,8 +933,8 @@ export const checkUpgradeProjectsLocationsEnvironments: API.OperationMethod<
   CheckUpgradeProjectsLocationsEnvironmentsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c28, 0) as any as S.Schema<CheckUpgradeProjectsLocationsEnvironmentsRequest>,
-  output: __S(931, __c29, 3) as any as S.Schema<Operation>,
+  input: __S(865, __c27, 1) as any as S.Schema<CheckUpgradeProjectsLocationsEnvironmentsRequest>,
+  output: __S(899, __c28, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -985,8 +955,8 @@ export const createProjectsLocationsEnvironments: API.OperationMethod<
   CreateProjectsLocationsEnvironmentsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c30, 0) as any as S.Schema<CreateProjectsLocationsEnvironmentsRequest>,
-  output: __S(931, __c29, 3) as any as S.Schema<Operation>,
+  input: __S(928, __c29, 0) as any as S.Schema<CreateProjectsLocationsEnvironmentsRequest>,
+  output: __S(899, __c28, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1064,7 +1034,7 @@ export const databaseFailoverProjectsLocationsEnvironments: API.OperationMethod<
     __c37,
     0,
   ) as any as S.Schema<DatabaseFailoverProjectsLocationsEnvironmentsRequest>,
-  output: __S(931, __c29, 3) as any as S.Schema<Operation>,
+  output: __S(899, __c28, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1087,7 +1057,7 @@ export const deleteProjectsLocationsEnvironments: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<DeleteProjectsLocationsEnvironmentsRequest>,
-  output: __S(931, __c29, 3) as any as S.Schema<Operation>,
+  output: __S(899, __c28, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, EnvironmentNotReady, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1183,11 +1153,11 @@ export const executeAirflowCommandProjectsLocationsEnvironments: API.OperationMe
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    128,
+    129,
     __c4,
-    0,
+    1,
   ) as any as S.Schema<ExecuteAirflowCommandProjectsLocationsEnvironmentsRequest>,
-  output: __S(129, __c4, 1) as any as S.Schema<ExecuteAirflowCommandResponse>,
+  output: __S(130, __c4, 2) as any as S.Schema<ExecuteAirflowCommandResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1228,7 +1198,7 @@ export const getProjectsLocationsEnvironments: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c6, 0) as any as S.Schema<GetProjectsLocationsEnvironmentsRequest>,
-  output: __S(224, __c7, 0) as any as S.Schema<Environment>,
+  output: __S(1024, __c32, 0) as any as S.Schema<Environment>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1248,8 +1218,8 @@ export const getProjectsLocationsEnvironmentsUserWorkloadsConfigMaps: API.Operat
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    256,
-    __c8,
+    224,
+    __c7,
     0,
   ) as any as S.Schema<GetProjectsLocationsEnvironmentsUserWorkloadsConfigMapsRequest>,
   output: __S(1120, __c35, 0) as any as S.Schema<UserWorkloadsConfigMap>,
@@ -1272,8 +1242,8 @@ export const getProjectsLocationsEnvironmentsUserWorkloadsSecrets: API.Operation
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    288,
-    __c9,
+    256,
+    __c8,
     0,
   ) as any as S.Schema<GetProjectsLocationsEnvironmentsUserWorkloadsSecretsRequest>,
   output: __S(1120, __c35, 0) as any as S.Schema<UserWorkloadsSecret>,
@@ -1292,8 +1262,8 @@ export const getProjectsLocationsOperations: API.OperationMethod<
   GetProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c10, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
-  output: __S(931, __c29, 3) as any as S.Schema<Operation>,
+  input: __S(288, __c9, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
+  output: __S(899, __c28, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1314,8 +1284,8 @@ export const hibernateProjectsLocationsEnvironments: API.OperationMethod<
   HibernateProjectsLocationsEnvironmentsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c11, 0) as any as S.Schema<HibernateProjectsLocationsEnvironmentsRequest>,
-  output: __S(931, __c29, 3) as any as S.Schema<Operation>,
+  input: __S(320, __c10, 0) as any as S.Schema<HibernateProjectsLocationsEnvironmentsRequest>,
+  output: __S(899, __c28, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1332,8 +1302,8 @@ export const listProjectsLocationsEnvironments: API.PaginatedOperationMethod<
   GcpOpContext,
   ListEnvironmentsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(384, __c12, 0) as any as S.Schema<ListProjectsLocationsEnvironmentsRequest>,
-  output: __S(386, __c12, 2) as any as S.Schema<ListEnvironmentsResponse>,
+  input: __S(352, __c11, 0) as any as S.Schema<ListProjectsLocationsEnvironmentsRequest>,
+  output: __S(354, __c11, 2) as any as S.Schema<ListEnvironmentsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1355,11 +1325,11 @@ export const listProjectsLocationsEnvironmentsUserWorkloadsConfigMaps: API.Pagin
   ListUserWorkloadsConfigMapsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    416,
-    __c13,
+    384,
+    __c12,
     0,
   ) as any as S.Schema<ListProjectsLocationsEnvironmentsUserWorkloadsConfigMapsRequest>,
-  output: __S(417, __c13, 1) as any as S.Schema<ListUserWorkloadsConfigMapsResponse>,
+  output: __S(385, __c12, 1) as any as S.Schema<ListUserWorkloadsConfigMapsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1381,11 +1351,11 @@ export const listProjectsLocationsEnvironmentsUserWorkloadsSecrets: API.Paginate
   ListUserWorkloadsSecretsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    480,
-    __c15,
+    448,
+    __c14,
     0,
   ) as any as S.Schema<ListProjectsLocationsEnvironmentsUserWorkloadsSecretsRequest>,
-  output: __S(481, __c15, 1) as any as S.Schema<ListUserWorkloadsSecretsResponse>,
+  output: __S(449, __c14, 1) as any as S.Schema<ListUserWorkloadsSecretsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1403,8 +1373,8 @@ export const listProjectsLocationsEnvironmentsWorkloads: API.PaginatedOperationM
   GcpOpContext,
   ListWorkloadsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(512, __c16, 0) as any as S.Schema<ListProjectsLocationsEnvironmentsWorkloadsRequest>,
-  output: __S(516, __c16, 4) as any as S.Schema<ListWorkloadsResponse>,
+  input: __S(480, __c15, 0) as any as S.Schema<ListProjectsLocationsEnvironmentsWorkloadsRequest>,
+  output: __S(484, __c15, 4) as any as S.Schema<ListWorkloadsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1422,8 +1392,8 @@ export const listProjectsLocationsImageVersions: API.PaginatedOperationMethod<
   GcpOpContext,
   ListImageVersionsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(544, __c17, 0) as any as S.Schema<ListProjectsLocationsImageVersionsRequest>,
-  output: __S(548, __c17, 4) as any as S.Schema<ListImageVersionsResponse>,
+  input: __S(512, __c16, 0) as any as S.Schema<ListProjectsLocationsImageVersionsRequest>,
+  output: __S(516, __c16, 4) as any as S.Schema<ListImageVersionsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1441,8 +1411,8 @@ export const listProjectsLocationsOperations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListOperationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(576, __c18, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
-  output: __S(578, __c18, 2) as any as S.Schema<ListOperationsResponse>,
+  input: __S(544, __c17, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
+  output: __S(546, __c17, 2) as any as S.Schema<ListOperationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1464,8 +1434,8 @@ export const loadSnapshotProjectsLocationsEnvironments: API.OperationMethod<
   LoadSnapshotProjectsLocationsEnvironmentsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c19, 0) as any as S.Schema<LoadSnapshotProjectsLocationsEnvironmentsRequest>,
-  output: __S(931, __c29, 3) as any as S.Schema<Operation>,
+  input: __S(577, __c18, 1) as any as S.Schema<LoadSnapshotProjectsLocationsEnvironmentsRequest>,
+  output: __S(899, __c28, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1486,8 +1456,8 @@ export const patchProjectsLocationsEnvironments: API.OperationMethod<
   PatchProjectsLocationsEnvironmentsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c20, 0) as any as S.Schema<PatchProjectsLocationsEnvironmentsRequest>,
-  output: __S(931, __c29, 3) as any as S.Schema<Operation>,
+  input: __S(608, __c19, 0) as any as S.Schema<PatchProjectsLocationsEnvironmentsRequest>,
+  output: __S(899, __c28, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1509,11 +1479,11 @@ export const pollAirflowCommandProjectsLocationsEnvironments: API.OperationMetho
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    672,
-    __c21,
-    0,
+    641,
+    __c20,
+    1,
   ) as any as S.Schema<PollAirflowCommandProjectsLocationsEnvironmentsRequest>,
-  output: __S(676, __c21, 4) as any as S.Schema<PollAirflowCommandResponse>,
+  output: __S(645, __c20, 5) as any as S.Schema<PollAirflowCommandResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1535,11 +1505,11 @@ export const restartWebServerProjectsLocationsEnvironments: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    704,
-    __c22,
+    672,
+    __c21,
     0,
   ) as any as S.Schema<RestartWebServerProjectsLocationsEnvironmentsRequest>,
-  output: __S(931, __c29, 3) as any as S.Schema<Operation>,
+  output: __S(899, __c28, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1560,8 +1530,8 @@ export const resumeProjectsLocationsEnvironments: API.OperationMethod<
   ResumeProjectsLocationsEnvironmentsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c23, 0) as any as S.Schema<ResumeProjectsLocationsEnvironmentsRequest>,
-  output: __S(931, __c29, 3) as any as S.Schema<Operation>,
+  input: __S(704, __c22, 0) as any as S.Schema<ResumeProjectsLocationsEnvironmentsRequest>,
+  output: __S(899, __c28, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1582,8 +1552,8 @@ export const saveSnapshotProjectsLocationsEnvironments: API.OperationMethod<
   SaveSnapshotProjectsLocationsEnvironmentsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c24, 0) as any as S.Schema<SaveSnapshotProjectsLocationsEnvironmentsRequest>,
-  output: __S(931, __c29, 3) as any as S.Schema<Operation>,
+  input: __S(737, __c23, 1) as any as S.Schema<SaveSnapshotProjectsLocationsEnvironmentsRequest>,
+  output: __S(899, __c28, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1605,11 +1575,11 @@ export const stopAirflowCommandProjectsLocationsEnvironments: API.OperationMetho
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    800,
-    __c25,
-    0,
+    769,
+    __c24,
+    1,
   ) as any as S.Schema<StopAirflowCommandProjectsLocationsEnvironmentsRequest>,
-  output: __S(801, __c25, 1) as any as S.Schema<StopAirflowCommandResponse>,
+  output: __S(770, __c24, 2) as any as S.Schema<StopAirflowCommandResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1631,8 +1601,8 @@ export const updateProjectsLocationsEnvironmentsUserWorkloadsConfigMaps: API.Ope
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    832,
-    __c26,
+    800,
+    __c25,
     0,
   ) as any as S.Schema<UpdateProjectsLocationsEnvironmentsUserWorkloadsConfigMapsRequest>,
   output: __S(1120, __c35, 0) as any as S.Schema<UserWorkloadsConfigMap>,
@@ -1657,8 +1627,8 @@ export const updateProjectsLocationsEnvironmentsUserWorkloadsSecrets: API.Operat
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    864,
-    __c27,
+    832,
+    __c26,
     0,
   ) as any as S.Schema<UpdateProjectsLocationsEnvironmentsUserWorkloadsSecretsRequest>,
   output: __S(1120, __c35, 0) as any as S.Schema<UserWorkloadsSecret>,
@@ -1741,11 +1711,19 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          environment: S.String.pipe(T.Label()),
           subcommand: S.optional(S.String),
           command: S.optional(S.String),
-          parameters: S.optional(__S(992, __c31, 0)),
-        }).pipe(
+          parameters: S.optional(__S(960, __c30, 0)),
+        }),
+      ).annotate({ identifier: "ExecuteAirflowCommandRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(128, __c4, 0),
+          S.Struct({
+            environment: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+environment}:executeAirflowCommand",
@@ -1753,7 +1731,7 @@ function __c4(j: number): any {
           }),
         ),
       ).annotate({ identifier: "ExecuteAirflowCommandProjectsLocationsEnvironmentsRequest" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           error: S.optional(S.String),
@@ -1805,19 +1783,11 @@ function __c7(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          uuid: S.optional(S.String),
-          satisfiesPzi: S.optional(S.Boolean),
-          config: S.optional(__S(1054, __c32, 30)),
-          state: S.optional(S.String),
-          mode: S.optional(S.String),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          labels: S.optional(__S(1056, __c33, 0)),
-          name: S.optional(S.String),
-          storageConfig: S.optional(__S(1055, __c32, 31)),
-          satisfiesPzs: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "Environment" });
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://composer.googleapis.com/" }),
+        ),
+      ).annotate({ identifier: "GetProjectsLocationsEnvironmentsUserWorkloadsConfigMapsRequest" });
   }
 }
 function __c8(j: number): any {
@@ -1829,7 +1799,7 @@ function __c8(j: number): any {
         }).pipe(
           T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://composer.googleapis.com/" }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsEnvironmentsUserWorkloadsConfigMapsRequest" });
+      ).annotate({ identifier: "GetProjectsLocationsEnvironmentsUserWorkloadsSecretsRequest" });
   }
 }
 function __c9(j: number): any {
@@ -1841,22 +1811,10 @@ function __c9(j: number): any {
         }).pipe(
           T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://composer.googleapis.com/" }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsEnvironmentsUserWorkloadsSecretsRequest" });
-  }
-}
-function __c10(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://composer.googleapis.com/" }),
-        ),
       ).annotate({ identifier: "GetProjectsLocationsOperationsRequest" });
   }
 }
-function __c11(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1873,7 +1831,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "HibernateProjectsLocationsEnvironmentsRequest" });
   }
 }
-function __c12(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1890,17 +1848,17 @@ function __c12(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsEnvironmentsRequest" });
     case 1:
-      return S.Array(__S(224, __c7, 0));
+      return S.Array(__S(1024, __c32, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          environments: S.optional(__S(385, __c12, 1)),
+          environments: S.optional(__S(353, __c11, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListEnvironmentsResponse" });
   }
 }
-function __c13(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1920,18 +1878,18 @@ function __c13(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          userWorkloadsConfigMaps: S.optional(__S(448, __c14, 0)),
+          userWorkloadsConfigMaps: S.optional(__S(416, __c13, 0)),
         }),
       ).annotate({ identifier: "ListUserWorkloadsConfigMapsResponse" });
   }
 }
-function __c14(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(1120, __c35, 0));
   }
 }
-function __c15(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1950,13 +1908,13 @@ function __c15(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          userWorkloadsSecrets: S.optional(__S(448, __c14, 0)),
+          userWorkloadsSecrets: S.optional(__S(416, __c13, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListUserWorkloadsSecretsResponse" });
   }
 }
-function __c16(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1986,21 +1944,21 @@ function __c16(j: number): any {
         S.Struct({
           type: S.optional(S.String),
           name: S.optional(S.String),
-          status: S.optional(__S(513, __c16, 1)),
+          status: S.optional(__S(481, __c15, 1)),
         }),
       ).annotate({ identifier: "ComposerWorkload" });
     case 3:
-      return S.Array(__S(514, __c16, 2));
+      return S.Array(__S(482, __c15, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          workloads: S.optional(__S(515, __c16, 3)),
+          workloads: S.optional(__S(483, __c15, 3)),
         }),
       ).annotate({ identifier: "ListWorkloadsResponse" });
   }
 }
-function __c17(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2029,8 +1987,8 @@ function __c17(j: number): any {
       return S.suspend(() =>
         S.Struct({
           isDefault: S.optional(S.Boolean),
-          releaseDate: S.optional(__S(545, __c17, 1)),
-          supportedPythonVersions: S.optional(__S(992, __c31, 0)),
+          releaseDate: S.optional(__S(513, __c16, 1)),
+          supportedPythonVersions: S.optional(__S(960, __c30, 0)),
           creationDisabled: S.optional(S.Boolean),
           upgradeDisabled: S.optional(S.Boolean),
           devModeSupported: S.optional(S.Boolean),
@@ -2038,17 +1996,17 @@ function __c17(j: number): any {
         }),
       ).annotate({ identifier: "ImageVersion" });
     case 3:
-      return S.Array(__S(546, __c17, 2));
+      return S.Array(__S(514, __c16, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          imageVersions: S.optional(__S(547, __c17, 3)),
+          imageVersions: S.optional(__S(515, __c16, 3)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListImageVersionsResponse" });
   }
 }
-function __c18(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2067,29 +2025,37 @@ function __c18(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsOperationsRequest" });
     case 1:
-      return S.Array(__S(931, __c29, 3));
+      return S.Array(__S(899, __c28, 3));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          operations: S.optional(__S(577, __c18, 1)),
-          unreachable: S.optional(__S(992, __c31, 0)),
+          operations: S.optional(__S(545, __c17, 1)),
+          unreachable: S.optional(__S(960, __c30, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
   }
 }
-function __c19(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          environment: S.String.pipe(T.Label()),
           skipPypiPackagesInstallation: S.optional(S.Boolean),
           skipGcsDataCopying: S.optional(S.Boolean),
           skipEnvironmentVariablesSetting: S.optional(S.Boolean),
           skipAirflowOverridesSetting: S.optional(S.Boolean),
           snapshotPath: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "LoadSnapshotRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(576, __c18, 0),
+          S.Struct({
+            environment: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+environment}:loadSnapshot",
@@ -2099,24 +2065,17 @@ function __c19(j: number): any {
       ).annotate({ identifier: "LoadSnapshotProjectsLocationsEnvironmentsRequest" });
   }
 }
-function __c20(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          uuid: S.optional(S.String),
-          satisfiesPzi: S.optional(S.Boolean),
-          config: S.optional(__S(1054, __c32, 30)),
-          state: S.optional(S.String),
-          mode: S.optional(S.String),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          labels: S.optional(__S(1056, __c33, 0)),
-          storageConfig: S.optional(__S(1055, __c32, 31)),
-          satisfiesPzs: S.optional(S.Boolean),
-        }).pipe(
+        S.Extend(
+          __S(1024, __c32, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -2126,17 +2085,25 @@ function __c20(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsEnvironmentsRequest" });
   }
 }
-function __c21(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          environment: S.String.pipe(T.Label()),
           podNamespace: S.optional(S.String),
           executionId: S.optional(S.String),
           nextLineNumber: S.optional(S.Number),
           pod: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "PollAirflowCommandRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(640, __c20, 0),
+          S.Struct({
+            environment: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+environment}:pollAirflowCommand",
@@ -2144,33 +2111,33 @@ function __c21(j: number): any {
           }),
         ),
       ).annotate({ identifier: "PollAirflowCommandProjectsLocationsEnvironmentsRequest" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           exitCode: S.optional(S.Number),
           error: S.optional(S.String),
         }),
       ).annotate({ identifier: "ExitInfo" });
-    case 2:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           lineNumber: S.optional(S.Number),
           content: S.optional(S.String),
         }),
       ).annotate({ identifier: "Line" });
-    case 3:
-      return S.Array(__S(674, __c21, 2));
     case 4:
+      return S.Array(__S(643, __c20, 3));
+    case 5:
       return S.suspend(() =>
         S.Struct({
-          exitInfo: S.optional(__S(673, __c21, 1)),
-          output: S.optional(__S(675, __c21, 3)),
+          exitInfo: S.optional(__S(642, __c20, 2)),
+          output: S.optional(__S(644, __c20, 4)),
           outputEnd: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "PollAirflowCommandResponse" });
   }
 }
-function __c22(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2187,7 +2154,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "RestartWebServerProjectsLocationsEnvironmentsRequest" });
   }
 }
-function __c23(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2204,14 +2171,22 @@ function __c23(j: number): any {
       ).annotate({ identifier: "ResumeProjectsLocationsEnvironmentsRequest" });
   }
 }
-function __c24(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          environment: S.String.pipe(T.Label()),
           snapshotLocation: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "SaveSnapshotRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(736, __c23, 0),
+          S.Struct({
+            environment: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+environment}:saveSnapshot",
@@ -2221,17 +2196,25 @@ function __c24(j: number): any {
       ).annotate({ identifier: "SaveSnapshotProjectsLocationsEnvironmentsRequest" });
   }
 }
-function __c25(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          environment: S.String.pipe(T.Label()),
           force: S.optional(S.Boolean),
           pod: S.optional(S.String),
           podNamespace: S.optional(S.String),
           executionId: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "StopAirflowCommandRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(768, __c24, 0),
+          S.Struct({
+            environment: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+environment}:stopAirflowCommand",
@@ -2239,23 +2222,25 @@ function __c25(j: number): any {
           }),
         ),
       ).annotate({ identifier: "StopAirflowCommandProjectsLocationsEnvironmentsRequest" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
-          output: S.optional(__S(992, __c31, 0)),
+          output: S.optional(__S(960, __c30, 0)),
           isDone: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "StopAirflowCommandResponse" });
   }
 }
-function __c26(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          data: S.optional(__S(1056, __c33, 0)),
-        }).pipe(
+        S.Extend(
+          __S(1120, __c35, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PUT", uri: "v1/{+name}", baseUrl: "https://composer.googleapis.com/" }),
         ),
       ).annotate({
@@ -2263,27 +2248,37 @@ function __c26(j: number): any {
       });
   }
 }
-function __c27(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          data: S.optional(__S(1056, __c33, 0)),
-        }).pipe(
+        S.Extend(
+          __S(1120, __c35, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PUT", uri: "v1/{+name}", baseUrl: "https://composer.googleapis.com/" }),
         ),
       ).annotate({ identifier: "UpdateProjectsLocationsEnvironmentsUserWorkloadsSecretsRequest" });
   }
 }
-function __c28(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          environment: S.String.pipe(T.Label()),
           imageVersion: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "CheckUpgradeRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Extend(
+          __S(864, __c27, 0),
+          S.Struct({
+            environment: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+environment}:checkUpgrade",
@@ -2293,16 +2288,16 @@ function __c28(j: number): any {
       ).annotate({ identifier: "CheckUpgradeProjectsLocationsEnvironmentsRequest" });
   }
 }
-function __c29(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
     case 1:
-      return S.Array(__S(928, __c29, 0));
+      return S.Array(__S(896, __c28, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          details: S.optional(__S(929, __c29, 1)),
+          details: S.optional(__S(897, __c28, 1)),
           code: S.optional(S.Number),
           message: S.optional(S.String),
         }),
@@ -2310,33 +2305,25 @@ function __c29(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          response: S.optional(__S(928, __c29, 0)),
+          response: S.optional(__S(896, __c28, 0)),
           done: S.optional(S.Boolean),
-          metadata: S.optional(__S(928, __c29, 0)),
-          error: S.optional(__S(930, __c29, 2)),
+          metadata: S.optional(__S(896, __c28, 0)),
+          error: S.optional(__S(898, __c28, 2)),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "Operation" });
   }
 }
-function __c30(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          uuid: S.optional(S.String),
-          satisfiesPzi: S.optional(S.Boolean),
-          config: S.optional(__S(1054, __c32, 30)),
-          state: S.optional(S.String),
-          mode: S.optional(S.String),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          labels: S.optional(__S(1056, __c33, 0)),
-          name: S.optional(S.String),
-          storageConfig: S.optional(__S(1055, __c32, 31)),
-          satisfiesPzs: S.optional(S.Boolean),
-        }).pipe(
+        S.Extend(
+          __S(1024, __c32, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/environments",
@@ -2346,13 +2333,13 @@ function __c30(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsEnvironmentsRequest" });
   }
 }
-function __c31(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c32(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2362,11 +2349,11 @@ function __c32(j: number): any {
         }),
       ).annotate({ identifier: "CidrBlock" });
     case 1:
-      return S.Array(__S(1024, __c32, 0));
+      return S.Array(__S(992, __c31, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          cidrBlocks: S.optional(__S(1025, __c32, 1)),
+          cidrBlocks: S.optional(__S(993, __c31, 1)),
           enabled: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "MasterAuthorizedNetworksConfig" });
@@ -2384,11 +2371,11 @@ function __c32(j: number): any {
         }),
       ).annotate({ identifier: "AllowedIpRange" });
     case 5:
-      return S.Array(__S(1028, __c32, 4));
+      return S.Array(__S(996, __c31, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          allowedIpRanges: S.optional(__S(1029, __c32, 5)),
+          allowedIpRanges: S.optional(__S(997, __c31, 5)),
         }),
       ).annotate({ identifier: "WebServerNetworkAccessControl" });
     case 7:
@@ -2445,11 +2432,11 @@ function __c32(j: number): any {
     case 13:
       return S.suspend(() =>
         S.Struct({
-          scheduler: S.optional(__S(1032, __c32, 8)),
-          worker: S.optional(__S(1033, __c32, 9)),
-          dagProcessor: S.optional(__S(1034, __c32, 10)),
-          triggerer: S.optional(__S(1035, __c32, 11)),
-          webServer: S.optional(__S(1036, __c32, 12)),
+          scheduler: S.optional(__S(1000, __c31, 8)),
+          worker: S.optional(__S(1001, __c31, 9)),
+          dagProcessor: S.optional(__S(1002, __c31, 10)),
+          triggerer: S.optional(__S(1003, __c31, 11)),
+          webServer: S.optional(__S(1004, __c31, 12)),
         }),
       ).annotate({ identifier: "WorkloadsConfig" });
     case 14:
@@ -2474,8 +2461,8 @@ function __c32(j: number): any {
     case 17:
       return S.suspend(() =>
         S.Struct({
-          airflowMetadataRetentionConfig: S.optional(__S(1039, __c32, 15)),
-          taskLogsRetentionConfig: S.optional(__S(1040, __c32, 16)),
+          airflowMetadataRetentionConfig: S.optional(__S(1007, __c31, 15)),
+          taskLogsRetentionConfig: S.optional(__S(1008, __c31, 16)),
         }),
       ).annotate({ identifier: "DataRetentionConfig" });
     case 18:
@@ -2496,7 +2483,7 @@ function __c32(j: number): any {
       return S.suspend(() =>
         S.Struct({
           webServerIpv4CidrBlock: S.optional(S.String),
-          privateClusterConfig: S.optional(__S(1042, __c32, 18)),
+          privateClusterConfig: S.optional(__S(1010, __c31, 18)),
           cloudSqlIpv4CidrBlock: S.optional(S.String),
           enablePrivateBuildsOnly: S.optional(S.Boolean),
           webServerIpv4ReservedRange: S.optional(S.String),
@@ -2504,7 +2491,7 @@ function __c32(j: number): any {
           enablePrivateEnvironment: S.optional(S.Boolean),
           cloudComposerNetworkIpv4CidrBlock: S.optional(S.String),
           networkingType: S.optional(S.String),
-          networkingConfig: S.optional(__S(1043, __c32, 19)),
+          networkingConfig: S.optional(__S(1011, __c31, 19)),
           enablePrivatelyUsedPublicIps: S.optional(S.Boolean),
           cloudComposerNetworkIpv4ReservedRange: S.optional(S.String),
         }),
@@ -2522,15 +2509,15 @@ function __c32(j: number): any {
     case 22:
       return S.suspend(() =>
         S.Struct({
-          tags: S.optional(__S(992, __c31, 0)),
+          tags: S.optional(__S(960, __c30, 0)),
           diskSizeGb: S.optional(S.Number),
           location: S.optional(S.String),
-          ipAllocationPolicy: S.optional(__S(1045, __c32, 21)),
+          ipAllocationPolicy: S.optional(__S(1013, __c31, 21)),
           subnetwork: S.optional(S.String),
           serviceAccount: S.optional(S.String),
           composerInternalIpv4CidrBlock: S.optional(S.String),
           composerNetworkAttachment: S.optional(S.String),
-          oauthScopes: S.optional(__S(992, __c31, 0)),
+          oauthScopes: S.optional(__S(960, __c30, 0)),
           enableIpMasqAgent: S.optional(S.Boolean),
           network: S.optional(S.String),
           machineType: S.optional(S.String),
@@ -2556,7 +2543,7 @@ function __c32(j: number): any {
     case 25:
       return S.suspend(() =>
         S.Struct({
-          scheduledSnapshotsConfig: S.optional(__S(1048, __c32, 24)),
+          scheduledSnapshotsConfig: S.optional(__S(1016, __c31, 24)),
         }),
       ).annotate({ identifier: "RecoveryConfig" });
     case 26:
@@ -2573,7 +2560,7 @@ function __c32(j: number): any {
         }),
       ).annotate({ identifier: "ImageVersionRollbackTarget" });
     case 28:
-      return S.Array(__S(1051, __c32, 27));
+      return S.Array(__S(1019, __c31, 27));
     case 29:
       return S.suspend(() =>
         S.Struct({
@@ -2585,25 +2572,25 @@ function __c32(j: number): any {
           airflowConfigOverrides: S.optional(__S(1056, __c33, 0)),
           pypiPackages: S.optional(__S(1056, __c33, 0)),
           envVariables: S.optional(__S(1056, __c33, 0)),
-          cloudDataLineageIntegration: S.optional(__S(1050, __c32, 26)),
-          imageVersionRollbackTargets: S.optional(__S(1052, __c32, 28)),
+          cloudDataLineageIntegration: S.optional(__S(1018, __c31, 26)),
+          imageVersionRollbackTargets: S.optional(__S(1020, __c31, 28)),
         }),
       ).annotate({ identifier: "SoftwareConfig" });
     case 30:
       return S.suspend(() =>
         S.Struct({
-          masterAuthorizedNetworksConfig: S.optional(__S(1026, __c32, 2)),
-          encryptionConfig: S.optional(__S(1027, __c32, 3)),
-          webServerNetworkAccessControl: S.optional(__S(1030, __c32, 6)),
-          databaseConfig: S.optional(__S(1031, __c32, 7)),
-          workloadsConfig: S.optional(__S(1037, __c32, 13)),
-          webServerConfig: S.optional(__S(1038, __c32, 14)),
-          dataRetentionConfig: S.optional(__S(1041, __c32, 17)),
-          privateEnvironmentConfig: S.optional(__S(1044, __c32, 20)),
-          nodeConfig: S.optional(__S(1046, __c32, 22)),
-          maintenanceWindow: S.optional(__S(1047, __c32, 23)),
-          recoveryConfig: S.optional(__S(1049, __c32, 25)),
-          softwareConfig: S.optional(__S(1053, __c32, 29)),
+          masterAuthorizedNetworksConfig: S.optional(__S(994, __c31, 2)),
+          encryptionConfig: S.optional(__S(995, __c31, 3)),
+          webServerNetworkAccessControl: S.optional(__S(998, __c31, 6)),
+          databaseConfig: S.optional(__S(999, __c31, 7)),
+          workloadsConfig: S.optional(__S(1005, __c31, 13)),
+          webServerConfig: S.optional(__S(1006, __c31, 14)),
+          dataRetentionConfig: S.optional(__S(1009, __c31, 17)),
+          privateEnvironmentConfig: S.optional(__S(1012, __c31, 20)),
+          nodeConfig: S.optional(__S(1014, __c31, 22)),
+          maintenanceWindow: S.optional(__S(1015, __c31, 23)),
+          recoveryConfig: S.optional(__S(1017, __c31, 25)),
+          softwareConfig: S.optional(__S(1021, __c31, 29)),
           airflowByoidUri: S.optional(S.String),
           environmentSize: S.optional(S.String),
           gkeCluster: S.optional(S.String),
@@ -2621,6 +2608,26 @@ function __c32(j: number): any {
       ).annotate({ identifier: "StorageConfig" });
   }
 }
+function __c32(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.optional(S.String),
+          satisfiesPzi: S.optional(S.Boolean),
+          config: S.optional(__S(1022, __c31, 30)),
+          state: S.optional(S.String),
+          mode: S.optional(S.String),
+          createTime: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          labels: S.optional(__S(1056, __c33, 0)),
+          name: S.optional(S.String),
+          storageConfig: S.optional(__S(1023, __c31, 31)),
+          satisfiesPzs: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "Environment" });
+  }
+}
 function __c33(j: number): any {
   switch (j) {
     case 0:
@@ -2631,11 +2638,12 @@ function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          data: S.optional(__S(1056, __c33, 0)),
-          name: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1120, __c35, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/userWorkloadsConfigMaps",
@@ -2662,11 +2670,12 @@ function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          data: S.optional(__S(1056, __c33, 0)),
-          name: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(1120, __c35, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/userWorkloadsSecrets",

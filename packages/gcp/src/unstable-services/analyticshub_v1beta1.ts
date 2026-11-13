@@ -83,26 +83,6 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
-export interface CreateProjectsLocationsDataExchangesRequest {
-  /** Required. The parent resource path of the data exchange. e.g. `projects/myproject/locations/us`. */
-  parent: string;
-  /** Required. The ID of the data exchange. Must contain only Unicode letters, numbers (0-9), underscores (_). Should not use characters that require URL-escaping, or characters outside of ASCII, spaces. Max length: 100 bytes. */
-  dataExchangeId?: string | undefined;
-  /** Output only. Number of listings contained in the data exchange. */
-  listingCount?: number | undefined;
-  /** Optional. Base64 encoded image representing the data exchange. Max Size: 3.0MiB Expected image dimensions are 512x512 pixels, however the API only performs validation on size of the encoded data. Note: For byte fields, the content of the fields are base64-encoded (which increases the size of the data by 33-36%) when using JSON on the wire. */
-  icon?: string | undefined;
-  /** Optional. Email or URL of the primary point of contact of the data exchange. Max Length: 1000 bytes. */
-  primaryContact?: string | undefined;
-  /** Optional. Documentation describing the data exchange. */
-  documentation?: string | undefined;
-  /** Optional. Description of the data exchange. The description must not contain Unicode non-characters as well as C0 and C1 control codes except tabs (HT), new lines (LF), carriage returns (CR), and page breaks (FF). Default value is an empty string. Max length: 2000 bytes. */
-  description?: string | undefined;
-  /** Output only. The resource name of the data exchange. e.g. `projects/myproject/locations/us/dataExchanges/123`. */
-  name?: string | undefined;
-  /** Required. Human-readable display name of the data exchange. The display name must contain only Unicode letters, numbers (0-9), underscores (_), dashes (-), spaces ( ), ampersands (&) and must not start or end with spaces. Default value is an empty string. Max length: 63 bytes. */
-  displayName?: string | undefined;
-}
 /** A data exchange is a container that lets you share data. Along with the descriptive information about the data exchange, it contains listings that reference shared datasets. */
 export interface DataExchange {
   /** Output only. Number of listings contained in the data exchange. */
@@ -119,6 +99,12 @@ export interface DataExchange {
   name?: string | undefined;
   /** Required. Human-readable display name of the data exchange. The display name must contain only Unicode letters, numbers (0-9), underscores (_), dashes (-), spaces ( ), ampersands (&) and must not start or end with spaces. Default value is an empty string. Max length: 63 bytes. */
   displayName?: string | undefined;
+}
+export interface CreateProjectsLocationsDataExchangesRequest extends DataExchange {
+  /** Required. The parent resource path of the data exchange. e.g. `projects/myproject/locations/us`. */
+  parent: string;
+  /** Required. The ID of the data exchange. Must contain only Unicode letters, numbers (0-9), underscores (_). Should not use characters that require URL-escaping, or characters outside of ASCII, spaces. Max length: 100 bytes. */
+  dataExchangeId?: string | undefined;
 }
 /** Contains details of the data provider. */
 export interface DataProvider {
@@ -172,11 +158,8 @@ export type ListingCategoriesItemEnum =
   | "CATEGORY_TRAVEL_AND_TOURISM"
   | "CATEGORY_GOOGLE_EARTH_ENGINE";
 export type ListingCategoriesItemEnumList = Array<ListingCategoriesItemEnum | (string & {})>;
-export interface CreateProjectsLocationsDataExchangesListingsRequest {
-  /** Required. The parent resource path of the listing. e.g. `projects/myproject/locations/us/dataExchanges/123`. */
-  parent: string;
-  /** Required. The ID of the listing to create. Must contain only Unicode letters, numbers (0-9), underscores (_). Should not use characters that require URL-escaping, or characters outside of ASCII, spaces. Max length: 100 bytes. */
-  listingId?: string | undefined;
+/** A listing is what gets published into a data exchange that a subscriber can subscribe to. It contains a reference to the data source along with descriptive information that will help subscribers find and subscribe the data. */
+export interface Listing {
   /** Required. Human-readable display name of the listing. The display name must contain only Unicode letters, numbers (0-9), underscores (_), dashes (-), spaces ( ), ampersands (&) and can't start or end with spaces. Default value is an empty string. Max length: 63 bytes. */
   displayName?: string | undefined;
   /** Optional. If true, the listing is only available to get the resource metadata. Listing is non subscribable. */
@@ -206,36 +189,11 @@ export interface CreateProjectsLocationsDataExchangesListingsRequest {
   /** Optional. Categories of the listing. Up to five categories are allowed. */
   categories?: ListingCategoriesItemEnumList | undefined;
 }
-/** A listing is what gets published into a data exchange that a subscriber can subscribe to. It contains a reference to the data source along with descriptive information that will help subscribers find and subscribe the data. */
-export interface Listing {
-  /** Required. Human-readable display name of the listing. The display name must contain only Unicode letters, numbers (0-9), underscores (_), dashes (-), spaces ( ), ampersands (&) and can't start or end with spaces. Default value is an empty string. Max length: 63 bytes. */
-  displayName?: string | undefined;
-  /** Optional. If true, the listing is only available to get the resource metadata. Listing is non subscribable. */
-  allowOnlyMetadataSharing?: boolean | undefined;
-  /** Optional. Details of the data provider who owns the source data. */
-  dataProvider?: DataProvider | undefined;
-  /** Required. Shared dataset i.e. BigQuery dataset source. */
-  bigqueryDataset?: BigQueryDatasetSource | undefined;
-  /** Optional. Base64 encoded image representing the listing. Max Size: 3.0MiB Expected image dimensions are 512x512 pixels, however the API only performs validation on size of the encoded data. Note: For byte fields, the contents of the field are base64-encoded (which increases the size of the data by 33-36%) when using JSON on the wire. */
-  icon?: string | undefined;
-  /** Optional. Short description of the listing. The description must not contain Unicode non-characters and C0 and C1 control codes except tabs (HT), new lines (LF), carriage returns (CR), and page breaks (FF). Default value is an empty string. Max length: 2000 bytes. */
-  description?: string | undefined;
-  /** Output only. Current state of the listing. */
-  state?: ListingStateEnum | undefined;
-  /** Output only. The resource name of the listing. e.g. `projects/myproject/locations/us/dataExchanges/123/listings/456` */
-  name?: string | undefined;
-  /** Optional. Documentation describing the listing. */
-  documentation?: string | undefined;
-  /** Optional. If set, restricted export configuration will be propagated and enforced on the linked dataset. This is a required field for data clean room exchanges. */
-  restrictedExportConfig?: RestrictedExportConfig | undefined;
-  /** Optional. Email or URL of the primary point of contact of the listing. Max Length: 1000 bytes. */
-  primaryContact?: string | undefined;
-  /** Optional. Email or URL of the request access of the listing. Subscribers can use this reference to request access. Max Length: 1000 bytes. */
-  requestAccess?: string | undefined;
-  /** Optional. Details of the publisher who owns the listing and who can share the source data. */
-  publisher?: Publisher | undefined;
-  /** Optional. Categories of the listing. Up to five categories are allowed. */
-  categories?: ListingCategoriesItemEnumList | undefined;
+export interface CreateProjectsLocationsDataExchangesListingsRequest extends Listing {
+  /** Required. The parent resource path of the listing. e.g. `projects/myproject/locations/us/dataExchanges/123`. */
+  parent: string;
+  /** Required. The ID of the listing to create. Must contain only Unicode letters, numbers (0-9), underscores (_). Should not use characters that require URL-escaping, or characters outside of ASCII, spaces. Max length: 100 bytes. */
+  listingId?: string | undefined;
 }
 export interface DeleteProjectsLocationsDataExchangesRequest {
   /** Required. The full name of the data exchange resource that you want to delete. For example, `projects/myproject/locations/us/dataExchanges/123`. */
@@ -252,11 +210,14 @@ export interface GetPolicyOptions {
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   requestedPolicyVersion?: number | undefined;
 }
-export interface GetIamPolicyProjectsLocationsDataExchangesRequest {
-  /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
+/** Request message for `GetIamPolicy` method. */
+export interface GetIamPolicyRequest {
   /** OPTIONAL: A `GetPolicyOptions` object for specifying options to `GetIamPolicy`. */
   options?: GetPolicyOptions | undefined;
+}
+export interface GetIamPolicyProjectsLocationsDataExchangesRequest extends GetIamPolicyRequest {
+  /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
 }
 /** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
 export interface Expr {
@@ -312,11 +273,9 @@ export interface Policy {
   /** Specifies cloud audit logging configuration for this policy. */
   auditConfigs?: AuditConfigList | undefined;
 }
-export interface GetIamPolicyProjectsLocationsDataExchangesListingsRequest {
+export interface GetIamPolicyProjectsLocationsDataExchangesListingsRequest extends GetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** OPTIONAL: A `GetPolicyOptions` object for specifying options to `GetIamPolicy`. */
-  options?: GetPolicyOptions | undefined;
 }
 export interface GetProjectsLocationsDataExchangesRequest {
   /** Required. The resource name of the data exchange. e.g. `projects/myproject/locations/us/dataExchanges/123`. */
@@ -373,71 +332,32 @@ export interface ListListingsResponse {
   /** A token to request the next page of results. */
   nextPageToken?: string | undefined;
 }
-export interface PatchProjectsLocationsDataExchangesRequest {
+export interface PatchProjectsLocationsDataExchangesRequest extends Omit<DataExchange, "name"> {
   /** Output only. The resource name of the data exchange. e.g. `projects/myproject/locations/us/dataExchanges/123`. */
   name: string;
   /** Required. Field mask specifies the fields to update in the data exchange resource. The fields specified in the `updateMask` are relative to the resource and are not a full request. */
   updateMask?: string | undefined;
-  /** Output only. Number of listings contained in the data exchange. */
-  listingCount?: number | undefined;
-  /** Optional. Base64 encoded image representing the data exchange. Max Size: 3.0MiB Expected image dimensions are 512x512 pixels, however the API only performs validation on size of the encoded data. Note: For byte fields, the content of the fields are base64-encoded (which increases the size of the data by 33-36%) when using JSON on the wire. */
-  icon?: string | undefined;
-  /** Optional. Email or URL of the primary point of contact of the data exchange. Max Length: 1000 bytes. */
-  primaryContact?: string | undefined;
-  /** Optional. Documentation describing the data exchange. */
-  documentation?: string | undefined;
-  /** Optional. Description of the data exchange. The description must not contain Unicode non-characters as well as C0 and C1 control codes except tabs (HT), new lines (LF), carriage returns (CR), and page breaks (FF). Default value is an empty string. Max length: 2000 bytes. */
-  description?: string | undefined;
-  /** Required. Human-readable display name of the data exchange. The display name must contain only Unicode letters, numbers (0-9), underscores (_), dashes (-), spaces ( ), ampersands (&) and must not start or end with spaces. Default value is an empty string. Max length: 63 bytes. */
-  displayName?: string | undefined;
 }
-export interface PatchProjectsLocationsDataExchangesListingsRequest {
+export interface PatchProjectsLocationsDataExchangesListingsRequest extends Omit<Listing, "name"> {
   /** Required. Field mask specifies the fields to update in the listing resource. The fields specified in the `updateMask` are relative to the resource and are not a full request. */
   updateMask?: string | undefined;
   /** Output only. The resource name of the listing. e.g. `projects/myproject/locations/us/dataExchanges/123/listings/456` */
   name: string;
-  /** Required. Human-readable display name of the listing. The display name must contain only Unicode letters, numbers (0-9), underscores (_), dashes (-), spaces ( ), ampersands (&) and can't start or end with spaces. Default value is an empty string. Max length: 63 bytes. */
-  displayName?: string | undefined;
-  /** Optional. If true, the listing is only available to get the resource metadata. Listing is non subscribable. */
-  allowOnlyMetadataSharing?: boolean | undefined;
-  /** Optional. Details of the data provider who owns the source data. */
-  dataProvider?: DataProvider | undefined;
-  /** Required. Shared dataset i.e. BigQuery dataset source. */
-  bigqueryDataset?: BigQueryDatasetSource | undefined;
-  /** Optional. Base64 encoded image representing the listing. Max Size: 3.0MiB Expected image dimensions are 512x512 pixels, however the API only performs validation on size of the encoded data. Note: For byte fields, the contents of the field are base64-encoded (which increases the size of the data by 33-36%) when using JSON on the wire. */
-  icon?: string | undefined;
-  /** Optional. Short description of the listing. The description must not contain Unicode non-characters and C0 and C1 control codes except tabs (HT), new lines (LF), carriage returns (CR), and page breaks (FF). Default value is an empty string. Max length: 2000 bytes. */
-  description?: string | undefined;
-  /** Output only. Current state of the listing. */
-  state?: ListingStateEnum | (string & {}) | undefined;
-  /** Optional. Documentation describing the listing. */
-  documentation?: string | undefined;
-  /** Optional. If set, restricted export configuration will be propagated and enforced on the linked dataset. This is a required field for data clean room exchanges. */
-  restrictedExportConfig?: RestrictedExportConfig | undefined;
-  /** Optional. Email or URL of the primary point of contact of the listing. Max Length: 1000 bytes. */
-  primaryContact?: string | undefined;
-  /** Optional. Email or URL of the request access of the listing. Subscribers can use this reference to request access. Max Length: 1000 bytes. */
-  requestAccess?: string | undefined;
-  /** Optional. Details of the publisher who owns the listing and who can share the source data. */
-  publisher?: Publisher | undefined;
-  /** Optional. Categories of the listing. Up to five categories are allowed. */
-  categories?: ListingCategoriesItemEnumList | undefined;
 }
-export interface SetIamPolicyProjectsLocationsDataExchangesRequest {
-  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
+/** Request message for `SetIamPolicy` method. */
+export interface SetIamPolicyRequest {
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
   policy?: Policy | undefined;
   /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
   updateMask?: string | undefined;
 }
-export interface SetIamPolicyProjectsLocationsDataExchangesListingsRequest {
+export interface SetIamPolicyProjectsLocationsDataExchangesRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
-  policy?: Policy | undefined;
-  /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
-  updateMask?: string | undefined;
+}
+export interface SetIamPolicyProjectsLocationsDataExchangesListingsRequest extends SetIamPolicyRequest {
+  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
 }
 export interface GoogleCloudBigqueryDataexchangeV1beta1DestinationDatasetReference {
   /** Required. A unique ID for this dataset, without the project name. The ID must contain only letters (a-z, A-Z), numbers (0-9), or underscores (_). The maximum length is 1,024 characters. */
@@ -459,30 +379,34 @@ export interface GoogleCloudBigqueryDataexchangeV1beta1DestinationDataset {
   /** Required. The geographic location where the dataset should reside. See https://cloud.google.com/bigquery/docs/locations for supported locations. */
   location?: string | undefined;
 }
-export interface SubscribeProjectsLocationsDataExchangesListingsRequest {
-  /** Required. Resource name of the listing that you want to subscribe to. e.g. `projects/myproject/locations/us/dataExchanges/123/listings/456`. */
-  name: string;
+/** Message for subscribing to a listing. */
+export interface SubscribeListingRequest {
   /** BigQuery destination dataset to create for the subscriber. */
   destinationDataset?: GoogleCloudBigqueryDataexchangeV1beta1DestinationDataset | undefined;
 }
+export interface SubscribeProjectsLocationsDataExchangesListingsRequest extends SubscribeListingRequest {
+  /** Required. Resource name of the listing that you want to subscribe to. e.g. `projects/myproject/locations/us/dataExchanges/123/listings/456`. */
+  name: string;
+}
 /** Message for response when you subscribe to a listing. */
 export interface SubscribeListingResponse {}
-export interface TestIamPermissionsProjectsLocationsDataExchangesRequest {
-  /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
+/** Request message for `TestIamPermissions` method. */
+export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
   permissions?: StringList | undefined;
+}
+export interface TestIamPermissionsProjectsLocationsDataExchangesRequest extends TestIamPermissionsRequest {
+  /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
   permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsLocationsDataExchangesListingsRequest {
+export interface TestIamPermissionsProjectsLocationsDataExchangesListingsRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
-  permissions?: StringList | undefined;
 }
 export type CreateProjectsLocationsDataExchangesError =
   | NotFound
@@ -497,8 +421,8 @@ export const createProjectsLocationsDataExchanges: API.OperationMethod<
   CreateProjectsLocationsDataExchangesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c14, 0) as any as S.Schema<CreateProjectsLocationsDataExchangesRequest>,
-  output: __S(120, __c15, 0) as any as S.Schema<DataExchange>,
+  input: __S(120, __c15, 0) as any as S.Schema<CreateProjectsLocationsDataExchangesRequest>,
+  output: __S(128, __c16, 0) as any as S.Schema<DataExchange>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -519,8 +443,8 @@ export const createProjectsLocationsDataExchangesListings: API.OperationMethod<
   CreateProjectsLocationsDataExchangesListingsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c16, 0) as any as S.Schema<CreateProjectsLocationsDataExchangesListingsRequest>,
-  output: __S(141, __c17, 5) as any as S.Schema<Listing>,
+  input: __S(136, __c17, 0) as any as S.Schema<CreateProjectsLocationsDataExchangesListingsRequest>,
+  output: __S(149, __c18, 5) as any as S.Schema<Listing>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -541,8 +465,8 @@ export const deleteProjectsLocationsDataExchanges: API.OperationMethod<
   DeleteProjectsLocationsDataExchangesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c18, 0) as any as S.Schema<DeleteProjectsLocationsDataExchangesRequest>,
-  output: __S(152, __c19, 0) as any as S.Schema<Empty>,
+  input: __S(152, __c19, 0) as any as S.Schema<DeleteProjectsLocationsDataExchangesRequest>,
+  output: __S(160, __c20, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -563,8 +487,8 @@ export const deleteProjectsLocationsDataExchangesListings: API.OperationMethod<
   DeleteProjectsLocationsDataExchangesListingsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c20, 0) as any as S.Schema<DeleteProjectsLocationsDataExchangesListingsRequest>,
-  output: __S(152, __c19, 0) as any as S.Schema<Empty>,
+  input: __S(168, __c21, 0) as any as S.Schema<DeleteProjectsLocationsDataExchangesListingsRequest>,
+  output: __S(160, __c20, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -585,8 +509,8 @@ export const getIamPolicyProjectsLocationsDataExchanges: API.OperationMethod<
   GetIamPolicyProjectsLocationsDataExchangesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(168, __c21, 0) as any as S.Schema<GetIamPolicyProjectsLocationsDataExchangesRequest>,
-  output: __S(191, __c23, 7) as any as S.Schema<Policy>,
+  input: __S(176, __c22, 0) as any as S.Schema<GetIamPolicyProjectsLocationsDataExchangesRequest>,
+  output: __S(199, __c24, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -608,11 +532,11 @@ export const getIamPolicyProjectsLocationsDataExchangesListings: API.OperationMe
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    200,
-    __c25,
+    208,
+    __c26,
     0,
   ) as any as S.Schema<GetIamPolicyProjectsLocationsDataExchangesListingsRequest>,
-  output: __S(191, __c23, 7) as any as S.Schema<Policy>,
+  output: __S(199, __c24, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -629,7 +553,7 @@ export const getProjectsLocationsDataExchanges: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<GetProjectsLocationsDataExchangesRequest>,
-  output: __S(120, __c15, 0) as any as S.Schema<DataExchange>,
+  output: __S(128, __c16, 0) as any as S.Schema<DataExchange>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -646,7 +570,7 @@ export const getProjectsLocationsDataExchangesListings: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8, __c1, 0) as any as S.Schema<GetProjectsLocationsDataExchangesListingsRequest>,
-  output: __S(141, __c17, 5) as any as S.Schema<Listing>,
+  output: __S(149, __c18, 5) as any as S.Schema<Listing>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -725,7 +649,7 @@ export const patchProjectsLocationsDataExchanges: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c6, 0) as any as S.Schema<PatchProjectsLocationsDataExchangesRequest>,
-  output: __S(120, __c15, 0) as any as S.Schema<DataExchange>,
+  output: __S(128, __c16, 0) as any as S.Schema<DataExchange>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -747,7 +671,7 @@ export const patchProjectsLocationsDataExchangesListings: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(56, __c7, 0) as any as S.Schema<PatchProjectsLocationsDataExchangesListingsRequest>,
-  output: __S(141, __c17, 5) as any as S.Schema<Listing>,
+  output: __S(149, __c18, 5) as any as S.Schema<Listing>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -769,7 +693,7 @@ export const setIamPolicyProjectsLocationsDataExchanges: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c8, 0) as any as S.Schema<SetIamPolicyProjectsLocationsDataExchangesRequest>,
-  output: __S(191, __c23, 7) as any as S.Schema<Policy>,
+  output: __S(199, __c24, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -791,11 +715,11 @@ export const setIamPolicyProjectsLocationsDataExchangesListings: API.OperationMe
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    72,
-    __c9,
+    80,
+    __c10,
     0,
   ) as any as S.Schema<SetIamPolicyProjectsLocationsDataExchangesListingsRequest>,
-  output: __S(191, __c23, 7) as any as S.Schema<Policy>,
+  output: __S(199, __c24, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -817,11 +741,11 @@ export const subscribeProjectsLocationsDataExchangesListings: API.OperationMetho
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    83,
-    __c10,
-    3,
+    92,
+    __c11,
+    4,
   ) as any as S.Schema<SubscribeProjectsLocationsDataExchangesListingsRequest>,
-  output: __S(152, __c19, 0) as any as S.Schema<SubscribeListingResponse>,
+  output: __S(160, __c20, 0) as any as S.Schema<SubscribeListingResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -843,11 +767,11 @@ export const testIamPermissionsProjectsLocationsDataExchanges: API.OperationMeth
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    88,
-    __c11,
+    96,
+    __c12,
     0,
   ) as any as S.Schema<TestIamPermissionsProjectsLocationsDataExchangesRequest>,
-  output: __S(96, __c12, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  output: __S(104, __c13, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -869,11 +793,11 @@ export const testIamPermissionsProjectsLocationsDataExchangesListings: API.Opera
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    104,
-    __c13,
+    112,
+    __c14,
     0,
   ) as any as S.Schema<TestIamPermissionsProjectsLocationsDataExchangesListingsRequest>,
-  output: __S(96, __c12, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  output: __S(104, __c13, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -935,7 +859,7 @@ function __c2(j: number): any {
 function __c3(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(120, __c15, 0));
+      return S.Array(__S(128, __c16, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -980,7 +904,7 @@ function __c5(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsDataExchangesListingsRequest" });
     case 1:
-      return S.Array(__S(141, __c17, 5));
+      return S.Array(__S(149, __c18, 5));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -994,16 +918,13 @@ function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          listingCount: S.optional(S.Number),
-          icon: S.optional(S.String),
-          primaryContact: S.optional(S.String),
-          documentation: S.optional(S.String),
-          description: S.optional(S.String),
-          displayName: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(128, __c16, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -1017,23 +938,13 @@ function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          displayName: S.optional(S.String),
-          allowOnlyMetadataSharing: S.optional(S.Boolean),
-          dataProvider: S.optional(__S(136, __c17, 0)),
-          bigqueryDataset: S.optional(__S(137, __c17, 1)),
-          icon: S.optional(S.String),
-          description: S.optional(S.String),
-          state: S.optional(S.String),
-          documentation: S.optional(S.String),
-          restrictedExportConfig: S.optional(__S(138, __c17, 2)),
-          primaryContact: S.optional(S.String),
-          requestAccess: S.optional(S.String),
-          publisher: S.optional(__S(139, __c17, 3)),
-          categories: S.optional(__S(140, __c17, 4)),
-        }).pipe(
+        S.Extend(
+          __S(149, __c18, 5),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1beta1/{+name}",
@@ -1047,11 +958,12 @@ function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          policy: S.optional(__S(191, __c23, 7)),
-          updateMask: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(72, __c9, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+resource}:setIamPolicy",
@@ -1066,10 +978,22 @@ function __c9(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          resource: S.String.pipe(T.Label()),
-          policy: S.optional(__S(191, __c23, 7)),
+          policy: S.optional(__S(199, __c24, 7)),
           updateMask: S.optional(S.String),
-        }).pipe(
+        }),
+      ).annotate({ identifier: "SetIamPolicyRequest" });
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(72, __c9, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+resource}:setIamPolicy",
@@ -1079,7 +1003,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsLocationsDataExchangesListingsRequest" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1095,9 +1019,9 @@ function __c10(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          datasetReference: S.optional(__S(80, __c10, 0)),
+          datasetReference: S.optional(__S(88, __c11, 0)),
           description: S.optional(S.String),
-          labels: S.optional(__S(81, __c10, 1)),
+          labels: S.optional(__S(89, __c11, 1)),
           friendlyName: S.optional(S.String),
           location: S.optional(S.String),
         }),
@@ -1105,9 +1029,17 @@ function __c10(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
-          destinationDataset: S.optional(__S(82, __c10, 2)),
-        }).pipe(
+          destinationDataset: S.optional(__S(90, __c11, 2)),
+        }),
+      ).annotate({ identifier: "SubscribeListingRequest" });
+    case 4:
+      return S.suspend(() =>
+        S.Extend(
+          __S(91, __c11, 3),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+name}:subscribe",
@@ -1117,14 +1049,16 @@ function __c10(j: number): any {
       ).annotate({ identifier: "SubscribeProjectsLocationsDataExchangesListingsRequest" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          permissions: S.optional(__S(192, __c24, 0)),
-        }).pipe(
+        S.Extend(
+          __S(104, __c13, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+resource}:testIamPermissions",
@@ -1134,24 +1068,26 @@ function __c11(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsLocationsDataExchangesRequest" });
   }
 }
-function __c12(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          permissions: S.optional(__S(192, __c24, 0)),
-        }),
-      ).annotate({ identifier: "TestIamPermissionsResponse" });
-  }
-}
 function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          resource: S.String.pipe(T.Label()),
-          permissions: S.optional(__S(192, __c24, 0)),
-        }).pipe(
+          permissions: S.optional(__S(200, __c25, 0)),
+        }),
+      ).annotate({ identifier: "TestIamPermissionsRequest" });
+  }
+}
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(104, __c13, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+resource}:testIamPermissions",
@@ -1161,21 +1097,17 @@ function __c13(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsLocationsDataExchangesListingsRequest" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          dataExchangeId: S.optional(S.String.pipe(T.Query())),
-          listingCount: S.optional(S.Number),
-          icon: S.optional(S.String),
-          primaryContact: S.optional(S.String),
-          documentation: S.optional(S.String),
-          description: S.optional(S.String),
-          name: S.optional(S.String),
-          displayName: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(128, __c16, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            dataExchangeId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/dataExchanges",
@@ -1185,7 +1117,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsDataExchangesRequest" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1201,28 +1133,17 @@ function __c15(j: number): any {
       ).annotate({ identifier: "DataExchange" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          listingId: S.optional(S.String.pipe(T.Query())),
-          displayName: S.optional(S.String),
-          allowOnlyMetadataSharing: S.optional(S.Boolean),
-          dataProvider: S.optional(__S(136, __c17, 0)),
-          bigqueryDataset: S.optional(__S(137, __c17, 1)),
-          icon: S.optional(S.String),
-          description: S.optional(S.String),
-          state: S.optional(S.String),
-          name: S.optional(S.String),
-          documentation: S.optional(S.String),
-          restrictedExportConfig: S.optional(__S(138, __c17, 2)),
-          primaryContact: S.optional(S.String),
-          requestAccess: S.optional(S.String),
-          publisher: S.optional(__S(139, __c17, 3)),
-          categories: S.optional(__S(140, __c17, 4)),
-        }).pipe(
+        S.Extend(
+          __S(149, __c18, 5),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            listingId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+parent}/listings",
@@ -1232,7 +1153,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsDataExchangesListingsRequest" });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1269,23 +1190,23 @@ function __c17(j: number): any {
         S.Struct({
           displayName: S.optional(S.String),
           allowOnlyMetadataSharing: S.optional(S.Boolean),
-          dataProvider: S.optional(__S(136, __c17, 0)),
-          bigqueryDataset: S.optional(__S(137, __c17, 1)),
+          dataProvider: S.optional(__S(144, __c18, 0)),
+          bigqueryDataset: S.optional(__S(145, __c18, 1)),
           icon: S.optional(S.String),
           description: S.optional(S.String),
           state: S.optional(S.String),
           name: S.optional(S.String),
           documentation: S.optional(S.String),
-          restrictedExportConfig: S.optional(__S(138, __c17, 2)),
+          restrictedExportConfig: S.optional(__S(146, __c18, 2)),
           primaryContact: S.optional(S.String),
           requestAccess: S.optional(S.String),
-          publisher: S.optional(__S(139, __c17, 3)),
-          categories: S.optional(__S(140, __c17, 4)),
+          publisher: S.optional(__S(147, __c18, 3)),
+          categories: S.optional(__S(148, __c18, 4)),
         }),
       ).annotate({ identifier: "Listing" });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1301,13 +1222,13 @@ function __c18(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsDataExchangesRequest" });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "Empty" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1323,14 +1244,16 @@ function __c20(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsDataExchangesListingsRequest" });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          options: S.optional(__S(176, __c22, 0)),
-        }).pipe(
+        S.Extend(
+          __S(185, __c23, 1),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+resource}:getIamPolicy",
@@ -1340,7 +1263,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "GetIamPolicyProjectsLocationsDataExchangesRequest" });
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1348,9 +1271,15 @@ function __c22(j: number): any {
           requestedPolicyVersion: S.optional(S.Number),
         }),
       ).annotate({ identifier: "GetPolicyOptions" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          options: S.optional(__S(184, __c23, 0)),
+        }),
+      ).annotate({ identifier: "GetIamPolicyRequest" });
   }
 }
-function __c23(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1364,56 +1293,58 @@ function __c23(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          condition: S.optional(__S(184, __c23, 0)),
+          condition: S.optional(__S(192, __c24, 0)),
           role: S.optional(S.String),
-          members: S.optional(__S(192, __c24, 0)),
+          members: S.optional(__S(200, __c25, 0)),
         }),
       ).annotate({ identifier: "Binding" });
     case 2:
-      return S.Array(__S(185, __c23, 1));
+      return S.Array(__S(193, __c24, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           logType: S.optional(S.String),
-          exemptedMembers: S.optional(__S(192, __c24, 0)),
+          exemptedMembers: S.optional(__S(200, __c25, 0)),
         }),
       ).annotate({ identifier: "AuditLogConfig" });
     case 4:
-      return S.Array(__S(187, __c23, 3));
+      return S.Array(__S(195, __c24, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           service: S.optional(S.String),
-          auditLogConfigs: S.optional(__S(188, __c23, 4)),
+          auditLogConfigs: S.optional(__S(196, __c24, 4)),
         }),
       ).annotate({ identifier: "AuditConfig" });
     case 6:
-      return S.Array(__S(189, __c23, 5));
+      return S.Array(__S(197, __c24, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          bindings: S.optional(__S(186, __c23, 2)),
+          bindings: S.optional(__S(194, __c24, 2)),
           etag: S.optional(S.String),
           version: S.optional(S.Number),
-          auditConfigs: S.optional(__S(190, __c23, 6)),
+          auditConfigs: S.optional(__S(198, __c24, 6)),
         }),
       ).annotate({ identifier: "Policy" });
-  }
-}
-function __c24(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
   }
 }
 function __c25(j: number): any {
   switch (j) {
     case 0:
+      return S.Array(S.String);
+  }
+}
+function __c26(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          options: S.optional(__S(176, __c22, 0)),
-        }).pipe(
+        S.Extend(
+          __S(185, __c23, 1),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1beta1/{+resource}:getIamPolicy",

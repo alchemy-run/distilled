@@ -230,7 +230,7 @@ export interface Post {
   /** Data about the blog containing this Post. */
   blog?: PostBlog | undefined;
   /** Status of the post. Only set for admin-level requests. */
-  status?: PostStatusEnum | undefined;
+  status?: PostStatusEnum | (string & {}) | undefined;
   /** The list of labels this Post was tagged with. */
   labels?: StringList | undefined;
   /** The URL where this Post is displayed. */
@@ -246,7 +246,7 @@ export interface Post {
   /** The author of this Post. */
   author?: PostAuthor | undefined;
   /** Comment control and display setting for readers of this post. */
-  readerComments?: PostReaderCommentsEnum | undefined;
+  readerComments?: PostReaderCommentsEnum | (string & {}) | undefined;
   /** Etag of the resource. */
   etag?: string | undefined;
   /** The identifier of this Post. */
@@ -396,7 +396,7 @@ export interface Page {
   /** The body content of this Page, in HTML. */
   content?: string | undefined;
   /** The status of the page for admin resources (either LIVE or DRAFT). */
-  status?: PageStatusEnum | undefined;
+  status?: PageStatusEnum | (string & {}) | undefined;
   /** The URL that this Page is displayed at. */
   url?: string | undefined;
   /** RFC 3339 date-time when this Page was published. */
@@ -494,81 +494,15 @@ export interface User {
   /** The container of blogs for this user. */
   blogs?: UserBlogs | undefined;
 }
-export interface InsertPagesRequest {
+export interface InsertPagesRequest extends Page {
   isDraft?: boolean | undefined;
   blogId: string;
-  /** Data about the blog containing this Page. */
-  blog?: PageBlog | undefined;
-  /** The author of this Page. */
-  author?: PageAuthor | undefined;
-  /** The API REST URL to fetch this resource from. */
-  selfLink?: string | undefined;
-  /** RFC 3339 date-time when this Page was trashed. */
-  trashed?: string | undefined;
-  /** The kind of this entity. Always blogger#page. */
-  kind?: string | undefined;
-  /** The title of this entity. This is the name displayed in the Admin user interface. */
-  title?: string | undefined;
-  /** Etag of the resource. */
-  etag?: string | undefined;
-  /** The identifier for this resource. */
-  id?: string | undefined;
-  /** RFC 3339 date-time when this Page was last updated. */
-  updated?: string | undefined;
-  /** The body content of this Page, in HTML. */
-  content?: string | undefined;
-  /** The status of the page for admin resources (either LIVE or DRAFT). */
-  status?: PageStatusEnum | (string & {}) | undefined;
-  /** The URL that this Page is displayed at. */
-  url?: string | undefined;
-  /** RFC 3339 date-time when this Page was published. */
-  published?: string | undefined;
 }
-export interface InsertPostsRequest {
+export interface InsertPostsRequest extends Post {
   fetchBody?: boolean | undefined;
   fetchImages?: boolean | undefined;
   isDraft?: boolean | undefined;
   blogId: string;
-  /** The title link URL, similar to atom's related link. */
-  titleLink?: string | undefined;
-  /** The location for geotagged posts. */
-  location?: PostLocation | undefined;
-  /** The title of the Post. */
-  title?: string | undefined;
-  /** The JSON meta-data for the Post. */
-  customMetaData?: string | undefined;
-  /** The kind of this entity. Always blogger#post. */
-  kind?: string | undefined;
-  /** The container of comments on this Post. */
-  replies?: PostReplies | undefined;
-  /** RFC 3339 date-time when this Post was last updated. */
-  updated?: string | undefined;
-  /** The content of the Post. May contain HTML markup. */
-  content?: string | undefined;
-  /** Data about the blog containing this Post. */
-  blog?: PostBlog | undefined;
-  /** Status of the post. Only set for admin-level requests. */
-  status?: PostStatusEnum | (string & {}) | undefined;
-  /** The list of labels this Post was tagged with. */
-  labels?: StringList | undefined;
-  /** The URL where this Post is displayed. */
-  url?: string | undefined;
-  /** The API REST URL to fetch this resource from. */
-  selfLink?: string | undefined;
-  /** RFC 3339 date-time when this Post was last trashed. */
-  trashed?: string | undefined;
-  /** RFC 3339 date-time when this Post was published. */
-  published?: string | undefined;
-  /** Display image for the Post. */
-  images?: PostImagesItemList | undefined;
-  /** The author of this Post. */
-  author?: PostAuthor | undefined;
-  /** Comment control and display setting for readers of this post. */
-  readerComments?: PostReaderCommentsEnum | (string & {}) | undefined;
-  /** Etag of the resource. */
-  etag?: string | undefined;
-  /** The identifier of this Post. */
-  id?: string | undefined;
 }
 export type ListByBlogCommentsStatusEnum = "LIVE" | "EMPTIED" | "PENDING" | "SPAM";
 export type ListByBlogCommentsStatusEnumList = Array<ListByBlogCommentsStatusEnum | (string & {})>;
@@ -715,39 +649,13 @@ export interface MarkAsSpamCommentsRequest {
   blogId: string;
   postId: string;
 }
-export interface PatchPagesRequest {
+export interface PatchPagesRequest extends Page {
   blogId: string;
   pageId: string;
   revert?: boolean | undefined;
   publish?: boolean | undefined;
-  /** Data about the blog containing this Page. */
-  blog?: PageBlog | undefined;
-  /** The author of this Page. */
-  author?: PageAuthor | undefined;
-  /** The API REST URL to fetch this resource from. */
-  selfLink?: string | undefined;
-  /** RFC 3339 date-time when this Page was trashed. */
-  trashed?: string | undefined;
-  /** The kind of this entity. Always blogger#page. */
-  kind?: string | undefined;
-  /** The title of this entity. This is the name displayed in the Admin user interface. */
-  title?: string | undefined;
-  /** Etag of the resource. */
-  etag?: string | undefined;
-  /** The identifier for this resource. */
-  id?: string | undefined;
-  /** RFC 3339 date-time when this Page was last updated. */
-  updated?: string | undefined;
-  /** The body content of this Page, in HTML. */
-  content?: string | undefined;
-  /** The status of the page for admin resources (either LIVE or DRAFT). */
-  status?: PageStatusEnum | (string & {}) | undefined;
-  /** The URL that this Page is displayed at. */
-  url?: string | undefined;
-  /** RFC 3339 date-time when this Page was published. */
-  published?: string | undefined;
 }
-export interface PatchPostsRequest {
+export interface PatchPostsRequest extends Post {
   blogId: string;
   revert?: boolean | undefined;
   publish?: boolean | undefined;
@@ -755,46 +663,6 @@ export interface PatchPostsRequest {
   postId: string;
   maxComments?: number | undefined;
   fetchBody?: boolean | undefined;
-  /** The title link URL, similar to atom's related link. */
-  titleLink?: string | undefined;
-  /** The location for geotagged posts. */
-  location?: PostLocation | undefined;
-  /** The title of the Post. */
-  title?: string | undefined;
-  /** The JSON meta-data for the Post. */
-  customMetaData?: string | undefined;
-  /** The kind of this entity. Always blogger#post. */
-  kind?: string | undefined;
-  /** The container of comments on this Post. */
-  replies?: PostReplies | undefined;
-  /** RFC 3339 date-time when this Post was last updated. */
-  updated?: string | undefined;
-  /** The content of the Post. May contain HTML markup. */
-  content?: string | undefined;
-  /** Data about the blog containing this Post. */
-  blog?: PostBlog | undefined;
-  /** Status of the post. Only set for admin-level requests. */
-  status?: PostStatusEnum | (string & {}) | undefined;
-  /** The list of labels this Post was tagged with. */
-  labels?: StringList | undefined;
-  /** The URL where this Post is displayed. */
-  url?: string | undefined;
-  /** The API REST URL to fetch this resource from. */
-  selfLink?: string | undefined;
-  /** RFC 3339 date-time when this Post was last trashed. */
-  trashed?: string | undefined;
-  /** RFC 3339 date-time when this Post was published. */
-  published?: string | undefined;
-  /** Display image for the Post. */
-  images?: PostImagesItemList | undefined;
-  /** The author of this Post. */
-  author?: PostAuthor | undefined;
-  /** Comment control and display setting for readers of this post. */
-  readerComments?: PostReaderCommentsEnum | (string & {}) | undefined;
-  /** Etag of the resource. */
-  etag?: string | undefined;
-  /** The identifier of this Post. */
-  id?: string | undefined;
 }
 export interface PublishPagesRequest {
   blogId: string;
@@ -825,39 +693,13 @@ export interface SearchPostsRequest {
   orderBy?: SearchPostsOrderByEnum | (string & {}) | undefined;
   fetchBodies?: boolean | undefined;
 }
-export interface UpdatePagesRequest {
+export interface UpdatePagesRequest extends Page {
   pageId: string;
   revert?: boolean | undefined;
   publish?: boolean | undefined;
   blogId: string;
-  /** Data about the blog containing this Page. */
-  blog?: PageBlog | undefined;
-  /** The author of this Page. */
-  author?: PageAuthor | undefined;
-  /** The API REST URL to fetch this resource from. */
-  selfLink?: string | undefined;
-  /** RFC 3339 date-time when this Page was trashed. */
-  trashed?: string | undefined;
-  /** The kind of this entity. Always blogger#page. */
-  kind?: string | undefined;
-  /** The title of this entity. This is the name displayed in the Admin user interface. */
-  title?: string | undefined;
-  /** Etag of the resource. */
-  etag?: string | undefined;
-  /** The identifier for this resource. */
-  id?: string | undefined;
-  /** RFC 3339 date-time when this Page was last updated. */
-  updated?: string | undefined;
-  /** The body content of this Page, in HTML. */
-  content?: string | undefined;
-  /** The status of the page for admin resources (either LIVE or DRAFT). */
-  status?: PageStatusEnum | (string & {}) | undefined;
-  /** The URL that this Page is displayed at. */
-  url?: string | undefined;
-  /** RFC 3339 date-time when this Page was published. */
-  published?: string | undefined;
 }
-export interface UpdatePostsRequest {
+export interface UpdatePostsRequest extends Post {
   fetchImages?: boolean | undefined;
   fetchBody?: boolean | undefined;
   postId: string;
@@ -865,46 +707,6 @@ export interface UpdatePostsRequest {
   publish?: boolean | undefined;
   revert?: boolean | undefined;
   maxComments?: number | undefined;
-  /** The title link URL, similar to atom's related link. */
-  titleLink?: string | undefined;
-  /** The location for geotagged posts. */
-  location?: PostLocation | undefined;
-  /** The title of the Post. */
-  title?: string | undefined;
-  /** The JSON meta-data for the Post. */
-  customMetaData?: string | undefined;
-  /** The kind of this entity. Always blogger#post. */
-  kind?: string | undefined;
-  /** The container of comments on this Post. */
-  replies?: PostReplies | undefined;
-  /** RFC 3339 date-time when this Post was last updated. */
-  updated?: string | undefined;
-  /** The content of the Post. May contain HTML markup. */
-  content?: string | undefined;
-  /** Data about the blog containing this Post. */
-  blog?: PostBlog | undefined;
-  /** Status of the post. Only set for admin-level requests. */
-  status?: PostStatusEnum | (string & {}) | undefined;
-  /** The list of labels this Post was tagged with. */
-  labels?: StringList | undefined;
-  /** The URL where this Post is displayed. */
-  url?: string | undefined;
-  /** The API REST URL to fetch this resource from. */
-  selfLink?: string | undefined;
-  /** RFC 3339 date-time when this Post was last trashed. */
-  trashed?: string | undefined;
-  /** RFC 3339 date-time when this Post was published. */
-  published?: string | undefined;
-  /** Display image for the Post. */
-  images?: PostImagesItemList | undefined;
-  /** The author of this Post. */
-  author?: PostAuthor | undefined;
-  /** Comment control and display setting for readers of this post. */
-  readerComments?: PostReaderCommentsEnum | (string & {}) | undefined;
-  /** Etag of the resource. */
-  etag?: string | undefined;
-  /** The identifier of this Post. */
-  id?: string | undefined;
 }
 export type ApproveCommentsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
 /** Marks a comment as not spam by blog id, post id and comment id. */
@@ -1716,23 +1518,13 @@ function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          isDraft: S.optional(S.Boolean.pipe(T.Query())),
-          blogId: S.String.pipe(T.Label()),
-          blog: S.optional(__S(264, __c33, 0)),
-          author: S.optional(__S(32, __c4, 0)),
-          selfLink: S.optional(S.String),
-          trashed: S.optional(S.String),
-          kind: S.optional(S.String),
-          title: S.optional(S.String),
-          etag: S.optional(S.String),
-          id: S.optional(S.String),
-          updated: S.optional(S.String),
-          content: S.optional(S.String),
-          status: S.optional(S.String),
-          url: S.optional(S.String),
-          published: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(33, __c4, 1),
+          S.Struct({
+            isDraft: S.optional(S.Boolean.pipe(T.Query())),
+            blogId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v3/blogs/{blogId}/pages",
@@ -1746,32 +1538,15 @@ function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          fetchBody: S.optional(S.Boolean.pipe(T.Query())),
-          fetchImages: S.optional(S.Boolean.pipe(T.Query())),
-          isDraft: S.optional(S.Boolean.pipe(T.Query())),
-          blogId: S.String.pipe(T.Label()),
-          titleLink: S.optional(S.String),
-          location: S.optional(__S(328, __c41, 0)),
-          title: S.optional(S.String),
-          customMetaData: S.optional(S.String),
-          kind: S.optional(S.String),
-          replies: S.optional(__S(329, __c41, 1)),
-          updated: S.optional(S.String),
-          content: S.optional(S.String),
-          blog: S.optional(__S(264, __c33, 0)),
-          status: S.optional(S.String),
-          labels: S.optional(__S(330, __c41, 2)),
-          url: S.optional(S.String),
-          selfLink: S.optional(S.String),
-          trashed: S.optional(S.String),
-          published: S.optional(S.String),
-          images: S.optional(__S(331, __c41, 3)),
-          author: S.optional(__S(332, __c41, 4)),
-          readerComments: S.optional(S.String),
-          etag: S.optional(S.String),
-          id: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(333, __c41, 5),
+          S.Struct({
+            fetchBody: S.optional(S.Boolean.pipe(T.Query())),
+            fetchImages: S.optional(S.Boolean.pipe(T.Query())),
+            isDraft: S.optional(S.Boolean.pipe(T.Query())),
+            blogId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v3/blogs/{blogId}/posts",
@@ -2004,25 +1779,15 @@ function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          blogId: S.String.pipe(T.Label()),
-          pageId: S.String.pipe(T.Label()),
-          revert: S.optional(S.Boolean.pipe(T.Query())),
-          publish: S.optional(S.Boolean.pipe(T.Query())),
-          blog: S.optional(__S(264, __c33, 0)),
-          author: S.optional(__S(32, __c4, 0)),
-          selfLink: S.optional(S.String),
-          trashed: S.optional(S.String),
-          kind: S.optional(S.String),
-          title: S.optional(S.String),
-          etag: S.optional(S.String),
-          id: S.optional(S.String),
-          updated: S.optional(S.String),
-          content: S.optional(S.String),
-          status: S.optional(S.String),
-          url: S.optional(S.String),
-          published: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(33, __c4, 1),
+          S.Struct({
+            blogId: S.String.pipe(T.Label()),
+            pageId: S.String.pipe(T.Label()),
+            revert: S.optional(S.Boolean.pipe(T.Query())),
+            publish: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v3/blogs/{blogId}/pages/{pageId}",
@@ -2036,35 +1801,18 @@ function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          blogId: S.String.pipe(T.Label()),
-          revert: S.optional(S.Boolean.pipe(T.Query())),
-          publish: S.optional(S.Boolean.pipe(T.Query())),
-          fetchImages: S.optional(S.Boolean.pipe(T.Query())),
-          postId: S.String.pipe(T.Label()),
-          maxComments: S.optional(S.Number.pipe(T.Query())),
-          fetchBody: S.optional(S.Boolean.pipe(T.Query())),
-          titleLink: S.optional(S.String),
-          location: S.optional(__S(328, __c41, 0)),
-          title: S.optional(S.String),
-          customMetaData: S.optional(S.String),
-          kind: S.optional(S.String),
-          replies: S.optional(__S(329, __c41, 1)),
-          updated: S.optional(S.String),
-          content: S.optional(S.String),
-          blog: S.optional(__S(264, __c33, 0)),
-          status: S.optional(S.String),
-          labels: S.optional(__S(330, __c41, 2)),
-          url: S.optional(S.String),
-          selfLink: S.optional(S.String),
-          trashed: S.optional(S.String),
-          published: S.optional(S.String),
-          images: S.optional(__S(331, __c41, 3)),
-          author: S.optional(__S(332, __c41, 4)),
-          readerComments: S.optional(S.String),
-          etag: S.optional(S.String),
-          id: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(333, __c41, 5),
+          S.Struct({
+            blogId: S.String.pipe(T.Label()),
+            revert: S.optional(S.Boolean.pipe(T.Query())),
+            publish: S.optional(S.Boolean.pipe(T.Query())),
+            fetchImages: S.optional(S.Boolean.pipe(T.Query())),
+            postId: S.String.pipe(T.Label()),
+            maxComments: S.optional(S.Number.pipe(T.Query())),
+            fetchBody: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v3/blogs/{blogId}/posts/{postId}",
@@ -2184,25 +1932,15 @@ function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          pageId: S.String.pipe(T.Label()),
-          revert: S.optional(S.Boolean.pipe(T.Query())),
-          publish: S.optional(S.Boolean.pipe(T.Query())),
-          blogId: S.String.pipe(T.Label()),
-          blog: S.optional(__S(264, __c33, 0)),
-          author: S.optional(__S(32, __c4, 0)),
-          selfLink: S.optional(S.String),
-          trashed: S.optional(S.String),
-          kind: S.optional(S.String),
-          title: S.optional(S.String),
-          etag: S.optional(S.String),
-          id: S.optional(S.String),
-          updated: S.optional(S.String),
-          content: S.optional(S.String),
-          status: S.optional(S.String),
-          url: S.optional(S.String),
-          published: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(33, __c4, 1),
+          S.Struct({
+            pageId: S.String.pipe(T.Label()),
+            revert: S.optional(S.Boolean.pipe(T.Query())),
+            publish: S.optional(S.Boolean.pipe(T.Query())),
+            blogId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "v3/blogs/{blogId}/pages/{pageId}",
@@ -2216,35 +1954,18 @@ function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          fetchImages: S.optional(S.Boolean.pipe(T.Query())),
-          fetchBody: S.optional(S.Boolean.pipe(T.Query())),
-          postId: S.String.pipe(T.Label()),
-          blogId: S.String.pipe(T.Label()),
-          publish: S.optional(S.Boolean.pipe(T.Query())),
-          revert: S.optional(S.Boolean.pipe(T.Query())),
-          maxComments: S.optional(S.Number.pipe(T.Query())),
-          titleLink: S.optional(S.String),
-          location: S.optional(__S(328, __c41, 0)),
-          title: S.optional(S.String),
-          customMetaData: S.optional(S.String),
-          kind: S.optional(S.String),
-          replies: S.optional(__S(329, __c41, 1)),
-          updated: S.optional(S.String),
-          content: S.optional(S.String),
-          blog: S.optional(__S(264, __c33, 0)),
-          status: S.optional(S.String),
-          labels: S.optional(__S(330, __c41, 2)),
-          url: S.optional(S.String),
-          selfLink: S.optional(S.String),
-          trashed: S.optional(S.String),
-          published: S.optional(S.String),
-          images: S.optional(__S(331, __c41, 3)),
-          author: S.optional(__S(332, __c41, 4)),
-          readerComments: S.optional(S.String),
-          etag: S.optional(S.String),
-          id: S.optional(S.String),
-        }).pipe(
+        S.Extend(
+          __S(333, __c41, 5),
+          S.Struct({
+            fetchImages: S.optional(S.Boolean.pipe(T.Query())),
+            fetchBody: S.optional(S.Boolean.pipe(T.Query())),
+            postId: S.String.pipe(T.Label()),
+            blogId: S.String.pipe(T.Label()),
+            publish: S.optional(S.Boolean.pipe(T.Query())),
+            revert: S.optional(S.Boolean.pipe(T.Query())),
+            maxComments: S.optional(S.Number.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "v3/blogs/{blogId}/posts/{postId}",
