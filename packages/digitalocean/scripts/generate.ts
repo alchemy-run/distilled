@@ -20,6 +20,15 @@ const ERROR_MATCHERS_TRAIT = "com.distilled.openapi#errorMatchers";
 const RAW_RESPONSE_TRAIT = "com.distilled.openapi#rawResponse";
 const SENSITIVE_TRAIT = "smithy.api#sensitive";
 
+// Shared by the main API and Functions (which swaps the context and protocol).
+const operationDecl = {
+  contextType: "DigitalOceanOpContext",
+  commonErrorType: "DigitalOceanOpError",
+  commonErrorClasses: ["UnknownDigitalOceanError"],
+  protocol: "DigitalOceanProtocol",
+  retry: "Retry.Retry",
+};
+
 /** DigitalOcean's provider spec for the shared smithy→SDK compiler. */
 const digitaloceanSpec: SdkSpec = {
   nullableTrait: NULLABLE_TRAIT,
@@ -88,13 +97,7 @@ const digitaloceanSpec: SdkSpec = {
     },
   },
 
-  operationDecl: {
-    contextType: "DigitalOceanOpContext",
-    commonErrorType: "DigitalOceanOpError",
-    commonErrorClasses: ["UnknownDigitalOceanError"],
-    protocol: "DigitalOceanProtocol",
-    retry: "Retry.Retry",
-  },
+  operationDecl,
 
   sourceNote: ".generated-specs (specs/spec-mirror-digitalocean/specs/openapi.json)",
 
@@ -124,7 +127,7 @@ runGeneratorCli({
       ? {
           ...digitaloceanSpec,
           operationDecl: {
-            ...digitaloceanSpec.operationDecl,
+            ...operationDecl,
             contextType: "FunctionsOpContext",
             protocol: "FunctionsProtocol",
           },
